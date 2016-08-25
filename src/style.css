@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  color: #222;
+  background-color: #f8f8f8;
+}
+
+h1, h2, h3 {
+  font-family: 'Signika', Helvetica, Arial, sans-serif;
+  font-weight: 800;
+}
