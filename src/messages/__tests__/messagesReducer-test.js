@@ -6,10 +6,10 @@
  *
  */
 
-import test from 'tape';
+import test from 'ava';
 import reducer from '../messagesReducer';
 
-test('reducers/messages add message', t => {
+test.cb.serial('reducers/messages add message', t => {
   let nextState = reducer([], {
     type: 'ADD_MESSAGE',
     payload: {
@@ -18,9 +18,9 @@ test('reducers/messages add message', t => {
     },
   });
 
-  t.equal(nextState.length, 1);
-  t.equal(nextState[0].severity, 'danger');
-  t.equal(nextState[0].message, 'This is a dangerous error');
+  t.is(nextState.length, 1);
+  t.is(nextState[0].severity, 'danger');
+  t.is(nextState[0].message, 'This is a dangerous error');
 
   nextState = reducer(nextState, {
     type: 'ADD_MESSAGE',
@@ -30,9 +30,9 @@ test('reducers/messages add message', t => {
     },
   });
 
-  t.equal(nextState.length, 2);
-  t.equal(nextState[1].severity, 'warning');
-  t.equal(nextState[1].message, 'Another somewhat less dangerous error');
+  t.is(nextState.length, 2);
+  t.is(nextState[1].severity, 'warning');
+  t.is(nextState[1].message, 'Another somewhat less dangerous error');
 
   for (let i = 0; i < 8; ++i) {
     nextState = reducer(nextState, {
@@ -44,14 +44,14 @@ test('reducers/messages add message', t => {
     });
   }
 
-  t.equal(nextState.length, 10);
-  t.equal(nextState[9].message, 'A message');
-  t.equal(nextState[9].severity, 'success');
+  t.is(nextState.length, 10);
+  t.is(nextState[9].message, 'A message');
+  t.is(nextState[9].severity, 'success');
 
   t.end();
 });
 
-test('reducers/messages clear message', t => {
+test.cb.serial('reducers/messages clear message', t => {
   const currentState = [
     { id: '1', message: 'melding', severity: 'info', timeToLive: 1000 },
     { id: '2', message: 'melding', severity: 'info', timeToLive: 1000 },
@@ -61,16 +61,16 @@ test('reducers/messages clear message', t => {
     type: 'CLEAR_MESSAGE',
     payload: '1',
   });
-  t.equal(nextState.length, 1);
+  t.is(nextState.length, 1);
 
   t.end();
 });
 
-test('reducers/messages clear all messages', t => {
+test.cb.serial('reducers/messages clear all messages', t => {
   let nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
-  t.equal(nextState.length, 0);
+  t.is(nextState.length, 0);
 
   for (let i = 0; i < 10; ++i) {
     nextState = reducer(nextState, {
@@ -81,17 +81,17 @@ test('reducers/messages clear all messages', t => {
       },
     });
   }
-  t.equal(nextState.length, 10);
+  t.is(nextState.length, 10);
 
   nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
-  t.equal(nextState.length, 0);
+  t.is(nextState.length, 0);
 
   t.end();
 });
 
-test('reducers/messages application error', t => {
+test.cb.serial('reducers/messages application error', t => {
   const nextState = reducer([], {
     type: 'APPLICATION_ERROR',
     error: true,
@@ -102,9 +102,9 @@ test('reducers/messages application error', t => {
     },
   });
 
-  t.equal(nextState.length, 1);
-  t.equal(nextState[0].severity, 'danger');
-  t.equal(nextState[0].message, 'Generic error: Another somewhat less dangerous error');
+  t.is(nextState.length, 1);
+  t.is(nextState[0].severity, 'danger');
+  t.is(nextState[0].message, 'Generic error: Another somewhat less dangerous error');
 
   t.end();
 });

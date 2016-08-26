@@ -6,16 +6,16 @@
  *
  */
 
-import test from 'tape';
+import test from 'ava';
 
 import { getLocale } from '../localeSelectors';
 
-test('localeSelectors', (t) => {
+test.cb.serial('localeSelectors', (t) => {
   const state = {
     locale: 'nb',
   };
 
-  t.equal(getLocale(state), 'nb');
+  t.is(getLocale(state), 'nb');
 
   t.end();
 });

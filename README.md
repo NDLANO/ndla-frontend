@@ -38,7 +38,7 @@ To use a different api set the `NDLA_API_URL` environment variable.
 
 ### Unit tests
 
-Test framework: tap/tape with enzyme.
+Test framework: ava with enzyme.
 
 ```
 $ npm test
@@ -235,17 +235,13 @@ http://github.com/webpack/extract-text-webpack-plugin
 
 ### Testing
 
-**babel-tape-runner:**
-Babel + Tape for running your ES Next tests.
-https://github.com/wavded/babel-tape-runner
+**ava**
+Futuristic test runner 🚀
+git+https://github.com/avajs/ava.git
 
 **enzyme:**
 JavaScript Testing utilities for React.
 https://github.com/airbnb/enzyme#readme
-
-**tap-spec:**
-Formatted TAP output like Mocha's spec reporter
-https://github.com/scottcorgan/tap-spec#readme
 
 **flux-standard-action:**
 A human-friendly standard for Flux action objects.
@@ -270,14 +266,6 @@ https://github.com/arnaudbenard/redux-mock-store#readme
 **sinon:**
 JavaScript test spies, stubs and mocks.
 http://sinonjs.org/
-
-**tape:**
-tap-producing test harness for node and browsers.
-https://github.com/substack/tape
-
-**watch:**
-Utilities for watching file trees.
-https://github.com/mikeal/watch
 
 ### Code style
 

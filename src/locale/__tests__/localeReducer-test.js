@@ -6,18 +6,18 @@
  *
  */
 
-import test from 'tape';
+import test from 'ava';
 
 import reducer from '../localeReducer';
 
-test('reducers/locale', (t) => {
-  t.equal(
+test.cb.serial('reducers/locale', (t) => {
+  t.is(
     reducer(undefined, {}),
     'nb',
     'initial state'
   );
 
-  t.equal(
+  t.is(
     reducer(undefined, { type: 'SET_LOCALE', payload: 'en' }),
     'en',
     'set state'
