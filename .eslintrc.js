@@ -14,16 +14,12 @@ module.exports = {
       ignoreComments: false
     }],
 
-    'jsx-a11y/href-no-hash': 1,
-
     'import/prefer-default-export': 0,
     'import/no-named-as-default': 0,
     'import/no-extraneous-dependencies':
       ['error', {'devDependencies': true}],
 
     'react/prop-types': [ 2, {'ignore': ['children','className'] }],
-
-    'react/prefer-stateless-function': 1
   },
   'globals': {
     '__CLIENT__': true,
