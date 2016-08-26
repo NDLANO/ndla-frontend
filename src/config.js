@@ -16,8 +16,8 @@ const environment = {
 }[process.env.NODE_ENV || 'development'];
 
 module.exports = Object.assign({
-  host: process.env.LEARINGPATH_HOST || 'localhost',
-  port: process.env.LEARINGPATH_PORT || '3000',
+  host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
+  port: process.env.NDLA_FRONTENTD_PORT || '3000',
   googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
   ndlaApiUrl: process.env.NDLA_API_URL || 'http://api.test.ndla.no',
   ndlaApiKey: process.env.NDLA_API_KEY || 'ndlalearningpathfrontend',
