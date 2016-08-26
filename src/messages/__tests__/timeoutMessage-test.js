@@ -10,7 +10,7 @@ import test from 'ava';
 import { isFSA } from 'flux-standard-action';
 import { clearMessage, timeoutMessage } from '../messagesActions';
 
-test.cb.serial('actions/timeoutMessage', (t) => {
+test('actions/timeoutMessage', (t) => {
   const message = {
     id: 123,
     message: 'All went well',

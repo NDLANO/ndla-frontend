@@ -10,12 +10,10 @@ import test from 'ava';
 
 import { getLocale } from '../localeSelectors';
 
-test.cb.serial('localeSelectors', (t) => {
+test('localeSelectors', (t) => {
   const state = {
     locale: 'nb',
   };
 
   t.is(getLocale(state), 'nb');
-
-  t.end();
 });

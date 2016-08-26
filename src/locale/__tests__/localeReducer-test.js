@@ -10,7 +10,7 @@ import test from 'ava';
 
 import reducer from '../localeReducer';
 
-test.cb.serial('reducers/locale', (t) => {
+test('reducers/locale', (t) => {
   t.is(
     reducer(undefined, {}),
     'nb',
@@ -22,6 +22,4 @@ test.cb.serial('reducers/locale', (t) => {
     'en',
     'set state'
   );
-
-  t.end();
 });
