@@ -22,8 +22,8 @@ module.exports = Object.assign({
   ndlaApiUrl: process.env.NDLA_API_URL || 'http://api.test.ndla.no',
   ndlaApiKey: process.env.NDLA_API_KEY || 'ndlalearningpathfrontend',
   app: {
-    title: 'NDLA',
     head: {
+      title: 'NDLA',
       meta: [
         { name: 'description', content: 'NDLA meta description' },
         { property: 'og:site_name', content: 'NDLA' },
