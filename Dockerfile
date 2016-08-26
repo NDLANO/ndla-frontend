@@ -18,7 +18,9 @@ RUN mkdir -p $APP_PATH/htdocs/assets/ && \
 
 # Copy necessary source files for server and client build
 USER root
-COPY .babelrc webpack.config.base.js webpack.config.prod.js $APP_PATH/
+COPY .babelrc webpack.config.base.js webpack.config.dev.js webpack.config.prod.js $APP_PATH/
+# Remove following line if temp style files is deleted/moved
+COPY htdocs $APP_PATH/htdocs
 COPY src $APP_PATH/src
 COPY server $APP_PATH/server
 RUN chown -R app:app $HOME/*
