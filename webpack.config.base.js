@@ -9,7 +9,8 @@ const webpack = require('webpack');
 const entry = [
   'babel-polyfill',
   './src/index.jsx',
-  './src/style.css',
+  './htdocs/style.css',
+  './htdocs/favicon.ico',
 ];
 
 module.exports = (options) => ({
