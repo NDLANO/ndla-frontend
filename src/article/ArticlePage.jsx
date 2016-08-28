@@ -8,9 +8,9 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import polyglot from '../i18n';
 
 import * as actions from './articleActions';
+import { getArticle } from './articleSelectors';
 
 class ArticlePage extends Component {
   componentWillMount() {
@@ -19,16 +19,17 @@ class ArticlePage extends Component {
   }
 
   render() {
+    const { article } = this.props;
     return (
       <div>
-        <h1>{polyglot.t('hello.world')}</h1>
+        <h1>{article.titles ? article.titles[0].title : null}</h1>
       </div>
     );
   }
-
 }
 
 ArticlePage.propTypes = {
+  article: PropTypes.object.isRequired,
   fetchArticle: PropTypes.func.isRequired,
 };
 
@@ -36,5 +37,8 @@ const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
 };
 
+const mapStateToProps = (state) => ({
+  article: getArticle(state),
+});
 
-export default connect(state => state, mapDispatchToProps)(ArticlePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);
