@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-// import { fork } from 'redux-saga/effects';
-// import articleSagas from './article/articleSagas';
+import { fork } from 'redux-saga/effects';
+import articleSagas from './article/articleSagas';
 
 export default function* root() {
   yield [
-    // ...articleSagas.map(s => fork(s)),
+    ...articleSagas.map(s => fork(s)),
   ];
 }
