@@ -8,8 +8,9 @@
     "test": "cross-env NODE_ENV=unittest ava -r babel-register",
     "tdd": "npm test -- --watch",
     "copy-svg-polyfill": "cp node_modules/svg4everybody/dist/svg4everybody.min.js htdocs/assets/",
-    "prebuild": "npm run clean && npm run copy-svg-polyfill",
+    "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
+    "postbuild": "npm run copy-svg-polyfill",
     "start": "cross-env NODE_ENV=development nodemon --watch server server/server.js",
     "start-prod": "cross-env NODE_ENV=production node server/server.js",
     "lint": "eslint src server"
