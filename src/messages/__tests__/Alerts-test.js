@@ -6,7 +6,7 @@
  *
  */
 
-import test from 'tape';
+import test from 'ava';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -22,30 +22,22 @@ test('component/Alerts one message', t => {
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
   const alertElement = component.find('Alert');
 
-  t.equals(alertElement.length, 1);
-
-  t.end();
+  t.is(alertElement.length, 1);
 });
 
 test('component/Alerts two messages', t => {
   const messages = ['Testmessage', 'TEST'];
-  let alertMessages = [{ id: uuid.v4(), message: messages[0], severity: 'success' }, { id: uuid.v4(), message: messages[1] }];
+  const alertMessages = [{ id: uuid.v4(), message: messages[0], severity: 'success' }, { id: uuid.v4(), message: messages[1] }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
 
   const alertElement = component.find('Alert');
-  t.equals(alertElement.length, 2);
-
-  // const alertDIc = component.find('.alert');
-  // t.equal(alertDIc.prop('className'), 'alert alert--success');
-
-  t.end();
+  t.is(alertElement.length, 2);
 });
 
 
 test('component/Alerts without messages', t => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
-  t.ok(component.hasClass('alert-overlay--hidden'));
-  t.end();
+  t.truthy(component.hasClass('alert-overlay--hidden'));
 });
 
 
@@ -59,10 +51,8 @@ test('component/Alert dismiss', t => {
 
   dismissBt.simulate('click');
 
-  t.ok(dispatch.calledOnce);
-  t.deepEquals(dispatch.firstCall.args, [clearMessage(id)]);
-
-  t.end();
+  t.truthy(dispatch.calledOnce);
+  t.deepEqual(dispatch.firstCall.args, [clearMessage(id)]);
 });
 
 test('component/Action click', t => {
@@ -74,7 +64,5 @@ test('component/Action click', t => {
 
   actionBtn.simulate('click');
 
-  t.ok(handleClick.calledOnce);
-
-  t.end();
+  t.truthy(handleClick.calledOnce);
 });

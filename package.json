@@ -3,7 +3,7 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "pretest": "npm run lint",
+    "pretest": "npm run lint",  
     "clean": "rimraf ./htdocs/assets/*",
     "test": "cross-env NODE_ENV=unittest ava -r babel-register",
     "tdd": "npm test -- --watch",
@@ -14,6 +14,12 @@
     "start": "cross-env NODE_ENV=development nodemon --watch server server/server.js",
     "start-prod": "cross-env NODE_ENV=production node server/server.js",
     "lint": "eslint src server"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
   },
   "engines": {
     "node": "~6.2.2",
