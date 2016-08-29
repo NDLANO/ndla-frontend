@@ -14,6 +14,7 @@ module.exports = {
       ignoreComments: false
     }],
 
+    'react/jsx-filename-extension': [0, { extensions: [".js", ".jsx"] }],
     'import/prefer-default-export': 0,
     'no-constant-condition': [2, { 'checkLoops': false }],
     'import/no-named-as-default': 0,
