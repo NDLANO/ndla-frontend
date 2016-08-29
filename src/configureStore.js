@@ -9,22 +9,29 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
+import createSagaMiddleware from 'redux-saga';
 
-import reducers from './reducers';
+import rootReducer from './reducers';
+import rootSaga from './sagas';
+
 import { errorReporter } from './middleware';
 
 
 export default function configureStore(initialState, history) {
   const middleware = routerMiddleware(history);
+  const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
     applyMiddleware(
       thunkMiddleware,
+      sagaMiddleware,
       errorReporter,
       middleware
     ),
     __CLIENT__ && window && window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore);
 
-  return createFinalStore(reducers, initialState);
+  const store = createFinalStore(rootReducer, initialState);
+  sagaMiddleware.run(rootSaga);
+  return store;
 }

@@ -11,6 +11,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import Welcome from './Welcome';
 import App from './App';
+import ArticlePage from '../article/ArticlePage';
 import NotFound from './NotFound';
 
 
@@ -18,6 +19,7 @@ export default function () {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
+      <Route path="article" component={ArticlePage} />
       <Route path="*" component={NotFound} />
     </Route>
   );

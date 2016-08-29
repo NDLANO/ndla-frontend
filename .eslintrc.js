@@ -15,6 +15,7 @@ module.exports = {
     }],
 
     'import/prefer-default-export': 0,
+    'no-constant-condition': [2, { 'checkLoops': false }],
     'import/no-named-as-default': 0,
     'import/no-extraneous-dependencies':
       ['error', {'devDependencies': true}],
