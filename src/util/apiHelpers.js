@@ -9,8 +9,8 @@
 import defined from 'defined';
 import config from '../config';
 
-const NDLA_API_URL = config.ndlaApiUrl;
-const NDLA_API_KEY = config.ndlaApiKey;
+const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.config.ndlaApiUrl;
+const NDLA_API_KEY = __SERVER__ ? config.ndlaApiKey : window.config.ndlaApiKey;
 
 if (process.env.NODE_ENV === 'unittest') {
   global.__SERVER__ = false; //eslint-disable-line

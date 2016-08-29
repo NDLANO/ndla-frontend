@@ -57,6 +57,7 @@ const Html = (props) => {
         <GoogleTagMangerScript />
         <div id="app-container" className="app-container" />
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
         <SvgPolyfillScriptInitalization className={className} />
       </body>
