@@ -21,9 +21,7 @@ class ArticlePage extends Component {
   render() {
     const { article } = this.props;
     return (
-      <div>
-        <h1>{article.titles ? article.titles[0].title : null}</h1>
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: article.html }} />
     );
   }
 }

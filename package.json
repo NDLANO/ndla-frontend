@@ -3,9 +3,9 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "pretest": "npm run lint",  
+    "pretest": "npm run lint",
     "clean": "rimraf ./htdocs/assets/*",
-    "test": "cross-env NODE_ENV=unittest ava -r babel-register",
+    "test": "cross-env NODE_ENV=unittest ava",
     "tdd": "npm test -- --watch",
     "copy-svg-polyfill": "cp node_modules/svg4everybody/dist/svg4everybody.min.js htdocs/assets/",
     "prebuild": "npm run clean",
