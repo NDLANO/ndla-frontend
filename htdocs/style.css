@@ -12,3 +12,30 @@ h1, h2, h3 {
   font-family: 'Signika', Helvetica, Arial, sans-serif;
   font-weight: 800;
 }
+
+figure {
+  /*margin: 1em 0;*/
+}
+
+p {
+  line-height: 1.625em;
+  font-size: 16px;
+}
+
+iframe {
+  border: none;
+}
+
+.article {
+  padding: 1em;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.article img {
+  max-width: 100%;
+}
+
+.figure_caption {
+  font-style: italic;
+}

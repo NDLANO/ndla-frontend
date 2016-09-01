@@ -21,7 +21,7 @@ class ArticlePage extends Component {
   render() {
     const { article } = this.props;
     return (
-      <div dangerouslySetInnerHTML={{ __html: article.html }} />
+      <div className="article" dangerouslySetInnerHTML={{ __html: article.html }} />
     );
   }
 }
