@@ -14,8 +14,8 @@ import { getArticle } from './articleSelectors';
 
 class ArticlePage extends Component {
   componentWillMount() {
-    const { fetchArticle } = this.props;
-    fetchArticle('100');
+    const { fetchArticle, params: { articleId } } = this.props;
+    fetchArticle(articleId);
   }
 
   render() {
@@ -27,6 +27,9 @@ class ArticlePage extends Component {
 }
 
 ArticlePage.propTypes = {
+  params: PropTypes.shape({
+    articleId: PropTypes.string.isRequired,
+  }).isRequired,
   article: PropTypes.object.isRequired,
   fetchArticle: PropTypes.func.isRequired,
 };

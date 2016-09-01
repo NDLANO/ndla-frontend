@@ -19,7 +19,7 @@ export default function () {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
-      <Route path="article" component={ArticlePage} />
+      <Route path="article/:articleId(/)" component={ArticlePage} />
       <Route path="*" component={NotFound} />
     </Route>
   );
