@@ -12,8 +12,16 @@ import express from 'express';
 import compression from 'compression';
 import defined from 'defined';
 import webpack from 'webpack';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { Provider } from 'react-redux';
+// import createHistory from 'react-router/lib/createMemoryHistory';
+import { createMemoryHistory, match, RouterContext } from 'react-router';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+
+import configureRoutes from '../src/main/routes';
+import configureStore from '../src/configureStore';
+
 
 import webpackConfig from '../webpack.config.dev';
 import { getHtmlLang } from '../src/locale/configureLocale';
@@ -47,14 +55,46 @@ const findIEClass = (userAgentString) => {
 };
 
 app.get('*', (req, res) => {
+  const paths = req.url.split('/');
+  const lang = getHtmlLang(defined(paths[1], ''));
   function renderOnClient() {
-    const paths = req.url.split('/');
-    const lang = getHtmlLang(defined(paths[1], ''));
     res.send('<!doctype html>\n' + renderToString(<Html lang={lang} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
   }
 
+  if (global.__DISABLE_SSR__) { // eslint-disable-line no-underscore-dangle
+    renderOnClient();
+  }
 
-  renderOnClient();
+  const store = configureStore({
+    messages: [],
+    locale: lang,
+  });
+
+  const memoryHistory = createMemoryHistory(req.originalUrl);
+  const history = syncHistoryWithStore(memoryHistory, store);
+
+  match({ history, routes: configureRoutes(store), location: req.url }, (err, redirectLocation, props) => {
+    if (err) {
+      // something went badly wrong, so 500 with a message
+      res.status(500).send(err.message);
+    } else if (redirectLocation) {
+      // we matched a ReactRouter redirect, so redirect from the server
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+    } else if (props) {
+      // if we got props, that means we found a valid component to render
+      // for the given route
+      const component =
+        (<Provider store={store}>
+          <RouterContext {...props} />
+        </Provider>)
+      ;
+
+      res.send('<!doctype html>\n' + renderToString(<Html lang={lang} component={component} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
+    } else {
+      // TODO: render a custom 404 view here
+      res.sendStatus(404);
+    }
+  });
   return;
 });
 

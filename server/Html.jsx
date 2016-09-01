@@ -7,6 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import config from '../src/config';
 import head from './Meta';
@@ -37,7 +38,8 @@ const GoogleTagMangerScript = () => {
 
 
 const Html = (props) => {
-  const { lang, className } = props;
+  const { lang, className, component } = props;
+  const content = component ? renderToString(component) : '';
 
   return (
     <html lang={lang} className={className}>
@@ -55,7 +57,7 @@ const Html = (props) => {
       <body>
         <GoogleTagMangerNoScript />
         <GoogleTagMangerScript />
-        <div id="app-container" className="app-container" />
+        <div id="app-container" className="app-container" dangerouslySetInnerHTML={{ __html: content }} />
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
@@ -67,6 +69,7 @@ const Html = (props) => {
 
 Html.propTypes = {
   lang: PropTypes.string.isRequired,
+  component: PropTypes.node,
   className: PropTypes.string.isRequired,
 };
 
