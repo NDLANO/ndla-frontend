@@ -11,4 +11,4 @@ import { resolveJsonOrRejectWithError, apiResourceUrl } from '../util/apiHelpers
 
 const baseUrl = apiResourceUrl('/article-oembed');
 
-export const fetchArticle = (id) => fetch(`${baseUrl}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchArticle = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);

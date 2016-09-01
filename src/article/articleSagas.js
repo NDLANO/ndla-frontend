@@ -6,14 +6,16 @@
  *
  */
 
-import { take, call, put } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga/effects';
+import { getLocale } from '../locale/localeSelectors';
 import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
 
 function* fetchArticle(id) {
   try {
-    const article = yield call(api.fetchArticle, id);
+    const locale = yield select(getLocale);
+    const article = yield call(api.fetchArticle, id, locale);
     yield put(actions.setArticle(article));
   } catch (error) {
     // TODO: handle error
