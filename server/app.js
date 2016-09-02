@@ -21,6 +21,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import configureRoutes from '../src/main/routes';
 import configureStore from '../src/configureStore';
+import rootSaga from '../src/sagas';
 
 
 import webpackConfig from '../webpack.config.dev';
@@ -32,6 +33,7 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
     stats: {
       colors: true,
     },
@@ -81,15 +83,29 @@ app.get('*', (req, res) => {
       // we matched a ReactRouter redirect, so redirect from the server
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (props) {
-      // if we got props, that means we found a valid component to render
-      // for the given route
+      // if we got props, that means we found a valid component to render for the given route
       const component =
         (<Provider store={store}>
           <RouterContext {...props} />
-        </Provider>)
-      ;
+        </Provider>);
 
-      res.send('<!doctype html>\n' + renderToString(<Html lang={lang} component={component} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
+      // TODO: Add error handling
+      store.runSaga(rootSaga).done.then(() => {
+        const state = store.getState();
+        const htmlString = renderToString(
+          <Html
+            lang={lang} state={state} component={component} className={findIEClass(req.headers['user-agent'])}
+          />
+        );
+        res.send('<!doctype html>\n' + htmlString); // eslint-disable-line
+      });
+
+      // Trigger sagas for component to run (should not have any performance implications)
+			// https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
+      renderToString(component);
+
+			// Dispatch a close event so sagas stop listening after they're resolved
+      store.close();
     } else {
       // TODO: render a custom 404 view here
       res.sendStatus(404);

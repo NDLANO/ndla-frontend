@@ -38,7 +38,7 @@ const GoogleTagMangerScript = () => {
 
 
 const Html = (props) => {
-  const { lang, className, component } = props;
+  const { lang, className, component, state } = props;
   const content = component ? renderToString(component) : '';
 
   return (
@@ -58,6 +58,7 @@ const Html = (props) => {
         <GoogleTagMangerNoScript />
         <GoogleTagMangerScript />
         <div id="app-container" className="app-container" dangerouslySetInnerHTML={{ __html: content }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.initialState = ${serialize(state)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
@@ -70,6 +71,7 @@ const Html = (props) => {
 Html.propTypes = {
   lang: PropTypes.string.isRequired,
   component: PropTypes.node,
+  state: PropTypes.object.isRequired,
   className: PropTypes.string.isRequired,
 };
 

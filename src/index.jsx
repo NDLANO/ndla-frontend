@@ -16,6 +16,7 @@ import { createHistory } from 'history';
 import { configureLocale, isValidLocale } from './locale/configureLocale';
 import configureStore from './configureStore';
 import configureRoutes from './main/routes';
+import rootSaga from './sagas';
 
 
 function configureBrowserHistory(path) {
@@ -35,11 +36,11 @@ const locale = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
 configureLocale(locale);
 const browserHistory = configureBrowserHistory(path);
 
-const store = configureStore({
-  messages: [],
-  locale,
-}, browserHistory);
+const store = configureStore(
+  window.initialState
+, browserHistory);
 
+store.runSaga(rootSaga);
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = configureRoutes(store);
