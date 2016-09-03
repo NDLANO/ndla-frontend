@@ -15,18 +15,13 @@ export const configureLocale = (localeAbbreviation) => {
   if (locale) {
     polyglot.locale(locale.abbreviation);
     polyglot.replace(locale.phrases);
-    return polyglot;
+    return locale.abbreviation;
   }
 
   // defaults to NB
   polyglot.locale(NB.abbreviation);
   polyglot.replace(NB.phrases);
-  return polyglot;
+  return NB.abbreviation;
 };
 
 export const isValidLocale = (localeAbbreviation) => availableLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
-
-export const getHtmlLang = (localeAbbreviation) => {
-  const locale = availableLocales.find(l => l.abbreviation === localeAbbreviation);
-  return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
-};

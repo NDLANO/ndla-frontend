@@ -10,22 +10,20 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
-import defined from 'defined';
 import webpack from 'webpack';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
-// import createHistory from 'react-router/lib/createMemoryHistory';
-import { createMemoryHistory, match, RouterContext } from 'react-router';
+import { match, RouterContext } from 'react-router';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
+import createMemoryHistory from './createMemoryHistory';
 import configureRoutes from '../src/main/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
 
-
 import webpackConfig from '../webpack.config.dev';
-import { getHtmlLang } from '../src/locale/configureLocale';
+import { configureLocale, isValidLocale } from '../src/locale/configureLocale';
 import Html from './Html';
 
 const app = express();
@@ -58,24 +56,25 @@ const findIEClass = (userAgentString) => {
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
-  const lang = getHtmlLang(defined(paths[1], ''));
+  const locale = configureLocale(paths[1]);
+
   function renderOnClient() {
-    res.send('<!doctype html>\n' + renderToString(<Html lang={lang} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
+    res.send('<!doctype html>\n' + renderToString(<Html lang={locale} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
   }
 
   if (global.__DISABLE_SSR__) { // eslint-disable-line no-underscore-dangle
     renderOnClient();
   }
 
-  const store = configureStore({
-    messages: [],
-    locale: lang,
-  });
+  const options = isValidLocale(paths[1]) ? { basename: `/${locale}/` } : {};
+  const location = !options.basename ? req.url : req.url.replace(`${locale}/`, '');
+  const memoryHistory = createMemoryHistory(req.url, options);
 
-  const memoryHistory = createMemoryHistory(req.originalUrl);
+  const store = configureStore({ locale }, memoryHistory);
+
   const history = syncHistoryWithStore(memoryHistory, store);
 
-  match({ history, routes: configureRoutes(store), location: req.url }, (err, redirectLocation, props) => {
+  match({ history, routes: configureRoutes(store), basename: `/${locale}`, location }, (err, redirectLocation, props) => {
     if (err) {
       // something went badly wrong, so 500 with a message
       res.status(500).send(err.message);
@@ -94,7 +93,7 @@ app.get('*', (req, res) => {
         const state = store.getState();
         const htmlString = renderToString(
           <Html
-            lang={lang} state={state} component={component} className={findIEClass(req.headers['user-agent'])}
+            lang={locale} state={state} component={component} className={findIEClass(req.headers['user-agent'])}
           />
         );
         res.send('<!doctype html>\n' + htmlString); // eslint-disable-line
@@ -107,7 +106,7 @@ app.get('*', (req, res) => {
 			// Dispatch a close event so sagas stop listening after they're resolved
       store.close();
     } else {
-      // TODO: render a custom 404 view here
+      // TODO: render default 404 view here
       res.sendStatus(404);
     }
   });
