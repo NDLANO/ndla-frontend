@@ -8,6 +8,7 @@
 
 import { take, call, put, select } from 'redux-saga/effects';
 import { getLocale } from '../locale/localeSelectors';
+import { getArticle } from './articleSelectors';
 import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
@@ -16,7 +17,8 @@ function* fetchArticle(id) {
   try {
     const locale = yield select(getLocale);
     const article = yield call(api.fetchArticle, id, locale);
-    yield put(actions.setArticle(article));
+    const articleWithId = Object.assign({}, article, { id });
+    yield put(actions.setArticle(articleWithId));
   } catch (error) {
     // TODO: handle error
     // yield put(actions.applicationError());
@@ -26,7 +28,10 @@ function* fetchArticle(id) {
 function* watchFetchArticle() {
   while (true) {
     const { payload: id } = yield take(constants.FETCH_ARTICLE);
-    yield call(fetchArticle, id);
+    const currentArticle = yield select(getArticle);
+    if (currentArticle.id !== id) {
+      yield call(fetchArticle, id);
+    }
   }
 }
 
