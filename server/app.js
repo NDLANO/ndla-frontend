@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
 
 import enableDevMiddleWare from './enableDevMiddleware';
+import getConditionalClassnames from './getConditionalClassnames';
 import createMemoryHistory from './createMemoryHistory';
 import configureRoutes from '../src/main/routes';
 import configureStore from '../src/configureStore';
@@ -34,25 +35,18 @@ app.use(express.static('htdocs', {
   maxAge: 1000 * 60 * 60 * 24 * 365, // One year
 }));
 
-const findIEClass = (userAgentString) => {
-  if (userAgentString.indexOf('MSIE') >= 0) {
-    return 'ie lt-ie11';
-  } else if (userAgentString.indexOf('Trident/7.0; rv:11.0') >= 0) {
-    return 'ie gt-ie10';
-  }
-  return '';
-};
+const renderHtmlString = (locale, userAgentString, state = {}, component = undefined) =>
+  renderToString(<Html lang={locale} state={state} component={component} className={getConditionalClassnames(userAgentString)} />);
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
   const locale = configureLocale(paths[1]);
+  const userAgentString = req.headers['user-agent'];
 
-  function renderOnClient() {
-    res.send('<!doctype html>\n' + renderToString(<Html lang={locale} className={findIEClass(req.headers['user-agent'])} />)); // eslint-disable-line
-  }
 
   if (global.__DISABLE_SSR__) { // eslint-disable-line no-underscore-dangle
-    renderOnClient();
+    const htmlString = renderHtmlString(locale, userAgentString);
+    res.send(`<!doctype html>\n${htmlString}`);
   }
 
   const options = isValidLocale(paths[1]) ? { basename: `/${locale}/` } : {};
@@ -80,15 +74,11 @@ app.get('*', (req, res) => {
       // TODO: Add error handling
       store.runSaga(rootSaga).done.then(() => {
         const state = store.getState();
-        const htmlString = renderToString(
-          <Html
-            lang={locale} state={state} component={component} className={findIEClass(req.headers['user-agent'])}
-          />
-        );
-        res.send('<!doctype html>\n' + htmlString); // eslint-disable-line
+        const htmlString = renderHtmlString(locale, userAgentString, state, component);
+        res.send(`<!doctype html>\n${htmlString}`);
       });
 
-      // Trigger sagas for component to run (should not have any performance implications)
+      // Trigger sagas for components by rendering them (should not have any performance implications)
 			// https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
       renderToString(component);
 
