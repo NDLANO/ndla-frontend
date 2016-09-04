@@ -15,13 +15,13 @@ export const configureLocale = (localeAbbreviation) => {
   if (locale) {
     polyglot.locale(locale.abbreviation);
     polyglot.replace(locale.phrases);
-    return locale.abbreviation;
+    return polyglot;
   }
 
   // defaults to NB
   polyglot.locale(NB.abbreviation);
   polyglot.replace(NB.phrases);
-  return NB.abbreviation;
+  return polyglot;
 };
 
 export const isValidLocale = (localeAbbreviation) => availableLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;

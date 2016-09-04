@@ -40,7 +40,7 @@ const renderHtmlString = (locale, userAgentString, state = {}, component = undef
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
-  const locale = configureLocale(paths[1]);
+  const { currentLocale: locale } = configureLocale(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
 
