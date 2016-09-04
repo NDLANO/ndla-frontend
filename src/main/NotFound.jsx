@@ -8,7 +8,7 @@
 
 import React from 'react';
 
-export default function Welcome() {
+export default function NotFound() {
   return (
     <div>
       <h2>404 - The page cannot be found</h2>

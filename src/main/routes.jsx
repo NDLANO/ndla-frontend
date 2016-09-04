@@ -20,7 +20,7 @@ export default function () {
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="article/:articleId(/)" component={ArticlePage} />
-      <Route path="*" component={NotFound} />
+      <Route path="*" status={404} component={NotFound} />
     </Route>
   );
 }

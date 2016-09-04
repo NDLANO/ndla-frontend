@@ -75,7 +75,8 @@ app.get('*', (req, res) => {
       store.runSaga(rootSaga).done.then(() => {
         const state = store.getState();
         const htmlString = renderHtmlString(locale, userAgentString, state, component);
-        res.send(`<!doctype html>\n${htmlString}`);
+        const status = props.routes.find(r => r.status === 404) !== undefined ? 404 : 200;
+        res.status(status).send(`<!doctype html>\n${htmlString}`);
       });
 
       // Trigger sagas for components by rendering them (should not have any performance implications)
@@ -85,8 +86,7 @@ app.get('*', (req, res) => {
 			// Dispatch a close event so sagas stop listening after they're resolved
       store.close();
     } else {
-      // TODO: render default 404 view here
-      res.sendStatus(404);
+      res.sendStatus(500);
     }
   });
   return;
