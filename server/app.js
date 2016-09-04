@@ -72,12 +72,16 @@ app.get('*', (req, res) => {
         </Provider>);
 
       // TODO: Add error handling
-      store.runSaga(rootSaga).done.then(() => {
-        const state = store.getState();
-        const htmlString = renderHtmlString(locale, userAgentString, state, component);
-        const status = props.routes.find(r => r.status === 404) !== undefined ? 404 : 200;
-        res.status(status).send(`<!doctype html>\n${htmlString}`);
-      });
+      store.runSaga(rootSaga).done
+        .then(() => {
+          const state = store.getState();
+          const htmlString = renderHtmlString(locale, userAgentString, state, component);
+          const status = props.routes.find(r => r.status === 404) !== undefined ? 404 : 200;
+          res.status(status).send(`<!doctype html>\n${htmlString}`);
+        })
+        .catch((error => {
+          res.status(500).send(error.message);
+        }));
 
       // Trigger sagas for components by rendering them (should not have any performance implications)
 			// https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
