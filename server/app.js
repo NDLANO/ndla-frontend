@@ -10,34 +10,23 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
-import webpack from 'webpack';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
+import enableDevMiddleWare from './enableDevMiddleware';
 import createMemoryHistory from './createMemoryHistory';
 import configureRoutes from '../src/main/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
 
-import webpackConfig from '../webpack.config.dev';
 import { configureLocale, isValidLocale } from '../src/locale/configureLocale';
 import Html from './Html';
 
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
-  const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler, {
-    noInfo: true,
-    stats: {
-      colors: true,
-    },
-    publicPath: webpackConfig.output.publicPath,
-  }));
-  app.use(webpackHotMiddleware(compiler, {}));
+  enableDevMiddleWare(app);
 }
 
 app.use(compression());
