@@ -18,7 +18,7 @@
   "ava": {
     "babel": "inherit",
     "require": [
-      "babel-register"
+      "./src/__tests__/_initTestEnv"
     ]
   },
   "engines": {
