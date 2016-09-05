@@ -12,6 +12,7 @@ import { Route, IndexRoute } from 'react-router';
 import Welcome from './Welcome';
 import App from './App';
 import ArticlePage from '../article/ArticlePage';
+import SearchPage from '../search/SearchPage';
 import NotFound from './NotFound';
 
 
@@ -20,6 +21,7 @@ export default function () {
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="article/:articleId(/)" component={ArticlePage} />
+      <Route path="search(/)" component={SearchPage} />
       <Route path="*" status={404} component={NotFound} />
     </Route>
   );

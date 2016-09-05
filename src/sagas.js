@@ -7,9 +7,11 @@
  */
 import { fork } from 'redux-saga/effects';
 import articleSagas from './article/articleSagas';
+import searchSagas from './search/searchSagas';
 
 export default function* root() {
   yield [
     ...articleSagas.map(s => fork(s)),
+    ...searchSagas.map(s => fork(s)),
   ];
 }
