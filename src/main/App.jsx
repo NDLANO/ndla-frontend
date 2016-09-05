@@ -8,10 +8,12 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import { getLocale } from '../locale/localeSelectors';
 import { getMessages } from '../messages/messagesSelectors';
 import Alerts from '../messages/Alerts';
+import polyglot from '../i18n';
 import { Wrapper, Footer } from '../common/Layout';
 
 export class App extends React.Component {
@@ -25,6 +27,12 @@ export class App extends React.Component {
     const { dispatch, children, messages } = this.props;
     return (
       <Wrapper className="page-container">
+        <Helmet
+          title="NDLA"
+          meta={[
+                { name: 'description', content: polyglot.t('meta.description') },
+          ]}
+        />
         {children}
         <Footer />
         <Alerts dispatch={dispatch} messages={messages} />

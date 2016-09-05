@@ -9,8 +9,8 @@
 import React, { PropTypes } from 'react';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
+import Helmet from 'react-helmet';
 import config from '../src/config';
-import head from './Meta';
 import { SvgPolyfillScript, SvgPolyfillScriptInitalization } from './svgPolyfill';
 
 const assets = process.env.NODE_ENV === 'development' ? require('./developmentAssets') : require('../htdocs/assets/assets'); // eslint-disable-line import/no-unresolved
@@ -40,6 +40,7 @@ const GoogleTagMangerScript = () => {
 const Html = (props) => {
   const { lang, className, component, state } = props;
   const content = component ? renderToString(component) : '';
+  const head = Helmet.rewind();
 
   return (
     <html lang={lang} className={className}>

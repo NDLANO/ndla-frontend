@@ -7,6 +7,9 @@
  */
 
 const phrases = {
+  meta: {
+    description: 'Norwegian Digital Learning Arena, Open Educational Resources',
+  },
   hello: {
     world: 'Hello world',
   },
