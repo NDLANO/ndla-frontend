@@ -9,10 +9,9 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware, { END } from 'redux-saga';
 
 import rootReducer from './reducers';
-import rootSaga from './sagas';
 
 import { errorReporter } from './middleware';
 
@@ -32,6 +31,9 @@ export default function configureStore(initialState, history) {
   )(createStore);
 
   const store = createFinalStore(rootReducer, initialState);
-  sagaMiddleware.run(rootSaga);
+
+  store.runSaga = sagaMiddleware.run;
+  store.close = () => store.dispatch(END);
+
   return store;
 }

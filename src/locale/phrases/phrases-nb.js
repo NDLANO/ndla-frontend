@@ -7,6 +7,9 @@
  */
 
 const phrases = {
+  meta: {
+    description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+  },
   hello: {
     world: 'Hallo verden',
   },

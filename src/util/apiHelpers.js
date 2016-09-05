@@ -16,18 +16,6 @@ if (process.env.NODE_ENV === 'unittest') {
   global.__SERVER__ = false; //eslint-disable-line
 }
 
-const locationOrigin = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://ndla-frontend';
-  }
-
-  if (typeof location.origin === 'undefined') {
-    location.origin = [location.protocol, '//', location.host, ':', location.port].join('');
-  }
-
-  return location.origin;
-})();
-
 export const defaultApiKey = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'ndlatestapikey';
@@ -41,11 +29,11 @@ const apiBaseUrl = (() => {
     return 'http://ndla-api';
   }
 
-  return defined(NDLA_API_URL, locationOrigin);
+  return NDLA_API_URL;
 })();
 
 
-export { locationOrigin, apiBaseUrl };
+export { apiBaseUrl };
 
 export function apiResourceUrl(path) { return apiBaseUrl + path; }
 

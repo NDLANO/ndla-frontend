@@ -12,12 +12,13 @@
 var http = require('http');
 
 require('babel-register');
+require('babel-polyfill');
 
 var config = require('../src/config')
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
-global.__DISABLE_SSR__ = true;  // Disables server side rendering
+global.__DISABLE_SSR__ = false;  // Disables server side rendering
 
 var app = require('./app');
 

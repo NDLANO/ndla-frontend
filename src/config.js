@@ -21,14 +21,4 @@ module.exports = Object.assign({
   googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
   ndlaApiUrl: process.env.NDLA_API_URL || 'http://api.test.ndla.no',
   ndlaApiKey: process.env.NDLA_API_KEY || 'ndlalearningpathfrontend',
-  app: {
-    head: {
-      title: 'NDLA',
-      meta: [
-        { name: 'description', content: 'NDLA meta description' },
-        { property: 'og:site_name', content: 'NDLA' },
-      ],
-    },
-  },
-
 }, environment);

@@ -7,9 +7,10 @@
  */
 
 import React, { PropTypes } from 'react';
+import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
+import Helmet from 'react-helmet';
 import config from '../src/config';
-import head from './Meta';
 import { SvgPolyfillScript, SvgPolyfillScriptInitalization } from './svgPolyfill';
 
 const assets = process.env.NODE_ENV === 'development' ? require('./developmentAssets') : require('../htdocs/assets/assets'); // eslint-disable-line import/no-unresolved
@@ -37,7 +38,9 @@ const GoogleTagMangerScript = () => {
 
 
 const Html = (props) => {
-  const { lang, className } = props;
+  const { lang, className, component, state } = props;
+  const content = component ? renderToString(component) : '';
+  const head = Helmet.rewind();
 
   return (
     <html lang={lang} className={className}>
@@ -55,7 +58,8 @@ const Html = (props) => {
       <body>
         <GoogleTagMangerNoScript />
         <GoogleTagMangerScript />
-        <div id="app-container" className="app-container" />
+        <div id="app-container" className="app-container" dangerouslySetInnerHTML={{ __html: content }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.initialState = ${serialize(state)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
@@ -67,6 +71,8 @@ const Html = (props) => {
 
 Html.propTypes = {
   lang: PropTypes.string.isRequired,
+  component: PropTypes.node,
+  state: PropTypes.object.isRequired,
   className: PropTypes.string.isRequired,
 };
 

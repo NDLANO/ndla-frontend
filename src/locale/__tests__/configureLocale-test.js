@@ -8,7 +8,7 @@
 
 import test from 'ava';
 
-import { configureLocale, getHtmlLang, isValidLocale } from '../configureLocale';
+import { configureLocale, isValidLocale } from '../configureLocale';
 
 test('configureLocale configureLocale()', (t) => {
   t.is(configureLocale('en').currentLocale, 'en');
@@ -28,11 +28,4 @@ test('configureLocale isValidLocale()', (t) => {
   t.is(isValidLocale('en'), true);
   t.is(isValidLocale('aa'), false);
   t.is(isValidLocale('ub'), false);
-});
-
-test('configureLocale getHtmlLang()', (t) => {
-  t.is(getHtmlLang('nb'), 'nb');
-  t.is(getHtmlLang('nn'), 'nn');
-  t.is(getHtmlLang('en'), 'en');
-  t.is(getHtmlLang('aa'), 'nb');
 });
