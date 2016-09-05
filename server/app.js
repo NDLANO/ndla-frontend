@@ -71,7 +71,6 @@ app.get('*', (req, res) => {
           <RouterContext {...props} />
         </Provider>);
 
-      // TODO: Add error handling
       store.runSaga(rootSaga).done
         .then(() => {
           const state = store.getState();
@@ -87,7 +86,7 @@ app.get('*', (req, res) => {
 			// https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
       renderToString(component);
 
-			// Dispatch a close event so sagas stop listening after they're resolved
+			// Dispatch a close event so sagas stop listening after they have resolved
       store.close();
     } else {
       res.sendStatus(500);
