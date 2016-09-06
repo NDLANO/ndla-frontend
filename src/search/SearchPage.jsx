@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import * as actions from './searchActions';
 import { getResults } from './searchSelectors';
 import SearchForm from './components/SearchForm';
+import SearchResult from './components/SearchResult';
 
 class SearchPage extends Component {
 
@@ -27,9 +28,9 @@ class SearchPage extends Component {
     return (
       <div>
         <SearchForm query={query.query} onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })} />
-        <ul>
-          { results.map(result => <li key={result.id}>{result.title}</li>)}
-        </ul>
+        <div className="search-results">
+          { results.map(result => <SearchResult key={result.id} article={result} />)}
+        </div>
       </div>
     );
   }

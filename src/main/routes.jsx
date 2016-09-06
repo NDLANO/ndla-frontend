@@ -19,6 +19,10 @@ export function toSearch() {
   return '/search';
 }
 
+export function toArticle(articleId) {
+  return `/article/${articleId}`;
+}
+
 export default function () {
   return (
     <Route path="/" component={App}>
