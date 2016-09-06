@@ -14,6 +14,7 @@ import { getResults } from './searchSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import { OneColumn } from '../common/Layout';
+import polyglot from '../i18n';
 
 class SearchPage extends Component {
 
@@ -26,11 +27,13 @@ class SearchPage extends Component {
 
   render() {
     const { location: { query }, results, search } = this.props;
+    const noSearchHits = query.query && results.length === 0;
+
     return (
       <OneColumn modifier="narrow">
         <SearchForm query={query.query} onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })} />
         <div className="search-results">
-          { results.map(result => <SearchResult key={result.id} article={result} />)}
+          { noSearchHits ? <p>{polyglot.t('searchPage.noHits', query)}</p> : results.map(result => <SearchResult key={result.id} article={result} />) }
         </div>
       </OneColumn>
     );

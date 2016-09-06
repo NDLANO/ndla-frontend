@@ -18,6 +18,9 @@ const phrases = {
     placeholder: 'Search articles',
     btn: 'Search',
   },
+  searchPage: {
+    noHits: 'Your search - %{query} - did not match any articles. ',
+  },
   footer: {
     aboutNDLA: 'About NDLA',
     selectLanguage: 'Choose language (språk): ',

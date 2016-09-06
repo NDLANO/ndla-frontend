@@ -18,6 +18,9 @@ const phrases = {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
   },
+  searchPage: {
+    noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
+  },
   footer: {
     aboutNDLA: 'Om NDLA',
     selectLanguage: 'Velg språk (language): ',
