@@ -11,18 +11,22 @@ import { connect } from 'react-redux';
 
 import * as actions from './searchActions';
 import { getResults } from './searchSelectors';
+import SearchForm from './components/SearchForm';
 
 class SearchPage extends Component {
 
   componentWillMount() {
     const { location: { query }, search } = this.props;
-    search(query);
+    if (query.query) {
+      search(query);
+    }
   }
 
   render() {
-    const { results } = this.props;
+    const { location: { query }, results, search } = this.props;
     return (
       <div>
+        <SearchForm query={query.query} onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })} />
         <ul>
           { results.map(result => <li key={result.id}>{result.title}</li>)}
         </ul>

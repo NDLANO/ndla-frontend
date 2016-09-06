@@ -15,6 +15,9 @@ import ArticlePage from '../article/ArticlePage';
 import SearchPage from '../search/SearchPage';
 import NotFound from './NotFound';
 
+export function toSearch() {
+  return '/search';
+}
 
 export default function () {
   return (

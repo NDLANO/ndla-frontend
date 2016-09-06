@@ -13,6 +13,10 @@ const phrases = {
   hello: {
     world: 'Hello world',
   },
+  searchForm: {
+    placeholder: 'Search articles',
+    btn: 'Search',
+  },
   footer: {
     aboutNDLA: 'About NDLA',
     selectLanguage: 'Choose language (språk): ',

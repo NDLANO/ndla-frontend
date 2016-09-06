@@ -13,6 +13,10 @@ const phrases = {
   hello: {
     world: 'Hallo verden',
   },
+  searchForm: {
+    placeholder: 'Søk etter artikler',
+    btn: 'Søk',
+  },
   footer: {
     aboutNDLA: 'Om NDLA',
     selectLanguage: 'Velg språk (language): ',
