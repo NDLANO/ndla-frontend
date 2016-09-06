@@ -13,6 +13,18 @@ h1, h2, h3 {
   font-weight: 800;
 }
 
+input {
+  padding: .6em 1em;
+  box-shadow: inset 1px 1px rgba(0,0,0,.03);
+  border: 1px solid #e6e6e6;
+  border-radius: 0.331em;
+  background: white;
+  min-height: 1.5em;
+  font-size: 1.3em;
+  color: #444;
+}
+
+
 figure {
   /*margin: 1em 0;*/
 }
@@ -38,4 +50,34 @@ iframe {
 
 .figure_caption {
   font-style: italic;
+}
+
+.one-column {
+  flex: 1 0 auto;
+}
+
+.one-column--narrow {
+  padding-top: 2em;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.search-form_query {
+  flex: 4;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-form_btn {
+  flex: 1;
+  border: 1px solid #888;
+  background-color: white;
+  font-size: 1.3em;
+  padding: 0.5em 0.3em;
+  border-radius: 5px;
+  margin-left: 1em;
 }

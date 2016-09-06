@@ -13,6 +13,7 @@ import * as actions from './searchActions';
 import { getResults } from './searchSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
+import { OneColumn } from '../common/Layout';
 
 class SearchPage extends Component {
 
@@ -26,12 +27,12 @@ class SearchPage extends Component {
   render() {
     const { location: { query }, results, search } = this.props;
     return (
-      <div>
+      <OneColumn modifier="narrow">
         <SearchForm query={query.query} onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })} />
         <div className="search-results">
           { results.map(result => <SearchResult key={result.id} article={result} />)}
         </div>
-      </div>
+      </OneColumn>
     );
   }
 }
