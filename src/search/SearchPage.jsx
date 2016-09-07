@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 
 import * as actions from './searchActions';
-import { getResults, getLastPage } from './searchSelectors';
+import { getResults, getLastPage, getSearching } from './searchSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import Pager from '../common/pager/Pager';
@@ -29,13 +29,14 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location: { query }, results, search, lastPage } = this.props;
+    const { location: { query }, results, searching, search, lastPage } = this.props;
     const noSearchHits = query.query && results.length === 0;
 
     return (
       <OneColumn modifier="narrow">
         <SearchForm
           query={query.query}
+          searching={searching}
           onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })}
         />
         <div className="search-results">
@@ -62,6 +63,7 @@ SearchPage.propTypes = {
   }).isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.array.isRequired,
+  searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
 };
 
@@ -72,6 +74,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   results: getResults(state),
   lastPage: getLastPage(state),
+  searching: getSearching(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

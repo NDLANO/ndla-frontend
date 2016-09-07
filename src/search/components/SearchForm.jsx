@@ -7,6 +7,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import Button from '../../common/Button';
 import polyglot from '../../i18n';
 
 export default class SearchForm extends Component {
@@ -29,6 +30,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
+    const { searching } = this.props;
     return (
       <form onSubmit={this.handleSubmit} className="search-form">
         <input
@@ -38,7 +40,7 @@ export default class SearchForm extends Component {
           placeholder={polyglot.t('searchForm.placeholder')}
         />
 
-        <button type="submit" className="search-form_btn">{polyglot.t('searchForm.btn')}</button>
+        <Button submit loading={searching} className="search-form_btn">{polyglot.t('searchForm.btn')}</Button>
       </form>
     );
   }
@@ -46,6 +48,7 @@ export default class SearchForm extends Component {
 
 SearchForm.propTypes = {
   query: PropTypes.string,
+  searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
 };
 

@@ -8,3 +8,4 @@
 
 export const SEARCH = 'SEARCH';
 export const SET_SEARCH_RESULT = 'SET_SEARCH_RESULT';
+export const SEARCH_ERROR = 'SEARCH_ERROR';

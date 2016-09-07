@@ -18,8 +18,27 @@ test('reducers/search initalState', t => {
     results: [],
     totalCount: 1,
     pageSize: 10,
+    searching: false,
   });
 });
+
+test('reducers/search search', t => {
+  const nextState = reducer(undefined, { type: constants.SEARCH });
+
+  t.deepEqual(nextState, {
+    results: [],
+    totalCount: 1,
+    pageSize: 10,
+    searching: true,
+  });
+});
+
+test('reducers/search searchError', t => {
+  const state = { ...initalState, searching: true };
+  const nextState = reducer(state, { type: constants.SEARCH_ERROR });
+  t.is(nextState.searching, false);
+});
+
 
 test('reducers/search handle set search result', t => {
   const nextState = reducer(initalState, {
@@ -31,4 +50,5 @@ test('reducers/search handle set search result', t => {
   t.is(nextState.results.length, 2);
   t.is(nextState.page, 3);
   t.is(nextState.pageSize, 2);
+  t.is(nextState.searching, false);
 });

@@ -23,6 +23,8 @@ export function* search(query, page) {
     yield put(push({ pathname: toSearch(), query: { query, page } }));
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
+    yield put(actions.searchError());
+
     // TODO: handle error
     // yield put(actions.applicationError());
   }
