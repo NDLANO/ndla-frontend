@@ -6,11 +6,23 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import polyglot from '../i18n';
 import SelectLocale from '../locale/SelectLocale';
 
 export const Wrapper = ({ children }) => <div className="wrapper">{children}</div>;
+
+export const OneColumn = ({ children, className, modifier }) => {
+  const modifierClass = modifier ? `one-column--${modifier}` : '';
+  const classes = classNames('one-column', modifierClass, className);
+  return <div className={classes}>{children}</div>;
+};
+
+OneColumn.propTypes = {
+  modifier: PropTypes.string,
+};
+
 
 export const Footer = () =>
   <footer className="footer">

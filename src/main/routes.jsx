@@ -12,14 +12,23 @@ import { Route, IndexRoute } from 'react-router';
 import Welcome from './Welcome';
 import App from './App';
 import ArticlePage from '../article/ArticlePage';
+import SearchPage from '../search/SearchPage';
 import NotFound from './NotFound';
 
+export function toSearch() {
+  return '/search';
+}
+
+export function toArticle(articleId) {
+  return `/article/${articleId}`;
+}
 
 export default function () {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="article/:articleId(/)" component={ArticlePage} />
+      <Route path="search(/)" component={SearchPage} />
       <Route path="*" status={404} component={NotFound} />
     </Route>
   );

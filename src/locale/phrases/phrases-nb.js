@@ -10,8 +10,16 @@ const phrases = {
   meta: {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
-  hello: {
-    world: 'Hallo verden',
+  welcome: {
+    helloworld: 'Hallo verden',
+    search: 'Søk',
+  },
+  searchForm: {
+    placeholder: 'Søk etter artikler',
+    btn: 'Søk',
+  },
+  searchPage: {
+    noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
   },
   footer: {
     aboutNDLA: 'Om NDLA',
