@@ -16,7 +16,7 @@ export const PageLink = ({ children, page, query: currentQuery, pathname, onClic
   const modifierClass = modifier ? `search-stepper_step--${modifier}` : '';
   const classes = classNames('search-stepper_step', modifierClass);
 
-  const query = Object.assign({}, currentQuery, { page });
+  const query = { ...currentQuery, page };
   const linkToPage = {
     pathname,
     query,

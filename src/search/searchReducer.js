@@ -26,7 +26,7 @@ export default handleActions({
     throw: state => state,
   },
   [constants.SEARCH_ERROR]: {
-    next: state => Object.assign({}, state, { searching: false }),
+    next: state => ({ ...state, searching: false }),
     throw: state => state,
   },
 }, initalState);
