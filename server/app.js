@@ -47,6 +47,7 @@ app.get('*', (req, res) => {
   if (global.__DISABLE_SSR__) { // eslint-disable-line no-underscore-dangle
     const htmlString = renderHtmlString(locale, userAgentString);
     res.send(`<!doctype html>\n${htmlString}`);
+    return;
   }
 
   const options = isValidLocale(paths[1]) ? { basename: `/${locale}/` } : {};
