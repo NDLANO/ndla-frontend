@@ -8,8 +8,9 @@
 
 import test from 'ava';
 
-import { getResults } from '../searchSelectors';
+import { getResults, getLastPage } from '../searchSelectors';
 import search from './_mockSearchResult';
+
 
 test('searchSelectors getResults', (t) => {
   const state = {
@@ -17,4 +18,19 @@ test('searchSelectors getResults', (t) => {
   };
 
   t.is(getResults(state), search.results);
+});
+
+test('searchSelectors getLastPage', (t) => {
+  const lastPageTestState = (totalCount, pageSize) => ({
+    search: {
+      totalCount,
+      pageSize,
+    },
+  });
+
+  t.is(getLastPage(lastPageTestState(1, 1)), 1);
+  t.is(getLastPage(lastPageTestState(1, 10)), 1);
+  t.is(getLastPage(lastPageTestState(27, 10)), 3);
+  t.is(getLastPage(lastPageTestState(234, 10)), 24);
+  t.is(getLastPage(lastPageTestState(234, 100)), 3);
 });

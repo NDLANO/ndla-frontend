@@ -11,6 +11,8 @@ import * as constants from './searchConstants';
 
 export const initalState = {
   results: [],
+  totalCount: 1,
+  pageSize: 10,
 };
 
 export default handleActions({

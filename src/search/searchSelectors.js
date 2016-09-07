@@ -14,3 +14,8 @@ export const getResults = createSelector(
     [getSearchFromState],
     (search) => search.results
 );
+
+export const getLastPage = createSelector(
+    [getSearchFromState],
+    (search) => Math.ceil(search.totalCount / search.pageSize)
+);

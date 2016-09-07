@@ -14,7 +14,11 @@ import searchResult from './_mockSearchResult';
 test('reducers/search initalState', t => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
-  t.is(nextState.results.length, 0);
+  t.deepEqual(nextState, {
+    results: [],
+    totalCount: 1,
+    pageSize: 10,
+  });
 });
 
 test('reducers/search handle set search result', t => {
