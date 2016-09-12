@@ -10,6 +10,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
+import '../util/h5pResizer';
+
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 
@@ -22,8 +24,9 @@ class ArticlePage extends Component {
   render() {
     const { article } = this.props;
     return (
-      <div>
+      <div className="article">
         <Helmet title={`NDLA | ${article.title}`} />
+        <h1>{article.title}</h1>
         <div className="article" dangerouslySetInnerHTML={{ __html: article.html }} />
       </div>
     );
