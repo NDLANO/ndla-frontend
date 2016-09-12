@@ -27,7 +27,7 @@ class ArticlePage extends Component {
       <div className="article">
         <Helmet title={`NDLA | ${article.title}`} />
         <h1>{article.title}</h1>
-        <div className="article" dangerouslySetInnerHTML={{ __html: article.html }} />
+        <div dangerouslySetInnerHTML={{ __html: article.html }} />
       </div>
     );
   }

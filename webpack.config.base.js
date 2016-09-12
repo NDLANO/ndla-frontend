@@ -5,11 +5,14 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const cssnext = require('postcss-cssnext');
+const postcssFocus = require('postcss-focus');
+const postcssReporter = require('postcss-reporter');
 
 const entry = [
   'babel-polyfill',
   './src/index.jsx',
-  './htdocs/style.css',
+  './style/index.css',
   './htdocs/favicon.ico',
 ];
 
@@ -36,7 +39,7 @@ module.exports = (options) => ({
       {
         // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader'),
       },
       {
         test: /.json$/,
@@ -44,6 +47,17 @@ module.exports = (options) => ({
       },
     ],
   },
+
+  postcssPlugins: [
+    postcssFocus(), // Add a :focus to every :hover
+    cssnext({ // Allow future CSS features to be used, also auto-prefixes the CSS...
+      browsers: ['last 2 versions', 'IE >= 10'], // ...based on this browser list
+    }),
+    postcssReporter({ // Posts messages from plugins to the terminal
+      clearMessages: true,
+    }),
+  ],
+
   plugins: options.plugins.concat([
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically

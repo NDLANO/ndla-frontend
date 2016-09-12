@@ -1,0 +1,41 @@
+.search-form_query {
+  flex: 4;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-form_btn {
+  flex: 1;
+  border: 2px solid #888;
+  background-color: white;
+  font-size: 1.3em;
+  padding: 0.5em 0.3em;
+  border-radius: 5px;
+  margin-left: 1em;
+}
+
+.search-stepper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.search-stepper_step {
+  display: inline;
+  border: 2px solid #888;
+  background-color: white;
+  padding: 1em 1.45em;
+  margin: 1em .3em 0;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: transparent;
+  color: #000;
+}
+
+.search-stepper_step--active, .search-stepper_step:hover {
+  background-color: #d8d8d8;
+}
