@@ -13,16 +13,15 @@ import Logo from './Logo';
 import polyglot from '../i18n';
 import SelectLocale from '../locale/SelectLocale';
 
-export const Wrapper = ({ children }) => <div className="wrapper">{children}</div>;
 
-export const OneColumn = ({ children, className, modifier }) => {
-  const modifierClass = modifier ? `one-column--${modifier}` : '';
+export const OneColumn = ({ children, className, cssModifier }) => {
+  const modifierClass = cssModifier ? `one-column--${cssModifier}` : '';
   const classes = classNames('one-column', modifierClass, className);
   return <div className={classes}>{children}</div>;
 };
 
 OneColumn.propTypes = {
-  modifier: PropTypes.string,
+  cssModifier: PropTypes.string,
 };
 
 export const Footer = () =>
@@ -34,7 +33,7 @@ export const Footer = () =>
     <div className="footer_ruler" />
     <p className="footer_text">
       <span className="footer_editor">{polyglot.t('footer.footerEditiorInChief')}<strong>Øivind Høines</strong></span>
-      <span className="footer_editor">{polyglot.t('footer.footerManagingEditor')} <strong>Pål Frønsdal</strong></span>
+      <span className="footer_editor">{polyglot.t('footer.footerManagingEditor')}<strong>Pål Frønsdal</strong></span>
     </p>
     <p className="footer_text">
       {polyglot.t('footer.footerInfo')}
