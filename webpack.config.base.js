@@ -14,7 +14,7 @@ const entry = [
   'babel-polyfill',
   './src/index.jsx',
   './style/index.css',
-  './htdocs/favicon.ico',
+  './server/ndla-favicon.png',
 ];
 
 module.exports = (options) => ({
