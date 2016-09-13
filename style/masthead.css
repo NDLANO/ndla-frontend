@@ -1,6 +1,7 @@
 
 .masthead {
   background-color: #fff;
+  padding-top: 3px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

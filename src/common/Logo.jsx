@@ -13,7 +13,9 @@ import polyglot from '../i18n';
 
 export const Logo = ({ cssModifier }) =>
   <h1 className={classNames('logo', `logo--${cssModifier}`)}>
-    <Link to="/" className="logo_link">{polyglot.t('logo.altText')}</Link>
+    <Link to="/" className="logo_link">
+      {polyglot.t('logo.altText')}
+    </Link>
   </h1>
 ;
 
