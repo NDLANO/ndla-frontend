@@ -14,6 +14,15 @@ const phrases = {
     helloworld: 'Hello world',
     search: 'Search',
   },
+  logo: {
+    altText: 'The Norwegian Digital Learning Arena',
+  },
+  siteNav: {
+    chooseSubject: 'Choose Subject',
+    search: 'Search',
+    contact: 'Contact',
+    help: 'Help',
+  },
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',

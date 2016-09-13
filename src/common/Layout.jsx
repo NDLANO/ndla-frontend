@@ -8,6 +8,8 @@
 
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
+import SiteNav from './SiteNav';
+import Logo from './Logo';
 import polyglot from '../i18n';
 import SelectLocale from '../locale/SelectLocale';
 
@@ -23,7 +25,6 @@ OneColumn.propTypes = {
   modifier: PropTypes.string,
 };
 
-
 export const Footer = () =>
   <footer className="footer">
     <form className="footer_language-form">
@@ -31,3 +32,13 @@ export const Footer = () =>
       <SelectLocale id="language-select" className="footer_language-select" />
     </form>
   </footer>;
+
+export const Masthead = () =>
+  <div className="masthead">
+    <div className="masthead_left">
+      <Logo />
+    </div>
+    <div className="masthead_right">
+      <SiteNav />
+    </div>
+  </div>;

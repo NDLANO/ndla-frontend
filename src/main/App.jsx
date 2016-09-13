@@ -14,7 +14,7 @@ import { getLocale } from '../locale/localeSelectors';
 import { getMessages } from '../messages/messagesSelectors';
 import Alerts from '../messages/Alerts';
 import polyglot from '../i18n';
-import { Wrapper, Footer } from '../common/Layout';
+import { Masthead, Wrapper, Footer } from '../common/Layout';
 
 export class App extends React.Component {
   getChildContext() {
@@ -33,6 +33,7 @@ export class App extends React.Component {
                 { name: 'description', content: polyglot.t('meta.description') },
           ]}
         />
+        <Masthead />
         {children}
         <Footer />
         <Alerts dispatch={dispatch} messages={messages} />

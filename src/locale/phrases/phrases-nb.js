@@ -14,6 +14,15 @@ const phrases = {
     helloworld: 'Hallo verden',
     search: 'Søk',
   },
+  logo: {
+    altText: 'Nasjonal digital læringsarena',
+  },
+  siteNav: {
+    chooseSubject: 'Velg fag',
+    search: 'Søk',
+    contact: 'Kontakt',
+    help: 'Hjelp',
+  },
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
