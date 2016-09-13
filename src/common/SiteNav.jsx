@@ -29,7 +29,7 @@ export const SiteNav = ({ cssModifier }) => {
   return (
     <div className={classes}>
       <ul className="site-nav_list">
-        <SiteNavItem to="#">
+        <SiteNavItem to="#" cssModifier="bold">
           {polyglot.t('siteNav.chooseSubject')}
         </SiteNavItem>
         <SiteNavItem to="/search">
