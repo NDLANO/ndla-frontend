@@ -8,9 +8,11 @@
 
 @import '../node_modules/normalize-css/normalize.css';
 @import 'base.css';
+@import 'vars.css';
 @import 'buttons.css';
 @import 'article.css';
 @import 'search.css';
 @import 'masthead.css';
 @import 'logo.css';
 @import 'site-nav.css';
+@import 'footer.css';

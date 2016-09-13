@@ -31,6 +31,14 @@ export const Footer = () =>
       <label className="footer_language-label footer--bold" htmlFor="language-select">{polyglot.t('footer.selectLanguage')}</label>
       <SelectLocale id="language-select" className="footer_language-select" />
     </form>
+    <div className="footer_ruler" />
+    <p className="footer_text">
+      <span className="footer_editor">{polyglot.t('footer.footerEditiorInChief')}<strong>Øivind Høines</strong></span>
+      <span className="footer_editor">{polyglot.t('footer.footerManagingEditor')} <strong>Pål Frønsdal</strong></span>
+    </p>
+    <p className="footer_text">
+      {polyglot.t('footer.footerInfo')}
+    </p>
   </footer>;
 
 export const Masthead = () =>

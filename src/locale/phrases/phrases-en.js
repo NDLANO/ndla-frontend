@@ -33,6 +33,9 @@ const phrases = {
   footer: {
     aboutNDLA: 'About NDLA',
     selectLanguage: 'Choose language (språk): ',
+    footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
+    footerEditiorInChief: 'Editor in chief: ',
+    footerManagingEditor: 'Managing editor: ',
   },
 };
 
