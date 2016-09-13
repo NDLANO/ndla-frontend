@@ -33,7 +33,7 @@ class SearchPage extends Component {
     const noSearchHits = query.query && results.length === 0;
 
     return (
-      <OneColumn modifier="narrow">
+      <OneColumn cssModifier="narrow">
         <SearchForm
           query={query.query}
           searching={searching}

@@ -8,11 +8,12 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import { OneColumn } from '../common/Layout';
 import polyglot from '../i18n';
 import { toSearch } from './routes';
 
 export const Welcome = () =>
-  <div>
+  <OneColumn cssModifier="narrow">
     <h1>{polyglot.t('welcome.helloworld')}</h1>
     <ul>
       <li>
@@ -21,6 +22,7 @@ export const Welcome = () =>
         </Link>
       </li>
     </ul>
-  </div>;
+  </OneColumn>
+;
 
 export default Welcome;

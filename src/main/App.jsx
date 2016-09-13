@@ -14,7 +14,7 @@ import { getLocale } from '../locale/localeSelectors';
 import { getMessages } from '../messages/messagesSelectors';
 import Alerts from '../messages/Alerts';
 import polyglot from '../i18n';
-import { Wrapper, Footer } from '../common/Layout';
+import { Masthead, Footer } from '../common/Layout';
 
 export class App extends React.Component {
   getChildContext() {
@@ -26,17 +26,19 @@ export class App extends React.Component {
   render() {
     const { dispatch, children, messages } = this.props;
     return (
-      <Wrapper className="page-container">
+      <div className="page-container">
         <Helmet
           title="NDLA"
           meta={[
                 { name: 'description', content: polyglot.t('meta.description') },
           ]}
         />
+
+        <Masthead />
         {children}
         <Footer />
         <Alerts dispatch={dispatch} messages={messages} />
-      </Wrapper>
+      </div>
     );
   }
 }

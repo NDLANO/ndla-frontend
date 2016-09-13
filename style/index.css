@@ -1,5 +1,18 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 @import '../node_modules/normalize-css/normalize.css';
 @import 'base.css';
+@import 'vars.css';
 @import 'buttons.css';
 @import 'article.css';
 @import 'search.css';
+@import 'masthead.css';
+@import 'logo.css';
+@import 'site-nav.css';
+@import 'footer.css';

@@ -10,6 +10,7 @@ import React, { PropTypes } from 'react';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
+
 import config from '../src/config';
 import { SvgPolyfillScript, SvgPolyfillScriptInitalization } from './svgPolyfill';
 
@@ -53,7 +54,7 @@ const Html = (props) => {
         <SvgPolyfillScript className={className} />
         <link rel="stylesheet" type="text/css" href={`/assets/${assets['main.css']}`} />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,300|Signika:400,600,300,700" />
-        <link rel="shortcut icon" href={`/assets/${assets['favicon.ico']}`} type="image/x-icon" />
+        <link rel="shortcut icon" href={`/assets/${assets['ndla-favicon.png']}`} type="image/x-icon" />
       </head>
       <body>
         <GoogleTagMangerNoScript />

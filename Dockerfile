@@ -22,6 +22,7 @@ COPY .babelrc webpack.config.base.js webpack.config.dev.js webpack.config.prod.j
 # Remove following line if temp style files is deleted/moved
 COPY htdocs $APP_PATH/htdocs
 COPY src $APP_PATH/src
+COPY style $APP_PATH/style
 COPY server $APP_PATH/server
 RUN chown -R app:app $HOME/*
 

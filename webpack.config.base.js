@@ -7,13 +7,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const cssnext = require('postcss-cssnext');
 const postcssFocus = require('postcss-focus');
+const postcssImport = require('postcss-import');
 const postcssReporter = require('postcss-reporter');
 
 const entry = [
   'babel-polyfill',
   './src/index.jsx',
   './style/index.css',
-  './htdocs/favicon.ico',
+  './server/ndla-favicon.png',
 ];
 
 module.exports = (options) => ({
@@ -39,7 +40,7 @@ module.exports = (options) => ({
       {
         // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader', 'postcss-loader'),
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
       },
       {
         test: /.json$/,
@@ -48,7 +49,11 @@ module.exports = (options) => ({
     ],
   },
 
-  postcssPlugins: [
+  postcss: (self) => [
+    postcssImport({
+      glob: true,
+      addDependencyTo: self,
+    }),
     postcssFocus(), // Add a :focus to every :hover
     cssnext({ // Allow future CSS features to be used, also auto-prefixes the CSS...
       browsers: ['last 2 versions', 'IE >= 10'], // ...based on this browser list
