@@ -47,14 +47,14 @@ p {
 }
 
 input {
-  padding: .6em 1em;
-  box-shadow: inset 1px 1px rgba(0,0,0,.03);
-  border: 1px solid #888;
-  border-radius: 0.331em;
+  padding: .5em .5em;
+  border: 1px solid #000000;
   background: white;
-  min-height: 1.5em;
   font-size: 1.3em;
-  color: #444;
+}
+
+input[type="text"]:focus, input[type="submit"]:focus {
+  outline: none;
 }
 
 iframe {

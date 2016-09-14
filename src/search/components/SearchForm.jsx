@@ -40,7 +40,7 @@ export default class SearchForm extends Component {
           placeholder={polyglot.t('searchForm.placeholder')}
         />
 
-        <Button submit loading={searching} className="search-form_btn">{polyglot.t('searchForm.btn')}</Button>
+        <Button submit outline square loading={searching} className="search-form_btn">{polyglot.t('searchForm.btn')}</Button>
       </form>
     );
   }
