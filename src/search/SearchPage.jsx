@@ -8,10 +8,10 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
 
 import * as actions from './searchActions';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
+import { getLocale } from '../locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import Pager from '../common/pager/Pager';
@@ -29,7 +29,7 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location: { query }, results, searching, search, lastPage } = this.props;
+    const { location: { query }, results, locale, searching, search, lastPage } = this.props;
     const noSearchHits = query.query && results.length === 0;
 
     return (
@@ -40,7 +40,7 @@ class SearchPage extends Component {
           onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1 })}
         />
         <div className="search-results">
-          { noSearchHits ? <p>{polyglot.t('searchPage.noHits', query)}</p> : results.map(result => <SearchResult key={result.id} article={result} />) }
+          { noSearchHits ? <p>{polyglot.t('searchPage.noHits', query)}</p> : results.map(result => <SearchResult key={result.id} locale={locale} article={result} />) }
         </div>
         <Pager
           page={query.page ? parseInt(query.page, 10) : 1}
@@ -61,6 +61,7 @@ SearchPage.propTypes = {
       page: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.array.isRequired,
   searching: PropTypes.bool.isRequired,
@@ -72,6 +73,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
+  locale: getLocale(state),
   results: getResults(state),
   lastPage: getLastPage(state),
   searching: getSearching(state),

@@ -19,7 +19,7 @@ import { Masthead, Footer } from '../common/Layout';
 export class App extends React.Component {
   getChildContext() {
     return {
-      lang: this.props.locale,
+      locale: this.props.locale,
     };
   }
 
@@ -50,7 +50,7 @@ App.propTypes = {
 };
 
 App.childContextTypes = {
-  lang: PropTypes.string,
+  locale: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
