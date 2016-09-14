@@ -26,6 +26,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
+    order: {
+      relevance: 'Relevans',
+      title: 'Alfabetisk',
+    },
   },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
