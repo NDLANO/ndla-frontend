@@ -9,9 +9,13 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-const Button = ({ className, submit, loading, ...rest }) => {
+const Button = ({ className, outline, square, submit, loading, ...rest }) => {
   const classes = classNames(
-      'btn',
+      'button',
+    {
+      'button--outline': outline,
+      'button--square': square,
+    },
       className
     );
 
@@ -32,6 +36,8 @@ Button.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
 
+  outline: PropTypes.bool,
+  square: PropTypes.bool,
   loading: PropTypes.bool,
   onClick: PropTypes.func,
 

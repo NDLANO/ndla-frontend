@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
- 
+
 .search-form_query {
-  flex: 4;
+  flex: 1;
 }
 
 .search-form {
@@ -17,13 +17,7 @@
 }
 
 .search-form_btn {
-  flex: 1;
-  border: 2px solid #888;
-  background-color: white;
-  font-size: 1.3em;
-  padding: 0.5em 0.3em;
-  border-radius: 5px;
-  margin-left: 1em;
+  margin-left: 0.5em;
 }
 
 .search-stepper {
