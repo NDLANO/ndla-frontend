@@ -10,9 +10,9 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
-import '../util/h5pResizer';
+import '../../util/h5pResizer';
 
-import { OneColumn } from '../components';
+import { OneColumn } from '../../components';
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 

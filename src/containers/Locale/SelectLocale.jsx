@@ -12,7 +12,7 @@ import { createHistory } from 'history';
 
 import { availableLocales } from './localeConstants';
 import { getLocale } from './localeSelectors';
-import { getPathnameBeforeTransitions, getSearchBeforeTransitions } from '../main/routingSelectors';
+import { getPathnameBeforeTransitions, getSearchBeforeTransitions } from '../App/routingSelectors';
 
 const SelectLocale = ({ locale, pathname, search }) => {
   const handleChange = (newLocale) => {

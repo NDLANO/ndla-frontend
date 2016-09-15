@@ -7,7 +7,7 @@
  */
 
 import defined from 'defined';
-import { preferdLocales } from '../locale/localeConstants';
+import { preferdLocales } from '../containers/Locale/localeConstants';
 
 export const findFallbackTranslation = (translations) => {
   const locale = preferdLocales.find((l) =>

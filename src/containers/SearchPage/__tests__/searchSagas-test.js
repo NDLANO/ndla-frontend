@@ -11,7 +11,7 @@ import test from 'ava';
 import nock from 'nock';
 import { push } from 'react-router-redux';
 
-import SagaTester from '../../__tests__/_SagaTester';
+import SagaTester from '../../../__tests__/_SagaTester';
 import reducer from '../searchReducer';
 import { search } from '../searchSagas';
 import * as actions from '../searchActions';

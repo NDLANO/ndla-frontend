@@ -6,8 +6,8 @@
  *
  */
 
-import nb from '../locale/phrases/phrases-nb';
-import en from '../locale/phrases/phrases-en';
+import nb from '../../phrases/phrases-nb';
+import en from '../../phrases/phrases-en';
 
 export const NB = { name: 'Bokmål', abbreviation: 'nb', phrases: nb };
 export const NN = { name: 'Nynorsk', abbreviation: 'nn', phrases: nb };

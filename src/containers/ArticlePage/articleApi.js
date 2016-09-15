@@ -7,7 +7,7 @@
  */
 
 import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError, apiResourceUrl } from '../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/article-oembed');
 

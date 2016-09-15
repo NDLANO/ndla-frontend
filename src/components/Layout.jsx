@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import SiteNav from './SiteNav';
 import Logo from './Logo';
 import polyglot from '../i18n';
-import SelectLocale from '../locale/SelectLocale';
+import SelectLocale from '../containers/Locale/SelectLocale';
 
 
 export const OneColumn = ({ children, className, cssModifier }) => {

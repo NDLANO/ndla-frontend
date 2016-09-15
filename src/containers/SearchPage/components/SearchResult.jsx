@@ -8,8 +8,8 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { toArticle } from '../../main/routes';
-import { titlesI18N } from '../../util/i18nFieldFinder';
+import { toArticle } from '../../../routes';
+import { titlesI18N } from '../../../util/i18nFieldFinder';
 
 const SearchResult = ({ article, locale }) => (
   <div className="search-result">

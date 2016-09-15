@@ -7,8 +7,8 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { Button } from '../../components';
-import polyglot from '../../i18n';
+import { Button } from '../../../components';
+import polyglot from '../../../i18n';
 
 export default class SearchForm extends Component {
   constructor(props) {

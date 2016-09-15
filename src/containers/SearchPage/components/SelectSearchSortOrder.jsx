@@ -7,7 +7,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import polyglot from '../../i18n';
+import polyglot from '../../../i18n';
 
 export default class SelectSearchSortOrder extends Component {
   constructor(props) {

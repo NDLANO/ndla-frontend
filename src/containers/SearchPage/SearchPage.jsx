@@ -11,13 +11,13 @@ import { connect } from 'react-redux';
 
 import * as actions from './searchActions';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
-import { getLocale } from '../locale/localeSelectors';
+import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
-import { Pager, OneColumn } from '../components';
-import { toSearch } from '../main/routes';
-import polyglot from '../i18n';
+import { Pager, OneColumn } from '../../components';
+import { toSearch } from '../../routes';
+import polyglot from '../../i18n';
 
 class SearchPage extends Component {
 

@@ -8,9 +8,9 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import { OneColumn } from '../components';
-import polyglot from '../i18n';
-import { toSearch } from './routes';
+import { OneColumn } from '../../components';
+import polyglot from '../../i18n';
+import { toSearch } from '../../routes';
 
 export const Welcome = () =>
   <OneColumn cssModifier="narrow">

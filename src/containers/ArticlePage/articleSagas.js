@@ -7,7 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import { getLocale } from '../locale/localeSelectors';
+import { getLocale } from '../Locale/localeSelectors';
 import { getArticle } from './articleSelectors';
 import * as constants from './articleConstants';
 import * as actions from './articleActions';

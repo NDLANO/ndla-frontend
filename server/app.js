@@ -17,11 +17,11 @@ import { match, RouterContext } from 'react-router';
 import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
 import createMemoryHistory from './createMemoryHistory';
-import configureRoutes from '../src/main/routes';
+import configureRoutes from '../src/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
 
-import { configureLocale, isValidLocale } from '../src/locale/configureLocale';
+import { configureLocale, isValidLocale } from '../src/containers/Locale/configureLocale';
 import Html from './Html';
 
 const app = express();

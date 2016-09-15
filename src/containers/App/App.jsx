@@ -10,11 +10,11 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
-import { getLocale } from '../locale/localeSelectors';
-import { getMessages } from '../messages/messagesSelectors';
-import Alerts from '../messages/Alerts';
-import polyglot from '../i18n';
-import { Masthead, Footer } from '../components';
+import { getLocale } from '../Locale/localeSelectors';
+import { getMessages } from '../Messages/messagesSelectors';
+import Alerts from '../Messages/Alerts';
+import polyglot from '../../i18n';
+import { Masthead, Footer } from '../../components';
 
 export class App extends React.Component {
   getChildContext() {

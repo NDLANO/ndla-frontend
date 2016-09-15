@@ -9,8 +9,8 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { getLocale } from '../locale/localeSelectors';
-import { toSearch } from '../main/routes';
+import { getLocale } from '../Locale/localeSelectors';
+import { toSearch } from '../../routes';
 
 import * as constants from './searchConstants';
 import * as actions from './searchActions';

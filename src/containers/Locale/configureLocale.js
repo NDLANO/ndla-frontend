@@ -6,7 +6,7 @@
  *
  */
 
-import polyglot from '../i18n';
+import polyglot from '../../i18n';
 import { availableLocales, NB } from './localeConstants';
 
 export const configureLocale = (localeAbbreviation) => {

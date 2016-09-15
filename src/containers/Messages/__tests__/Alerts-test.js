@@ -13,7 +13,7 @@ import sinon from 'sinon';
 import uuid from 'node-uuid';
 
 import { Alerts, Alert, Action } from '../Alerts';
-import { clearMessage } from '../../messages/messagesActions';
+import { clearMessage } from '../messagesActions';
 
 const noop = () => {};
 

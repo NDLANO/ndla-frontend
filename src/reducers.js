@@ -9,10 +9,10 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import locale from './locale/localeReducer';
-import messages from './messages/messagesReducer';
-import article from './article/articleReducer';
-import search from './search/searchReducer';
+import locale from './containers/Locale/localeReducer';
+import messages from './containers/Messages/messagesReducer';
+import article from './containers/ArticlePage/articleReducer';
+import search from './containers/SearchPage/searchReducer';
 
 const rootReducers = combineReducers({
   locale,

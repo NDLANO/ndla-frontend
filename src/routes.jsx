@@ -9,11 +9,11 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import Welcome from './Welcome';
-import App from './App';
-import ArticlePage from '../article/ArticlePage';
-import SearchPage from '../search/SearchPage';
-import NotFound from './NotFound';
+import Welcome from './containers/App/Welcome';
+import App from './containers/App/App';
+import ArticlePage from './containers/ArticlePage/ArticlePage';
+import SearchPage from './containers/SearchPage/SearchPage';
+import NotFound from './containers/App/NotFound';
 
 export function toSearch() {
   return '/search';
