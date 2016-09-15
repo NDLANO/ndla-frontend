@@ -27,7 +27,7 @@ export default class SelectSearchSortOrder extends Component {
   render() {
     return (
       <select
-        className=""
+        className="search-sort-order"
         onChange={this.handleSortChange}
         value={this.state.sort}
       >

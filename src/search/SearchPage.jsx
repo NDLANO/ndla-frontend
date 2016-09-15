@@ -38,7 +38,7 @@ class SearchPage extends Component {
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder })}
+          onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : 'relevance' })}
         />
         <SelectSearchSortOrder sort={query.sortOrder} onSortOrderChange={(sortOrder) => search({ query: query.query, sortOrder, page: 1 })} />
         <div className="search-results">
