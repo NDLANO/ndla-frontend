@@ -11,4 +11,4 @@ import { resolveJsonOrRejectWithError, apiResourceUrl } from '../util/apiHelpers
 
 const baseUrl = apiResourceUrl('/articles');
 
-export const search = (query, page) => fetch(`${baseUrl}/?query=${query}&page=${page}`).then(resolveJsonOrRejectWithError);
+export const search = (query, page, locale, sortOrder) => fetch(`${baseUrl}/?query=${query}&page=${page}&language=${locale}&sort=${sortOrder}`).then(resolveJsonOrRejectWithError);

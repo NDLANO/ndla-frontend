@@ -26,6 +26,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',
+    order: {
+      relevance: 'Relevance',
+      title: 'Alphabetical',
+    },
   },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',

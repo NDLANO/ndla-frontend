@@ -20,6 +20,10 @@
   margin-left: 0.5em;
 }
 
+.search-sort-order {
+  margin-top: 10px
+}
+
 .search-stepper {
   display: flex;
   justify-content: center;
