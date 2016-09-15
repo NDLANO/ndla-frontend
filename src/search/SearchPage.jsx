@@ -15,9 +15,8 @@ import { getLocale } from '../locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResult from './components/SearchResult';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
-import Pager from '../common/pager/Pager';
+import { Pager, OneColumn } from '../components';
 import { toSearch } from '../main/routes';
-import { OneColumn } from '../common/Layout';
 import polyglot from '../i18n';
 
 class SearchPage extends Component {

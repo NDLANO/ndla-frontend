@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 
 import '../util/h5pResizer';
 
-import { OneColumn } from '../common/Layout';
+import { OneColumn } from '../components';
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 

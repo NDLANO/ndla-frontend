@@ -14,7 +14,7 @@ import { getLocale } from '../locale/localeSelectors';
 import { getMessages } from '../messages/messagesSelectors';
 import Alerts from '../messages/Alerts';
 import polyglot from '../i18n';
-import { Masthead, Footer } from '../common/Layout';
+import { Masthead, Footer } from '../components';
 
 export class App extends React.Component {
   getChildContext() {
