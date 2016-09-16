@@ -13,13 +13,14 @@ import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
 
-function* fetchArticle(id) {
+export function* fetchArticle(id) {
   try {
     const locale = yield select(getLocale);
     const article = yield call(api.fetchArticle, id, locale);
     const articleWithId = { ...article, id };
     yield put(actions.setArticle(articleWithId));
   } catch (error) {
+    throw error;
     // TODO: handle error
     // yield put(actions.applicationError());
   }
