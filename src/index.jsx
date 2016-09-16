@@ -12,11 +12,13 @@ import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
+import { IntlProvider } from 'react-intl';
 
 import { configureLocale, isValidLocale } from './containers/Locale/configureLocale';
 import configureStore from './configureStore';
 import configureRoutes from './routes';
 import rootSaga from './sagas';
+import { translationMessages } from './i18n';
 
 
 function configureBrowserHistory(path) {
@@ -47,9 +49,11 @@ const routes = configureRoutes(store);
 
 ReactDOM.render(
   <Provider store={store} locale={locale}>
-    <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      {routes}
-    </Router>
+    <IntlProvider locale={locale} messages={translationMessages[locale]}>
+      <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+        {routes}
+      </Router>
+    </IntlProvider>
   </Provider>,
   document.getElementById('app-container')
 );

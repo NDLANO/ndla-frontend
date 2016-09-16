@@ -6,7 +6,59 @@
  *
  */
 
-import Polyglot from 'node-polyglot';
-import phrases from './phrases/phrases-nb';
+import { addLocaleData } from 'react-intl';
 
-export default new Polyglot({ locale: 'nb', phrases });
+import Polyglot from 'node-polyglot';
+import enLocaleData from 'react-intl/locale-data/en';
+import nbLocaleData from 'react-intl/locale-data/nb';
+
+import nb from './phrases/phrases-nb';
+import en from './phrases/phrases-en';
+
+
+addLocaleData(enLocaleData);
+addLocaleData(nbLocaleData);
+
+export const appLocales = [
+  'en',
+  'nb',
+  'nn',
+];
+
+
+export const formatTranslationMessages = (messages) => {
+  const formattedMessages = {};
+  for (const message of messages) {
+    formattedMessages[message.id] = message.message || message.defaultMessage;
+  }
+
+  return formattedMessages;
+};
+
+function* entries(obj) {
+  for (const key of Object.keys(obj)) {
+    yield [key, obj[key]];
+  }
+}
+
+export const formatNestedTranslationMessages = (phrases, formattedMessages = {}, prefix = '') => {
+  const messages = formattedMessages;
+  for (const [key, value] of entries(phrases)) {
+    if ({}.hasOwnProperty.call(phrases, key)) {
+      const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
+      if (typeof value === 'object') {
+        formatNestedTranslationMessages(value, formattedMessages, keyWithPrefix);
+      } else {
+        messages[keyWithPrefix] = value;
+      }
+    }
+  }
+  return messages;
+};
+
+export const translationMessages = {
+  en: formatNestedTranslationMessages(en),
+  nb: formatNestedTranslationMessages(nb),
+};
+
+export default new Polyglot({ locale: 'nb', nb });

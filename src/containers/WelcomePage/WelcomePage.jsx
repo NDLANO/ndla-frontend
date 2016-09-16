@@ -8,21 +8,32 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { OneColumn } from '../../components';
-import polyglot from '../../i18n';
 import { toSearch } from '../../routes';
 
-export const Welcome = () =>
+const messages = {
+  search: { id: 'WelcomePage.search' },
+  helloworld: { id: 'WelcomePage.helloworld' },
+};
+
+export const WelcomePage = ({ intl: { formatMessage: t } }) =>
   <OneColumn cssModifier="narrow">
-    <h1>{polyglot.t('welcome.helloworld')}</h1>
+    <FormattedMessage {...messages.helloworld}>
+      {(m) => <h1>{m}</h1>}
+    </FormattedMessage>
     <ul>
       <li>
         <Link to={toSearch()}>
-          {polyglot.t('welcome.search')}
+          {t(messages.search)}
         </Link>
       </li>
     </ul>
   </OneColumn>
 ;
 
-export default Welcome;
+WelcomePage.propTypes = {
+  intl: intlShape,
+};
+
+export default injectIntl(WelcomePage);
