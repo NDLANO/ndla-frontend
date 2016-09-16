@@ -10,9 +10,6 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import SiteNav from './SiteNav';
 import Logo from './Logo';
-import polyglot from '../i18n';
-import SelectLocale from '../containers/Locale/SelectLocale';
-
 
 export const OneColumn = ({ children, className, cssModifier }) => {
   const modifierClass = cssModifier ? `one-column--${cssModifier}` : '';
@@ -24,21 +21,6 @@ OneColumn.propTypes = {
   cssModifier: PropTypes.string,
 };
 
-export const Footer = () =>
-  <footer className="footer">
-    <form className="footer_language-form">
-      <label className="footer_language-label footer--bold" htmlFor="language-select">{polyglot.t('footer.selectLanguage')}</label>
-      <SelectLocale id="language-select" className="footer_language-select" />
-    </form>
-    <div className="footer_ruler" />
-    <p className="footer_text">
-      <span className="footer_editor">{polyglot.t('footer.footerEditiorInChief')}<strong>Øivind Høines</strong></span>
-      <span className="footer_editor">{polyglot.t('footer.footerManagingEditor')}<strong>Pål Frønsdal</strong></span>
-    </p>
-    <p className="footer_text">
-      {polyglot.t('footer.footerInfo')}
-    </p>
-  </footer>;
 
 export const Masthead = () =>
   <div className="masthead">

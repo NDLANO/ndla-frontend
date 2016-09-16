@@ -6,7 +6,8 @@
  *
  */
 
-import { addLocaleData } from 'react-intl';
+import React from 'react';
+import { addLocaleData, intlShape } from 'react-intl';
 
 import Polyglot from 'node-polyglot';
 import enLocaleData from 'react-intl/locale-data/en';
@@ -54,6 +55,23 @@ export const formatNestedTranslationMessages = (phrases, formattedMessages = {},
     }
   }
   return messages;
+};
+
+
+function getDisplayName(component) {
+  return component.displayName || component.name || 'Component';
+}
+
+export const injectT = (WrappedComponent) => {
+  const InjectT = (props, context) => <WrappedComponent {...props} t={(id) => context.intl.formatMessage({ id })} />;
+
+  InjectT.contextTypes = {
+    intl: intlShape,
+  };
+
+  InjectT.displayName = `InjectT(${getDisplayName(WrappedComponent)})`;
+
+  return InjectT;
 };
 
 export const translationMessages = {
