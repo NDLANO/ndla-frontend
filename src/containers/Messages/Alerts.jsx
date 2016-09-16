@@ -9,7 +9,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { timeoutMessage, clearMessage } from '../messages/messagesActions';
+import { timeoutMessage, clearMessage } from './messagesActions';
 
 
 export const Action = ({ title, onClick }) =>
