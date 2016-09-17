@@ -13,7 +13,7 @@ import Helmet from 'react-helmet';
 import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
-import polyglot from '../../i18n';
+import { injectT } from '../../i18n';
 import { Masthead, Footer } from '../../components';
 
 export class App extends React.Component {
@@ -24,13 +24,13 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages } = this.props;
+    const { dispatch, children, messages, t } = this.props;
     return (
       <div className="page-container">
         <Helmet
           title="NDLA"
           meta={[
-                { name: 'description', content: polyglot.t('meta.description') },
+                { name: 'description', content: t('meta.description') },
           ]}
         />
 
@@ -58,4 +58,4 @@ const mapStateToProps = (state) => ({
   messages: getMessages(state),
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(injectT(App));

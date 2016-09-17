@@ -8,9 +8,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Button } from '../../../components';
-import polyglot from '../../../i18n';
+import { injectT } from '../../../i18n';
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,17 +30,17 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    const { searching } = this.props;
+    const { searching, t } = this.props;
     return (
       <form onSubmit={this.handleSubmit} className="search-form">
         <input
           type="text" className="search-form_query"
           onChange={this.handleQueryChange}
           value={this.state.query}
-          placeholder={polyglot.t('searchForm.placeholder')}
+          placeholder={t('searchForm.placeholder')}
         />
 
-        <Button submit outline square loading={searching} className="search-form_btn">{polyglot.t('searchForm.btn')}</Button>
+        <Button submit outline square loading={searching} className="search-form_btn">{t('searchForm.btn')}</Button>
       </form>
     );
   }
@@ -55,3 +55,5 @@ SearchForm.propTypes = {
 SearchForm.defaultProps = {
   query: '',
 };
+
+export default injectT(SearchForm);

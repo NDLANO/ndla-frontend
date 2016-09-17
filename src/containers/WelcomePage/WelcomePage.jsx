@@ -8,24 +8,17 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { injectT } from '../../i18n';
 import { OneColumn } from '../../components';
 import { toSearch } from '../../routes';
 
-const messages = {
-  search: { id: 'WelcomePage.search' },
-  helloworld: { id: 'WelcomePage.helloworld' },
-};
-
-export const WelcomePage = ({ intl: { formatMessage: t } }) =>
+export const WelcomePage = ({ t }) =>
   <OneColumn cssModifier="narrow">
-    <FormattedMessage {...messages.helloworld}>
-      {(m) => <h1>{m}</h1>}
-    </FormattedMessage>
+    <h1>{t('WelcomePage.helloworld')}</h1>
     <ul>
       <li>
         <Link to={toSearch()}>
-          {t(messages.search)}
+          {t('WelcomePage.search')}
         </Link>
       </li>
     </ul>
@@ -33,7 +26,6 @@ export const WelcomePage = ({ intl: { formatMessage: t } }) =>
 ;
 
 WelcomePage.propTypes = {
-  intl: intlShape,
 };
 
-export default injectIntl(WelcomePage);
+export default injectT(WelcomePage);
