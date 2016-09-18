@@ -9,32 +9,16 @@
 import React from 'react';
 import { addLocaleData, intlShape } from 'react-intl';
 
-import Polyglot from 'node-polyglot';
 import enLocaleData from 'react-intl/locale-data/en';
 import nbLocaleData from 'react-intl/locale-data/nb';
+import nnLocaleData from 'react-intl/locale-data/nn';
 
 import nb from './phrases/phrases-nb';
 import en from './phrases/phrases-en';
 
-
 addLocaleData(enLocaleData);
 addLocaleData(nbLocaleData);
-
-export const appLocales = [
-  'en',
-  'nb',
-  'nn',
-];
-
-
-export const formatTranslationMessages = (messages) => {
-  const formattedMessages = {};
-  for (const message of messages) {
-    formattedMessages[message.id] = message.message || message.defaultMessage;
-  }
-
-  return formattedMessages;
-};
+addLocaleData(nnLocaleData);
 
 function* entries(obj) {
   for (const key of Object.keys(obj)) {
@@ -42,13 +26,13 @@ function* entries(obj) {
   }
 }
 
-export const formatNestedTranslationMessages = (phrases, formattedMessages = {}, prefix = '') => {
+const formatMessages = (phrases, formattedMessages = {}, prefix = '') => {
   const messages = formattedMessages;
   for (const [key, value] of entries(phrases)) {
     if ({}.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
       if (typeof value === 'object') {
-        formatNestedTranslationMessages(value, formattedMessages, keyWithPrefix);
+        formatMessages(value, formattedMessages, keyWithPrefix);
       } else {
         messages[keyWithPrefix] = value;
       }
@@ -57,12 +41,31 @@ export const formatNestedTranslationMessages = (phrases, formattedMessages = {},
   return messages;
 };
 
+const NB = { name: 'Bokmål', abbreviation: 'nb', messages: formatMessages(nb) };
+const NN = { name: 'Nynorsk', abbreviation: 'nn', messages: formatMessages(nb) };
+const EN = { name: 'English', abbreviation: 'en', messages: formatMessages(en) };
 
-function getDisplayName(component) {
-  return component.displayName || component.name || 'Component';
-}
+export const appLocales = [NB, NN, EN];
+export const preferdLocales = [NB, NN, EN];
+
+export const getLocaleObject = (localeAbbreviation) => {
+  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
+
+  if (locale) {
+    return locale;
+  }
+
+  return NB; // defaults to NB
+};
+
+export const isValidLocale = (localeAbbreviation) => appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+
 
 export const injectT = (WrappedComponent) => {
+  function getDisplayName(component) {
+    return component.displayName || component.name || 'Component';
+  }
+
   const InjectT = (props, context) => <WrappedComponent {...props} t={(id) => context.intl.formatMessage({ id })} />;
 
   InjectT.contextTypes = {
@@ -74,9 +77,4 @@ export const injectT = (WrappedComponent) => {
   return InjectT;
 };
 
-export const translationMessages = {
-  en: formatNestedTranslationMessages(en),
-  nb: formatNestedTranslationMessages(nb),
-};
-
-export default new Polyglot({ locale: 'nb', nb });
+export default injectT;

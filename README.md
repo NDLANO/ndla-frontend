@@ -97,6 +97,10 @@ https://github.com/gaearon/react-redux
 A complete routing library for React.js.
 https://reactjs.org/react-router/
 
+**react-intl**
+Internationalize React apps.
+https://github.com/yahoo/react-intl
+
 **history:**
 Manage browser history with JavaScript
 https://github.com/mjackson/history#readme
@@ -156,10 +160,6 @@ https://lodash.com/
 **date-fns:**
 Modern JavaScript date utility library
 https://github.com/date-fns/date-fns#readme
-
-**node-polyglot**
-Give your JavaScript the ability to speak many languages
-https://github.com/airbnb/polyglot.js#readme
 
 **svg4everybody**
 Use external SVG spritemaps in any browser (IE Polyfill)

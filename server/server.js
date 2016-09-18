@@ -21,9 +21,8 @@ import createMemoryHistory from './createMemoryHistory';
 import configureRoutes from '../src/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
-import { translationMessages } from '../src/i18n';
+import { getLocaleObject, isValidLocale } from '../src/i18n';
 
-import { configureLocale, isValidLocale } from '../src/containers/Locale/configureLocale';
 import Html from './Html';
 
 const app = express();
@@ -42,7 +41,7 @@ const renderHtmlString = (locale, userAgentString, state = {}, component = undef
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
-  const { currentLocale: locale } = configureLocale(paths[1]);
+  const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
 
@@ -71,7 +70,7 @@ app.get('*', (req, res) => {
       // if we got props, that means we found a valid component to render for the given route
       const component =
         (<Provider store={store}>
-          <IntlProvider locale={locale} messages={translationMessages[locale]}>
+          <IntlProvider locale={locale} messages={messages}>
             <RouterContext {...props} />
           </IntlProvider>
         </Provider>);
