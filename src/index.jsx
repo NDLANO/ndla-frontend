@@ -13,6 +13,7 @@ import { Router, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
 import { IntlProvider } from 'react-intl';
+import isEmpty from 'lodash/isEmpty';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -37,8 +38,9 @@ const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'n
 const locale = getLocaleObject(localeString);
 const browserHistory = configureBrowserHistory(path);
 
+const initialState = !isEmpty(window.initialState) ? window.initialState : { locale: locale.abbreviation };
 const store = configureStore(
-  window.initialState
+  initialState
 , browserHistory);
 
 store.runSaga(rootSaga);
