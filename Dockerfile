@@ -1,4 +1,4 @@
-FROM node:6.2.2
+FROM node:6.6.0
 
 #Add app user to enable running the container as an unprivileged user
 RUN useradd --user-group --create-home --shell /bin/false app
@@ -19,8 +19,7 @@ RUN mkdir -p $APP_PATH/htdocs/assets/ && \
 # Copy necessary source files for server and client build
 USER root
 COPY .babelrc webpack.config.base.js webpack.config.dev.js webpack.config.prod.js $APP_PATH/
-# Remove following line if temp style files is deleted/moved
-COPY htdocs $APP_PATH/htdocs
+
 COPY src $APP_PATH/src
 COPY style $APP_PATH/style
 COPY server $APP_PATH/server
