@@ -12,7 +12,7 @@ import reducer from '../localeReducer';
 
 test('reducers/locale', (t) => {
   t.is(
-    reducer(undefined, {}),
+    reducer(undefined, { type: 'NONE' }),
     'nb',
     'initial state'
   );
