@@ -51,11 +51,7 @@ export const preferdLocales = [NB, NN, EN];
 export const getLocaleObject = (localeAbbreviation) => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
 
-  if (locale) {
-    return locale;
-  }
-
-  return NB; // defaults to NB
+  return locale || NB; // defaults to NB
 };
 
 export const isValidLocale = (localeAbbreviation) => appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
