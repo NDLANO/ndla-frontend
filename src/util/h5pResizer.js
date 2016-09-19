@@ -58,7 +58,7 @@
   };
 
   // Listen for messages from iframes
-  window.addEventListener('message', event => {
+  window.addEventListener('message', (event) => {
     if (event.data.context !== 'h5p') {
       return; // Only handle h5p requests.
     }
@@ -66,7 +66,7 @@
     // Find out who sent the message
     let iframe;
     const iframes = document.getElementsByTagName('iframe');
-    for (let i = 0; i < iframes.length; i++) {
+    for (let i = 0; i < iframes.length; i += 1) {
       if (iframes[i].contentWindow === event.source) {
         iframe = iframes[i];
         break;
@@ -92,7 +92,7 @@
     context: 'h5p',
     action: 'ready',
   };
-  for (let i = 0; i < iframes.length; i++) {
+  for (let i = 0; i < iframes.length; i += 1) {
     if (iframes[i].src.indexOf('h5p') !== -1) {
       iframes[i].contentWindow.postMessage(ready, '*');
     }

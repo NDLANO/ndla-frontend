@@ -30,12 +30,12 @@ export default class SagaIntegrationTester {
             : state => state;
 
         // Middleware to store the actions and create promises
-    const testerMiddleware = store => next => action => { // eslint-disable-line no-unused-vars
+    const testerMiddleware = store => next => (action) => { // eslint-disable-line no-unused-vars
             // Don't monitor redux actions
       if (!action.type.startsWith('@@redux')) {
         this.actionsCalled.push(action);
         const actionObj = this.addAction(action.type);
-        actionObj.count++;
+        actionObj.count += 1;
         actionObj.callback(action);
       }
       return next(action);

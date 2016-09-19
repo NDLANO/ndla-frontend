@@ -10,7 +10,7 @@ import test from 'ava';
 
 import formatDate from '../formatDate';
 
-test.cb.serial('util/formatDate', t => {
+test.cb.serial('util/formatDate', (t) => {
   t.is(typeof formatDate, 'function');
 
   t.is(formatDate('2014-12-24T10:44:06Z', 'nb'), '24.12.14');

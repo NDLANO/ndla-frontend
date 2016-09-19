@@ -14,7 +14,7 @@ import Pager, { PageLink } from '../Pager';
 
 
 function pagerTest({ setup, expected }) {
-  test(`component/LinkPager page ${setup.page}/${setup.lastPage}`, t => {
+  test(`component/LinkPager page ${setup.page}/${setup.lastPage}`, (t) => {
     const steps = shallow(<Pager pathname="somepath" query={{}} {...setup} />)
       .children();
 

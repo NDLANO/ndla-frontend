@@ -54,7 +54,7 @@ export const getLocaleObject = (localeAbbreviation) => {
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = (localeAbbreviation) => appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+export const isValidLocale = localeAbbreviation => appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
 
 
 export const injectT = (WrappedComponent) => {
@@ -62,7 +62,7 @@ export const injectT = (WrappedComponent) => {
     return component.displayName || component.name || 'Component';
   }
 
-  const InjectT = (props, context) => <WrappedComponent {...props} t={(id) => context.intl.formatMessage({ id })} />;
+  const InjectT = (props, context) => <WrappedComponent {...props} t={id => context.intl.formatMessage({ id })} />;
 
   InjectT.contextTypes = {
     intl: intlShape,

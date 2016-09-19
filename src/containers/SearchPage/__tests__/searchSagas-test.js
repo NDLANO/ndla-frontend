@@ -17,7 +17,7 @@ import { search } from '../searchSagas';
 import * as actions from '../searchActions';
 
 
-test('searchSagas search', t => {
+test('searchSagas search', (t) => {
   const sagaTester = new SagaTester({
     initialState: {},
     reducers: { search: reducer, locale: () => 'nb' },

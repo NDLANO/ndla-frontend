@@ -11,7 +11,7 @@ import reducer, { initalState } from '../searchReducer';
 import * as constants from '../searchConstants';
 import searchResult from './_mockSearchResult';
 
-test('reducers/search initalState', t => {
+test('reducers/search initalState', (t) => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   t.deepEqual(nextState, {
@@ -22,7 +22,7 @@ test('reducers/search initalState', t => {
   });
 });
 
-test('reducers/search search', t => {
+test('reducers/search search', (t) => {
   const nextState = reducer(undefined, { type: constants.SEARCH });
 
   t.deepEqual(nextState, {
@@ -33,14 +33,14 @@ test('reducers/search search', t => {
   });
 });
 
-test('reducers/search searchError', t => {
+test('reducers/search searchError', (t) => {
   const state = { ...initalState, searching: true };
   const nextState = reducer(state, { type: constants.SEARCH_ERROR });
   t.is(nextState.searching, false);
 });
 
 
-test('reducers/search handle set search result', t => {
+test('reducers/search handle set search result', (t) => {
   const nextState = reducer(initalState, {
     type: constants.SET_SEARCH_RESULT,
     payload: searchResult,

@@ -9,7 +9,7 @@
 import test from 'ava';
 import reducer from '../messagesReducer';
 
-test('reducers/messages add message', t => {
+test('reducers/messages add message', (t) => {
   let nextState = reducer([], {
     type: 'ADD_MESSAGE',
     payload: {
@@ -34,7 +34,7 @@ test('reducers/messages add message', t => {
   t.is(nextState[1].severity, 'warning');
   t.is(nextState[1].message, 'Another somewhat less dangerous error');
 
-  for (let i = 0; i < 8; ++i) {
+  for (let i = 0; i < 8; i += 1) {
     nextState = reducer(nextState, {
       type: 'ADD_MESSAGE',
       payload: {
@@ -49,7 +49,7 @@ test('reducers/messages add message', t => {
   t.is(nextState[9].severity, 'success');
 });
 
-test('reducers/messages clear message', t => {
+test('reducers/messages clear message', (t) => {
   const currentState = [
     { id: '1', message: 'melding', severity: 'info', timeToLive: 1000 },
     { id: '2', message: 'melding', severity: 'info', timeToLive: 1000 },
@@ -62,13 +62,13 @@ test('reducers/messages clear message', t => {
   t.is(nextState.length, 1);
 });
 
-test('reducers/messages clear all messages', t => {
+test('reducers/messages clear all messages', (t) => {
   let nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
   t.is(nextState.length, 0);
 
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 10; i += 1) {
     nextState = reducer(nextState, {
       type: 'ADD_MESSAGE',
       payload: {
@@ -85,7 +85,7 @@ test('reducers/messages clear all messages', t => {
   t.is(nextState.length, 0);
 });
 
-test('reducers/messages application error', t => {
+test('reducers/messages application error', (t) => {
   const nextState = reducer([], {
     type: 'APPLICATION_ERROR',
     error: true,

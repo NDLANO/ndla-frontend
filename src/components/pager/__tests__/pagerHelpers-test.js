@@ -9,7 +9,7 @@
 import test from 'ava';
 import { getRange, stepNumbers } from '../pagerHelpers';
 
-test('pagerHelpers getRange', t => {
+test('pagerHelpers getRange', (t) => {
   t.deepEqual(getRange(1, 5), [1, 5], '1,5');
   t.deepEqual(getRange(2, 5), [1, 5], '1,5');
   t.deepEqual(getRange(3, 5), [1, 5], '1,5');
@@ -23,7 +23,7 @@ test('pagerHelpers getRange', t => {
   t.deepEqual(getRange(3, 3), [1, 3], '3,3');
 });
 
-test('pagerHelpers stepNumbers', t => {
+test('pagerHelpers stepNumbers', (t) => {
   t.deepEqual(stepNumbers(1, 10), [1, 2, 3, 4, 5], '1,10');
   t.deepEqual(stepNumbers(2, 10), [1, 2, 3, 4, 5], '2,10');
   t.deepEqual(stepNumbers(3, 10), [1, 2, 3, 4, 5], '3,10');

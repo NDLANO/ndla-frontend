@@ -10,7 +10,7 @@ import test from 'ava';
 
 import { oembedContentI18N, titleI18N } from '../i18nFieldFinder';
 
-test.cb.serial('util/i18nFieldFinder titleI18N', t => {
+test.cb.serial('util/i18nFieldFinder titleI18N', (t) => {
   const someObject = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -27,7 +27,7 @@ test.cb.serial('util/i18nFieldFinder titleI18N', t => {
   t.end();
 });
 
-test.cb.serial('util/i18nFieldFinder titleI18N with fallback', t => {
+test.cb.serial('util/i18nFieldFinder titleI18N with fallback', (t) => {
   const someObject1 = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -52,7 +52,7 @@ test.cb.serial('util/i18nFieldFinder titleI18N with fallback', t => {
   t.end();
 });
 
-test.cb.serial('util/i18nFieldFinder oembedContentI18N', t => {
+test.cb.serial('util/i18nFieldFinder oembedContentI18N', (t) => {
   t.is(typeof oembedContentI18N, 'function');
 
   const someObject = {

@@ -15,7 +15,7 @@ import { fetchArticle } from '../articleSagas';
 import * as actions from '../articleActions';
 
 
-test('searchSagas search', t => {
+test('searchSagas search', (t) => {
   const sagaTester = new SagaTester({
     initialState: {},
     reducers: { article: reducer, locale: () => 'nb' },

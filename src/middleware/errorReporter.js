@@ -6,7 +6,7 @@
  *
  */
 
-const errorReporter = store => next => action => {
+const errorReporter = store => next => (action) => {
   if (action.error) {
     const err = action.payload;
     if (err.status) {

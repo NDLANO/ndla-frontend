@@ -10,7 +10,7 @@ import test from 'ava';
 
 import { getLocaleObject, isValidLocale, formatNestedMessages } from '../i18n';
 
-test('i18n getLocaleObject()', t => {
+test('i18n getLocaleObject()', (t) => {
   t.is(getLocaleObject('en').abbreviation, 'en');
   t.is(getLocaleObject('en').messages['footer.aboutNDLA'], 'About NDLA');
 
@@ -22,7 +22,7 @@ test('i18n getLocaleObject()', t => {
   t.is(getLocaleObject('ru').messages['footer.aboutNDLA'], 'Om NDLA');
 });
 
-test('i18n isValidLocale()', t => {
+test('i18n isValidLocale()', (t) => {
   t.is(isValidLocale('nb'), true);
   t.is(isValidLocale('nn'), true);
   t.is(isValidLocale('en'), true);
@@ -30,7 +30,7 @@ test('i18n isValidLocale()', t => {
   t.is(isValidLocale('ub'), false);
 });
 
-test('i18n formatNestedMessages()', t => {
+test('i18n formatNestedMessages()', (t) => {
   const messages = formatNestedMessages({
     helloworld: 'Hello world',
     test: {

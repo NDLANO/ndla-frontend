@@ -8,9 +8,9 @@
 
 import { createSelector } from 'reselect';
 
-const getArticleFromState = (state) => state.article;
+const getArticleFromState = state => state.article;
 
 export const getArticle = createSelector(
     [getArticleFromState],
-    (article) => article
+    article => article
 );

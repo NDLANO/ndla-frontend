@@ -82,15 +82,15 @@ app.get('*', (req, res) => {
           const status = props.routes.find(r => r.status === 404) !== undefined ? 404 : 200;
           res.status(status).send(`<!doctype html>\n${htmlString}`);
         })
-        .catch((error => {
+        .catch(((error) => {
           res.status(500).send(error.message);
         }));
 
       // Trigger sagas for components by rendering them (should not have any performance implications)
-			// https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
+      // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
       renderToString(component);
 
-			// Dispatch a close event so sagas stop listening after they have resolved
+      // Dispatch a close event so sagas stop listening after they have resolved
       store.close();
     } else {
       res.sendStatus(500);

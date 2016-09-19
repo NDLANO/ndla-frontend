@@ -18,7 +18,7 @@ test('actions/timeoutMessage', (t) => {
     timeToLive: 500,
   };
 
-  timeoutMessage(message)(actual => {
+  timeoutMessage(message)((actual) => {
     t.truthy(isFSA(actual), 'FSA compliant action');
     t.deepEqual(actual, clearMessage(message.id));
     t.end();
