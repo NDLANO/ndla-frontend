@@ -10,7 +10,7 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
-  welcome: {
+  WelcomePage: {
     helloworld: 'Hello world',
     search: 'Search',
   },

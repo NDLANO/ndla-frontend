@@ -8,21 +8,24 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import { injectT } from '../../i18n';
 import { OneColumn } from '../../components';
-import polyglot from '../../i18n';
 import { toSearch } from '../../routes';
 
-export const Welcome = () =>
+export const WelcomePage = ({ t }) =>
   <OneColumn cssModifier="narrow">
-    <h1>{polyglot.t('welcome.helloworld')}</h1>
+    <h1>{t('WelcomePage.helloworld')}</h1>
     <ul>
       <li>
         <Link to={toSearch()}>
-          {polyglot.t('welcome.search')}
+          {t('WelcomePage.search')}
         </Link>
       </li>
     </ul>
   </OneColumn>
 ;
 
-export default Welcome;
+WelcomePage.propTypes = {
+};
+
+export default injectT(WelcomePage);

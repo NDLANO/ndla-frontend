@@ -12,8 +12,10 @@ import { Provider } from 'react-redux';
 import { Router, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
+import { IntlProvider } from 'react-intl';
+import isEmpty from 'lodash/isEmpty';
 
-import { configureLocale, isValidLocale } from './containers/Locale/configureLocale';
+import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import configureRoutes from './routes';
 import rootSaga from './sagas';
@@ -31,13 +33,14 @@ function configureBrowserHistory(path) {
 
 const paths = window.location.pathname.split('/');
 const path = paths.length > 2 ? paths[1] : '/';
-const locale = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
+const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
 
-configureLocale(locale);
+const locale = getLocaleObject(localeString);
 const browserHistory = configureBrowserHistory(path);
 
+const initialState = !isEmpty(window.initialState) ? window.initialState : { locale: locale.abbreviation };
 const store = configureStore(
-  window.initialState
+  initialState
 , browserHistory);
 
 store.runSaga(rootSaga);
@@ -46,10 +49,12 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = configureRoutes(store);
 
 ReactDOM.render(
-  <Provider store={store} locale={locale}>
-    <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      {routes}
-    </Router>
+  <Provider store={store}>
+    <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+      <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+        {routes}
+      </Router>
+    </IntlProvider>
   </Provider>,
   document.getElementById('app-container')
 );

@@ -21,7 +21,7 @@ module.exports = {
     'import/no-extraneous-dependencies':
       ['error', {'devDependencies': true}],
 
-    'react/prop-types': [ 2, {'ignore': ['children','className'] }],
+    'react/prop-types': [ 2, {'ignore': ['children', 'className', 't'] }],
   },
   'globals': {
     '__CLIENT__': true,

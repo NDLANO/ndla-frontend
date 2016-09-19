@@ -10,7 +10,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createHistory } from 'history';
 
-import { availableLocales } from './localeConstants';
+import { appLocales } from '../../i18n';
 import { getLocale } from './localeSelectors';
 import { getPathnameBeforeTransitions, getSearchBeforeTransitions } from '../App/routingSelectors';
 
@@ -23,7 +23,7 @@ const SelectLocale = ({ locale, pathname, search }) => {
 
   return (
     <select onChange={(evt) => { handleChange(evt.target.value); }} value={locale}>
-      {availableLocales.map(l => <option key={l.abbreviation} value={l.abbreviation}>{l.name}</option>)}
+      {appLocales.map(l => <option key={l.abbreviation} value={l.abbreviation}>{l.name}</option>)}
     </select>
   );
 }

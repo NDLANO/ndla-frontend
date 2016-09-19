@@ -9,7 +9,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
-import polyglot from '../i18n';
+import { injectT } from '../i18n';
 
 export const SiteNavItem = ({ to, children, cssModifier }) =>
   <li className={classNames('site-nav_item', `site-nav_item--${cssModifier}`)}>
@@ -23,23 +23,23 @@ SiteNavItem.propTypes = {
   to: PropTypes.string.isRequired,
 };
 
-export const SiteNav = ({ cssModifier }) => {
+export const SiteNav = ({ cssModifier, t }) => {
   const classes = classNames('site-nav', `site-nav--${cssModifier}`);
 
   return (
     <div className={classes}>
       <ul className="site-nav_list">
         <SiteNavItem to="#" cssModifier="bold">
-          {polyglot.t('siteNav.chooseSubject')}
+          {t('siteNav.chooseSubject')}
         </SiteNavItem>
         <SiteNavItem to="/search">
-          {polyglot.t('siteNav.search')}
+          {t('siteNav.search')}
         </SiteNavItem>
         <SiteNavItem to="#">
-          {polyglot.t('siteNav.contact')}
+          {t('siteNav.contact')}
         </SiteNavItem>
         <SiteNavItem to="#">
-          {polyglot.t('siteNav.help')}
+          {t('siteNav.help')}
         </SiteNavItem>
       </ul>
     </div>
@@ -50,4 +50,4 @@ SiteNav.propTypes = {
   cssModifier: PropTypes.string,
 };
 
-export default SiteNav;
+export default injectT(SiteNav);

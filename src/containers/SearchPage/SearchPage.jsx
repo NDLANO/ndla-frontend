@@ -13,11 +13,10 @@ import * as actions from './searchActions';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
-import SearchResult from './components/SearchResult';
+import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import { Pager, OneColumn } from '../../components';
 import { toSearch } from '../../routes';
-import polyglot from '../../i18n';
 
 class SearchPage extends Component {
 
@@ -30,7 +29,6 @@ class SearchPage extends Component {
 
   render() {
     const { location: { query }, results, locale, searching, search, lastPage } = this.props;
-    const noSearchHits = query.query && results.length === 0;
 
     return (
       <OneColumn cssModifier="narrow">
@@ -39,10 +37,14 @@ class SearchPage extends Component {
           searching={searching}
           onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : 'relevance' })}
         />
-        <SelectSearchSortOrder sort={query.sortOrder} onSortOrderChange={(sortOrder) => search({ query: query.query, sortOrder, page: 1 })} />
-        <div className="search-results">
-          { noSearchHits ? <p>{polyglot.t('searchPage.noHits', query)}</p> : results.map(result => <SearchResult key={result.id} locale={locale} article={result} />) }
-        </div>
+
+        <SelectSearchSortOrder
+          sort={query.sortOrder}
+          onSortOrderChange={(sortOrder) => search({ query: query.query, sortOrder, page: 1 })}
+        />
+
+        <SearchResultList query={query} locale={locale} results={results} />
+
         <Pager
           page={query.page ? parseInt(query.page, 10) : 1}
           lastPage={lastPage}

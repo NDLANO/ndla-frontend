@@ -10,7 +10,7 @@ const phrases = {
   meta: {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
-  welcome: {
+  WelcomePage: {
     helloworld: 'Hallo verden',
     search: 'Søk',
   },
