@@ -26,13 +26,13 @@ function* entries(obj) {
   }
 }
 
-const formatMessages = (phrases, formattedMessages = {}, prefix = '') => {
+export const formatNestedMessages = (phrases, formattedMessages = {}, prefix = '') => {
   const messages = formattedMessages;
   for (const [key, value] of entries(phrases)) {
     if ({}.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
       if (typeof value === 'object') {
-        formatMessages(value, formattedMessages, keyWithPrefix);
+        formatNestedMessages(value, formattedMessages, keyWithPrefix);
       } else {
         messages[keyWithPrefix] = value;
       }
@@ -41,9 +41,9 @@ const formatMessages = (phrases, formattedMessages = {}, prefix = '') => {
   return messages;
 };
 
-const NB = { name: 'Bokmål', abbreviation: 'nb', messages: formatMessages(nb) };
-const NN = { name: 'Nynorsk', abbreviation: 'nn', messages: formatMessages(nb) };
-const EN = { name: 'English', abbreviation: 'en', messages: formatMessages(en) };
+const NB = { name: 'Bokmål', abbreviation: 'nb', messages: formatNestedMessages(nb) };
+const NN = { name: 'Nynorsk', abbreviation: 'nn', messages: formatNestedMessages(nb) };
+const EN = { name: 'English', abbreviation: 'en', messages: formatNestedMessages(en) };
 
 export const appLocales = [NB, NN, EN];
 export const preferdLocales = [NB, NN, EN];
