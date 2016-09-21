@@ -17,8 +17,7 @@ export function* fetchArticle(id) {
   try {
     const locale = yield select(getLocale);
     const article = yield call(api.fetchArticle, id, locale);
-    const articleWithId = { ...article, id };
-    yield put(actions.setArticle(articleWithId));
+    yield put(actions.setArticle(article));
   } catch (error) {
     throw error;
     // TODO: handle error

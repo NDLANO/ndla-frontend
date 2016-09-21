@@ -29,7 +29,7 @@ class ArticlePage extends Component {
         <Helmet title={`NDLA | ${article.title}`} />
         <div className="article">
           <h1>{article.title}</h1>
-          <div dangerouslySetInnerHTML={{ __html: article.html }} />
+          <div dangerouslySetInnerHTML={{ __html: article.content }} />
         </div>
       </OneColumn>
     );
@@ -48,7 +48,7 @@ const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   article: getArticle(state),
 });
 
