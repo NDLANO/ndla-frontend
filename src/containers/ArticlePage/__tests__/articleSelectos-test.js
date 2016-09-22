@@ -26,8 +26,14 @@ test('articleSelectors getArticle nb locale', (t) => {
   t.is(getArticle(state).title, 'Tester');
 });
 
+
 test('articleSelectors getArticle en locale', (t) => {
   const stateWithEnLocale = { ...state, locale: 'en' };
   t.is(getArticle(stateWithEnLocale).id, 1);
   t.is(getArticle(stateWithEnLocale).title, 'Testing');
+});
+
+test('articleSelectors getArticle returns empty object when article is empty', (t) => {
+  const empty = {};
+  t.is(getArticle({ article: empty }), empty);
 });

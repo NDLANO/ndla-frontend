@@ -31,6 +31,9 @@ const phrases = {
       title: 'Alfabetisk',
     },
   },
+  article: {
+    author: 'Forfatter',
+  },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
   },
