@@ -35,7 +35,7 @@ SelectLocale.propTypes = {
   search: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   locale: getLocale(state),
   pathname: getPathnameBeforeTransitions(state),
   search: getSearchBeforeTransitions(state),

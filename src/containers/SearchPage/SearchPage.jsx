@@ -35,12 +35,12 @@ class SearchPage extends Component {
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={(searchQuery) => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : 'relevance' })}
+          onSearchQuerySubmit={searchQuery => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : 'relevance' })}
         />
 
         <SelectSearchSortOrder
           sort={query.sortOrder}
-          onSortOrderChange={(sortOrder) => search({ query: query.query, sortOrder, page: 1 })}
+          onSortOrderChange={sortOrder => search({ query: query.query, sortOrder, page: 1 })}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />
@@ -49,7 +49,7 @@ class SearchPage extends Component {
           page={query.page ? parseInt(query.page, 10) : 1}
           lastPage={lastPage}
           query={query}
-          onClick={(q) => search(q)}
+          onClick={q => search(q)}
           pathname={toSearch()}
         />
       </OneColumn>
@@ -75,7 +75,7 @@ const mapDispatchToProps = {
   search: actions.search,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   locale: getLocale(state),
   results: getResults(state),
   lastPage: getLastPage(state),
