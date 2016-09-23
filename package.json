@@ -6,7 +6,7 @@
     "pretest": "npm run lint",
     "clean": "rimraf ./htdocs/assets/*",
     "test": "cross-env NODE_ENV=unittest ava",
-    "tdd": "npm test -- --watch",
+    "tdd": "cross-env NODE_ENV=unittest ava --watch",
     "copy-svg-polyfill": "cp node_modules/svg4everybody/dist/svg4everybody.min.js htdocs/assets/",
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",

@@ -10,7 +10,7 @@ import test from 'ava';
 import nock from 'nock';
 
 import SagaTester from '../../../__tests__/_SagaTester';
-import reducer from '../articleReducer';
+import reducer from '../articlesReducer';
 import { fetchArticle } from '../articleSagas';
 import * as actions from '../articleActions';
 
@@ -18,7 +18,7 @@ import * as actions from '../articleActions';
 test('searchSagas search', (t) => {
   const sagaTester = new SagaTester({
     initialState: {},
-    reducers: { article: reducer, locale: () => 'nb' },
+    reducers: { articles: reducer, locale: () => 'nb' },
   });
 
   const apiMock = nock('http://ndla-api')
@@ -30,8 +30,7 @@ test('searchSagas search', (t) => {
   return task.done.then(() => {
     t.truthy(sagaTester.wasCalled(actions.setArticle().type));
 
-    t.deepEqual(sagaTester.getState().article.title, 'unit test');
-    t.deepEqual(sagaTester.getState().article.id, 123);
+    t.deepEqual(sagaTester.getState().articles['123'].title, 'unit test');
     t.notThrows(() => apiMock.done());
   });
 });
