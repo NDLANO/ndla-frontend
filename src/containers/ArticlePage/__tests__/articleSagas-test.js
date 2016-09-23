@@ -22,8 +22,8 @@ test('searchSagas search', (t) => {
   });
 
   const apiMock = nock('http://ndla-api')
-    .get('/article-oembed/nb/123')
-    .reply(200, { title: 'unit test' });
+    .get('/article-oembed/raw/nb/123')
+    .reply(200, { id: 123, title: 'unit test' });
 
   const task = sagaTester.start(fetchArticle.bind(undefined, 123));
 

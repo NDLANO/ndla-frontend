@@ -9,12 +9,12 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-
-import '../../util/h5pResizer';
+import isEmpty from 'lodash/isEmpty';
 
 import { OneColumn } from '../../components';
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
+import Article from './components/Article';
 
 class ArticlePage extends Component {
   componentWillMount() {
@@ -24,13 +24,14 @@ class ArticlePage extends Component {
 
   render() {
     const { article } = this.props;
+    const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
       <OneColumn>
-        <Helmet title={`NDLA | ${article.title}`} />
-        <div className="article">
-          <h1>{article.title}</h1>
-          <div dangerouslySetInnerHTML={{ __html: article.html }} />
-        </div>
+        <Helmet
+          title={`NDLA | ${article.title}`}
+          script={scripts}
+        />
+        {!isEmpty(article) ? <Article article={article} /> : null}
       </OneColumn>
     );
   }
@@ -48,7 +49,7 @@ const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   article: getArticle(state),
 });
 

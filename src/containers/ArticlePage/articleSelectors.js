@@ -7,10 +7,18 @@
  */
 
 import { createSelector } from 'reselect';
+import isEmpty from 'lodash/isEmpty';
+import { getLocale } from '../Locale/localeSelectors';
+import { titlesI18N } from '../../util/i18nFieldFinder';
 
 const getArticleFromState = state => state.article;
 
 export const getArticle = createSelector(
-    [getArticleFromState],
-    article => article
+  [getArticleFromState, getLocale],
+  (article, locale) => (
+    isEmpty(article) ? article : {
+      ...article,
+      title: titlesI18N(article, locale),
+    }
+  )
 );

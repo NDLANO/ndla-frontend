@@ -40,7 +40,7 @@ export default function Pager(props) {
 
   const steps = stepNumbers(page, lastPage);
 
-  const pageLinks = steps.map(n => {
+  const pageLinks = steps.map((n) => {
     if (n === page) {
       return <span key={n} className="search-stepper_step search-stepper_step--active">{n}</span>;
     }

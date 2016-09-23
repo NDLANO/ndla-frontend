@@ -16,7 +16,10 @@ module.exports = {
 
     'react/jsx-filename-extension': [0, { extensions: [".js", ".jsx"] }],
     'import/prefer-default-export': 0,
+    "react/forbid-prop-types": 0,
     'no-constant-condition': [2, { 'checkLoops': false }],
+    'react/no-unused-prop-types': 0,
+    'react/no-danger': 0,
     'import/no-named-as-default': 0,
     'import/no-extraneous-dependencies':
       ['error', {'devDependencies': true}],

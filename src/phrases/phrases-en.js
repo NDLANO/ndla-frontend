@@ -31,6 +31,9 @@ const phrases = {
       title: 'Alphabetical',
     },
   },
+  article: {
+    author: 'Author',
+  },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',
   },
