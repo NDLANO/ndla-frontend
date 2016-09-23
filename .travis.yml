@@ -3,3 +3,9 @@ node_js:
 - '6'
 script:
 - npm test
+notifications:
+  slack:
+    on_success: change
+    on_failure: always
+    rooms:
+      secure: aEE3FILmPONrxBuo67BMy/TJaBaHCvdf52RrK3UiNI9hpTZhPZBAXen2WX/4zMST8yoaVmI2n394Mb/hP2aQ+biFLHF+6135Pf6AvVObYWkSzp0y4XDWDL4TJgvAggNFxPp6n80d1IAzbw5xsM+n/DKn2JnDRaxCPhT5mz39qh1X/ZGn4FKmiObRZSQFYqP84HWYuKBxzrOVAIm6ZLi9OFpvXlMPo8ezLQGDle0S5DMO8P6pDlPEXelG1Wil5xy5cQzW3Vf4OBxpZSEatgOdASXR0GtBveGVUpFcqc7KS3BncsQGr+SqtlIRPYgBHdlwBTfYtXhK0Q8s1GIms3eGd+iy4JzTO/MqXh9E6ONjp/gYSiFP/2/ixZJwykfgSWBH3xyZGjpMZE9O/SxGEYj0aCmBxeKgXM0iqA/QUq73LE4MlOQS/UUtteSJ0nTP1kzyHHXrxU5CBab9ZPM4ZJuTYev7CH1s2l1fuCt1OUQ2OmuPZ1QbFuYMYmAaCP0njH/uZiC3mjKIMzrept89B1eyFRthWgmjPbtdvdMpEbXigqjAGlQnyGx1lV8jxQre0+4jfSy10+KZNqpv2+oNT1bogHuZv+cODEvTh1ClbVk2r8oKZQIcabDfrn+Islq8rTJTdEacbxNgsBhJiKryhonXSIEFpIDuX/4VmrABBoSJ2NQ=
