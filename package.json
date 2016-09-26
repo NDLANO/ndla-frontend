@@ -11,7 +11,8 @@
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "postbuild": "npm run copy-svg-polyfill",
-    "start": "cross-env NODE_ENV=development nodemon --watch server server",
+    "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --watch server",
+    "start-with-ssr": "cross-env NODE_ENV=development nodemon server --watch server",
     "start-prod": "cross-env NODE_ENV=production node server",
     "lint": "eslint --ext .js --ext .jsx src server"
   },

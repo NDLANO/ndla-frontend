@@ -18,7 +18,7 @@ var config = require('../src/config')
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
-global.__DISABLE_SSR__ = true;  // Disables server side rendering
+global.__DISABLE_SSR__ = config.disableSSR;  // Disables server side rendering
 
 var serverConfig = require('./server');
 
