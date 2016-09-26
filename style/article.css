@@ -35,8 +35,14 @@
 
 /** Content hacks (should be fixed in article-api or article-oembed)**/
 
+.article section {
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  line-height: 1.8em;
+  font-size: 1em;
+}
+
 /* Inngress? */
-.article p strong {
+.article section > p > strong:first-of-type, .article section > strong:first-of-type {
   color: #4d4d4d;
   font-size: 1.2em;
   font-weight: 600;
