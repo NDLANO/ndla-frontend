@@ -15,6 +15,7 @@ const state = {
   articles: {
     1: {
       id: 1,
+      created: '2014-12-24T10:44:06Z',
       titles: [
             { title: 'Tester', language: 'nb' },
             { title: 'Testing', language: 'en' },
@@ -22,6 +23,7 @@ const state = {
     },
     2: {
       id: 2,
+      created: '2014-11-24T10:44:06Z',
       titles: [
           { title: 'Tester', language: 'nb' },
           { title: 'Testing', language: 'en' },
@@ -39,6 +41,7 @@ test('articleSelectors getArticle nb locale', (t) => {
   const getArticleSelector = getArticle(1);
   t.is(getArticleSelector(state).id, 1);
   t.is(getArticleSelector(state).title, 'Tester');
+  t.is(getArticleSelector(state).created, '24.12.2014');
 });
 
 test('articleSelectors getArticle en locale', (t) => {
@@ -46,6 +49,7 @@ test('articleSelectors getArticle en locale', (t) => {
   const stateWithEnLocale = { ...state, locale: 'en' };
   t.is(getArticleSelector(stateWithEnLocale).id, 1);
   t.is(getArticleSelector(stateWithEnLocale).title, 'Testing');
+  t.is(getArticleSelector(stateWithEnLocale).created, '12/24/2014');
 });
 
 test('articleSelectors getArticle returns empty object if article is not in state', (t) => {

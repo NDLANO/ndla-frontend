@@ -33,6 +33,7 @@ const phrases = {
   },
   article: {
     author: 'Author',
+    published: 'Published',
   },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',

@@ -16,9 +16,7 @@ import nnLocaleData from 'react-intl/locale-data/nn';
 import nb from './phrases/phrases-nb';
 import en from './phrases/phrases-en';
 
-addLocaleData(enLocaleData);
-addLocaleData(nbLocaleData);
-addLocaleData(nnLocaleData);
+addLocaleData([...nbLocaleData, ...nnLocaleData, ...enLocaleData]);
 
 function* entries(obj) {
   for (const key of Object.keys(obj)) {

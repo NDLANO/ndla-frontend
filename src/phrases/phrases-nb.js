@@ -33,6 +33,7 @@ const phrases = {
   },
   article: {
     author: 'Forfatter',
+    published: 'Publisert',
   },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',

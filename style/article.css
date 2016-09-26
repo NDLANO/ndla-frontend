@@ -16,6 +16,11 @@
   max-width: 100%;
 }
 
+.article_meta {
+  margin-bottom: 20px;
+  color: #6e6e6e;
+  font-size: 0.875em;
+}
 
 .figure_caption {
   display: block;

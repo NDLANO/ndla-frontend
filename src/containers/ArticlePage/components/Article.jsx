@@ -7,6 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
+
 import { injectT } from '../../../i18n';
 
 const Author = ({ author }) => (
@@ -24,7 +25,7 @@ const Article = ({ article, t }) => {
   return (
     <article className="article">
       <h1>{article.title}</h1>
-      <span>{t('article.author')}: {authors}</span>
+      <span className="article_meta">{t('article.published')}: {article.created}, {authors}</span>
       <div dangerouslySetInnerHTML={{ __html: article.content }} />
     </article>
   );
