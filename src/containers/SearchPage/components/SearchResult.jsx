@@ -9,13 +9,13 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { toArticle } from '../../../routes';
-import { titlesI18N } from '../../../util/i18nFieldFinder';
+import { titleI18N } from '../../../util/i18nFieldFinder';
 
 const SearchResult = ({ article, locale }) => (
   <div className="search-result">
     <Link className="search-result_link" to={toArticle(article.id)}>
       <h3 className="search-result_title">
-        { titlesI18N(article, locale) }
+        { titleI18N(article, locale) }
       </h3>
     </Link>
   </div>

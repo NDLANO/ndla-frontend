@@ -16,7 +16,7 @@ const state = {
     1: {
       id: 1,
       created: '2014-12-24T10:44:06Z',
-      titles: [
+      title: [
             { title: 'Tester', language: 'nb' },
             { title: 'Testing', language: 'en' },
       ],
@@ -24,7 +24,7 @@ const state = {
     2: {
       id: 2,
       created: '2014-11-24T10:44:06Z',
-      titles: [
+      title: [
           { title: 'Tester', language: 'nb' },
           { title: 'Testing', language: 'en' },
       ],
