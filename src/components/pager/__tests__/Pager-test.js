@@ -6,7 +6,6 @@
  *
  */
 
-import test from 'ava';
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -14,39 +13,39 @@ import Pager, { PageLink } from '../Pager';
 
 
 function pagerTest({ setup, expected }) {
-  test(`component/LinkPager page ${setup.page}/${setup.lastPage}`, (t) => {
+  it(`component/LinkPager page ${setup.page}/${setup.lastPage}`, () => {
     const steps = shallow(<Pager pathname="somepath" query={{}} {...setup} />)
       .children();
 
     const prev = setup.page - 1;
     const next = setup.page + 1;
 
-    t.is(steps.length, expected.length, 'steppers length');
+    expect(steps.length).toBe(expected.length);
 
     expected.forEach((value, i) => {
-      const n = i + 1;
+      // const n = i + 1;
       const step = steps.at(i);
 
       switch (value) {
         case 'current':
-          t.truthy(step.is('.search-stepper_step--active'), 'Current page active');
-          t.is(step.text(), setup.page.toString(), 'Current page text');
-          t.not(step.is(PageLink), 'Current page not linked');
+          expect(step.is('.search-stepper_step--active')).toBeTruthy();
+          expect(step.text()).toBe(setup.page.toString());
+          expect(step.is(PageLink)).not.toBe('Current page not linked');
           break;
         case 'back':
-          t.truthy(step.is(PageLink), 'back is link');
-          t.is(step.props().modifier, value, `Back link has ${value} modifier`);
-          t.is(step.props().page, prev, `Back link links to page ${prev}`);
+          expect(step.is(PageLink)).toBeTruthy();
+          expect(step.props().modifier).toBe(value);
+          expect(step.props().page).toBe(prev);
           break;
         case 'forward':
-          t.truthy(step.is(PageLink), 'forward is link');
-          t.is(step.props().modifier, value, `Forward link has ${value} modifier`);
-          t.is(step.props().page, next, `Forward link links to page ${next}`);
+          expect(step.is(PageLink)).toBeTruthy();
+          expect(step.props().modifier).toBe(value);
+          expect(step.props().page).toBe(next);
           break;
         default:
-          t.truthy(step.is(PageLink), `stepper ${n} is Link`);
-          t.is(step.props().page, value, `Stepper ${n} links to page ${value}`);
-          t.is(step.props().children, value, `Stepper ${n} has text ${value}`);
+          expect(step.is(PageLink)).toBeTruthy();
+          expect(step.props().page).toBe(value);
+          expect(step.props().children).toBe(value);
       }
     });
   });

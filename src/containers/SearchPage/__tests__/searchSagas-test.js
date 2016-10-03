@@ -7,7 +7,6 @@
  */
 
 
-import test from 'ava';
 import nock from 'nock';
 import { push } from 'react-router-redux';
 
@@ -17,7 +16,7 @@ import { search } from '../searchSagas';
 import * as actions from '../searchActions';
 
 
-test('searchSagas search', (t) => {
+it('searchSagas search', () => {
   const sagaTester = new SagaTester({
     initialState: {},
     reducers: { search: reducer, locale: () => 'nb' },
@@ -30,10 +29,10 @@ test('searchSagas search', (t) => {
   const task = sagaTester.start(search.bind(undefined, 'testing', '3', 'alfa'));
 
   return task.done.then(() => {
-    t.truthy(sagaTester.wasCalled(actions.setSearchResult().type));
-    t.truthy(sagaTester.wasCalled(push().type));
+    expect(sagaTester.wasCalled(actions.setSearchResult().type)).toBeTruthy();
+    expect(sagaTester.wasCalled(push().type)).toBeTruthy();
 
-    t.deepEqual(sagaTester.getState().search.results, [1, 2, 3]);
-    t.notThrows(() => apiMock.done());
+    expect(sagaTester.getState().search.results).toEqual([1, 2, 3]);
+    expect(() => apiMock.done()).not.toThrow();
   });
 });

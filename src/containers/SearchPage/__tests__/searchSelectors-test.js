@@ -6,21 +6,19 @@
  *
  */
 
-import test from 'ava';
-
 import { getResults, getLastPage } from '../searchSelectors';
 import search from './_mockSearchResult';
 
 
-test('searchSelectors getResults', (t) => {
+it('searchSelectors getResults', () => {
   const state = {
     search,
   };
 
-  t.is(getResults(state), search.results);
+  expect(getResults(state)).toBe(search.results);
 });
 
-test('searchSelectors getLastPage', (t) => {
+it('searchSelectors getLastPage', () => {
   const lastPageTestState = (totalCount, pageSize) => ({
     search: {
       totalCount,
@@ -28,9 +26,9 @@ test('searchSelectors getLastPage', (t) => {
     },
   });
 
-  t.is(getLastPage(lastPageTestState(1, 1)), 1);
-  t.is(getLastPage(lastPageTestState(1, 10)), 1);
-  t.is(getLastPage(lastPageTestState(27, 10)), 3);
-  t.is(getLastPage(lastPageTestState(234, 10)), 24);
-  t.is(getLastPage(lastPageTestState(234, 100)), 3);
+  expect(getLastPage(lastPageTestState(1, 1))).toBe(1);
+  expect(getLastPage(lastPageTestState(1, 10))).toBe(1);
+  expect(getLastPage(lastPageTestState(27, 10))).toBe(3);
+  expect(getLastPage(lastPageTestState(234, 10))).toBe(24);
+  expect(getLastPage(lastPageTestState(234, 100))).toBe(3);
 });

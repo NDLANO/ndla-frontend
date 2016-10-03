@@ -6,11 +6,9 @@
  *
  */
 
-import test from 'ava';
-
 import { oembedContentI18N, titleI18N } from '../i18nFieldFinder';
 
-test.cb.serial('util/i18nFieldFinder titleI18N', (t) => {
+it('util/i18nFieldFinder titleI18N', () => {
   const someObject = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -19,15 +17,13 @@ test.cb.serial('util/i18nFieldFinder titleI18N', (t) => {
     ],
   };
 
-  t.deepEqual(titleI18N(someObject, 'nb'), 'Bokmål');
-  t.deepEqual(titleI18N(someObject, 'nn'), 'Nynorsk');
-  t.deepEqual(titleI18N(someObject, 'en'), 'English');
-  t.deepEqual(titleI18N(someObject, 'es'), undefined);
-
-  t.end();
+  expect(titleI18N(someObject, 'nb')).toEqual('Bokmål');
+  expect(titleI18N(someObject, 'nn')).toEqual('Nynorsk');
+  expect(titleI18N(someObject, 'en')).toEqual('English');
+  expect(titleI18N(someObject, 'es')).toEqual(undefined);
 });
 
-test.cb.serial('util/i18nFieldFinder titleI18N with fallback', (t) => {
+it('util/i18nFieldFinder titleI18N with fallback', () => {
   const someObject1 = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -35,9 +31,9 @@ test.cb.serial('util/i18nFieldFinder titleI18N with fallback', (t) => {
     ],
   };
 
-  t.deepEqual(titleI18N(someObject1, 'nb', true), 'Bokmål');
-  t.deepEqual(titleI18N(someObject1, 'en', true), 'English');
-  t.deepEqual(titleI18N(someObject1, 'nn', true), 'Bokmål');
+  expect(titleI18N(someObject1, 'nb', true)).toEqual('Bokmål');
+  expect(titleI18N(someObject1, 'en', true)).toEqual('English');
+  expect(titleI18N(someObject1, 'nn', true)).toEqual('Bokmål');
 
   const someObject2 = {
     title: [
@@ -45,15 +41,13 @@ test.cb.serial('util/i18nFieldFinder titleI18N with fallback', (t) => {
     ],
   };
 
-  t.deepEqual(titleI18N(someObject2, 'nb', true), 'English');
-  t.deepEqual(titleI18N(someObject2, 'en', true), 'English');
-  t.deepEqual(titleI18N(someObject2, 'es', true), 'English');
-
-  t.end();
+  expect(titleI18N(someObject2, 'nb', true)).toEqual('English');
+  expect(titleI18N(someObject2, 'en', true)).toEqual('English');
+  expect(titleI18N(someObject2, 'es', true)).toEqual('English');
 });
 
-test.cb.serial('util/i18nFieldFinder oembedContentI18N', (t) => {
-  t.is(typeof oembedContentI18N, 'function');
+it('util/i18nFieldFinder oembedContentI18N', () => {
+  expect(typeof oembedContentI18N).toBe('function');
 
   const someObject = {
     embedUrl: [
@@ -62,10 +56,9 @@ test.cb.serial('util/i18nFieldFinder oembedContentI18N', (t) => {
     ],
   };
 
-  t.deepEqual(oembedContentI18N(someObject, 'nb'),
-      { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' });
+  expect(oembedContentI18N(someObject, 'nb')).toEqual(
+    { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' }
+  );
 
-  t.falsy(oembedContentI18N(someObject, 'eo'));
-
-  t.end();
+  expect(oembedContentI18N(someObject, 'eo')).toBeFalsy();
 });

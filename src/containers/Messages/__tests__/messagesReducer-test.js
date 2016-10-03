@@ -6,10 +6,9 @@
  *
  */
 
-import test from 'ava';
 import reducer from '../messagesReducer';
 
-test('reducers/messages add message', (t) => {
+it('reducers/messages add message', () => {
   let nextState = reducer([], {
     type: 'ADD_MESSAGE',
     payload: {
@@ -18,9 +17,9 @@ test('reducers/messages add message', (t) => {
     },
   });
 
-  t.is(nextState.length, 1);
-  t.is(nextState[0].severity, 'danger');
-  t.is(nextState[0].message, 'This is a dangerous error');
+  expect(nextState.length).toBe(1);
+  expect(nextState[0].severity).toBe('danger');
+  expect(nextState[0].message).toBe('This is a dangerous error');
 
   nextState = reducer(nextState, {
     type: 'ADD_MESSAGE',
@@ -30,9 +29,9 @@ test('reducers/messages add message', (t) => {
     },
   });
 
-  t.is(nextState.length, 2);
-  t.is(nextState[1].severity, 'warning');
-  t.is(nextState[1].message, 'Another somewhat less dangerous error');
+  expect(nextState.length).toBe(2);
+  expect(nextState[1].severity).toBe('warning');
+  expect(nextState[1].message).toBe('Another somewhat less dangerous error');
 
   for (let i = 0; i < 8; i += 1) {
     nextState = reducer(nextState, {
@@ -44,12 +43,12 @@ test('reducers/messages add message', (t) => {
     });
   }
 
-  t.is(nextState.length, 10);
-  t.is(nextState[9].message, 'A message');
-  t.is(nextState[9].severity, 'success');
+  expect(nextState.length).toBe(10);
+  expect(nextState[9].message).toBe('A message');
+  expect(nextState[9].severity).toBe('success');
 });
 
-test('reducers/messages clear message', (t) => {
+it('reducers/messages clear message', () => {
   const currentState = [
     { id: '1', message: 'melding', severity: 'info', timeToLive: 1000 },
     { id: '2', message: 'melding', severity: 'info', timeToLive: 1000 },
@@ -59,14 +58,14 @@ test('reducers/messages clear message', (t) => {
     type: 'CLEAR_MESSAGE',
     payload: '1',
   });
-  t.is(nextState.length, 1);
+  expect(nextState.length).toBe(1);
 });
 
-test('reducers/messages clear all messages', (t) => {
+it('reducers/messages clear all messages', () => {
   let nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
-  t.is(nextState.length, 0);
+  expect(nextState.length).toBe(0);
 
   for (let i = 0; i < 10; i += 1) {
     nextState = reducer(nextState, {
@@ -77,15 +76,15 @@ test('reducers/messages clear all messages', (t) => {
       },
     });
   }
-  t.is(nextState.length, 10);
+  expect(nextState.length).toBe(10);
 
   nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
-  t.is(nextState.length, 0);
+  expect(nextState.length).toBe(0);
 });
 
-test('reducers/messages application error', (t) => {
+it('reducers/messages application error', () => {
   const nextState = reducer([], {
     type: 'APPLICATION_ERROR',
     error: true,
@@ -96,7 +95,7 @@ test('reducers/messages application error', (t) => {
     },
   });
 
-  t.is(nextState.length, 1);
-  t.is(nextState[0].severity, 'danger');
-  t.is(nextState[0].message, 'Generic error: Another somewhat less dangerous error');
+  expect(nextState.length).toBe(1);
+  expect(nextState[0].severity).toBe('danger');
+  expect(nextState[0].message).toBe('Generic error: Another somewhat less dangerous error');
 });

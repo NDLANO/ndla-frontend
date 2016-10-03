@@ -6,7 +6,6 @@
  *
  */
 
-import test from 'ava';
 import nock from 'nock';
 
 import SagaTester from '../../../__tests__/_SagaTester';
@@ -15,7 +14,7 @@ import { fetchArticle } from '../articleSagas';
 import * as actions from '../articleActions';
 
 
-test('searchSagas search', (t) => {
+it('searchSagas search', () => {
   const sagaTester = new SagaTester({
     initialState: {},
     reducers: { articles: reducer, locale: () => 'nb' },
@@ -28,9 +27,9 @@ test('searchSagas search', (t) => {
   const task = sagaTester.start(fetchArticle.bind(undefined, 123));
 
   return task.done.then(() => {
-    t.truthy(sagaTester.wasCalled(actions.setArticle().type));
+    expect(sagaTester.wasCalled(actions.setArticle().type)).toBeTruthy();
 
-    t.deepEqual(sagaTester.getState().articles['123'].title, 'unit test');
-    t.notThrows(() => apiMock.done());
+    expect(sagaTester.getState().articles['123'].title).toEqual('unit test');
+    expect(() => apiMock.done()).not.toThrow();
   });
 });

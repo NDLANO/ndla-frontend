@@ -6,14 +6,12 @@
  *
  */
 
-import test from 'ava';
-
 import { getLocale } from '../localeSelectors';
 
-test('localeSelectors', (t) => {
+it('localeSelectors', () => {
   const state = {
     locale: 'nb',
   };
 
-  t.is(getLocale(state), 'nb');
+  expect(getLocale(state)).toBe('nb');
 });

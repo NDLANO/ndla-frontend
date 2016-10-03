@@ -6,8 +6,6 @@
  *
  */
 
-import test from 'ava';
-
 import { getArticle } from '../articleSelectors';
 
 const state = {
@@ -32,27 +30,27 @@ const state = {
   },
 };
 
-test('articleSelectors getArticle with id', (t) => {
-  t.is(getArticle(1)(state).id, 1);
-  t.is(getArticle(2)(state).id, 2);
+it('articleSelectors getArticle with id', () => {
+  expect(getArticle(1)(state).id).toBe(1);
+  expect(getArticle(2)(state).id).toBe(2);
 });
 
-test('articleSelectors getArticle nb locale', (t) => {
+it('articleSelectors getArticle nb locale', () => {
   const getArticleSelector = getArticle(1);
-  t.is(getArticleSelector(state).id, 1);
-  t.is(getArticleSelector(state).title, 'Tester');
-  t.is(getArticleSelector(state).created, '24.12.2014');
+  expect(getArticleSelector(state).id).toBe(1);
+  expect(getArticleSelector(state).title).toBe('Tester');
+  expect(getArticleSelector(state).created).toBe('24.12.2014');
 });
 
-test('articleSelectors getArticle en locale', (t) => {
+it('articleSelectors getArticle en locale', () => {
   const getArticleSelector = getArticle(1);
   const stateWithEnLocale = { ...state, locale: 'en' };
-  t.is(getArticleSelector(stateWithEnLocale).id, 1);
-  t.is(getArticleSelector(stateWithEnLocale).title, 'Testing');
-  t.is(getArticleSelector(stateWithEnLocale).created, '12/24/2014');
+  expect(getArticleSelector(stateWithEnLocale).id).toBe(1);
+  expect(getArticleSelector(stateWithEnLocale).title).toBe('Testing');
+  expect(getArticleSelector(stateWithEnLocale).created).toBe('12/24/2014');
 });
 
-test('articleSelectors getArticle returns empty object if article is not in state', (t) => {
+it('articleSelectors getArticle returns empty object if article is not in state', () => {
   const getArticleSelector = getArticle(3);
-  t.deepEqual(getArticleSelector(state), {});
+  expect(getArticleSelector(state)).toEqual({});
 });
