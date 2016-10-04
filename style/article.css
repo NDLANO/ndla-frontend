@@ -51,3 +51,23 @@
 .article strong em {
   font-style: normal;
 }
+
+.article table {
+  width: 100%;
+  table-layout:fixed;
+}
+
+.article th, .article tr:first-child td {
+  vertical-align: bottom;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+.article td {
+  padding: 8px;
+  vertical-align: top;
+}
+
+.article td p {
+  margin: 0;
+}
