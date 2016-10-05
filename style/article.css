@@ -14,6 +14,7 @@
 
 .article img {
   max-width: 100%;
+  /*max-width: 70%;*/
 }
 
 .article_meta {
@@ -40,6 +41,11 @@
   line-height: 1.8em;
   font-size: 1em;
 }
+.article section::after {
+    content:"";
+    display:table;
+    clear:both;
+}
 
 /* Inngress? */
 .article section > p > strong:first-of-type, .article section > strong:first-of-type {
@@ -61,6 +67,15 @@
   vertical-align: bottom;
   font-weight: bold;
   border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+.article aside {
+  float: right;
+  width: 25%;
+  background: white;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ddd;
 }
 
 .article td {
