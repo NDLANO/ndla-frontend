@@ -19,7 +19,7 @@ const noop = () => {};
 it('component/Alerts one message', () => {
   const alertMessages = [{ id: uuid.v4(), message: 'Testmessage' }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
-  const alertElement = component.find('Alert');
+  const alertElement = component.find(Alert);
 
   expect(alertElement.length).toBe(1);
 });
@@ -29,7 +29,7 @@ it('component/Alerts two messages', () => {
   const alertMessages = [{ id: uuid.v4(), message: messages[0], severity: 'success' }, { id: uuid.v4(), message: messages[1] }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
 
-  const alertElement = component.find('Alert');
+  const alertElement = component.find(Alert);
   expect(alertElement.length).toBe(2);
 });
 
