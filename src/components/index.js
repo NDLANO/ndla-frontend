@@ -6,7 +6,6 @@
  *
  */
 
-import Button from './Button';
 import { OneColumn, Masthead } from './Layout';
 import Footer from './Footer';
 import Logo from './Logo';
@@ -14,7 +13,6 @@ import SiteNav from './SiteNav';
 import Pager from './pager/Pager';
 
 export {
-  Button,
   Footer,
   Logo,
   Masthead,
