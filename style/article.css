@@ -34,6 +34,20 @@
   font-weight: 400;
 }
 
+.article_figure--float-left, .article_figure--float-right {
+  display: inline-block;
+  max-width: 45%;
+}
+
+.article_figure--float-left {
+  float: left;
+  margin-right: 5%;
+}
+.article_figure--float-right {
+  margin-left: 5%;
+  float: right;
+}
+
 /** Content hacks (should be fixed in article-api or article-oembed)**/
 
 .article section {
