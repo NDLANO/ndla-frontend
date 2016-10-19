@@ -10,7 +10,7 @@ import React, { PropTypes } from 'react';
 
 
 const LicenseByline = ({...props}) => {
-    const { licenseType} = props
+    const { licenseType, licenseHandler, contentType } = props
 
   const uriMap = type => {
     switch (type.replace(/-/g, '')) {
@@ -25,19 +25,26 @@ const LicenseByline = ({...props}) => {
   };
 
   return (
-    <span>
+    <div className="license-byline">
+      <div className="license-byline__icons">
+		    {
+          uriMap(licenseType).img.map((uri, i) => (
+            <img
+              key={i}
+              alt="CC icon"
+              className="license-byline__icon license__icon--mini"
+              src={uri}
+            />
+        ))
+        }
+	    </div>
+	    <div className="license-byline__body">
+		    <span>Fri gjenbruk</span>
+	    </div>
       {
-        uriMap(licenseType).img.map((uri, i) => (
-          <img
-            key={i}
-            alt="CC icon"
-            className="license__icons license__icons--mini"
-            src={uri}
-          />
-      ))
+        licenseHandler && contentType ? <a className="license-toggler site-nav_link" onClick={licenseHandler}>Sitér eller bruk {contentType.toLowerCase()}</a> : null
       }
-      <span>Fri gjenbruk</span>
-    </span>
+    </div>
   );
 };
 

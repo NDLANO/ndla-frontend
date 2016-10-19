@@ -1,5 +1,6 @@
 .license-toggler {
   margin-left: 0.2em;
+  display: inline;
 }
 .license {
   background: #d2d2d2;
@@ -17,11 +18,11 @@
 .license-section {
   margin-bottom: 24px;
 }
-.license__icons--mini {
+.license__icon--mini {
   width: 16px;
   height: 16px;
 }
-.license__icons + .license__icons {
+.license__icon + .license__icon {
   margin-left: 0.2em;
 }
 .license__list {
@@ -33,4 +34,13 @@
   margin: 0;
   padding: 0 0 0 1em;
   list-style: none;
+}
+
+.license-byline {
+  display: table;
+}
+.license-byline > * {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 0.5em 0 0;
 }
