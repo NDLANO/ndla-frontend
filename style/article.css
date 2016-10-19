@@ -60,7 +60,9 @@
     display:table;
     clear:both;
 }
-
+.article em {
+  font-weight: 600;
+}
 /* Inngress? */
 .article section > p > strong:first-of-type, .article section > strong:first-of-type {
   color: #4d4d4d;
