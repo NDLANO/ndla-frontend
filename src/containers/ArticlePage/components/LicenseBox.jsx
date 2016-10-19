@@ -9,20 +9,21 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import LicenseByline from './LicenseByline';
+import Citation from './Citation'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 
 class LicenseBox extends Component {
   constructor() {
     super();
-    this.state = {
-      licenseAction: 'hidden',
-    };
     this.licenseActionHandler = this.licenseActionHandler.bind(this);
+    this.state = {
+      licenseAction: 0,
+    };
   }
-  licenseActionHandler(e) {
-    const { action } = e.target.dataset;
+  licenseActionHandler(index, last) {
     this.setState({
-      licenseAction: action,
+      licenseAction: index,
     });
   }
 
@@ -40,45 +41,28 @@ class LicenseBox extends Component {
         default : return { heading: uri, img: '', body: uri };
       }
     };
-    const citeMap = [
-      {
-        name: 'Harvard',
-        format: '',
-      },
-      {
-        name: 'Chicago',
-        format: '',
-      },
-      {
-        name: 'MLA',
-        format: '',
-      },
-    ];
     const authors = article.copyright.authors.map(author => author.name).join(', ');
     const license = uriMap(uri);
     const { licenseAction } = this.state;
-    const citeText = `${authors}. Norsk Digital Læringsarena.`;
-    const citeBox = (<div>{citeText}</div>);
-    const cite = (<div><ul className="license__list">
-        {
-          citeMap.map(style => <li className="license__list-item">{style.name}</li>)
-        }
-        </ul>
-        {citeBox}
-          </div>);
-    const use = (<div><ul className="license__list">
-              <li className="license__list-item"><ul className="license__list">Bilder:
-                <li className="license__list-item"><img src="http://placehold.it/50x50" /><LicenseByline licenseType='by-sa' /></li>
-                <li className="license__list-item"><img src="http://placehold.it/50x50" /><LicenseByline licenseType='by-nc' /></li>
-                <li className="license__list-item"><img src="http://placehold.it/50x50" /><LicenseByline licenseType='by-sa' /></li>
-              </ul>
+
+    const use = (<div>
+          <h2>Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted</h2>
+            <ul className="license__list">
+              <li className="license__list-item">
+                <ul className="license__list">Bilder:
+                  <li className="license__list-item"><img src="http://placehold.it/150x150" /><LicenseByline licenseType='by-sa' />Av Navn</li>
+                  <li className="license__list-item"><img src="http://placehold.it/150x150" /><LicenseByline licenseType='by-nc' />Av Navn</li>
+                  <li className="license__list-item"><img src="http://placehold.it/150x150" /><LicenseByline licenseType='by-sa' />Av Navn</li>
+                </ul>
               </li>
-              <li className="license__list-item">Video: </li>
-              <li className="license__list-item">Tekst: </li>
             </ul></div>);
 
     return (
       <div className="license">
+        <div className="license-section license__publication-info">
+          Opprettet {article.created}. Sist oppdatert {moment(article.updated).format('DD.MM.YYYY')}
+        </div>
+        <p>{license.body}</p>
         <div className="license-section">
           <ul className="license__list">{article.copyright.authors.length > 1 ? 'Opphavspersoner' : 'Opphavsperson'}:
             {
@@ -86,22 +70,36 @@ class LicenseBox extends Component {
             }
           </ul>
         </div>
-        <h2>Bruk eller del {article.contentType.toLowerCase()}:</h2>
-        <div className="license-section">
-          <button className="license__action" onClick={this.licenseActionHandler} data-action="cite">Sitere</button>
-          <button className="license__action" onClick={this.licenseActionHandler} data-action="use">Gjenbruke</button>
+        <h2>Referer eller gjenbruk {article.contentType.toLowerCase()}:</h2>
+
+        <Tabs
+          onSelect={this.licenseActionHandler}
+          selectedIndex={this.state.licenseAction}
+          >
+          <TabList>
+            <Tab>Referansestiler</Tab>
+            <Tab>Tekst</Tab>
+            <Tab>Bilder</Tab>
+            <Tab>Video</Tab>
+          </TabList>
+            <TabPanel><Citation article={article} /></TabPanel>
+            <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)</TabPanel>
+            <TabPanel>{use}</TabPanel>
+            <TabPanel>Video</TabPanel>
+        </Tabs>
+
+
+        {/*<div className="license-section">
+          <button className="license__action" onClick={this.licenseActionHandler} data-action="cite">Referer til dette innholdet</button>
+          <button className="license__action" onClick={this.licenseActionHandler} data-action="use">Gjenbruk noe på denne siden</button>
         </div>
         <div className="license-section">
         {
-          licenseAction === 'cite' ? cite : ''
+          licenseAction === 'cite' ? <Citation article={article} /> : ''
         }{
           licenseAction === 'use' ? use : ''
         }
-      </div>
-        <div className="license-section license__publication-info">
-          Opprettet {article.created}. Sist oppdatert {moment(article.updated).format('DD.MM.YYYY')}
-        </div>
-        {license.body}
+      </div>*/}
       </div>
     );
   };
