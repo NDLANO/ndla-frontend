@@ -9,6 +9,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
+import EffectContainer, {Effects} from 'react-magic-effects';
 
 import { injectT } from '../../../i18n';
 import LicenseByline from './LicenseByline';
@@ -35,6 +36,9 @@ class Article extends Component {
   licenseHandler() {
     this.setState({ hideLicenseByline: !this.state.hideLicenseByline });
   }
+  handlePlayButtonClick(){
+    this.refs.myAnimationContainer.play();
+  }
   render() {
     const { article, t } = this.props;
     const authors = article.copyright.authors.map(author => author.name).join(', ');
@@ -49,12 +53,19 @@ class Article extends Component {
         <div>
           <span className="article_meta">{authors}. {t('article.published')}: {article.created}</span>.
         </div>
-        <LicenseByline licenseType={licenseType} />
-        <button className="license-toggler" onClick={this.licenseHandler}>Sitér eller bruk {article.contentType.toLowerCase()}</button>
-        <div className={licenseClass}>
-          <LicenseBox article={article} licenseType={licenseType} />
-        </div>
+
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        <LicenseByline
+          licenseType={licenseType}
+          licenseHandler={this.handlePlayButtonClick}
+          contentType={article.contentType}
+        />
+      <div className={licenseClass}>
+        <EffectContainer ref='myAnimationContainer' effect={Effects.boingOutDown}>
+          <LicenseBox article={article} licenseType={licenseType} />
+          
+        </EffectContainer>
+      </div>
       </article>
     );
   }
