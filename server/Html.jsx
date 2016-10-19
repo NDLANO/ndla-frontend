@@ -54,7 +54,7 @@ const Html = (props) => {
         {head.script.toComponent()}
         <SvgPolyfillScript className={className} />
         <link rel="stylesheet" type="text/css" href={`/assets/${assets['main.css']}`} />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,300|Signika:400,600,300,700" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700" />
         <link rel="shortcut icon" href={`/assets/${assets['ndla-favicon.png']}`} type="image/x-icon" />
       </head>
       <body>
