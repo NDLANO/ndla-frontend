@@ -73,7 +73,7 @@
 .article strong em {
   font-style: normal;
 }
-
+/*
 .article table {
   width: 100%;
   table-layout:fixed;
@@ -85,6 +85,16 @@
   border-bottom: 2px solid rgba(0, 0, 0, .1);
 }
 
+.article td {
+padding: 8px;
+vertical-align: top;
+}
+
+.article td p {
+margin: 0;
+}
+*/
+
 .article aside {
   float: right;
   width: 25%;
@@ -92,13 +102,4 @@
   padding: 10px;
   margin: 10px;
   border: 1px solid #ddd;
-}
-
-.article td {
-  padding: 8px;
-  vertical-align: top;
-}
-
-.article td p {
-  margin: 0;
 }
