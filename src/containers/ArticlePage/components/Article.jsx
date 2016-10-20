@@ -8,17 +8,9 @@
 
 import React, { PropTypes } from 'react';
 
+import ArticleIntroduction from './ArticleIntroduction';
 import { injectT } from '../../../i18n';
 
-const Author = ({ author }) => (
-  <span>{author.name}</span>
-);
-
-Author.propTypes = {
-  author: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }),
-};
 
 const Article = ({ article, t }) => {
   const authors = article.copyright.authors.map(author => author.name).join(', ');
@@ -26,6 +18,7 @@ const Article = ({ article, t }) => {
     <article className="article">
       <h1>{article.title}</h1>
       <span className="article_meta">{t('article.published')}: {article.created}, {authors}</span>
+      <ArticleIntroduction introduction={article.introduction} />
       <div dangerouslySetInnerHTML={{ __html: article.content }} />
     </article>
   );
