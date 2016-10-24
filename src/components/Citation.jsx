@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import moment from 'moment';
+import formatDate from '../util/formatDate';
 
 const Citation = ({ ...props }) => {
   const { article } = props;
@@ -8,8 +8,8 @@ const Citation = ({ ...props }) => {
     created: article.created,
     place: 'Oslo',
     title: article.title,
-    year: moment(article.created, 'DD.MM.YYYY').format('YYYY'),
-    today: moment(new Date()).format('DD.MM.YYYY'),
+    year: article.created,
+    today: formatDate(new Date()),
     uri: window.location.href,
   };
 

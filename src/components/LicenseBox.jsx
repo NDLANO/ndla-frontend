@@ -7,7 +7,6 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import LicenseByline from './LicenseByline';
 import Citation from './Citation';
@@ -100,7 +99,7 @@ class LicenseBox extends Component {
     return (
       <div className="license">
         <div className="license-section license__publication-info">
-          Opprettet {article.created}. Sist oppdatert {moment(article.updated).format('DD.MM.YYYY')}
+          Opprettet {article.created}. Sist oppdatert {article.updated}
         </div>
         <p>{license.body}</p>
         <div className="license-section">
