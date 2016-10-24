@@ -9,19 +9,11 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 
+import ArticleIntroduction from './ArticleIntroduction';
 import { injectT } from '../../../i18n';
 import LicenseByline from '../../../components/LicenseByline';
 import LicenseBox from '../../../components/LicenseBox';
 
-const Author = ({ author }) => (
-  <span>{author.name}</span>
-);
-
-Author.propTypes = {
-  author: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }),
-};
 
 class Article extends Component {
   constructor() {
@@ -57,6 +49,7 @@ class Article extends Component {
         <div className={licenseClass}>
           <LicenseBox article={article} licenseType={licenseType} />
         </div>
+        <ArticleIntroduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </article>
     );

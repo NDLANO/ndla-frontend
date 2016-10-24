@@ -48,6 +48,12 @@
   float: right;
 }
 
+.article_introduction {
+  color: #4d4d4d;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
 /** Content hacks (should be fixed in article-api or article-oembed)**/
 
 .article section {
