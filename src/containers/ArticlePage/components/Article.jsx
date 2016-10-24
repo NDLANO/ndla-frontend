@@ -10,8 +10,8 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 
 import { injectT } from '../../../i18n';
-import LicenseByline from './LicenseByline';
-import LicenseBox from './LicenseBox';
+import LicenseByline from '../../../components/LicenseByline';
+import LicenseBox from '../../../components/LicenseBox';
 
 const Author = ({ author }) => (
   <span>{author.name}</span>
@@ -49,16 +49,15 @@ class Article extends Component {
         <div>
           <span className="article_meta">{authors}. {t('article.published')}: {article.created}</span>.
         </div>
-
-        <div dangerouslySetInnerHTML={{ __html: article.content }} />
         <LicenseByline
           licenseType={licenseType}
-          licenseHandler={this.handlePlayButtonClick}
+          licenseHandler={this.licenseHandler}
           contentType={article.contentType}
         />
         <div className={licenseClass}>
           <LicenseBox article={article} licenseType={licenseType} />
         </div>
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </article>
     );
   }
