@@ -32,7 +32,7 @@ class SelectSearchSortOrder extends Component {
         onChange={this.handleSortChange}
         value={this.state.sort}
       >
-        <option value="relevance">{t('searchForm.order.relevance')}</option>
+        <option value="-relevance">{t('searchForm.order.relevance')}</option>
         <option value="title">{t('searchForm.order.title')}</option>
       </select>
     );
@@ -45,7 +45,7 @@ SelectSearchSortOrder.propTypes = {
 };
 
 SelectSearchSortOrder.defaultProps = {
-  sort: 'relevance',
+  sort: '-relevance',
 };
 
 export default injectT(SelectSearchSortOrder);

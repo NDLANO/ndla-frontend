@@ -14,6 +14,7 @@
 
 .article img {
   max-width: 100%;
+  /*max-width: 70%;*/
 }
 
 .article_meta {
@@ -33,6 +34,26 @@
   font-weight: 400;
 }
 
+.article_figure--float-left, .article_figure--float-right {
+  display: inline-block;
+  max-width: 45%;
+}
+
+.article_figure--float-left {
+  float: left;
+  margin-right: 5%;
+}
+.article_figure--float-right {
+  margin-left: 5%;
+  float: right;
+}
+
+.article_introduction {
+  color: #4d4d4d;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
 /** Content hacks (should be fixed in article-api or article-oembed)**/
 
 .article section {
@@ -40,14 +61,41 @@
   line-height: 1.8em;
   font-size: 1em;
 }
-
-/* Inngress? */
-.article section > p > strong:first-of-type, .article section > strong:first-of-type {
-  color: #4d4d4d;
-  font-size: 1.2em;
-  font-weight: 600;
+.article section::after {
+    content:"";
+    display:table;
+    clear:both;
 }
 
 .article strong em {
   font-style: normal;
+}
+
+.article table {
+  width: 100%;
+  table-layout:fixed;
+}
+
+.article th, .article tr:first-child td {
+  vertical-align: bottom;
+  font-weight: bold;
+  border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+.article aside {
+  float: right;
+  width: 25%;
+  background: white;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ddd;
+}
+
+.article td {
+  padding: 8px;
+  vertical-align: top;
+}
+
+.article td p {
+  margin: 0;
 }
