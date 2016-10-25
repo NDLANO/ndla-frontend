@@ -6,40 +6,71 @@
  * FRI OG BEGRENSET
  */
 
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames'
 import Icon from './icons/Icons';
+import LicenseBox from './LicenseBox';
 
-const LicenseByline = ({ ...props }) => {
-  const { licenseType, licenseHandler, contentType } = props;
-
-  const licenseMap = (type) => {
-    switch (type.replace(/-/g, '')) {
-      case 'cc' : return { img: [<Icon.LicenseCc />] };
-      case 'byncnd' : return { img: [<Icon.LicenseCc />, <Icon.LicenseBy />, <Icon.LicenseNc />, <Icon.LicenseNd />] };
-      case 'byncsa' : return { img: [<Icon.LicenseCc />, <Icon.LicenseBy />, <Icon.LicenseNc />, <Icon.LicenseSa />] };
-      case 'bync' : return { img: [<Icon.LicenseCc />, <Icon.LicenseBy />, <Icon.LicenseNc />] };
-      case 'bynd' : return { img: [<Icon.LicenseCc />, <Icon.LicenseBy />, <Icon.LicenseNd />] };
-      case 'bysa' : return { img: [<Icon.LicenseCc />, <Icon.LicenseBy />, <Icon.LicenseSa />] };
-      default : return { img: [] };
+class LicenseByline extends Component {
+  constructor() {
+    super();
+    this.state = {
+      hideLicenseByline: false,
+      expandLicense: true
     }
-  };
+    this.licenseExpander = this.licenseExpander.bind(this)
+  }
+  licenseExpander() {
+    this.setState({
+      expandLicense: !this.state.expandLicense
+    })
+  }
 
-  return (
-    <div className="license-byline">
-      <div className="license-byline__icons">
+  render() {
+    const { article, licenseType, contentType } = this.props;
+    const { licenseHandler } = this.props || true
+    const { expandLicense, hideLicenseByline } = this.state
+    const licenseClass = classnames({
+      'u-hide': hideLicenseByline,
+      'u-expanded': expandLicense
+    });
+    const expandedIcon = classnames({
+      'u-expanded--svg': expandLicense
+    })
 
-        {
-          licenseMap(licenseType).img.map(((licenseIcon, index) => (<span key={index}>{licenseIcon}</span>)))
-        }
-      </div>
-      <div className="license-byline__body">
-        <span>Fri gjenbruk</span>
-      </div>
-      {
-        licenseHandler && contentType ? <button className="license-toggler site-nav_link" onClick={licenseHandler}>Sitér eller bruk {contentType.toLowerCase()}</button> : null
+    const licenseMap = (type) => {
+      switch (type.replace(/-/g, '')) {
+        case 'cc' : return { img: [<Icon.LicenseCc className={expandedIcon}/>] };
+        case 'byncnd' : return { img: [<Icon.LicenseCc className={expandedIcon}/>, <Icon.LicenseBy className={expandedIcon}/>, <Icon.LicenseNc className={expandedIcon}/>, <Icon.LicenseNd className={expandedIcon}/>] };
+        case 'byncsa' : return { img: [<Icon.LicenseCc className={expandedIcon}/>, <Icon.LicenseBy className={expandedIcon}/>, <Icon.LicenseNc className={expandedIcon}/>, <Icon.LicenseSa className={expandedIcon}/>] };
+        case 'bync' : return { img: [<Icon.LicenseCc className={expandedIcon}/>, <Icon.LicenseBy className={expandedIcon}/>, <Icon.LicenseNc className={expandedIcon}/>] };
+        case 'bynd' : return { img: [<Icon.LicenseCc className={expandedIcon}/>, <Icon.LicenseBy className={expandedIcon}/>, <Icon.LicenseNd className={expandedIcon}/>] };
+        case 'bysa' : return { img: [<Icon.LicenseCc className={expandedIcon}/>, <Icon.LicenseBy className={expandedIcon}/>, <Icon.LicenseSa className={expandedIcon}/>] };
+        default : return { img: [] };
       }
-    </div>
-  );
+    };
+
+    return (
+      <div className={classnames('license', {'u-expanded': expandLicense})}>
+        <div className="license-byline">
+          <div className="license-byline__icons">
+            {
+              licenseMap(licenseType).img.map(((licenseIcon, index) => licenseIcon))
+            }
+          </div>
+          <div className="license-byline__body">
+            <span>Fri gjenbruk</span>
+          </div>
+          {
+            licenseHandler && contentType ? <button className="un-button license-toggler site-nav_link" onClick={this.licenseExpander}>{expandLicense ? 'Lukk boks' : `Sitér eller bruk ${contentType.toLowerCase()}`} </button> : null
+          }
+        </div>
+        { expandLicense && <LicenseBox
+          article={article}
+          licenseType={licenseType} /> }
+      </div>
+    );
+  };
 };
 
 LicenseByline.propTypes = {
