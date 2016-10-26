@@ -6,23 +6,45 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import ArticleIntroduction from './ArticleIntroduction';
 import { injectT } from '../../../i18n';
+import LicenseByline from '../../../components/LicenseByline';
 
+class Article extends Component {
+  constructor() {
+    super();
+    this.state = {
+      hideLicenseByline: false,
+    };
+  }
 
-const Article = ({ article, t }) => {
-  const authors = article.copyright.authors.map(author => author.name).join(', ');
-  return (
-    <article className="article">
-      <h1>{article.title}</h1>
-      <span className="article_meta">{t('article.published')}: {article.created}, {authors}</span>
-      <ArticleIntroduction introduction={article.introduction} />
-      <div dangerouslySetInnerHTML={{ __html: article.content }} />
-    </article>
-  );
-};
+  render() {
+    const { article } = this.props;
+    const licenseType = article.copyright.license.license;
+
+    return (
+      <article className="article">
+        <LicenseByline
+          article={article}
+          licenseType={licenseType}
+          licenseHandler={() => true}
+          contentType={article.contentType}
+        />
+        <h1>{article.title}</h1>
+        <ArticleIntroduction introduction={article.introduction} />
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        <LicenseByline
+          article={article}
+          licenseType={licenseType}
+          licenseHandler={() => true}
+          contentType={article.contentType}
+        />
+      </article>
+    );
+  }
+}
 
 Article.propTypes = {
   article: PropTypes.shape({

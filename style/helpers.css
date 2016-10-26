@@ -1,0 +1,11 @@
+.u-hide {
+  display: none;
+}
+.u-expanded {
+  background: #ddd;
+
+  height: auto;
+}
+.u-expanded--svg {
+  fill: #20588E;
+}

@@ -35,6 +35,13 @@ const phrases = {
     author: 'Author',
     published: 'Published',
   },
+  license: {
+    usePhrase: {
+      freeUse: 'Free use',
+      restrictedUse: 'Restricted use',
+    },
+    heading: 'You can download, or reuse content from NDLA on your own own website',
+  },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',
   },
