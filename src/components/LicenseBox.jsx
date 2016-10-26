@@ -20,9 +20,14 @@ class LicenseBox extends Component {
     this.licenseActionHandler = this.licenseActionHandler.bind(this);
     this.state = {
       licenseAction: 0,
+      hideLicenseByline: false,
     };
   }
-
+  licenseBoxHandler() {
+    this.setState({
+      hideLicenseByline: !this.state.hideLicenseByline,
+    });
+  }
   licenseActionHandler(index) {
     this.setState({
       licenseAction: index,
@@ -149,4 +154,15 @@ LicenseBox.propTypes = {
   article: PropTypes.object,
 };
 
-export default LicenseBox;
+LicenseBox.defaultProps = {
+  article: {
+    copyright: {
+      authors: [
+        '',
+      ],
+    },
+  },
+  licenseType: '',
+};
+
+export default injectT(LicenseBox);
