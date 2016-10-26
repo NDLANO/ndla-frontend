@@ -35,6 +35,17 @@ const phrases = {
     author: 'Forfatter',
     published: 'Publisert',
   },
+  license: {
+    usePhrase: {
+      bysa: 'Fri bruk',
+      bynd: 'Fri bruk',
+      bync: 'Fri bruk',
+      byncnd: 'Fri bruk',
+      freeUse: 'Fri bruk',
+      restrictedUse: 'Begrenset bruk',
+    },
+    heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
+  },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
   },
