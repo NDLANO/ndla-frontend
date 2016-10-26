@@ -81,32 +81,43 @@ class LicenseBox extends Component {
     };
     const license = licenseMap(licenseType);
 
+    const oembedH5p = document.createElement('div');
+    oembedH5p.innerHTML = article.content;
+    const h5ps = [].slice.apply(oembedH5p.querySelectorAll('iframe'));
+
+    const oembedVideos = document.createElement('div');
+    oembedVideos.innerHTML = article.content;
+    const videos = [].slice.apply(oembedVideos.querySelectorAll('video'));
+
+    const oembedImages = document.createElement('div');
+    oembedImages.innerHTML = article.content;
+    const images = [].slice.apply(oembedImages.querySelectorAll('img'));
+    /* insert introduction into list if present */
+    if (article.introduction.image) {
+      const img = document.createElement('img');
+      img.src = article.introduction.image.src;
+      images.unshift(img);
+    }
     const use = (<div>
-      <h2>Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted</h2>
+      <h2>{t('license.heading')}</h2>
       <ul className="license__list">
         <li className="license__list-item">
-          <ul className="license__list">Bilder:
-            <li className="license__list-item">
-              <img role="presentation" src="http://placehold.it/150x150" />
-              <LicenseByline licenseType="by-sa" />Av Navn
-            </li>
-            <li className="license__list-item">
-              <img role="presentation" src="http://placehold.it/150x150" />
-              <LicenseByline licenseType="by-nc" />Av Navn
-            </li>
-            <li className="license__list-item">
-              <img role="presentation" src="http://placehold.it/150x150" />
-              <LicenseByline licenseType="by-nc" />Av Navn
-            </li>
+          <ul className="license__list">
+            {
+              images.map((image, index) => (
+                <li className="license__list-item" key={index}>
+                  <img alt={image.altText} src={image.src} />
+                  <LicenseByline licenseType="by-nc" />Av Navn
+                </li>
+            ))
+            }
           </ul>
         </li>
       </ul></div>);
-
+    if (this.state.hideLicenseByline) return false;
     return (
-      <div className="license">
-        <div className="license-section license__publication-info">
-          Opprettet {article.created}. Sist oppdatert {article.updated}
-        </div>
+      <div>
+        <h2>{license.heading}</h2>
         <p>{license.body}</p>
         <div className="license-section">
           <ul className="license__list">{article.copyright.authors.length > 1 ? 'Opphavspersoner' : 'Opphavsperson'}:
@@ -115,22 +126,37 @@ class LicenseBox extends Component {
             }
           </ul>
         </div>
-        <h2>Referer eller gjenbruk {article.contentType.toLowerCase()}:</h2>
+        <div className="license-section license__publication-info">
+          Opprettet {formatDate(article.created)}. Sist oppdatert {formatDate(article.updated)}
+        </div>
+        <h2 className="license__heading">Sitere eller gjenbruk {article.contentType.toLowerCase()}:</h2>
 
         <Tabs
           onSelect={this.licenseActionHandler}
           selectedIndex={this.state.licenseAction}
         >
           <TabList>
-            <Tab>Referansestiler</Tab>
+            {images.length > 0 && <Tab>Bilder</Tab>}
             <Tab>Tekst</Tab>
-            <Tab>Bilder</Tab>
-            <Tab>Video</Tab>
+            {h5ps.length > 0 && <Tab>Interaktivitet</Tab>}
+            {videos.length > 0 && <Tab>Video</Tab>}
+            <Tab>Sitere</Tab>
           </TabList>
+          {images.length > 0 && <TabPanel>{use}</TabPanel>}
+          <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
+            <div>
+              <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
+            </div>
+          </TabPanel>
+          {h5ps.length > 0 && <TabPanel>
+            <ul className="license-section">
+              {h5ps.map((h5p, index) => <li className="license__list-item" key={index}>
+                <div dangerouslySetInnerHTML={{ __html: h5p.innerHTML }} />
+                <LicenseByline licenseType="by-nc" />Av Navn</li>)}
+            </ul>
+          </TabPanel> }
+          {videos.length > 0 && <TabPanel>Video</TabPanel>}
           <TabPanel><Citation article={article} /></TabPanel>
-          <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)</TabPanel>
-          <TabPanel>{use}</TabPanel>
-          <TabPanel>Video</TabPanel>
         </Tabs>
 
         {/* <div className="license-section">
