@@ -1,14 +1,15 @@
+.license {
+  padding: 1em;
+  transition: all 200ms ease-in;
+}
 .license-toggler {
   margin-left: 0.2em;
-  display: inline;
-}
-.license {
-  background: #d2d2d2;
-  padding: 1em;
+  text-decoration: underline;
+  text-align: right;
+  float: right;
 }
 .license-section {
   display:flex;
-
 }
 .license__action {
   flex-basis: 50%;
@@ -16,11 +17,11 @@
   border: 1px solid #000;
 }
 .license-section {
-  margin-bottom: 24px;
+  margin-bottom: calc(var(--spacing) * 2);
 }
 .license__icon--mini {
-  width: 16px;
-  height: 16px;
+  width: calc(var(--spacing) * 2);
+  height: calc(var(--spacing) * 2);
 }
 .license__icon + .license__icon {
   margin-left: 0.2em;
@@ -31,16 +32,34 @@
   padding: 0;
 }
 .license__list-item {
-  margin: 0;
-  padding: 0 0 0 1em;
+  margin: 0 0 var(--spacing) 0;
+  padding: 0;
   list-style: none;
-}
+  display: block;
+  overflow: auto;
 
+}
+.license__list-item > img, .license__list-item > div {
+  margin: 0 var(--spacing) 0 0;
+  width: 50%;
+  float:left;
+}
+.license__heading {
+  margin-bottom: var(--spacing);
+}
 .license-byline {
   display: table;
+  margin-bottom: calc(var(--spacing) * 2);
 }
 .license-byline > * {
   display: table-cell;
   vertical-align: middle;
   padding: 0 0.5em 0 0;
+}
+.license__textarea {
+  width: 100%;
+  heigth: 50vh;
+}
+.license h2 {
+  margin-bottom: var(--spacing);
 }
