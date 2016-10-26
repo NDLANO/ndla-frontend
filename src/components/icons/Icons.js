@@ -11,6 +11,7 @@ function Icon(props) {
   const { children, ...rest } = props;
 
   const icon = cloneElement(children, { className: classNames('license-byline__icon', 'license__icon--mini', rest.className) });
+
   return icon;
 }
 
