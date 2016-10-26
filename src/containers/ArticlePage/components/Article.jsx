@@ -7,50 +7,40 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
 
 import ArticleIntroduction from './ArticleIntroduction';
 import { injectT } from '../../../i18n';
 import LicenseByline from '../../../components/LicenseByline';
-import LicenseBox from '../../../components/LicenseBox';
-
 
 class Article extends Component {
   constructor() {
     super();
-    this.licenseHandler = this.licenseHandler.bind(this);
     this.state = {
       hideLicenseByline: false,
     };
   }
-  licenseHandler() {
-    this.setState({ hideLicenseByline: !this.state.hideLicenseByline });
-  }
 
   render() {
-    const { article, t } = this.props;
-    const authors = article.copyright.authors.map(author => author.name).join(', ');
+    const { article } = this.props;
     const licenseType = article.copyright.license.license;
-    const licenseClass = classnames({
-      'u-hide': this.state.hideLicenseByline,
-    });
 
     return (
       <article className="article">
-        <h1>{article.title}</h1>
-        <div>
-          <span className="article_meta">{authors}. {t('article.published')}: {article.created}</span>.
-        </div>
         <LicenseByline
+          article={article}
           licenseType={licenseType}
-          licenseHandler={this.licenseHandler}
+          licenseHandler={() => true}
           contentType={article.contentType}
         />
-        <div className={licenseClass}>
-          <LicenseBox article={article} licenseType={licenseType} />
-        </div>
+        <h1>{article.title}</h1>
         <ArticleIntroduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        <LicenseByline
+          article={article}
+          licenseType={licenseType}
+          licenseHandler={() => true}
+          contentType={article.contentType}
+        />
       </article>
     );
   }
