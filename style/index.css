@@ -11,6 +11,7 @@
 @import 'vars.css';
 @import '../node_modules/ndla-ui/lib/style.css';
 @import 'article.css';
+@import 'buttons.css';
 @import 'search.css';
 @import 'masthead.css';
 @import 'logo.css';

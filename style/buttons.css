@@ -33,3 +33,16 @@ button, .button, .button:any-link {
   border: 2px solid #000000;
   color: #000000;
 }
+
+.un-button {
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1em;
+  color: inherit;
+  background-color: transparent;
+  outline: none;
+}
+.un-button:focus {
+  outline: none;
+}
