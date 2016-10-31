@@ -6,15 +6,18 @@ RUN useradd --user-group --create-home --shell /bin/false app
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
 
+#Install yarn
+RUN npm install --global yarn
+
 # Copy necessary files for installing dependencies
-COPY package.json .npmrc $APP_PATH/
+COPY yarn.lock package.json .npmrc $APP_PATH/
 RUN chown -R app:app $HOME/*
 
-# Run npm install before src copy to enable better layer caching
+# Run yarn before src copy to enable better layer caching
 USER app
 WORKDIR $APP_PATH
 RUN mkdir -p $APP_PATH/htdocs/assets/ && \
-    npm install
+    yarn
 
 # Copy necessary source files for server and client build
 USER root
