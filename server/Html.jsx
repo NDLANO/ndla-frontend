@@ -12,7 +12,6 @@ import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
 import config from '../src/config';
-import { SvgPolyfillScript, SvgPolyfillScriptInitalization } from './svgPolyfill';
 
 const assets = process.env.NODE_ENV === 'development' ? require('./developmentAssets') : require('../htdocs/assets/assets'); // eslint-disable-line import/no-unresolved
 
@@ -52,7 +51,6 @@ const Html = (props) => {
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.script.toComponent()}
-        <SvgPolyfillScript className={className} />
         <link rel="stylesheet" type="text/css" href={`/assets/${assets['main.css']}`} />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700" />
         <link rel="shortcut icon" href={`/assets/${assets['ndla-favicon.png']}`} type="image/x-icon" />
@@ -65,7 +63,6 @@ const Html = (props) => {
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />
         <script src={`/assets/${assets['main.js']}`} />
-        <SvgPolyfillScriptInitalization className={className} />
       </body>
     </html>
   );
