@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 
 import Masthead from './components/Masthead';
-import { Footer } from '../../components';
+import Footer from './components/Footer';
 import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
@@ -37,7 +37,7 @@ export class App extends React.Component {
 
         <Masthead t={t} />
         {children}
-        <Footer />
+        <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
       </div>
     );

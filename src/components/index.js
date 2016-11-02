@@ -7,11 +7,9 @@
  */
 
 import { OneColumn } from './Layout';
-import Footer from './Footer';
 import Pager from './pager/Pager';
 
 export {
-  Footer,
   OneColumn,
   Pager,
 };
