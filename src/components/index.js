@@ -6,17 +6,12 @@
  *
  */
 
-import { OneColumn, Masthead } from './Layout';
+import { OneColumn } from './Layout';
 import Footer from './Footer';
-import Logo from './Logo';
-import SiteNav from './SiteNav';
 import Pager from './pager/Pager';
 
 export {
   Footer,
-  Logo,
-  Masthead,
   OneColumn,
-  SiteNav,
   Pager,
 };

@@ -8,8 +8,6 @@
 
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import SiteNav from './SiteNav';
-import Logo from './Logo';
 
 export const OneColumn = ({ children, className, cssModifier }) => {
   const modifierClass = cssModifier ? `one-column--${cssModifier}` : '';
@@ -20,14 +18,3 @@ export const OneColumn = ({ children, className, cssModifier }) => {
 OneColumn.propTypes = {
   cssModifier: PropTypes.string,
 };
-
-
-export const Masthead = () =>
-  <div className="masthead">
-    <div className="masthead_left">
-      <Logo />
-    </div>
-    <div className="masthead_right">
-      <SiteNav />
-    </div>
-  </div>;
