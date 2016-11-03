@@ -161,10 +161,6 @@ https://lodash.com/
 Modern JavaScript date utility library
 https://github.com/date-fns/date-fns#readme
 
-**svg4everybody**
-Use external SVG spritemaps in any browser (IE Polyfill)
-https://github.com/jonathantneal/svg4everybody#readme
-
 ### ES2015
 
 **babel-core:**

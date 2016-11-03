@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+:root {
+  --main-color: #303030;
+  --spacing: 12px;
+}
 
 * {
   box-sizing: border-box;
@@ -17,7 +21,7 @@ html {
 body {
   font-family: 'Signika', Helvetica, Arial, sans-serif;
   background-color: #f8f8f8;
-  color: #303030;
+  color: var(--main-color);
   font-size: 14px;
   height: 100%;
 }
