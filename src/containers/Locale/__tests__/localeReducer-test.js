@@ -8,7 +8,7 @@
 
 import reducer from '../localeReducer';
 
-it('reducers/locale', () => {
+test('reducers/locale', () => {
   expect(reducer(undefined, { type: 'NONE' })).toBe('nb');
 
   expect(reducer(undefined, { type: 'SET_LOCALE', payload: 'en' })).toBe('en');

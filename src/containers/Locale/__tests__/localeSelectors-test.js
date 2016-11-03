@@ -8,7 +8,7 @@
 
 import { getLocale } from '../localeSelectors';
 
-it('localeSelectors', () => {
+test('localeSelectors', () => {
   const state = {
     locale: 'nb',
   };

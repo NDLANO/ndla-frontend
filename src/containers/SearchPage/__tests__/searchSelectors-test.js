@@ -10,7 +10,7 @@ import { getResults, getLastPage } from '../searchSelectors';
 import search from './_mockSearchResult';
 
 
-it('searchSelectors getResults', () => {
+test('searchSelectors getResults', () => {
   const state = {
     search,
   };
@@ -18,7 +18,7 @@ it('searchSelectors getResults', () => {
   expect(getResults(state)).toBe(search.results);
 });
 
-it('searchSelectors getLastPage', () => {
+test('searchSelectors getLastPage', () => {
   const lastPageTestState = (totalCount, pageSize) => ({
     search: {
       totalCount,

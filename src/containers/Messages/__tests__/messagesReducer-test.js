@@ -8,7 +8,7 @@
 
 import reducer from '../messagesReducer';
 
-it('reducers/messages add message', () => {
+test('reducers/messages add message', () => {
   let nextState = reducer([], {
     type: 'ADD_MESSAGE',
     payload: {
@@ -48,7 +48,7 @@ it('reducers/messages add message', () => {
   expect(nextState[9].severity).toBe('success');
 });
 
-it('reducers/messages clear message', () => {
+test('reducers/messages clear message', () => {
   const currentState = [
     { id: '1', message: 'melding', severity: 'info', timeToLive: 1000 },
     { id: '2', message: 'melding', severity: 'info', timeToLive: 1000 },
@@ -61,7 +61,7 @@ it('reducers/messages clear message', () => {
   expect(nextState.length).toBe(1);
 });
 
-it('reducers/messages clear all messages', () => {
+test('reducers/messages clear all messages', () => {
   let nextState = reducer([], {
     type: 'CLEAR_ALL_MESSAGES',
   });
@@ -84,7 +84,7 @@ it('reducers/messages clear all messages', () => {
   expect(nextState.length).toBe(0);
 });
 
-it('reducers/messages application error', () => {
+test('reducers/messages application error', () => {
   const nextState = reducer([], {
     type: 'APPLICATION_ERROR',
     error: true,

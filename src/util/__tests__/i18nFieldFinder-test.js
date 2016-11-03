@@ -8,7 +8,7 @@
 
 import { oembedContentI18N, titleI18N } from '../i18nFieldFinder';
 
-it('util/i18nFieldFinder titleI18N', () => {
+test('util/i18nFieldFinder titleI18N', () => {
   const someObject = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -23,7 +23,7 @@ it('util/i18nFieldFinder titleI18N', () => {
   expect(titleI18N(someObject, 'es')).toEqual(undefined);
 });
 
-it('util/i18nFieldFinder titleI18N with fallback', () => {
+test('util/i18nFieldFinder titleI18N with fallback', () => {
   const someObject1 = {
     title: [
       { title: 'Bokmål', language: 'nb' },
@@ -46,7 +46,7 @@ it('util/i18nFieldFinder titleI18N with fallback', () => {
   expect(titleI18N(someObject2, 'es', true)).toEqual('English');
 });
 
-it('util/i18nFieldFinder oembedContentI18N', () => {
+test('util/i18nFieldFinder oembedContentI18N', () => {
   expect(typeof oembedContentI18N).toBe('function');
 
   const someObject = {

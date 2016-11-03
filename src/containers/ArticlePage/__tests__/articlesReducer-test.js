@@ -9,13 +9,13 @@
 import reducer from '../articlesReducer';
 import * as constants from '../articleConstants';
 
-it('reducers/article initalState', () => {
+test('reducers/article initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({});
 });
 
-it('reducers/article set article', () => {
+test('reducers/article set article', () => {
   const nextState = reducer(undefined, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test' } });
 
   expect(nextState).toEqual({
@@ -23,7 +23,7 @@ it('reducers/article set article', () => {
   });
 });
 
-it('reducers/article set multiple articles', () => {
+test('reducers/article set multiple articles', () => {
   const state = reducer(undefined, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 1' } });
   const nextState = reducer(state, { type: constants.SET_ARTICLE, payload: { id: 2, title: 'Unit test 2' } });
 
@@ -33,7 +33,7 @@ it('reducers/article set multiple articles', () => {
   });
 });
 
-it('reducers/article overwrite articles with same id', () => {
+test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer({
     1: { id: 1, title: 'Unit test 1' },
   }, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 2' } });

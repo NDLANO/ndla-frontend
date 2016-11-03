@@ -9,7 +9,7 @@
 import { isFSA } from 'flux-standard-action';
 import { clearMessage, timeoutMessage } from '../messagesActions';
 
-it('actions/timeoutMessage', (done) => {
+test('actions/timeoutMessage', (done) => {
   const message = {
     id: 123,
     message: 'All went well',

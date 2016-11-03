@@ -16,7 +16,7 @@ import { clearMessage } from '../messagesActions';
 
 const noop = () => {};
 
-it('component/Alerts one message', () => {
+test('component/Alerts one message', () => {
   const alertMessages = [{ id: uuid.v4(), message: 'Testmessage' }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
   const alertElement = component.find(Alert);
@@ -24,7 +24,7 @@ it('component/Alerts one message', () => {
   expect(alertElement.length).toBe(1);
 });
 
-it('component/Alerts two messages', () => {
+test('component/Alerts two messages', () => {
   const messages = ['Testmessage', 'TEST'];
   const alertMessages = [{ id: uuid.v4(), message: messages[0], severity: 'success' }, { id: uuid.v4(), message: messages[1] }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
@@ -34,13 +34,13 @@ it('component/Alerts two messages', () => {
 });
 
 
-it('component/Alerts without messages', () => {
+test('component/Alerts without messages', () => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
   expect(component.hasClass('alert-overlay--hidden')).toBeTruthy();
 });
 
 
-it('component/Alert dismiss', () => {
+test('component/Alert dismiss', () => {
   const dispatch = sinon.spy(() => {});
   const id = uuid.v4();
 
@@ -54,7 +54,7 @@ it('component/Alert dismiss', () => {
   expect(dispatch.firstCall.args).toEqual([clearMessage(id)]);
 });
 
-it('component/Action click', () => {
+test('component/Action click', () => {
   const handleClick = sinon.spy(() => {});
 
   const actionBtn = shallow(

@@ -8,7 +8,7 @@
 
 import { getRange, stepNumbers } from '../pagerHelpers';
 
-it('pagerHelpers getRange', () => {
+test('pagerHelpers getRange', () => {
   expect(getRange(1, 5)).toEqual([1, 5]);
   expect(getRange(2, 5)).toEqual([1, 5]);
   expect(getRange(3, 5)).toEqual([1, 5]);
@@ -22,7 +22,7 @@ it('pagerHelpers getRange', () => {
   expect(getRange(3, 3)).toEqual([1, 3]);
 });
 
-it('pagerHelpers stepNumbers', () => {
+test('pagerHelpers stepNumbers', () => {
   expect(stepNumbers(1, 10)).toEqual([1, 2, 3, 4, 5]);
   expect(stepNumbers(2, 10)).toEqual([1, 2, 3, 4, 5]);
   expect(stepNumbers(3, 10)).toEqual([1, 2, 3, 4, 5]);

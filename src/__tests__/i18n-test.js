@@ -8,7 +8,7 @@
 
 import { getLocaleObject, isValidLocale, formatNestedMessages } from '../i18n';
 
-it('i18n getLocaleObject()', () => {
+test('i18n getLocaleObject()', () => {
   expect(getLocaleObject('en').abbreviation).toBe('en');
   expect(getLocaleObject('en').messages['footer.aboutNDLA']).toBe('About NDLA');
 
@@ -20,7 +20,7 @@ it('i18n getLocaleObject()', () => {
   expect(getLocaleObject('ru').messages['footer.aboutNDLA']).toBe('Om NDLA');
 });
 
-it('i18n isValidLocale()', () => {
+test('i18n isValidLocale()', () => {
   expect(isValidLocale('nb')).toBe(true);
   expect(isValidLocale('nn')).toBe(true);
   expect(isValidLocale('en')).toBe(true);
@@ -28,7 +28,7 @@ it('i18n isValidLocale()', () => {
   expect(isValidLocale('ub')).toBe(false);
 });
 
-it('i18n formatNestedMessages()', () => {
+test('i18n formatNestedMessages()', () => {
   const messages = formatNestedMessages({
     helloworld: 'Hello world',
     test: {

@@ -30,19 +30,19 @@ const state = {
   },
 };
 
-it('articleSelectors getArticle with id', () => {
+test('articleSelectors getArticle with id', () => {
   expect(getArticle(1)(state).id).toBe(1);
   expect(getArticle(2)(state).id).toBe(2);
 });
 
-it('articleSelectors getArticle nb locale', () => {
+test('articleSelectors getArticle nb locale', () => {
   const getArticleSelector = getArticle(1);
   expect(getArticleSelector(state).id).toBe(1);
   expect(getArticleSelector(state).title).toBe('Tester');
   expect(getArticleSelector(state).created).toBe('24.12.2014');
 });
 
-it('articleSelectors getArticle en locale', () => {
+test('articleSelectors getArticle en locale', () => {
   const getArticleSelector = getArticle(1);
   const stateWithEnLocale = { ...state, locale: 'en' };
   expect(getArticleSelector(stateWithEnLocale).id).toBe(1);
@@ -50,7 +50,7 @@ it('articleSelectors getArticle en locale', () => {
   expect(getArticleSelector(stateWithEnLocale).created).toBe('12/24/2014');
 });
 
-it('articleSelectors getArticle returns empty object if article is not in state', () => {
+test('articleSelectors getArticle returns empty object if article is not in state', () => {
   const getArticleSelector = getArticle(3);
   expect(getArticleSelector(state)).toEqual({});
 });

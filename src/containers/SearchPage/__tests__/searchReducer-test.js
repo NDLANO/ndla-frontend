@@ -10,7 +10,7 @@ import reducer, { initalState } from '../searchReducer';
 import * as constants from '../searchConstants';
 import searchResult from './_mockSearchResult';
 
-it('reducers/search initalState', () => {
+test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
@@ -21,7 +21,7 @@ it('reducers/search initalState', () => {
   });
 });
 
-it('reducers/search search', () => {
+test('reducers/search search', () => {
   const nextState = reducer(undefined, { type: constants.SEARCH });
 
   expect(nextState).toEqual({
@@ -32,14 +32,14 @@ it('reducers/search search', () => {
   });
 });
 
-it('reducers/search searchError', () => {
+test('reducers/search searchError', () => {
   const state = { ...initalState, searching: true };
   const nextState = reducer(state, { type: constants.SEARCH_ERROR });
   expect(nextState.searching).toBe(false);
 });
 
 
-it('reducers/search handle set search result', () => {
+test('reducers/search handle set search result', () => {
   const nextState = reducer(initalState, {
     type: constants.SET_SEARCH_RESULT,
     payload: searchResult,
