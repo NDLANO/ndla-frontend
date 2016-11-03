@@ -10,8 +10,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import isEmpty from 'lodash/isEmpty';
+import { OneColumn } from 'ndla-ui';
 
-import { OneColumn } from '../../components';
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 import Article from './components/Article';

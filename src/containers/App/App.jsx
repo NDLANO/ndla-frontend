@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { PageContainer } from 'ndla-ui';
 
 import Masthead from './components/Masthead';
 import Footer from './components/Footer';
@@ -27,7 +28,7 @@ export class App extends React.Component {
   render() {
     const { dispatch, children, messages, t } = this.props;
     return (
-      <div className="page-container">
+      <PageContainer>
         <Helmet
           title="NDLA"
           meta={[
@@ -39,7 +40,7 @@ export class App extends React.Component {
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
-      </div>
+      </PageContainer>
     );
   }
 }
