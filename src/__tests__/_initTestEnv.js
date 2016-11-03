@@ -7,8 +7,6 @@
  */
 
 /* eslint-disable */
-require('babel-register');
-require('babel-polyfill');
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
