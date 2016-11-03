@@ -4115,8 +4115,8 @@ ncp@^2.0.0:
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
 ndla-ui:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.0.4.tgz#f99027c9cffa1e77736f2b703af0ab97289cc7fd"
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.0.5.tgz#fb8722c498066f16cfc775a431e184df0a1c8b5c"
 
 negotiator@0.6.1:
   version "0.6.1"
