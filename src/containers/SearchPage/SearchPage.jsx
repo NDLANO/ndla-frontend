@@ -8,6 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { Pager } from 'ndla-ui';
 
 import * as actions from './searchActions';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
@@ -15,7 +16,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
-import { Pager, OneColumn } from '../../components';
+import { OneColumn } from '../../components';
 import { toSearch } from '../../routes';
 
 class SearchPage extends Component {

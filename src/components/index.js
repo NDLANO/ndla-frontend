@@ -7,9 +7,7 @@
  */
 
 import { OneColumn } from './Layout';
-import Pager from './pager/Pager';
 
 export {
   OneColumn,
-  Pager,
 };
