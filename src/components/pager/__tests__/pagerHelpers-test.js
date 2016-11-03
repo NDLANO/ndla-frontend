@@ -6,39 +6,38 @@
  *
  */
 
-import test from 'ava';
 import { getRange, stepNumbers } from '../pagerHelpers';
 
-test('pagerHelpers getRange', (t) => {
-  t.deepEqual(getRange(1, 5), [1, 5], '1,5');
-  t.deepEqual(getRange(2, 5), [1, 5], '1,5');
-  t.deepEqual(getRange(3, 5), [1, 5], '1,5');
+test('pagerHelpers getRange', () => {
+  expect(getRange(1, 5)).toEqual([1, 5]);
+  expect(getRange(2, 5)).toEqual([1, 5]);
+  expect(getRange(3, 5)).toEqual([1, 5]);
 
-  t.deepEqual(getRange(4, 10), [2, 6], '4,10');
-  t.deepEqual(getRange(22, 23), [19, 23], '22,23');
-  t.deepEqual(getRange(23, 23), [19, 23], '22,23');
+  expect(getRange(4, 10)).toEqual([2, 6]);
+  expect(getRange(22, 23)).toEqual([19, 23]);
+  expect(getRange(23, 23)).toEqual([19, 23]);
 
-  t.deepEqual(getRange(1, 1), [1, 1], '1,1');
-  t.deepEqual(getRange(2, 3), [1, 3], '2,3');
-  t.deepEqual(getRange(3, 3), [1, 3], '3,3');
+  expect(getRange(1, 1)).toEqual([1, 1]);
+  expect(getRange(2, 3)).toEqual([1, 3]);
+  expect(getRange(3, 3)).toEqual([1, 3]);
 });
 
-test('pagerHelpers stepNumbers', (t) => {
-  t.deepEqual(stepNumbers(1, 10), [1, 2, 3, 4, 5], '1,10');
-  t.deepEqual(stepNumbers(2, 10), [1, 2, 3, 4, 5], '2,10');
-  t.deepEqual(stepNumbers(3, 10), [1, 2, 3, 4, 5], '3,10');
-  t.deepEqual(stepNumbers(4, 10), [2, 3, 4, 5, 6], '4,10');
-  t.deepEqual(stepNumbers(5, 10), [3, 4, 5, 6, 7], '5,10');
+test('pagerHelpers stepNumbers', () => {
+  expect(stepNumbers(1, 10)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(2, 10)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(3, 10)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(4, 10)).toEqual([2, 3, 4, 5, 6]);
+  expect(stepNumbers(5, 10)).toEqual([3, 4, 5, 6, 7]);
 
-  t.deepEqual(stepNumbers(1, 5), [1, 2, 3, 4, 5], '1,5');
-  t.deepEqual(stepNumbers(2, 5), [1, 2, 3, 4, 5], '2,5');
-  t.deepEqual(stepNumbers(3, 5), [1, 2, 3, 4, 5], '3,5');
-  t.deepEqual(stepNumbers(4, 5), [1, 2, 3, 4, 5], '4,5');
-  t.deepEqual(stepNumbers(5, 5), [1, 2, 3, 4, 5], '5,5');
+  expect(stepNumbers(1, 5)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(2, 5)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(3, 5)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(4, 5)).toEqual([1, 2, 3, 4, 5]);
+  expect(stepNumbers(5, 5)).toEqual([1, 2, 3, 4, 5]);
 
-  t.deepEqual(stepNumbers(1, 1), [1]);
-  t.deepEqual(stepNumbers(2, 2), [1, 2]);
-  t.deepEqual(stepNumbers(3, 3), [1, 2, 3]);
-  t.deepEqual(stepNumbers(4, 4), [1, 2, 3, 4]);
-  t.deepEqual(stepNumbers(5, 5), [1, 2, 3, 4, 5]);
+  expect(stepNumbers(1, 1)).toEqual([1]);
+  expect(stepNumbers(2, 2)).toEqual([1, 2]);
+  expect(stepNumbers(3, 3)).toEqual([1, 2, 3]);
+  expect(stepNumbers(4, 4)).toEqual([1, 2, 3, 4]);
+  expect(stepNumbers(5, 5)).toEqual([1, 2, 3, 4, 5]);
 });

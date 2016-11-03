@@ -6,20 +6,10 @@
  *
  */
 
-import test from 'ava';
-
 import reducer from '../localeReducer';
 
-test('reducers/locale', (t) => {
-  t.is(
-    reducer(undefined, { type: 'NONE' }),
-    'nb',
-    'initial state'
-  );
+test('reducers/locale', () => {
+  expect(reducer(undefined, { type: 'NONE' })).toBe('nb');
 
-  t.is(
-    reducer(undefined, { type: 'SET_LOCALE', payload: 'en' }),
-    'en',
-    'set state'
-  );
+  expect(reducer(undefined, { type: 'SET_LOCALE', payload: 'en' })).toBe('en');
 });

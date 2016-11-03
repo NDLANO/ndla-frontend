@@ -6,31 +6,29 @@
  *
  */
 
-import test from 'ava';
-
 import { getLocaleObject, isValidLocale, formatNestedMessages } from '../i18n';
 
-test('i18n getLocaleObject()', (t) => {
-  t.is(getLocaleObject('en').abbreviation, 'en');
-  t.is(getLocaleObject('en').messages['footer.aboutNDLA'], 'About NDLA');
+test('i18n getLocaleObject()', () => {
+  expect(getLocaleObject('en').abbreviation).toBe('en');
+  expect(getLocaleObject('en').messages['footer.aboutNDLA']).toBe('About NDLA');
 
-  t.is(getLocaleObject('nb').abbreviation, 'nb');
-  t.is(getLocaleObject('nb').messages['footer.aboutNDLA'], 'Om NDLA');
+  expect(getLocaleObject('nb').abbreviation).toBe('nb');
+  expect(getLocaleObject('nb').messages['footer.aboutNDLA']).toBe('Om NDLA');
 
   // Defaults to nb if locale not found
-  t.is(getLocaleObject('ru').abbreviation, 'nb');
-  t.is(getLocaleObject('ru').messages['footer.aboutNDLA'], 'Om NDLA');
+  expect(getLocaleObject('ru').abbreviation).toBe('nb');
+  expect(getLocaleObject('ru').messages['footer.aboutNDLA']).toBe('Om NDLA');
 });
 
-test('i18n isValidLocale()', (t) => {
-  t.is(isValidLocale('nb'), true);
-  t.is(isValidLocale('nn'), true);
-  t.is(isValidLocale('en'), true);
-  t.is(isValidLocale('aa'), false);
-  t.is(isValidLocale('ub'), false);
+test('i18n isValidLocale()', () => {
+  expect(isValidLocale('nb')).toBe(true);
+  expect(isValidLocale('nn')).toBe(true);
+  expect(isValidLocale('en')).toBe(true);
+  expect(isValidLocale('aa')).toBe(false);
+  expect(isValidLocale('ub')).toBe(false);
 });
 
-test('i18n formatNestedMessages()', (t) => {
+test('i18n formatNestedMessages()', () => {
   const messages = formatNestedMessages({
     helloworld: 'Hello world',
     test: {
@@ -45,7 +43,7 @@ test('i18n formatNestedMessages()', (t) => {
     },
   });
 
-  t.is(messages.helloworld, 'Hello world');
-  t.is(messages['test.Me'], 'Test Me');
-  t.is(messages['welcome.to.my.unittest'], 'Welcome to my unittest');
+  expect(messages.helloworld).toBe('Hello world');
+  expect(messages['test.Me']).toBe('Test Me');
+  expect(messages['welcome.to.my.unittest']).toBe('Welcome to my unittest');
 });

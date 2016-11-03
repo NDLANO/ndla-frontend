@@ -6,7 +6,6 @@
  *
  */
 
-import test from 'ava';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
@@ -17,31 +16,31 @@ import { clearMessage } from '../messagesActions';
 
 const noop = () => {};
 
-test('component/Alerts one message', (t) => {
+test('component/Alerts one message', () => {
   const alertMessages = [{ id: uuid.v4(), message: 'Testmessage' }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
-  const alertElement = component.find('Alert');
+  const alertElement = component.find(Alert);
 
-  t.is(alertElement.length, 1);
+  expect(alertElement.length).toBe(1);
 });
 
-test('component/Alerts two messages', (t) => {
+test('component/Alerts two messages', () => {
   const messages = ['Testmessage', 'TEST'];
   const alertMessages = [{ id: uuid.v4(), message: messages[0], severity: 'success' }, { id: uuid.v4(), message: messages[1] }];
   const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
 
-  const alertElement = component.find('Alert');
-  t.is(alertElement.length, 2);
+  const alertElement = component.find(Alert);
+  expect(alertElement.length).toBe(2);
 });
 
 
-test('component/Alerts without messages', (t) => {
+test('component/Alerts without messages', () => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
-  t.truthy(component.hasClass('alert-overlay--hidden'));
+  expect(component.hasClass('alert-overlay--hidden')).toBeTruthy();
 });
 
 
-test('component/Alert dismiss', (t) => {
+test('component/Alert dismiss', () => {
   const dispatch = sinon.spy(() => {});
   const id = uuid.v4();
 
@@ -51,11 +50,11 @@ test('component/Alert dismiss', (t) => {
 
   dismissBt.simulate('click');
 
-  t.truthy(dispatch.calledOnce);
-  t.deepEqual(dispatch.firstCall.args, [clearMessage(id)]);
+  expect(dispatch.calledOnce).toBeTruthy();
+  expect(dispatch.firstCall.args).toEqual([clearMessage(id)]);
 });
 
-test('component/Action click', (t) => {
+test('component/Action click', () => {
   const handleClick = sinon.spy(() => {});
 
   const actionBtn = shallow(
@@ -64,5 +63,5 @@ test('component/Action click', (t) => {
 
   actionBtn.simulate('click');
 
-  t.truthy(handleClick.calledOnce);
+  expect(handleClick.calledOnce).toBeTruthy();
 });
