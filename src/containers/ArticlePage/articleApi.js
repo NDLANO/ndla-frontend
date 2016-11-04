@@ -9,6 +9,7 @@
 import fetch from 'isomorphic-fetch';
 import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-oembed/raw');
+// const baseUrl1 = apiResourceUrl('/article-oembed/raw');
+const baseUrl = 'http://localhost:3001/article-oembed/raw';
 
 export const fetchArticle = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);

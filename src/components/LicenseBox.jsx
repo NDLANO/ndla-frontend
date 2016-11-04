@@ -14,6 +14,39 @@ import Citation from './Citation';
 import Icon from './icons/Icons';
 import formatDate from '../util/formatDate';
 
+const ImageLicenseInfo = ({ image }) => (
+  <li className="license__list-item">
+    <img alt={image.altText} src={image.src} />
+    <LicenseByline licenseType="by-nc" />Av Navn
+  </li>
+);
+
+ImageLicenseInfo.propTypes = {
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    copyright: PropTypes.shape({
+
+    }),
+  }),
+};
+
+const ImagesLicenseTabContent = ({ images, t }) => (
+  <div>
+    <h2>{t('license.heading')}</h2>
+    <ul className="license__list">
+      <li className="license__list-item">
+        <ul className="license__list">
+          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} />) }
+        </ul>
+      </li>
+    </ul>
+  </div>
+);
+
+ImagesLicenseTabContent.propTypes = {
+  images: PropTypes.array.isRequired,
+};
+
 class LicenseBox extends Component {
   constructor() {
     super();
@@ -89,31 +122,8 @@ class LicenseBox extends Component {
     oembedVideos.innerHTML = article.content;
     const videos = [].slice.apply(oembedVideos.querySelectorAll('video'));
 
-    const oembedImages = document.createElement('div');
-    oembedImages.innerHTML = article.content;
-    const images = [].slice.apply(oembedImages.querySelectorAll('img'));
-    /* insert introduction into list if present */
-    if (article.introduction.image) {
-      const img = document.createElement('img');
-      img.src = article.introduction.image.src;
-      images.unshift(img);
-    }
-    const use = (<div>
-      <h2>{t('license.heading')}</h2>
-      <ul className="license__list">
-        <li className="license__list-item">
-          <ul className="license__list">
-            {
-              images.map((image, index) => (
-                <li className="license__list-item" key={index}>
-                  <img alt={image.altText} src={image.src} />
-                  <LicenseByline licenseType="by-nc" />Av Navn
-                </li>
-            ))
-            }
-          </ul>
-        </li>
-      </ul></div>);
+    const images = article.contentCopyrights.filter(copyright => copyright.type === 'image');
+
     if (this.state.hideLicenseByline) return false;
     return (
       <div>
@@ -142,7 +152,7 @@ class LicenseBox extends Component {
             {videos.length > 0 && <Tab>Video</Tab>}
             <Tab>Sitere</Tab>
           </TabList>
-          {images.length > 0 && <TabPanel>{use}</TabPanel>}
+          { images.length > 0 && <TabPanel><ImagesLicenseTabContent images={images} t={t} /></TabPanel>}
           <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
             <div>
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
@@ -158,18 +168,6 @@ class LicenseBox extends Component {
           {videos.length > 0 && <TabPanel>Video</TabPanel>}
           <TabPanel><Citation article={article} /></TabPanel>
         </Tabs>
-
-        {/* <div className="license-section">
-          <button className="license__action" onClick={this.licenseActionHandler} data-action="cite">Referer til dette innholdet</button>
-          <button className="license__action" onClick={this.licenseActionHandler} data-action="use">Gjenbruk noe på denne siden</button>
-        </div>
-        <div className="license-section">
-        {
-          licenseAction === 'cite' ? <Citation article={article} /> : ''
-        }{
-          licenseAction === 'use' ? use : ''
-        }
-      </div>*/}
       </div>
     );
   }
