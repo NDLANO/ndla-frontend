@@ -8,6 +8,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import defined from 'defined';
 import { injectT } from '../i18n';
 import LicenseByline from './LicenseByline';
 import Citation from './Citation';
@@ -30,7 +31,7 @@ ImageLicenseInfo.propTypes = {
   }),
 };
 
-const ImagesLicenseTabContent = ({ images, t }) => (
+const ImageLicenseList = ({ images, t }) => (
   <div>
     <h2>{t('license.heading')}</h2>
     <ul className="license__list">
@@ -43,7 +44,7 @@ const ImagesLicenseTabContent = ({ images, t }) => (
   </div>
 );
 
-ImagesLicenseTabContent.propTypes = {
+ImageLicenseList.propTypes = {
   images: PropTypes.array.isRequired,
 };
 
@@ -122,7 +123,7 @@ class LicenseBox extends Component {
     oembedVideos.innerHTML = article.content;
     const videos = [].slice.apply(oembedVideos.querySelectorAll('video'));
 
-    const images = article.contentCopyrights.filter(copyright => copyright.type === 'image');
+    const images = defined(article.contentCopyrights.image, []);
 
     if (this.state.hideLicenseByline) return false;
     return (
@@ -152,7 +153,7 @@ class LicenseBox extends Component {
             {videos.length > 0 && <Tab>Video</Tab>}
             <Tab>Sitere</Tab>
           </TabList>
-          { images.length > 0 && <TabPanel><ImagesLicenseTabContent images={images} t={t} /></TabPanel>}
+          { images.length > 0 && <TabPanel><ImageLicenseList images={images} t={t} /></TabPanel>}
           <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
             <div>
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
