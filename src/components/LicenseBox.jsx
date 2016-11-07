@@ -54,14 +54,7 @@ class LicenseBox extends Component {
     this.licenseActionHandler = this.licenseActionHandler.bind(this);
     this.state = {
       licenseAction: 0,
-      hideLicenseByline: false,
     };
-  }
-
-  licenseBoxHandler() {
-    this.setState({
-      hideLicenseByline: !this.state.hideLicenseByline,
-    });
   }
 
   licenseActionHandler(index) {
@@ -84,7 +77,6 @@ class LicenseBox extends Component {
 
     const images = defined(article.contentCopyrights.image, []);
 
-    if (this.state.hideLicenseByline) return false;
     return (
       <div>
         <h2>{license.heading}</h2>
