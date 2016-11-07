@@ -9,12 +9,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { PageContainer } from 'ndla-ui';
 
+import Masthead from './components/Masthead';
+import Footer from './components/Footer';
 import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
 import { injectT } from '../../i18n';
-import { Masthead, Footer } from '../../components';
 
 export class App extends React.Component {
   getChildContext() {
@@ -26,19 +28,19 @@ export class App extends React.Component {
   render() {
     const { dispatch, children, messages, t } = this.props;
     return (
-      <div className="page-container">
+      <PageContainer>
         <Helmet
           title="NDLA"
           meta={[
-                { name: 'description', content: t('meta.description') },
+            { name: 'description', content: t('meta.description') },
           ]}
         />
 
-        <Masthead />
+        <Masthead t={t} />
         {children}
-        <Footer />
+        <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
-      </div>
+      </PageContainer>
     );
   }
 }

@@ -5,18 +5,3 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import { OneColumn, Masthead } from './Layout';
-import Footer from './Footer';
-import Logo from './Logo';
-import SiteNav from './SiteNav';
-import Pager from './pager/Pager';
-
-export {
-  Footer,
-  Logo,
-  Masthead,
-  OneColumn,
-  SiteNav,
-  Pager,
-};

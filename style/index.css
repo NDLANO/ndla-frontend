@@ -7,16 +7,12 @@
  */
 
 @import '../node_modules/normalize-css/normalize.css';
-@import 'base.css';
 @import 'vars.css';
 @import '../node_modules/ndla-ui/lib/style.css';
+@import 'forms.css';
 @import 'article.css';
 @import 'buttons.css';
 @import 'search.css';
-@import 'masthead.css';
-@import 'logo.css';
-@import 'site-nav.css';
-@import 'footer.css';
 @import 'license.css';
 @import 'helpers.css';
 @import 'table.css';

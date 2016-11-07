@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
+import { OneColumn } from 'ndla-ui';
 import { Link } from 'react-router';
 import { injectT } from '../../i18n';
-import { OneColumn } from '../../components';
 import { toSearch } from '../../routes';
 
 export const WelcomePage = ({ t }) =>
