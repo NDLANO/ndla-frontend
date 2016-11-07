@@ -9,52 +9,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import defined from 'defined';
-import getLicenseByKey from './licenseConstants';
 import { injectT } from '../i18n';
 import LicenseByline from './LicenseByline';
+import ImageLicenseList from './ImageLicenseList';
 import Citation from './Citation';
 import formatDate from '../util/formatDate';
 
-const ImageLicenseInfo = ({ image, locale }) => (
-  <li className="license__list-item">
-    <img alt={image.altText} src={image.src} />
-    <LicenseByline
-      license={getLicenseByKey(image.copyright.license.license, locale)}
-      locale={locale}
-    />
-  </li>
-);
-
-ImageLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    copyright: PropTypes.shape({
-      authors: PropTypes.array.isRequired,
-      lisence: PropTypes.shape({
-        license: PropTypes.string.isRequired,
-      }),
-    }),
-  }),
-};
-
-const ImageLicenseList = ({ images, t, locale }) => (
-  <div>
-    <h2>{t('license.heading')}</h2>
-    <ul className="license__list">
-      <li className="license__list-item">
-        <ul className="license__list">
-          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} locale={locale} />) }
-        </ul>
-      </li>
-    </ul>
-  </div>
-);
-
-ImageLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  images: PropTypes.array.isRequired,
-};
 
 class LicenseBox extends Component {
   constructor() {
