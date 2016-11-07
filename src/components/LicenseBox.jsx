@@ -10,7 +10,6 @@ import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import defined from 'defined';
 import { injectT } from '../i18n';
-import LicenseByline from './LicenseByline';
 import ImageLicenseList from './ImageLicenseList';
 import Citation from './Citation';
 import formatDate from '../util/formatDate';
@@ -33,14 +32,6 @@ class LicenseBox extends Component {
 
   render() {
     const { article, license, locale, t } = this.props;
-
-    const oembedH5p = document.createElement('div');
-    oembedH5p.innerHTML = article.content;
-    const h5ps = [].slice.apply(oembedH5p.querySelectorAll('iframe'));
-
-    const oembedVideos = document.createElement('div');
-    oembedVideos.innerHTML = article.content;
-    const videos = [].slice.apply(oembedVideos.querySelectorAll('video'));
 
     const images = defined(article.contentCopyrights.image, []);
 
@@ -67,8 +58,6 @@ class LicenseBox extends Component {
           <TabList>
             {images.length > 0 && <Tab>Bilder</Tab>}
             <Tab>Tekst</Tab>
-            {h5ps.length > 0 && <Tab>Interaktivitet</Tab>}
-            {videos.length > 0 && <Tab>Video</Tab>}
             <Tab>Sitere</Tab>
           </TabList>
           { images.length > 0 && <TabPanel><ImageLicenseList images={images} t={t} locale={locale} /></TabPanel>}
@@ -77,14 +66,6 @@ class LicenseBox extends Component {
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
             </div>
           </TabPanel>
-          {h5ps.length > 0 && <TabPanel>
-            <ul className="license-section">
-              {h5ps.map((h5p, index) => <li className="license__list-item" key={index}>
-                <div dangerouslySetInnerHTML={{ __html: h5p.innerHTML }} />
-                <LicenseByline licenseType="by-nc" />Av Navn</li>)}
-            </ul>
-          </TabPanel> }
-          {videos.length > 0 && <TabPanel>Video</TabPanel>}
           <TabPanel><Citation article={article} /></TabPanel>
         </Tabs>
       </div>
