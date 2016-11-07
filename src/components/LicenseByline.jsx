@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import { injectT } from '../i18n';
 import Icon from './icons/Icons';
 import LicenseBox from './LicenseBox';
+import getLicenseByKey from './licenseConstants';
 
 class LicenseByline extends Component {
   constructor() {
@@ -28,12 +29,14 @@ class LicenseByline extends Component {
   }
 
   render() {
-    const { licenseHandler, article, licenseType, contentType, t } = this.props;
+    const { licenseHandler, article, locale, licenseType, contentType, t } = this.props;
     const { expandLicense } = this.state;
     const authors = article.copyright.authors.map(author => author.name).join(', ');
     const expandedIcon = classnames({
       'u-expanded--svg': expandLicense,
     });
+
+    const license = getLicenseByKey(licenseType, locale);
 
     const licenseMap = (type) => {
       switch (type.replace(/-/g, '')) {
@@ -76,7 +79,7 @@ class LicenseByline extends Component {
             }
           </div>
           <div className="license-byline__body">
-            <span>{t(`license.usePhrase.${licenseType.replace(/-/g, '')}`)}</span>
+            <span>{ license.short }</span>
           </div>
           <div className="license-byline__body">
             <span className="article_meta">{authors}. {t('article.published')}: {article.created}</span>.
@@ -85,6 +88,7 @@ class LicenseByline extends Component {
         { expandLicense &&
           <LicenseBox
             article={article}
+            locale={locale}
             licenseType={licenseType}
           />
         }
@@ -96,6 +100,7 @@ class LicenseByline extends Component {
 LicenseByline.propTypes = {
   article: PropTypes.object,
   contentType: PropTypes.string,
+  locale: PropTypes.string,
   licenseType: PropTypes.string,
   licenseHandler: PropTypes.func,
 };

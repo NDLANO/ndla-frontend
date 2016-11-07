@@ -21,13 +21,14 @@ class Article extends Component {
   }
 
   render() {
-    const { article } = this.props;
+    const { article, locale } = this.props;
     const licenseType = article.copyright.license.license;
 
     return (
       <article className="article">
         <LicenseByline
           article={article}
+          locale={locale}
           licenseType={licenseType}
           licenseHandler={() => true}
           contentType={article.contentType}
@@ -37,6 +38,7 @@ class Article extends Component {
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
         <LicenseByline
           article={article}
+          locale={locale}
           licenseType={licenseType}
           licenseHandler={() => true}
           contentType={article.contentType}
@@ -54,6 +56,7 @@ Article.propTypes = {
       authors: PropTypes.array.isRequired,
     }).isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 

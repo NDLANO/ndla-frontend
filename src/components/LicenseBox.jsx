@@ -71,8 +71,8 @@ class LicenseBox extends Component {
   }
 
   render() {
-    const { article, licenseType, t } = this.props;
-    const license = getLicenseByKey(t, licenseType);
+    const { article, licenseType, locale, t } = this.props;
+    const license = getLicenseByKey(licenseType, locale);
 
     const oembedH5p = document.createElement('div');
     oembedH5p.innerHTML = article.content;
@@ -135,6 +135,7 @@ class LicenseBox extends Component {
 
 LicenseBox.propTypes = {
   licenseType: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
   article: PropTypes.object,
 };
 
