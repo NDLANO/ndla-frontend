@@ -13,11 +13,13 @@ import Icon from './icons/Icons';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">
-    <a href={audio.src} download><Icon.Download /></a>
     <LicenseByline
       license={getLicenseByKey(audio.copyright.license.license, locale)}
       locale={locale}
-    />
+    >
+      {audio.title}
+    </LicenseByline>
+    <a href={audio.src} download><Icon.Download /></a>
   </li>
 );
 
@@ -25,6 +27,7 @@ AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   audio: PropTypes.shape({
     src: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     copyright: PropTypes.shape({
       authors: PropTypes.array.isRequired,
       lisence: PropTypes.shape({
