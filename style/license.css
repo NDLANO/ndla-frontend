@@ -1,3 +1,12 @@
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  font-size: 1em;
+  vertical-align: bottom;
+}
+
 .license {
   padding: 1em;
   transition: all 200ms ease-in;

@@ -26,7 +26,7 @@ LicenseIcon.propTypes = {
 };
 
 const LicenseIconList = ({ licenseRights, iconsClassName }) => {
-  const className = classNames('license__icon', iconsClassName);
+  const className = classNames('license__icon', 'license__icon--mini', iconsClassName);
 
   return (
     <div className="license-byline__icons">

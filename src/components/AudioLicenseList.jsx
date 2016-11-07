@@ -9,20 +9,21 @@
 import React, { PropTypes } from 'react';
 import getLicenseByKey from './licenseConstants';
 import LicenseByline from './LicenseByline';
+import Icon from './icons/Icons';
 
-const ImageLicenseInfo = ({ image, locale }) => (
+const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">
-    <img alt={image.altText} src={image.src} />
+    <a href={audio.src} download><Icon.Download /></a>
     <LicenseByline
-      license={getLicenseByKey(image.copyright.license.license, locale)}
+      license={getLicenseByKey(audio.copyright.license.license, locale)}
       locale={locale}
     />
   </li>
 );
 
-ImageLicenseInfo.propTypes = {
+AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  image: PropTypes.shape({
+  audio: PropTypes.shape({
     src: PropTypes.string.isRequired,
     copyright: PropTypes.shape({
       authors: PropTypes.array.isRequired,
@@ -33,23 +34,23 @@ ImageLicenseInfo.propTypes = {
   }),
 };
 
-const ImageLicenseList = ({ images, heading, locale }) => (
+const AudioLicenseList = ({ audios, heading, locale }) => (
   <div>
     <h2>{heading}</h2>
     <ul className="license__list">
       <li className="license__list-item">
         <ul className="license__list">
-          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} locale={locale} />) }
+          { audios.map((audio, index) => <AudioLicenseInfo audio={audio} key={index} locale={locale} />) }
         </ul>
       </li>
     </ul>
   </div>
 );
 
-ImageLicenseList.propTypes = {
+AudioLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  images: PropTypes.array.isRequired,
+  audios: PropTypes.array.isRequired,
 };
 
-export default ImageLicenseList;
+export default AudioLicenseList;

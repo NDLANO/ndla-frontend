@@ -11,6 +11,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import defined from 'defined';
 import { injectT } from '../i18n';
 import ImageLicenseList from './ImageLicenseList';
+import AudioLicenseList from './AudioLicenseList';
 import Citation from './Citation';
 import formatDate from '../util/formatDate';
 
@@ -34,6 +35,7 @@ class LicenseBox extends Component {
     const { article, license, locale, t } = this.props;
 
     const images = defined(article.contentCopyrights.image, []);
+    const audios = defined(article.contentCopyrights.audio, []);
 
     return (
       <div>
@@ -51,16 +53,22 @@ class LicenseBox extends Component {
         </div>
         <h2 className="license__heading">Sitere eller gjenbruk {article.contentType.toLowerCase()}:</h2>
 
-        <Tabs
-          onSelect={this.licenseActionHandler}
-          selectedIndex={this.state.licenseAction}
-        >
+        <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
           <TabList>
             {images.length > 0 && <Tab>Bilder</Tab>}
+            {audios.length > 0 && <Tab>Lydfiler</Tab>}
             <Tab>Tekst</Tab>
             <Tab>Sitere</Tab>
           </TabList>
-          { images.length > 0 && <TabPanel><ImageLicenseList images={images} t={t} locale={locale} /></TabPanel>}
+          { images.length > 0 &&
+            <TabPanel>
+              <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} />
+            </TabPanel>}
+          { audios.length > 0 &&
+            <TabPanel>
+              <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />
+            </TabPanel>
+          }
           <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
             <div>
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
