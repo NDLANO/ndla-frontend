@@ -19,10 +19,8 @@ const ImageLicenseInfo = ({ image, locale }) => (
   <li className="license__list-item">
     <img alt={image.altText} src={image.src} />
     <LicenseByline
-      licenseType={image.copyright.license.license}
-      authors={image.copyright.authors}
+      license={getLicenseByKey(image.copyright.license.license, locale)}
       locale={locale}
-      created="todo (remove)"
     />
   </li>
 );
@@ -74,8 +72,7 @@ class LicenseBox extends Component {
   }
 
   render() {
-    const { article, licenseType, locale, t } = this.props;
-    const license = getLicenseByKey(licenseType, locale);
+    const { article, license, locale, t } = this.props;
 
     const oembedH5p = document.createElement('div');
     oembedH5p.innerHTML = article.content;
@@ -136,20 +133,13 @@ class LicenseBox extends Component {
 }
 
 LicenseBox.propTypes = {
-  licenseType: PropTypes.string.isRequired,
+  license: PropTypes.shape({
+    heading: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+  }).isRequired,
   locale: PropTypes.string.isRequired,
   article: PropTypes.object,
 };
 
-LicenseBox.defaultProps = {
-  article: {
-    copyright: {
-      authors: [
-        '',
-      ],
-    },
-  },
-  licenseType: '',
-};
 
 export default injectT(LicenseBox);

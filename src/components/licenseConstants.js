@@ -132,6 +132,7 @@ export default function getLicenseByKey(licenseKey, language) {
     case 'by-nd' : return licenseByLanguage(bynd, language);
     case 'by-sa' : return licenseByLanguage(bysa, language);
     default : return {
+      short: licenseKey,
       heading: licenseKey,
       rights: [],
       body: licenseKey };

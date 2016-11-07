@@ -8,32 +8,28 @@
 
 import React, { PropTypes } from 'react';
 import LicenseIconList from './LicenseIconList';
-import getLicenseByKey from './licenseConstants';
 
-const LicenseByline = ({ authors, created, locale, licenseType, iconsClassName }) => {
-  const authorsList = authors.map(author => author.name).join(', ');
-
-  const license = getLicenseByKey(licenseType, locale);
-
-  return (
-    <div className="license-byline">
-      <LicenseIconList licenseRights={license.rights} iconsClassName={iconsClassName} />
-      <div className="license-byline__body">
-        <span>{ license.short }</span>
-      </div>
-      <div className="license-byline__body">
-        <span className="article_meta">{authorsList}. Publisert: {created}</span>.
-      </div>
+const LicenseByline = ({ children, license, iconsClassName }) => (
+  <div className="license-byline">
+    <LicenseIconList licenseRights={license.rights} iconsClassName={iconsClassName} />
+    <div className="license-byline__body">
+      <span>{ license.short }</span>
     </div>
-  );
-};
+    { children ?
+      <div className="license-byline__body">
+        { children }
+      </div>
+    : null}
+  </div>
+);
 
 LicenseByline.propTypes = {
-  authors: PropTypes.array.isRequired,
-  created: PropTypes.string,
+  license: PropTypes.shape({
+    short: PropTypes.string.isRequired,
+    rights: PropTypes.array.isRequired,
+  }).isRequired,
   iconsClassName: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  licenseType: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 export default LicenseByline;

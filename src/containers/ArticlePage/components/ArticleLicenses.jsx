@@ -10,6 +10,7 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { injectT } from '../../../i18n';
 import LicenseBox from '../../../components/LicenseBox';
+import getLicenseByKey from '../../../components/licenseConstants';
 import LicenseByline from '../../../components/LicenseByline';
 
 class ArticleLicenses extends Component {
@@ -29,6 +30,8 @@ class ArticleLicenses extends Component {
 
   render() {
     const { article, locale, licenseType, contentType } = this.props;
+    const authorsList = article.copyright.authors.map(author => author.name).join(', ');
+    const license = getLicenseByKey(licenseType, locale);
     const { expanded } = this.state;
     const expandedIcon = classnames({
       'u-expanded--svg': expanded,
@@ -40,12 +43,14 @@ class ArticleLicenses extends Component {
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
           {expanded ? 'Lukk boks' : `Sitér eller bruk ${contentType.toLowerCase()}`}
         </button>
-        <LicenseByline authors={article.copyright.authors} created={article.created} licenseType={licenseType} locale={locale} iconsClassName={expandedIcon} />
+        <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
+          <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
+        </LicenseByline>
         { expanded &&
           <LicenseBox
             article={article}
             locale={locale}
-            licenseType={licenseType}
+            license={license}
           />
         }
       </div>
@@ -54,7 +59,7 @@ class ArticleLicenses extends Component {
 }
 
 ArticleLicenses.propTypes = {
-  article: PropTypes.object,
+  article: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   locale: PropTypes.string,
   licenseType: PropTypes.string,
