@@ -9,8 +9,8 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { injectT } from '../i18n';
-import Icon from './icons/Icons';
 import LicenseBox from './LicenseBox';
+import LicenseIconList from './LicenseIconList';
 import getLicenseByKey from './licenseConstants';
 
 class LicenseByline extends Component {
@@ -38,29 +38,6 @@ class LicenseByline extends Component {
 
     const license = getLicenseByKey(licenseType, locale);
 
-    const licenseMap = (type) => {
-      switch (type.replace(/-/g, '')) {
-        case 'cc' : return { img: [<Icon.LicenseCc className={expandedIcon} />] };
-        case 'byncnd' : return {
-          img: [
-            <Icon.LicenseCc className={expandedIcon} />,
-            <Icon.LicenseBy className={expandedIcon} />,
-            <Icon.LicenseNc className={expandedIcon} />,
-            <Icon.LicenseNd className={expandedIcon} />] };
-        case 'byncsa' : return {
-          img: [
-            <Icon.LicenseCc className={expandedIcon} />,
-            <Icon.LicenseBy className={expandedIcon} />,
-            <Icon.LicenseNc className={expandedIcon} />,
-            <Icon.LicenseSa className={expandedIcon} />],
-        };
-        case 'bync' : return { img: [<Icon.LicenseCc className={expandedIcon} />, <Icon.LicenseBy className={expandedIcon} />, <Icon.LicenseNc className={expandedIcon} />] };
-        case 'bynd' : return { img: [<Icon.LicenseCc className={expandedIcon} />, <Icon.LicenseBy className={expandedIcon} />, <Icon.LicenseNd className={expandedIcon} />] };
-        case 'bysa' : return { img: [<Icon.LicenseCc className={expandedIcon} />, <Icon.LicenseBy className={expandedIcon} />, <Icon.LicenseSa className={expandedIcon} />] };
-        default : return { img: [] };
-      }
-    };
-
     return (
       <div className={classnames('license', { 'u-expanded': expandLicense })}>
         {
@@ -73,11 +50,7 @@ class LicenseByline extends Component {
             </button> : null
         }
         <div className="license-byline">
-          <div className="license-byline__icons">
-            {
-              licenseMap(licenseType).img.map(((licenseIcon, index) => (<span className="license__icon" key={index}>{licenseIcon}</span>)))
-            }
-          </div>
+          <LicenseIconList licenseRights={license.rights} iconsClassName={expandedIcon} />
           <div className="license-byline__body">
             <span>{ license.short }</span>
           </div>
