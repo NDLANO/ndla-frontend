@@ -15,29 +15,38 @@ import LicenseByline from './LicenseByline';
 import Citation from './Citation';
 import formatDate from '../util/formatDate';
 
-const ImageLicenseInfo = ({ image }) => (
+const ImageLicenseInfo = ({ image, locale }) => (
   <li className="license__list-item">
     <img alt={image.altText} src={image.src} />
-    <LicenseByline licenseType="by-nc" />Av Navn
+    <LicenseByline
+      licenseType={image.copyright.license.license}
+      authors={image.copyright.authors}
+      locale={locale}
+      created="todo (remove)"
+    />
   </li>
 );
 
 ImageLicenseInfo.propTypes = {
+  locale: PropTypes.string.isRequired,
   image: PropTypes.shape({
     src: PropTypes.string.isRequired,
     copyright: PropTypes.shape({
-
+      authors: PropTypes.array.isRequired,
+      lisence: PropTypes.shape({
+        license: PropTypes.string.isRequired,
+      }),
     }),
   }),
 };
 
-const ImageLicenseList = ({ images, t }) => (
+const ImageLicenseList = ({ images, t, locale }) => (
   <div>
     <h2>{t('license.heading')}</h2>
     <ul className="license__list">
       <li className="license__list-item">
         <ul className="license__list">
-          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} />) }
+          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} locale={locale} />) }
         </ul>
       </li>
     </ul>
@@ -45,6 +54,7 @@ const ImageLicenseList = ({ images, t }) => (
 );
 
 ImageLicenseList.propTypes = {
+  locale: PropTypes.string.isRequired,
   images: PropTypes.array.isRequired,
 };
 
@@ -104,7 +114,7 @@ class LicenseBox extends Component {
             {videos.length > 0 && <Tab>Video</Tab>}
             <Tab>Sitere</Tab>
           </TabList>
-          { images.length > 0 && <TabPanel><ImageLicenseList images={images} t={t} /></TabPanel>}
+          { images.length > 0 && <TabPanel><ImageLicenseList images={images} t={t} locale={locale} /></TabPanel>}
           <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
             <div>
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />

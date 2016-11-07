@@ -6,89 +6,34 @@
  * FRI OG BEGRENSET
  */
 
-import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
-import { injectT } from '../i18n';
-import LicenseBox from './LicenseBox';
+import React, { PropTypes } from 'react';
 import LicenseIconList from './LicenseIconList';
 import getLicenseByKey from './licenseConstants';
 
-class LicenseByline extends Component {
-  constructor() {
-    super();
-    this.licenseExpander = this.licenseExpander.bind(this);
-    this.state = {
-      expandLicense: false,
-    };
-  }
+const LicenseByline = ({ authors, created, locale, licenseType, iconsClassName }) => {
+  const authorsList = authors.map(author => author.name).join(', ');
 
-  licenseExpander() {
-    this.setState({
-      expandLicense: !this.state.expandLicense,
-    });
-  }
+  const license = getLicenseByKey(licenseType, locale);
 
-  render() {
-    const { licenseHandler, article, locale, licenseType, contentType, t } = this.props;
-    const { expandLicense } = this.state;
-    const authors = article.copyright.authors.map(author => author.name).join(', ');
-    const expandedIcon = classnames({
-      'u-expanded--svg': expandLicense,
-    });
-
-    const license = getLicenseByKey(licenseType, locale);
-
-    return (
-      <div className={classnames('license', { 'u-expanded': expandLicense })}>
-        {
-          licenseHandler && contentType ?
-            <button
-              className="un-button license-toggler site-nav_link"
-              onClick={this.licenseExpander}
-            >
-              {expandLicense ? 'Lukk boks' : `Sitér eller bruk ${contentType.toLowerCase()}`}
-            </button> : null
-        }
-        <div className="license-byline">
-          <LicenseIconList licenseRights={license.rights} iconsClassName={expandedIcon} />
-          <div className="license-byline__body">
-            <span>{ license.short }</span>
-          </div>
-          <div className="license-byline__body">
-            <span className="article_meta">{authors}. {t('article.published')}: {article.created}</span>.
-          </div>
-        </div>
-        { expandLicense &&
-          <LicenseBox
-            article={article}
-            locale={locale}
-            licenseType={licenseType}
-          />
-        }
+  return (
+    <div className="license-byline">
+      <LicenseIconList licenseRights={license.rights} iconsClassName={iconsClassName} />
+      <div className="license-byline__body">
+        <span>{ license.short }</span>
       </div>
-    );
-  }
-}
+      <div className="license-byline__body">
+        <span className="article_meta">{authorsList}. Publisert: {created}</span>.
+      </div>
+    </div>
+  );
+};
 
 LicenseByline.propTypes = {
-  article: PropTypes.object,
-  contentType: PropTypes.string,
-  locale: PropTypes.string,
-  licenseType: PropTypes.string,
-  licenseHandler: PropTypes.func,
+  authors: PropTypes.array.isRequired,
+  created: PropTypes.string,
+  iconsClassName: PropTypes.string,
+  locale: PropTypes.string.isRequired,
+  licenseType: PropTypes.string.isRequired,
 };
 
-LicenseByline.defaultProps = {
-  hideLicenseByline: false,
-  licenseType: null,
-  contentType: null,
-  t: () => false,
-  article: {
-    copyright: {
-      authors: [],
-    },
-  },
-  licenseHandler: () => true,
-};
-
-export default injectT(LicenseByline);
+export default LicenseByline;

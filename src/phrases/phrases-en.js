@@ -36,10 +36,6 @@ const phrases = {
     published: 'Published',
   },
   license: {
-    usePhrase: {
-      freeUse: 'Free use',
-      restrictedUse: 'Restricted use',
-    },
     heading: 'You can download, or reuse content from NDLA on your own own website',
   },
   searchPage: {

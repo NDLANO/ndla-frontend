@@ -6,47 +6,35 @@
  *
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 import ArticleIntroduction from './ArticleIntroduction';
 import { injectT } from '../../../i18n';
-import LicenseByline from '../../../components/LicenseByline';
+import ArticleLicenses from './ArticleLicenses';
 
-class Article extends Component {
-  constructor() {
-    super();
-    this.state = {
-      hideLicenseByline: false,
-    };
-  }
+const Article = ({ article, locale }) => {
+  const licenseType = article.copyright.license.license;
 
-  render() {
-    const { article, locale } = this.props;
-    const licenseType = article.copyright.license.license;
-
-    return (
-      <article className="article">
-        <LicenseByline
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          licenseHandler={() => true}
-          contentType={article.contentType}
-        />
-        <h1>{article.title}</h1>
-        <ArticleIntroduction introduction={article.introduction} />
-        <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        <LicenseByline
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          licenseHandler={() => true}
-          contentType={article.contentType}
-        />
-      </article>
-    );
-  }
-}
+  return (
+    <article className="article">
+      <ArticleLicenses
+        article={article}
+        locale={locale}
+        licenseType={licenseType}
+        contentType={article.contentType}
+      />
+      <h1>{article.title}</h1>
+      <ArticleIntroduction introduction={article.introduction} />
+      <div dangerouslySetInnerHTML={{ __html: article.content }} />
+      <ArticleLicenses
+        article={article}
+        locale={locale}
+        licenseType={licenseType}
+        contentType={article.contentType}
+      />
+    </article>
+  );
+};
 
 Article.propTypes = {
   article: PropTypes.shape({
