@@ -8,7 +8,7 @@
 
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import Icon from './icons/Icons';
+import Icon from '../icons/Icons';
 import { BY, NC, ND, SA } from './licenseConstants';
 
 const LicenseIcon = ({ licenseRight, className }) => {

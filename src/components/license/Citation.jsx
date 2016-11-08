@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import formatDate from '../util/formatDate';
+import formatDate from '../../util/formatDate';
 
 const Citation = ({ ...props }) => {
   const { article } = props;

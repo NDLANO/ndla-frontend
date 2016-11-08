@@ -9,11 +9,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import defined from 'defined';
-import { injectT } from '../i18n';
+import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import Citation from './Citation';
-import formatDate from '../util/formatDate';
+import formatDate from '../../util/formatDate';
 
 
 class LicenseBox extends Component {

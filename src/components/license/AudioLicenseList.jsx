@@ -9,7 +9,7 @@
 import React, { PropTypes } from 'react';
 import getLicenseByKey from './licenseConstants';
 import LicenseByline from './LicenseByline';
-import Icon from './icons/Icons';
+import Icon from '../icons/Icons';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">

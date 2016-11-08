@@ -9,9 +9,9 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { injectT } from '../../../i18n';
-import LicenseBox from '../../../components/LicenseBox';
-import getLicenseByKey from '../../../components/licenseConstants';
-import LicenseByline from '../../../components/LicenseByline';
+import LicenseBox from '../../../components/license/LicenseBox';
+import getLicenseByKey from '../../../components/license/licenseConstants';
+import LicenseByline from '../../../components/license/LicenseByline';
 
 class ArticleLicenses extends Component {
   constructor() {
