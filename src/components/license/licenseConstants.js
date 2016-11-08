@@ -117,9 +117,7 @@ export const bysa = {
 function licenseByLanguage(license, language) {
   const texts = defined(license[language], license.nb);
   return {
-    short: texts.short,
-    heading: texts.title,
-    body: texts.description,
+    ...texts,
     rights: license.rights,
   };
 }
@@ -133,8 +131,8 @@ export default function getLicenseByKey(licenseKey, language) {
     case 'by-sa' : return licenseByLanguage(bysa, language);
     default : return {
       short: licenseKey,
-      heading: licenseKey,
+      title: licenseKey,
       rights: [],
-      body: licenseKey };
+      description: licenseKey };
   }
 }

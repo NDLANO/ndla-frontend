@@ -76,10 +76,7 @@ class LicenseBox extends Component {
 }
 
 LicenseBox.propTypes = {
-  license: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-  }).isRequired,
+  license: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   article: PropTypes.object,
 };

@@ -11,8 +11,8 @@ import { injectT } from '../../i18n';
 
 const ArticleLicenseInfo = ({ t, license, authors, created, updated }) => (
   <div>
-    <h2>{license.heading}</h2>
-    <p>{license.body}</p>
+    <h2>{license.title}</h2>
+    <p>{license.description}</p>
     <div className="license-section">
       <ul className="license__list">
         { t('license.creators', { num: authors.length })}
@@ -32,8 +32,8 @@ ArticleLicenseInfo.propTypes = {
   created: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,
   license: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }),
 };
 
