@@ -10,6 +10,8 @@ const phrases = {
   meta: {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  message: 'message',
+  messages: 'messages',
   WelcomePage: {
     helloworld: 'Hallo verden',
     search: 'Søk',
@@ -34,9 +36,12 @@ const phrases = {
   article: {
     author: 'Forfatter',
     published: 'Publisert',
+    created: 'Opprettet',
+    lastUpdated: 'Sist oppdatert',
   },
   license: {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
+    creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
   },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',

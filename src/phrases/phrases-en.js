@@ -34,9 +34,12 @@ const phrases = {
   article: {
     author: 'Author',
     published: 'Published',
+    created: 'Created',
+    lastUpdated: 'Last updated',
   },
   license: {
     heading: 'You can download, or reuse content from NDLA on your own own website',
+    creators: '{num, plural, one { Creator: } other { Creators: }}',
   },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',

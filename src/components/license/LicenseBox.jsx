@@ -12,8 +12,8 @@ import defined from 'defined';
 import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
+import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
-import formatDate from '../../util/formatDate';
 
 
 class LicenseBox extends Component {
@@ -39,18 +39,13 @@ class LicenseBox extends Component {
 
     return (
       <div>
-        <h2>{license.heading}</h2>
-        <p>{license.body}</p>
-        <div className="license-section">
-          <ul className="license__list">{article.copyright.authors.length > 1 ? 'Opphavspersoner' : 'Opphavsperson'}:
-            {
-              article.copyright.authors.map((author, i) => (<li className="license__list-item" key={i}>{author.name} {author.type ? `(${author.type})` : ''}</li>))
-            }
-          </ul>
-        </div>
-        <div className="license-section license__publication-info">
-          Opprettet {formatDate(article.created)}. Sist oppdatert {formatDate(article.updated)}
-        </div>
+        <ArticleLicenseInfo
+          license={license}
+          authors={article.copyright.authors}
+          created={article.created}
+          updated={article.updated}
+        />
+
         <h2 className="license__heading">Sitere eller gjenbruk {article.contentType.toLowerCase()}:</h2>
 
         <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
