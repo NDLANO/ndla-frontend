@@ -17,7 +17,8 @@ const AudioLicenseInfo = ({ audio, locale }) => (
       license={getLicenseByKey(audio.copyright.license.license, locale)}
       locale={locale}
     >
-      {audio.title}
+      { audio.copyright.authors.map(author => author.name).join(', ') }
+      <i>{audio.title}</i>
     </LicenseByline>
     <a href={audio.src} download><Icon.Download /></a>
   </li>
