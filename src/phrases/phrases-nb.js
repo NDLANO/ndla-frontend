@@ -42,6 +42,14 @@ const phrases = {
   license: {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
     creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
+    tabs: {
+      heading: 'Sitere eller gjenbruk {contentType}:',
+      text: 'Tekst',
+      cite: 'Sitere',
+      images: 'Bilder',
+      audios: 'Lydfiler',
+    },
+    articleText: 'Artikkeltekst: Last ned som (word), (txt), (pdf)',
   },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',

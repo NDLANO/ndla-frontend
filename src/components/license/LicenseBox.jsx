@@ -46,14 +46,13 @@ class LicenseBox extends Component {
           updated={article.updated}
         />
 
-        <h2 className="license__heading">Sitere eller gjenbruk {article.contentType.toLowerCase()}:</h2>
-
+        <h2 className="license__heading">{t('license.tabs.heading', { contentType: article.contentType.toLowerCase() })}</h2>
         <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
           <TabList>
-            {images.length > 0 && <Tab>Bilder</Tab>}
-            {audios.length > 0 && <Tab>Lydfiler</Tab>}
-            <Tab>Tekst</Tab>
-            <Tab>Sitere</Tab>
+            {images.length > 0 && <Tab>{t('license.tabs.images')}</Tab>}
+            {audios.length > 0 && <Tab>{t('license.tabs.audios')}</Tab>}
+            <Tab>{t('license.tabs.text')}</Tab>
+            <Tab>{t('license.tabs.cite')}</Tab>
           </TabList>
           { images.length > 0 &&
             <TabPanel>
@@ -64,7 +63,7 @@ class LicenseBox extends Component {
               <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />
             </TabPanel>
           }
-          <TabPanel>Artikkeltekst: Last ned som (word), (txt), (pdf)
+          <TabPanel>{t('license.articleText')}
             <div>
               <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
             </div>

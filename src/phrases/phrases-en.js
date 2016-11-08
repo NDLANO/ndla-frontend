@@ -40,6 +40,14 @@ const phrases = {
   license: {
     heading: 'You can download, or reuse content from NDLA on your own own website',
     creators: '{num, plural, one { Creator: } other { Creators: }}',
+    tabs: {
+      heading: 'Cite or reuse {contentType}:',
+      text: 'Text',
+      cite: 'Cite',
+      images: 'Images',
+      audios: 'Audio files',
+    },
+    articleText: 'Article text: Download as (word), (txt), (pdf)',
   },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',
