@@ -36,6 +36,8 @@ const phrases = {
     published: 'Published',
     created: 'Created',
     lastUpdated: 'Last updated',
+    closeLicenseBox: 'Close box',
+    openLicenseBox: 'Cite or use {contentType}',
   },
   license: {
     heading: 'You can download, or reuse content from NDLA on your own own website',

@@ -29,7 +29,7 @@ class ArticleLicenses extends Component {
   }
 
   render() {
-    const { article, locale, licenseType, contentType } = this.props;
+    const { article, locale, licenseType, contentType, t } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
     const license = getLicenseByKey(licenseType, locale);
     const { expanded } = this.state;
@@ -41,7 +41,7 @@ class ArticleLicenses extends Component {
     return (
       <div className={classnames('license', { 'u-expanded': expanded })}>
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
-          {expanded ? 'Lukk boks' : `Sitér eller bruk ${contentType.toLowerCase()}`}
+          {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
         </button>
         <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
           <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
