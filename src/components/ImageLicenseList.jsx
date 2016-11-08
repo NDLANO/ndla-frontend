@@ -16,7 +16,9 @@ const ImageLicenseInfo = ({ image, locale }) => (
     <LicenseByline
       license={getLicenseByKey(image.copyright.license.license, locale)}
       locale={locale}
-    />
+    >
+      { image.copyright.authors.map(author => author.name).join(', ') }
+    </LicenseByline>
   </li>
 );
 
