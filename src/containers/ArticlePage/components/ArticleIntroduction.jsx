@@ -31,23 +31,19 @@ ArticleIntroductionText.propTypes = {
 
 
 const ArticleIntroduction = ({ introduction }) => {
-  if (!introduction.text && !introduction.image) {
+  if (!introduction) {
     return null;
   }
 
   return (
     <section className="article_introduction">
-      <ArticleIntroductionText text={introduction.text} />
-      <ArticleIntroductionImage image={introduction.image} />
+      <ArticleIntroductionText text={introduction} />
     </section>
   );
 };
 
 ArticleIntroduction.propTypes = {
-  introduction: PropTypes.shape({
-    text: PropTypes.string,
-    image: PropTypes.object,
-  }),
+  introduction: PropTypes.string,
 };
 
 export default ArticleIntroduction;
