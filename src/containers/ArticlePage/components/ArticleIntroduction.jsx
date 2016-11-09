@@ -8,21 +8,6 @@
 
 import React, { PropTypes } from 'react';
 
-const ArticleIntroductionImage = ({ image }) => (image ? (
-  <figure>
-    <img src={image.src} alt={image.alt} />
-    { image.caption ? <p className="figure_caption">{image.caption}</p> : null}
-  </figure>
-) : null);
-
-ArticleIntroductionImage.propTypes = {
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string,
-    caption: PropTypes.caption,
-  }),
-};
-
 const ArticleIntroductionText = ({ text }) => (text ? <p className="article_introduction">{text}</p> : null);
 
 ArticleIntroductionText.propTypes = {
