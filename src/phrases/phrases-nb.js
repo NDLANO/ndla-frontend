@@ -10,6 +10,8 @@ const phrases = {
   meta: {
     description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  message: 'message',
+  messages: 'messages',
   WelcomePage: {
     helloworld: 'Hallo verden',
     search: 'Søk',
@@ -34,17 +36,22 @@ const phrases = {
   article: {
     author: 'Forfatter',
     published: 'Publisert',
+    created: 'Opprettet',
+    lastUpdated: 'Sist oppdatert',
+    closeLicenseBox: 'Lukk boks',
+    openLicenseBox: 'Sitér eller bruk {contentType}',
   },
   license: {
-    usePhrase: {
-      bysa: 'Fri bruk',
-      bynd: 'Fri bruk',
-      bync: 'Fri bruk',
-      byncnd: 'Fri bruk',
-      freeUse: 'Fri bruk',
-      restrictedUse: 'Begrenset bruk',
-    },
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
+    creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
+    tabs: {
+      heading: 'Sitere eller gjenbruk {contentType}:',
+      text: 'Tekst',
+      cite: 'Sitere',
+      images: 'Bilder',
+      audios: 'Lydfiler',
+    },
+    articleText: 'Artikkeltekst: Last ned som (word), (txt), (pdf)',
   },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',

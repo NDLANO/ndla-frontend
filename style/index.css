@@ -10,6 +10,7 @@
 @import 'vars.css';
 @import '../node_modules/ndla-ui/lib/style.css';
 @import 'forms.css';
+@import 'icon.css';
 @import 'article.css';
 @import 'buttons.css';
 @import 'search.css';

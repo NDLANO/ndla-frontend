@@ -25,6 +25,7 @@ export const getArticle = articleId => createSelector(
       ...article,
       title: titleI18N(article, locale, true),
       created: formatDate(article.created, locale),
+      updated: formatDate(article.updated, locale),
     } : {}
   )
   );

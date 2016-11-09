@@ -14,6 +14,7 @@ import { OneColumn } from 'ndla-ui';
 
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
+import { getLocale } from '../Locale/localeSelectors';
 import Article from './components/Article';
 
 class ArticlePage extends Component {
@@ -23,7 +24,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article } = this.props;
+    const { article, locale } = this.props;
     const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
       <OneColumn>
@@ -31,7 +32,7 @@ class ArticlePage extends Component {
           title={`NDLA | ${article.title}`}
           script={scripts}
         />
-        {!isEmpty(article) ? <Article article={article} /> : null}
+        {!isEmpty(article) ? <Article article={article} locale={locale} /> : null}
       </OneColumn>
     );
   }
@@ -42,6 +43,7 @@ ArticlePage.propTypes = {
     articleId: PropTypes.string.isRequired,
   }).isRequired,
   article: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   fetchArticle: PropTypes.func.isRequired,
 };
 
@@ -54,6 +56,7 @@ const makeMapStateToProps = (_, ownProps) => {
   const getArticleSelector = getArticle(articleId);
   return state => ({
     article: getArticleSelector(state),
+    locale: getLocale(state),
   });
 };
 
