@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 
 import ArticleIntroduction from './ArticleIntroduction';
+import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
 
@@ -26,6 +27,7 @@ const Article = ({ article, locale }) => {
       <h1>{article.title}</h1>
       <ArticleIntroduction introduction={article.introduction} />
       <div dangerouslySetInnerHTML={{ __html: article.content }} />
+      { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
       <ArticleLicenses
         article={article}
         locale={locale}
