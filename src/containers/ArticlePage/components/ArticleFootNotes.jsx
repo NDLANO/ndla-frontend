@@ -11,7 +11,7 @@ import React, { PropTypes } from 'react';
 
 const FootNote = ({ footNote }) =>
   <li className="article_foot-note">
-    {`${footNote.title} (${footNote.year}), ${footNote.authors.join(' ')} Edition: ${footNote.edition}, Publisher: ${footNote.publisher}`}
+    <cite>{`${footNote.title} (${footNote.year}), ${footNote.authors.join(' ')} Edition: ${footNote.edition}, Publisher: ${footNote.publisher}`}</cite>
   </li>;
 
 FootNote.propTypes = {
