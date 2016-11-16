@@ -11,4 +11,5 @@ import * as constants from './searchConstants';
 
 export const search = createAction(constants.SEARCH);
 export const searchError = createAction(constants.SEARCH_ERROR);
+export const clearSearchResult = createAction(constants.CLEAR_SEARCH_RESULT);
 export const setSearchResult = createAction(constants.SET_SEARCH_RESULT);

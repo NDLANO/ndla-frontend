@@ -27,6 +27,13 @@ class SearchPage extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { location: { query }, results, clearSearchResult } = nextProps;
+    if (query.query === undefined && results.length !== 0) {
+      clearSearchResult();
+    }
+  }
+
   render() {
     const { location: { query }, results, locale, searching, search, lastPage } = this.props;
 
@@ -73,6 +80,7 @@ SearchPage.propTypes = {
 
 const mapDispatchToProps = {
   search: actions.search,
+  clearSearchResult: actions.clearSearchResult,
 };
 
 const mapStateToProps = state => ({
