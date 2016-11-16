@@ -39,6 +39,10 @@ app.use(express.static('htdocs', {
 const renderHtmlString = (locale, userAgentString, state = {}, component = undefined) =>
   renderToString(<Html lang={locale} state={state} component={component} className={getConditionalClassnames(userAgentString)} />);
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 200, text: 'Health check ok' });
+});
+
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
