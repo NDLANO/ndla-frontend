@@ -15,6 +15,7 @@ const environment = {
   },
 }[process.env.NODE_ENV || 'development'];
 
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
 const apiDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
@@ -22,7 +23,7 @@ const apiDomain = () => {
     case 'prod':
       return 'http://api.ndla.no';
     default:
-      return `http://api.${process.env.NDLA_ENVIRONMENT}.ndla.no`;
+      return `http://api.${ndlaEnvironment}.ndla.no`;
   }
 };
 
