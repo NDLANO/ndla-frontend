@@ -22,7 +22,7 @@ class SearchPage extends Component {
 
   componentWillMount() {
     const { location: { query }, search } = this.props;
-    if (query.query) {
+    if (query.query !== undefined) {
       search(query);
     }
   }
