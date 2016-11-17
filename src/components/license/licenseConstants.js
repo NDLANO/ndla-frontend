@@ -8,9 +8,9 @@
 
 import defined from 'defined';
 
-const freeUseNB = 'Fri bruk';
+const freeUseNB = 'Fri gjenbruk';
 const freeUseEN = 'Free use';
-const restrictedUseNB = 'Begrenset bruk';
+const restrictedUseNB = 'Begrenset gjenbruk';
 const restrictedUseEN = 'Restricted use';
 
 // License rights
