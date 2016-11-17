@@ -4186,6 +4186,12 @@ ncp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
+ndla-licenses:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.1.tgz#2cc32e69fb1b6cc58c7ce91e8073846378dd0bfe"
+  dependencies:
+    defined "1.0.0"
+
 ndla-ui:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.0.5.tgz#fb8722c498066f16cfc775a431e184df0a1c8b5c"

@@ -7,14 +7,14 @@
  */
 
 import React, { PropTypes } from 'react';
-import getLicenseByKey from './licenseConstants';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import LicenseByline from './LicenseByline';
 
 const ImageLicenseInfo = ({ image, locale }) => (
   <li className="license__list-item">
     <img alt={image.altText} src={image.src} />
     <LicenseByline
-      license={getLicenseByKey(image.copyright.license.license, locale)}
+      license={getLicenseByAbbreviation(image.copyright.license.license, locale)}
       locale={locale}
     >
       { image.copyright.authors.map(author => author.name).join(', ') }

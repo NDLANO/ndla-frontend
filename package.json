@@ -72,6 +72,7 @@
     "inuitcss": "^6.0.0-beta.3",
     "isomorphic-fetch": "2.2.1",
     "lodash": "4.15.0",
+    "ndla-licenses": "^0.0.1",
     "ndla-ui": "^0.0.5",
     "node-uuid": "1.4.7",
     "normalize-css": "2.3.1",

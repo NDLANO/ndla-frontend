@@ -7,14 +7,14 @@
  */
 
 import React, { PropTypes } from 'react';
-import getLicenseByKey from './licenseConstants';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import LicenseByline from './LicenseByline';
 import Icon from '../icons/Icons';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">
     <LicenseByline
-      license={getLicenseByKey(audio.copyright.license.license, locale)}
+      license={getLicenseByAbbreviation(audio.copyright.license.license, locale)}
       locale={locale}
     >
       <i>{audio.title} </i>
