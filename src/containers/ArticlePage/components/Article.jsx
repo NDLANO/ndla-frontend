@@ -19,6 +19,7 @@ const Article = ({ article, locale }) => {
   return (
     <article className="article">
       <ArticleLicenses
+        mini
         article={article}
         locale={locale}
         licenseType={licenseType}
