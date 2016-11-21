@@ -29,7 +29,7 @@ class ArticleLicenses extends Component {
   }
 
   render() {
-    const { article, locale, licenseType, contentType, t } = this.props;
+    const { article, locale, licenseType, contentType, t, showByline } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
     const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
@@ -43,9 +43,15 @@ class ArticleLicenses extends Component {
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
           {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
         </button>
-        <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
-          <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
-        </LicenseByline>
+
+        {showByline ?
+          <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
+            <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
+          </LicenseByline>
+          :
+          null
+        }
+
         { expanded &&
           <LicenseBox
             article={article}
@@ -58,12 +64,17 @@ class ArticleLicenses extends Component {
   }
 }
 
+ArticleLicenses.defaultProps = {
+  showByline: false,
+};
+
 ArticleLicenses.propTypes = {
   article: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   locale: PropTypes.string,
   licenseType: PropTypes.string,
   licenseHandler: PropTypes.func,
+  showByline: PropTypes.bool,
 };
 
 export default injectT(ArticleLicenses);

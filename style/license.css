@@ -1,6 +1,9 @@
 .license {
   padding: 1em;
+  margin-left: -1em;
+  margin-right: -1em;
   transition: all 200ms ease-in;
+  font-size: var(--font-size--small);
 }
 .license-toggler {
   margin-left: 0.2em;
@@ -36,16 +39,24 @@
   padding: 0;
   list-style: none;
   display: block;
-  overflow: auto;
+  overflow: hidden;
 
 }
 .license__list-item > img, .license__list-item > div {
   margin: 0 var(--spacing) 0 0;
-  width: 50%;
-  float:left;
+  width: 45%;
+  float: left;
 }
 .license__heading {
   margin-bottom: var(--spacing);
+}
+.license__video {
+  position: relative;
+  float: left;
+  width: 50%;
+}
+.license__video video {
+  position: relative !important;
 }
 .license-byline {
   display: table;
@@ -56,10 +67,36 @@
   vertical-align: middle;
   padding: 0 0.5em 0 0;
 }
+.license__list-item > .license-byline > * {
+  display: block;
+
+}
 .license__textarea {
   width: 100%;
   heigth: 50vh;
 }
 .license h2 {
   margin-bottom: var(--spacing);
+}
+
+/* React Tabs Stylining */
+.ReactTabs__TabList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing) 0;
+}
+.ReactTabs__Tab {
+  display: inline-block;
+  padding: calc(var(--spacing) / 2) var(--spacing);
+  border: 1px solid var(--background-color);
+  border-radius: 3px;
+  background: var(--background-color);
+}
+.ReactTabs__Tab + .ReactTabs__Tab {
+  margin-left: var(--spacing);
+}
+.ReactTabs__Tab--selected {
+  color: #fff;
+  background: var(--main-color);
+  border: 1px solid var(--main-color);
 }

@@ -44,6 +44,7 @@ const phrases = {
     creators: '{num, plural, one { Creator: } other { Creators: }}',
     tabs: {
       heading: 'Cite or reuse {contentType}:',
+      article: 'Article',
       text: 'Text',
       cite: 'Cite',
       images: 'Images',
