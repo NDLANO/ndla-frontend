@@ -51,3 +51,11 @@ test('reducers/search handle set search result', () => {
   expect(nextState.pageSize).toBe(2);
   expect(nextState.searching).toBe(false);
 });
+
+test('reducers/search handle clear search result', () => {
+  const nextState = reducer(searchResult, {
+    type: constants.CLEAR_SEARCH_RESULT,
+  });
+
+  expect(nextState).toEqual(initalState);
+});

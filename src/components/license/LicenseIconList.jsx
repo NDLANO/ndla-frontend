@@ -8,8 +8,8 @@
 
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
+import { BY, NC, ND, SA } from 'ndla-licenses';
 import Icon from '../icons/Icons';
-import { BY, NC, ND, SA } from './licenseConstants';
 
 const LicenseIcon = ({ licenseRight, className }) => {
   switch (licenseRight) {

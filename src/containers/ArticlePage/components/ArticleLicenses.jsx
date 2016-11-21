@@ -8,9 +8,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import { injectT } from '../../../i18n';
 import LicenseBox from '../../../components/license/LicenseBox';
-import getLicenseByKey from '../../../components/license/licenseConstants';
 import LicenseByline from '../../../components/license/LicenseByline';
 
 class ArticleLicenses extends Component {
@@ -31,7 +31,7 @@ class ArticleLicenses extends Component {
   render() {
     const { article, locale, licenseType, contentType, t, mini } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
-    const license = getLicenseByKey(licenseType, locale);
+    const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
     const expandedIcon = classnames({
       'u-expanded--svg': expanded,
