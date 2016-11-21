@@ -45,7 +45,8 @@ const phrases = {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
     creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
     tabs: {
-      heading: 'Sitere eller gjenbruk {contentType}:',
+      heading: 'Slik kan du gjenbruke, sitere og laste {contentType} fra NDLA:',
+      article: 'Artikkel',
       text: 'Tekst',
       cite: 'Sitere',
       images: 'Bilder',
