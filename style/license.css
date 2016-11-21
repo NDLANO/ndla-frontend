@@ -39,11 +39,12 @@
   padding: 0;
   list-style: none;
   display: block;
+  overflow: hidden;
 
 }
 .license__list-item > img, .license__list-item > div {
   margin: 0 var(--spacing) 0 0;
-  width: 50%;
+  width: 45%;
   float: left;
 }
 .license__heading {
@@ -66,6 +67,10 @@
   vertical-align: middle;
   padding: 0 0.5em 0 0;
 }
+.license__list-item > .license-byline > * {
+  display: block;
+
+}
 .license__textarea {
   width: 100%;
   heigth: 50vh;
@@ -86,13 +91,12 @@
   border: 1px solid var(--background-color);
   border-radius: 3px;
   background: var(--background-color);
-  color: var(--main-color);
 }
 .ReactTabs__Tab + .ReactTabs__Tab {
   margin-left: var(--spacing);
 }
 .ReactTabs__Tab--selected {
-  color: var(--background-color);
+  color: #fff;
   background: var(--main-color);
   border: 1px solid var(--main-color);
 }
