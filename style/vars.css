@@ -1,7 +1,9 @@
 :root {
   --main-color: #303030;
+  --background-color: #f8f8f8;
   --spacing: 12px;
-  
+  --font-size--small: 16px;
+
   @custom-media --xlarge-viewport (min-width: 1200px);
   @custom-media --large-viewport (min-width: 800px);
   @custom-media --medium-viewport (max-width: 800px);
