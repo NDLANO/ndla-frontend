@@ -17,7 +17,7 @@ const ImageLicenseInfo = ({ image, locale }) => (
       license={getLicenseByKey(image.copyright.license.license, locale)}
       locale={locale}
     >
-      Fotograf:  { image.copyright.authors.map(author => author.name).join(', ') }
+      Fotograf: { image.copyright.authors.map(author => author.name).join(', ') }
       <div><a target="_blank" rel="noopener noreferrer" href={image.src}>Åpne bilde i stort format</a></div>
     </LicenseByline>
   </li>
