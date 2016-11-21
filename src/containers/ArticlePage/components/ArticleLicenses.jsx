@@ -29,7 +29,7 @@ class ArticleLicenses extends Component {
   }
 
   render() {
-    const { article, locale, licenseType, contentType, t, mini } = this.props;
+    const { article, locale, licenseType, contentType, t, showByline } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
     const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
@@ -40,15 +40,16 @@ class ArticleLicenses extends Component {
 
     return (
       <div className={classnames('license', { 'u-expanded': expanded })}>
-        {mini ? <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
-          {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
-        </button> : <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
+        <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
           {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
         </button>
-        }
-        {mini ? null : <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
-          <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
-        </LicenseByline>
+
+        {showByline ?
+          <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
+            <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
+          </LicenseByline>
+          :
+          null
         }
 
         { expanded &&
@@ -63,8 +64,8 @@ class ArticleLicenses extends Component {
   }
 }
 
-ArticleLicenses.DefaultPropTypes = {
-  mini: false,
+ArticleLicenses.defaultProps = {
+  showByline: false,
 };
 
 ArticleLicenses.propTypes = {
@@ -73,7 +74,7 @@ ArticleLicenses.propTypes = {
   locale: PropTypes.string,
   licenseType: PropTypes.string,
   licenseHandler: PropTypes.func,
-  mini: PropTypes.bool,
+  showByline: PropTypes.bool,
 };
 
 export default injectT(ArticleLicenses);

@@ -44,13 +44,13 @@ class LicenseBox extends Component {
         <h1 className="license__heading">{t('license.tabs.heading', { contentType: article.contentType.toLowerCase() })}</h1>
         <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
           <TabList>
-            {defined(article) && <Tab>{t('license.tabs.article')}</Tab>}
+            {article && <Tab>{t('license.tabs.article')}</Tab>}
             {images.length > 0 && <Tab>{t('license.tabs.images')}</Tab>}
             {audios.length > 0 && <Tab>{t('license.tabs.audios')}</Tab>}
             <Tab>{t('license.tabs.text')}</Tab>
             <Tab>{t('license.tabs.cite')}</Tab>
           </TabList>
-          { defined(article) &&
+          { article &&
             <TabPanel>
               <ArticleLicenseInfo
                 license={license}

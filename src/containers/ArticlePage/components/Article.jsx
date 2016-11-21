@@ -19,7 +19,7 @@ const Article = ({ article, locale }) => {
   return (
     <article className="article">
       <ArticleLicenses
-        mini
+        showByline
         article={article}
         locale={locale}
         licenseType={licenseType}
