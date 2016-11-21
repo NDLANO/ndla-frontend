@@ -15,6 +15,8 @@ import AudioLicenseList from './AudioLicenseList';
 import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
 
+/* Disable default styles for tabs */
+Tabs.setUseDefaultStyles(false);
 
 class LicenseBox extends Component {
   constructor() {
@@ -39,21 +41,25 @@ class LicenseBox extends Component {
 
     return (
       <div>
-        <ArticleLicenseInfo
-          license={license}
-          authors={article.copyright.authors}
-          created={article.created}
-          updated={article.updated}
-        />
-
-        <h2 className="license__heading">{t('license.tabs.heading', { contentType: article.contentType.toLowerCase() })}</h2>
+        <h1 className="license__heading">{t('license.tabs.heading', { contentType: article.contentType.toLowerCase() })}</h1>
         <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
           <TabList>
+            {defined(article) && <Tab>{t('license.tabs.article')}</Tab>}
             {images.length > 0 && <Tab>{t('license.tabs.images')}</Tab>}
             {audios.length > 0 && <Tab>{t('license.tabs.audios')}</Tab>}
             <Tab>{t('license.tabs.text')}</Tab>
             <Tab>{t('license.tabs.cite')}</Tab>
           </TabList>
+          { defined(article) &&
+            <TabPanel>
+              <ArticleLicenseInfo
+                license={license}
+                authors={article.copyright.authors}
+                created={article.created}
+                updated={article.updated}
+              />
+            </TabPanel>
+          }
           { images.length > 0 &&
             <TabPanel>
               <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} />
