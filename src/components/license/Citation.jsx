@@ -42,8 +42,7 @@ const Citation = ({ ...props }) => {
 
   return (
     <div>
-      <h2>Referansestiler</h2>
-      {citeMap(citation).map((style, key) =>
+      {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
         <div key={key}>
           <h2>{style.name}</h2>
           <p>{style.format}</p>
