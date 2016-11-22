@@ -52,6 +52,7 @@ class LicenseBox extends Component {
           </TabList>
           { article &&
             <TabPanel>
+              {this.props.children}
               <ArticleLicenseInfo
                 license={license}
                 authors={article.copyright.authors}
