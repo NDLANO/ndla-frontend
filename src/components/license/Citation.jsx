@@ -26,15 +26,15 @@ const Citation = ({ ...props }) => {
     const citationStyles = [
       {
         name: 'MLA',
-        format: (<span>{authors}. {year}. &laquo;{title}&raquo;. <em>Norsk Digital Læringsarena</em>. Lest {today}. {uri}</span>),
+        format: (<span>{authors}. {year}. &laquo;{title}&raquo;. <em>Nasjonal Digital Læringsarena</em>. Lest {today}. {uri}</span>),
       },
       {
         name: 'Harvard',
-        format: (<span>{authors} ({year}) <em>{title}</em> [Internett]. {place}: Norsk Digital Læringsarena. Tilgjengelig fra: {uri} [Lest {today}].</span>),
+        format: (<span>{authors} ({year}) <em>{title}</em> [Internett]. {place}: Nasjonal Digital Læringsarena. Tilgjengelig fra: {uri} [Lest {today}].</span>),
       },
       {
         name: 'Chicago',
-        format: (<span>{authors}. &laquo;{title}&raquo;. {created}. Norsk Digital Læringsarena. Internett. &lt;{uri}&gt; {today}.</span>),
+        format: (<span>{authors}. &laquo;{title}&raquo;. {created}. Nasjonal Digital Læringsarena. Internett. &lt;{uri}&gt; {today}.</span>),
       },
     ];
     return citationStyles;
