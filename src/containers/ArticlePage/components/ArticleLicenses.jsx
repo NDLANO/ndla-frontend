@@ -58,9 +58,7 @@ class ArticleLicenses extends Component {
             locale={locale}
             license={license}
           >
-            <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
-              <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
-            </LicenseByline>
+            <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon} />
           </LicenseBox>
         }
       </div>
