@@ -106,3 +106,10 @@
 .ReactTabs__TabPanel {
   padding: calc(var(--spacing) / 2) var(--spacing);
 }
+.c-bodybox {
+  padding: calc(var(--spacing) * 1.5);
+  margin-bottom: var(--spacing);
+  border-style: dashed;
+  border-color: var(--brand-color);
+  border-width: 1px;
+}
