@@ -12,18 +12,18 @@ import { injectT } from '../../i18n';
 const ArticleLicenseInfo = ({ t, license, authors, title, created, updated, icons }) => (
   <div>
     <div>
-      <div className="license__publication-info">
+      <div className="license__publication-info c-bodybox">
         <ul className="license__list">
           <li className="license__list-item">Tittel: {title}<br /></li>
           <li className="license__list-item">{`${t('article.created')} ${created}. ${t('article.lastUpdated')} ${updated}`}</li>
         </ul>
+        <ul className="license__list">
+          { t('license.creators', { num: authors.length })}
+          {
+            authors.map((author, i) => (<li className="license__list-item" key={i}>{author.name} {author.type ? `(${author.type})` : ''}</li>))
+          }
+        </ul>
       </div>
-      <ul className="license__list">
-        { t('license.creators', { num: authors.length })}
-        {
-          authors.map((author, i) => (<li className="license__list-item" key={i}>{author.name} {author.type ? `(${author.type})` : ''}</li>))
-        }
-      </ul>
     </div>
     {icons}
     <h3>{license.title}</h3>
