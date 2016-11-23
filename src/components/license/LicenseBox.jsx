@@ -39,32 +39,36 @@ class LicenseBox extends Component {
     const images = defined(article.contentCopyrights.image, []);
     const audios = defined(article.contentCopyrights.audio, []);
 
+    const contentType = article.contentType.toLowerCase();
+
     return (
       <div>
-        <h1 className="license__heading">{t('license.tabs.heading', { contentType: article.contentType.toLowerCase() })}</h1>
+        <h1 className="license__heading">{t('license.tabs.heading', { contentType })}</h1>
+        <p className="license__introduction">{t('license.tabs.introduction', { contentType })}</p>
         <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
           <TabList>
-            {article && <Tab>{t('license.tabs.article')}</Tab>}
             {images.length > 0 && <Tab>{t('license.tabs.images')}</Tab>}
+            {article && <Tab>{t('license.tabs.article')}</Tab>}
             {audios.length > 0 && <Tab>{t('license.tabs.audios')}</Tab>}
             <Tab>{t('license.tabs.text')}</Tab>
             <Tab>{t('license.tabs.cite')}</Tab>
           </TabList>
-          { article &&
-            <TabPanel>
-              {this.props.children}
-              <ArticleLicenseInfo
-                license={license}
-                authors={article.copyright.authors}
-                created={article.created}
-                updated={article.updated}
-              />
-            </TabPanel>
-          }
           { images.length > 0 &&
             <TabPanel>
               <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} />
             </TabPanel>}
+          { article &&
+          <TabPanel>
+            <ArticleLicenseInfo
+              icons={this.props.children}
+              license={license}
+              title={article.title}
+              authors={article.copyright.authors}
+              created={article.created}
+              updated={article.updated}
+            />
+          </TabPanel>
+            }
           { audios.length > 0 &&
             <TabPanel>
               <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />
