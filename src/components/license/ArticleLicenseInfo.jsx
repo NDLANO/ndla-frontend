@@ -9,11 +9,15 @@
 import React, { PropTypes } from 'react';
 import { injectT } from '../../i18n';
 
-const ArticleLicenseInfo = ({ t, license, authors, created, updated }) => (
+const ArticleLicenseInfo = ({ t, license, authors, title, created, updated, icons }) => (
   <div>
-    <h2>{license.title}</h2>
-    <p>{license.description}</p>
-    <div className="license-section">
+    <div>
+      <div className="license__publication-info">
+        <ul className="license__list">
+          <li className="license__list-item">Tittel: {title}<br /></li>
+          <li className="license__list-item">{`${t('article.created')} ${created}. ${t('article.lastUpdated')} ${updated}`}</li>
+        </ul>
+      </div>
       <ul className="license__list">
         { t('license.creators', { num: authors.length })}
         {
@@ -21,20 +25,23 @@ const ArticleLicenseInfo = ({ t, license, authors, created, updated }) => (
         }
       </ul>
     </div>
-    <div className="license-section license__publication-info">
-      {`${t('article.created')} ${created}. ${t('article.lastUpdated')} ${updated}`}
-    </div>
+    {icons}
+    <h3>{license.title}</h3>
+    <p>{license.description}</p>
+
   </div>
 );
 
 ArticleLicenseInfo.propTypes = {
   authors: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,
   license: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }),
+  icons: PropTypes.object.isRequired,
 };
 
 export default injectT(ArticleLicenseInfo);
