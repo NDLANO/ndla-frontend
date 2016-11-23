@@ -45,7 +45,12 @@ const phrases = {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
     creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
     tabs: {
-      heading: 'Slik kan du gjenbruke, sitere og laste {contentType} fra NDLA:',
+      heading: 'Regler for gjenbruk av {contentType} på NDLA',
+      introduction: `Alt innhold på NDLA har egne opphavsrettigheter. Disse må du ta hensyn
+      til dersom du skal gjenbruke noe av dette innholdet utenfor ndla.no. Opphavsretten
+      bestemmer hvordan du kan bruke innholdet, enten det skal publiseres, deles på internett,
+      eller hvis noen skal tjene penger på det. Her kan du kan du se hvordan du kan bruke innholdet
+      i denne {contentType}.`,
       article: 'Artikkel',
       text: 'Tekst',
       cite: 'Sitere',
