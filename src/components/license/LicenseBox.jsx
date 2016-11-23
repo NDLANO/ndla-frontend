@@ -74,9 +74,13 @@ class LicenseBox extends Component {
               <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />
             </TabPanel>
           }
-          <TabPanel>{t('license.articleText')}
+          <TabPanel>
             <div>
-              <textarea className="license__textarea" name="ArticleText" rows="20" defaultValue={article.content} />
+              <ul className="c-downloadable-list">
+                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som word-dokument (.docx)</a></li>
+                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som rentekst (.txt)</a></li>
+                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som HTML</a></li>
+              </ul>
             </div>
           </TabPanel>
           <TabPanel><Citation article={article} /></TabPanel>
