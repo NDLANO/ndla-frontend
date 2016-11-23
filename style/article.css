@@ -59,7 +59,7 @@
 .article section {
   font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
   line-height: 1.8em;
-  font-size: 1em;
+  font-size: var(--font-size-medium);
 }
 .article section::after {
     content:"";

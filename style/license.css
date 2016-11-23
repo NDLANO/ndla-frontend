@@ -1,9 +1,9 @@
 .license {
-  padding: 1em;
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
   margin-left: -1em;
   margin-right: -1em;
   transition: all 200ms ease-in;
-  font-size: var(--font-size--small);
+  font-size: var(--font-size--medium);
 }
 .license-toggler {
   margin-left: 0.2em;
@@ -81,22 +81,28 @@
 
 /* React Tabs Stylining */
 .ReactTabs__TabList {
+  font-size: var(--font-size--huge);
+  font-weight: 900;
   list-style: none;
   padding: 0;
-  margin: 0 0 var(--spacing) 0;
+  border-bottom: 1px var(--brand-color) solid;
 }
 .ReactTabs__Tab {
   display: inline-block;
   padding: calc(var(--spacing) / 2) var(--spacing);
-  border: 1px solid var(--background-color);
-  border-radius: 3px;
-  background: var(--background-color);
+  transform: translateY(3px);
+}
+.ReactTabs__Tab:hover {
+  color: var(--brand-color);
+  cursor: pointer;
 }
 .ReactTabs__Tab + .ReactTabs__Tab {
   margin-left: var(--spacing);
 }
 .ReactTabs__Tab--selected {
-  color: #fff;
-  background: var(--main-color);
-  border: 1px solid var(--main-color);
+  color: var(--brand-color);
+  border-bottom: 5px solid var(--brand-color);
+}
+.ReactTabs__TabPanel {
+  padding: calc(var(--spacing) / 2) var(--spacing);
 }
