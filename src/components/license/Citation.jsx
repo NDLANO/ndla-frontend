@@ -42,11 +42,15 @@ const Citation = ({ ...props }) => {
 
   return (
     <div>
+      <p>Når du siterer tekster fra NDLA må du vise hvor du har funnet dem
+        og hvem som har laget dem. Hvis du skriver en egen tekst plasserer
+        du referansen på den siste siden. Slik siterer du denne teksten:
+      </p>
       {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
         <div key={key}>
-          <h2>{style.name}</h2>
-          <p>{style.format}</p>
+          <blockquote>{style.format}</blockquote>
         </div>)}
+      <p>Vil du vite mer om referanser og hvordan man siterer kan du <a href="http://sokogskriv.no">gå til Søk & Skriv</a>.</p>
     </div>
   );
 };
