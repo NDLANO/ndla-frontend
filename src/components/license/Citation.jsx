@@ -48,7 +48,7 @@ const Citation = ({ ...props }) => {
       </p>
       {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
         <div key={key}>
-          <blockquote>{style.format}</blockquote>
+          <div className="c-bodybox">{style.format}</div>
         </div>)}
       <p>Vil du vite mer om referanser og hvordan man siterer kan du <a href="http://sokogskriv.no">gå til Søk & Skriv</a>.</p>
     </div>
