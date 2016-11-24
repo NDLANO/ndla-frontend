@@ -3837,9 +3837,9 @@ ndla-licenses@0.0.5:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.0.5.tgz#fb8722c498066f16cfc775a431e184df0a1c8b5c"
+ndla-ui@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.1.tgz#67de19e2d97996b63375684ae2ceaf31404164e6"
 
 negotiator@0.6.1:
   version "0.6.1"
@@ -4929,6 +4929,10 @@ rc@^1.0.1, rc@~1.1.6:
 react-addons-test-utils@^15.4.0:
   version "15.4.0"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.4.0.tgz#bd326904916b80de6a466248ef52cdfc1799e963"
+
+react-bem-helper:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-bem-helper/-/react-bem-helper-1.2.0.tgz#be5cc79dd59da0b318345131da829c83793186ed"
 
 react-dom@^15.4.0:
   version "15.4.0"
