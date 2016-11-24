@@ -2,8 +2,7 @@
   display: none;
 }
 .u-expanded {
-  background: #ddd;
-
+  background: var(--background-color--alt);
   height: auto;
 }
 .u-expanded--svg {

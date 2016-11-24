@@ -19,7 +19,6 @@ const Article = ({ article, locale }) => {
   return (
     <article className="article">
       <ArticleLicenses
-        showByline
         article={article}
         locale={locale}
         licenseType={licenseType}
@@ -30,6 +29,7 @@ const Article = ({ article, locale }) => {
       <div dangerouslySetInnerHTML={{ __html: article.content }} />
       { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
       <ArticleLicenses
+        showByline
         article={article}
         locale={locale}
         licenseType={licenseType}

@@ -8,9 +8,10 @@
 
 import React, { PropTypes } from 'react';
 import formatDate from '../../util/formatDate';
+import { injectT } from '../../i18n';
 
 const Citation = ({ ...props }) => {
-  const { article } = props;
+  const { article, t } = props;
   const citation = {
     authors: article.copyright.authors.map(author => author.name).join(', '),
     created: article.created,
@@ -26,15 +27,15 @@ const Citation = ({ ...props }) => {
     const citationStyles = [
       {
         name: 'MLA',
-        format: (<span>{authors}. {year}. &laquo;{title}&raquo;. <em>Norsk Digital Læringsarena</em>. Lest {today}. {uri}</span>),
+        format: (<span>{authors}. {year}. &laquo;{title}&raquo;. <em>Nasjonal Digital Læringsarena</em>. Lest {today}. {uri}</span>),
       },
       {
         name: 'Harvard',
-        format: (<span>{authors} ({year}) <em>{title}</em> [Internett]. {place}: Norsk Digital Læringsarena. Tilgjengelig fra: {uri} [Lest {today}].</span>),
+        format: (<span>{authors} ({year}) <em>{title}</em> [Internett]. {place}: Nasjonal Digital Læringsarena. Tilgjengelig fra: {uri} [Lest {today}].</span>),
       },
       {
         name: 'Chicago',
-        format: (<span>{authors}. &laquo;{title}&raquo;. {created}. Norsk Digital Læringsarena. Internett. &lt;{uri}&gt; {today}.</span>),
+        format: (<span>{authors}. &laquo;{title}&raquo;. {created}. Nasjonal Digital Læringsarena. Internett. &lt;{uri}&gt; {today}.</span>),
       },
     ];
     return citationStyles;
@@ -42,12 +43,13 @@ const Citation = ({ ...props }) => {
 
   return (
     <div>
-      <h2>Referansestiler</h2>
-      {citeMap(citation).map((style, key) =>
+      <p>{t('license.tabs.citation.explaination')}
+      </p>
+      {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
         <div key={key}>
-          <h2>{style.name}</h2>
-          <p>{style.format}</p>
+          <div className="c-bodybox">{style.format}</div>
         </div>)}
+      <p>Vil du vite mer om referanser og hvordan man siterer kan du <a href="http://sokogskriv.no">gå til Søk & Skriv</a>.</p>
     </div>
   );
 };
@@ -56,4 +58,4 @@ Citation.propTypes = {
   article: PropTypes.object.isRequired,
 };
 
-export default Citation;
+export default injectT(Citation);
