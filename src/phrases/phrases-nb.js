@@ -50,7 +50,7 @@ const phrases = {
       til dersom du skal gjenbruke noe av dette innholdet utenfor ndla.no. Opphavsretten
       bestemmer hvordan du kan bruke innholdet, enten det skal publiseres, deles på internett,
       eller hvis noen skal tjene penger på det. Her kan du kan du se hvordan du kan bruke innholdet
-      i denne {contentType}.`,
+      i {contentType}.`,
       article: 'Artikkel',
       text: 'Tekst',
       cite: 'Sitere',
