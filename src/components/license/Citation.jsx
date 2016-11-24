@@ -8,9 +8,10 @@
 
 import React, { PropTypes } from 'react';
 import formatDate from '../../util/formatDate';
+import { injectT } from '../../i18n';
 
 const Citation = ({ ...props }) => {
-  const { article } = props;
+  const { article, t } = props;
   const citation = {
     authors: article.copyright.authors.map(author => author.name).join(', '),
     created: article.created,
@@ -42,9 +43,7 @@ const Citation = ({ ...props }) => {
 
   return (
     <div>
-      <p>Når du siterer tekster fra NDLA må du vise hvor du har funnet dem
-        og hvem som har laget dem. Hvis du skriver en egen tekst plasserer
-        du referansen på den siste siden. Slik siterer du denne teksten:
+      <p>{t('license.tabs.citation.explaination')}
       </p>
       {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
         <div key={key}>
@@ -59,4 +58,4 @@ Citation.propTypes = {
   article: PropTypes.object.isRequired,
 };
 
-export default Citation;
+export default injectT(Citation);
