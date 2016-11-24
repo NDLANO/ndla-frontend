@@ -1,18 +1,14 @@
 .license {
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
-  margin-left: -1em;
-  margin-right: -1em;
+  margin: 0 -1em;
   transition: all 200ms ease-in;
   font-size: var(--font-size--medium);
 }
 .license-toggler {
-  margin-left: 0.2em;
+  /* margin: 0 -calc(var(--spacing) * 2.5) 0 0; */
   text-decoration: underline;
   text-align: right;
   float: right;
-}
-.license-section {
-  display:flex;
 }
 .license__action {
   flex-basis: 50%;
@@ -20,6 +16,7 @@
   border: 1px solid #000;
 }
 .license-section {
+  display:flex;
   margin-bottom: calc(var(--spacing) * 2);
 }
 .license__icon--mini {
