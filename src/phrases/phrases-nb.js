@@ -54,6 +54,11 @@ const phrases = {
       article: 'Artikkel',
       text: 'Tekst',
       cite: 'Sitere',
+      citation: {
+        explaination: `Når du siterer tekster fra NDLA må du vise hvor du har funnet dem
+          og hvem som har laget dem. Hvis du skriver en egen tekst plasserer
+          du referansen på den siste siden. Slik siterer du denne teksten:`,
+      },
       images: 'Bilder',
       audios: 'Lydfiler',
     },
