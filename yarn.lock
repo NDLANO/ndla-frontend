@@ -3831,9 +3831,9 @@ ncp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-licenses@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.3.tgz#b6cba099a68c2c937f5bdffd4b6bafea4dc21481"
+ndla-licenses:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.4.tgz#32e2065b61b32f2a44b35e4f69cafd60a37fc757"
   dependencies:
     defined "1.0.0"
 

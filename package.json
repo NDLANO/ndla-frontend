@@ -69,7 +69,7 @@
     "history": "2.1.2",
     "isomorphic-fetch": "2.2.1",
     "lodash": "^4.17.2",
-    "ndla-licenses": "0.0.3",
+    "ndla-licenses": "^0.0.4",
     "ndla-ui": "^0.0.5",
     "node-uuid": "1.4.7",
     "normalize-css": "2.3.1",
