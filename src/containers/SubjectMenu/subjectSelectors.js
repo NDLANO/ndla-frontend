@@ -5,3 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { createSelector } from 'reselect';
+
+const getSubjectsFromState = state => state.subjects;
+
+export const getSubjects = createSelector(
+    [getSubjectsFromState],
+    subjects => subjects.all
+);

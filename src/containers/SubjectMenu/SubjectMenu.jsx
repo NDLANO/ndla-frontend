@@ -8,24 +8,33 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from './subjectActions';
 import { getSubjects } from './subjectSelectors';
 
-class SubjectsContainer extends Component {
+class SubjectMenu extends Component {
   componentWillMount() {
-
+    this.props.fetchSubjects();
   }
 
   render() {
-    return <div />;
+    const { subjects } = this.props;
+    return (
+      <div>
+        <ul>
+          { subjects.map(subject => <li>{ subject.name }</li>) }
+        </ul>
+      </div>
+    );
   }
 }
 
-SubjectsContainer.propTypes = {
+SubjectMenu.propTypes = {
   subjects: PropTypes.array.isRequired,
+  fetchSubjects: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-
+  fetchSubjects: actions.fetchSubjects,
 };
 
 
@@ -33,4 +42,4 @@ const mapStateToProps = state => ({
   subjects: getSubjects(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectMenu);

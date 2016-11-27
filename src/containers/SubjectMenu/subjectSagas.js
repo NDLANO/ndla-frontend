@@ -6,17 +6,15 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga/effects';
-import { getLocale } from '../Locale/localeSelectors';
+import { take, call, put } from 'redux-saga/effects';
 // import { getArticle } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
 import * as api from './subjectApi';
 
-export function* fetchSubjects(id) {
+export function* fetchSubjects() {
   try {
-    const locale = yield select(getLocale);
-    const subjects = yield call(api.fetchSubjects, id, locale);
+    const subjects = yield call(api.fetchSubjects);
     yield put(actions.setSubjects(subjects));
   } catch (error) {
     throw error;
@@ -28,7 +26,7 @@ export function* fetchSubjects(id) {
 function* watchFetchSubjects() {
   while (true) {
     const { payload: id } = yield take(constants.FETCH_SUBJECTS);
-    // TODO: Chack has fetched
+    // TODO: Check has fetched
     yield call(fetchSubjects, id);
   }
 }
