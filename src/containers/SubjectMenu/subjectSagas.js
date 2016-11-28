@@ -23,12 +23,12 @@ export function* fetchSubjects() {
   }
 }
 
-function* watchFetchSubjects() {
+export function* watchFetchSubjects() {
   while (true) {
-    const { payload: id } = yield take(constants.FETCH_SUBJECTS);
+    yield take(constants.FETCH_SUBJECTS);
     const fetched = yield select(hasFetched);
     if (!fetched) {
-      yield call(fetchSubjects, id);
+      yield call(fetchSubjects);
     }
   }
 }
