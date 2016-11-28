@@ -7,8 +7,8 @@
  */
 
 import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
 
-const baseUrl = 'http://ndla-taxonomy-dev.eu-central-1.elasticbeanstalk.com';
+const baseUrl = apiResourceUrl('/taxonomy');
 
 export const fetchSubjects = () => fetch(`${baseUrl}/subjects/`).then(resolveJsonOrRejectWithError);
