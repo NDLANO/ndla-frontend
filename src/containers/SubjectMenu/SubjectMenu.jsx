@@ -21,7 +21,7 @@ class SubjectMenu extends Component {
     return (
       <div>
         <ul>
-          { subjects.map(subject => <li>{ subject.name }</li>) }
+          { subjects.map(subject => <li key={subject.id}>{ subject.name }</li>) }
         </ul>
       </div>
     );

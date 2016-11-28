@@ -14,3 +14,8 @@ export const getSubjects = createSelector(
     [getSubjectsFromState],
     subjects => subjects.all
 );
+
+export const hasFetched = createSelector(
+    [getSubjectsFromState],
+    subjects => subjects.hasFetched
+);

@@ -17,7 +17,7 @@ const Masthead = ({ t }) => (
     </MastheadItem>
     <MastheadItem right>
       <SiteNav>
-        <SiteNavItem to="#" cssModifier="bold">
+        <SiteNavItem to="/subjects/" cssModifier="bold">
           {t('siteNav.chooseSubject')}
         </SiteNavItem>
         <SiteNavItem to={toSearch()}>
