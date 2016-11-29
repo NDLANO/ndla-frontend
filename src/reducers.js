@@ -12,6 +12,7 @@ import { routerReducer } from 'react-router-redux';
 import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import articles from './containers/ArticlePage/articlesReducer';
+import subjects from './containers/SubjectsPage/subjectReducer';
 import search from './containers/SearchPage/searchReducer';
 
 const rootReducers = combineReducers({
@@ -19,6 +20,7 @@ const rootReducers = combineReducers({
   messages,
   articles,
   search,
+  subjects,
   routing: routerReducer,
 });
 
