@@ -8,7 +8,7 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import injectSubjects from '../../SubjectMenu/injectSubjects';
+import injectSubjects from '../../SubjectsPage/injectSubjects';
 
 const SubjectsMenu = ({ subjects }) => (
   <ul className="subject-menu">

@@ -8,7 +8,7 @@
 import { fork } from 'redux-saga/effects';
 import articleSagas from './containers/ArticlePage/articleSagas';
 import searchSagas from './containers/SearchPage/searchSagas';
-import subjectSagas from './containers/SubjectMenu/subjectSagas';
+import subjectSagas from './containers/SubjectsPage/subjectSagas';
 
 export default function* root() {
   yield [

@@ -13,7 +13,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
-import SubjectsPage from './containers/SubjectMenu/SubjectsPage';
+import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
 export function toSearch() {
