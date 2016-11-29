@@ -13,7 +13,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
-import SubjectMenu from './containers/SubjectMenu/SubjectMenu';
+import SubjectsPage from './containers/SubjectMenu/SubjectsPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
 export function toSearch() {
@@ -30,7 +30,7 @@ export default function () {
       <IndexRoute component={WelcomePage} />
       <Route path="article/:articleId(/)" component={ArticlePage} />
       <Route path="search(/)" component={SearchPage} />
-      <Route path="subjects(/)" component={SubjectMenu} />
+      <Route path="subjects(/)" component={SubjectsPage} />
       <Route path="*" status={404} component={NotFoundPage} />
     </Route>
   );
