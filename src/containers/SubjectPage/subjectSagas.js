@@ -36,7 +36,7 @@ export function* watchFetchSubjects() {
 export function* fetchTopics(subjectId) {
   try {
     const topics = yield call(api.fetchTopics, subjectId);
-    yield put(actions.setTopics(topics));
+    yield put(actions.setTopics({ topics, subjectId }));
   } catch (error) {
     throw error;
     // TODO: handle error

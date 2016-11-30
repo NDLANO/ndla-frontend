@@ -66,7 +66,7 @@ test('subjectSagas fetchTopics', () => {
     .call(api.fetchTopics, 1234)
 
     .next([{ id: '123', name: 'Algebra' }])
-    .put({ type: constants.SET_TOPICS, payload: [{ id: '123', name: 'Algebra' }] })
+    .put({ type: constants.SET_TOPICS, payload: { subjectId: 1234, topics: [{ id: '123', name: 'Algebra' }] } })
 
     .next()
     .isDone();

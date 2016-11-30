@@ -8,6 +8,7 @@
 
 import reducer, { initalState } from '../subjectReducer';
 import * as constants from '../subjectConstants';
+import { subjects, topics } from './mockSubjects';
 
 test('reducers/subject initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -16,6 +17,7 @@ test('reducers/subject initalState', () => {
     hasFetched: false,
     fetching: false,
     all: [],
+    topics: {},
   });
 });
 
@@ -26,19 +28,10 @@ test('reducers/subject handle fetch subjects', () => {
     hasFetched: false,
     fetching: true,
     all: [],
+    topics: {},
   });
 });
 
-const subjects = [
-  {
-    id: 'urn:subject:4160',
-    name: 'physics',
-  },
-  {
-    id: 'urn:subject:40964264',
-    name: 'Medieuttrykk og mediesamfunnet',
-  },
-];
 
 test('reducers/subjects handle set subjects', () => {
   const nextState = reducer(initalState, {
@@ -50,5 +43,36 @@ test('reducers/subjects handle set subjects', () => {
     hasFetched: true,
     fetching: false,
     all: subjects,
+    topics: {},
+  });
+});
+
+
+test('reducers/subjects handle set topics', () => {
+  const nextState = reducer(initalState, {
+    type: constants.SET_TOPICS,
+    payload: {
+      subjectId: subjects[0].id,
+      topics,
+    },
+  });
+
+  expect(nextState).toEqual({
+    hasFetched: false,
+    fetching: false,
+    all: [],
+    topics: { [subjects[0].id]: topics },
+  });
+
+  const nextNextState = reducer(nextState, {
+    type: constants.SET_TOPICS,
+    payload: {
+      subjectId: subjects[1].id,
+      topics: [],
+    },
+  });
+
+  expect(nextNextState.topics).toEqual({
+    [subjects[0].id]: topics, [subjects[1].id]: [],
   });
 });
