@@ -7,6 +7,7 @@
  */
 
 import { createSelector } from 'reselect';
+import defined from 'defined';
 
 const getSubjectsFromState = state => state.subjects;
 
@@ -22,5 +23,5 @@ export const hasFetched = createSelector(
 
 export const getTopicsBySubjectId = subjectId => createSelector(
   [getSubjectsFromState],
-  subjects => subjects.topics[subjectId]
+  subjects => defined(subjects.topics[subjectId], [])
 );
