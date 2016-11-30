@@ -19,3 +19,8 @@ export const hasFetched = createSelector(
     [getSubjectsFromState],
     subjects => subjects.hasFetched
 );
+
+export const getTopicsBySubjectId = subjectId => createSelector(
+  [getSubjectsFromState],
+  subjects => subjects.topics[subjectId]
+);
