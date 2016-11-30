@@ -7,12 +7,12 @@
  */
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-// import * as actions from '../SubjectsPage/subjectActions';
+import * as actions from './subjectActions';
 
 class SubjectPage extends Component {
   componentWillMount() {
-    // const { params: { subjectId } } = this.props;
-    // actions.fetchSubject(subjectId);
+    const { params: { subjectId }, fetchTopics } = this.props;
+    fetchTopics(subjectId);
   }
 
   render() {
@@ -27,13 +27,14 @@ SubjectPage.propTypes = {
   params: PropTypes.shape({
     subjectId: PropTypes.string.isRequired,
   }).isRequired,
+  fetchTopics: PropTypes.func.isRequired,
   // subject: PropTypes.shape({
   //   id: PropTypes.string.isRequired,
   // }),
 };
 
 const mapDispatchToProps = {
-  // fetchSubject: actions.fetchSubject,
+  fetchTopics: actions.fetchTopics,
 };
 
 // const makeMapStateToProps = (_, ownProps) => {
