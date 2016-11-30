@@ -8,7 +8,7 @@
 
 import React, { PropTypes } from 'react';
 import { OneColumn } from 'ndla-ui';
-import injectSubjects from './injectSubjects';
+import { injectSubjects } from './subjectHOCs';
 
 const SubjectsPage = ({ subjects }) => (
   <OneColumn>

@@ -12,7 +12,7 @@ import * as actions from './subjectActions';
 import { getSubjects } from './subjectSelectors';
 
 
-const injectSubjects = (WrappedComponent) => {
+export const injectSubjects = (WrappedComponent) => {
   class SubjectsContainer extends Component {
     componentWillMount() {
       this.props.fetchSubjects();
@@ -44,5 +44,3 @@ const injectSubjects = (WrappedComponent) => {
 
   return connect(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
 };
-
-export default injectSubjects;
