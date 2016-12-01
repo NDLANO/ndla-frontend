@@ -19,6 +19,14 @@ class SubjectPage extends Component {
     fetchTopics(subjectId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { params: { subjectId }, fetchTopics } = this.props;
+
+    if (nextProps.params.subjectId !== subjectId) {
+      fetchTopics(nextProps.params.subjectId);
+    }
+  }
+
   render() {
     const { params: { subjectId }, topics } = this.props;
     return (
@@ -42,12 +50,12 @@ const mapDispatchToProps = {
   fetchTopics: actions.fetchTopics,
 };
 
-const makeMapStateToProps = (_, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const subjectId = ownProps.params.subjectId;
   const getTopicsSelector = getTopicsBySubjectId(subjectId);
-  return state => ({
+  return {
     topics: getTopicsSelector(state),
-  });
+  };
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SubjectPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);
