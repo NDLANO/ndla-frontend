@@ -7,6 +7,8 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import isEmpty from 'lodash/isEmpty';
+import classNames from 'classnames';
 
 class Topic extends Component {
   constructor(props) {
@@ -14,13 +16,32 @@ class Topic extends Component {
     this.state = {
       collapsed: props.collapsed,
     };
+    this.handleCollapseClick = this.handleCollapseClick.bind(this);
+    this.toggleCollapsed = this.toggleCollapsed.bind(this);
   }
 
+  handleCollapseClick() {
+    this.toggleCollapsed();
+  }
+
+  toggleCollapsed() {
+    this.setState({ collapsed: !this.state.collapsed });
+  }
 
   render() {
     const { topic } = this.props;
+    const { collapsed } = this.state;
+    const isLeaf = isEmpty(topic.subtopics);
     return (
-      <li>{topic.name}</li>
+      <li className={classNames('topic-menu__item', { 'topic-menu__item--active': collapsed })}>
+        { !isLeaf ? <button className="un-button" onClick={this.handleCollapseClick}>{topic.name}</button> : topic.name }
+        { collapsed && !isLeaf &&
+          <ul className="topic-menu__list">
+            { topic.subtopics.map(subtopic => <Topic key={subtopic.id} collapsed={false} topic={subtopic} />) }
+          </ul>
+        }
+      </li>
+
     );
   }
 }
