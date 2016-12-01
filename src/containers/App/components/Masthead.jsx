@@ -7,8 +7,11 @@
  */
 
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import { Masthead as UIMasthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch } from '../../../routes';
+import SubjectsMenu from './SubjectsMenu';
+import SiteNavMenuItem from './SiteNavMenuItem';
 
 const Masthead = ({ t }) => (
   <UIMasthead>
@@ -17,9 +20,16 @@ const Masthead = ({ t }) => (
     </MastheadItem>
     <MastheadItem right>
       <SiteNav>
-        <SiteNavItem to="#" cssModifier="bold">
-          {t('siteNav.chooseSubject')}
-        </SiteNavItem>
+        <SiteNavMenuItem
+          className="site-nav_item site-nav_item--bold"
+          toggle={
+            <Link to="/subjects/" className="site-nav_link">
+              {t('siteNav.chooseSubject')}
+            </Link>
+          }
+        >
+          <SubjectsMenu />
+        </SiteNavMenuItem>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
         </SiteNavItem>
