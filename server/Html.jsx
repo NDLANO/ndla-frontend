@@ -58,7 +58,7 @@ const Html = (props) => {
       <body>
         <GoogleTagMangerNoScript />
         <GoogleTagMangerScript />
-        <div id="app-container" className="app-container" dangerouslySetInnerHTML={{ __html: content }} />
+        <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
         <script dangerouslySetInnerHTML={{ __html: `window.initialState = ${serialize(state)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.assets = ${serialize(assets)}` }} />
         <script dangerouslySetInnerHTML={{ __html: `window.config = ${serialize(config)}` }} />

@@ -12,9 +12,12 @@
   margin: 0 auto;
 }
 
+.article p {
+  max-width: none;
+}
+
 .article img {
   max-width: 100%;
-  /*max-width: 70%;*/
 }
 
 .article_meta {
@@ -100,12 +103,3 @@ vertical-align: top;
 margin: 0;
 }
 */
-
-.article aside {
-  float: right;
-  width: 25%;
-  background: white;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid #ddd;
-}
