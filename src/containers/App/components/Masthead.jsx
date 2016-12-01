@@ -21,9 +21,9 @@ const Masthead = ({ t }) => (
     <MastheadItem right>
       <SiteNav>
         <SiteNavMenuItem
-          className="site-nav_item site-nav_item--bold"
+          className="c-site-navigation__item c-site-navigation__item--bold"
           toggle={
-            <Link to="/subjects/" className="site-nav_link">
+            <Link to="/subjects/" className="c-site-navigation__link">
               {t('siteNav.chooseSubject')}
             </Link>
           }

@@ -9,12 +9,12 @@
 
 .topic-menu {
   font-size: 1.3em;
-  /*font-weight: 600;*/
 }
 
 .topic-menu__list {
   list-style: none;
   padding-left: 10px;
+  margin: 0;
 }
 
 .topic-menu__item button:hover {
