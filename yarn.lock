@@ -3837,9 +3837,9 @@ ndla-licenses@0.0.5:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.1.tgz#67de19e2d97996b63375684ae2ceaf31404164e6"
+ndla-ui:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.2.tgz#e1b712c145fc07d83211467f0627c6ec8f662340"
 
 negotiator@0.6.1:
   version "0.6.1"
