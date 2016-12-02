@@ -10,10 +10,11 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Masthead as UIMasthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch } from '../../../routes';
+import { injectSubjects } from '../../SubjectPage/subjectHOCs';
 import SubjectsMenu from './SubjectsMenu';
 import SiteNavMenuItem from './SiteNavMenuItem';
 
-const Masthead = ({ t }) => (
+const Masthead = ({ t, subjects }) => (
   <UIMasthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -28,7 +29,7 @@ const Masthead = ({ t }) => (
             </Link>
           }
         >
-          <SubjectsMenu />
+          <SubjectsMenu subjects={subjects} />
         </SiteNavMenuItem>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
@@ -46,6 +47,7 @@ const Masthead = ({ t }) => (
 
 Masthead.propTypes = {
   t: PropTypes.func.isRequired,
+  subjects: PropTypes.array.isRequired,
 };
 
-export default Masthead;
+export default injectSubjects(Masthead);

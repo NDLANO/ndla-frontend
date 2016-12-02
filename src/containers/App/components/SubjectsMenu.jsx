@@ -8,7 +8,6 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { injectSubjects } from '../../SubjectPage/subjectHOCs';
 
 const SubjectsMenu = ({ subjects }) => (
   <ul className="subject-menu">
@@ -24,4 +23,4 @@ SubjectsMenu.propTypes = {
   subjects: PropTypes.array.isRequired,
 };
 
-export default injectSubjects(SubjectsMenu);
+export default SubjectsMenu;
