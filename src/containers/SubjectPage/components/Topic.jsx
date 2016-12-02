@@ -33,10 +33,10 @@ class Topic extends Component {
     const { collapsed } = this.state;
     const isLeaf = isEmpty(topic.subtopics);
     return (
-      <li className={classNames('topic-menu__item', { 'topic-menu__item--active': collapsed })}>
+      <li className={classNames('c-topic-menu__item', { 'c-topic-menu__item--active': collapsed })}>
         { !isLeaf ? <button className="un-button" onClick={this.handleCollapseClick}>{topic.name}</button> : topic.name }
         { collapsed && !isLeaf &&
-          <ul className="topic-menu__list">
+          <ul className="c-topic-menu__list">
             { topic.subtopics.map(subtopic => <Topic key={subtopic.id} collapsed={false} topic={subtopic} />) }
           </ul>
         }

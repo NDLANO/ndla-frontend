@@ -12,6 +12,7 @@ import { OneColumn } from 'ndla-ui';
 import * as actions from './subjectActions';
 import { getSubjectById, getTopicsBySubjectId } from './subjectSelectors';
 import TopicMenu from './components/TopicMenu';
+import TopicCardList from './components/TopicCardList';
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -29,11 +30,12 @@ class SubjectPage extends Component {
 
   render() {
     const { topics, subject } = this.props;
-    const subjectName = subject ? subject.name : '';
     return (
       <OneColumn>
-        <h1>{subjectName}</h1>
-        <TopicMenu topics={topics} />
+        <div className="o-layout">
+          {subject ? <TopicMenu className="o-layout__item u-1/3" subjectName={subject.name} topics={topics} /> : <div className="o-layout__item u-1/3" />}
+          <TopicCardList className="o-layout__item u-2/3" topics={topics} />
+        </div>
       </OneColumn>
     );
   }
