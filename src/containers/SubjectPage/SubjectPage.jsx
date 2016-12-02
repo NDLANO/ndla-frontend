@@ -10,7 +10,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import * as actions from './subjectActions';
-import { getTopicsBySubjectId } from './subjectSelectors';
+import { getSubjectById, getTopicsBySubjectId } from './subjectSelectors';
 import TopicMenu from './components/TopicMenu';
 
 class SubjectPage extends Component {
@@ -28,10 +28,11 @@ class SubjectPage extends Component {
   }
 
   render() {
-    const { params: { subjectId }, topics } = this.props;
+    const { topics, subject } = this.props;
+    const subjectName = subject ? subject.name : '';
     return (
       <OneColumn>
-        <h1>{subjectId}</h1>
+        <h1>{subjectName}</h1>
         <TopicMenu topics={topics} />
       </OneColumn>
     );
@@ -44,6 +45,7 @@ SubjectPage.propTypes = {
   }).isRequired,
   fetchTopics: PropTypes.func.isRequired,
   topics: PropTypes.array.isRequired,
+  subject: PropTypes.object,
 };
 
 const mapDispatchToProps = {
@@ -52,9 +54,9 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const subjectId = ownProps.params.subjectId;
-  const getTopicsSelector = getTopicsBySubjectId(subjectId);
   return {
-    topics: getTopicsSelector(state),
+    topics: getTopicsBySubjectId(subjectId)(state),
+    subject: getSubjectById(subjectId)(state),
   };
 };
 
