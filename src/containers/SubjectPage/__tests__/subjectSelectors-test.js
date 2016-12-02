@@ -6,7 +6,7 @@
  *
  */
 
-import { getSubjects, getSubjectById, getTopicsBySubjectId } from '../subjectSelectors';
+import { getSubjects, getSubjectById, getTopicsBySubjectId, getTopic } from '../subjectSelectors';
 
 import { subjects, topics } from './mockSubjects';
 
@@ -49,4 +49,22 @@ test('subjectSelectors getTopicsBySubjectId', () => {
 
   expect(getSubjectById(subjects[0].id)(state)).toBe(subjects[0]);
   expect(getSubjectById(subjects[1].id)(state)).toBe(subjects[1]);
+});
+
+test('subjectSelectors getTopics', () => {
+  const state = {
+    subjects: {
+      hasFetched: false,
+      fetching: false,
+      all: subjects,
+      topics: {
+        [subjects[0].id]: topics,
+      },
+    },
+  };
+
+  expect(getTopic(subjects[0].id, topics[0].id)(state)).toBe(topics[0]);
+  expect(getTopic(subjects[0].id, topics[1].id)(state)).toBe(topics[1]);
+  expect(getTopic(subjects[0].id, topics[0].subtopics[0].id)(state)).toBe(topics[0].subtopics[0]);
+  expect(getTopic(subjects[0].id, 'sadfjl')(state)).toBe(undefined);
 });

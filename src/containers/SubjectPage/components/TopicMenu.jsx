@@ -10,9 +10,9 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import TopicMenuItem from './TopicMenuItem';
 
-const TopicMenu = ({ topics, subjectName, className }) => (
+const TopicMenu = ({ topics, heading, className }) => (
   <div className={classNames('c-topic-menu', className)}>
-    <h1 className="c-topic-menu__header">{subjectName}</h1>
+    <h1 className="c-topic-menu__header">{heading}</h1>
     <ul className="c-topic-menu__list">
       { topics.map(topic => <TopicMenuItem key={topic.id} collapsed={false} topic={topic} />)}
     </ul>
@@ -21,7 +21,7 @@ const TopicMenu = ({ topics, subjectName, className }) => (
 
 TopicMenu.propTypes = {
   topics: PropTypes.array.isRequired,
-  subjectName: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
