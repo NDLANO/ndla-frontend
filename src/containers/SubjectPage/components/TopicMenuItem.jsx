@@ -10,7 +10,7 @@ import React, { Component, PropTypes } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 
-class Topic extends Component {
+class TopicMenuItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +37,7 @@ class Topic extends Component {
         { !isLeaf ? <button className="un-button" onClick={this.handleCollapseClick}>{topic.name}</button> : topic.name }
         { collapsed && !isLeaf &&
           <ul className="c-topic-menu__list">
-            { topic.subtopics.map(subtopic => <Topic key={subtopic.id} collapsed={false} topic={subtopic} />) }
+            { topic.subtopics.map(subtopic => <TopicMenuItem key={subtopic.id} collapsed={false} topic={subtopic} />) }
           </ul>
         }
       </li>
@@ -46,9 +46,9 @@ class Topic extends Component {
   }
 }
 
-Topic.propTypes = {
+TopicMenuItem.propTypes = {
   topic: PropTypes.object.isRequired,
   collapsed: PropTypes.bool.isRequired,
 };
 
-export default Topic;
+export default TopicMenuItem;
