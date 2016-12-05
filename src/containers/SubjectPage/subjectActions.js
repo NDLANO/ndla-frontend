@@ -11,3 +11,6 @@ import * as constants from './subjectConstants';
 
 export const fetchSubjects = createAction(constants.FETCH_SUBJECTS);
 export const setSubjects = createAction(constants.SET_SUBJECTS);
+
+export const fetchTopics = createAction(constants.FETCH_TOPICS);
+export const setTopics = createAction(constants.SET_TOPICS);

@@ -13,6 +13,7 @@ export const initalState = {
   hasFetched: false,
   fetching: false,
   all: [],
+  topics: {},
 };
 
 export default handleActions({
@@ -22,6 +23,16 @@ export default handleActions({
   },
   [constants.SET_SUBJECTS]: {
     next: (state, action) => ({ ...state, all: action.payload, fetching: false, hasFetched: true }),
+    throw: state => state,
+  },
+  [constants.SET_TOPICS]: {
+    next: (state, action) => {
+      const { subjectId, topics } = action.payload;
+      return {
+        ...state,
+        topics: { ...state.topics, [subjectId]: topics },
+      };
+    },
     throw: state => state,
   },
 }, initalState);

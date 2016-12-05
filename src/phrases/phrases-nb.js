@@ -41,6 +41,9 @@ const phrases = {
     closeLicenseBox: 'Lukk boks',
     openLicenseBox: 'Gjenbruk {contentType}',
   },
+  subject: {
+    associatedTopics: 'Tilhørende emner',
+  },
   license: {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
     creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',

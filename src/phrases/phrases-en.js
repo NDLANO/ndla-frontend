@@ -39,6 +39,9 @@ const phrases = {
     closeLicenseBox: 'Close box',
     openLicenseBox: 'Cite or use {contentType}',
   },
+  subject: {
+    associatedTopics: 'Associated topics',
+  },
   license: {
     heading: 'You can download, or reuse content from NDLA on your own own website',
     creators: '{num, plural, one { Creator: } other { Creators: }}',

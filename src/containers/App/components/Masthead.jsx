@@ -10,10 +10,11 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Masthead as UIMasthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { toSearch } from '../../../routes';
+import { injectSubjects } from '../../SubjectPage/subjectHOCs';
 import SubjectsMenu from './SubjectsMenu';
 import SiteNavMenuItem from './SiteNavMenuItem';
 
-const Masthead = ({ t }) => (
+const Masthead = ({ t, subjects }) => (
   <UIMasthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -21,14 +22,14 @@ const Masthead = ({ t }) => (
     <MastheadItem right>
       <SiteNav>
         <SiteNavMenuItem
-          className="site-nav_item site-nav_item--bold"
+          className="c-site-navigation__item c-site-navigation__item--bold"
           toggle={
-            <Link to="/subjects/" className="site-nav_link">
+            <Link to="/subjects/" className="c-site-navigation__link">
               {t('siteNav.chooseSubject')}
             </Link>
           }
         >
-          <SubjectsMenu />
+          <SubjectsMenu subjects={subjects} />
         </SiteNavMenuItem>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
@@ -46,6 +47,7 @@ const Masthead = ({ t }) => (
 
 Masthead.propTypes = {
   t: PropTypes.func.isRequired,
+  subjects: PropTypes.array.isRequired,
 };
 
-export default Masthead;
+export default injectSubjects(Masthead);

@@ -8,13 +8,13 @@
 
 import testSaga from 'redux-saga-test-plan';
 import { hasFetched } from '../subjectSelectors';
-import { fetchSubjects, watchFetchSubjects } from '../subjectSagas';
+import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';
 import * as constants from '../subjectConstants';
 
 
 test('subjectSagas fetchSubjects', () => {
-  const saga = testSaga(fetchSubjects);
+  const saga = testSaga(sagas.fetchSubjects);
   saga
     .next()
     .call(api.fetchSubjects)
@@ -27,7 +27,7 @@ test('subjectSagas fetchSubjects', () => {
 });
 
 test('subjectSagas watchFetchSubjects ', () => {
-  const saga = testSaga(watchFetchSubjects);
+  const saga = testSaga(sagas.watchFetchSubjects);
   saga
     .next()
     .take(constants.FETCH_SUBJECTS)
@@ -36,7 +36,7 @@ test('subjectSagas watchFetchSubjects ', () => {
     .select(hasFetched)
 
     .next(false)
-    .call(fetchSubjects)
+    .call(sagas.fetchSubjects)
 
     .finish()
     .next()
@@ -44,7 +44,7 @@ test('subjectSagas watchFetchSubjects ', () => {
 });
 
 test('subjectSagas watchFetchSubjects when hasFetched is true', () => {
-  const saga = testSaga(watchFetchSubjects);
+  const saga = testSaga(sagas.watchFetchSubjects);
   saga
     .next()
     .take(constants.FETCH_SUBJECTS)
@@ -53,6 +53,33 @@ test('subjectSagas watchFetchSubjects when hasFetched is true', () => {
     .select(hasFetched)
 
     .next(true)
+
+    .finish()
+    .next()
+    .isDone();
+});
+
+test('subjectSagas fetchTopics', () => {
+  const saga = testSaga(sagas.fetchTopics, 1234);
+  saga
+    .next()
+    .call(api.fetchTopics, 1234)
+
+    .next([{ id: '123', name: 'Algebra' }])
+    .put({ type: constants.SET_TOPICS, payload: { subjectId: 1234, topics: [{ id: '123', name: 'Algebra' }] } })
+
+    .next()
+    .isDone();
+});
+
+test('subjectSagas watchFetchTopics ', () => {
+  const saga = testSaga(sagas.watchFetchTopics);
+  saga
+    .next()
+    .take(constants.FETCH_TOPICS)
+
+    .next({ payload: 1234 })
+    .call(sagas.fetchTopics, 1234)
 
     .finish()
     .next()

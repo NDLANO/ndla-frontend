@@ -1,0 +1,30 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-topic-menu__header {
+  font-size: 1.3em;
+}
+
+.c-topic-menu__list {
+  list-style: none;
+  padding-left: 10px;
+  margin: 0;
+}
+
+.c-topic-menu__item button:hover {
+  text-decoration: underline;
+}
+
+.c-topic-menu__item button:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+.c-topic-menu__item--active button {
+  font-weight: 600;
+}

@@ -33,6 +33,26 @@ export function* watchFetchSubjects() {
   }
 }
 
+export function* fetchTopics(subjectId) {
+  try {
+    const topics = yield call(api.fetchTopics, subjectId);
+    yield put(actions.setTopics({ topics, subjectId }));
+  } catch (error) {
+    throw error;
+    // TODO: handle error
+    // yield put(actions.applicationError());
+  }
+}
+
+export function* watchFetchTopics() {
+  while (true) {
+    const { payload: subjectId } = yield take(constants.FETCH_TOPICS);
+    // TODO: Check if already fetched
+    yield call(fetchTopics, subjectId);
+  }
+}
+
 export default [
   watchFetchSubjects,
+  watchFetchTopics,
 ];
