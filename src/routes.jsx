@@ -25,6 +25,14 @@ export function toArticle(articleId) {
   return `/article/${articleId}`;
 }
 
+export function toSubject(subjectId) {
+  return `/subjects/${subjectId}`;
+}
+
+export function toTopic(subjectId, topicId) {
+  return `/subjects/${subjectId}/${topicId}`;
+}
+
 export default function () {
   return (
     <Route path="/" component={App}>

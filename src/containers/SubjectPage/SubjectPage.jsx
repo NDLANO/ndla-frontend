@@ -40,7 +40,7 @@ class SubjectPage extends Component {
       <OneColumn>
         <div className="o-layout">
           {subject ? <TopicMenu className="o-layout__item u-1/3" heading={heading} topics={topics} /> : <div className="o-layout__item u-1/3" />}
-          <TopicCardList className="o-layout__item u-2/3" topics={topics} />
+          <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
         </div>
       </OneColumn>
     );

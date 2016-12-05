@@ -10,15 +10,16 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import TopicCard from './TopicCard';
 
-const TopicCardList = ({ topics, className }) => (
+const TopicCardList = ({ topics, subjectId, className }) => (
   <div className={classNames('c-topic-card-list', className)} >
-    { topics.map(topic => <TopicCard key={topic.id} topic={topic} />)}
+    { topics.map(topic => <TopicCard key={topic.id} subjectId={subjectId} topic={topic} />)}
   </div>
   );
 
 TopicCardList.propTypes = {
   topics: PropTypes.array.isRequired,
   className: PropTypes.string,
+  subjectId: PropTypes.string.isRequired,
 };
 
 export default TopicCardList;
