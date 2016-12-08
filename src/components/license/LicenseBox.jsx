@@ -7,16 +7,14 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import defined from 'defined';
 import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
+import Tabs from './Tabs';
 
-/* Disable default styles for tabs */
-Tabs.setUseDefaultStyles(false);
 
 class LicenseBox extends Component {
   constructor() {
@@ -33,58 +31,71 @@ class LicenseBox extends Component {
     });
   }
 
-  render() {
+  buildLicenseTabList() {
     const { article, license, locale, t } = this.props;
 
     const images = defined(article.contentCopyrights.image, []);
     const audios = defined(article.contentCopyrights.audio, []);
 
-    const contentType = article.contentType.toLowerCase();
+    const tabs = [];
 
+    if (images.length > 0) {
+      tabs.push({ key: 'images', displayName: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} /> });
+    }
+
+    if (article) {
+      tabs.push({
+        key: 'article',
+        displayName: t('license.tabs.article'),
+        content: (
+          <ArticleLicenseInfo
+            icons={this.props.children}
+            license={license}
+            title={article.title}
+            authors={article.copyright.authors}
+            created={article.created}
+            updated={article.updated}
+          />
+        ),
+      });
+    }
+
+    if (audios.length > 0) {
+      tabs.push({
+        key: 'audios',
+        displayName: t('license.tabs.audios'),
+        content: <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />,
+      });
+    }
+
+    tabs.push({
+      key: 'text',
+      displayName: t('license.tabs.text'),
+      content: (
+        <div>
+          <ul className="c-downloadable-list">
+            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som word-dokument (.docx)</a></li>
+            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som rentekst (.txt)</a></li>
+            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som HTML</a></li>
+          </ul>
+        </div>
+        ),
+    });
+
+    tabs.push({ key: 'cite', displayName: t('license.tabs.cite'), content: <Citation article={article} /> });
+    return tabs;
+  }
+
+  render() {
+    const { article, t } = this.props;
+
+    const contentType = article.contentType.toLowerCase();
+    const tabs = this.buildLicenseTabList();
     return (
       <div>
         <h1 className="license__heading">{t('license.tabs.heading', { contentType })}</h1>
         <p className="license__introduction">{t('license.tabs.introduction', { contentType })}</p>
-        <Tabs onSelect={this.licenseActionHandler} selectedIndex={this.state.licenseAction} >
-          <TabList>
-            {images.length > 0 && <Tab>{t('license.tabs.images')}</Tab>}
-            {article && <Tab>{t('license.tabs.article')}</Tab>}
-            {audios.length > 0 && <Tab>{t('license.tabs.audios')}</Tab>}
-            <Tab>{t('license.tabs.text')}</Tab>
-            <Tab>{t('license.tabs.cite')}</Tab>
-          </TabList>
-          { images.length > 0 &&
-            <TabPanel>
-              <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} />
-            </TabPanel>}
-          { article &&
-          <TabPanel>
-            <ArticleLicenseInfo
-              icons={this.props.children}
-              license={license}
-              title={article.title}
-              authors={article.copyright.authors}
-              created={article.created}
-              updated={article.updated}
-            />
-          </TabPanel>
-            }
-          { audios.length > 0 &&
-            <TabPanel>
-              <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} />
-            </TabPanel>
-          }
-          <TabPanel>
-            <div>
-              <ul className="c-downloadable-list">
-                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som word-dokument (.docx)</a></li>
-                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som rentekst (.txt)</a></li>
-                <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som HTML</a></li>
-              </ul>
-            </div>
-          </TabPanel>
-          <TabPanel><Citation article={article} /></TabPanel>
-        </Tabs>
+        <Tabs tabs={tabs} />
       </div>
     );
   }
