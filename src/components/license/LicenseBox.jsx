@@ -13,6 +13,7 @@ import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
+import TextDownloadList from './TextDownloadList';
 import Tabs from './Tabs';
 import { ArticleShape } from '../../shapes';
 
@@ -47,21 +48,9 @@ class LicenseBox extends Component {
       });
     }
 
-    tabs.push({
-      key: 'text',
-      displayName: t('license.tabs.text'),
-      content: (
-        <div>
-          <ul className="c-downloadable-list">
-            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som word-dokument (.docx)</a></li>
-            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som rentekst (.txt)</a></li>
-            <li className="c-downloadable-list__item"><a href={document.location.href}>Last ned som HTML</a></li>
-          </ul>
-        </div>
-        ),
-    });
-
+    tabs.push({ key: 'text', displayName: t('license.tabs.text'), content: <TextDownloadList /> });
     tabs.push({ key: 'cite', displayName: t('license.tabs.cite'), content: <Citation article={article} /> });
+
     return tabs;
   }
 
