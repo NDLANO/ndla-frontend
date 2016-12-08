@@ -14,22 +14,10 @@ import AudioLicenseList from './AudioLicenseList';
 import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
 import Tabs from './Tabs';
+import { ArticleShape } from '../../shapes';
 
 
 class LicenseBox extends Component {
-  constructor() {
-    super();
-    this.licenseActionHandler = this.licenseActionHandler.bind(this);
-    this.state = {
-      licenseAction: 0,
-    };
-  }
-
-  licenseActionHandler(index) {
-    this.setState({
-      licenseAction: index,
-    });
-  }
 
   buildLicenseTabList() {
     const { article, license, locale, t } = this.props;
@@ -47,16 +35,7 @@ class LicenseBox extends Component {
       tabs.push({
         key: 'article',
         displayName: t('license.tabs.article'),
-        content: (
-          <ArticleLicenseInfo
-            icons={this.props.children}
-            license={license}
-            title={article.title}
-            authors={article.copyright.authors}
-            created={article.created}
-            updated={article.updated}
-          />
-        ),
+        content: (<ArticleLicenseInfo article={article} icons={this.props.children} license={license} />),
       });
     }
 
@@ -104,7 +83,7 @@ class LicenseBox extends Component {
 LicenseBox.propTypes = {
   license: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-  article: PropTypes.object,
+  article: ArticleShape.isRequired,
 };
 
 
