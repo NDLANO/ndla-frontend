@@ -8,13 +8,13 @@
 
 import React, { PropTypes } from 'react';
 import defined from 'defined';
+import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import ArticleLicenseInfo from './ArticleLicenseInfo';
 import Citation from './Citation';
 import TextDownloadList from './TextDownloadList';
-import Tabs from './Tabs';
 import { ArticleShape } from '../../shapes';
 
 

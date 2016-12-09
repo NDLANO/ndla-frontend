@@ -3573,9 +3573,15 @@ ndla-licenses@0.0.5:
   dependencies:
     defined "1.0.0"
 
-ndla-ui@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.2.tgz#e1b712c145fc07d83211467f0627c6ec8f662340"
+ndla-tabs:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.0.1.tgz#da37aa44a301cdb28cc2b39fbc12336980150040"
+  dependencies:
+    lodash "^4.17.2"
+
+ndla-ui:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.4.tgz#f462a233166ddc83152be2f62ed35548f78ea6f8"
 
 negotiator@0.6.1:
   version "0.6.1"
