@@ -18,7 +18,7 @@ import Tabs from './Tabs';
 import { ArticleShape } from '../../shapes';
 
 
-function buildLicenseTabList(article, license, locale, t) {
+function buildLicenseTabList(article, license, locale, t, children) {
   const images = defined(article.contentCopyrights.image, []);
   const audios = defined(article.contentCopyrights.audio, []);
 
@@ -29,7 +29,7 @@ function buildLicenseTabList(article, license, locale, t) {
   }
 
   if (article) {
-    tabs.push({ key: 'article', displayName: t('license.tabs.article'), content: (<ArticleLicenseInfo article={article} icons={this.props.children} license={license} />) });
+    tabs.push({ key: 'article', displayName: t('license.tabs.article'), content: (<ArticleLicenseInfo article={article} icons={children} license={license} />) });
   }
 
   if (audios.length > 0) {
@@ -43,9 +43,9 @@ function buildLicenseTabList(article, license, locale, t) {
 }
 
 
-const LicenseBox = ({ article, license, locale, t }) => {
+const LicenseBox = ({ article, license, locale, t, children }) => {
   const contentType = article.contentType.toLowerCase();
-  const tabs = buildLicenseTabList(article, license, locale, t);
+  const tabs = buildLicenseTabList(article, license, locale, t, children);
   return (
     <div>
       <h1 className="license__heading">{t('license.tabs.heading', { contentType })}</h1>
