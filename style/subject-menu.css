@@ -1,0 +1,42 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.subject-menu::before{
+  content: "";
+  display: block;
+  width: 0;
+  position: absolute;
+  height: 0;
+  margin-left: 1.4em;
+  margin-top: -1.6em;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #1C1717;
+}
+
+.subject-menu {
+  position: absolute;
+  padding: 1em;
+  background: white;
+  margin: 0;
+  border: 1px solid #1C1717;
+  list-style: none;
+}
+
+.subject-menu--item {
+  padding: 5px 0;
+}
+
+.subject-menu--link:any-link {
+  color: #1C1717;
+  text-decoration: none;
+}
+
+.subject-menu--link:hover {
+  text-decoration: underline;
+}

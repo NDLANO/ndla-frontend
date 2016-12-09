@@ -39,15 +39,29 @@ const phrases = {
     created: 'Opprettet',
     lastUpdated: 'Sist oppdatert',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Sitér eller bruk {contentType}',
+    openLicenseBox: 'Gjenbruk {contentType}',
+  },
+  subject: {
+    associatedTopics: 'Tilhørende emner',
   },
   license: {
     heading: 'Du kan laste ned, eller innbygge innhold fra NDLA på ditt eget nettsted',
     creators: '{num, plural, one { Opphavsperson: } other { Opphavspersoner: }}',
     tabs: {
-      heading: 'Sitere eller gjenbruk {contentType}:',
+      heading: 'Regler for gjenbruk av {contentType} på NDLA',
+      introduction: `Alt innhold på NDLA har egne opphavsrettigheter. Disse må du ta hensyn
+      til dersom du skal gjenbruke noe av dette innholdet utenfor ndla.no. Opphavsretten
+      bestemmer hvordan du kan bruke innholdet, enten det skal publiseres, deles på internett,
+      eller hvis noen skal tjene penger på det. Under kan du kan du se hvordan du kan bruke innholdet
+      i {contentType}.`,
+      article: 'Artikkel',
       text: 'Tekst',
       cite: 'Sitere',
+      citation: {
+        explaination: `Når du siterer tekster fra NDLA må du vise hvor du har funnet dem
+          og hvem som har laget dem. Hvis du skriver en egen tekst plasserer
+          du referansen på den siste siden. Slik siterer du denne teksten:`,
+      },
       images: 'Bilder',
       audios: 'Lydfiler',
     },

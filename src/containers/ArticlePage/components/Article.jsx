@@ -29,6 +29,7 @@ const Article = ({ article, locale }) => {
       <div dangerouslySetInnerHTML={{ __html: article.content }} />
       { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
       <ArticleLicenses
+        showByline
         article={article}
         locale={locale}
         licenseType={licenseType}

@@ -8,9 +8,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import { injectT } from '../../../i18n';
 import LicenseBox from '../../../components/license/LicenseBox';
-import getLicenseByKey from '../../../components/license/licenseConstants';
 import LicenseByline from '../../../components/license/LicenseByline';
 
 class ArticleLicenses extends Component {
@@ -29,9 +29,9 @@ class ArticleLicenses extends Component {
   }
 
   render() {
-    const { article, locale, licenseType, contentType, t } = this.props;
+    const { article, locale, licenseType, contentType, t, showByline } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
-    const license = getLicenseByKey(licenseType, locale);
+    const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
     const expandedIcon = classnames({
       'u-expanded--svg': expanded,
@@ -43,20 +43,32 @@ class ArticleLicenses extends Component {
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
           {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
         </button>
-        <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
-          <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
-        </LicenseByline>
+
+        {showByline ?
+          <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
+            <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
+          </LicenseByline>
+          :
+          null
+        }
+
         { expanded &&
           <LicenseBox
             article={article}
             locale={locale}
             license={license}
-          />
+          >
+            <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon} />
+          </LicenseBox>
         }
       </div>
     );
   }
 }
+
+ArticleLicenses.defaultProps = {
+  showByline: false,
+};
 
 ArticleLicenses.propTypes = {
   article: PropTypes.object.isRequired,
@@ -64,6 +76,7 @@ ArticleLicenses.propTypes = {
   locale: PropTypes.string,
   licenseType: PropTypes.string,
   licenseHandler: PropTypes.func,
+  showByline: PropTypes.bool,
 };
 
 export default injectT(ArticleLicenses);

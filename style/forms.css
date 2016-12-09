@@ -42,7 +42,3 @@ select:focus {
 iframe {
   border: none;
 }
-
-.app-container {
-  height: 100%;
-}

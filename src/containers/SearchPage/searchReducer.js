@@ -25,6 +25,10 @@ export default handleActions({
     next: (state, action) => ({ ...state, ...action.payload, searching: false }),
     throw: state => state,
   },
+  [constants.CLEAR_SEARCH_RESULT]: {
+    next: () => initalState,
+    throw: state => state,
+  },
   [constants.SEARCH_ERROR]: {
     next: state => ({ ...state, searching: false }),
     throw: state => state,

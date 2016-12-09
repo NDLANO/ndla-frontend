@@ -40,7 +40,7 @@ class SearchForm extends Component {
           placeholder={t('searchForm.placeholder')}
         />
 
-        <Button submit outline square loading={searching} className="search-form_btn">{t('searchForm.btn')}</Button>
+        <Button submit outline square loading={searching}>{t('searchForm.btn')}</Button>
       </form>
     );
   }

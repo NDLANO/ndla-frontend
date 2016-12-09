@@ -17,7 +17,7 @@ const entry = [
   './server/ndla-favicon.png',
 ];
 
-module.exports = (options) => ({
+module.exports = options => ({
   entry: options.entry.concat(entry),
 
   output: Object.assign({ // Compile into htdocs/assets
@@ -49,10 +49,9 @@ module.exports = (options) => ({
     ],
   },
 
-  postcss: (self) => [
+  postcss: [
     postcssImport({
       glob: true,
-      addDependencyTo: self,
     }),
     postcssFocus(), // Add a :focus to every :hover
     cssnext({ // Allow future CSS features to be used, also auto-prefixes the CSS...

@@ -13,6 +13,8 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
+import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
+import SubjectPage from './containers/SubjectPage/SubjectPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
 export function toSearch() {
@@ -23,12 +25,23 @@ export function toArticle(articleId) {
   return `/article/${articleId}`;
 }
 
+export function toSubject(subjectId) {
+  return `/subjects/${subjectId}`;
+}
+
+export function toTopic(subjectId, topicId) {
+  return `/subjects/${subjectId}/${topicId}`;
+}
+
 export default function () {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={WelcomePage} />
       <Route path="article/:articleId(/)" component={ArticlePage} />
       <Route path="search(/)" component={SearchPage} />
+      <Route path="subjects(/)" component={SubjectsPage} />
+      <Route path="subjects/:subjectId(/)" component={SubjectPage} />
+      <Route path="subjects/:subjectId/:topicId(/)" component={SubjectPage} />
       <Route path="*" status={404} component={NotFoundPage} />
     </Route>
   );
