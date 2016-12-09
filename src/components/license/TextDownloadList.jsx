@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const TextDownloadList = () => (
   <div>
