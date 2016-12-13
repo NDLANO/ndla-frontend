@@ -49,7 +49,7 @@ export default class SagaIntegrationTester {
     this.store = createStore(
             finalReducer,
             initialState,
-            applyMiddleware(...allMiddlewares)
+            applyMiddleware(...allMiddlewares),
         );
   }
 

@@ -11,7 +11,7 @@ import { preferdLocales } from '../i18n';
 
 export const findFallbackTranslation = (translations) => {
   const locale = preferdLocales.find(l =>
-     translations.find(t => t.language === l.abbreviation)
+     translations.find(t => t.language === l.abbreviation),
   );
   if (!locale && translations.length > 0) {
     return translations[0];

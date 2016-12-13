@@ -56,5 +56,5 @@ ReactDOM.render(
       </Router>
     </IntlProvider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

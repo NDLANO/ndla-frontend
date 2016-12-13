@@ -12,15 +12,15 @@ const getRoutingFromState = state => state.routing;
 
 export const getLocationBeforeTransitions = createSelector(
   [getRoutingFromState],
-  routing => routing.locationBeforeTransitions
+  routing => routing.locationBeforeTransitions,
 );
 
 export const getPathnameBeforeTransitions = createSelector(
     [getLocationBeforeTransitions],
-    location => location.pathname
+    location => location.pathname,
 );
 
 export const getSearchBeforeTransitions = createSelector(
     [getLocationBeforeTransitions],
-    location => location.search
+    location => location.search,
 );

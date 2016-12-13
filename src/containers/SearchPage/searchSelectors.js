@@ -12,15 +12,15 @@ const getSearchFromState = state => state.search;
 
 export const getResults = createSelector(
     [getSearchFromState],
-    search => search.results
+    search => search.results,
 );
 
 export const getSearching = createSelector(
     [getSearchFromState],
-    search => search.searching
+    search => search.searching,
 );
 
 export const getLastPage = createSelector(
     [getSearchFromState],
-    search => Math.ceil(search.totalCount / search.pageSize)
+    search => Math.ceil(search.totalCount / search.pageSize),
 );

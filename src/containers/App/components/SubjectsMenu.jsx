@@ -14,7 +14,7 @@ const SubjectsMenu = ({ subjects }) => (
     { subjects.map(subject =>
       (<li className="subject-menu--item" key={subject.id}>
         <Link className="subject-menu--link" to={`/subjects/${subject.id}`}>{ subject.name }</Link>
-      </li>)
+      </li>),
     ) }
   </ul>
 );
