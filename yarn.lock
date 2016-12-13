@@ -3580,8 +3580,8 @@ ndla-tabs:
     lodash "^4.17.2"
 
 ndla-ui:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.4.tgz#f462a233166ddc83152be2f62ed35548f78ea6f8"
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.5.tgz#9ad90348d569a13343a42a9c5f45e1d988e84989"
 
 negotiator@0.6.1:
   version "0.6.1"
