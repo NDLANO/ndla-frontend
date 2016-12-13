@@ -16,6 +16,6 @@ export const clearMessage = createAction('CLEAR_MESSAGE');
 export function timeoutMessage(message) {
   return dispatch => setTimeout(
     () => dispatch(clearMessage(message.id)),
-    message.timeToLive
+    message.timeToLive,
   );
 }

@@ -13,22 +13,22 @@ const getSubjectsFromState = state => state.subjects;
 
 export const getSubjects = createSelector(
     [getSubjectsFromState],
-    subjects => subjects.all
+    subjects => subjects.all,
 );
 
 export const getSubjectById = id => createSelector(
   [getSubjects],
-  subjects => subjects.find(s => s.id === id)
+  subjects => subjects.find(s => s.id === id),
 );
 
 export const hasFetched = createSelector(
     [getSubjectsFromState],
-    subjects => subjects.hasFetched
+    subjects => subjects.hasFetched,
 );
 
 export const getTopicsBySubjectId = subjectId => createSelector(
   [getSubjectsFromState],
-  subjects => defined(subjects.topics[subjectId], [])
+  subjects => defined(subjects.topics[subjectId], []),
 );
 
 export const getTopic = (subjectId, topicId = undefined) => createSelector(
@@ -43,5 +43,5 @@ export const getTopic = (subjectId, topicId = undefined) => createSelector(
       return undefined;
     };
     return search({ subtopics: topics });
-  }
+  },
 );

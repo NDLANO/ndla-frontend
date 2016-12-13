@@ -45,7 +45,7 @@ test('component/Alert dismiss', () => {
   const id = uuid.v4();
 
   const dismissBt = shallow(
-    <Alert message={{ id, message: 'whatever', severity: 'info' }} dispatch={dispatch} />
+    <Alert message={{ id, message: 'whatever', severity: 'info' }} dispatch={dispatch} />,
   ).find('.alert_dismiss');
 
   dismissBt.simulate('click');
@@ -58,7 +58,7 @@ test('component/Action click', () => {
   const handleClick = sinon.spy(() => {});
 
   const actionBtn = shallow(
-    <Action title="Undo" onClick={handleClick} />
+    <Action title="Undo" onClick={handleClick} />,
   );
 
   actionBtn.simulate('click');

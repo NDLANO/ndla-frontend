@@ -15,7 +15,7 @@ const getArticleFromState = state => state.articles;
 
 export const getArticleById = articleId => createSelector(
   [getArticleFromState],
-  articles => articles[articleId]
+  articles => articles[articleId],
 );
 
 export const getArticle = articleId => createSelector(
@@ -27,5 +27,5 @@ export const getArticle = articleId => createSelector(
       created: formatDate(article.created, locale),
       updated: formatDate(article.updated, locale),
     } : {}
-  )
+  ),
   );

@@ -96,7 +96,6 @@ app.get('*', (req, res) => {
       res.sendStatus(500);
     }
   });
-  return;
 });
 
 module.exports = app;
