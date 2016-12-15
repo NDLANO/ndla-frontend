@@ -3620,21 +3620,21 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-licenses@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.5.tgz#e31197d96be7fe9a76a50164e37cac0a1f0e248d"
+ndla-licenses:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.6.tgz#d9439b92f6a7feb295644f568c2071ea2731fc6f"
   dependencies:
     defined "1.0.0"
 
-ndla-tabs:
+ndla-tabs@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.0.1.tgz#da37aa44a301cdb28cc2b39fbc12336980150040"
   dependencies:
     lodash "^4.17.2"
 
 ndla-ui:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.5.tgz#9ad90348d569a13343a42a9c5f45e1d988e84989"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.6.tgz#c9fc35218b885bb6c07fc62bb048339c08138a38"
 
 negotiator@0.6.1:
   version "0.6.1"

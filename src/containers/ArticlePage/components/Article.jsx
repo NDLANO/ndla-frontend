@@ -17,7 +17,7 @@ const Article = ({ article, locale }) => {
   const licenseType = article.copyright.license.license;
 
   return (
-    <article className="article">
+    <article className="c-article">
       <ArticleLicenses
         article={article}
         locale={locale}
