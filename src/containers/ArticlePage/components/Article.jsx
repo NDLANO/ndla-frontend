@@ -6,38 +6,62 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 
 import ArticleIntroduction from './ArticleIntroduction';
 import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
 
-const Article = ({ article, locale }) => {
-  const licenseType = article.copyright.license.license;
 
-  return (
-    <article className="article">
-      <ArticleLicenses
-        article={article}
-        locale={locale}
-        licenseType={licenseType}
-        contentType={article.contentType}
-      />
-      <h1>{article.title}</h1>
-      <ArticleIntroduction introduction={article.introduction} />
-      <div dangerouslySetInnerHTML={{ __html: article.content }} />
-      { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
-      <ArticleLicenses
-        showByline
-        article={article}
-        locale={locale}
-        licenseType={licenseType}
-        contentType={article.contentType}
-      />
-    </article>
-  );
-};
+class Article extends Component {
+
+  componentDidMount() {
+    document.querySelectorAll('.c-article aside > div')
+      .forEach((el) => {
+        const target = el;
+        target.onclick = () => target.classList.toggle('expanded');
+      });
+  }
+
+  componentWillUnmount() {
+    document.querySelectorAll('.c-article aside > div')
+      .forEach((el) => {
+        const target = el;
+        target.onclick = undefined;
+      });
+  }
+
+
+  render() {
+    const { article, locale } = this.props;
+
+    const licenseType = article.copyright.license.license;
+
+    return (
+      <article className="c-article">
+        <ArticleLicenses
+          article={article}
+          locale={locale}
+          licenseType={licenseType}
+          contentType={article.contentType}
+        />
+        <h1>{article.title}</h1>
+        <ArticleIntroduction introduction={article.introduction} />
+        <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
+        <ArticleLicenses
+          showByline
+          article={article}
+          locale={locale}
+          licenseType={licenseType}
+          contentType={article.contentType}
+        />
+      </article>
+    );
+  }
+}
+
 
 Article.propTypes = {
   article: PropTypes.shape({

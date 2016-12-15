@@ -8,8 +8,8 @@
 
 import React, { PropTypes } from 'react';
 import getLicenseByAbbreviation from 'ndla-licenses';
+import { Icon } from 'ndla-ui';
 import LicenseByline from './LicenseByline';
-import Icon from '../icons/Icons';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">

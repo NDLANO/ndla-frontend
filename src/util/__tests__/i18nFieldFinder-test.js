@@ -57,7 +57,7 @@ test('util/i18nFieldFinder oembedContentI18N', () => {
   };
 
   expect(oembedContentI18N(someObject, 'nb')).toEqual(
-    { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' }
+    { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' },
   );
 
   expect(oembedContentI18N(someObject, 'eo')).toBeFalsy();

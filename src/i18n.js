@@ -19,6 +19,7 @@ import en from './phrases/phrases-en';
 addLocaleData([...nbLocaleData, ...nnLocaleData, ...enLocaleData]);
 
 function* entries(obj) {
+  // eslint-disable-next-line
   for (const key of Object.keys(obj)) {
     yield [key, obj[key]];
   }
@@ -26,6 +27,8 @@ function* entries(obj) {
 
 export const formatNestedMessages = (phrases, formattedMessages = {}, prefix = '') => {
   const messages = formattedMessages;
+
+  // eslint-disable-next-line
   for (const [key, value] of entries(phrases)) {
     if ({}.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;

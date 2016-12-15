@@ -7,7 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import LicenseIconList from './LicenseIconList';
+import { LicenseIconList } from 'ndla-ui';
 
 const LicenseByline = ({ children, license, iconsClassName }) => (
   <div className="license-byline">

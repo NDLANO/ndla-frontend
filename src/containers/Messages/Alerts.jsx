@@ -61,7 +61,7 @@ export const Alerts = ({ dispatch, messages }) => {
   return (
     <div className={overlayClasses}>
       {messages.map(message =>
-        <Alert key={message.id} dispatch={dispatch} message={message} />
+        <Alert key={message.id} dispatch={dispatch} message={message} />,
       )}
     </div>
   );

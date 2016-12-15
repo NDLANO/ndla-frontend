@@ -25,9 +25,9 @@ export default function configureStore(initialState, history) {
       thunkMiddleware,
       sagaMiddleware,
       errorReporter,
-      middleware
+      middleware,
     ),
-    __CLIENT__ && window && window.devToolsExtension ? window.devToolsExtension() : f => f
+    __CLIENT__ && window && window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore);
 
   const store = createFinalStore(rootReducer, initialState);
