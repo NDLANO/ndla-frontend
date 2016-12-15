@@ -52,15 +52,7 @@ class ArticleLicenses extends Component {
           null
         }
 
-        { expanded &&
-          <LicenseBox
-            article={article}
-            locale={locale}
-            license={license}
-          >
-            <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon} />
-          </LicenseBox>
-        }
+        { expanded && <LicenseBox article={article} locale={locale} license={license} /> }
       </div>
     );
   }

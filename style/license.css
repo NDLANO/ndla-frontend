@@ -12,17 +12,6 @@
   float: right;
 }
 
-.license__action {
-  flex-basis: 50%;
-  margin: 1em;
-  border: 1px solid #000;
-}
-
-.license-section {
-  display:flex;
-  margin-bottom: calc(var(--spacing) * 2);
-}
-
 .license__list {
   flex-basis: 100%;
   margin: 0;
@@ -45,16 +34,6 @@
 
 .license__heading {
   margin-bottom: var(--spacing);
-}
-
-.license__video {
-  position: relative;
-  float: left;
-  width: 50%;
-}
-
-.license__video video {
-  position: relative !important;
 }
 
 .license-byline {

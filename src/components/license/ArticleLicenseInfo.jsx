@@ -9,12 +9,13 @@
 import React, { PropTypes } from 'react';
 import { ArticleShape } from '../../shapes';
 import { injectT } from '../../i18n';
+import LicenseByline from './LicenseByline';
 
-const ArticleLicenseInfo = ({ t, license, article, icons }) => (
+const ArticleLicenseInfo = ({ t, license, article }) => (
   <div>
     <div>
       <div>
-        {icons}
+        <LicenseByline license={license} />
         <h3 className="license__heading">{license.title}</h3>
         <p>{license.description}</p>
       </div>
