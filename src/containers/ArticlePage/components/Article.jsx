@@ -8,7 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import ArticleIntroduction from './ArticleIntroduction';
+import { Article as UIArticle } from 'ndla-ui';
 import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
@@ -39,7 +39,7 @@ class Article extends Component {
     const licenseType = article.copyright.license.license;
 
     return (
-      <article className="c-article">
+      <UIArticle>
         <ArticleLicenses
           article={article}
           locale={locale}
@@ -47,7 +47,7 @@ class Article extends Component {
           contentType={article.contentType}
         />
         <h1>{article.title}</h1>
-        <ArticleIntroduction introduction={article.introduction} />
+        <UIArticle.Introduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
         { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
         <ArticleLicenses
@@ -57,7 +57,7 @@ class Article extends Component {
           licenseType={licenseType}
           contentType={article.contentType}
         />
-      </article>
+      </UIArticle>
     );
   }
 }

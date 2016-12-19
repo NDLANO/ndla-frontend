@@ -26,10 +26,12 @@ class ArticlePage extends Component {
   render() {
     const { article, locale } = this.props;
     const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
+    const metaDescription = article.metaDescription ? { name: 'description', content: article.metaDescription } : {};
     return (
       <OneColumn>
         <Helmet
           title={`NDLA | ${article.title}`}
+          meta={[metaDescription]}
           script={scripts}
         />
         {!isEmpty(article) ? <Article article={article} locale={locale} /> : null}

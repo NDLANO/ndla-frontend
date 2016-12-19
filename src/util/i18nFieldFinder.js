@@ -17,6 +17,7 @@ export const oembedUrlI18N = createFieldByLanguageFinder('embedUrl', 'url');
 export const tagsI18N = createFieldByLanguageFinder('tags');
 export const alttextsI18N = createFieldByLanguageFinder('alttexts');
 export const introductionI18N = createFieldByLanguageFinder('introduction');
+export const metaDescriptionI18N = createFieldByLanguageFinder('metaDescription');
 
 export function oembedContentI18N(learningPathStep, lang, withFallback = false) {
   const translations = defined(learningPathStep.embedUrl, []);
