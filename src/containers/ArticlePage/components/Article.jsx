@@ -16,7 +16,21 @@ import ArticleLicenses from './ArticleLicenses';
 
 class Article extends Component {
 
+  static updateIFrameDimensions() {
+    document.querySelectorAll('.article__oembed iframe')
+      .forEach((el) => {
+        const iframe = el;
+        const parentWidth = iframe.parentNode.clientWidth;
+        const newHeight = (iframe.clientHeight * parentWidth) / iframe.clientWidth;
+        iframe.height = newHeight;
+        iframe.width = parentWidth;
+      });
+  }
+
   componentDidMount() {
+    window.addEventListener('resize', Article.updateIFrameDimensions);
+    Article.updateIFrameDimensions();
+
     document.querySelectorAll('.c-article aside > div')
       .forEach((el) => {
         const target = el;
@@ -24,7 +38,10 @@ class Article extends Component {
       });
   }
 
+
   componentWillUnmount() {
+    window.removeEventListener('resize', Article.updateIFrameDimensions);
+
     document.querySelectorAll('.c-article aside > div')
       .forEach((el) => {
         const target = el;
