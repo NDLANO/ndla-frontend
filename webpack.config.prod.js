@@ -20,14 +20,6 @@ module.exports = require('./webpack.config.base')({
   fileLoader: 'file-loader?name=[name]-[hash].[ext]',
 
   plugins: [
-
-    // OccurrenceOrderPlugin is needed for long-term caching to work properly.
-    // See http://mxs.is/googmv
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-
-    // Merge all duplicate modules
-    new webpack.optimize.DedupePlugin(),
-
     // Minify and optimize the JavaScript
     new webpack.optimize.UglifyJsPlugin({
       compress: {

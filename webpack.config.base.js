@@ -2,19 +2,15 @@
  * COMMON WEBPACK CONFIGURATION
  */
 
+process.env.WEBPACK_VERSION = require('webpack/package.json').version;
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
-const cssnext = require('postcss-cssnext');
-const postcssFocus = require('postcss-focus');
-const postcssImport = require('postcss-import');
-const postcssReporter = require('postcss-reporter');
 
 const entry = [
   'babel-polyfill',
   './src/index.jsx',
   './style/index.css',
-  './server/ndla-favicon.png',
 ];
 
 module.exports = options => ({
@@ -27,11 +23,11 @@ module.exports = options => ({
 
   module: {
 
-    loaders: [
+    rules: [
       {
         test: /\.jsx?|\.js?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/, // See .babelrc
-        loaders: ['babel'],
+        loader: 'babel-loader',
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ico|\.svg$|\.woff$|\.ttf$/,
@@ -40,27 +36,17 @@ module.exports = options => ({
       {
         // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'style-loader',
+          loader: ['css-loader', 'postcss-loader'],
+        }),
       },
       {
         test: /.json$/,
-        loader: 'json',
+        loader: 'json-loader',
       },
     ],
   },
-
-  postcss: [
-    postcssImport({
-      glob: true,
-    }),
-    postcssFocus(), // Add a :focus to every :hover
-    cssnext({ // Allow future CSS features to be used, also auto-prefixes the CSS...
-      browsers: ['last 2 versions', 'IE >= 10'], // ...based on this browser list
-    }),
-    postcssReporter({ // Posts messages from plugins to the terminal
-      clearMessages: true,
-    }),
-  ],
 
   plugins: options.plugins.concat([
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
@@ -76,16 +62,19 @@ module.exports = options => ({
   ]),
 
   resolve: {
-    modules: ['src', 'node_modules'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: [
-      '',
       '.js',
       '.json',
       '.jsx',
+      '.css',
+    ],
+    mainFields: [
+      'jsnext:main',
+      'main',
     ],
   },
 
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
-  progress: true,
 });
