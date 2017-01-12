@@ -23,7 +23,7 @@ const apiDomain = () => {
     case 'prod':
       return 'http://api.ndla.no';
     default:
-      return `http://api.${ndlaEnvironment}.ndla.no`;
+      return `http://${ndlaEnvironment}.api.ndla.no`;
   }
 };
 
