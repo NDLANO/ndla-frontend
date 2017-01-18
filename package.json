@@ -55,7 +55,7 @@
     "rimraf": "2.5.4",
     "sinon": "^1.17.6",
     "style-loader": "0.13.1",
-    "webpack": "2.2.0-rc.3",
+    "webpack": "2.2.0",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
     "webpack-manifest-plugin": "^1.1.0"
