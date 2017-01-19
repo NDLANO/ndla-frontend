@@ -21,9 +21,9 @@ const apiDomain = () => {
     case 'local':
       return 'http://localhost';
     case 'prod':
-      return 'http://api.ndla.no';
+      return 'https://api.ndla.no';
     default:
-      return `http://${ndlaEnvironment}.api.ndla.no`;
+      return `https://${ndlaEnvironment}.api.ndla.no`;
   }
 };
 
