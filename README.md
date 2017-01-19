@@ -67,7 +67,6 @@ $ npm run build
 ```
 # Docker stuff
 $ ./build.sh
-$ ./release.sh
 ```
 
 ## Dependencies
