@@ -5,6 +5,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 module.exports = require('./webpack.config.base')({
@@ -27,7 +28,12 @@ module.exports = require('./webpack.config.base')({
         screw_ie8: true, // drop IE 6-8 specific optimizations
       },
     }),
-
+    new BundleAnalyzerPlugin(
+      {
+        analyzerMode: 'static',
+        openAnalyzer: false,
+        reportFilename: 'bundle-analyzer-report.html',
+      }),
     new ManifestPlugin({ fileName: 'assets.json' }),
 
     // Extract the CSS into a separate file
