@@ -8,4 +8,4 @@
 
 import errorReporter from './errorReporter';
 
-module.exports = { errorReporter };
+export { errorReporter };
