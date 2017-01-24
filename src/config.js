@@ -30,6 +30,7 @@ const apiDomain = () => {
 module.exports = Object.assign({
   host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
   port: process.env.NDLA_FRONTENTD_PORT || '3000',
+  redirect_port: process.env.NDLA_REDIRECT_PORT || '3001',
   googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
   disableSSR: process.env.DISABLE_SSR || false,
   ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
