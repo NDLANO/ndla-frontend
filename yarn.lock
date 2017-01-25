@@ -4411,9 +4411,9 @@ postcss-font-variant@^2.0.0:
   dependencies:
     postcss "^5.0.4"
 
-postcss-import@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-9.0.0.tgz#751fcd21c53eec6eb468890384ce3c114968b391"
+postcss-import@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-import/-/postcss-import-9.1.0.tgz#95fe9876a1e79af49fbdc3589f01fe5aa7cc1e80"
   dependencies:
     object-assign "^4.0.1"
     postcss "^5.0.14"
@@ -4429,37 +4429,37 @@ postcss-initial@^1.3.1:
     lodash.template "^4.2.4"
     postcss "^5.0.19"
 
-postcss-load-config@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.0.0.tgz#1399f60dcd6bd9c3124b2eb22960f77f9dc08b3d"
+postcss-load-config@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.1.0.tgz#1c3c217608642448c03bebf3c32b1b28985293f9"
   dependencies:
     cosmiconfig "^2.1.0"
     object-assign "^4.1.0"
-    postcss-load-options "^1.0.2"
-    postcss-load-plugins "^2.0.0"
+    postcss-load-options "^1.1.0"
+    postcss-load-plugins "^2.2.0"
 
-postcss-load-options@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/postcss-load-options/-/postcss-load-options-1.0.2.tgz#b99eb5759a588f4b2dd8b6471c6985f72060e7b0"
+postcss-load-options@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-load-options/-/postcss-load-options-1.1.0.tgz#e39215d154a19f69f9cb6052bffad4a82f09f354"
   dependencies:
     cosmiconfig "^2.1.0"
     object-assign "^4.1.0"
 
-postcss-load-plugins@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-load-plugins/-/postcss-load-plugins-2.1.0.tgz#dbb6f46271df8d16e19b5d691ebda5175ce424a0"
+postcss-load-plugins@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/postcss-load-plugins/-/postcss-load-plugins-2.2.0.tgz#84ef9cf36e637810ac5265e03f6d4c48ead83314"
   dependencies:
     cosmiconfig "^2.1.1"
     object-assign "^4.1.0"
 
-postcss-loader@^1.1.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-1.2.1.tgz#8809ab184a9f903a01f660385f2e296ff563d22c"
+postcss-loader@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-1.2.2.tgz#bbf4e19a8cde85597e0c9bfd96015fe775a157ac"
   dependencies:
     loader-utils "^0.2.16"
     object-assign "^4.1.0"
-    postcss "^5.2.6"
-    postcss-load-config "^1.0.0"
+    postcss "^5.2.9"
+    postcss-load-config "^1.1.0"
 
 postcss-media-minmax@^2.1.0:
   version "2.1.2"
@@ -4688,7 +4688,16 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.2, postcss@^5.0.21, postcss@^5.0.3, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.1.1, postcss@^5.2.0, postcss@^5.2.6:
+postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.21, postcss@^5.0.3, postcss@^5.0.5, postcss@^5.0.8, postcss@^5.1.1, postcss@^5.2.0, postcss@^5.2.6, postcss@^5.2.9:
+  version "5.2.11"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.11.tgz#ff29bcd6d2efb98bfe08a022055ec599bbe7b761"
+  dependencies:
+    chalk "^1.1.3"
+    js-base64 "^2.1.9"
+    source-map "^0.5.6"
+    supports-color "^3.2.3"
+
+postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.6:
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.6.tgz#a252cd67cd52585035f17e9ad12b35137a7bdd9e"
   dependencies:
@@ -5524,6 +5533,12 @@ supports-color@^2.0.0:
 supports-color@^3.1.0, supports-color@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
+  dependencies:
+    has-flag "^1.0.0"
+
+supports-color@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
 

@@ -3,11 +3,8 @@
  */
 
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 
 const plugins = [
-  new ExtractTextPlugin('[name].css'),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin(),
 ];
@@ -22,6 +19,13 @@ module.exports = require('./webpack.config.base')({
   output: {
     filename: '[name].js',
   },
+
+  rules: [
+    {
+      test: /\.css$/,
+      loader: ['style-loader', 'css-loader', 'postcss-loader'],
+    },
+  ],
 
   // Add development plugins
   plugins,

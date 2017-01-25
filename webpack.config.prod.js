@@ -17,6 +17,17 @@ module.exports = require('./webpack.config.base')({
     filename: '[name].[chunkhash].js',
   },
 
+  rules: [
+    {
+      // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract({
+        fallbackLoader: 'style-loader',
+        loader: ['css-loader', 'postcss-loader'],
+      }),
+    },
+  ],
+
   // Use hashes in prod to anbale caching
   fileLoader: 'file-loader?name=[name]-[hash].[ext]',
 

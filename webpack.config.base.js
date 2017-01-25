@@ -4,7 +4,6 @@
 
 process.env.WEBPACK_VERSION = require('webpack/package.json').version;
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
 const entry = [
@@ -22,8 +21,7 @@ module.exports = options => ({
   }, options.output), // Merge with env dependent settings
 
   module: {
-
-    rules: [
+    rules: options.rules.concat([
       {
         test: /\.jsx?|\.js?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/, // See .babelrc
@@ -34,18 +32,10 @@ module.exports = options => ({
         loader: options.fileLoader,
       },
       {
-        // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: ['css-loader', 'postcss-loader'],
-        }),
-      },
-      {
         test: /.json$/,
         loader: 'json-loader',
       },
-    ],
+    ]),
   },
 
   plugins: options.plugins.concat([
