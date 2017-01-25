@@ -6,7 +6,7 @@ const webpack = require('webpack');
 
 const plugins = [
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
 ];
 
 module.exports = require('./webpack.config.base')({
