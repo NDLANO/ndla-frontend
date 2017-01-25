@@ -15,11 +15,23 @@ const environment = {
   },
 }[process.env.NODE_ENV || 'development'];
 
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
+const apiDomain = () => {
+  switch (process.env.NDLA_ENVIRONMENT) {
+    case 'local':
+      return 'http://localhost';
+    case 'prod':
+      return 'https://api.ndla.no';
+    default:
+      return `https://${ndlaEnvironment}.api.ndla.no`;
+  }
+};
+
 module.exports = Object.assign({
   host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
   port: process.env.NDLA_FRONTENTD_PORT || '3000',
   googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
   disableSSR: process.env.DISABLE_SSR || false,
-  ndlaApiUrl: process.env.NDLA_API_URL || 'http://api.test.ndla.no',
+  ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
   ndlaApiKey: process.env.NDLA_API_KEY || 'ndlalearningpathfrontend',
 }, environment);

@@ -9,7 +9,7 @@
 import fetch from 'isomorphic-fetch';
 import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/taxonomy');
+const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 export const fetchSubjects = () => fetch(`${baseUrl}/subjects/`).then(resolveJsonOrRejectWithError);
 
