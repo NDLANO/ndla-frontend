@@ -9,7 +9,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import uuid from '../../../util/uuid';
+import { uuid } from 'ndla-util';
 
 import { Alerts, Alert, Action } from '../Alerts';
 import { clearMessage } from '../messagesActions';

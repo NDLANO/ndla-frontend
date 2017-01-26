@@ -8,7 +8,7 @@
 
 import { handleActions } from 'redux-actions';
 import cloneDeep from 'lodash/cloneDeep';
-import uuid from '../../util/uuid';
+import { uuid } from 'ndla-util';
 
 export default handleActions({
   ADD_MESSAGE: {

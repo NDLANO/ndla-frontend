@@ -3755,6 +3755,10 @@ ndla-ui@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.6.tgz#c9fc35218b885bb6c07fc62bb048339c08138a38"
 
+ndla-util@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.0.tgz#27284ecfda92dabeddb8bd0bdb034ef5697bf3c3"
+
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
@@ -4688,7 +4692,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.21, postcss@^5.0.3, postcss@^5.0.5, postcss@^5.0.8, postcss@^5.1.1, postcss@^5.2.0, postcss@^5.2.6, postcss@^5.2.9:
+postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.16, postcss@^5.0.19, postcss@^5.0.21, postcss@^5.0.3, postcss@^5.0.5, postcss@^5.0.8, postcss@^5.1.1, postcss@^5.2.0, postcss@^5.2.6, postcss@^5.2.9:
   version "5.2.11"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.11.tgz#ff29bcd6d2efb98bfe08a022055ec599bbe7b761"
   dependencies:
@@ -4697,7 +4701,7 @@ postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.6:
+postcss@^5.0.14, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.6:
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.6.tgz#a252cd67cd52585035f17e9ad12b35137a7bdd9e"
   dependencies:

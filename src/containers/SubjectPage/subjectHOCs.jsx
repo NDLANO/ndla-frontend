@@ -15,7 +15,7 @@ import { getSubjects } from './subjectSelectors';
 export const injectSubjects = (WrappedComponent) => {
   class SubjectsContainer extends Component {
     componentWillMount() {
-      // this.props.fetchSubjects();
+      this.props.fetchSubjects();
     }
 
     render() {
