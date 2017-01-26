@@ -5,6 +5,7 @@
 
 - Node.JS ~6.2
 - npm ~3.9
+- yarn ~0.18.0
 - Docker (optional)
 
 ## Getting started
@@ -23,7 +24,7 @@ initially install all dependencies and when the list dependency has changed,
 run `npm install`.
 
 ```
-$ npm install
+$ yarn install
 ```
 
 ### Start development server
@@ -31,17 +32,17 @@ $ npm install
 Start node server with hot reloading middleware listening on port 3000.
 
 ```
-$ npm start
+$ yarn start
 ```
 
 To use a different api set the `NDLA_API_URL` environment variable.
 
 ### Unit tests
 
-Test framework: ava with enzyme.
+Test framework: Jest with enzyme.
 
 ```
-$ npm test
+$ yarn test
 ```
 ### Code style
 
@@ -51,7 +52,7 @@ Lint code with [eslint](http://eslint.org/), including [eslint react plugin](htt
 Beside linting with globally installed eslint, eslint can be invoked with `npm`:
 
 ```
-$ npm run lint
+$ yarn run lint
 ```
 
 Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb). If feeling brave, try `eslint --fix`.
@@ -61,7 +62,7 @@ Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](http
 
 ```
 # Create minified production ready build with webpack:
-$ npm run build
+$ yarn run build
 ```
 
 ```
@@ -123,6 +124,10 @@ https://github.com/gaearon/redux-thunk
 **reselect:**
 Selectors for Redux.
 https://github.com/reactjs/reselect#readme
+
+**react-tabs:**
+React tabs component
+https://github.com/reactjs/react-tabs
 
 ### Serverside
 
@@ -230,9 +235,9 @@ http://github.com/webpack/extract-text-webpack-plugin
 
 ### Testing
 
-**ava**
-Futuristic test runner 🚀
-git+https://github.com/avajs/ava.git
+**jest**
+Painless JavaScript Testing.
+https://github.com/facebook/jest#readme
 
 **enzyme:**
 JavaScript Testing utilities for React.
@@ -253,6 +258,10 @@ https://github.com/facebook/react#readme
 **redux-mock-store:**
 A mock store for your testing your redux async action creators and middleware.
 https://github.com/arnaudbenard/redux-mock-store#readme
+
+**redux-saga-test-plan**
+Powerful test helpers for Redux Saga
+https://github.com/jfairbank/redux-saga-test-plan#readme
 
 **sinon:**
 JavaScript test spies, stubs and mocks.
