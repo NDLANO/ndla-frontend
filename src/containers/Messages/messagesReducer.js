@@ -8,13 +8,13 @@
 
 import { handleActions } from 'redux-actions';
 import cloneDeep from 'lodash/cloneDeep';
-import uuid from 'node-uuid';
+import { uuid } from 'ndla-util';
 
 export default handleActions({
   ADD_MESSAGE: {
     next(state, action) {
       const message = {
-        id: uuid.v4(),
+        id: uuid(),
         message: action.payload.message,
         severity: action.payload.severity,
         action: action.payload.action,
@@ -46,7 +46,7 @@ export default handleActions({
 
       if (action.payload.json && action.payload.json.messages) {
         action.payload.json.messages.forEach((m) => {
-          nextState.push({ id: uuid.v4(), message: `${m.field}: ${m.message}`, severity: 'danger', timeToLive: 0 });
+          nextState.push({ id: uuid(), message: `${m.field}: ${m.message}`, severity: 'danger', timeToLive: 0 });
         });
       }
 

@@ -5,6 +5,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 module.exports = require('./webpack.config.base')({
@@ -16,18 +17,21 @@ module.exports = require('./webpack.config.base')({
     filename: '[name].[chunkhash].js',
   },
 
+  rules: [
+    {
+      // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract({
+        fallbackLoader: 'style-loader',
+        loader: ['css-loader', 'postcss-loader'],
+      }),
+    },
+  ],
+
   // Use hashes in prod to anbale caching
   fileLoader: 'file-loader?name=[name]-[hash].[ext]',
 
   plugins: [
-
-    // OccurrenceOrderPlugin is needed for long-term caching to work properly.
-    // See http://mxs.is/googmv
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-
-    // Merge all duplicate modules
-    new webpack.optimize.DedupePlugin(),
-
     // Minify and optimize the JavaScript
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -35,7 +39,12 @@ module.exports = require('./webpack.config.base')({
         screw_ie8: true, // drop IE 6-8 specific optimizations
       },
     }),
-
+    new BundleAnalyzerPlugin(
+      {
+        analyzerMode: 'static',
+        openAnalyzer: false,
+        reportFilename: 'bundle-analyzer-report.html',
+      }),
     new ManifestPlugin({ fileName: 'assets.json' }),
 
     // Extract the CSS into a separate file
