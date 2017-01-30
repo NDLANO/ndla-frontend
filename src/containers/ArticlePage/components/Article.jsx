@@ -8,7 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import { Article as UIArticle } from 'ndla-ui';
+import { Article as UIArticle, enableResponsiveTables } from 'ndla-ui';
 import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
@@ -31,10 +31,11 @@ class Article extends Component {
     window.addEventListener('resize', Article.updateIFrameDimensions);
     Article.updateIFrameDimensions();
 
-    document.querySelectorAll('.c-article aside > div')
+    enableResponsiveTables();
+    document.querySelectorAll('.c-aside__button')
       .forEach((el) => {
         const target = el;
-        target.onclick = () => target.classList.toggle('expanded');
+        target.onclick = () => target.parentNode.classList.toggle('expanded');
       });
   }
 
@@ -42,7 +43,7 @@ class Article extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', Article.updateIFrameDimensions);
 
-    document.querySelectorAll('.c-article aside > div')
+    document.querySelectorAll('.c-aside__button')
       .forEach((el) => {
         const target = el;
         target.onclick = undefined;
