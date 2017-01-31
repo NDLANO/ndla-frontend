@@ -10,6 +10,6 @@ import express from 'express';
 
 const app = express();
 
-app.use((req, res) => res.redirect(301, `https://${req.headers.host} ${req.url}`));
+app.get('*', (req, res) => res.redirect(301, `https://${req.headers.host}${req.url}`));
 
 module.exports = app;
