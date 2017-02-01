@@ -14,6 +14,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { match, RouterContext } from 'react-router';
+import defined from 'defined';
 
 import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
@@ -21,9 +22,12 @@ import createMemoryHistory from './createMemoryHistory';
 import configureRoutes from '../src/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
-import { getLocaleObject, isValidLocale } from '../src/i18n';
-
+import { getLocaleObject, isValidLocale, getHtmlLang } from '../src/i18n';
+import { fetchArticle } from '../src/containers/ArticlePage/articleApi';
 import Html from './Html';
+import config from '../src/config';
+import { htmlTemplate, htmlErrorTemplate } from './oembedHtmlTemplate';
+import { titleI18N } from '../src/util/i18nFieldFinder';
 
 const app = express();
 
@@ -41,6 +45,44 @@ const renderHtmlString = (locale, userAgentString, state = {}, component = undef
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
+});
+
+app.get('/article-iframe/:lang/:id', (req, res) => {
+  const lang = getHtmlLang(defined(req.params.lang, ''));
+  const articleId = req.params.id;
+  fetchArticle(articleId, lang)
+    .then((article) => {
+      res.send(htmlTemplate(lang, article.content, article.introduction, titleI18N(article, lang, true)));
+      res.end();
+    }).catch((error) => {
+      res.status(error.status).send(htmlErrorTemplate(lang, error));
+    });
+});
+
+app.get('/oembed', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  // http://ndla-frontend.test.api.ndla.no/article/3023
+  const url = req.query.url;
+  if (!url) {
+    res.status(404).json({ status: 404, text: 'Url not found' });
+  }
+
+  const paths = url.split('/');
+  const articleId = paths.length > 5 ? paths[5] : paths[4];
+  const lang = paths.length > 2 && isValidLocale(paths[3]) ? paths[3] : 'nb';
+  fetchArticle(articleId, lang)
+    .then((article) => {
+      res.json({
+        type: 'rich',
+        version: '1.0', // oEmbed version
+        height: req.query.height ? req.query.height : 800,
+        width: req.query.width ? req.query.width : 800,
+        title: article.title,
+        html: `<iframe src="${config.apiDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
+      });
+    }).catch((error) => {
+      res.status(error.status).json(error.message);
+    });
 });
 
 app.get('*', (req, res) => {

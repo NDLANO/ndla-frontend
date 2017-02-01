@@ -57,6 +57,10 @@ export const getLocaleObject = (localeAbbreviation) => {
 
 export const isValidLocale = localeAbbreviation => appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
 
+export const getHtmlLang = (localeAbbreviation) => {
+  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
+  return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
+};
 
 export const injectT = (WrappedComponent) => {
   function getDisplayName(component) {

@@ -6,14 +6,16 @@ process.env.WEBPACK_VERSION = require('webpack/package.json').version;
 const path = require('path');
 const webpack = require('webpack');
 
-const entry = [
-  'babel-polyfill',
-  './src/index.jsx',
-  './style/index.css',
-];
-
+const entry = {
+  main: [
+    'babel-polyfill',
+    './src/index.jsx',
+    './style/index.css',
+  ],
+  embed: './server/embedScripts.js',
+};
 module.exports = options => ({
-  entry: options.entry.concat(entry),
+  entry: Object.assign(entry, { main: options.entry.concat(entry.main) }),
 
   output: Object.assign({ // Compile into htdocs/assets
     path: path.resolve(process.cwd(), 'htdocs/assets'),
