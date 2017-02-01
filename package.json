@@ -75,7 +75,7 @@
     "lodash": "^4.17.2",
     "ndla-licenses": "^0.0.6",
     "ndla-tabs": "^0.0.1",
-    "ndla-ui": "^0.1.6",
+    "ndla-ui": "^0.2.1",
     "ndla-util": "^0.1.0",
     "normalize-css": "2.3.1",
     "react": "^15.4.0",

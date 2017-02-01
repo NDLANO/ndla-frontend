@@ -9,14 +9,14 @@ export const updateIFrameDimensions = () => {
     });
 };
 export const addAsideClickListener = () => {
-  document.querySelectorAll('.c-article aside > div')
+  document.querySelectorAll('.c-aside__button')
     .forEach((el) => {
       const target = el;
-      target.onclick = () => target.classList.toggle('expanded');
+      target.onclick = () => target.parentNode.classList.toggle('expanded');
     });
 };
 export const removeAsideClickListener = () => {
-  document.querySelectorAll('.c-article aside > div')
+  document.querySelectorAll('.c-aside__button')
     .forEach((el) => {
       const target = el;
       target.onclick = undefined;

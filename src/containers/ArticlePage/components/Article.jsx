@@ -8,7 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import { Article as UIArticle } from 'ndla-ui';
+import { Article as UIArticle, enableResponsiveTables } from 'ndla-ui';
 import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
@@ -25,6 +25,7 @@ class Article extends Component {
   componentDidMount() {
     addEventListenerForResize();
     updateIFrameDimensions();
+    enableResponsiveTables();
     addAsideClickListener();
   }
 
