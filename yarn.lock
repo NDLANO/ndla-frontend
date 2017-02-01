@@ -3749,9 +3749,9 @@ ndla-tabs@^0.0.1:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.1.6.tgz#c9fc35218b885bb6c07fc62bb048339c08138a38"
+ndla-ui@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.1.tgz#e71433bc0685f98c8a54e7c67bd58859b9d75431"
 
 ndla-util@^0.1.0:
   version "0.1.0"
