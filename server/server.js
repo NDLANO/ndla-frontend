@@ -66,7 +66,6 @@ app.get('/oembed', (req, res) => {
   if (!url) {
     res.status(404).json({ status: 404, text: 'Url not found' });
   }
-
   const paths = url.split('/');
   const articleId = paths.length > 5 ? paths[5] : paths[4];
   const lang = paths.length > 2 && isValidLocale(paths[3]) ? paths[3] : 'nb';
@@ -77,8 +76,8 @@ app.get('/oembed', (req, res) => {
         version: '1.0', // oEmbed version
         height: req.query.height ? req.query.height : 800,
         width: req.query.width ? req.query.width : 800,
-        title: article.title,
-        html: `<iframe src="${config.apiDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
+        title: titleI18N(article, lang, true),
+        html: `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
       });
     }).catch((error) => {
       res.status(error.status).json(error.message);
