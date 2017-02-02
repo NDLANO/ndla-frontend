@@ -12,11 +12,11 @@ import { OneColumn } from 'ndla-ui';
 import { injectT } from '../../i18n';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
-import SubjectLinkList from './components/SubjectLinkList';
+import { SubjectLinkList } from '../../components';
 
 export const WelcomePage = ({ t, subjects }) =>
   <OneColumn cssModifier="narrow">
-    <h2>{t('WelcomePage.chooseSubject')}</h2>
+    <h2>{t('welcomePage.chooseSubject')}</h2>
     <SubjectLinkList subjects={subjects} />
   </OneColumn>
 ;

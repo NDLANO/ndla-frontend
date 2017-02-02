@@ -8,7 +8,7 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { SubjectShape } from '../../../shapes';
+import { SubjectShape } from '../shapes';
 
 const SubjectLinkList = ({ subjects }) => (
   <ul className="o-list--arrows">

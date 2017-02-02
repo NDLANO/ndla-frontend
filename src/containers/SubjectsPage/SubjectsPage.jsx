@@ -7,14 +7,16 @@
  */
 
 import React, { PropTypes } from 'react';
+import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
+import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
+import { injectT } from '../../i18n';
 
-const SubjectsPage = ({ subjects }) => (
+const SubjectsPage = ({ t, subjects }) => (
   <OneColumn>
-    <ul>
-      { subjects.map(subject => <li key={subject.id}>{ subject.name }</li>) }
-    </ul>
+    <h2>{t('subjectsPage.chooseSubject')}</h2>
+    <SubjectLinkList subjects={subjects} />
   </OneColumn>
 );
 
@@ -22,4 +24,7 @@ SubjectsPage.propTypes = {
   subjects: PropTypes.array.isRequired,
 };
 
-export default injectSubjects(SubjectsPage);
+export default compose(
+  injectT,
+  injectSubjects,
+)(SubjectsPage);

@@ -12,8 +12,10 @@ const phrases = {
   },
   message: 'message',
   messages: 'messages',
-  WelcomePage: {
-    search: 'Søk',
+  welcomePage: {
+    chooseSubject: 'Velg fag',
+  },
+  subjectsPage: {
     chooseSubject: 'Velg fag',
   },
   logo: {

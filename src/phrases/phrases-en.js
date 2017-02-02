@@ -10,8 +10,10 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
-  WelcomePage: {
-    search: 'Search',
+  welcomePage: {
+    chooseSubject: 'Choose subject',
+  },
+  subjectsPage: {
     chooseSubject: 'Choose subject',
   },
   logo: {
