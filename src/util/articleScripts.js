@@ -12,7 +12,10 @@ export const addAsideClickListener = () => {
   document.querySelectorAll('.c-aside__button')
     .forEach((el) => {
       const target = el;
-      target.onclick = () => target.parentNode.classList.toggle('expanded');
+      target.onclick = () => {
+        console.log('HALLA');
+        target.parentNode.classList.toggle('expanded');
+      };
     });
 };
 export const removeAsideClickListener = () => {

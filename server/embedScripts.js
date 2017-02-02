@@ -1,12 +1,14 @@
 import { addEventListenerForResize, updateIFrameDimensions, addAsideClickListener } from '../src/util/articleScripts';
 
-const parentPostMessage = (evt) => {
-  const data = { context: 'ndla-oembed', height: document.getElementsByTagName('body')[0].offsetHeight };
-  parent.postMessage(data, evt.target.referrer);
+const parentPostMessage = () => {
+  if (parent.postMessage) {
+    const data = { context: 'ndla-oembed', height: document.getElementsByTagName('body')[0].offsetHeight };
+    parent.postMessage(data, '*');
+  }
 };
 
-window.onload = (evt) => {
-  parentPostMessage(evt);
+window.onload = () => {
+  parentPostMessage();
   addEventListenerForResize();
   updateIFrameDimensions();
   addAsideClickListener();
