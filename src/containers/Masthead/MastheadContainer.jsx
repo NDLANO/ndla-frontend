@@ -10,11 +10,11 @@ import React, { PropTypes } from 'react';
 import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toSearch } from '../../../routes';
-import TopicMenu from './TopicMenu';
-import { getTopicsBySubjectId, getSubjectById } from '../../SubjectPage/subjectSelectors';
-import { SubjectShape } from '../../../shapes';
-import ClickToggle from './ClickToggle';
+import { toSearch } from '../../routes';
+import TopicMenu from './components/TopicMenu';
+import { getTopicsBySubjectId, getSubjectById } from '../SubjectPage/subjectSelectors';
+import { SubjectShape } from '../../shapes';
+import { ClickToggle } from '../../components';
 
 const MastheadContainer = ({ t, subject, topics }) => (
   <Masthead>
