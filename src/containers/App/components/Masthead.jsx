@@ -7,30 +7,28 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Masthead as UIMasthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { toSearch } from '../../../routes';
-import { injectSubjects } from '../../SubjectPage/subjectHOCs';
-import SubjectsMenu from './SubjectsMenu';
-import SiteNavMenuItem from './SiteNavMenuItem';
+import TopicMenu from './TopicMenu';
+import { getTopicsBySubjectId, getSubjectById } from '../../SubjectPage/subjectSelectors';
+import { SubjectShape } from '../../../shapes';
+import ClickToggle from './ClickToggle';
 
-const Masthead = ({ t, subjects }) => (
-  <UIMasthead>
+const MastheadContainer = ({ t, subject, topics }) => (
+  <Masthead>
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
+      { subject ?
+        <ClickToggle title={subject.name} className="l-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
+          <TopicMenu topics={topics} />
+        </ClickToggle>
+        : null
+      }
     </MastheadItem>
     <MastheadItem right>
       <SiteNav>
-        <SiteNavMenuItem
-          className="c-site-navigation__item c-site-navigation__item--bold"
-          toggle={
-            <Link to="/subjects/" className="c-site-navigation__link">
-              {t('siteNav.chooseSubject')}
-            </Link>
-          }
-        >
-          <SubjectsMenu subjects={subjects} />
-        </SiteNavMenuItem>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
         </SiteNavItem>
@@ -42,12 +40,27 @@ const Masthead = ({ t, subjects }) => (
         </SiteNavItem>
       </SiteNav>
     </MastheadItem>
-  </UIMasthead>
+  </Masthead>
 );
 
-Masthead.propTypes = {
+MastheadContainer.propTypes = {
+  params: PropTypes.shape({
+    subjectId: PropTypes.string,
+    topicId: PropTypes.string,
+  }).isRequired,
   t: PropTypes.func.isRequired,
-  subjects: PropTypes.array.isRequired,
+  subject: SubjectShape,
+  topics: PropTypes.array.isRequired,
 };
 
-export default injectSubjects(Masthead);
+const mapStateToProps = (state, ownProps) => {
+  const { subjectId } = ownProps.params;
+  return {
+    subject: getSubjectById(subjectId)(state),
+    topics: getTopicsBySubjectId(subjectId)(state),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+)(MastheadContainer);

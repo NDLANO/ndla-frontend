@@ -6,25 +6,48 @@
  *
  */
 
-.c-topic-menu__header {
-  font-size: 1.3em;
+.c-logo {
+  display: inline-block;
 }
 
-.c-topic-menu__list {
-  list-style: none;
-  padding-left: 10px;
-  margin: 0;
+.l-topic-menu-container {
+  display: inline-block;
+  margin-left: 15px;
 }
 
-.c-topic-menu__item button:hover {
-  text-decoration: underline;
+.c-topic-menu-toggle-button {
+  font-size: 0.75em;
 }
 
-.c-topic-menu__item button:focus {
-  outline: none;
-  text-decoration: none;
-}
+.c-topic-menu {
+  position: absolute;
+  border: 1px solid #1C1717;
+  margin-top: 29px;
+  background: #22598D;
+  text-align: left;
+  left: 0;
+  right: 0;
 
-.c-topic-menu__item--active button {
-  font-weight: 600;
+  &__list {
+    padding: 1em 0;
+    list-style: none;
+    width: 30%;
+    margin: 0;
+  }
+
+  &__item {
+    padding: 5px 0;
+    border-bottom: 1px solid #7698B8;
+    &:hover {
+      background-color: #184673;
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+
+  &__link {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
 }

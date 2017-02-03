@@ -26,7 +26,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t } = this.props;
+    const { dispatch, children, messages, t, params } = this.props;
     return (
       <PageContainer>
         <Helmet
@@ -36,7 +36,7 @@ export class App extends React.Component {
           ]}
         />
 
-        <Masthead t={t} />
+        <Masthead t={t} params={params} />
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
@@ -46,6 +46,7 @@ export class App extends React.Component {
 }
 
 App.propTypes = {
+  params: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   messages: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired,

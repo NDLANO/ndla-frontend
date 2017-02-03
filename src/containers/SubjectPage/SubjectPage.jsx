@@ -11,12 +11,12 @@ import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import * as actions from './subjectActions';
 import { getSubjectById, getTopicsBySubjectId, getTopic } from './subjectSelectors';
-import TopicMenu from './components/TopicMenu';
 import TopicCardList from './components/TopicCardList';
 
 class SubjectPage extends Component {
   componentWillMount() {
-    const { params: { subjectId }, fetchTopics } = this.props;
+    const { params: { subjectId }, fetchTopics, fetchSubjects } = this.props;
+    fetchSubjects();
     fetchTopics(subjectId);
   }
 
@@ -35,11 +35,9 @@ class SubjectPage extends Component {
     }
 
     const topics = topic ? topic.subtopics : subjectTopics;
-    const heading = topic ? topic.name : subject.name;
     return (
       <OneColumn>
         <div className="o-layout">
-          {subject ? <TopicMenu className="o-layout__item u-1/3" heading={heading} topics={topics} /> : <div className="o-layout__item u-1/3" />}
           <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
         </div>
       </OneColumn>
@@ -53,6 +51,7 @@ SubjectPage.propTypes = {
     topicId: PropTypes.string,
   }).isRequired,
   fetchTopics: PropTypes.func.isRequired,
+  fetchSubjects: PropTypes.func.isRequired,
   subjectTopics: PropTypes.array.isRequired,
   subject: PropTypes.object,
   topic: PropTypes.object,
@@ -60,6 +59,7 @@ SubjectPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchTopics: actions.fetchTopics,
+  fetchSubjects: actions.fetchSubjects,
 };
 
 const mapStateToProps = (state, ownProps) => {
