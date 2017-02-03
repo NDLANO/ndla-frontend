@@ -28,4 +28,12 @@ server.listen(config.port);
 server.on('listening', () => {
   console.log('Listening on ' + config.port);
 });
+
+var redirectConfig = require('./redirect');
+var redirectServer = http.createServer(redirectConfig);
+// If port is 79 the request has been dispatched with http protocol from ELB. Redirecting to https.
+redirectServer.listen(config.redirectPort);
+redirectServer.on('listening', () => {
+  console.log('Listening for redirects on ' + config.redirectPort);
+});
 /* eslint-enable */
