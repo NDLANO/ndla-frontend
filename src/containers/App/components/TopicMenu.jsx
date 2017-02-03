@@ -62,7 +62,7 @@ export default class TopicMenu extends Component {
       <div {...lclasses(null, null, 'o-wrapper u-1/1')} onMouseLeave={this.handleMouseLeave}>
         <ul {...classes('list', null, lclasses('left').className)}>
           { topics.map(topic =>
-            (<li {...classes('topic-item')} onMouseOver={() => this.handleMouseOver(topic.id)} key={topic.id}>
+            (<li {...classes('topic-item', topic.id === expandedTopicId && 'active')} onMouseOver={() => this.handleMouseOver(topic.id)} key={topic.id}>
               <Link {...classes('link')} to={`/topics/${topic.id}`}>{ topic.name }</Link>
             </li>),
           ) }
