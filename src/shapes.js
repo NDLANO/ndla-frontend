@@ -22,3 +22,9 @@ export const SubjectShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });
+
+export const TopicShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  subtopics: PropTypes.arrayisRequired,
+});
