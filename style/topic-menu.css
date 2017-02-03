@@ -27,6 +27,7 @@
   text-align: left;
   left: 0;
   right: 0;
+  z-index: 30;
 
   &__list {
     padding: 1em 0;
@@ -50,4 +51,17 @@
     color: #FFFFFF;
     text-decoration: none;
   }
+}
+
+.o-overlay {
+  cursor: default;
+  position: fixed;
+  display: block;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  width: 100%;
 }

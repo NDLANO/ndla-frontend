@@ -31,6 +31,7 @@
 
      return (
        <Component {...rest}>
+         { isOpen ? <Button stripped className="o-overlay" onClick={() => this.setState({ isOpen: false })} /> : null }
          <Button stripped className={buttonClassName} onClick={this.handleClick} >
            { title }
          </Button>
