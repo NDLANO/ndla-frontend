@@ -19,16 +19,22 @@
      };
 
      this.handleClick = this.handleClick.bind(this);
+     this.close = this.close.bind(this);
    }
 
    handleClick() {
      this.setState({ isOpen: !this.state.isOpen });
    }
 
+   close() {
+     this.setState({ isOpen: false });
+   }
+
    render() {
-     const { title, children, buttonClassName, containerClass: Component, ...rest } = this.props;
+     const { title, buttonClassName, containerClass: Component, ...rest } = this.props;
      const { isOpen } = this.state;
 
+     const children = React.cloneElement(this.props.children, { close: this.close });
      return (
        <Component {...rest}>
          { isOpen ? <Button stripped className="o-overlay" onClick={() => this.setState({ isOpen: false })} /> : null }
