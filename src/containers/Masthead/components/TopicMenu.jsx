@@ -10,6 +10,7 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import BEMHelper from 'react-bem-helper';
 import SubTopicLinkList from './SubTopicLinkList';
+import { TopicShape } from '../../../shapes';
 
 const lclasses = new BEMHelper({
   name: 'topic-menu',
@@ -74,7 +75,7 @@ export default class TopicMenu extends Component {
 }
 
 TopicMenu.propTypes = {
-  topics: PropTypes.array.isRequired,
+  topics: PropTypes.arrayOf(TopicShape),
   delay: PropTypes.number,
 };
 

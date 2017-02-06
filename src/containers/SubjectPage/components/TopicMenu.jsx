@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import TopicMenuItem from './TopicMenuItem';
+import { TopicShape } from '../../../shapes';
 
 const TopicMenu = ({ topics, heading, className }) => (
   <div className={classNames('c-topic-menu', className)}>
@@ -20,7 +21,7 @@ const TopicMenu = ({ topics, heading, className }) => (
 );
 
 TopicMenu.propTypes = {
-  topics: PropTypes.array.isRequired,
+  topics: PropTypes.arrayOf(TopicShape),
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
