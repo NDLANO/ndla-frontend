@@ -56,7 +56,7 @@ export default class TopicMenu extends Component {
   }
 
   render() {
-    const { topics } = this.props;
+    const { topics, toTopic } = this.props;
     const { expandedTopicId } = this.state;
     const expandedTopic = topics.find(topic => topic.id === expandedTopicId);
     return (
@@ -64,11 +64,11 @@ export default class TopicMenu extends Component {
         <ul {...classes('list', null, lclasses('left').className)}>
           { topics.map(topic =>
             (<li {...classes('topic-item', topic.id === expandedTopicId && 'active')} onMouseOver={() => this.handleMouseOver(topic.id)} key={topic.id}>
-              <Link {...classes('link')} to={`/topics/${topic.id}`}>{ topic.name }</Link>
+              <Link {...classes('link')} to={toTopic(topic.id)}>{ topic.name }</Link>
             </li>),
           ) }
         </ul>
-        { expandedTopic ? <SubTopicLinkList topic={expandedTopic} className={lclasses('right').className} classes={classes} /> : null}
+        { expandedTopic ? <SubTopicLinkList classes={classes} className={lclasses('right').className} topic={expandedTopic} toTopic={toTopic} /> : null}
       </div>
     );
   }
@@ -76,6 +76,7 @@ export default class TopicMenu extends Component {
 
 TopicMenu.propTypes = {
   topics: PropTypes.arrayOf(TopicShape),
+  toTopic: PropTypes.func.isRequired,
   delay: PropTypes.number,
 };
 

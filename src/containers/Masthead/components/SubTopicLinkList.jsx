@@ -11,13 +11,13 @@ import { Link } from 'react-router';
 import { TopicShape } from '../../../shapes';
 
 
-const SubTopicLinkList = ({ topic, className, classes }) => (
+const SubTopicLinkList = ({ className, classes, topic, toTopic }) => (
   <div className={className}>
-    <Link {...classes('link', ['underline', 'big'])} to={`/subjects/${topic.id}`}>{ topic.name } {'>'}</Link>
+    <Link {...classes('link', ['underline', 'big'])} to={toTopic(topic.id)}>{ topic.name } {'>'}</Link>
     <ul {...classes('list')}>
       { topic.subtopics.map(subtopic =>
         (<li {...classes('subtopic-item')} key={subtopic.id}>
-          <Link {...classes('link', 'underline')} to={`/subtopics/${subtopic.id}`}>{ subtopic.name }</Link>
+          <Link {...classes('link', 'underline')} to={toTopic(topic.id, subtopic.id)}>{ subtopic.name }</Link>
         </li>),
       )}
     </ul>
@@ -25,9 +25,10 @@ const SubTopicLinkList = ({ topic, className, classes }) => (
 );
 
 SubTopicLinkList.propTypes = {
-  topic: TopicShape,
   classes: PropTypes.func.isRequired,
   className: PropTypes.string,
+  topic: TopicShape.isRequired,
+  toTopic: PropTypes.func.isRequired,
 };
 
 export default SubTopicLinkList;
