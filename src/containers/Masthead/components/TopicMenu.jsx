@@ -9,7 +9,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import BEMHelper from 'react-bem-helper';
-import SubTopicLinkList from './SubTopicLinkList';
+import SubtopicLinkList from './SubtopicLinkList';
 import { TopicShape } from '../../../shapes';
 
 const lclasses = new BEMHelper({
@@ -68,7 +68,7 @@ export default class TopicMenu extends Component {
             </li>),
           ) }
         </ul>
-        { expandedTopic ? <SubTopicLinkList classes={classes} className={lclasses('right').className} topic={expandedTopic} toTopic={toTopic} /> : null}
+        { expandedTopic ? <SubtopicLinkList classes={classes} className={lclasses('right').className} topic={expandedTopic} toTopic={toTopic} /> : null}
       </div>
     );
   }
