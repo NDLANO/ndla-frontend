@@ -6,26 +6,26 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
-import { Link } from 'react-router';
 import { injectT } from '../../i18n';
-import { toSearch } from '../../routes';
+import { SubjectShape } from '../../shapes';
+import { injectSubjects } from '../SubjectPage/subjectHOCs';
+import { SubjectLinkList } from '../../components';
 
-export const WelcomePage = ({ t }) =>
+export const WelcomePage = ({ t, subjects }) =>
   <OneColumn cssModifier="narrow">
-    <h1>{t('WelcomePage.helloworld')}</h1>
-    <ul>
-      <li>
-        <Link to={toSearch()}>
-          {t('WelcomePage.search')}
-        </Link>
-      </li>
-    </ul>
+    <h2>{t('welcomePage.chooseSubject')}</h2>
+    <SubjectLinkList subjects={subjects} />
   </OneColumn>
 ;
 
 WelcomePage.propTypes = {
+  subjects: PropTypes.arrayOf(SubjectShape),
 };
 
-export default injectT(WelcomePage);
+export default compose(
+  injectT,
+  injectSubjects,
+)(WelcomePage);

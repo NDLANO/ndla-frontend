@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import TopicCard from './TopicCard';
+import { TopicShape } from '../../../shapes';
 
 const TopicCardList = ({ topics, subjectId, className }) => (
   <div className={classNames('c-topic-card-list', className)} >
@@ -17,7 +18,7 @@ const TopicCardList = ({ topics, subjectId, className }) => (
   );
 
 TopicCardList.propTypes = {
-  topics: PropTypes.array.isRequired,
+  topics: PropTypes.arrayOf(TopicShape),
   className: PropTypes.string,
   subjectId: PropTypes.string.isRequired,
 };

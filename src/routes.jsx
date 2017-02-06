@@ -29,8 +29,8 @@ export function toSubject(subjectId) {
   return `/subjects/${subjectId}`;
 }
 
-export function toTopic(subjectId, topicId) {
-  return `/subjects/${subjectId}/${topicId}`;
+export function toTopic(subjectId, ...topicIds) {
+  return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
 export default function () {
@@ -42,6 +42,7 @@ export default function () {
       <Route path="subjects(/)" component={SubjectsPage} />
       <Route path="subjects/:subjectId(/)" component={SubjectPage} />
       <Route path="subjects/:subjectId/:topicId(/)" component={SubjectPage} />
+      <Route path="subjects/:subjectId/**/:topicId(/)" component={SubjectPage} />
       <Route path="*" status={404} component={NotFoundPage} />
     </Route>
   );

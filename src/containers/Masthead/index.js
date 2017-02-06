@@ -6,10 +6,10 @@
  *
  */
 
-import SubjectLinkList from './SubjectLinkList';
-import ClickToggle from './ClickToggle';
+import MastheadContainer from './MastheadContainer';
 
 export {
-  ClickToggle,
-  SubjectLinkList,
+  MastheadContainer,
 };
+
+export default MastheadContainer;

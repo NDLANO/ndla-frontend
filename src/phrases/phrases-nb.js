@@ -12,9 +12,11 @@ const phrases = {
   },
   message: 'message',
   messages: 'messages',
-  WelcomePage: {
-    helloworld: 'Hallo verden',
-    search: 'Søk',
+  welcomePage: {
+    chooseSubject: 'Velg fag',
+  },
+  subjectsPage: {
+    chooseSubject: 'Velg fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
