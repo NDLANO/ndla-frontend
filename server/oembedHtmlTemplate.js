@@ -6,19 +6,20 @@
  *
  */
 
+import httpStaus from 'http-status';
+import config from '../src/config';
 
-//
+const assets = config.isProduction ? require('../htdocs/assets/assets') : require('./developmentAssets'); // eslint-disable-line import/no-unresolved
 
- import httpStaus from 'http-status';
+const styleLink = config.isProduction ? `<link rel="stylesheet" type="text/css" href=/assets/${assets['main.css']} />` : '';
 
- const assets = process.env.NODE_ENV === 'development' ? require('./developmentAssets') : require('../htdocs/assets/assets'); // eslint-disable-line import/no-unresolved
-
- export const htmlTemplate = (lang, body, introduction, title) =>
+export const htmlTemplate = (lang, body, introduction, title) =>
   `<!doctype html>\n<html lang=${lang} >
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <link rel="stylesheet" type="text/css" href=/assets/${assets['main.css']} />
+      <link rel="shortcut icon" href="/assets/${assets['ndla-favicon.png']}"" type="image/x-icon" />
+      ${styleLink}
     </head>
     <body>
       <h1>${title}</h1>
@@ -26,16 +27,16 @@
         ${introduction}
       </section>
       ${body}
-      <script type="text/javascript" src=/assets/${assets['embed.js']}></script>
+      <script type="text/javascript" src="/assets/${assets['embed.js']}"></script>
     </body>
   </html>`;
 
- export const htmlErrorTemplate = (lang, { status, message, description, stacktrace }) => {
-   const statusMsg = httpStaus[status];
-   return htmlTemplate(lang, `
+export const htmlErrorTemplate = (lang, { status, message, description, stacktrace }) => {
+  const statusMsg = httpStaus[status];
+  return htmlTemplate(lang, `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
     <div><b>Description: </b>${description}</div>
     <div>${stacktrace}</div>
   `);
- };
+};

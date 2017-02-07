@@ -10,7 +10,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = require('./webpack.config.base')({
   // In production, we skip all hot-reloading stuff
-  entry: [],
+  entry: {
+    main: [],
+    embed: [],
+  },
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
