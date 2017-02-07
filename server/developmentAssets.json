@@ -2,5 +2,6 @@
   "ndla-favicon.png": "ndla-favicon.png",
   "symbol-defs.svg": "symbol-defs.svg",
   "main.css": "main.css",
-  "main.js": "main.js"
+  "main.js": "main.js",
+  "embed.js": "embed.js"
 }

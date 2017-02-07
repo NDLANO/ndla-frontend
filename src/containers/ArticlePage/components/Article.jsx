@@ -12,44 +12,27 @@ import { Article as UIArticle, enableResponsiveTables } from 'ndla-ui';
 import ArticleFootNotes from './ArticleFootNotes';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
+import {
+  addEventListenerForResize,
+  updateIFrameDimensions,
+  addAsideClickListener,
+  removeEventListenerForResize,
+  removeAsideClickListener } from '../../../util/articleScripts';
 
 
 class Article extends Component {
 
-  static updateIFrameDimensions() {
-    document.querySelectorAll('.article__oembed iframe')
-      .forEach((el) => {
-        const iframe = el;
-        const parentWidth = iframe.parentNode.clientWidth;
-        const newHeight = (iframe.clientHeight * parentWidth) / iframe.clientWidth;
-        iframe.height = newHeight;
-        iframe.width = parentWidth;
-      });
-  }
-
   componentDidMount() {
-    window.addEventListener('resize', Article.updateIFrameDimensions);
-    Article.updateIFrameDimensions();
-
+    addEventListenerForResize();
+    updateIFrameDimensions();
     enableResponsiveTables();
-    document.querySelectorAll('.c-aside__button')
-      .forEach((el) => {
-        const target = el;
-        target.onclick = () => target.parentNode.classList.toggle('expanded');
-      });
+    addAsideClickListener();
   }
-
 
   componentWillUnmount() {
-    window.removeEventListener('resize', Article.updateIFrameDimensions);
-
-    document.querySelectorAll('.c-aside__button')
-      .forEach((el) => {
-        const target = el;
-        target.onclick = undefined;
-      });
+    removeEventListenerForResize();
+    removeAsideClickListener();
   }
-
 
   render() {
     const { article, locale } = this.props;
