@@ -11,31 +11,31 @@ import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import defined from 'defined';
 import * as actions from './subjectActions';
-import { getSubjectById, getTopicsBySubjectId, getTopic } from './subjectSelectors';
+import { getSubjectById, getTopic } from './subjectSelectors';
 import TopicCardList from './components/TopicCardList';
 
-class SubjectPage extends Component {
+class TopicPage extends Component {
   componentWillMount() {
-    const { params: { subjectId }, fetchTopics, fetchSubjects } = this.props;
+    const { params: { subjectId, topicId }, fetchTopicsAndArticle, fetchSubjects } = this.props;
     fetchSubjects();
-    fetchTopics(subjectId);
+    fetchTopicsAndArticle({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { subjectId }, fetchTopics } = this.props;
+    const { params: { subjectId, topicId }, fetchTopicsAndArticle } = this.props;
 
-    if (nextProps.params.subjectId !== subjectId) {
-      fetchTopics(nextProps.params.subjectId);
+    if (nextProps.params.topicId !== topicId) {
+      fetchTopicsAndArticle({ subjectId, topicId });
     }
   }
 
   render() {
-    const { subjectTopics, subject, topic } = this.props;
-    if (!subject) {
+    const { subject, topic } = this.props;
+    if (!topic) {
       return null;
     }
 
-    const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
+    const topics = defined(topic.subtopics, []);
     return (
       <OneColumn>
         <div className="o-layout">
@@ -47,30 +47,28 @@ class SubjectPage extends Component {
   }
 }
 
-SubjectPage.propTypes = {
+TopicPage.propTypes = {
   params: PropTypes.shape({
     subjectId: PropTypes.string.isRequired,
     topicId: PropTypes.string,
   }).isRequired,
-  fetchTopics: PropTypes.func.isRequired,
+  fetchTopicsAndArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  subjectTopics: PropTypes.array.isRequired,
   subject: PropTypes.object,
   topic: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   fetchSubjects: actions.fetchSubjects,
-  fetchTopics: actions.fetchTopics,
+  fetchTopicsAndArticle: actions.fetchTopicsAndArticle,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.params;
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
-    subjectTopics: getTopicsBySubjectId(subjectId)(state),
     subject: getSubjectById(subjectId)(state),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TopicPage);

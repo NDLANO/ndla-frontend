@@ -7,9 +7,10 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import { hasFetched } from './subjectSelectors';
+import { hasFetched, getTopic } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
+import { fetchArticle } from '../ArticlePage/articleActions';
 import * as api from './subjectApi';
 
 export function* fetchSubjects() {
@@ -52,7 +53,26 @@ export function* watchFetchTopics() {
   }
 }
 
+
+export function* watchFetchTopicsAndArticle() {
+  while (true) {
+    const { payload: { subjectId, topicId } } = yield take(constants.FETCH_TOPICS_AND_ARTICLE);
+    let topic = yield select(getTopic(subjectId, topicId));
+
+    if (!topic) {
+      yield put(actions.fetchTopics(subjectId));
+      yield take(constants.SET_TOPICS);
+      topic = yield select(getTopic(subjectId, topicId));
+    }
+
+    if (topic.contentUri) {
+      yield put(fetchArticle(topic.contentUri.replace('urn:article:', '')));
+    }
+  }
+}
+
 export default [
   watchFetchSubjects,
   watchFetchTopics,
+  watchFetchTopicsAndArticle,
 ];
