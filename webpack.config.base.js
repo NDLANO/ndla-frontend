@@ -12,10 +12,15 @@ const entry = {
     './src/index.jsx',
     './style/index.css',
   ],
-  embed: './server/embedScripts.js',
+  embed: [
+    './server/embedScripts.js',
+  ],
 };
 module.exports = options => ({
-  entry: Object.assign(entry, { main: options.entry.concat(entry.main) }),
+  entry: Object.assign(entry, {
+    main: options.entry.main.concat(entry.main),
+    embed: options.entry.embed.concat(entry.embed),
+  }),
 
   output: Object.assign({ // Compile into htdocs/assets
     path: path.resolve(process.cwd(), 'htdocs/assets'),
