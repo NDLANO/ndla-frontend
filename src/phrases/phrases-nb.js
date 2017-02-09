@@ -69,6 +69,12 @@ const phrases = {
     },
     articleText: 'Artikkeltekst: Last ned som (word), (txt), (pdf)',
   },
+  resources: {
+    tabs: {
+      learningresources: 'Læringsressurser',
+      topics: 'Emner',
+    },
+  },
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
   },

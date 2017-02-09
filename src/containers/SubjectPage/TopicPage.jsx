@@ -8,6 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
 import defined from 'defined';
 import Helmet from 'react-helmet';
@@ -16,8 +17,9 @@ import isEmpty from 'lodash/isEmpty';
 import * as actions from './subjectActions';
 import { getTopicArticle, getSubjectById, getTopic } from './subjectSelectors';
 import TopicArticle from './components/TopicArticle';
-import TopicCardList from './components/TopicCardList';
+import Resources from './components/Resources';
 import { SubjectShape, TopicShape } from '../../shapes';
+import { injectT } from '../../i18n';
 
 class TopicPage extends Component {
   componentWillMount() {
@@ -51,7 +53,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         { !isEmpty(article) ? <TopicArticle article={article} /> : null }
-        <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
+        <Resources subjectId={subject.id} topics={topics} />
       </OneColumn>
     );
   }
@@ -83,4 +85,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopicPage);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  injectT,
+)(TopicPage);

@@ -10,9 +10,9 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import defined from 'defined';
+import TopicDescriptionList from './components/TopicDescriptionList';
 import * as actions from './subjectActions';
 import { getSubjectById, getTopicsBySubjectId, getTopic } from './subjectSelectors';
-import TopicCardList from './components/TopicCardList';
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -40,7 +40,7 @@ class SubjectPage extends Component {
       <OneColumn>
         <div className="o-layout">
           { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-          <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
+          <TopicDescriptionList subjectId={subject.id} topics={topics} />
         </div>
       </OneColumn>
     );
