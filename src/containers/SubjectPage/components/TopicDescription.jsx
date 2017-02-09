@@ -8,13 +8,19 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import BEMHelper from 'react-bem-helper';
 import { injectT } from '../../../i18n';
 import { toTopic } from '../../../routes';
 
+const classes = new BEMHelper({
+  name: 'topic-description',
+  prefix: 'c-',
+});
+
 const TopicDescription = ({ topic, subjectId, t }) => (
-  <section className="c-topic-desctiption">
-    <h5 className="c-topic-card__header">{topic.name}</h5>
-    <Link to={toTopic(subjectId, topic.id)}>{t('subject.associatedTopics')}</Link>
+  <section {...classes()}>
+    <h1 {...classes('header')}>{topic.name}</h1>
+    <Link {...classes('topic-link', '', 'c-button c-button--outline')} to={toTopic(subjectId, topic.id)}>{t('subject.associatedTopics')}</Link>
   </section>
 );
 

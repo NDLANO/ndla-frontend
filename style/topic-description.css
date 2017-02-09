@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.c-topic-description {
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    padding-bottom: 1.5em;
+    border-bottom: 2px solid #DADADA;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__header {
+    font-size: 1.2em;
+    color: #045A91;
+  }
+  &__topic-link:any-link {
+    padding: 0.25em   1em;
+    border: 1px solid #045A91;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: black;
+    text-decoration: none;
+  }
+}

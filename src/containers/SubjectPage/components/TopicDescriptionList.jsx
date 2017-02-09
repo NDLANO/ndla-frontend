@@ -7,20 +7,37 @@
  */
 
 import React, { PropTypes } from 'react';
-import classNames from 'classnames';
-import TopicDescription from './TopicDescription';
+import { Link } from 'react-router';
+import BEMHelper from 'react-bem-helper';
 import { TopicShape } from '../../../shapes';
+import { toTopic } from '../../../routes';
 
-const TopicDescriptionList = ({ topics, className, subjectId }) => (
-  <div className={classNames('c-topic-desctiption-list', className)} >
+const classes = new BEMHelper({
+  name: 'topic-description',
+  prefix: 'c-',
+});
+
+const TopicDescription = ({ topic, subjectId }) => (
+  <li {...classes('item')}>
+    <h1 {...classes('header')}>{topic.name}</h1>
+    <Link {...classes('topic-link')} to={toTopic(subjectId, topic.id)}>Gå til emnet</Link>
+  </li>
+);
+
+TopicDescription.propTypes = {
+  topic: TopicShape.isRequired,
+  subjectId: PropTypes.string.isRequired,
+};
+
+const TopicDescriptionList = ({ topics, subjectId }) => (
+  <ul {...classes('list')} >
     { topics.map(topic => <TopicDescription key={topic.id} subjectId={subjectId} topic={topic} />)}
-  </div>
+  </ul>
   );
 
 TopicDescriptionList.propTypes = {
   subjectId: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
-  className: PropTypes.string,
 };
 
 export default TopicDescriptionList;
