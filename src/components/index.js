@@ -7,9 +7,7 @@
  */
 
 import SubjectLinkList from './SubjectLinkList';
-import ClickToggle from './ClickToggle';
 
 export {
-  ClickToggle,
   SubjectLinkList,
 };
