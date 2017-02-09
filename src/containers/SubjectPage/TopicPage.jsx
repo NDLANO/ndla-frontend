@@ -10,9 +10,14 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import defined from 'defined';
+import Helmet from 'react-helmet';
+import isEmpty from 'lodash/isEmpty';
+
 import * as actions from './subjectActions';
-import { getSubjectById, getTopic } from './subjectSelectors';
+import { getTopicArticle, getSubjectById, getTopic } from './subjectSelectors';
+import TopicArticle from './components/TopicArticle';
 import TopicCardList from './components/TopicCardList';
+import { SubjectShape, TopicShape } from '../../shapes';
 
 class TopicPage extends Component {
   componentWillMount() {
@@ -25,23 +30,28 @@ class TopicPage extends Component {
     const { params: { subjectId, topicId }, fetchTopicsAndArticle } = this.props;
 
     if (nextProps.params.topicId !== topicId) {
-      fetchTopicsAndArticle({ subjectId, topicId });
+      fetchTopicsAndArticle({ subjectId, topicId: nextProps.params.topicId });
     }
   }
 
   render() {
-    const { subject, topic } = this.props;
+    const { subject, topic, article } = this.props;
     if (!topic) {
       return null;
     }
 
     const topics = defined(topic.subtopics, []);
+    const metaDescription = article.metaDescription ? { name: 'description', content: article.metaDescription } : {};
+    const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
       <OneColumn>
-        <div className="o-layout">
-          { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-          <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
-        </div>
+        <Helmet
+          title={`NDLA | ${article.title}`}
+          meta={[metaDescription]}
+          script={scripts}
+        />
+        { !isEmpty(article) ? <TopicArticle article={article} /> : null }
+        <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
       </OneColumn>
     );
   }
@@ -54,8 +64,9 @@ TopicPage.propTypes = {
   }).isRequired,
   fetchTopicsAndArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  subject: PropTypes.object,
-  topic: PropTypes.object,
+  subject: SubjectShape,
+  topic: TopicShape,
+  article: PropTypes.object,
 };
 
 const mapDispatchToProps = {
@@ -66,8 +77,9 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.params;
   return {
-    topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
+    topic: getTopic(subjectId, topicId)(state),
     subject: getSubjectById(subjectId)(state),
+    article: getTopicArticle(subjectId, topicId)(state),
   };
 };
 
