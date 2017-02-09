@@ -13,7 +13,7 @@ import Helmet from 'react-helmet';
 
 import config from '../src/config';
 
-const assets = process.env.NODE_ENV === 'development' ? require('./developmentAssets') : require('../htdocs/assets/assets'); // eslint-disable-line import/no-unresolved
+const assets = config.isProduction ? require('../htdocs/assets/assets') : require('./developmentAssets'); // eslint-disable-line import/no-unresolved
 
 const GoogleTagMangerNoScript = () => {
   if (config.googleTagMangerId) {
@@ -51,7 +51,7 @@ const Html = (props) => {
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.script.toComponent()}
-        <link rel="stylesheet" type="text/css" href={`/assets/${assets['main.css']}`} />
+        { config.isProduction ? <link rel="stylesheet" type="text/css" href={`/assets/${assets['main.css']}`} /> : null}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700" />
         <link rel="shortcut icon" href={`/assets/${assets['ndla-favicon.png']}`} type="image/x-icon" />
       </head>

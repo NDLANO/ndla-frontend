@@ -10,10 +10,12 @@ const plugins = [
 ];
 
 module.exports = require('./webpack.config.base')({
-  // Add hot reloading in development
-  entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true&quiet=true',
-  ],
+  entry: {
+    // Add hot reloading in development
+    main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true&quiet=true'],
+    // Inject styles for embed development.
+    embed: ['./style/index.css'],
+  },
 
   // Don't use hashes in dev mode for better performance
   output: {
