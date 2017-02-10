@@ -25,7 +25,7 @@ export function* fetchConvertedArticle(id) {
   }
 }
 
-function* watchFetchConvertedArticle() {
+export function* watchFetchConvertedArticle() {
   while (true) {
     const { payload: id } = yield take(constants.FETCH_CONVERTED_ARTICLE);
     const currentArticle = yield select(getConvertedArticle(id));
@@ -35,6 +35,30 @@ function* watchFetchConvertedArticle() {
   }
 }
 
+export function* fetchArticles(ids) {
+  try {
+    const articles = yield call(api.fetchConvertedArticle, ids);
+    yield put(actions.setArticles(articles));
+  } catch (error) {
+    throw error;
+    // TODO: handle error
+    // yield put(actions.applicationError());
+  }
+}
+
+export function* watchFetchArticles() {
+  while (true) {
+    const { payload: ids } = yield take(constants.FETCH_ARTICLES);
+
+    console.log(ids);
+    // const currentArticle = yield select(getConvertedArticle(id));
+    // if (!currentArticle || currentArticle.id !== id) {
+    //   yield call(fetchConvertedArticle, id);
+    // }
+  }
+}
+
 export default [
+  watchFetchArticles,
   watchFetchConvertedArticle,
 ];

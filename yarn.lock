@@ -1290,7 +1290,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0:
+core-js@^2.4.0, core-js@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
 
@@ -5047,17 +5047,18 @@ redux-mock-store@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.1.tgz#630c0e2642927d1417c844d935266b501f2fc231"
 
-redux-saga-test-plan@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-1.4.0.tgz#12a15e2b3a8b558319f5bb849674406eecf0aa57"
+redux-saga-test-plan@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-2.2.0.tgz#32c2841687a6691b8dbafb728b035f3e90515238"
   dependencies:
+    core-js "^2.4.1"
     lodash.isequal "^4.1.4"
     object-assign "^4.1.0"
     util-inspect "^0.1.8"
 
-redux-saga@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.13.0.tgz#9294386550deb0d56bc9a1b3c90a613e7ddb6593"
+redux-saga@^0.14.3:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.3.tgz#28cd2c5b49cf780a1de25875765724150c630513"
 
 redux-thunk@2.1.0:
   version "2.1.0"

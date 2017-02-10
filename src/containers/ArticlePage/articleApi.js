@@ -9,6 +9,9 @@
 import fetch from 'isomorphic-fetch';
 import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-converter/raw');
+const converterBaseUrl = apiResourceUrl('/article-converter/raw');
+const baseUrl = apiResourceUrl('/article-api/v1/articles');
 
-export const fetchConvertedArticle = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchConvertedArticle = (id, locale) => fetch(`${converterBaseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
+
+export const fetchArticles = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
