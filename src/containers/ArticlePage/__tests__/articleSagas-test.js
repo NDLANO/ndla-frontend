@@ -10,7 +10,7 @@ import nock from 'nock';
 
 import SagaTester from '../../../__tests__/_SagaTester';
 import reducer from '../articlesReducer';
-import { fetchArticle } from '../articleSagas';
+import { fetchConvertedArticle } from '../articleSagas';
 import * as actions from '../articleActions';
 
 
@@ -24,10 +24,10 @@ test('searchSagas search', () => {
     .get('/article-converter/raw/nb/123')
     .reply(200, { id: 123, title: 'unit test' });
 
-  const task = sagaTester.start(fetchArticle.bind(undefined, 123));
+  const task = sagaTester.start(fetchConvertedArticle.bind(undefined, 123));
 
   return task.done.then(() => {
-    expect(sagaTester.wasCalled(actions.setArticle().type)).toBeTruthy();
+    expect(sagaTester.wasCalled(actions.setConvertedArticle().type)).toBeTruthy();
 
     expect(sagaTester.getState().articles['123'].title).toEqual('unit test');
     expect(() => apiMock.done()).not.toThrow();

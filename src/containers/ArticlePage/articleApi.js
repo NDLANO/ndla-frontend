@@ -11,4 +11,4 @@ import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelp
 
 const baseUrl = apiResourceUrl('/article-converter/raw');
 
-export const fetchArticle = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchConvertedArticle = (id, locale) => fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);

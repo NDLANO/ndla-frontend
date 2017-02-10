@@ -16,29 +16,29 @@ test('reducers/article initalState', () => {
 });
 
 test('reducers/article set article', () => {
-  const nextState = reducer(undefined, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test' } });
+  const nextState = reducer(undefined, { type: constants.SET_CONVERTED_ARTICLE, payload: { id: 1, title: 'Unit test' } });
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test' },
+    1: { id: 1, title: 'Unit test', converted: true },
   });
 });
 
 test('reducers/article set multiple articles', () => {
-  const state = reducer(undefined, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 1' } });
-  const nextState = reducer(state, { type: constants.SET_ARTICLE, payload: { id: 2, title: 'Unit test 2' } });
+  const state = reducer(undefined, { type: constants.SET_CONVERTED_ARTICLE, payload: { id: 1, title: 'Unit test 1' } });
+  const nextState = reducer(state, { type: constants.SET_CONVERTED_ARTICLE, payload: { id: 2, title: 'Unit test 2' } });
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 1' },
-    2: { id: 2, title: 'Unit test 2' },
+    1: { id: 1, title: 'Unit test 1', converted: true },
+    2: { id: 2, title: 'Unit test 2', converted: true },
   });
 });
 
 test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer({
     1: { id: 1, title: 'Unit test 1' },
-  }, { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 2' } });
+  }, { type: constants.SET_CONVERTED_ARTICLE, payload: { id: 1, title: 'Unit test 2' } });
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 2' },
+    1: { id: 1, title: 'Unit test 2', converted: true },
   });
 });
