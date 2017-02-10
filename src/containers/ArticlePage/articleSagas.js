@@ -8,7 +8,7 @@
 
 import { take, call, put, select } from 'redux-saga/effects';
 import { getLocale } from '../Locale/localeSelectors';
-import { getArticle } from './articleSelectors';
+import { getConvertedArticle } from './articleSelectors';
 import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
@@ -27,9 +27,9 @@ export function* fetchConvertedArticle(id) {
 
 function* watchFetchConvertedArticle() {
   while (true) {
-    const { payload: id } = yield take(constants.FETCH_ARTICLE);
-    const currentArticle = yield select(getArticle(id));
-    if (currentArticle.id !== id) {
+    const { payload: id } = yield take(constants.FETCH_CONVERTED_ARTICLE);
+    const currentArticle = yield select(getConvertedArticle(id));
+    if (!currentArticle || currentArticle.id !== id) {
       yield call(fetchConvertedArticle, id);
     }
   }

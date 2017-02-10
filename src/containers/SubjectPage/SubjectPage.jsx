@@ -38,10 +38,8 @@ class SubjectPage extends Component {
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
       <OneColumn>
-        <div className="o-layout">
-          { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-          <TopicDescriptionList subjectId={subject.id} topics={topics} />
-        </div>
+        { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
+        <TopicDescriptionList subjectId={subject.id} topics={topics} />
       </OneColumn>
     );
   }

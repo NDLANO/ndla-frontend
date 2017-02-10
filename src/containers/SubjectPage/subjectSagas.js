@@ -10,7 +10,7 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { hasFetched, getTopic } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
-import { fetchArticle } from '../ArticlePage/articleActions';
+import { fetchConvertedArticle } from '../ArticlePage/articleActions';
 import * as api from './subjectApi';
 
 export function* fetchSubjects() {
@@ -34,10 +34,13 @@ export function* watchFetchSubjects() {
   }
 }
 
-export function* fetchTopics(subjectId) {
+export function* fetchTopics(subjectId, topicId) {
   try {
     const topics = yield call(api.fetchTopics, subjectId);
     yield put(actions.setTopics({ topics, subjectId }));
+    if (topicId) { // Fetch related article if topicId is defined
+      yield put(actions.fetchTopicArticle({ topicId, subjectId }));
+    }
   } catch (error) {
     throw error;
     // TODO: handle error
@@ -47,26 +50,26 @@ export function* fetchTopics(subjectId) {
 
 export function* watchFetchTopics() {
   while (true) {
-    const { payload: subjectId } = yield take(constants.FETCH_TOPICS);
+    const { payload } = yield take(constants.FETCH_TOPICS);
     // TODO: Check if already fetched
-    yield call(fetchTopics, subjectId);
+    if (!payload.topicId) {
+      yield call(fetchTopics, payload);
+    } else {
+      yield call(fetchTopics, payload.subjectId, payload.topicId);
+    }
   }
 }
 
 
-export function* watchFetchTopicsAndArticle() {
+export function* watchFetchTopicArticle() {
   while (true) {
-    const { payload: { subjectId, topicId } } = yield take(constants.FETCH_TOPICS_AND_ARTICLE);
-    let topic = yield select(getTopic(subjectId, topicId));
+    const { payload: { subjectId, topicId } } = yield take(constants.FETCH_TOPIC_ARTICLE);
+    const topic = yield select(getTopic(subjectId, topicId));
 
     if (!topic) {
-      yield put(actions.fetchTopics(subjectId));
-      yield take(constants.SET_TOPICS);
-      topic = yield select(getTopic(subjectId, topicId));
-    }
-
-    if (topic.contentUri) {
-      yield put(fetchArticle(topic.contentUri.replace('urn:article:', '')));
+      yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
+    } else if (topic.contentUri) {
+      yield put(fetchConvertedArticle(topic.contentUri.replace('urn:article:', '')));
     }
   }
 }
@@ -74,5 +77,5 @@ export function* watchFetchTopicsAndArticle() {
 export default [
   watchFetchSubjects,
   watchFetchTopics,
-  watchFetchTopicsAndArticle,
+  watchFetchTopicArticle,
 ];

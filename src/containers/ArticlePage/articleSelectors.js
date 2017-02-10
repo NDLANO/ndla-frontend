@@ -27,6 +27,13 @@ export const getArticle = articleId => createSelector(
       metaDescription: metaDescriptionI18N(article, locale, true),
       created: formatDate(article.created, locale),
       updated: formatDate(article.updated, locale),
-    } : {}
+    } : undefined
   ),
-  );
+);
+
+export const getConvertedArticle = articleId => createSelector(
+  [getArticle(articleId)],
+  article => (
+    article && article.converted ? article : undefined
+  ),
+);
