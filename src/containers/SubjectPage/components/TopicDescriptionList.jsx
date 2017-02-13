@@ -20,6 +20,7 @@ const classes = new BEMHelper({
 const TopicDescription = ({ topic, subjectId }) => (
   <li {...classes('item')}>
     <h1 {...classes('header')}>{topic.name}</h1>
+    {topic.introduction ? <p>{topic.introduction}</p> : null}
     <Link {...classes('topic-link')} to={toTopic(subjectId, topic.id)}>Gå til emnet</Link>
   </li>
 );

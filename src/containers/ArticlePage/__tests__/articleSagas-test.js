@@ -28,20 +28,20 @@ test('articleSagas watchFetchConvertedArticle fetch converted article if not in 
           .run({ silenceTimeout: true });
 });
 
-test('articleSagas watchFetchConvertedArticle do not refetch existing article ', () => expectSaga(sagas.watchFetchConvertedArticle)
-          .withState({ articles: { 123: { id: 123, converted: true } }, locale: 'nb' })
-          .dispatch({ type: constants.FETCH_CONVERTED_ARTICLE, payload: 123 })
-          .run({ silenceTimeout: true }));
+test('articleSagas watchFetchConvertedArticle do not refetch existing article ', () =>
+    expectSaga(sagas.watchFetchConvertedArticle)
+      .withState({ articles: { 123: { id: 123, converted: true } }, locale: 'nb' })
+      .dispatch({ type: constants.FETCH_CONVERTED_ARTICLE, payload: 123 })
+      .run({ silenceTimeout: true }));
 
 test('articleSagas watchFetchArticles', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/id=[1,2,3]')
-    .reply(200, [{ id: 1 }, { id: 2 }, { id: 3 }]);
+    .get('/article-api/v1/articles?ids=1,2,3')
+    .reply(200, { results: [{ id: 1 }, { id: 2 }, { id: 3 }] });
 
   const expected = expectSaga(sagas.watchFetchArticles)
           .withState({ articles: {}, locale: 'nb' })
-          // .put(actions.setArticles([{ id: 1 }, { id: 2 }, { id: 3 }]))
-
+          .put(actions.setArticles([{ id: 1 }, { id: 2 }, { id: 3 }]))
           .dispatch({ type: constants.FETCH_ARTICLES, payload: [1, 2, 3] })
           .run({ silenceTimeout: true });
   return expected;

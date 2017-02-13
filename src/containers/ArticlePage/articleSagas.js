@@ -37,8 +37,8 @@ export function* watchFetchConvertedArticle() {
 
 export function* fetchArticles(ids) {
   try {
-    const articles = yield call(api.fetchConvertedArticle, ids);
-    yield put(actions.setArticles(articles));
+    const data = yield call(api.fetchArticles, ids);
+    yield put(actions.setArticles(data.results));
   } catch (error) {
     throw error;
     // TODO: handle error
@@ -49,12 +49,9 @@ export function* fetchArticles(ids) {
 export function* watchFetchArticles() {
   while (true) {
     const { payload: ids } = yield take(constants.FETCH_ARTICLES);
-
-    console.log(ids);
-    // const currentArticle = yield select(getConvertedArticle(id));
-    // if (!currentArticle || currentArticle.id !== id) {
-    //   yield call(fetchConvertedArticle, id);
-    // }
+    if (ids.length > 0) {
+      yield call(fetchArticles, ids);
+    }
   }
 }
 

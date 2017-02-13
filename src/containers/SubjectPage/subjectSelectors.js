@@ -8,7 +8,7 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import { getConvertedArticle } from '../ArticlePage/articleSelectors';
+import { getConvertedArticle, getArticleIntroduction } from '../ArticlePage/articleSelectors';
 
 const getSubjectsFromState = state => state.subjects;
 
@@ -50,4 +50,21 @@ export const getTopic = (subjectId, topicId = undefined) => createSelector(
 export const getTopicArticle = (subjectId, topicId) => createSelector(
   [getTopic(subjectId, topicId), state => state],
   (topic, state) => (topic && topic.contentUri ? getConvertedArticle(topic.contentUri.replace('urn:article:', ''))(state) : undefined),
+);
+
+export const getSubtopics = (subjectId, topicId) => createSelector(
+  [getTopic(subjectId, topicId)],
+  topic => (topic ? defined(topic.subtopics, []) : []),
+);
+
+export const getSubtopicsWithDescription = (subjectId, topicId) => createSelector(
+  [getSubtopics(subjectId, topicId), state => state],
+  (topics, state) => topics.map((topic) => {
+    if (topic && topic.contentUri) {
+      const articleId = topic.contentUri.replace('urn:article:', '');
+      const introduction = getArticleIntroduction(articleId)(state);
+      return { ...topic, introduction };
+    }
+    return topic;
+  }),
 );

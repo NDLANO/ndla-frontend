@@ -6,8 +6,12 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
+import { getSubtopicsWithDescription } from '../subjectSelectors';
+import * as actions from '../../ArticlePage/articleActions';
 import { injectT } from '../../../i18n';
 import TopicDescriptionList from './TopicDescriptionList';
 import { TopicShape } from '../../../shapes';
@@ -23,20 +27,55 @@ function buildLicenseTabList(t, topics, subjectId) {
 }
 
 
-const Resources = ({ topics, t, subjectId }) => {
-  const tabs = buildLicenseTabList(t, topics, subjectId);
-  return (
-    <div className="c-resources u-margin-top-large">
-      <Tabs tabs={tabs} />
-    </div>
-  );
-};
+class Resources extends Component {
+  componentWillMount() {
+    if (this.props.topics.length > 0) {
+      const ids = this.props.topics
+          .filter(t => t.contentUri)
+          .map(t => t.contentUri.replace('urn:article:', ''));
+      this.props.fetchArticles(ids);
+    }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.topics.length > 0 && nextProps.topics !== this.props.topics) {
+      const ids = nextProps.topics
+          .filter(t => t.contentUri)
+          .map(t => t.contentUri.replace('urn:article:', ''));
+      this.props.fetchArticles(ids);
+    }
+  }
+
+  render() {
+    const { topics, subjectId, t } = this.props;
+    const tabs = buildLicenseTabList(t, topics, subjectId);
+    // console.log(this.props.subtopics);
+    return (
+      <div className="c-resources u-margin-top-large">
+        <Tabs tabs={tabs} />
+      </div>
+    );
+  }
+}
 
 Resources.propTypes = {
   subjectId: PropTypes.string.isRequired,
+  fetchArticles: PropTypes.func.isRequired,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
+const mapDispatchToProps = {
+  fetchArticles: actions.fetchArticles,
+};
 
-export default injectT(Resources);
+const mapStateToProps = (state, ownProps) => {
+  const { subjectId, topicId } = ownProps;
+  return ({
+    topics: getSubtopicsWithDescription(subjectId, topicId)(state),
+  });
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  injectT,
+)(Resources);

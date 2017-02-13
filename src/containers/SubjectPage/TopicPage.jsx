@@ -10,7 +10,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
-import defined from 'defined';
+// import defined from 'defined';
 import Helmet from 'react-helmet';
 
 import * as actions from './subjectActions';
@@ -41,7 +41,7 @@ class TopicPage extends Component {
       return null;
     }
 
-    const topics = defined(topic.subtopics, []);
+    // const topics = defined(topic.subtopics, []);
     const metaDescription = article ? { name: 'description', content: article.metaDescription } : {};
     const title = article ? article.title : '';
     const scripts = article ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
@@ -53,7 +53,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         { article ? <TopicArticle article={article} /> : null }
-        <Resources subjectId={subject.id} topics={topics} />
+        <Resources subjectId={subject.id} topicId={topic.id} />
       </OneColumn>
     );
   }
