@@ -18,6 +18,7 @@ test('reducers/subject initalState', () => {
     fetching: false,
     all: [],
     topics: {},
+    topicIntroductions: {},
   });
 });
 
@@ -29,6 +30,7 @@ test('reducers/subject handle fetch subjects', () => {
     fetching: true,
     all: [],
     topics: {},
+    topicIntroductions: {},
   });
 });
 
@@ -44,6 +46,7 @@ test('reducers/subjects handle set subjects', () => {
     fetching: false,
     all: subjects,
     topics: {},
+    topicIntroductions: {},
   });
 });
 
@@ -62,6 +65,7 @@ test('reducers/subjects handle set topics', () => {
     fetching: false,
     all: [],
     topics: { [subjects[0].id]: topics },
+    topicIntroductions: {},
   });
 
   const nextNextState = reducer(nextState, {
@@ -74,5 +78,26 @@ test('reducers/subjects handle set topics', () => {
 
   expect(nextNextState.topics).toEqual({
     [subjects[0].id]: topics, [subjects[1].id]: [],
+  });
+});
+
+test('reducers/subjects handle set topic introductions', () => {
+  const nextState = reducer(initalState, {
+    type: constants.SET_TOPIC_INTRODUCTIONS,
+    payload: {
+      articles: [{ id: '1', intro: 'Test1' }, { id: '2', intro: 'Test2' }, { id: '3', intro: 'Test3' }],
+      topics: [{ id: 'topicId1', contentUri: 'urn:article:1' }, { id: 'topicId2', contentUri: 'urn:article:3' }, { id: 'topicId3', contentUri: 'urn:image:3' }],
+    },
+  });
+
+  expect(nextState.topicIntroductions).toEqual({
+    topicId1: {
+      id: '1',
+      intro: 'Test1',
+    },
+    topicId2: {
+      id: '3',
+      intro: 'Test3',
+    },
   });
 });

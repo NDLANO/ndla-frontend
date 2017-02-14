@@ -10,14 +10,13 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
-// import defined from 'defined';
 import Helmet from 'react-helmet';
 
 import * as actions from './subjectActions';
-import { getTopicArticle, getSubjectById, getTopic } from './subjectSelectors';
+import { getTopicArticle, getTopic } from './subjectSelectors';
 import TopicArticle from './components/TopicArticle';
 import Resources from './components/Resources';
-import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
+import { ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
 
 class TopicPage extends Component {
@@ -36,14 +35,13 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { subject, topic, article } = this.props;
+    const { params: { subjectId }, topic, article } = this.props;
     if (!topic) {
       return null;
     }
 
-    // const topics = defined(topic.subtopics, []);
     const metaDescription = article ? { name: 'description', content: article.metaDescription } : {};
-    const title = article ? article.title : '';
+    const title = article ? article.title : topic.name;
     const scripts = article ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
       <OneColumn>
@@ -53,7 +51,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         { article ? <TopicArticle article={article} /> : null }
-        <Resources subjectId={subject.id} topicId={topic.id} />
+        <Resources subjectId={subjectId} topic={topic} topicId={topic.id} />
       </OneColumn>
     );
   }
@@ -66,7 +64,6 @@ TopicPage.propTypes = {
   }).isRequired,
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  subject: SubjectShape,
   topic: TopicShape,
   article: ArticleShape,
 };
@@ -80,7 +77,6 @@ const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.params;
   return {
     topic: getTopic(subjectId, topicId)(state),
-    subject: getSubjectById(subjectId)(state),
     article: getTopicArticle(subjectId, topicId)(state),
   };
 };

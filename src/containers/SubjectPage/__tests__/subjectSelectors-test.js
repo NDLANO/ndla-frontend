@@ -6,7 +6,7 @@
  *
  */
 
-import { getSubjects, getSubjectById, getTopicsBySubjectId, getTopic } from '../subjectSelectors';
+import { getSubjects, getSubjectById, getTopicsBySubjectId, getTopic, getSubtopicsWithIntroduction } from '../subjectSelectors';
 
 import { subjects, topics } from './mockSubjects';
 
@@ -67,4 +67,28 @@ test('subjectSelectors getTopics', () => {
   expect(getTopic(subjects[0].id, topics[1].id)(state)).toBe(topics[1]);
   expect(getTopic(subjects[0].id, topics[0].subtopics[0].id)(state)).toBe(topics[0].subtopics[0]);
   expect(getTopic(subjects[0].id, 'sadfjl')(state)).toBe(undefined);
+});
+
+test('subjectSelectors getTopics', () => {
+  const state = {
+    locale: 'nb',
+    subjects: {
+      topics: {
+        [subjects[0].id]: topics,
+      },
+      topicIntroductions: {
+        [topics[0].subtopics[0].id]: {
+          introduction: [
+            { introduction: 'Tester', language: 'nb' },
+            { introduction: 'Testing', language: 'en' },
+          ],
+        },
+      },
+    },
+  };
+
+  expect(getSubtopicsWithIntroduction(subjects[0].id, topics[0].id)(state)[0])
+    .toEqual({ id: 'urn:topic:169397', introduction: 'Tester', name: 'Mediedesign', subtopics: [] });
+  expect(getSubtopicsWithIntroduction(subjects[0].id, topics[0].id)(state)[1])
+    .toEqual({ id: 'urn:topic:170363', introduction: undefined, name: 'Idéutvikling', subtopics: [] });
 });

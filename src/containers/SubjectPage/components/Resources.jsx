@@ -10,8 +10,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
-import { getSubtopicsWithDescription } from '../subjectSelectors';
-import * as actions from '../../ArticlePage/articleActions';
+import { getSubtopicsWithIntroduction } from '../subjectSelectors';
+import * as actions from '../subjectActions';
 import { injectT } from '../../../i18n';
 import TopicDescriptionList from './TopicDescriptionList';
 import { TopicShape } from '../../../shapes';
@@ -29,27 +29,19 @@ function buildLicenseTabList(t, topics, subjectId) {
 
 class Resources extends Component {
   componentWillMount() {
-    if (this.props.topics.length > 0) {
-      const ids = this.props.topics
-          .filter(t => t.contentUri)
-          .map(t => t.contentUri.replace('urn:article:', ''));
-      this.props.fetchArticles(ids);
-    }
+    this.props.fetchTopicResources(this.props.topic);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.topics.length > 0 && nextProps.topics !== this.props.topics) {
-      const ids = nextProps.topics
-          .filter(t => t.contentUri)
-          .map(t => t.contentUri.replace('urn:article:', ''));
-      this.props.fetchArticles(ids);
+    const { topic, fetchTopicResources } = this.props;
+    if (nextProps.topic.id !== topic.id) {
+      fetchTopicResources(nextProps.topic);
     }
   }
 
   render() {
     const { topics, subjectId, t } = this.props;
     const tabs = buildLicenseTabList(t, topics, subjectId);
-    // console.log(this.props.subtopics);
     return (
       <div className="c-resources u-margin-top-large">
         <Tabs tabs={tabs} />
@@ -59,19 +51,21 @@ class Resources extends Component {
 }
 
 Resources.propTypes = {
+  topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
-  fetchArticles: PropTypes.func.isRequired,
+  fetchTopicResources: PropTypes.func.isRequired,
+  topic: TopicShape.isRequired,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchArticles: actions.fetchArticles,
+  fetchTopicResources: actions.fetchTopicResources,
 };
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps;
   return ({
-    topics: getSubtopicsWithDescription(subjectId, topicId)(state),
+    topics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
   });
 };
 

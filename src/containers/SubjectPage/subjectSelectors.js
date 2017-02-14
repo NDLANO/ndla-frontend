@@ -8,13 +8,20 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import { getConvertedArticle, getArticleIntroduction } from '../ArticlePage/articleSelectors';
+import { getConvertedArticle } from '../ArticlePage/articleSelectors';
+import { introductionI18N } from '../../util/i18nFieldFinder';
+import { getLocale } from '../Locale/localeSelectors';
 
 const getSubjectsFromState = state => state.subjects;
 
 export const getSubjects = createSelector(
     [getSubjectsFromState],
     subjects => subjects.all,
+);
+
+export const getTopicIntroductions = createSelector(
+    [getSubjectsFromState],
+    subjects => subjects.topicIntroductions,
 );
 
 export const getSubjectById = id => createSelector(
@@ -57,12 +64,12 @@ export const getSubtopics = (subjectId, topicId) => createSelector(
   topic => (topic ? defined(topic.subtopics, []) : []),
 );
 
-export const getSubtopicsWithDescription = (subjectId, topicId) => createSelector(
-  [getSubtopics(subjectId, topicId), state => state],
-  (topics, state) => topics.map((topic) => {
-    if (topic && topic.contentUri) {
-      const articleId = topic.contentUri.replace('urn:article:', '');
-      const introduction = getArticleIntroduction(articleId)(state);
+export const getSubtopicsWithIntroduction = (subjectId, topicId) => createSelector(
+  [getSubtopics(subjectId, topicId), getTopicIntroductions, getLocale],
+  (topics, topicIntroductions, locale) => topics.map((topic) => {
+    if (topic && topicIntroductions) {
+      const topicIntroduction = topicIntroductions[topic.id];
+      const introduction = topicIntroduction ? introductionI18N(topicIntroduction, locale, true) : undefined;
       return { ...topic, introduction };
     }
     return topic;
