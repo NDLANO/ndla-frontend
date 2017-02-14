@@ -16,28 +16,3 @@ export const subjects = [
     name: 'Medieuttrykk og mediesamfunnet',
   },
 ];
-
-export const topics =
-  [
-    {
-      id: 'urn:topic:172416',
-      name: 'Idéutvikling og mediedesign',
-      subtopics: [
-        {
-          id: 'urn:topic:169397',
-          name: 'Mediedesign',
-          subtopics: [],
-        },
-        {
-          id: 'urn:topic:170363',
-          name: 'Idéutvikling',
-          subtopics: [],
-        },
-      ],
-    },
-    {
-      id: 'urn:topic:169412',
-      name: 'Mediekommunikasjon',
-      subtopics: [],
-    },
-  ];

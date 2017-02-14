@@ -12,8 +12,9 @@ import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
 import Helmet from 'react-helmet';
 
-import * as actions from './subjectActions';
-import { getTopicArticle, getTopic } from './subjectSelectors';
+import * as actions from './topicActions';
+import * as subjectActions from '../SubjectPage/subjectActions';
+import { getTopicArticle, getTopic } from './topicSelectors';
 import TopicArticle from './components/TopicArticle';
 import Resources from './components/Resources';
 import { ArticleShape, TopicShape } from '../../shapes';
@@ -69,7 +70,7 @@ TopicPage.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchSubjects: actions.fetchSubjects,
+  fetchSubjects: subjectActions.fetchSubjects,
   fetchTopicArticle: actions.fetchTopicArticle,
 };
 

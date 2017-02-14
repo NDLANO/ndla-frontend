@@ -10,10 +10,10 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
-import { getSubtopicsWithIntroduction } from '../subjectSelectors';
-import * as actions from '../subjectActions';
+import { getSubtopicsWithIntroduction } from '../topicSelectors';
+import * as actions from '../topicActions';
 import { injectT } from '../../../i18n';
-import TopicDescriptionList from './TopicDescriptionList';
+import TopicDescriptionList from '../../../components/TopicDescriptionList';
 import { TopicShape } from '../../../shapes';
 
 

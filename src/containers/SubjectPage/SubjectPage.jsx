@@ -10,9 +10,11 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { OneColumn } from 'ndla-ui';
 import defined from 'defined';
-import TopicDescriptionList from './components/TopicDescriptionList';
+import TopicDescriptionList from '../../components/TopicDescriptionList';
 import * as actions from './subjectActions';
-import { getSubjectById, getTopicsBySubjectId, getTopic } from './subjectSelectors';
+import * as topicActions from '../TopicPage/topicActions';
+import { getSubjectById } from './subjectSelectors';
+import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -59,7 +61,7 @@ SubjectPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: actions.fetchSubjects,
-  fetchTopics: actions.fetchTopics,
+  fetchTopics: topicActions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {

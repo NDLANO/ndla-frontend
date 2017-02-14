@@ -9,8 +9,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from '../../../i18n';
-import { toTopic } from '../../../routes';
+import { injectT } from '../i18n';
+import { toTopic } from '../routes';
 
 const classes = new BEMHelper({
   name: 'topic-description',
