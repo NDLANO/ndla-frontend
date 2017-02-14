@@ -6,7 +6,7 @@
  *
  */
 
-import { getArticle, getConvertedArticle } from '../articleSelectors';
+import { getArticle } from '../articleSelectors';
 
 const state = {
   locale: 'nb',
@@ -24,7 +24,6 @@ const state = {
       ],
     },
     2: {
-      converted: true,
       id: 2,
       created: '2014-11-24T10:44:06Z',
       title: [
@@ -55,20 +54,6 @@ test('articleSelectors getArticle en locale', () => {
   expect(getArticleSelector(stateWithEnLocale).title).toBe('Testing');
   expect(getArticleSelector(stateWithEnLocale).created).toBe('12/24/2014');
   expect(getArticleSelector(stateWithEnLocale).metaDescription).toBe('Description');
-});
-
-test('articleSelectors getConvertedArticle', () => {
-  const getArticleSelector = getConvertedArticle(2);
-  expect(getArticleSelector(state).id).toBe(2);
-  expect(getArticleSelector(state).converted).toBe(true);
-});
-
-test('articleSelectors getConvertedArticle returns undefined if article is not in state or coverted is false', () => {
-  let getArticleSelector = getConvertedArticle(1);
-  expect(getArticleSelector(state)).toEqual(undefined);
-
-  getArticleSelector = getConvertedArticle(3);
-  expect(getArticleSelector(state)).toEqual(undefined);
 });
 
 test('articleSelectors getArticle returns undefined if article is not in state', () => {

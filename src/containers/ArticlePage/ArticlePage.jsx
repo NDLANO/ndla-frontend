@@ -12,15 +12,15 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 
 import * as actions from './articleActions';
-import { getConvertedArticle } from './articleSelectors';
+import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape } from '../../shapes';
 import Article from './components/Article';
 
 class ArticlePage extends Component {
   componentWillMount() {
-    const { fetchConvertedArticle, params: { articleId } } = this.props;
-    fetchConvertedArticle(articleId);
+    const { fetchArticle, params: { articleId } } = this.props;
+    fetchArticle(articleId);
   }
 
   render() {
@@ -49,16 +49,16 @@ ArticlePage.propTypes = {
   }).isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
-  fetchConvertedArticle: PropTypes.func.isRequired,
+  fetchArticle: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  fetchConvertedArticle: actions.fetchConvertedArticle,
+  fetchArticle: actions.fetchArticle,
 };
 
 const makeMapStateToProps = (_, ownProps) => {
   const articleId = ownProps.params.articleId;
-  const getArticleSelector = getConvertedArticle(articleId);
+  const getArticleSelector = getArticle(articleId);
   return state => ({
     article: getArticleSelector(state),
     locale: getLocale(state),

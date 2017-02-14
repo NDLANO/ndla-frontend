@@ -11,16 +11,9 @@ import * as constants from './articleConstants';
 
 const initalState = {};
 
-
-const reduceArrayById = array => array.reduce((obj, item) => Object.assign({}, obj, { [item.id]: item }), {});
-
 export default handleActions({
-  [constants.SET_CONVERTED_ARTICLE]: {
-    next: (state, action) => ({ ...state, [action.payload.id]: { ...action.payload, converted: true } }),
-    throw: state => state,
-  },
-  [constants.SET_ARTICLES]: {
-    next: (state, action) => ({ ...state, ...reduceArrayById(action.payload) }),
+  [constants.SET_ARTICLE]: {
+    next: (state, action) => ({ ...state, [action.payload.id]: { ...action.payload } }),
     throw: state => state,
   },
 }, initalState);

@@ -10,7 +10,6 @@ import { PropTypes } from 'react';
 
 export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
-  converted: PropTypes.bool.isRequired,
   content: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
     authors: PropTypes.array.isRequired,

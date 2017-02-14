@@ -8,7 +8,7 @@
 
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
-import { titleI18N, introductionI18N, metaDescriptionI18N } from '../../util/i18nFieldFinder';
+import { titleI18N, metaDescriptionI18N } from '../../util/i18nFieldFinder';
 import formatDate from '../../util/formatDate';
 
 const getArticleFromState = state => state.articles;
@@ -28,19 +28,5 @@ export const getArticle = articleId => createSelector(
       created: formatDate(article.created, locale),
       updated: formatDate(article.updated, locale),
     } : undefined
-  ),
-);
-
-export const getArticleIntroduction = articleId => createSelector(
-  [getArticleById(articleId), getLocale],
-  (article, locale) => (
-    article ? introductionI18N(article, locale, true) : undefined
-  ),
-);
-
-export const getConvertedArticle = articleId => createSelector(
-  [getArticle(articleId)],
-  article => (
-    article && article.converted ? article : undefined
   ),
 );

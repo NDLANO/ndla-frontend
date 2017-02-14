@@ -9,8 +9,5 @@
 import { createAction } from 'redux-actions';
 import * as constants from './articleConstants';
 
-export const fetchConvertedArticle = createAction(constants.FETCH_CONVERTED_ARTICLE);
-export const setConvertedArticle = createAction(constants.SET_CONVERTED_ARTICLE);
-
-export const setArticles = createAction(constants.SET_ARTICLES);
-export const fetchArticles = createAction(constants.FETCH_ARTICLES);
+export const fetchArticle = createAction(constants.FETCH__ARTICLE);
+export const setArticle = createAction(constants.SET_ARTICLE);

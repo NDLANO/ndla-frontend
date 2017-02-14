@@ -11,7 +11,7 @@ import defined from 'defined';
 import { hasFetched, getTopic } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
-import { fetchConvertedArticle } from '../ArticlePage/articleActions';
+import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './subjectApi';
 
@@ -98,7 +98,7 @@ export function* watchFetchTopicArticle() {
     if (!topic) {
       yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
     } else if (topic.contentUri) {
-      yield put(fetchConvertedArticle(topic.contentUri.replace('urn:article:', '')));
+      yield put(fetchArticle(topic.contentUri.replace('urn:article:', '')));
     }
   }
 }

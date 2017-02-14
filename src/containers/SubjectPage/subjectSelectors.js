@@ -8,7 +8,7 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import { getConvertedArticle } from '../ArticlePage/articleSelectors';
+import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
 
@@ -56,7 +56,7 @@ export const getTopic = (subjectId, topicId = undefined) => createSelector(
 
 export const getTopicArticle = (subjectId, topicId) => createSelector(
   [getTopic(subjectId, topicId), state => state],
-  (topic, state) => (topic && topic.contentUri ? getConvertedArticle(topic.contentUri.replace('urn:article:', ''))(state) : undefined),
+  (topic, state) => (topic && topic.contentUri ? getArticle(topic.contentUri.replace('urn:article:', ''))(state) : undefined),
 );
 
 export const getSubtopics = (subjectId, topicId) => createSelector(
