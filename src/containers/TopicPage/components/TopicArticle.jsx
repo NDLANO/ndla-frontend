@@ -6,9 +6,9 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-import { Article, enableResponsiveTables } from 'ndla-ui';
+import { Article, enableResponsiveTables, Button } from 'ndla-ui';
 import ArticleFootNotes from '../../ArticlePage/components/ArticleFootNotes';
 import { ArticleShape } from '../../../shapes';
 import {
@@ -22,6 +22,12 @@ import {
 
 class TopicArticle extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { isOpen: false };
+    this.toggleOpen = this.toggleOpen.bind(this);
+  }
+
   componentDidMount() {
     addEventListenerForResize();
     updateIFrameDimensions();
@@ -34,15 +40,21 @@ class TopicArticle extends Component {
     removeAsideClickListener();
   }
 
+  toggleOpen() {
+    this.setState({ isOpen: !this.state.isOpen });
+  }
+
   render() {
-    const { article } = this.props;
+    const { article, openTitle, closeTitle } = this.props;
+    const { isOpen } = this.state;
 
     return (
       <Article>
         <h1>{article.title}</h1>
         <Article.Introduction introduction={article.introduction} />
-        <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
+        { isOpen ? <div dangerouslySetInnerHTML={{ __html: article.content }} /> : null}
+        { article.footNotes && isOpen ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
+        <Button className="c-topic-article_toggle-button" onClick={this.toggleOpen} stripped>{ isOpen ? closeTitle : openTitle }</Button>
       </Article>
     );
   }
@@ -51,6 +63,8 @@ class TopicArticle extends Component {
 
 TopicArticle.propTypes = {
   article: ArticleShape.isRequired,
+  openTitle: PropTypes.node.isRequired,
+  closeTitle: PropTypes.node.isRequired,
 };
 
 export default TopicArticle;

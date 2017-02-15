@@ -66,6 +66,10 @@ const phrases = {
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',
   },
+  topicPage: {
+    closeArticleTopic: 'Hide topic description',
+    openArticleTopic: 'See whole topic description',
+  },
   footer: {
     aboutNDLA: 'About NDLA',
     selectLanguage: 'Choose language (språk): ',

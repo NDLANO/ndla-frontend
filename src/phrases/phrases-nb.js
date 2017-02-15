@@ -78,6 +78,10 @@ const phrases = {
   searchPage: {
     noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
   },
+  topicPage: {
+    closeArticleTopic: 'Skjul emnebeskrivelse',
+    openArticleTopic: 'Se hele emnebeskrivelse',
+  },
   footer: {
     aboutNDLA: 'Om NDLA',
     selectLanguage: 'Velg språk (language): ',

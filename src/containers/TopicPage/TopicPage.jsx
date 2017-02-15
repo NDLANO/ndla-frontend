@@ -36,7 +36,7 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { params: { subjectId }, topic, article } = this.props;
+    const { params: { subjectId }, topic, article, t } = this.props;
     if (!topic) {
       return null;
     }
@@ -51,7 +51,7 @@ class TopicPage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        { article ? <TopicArticle article={article} /> : null }
+        { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
         <Resources subjectId={subjectId} topic={topic} topicId={topic.id} />
       </OneColumn>
     );

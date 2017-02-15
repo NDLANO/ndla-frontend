@@ -19,3 +19,9 @@
 @import 'table.css';
 @import 'alert.css';
 @import 'topic-description.css';
+
+.c-topic-article_toggle-button {
+  font-weight: 100;
+  font-size: 0.8em;
+  text-decoration: underline;
+}
