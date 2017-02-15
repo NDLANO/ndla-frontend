@@ -20,14 +20,14 @@ class SubjectPage extends Component {
   componentWillMount() {
     const { params: { subjectId }, fetchTopics, fetchSubjects } = this.props;
     fetchSubjects();
-    fetchTopics(subjectId);
+    fetchTopics({ subjectId });
   }
 
   componentWillReceiveProps(nextProps) {
     const { params: { subjectId }, fetchTopics } = this.props;
 
     if (nextProps.params.subjectId !== subjectId) {
-      fetchTopics(nextProps.params.subjectId);
+      fetchTopics({ subjectId: nextProps.params.subjectId });
     }
   }
 

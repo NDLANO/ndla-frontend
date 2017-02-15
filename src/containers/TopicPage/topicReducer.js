@@ -7,7 +7,7 @@
  */
 
 import { handleActions } from 'redux-actions';
-import * as constants from './topicConstants';
+import * as actions from './topicActions';
 
 export const initalState = {
   all: {},
@@ -15,7 +15,7 @@ export const initalState = {
 };
 
 export default handleActions({
-  [constants.SET_TOPICS]: {
+  [actions.setTopics]: {
     next: (state, action) => {
       const { subjectId, topics } = action.payload;
       return {
@@ -25,7 +25,7 @@ export default handleActions({
     },
     throw: state => state,
   },
-  [constants.SET_TOPIC_INTRODUCTIONS]: {
+  [actions.setTopicIntroductions]: {
     next: (state, action) => {
       const { articleIntroductions, topics } = action.payload;
       // Map article introduction to topic

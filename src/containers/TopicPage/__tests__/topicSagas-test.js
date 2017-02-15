@@ -11,6 +11,8 @@ import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import * as constants from '../topicConstants';
+import * as actions from '../topicActions';
+// import { hasFetchedTopicsBySubjectId } from '../topicSelectors';
 
 
 test('topicSagas fetchTopics', () => {
@@ -30,13 +32,30 @@ test('topicSagas watchFetchTopics ', () => {
   const saga = testSaga(sagas.watchFetchTopics);
   saga
     .next()
-    .take(constants.FETCH_TOPICS)
+    .take(actions.fetchTopics)
 
-    .next({ payload: 1234 })
-    .call(sagas.fetchTopics, 1234)
+    .next({ payload: { subjectId: 1234 } })
+    // .select(hasFetchedTopicsBySubjectId(1234))
+
+    .next(false)
+    .call(sagas.fetchTopics, 1234, undefined)
 
     .finish()
+    .isDone();
+});
+
+test('topicSagas watchFetchTopics should not refetch topics', () => {
+  const saga = testSaga(sagas.watchFetchTopics);
+  saga
     .next()
+    .take(actions.fetchTopics)
+
+    .next({ payload: { subjectId: 1234 } })
+    // .select(hasFetchedTopicsBySubjectId(1234))
+
+    .next(true)
+
+    .finish()
     .isDone();
 });
 
@@ -44,7 +63,7 @@ test('topicSagas watchFetchTopicResources', () => {
   const saga = testSaga(sagas.watchFetchTopicResources);
   saga
     .next()
-    .take(constants.FETCH_TOPIC_RESOURCES)
+    .take(actions.fetchTopicResources)
 
     .next({ payload: { subtopics: [{ id: 1 }, { id: 3 }] } })
     .call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }])

@@ -19,6 +19,11 @@ export const getTopicIntroductions = createSelector(
     topics => topics.topicIntroductions,
 );
 
+export const hasFetchedTopicsBySubjectId = subjectId => createSelector(
+  [getTopicsFromState],
+  topics => topics.all[subjectId] !== undefined,
+);
+
 export const getTopicsBySubjectId = subjectId => createSelector(
   [getTopicsFromState],
   topics => defined(topics.all[subjectId], []),

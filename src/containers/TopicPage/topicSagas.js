@@ -8,8 +8,7 @@
 
 import { take, call, put, select } from 'redux-saga/effects';
 import defined from 'defined';
-import { getTopic } from './topicSelectors';
-import * as constants from './topicConstants';
+import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
 import * as actions from './topicActions';
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
@@ -50,7 +49,7 @@ export function* fetchTopicIntroductions(topics) {
 
 export function* watchFetchTopicResources() {
   while (true) {
-    const { payload: topic } = yield take(constants.FETCH_TOPIC_RESOURCES);
+    const { payload: topic } = yield take(actions.fetchTopicResources);
     // TODO: Check if already fetched
     yield call(fetchTopicIntroductions, defined(topic.subtopics, []));
   }
@@ -58,12 +57,10 @@ export function* watchFetchTopicResources() {
 
 export function* watchFetchTopics() {
   while (true) {
-    const { payload } = yield take(constants.FETCH_TOPICS);
-    // TODO: Check if already fetched
-    if (!payload.topicId) {
-      yield call(fetchTopics, payload);
-    } else {
-      yield call(fetchTopics, payload.subjectId, payload.topicId);
+    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopics);
+    const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
+    if (!hasFetched) {
+      yield call(fetchTopics, subjectId, topicId);
     }
   }
 }
@@ -71,12 +68,12 @@ export function* watchFetchTopics() {
 
 export function* watchFetchTopicArticle() {
   while (true) {
-    const { payload: { subjectId, topicId } } = yield take(constants.FETCH_TOPIC_ARTICLE);
+    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopicArticle);
     const topic = yield select(getTopic(subjectId, topicId));
 
     if (!topic) {
       yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
-    } else if (topic.contentUri) {
+    } else if (topic.contentUri && topic.contentUri.startsWith('urn:article:')) {
       yield put(fetchArticle(topic.contentUri.replace('urn:article:', '')));
     }
   }
