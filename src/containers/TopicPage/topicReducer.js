@@ -27,9 +27,10 @@ export default handleActions({
   },
   [constants.SET_TOPIC_INTRODUCTIONS]: {
     next: (state, action) => {
-      const { articles, topics } = action.payload;
+      const { articleIntroductions, topics } = action.payload;
+      // Map article introduction to topic
       const topicIntroductions = topics.reduce((obj, item) => {
-        const intro = articles.find(article => item.contentUri === `urn:article:${article.id}`);
+        const intro = articleIntroductions.find(articleIntroduction => item.contentUri === `urn:article:${articleIntroduction.id}`);
         return intro ? { ...obj, [item.id]: intro } : obj;
       }, {});
 

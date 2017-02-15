@@ -40,7 +40,7 @@ export function* fetchTopicIntroductions(topics) {
     }
 
     const data = yield call(articleApi.fetchArticles, ids);
-    yield put(actions.setTopicIntroductions({ topics, articles: data.results }));
+    yield put(actions.setTopicIntroductions({ topics, articleIntroductions: data.results }));
   } catch (error) {
     throw error;
     // TODO: handle error

@@ -63,7 +63,7 @@ test('topicSagas fetchTopicIntroductions', () => {
     .call(articleApi.fetchArticles, ['1', '1331'])
 
     .next(data)
-    .put({ type: constants.SET_TOPIC_INTRODUCTIONS, payload: { topics, articles: data.results } })
+    .put({ type: constants.SET_TOPIC_INTRODUCTIONS, payload: { topics, articleIntroductions: data.results } })
 
     .next()
     .isDone();
