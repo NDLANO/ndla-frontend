@@ -3,12 +3,13 @@
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
- *
- */
+ * */
 
 import React, { Component, PropTypes } from 'react';
 
 import { Article, enableResponsiveTables, Button } from 'ndla-ui';
+import { presets } from 'react-motion';
+import ReactCollapse from 'react-collapse';
 import ArticleFootNotes from '../../ArticlePage/components/ArticleFootNotes';
 import { ArticleShape } from '../../../shapes';
 import {
@@ -52,7 +53,9 @@ class TopicArticle extends Component {
       <Article>
         <h1>{article.title}</h1>
         <Article.Introduction introduction={article.introduction} />
-        { isOpen ? <div dangerouslySetInnerHTML={{ __html: article.content }} /> : null}
+        <ReactCollapse isOpened={isOpen} springConfig={presets.wobble} >
+          <div style={{ overflow: 'hidden' }} dangerouslySetInnerHTML={{ __html: article.content }} />
+        </ReactCollapse>
         { article.footNotes && isOpen ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
         <Button className="c-topic-article_toggle-button" onClick={this.toggleOpen} stripped>{ isOpen ? closeTitle : openTitle }</Button>
       </Article>
