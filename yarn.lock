@@ -3743,6 +3743,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+ndla-article-scripts@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.1.tgz#703bf591a8de6702ed322fcc0e6dae44ae364dfd"
+
 ndla-licenses@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.6.tgz#d9439b92f6a7feb295644f568c2071ea2731fc6f"
@@ -3755,9 +3759,9 @@ ndla-tabs@^0.0.1:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.2.tgz#b170a7ab23be851e24be99924b2e8b46f0adfb7a"
+ndla-ui@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.3.tgz#65d7e74eea25a89eea7e3b1c615be3a7ede06f03"
   dependencies:
     react-prop-types "^0.4.0"
 

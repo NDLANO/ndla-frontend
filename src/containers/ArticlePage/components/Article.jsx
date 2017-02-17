@@ -9,15 +9,14 @@
 import React, { PropTypes, Component } from 'react';
 
 import { Article as UIArticle, enableResponsiveTables } from 'ndla-ui';
-import ArticleFootNotes from './ArticleFootNotes';
-import { injectT } from '../../../i18n';
-import ArticleLicenses from './ArticleLicenses';
 import {
   addEventListenerForResize,
   updateIFrameDimensions,
   addAsideClickListener,
   removeEventListenerForResize,
-  removeAsideClickListener } from '../../../util/articleScripts';
+  removeAsideClickListener } from 'ndla-article-scripts';
+import { injectT } from '../../../i18n';
+import ArticleLicenses from './ArticleLicenses';
 
 
 class Article extends Component {
@@ -50,7 +49,7 @@ class Article extends Component {
         <h1>{article.title}</h1>
         <UIArticle.Introduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        { article.footNotes ? <ArticleFootNotes footNotes={article.footNotes} /> : null }
+        { article.footNotes ? <UIArticle.footNotes footNotes={article.footNotes} /> : null }
         <ArticleLicenses
           showByline
           article={article}

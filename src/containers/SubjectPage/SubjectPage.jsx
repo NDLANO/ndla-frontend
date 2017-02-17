@@ -8,13 +8,13 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, TopicIntroductionList } from 'ndla-ui';
 import defined from 'defined';
-import TopicDescriptionList from '../../components/TopicDescriptionList';
 import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
 import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
+import { toTopic } from '../../routes';
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -41,7 +41,7 @@ class SubjectPage extends Component {
     return (
       <OneColumn>
         { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-        <TopicDescriptionList subjectId={subject.id} topics={topics} />
+        <TopicIntroductionList subjectId={subject.id} toTopic={toTopic} topics={topics} />
       </OneColumn>
     );
   }

@@ -10,17 +10,18 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
+import { TopicIntroductionList } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from '../topicSelectors';
 import * as actions from '../topicActions';
 import { injectT } from '../../../i18n';
-import TopicDescriptionList from '../../../components/TopicDescriptionList';
 import { TopicShape } from '../../../shapes';
+import { toTopic } from '../../../routes';
 
 
 function buildLicenseTabList(t, topics, subjectId) {
   const tabs = [];
 
-  tabs.push({ key: 'topics', displayName: t('resources.tabs.topics'), content: <TopicDescriptionList subjectId={subjectId} topics={topics} /> });
+  tabs.push({ key: 'topics', displayName: t('resources.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={topics} /> });
   tabs.push({ key: 'learningresources', displayName: t('resources.tabs.learningresources'), content: <p>Læringsressurser</p> });
 
   return tabs;
