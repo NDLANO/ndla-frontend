@@ -1,4 +1,8 @@
-import { addEventListenerForResize, updateIFrameDimensions, addAsideClickListener } from '../src/util/articleScripts';
+import {
+  addEventListenerForResize,
+  updateIFrameDimensions,
+  addAsideClickListener,
+} from 'ndla-article-scripts';
 
 const parentPostMessage = () => {
   if (parent.postMessage) {

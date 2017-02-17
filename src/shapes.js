@@ -26,5 +26,5 @@ export const SubjectShape = PropTypes.shape({
 export const TopicShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  subtopics: PropTypes.array.isRequired,
+  subtopics: PropTypes.array,
 });

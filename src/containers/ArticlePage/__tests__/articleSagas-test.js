@@ -8,28 +8,28 @@
 
 import nock from 'nock';
 
-import SagaTester from '../../../__tests__/_SagaTester';
-import reducer from '../articlesReducer';
-import { fetchArticle } from '../articleSagas';
+import { expectSaga } from 'redux-saga-test-plan';
+import * as sagas from '../articleSagas';
+import * as constants from '../articleConstants';
 import * as actions from '../articleActions';
 
+expectSaga.DEFAULT_TIMEOUT = 100;
 
-test('searchSagas search', () => {
-  const sagaTester = new SagaTester({
-    initialState: {},
-    reducers: { articles: reducer, locale: () => 'nb' },
-  });
-
-  const apiMock = nock('http://ndla-api')
+test('articleSagas watchFetchArticle fetch article if not in state', () => {
+  nock('http://ndla-api')
     .get('/article-converter/raw/nb/123')
     .reply(200, { id: 123, title: 'unit test' });
 
-  const task = sagaTester.start(fetchArticle.bind(undefined, 123));
+  return expectSaga(sagas.watchFetchArticle)
+          .withState({ articles: {}, locale: 'nb' })
+          .put(actions.setArticle({ id: 123, title: 'unit test' }))
 
-  return task.done.then(() => {
-    expect(sagaTester.wasCalled(actions.setArticle().type)).toBeTruthy();
-
-    expect(sagaTester.getState().articles['123'].title).toEqual('unit test');
-    expect(() => apiMock.done()).not.toThrow();
-  });
+          .dispatch({ type: constants.FETCH__ARTICLE, payload: 123 })
+          .run({ silenceTimeout: true });
 });
+
+test('articleSagas watchFetchArticle do not refetch existing article ', () =>
+    expectSaga(sagas.watchFetchArticle)
+      .withState({ articles: { 123: { id: 123 } }, locale: 'nb' })
+      .dispatch({ type: constants.FETCH__ARTICLE, payload: 123 })
+      .run({ silenceTimeout: true }));

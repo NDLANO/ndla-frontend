@@ -11,7 +11,8 @@ import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo, ClickToggle, TopicM
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toSearch, toTopic } from '../../routes';
-import { getTopicsBySubjectId, getSubjectById } from '../SubjectPage/subjectSelectors';
+import { getSubjectById } from '../SubjectPage/subjectSelectors';
+import { getTopicsBySubjectId } from '../TopicPage/topicSelectors';
 import { SubjectShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {

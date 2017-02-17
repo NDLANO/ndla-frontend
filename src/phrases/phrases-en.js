@@ -57,8 +57,18 @@ const phrases = {
     },
     articleText: 'Article text: Download as (word), (txt), (pdf)',
   },
+  resources: {
+    tabs: {
+      learningresources: 'Learning Resources',
+      topics: 'Topics',
+    },
+  },
   searchPage: {
     noHits: 'Your search - %{query} - did not match any articles. ',
+  },
+  topicPage: {
+    closeArticleTopic: 'Hide topic description',
+    openArticleTopic: 'See whole topic description',
   },
   footer: {
     aboutNDLA: 'About NDLA',

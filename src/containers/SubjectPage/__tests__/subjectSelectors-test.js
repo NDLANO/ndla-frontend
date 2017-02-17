@@ -6,9 +6,9 @@
  *
  */
 
-import { getSubjects, getSubjectById, getTopicsBySubjectId, getTopic } from '../subjectSelectors';
+import { getSubjects, getSubjectById } from '../subjectSelectors';
 
-import { subjects, topics } from './mockSubjects';
+import { subjects } from './mockSubjects';
 
 test('subjectSelectors getSubjects', () => {
   const state = {
@@ -22,23 +22,7 @@ test('subjectSelectors getSubjects', () => {
   expect(getSubjects(state)).toBe(subjects);
 });
 
-test('subjectSelectors getTopicsBySubjectId', () => {
-  const state = {
-    subjects: {
-      hasFetched: false,
-      fetching: false,
-      topics: {
-        [subjects[0].id]: topics,
-        [subjects[1].id]: [],
-      },
-    },
-  };
-
-  expect(getTopicsBySubjectId(subjects[0].id)(state)).toBe(topics);
-  expect(getTopicsBySubjectId(subjects[1].id)(state)).toEqual([]);
-});
-
-test('subjectSelectors getTopicsBySubjectId', () => {
+test('subjectSelectors getSubjectById', () => {
   const state = {
     subjects: {
       hasFetched: false,
@@ -49,22 +33,4 @@ test('subjectSelectors getTopicsBySubjectId', () => {
 
   expect(getSubjectById(subjects[0].id)(state)).toBe(subjects[0]);
   expect(getSubjectById(subjects[1].id)(state)).toBe(subjects[1]);
-});
-
-test('subjectSelectors getTopics', () => {
-  const state = {
-    subjects: {
-      hasFetched: false,
-      fetching: false,
-      all: subjects,
-      topics: {
-        [subjects[0].id]: topics,
-      },
-    },
-  };
-
-  expect(getTopic(subjects[0].id, topics[0].id)(state)).toBe(topics[0]);
-  expect(getTopic(subjects[0].id, topics[1].id)(state)).toBe(topics[1]);
-  expect(getTopic(subjects[0].id, topics[0].subtopics[0].id)(state)).toBe(topics[0].subtopics[0]);
-  expect(getTopic(subjects[0].id, 'sadfjl')(state)).toBe(undefined);
 });
