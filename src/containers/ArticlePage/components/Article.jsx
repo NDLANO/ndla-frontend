@@ -8,7 +8,7 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import { Article as UIArticle, enableResponsiveTables } from 'ndla-ui';
+import { Article as UIArticle } from 'ndla-ui';
 import {
   addEventListenerForResize,
   updateIFrameDimensions,
@@ -24,7 +24,6 @@ class Article extends Component {
   componentDidMount() {
     addEventListenerForResize();
     updateIFrameDimensions();
-    enableResponsiveTables();
     addAsideClickListener();
   }
 
