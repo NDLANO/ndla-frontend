@@ -8,9 +8,11 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
+import groupBy from 'lodash/groupBy';
 import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
+
 
 const getTopicsFromState = state => state.topics;
 
@@ -31,17 +33,7 @@ export const getTopicsBySubjectId = subjectId => createSelector(
 
 export const getTopic = (subjectId, topicId = undefined) => createSelector(
   [getTopicsBySubjectId(subjectId)],
-  (topics) => {
-    const search = (topic) => { // Can be optimized..
-      if (topicId === topic.id) {
-        return topic;
-      } else if (topic.subtopics && topic.subtopics.length !== 0) {
-        return topic.subtopics.map(t => search(t)).filter(t => t !== undefined)[0];
-      }
-      return undefined;
-    };
-    return search({ subtopics: topics });
-  },
+  topics => topics.find(topic => topicId === topic.id),
 );
 
 export const getTopicArticle = (subjectId, topicId) => createSelector(
@@ -50,8 +42,25 @@ export const getTopicArticle = (subjectId, topicId) => createSelector(
 );
 
 export const getSubtopics = (subjectId, topicId) => createSelector(
-  [getTopic(subjectId, topicId)],
-  topic => (topic ? defined(topic.subtopics, []) : []),
+  [getTopicsBySubjectId(subjectId)],
+  topics => topics.filter(topic => topicId === topic.parentId),
+);
+
+export const getSubjectMenu = subjectId => createSelector(
+  [getTopicsBySubjectId(subjectId)],
+  (topics) => {
+    const groupedSubtopicsByParent = groupBy(topics.filter(topic => topic.parentId), 'parentId');
+
+    const toMenu = (topic) => {
+      const subtopics = defined(groupedSubtopicsByParent[topic.id], []);
+
+      const subtopicsWithSubtopics = subtopics.map(child => toMenu(child));
+
+      return { ...topic, subtopics: subtopicsWithSubtopics };
+    };
+
+    return topics.filter(t => !t.parentId).map(root => toMenu(root));
+  },
 );
 
 export const getSubtopicsWithIntroduction = (subjectId, topicId) => createSelector(

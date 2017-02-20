@@ -65,7 +65,8 @@ test('topicSagas watchFetchTopicResources', () => {
     .next()
     .take(actions.fetchTopicResources)
 
-    .next({ payload: { subtopics: [{ id: 1 }, { id: 3 }] } })
+    .next({ payload: { subjectId: 1, topicId: 2 } })
+    .next([{ id: 1 }, { id: 3 }])
     .call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }])
 
     .finish()

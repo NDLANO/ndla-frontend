@@ -14,6 +14,17 @@ export const initalState = {
   topicIntroductions: {},
 };
 
+const flatten = (topics, parentId = undefined, all = []) => {
+  topics.forEach((topic) => {
+    const { subtopics, ...flatTopic } = topic;
+    all.push({ ...flatTopic, parentId });
+    if (subtopics) {
+      flatten(subtopics, topic.id, all);
+    }
+  });
+  return all;
+};
+
 export default handleActions({
   [actions.setTopics]: {
     next: (state, action) => {
@@ -21,6 +32,17 @@ export default handleActions({
       return {
         ...state,
         all: { ...state.all, [subjectId]: topics },
+      };
+    },
+    throw: state => state,
+  },
+  [actions.setTopics]: {
+    next: (state, action) => {
+      const { subjectId, topics } = action.payload;
+
+      return {
+        ...state,
+        all: { ...state.all, [subjectId]: flatten(topics) },
       };
     },
     throw: state => state,

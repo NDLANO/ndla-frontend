@@ -8,7 +8,7 @@
 
 import reducer, { initalState } from '../topicReducer';
 import * as constants from '../topicConstants';
-import { topics } from './mockTopics';
+import { topics, topicsFlattened } from './mockTopics';
 
 test('reducers/topic initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -30,7 +30,7 @@ test('reducers/topics handle set topics', () => {
   });
 
   expect(nextState).toEqual({
-    all: { 'urn:subject:1': topics },
+    all: { 'urn:subject:1': topicsFlattened },
     topicIntroductions: {},
   });
 
@@ -43,7 +43,8 @@ test('reducers/topics handle set topics', () => {
   });
 
   expect(nextNextState.all).toEqual({
-    'urn:subject:1': topics, 'urn:subject:2': [],
+    'urn:subject:1': topicsFlattened,
+    'urn:subject:2': [],
   });
 });
 

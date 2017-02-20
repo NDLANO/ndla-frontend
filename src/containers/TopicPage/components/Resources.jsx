@@ -30,13 +30,14 @@ function buildLicenseTabList(t, topics, subjectId) {
 
 class Resources extends Component {
   componentWillMount() {
-    this.props.fetchTopicResources(this.props.topic);
+    const { subjectId, topicId, fetchTopicResources } = this.props;
+    fetchTopicResources({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { topic, fetchTopicResources } = this.props;
+    const { topic, subjectId, fetchTopicResources } = this.props;
     if (nextProps.topic.id !== topic.id) {
-      fetchTopicResources(nextProps.topic);
+      fetchTopicResources({ subjectId, topicId: nextProps.topic.id });
     }
   }
 

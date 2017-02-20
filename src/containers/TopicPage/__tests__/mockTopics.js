@@ -20,7 +20,12 @@ export const topics =
         {
           id: 'urn:topic:170363',
           name: 'Idéutvikling',
-          subtopics: [],
+          subtopics: [
+            {
+              id: 'urn:topic:1703324',
+              name: 'Mediebransjen',
+            },
+          ],
         },
       ],
     },
@@ -30,3 +35,31 @@ export const topics =
       subtopics: [],
     },
   ];
+
+export const topicsFlattened = [
+  {
+    id: 'urn:topic:172416',
+    name: 'Idéutvikling og mediedesign',
+    parentId: undefined,
+  },
+  {
+    id: 'urn:topic:169397',
+    name: 'Mediedesign',
+    parentId: 'urn:topic:172416',
+  },
+  {
+    id: 'urn:topic:170363',
+    name: 'Idéutvikling',
+    parentId: 'urn:topic:172416',
+  },
+  {
+    id: 'urn:topic:1703324',
+    name: 'Mediebransjen',
+    parentId: 'urn:topic:170363',
+  },
+  {
+    id: 'urn:topic:169412',
+    name: 'Mediekommunikasjon',
+    parentId: undefined,
+  },
+];
