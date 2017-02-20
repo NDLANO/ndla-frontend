@@ -8,20 +8,20 @@
 
 import { getTopicsBySubjectId, getTopic, getSubtopicsWithIntroduction, getSubjectMenu } from '../topicSelectors';
 
-import { topics, topicsFlattened } from './mockTopics';
+import { topics } from './mockTopics';
 
 
 test('topicSelectors getTopicsBySubjectId', () => {
   const state = {
     topics: {
       all: {
-        'urn:subject:1': topicsFlattened,
+        'urn:subject:1': topics,
         'urn:subject:2': [],
       },
     },
   };
 
-  expect(getTopicsBySubjectId('urn:subject:1')(state)).toBe(topicsFlattened);
+  expect(getTopicsBySubjectId('urn:subject:1')(state)).toBe(topics);
   expect(getTopicsBySubjectId('urn:subject:2')(state)).toEqual([]);
 });
 
@@ -29,13 +29,13 @@ test('topicSelectors getTopic', () => {
   const state = {
     topics: {
       all: {
-        'urn:subject:1': topicsFlattened,
+        'urn:subject:1': topics,
       },
     },
   };
 
-  expect(getTopic('urn:subject:1', topicsFlattened[0].id)(state)).toBe(topicsFlattened[0]);
-  expect(getTopic('urn:subject:1', topicsFlattened[4].id)(state)).toBe(topicsFlattened[4]);
+  expect(getTopic('urn:subject:1', topics[0].id)(state)).toBe(topics[0]);
+  expect(getTopic('urn:subject:1', topics[4].id)(state)).toBe(topics[4]);
   expect(getTopic('urn:subject:1', 'sadfjl')(state)).toBe(undefined);
 });
 
@@ -44,10 +44,10 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
     locale: 'nb',
     topics: {
       all: {
-        'urn:subject:1': topicsFlattened,
+        'urn:subject:1': topics,
       },
       topicIntroductions: {
-        [topics[0].subtopics[0].id]: {
+        'urn:topic:169397': {
           introduction: [
             { introduction: 'Tester', language: 'nb' },
             { introduction: 'Testing', language: 'en' },
@@ -67,7 +67,7 @@ test('topicSelectors getSubjectMenu', () => {
   const state = {
     topics: {
       all: {
-        'urn:subject:1': topicsFlattened,
+        'urn:subject:1': topics,
       },
     },
   };

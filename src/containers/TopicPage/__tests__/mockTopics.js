@@ -6,37 +6,7 @@
  *
  */
 
-export const topics =
-  [
-    {
-      id: 'urn:topic:172416',
-      name: 'Idéutvikling og mediedesign',
-      subtopics: [
-        {
-          id: 'urn:topic:169397',
-          name: 'Mediedesign',
-          subtopics: [],
-        },
-        {
-          id: 'urn:topic:170363',
-          name: 'Idéutvikling',
-          subtopics: [
-            {
-              id: 'urn:topic:1703324',
-              name: 'Mediebransjen',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'urn:topic:169412',
-      name: 'Mediekommunikasjon',
-      subtopics: [],
-    },
-  ];
-
-export const topicsFlattened = [
+export const topics = [
   {
     id: 'urn:topic:172416',
     name: 'Idéutvikling og mediedesign',
