@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toSearch, toTopic } from '../../routes';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
-import { getTopicsBySubjectId } from '../TopicPage/topicSelectors';
+import { getSubjectMenu } from '../TopicPage/topicSelectors';
 import { SubjectShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {
@@ -60,7 +60,7 @@ const mapStateToProps = (state, ownProps) => {
   const { subjectId } = ownProps.params;
   return {
     subject: getSubjectById(subjectId)(state),
-    topics: getTopicsBySubjectId(subjectId)(state),
+    topics: getSubjectMenu(subjectId)(state),
   };
 };
 

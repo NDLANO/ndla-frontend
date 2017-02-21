@@ -7,12 +7,12 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import defined from 'defined';
-import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
+import { getTopic, hasFetchedTopicsBySubjectId, getSubtopics } from './topicSelectors';
 import * as actions from './topicActions';
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
+
 
 export function* fetchTopics(subjectId, topicId) {
   try {
@@ -49,9 +49,11 @@ export function* fetchTopicIntroductions(topics) {
 
 export function* watchFetchTopicResources() {
   while (true) {
-    const { payload: topic } = yield take(actions.fetchTopicResources);
+    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopicResources);
+    const topics = yield select(getSubtopics(subjectId, topicId));
+
     // TODO: Check if already fetched
-    yield call(fetchTopicIntroductions, defined(topic.subtopics, []));
+    yield call(fetchTopicIntroductions, topics);
   }
 }
 

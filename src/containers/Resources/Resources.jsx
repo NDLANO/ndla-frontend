@@ -11,11 +11,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
 import { TopicIntroductionList } from 'ndla-ui';
-import { getSubtopicsWithIntroduction } from '../topicSelectors';
-import * as actions from '../topicActions';
-import { injectT } from '../../../i18n';
-import { TopicShape } from '../../../shapes';
-import { toTopic } from '../../../routes';
+import { getSubtopicsWithIntroduction } from '../TopicPage/topicSelectors';
+import * as actions from '../TopicPage/topicActions';
+import { injectT } from '../../i18n';
+import { TopicShape } from '../../shapes';
+import { toTopic } from '../../routes';
 
 
 function buildLicenseTabList(t, topics, subjectId) {
@@ -30,13 +30,14 @@ function buildLicenseTabList(t, topics, subjectId) {
 
 class Resources extends Component {
   componentWillMount() {
-    this.props.fetchTopicResources(this.props.topic);
+    const { subjectId, topicId, fetchTopicResources } = this.props;
+    fetchTopicResources({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { topic, fetchTopicResources } = this.props;
+    const { topic, subjectId, fetchTopicResources } = this.props;
     if (nextProps.topic.id !== topic.id) {
-      fetchTopicResources(nextProps.topic);
+      fetchTopicResources({ subjectId, topicId: nextProps.topic.id });
     }
   }
 

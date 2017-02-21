@@ -15,7 +15,7 @@ import Helmet from 'react-helmet';
 import * as actions from './topicActions';
 import * as subjectActions from '../SubjectPage/subjectActions';
 import { getTopicArticle, getTopic } from './topicSelectors';
-import Resources from './components/Resources';
+import Resources from '../Resources/Resources';
 import { ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
 

@@ -21,8 +21,8 @@ test('topicSagas fetchTopics', () => {
     .next()
     .call(api.fetchTopics, 1234)
 
-    .next([{ id: '123', name: 'Algebra' }])
-    .put({ type: constants.SET_TOPICS, payload: { subjectId: 1234, topics: [{ id: '123', name: 'Algebra' }] } })
+    .next([{ id: '123', name: 'Algebra', parent: undefined }])
+    .put({ type: constants.SET_TOPICS, payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
 
     .next()
     .isDone();
@@ -65,7 +65,8 @@ test('topicSagas watchFetchTopicResources', () => {
     .next()
     .take(actions.fetchTopicResources)
 
-    .next({ payload: { subtopics: [{ id: 1 }, { id: 3 }] } })
+    .next({ payload: { subjectId: 1, topicId: 2 } })
+    .next([{ id: 1 }, { id: 3 }])
     .call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }])
 
     .finish()

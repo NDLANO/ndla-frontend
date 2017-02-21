@@ -43,7 +43,8 @@ test('reducers/topics handle set topics', () => {
   });
 
   expect(nextNextState.all).toEqual({
-    'urn:subject:1': topics, 'urn:subject:2': [],
+    'urn:subject:1': topics,
+    'urn:subject:2': [],
   });
 });
 
