@@ -26,13 +26,19 @@ export const hasFetchedTopicsBySubjectId = subjectId => createSelector(
   topics => topics.all[subjectId] !== undefined,
 );
 
-export const getTopicsBySubjectId = subjectId => createSelector(
+
+export const getAllTopicsBySubjectId = subjectId => createSelector(
   [getTopicsFromState],
   topics => defined(topics.all[subjectId], []),
 );
 
+export const getTopicsBySubjectId = subjectId => createSelector(
+  [getAllTopicsBySubjectId(subjectId)],
+  topics => topics.filter(topic => !topic.parent),
+);
+
 export const getTopic = (subjectId, topicId = undefined) => createSelector(
-  [getTopicsBySubjectId(subjectId)],
+  [getAllTopicsBySubjectId(subjectId)],
   topics => topics.find(topic => topicId === topic.id),
 );
 
@@ -42,14 +48,14 @@ export const getTopicArticle = (subjectId, topicId) => createSelector(
 );
 
 export const getSubtopics = (subjectId, topicId) => createSelector(
-  [getTopicsBySubjectId(subjectId)],
-  topics => topics.filter(topic => topicId === topic.parentId),
+  [getAllTopicsBySubjectId(subjectId)],
+  topics => topics.filter(topic => topicId === topic.parent),
 );
 
 export const getSubjectMenu = subjectId => createSelector(
-  [getTopicsBySubjectId(subjectId)],
+  [getAllTopicsBySubjectId(subjectId)],
   (topics) => {
-    const groupedSubtopicsByParent = groupBy(topics.filter(topic => topic.parentId), 'parentId');
+    const groupedSubtopicsByParent = groupBy(topics.filter(topic => topic.parent), 'parent');
 
     const toMenu = (topic) => {
       const subtopics = defined(groupedSubtopicsByParent[topic.id], []);
@@ -59,7 +65,7 @@ export const getSubjectMenu = subjectId => createSelector(
       return { ...topic, subtopics: subtopicsWithSubtopics };
     };
 
-    return topics.filter(t => !t.parentId).map(root => toMenu(root));
+    return topics.filter(t => !t.parent).map(root => toMenu(root));
   },
 );
 

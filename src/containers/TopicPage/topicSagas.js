@@ -13,21 +13,11 @@ import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 
-const flatten = (topics, parentId = undefined, all = []) => {
-  topics.forEach((topic) => {
-    const { subtopics, ...flatTopic } = topic;
-    all.push({ ...flatTopic, parentId });
-    if (subtopics) {
-      flatten(subtopics, topic.id, all);
-    }
-  });
-  return all;
-};
 
 export function* fetchTopics(subjectId, topicId) {
   try {
     const topics = yield call(api.fetchTopics, subjectId);
-    yield put(actions.setTopics({ topics: flatten(topics), subjectId }));
+    yield put(actions.setTopics({ topics, subjectId }));
     if (topicId) { // Fetch related article if topicId is defined
       yield put(actions.fetchTopicArticle({ topicId, subjectId }));
     }

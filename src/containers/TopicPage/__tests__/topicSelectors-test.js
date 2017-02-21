@@ -7,7 +7,7 @@
  */
 
 import {
-  getTopicsBySubjectId,
+  getAllTopicsBySubjectId,
   getTopic,
   getSubtopicsWithIntroduction,
   getSubjectMenu,
@@ -17,7 +17,7 @@ import {
 import { topics } from './mockTopics';
 
 
-test('topicSelectors getTopicsBySubjectId', () => {
+test('topicSelectors getAllTopicsBySubjectId', () => {
   const state = {
     topics: {
       all: {
@@ -27,8 +27,8 @@ test('topicSelectors getTopicsBySubjectId', () => {
     },
   };
 
-  expect(getTopicsBySubjectId('urn:subject:1')(state)).toBe(topics);
-  expect(getTopicsBySubjectId('urn:subject:2')(state)).toEqual([]);
+  expect(getAllTopicsBySubjectId('urn:subject:1')(state)).toBe(topics);
+  expect(getAllTopicsBySubjectId('urn:subject:2')(state)).toEqual([]);
 });
 
 test('topicSelectors getTopic', () => {
@@ -80,9 +80,9 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
   };
 
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[0])
-    .toEqual({ id: 'urn:topic:169397', introduction: 'Tester', name: 'Mediedesign', parentId: topics[0].id });
+    .toEqual({ id: 'urn:topic:169397', introduction: 'Tester', name: 'Mediedesign', parent: topics[0].id });
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[1])
-    .toEqual({ id: 'urn:topic:170363', introduction: undefined, name: 'Idéutvikling', parentId: topics[0].id });
+    .toEqual({ id: 'urn:topic:170363', introduction: undefined, name: 'Idéutvikling', parent: topics[0].id });
 });
 
 test('topicSelectors getSubjectMenu', () => {
@@ -99,22 +99,22 @@ test('topicSelectors getSubjectMenu', () => {
       {
         id: 'urn:topic:172416',
         name: 'Idéutvikling og mediedesign',
-        parentId: undefined,
+        parent: undefined,
         subtopics: [
           {
             id: 'urn:topic:169397',
             name: 'Mediedesign',
-            parentId: 'urn:topic:172416',
+            parent: 'urn:topic:172416',
             subtopics: [],
           },
           {
             id: 'urn:topic:170363',
             name: 'Idéutvikling',
-            parentId: 'urn:topic:172416',
+            parent: 'urn:topic:172416',
             subtopics: [
               {
                 id: 'urn:topic:1703324',
-                parentId: 'urn:topic:170363',
+                parent: 'urn:topic:170363',
                 name: 'Mediebransjen',
                 subtopics: [],
               },
@@ -125,7 +125,7 @@ test('topicSelectors getSubjectMenu', () => {
       {
         id: 'urn:topic:169412',
         name: 'Mediekommunikasjon',
-        parentId: undefined,
+        parent: undefined,
         subtopics: [],
       },
     ],
