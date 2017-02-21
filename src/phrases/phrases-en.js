@@ -59,8 +59,10 @@ const phrases = {
   },
   resources: {
     tabs: {
-      learningresources: 'Learning Resources',
-      topics: 'Topics',
+      all: 'All',
+      learningpaths: 'Learning paths',
+      subjectMaterial: 'Subject material',
+      activities: 'Activities',
     },
   },
   searchPage: {
@@ -69,6 +71,10 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Hide topic description',
     openArticleTopic: 'See whole topic description',
+    tabs: {
+      learningresources: 'Learning Resources',
+      topics: 'Topics',
+    },
   },
   footer: {
     aboutNDLA: 'About NDLA',

@@ -71,8 +71,10 @@ const phrases = {
   },
   resources: {
     tabs: {
-      learningresources: 'Læringsressurser',
-      topics: 'Emner',
+      all: 'Alle',
+      learningpaths: 'Læringsstier',
+      subjectMaterial: 'Fagstoff',
+      activities: 'Aktiviteter',
     },
   },
   searchPage: {
@@ -81,6 +83,10 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Skjul emnebeskrivelse',
     openArticleTopic: 'Se hele emnebeskrivelse',
+    tabs: {
+      learningresources: 'Læringsressurser',
+      topics: 'Emner',
+    },
   },
   footer: {
     aboutNDLA: 'Om NDLA',

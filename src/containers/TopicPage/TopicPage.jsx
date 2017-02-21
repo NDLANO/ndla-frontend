@@ -15,7 +15,7 @@ import Helmet from 'react-helmet';
 import * as actions from './topicActions';
 import * as subjectActions from '../SubjectPage/subjectActions';
 import { getTopicArticle, getTopic } from './topicSelectors';
-import Resources from '../Resources/Resources';
+import TopicTabs from './TopicTabs';
 import { ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
 
@@ -51,7 +51,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
-        <Resources subjectId={subjectId} topic={topic} topicId={topic.id} />
+        <TopicTabs subjectId={subjectId} topic={topic} />
       </OneColumn>
     );
   }

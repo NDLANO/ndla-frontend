@@ -6,23 +6,19 @@
  *
  */
 
-import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
-import { TopicIntroductionList } from 'ndla-ui';
-import { getSubtopicsWithIntroduction } from '../TopicPage/topicSelectors';
-import * as actions from '../TopicPage/topicActions';
 import { injectT } from '../../i18n';
-import { TopicShape } from '../../shapes';
-import { toTopic } from '../../routes';
 
 
-function buildLicenseTabList(t, topics, subjectId) {
+function buildTabList(t) {
   const tabs = [];
 
-  tabs.push({ key: 'topics', displayName: t('resources.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={topics} /> });
-  tabs.push({ key: 'learningresources', displayName: t('resources.tabs.learningresources'), content: <p>Læringsressurser</p> });
+  tabs.push({ key: 'all', displayName: t('resources.tabs.all'), content: <p>Alle</p> });
+  tabs.push({ key: 'learningpaths', displayName: t('resources.tabs.learningpaths'), content: <p>Læringsstier</p> });
+  tabs.push({ key: 'subjectMaterial', displayName: t('resources.tabs.subjectMaterial'), content: <p>Fagstoff</p> });
+  tabs.push({ key: 'activities', displayName: t('resources.tabs.activities'), content: <p>Aktiviteter</p> });
 
   return tabs;
 }
@@ -30,22 +26,16 @@ function buildLicenseTabList(t, topics, subjectId) {
 
 class Resources extends Component {
   componentWillMount() {
-    const { subjectId, topicId, fetchTopicResources } = this.props;
-    fetchTopicResources({ subjectId, topicId });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { topic, subjectId, fetchTopicResources } = this.props;
-    if (nextProps.topic.id !== topic.id) {
-      fetchTopicResources({ subjectId, topicId: nextProps.topic.id });
-    }
+  componentWillReceiveProps() {
   }
 
   render() {
-    const { topics, subjectId, t } = this.props;
-    const tabs = buildLicenseTabList(t, topics, subjectId);
+    const { t } = this.props;
+    const tabs = buildTabList(t);
     return (
-      <div className="c-resources u-margin-top-large">
+      <div className="u-margin-top-large">
         <Tabs tabs={tabs} />
       </div>
     );
@@ -53,25 +43,10 @@ class Resources extends Component {
 }
 
 Resources.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string.isRequired,
-  fetchTopicResources: PropTypes.func.isRequired,
-  topic: TopicShape.isRequired,
-  topics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
-const mapDispatchToProps = {
-  fetchTopicResources: actions.fetchTopicResources,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps;
-  return ({
-    topics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
-  });
-};
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  // connect(mapStateToProps, mapDispatchToProps),
   injectT,
 )(Resources);
