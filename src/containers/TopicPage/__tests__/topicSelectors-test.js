@@ -6,7 +6,13 @@
  *
  */
 
-import { getTopicsBySubjectId, getTopic, getSubtopicsWithIntroduction, getSubjectMenu } from '../topicSelectors';
+import {
+  getTopicsBySubjectId,
+  getTopic,
+  getSubtopicsWithIntroduction,
+  getSubjectMenu,
+  getSubtopics,
+} from '../topicSelectors';
 
 import { topics } from './mockTopics';
 
@@ -37,6 +43,22 @@ test('topicSelectors getTopic', () => {
   expect(getTopic('urn:subject:1', topics[0].id)(state)).toBe(topics[0]);
   expect(getTopic('urn:subject:1', topics[4].id)(state)).toBe(topics[4]);
   expect(getTopic('urn:subject:1', 'sadfjl')(state)).toBe(undefined);
+});
+
+test('topicSelectors getSubtopics', () => {
+  const state = {
+    locale: 'nb',
+    topics: {
+      all: {
+        'urn:subject:1': topics,
+      },
+    },
+  };
+  const subtopics = getSubtopics('urn:subject:1', topics[0].id)(state);
+
+  expect(subtopics.length).toBe(2);
+  expect(subtopics[0]).toBe(topics[1]);
+  expect(subtopics[1]).toBe(topics[2]);
 });
 
 test('topicSelectors getSubtopicsWithIntroduction', () => {
