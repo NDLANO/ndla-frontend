@@ -43,3 +43,39 @@ export const resources = [
     contentUri: 'urn:article:3',
   },
 ];
+
+export const resourceData = [
+  {
+    title: [
+      { title: 'Teknikker for idéutvikling', language: 'nb' },
+      { title: 'Technique', language: 'en' },
+    ],
+    description: [
+      { description: 'Desc: Teknikker for idéutvikling', language: 'nb' },
+      { description: 'Desc: Technique', language: 'en' },
+    ],
+    contentUri: 'urn:learningpath:1',
+  },
+  {
+    title: [
+      { title: 'Hva er en idé?', language: 'nb' },
+      { title: 'What is an idea?', language: 'en' },
+    ],
+    introduction: [
+      { introduction: 'Intro hva er en idé?', language: 'nb' },
+      { introduction: 'Intro what is an idea?', language: 'en' },
+    ],
+    contentUri: 'urn:article:1',
+  },
+  {
+    title: [
+      { title: 'Ideer og idéutvikling', language: 'nb' },
+      { title: 'Ideas', language: 'en' },
+    ],
+    introduction: [
+      { introduction: 'Intro ideer og idéutvikling', language: 'nb' },
+      { introduction: 'Intro ideas', language: 'en' },
+    ],
+    contentUri: 'urn:article:2',
+  },
+];

@@ -6,10 +6,12 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
+import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
 
 
 function buildTabList(t) {
@@ -32,8 +34,8 @@ class Resources extends Component {
   }
 
   render() {
-    const { t } = this.props;
-    const tabs = buildTabList(t);
+    const { t, articleResources, learningPathResources } = this.props;
+    const tabs = buildTabList(t, articleResources, learningPathResources);
     return (
       <div className="u-margin-top-large">
         <Tabs tabs={tabs} />
@@ -43,10 +45,23 @@ class Resources extends Component {
 }
 
 Resources.propTypes = {
+  articleResources: PropTypes.array,
+  learningPathResources: PropTypes.array,
 };
 
+const mapDispatchToProps = {
+  // fetchTopicResources: actions.fetchTopicResources,
+};
+
+const mapStateToProps = (state, ownProps) => {
+  const { topicId } = ownProps;
+  return ({
+    articleResources: getArticleResourcesByTopicId(topicId)(state),
+    learningPathResources: getLearningPathResourcesByTopicId(topicId)(state),
+  });
+};
 
 export default compose(
-  // connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   injectT,
 )(Resources);

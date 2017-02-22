@@ -19,11 +19,11 @@ import Resources from '../Resources/Resources';
 import { toTopic } from '../../routes';
 
 
-function buildTabList(t, subtopics, subjectId) {
+function buildTabList(t, subtopics, topicId, subjectId) {
   const tabs = [];
 
   tabs.push({ key: 'topics', displayName: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={subtopics} /> });
-  tabs.push({ key: 'learningresources', displayName: t('topicPage.tabs.learningresources'), content: <Resources /> });
+  tabs.push({ key: 'learningresources', displayName: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
 
   return tabs;
 }
@@ -43,8 +43,8 @@ class TopicTabs extends Component {
   }
 
   render() {
-    const { subtopics, subjectId, t } = this.props;
-    const tabs = buildTabList(t, subtopics, subjectId);
+    const { subtopics, topic: { id: topicId }, subjectId, t } = this.props;
+    const tabs = buildTabList(t, subtopics, topicId, subjectId);
     return (
       <div className="c-resources u-margin-top-large">
         <Tabs tabs={tabs} />
