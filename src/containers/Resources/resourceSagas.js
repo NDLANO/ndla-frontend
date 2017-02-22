@@ -8,14 +8,43 @@
 
 import { call, put } from 'redux-saga/effects';
 import * as actions from './resourceActions';
-// import * as articleApi from '../ArticlePage/articleApi';
+import * as articleApi from '../ArticlePage/articleApi';
+import * as learningPathApi from './learningPathApi';
 import * as api from './resourceApi';
+import { isLearningPathResource, isArticleResource, getArticleIdFromResource, getLearningPathIdFromResource } from './resourceHelpers';
+
+export function* fetchLearningPathResourcesData(resources) {
+  try {
+    const ids = resources.map(getLearningPathIdFromResource);
+    if (ids.length > 0) {
+      const data = yield call(learningPathApi.fetchLearningPaths, ids);
+      yield put(actions.setLearningPathResourceData({ learningPathResourceData: data.results }));
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export function* fetchArticleResourcesData(resources) {
+  try {
+    const ids = resources.map(getArticleIdFromResource);
+    if (ids.length > 0) {
+      const data = yield call(articleApi.fetchArticles, ids);
+      yield put(actions.setArticleResourceData({ articleResourceData: data.results }));
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 export function* fetchTopicResources(topicId) {
   try {
     const resources = yield call(api.fetchTopicResources, topicId);
-    // const data = yield call(articleApi.fetchArticles, ids);
     yield put(actions.setTopicResources({ topicId, resources }));
+    yield [
+      call(fetchArticleResourcesData, resources.filter(isArticleResource)),
+      call(fetchLearningPathResourcesData, resources.filter(isLearningPathResource)),
+    ];
   } catch (error) {
     throw error;
   }
