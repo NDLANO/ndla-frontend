@@ -7,11 +7,13 @@
  */
 
 import testSaga from 'redux-saga-test-plan';
+import { call } from 'redux-saga/effects';
 import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import * as constants from '../topicConstants';
 import * as actions from '../topicActions';
+import * as resourceSagas from '../../Resources/resourceSagas';
 // import { hasFetchedTopicsBySubjectId } from '../topicSelectors';
 
 
@@ -67,8 +69,10 @@ test('topicSagas watchFetchTopicResources', () => {
 
     .next({ payload: { subjectId: 1, topicId: 2 } })
     .next([{ id: 1 }, { id: 3 }])
-    .call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }])
-
+    .parallel([
+      call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }]),
+      call(resourceSagas.fetchTopicResources, 2),
+    ])
     .finish()
     .next()
     .isDone();
