@@ -8,8 +8,12 @@
 
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
-export const isLearningPathResource = resource => resource && resource.contentUri.startsWith(URN_LEARTNING_PATH);
-export const isArticleResource = resource => resource && resource.contentUri.startsWith(URN_ARTICLE);
+
+const hasContentUri = resource => (resource && resource.contentUri) || false;
+
+export const isLearningPathResource = resource => hasContentUri(resource) && resource.contentUri.startsWith(URN_LEARTNING_PATH);
+export const isArticleResource = resource => hasContentUri(resource) && resource.contentUri.startsWith(URN_ARTICLE);
+
 export const getArticleIdFromResource = (resource) => {
   if (isArticleResource(resource)) {
     return resource.contentUri.replace(URN_ARTICLE, '');

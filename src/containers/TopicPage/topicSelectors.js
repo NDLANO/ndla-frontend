@@ -12,6 +12,7 @@ import groupBy from 'lodash/groupBy';
 import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
+import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 
 
 const getTopicsFromState = state => state.topics;
@@ -44,7 +45,7 @@ export const getTopic = (subjectId, topicId = undefined) => createSelector(
 
 export const getTopicArticle = (subjectId, topicId) => createSelector(
   [getTopic(subjectId, topicId), state => state],
-  (topic, state) => (topic && topic.contentUri ? getArticle(topic.contentUri.replace('urn:article:', ''))(state) : undefined),
+  (topic, state) => (topic && topic.contentUri ? getArticle(getArticleIdFromResource(topic))(state) : undefined),
 );
 
 export const getSubtopics = (subjectId, topicId) => createSelector(
