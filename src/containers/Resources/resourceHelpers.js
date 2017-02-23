@@ -6,6 +6,10 @@
  *
  */
 
+import config from '../../config';
+import { toArticle } from '../../routes';
+
+const LEARNING_PATH_DOMAIN = __SERVER__ ? config.learningPathDomain : window.config.learningPathDomain;
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 
@@ -24,6 +28,21 @@ export const getArticleIdFromResource = (resource) => {
 export const getLearningPathIdFromResource = (resource) => {
   if (isLearningPathResource(resource)) {
     return resource.contentUri.replace(URN_LEARTNING_PATH, '');
+  }
+  return undefined;
+};
+
+export const resourceToLinkProps = (resource) => {
+  if (isLearningPathResource(resource)) {
+    return {
+      href: `${LEARNING_PATH_DOMAIN}/learningpaths/${getLearningPathIdFromResource(resource)}`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    };
+  } else if (isArticleResource(resource)) {
+    return {
+      to: toArticle(getArticleIdFromResource(resource)),
+    };
   }
   return undefined;
 };

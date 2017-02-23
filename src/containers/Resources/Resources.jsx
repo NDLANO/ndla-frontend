@@ -12,15 +12,33 @@ import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
+import ResourceList from './components/ResourceList';
+import { resourceToLinkProps } from './resourceHelpers';
 
 
-function buildTabList(t) {
+function buildTabList(t, articleResources, learningPathResources) {
   const tabs = [];
 
-  tabs.push({ key: 'all', displayName: t('resources.tabs.all'), content: <p>Alle</p> });
-  tabs.push({ key: 'learningpaths', displayName: t('resources.tabs.learningpaths'), content: <p>Læringsstier</p> });
-  tabs.push({ key: 'subjectMaterial', displayName: t('resources.tabs.subjectMaterial'), content: <p>Fagstoff</p> });
-  tabs.push({ key: 'activities', displayName: t('resources.tabs.activities'), content: <p>Aktiviteter</p> });
+  tabs.push({
+    key: 'all',
+    displayName: t('resources.tabs.all'),
+    content: <p>Alle</p>,
+  });
+  tabs.push({
+    key: 'learningpaths',
+    displayName: t('resources.tabs.learningpaths'),
+    content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
+  });
+  tabs.push({
+    key: 'subjectMaterial',
+    displayName: t('resources.tabs.subjectMaterial'),
+    content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
+  });
+  tabs.push({
+    key: 'activities',
+    displayName: t('resources.tabs.activities'),
+    content: <p>Aktiviteter</p>,
+  });
 
   return tabs;
 }
@@ -50,7 +68,6 @@ Resources.propTypes = {
 };
 
 const mapDispatchToProps = {
-  // fetchTopicResources: actions.fetchTopicResources,
 };
 
 const mapStateToProps = (state, ownProps) => {

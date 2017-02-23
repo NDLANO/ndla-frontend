@@ -25,13 +25,13 @@ export const getResources = createSelector(
 export const getResourcesByTopicId = topicId => createSelector(
     [getResources, getLocale],
     (all, locale) => defined(all[topicId], []).map((resource) => {
-      const title = titleI18N(resource, locale, true);
-      return ({
+      const mappedResource = ({
         ...resource,
-        title,
-        description: descriptionI18N(resource, locale, true),
-        introduction: introductionI18N(resource, locale, true),
+        title: titleI18N(resource, locale, true),
+        introduction: introductionI18N(resource, locale, true) || descriptionI18N(resource, locale, true),
       });
+      delete mappedResource.description;
+      return mappedResource;
     }),
 );
 

@@ -8,46 +8,44 @@
 
 import {
   getResourcesByTopicId,
+  getArticleResourcesByTopicId,
+  getLearningPathResourcesByTopicId,
 } from '../resourceSelectors';
 
 import { resourceData } from './mockResources';
 
+const resourcesState = {
+  resources: {
+    all: {
+      'urn:topic:1': resourceData,
+      'urn:topic:2': [],
+    },
+  },
+};
 
 test('resourceSelectors getResourcesByTopicId default locale', () => {
-  const state = {
-    resources: {
-      all: {
-        'urn:topic:1': resourceData,
-        'urn:topic:2': [],
-      },
-    },
-  };
+  const state = resourcesState;
   const resources = getResourcesByTopicId('urn:topic:1')(state);
 
   expect(resources.length).toBe(3);
   expect(resources[0]).toEqual({
     contentUri: 'urn:learningpath:1',
-    description: 'Desc: Teknikker for idéutvikling',
-    introduction: undefined,
+    introduction: 'Desc: Teknikker for idéutvikling',
     title: 'Teknikker for idéutvikling',
   });
   expect(resources[2]).toEqual({
     contentUri: 'urn:article:2',
-    description: undefined,
     introduction: 'Intro ideer og idéutvikling',
     title: 'Ideer og idéutvikling',
   });
+
+  expect(getResourcesByTopicId('urn:topic:2')(state)).toEqual([]);
 });
 
 test('resourceSelectors getResourcesByTopicId en locale', () => {
   const state = {
     locale: 'en',
-    resources: {
-      all: {
-        'urn:topic:1': resourceData,
-        'urn:topic:2': [],
-      },
-    },
+    ...resourcesState,
   };
 
   const resources = getResourcesByTopicId('urn:topic:1')(state);
@@ -55,8 +53,26 @@ test('resourceSelectors getResourcesByTopicId en locale', () => {
   expect(resources.length).toBe(3);
 
   expect(resources[0].title).toBe('Technique');
-  expect(resources[0].description).toBe('Desc: Technique');
+  expect(resources[0].introduction).toBe('Desc: Technique');
 
   expect(resources[2].title).toBe('Ideas');
   expect(resources[2].introduction).toBe('Intro ideas');
+});
+
+test('resourceSelectors getLearningPathResourcesByTopicId', () => {
+  const state = resourcesState;
+
+  const resources = getLearningPathResourcesByTopicId('urn:topic:1')(state);
+
+  expect(resources.length).toBe(1);
+  expect(resources[0].contentUri).toBe('urn:learningpath:1');
+});
+
+test('resourceSelectors getArticleResourcesByTopicId', () => {
+  const state = resourcesState;
+  const resources = getArticleResourcesByTopicId('urn:topic:1')(state);
+
+  expect(resources.length).toBe(2);
+  expect(resources[0].contentUri).toBe('urn:article:1');
+  expect(resources[1].contentUri).toBe('urn:article:2');
 });

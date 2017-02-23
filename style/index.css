@@ -18,3 +18,54 @@
 @import 'helpers.css';
 @import 'table.css';
 @import 'alert.css';
+
+.c-topic-resource {
+  &__list {
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    padding-bottom: 1.5em;
+    padding: 1.5em 0 1.5em 0;
+    border-bottom: 2px solid #DADADA;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__text-container {
+    flex: 4;
+  }
+
+  &__img-container {
+    flex: 1;
+    padding-left: 0.5em;
+  }
+
+  &__header {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #045A91;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .c-topic-resource {
+    &__item {
+      flex-flow: row wrap;
+    }
+
+    &__text-container {
+      flex: 1 100%;
+      order: 2;
+      padding-top: 0.5em;
+    }
+
+    &__img-container {
+      order: 1;
+      flex: 1 100%;
+      padding-left: 0;
+    }
+  }
+}
