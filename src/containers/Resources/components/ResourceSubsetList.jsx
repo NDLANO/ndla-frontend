@@ -17,19 +17,24 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ResourceSubsetList = ({ articleResources, learningPathResources, resourceToLinkProps }) => (
+const ResourceSubsetList = ({ resourceGroups, resourceToLinkProps }) => (
   <div {...classes()} >
-    <h1 {...classes('header')}>Læringsstier {'\u2192'}</h1>
-    <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources.slice(0, 2)} />
-    <h1 {...classes('header')}>Fagstoff {'\u2192'}</h1>
-    <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources.slice(0, 2)} />
+    {resourceGroups.map((group, i) => (
+      <div key={i}>
+        <h1 {...classes('header')}>{group.title} {'\u2192'}</h1>
+        <ResourceList resourceToLinkProps={resourceToLinkProps} resources={group.resources.slice(0, 2)} />
+      </div>
+    ))}
   </div>
 );
 
 ResourceSubsetList.propTypes = {
-  articleResources: PropTypes.arrayOf(ResourceShape).isRequired,
-  learningPathResources: PropTypes.arrayOf(ResourceShape).isRequired,
   resourceToLinkProps: PropTypes.func.isRequired,
+  handleShowAll: PropTypes.func.isRequired,
+  resourceGroups: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    resources: PropTypes.arrayOf(ResourceShape).isRequired,
+  })),
 };
 
 export default ResourceSubsetList;

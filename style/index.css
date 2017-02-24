@@ -32,11 +32,12 @@
   &__list {
     list-style: none;
     padding: 0;
+    margin: 0
   }
 
   &__item {
     display: flex;
-    padding: .5em 0 0.5em 0;
+    padding: .7em 0 0.5em 0;
     border-bottom: 1px solid #DADADA;
     &:last-child {
       border-bottom: none;
@@ -54,7 +55,7 @@
 
   &__header {
     margin-top: 0;
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #045A91;
   }
 }

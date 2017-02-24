@@ -19,11 +19,15 @@ import { resourceToLinkProps } from './resourceHelpers';
 
 function buildTabList(t, articleResources, learningPathResources) {
   const tabs = [];
+  const resourceGroups = [
+    { title: t('resources.tabs.learningpaths'), resources: learningPathResources },
+    { title: t('resources.tabs.subjectMaterial'), resources: articleResources },
+  ];
 
   tabs.push({
     key: 'all',
     displayName: t('resources.tabs.all'),
-    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} articleResources={articleResources} learningPathResources={learningPathResources} />,
+    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} resourceGroups={resourceGroups} />,
   });
   tabs.push({
     key: 'learningpaths',
@@ -34,11 +38,6 @@ function buildTabList(t, articleResources, learningPathResources) {
     key: 'subjectMaterial',
     displayName: t('resources.tabs.subjectMaterial'),
     content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
-  });
-  tabs.push({
-    key: 'activities',
-    displayName: t('resources.tabs.activities'),
-    content: <p>Aktiviteter</p>,
   });
 
   return tabs;
