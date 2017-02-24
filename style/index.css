@@ -19,16 +19,25 @@
 @import 'table.css';
 @import 'alert.css';
 
+.c-topic-resource-subset {
+  &__header {
+    margin: 1em 0 0.5em 0;
+    font-size: 1.4em;
+    border-bottom: 1px solid #045A91;
+    padding-bottom: 0.2em
+  }
+}
+
 .c-topic-resource {
   &__list {
     list-style: none;
+    padding: 0;
   }
 
   &__item {
     display: flex;
-    padding-bottom: 1.5em;
-    padding: 1.5em 0 1.5em 0;
-    border-bottom: 2px solid #DADADA;
+    padding: .5em 0 0.5em 0;
+    border-bottom: 1px solid #DADADA;
     &:last-child {
       border-bottom: none;
     }

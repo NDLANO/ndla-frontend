@@ -13,6 +13,7 @@ import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
 import ResourceList from './components/ResourceList';
+import ResourceSubsetList from './components/ResourceSubsetList';
 import { resourceToLinkProps } from './resourceHelpers';
 
 
@@ -22,7 +23,7 @@ function buildTabList(t, articleResources, learningPathResources) {
   tabs.push({
     key: 'all',
     displayName: t('resources.tabs.all'),
-    content: <p>Alle</p>,
+    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} articleResources={articleResources} learningPathResources={learningPathResources} />,
   });
   tabs.push({
     key: 'learningpaths',

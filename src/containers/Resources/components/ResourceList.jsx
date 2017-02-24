@@ -41,7 +41,7 @@ const ResourceList = ({ resources, ...rest }) => (
   <ul {...classes('list')} >
     { resources.map(resource => <Resource key={resource.id} {...rest} resource={resource} />)}
   </ul>
-);
+  );
 
 ResourceList.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape).isRequired,
