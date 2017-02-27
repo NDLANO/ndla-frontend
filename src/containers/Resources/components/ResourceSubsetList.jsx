@@ -23,7 +23,7 @@ const ResourceSubsetList = ({ resourceGroups, toResourceTab, resourceToLinkProps
       <div key={i}>
         <h1 {...classes('header')}>{group.title} {'\u2192'}</h1>
         <ResourceList resourceToLinkProps={resourceToLinkProps} resources={group.resources.slice(0, 2)} />
-        <SafeLink to={toResourceTab(i)}>{group.viewAllLinkTitle}</SafeLink>
+        <SafeLink {...classes('all-link')} to={toResourceTab(i)}>{group.viewAllLinkTitle}</SafeLink>
       </div>
     ))}
   </div>

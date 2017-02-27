@@ -26,6 +26,12 @@
     border-bottom: 1px solid #045A91;
     padding-bottom: 0.2em
   }
+
+  &__all-link {
+    &:active, &:visited, &:hover, &:focus {
+      color: #045A91;
+    }
+  }
 }
 
 .c-topic-resource {
