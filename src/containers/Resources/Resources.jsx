@@ -11,24 +11,30 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
+import { toTopicResourceTab } from '../../routes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
 import ResourceList from './components/ResourceList';
 import ResourceSubsetList from './components/ResourceSubsetList';
 import { resourceToLinkProps } from './resourceHelpers';
 
 
-function buildTabList(t, articleResources, learningPathResources) {
+function buildTabList(t, location, articleResources, learningPathResources) {
   const tabs = [];
+
+  // Must be in same order as tabs after "all" tab
   const resourceGroups = [
-    { title: t('resources.tabs.learningpaths'), resources: learningPathResources },
-    { title: t('resources.tabs.subjectMaterial'), resources: articleResources },
+    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources },
+    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources },
   ];
+
+  const toResourceTab = index => toTopicResourceTab(location, index + 1);
 
   tabs.push({
     key: 'all',
     displayName: t('resources.tabs.all'),
-    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} resourceGroups={resourceGroups} />,
+    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />,
   });
+
   tabs.push({
     key: 'learningpaths',
     displayName: t('resources.tabs.learningpaths'),
@@ -52,11 +58,12 @@ class Resources extends Component {
   }
 
   render() {
-    const { t, articleResources, learningPathResources } = this.props;
-    const tabs = buildTabList(t, articleResources, learningPathResources);
+    const { t, articleResources, learningPathResources, selectedResourceTabIndex } = this.props;
+    const { router: { location } } = this.context;
+    const tabs = buildTabList(t, location, articleResources, learningPathResources);
     return (
       <div className="u-margin-top-large">
-        <Tabs tabs={tabs} />
+        <Tabs tabs={tabs} selectedIndex={selectedResourceTabIndex} />
       </div>
     );
   }
@@ -65,6 +72,7 @@ class Resources extends Component {
 Resources.propTypes = {
   articleResources: PropTypes.array,
   learningPathResources: PropTypes.array,
+  selectedResourceTabIndex: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -76,6 +84,10 @@ const mapStateToProps = (state, ownProps) => {
     articleResources: getArticleResourcesByTopicId(topicId)(state),
     learningPathResources: getLearningPathResourcesByTopicId(topicId)(state),
   });
+};
+
+Resources.contextTypes = {
+  router: PropTypes.object,
 };
 
 export default compose(

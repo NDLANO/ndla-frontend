@@ -34,6 +34,10 @@ export function toTopic(subjectId, ...topicIds) {
   return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
+export function toTopicResourceTab(location, index) {
+  return { ...location, query: { resourceTabIndex: index } };
+}
+
 export default function () {
   return (
     <Route path="/" component={App}>

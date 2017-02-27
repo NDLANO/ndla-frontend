@@ -35,10 +35,11 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { params: { subjectId }, topic, article, t } = this.props;
+    const { params: { subjectId }, location: { query }, topic, article, t } = this.props;
     if (!topic) {
       return null;
     }
+    const selectedResourceTabIndex = query.resourceTabIndex ? parseInt(query.resourceTabIndex, 10) : 0;
 
     const metaDescription = article ? { name: 'description', content: article.metaDescription } : {};
     const title = article ? article.title : topic.name;
@@ -51,7 +52,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
-        <TopicTabs subjectId={subjectId} topic={topic} />
+        <TopicTabs subjectId={subjectId} topic={topic} selectedResourceTabIndex={selectedResourceTabIndex} />
       </OneColumn>
     );
   }
@@ -61,6 +62,11 @@ TopicPage.propTypes = {
   params: PropTypes.shape({
     subjectId: PropTypes.string.isRequired,
     topicId: PropTypes.string,
+  }).isRequired,
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      resource: PropTypes.string,
+    }),
   }).isRequired,
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,

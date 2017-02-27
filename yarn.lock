@@ -3753,9 +3753,9 @@ ndla-licenses@^0.0.6:
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.0.1.tgz#da37aa44a301cdb28cc2b39fbc12336980150040"
+ndla-tabs@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.1.1.tgz#0a79431d844fe464a2bdd98137810c548c3c7b62"
   dependencies:
     lodash "^4.17.2"
 

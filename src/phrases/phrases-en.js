@@ -62,7 +62,10 @@ const phrases = {
       all: 'All',
       learningpaths: 'Learning paths',
       subjectMaterial: 'Subject material',
-      activities: 'Activities',
+    },
+    links: {
+      viewAllLearningPaths: 'Se alle læringsstier',
+      viewAllSubjectMaterials: 'Se alt fagstoff',
     },
   },
   searchPage: {
