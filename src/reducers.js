@@ -13,6 +13,7 @@ import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import articles from './containers/ArticlePage/articlesReducer';
 import subjects from './containers/SubjectPage/subjectReducer';
+import topics from './containers/TopicPage/topicReducer';
 import search from './containers/SearchPage/searchReducer';
 
 const rootReducers = combineReducers({
@@ -21,6 +22,7 @@ const rootReducers = combineReducers({
   articles,
   search,
   subjects,
+  topics,
   routing: routerReducer,
 });
 

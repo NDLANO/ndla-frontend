@@ -58,30 +58,3 @@ test('subjectSagas watchFetchSubjects when hasFetched is true', () => {
     .next()
     .isDone();
 });
-
-test('subjectSagas fetchTopics', () => {
-  const saga = testSaga(sagas.fetchTopics, 1234);
-  saga
-    .next()
-    .call(api.fetchTopics, 1234)
-
-    .next([{ id: '123', name: 'Algebra' }])
-    .put({ type: constants.SET_TOPICS, payload: { subjectId: 1234, topics: [{ id: '123', name: 'Algebra' }] } })
-
-    .next()
-    .isDone();
-});
-
-test('subjectSagas watchFetchTopics ', () => {
-  const saga = testSaga(sagas.watchFetchTopics);
-  saga
-    .next()
-    .take(constants.FETCH_TOPICS)
-
-    .next({ payload: 1234 })
-    .call(sagas.fetchTopics, 1234)
-
-    .finish()
-    .next()
-    .isDone();
-});

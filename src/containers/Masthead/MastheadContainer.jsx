@@ -7,14 +7,13 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toSearch, toTopic } from '../../routes';
-import TopicMenu from './components/TopicMenu';
-import { getTopicsBySubjectId, getSubjectById } from '../SubjectPage/subjectSelectors';
+import { getSubjectById } from '../SubjectPage/subjectSelectors';
+import { getSubjectMenu } from '../TopicPage/topicSelectors';
 import { SubjectShape } from '../../shapes';
-import { ClickToggle } from '../../components';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
@@ -61,7 +60,7 @@ const mapStateToProps = (state, ownProps) => {
   const { subjectId } = ownProps.params;
   return {
     subject: getSubjectById(subjectId)(state),
-    topics: getTopicsBySubjectId(subjectId)(state),
+    topics: getSubjectMenu(subjectId)(state),
   };
 };
 

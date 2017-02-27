@@ -56,7 +56,7 @@ test('articleSelectors getArticle en locale', () => {
   expect(getArticleSelector(stateWithEnLocale).metaDescription).toBe('Description');
 });
 
-test('articleSelectors getArticle returns empty object if article is not in state', () => {
+test('articleSelectors getArticle returns undefined if article is not in state', () => {
   const getArticleSelector = getArticle(3);
-  expect(getArticleSelector(state)).toEqual({});
+  expect(getArticleSelector(state)).toEqual(undefined);
 });

@@ -9,12 +9,12 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import isEmpty from 'lodash/isEmpty';
 import { OneColumn } from 'ndla-ui';
 
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
+import { ArticleShape } from '../../shapes';
 import Article from './components/Article';
 
 class ArticlePage extends Component {
@@ -25,6 +25,9 @@ class ArticlePage extends Component {
 
   render() {
     const { article, locale } = this.props;
+    if (!article) {
+      return null;
+    }
     const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     const metaDescription = article.metaDescription ? { name: 'description', content: article.metaDescription } : {};
     return (
@@ -34,7 +37,7 @@ class ArticlePage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        {!isEmpty(article) ? <Article article={article} locale={locale} /> : null}
+        <Article article={article} locale={locale} />
       </OneColumn>
     );
   }
@@ -44,7 +47,7 @@ ArticlePage.propTypes = {
   params: PropTypes.shape({
     articleId: PropTypes.string.isRequired,
   }).isRequired,
-  article: PropTypes.object.isRequired,
+  article: ArticleShape,
   locale: PropTypes.string.isRequired,
   fetchArticle: PropTypes.func.isRequired,
 };

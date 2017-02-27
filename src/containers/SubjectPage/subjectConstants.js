@@ -8,6 +8,3 @@
 
 export const FETCH_SUBJECTS = 'FETCH_SUBJECTS';
 export const SET_SUBJECTS = 'SET_SUBJECTS';
-
-export const FETCH_TOPICS = 'FETCH_TOPICS';
-export const SET_TOPICS = 'SET_TOPICS';

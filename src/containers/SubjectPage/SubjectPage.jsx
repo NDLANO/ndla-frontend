@@ -8,24 +8,26 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, TopicIntroductionList } from 'ndla-ui';
 import defined from 'defined';
 import * as actions from './subjectActions';
-import { getSubjectById, getTopicsBySubjectId, getTopic } from './subjectSelectors';
-import TopicCardList from './components/TopicCardList';
+import * as topicActions from '../TopicPage/topicActions';
+import { getSubjectById } from './subjectSelectors';
+import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
+import { toTopic } from '../../routes';
 
 class SubjectPage extends Component {
   componentWillMount() {
     const { params: { subjectId }, fetchTopics, fetchSubjects } = this.props;
     fetchSubjects();
-    fetchTopics(subjectId);
+    fetchTopics({ subjectId });
   }
 
   componentWillReceiveProps(nextProps) {
     const { params: { subjectId }, fetchTopics } = this.props;
 
     if (nextProps.params.subjectId !== subjectId) {
-      fetchTopics(nextProps.params.subjectId);
+      fetchTopics({ subjectId: nextProps.params.subjectId });
     }
   }
 
@@ -38,10 +40,8 @@ class SubjectPage extends Component {
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
       <OneColumn>
-        <div className="o-layout">
-          { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-          <TopicCardList className="o-layout__item u-2/3" subjectId={subject.id} topics={topics} />
-        </div>
+        { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
+        <TopicIntroductionList subjectId={subject.id} toTopic={toTopic} topics={topics} />
       </OneColumn>
     );
   }
@@ -60,8 +60,8 @@ SubjectPage.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTopics: actions.fetchTopics,
   fetchSubjects: actions.fetchSubjects,
+  fetchTopics: topicActions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {

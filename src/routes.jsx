@@ -15,6 +15,7 @@ import ArticlePage from './containers/ArticlePage/ArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
+import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 
 export function toSearch() {
@@ -41,8 +42,8 @@ export default function () {
       <Route path="search(/)" component={SearchPage} />
       <Route path="subjects(/)" component={SubjectsPage} />
       <Route path="subjects/:subjectId(/)" component={SubjectPage} />
-      <Route path="subjects/:subjectId/:topicId(/)" component={SubjectPage} />
-      <Route path="subjects/:subjectId/**/:topicId(/)" component={SubjectPage} />
+      <Route path="subjects/:subjectId/:topicId(/)" component={TopicPage} />
+      <Route path="subjects/:subjectId/**/:topicId(/)" component={TopicPage} />
       <Route path="*" status={404} component={NotFoundPage} />
     </Route>
   );
