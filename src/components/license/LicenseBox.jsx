@@ -25,19 +25,19 @@ function buildLicenseTabList(article, license, locale, t) {
   const tabs = [];
 
   if (images.length > 0) {
-    tabs.push({ key: 'images', displayName: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} /> });
+    tabs.push({ title: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} /> });
   }
 
   if (article) {
-    tabs.push({ key: 'article', displayName: t('license.tabs.article'), content: (<ArticleLicenseInfo article={article} license={license} />) });
+    tabs.push({ title: t('license.tabs.article'), content: (<ArticleLicenseInfo article={article} license={license} />) });
   }
 
   if (audios.length > 0) {
-    tabs.push({ key: 'audios', displayName: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} /> });
+    tabs.push({ title: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} /> });
   }
 
-  tabs.push({ key: 'text', displayName: t('license.tabs.text'), content: <TextDownloadList /> });
-  tabs.push({ key: 'cite', displayName: t('license.tabs.cite'), content: <Citation article={article} /> });
+  tabs.push({ title: t('license.tabs.text'), content: <TextDownloadList /> });
+  tabs.push({ title: t('license.tabs.cite'), content: <Citation article={article} /> });
 
   return tabs;
 }

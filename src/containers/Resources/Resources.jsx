@@ -10,43 +10,38 @@ import React, { Component, PropTypes } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
+import { ResourceList, ResourceSubsetList } from 'ndla-ui';
 import { injectT } from '../../i18n';
 import { toTopicResourceTab } from '../../routes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
-import ResourceList from './components/ResourceList';
-import ResourceSubsetList from './components/ResourceSubsetList';
 import { resourceToLinkProps } from './resourceHelpers';
 
 
 function buildTabList(t, location, articleResources, learningPathResources) {
-  const tabs = [];
-
   // Must be in same order as tabs after "all" tab
   const resourceGroups = [
-    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources },
-    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources },
+    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources.slice(0, 2) },
+    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources.slice(0, 2) },
   ];
 
   const toResourceTab = index => toTopicResourceTab(location, index + 1);
 
-  tabs.push({
-    key: 'all',
-    displayName: t('resources.tabs.all'),
-    content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />,
-  });
+  return [
+    {
+      title: t('resources.tabs.all'),
+      content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />,
+    },
 
-  tabs.push({
-    key: 'learningpaths',
-    displayName: t('resources.tabs.learningpaths'),
-    content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
-  });
-  tabs.push({
-    key: 'subjectMaterial',
-    displayName: t('resources.tabs.subjectMaterial'),
-    content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
-  });
+    {
+      title: t('resources.tabs.learningpaths'),
+      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
+    },
+    {
+      title: t('resources.tabs.subjectMaterial'),
+      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
+    },
 
-  return tabs;
+  ];
 }
 
 
@@ -63,7 +58,7 @@ class Resources extends Component {
     const tabs = buildTabList(t, location, articleResources, learningPathResources);
     return (
       <div className="u-margin-top-large">
-        <Tabs tabs={tabs} selectedIndex={selectedResourceTabIndex} />
+        <Tabs modifier="muted" tabs={tabs} selectedIndex={selectedResourceTabIndex} />
       </div>
     );
   }

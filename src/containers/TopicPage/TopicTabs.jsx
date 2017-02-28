@@ -23,10 +23,10 @@ import { toTopic } from '../../routes';
 function buildTabList(t, subtopics, resources, topicId, subjectId, selectedResourceTabIndex) {
   const tabs = [];
   if (subtopics.length > 0) {
-    tabs.push({ key: 'topics', displayName: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={subtopics} /> });
+    tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={subtopics} /> });
   }
   if (resources.length > 0) {
-    tabs.push({ key: 'learningresources', displayName: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} selectedResourceTabIndex={selectedResourceTabIndex} /> });
+    tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} selectedResourceTabIndex={selectedResourceTabIndex} /> });
   }
 
   return tabs;
