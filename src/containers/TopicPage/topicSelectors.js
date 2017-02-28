@@ -70,6 +70,28 @@ export const getSubjectMenu = subjectId => createSelector(
   },
 );
 
+export const getTopicPath = (subjectId, topicId) => createSelector(
+  [getTopic(subjectId, topicId), getAllTopicsBySubjectId(subjectId)],
+  (leaf, topics) => {
+    if (!leaf) {
+      return [];
+    }
+
+    const toBreadcrumb = (topic) => {
+      if (!topic.parent) {
+        return [topic];
+      }
+      const parent = topics.find(t => topic.parent === t.id);
+      const parentPath = toBreadcrumb(parent);
+      return [...parentPath, topic];
+    };
+
+    const topicPath = toBreadcrumb(leaf);
+
+    return topicPath.slice(0, -1); // Remove last item (leaf topic)
+  },
+);
+
 export const getSubtopicsWithIntroduction = (subjectId, topicId) => createSelector(
   [getSubtopics(subjectId, topicId), getTopicIntroductions, getLocale],
   (topics, topicIntroductions, locale) => topics.map((topic) => {

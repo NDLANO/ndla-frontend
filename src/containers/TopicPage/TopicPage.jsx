@@ -14,10 +14,13 @@ import Helmet from 'react-helmet';
 
 import * as actions from './topicActions';
 import * as subjectActions from '../SubjectPage/subjectActions';
-import { getTopicArticle, getTopic } from './topicSelectors';
+import { getTopicArticle, getTopic, getTopicPath } from './topicSelectors';
+import { getSubjectById } from '../SubjectPage/subjectSelectors';
 import TopicTabs from './TopicTabs';
-import { ArticleShape, TopicShape } from '../../shapes';
+import TopicBreadcrumb from './TopicBreadcrumb';
+import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
+import { toTopic } from '../../routes';
 
 class TopicPage extends Component {
   componentWillMount() {
@@ -35,7 +38,7 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { params: { subjectId }, topic, article, t } = this.props;
+    const { params: { subjectId }, topic, article, t, topicPath, subject } = this.props;
     if (!topic) {
       return null;
     }
@@ -50,6 +53,7 @@ class TopicPage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
+        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath} toTopic={toTopic} /> : null }
         { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
         <TopicTabs subjectId={subjectId} topic={topic} />
       </OneColumn>
@@ -65,6 +69,8 @@ TopicPage.propTypes = {
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
   topic: TopicShape,
+  subject: SubjectShape,
+  topicPath: PropTypes.arrayOf(TopicShape),
   article: ArticleShape,
 };
 
@@ -75,9 +81,15 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.params;
+  const getTopicSelector = getTopic(subjectId, topicId);
+  const getTopicArticleSelector = getTopicArticle(subjectId, topicId);
+  const getTopicPathSelector = getTopicPath(subjectId, topicId);
+  const getSubjectByIdSelector = getSubjectById(subjectId);
   return {
-    topic: getTopic(subjectId, topicId)(state),
-    article: getTopicArticle(subjectId, topicId)(state),
+    topic: getTopicSelector(state),
+    article: getTopicArticleSelector(state),
+    topicPath: getTopicPathSelector(state),
+    subject: getSubjectByIdSelector(state),
   };
 };
 

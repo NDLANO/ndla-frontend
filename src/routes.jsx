@@ -31,6 +31,9 @@ export function toSubject(subjectId) {
 }
 
 export function toTopic(subjectId, ...topicIds) {
+  if (topicIds.length === 0) {
+    return toSubject(subjectId);
+  }
   return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
