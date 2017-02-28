@@ -20,13 +20,13 @@ import { getResourcesByTopicId } from '../Resources/resourceSelectors';
 import { toTopic } from '../../routes';
 
 
-function buildTabList(t, subtopics, resources, topicId, subjectId, selectedResourceTabIndex) {
+function buildTabList(t, subtopics, resources, topicId, subjectId) {
   const tabs = [];
   if (subtopics.length > 0) {
     tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={subtopics} /> });
   }
   if (resources.length > 0) {
-    tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} selectedResourceTabIndex={selectedResourceTabIndex} /> });
+    tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
   }
 
   return tabs;
@@ -47,8 +47,8 @@ class TopicTabs extends Component {
   }
 
   render() {
-    const { subtopics, topic: { id: topicId }, selectedResourceTabIndex, subjectId, resources, t } = this.props;
-    const tabs = buildTabList(t, subtopics, resources, topicId, subjectId, selectedResourceTabIndex);
+    const { subtopics, topic: { id: topicId }, subjectId, resources, t } = this.props;
+    const tabs = buildTabList(t, subtopics, resources, topicId, subjectId);
     if (tabs.length === 0) return null;
     return (
       <div className="c-resources u-margin-top-large">
@@ -65,7 +65,6 @@ TopicTabs.propTypes = {
   query: PropTypes.shape({
     resource: PropTypes.string,
   }),
-  selectedResourceTabIndex: PropTypes.number.isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
   resources: PropTypes.arrayOf(ResourceShape).isRequired,
 };

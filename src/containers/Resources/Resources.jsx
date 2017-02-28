@@ -7,6 +7,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
@@ -53,12 +54,20 @@ class Resources extends Component {
   }
 
   render() {
-    const { t, articleResources, learningPathResources, selectedResourceTabIndex } = this.props;
-    const { router: { location } } = this.context;
+    const { t, articleResources, router, learningPathResources } = this.props;
+    const { location } = router;
     const tabs = buildTabList(t, location, articleResources, learningPathResources);
+
+    const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
+
     return (
       <div className="u-margin-top-large">
-        <Tabs modifier="muted" tabs={tabs} selectedIndex={selectedResourceTabIndex} />
+        <Tabs
+          modifier="muted"
+          tabs={tabs}
+          onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
+          selectedIndex={selectedResourceTabIndex}
+        />
       </div>
     );
   }
@@ -67,7 +76,14 @@ class Resources extends Component {
 Resources.propTypes = {
   articleResources: PropTypes.array,
   learningPathResources: PropTypes.array,
-  selectedResourceTabIndex: PropTypes.number.isRequired,
+  router: PropTypes.shape({
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        resourceTabIndex: PropTypes.string,
+      }),
+    }).isRequired,
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 const mapDispatchToProps = {
@@ -81,11 +97,8 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
-Resources.contextTypes = {
-  router: PropTypes.object,
-};
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   injectT,
+  withRouter,
 )(Resources);
