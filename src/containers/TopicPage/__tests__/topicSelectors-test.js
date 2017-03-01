@@ -12,6 +12,7 @@ import {
   getSubtopicsWithIntroduction,
   getSubjectMenu,
   getSubtopics,
+  getTopicPath,
 } from '../topicSelectors';
 
 import { topics } from './mockTopics';
@@ -69,7 +70,7 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
         'urn:subject:1': topics,
       },
       topicIntroductions: {
-        'urn:topic:169397': {
+        'urn:topic:1_1': {
           introduction: [
             { introduction: 'Tester', language: 'nb' },
             { introduction: 'Testing', language: 'en' },
@@ -80,9 +81,9 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
   };
 
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[0])
-    .toEqual({ id: 'urn:topic:169397', introduction: 'Tester', name: 'Mediedesign', parent: topics[0].id });
+    .toEqual({ id: 'urn:topic:1_1', introduction: 'Tester', name: 'Mediedesign', parent: topics[0].id });
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[1])
-    .toEqual({ id: 'urn:topic:170363', introduction: undefined, name: 'Idéutvikling', parent: topics[0].id });
+    .toEqual({ id: 'urn:topic:1_2', introduction: undefined, name: 'Idéutvikling', parent: topics[0].id });
 });
 
 test('topicSelectors getSubjectMenu', () => {
@@ -97,24 +98,24 @@ test('topicSelectors getSubjectMenu', () => {
   expect(getSubjectMenu('urn:subject:1')(state)).toEqual(
     [
       {
-        id: 'urn:topic:172416',
+        id: 'urn:topic:1',
         name: 'Idéutvikling og mediedesign',
         parent: undefined,
         subtopics: [
           {
-            id: 'urn:topic:169397',
+            id: 'urn:topic:1_1',
             name: 'Mediedesign',
-            parent: 'urn:topic:172416',
+            parent: 'urn:topic:1',
             subtopics: [],
           },
           {
-            id: 'urn:topic:170363',
+            id: 'urn:topic:1_2',
             name: 'Idéutvikling',
-            parent: 'urn:topic:172416',
+            parent: 'urn:topic:1',
             subtopics: [
               {
-                id: 'urn:topic:1703324',
-                parent: 'urn:topic:170363',
+                id: 'urn:topic:1_2_1',
+                parent: 'urn:topic:1_2',
                 name: 'Mediebransjen',
                 subtopics: [],
               },
@@ -123,11 +124,35 @@ test('topicSelectors getSubjectMenu', () => {
         ],
       },
       {
-        id: 'urn:topic:169412',
+        id: 'urn:topic:2',
         name: 'Mediekommunikasjon',
         parent: undefined,
         subtopics: [],
       },
     ],
   );
+});
+
+test('topicSelectors getTopicPath', () => {
+  const state = {
+    locale: 'nb',
+    topics: {
+      all: {
+        'urn:subject:1': topics,
+      },
+    },
+  };
+  const topicPath1 = getTopicPath('urn:subject:1', 'urn:topic:1_2_1')(state);
+  expect(topicPath1.length).toBe(3);
+  expect(topicPath1[0].name).toBe('Idéutvikling og mediedesign');
+  expect(topicPath1[1].name).toBe('Idéutvikling');
+  expect(topicPath1[2].name).toBe('Mediebransjen');
+
+  const topicPath2 = getTopicPath('urn:subject:1', 'urn:topic:3')(state);
+  expect(topicPath2).toEqual([]);
+
+  const topicPath3 = getTopicPath('urn:subject:1', 'urn:topic:1_1')(state);
+  expect(topicPath3.length).toBe(2);
+  expect(topicPath1[0].name).toBe('Idéutvikling og mediedesign');
+  expect(topicPath1[1].name).toBe('Idéutvikling');
 });

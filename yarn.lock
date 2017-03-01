@@ -3753,15 +3753,15 @@ ndla-licenses@^0.0.6:
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.0.1.tgz#da37aa44a301cdb28cc2b39fbc12336980150040"
+ndla-tabs@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.2.0.tgz#d90332ea150f833f4b00ea50a3a20c7cb88b7e36"
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.3.tgz#65d7e74eea25a89eea7e3b1c615be3a7ede06f03"
+ndla-ui@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.8.tgz#60f03e712dd4ba7ac47a072dcac6a878e2281d4e"
   dependencies:
     react-prop-types "^0.4.0"
 

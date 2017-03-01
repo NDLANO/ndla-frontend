@@ -28,3 +28,12 @@ export const TopicShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   subtopics: PropTypes.array,
 });
+
+export const ResourceShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  introduction: PropTypes.string,
+  coverPhotoUrl: PropTypes.string,
+  contentUri: PropTypes.string.isRequired,
+});

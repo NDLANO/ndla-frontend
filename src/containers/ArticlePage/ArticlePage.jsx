@@ -10,7 +10,6 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
-
 import * as actions from './articleActions';
 import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';

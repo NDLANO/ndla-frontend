@@ -9,6 +9,8 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import { getTopic, hasFetchedTopicsBySubjectId, getSubtopics } from './topicSelectors';
 import * as actions from './topicActions';
+import { fetchTopicResources } from '../Resources/resourceSagas';
+import { getArticleIdFromResource, isArticleResource } from '../Resources/resourceHelpers';
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
@@ -31,8 +33,8 @@ export function* fetchTopics(subjectId, topicId) {
 export function* fetchTopicIntroductions(topics) {
   try {
     const ids = topics
-                  .filter(t => t.contentUri && t.contentUri.startsWith('urn:article:'))
-                  .map(t => t.contentUri.replace('urn:article:', ''));
+                  .filter(isArticleResource)
+                  .map(getArticleIdFromResource);
 
     if (ids.length === 0) {
       return;
@@ -53,7 +55,7 @@ export function* watchFetchTopicResources() {
     const topics = yield select(getSubtopics(subjectId, topicId));
 
     // TODO: Check if already fetched
-    yield call(fetchTopicIntroductions, topics);
+    yield [call(fetchTopicIntroductions, topics), call(fetchTopicResources, topicId)];
   }
 }
 
@@ -75,8 +77,8 @@ export function* watchFetchTopicArticle() {
 
     if (!topic) {
       yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
-    } else if (topic.contentUri && topic.contentUri.startsWith('urn:article:')) {
-      yield put(fetchArticle(topic.contentUri.replace('urn:article:', '')));
+    } else if (isArticleResource) {
+      yield put(fetchArticle(getArticleIdFromResource(topic)));
     }
   }
 }
