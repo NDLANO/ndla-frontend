@@ -1879,9 +1879,9 @@ eslint-config-airbnb@14.1.0:
   dependencies:
     eslint-config-airbnb-base "^11.1.0"
 
-eslint-config-ndla@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-0.1.0.tgz#70a65883fe0b0190c543a5fc134f247ecf0f4881"
+eslint-config-ndla@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-0.1.1.tgz#7459cc17f1be1d09375a0993aa7ee0a986f07004"
   dependencies:
     babel-eslint "7.1.1"
     eslint-config-airbnb "14.1.0"
