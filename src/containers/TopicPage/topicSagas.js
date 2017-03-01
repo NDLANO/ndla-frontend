@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga-effects';
 import { getTopic, hasFetchedTopicsBySubjectId, getSubtopics } from './topicSelectors';
 import * as actions from './topicActions';
 import { fetchTopicResources } from '../Resources/resourceSagas';

@@ -6,7 +6,7 @@
  *
  */
 
-import { call, put } from 'redux-saga/effects';
+import { call, put } from 'redux-saga-effects';
 import * as actions from './resourceActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as learningPathApi from './learningPathApi';

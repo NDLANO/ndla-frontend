@@ -5039,6 +5039,10 @@ redux-mock-store@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.2.tgz#38007dc38f12ca8d965c7521afee5ccacc234d03"
 
+redux-saga-effects@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/redux-saga-effects/-/redux-saga-effects-1.1.0.tgz#fba610e988eb8bef7a6e58008d9ec54943870a5f"
+
 redux-saga-test-plan@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-2.2.1.tgz#f4bdd8ab22ca582eb709c0f8cd09921d8b1a1f9f"

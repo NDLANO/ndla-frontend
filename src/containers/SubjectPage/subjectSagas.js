@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga-effects';
 import { hasFetched } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
