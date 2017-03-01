@@ -32,15 +32,15 @@ module.exports = options => ({
       {
         test: /\.jsx?|\.js?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/, // See .babelrc
-        loader: 'babel-loader',
+        use: 'babel-loader',
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ico|\.svg$|\.woff$|\.ttf$/,
-        loader: options.fileLoader,
+        use: options.fileLoader,
       },
       {
         test: /.json$/,
-        loader: 'json-loader',
+        use: 'json-loader',
       },
     ]),
   },
