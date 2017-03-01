@@ -5,6 +5,8 @@ module.exports = {
   },
   rules: {
     'react/prop-types': [ 2, {'ignore': ['children', 'className', 't'] }],
+    'react/forbid-prop-types': 1,
+    'react/require-default-props': 0,
   },
   'globals': {
     '__CLIENT__': true,

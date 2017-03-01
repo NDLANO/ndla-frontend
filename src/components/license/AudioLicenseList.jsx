@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 import getLicenseByAbbreviation from 'ndla-licenses';
 import { Icon } from 'ndla-ui';
+import { uuid } from 'ndla-util';
 import LicenseByline from './LicenseByline';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
@@ -44,7 +45,7 @@ const AudioLicenseList = ({ audios, heading, locale }) => (
     <ul className="license__list">
       <li className="license__list-item">
         <ul className="license__list">
-          { audios.map((audio, index) => <AudioLicenseInfo audio={audio} key={index} locale={locale} />) }
+          { audios.map(audio => <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />) }
         </ul>
       </li>
     </ul>

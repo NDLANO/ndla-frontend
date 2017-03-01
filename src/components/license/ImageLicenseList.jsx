@@ -7,6 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import { uuid } from 'ndla-util';
 import getLicenseByAbbreviation from 'ndla-licenses';
 import LicenseByline from './LicenseByline';
 
@@ -42,7 +43,7 @@ const ImageLicenseList = ({ images, heading, locale }) => (
     <ul className="license__list">
       <li className="license__list-item">
         <ul className="license__list">
-          { images.map((image, index) => <ImageLicenseInfo image={image} key={index} locale={locale} />) }
+          { images.map(image => <ImageLicenseInfo image={image} key={uuid()} locale={locale} />) }
         </ul>
       </li>
     </ul>

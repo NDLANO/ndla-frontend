@@ -7,6 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import { uuid } from 'ndla-util';
 import formatDate from '../../util/formatDate';
 import { injectT } from '../../i18n';
 
@@ -45,8 +46,8 @@ const Citation = ({ ...props }) => {
     <div>
       <p>{t('license.tabs.citation.explaination')}
       </p>
-      {citeMap(citation).filter(style => style.name === 'Chicago').map((style, key) =>
-        <div key={key}>
+      {citeMap(citation).filter(style => style.name === 'Chicago').map(style =>
+        <div key={uuid()}>
           <div className="c-bodybox">{style.format}</div>
         </div>)}
       <p>Vil du vite mer om referanser og hvordan man siterer kan du <a href="http://sokogskriv.no">gå til Søk & Skriv</a>.</p>
