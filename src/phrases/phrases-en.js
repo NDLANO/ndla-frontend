@@ -64,8 +64,8 @@ const phrases = {
       subjectMaterial: 'Subject material',
     },
     links: {
-      viewAllLearningPaths: 'View all learning paths \\u2192',
-      viewAllSubjectMaterials: 'View all subject material \\u2192',
+      viewAllLearningPaths: 'View all learning paths \u2192',
+      viewAllSubjectMaterials: 'View all subject material \u2192',
     },
   },
   searchPage: {
