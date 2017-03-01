@@ -9,7 +9,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { OneColumn, TopicArticle } from 'ndla-ui';
+import { OneColumn, TopicArticle, TopicBreadcrumb } from 'ndla-ui';
 import Helmet from 'react-helmet';
 
 import * as actions from './topicActions';
@@ -17,7 +17,6 @@ import * as subjectActions from '../SubjectPage/subjectActions';
 import { getTopicArticle, getTopic, getTopicPath } from './topicSelectors';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
 import TopicTabs from './TopicTabs';
-import TopicBreadcrumb from './TopicBreadcrumb';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
 import { toTopic } from '../../routes';
@@ -53,7 +52,7 @@ class TopicPage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath} toTopic={toTopic} /> : null }
+        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
         { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
         <TopicTabs subjectId={subjectId} topic={topic} />
       </OneColumn>

@@ -86,6 +86,7 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Skjul emnebeskrivelse',
     openArticleTopic: 'Se hele emnebeskrivelse',
+    breadcrumbLabel: 'Du er her:',
     tabs: {
       learningresources: 'Læringsressurser',
       topics: 'Emner',

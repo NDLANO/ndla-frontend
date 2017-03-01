@@ -74,6 +74,7 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Hide topic description',
     openArticleTopic: 'See whole topic description',
+    breadcrumbLabel: 'You are here:',
     tabs: {
       learningresources: 'Learning Resources',
       topics: 'Topics',
