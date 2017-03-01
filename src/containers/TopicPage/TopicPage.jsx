@@ -52,9 +52,9 @@ class TopicPage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
+        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
         { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
-        <TopicTabs subjectId={subjectId} topic={topic} />
+        <TopicTabs subjectId={subjectId} topic={topic} topicPath={topicPath} />
       </OneColumn>
     );
   }

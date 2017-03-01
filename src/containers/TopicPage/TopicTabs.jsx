@@ -17,13 +17,18 @@ import { injectT } from '../../i18n';
 import { ResourceShape, TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { getResourcesByTopicId } from '../Resources/resourceSelectors';
-import { toTopic } from '../../routes';
+import { toTopic as routesToTopic } from '../../routes';
 
+const toTopic = (subjectId, topicPath) => (_, subtopicId) => {
+  const topicIds = topicPath.map(topic => topic.id);
+  topicIds.push(subtopicId);
+  return routesToTopic(subjectId, ...topicIds);
+};
 
-function buildTabList(t, subtopics, resources, topicId, subjectId) {
+function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
   const tabs = [];
   if (subtopics.length > 0) {
-    tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={subtopics} /> });
+    tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic(subjectId, topicPath)} topics={subtopics} /> });
   }
   if (resources.length > 0) {
     tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
@@ -47,8 +52,8 @@ class TopicTabs extends Component {
   }
 
   render() {
-    const { subtopics, topic: { id: topicId }, subjectId, resources, t } = this.props;
-    const tabs = buildTabList(t, subtopics, resources, topicId, subjectId);
+    const { subtopics, topic: { id: topicId }, subjectId, resources, topicPath, t } = this.props;
+    const tabs = buildTabList(t, subtopics, resources, topicId, subjectId, topicPath);
     if (tabs.length === 0) return null;
     return (
       <div className="c-resources u-margin-top-large">
@@ -62,9 +67,7 @@ TopicTabs.propTypes = {
   subjectId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   topic: TopicShape.isRequired,
-  query: PropTypes.shape({
-    resource: PropTypes.string,
-  }),
+  topicPath: PropTypes.arrayOf(TopicShape),
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
   resources: PropTypes.arrayOf(ResourceShape).isRequired,
 };

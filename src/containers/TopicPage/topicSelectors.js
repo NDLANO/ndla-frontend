@@ -88,7 +88,7 @@ export const getTopicPath = (subjectId, topicId) => createSelector(
 
     const topicPath = toBreadcrumb(leaf);
 
-    return topicPath.slice(0, -1); // Remove last item (leaf topic)
+    return topicPath; // Remove last item (leaf topic)
   },
 );
 
