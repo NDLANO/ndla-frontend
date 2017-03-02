@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { spawn } from 'redux-saga-effects';
+import { fork } from 'redux-saga-effects';
 import articleSagas from './containers/ArticlePage/articleSagas';
 import searchSagas from './containers/SearchPage/searchSagas';
 import subjectSagas from './containers/SubjectPage/subjectSagas';
@@ -14,10 +14,10 @@ import resourceSagas from './containers/Resources/resourceSagas';
 
 export default function* root() {
   yield [
-    ...articleSagas.map(s => spawn(s)),
-    ...searchSagas.map(s => spawn(s)),
-    ...subjectSagas.map(s => spawn(s)),
-    ...topicSagas.map(s => spawn(s)),
-    ...resourceSagas.map(s => spawn(s)),
+    ...articleSagas.map(s => fork(s)),
+    ...searchSagas.map(s => fork(s)),
+    ...subjectSagas.map(s => fork(s)),
+    ...topicSagas.map(s => fork(s)),
+    ...resourceSagas.map(s => fork(s)),
   ];
 }
