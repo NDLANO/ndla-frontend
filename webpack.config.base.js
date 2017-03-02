@@ -38,7 +38,13 @@ module.exports = options => ({
           options: {
             babelrc: false,
             presets: [
-              'react', ['es2015', { modules: false }],
+              'react', ['env', {
+                targets: {
+                  browsers: ['last 2 versions', 'IE >= 11'],
+                },
+                useBuiltIns: true,
+                modules: false,
+              }],
             ],
             plugins: ['transform-object-rest-spread'],
           },
