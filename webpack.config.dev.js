@@ -12,7 +12,7 @@ const plugins = [
 module.exports = require('./webpack.config.base')({
   entry: {
     // Add hot reloading in development
-    main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true&quiet=true'],
+    main: ['webpack-hot-middleware/client?reload=true&quiet=true'],
     // Inject styles for embed development.
     embed: ['./style/index.css'],
   },
@@ -36,5 +36,5 @@ module.exports = require('./webpack.config.base')({
   fileLoader: 'file-loader?name=[name].[ext]',
 
   // Emit a source map for easier debugging
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-source-map',
 });

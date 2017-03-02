@@ -6,72 +6,99 @@
  *
  */
 
-import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react';
+import { withRouter } from 'react-router';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Tabs from 'ndla-tabs';
-import { TopicIntroductionList } from 'ndla-ui';
-import { getSubtopicsWithIntroduction } from '../TopicPage/topicSelectors';
-import * as actions from '../TopicPage/topicActions';
+import { ResourceList, ResourceSubsetList } from 'ndla-ui';
 import { injectT } from '../../i18n';
-import { TopicShape } from '../../shapes';
-import { toTopic } from '../../routes';
+import { toTopicResourceTab } from '../../routes';
+import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
+import { resourceToLinkProps } from './resourceHelpers';
 
 
-function buildLicenseTabList(t, topics, subjectId) {
-  const tabs = [];
+function buildTabList(t, location, articleResources, learningPathResources) {
+  // Must be in same order as tabs after "all" tab
+  const resourceGroups = [
+    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources.slice(0, 2) },
+    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources.slice(0, 2) },
+  ];
 
-  tabs.push({ key: 'topics', displayName: t('resources.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic} topics={topics} /> });
-  tabs.push({ key: 'learningresources', displayName: t('resources.tabs.learningresources'), content: <p>Læringsressurser</p> });
+  const toResourceTab = index => toTopicResourceTab(location, index + 1);
 
-  return tabs;
+  return [
+    {
+      title: t('resources.tabs.all'),
+      content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />,
+    },
+
+    {
+      title: t('resources.tabs.learningpaths'),
+      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
+    },
+    {
+      title: t('resources.tabs.subjectMaterial'),
+      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
+    },
+
+  ];
 }
 
 
 class Resources extends Component {
   componentWillMount() {
-    const { subjectId, topicId, fetchTopicResources } = this.props;
-    fetchTopicResources({ subjectId, topicId });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { topic, subjectId, fetchTopicResources } = this.props;
-    if (nextProps.topic.id !== topic.id) {
-      fetchTopicResources({ subjectId, topicId: nextProps.topic.id });
-    }
+  componentWillReceiveProps() {
   }
 
   render() {
-    const { topics, subjectId, t } = this.props;
-    const tabs = buildLicenseTabList(t, topics, subjectId);
+    const { t, articleResources, router, learningPathResources } = this.props;
+    const { location } = router;
+    const tabs = buildTabList(t, location, articleResources, learningPathResources);
+
+    const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
+
     return (
-      <div className="c-resources u-margin-top-large">
-        <Tabs tabs={tabs} />
+      <div className="u-margin-top-large">
+        <Tabs
+          modifier="muted"
+          tabs={tabs}
+          onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
+          selectedIndex={selectedResourceTabIndex}
+        />
       </div>
     );
   }
 }
 
 Resources.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string.isRequired,
-  fetchTopicResources: PropTypes.func.isRequired,
-  topic: TopicShape.isRequired,
-  topics: PropTypes.arrayOf(TopicShape).isRequired,
+  articleResources: PropTypes.array,
+  learningPathResources: PropTypes.array,
+  router: PropTypes.shape({
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        resourceTabIndex: PropTypes.string,
+      }),
+    }).isRequired,
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 const mapDispatchToProps = {
-  fetchTopicResources: actions.fetchTopicResources,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps;
+  const { topicId } = ownProps;
   return ({
-    topics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
+    articleResources: getArticleResourcesByTopicId(topicId)(state),
+    learningPathResources: getLearningPathResourcesByTopicId(topicId)(state),
   });
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   injectT,
+  withRouter,
 )(Resources);
