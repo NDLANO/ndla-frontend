@@ -47,7 +47,7 @@ const LicenseBox = ({ article, license, locale, t }) => {
   const contentType = article.contentType.toLowerCase();
   const tabs = buildLicenseTabList(article, license, locale, t);
   return (
-    <div>
+    <div className="">
       <h1 className="license__heading">{t('license.tabs.heading', { contentType })}</h1>
       <p className="license__introduction">{t('license.tabs.introduction', { contentType })}</p>
       <Tabs tabs={tabs} />
@@ -57,7 +57,9 @@ const LicenseBox = ({ article, license, locale, t }) => {
 
 
 LicenseBox.propTypes = {
-  license: PropTypes.object.isRequired,
+  license: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
   locale: PropTypes.string.isRequired,
   article: ArticleShape.isRequired,
 };

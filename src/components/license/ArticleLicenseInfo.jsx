@@ -8,9 +8,9 @@
 
 import React, { PropTypes } from 'react';
 import { uuid } from 'ndla-util';
+import { LicenseByline } from 'ndla-ui';
 import { ArticleShape } from '../../shapes';
 import { injectT } from '../../i18n';
-import LicenseByline from './LicenseByline';
 
 const ArticleLicenseInfo = ({ t, license, article }) => (
   <div>

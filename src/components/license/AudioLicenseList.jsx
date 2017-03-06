@@ -8,15 +8,13 @@
 
 import React, { PropTypes } from 'react';
 import getLicenseByAbbreviation from 'ndla-licenses';
-import { Icon } from 'ndla-ui';
+import { Icon, LicenseByline } from 'ndla-ui';
 import { uuid } from 'ndla-util';
-import LicenseByline from './LicenseByline';
 
 const AudioLicenseInfo = ({ audio, locale }) => (
   <li className="license__list-item">
     <LicenseByline
       license={getLicenseByAbbreviation(audio.copyright.license.license, locale)}
-      locale={locale}
     >
       <i>{audio.title} </i>
       { audio.copyright.authors.map(author => author.name).join(', ') }

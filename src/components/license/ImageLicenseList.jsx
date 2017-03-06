@@ -8,15 +8,14 @@
 
 import React, { PropTypes } from 'react';
 import { uuid } from 'ndla-util';
+import { LicenseByline } from 'ndla-ui';
 import getLicenseByAbbreviation from 'ndla-licenses';
-import LicenseByline from './LicenseByline';
 
 const ImageLicenseInfo = ({ image, locale }) => (
   <li className="license__list-item">
     <img alt={image.altText} src={image.src} />
     <LicenseByline
       license={getLicenseByAbbreviation(image.copyright.license.license, locale)}
-      locale={locale}
     >
       Fotograf: { image.copyright.authors.map(author => author.name).join(', ') }
       <div><a target="_blank" rel="noopener noreferrer" href={image.src}>Åpne bilde i stort format</a></div>

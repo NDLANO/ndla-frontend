@@ -9,9 +9,10 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLicenseByAbbreviation from 'ndla-licenses';
+import { LicenseByline } from 'ndla-ui';
+import { ArticleShape } from '../../../shapes';
 import { injectT } from '../../../i18n';
 import LicenseBox from '../../../components/license/LicenseBox';
-import LicenseByline from '../../../components/license/LicenseByline';
 
 class ArticleLicenses extends Component {
   constructor() {
@@ -33,19 +34,15 @@ class ArticleLicenses extends Component {
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
     const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
-    const expandedIcon = classnames({
-      'u-expanded--svg': expanded,
-    });
-
 
     return (
-      <div className={classnames('license', { 'u-expanded': expanded })}>
+      <div className={classnames('c-licensebox license', { 'u-expanded': expanded })}>
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
           {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
         </button>
 
         {showByline ?
-          <LicenseByline license={license} locale={locale} iconsClassName={expandedIcon}>
+          <LicenseByline license={license}>
             <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
           </LicenseByline>
           :
@@ -63,7 +60,7 @@ ArticleLicenses.defaultProps = {
 };
 
 ArticleLicenses.propTypes = {
-  article: PropTypes.object.isRequired,
+  article: ArticleShape.isRequired,
   contentType: PropTypes.string,
   locale: PropTypes.string,
   licenseType: PropTypes.string,
