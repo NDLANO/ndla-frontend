@@ -42,3 +42,12 @@ export const LicenseShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
 });
+
+export const CopyrightObjectShape = PropTypes.shape({
+  title: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  copyright: PropTypes.shape({
+    authors: PropTypes.array.isRequired,
+  }).isRequired,
+});

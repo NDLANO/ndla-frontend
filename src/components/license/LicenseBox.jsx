@@ -25,7 +25,7 @@ function buildLicenseTabList(article, license, locale, t) {
   const tabs = [];
 
   if (images.length > 0) {
-    tabs.push({ title: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.heading')} locale={locale} /> });
+    tabs.push({ title: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.images.heading')} description={t('license.images.description')} locale={locale} /> });
   }
 
   if (article) {

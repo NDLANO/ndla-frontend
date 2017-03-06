@@ -67,6 +67,10 @@ const phrases = {
       images: 'Bilder',
       audios: 'Lydfiler',
     },
+    images: {
+      heading: 'Slik bruker du bilder fra artikkelen',
+      description: 'Klikk på lisensene for å se reglene. Husk å kopier teksten som skal legges ved bildet der du bruker det.',
+    },
     articleText: 'Artikkeltekst: Last ned som (word), (txt), (pdf)',
   },
   resources: {

@@ -55,6 +55,10 @@ const phrases = {
       images: 'Images',
       audios: 'Audio files',
     },
+    images: {
+      heading: 'TODO: image license heading text',
+      description: 'TODO: image license description text',
+    },
     articleText: 'Article text: Download as (word), (txt), (pdf)',
   },
   resources: {

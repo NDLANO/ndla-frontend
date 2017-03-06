@@ -3,7 +3,7 @@
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
- * FRI OG BEGRENSET
+ *
  */
 
 import React, { Component, PropTypes } from 'react';
