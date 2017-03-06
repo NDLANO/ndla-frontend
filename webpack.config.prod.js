@@ -24,9 +24,9 @@ module.exports = require('./webpack.config.base')({
     {
       // Extract css to seprate file. Run css url's trough file loader for hashing in prod build
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: ['css-loader', 'postcss-loader'],
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'postcss-loader'],
       }),
     },
   ],

@@ -7,7 +7,6 @@
  */
 
 import { compose, createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware, { END } from 'redux-saga';
 
@@ -22,7 +21,6 @@ export default function configureStore(initialState, history) {
 
   const createFinalStore = compose(
     applyMiddleware(
-      thunkMiddleware,
       sagaMiddleware,
       errorReporter,
       middleware,

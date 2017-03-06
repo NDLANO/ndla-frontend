@@ -76,8 +76,8 @@ const phrases = {
       subjectMaterial: 'Fagstoff',
     },
     links: {
-      viewAllLearningPaths: 'Se alle læringsstier \\u2192',
-      viewAllSubjectMaterials: 'Se alt fagstoff \\u2192',
+      viewAllLearningPaths: 'Se alle læringsstier \u2192',
+      viewAllSubjectMaterials: 'Se alt fagstoff \u2192',
     },
   },
   searchPage: {

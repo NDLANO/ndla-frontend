@@ -71,6 +71,7 @@ SearchPage.propTypes = {
       page: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  clearSearchResult: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.array.isRequired,

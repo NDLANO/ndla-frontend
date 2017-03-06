@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga-effects';
 import { push } from 'react-router-redux';
 
 import { getLocale } from '../Locale/localeSelectors';

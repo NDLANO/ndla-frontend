@@ -7,6 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import { uuid } from 'ndla-util';
 import { ArticleShape } from '../../shapes';
 import { injectT } from '../../i18n';
 import LicenseByline from './LicenseByline';
@@ -27,7 +28,7 @@ const ArticleLicenseInfo = ({ t, license, article }) => (
         <ul className="license__list">
           <h4>{ t('license.creators', { num: article.copyright.authors.length })}</h4>
           {
-            article.copyright.authors.map((author, i) => (<li className="license__list-item" key={i}>{author.name} {author.type ? `(${author.type})` : ''}</li>))
+            article.copyright.authors.map(author => (<li className="license__list-item" key={uuid()}>{author.name} {author.type ? `(${author.type})` : ''}</li>))
           }
         </ul>
       </div>

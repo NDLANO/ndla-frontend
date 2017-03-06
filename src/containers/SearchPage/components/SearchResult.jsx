@@ -15,7 +15,7 @@ const SearchResult = ({ article, locale }) => (
   <div className="search-result">
     <Link className="search-result_link" to={toArticle(article.id)}>
       <h3 className="search-result_title">
-        { titleI18N(article, locale) }
+        { titleI18N(article, locale, true) }
       </h3>
     </Link>
   </div>
