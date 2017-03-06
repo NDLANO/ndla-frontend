@@ -8,11 +8,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import getLicenseByAbbreviation from 'ndla-licenses';
 import { LicenseByline } from 'ndla-ui';
-import { ArticleShape } from '../../../shapes';
-import { injectT } from '../../../i18n';
-import LicenseBox from '../../../components/license/LicenseBox';
+import { ArticleShape, LicenseShape } from '../../../shapes';
 
 class ArticleLicenses extends Component {
   constructor() {
@@ -30,15 +27,14 @@ class ArticleLicenses extends Component {
   }
 
   render() {
-    const { article, locale, licenseType, contentType, t, showByline } = this.props;
+    const { article, openTitle, closeTitle, children, license, showByline } = this.props;
     const authorsList = article.copyright.authors.map(author => author.name).join(', ');
-    const license = getLicenseByAbbreviation(licenseType, locale);
     const { expanded } = this.state;
 
     return (
       <div className={classnames('c-licensebox license', { 'u-expanded': expanded })}>
         <button className="un-button license-toggler site-nav_link" onClick={this.toogleLicenseBox} >
-          {expanded ? t('article.closeLicenseBox') : t('article.openLicenseBox', { contentType: contentType.toLowerCase() })}
+          {expanded ? closeTitle : openTitle}
         </button>
 
         {showByline ?
@@ -49,7 +45,7 @@ class ArticleLicenses extends Component {
           null
         }
 
-        { expanded && <LicenseBox article={article} locale={locale} license={license} /> }
+        { expanded ? children : null }
       </div>
     );
   }
@@ -61,11 +57,11 @@ ArticleLicenses.defaultProps = {
 
 ArticleLicenses.propTypes = {
   article: ArticleShape.isRequired,
-  contentType: PropTypes.string,
-  locale: PropTypes.string,
-  licenseType: PropTypes.string,
-  licenseHandler: PropTypes.func,
+  license: LicenseShape.isRequired,
+  openTitle: PropTypes.string.isRequired,
+  closeTitle: PropTypes.string.isRequired,
   showByline: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
-export default injectT(ArticleLicenses);
+export default ArticleLicenses;

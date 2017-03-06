@@ -37,3 +37,8 @@ export const ResourceShape = PropTypes.shape({
   coverPhotoUrl: PropTypes.string,
   contentUri: PropTypes.string.isRequired,
 });
+
+export const LicenseShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+});

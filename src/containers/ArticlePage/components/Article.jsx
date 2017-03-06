@@ -15,8 +15,10 @@ import {
   addAsideClickListener,
   removeEventListenerForResize,
   removeAsideClickListener } from 'ndla-article-scripts';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import { injectT } from '../../../i18n';
 import ArticleLicenses from './ArticleLicenses';
+import LicenseBox from '../../../components/license/LicenseBox';
 
 
 class Article extends Component {
@@ -32,30 +34,35 @@ class Article extends Component {
     removeAsideClickListener();
   }
 
-  render() {
-    const { article, locale } = this.props;
-
+  renderArticleLicense(showByline = false) {
+    const { article, locale, t } = this.props;
     const licenseType = article.copyright.license.license;
+    const license = getLicenseByAbbreviation(licenseType, locale);
+
+    return (
+      <ArticleLicenses
+        showByline={showByline}
+        article={article}
+        license={license}
+        openTitle={t('article.openLicenseBox', { contentType: article.contentType.toLowerCase() })}
+        closeTitle={t('article.closeLicenseBox')}
+      >
+        <LicenseBox article={article} locale={locale} license={license} />
+      </ArticleLicenses>
+    );
+  }
+
+  render() {
+    const { article } = this.props;
 
     return (
       <UIArticle>
-        <ArticleLicenses
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          contentType={article.contentType}
-        />
+        {this.renderArticleLicense()}
         <h1>{article.title}</h1>
         <UIArticle.Introduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        { article.footNotes ? <UIArticle.footNotes footNotes={article.footNotes} /> : null }
-        <ArticleLicenses
-          showByline
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          contentType={article.contentType}
-        />
+        { article.footNotes ? <UIArticle.FootNotes footNotes={article.footNotes} /> : null }
+        {this.renderArticleLicense(true)}
       </UIArticle>
     );
   }
