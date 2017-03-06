@@ -13,47 +13,47 @@ import getLicenseByAbbreviation from 'ndla-licenses';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const ImageLicenseInfo = ({ image, locale }) => (
+const TextLicenseInfo = ({ text, locale }) => (
   <li className="o-media c-medialist__item">
     <div className="o-media__img c-medialist__img">
-      <img width="260" alt={image.altText} src={`${image.src}?width=260`} />
+      <Icon.Document className="c-medialist__icon" />
     </div>
     <div className="o-media__body c-medialist__body">
+      {text.title ? <h3 className="c-medialist__title">{text.title} </h3> : null}
       <ClickableLicenseByline
-        license={getLicenseByAbbreviation(image.copyright.license.license, locale)}
+        license={getLicenseByAbbreviation(text.copyright.license.license, locale)}
       />
       <div className="c-medialist__actions">
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Copy className="c-modal__button-icon" /> Kopier referanse</button>
-        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Link className="c-modal__button-icon" /> Gå til kilde</button>
-        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.OpenWindow className="c-modal__button-icon" /> Vis bilde</button>
+        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Download className="c-modal__button-icon" /> Last ned</button>
       </div>
       <ul className="c-medialist__meta">
-        { image.copyright.authors.map(author => <li key={uuid()} className="c-medialist__meta-item">{author.type}: {author.name}</li>)}
+        { text.copyright.authors.map(author => <li key={uuid()} className="c-medialist__meta-item">{author.type}: {author.name}</li>)}
       </ul>
     </div>
   </li>
 );
 
-ImageLicenseInfo.propTypes = {
+TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  image: CopyrightObjectShape.isRequired,
+  text: CopyrightObjectShape,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale }) => (
+const TextLicenseList = ({ texts, heading, description, locale }) => (
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
     <ul className="c-medialist">
-      { images.map(image => <ImageLicenseInfo image={image} key={uuid()} locale={locale} />) }
+      { texts.map(text => <TextLicenseInfo text={text} key={uuid()} locale={locale} />) }
     </ul>
   </div>
 );
 
-ImageLicenseList.propTypes = {
+TextLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(CopyrightObjectShape),
+  texts: PropTypes.arrayOf(CopyrightObjectShape),
 };
 
-export default ImageLicenseList;
+export default TextLicenseList;

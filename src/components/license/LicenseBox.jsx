@@ -12,9 +12,8 @@ import Tabs from 'ndla-tabs';
 import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
-import ArticleLicenseInfo from './ArticleLicenseInfo';
+import TextLicenseList from './TextLicenseList';
 import Citation from './Citation';
-import TextDownloadList from './TextDownloadList';
 import { ArticleShape } from '../../shapes';
 
 
@@ -25,18 +24,33 @@ function buildLicenseTabList(article, license, locale, t) {
   const tabs = [];
 
   if (images.length > 0) {
-    tabs.push({ title: t('license.tabs.images'), content: <ImageLicenseList images={images} heading={t('license.images.heading')} description={t('license.images.description')} locale={locale} /> });
+    tabs.push({
+      title: t('license.tabs.images'),
+      content: (
+        <ImageLicenseList
+          images={images}
+          heading={t('license.images.heading')}
+          description={t('license.images.description')}
+          locale={locale}
+        />),
+    });
   }
 
-  if (article) {
-    tabs.push({ title: t('license.tabs.article'), content: (<ArticleLicenseInfo article={article} license={license} />) });
-  }
+  tabs.push({
+    title: t('license.tabs.texts'),
+    content: (
+      <TextLicenseList
+        texts={[{ type: 'text', src: location.href, copyright: article.copyright }]}
+        heading={t('license.images.heading')}
+        description={t('license.images.description')}
+        locale={locale}
+      />),
+  });
 
   if (audios.length > 0) {
     tabs.push({ title: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} /> });
   }
 
-  tabs.push({ title: t('license.tabs.text'), content: <TextDownloadList /> });
   tabs.push({ title: t('license.tabs.cite'), content: <Citation article={article} /> });
 
   return tabs;

@@ -50,7 +50,7 @@ const phrases = {
     tabs: {
       heading: 'Cite or reuse {contentType}:',
       article: 'Article',
-      text: 'Text',
+      texts: 'Texts',
       cite: 'Cite',
       images: 'Images',
       audios: 'Audio files',
@@ -59,7 +59,10 @@ const phrases = {
       heading: 'TODO: image license heading text',
       description: 'TODO: image license description text',
     },
-    articleText: 'Article text: Download as (word), (txt), (pdf)',
+    texts: {
+      heading: 'TODO: text license heading text',
+      description: 'TODO: text license description text',
+    },
   },
   resources: {
     tabs: {

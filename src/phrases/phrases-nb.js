@@ -57,7 +57,7 @@ const phrases = {
       eller hvis noen skal tjene penger på det. Under kan du kan du se hvordan du kan bruke innholdet
       i {contentType}.`,
       article: 'Artikkel',
-      text: 'Tekst',
+      texts: 'Tekst',
       cite: 'Sitere',
       citation: {
         explaination: `Når du siterer tekster fra NDLA må du vise hvor du har funnet dem
@@ -71,7 +71,10 @@ const phrases = {
       heading: 'Slik bruker du bilder fra artikkelen',
       description: 'Klikk på lisensene for å se reglene. Husk å kopier teksten som skal legges ved bildet der du bruker det.',
     },
-    articleText: 'Artikkeltekst: Last ned som (word), (txt), (pdf)',
+    texts: {
+      heading: 'Slik bruker du tekst fra artikkelen',
+      description: 'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her. Klikk på lisensene for å se reglene for hver enkelt del.',
+    },
   },
   resources: {
     tabs: {
