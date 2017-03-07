@@ -61,7 +61,7 @@ class Resources extends Component {
     const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
 
     return (
-      <div className="u-margin-top-large">
+      <div className="u-margin-top-huge">
         <Tabs
           modifier="muted"
           tabs={tabs}

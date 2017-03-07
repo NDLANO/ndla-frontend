@@ -10,7 +10,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
-import { TopicIntroductionList } from 'ndla-ui';
+import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from './topicSelectors';
 import * as actions from './topicActions';
 import { injectT } from '../../i18n';
@@ -68,9 +68,9 @@ class TopicTabs extends Component {
     const tabs = buildTabList(t, subtopics, resources, topicId, subjectId, topicPath);
     if (tabs.length === 0) return null;
     return (
-      <div className="c-resources u-margin-top-large">
+      <ResourceWrapper>
         <Tabs tabs={tabs} />
-      </div>
+      </ResourceWrapper>
     );
   }
 }
