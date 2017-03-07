@@ -75,6 +75,9 @@ const phrases = {
       heading: 'Slik bruker du tekst fra artikkelen',
       description: 'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her. Klikk på lisensene for å se reglene for hver enkelt del.',
     },
+    audios: {
+      heading: 'Slik bruker du lydfiler',
+    },
   },
   resources: {
     tabs: {

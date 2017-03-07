@@ -8,30 +8,23 @@
 
 import React, { PropTypes } from 'react';
 import { uuid } from 'ndla-util';
-import { ClickableLicenseByline } from 'ndla-ui';
-import getLicenseByAbbreviation from 'ndla-licenses';
+import { MediaList, MediaListItem, MediaListItemImage, MediaListItemBody, MediaListItemActions, MediaListItemMeta } from './MediaList';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
 const TextLicenseInfo = ({ text, locale }) => (
-  <li className="o-media c-medialist__item">
-    <div className="o-media__img c-medialist__img">
+  <MediaListItem>
+    <MediaListItemImage>
       <Icon.Document className="c-medialist__icon" />
-    </div>
-    <div className="o-media__body c-medialist__body">
-      {text.title ? <h3 className="c-medialist__title">{text.title} </h3> : null}
-      <ClickableLicenseByline
-        license={getLicenseByAbbreviation(text.copyright.license.license, locale)}
-      />
-      <div className="c-medialist__actions">
+    </MediaListItemImage>
+    <MediaListItemBody license={text.copyright.license.license} title={text.title} locale={locale}>
+      <MediaListItemActions>
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Copy className="c-modal__button-icon" /> Kopier referanse</button>
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Download className="c-modal__button-icon" /> Last ned</button>
-      </div>
-      <ul className="c-medialist__meta">
-        { text.copyright.authors.map(author => <li key={uuid()} className="c-medialist__meta-item">{author.type}: {author.name}</li>)}
-      </ul>
-    </div>
-  </li>
+      </MediaListItemActions>
+      <MediaListItemMeta authors={text.copyright.authors} />
+    </MediaListItemBody>
+  </MediaListItem>
 );
 
 TextLicenseInfo.propTypes = {
@@ -43,9 +36,9 @@ const TextLicenseList = ({ texts, heading, description, locale }) => (
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
-    <ul className="c-medialist">
+    <MediaList>
       { texts.map(text => <TextLicenseInfo text={text} key={uuid()} locale={locale} />) }
-    </ul>
+    </MediaList>
   </div>
 );
 

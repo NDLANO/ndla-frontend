@@ -13,7 +13,6 @@ import { injectT } from '../../i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
-import Citation from './Citation';
 import { ArticleShape } from '../../shapes';
 
 
@@ -41,17 +40,15 @@ function buildLicenseTabList(article, license, locale, t) {
     content: (
       <TextLicenseList
         texts={[{ type: 'text', src: location.href, copyright: article.copyright }]}
-        heading={t('license.images.heading')}
-        description={t('license.images.description')}
+        heading={t('license.texts.heading')}
+        description={t('license.texts.description')}
         locale={locale}
       />),
   });
 
   if (audios.length > 0) {
-    tabs.push({ title: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.heading')} locale={locale} /> });
+    tabs.push({ title: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.audios.heading')} locale={locale} /> });
   }
-
-  tabs.push({ title: t('license.tabs.cite'), content: <Citation article={article} /> });
 
   return tabs;
 }

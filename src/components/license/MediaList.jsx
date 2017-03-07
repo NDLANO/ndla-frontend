@@ -38,8 +38,9 @@ export const MediaListItemImage = ({ children }) =>
     {children}
   </div>;
 
-export const MediaListItemBody = ({ children, license, locale }) =>
+export const MediaListItemBody = ({ children, license, title, locale }) =>
   <div {...oClasses('body', null, cClasses('body').className)}>
+    { title ? <h3 className="c-medialist__title">{title} </h3> : null}
     <ClickableLicenseByline
       license={getLicenseByAbbreviation(license, locale)}
     />
@@ -50,6 +51,7 @@ MediaListItemBody.propTypes = {
   children: PropTypes.node.isRequired,
   license: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 export const MediaListItemActions = ({ children }) =>

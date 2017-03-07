@@ -63,6 +63,9 @@ const phrases = {
       heading: 'TODO: text license heading text',
       description: 'TODO: text license description text',
     },
+    audios: {
+      heading: 'TODO: audio license heading text',
+    },
   },
   resources: {
     tabs: {

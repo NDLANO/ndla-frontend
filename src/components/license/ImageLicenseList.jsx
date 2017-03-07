@@ -20,7 +20,7 @@ const ImageLicenseInfo = ({ image, locale }) => (
     <MediaListItemBody license={image.copyright.license.license} locale={locale}>
       <MediaListItemActions>
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Copy className="c-modal__button-icon" /> Kopier referanse</button>
-        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Link className="c-modal__button-icon" /> Gå til kilde</button>
+        <a href={image.src} className="c-button c-button--small c-button--transparent"><Icon.Link className="c-modal__button-icon" /> Gå til kilde</a>
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.OpenWindow className="c-modal__button-icon" /> Vis bilde</button>
       </MediaListItemActions>
       <MediaListItemMeta authors={image.copyright.authors} />
