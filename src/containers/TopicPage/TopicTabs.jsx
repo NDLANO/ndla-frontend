@@ -17,12 +17,11 @@ import { injectT } from '../../i18n';
 import { ResourceShape, TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { getResourcesByTopicId } from '../Resources/resourceSelectors';
-import { toTopic as routesToTopic } from '../../routes';
+import { toTopicPartial } from '../../routes';
 
-const toTopic = (subjectId, topicPath) => (_, subtopicId) => {
+const toTopic = (subjectId, topicPath) => {
   const topicIds = topicPath.map(topic => topic.id);
-  topicIds.push(subtopicId);
-  return routesToTopic(subjectId, ...topicIds);
+  return toTopicPartial(subjectId, ...topicIds);
 };
 
 function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {

@@ -14,7 +14,9 @@ import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
 import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
-import { toTopic } from '../../routes';
+import { toTopicPartial } from '../../routes';
+
+const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -43,7 +45,7 @@ class SubjectPage extends Component {
         { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
         <TopicIntroductionList
           subjectId={subject.id}
-          toTopic={toTopic}
+          toTopic={toTopic(subject.id)}
           topics={topics}
           goToTopicTitle="Gå til emne"
           goToTopicResourcesTitle="Se fagstoff"
