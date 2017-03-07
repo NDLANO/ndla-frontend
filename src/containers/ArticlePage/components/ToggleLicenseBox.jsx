@@ -30,7 +30,7 @@ class ToggleLicenseBox extends Component {
     const { expanded } = this.state;
 
     return (
-      <div className={classnames('c-licensebox license', { 'u-expanded': expanded })}>
+      <div className={classnames('license c-licensebox', { 'c-licensebox--expanded': expanded })}>
         <Button stripped className="license-toggler" onClick={this.toogleLicenseBox} >
           {expanded ? closeTitle : openTitle}
         </Button>
