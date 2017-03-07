@@ -24,7 +24,7 @@ const MastheadContainer = ({ t, subject, topics }) => (
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
       { subject ?
-        <ClickToggle title={subject.name} className="l-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
+        <ClickToggle title={subject.name} className="c-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
           <TopicMenu subjectId={subject.id} toTopic={toTopicWithSubjectIdBound(subject.id)} topics={topics} />
         </ClickToggle>
             : null

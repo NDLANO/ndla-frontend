@@ -41,7 +41,14 @@ class SubjectPage extends Component {
     return (
       <OneColumn>
         { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-        <TopicIntroductionList subjectId={subject.id} toTopic={toTopic} topics={topics} />
+        <TopicIntroductionList
+          subjectId={subject.id}
+          toTopic={toTopic}
+          topics={topics}
+          goToTopicTitle="Gå til emne"
+          goToTopicResourcesTitle="Se fagstoff"
+          toTopicResources={() => '#'}
+        />
       </OneColumn>
     );
   }

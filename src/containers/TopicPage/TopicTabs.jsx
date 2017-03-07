@@ -28,7 +28,19 @@ const toTopic = (subjectId, topicPath) => (_, subtopicId) => {
 function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
   const tabs = [];
   if (subtopics.length > 0) {
-    tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic(subjectId, topicPath)} topics={subtopics} /> });
+    tabs.push({
+      title: t('topicPage.tabs.topics'),
+      content: (
+        <TopicIntroductionList
+          subjectId={subjectId}
+          goToTopicTitle="Gå til emne"
+          goToTopicResourcesTitle="Se fagstoff"
+          toTopicResources={() => '#'}
+          toTopic={toTopic(subjectId, topicPath)}
+          topics={subtopics}
+        />
+      ),
+    });
   }
   if (resources.length > 0) {
     tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
