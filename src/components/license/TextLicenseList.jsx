@@ -12,41 +12,41 @@ import { MediaList, MediaListItem, MediaListItemImage, MediaListItemBody, MediaL
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const ImageLicenseInfo = ({ image, locale }) => (
+const TextLicenseInfo = ({ text, locale }) => (
   <MediaListItem>
     <MediaListItemImage>
-      <img width="260" alt={image.altText} src={`${image.src}?width=260`} />
+      <Icon.Document className="c-medialist__icon" />
     </MediaListItemImage>
-    <MediaListItemBody license={image.copyright.license.license} locale={locale}>
+    <MediaListItemBody license={text.copyright.license.license} title={text.title} locale={locale}>
       <MediaListItemActions>
         <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Copy className="c-modal__button-icon" /> Kopier referanse</button>
-        <a href={image.src} className="c-button c-button--small c-button--transparent"><Icon.Link className="c-modal__button-icon" /> Gå til kilde</a>
-        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.OpenWindow className="c-modal__button-icon" /> Vis bilde</button>
+        <button className="c-button c-button--small c-button--transparent" type="button"><Icon.Download className="c-modal__button-icon" /> Last ned</button>
       </MediaListItemActions>
-      <MediaListItemMeta authors={image.copyright.authors} />
+      <MediaListItemMeta authors={text.copyright.authors} />
     </MediaListItemBody>
   </MediaListItem>
 );
 
-ImageLicenseInfo.propTypes = {
+TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  image: CopyrightObjectShape.isRequired,
+  text: CopyrightObjectShape,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale }) => (
+const TextLicenseList = ({ texts, heading, description, locale }) => (
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
     <MediaList>
-      { images.map(image => <ImageLicenseInfo image={image} key={uuid()} locale={locale} />) }
+      { texts.map(text => <TextLicenseInfo text={text} key={uuid()} locale={locale} />) }
     </MediaList>
   </div>
 );
 
-ImageLicenseList.propTypes = {
+TextLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(CopyrightObjectShape) };
+  texts: PropTypes.arrayOf(CopyrightObjectShape),
+};
 
-export default ImageLicenseList;
+export default TextLicenseList;

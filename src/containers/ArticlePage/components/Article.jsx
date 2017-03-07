@@ -8,15 +8,17 @@
 
 import React, { PropTypes, Component } from 'react';
 
-import { Article as UIArticle } from 'ndla-ui';
+import { Article as UIArticle, LicenseByline } from 'ndla-ui';
 import {
   addEventListenerForResize,
   updateIFrameDimensions,
   addAsideClickListener,
   removeEventListenerForResize,
   removeAsideClickListener } from 'ndla-article-scripts';
+import getLicenseByAbbreviation from 'ndla-licenses';
 import { injectT } from '../../../i18n';
-import ArticleLicenses from './ArticleLicenses';
+import ToggleLicenseBox from './ToggleLicenseBox';
+import LicenseBox from '../../../components/license/LicenseBox';
 
 
 class Article extends Component {
@@ -32,30 +34,39 @@ class Article extends Component {
     removeAsideClickListener();
   }
 
-  render() {
-    const { article, locale } = this.props;
-
+  renderToggleLicenseBox(showByline = false) {
+    const { article, locale, t } = this.props;
     const licenseType = article.copyright.license.license;
+    const authorsList = article.copyright.authors.map(author => author.name).join(', ');
+    const license = getLicenseByAbbreviation(licenseType, locale);
+
+    return (
+      <ToggleLicenseBox
+        openTitle={t('article.openLicenseBox', { contentType: article.contentType.toLowerCase() })}
+        closeTitle={t('article.closeLicenseBox')}
+        licenseBox={<LicenseBox article={article} locale={locale} license={license} />}
+      >
+        { showByline ?
+          <LicenseByline license={license}>
+            <span className="article_meta">{authorsList}. Publisert: {article.created}</span>.
+          </LicenseByline>
+          : null
+        }
+      </ToggleLicenseBox>
+    );
+  }
+
+  render() {
+    const { article } = this.props;
 
     return (
       <UIArticle>
-        <ArticleLicenses
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          contentType={article.contentType}
-        />
+        {this.renderToggleLicenseBox()}
         <h1>{article.title}</h1>
         <UIArticle.Introduction introduction={article.introduction} />
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        { article.footNotes ? <UIArticle.footNotes footNotes={article.footNotes} /> : null }
-        <ArticleLicenses
-          showByline
-          article={article}
-          locale={locale}
-          licenseType={licenseType}
-          contentType={article.contentType}
-        />
+        { article.footNotes ? <UIArticle.FootNotes footNotes={article.footNotes} /> : null }
+        {this.renderToggleLicenseBox(true)}
       </UIArticle>
     );
   }

@@ -75,7 +75,7 @@
     "ndla-article-scripts": "^0.0.1",
     "ndla-licenses": "^0.0.6",
     "ndla-tabs": "^0.2.0",
-    "ndla-ui": "^0.2.8",
+    "ndla-ui": "beta",
     "ndla-util": "^0.1.0",
     "normalize-css": "2.3.1",
     "react": "^15.4.2",
