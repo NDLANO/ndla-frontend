@@ -15,3 +15,13 @@
 @import 'search.css';
 @import 'table.css';
 @import 'alert.css';
+
+.article-old-ndla-link:any-link {
+  &:any-link {
+    font-size: .8333rem;
+    color: black;
+  }
+  &:hover {
+    color: #20588f;
+  }
+}

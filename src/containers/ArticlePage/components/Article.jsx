@@ -67,6 +67,7 @@ class Article extends Component {
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
         { article.footNotes ? <UIArticle.FootNotes footNotes={article.footNotes} /> : null }
         {this.renderToggleLicenseBox(true)}
+        <a className="article-old-ndla-link" rel="noopener noreferrer" target="_blank" href={article.oldNdlaUrl}>Gå til orginal artikkel</a>
       </UIArticle>
     );
   }
