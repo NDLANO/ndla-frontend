@@ -46,12 +46,9 @@ const phrases = {
   },
   license: {
     heading: 'You can download, or reuse content from NDLA on your own own website',
-    creators: '{num, plural, one { Creator: } other { Creators: }}',
+    introduction: 'Lorem ipsum {contentType}.',
     tabs: {
-      heading: 'Cite or reuse {contentType}:',
-      article: 'Article',
       texts: 'Texts',
-      cite: 'Cite',
       images: 'Images',
       audios: 'Audio files',
     },
