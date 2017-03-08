@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { Pager, OneColumn } from 'ndla-ui';
 
 import * as actions from './searchActions';
+import { ArticleResultShape } from '../../shapes';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
@@ -74,7 +75,7 @@ SearchPage.propTypes = {
   clearSearchResult: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
-  results: PropTypes.array.isRequired,
+  results: PropTypes.arrayOf(ArticleResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
   search: PropTypes.func.isRequired,
 };

@@ -71,7 +71,7 @@ const Html = (props) => {
 Html.propTypes = {
   lang: PropTypes.string.isRequired,
   component: PropTypes.node,
-  state: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string.isRequired,
 };
 

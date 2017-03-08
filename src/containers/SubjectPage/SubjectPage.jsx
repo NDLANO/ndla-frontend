@@ -14,6 +14,7 @@ import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
 import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
+import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routes';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
@@ -49,7 +50,7 @@ class SubjectPage extends Component {
           topics={topics}
           goToTopicTitle="Gå til emne"
           goToTopicResourcesTitle="Se fagstoff"
-          toTopicResources={() => '#'}
+          toTopicResources={toTopic(subject.id)}
         />
       </OneColumn>
     );
@@ -63,9 +64,9 @@ SubjectPage.propTypes = {
   }).isRequired,
   fetchTopics: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  subjectTopics: PropTypes.array.isRequired,
-  subject: PropTypes.object,
-  topic: PropTypes.object,
+  subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
+  subject: SubjectShape,
+  topic: TopicShape,
 };
 
 const mapDispatchToProps = {

@@ -46,16 +46,18 @@ class TopicPage extends Component {
     const title = article ? article.title : topic.name;
     const scripts = article ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
-      <OneColumn>
-        <Helmet
-          title={`NDLA | ${title}`}
-          meta={[metaDescription]}
-          script={scripts}
-        />
-        { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
-        { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
+      <div>
+        <OneColumn>
+          <Helmet
+            title={`NDLA | ${title}`}
+            meta={[metaDescription]}
+            script={scripts}
+          />
+          { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
+          { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
+        </OneColumn>
         <TopicTabs subjectId={subjectId} topic={topic} topicPath={topicPath} />
-      </OneColumn>
+      </div>
     );
   }
 }

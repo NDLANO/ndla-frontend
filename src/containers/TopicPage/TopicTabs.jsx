@@ -34,7 +34,7 @@ function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
           subjectId={subjectId}
           goToTopicTitle="Gå til emne"
           goToTopicResourcesTitle="Se fagstoff"
-          toTopicResources={() => '#'}
+          toTopicResources={toTopic(subjectId, topicPath)}
           toTopic={toTopic(subjectId, topicPath)}
           topics={subtopics}
         />
@@ -78,7 +78,7 @@ TopicTabs.propTypes = {
   subjectId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   topic: TopicShape.isRequired,
-  topicPath: PropTypes.arrayOf(TopicShape),
+  topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
   resources: PropTypes.arrayOf(ResourceShape).isRequired,
 };

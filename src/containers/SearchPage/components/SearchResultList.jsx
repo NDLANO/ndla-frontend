@@ -9,13 +9,14 @@
 import React, { PropTypes } from 'react';
 import SearchResult from './SearchResult';
 import { injectT } from '../../../i18n';
+import { ArticleResultShape } from '../../../shapes';
 
 const SearchResultList = ({ results, query, locale, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
     <div className="search-results">
       { noSearchHits ?
-        <p>{ t('searchPage.noHits', query)}</p>
+        <p>{ t('searchPage.noHits', query.query)}</p>
           :
         results.map(result => <SearchResult key={result.id} locale={locale} article={result} />) }
     </div>
@@ -23,8 +24,10 @@ const SearchResultList = ({ results, query, locale, t }) => {
 };
 
 SearchResultList.propTypes = {
-  results: PropTypes.array.isRequired,
-  query: PropTypes.object.isRequired,
+  results: PropTypes.arrayOf(ArticleResultShape).isRequired,
+  query: PropTypes.shape({
+    query: PropTypes.string,
+  }),
   locale: PropTypes.string.isRequired,
 };
 

@@ -14,6 +14,7 @@ import Tabs from 'ndla-tabs';
 import { ResourceList, ResourceSubsetList } from 'ndla-ui';
 import { injectT } from '../../i18n';
 import { toTopicResourceTab } from '../../routes';
+import { ResourceShape } from '../../shapes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
 import { resourceToLinkProps } from './resourceHelpers';
 
@@ -74,8 +75,8 @@ class Resources extends Component {
 }
 
 Resources.propTypes = {
-  articleResources: PropTypes.array,
-  learningPathResources: PropTypes.array,
+  articleResources: PropTypes.arrayOf(ResourceShape),
+  learningPathResources: PropTypes.arrayOf(ResourceShape),
   router: PropTypes.shape({
     location: PropTypes.shape({
       query: PropTypes.shape({

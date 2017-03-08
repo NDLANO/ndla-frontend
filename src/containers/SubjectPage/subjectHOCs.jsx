@@ -10,6 +10,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from './subjectActions';
 import { getSubjects } from './subjectSelectors';
+import { SubjectShape } from '../../shapes';
 
 
 export const injectSubjects = (WrappedComponent) => {
@@ -24,7 +25,7 @@ export const injectSubjects = (WrappedComponent) => {
   }
 
   SubjectsContainer.propTypes = {
-    subjects: PropTypes.array.isRequired,
+    subjects: PropTypes.arrayOf(SubjectShape).isRequired,
     fetchSubjects: PropTypes.func.isRequired,
   };
 
