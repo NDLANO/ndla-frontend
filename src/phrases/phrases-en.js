@@ -11,7 +11,7 @@ const phrases = {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
   welcomePage: {
-    chooseSubject: 'Choose subject',
+    subjects: 'Subjects',
   },
   subjectsPage: {
     chooseSubject: 'Choose subject',

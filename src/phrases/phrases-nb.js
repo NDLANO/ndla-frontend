@@ -13,7 +13,7 @@ const phrases = {
   message: 'message',
   messages: 'messages',
   welcomePage: {
-    chooseSubject: 'Velg fag',
+    subjects: 'Fag',
   },
   subjectsPage: {
     chooseSubject: 'Velg fag',

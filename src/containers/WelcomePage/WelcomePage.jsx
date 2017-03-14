@@ -15,10 +15,16 @@ import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
 export const WelcomePage = ({ t, subjects }) =>
-  <OneColumn cssModifier="narrow">
-    <h2>{t('welcomePage.chooseSubject')}</h2>
-    <SubjectLinkList subjects={subjects} />
-  </OneColumn>
+  <div className="c-resources u-padding-top-large">
+    <OneColumn cssModifier="narrow">
+      <article>
+        <section>
+          <h1>{t('welcomePage.subjects')}</h1>
+          <SubjectLinkList subjects={subjects} />
+        </section>
+      </article>
+    </OneColumn>
+  </div>
 ;
 
 WelcomePage.propTypes = {
