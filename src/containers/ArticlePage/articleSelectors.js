@@ -27,6 +27,12 @@ export const getArticle = articleId => createSelector(
       metaDescription: metaDescriptionI18N(article, locale, true),
       created: formatDate(article.created, locale),
       updated: formatDate(article.updated, locale),
+      requiredLibraries: article.requiredLibraries ? article.requiredLibraries.map((lib) => {
+        if (lib.url.startsWith('http://')) {
+          return { ...lib, url: lib.url.replace('http://', 'https://') };
+        }
+        return lib;
+      }) : [],
     } : undefined
   ),
 );
