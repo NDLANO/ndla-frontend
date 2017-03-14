@@ -8,7 +8,6 @@ const webpack = require('webpack');
 
 const entry = {
   main: [
-    'babel-polyfill',
     './src/index.jsx',
     './style/index.css',
   ],
@@ -39,9 +38,7 @@ module.exports = options => ({
             babelrc: false,
             presets: [
               'react', ['env', {
-                targets: {
-                  browsers: ['last 2 versions', 'IE >= 11'],
-                },
+                targets: options.babelPresetTargets,
                 useBuiltIns: true,
                 modules: false,
               }],

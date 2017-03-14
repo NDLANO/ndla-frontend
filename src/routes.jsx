@@ -37,6 +37,9 @@ export function toTopic(subjectId, ...topicIds) {
   return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
+export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
+   toTopic(subjectId, ...topicIds, topicId);
+
 export function toTopicResourceTab(location, index) {
   return { ...location, query: { resourceTabIndex: index } };
 }

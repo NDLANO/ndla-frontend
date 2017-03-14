@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import { toSearch, toTopic } from '../../routes';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
 import { getSubjectMenu } from '../TopicPage/topicSelectors';
-import { SubjectShape } from '../../shapes';
+import { SubjectShape, TopicShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
@@ -24,7 +24,7 @@ const MastheadContainer = ({ t, subject, topics }) => (
     <MastheadItem left>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
       { subject ?
-        <ClickToggle title={subject.name} className="l-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
+        <ClickToggle title={subject.name} className="c-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
           <TopicMenu subjectId={subject.id} toTopic={toTopicWithSubjectIdBound(subject.id)} topics={topics} />
         </ClickToggle>
             : null
@@ -53,7 +53,7 @@ MastheadContainer.propTypes = {
   }).isRequired,
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
-  topics: PropTypes.array.isRequired,
+  topics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {

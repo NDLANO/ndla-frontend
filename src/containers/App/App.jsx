@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 
+import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
 import Footer from './components/Footer';
 import { getLocale } from '../Locale/localeSelectors';
@@ -46,9 +47,12 @@ export class App extends React.Component {
 }
 
 App.propTypes = {
-  params: PropTypes.object.isRequired,
+  params: PropTypes.shape({
+    subjectId: PropTypes.string,
+    topicId: PropTypes.string,
+  }).isRequired,
   locale: PropTypes.string.isRequired,
-  messages: PropTypes.array.isRequired,
+  messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

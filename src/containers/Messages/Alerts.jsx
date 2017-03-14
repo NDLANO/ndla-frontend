@@ -10,6 +10,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { timeoutMessage, clearMessage } from './messagesActions';
+import { MessageShape } from '../../shapes';
 
 
 export const Action = ({ title, onClick }) =>
@@ -44,7 +45,7 @@ export const Alert = ({ message, dispatch }) => {
 };
 
 Alert.propTypes = {
-  message: PropTypes.object.isRequired,
+  message: MessageShape.isRequired,
   dispatch: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
@@ -68,7 +69,7 @@ export const Alerts = ({ dispatch, messages }) => {
 };
 
 Alerts.propTypes = {
-  messages: PropTypes.array.isRequired,
+  messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

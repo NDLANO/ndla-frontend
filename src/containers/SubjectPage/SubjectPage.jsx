@@ -14,7 +14,10 @@ import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
 import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
-import { toTopic } from '../../routes';
+import { SubjectShape, TopicShape } from '../../shapes';
+import { toTopicPartial } from '../../routes';
+
+const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   componentWillMount() {
@@ -41,7 +44,14 @@ class SubjectPage extends Component {
     return (
       <OneColumn>
         { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-        <TopicIntroductionList subjectId={subject.id} toTopic={toTopic} topics={topics} />
+        <TopicIntroductionList
+          subjectId={subject.id}
+          toTopic={toTopic(subject.id)}
+          topics={topics}
+          goToTopicTitle="Gå til emne"
+          goToTopicResourcesTitle="Se fagstoff"
+          toTopicResources={toTopic(subject.id)}
+        />
       </OneColumn>
     );
   }
@@ -54,9 +64,9 @@ SubjectPage.propTypes = {
   }).isRequired,
   fetchTopics: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  subjectTopics: PropTypes.array.isRequired,
-  subject: PropTypes.object,
-  topic: PropTypes.object,
+  subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
+  subject: SubjectShape,
+  topic: TopicShape,
 };
 
 const mapDispatchToProps = {

@@ -10,6 +10,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { toArticle } from '../../../routes';
 import { titleI18N } from '../../../util/i18nFieldFinder';
+import { ArticleResultShape } from '../../../shapes';
 
 const SearchResult = ({ article, locale }) => (
   <div className="search-result">
@@ -22,7 +23,7 @@ const SearchResult = ({ article, locale }) => (
 );
 
 SearchResult.propTypes = {
-  article: PropTypes.object.isRequired,
+  article: ArticleResultShape.isRequired,
   locale: PropTypes.string.isRequired,
 };
 

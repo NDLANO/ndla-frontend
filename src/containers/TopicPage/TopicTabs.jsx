@@ -10,25 +10,36 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
-import { TopicIntroductionList } from 'ndla-ui';
+import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from './topicSelectors';
 import * as actions from './topicActions';
 import { injectT } from '../../i18n';
 import { ResourceShape, TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { getResourcesByTopicId } from '../Resources/resourceSelectors';
-import { toTopic as routesToTopic } from '../../routes';
+import { toTopicPartial } from '../../routes';
 
-const toTopic = (subjectId, topicPath) => (_, subtopicId) => {
+const toTopic = (subjectId, topicPath) => {
   const topicIds = topicPath.map(topic => topic.id);
-  topicIds.push(subtopicId);
-  return routesToTopic(subjectId, ...topicIds);
+  return toTopicPartial(subjectId, ...topicIds);
 };
 
 function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
   const tabs = [];
   if (subtopics.length > 0) {
-    tabs.push({ title: t('topicPage.tabs.topics'), content: <TopicIntroductionList subjectId={subjectId} toTopic={toTopic(subjectId, topicPath)} topics={subtopics} /> });
+    tabs.push({
+      title: t('topicPage.tabs.topics'),
+      content: (
+        <TopicIntroductionList
+          subjectId={subjectId}
+          goToTopicTitle="Gå til emne"
+          goToTopicResourcesTitle="Se fagstoff"
+          toTopicResources={toTopic(subjectId, topicPath)}
+          toTopic={toTopic(subjectId, topicPath)}
+          topics={subtopics}
+        />
+      ),
+    });
   }
   if (resources.length > 0) {
     tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
@@ -56,9 +67,9 @@ class TopicTabs extends Component {
     const tabs = buildTabList(t, subtopics, resources, topicId, subjectId, topicPath);
     if (tabs.length === 0) return null;
     return (
-      <div className="c-resources u-margin-top-large">
+      <ResourceWrapper>
         <Tabs tabs={tabs} />
-      </div>
+      </ResourceWrapper>
     );
   }
 }
@@ -67,7 +78,7 @@ TopicTabs.propTypes = {
   subjectId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   topic: TopicShape.isRequired,
-  topicPath: PropTypes.arrayOf(TopicShape),
+  topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
   resources: PropTypes.arrayOf(ResourceShape).isRequired,
 };
