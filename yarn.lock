@@ -3777,9 +3777,9 @@ ndla-tabs@^0.2.0:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@beta:
-  version "0.2.10-beta"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.10-beta.tgz#818a021b7901571c0ed7212f27c51e17758b6dd7"
+ndla-ui@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.11.tgz#e367ffe3a7dacc1f82ec4d5fed355ffe53ab10b2"
   dependencies:
     react-prop-types "^0.4.0"
 

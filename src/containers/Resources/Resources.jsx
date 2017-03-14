@@ -22,8 +22,15 @@ import { resourceToLinkProps } from './resourceHelpers';
 function buildTabList(t, location, articleResources, learningPathResources) {
   // Must be in same order as tabs after "all" tab
   const resourceGroups = [
-    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources.slice(0, 2) },
-    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources.slice(0, 2) },
+    {
+      title: t('resources.tabs.learningpaths'),
+      description: t('resources.learningpaths.description'),
+      viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
+      resources: learningPathResources.slice(0, 2) },
+    { title: t('resources.tabs.subjectMaterial'),
+      description: t('resources.subjectMaterial.description'),
+      viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
+      resources: articleResources.slice(0, 2) },
   ];
 
   const toResourceTab = index => toTopicResourceTab(location, index + 1);

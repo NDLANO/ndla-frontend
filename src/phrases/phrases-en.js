@@ -70,6 +70,14 @@ const phrases = {
       learningpaths: 'Learning paths',
       subjectMaterial: 'Subject material',
     },
+    learningpaths: {
+      title: 'Learning paths',
+      description: 'Learning paths description',
+    },
+    subjectMaterial: {
+      title: 'Subject material',
+      description: 'Subject material description',
+    },
     links: {
       viewAllLearningPaths: 'View all learning paths \u2192',
       viewAllSubjectMaterials: 'View all subject material \u2192',
