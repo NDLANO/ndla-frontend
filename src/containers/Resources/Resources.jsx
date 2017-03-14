@@ -26,11 +26,18 @@ function buildTabList(t, location, articleResources, learningPathResources) {
       title: t('resources.tabs.learningpaths'),
       description: t('resources.learningpaths.description'),
       viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
-      resources: learningPathResources.slice(0, 2) },
-    { title: t('resources.tabs.subjectMaterial'),
+      resources: learningPathResources.slice(0, 2),
+      color: 'blue',
+      icon: 'Path',
+    },
+    {
+      title: t('resources.tabs.subjectMaterial'),
       description: t('resources.subjectMaterial.description'),
       viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
-      resources: articleResources.slice(0, 2) },
+      resources: articleResources.slice(0, 2),
+      color: 'red',
+      icon: 'Document',
+    },
   ];
 
   const toResourceTab = index => toTopicResourceTab(location, index + 1);
@@ -69,14 +76,12 @@ class Resources extends Component {
     const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
 
     return (
-      <div className="u-margin-top-huge">
-        <Tabs
-          modifier="muted"
-          tabs={tabs}
-          onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
-          selectedIndex={selectedResourceTabIndex}
-        />
-      </div>
+      <Tabs
+        modifier="muted"
+        tabs={tabs}
+        onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
+        selectedIndex={selectedResourceTabIndex}
+      />
     );
   }
 }
