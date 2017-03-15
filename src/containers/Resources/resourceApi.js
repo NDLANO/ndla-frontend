@@ -11,4 +11,4 @@ import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelp
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopicResources = topicId => fetch(`${baseUrl}/topics/${topicId}/resources/`).then(resolveJsonOrRejectWithError);
+export const fetchTopicResources = topicId => fetch(`${baseUrl}/topics/${topicId}/resources/?recursive=true`).then(resolveJsonOrRejectWithError);

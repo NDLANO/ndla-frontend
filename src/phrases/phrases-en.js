@@ -11,7 +11,7 @@ const phrases = {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
   welcomePage: {
-    chooseSubject: 'Choose subject',
+    subjects: 'Subjects',
   },
   subjectsPage: {
     chooseSubject: 'Choose subject',
@@ -69,6 +69,14 @@ const phrases = {
       all: 'All',
       learningpaths: 'Learning paths',
       subjectMaterial: 'Subject material',
+    },
+    learningpaths: {
+      title: 'Learning paths',
+      description: 'Learning paths description',
+    },
+    subjectMaterial: {
+      title: 'Subject material',
+      description: 'Subject material description',
     },
     links: {
       viewAllLearningPaths: 'View all learning paths \u2192',

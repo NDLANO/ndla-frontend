@@ -16,16 +16,29 @@ import { injectT } from '../../i18n';
 import { toTopicResourceTab } from '../../routes';
 import { ResourceShape } from '../../shapes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
-import { resourceToLinkProps } from './resourceHelpers';
+import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 
 
-function buildTabList(t, location, articleResources, learningPathResources) {
+function buildTabList(t, location, articleResources, learningPathResources, params) {
   // Must be in same order as tabs after "all" tab
   const resourceGroups = [
-    { title: t('resources.tabs.learningpaths'), viewAllLinkTitle: t('resources.links.viewAllLearningPaths'), resources: learningPathResources.slice(0, 2) },
-    { title: t('resources.tabs.subjectMaterial'), viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'), resources: articleResources.slice(0, 2) },
+    {
+      title: t('resources.tabs.learningpaths'),
+      description: t('resources.learningpaths.description'),
+      viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
+      resources: learningPathResources.slice(0, 2),
+      color: 'blue',
+    },
+    {
+      title: t('resources.tabs.subjectMaterial'),
+      description: t('resources.subjectMaterial.description'),
+      viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
+      resources: articleResources.slice(0, 2),
+      color: 'red',
+    },
   ];
 
+  const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
   const toResourceTab = index => toTopicResourceTab(location, index + 1);
 
   return [
@@ -36,11 +49,19 @@ function buildTabList(t, location, articleResources, learningPathResources) {
 
     {
       title: t('resources.tabs.learningpaths'),
-      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
+      content: (
+        <div className="c-topic-resource-subset c-topic-resource-subset--blue">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />
+        </div>
+      ),
     },
     {
       title: t('resources.tabs.subjectMaterial'),
-      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
+      content: (
+        <div className="c-topic-resource-subset c-topic-resource-subset--red">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />
+        </div>
+      ),
     },
 
   ];
@@ -56,20 +77,18 @@ class Resources extends Component {
 
   render() {
     const { t, articleResources, router, learningPathResources } = this.props;
-    const { location } = router;
-    const tabs = buildTabList(t, location, articleResources, learningPathResources);
+    const { location, params } = router;
+    const tabs = buildTabList(t, location, articleResources, learningPathResources, params);
 
     const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
 
     return (
-      <div className="u-margin-top-huge">
-        <Tabs
-          modifier="muted"
-          tabs={tabs}
-          onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
-          selectedIndex={selectedResourceTabIndex}
-        />
-      </div>
+      <Tabs
+        modifier="muted"
+        tabs={tabs}
+        onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
+        selectedIndex={selectedResourceTabIndex}
+      />
     );
   }
 }
@@ -82,6 +101,10 @@ Resources.propTypes = {
       query: PropTypes.shape({
         resourceTabIndex: PropTypes.string,
       }),
+    }).isRequired,
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string,
     }).isRequired,
     push: PropTypes.func.isRequired,
   }),

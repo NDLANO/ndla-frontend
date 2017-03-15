@@ -38,6 +38,18 @@ export const getTopicsBySubjectId = subjectId => createSelector(
   topics => topics.filter(topic => !topic.parent),
 );
 
+export const getTopicsBySubjectIdWithIntroduction = subjectId => createSelector(
+  [getTopicsBySubjectId(subjectId), getTopicIntroductions, getLocale],
+  (topics, topicIntroductions, locale) => topics.map((topic) => {
+    if (topic && topicIntroductions) {
+      const topicIntroduction = topicIntroductions[topic.id];
+      const introduction = topicIntroduction ? introductionI18N(topicIntroduction, locale, true) : undefined;
+      return { ...topic, introduction };
+    }
+    return topic;
+  }),
+);
+
 export const getTopic = (subjectId, topicId = undefined) => createSelector(
   [getAllTopicsBySubjectId(subjectId)],
   topics => topics.find(topic => topicId === topic.id),

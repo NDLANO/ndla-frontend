@@ -22,7 +22,10 @@ export function toSearch() {
   return '/search';
 }
 
-export function toArticle(articleId) {
+export function toArticle(articleId, subjectId, topicId) {
+  if (subjectId && topicId) {
+    return `/article/${subjectId}/${topicId}/${articleId}`;
+  }
   return `/article/${articleId}`;
 }
 
@@ -54,6 +57,7 @@ export default function () {
       <Route path="subjects/:subjectId(/)" component={SubjectPage} />
       <Route path="subjects/:subjectId/:topicId(/)" component={TopicPage} />
       <Route path="subjects/:subjectId/**/:topicId(/)" component={TopicPage} />
+      <Route path="article/:subjectId/:topicId/:articleId" component={ArticlePage} />
       <Route path="*" status={404} component={NotFoundPage} />
     </Route>
   );

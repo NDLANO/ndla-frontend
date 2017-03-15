@@ -9,7 +9,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { OneColumn, TopicArticle, TopicBreadcrumb } from 'ndla-ui';
+import { Hero, OneColumn, TopicArticle, TopicBreadcrumb } from 'ndla-ui';
 import Helmet from 'react-helmet';
 
 import * as actions from './topicActions';
@@ -46,16 +46,29 @@ class TopicPage extends Component {
     const title = article ? article.title : topic.name;
     const scripts = article ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
     return (
-      <div>
-        <OneColumn>
-          <Helmet
-            title={`NDLA | ${title}`}
-            meta={[metaDescription]}
-            script={scripts}
-          />
-          { subject ? <TopicBreadcrumb subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
-          { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} /> : null }
-        </OneColumn>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Helmet
+          title={`NDLA | ${title}`}
+          meta={[metaDescription]}
+          script={scripts}
+        />
+        <Hero>
+          <OneColumn cssModifier="narrow">
+            <div className="c-hero__content">
+              <section>
+                { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}><strong>{t('topicPage.breadcrumbLabel')}</strong></TopicBreadcrumb> : null }
+                <h1 className="c-hero__title" style={{ clear: 'both' }}>{topic.name}</h1>
+              </section>
+            </div>
+          </OneColumn>
+        </Hero>
+        <div className="u-bg-lightblue">
+          <OneColumn cssModifier="narrow">
+            <div>
+              { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} notitle /> : null }
+            </div>
+          </OneColumn>
+        </div>
         <TopicTabs subjectId={subjectId} topic={topic} topicPath={topicPath} />
       </div>
     );

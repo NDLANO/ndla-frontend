@@ -13,7 +13,7 @@ const phrases = {
   message: 'message',
   messages: 'messages',
   welcomePage: {
-    chooseSubject: 'Velg fag',
+    subjects: 'Fag',
   },
   subjectsPage: {
     chooseSubject: 'Velg fag',
@@ -76,6 +76,14 @@ const phrases = {
       learningpaths: 'Læringsstier',
       subjectMaterial: 'Fagstoff',
     },
+    learningpaths: {
+      title: 'Læringsstier',
+      description: 'Gå steg for steg gjennom emnet.',
+    },
+    subjectMaterial: {
+      title: 'Fagstoff',
+      description: 'Foretrekker du å se en video, eller lese en tekst? Velg selv.',
+    },
     links: {
       viewAllLearningPaths: 'Se alle læringsstier \u2192',
       viewAllSubjectMaterials: 'Se alt fagstoff \u2192',
@@ -89,8 +97,8 @@ const phrases = {
     openArticleTopic: 'Se hele emnebeskrivelse',
     breadcrumbLabel: 'Du er her:',
     tabs: {
-      learningresources: 'Læringsressurser',
-      topics: 'Emner',
+      learningresources: 'Fagstoff',
+      topics: 'Underemner',
     },
   },
   footer: {
