@@ -38,10 +38,10 @@ export const getResourcesByTopicId = topicId => createSelector(
 
 export const getArticleResourcesByTopicId = topicId => createSelector(
     [getResourcesByTopicId(topicId)],
-    resources => resources.filter(isArticleResource),
+    resources => resources.filter(isArticleResource).map(resource => ({ ...resource, icon: 'Document' })),
 );
 
 export const getLearningPathResourcesByTopicId = topicId => createSelector(
     [getResourcesByTopicId(topicId)],
-    resources => resources.filter(isLearningPathResource),
+    resources => resources.filter(isLearningPathResource).map(resource => ({ ...resource, icon: 'Path' })),
 );

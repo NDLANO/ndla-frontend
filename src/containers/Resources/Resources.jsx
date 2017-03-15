@@ -28,7 +28,6 @@ function buildTabList(t, location, articleResources, learningPathResources) {
       viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
       resources: learningPathResources.slice(0, 2),
       color: 'blue',
-      icon: 'Path',
     },
     {
       title: t('resources.tabs.subjectMaterial'),
@@ -36,7 +35,6 @@ function buildTabList(t, location, articleResources, learningPathResources) {
       viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
       resources: articleResources.slice(0, 2),
       color: 'red',
-      icon: 'Document',
     },
   ];
 
@@ -50,11 +48,19 @@ function buildTabList(t, location, articleResources, learningPathResources) {
 
     {
       title: t('resources.tabs.learningpaths'),
-      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />,
+      content: (
+        <div className="c-topic-resource-subset c-topic-resource-subset--blue">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />
+        </div>
+      ),
     },
     {
       title: t('resources.tabs.subjectMaterial'),
-      content: <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />,
+      content: (
+        <div className="c-topic-resource-subset c-topic-resource-subset--red">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />
+        </div>
+      ),
     },
 
   ];
