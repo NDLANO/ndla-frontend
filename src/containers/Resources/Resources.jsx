@@ -16,10 +16,10 @@ import { injectT } from '../../i18n';
 import { toTopicResourceTab } from '../../routes';
 import { ResourceShape } from '../../shapes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
-import { resourceToLinkProps } from './resourceHelpers';
+import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 
 
-function buildTabList(t, location, articleResources, learningPathResources) {
+function buildTabList(t, location, articleResources, learningPathResources, params) {
   // Must be in same order as tabs after "all" tab
   const resourceGroups = [
     {
@@ -38,6 +38,7 @@ function buildTabList(t, location, articleResources, learningPathResources) {
     },
   ];
 
+  const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
   const toResourceTab = index => toTopicResourceTab(location, index + 1);
 
   return [
@@ -76,8 +77,8 @@ class Resources extends Component {
 
   render() {
     const { t, articleResources, router, learningPathResources } = this.props;
-    const { location } = router;
-    const tabs = buildTabList(t, location, articleResources, learningPathResources);
+    const { location, params } = router;
+    const tabs = buildTabList(t, location, articleResources, learningPathResources, params);
 
     const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
 
@@ -100,6 +101,10 @@ Resources.propTypes = {
       query: PropTypes.shape({
         resourceTabIndex: PropTypes.string,
       }),
+    }).isRequired,
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string,
     }).isRequired,
     push: PropTypes.func.isRequired,
   }),
