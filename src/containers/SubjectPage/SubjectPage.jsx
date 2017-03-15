@@ -49,9 +49,9 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                <div id="breadcrumbs" className="c-breadcrumbs">
+                <div className="c-breadcrumbs">
                   <strong>Du er her:</strong>
-                  <Link className="c-breadcrumbs__item" to="/">Fag</Link>
+                  <Link className="c-breadcrumbs__item" to="/">Fag</Link> &#x203A;
                 </div>
                 <h1 className="c-hero__title">{subject.name}</h1>
               </section>

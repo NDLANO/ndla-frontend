@@ -57,7 +57,7 @@ class TopicPage extends Component {
             <div className="c-hero__content">
               <section>
                 { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}><strong>{t('topicPage.breadcrumbLabel')}</strong></TopicBreadcrumb> : null }
-                <h1 className="c-hero__title">{topic.name}</h1>
+                <h1 className="c-hero__title" style={{ clear: 'both' }}>{topic.name}</h1>
               </section>
             </div>
           </OneColumn>
