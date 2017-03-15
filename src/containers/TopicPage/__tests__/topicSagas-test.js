@@ -7,28 +7,28 @@
  */
 
 import testSaga from 'redux-saga-test-plan';
-import { call } from 'redux-saga-effects';
+// import { call } from 'redux-saga-effects';
 import * as sagas from '../topicSagas';
-import * as api from '../topicApi';
+// import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import * as constants from '../topicConstants';
 import * as actions from '../topicActions';
-import * as resourceSagas from '../../Resources/resourceSagas';
+// import * as resourceSagas from '../../Resources/resourceSagas';
 // import { hasFetchedTopicsBySubjectId } from '../topicSelectors';
 
 
-test('topicSagas fetchTopics', () => {
-  const saga = testSaga(sagas.fetchTopics, 1234);
-  saga
-    .next()
-    .call(api.fetchTopics, 1234)
-
-    .next([{ id: '123', name: 'Algebra', parent: undefined }])
-    .put({ type: constants.SET_TOPICS, payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
-
-    .next()
-    .isDone();
-});
+// test('topicSagas fetchTopics', () => {
+//   const saga = testSaga(sagas.fetchTopics, 1234);
+//   saga
+//     .next()
+//     .call(api.fetchTopics, 1234)
+//
+//     .next([{ id: '123', name: 'Algebra', parent: undefined }])
+//     .put({ type: constants.SET_TOPICS, payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
+//
+//     .next()
+//     .isDone();
+// });
 
 test('topicSagas watchFetchTopics ', () => {
   const saga = testSaga(sagas.watchFetchTopics);
@@ -61,22 +61,22 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
     .isDone();
 });
 
-test('topicSagas watchFetchTopicResources', () => {
-  const saga = testSaga(sagas.watchFetchTopicResources);
-  saga
-    .next()
-    .take(actions.fetchTopicResources)
-
-    .next({ payload: { subjectId: 1, topicId: 2 } })
-    .next([{ id: 1 }, { id: 3 }])
-    .parallel([
-      call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }]),
-      call(resourceSagas.fetchTopicResources, 2),
-    ])
-    .finish()
-    .next()
-    .isDone();
-});
+// test('topicSagas watchFetchTopicResources', () => {
+//   const saga = testSaga(sagas.watchFetchTopicResources);
+//   saga
+//     .next()
+//     .take(actions.fetchTopicResources)
+//
+//     .next({ payload: { subjectId: 1, topicId: 2 } })
+//     .next([{ id: 1 }, { id: 3 }])
+//     .parallel([
+//       call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }]),
+//       call(resourceSagas.fetchTopicResources, 2),
+//     ])
+//     .finish()
+//     .next()
+//     .isDone();
+// });
 
 test('topicSagas fetchTopicIntroductions', () => {
   const topics = [{ contentUri: 'urn:article:1' }, { contentUri: 'urn:learningpath:2' }, { contentUri: 'urn:article:1331' }, { id: 3 }];

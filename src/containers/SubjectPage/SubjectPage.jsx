@@ -13,7 +13,7 @@ import defined from 'defined';
 import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
-import { getTopicsBySubjectId, getTopic } from '../TopicPage/topicSelectors';
+import { getTopicsBySubjectIdWithIntroduction, getTopic } from '../TopicPage/topicSelectors';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routes';
 
@@ -78,7 +78,7 @@ const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.params;
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
-    subjectTopics: getTopicsBySubjectId(subjectId)(state),
+    subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
     subject: getSubjectById(subjectId)(state),
   };
 };

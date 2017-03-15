@@ -7,7 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga-effects';
-import { getTopic, hasFetchedTopicsBySubjectId, getSubtopics } from './topicSelectors';
+import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
 import * as actions from './topicActions';
 import { fetchTopicResources } from '../Resources/resourceSagas';
 import { getArticleIdFromResource, isArticleResource } from '../Resources/resourceHelpers';
@@ -15,20 +15,6 @@ import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 
-
-export function* fetchTopics(subjectId, topicId) {
-  try {
-    const topics = yield call(api.fetchTopics, subjectId);
-    yield put(actions.setTopics({ topics, subjectId }));
-    if (topicId) { // Fetch related article if topicId is defined
-      yield put(actions.fetchTopicArticle({ topicId, subjectId }));
-    }
-  } catch (error) {
-    throw error;
-    // TODO: handle error
-    // yield put(actions.applicationError());
-  }
-}
 
 export function* fetchTopicIntroductions(topics) {
   try {
@@ -49,13 +35,30 @@ export function* fetchTopicIntroductions(topics) {
   }
 }
 
+export function* fetchTopics(subjectId, topicId) {
+  try {
+    const topics = yield call(api.fetchTopics, subjectId);
+    yield put(actions.setTopics({ topics, subjectId }));
+    if (topicId) { // Fetch related article if topicId is defined
+      yield put(actions.fetchTopicArticle({ topicId, subjectId }));
+    }
+    yield call(fetchTopicIntroductions, topics);
+  } catch (error) {
+    throw error;
+    // TODO: handle error
+    // yield put(actions.applicationError());
+  }
+}
+
 export function* watchFetchTopicResources() {
   while (true) {
-    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopicResources);
-    const topics = yield select(getSubtopics(subjectId, topicId));
+    const { payload: { topicId } } = yield take(actions.fetchTopicResources);
+    // const { payload: { subjectId, topicId } } = yield take(actions.fetchTopicResources);
+    // const topics = yield select(getSubtopics(subjectId, topicId));
 
     // TODO: Check if already fetched
-    yield [call(fetchTopicIntroductions, topics), call(fetchTopicResources, topicId)];
+    // yield [call(fetchTopicIntroductions, topics), call(fetchTopicResources, topicId)];
+    yield call(fetchTopicResources, topicId);
   }
 }
 
