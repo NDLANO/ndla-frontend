@@ -8,7 +8,9 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { OneColumn, TopicIntroductionList } from 'ndla-ui';
+import { OneColumn, Hero, ResourceWrapper, TopicIntroductionList } from 'ndla-ui';
+import Tabs from 'ndla-tabs';
+import { Link } from 'react-router';
 import defined from 'defined';
 import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
@@ -42,17 +44,40 @@ class SubjectPage extends Component {
 
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
-      <OneColumn>
-        { topic ? <h1>{topic.name}</h1> : <h1>{subject.name}</h1>}
-        <TopicIntroductionList
-          subjectId={subject.id}
-          toTopic={toTopic(subject.id)}
-          topics={topics}
-          goToTopicTitle="Gå til emne"
-          goToTopicResourcesTitle="Se fagstoff"
-          toTopicResources={toTopic(subject.id)}
-        />
-      </OneColumn>
+      <div>
+        <Hero>
+          <OneColumn cssModifier="narrow">
+            <div className="c-hero__content">
+              <section>
+                <div id="breadcrumbs" className="c-breadcrumbs">
+                  <strong>Du er her:</strong>
+                  <Link className="c-breadcrumbs__item" to="/">Fag</Link>
+                </div>
+                <h1 className="c-hero__title">{subject.name}</h1>
+              </section>
+            </div>
+          </OneColumn>
+        </Hero>
+
+        <ResourceWrapper>
+          <Tabs
+            tabs={[
+              { title: 'Emner',
+                content:
+  <TopicIntroductionList
+    subjectId={subject.id}
+    toTopic={toTopic(subject.id)}
+    topics={topics}
+    goToTopicTitle="Gå til emne"
+    goToTopicResourcesTitle="Se fagstoff"
+    toTopicResources={toTopic(subject.id)}
+  />,
+              },
+            ]}
+          />
+        </ResourceWrapper>
+        <OneColumn />
+      </div>
     );
   }
 }
