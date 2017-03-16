@@ -81,7 +81,10 @@ export function* watchFetchTopicArticle() {
     if (!topic) {
       yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
     } else if (isArticleResource) {
-      yield put(fetchArticle(getArticleIdFromResource(topic)));
+      const articleId = getArticleIdFromResource(topic);
+      if (articleId) {
+        yield put(fetchArticle(articleId));
+      }
     }
   }
 }
