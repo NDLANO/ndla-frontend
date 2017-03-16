@@ -48,7 +48,7 @@ class ArticlePage extends Component {
             script={scripts}
           />
           <section className="c-article-content">
-            { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath} toTopic={toTopic}><strong>Du er her:</strong></TopicBreadcrumb> : null }
+            { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath} toTopic={toTopic}>Du er her:</TopicBreadcrumb> : null }
             <Article article={article} locale={locale} />
           </section>
         </OneColumn>

@@ -70,13 +70,17 @@ const phrases = {
       learningpaths: 'Learning paths',
       subjectMaterial: 'Subject material',
     },
+    subjectMaterial: {
+      title: 'Subject material',
+      description: 'Subject material description',
+    },
     learningpaths: {
       title: 'Learning paths',
       description: 'Learning paths description',
     },
-    subjectMaterial: {
-      title: 'Subject material',
-      description: 'Subject material description',
+    tasks: {
+      title: 'Oppgaver',
+      description: 'Lær bedre gjennom å løse konkrete oppgaver.',
     },
     links: {
       viewAllLearningPaths: 'View all learning paths \u2192',

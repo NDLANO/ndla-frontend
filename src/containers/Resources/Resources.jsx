@@ -7,65 +7,15 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Tabs from 'ndla-tabs';
 import { ResourceList, ResourceSubsetList } from 'ndla-ui';
 import { injectT } from '../../i18n';
 import { toTopicResourceTab } from '../../routes';
 import { ResourceShape } from '../../shapes';
 import { getLearningPathResourcesByTopicId, getArticleResourcesByTopicId } from './resourceSelectors';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
-
-
-function buildTabList(t, location, articleResources, learningPathResources, params) {
-  // Must be in same order as tabs after "all" tab
-  const resourceGroups = [
-    {
-      title: t('resources.tabs.learningpaths'),
-      description: t('resources.learningpaths.description'),
-      viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
-      resources: learningPathResources.slice(0, 2),
-      color: 'blue',
-    },
-    {
-      title: t('resources.tabs.subjectMaterial'),
-      description: t('resources.subjectMaterial.description'),
-      viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
-      resources: articleResources.slice(0, 2),
-      color: 'red',
-    },
-  ];
-
-  const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
-  const toResourceTab = index => toTopicResourceTab(location, index + 1);
-
-  return [
-    {
-      title: t('resources.tabs.all'),
-      content: <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />,
-    },
-
-    {
-      title: t('resources.tabs.learningpaths'),
-      content: (
-        <div className="c-topic-resource-subset c-topic-resource-subset--blue">
-          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />
-        </div>
-      ),
-    },
-    {
-      title: t('resources.tabs.subjectMaterial'),
-      content: (
-        <div className="c-topic-resource-subset c-topic-resource-subset--red">
-          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />
-        </div>
-      ),
-    },
-
-  ];
-}
 
 
 class Resources extends Component {
@@ -78,17 +28,61 @@ class Resources extends Component {
   render() {
     const { t, articleResources, router, learningPathResources } = this.props;
     const { location, params } = router;
-    const tabs = buildTabList(t, location, articleResources, learningPathResources, params);
 
     const selectedResourceTabIndex = location.query.resourceTabIndex ? parseInt(location.query.resourceTabIndex, 10) : 0;
 
+    const resourceGroups = [
+      {
+        title: t('resources.tabs.subjectMaterial'),
+        description: t('resources.subjectMaterial.description'),
+        viewAllLinkTitle: t('resources.links.viewAllSubjectMaterials'),
+        resources: articleResources.slice(0, 2),
+        color: 'red',
+      },
+      {
+        title: t('resources.tabs.learningpaths'),
+        description: t('resources.learningpaths.description'),
+        viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
+        resources: learningPathResources.slice(0, 2),
+        color: 'blue',
+      },
+      {
+        title: t('resources.tasks.title'),
+        description: t('resources.tasks.description'),
+        viewAllLinkTitle: t('resources.links.viewAllLearningPaths'),
+        resources: articleResources.slice(-2).map(resource => ({ ...resource, icon: 'Pencil' })),
+        color: 'green',
+      },
+    ];
+
+    const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
+    const toResourceTab = index => toTopicResourceTab(location, index + 1);
+
+    if (selectedResourceTabIndex === 1) {
+      return (
+        <div className="c-topic-resource-subset c-topic-resource-subset--red">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources} />
+          <Link to={toResourceTab(-1)}>Tilbake</Link>
+        </div>
+      );
+    } else if (selectedResourceTabIndex === 2) {
+      return (
+        <div className="c-topic-resource-subset c-topic-resource-subset--blue">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={learningPathResources} />
+          <Link to={toResourceTab(-1)}>Tilbake</Link>
+        </div>
+      );
+    } else if (selectedResourceTabIndex === 3) {
+      return (
+        <div className="c-topic-resource-subset c-topic-resource-subset--green">
+          <ResourceList resourceToLinkProps={resourceToLinkProps} resources={articleResources.map(resource => ({ ...resource, icon: 'Pencil' }))} />
+          <Link to={toResourceTab(-1)}>Tilbake</Link>
+        </div>
+      );
+    }
+
     return (
-      <Tabs
-        modifier="muted"
-        tabs={tabs}
-        onSelect={(index) => { router.push({ ...location, query: { resourceTabIndex: index } }); }}
-        selectedIndex={selectedResourceTabIndex}
-      />
+      <ResourceSubsetList resourceToLinkProps={resourceToLinkProps} toResourceTab={toResourceTab} resourceGroups={resourceGroups} />
     );
   }
 }

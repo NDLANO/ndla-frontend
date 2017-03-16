@@ -76,13 +76,17 @@ const phrases = {
       learningpaths: 'Læringsstier',
       subjectMaterial: 'Fagstoff',
     },
+    subjectMaterial: {
+      title: 'Fagstoff',
+      description: 'Foretrekker du å se en video, eller lese en tekst? Velg selv.',
+    },
     learningpaths: {
       title: 'Læringsstier',
       description: 'Gå steg for steg gjennom emnet.',
     },
-    subjectMaterial: {
-      title: 'Fagstoff',
-      description: 'Foretrekker du å se en video, eller lese en tekst? Velg selv.',
+    tasks: {
+      title: 'Oppgaver',
+      description: 'Lær bedre gjennom å løse konkrete oppgaver.',
     },
     links: {
       viewAllLearningPaths: 'Se alle læringsstier \u2192',
