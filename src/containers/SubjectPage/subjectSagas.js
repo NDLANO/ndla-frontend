@@ -11,10 +11,12 @@ import { hasFetched } from './subjectSelectors';
 import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
 import * as api from './subjectApi';
+import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchSubjects() {
   try {
-    const subjects = yield call(api.fetchSubjects);
+    const token = yield select(getAccessToken);
+    const subjects = yield call(api.fetchSubjects, token);
     yield put(actions.setSubjects(subjects));
   } catch (error) {
     throw error;

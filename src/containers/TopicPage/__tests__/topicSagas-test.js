@@ -13,6 +13,8 @@ import * as sagas from '../topicSagas';
 import * as articleApi from '../../ArticlePage/articleApi';
 import * as constants from '../topicConstants';
 import * as actions from '../topicActions';
+import { getAccessToken } from '../../App/sessionSelectors';
+
 // import * as resourceSagas from '../../Resources/resourceSagas';
 // import { hasFetchedTopicsBySubjectId } from '../topicSelectors';
 
@@ -80,11 +82,14 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
 
 test('topicSagas fetchTopicIntroductions', () => {
   const topics = [{ contentUri: 'urn:article:1' }, { contentUri: 'urn:learningpath:2' }, { contentUri: 'urn:article:1331' }, { id: 3 }];
+  const token = '12345678';
   const saga = testSaga(sagas.fetchTopicIntroductions, topics);
   const data = { results: [{ id: '1', intro: 'Test' }, { id: '1331', intro: 'Test' }] };
   saga
     .next()
-    .call(articleApi.fetchArticles, ['1', '1331'])
+    .select(getAccessToken)
+    .next(token)
+    .call(articleApi.fetchArticles, ['1', '1331'], token)
 
     .next(data)
     .put({ type: constants.SET_TOPIC_INTRODUCTIONS, payload: { topics, articleIntroductions: data.results } })

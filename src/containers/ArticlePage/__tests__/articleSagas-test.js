@@ -21,7 +21,7 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
-          .withState({ articles: {}, locale: 'nb' })
+          .withState({ articles: {}, locale: 'nb', accessToken: '123456789' })
           .put(actions.setArticle({ id: 123, title: 'unit test' }))
 
           .dispatch({ type: constants.FETCH_ARTICLE, payload: 123 })
@@ -30,6 +30,6 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
     expectSaga(sagas.watchFetchArticle)
-      .withState({ articles: { 123: { id: 123 } }, locale: 'nb' })
+      .withState({ articles: { 123: { id: 123 } }, locale: 'nb', accessToken: '123456789' })
       .dispatch({ type: constants.FETCH_ARTICLE, payload: 123 })
       .run({ silenceTimeout: true }));

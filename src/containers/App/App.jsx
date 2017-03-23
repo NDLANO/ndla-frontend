@@ -25,6 +25,12 @@ export class App extends React.Component {
       locale: this.props.locale,
     };
   }
+  componentDidMount() {
+    const validSession = true;
+    if (!validSession) {
+        // fetch and set new token
+    }
+  }
 
   render() {
     const { dispatch, children, messages, t, params } = this.props;

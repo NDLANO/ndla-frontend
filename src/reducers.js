@@ -16,9 +16,11 @@ import subjects from './containers/SubjectPage/subjectReducer';
 import topics from './containers/TopicPage/topicReducer';
 import search from './containers/SearchPage/searchReducer';
 import resources from './containers/Resources/resourceReducer';
+import accessToken from './containers/App/sessionReducer';
 
 const rootReducers = combineReducers({
   articles,
+  accessToken,
   locale,
   messages,
   resources,
