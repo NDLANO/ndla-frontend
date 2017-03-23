@@ -17,9 +17,9 @@ export default function* root() {
   yield [
     ...articleSagas.map(s => fork(s)),
     ...searchSagas.map(s => fork(s)),
-    // ...subjectSagas.map(s => fork(s)),
-    // ...topicSagas.map(s => fork(s)),
-    // ...resourceSagas.map(s => fork(s)),
+    ...subjectSagas.map(s => fork(s)),
+    ...topicSagas.map(s => fork(s)),
+    ...resourceSagas.map(s => fork(s)),
     ...sessionSagas.map(s => fork(s)),
   ];
 }
