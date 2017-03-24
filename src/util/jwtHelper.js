@@ -1,30 +1,28 @@
-import decode from 'jwt-decode';
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-export function getTokenExpirationDate(token) {
-  const decoded = decode(token);
-  if (!decoded.exp) {
-    return null;
-  }
-  const date = new Date(0);
-  // const date = new Date(0); // The 0 here is the key, which sets the date to the epoch
-  date.setUTCSeconds(decoded.exp);
-  return date;
-}
+ import decode from 'jwt-decode';
 
-export function isTokenExpired(token) {
-  const decoded = decode(token);
-  const date = getTokenExpirationDate(token);
-  if (date === null) {
-    return false;
-  }
-  return !(decoded.exp < new Date().getTime());
-}
+ export function getTokenExpiration(token) {
+   const decoded = decode(token);
+   return decoded.exp;
+ }
+ export function getTokenIssuedAt(token) {
+   const decoded = decode(token);
+   return decoded.iat;
+ }
 
+ export function isTokenExpired(token) {
+   return getTokenExpiration(token) - getTokenIssuedAt(token) < 0;
+ }
 
-export function getTimeToUpdate(token) {
-  const now = Date.now();
-  const expired = getTokenExpirationDate(token);
-  const expireTime = expired.getTime() - now - (1000 * 60 * 5); // 1000 * 60 * 5 = 5 minutes;
+ export const decodeIdToken = idToken => decode(idToken);
 
-  return expireTime > 0 ? expireTime : (1000 * 60 * 55);
-}
+ export function getTimeToUpdateInMs(token) {
+   return (getTokenExpiration(token) - getTokenIssuedAt(token) - (60 * 5)) * 1000; // Removes 5 minutes from time to update
+ }

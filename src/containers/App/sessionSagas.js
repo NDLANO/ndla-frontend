@@ -10,7 +10,7 @@ import { call, put, select } from 'redux-saga-effects';
 import { delay } from 'redux-saga';
 import * as actions from './sessionActions';
 import * as api from './sessionApi';
-import { getTimeToUpdate } from '../../util/jwtHelper';
+import { getTimeToUpdateInMs } from '../../util/jwtHelper';
 import { getAccessToken } from './sessionSelectors';
 
 export function* fetchAccessToken() {
@@ -30,7 +30,7 @@ export function* watchFetchAccessToken() {
   }
   while (true) {
     const accessToken = yield select(getAccessToken);
-    yield call(delay, getTimeToUpdate(accessToken));
+    yield call(delay, getTimeToUpdateInMs(accessToken));
 
     yield call(fetchAccessToken);
   }

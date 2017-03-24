@@ -91,7 +91,7 @@ app.get('/get_token', (req, res) => {
   }).catch(err => res.status(500).send(err.message));
 });
 
-function dd(req, res, token) {
+function handleResponse(req, res, token) {
   const paths = req.url.split('/');
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
@@ -151,7 +151,7 @@ function dd(req, res, token) {
 
 app.get('*', (req, res) => {
   getToken().then((token) => {
-    dd(req, res, token);
+    handleResponse(req, res, token);
   }).catch(err => res.status(500).send(err.message));
 });
 
