@@ -6,18 +6,19 @@
  *
  */
 
-import { call, put } from 'redux-saga-effects';
+import { call, put, select } from 'redux-saga-effects';
 import * as actions from './resourceActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as learningPathApi from './learningPathApi';
 import * as api from './resourceApi';
 import { isLearningPathResource, isArticleResource, getArticleIdFromResource, getLearningPathIdFromResource } from './resourceHelpers';
+import { getAccessToken } from '../App/sessionSelectors';
 
-export function* fetchLearningPathResourcesData(topicId, resources) {
+export function* fetchLearningPathResourcesData(topicId, resources, token) {
   try {
     const ids = resources.map(getLearningPathIdFromResource);
     if (ids.length > 0) {
-      const data = yield call(learningPathApi.fetchLearningPaths, ids);
+      const data = yield call(learningPathApi.fetchLearningPaths, ids, token);
       yield put(actions.setLearningPathResourceData({ topicId, learningPathResourceData: data.results }));
     }
   } catch (error) {
@@ -25,11 +26,11 @@ export function* fetchLearningPathResourcesData(topicId, resources) {
   }
 }
 
-export function* fetchArticleResourcesData(topicId, resources) {
+export function* fetchArticleResourcesData(topicId, resources, token) {
   try {
     const ids = resources.map(getArticleIdFromResource);
     if (ids.length > 0) {
-      const data = yield call(articleApi.fetchArticles, ids);
+      const data = yield call(articleApi.fetchArticles, ids, token);
       yield put(actions.setArticleResourceData({ topicId, articleResourceData: data.results }));
     }
   } catch (error) {
@@ -39,11 +40,12 @@ export function* fetchArticleResourcesData(topicId, resources) {
 
 export function* fetchTopicResources(topicId) {
   try {
-    const resources = yield call(api.fetchTopicResources, topicId);
+    const token = yield select(getAccessToken);
+    const resources = yield call(api.fetchTopicResources, topicId, token);
     yield put(actions.setTopicResources({ topicId, resources }));
     yield [
-      call(fetchArticleResourcesData, topicId, resources.filter(isArticleResource)),
-      call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource)),
+      call(fetchArticleResourcesData, topicId, resources.filter(isArticleResource), token),
+      call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),
     ];
   } catch (error) {
     throw error;

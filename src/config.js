@@ -56,7 +56,6 @@ module.exports = Object.assign({
   googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
   disableSSR: process.env.DISABLE_SSR || false,
   ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-  ndlaApiKey: process.env.NDLA_API_KEY || 'ndlalearningpathfrontend',
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
 }, environment);

@@ -7,11 +7,11 @@
  */
 
 import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError, apiResourceUrl } from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } from '../../util/apiHelpers';
 
 const converterBaseUrl = apiResourceUrl('/article-converter/raw');
 const baseUrl = apiResourceUrl('/article-api/v1/articles');
 
-export const fetchArticle = (id, locale) => fetch(`${converterBaseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchArticle = (id, locale, token) => fetch(`${converterBaseUrl}/${locale}/${id}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
 
-export const fetchArticles = ids => fetch(`${baseUrl}?ids=${ids.join(',')}`).then(resolveJsonOrRejectWithError);
+export const fetchArticles = (ids, token) => fetch(`${baseUrl}?ids=${ids.join(',')}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
