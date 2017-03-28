@@ -31,6 +31,18 @@ class ArticlePage extends Component {
     }
   }
 
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
   render() {
     const { article, subject, topicPath, locale } = this.props;
     if (!article) {
