@@ -11,13 +11,16 @@ import { hasFetched } from '../subjectSelectors';
 import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';
 import * as constants from '../subjectConstants';
-
+import { getAccessToken } from '../../App/sessionSelectors';
 
 test('subjectSagas fetchSubjects', () => {
+  const token = '12345678';
   const saga = testSaga(sagas.fetchSubjects);
   saga
     .next()
-    .call(api.fetchSubjects)
+    .select(getAccessToken)
+    .next(token)
+    .call(api.fetchSubjects, token)
 
     .next([{ id: '123', name: 'Matematikk' }])
     .put({ type: constants.SET_SUBJECTS, payload: [{ id: '123', name: 'Matematikk' }] })

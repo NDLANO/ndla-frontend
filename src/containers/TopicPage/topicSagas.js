@@ -14,6 +14,7 @@ import { getArticleIdFromResource, isArticleResource } from '../Resources/resour
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
+import { getAccessToken } from '../App/sessionSelectors';
 
 
 export function* fetchTopicIntroductions(topics) {
@@ -25,8 +26,8 @@ export function* fetchTopicIntroductions(topics) {
     if (ids.length === 0) {
       return;
     }
-
-    const data = yield call(articleApi.fetchArticles, ids);
+    const token = yield select(getAccessToken);
+    const data = yield call(articleApi.fetchArticles, ids, token);
     yield put(actions.setTopicIntroductions({ topics, articleIntroductions: data.results }));
   } catch (error) {
     throw error;
@@ -37,7 +38,8 @@ export function* fetchTopicIntroductions(topics) {
 
 export function* fetchTopics(subjectId, topicId) {
   try {
-    const topics = yield call(api.fetchTopics, subjectId);
+    const token = yield select(getAccessToken);
+    const topics = yield call(api.fetchTopics, subjectId, token);
     yield put(actions.setTopics({ topics, subjectId }));
     if (topicId) { // Fetch related article if topicId is defined
       yield put(actions.fetchTopicArticle({ topicId, subjectId }));

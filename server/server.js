@@ -28,6 +28,7 @@ import Html from './Html';
 import config from '../src/config';
 import { htmlTemplate, htmlErrorTemplate } from './oembedHtmlTemplate';
 import { titleI18N } from '../src/util/i18nFieldFinder';
+import { getToken } from './auth';
 
 const app = express();
 
@@ -84,23 +85,28 @@ app.get('/oembed', (req, res) => {
     });
 });
 
-app.get('*', (req, res) => {
+app.get('/get_token', (req, res) => {
+  getToken().then((token) => {
+    res.send(token);
+  }).catch(err => res.status(500).send(err.message));
+});
+
+function handleResponse(req, res, token) {
   const paths = req.url.split('/');
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
 
   if (global.__DISABLE_SSR__) { // eslint-disable-line no-underscore-dangle
-    const htmlString = renderHtmlString(locale, userAgentString);
+    const htmlString = renderHtmlString(locale, userAgentString, { accessToken: token.access_token });
     res.send(`<!doctype html>\n${htmlString}`);
     return;
   }
-
   const options = isValidLocale(paths[1]) ? { basename: `/${locale}/` } : {};
   const location = !options.basename ? req.url : req.url.replace(`${locale}/`, '');
   const memoryHistory = createMemoryHistory(req.url, options);
 
-  const store = configureStore({ locale }, memoryHistory);
+  const store = configureStore({ locale, accessToken: token.access_token }, memoryHistory);
 
   const history = syncHistoryWithStore(memoryHistory, store);
 
@@ -141,6 +147,12 @@ app.get('*', (req, res) => {
       res.sendStatus(500);
     }
   });
+}
+
+app.get('*', (req, res) => {
+  getToken().then((token) => {
+    handleResponse(req, res, token);
+  }).catch(err => res.status(500).send(err.message));
 });
 
 module.exports = app;

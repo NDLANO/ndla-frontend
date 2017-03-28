@@ -63,6 +63,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-register": "^6.23.0",
+    "btoa": "^1.1.2",
     "classnames": "2.2.5",
     "compression": "1.6.2",
     "date-fns": "^1.10.0",
@@ -71,6 +72,7 @@
     "history": "3.2.1",
     "http-status": "^1.0.1",
     "isomorphic-fetch": "2.2.1",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.2",
     "ndla-article-scripts": "^0.0.1",
     "ndla-licenses": "^0.0.6",
