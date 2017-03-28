@@ -88,7 +88,7 @@ const phrases = {
     },
   },
   searchPage: {
-    noHits: 'Your search - %{query} - did not match any articles. ',
+    noHits: 'Your search - {query} - did not match any articles. ',
   },
   topicPage: {
     closeArticleTopic: 'Hide topic description',
