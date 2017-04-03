@@ -9,7 +9,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { OneColumn, TopicBreadcrumb, Hero } from 'ndla-ui';
+import { Hero } from 'ndla-ui';
 import * as actions from './articleActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getTopicPath } from '../TopicPage/topicSelectors';
@@ -18,7 +18,6 @@ import * as subjectActions from '../SubjectPage/subjectActions';
 import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
-import { toTopic } from '../../routes';
 import Article from './components/Article';
 
 class ArticlePage extends Component {
@@ -53,17 +52,12 @@ class ArticlePage extends Component {
     return (
       <div>
         <Hero white><span /></Hero>
-        <OneColumn cssModifier="narrow">
-          <Helmet
-            title={`NDLA | ${article.title}`}
-            meta={[metaDescription]}
-            script={scripts}
-          />
-          <section className="c-article-content">
-            { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath} toTopic={toTopic}>Du er her:</TopicBreadcrumb> : null }
-            <Article article={article} locale={locale} />
-          </section>
-        </OneColumn>
+        <Helmet
+          title={`NDLA | ${article.title}`}
+          meta={[metaDescription]}
+          script={scripts}
+        />
+        <Article article={article} subject={subject} topicPath={topicPath} locale={locale} />
       </div>
     );
   }

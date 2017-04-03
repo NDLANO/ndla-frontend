@@ -1015,6 +1015,10 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
+btoa@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.1.2.tgz#3e40b81663f81d2dd6596a4cb714a8dc16cfabe0"
+
 buffer-shims@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-shims/-/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
@@ -1163,7 +1167,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@2.2.5, classnames@^2.2.0:
+classnames@2.2.5, classnames@^2.2.0, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -3375,6 +3379,10 @@ jsx-ast-utils@^1.0.0, jsx-ast-utils@^1.3.4:
   dependencies:
     object-assign "^4.1.0"
 
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
+
 kind-of@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.1.0.tgz#475d698a5e49ff5e53d14e3e732429dc8bf4cf47"
@@ -3778,9 +3786,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.1.tgz#703bf591a8de6702ed322fcc0e6dae44ae364dfd"
+ndla-article-scripts@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.2.tgz#f50770821164a6f252bef2f235a54704cc6723a0"
 
 ndla-licenses@^0.0.6:
   version "0.0.6"
@@ -3794,10 +3802,12 @@ ndla-tabs@^0.2.0:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.2.17:
-  version "0.2.17"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.2.17.tgz#3e3bf42c3b53163ca836e9ab2f74c0650a254221"
+ndla-ui@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.3.0.tgz#d7a9c84cc225b1de7c8b8b0cfba23683d49bb42d"
   dependencies:
+    classnames "^2.2.5"
+    react-bem-helper "^1.2.0"
     react-prop-types "^0.4.0"
 
 ndla-util@^0.1.0:
@@ -4920,7 +4930,7 @@ react-addons-test-utils@^15.4.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-bem-helper@^1.3.1:
+react-bem-helper@^1.2.0, react-bem-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-bem-helper/-/react-bem-helper-1.3.1.tgz#b8a0ad83dd97507fa64dac69a7188be65edf6ac4"
 

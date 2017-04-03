@@ -12,11 +12,13 @@ import { getArticle } from './articleSelectors';
 import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
+import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchArticle(id) {
   try {
     const locale = yield select(getLocale);
-    const article = yield call(api.fetchArticle, id, locale);
+    const token = yield select(getAccessToken);
+    const article = yield call(api.fetchArticle, id, locale, token);
     yield put(actions.setArticle(article));
   } catch (error) {
     throw error;
