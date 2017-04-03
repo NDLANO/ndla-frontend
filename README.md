@@ -5,7 +5,7 @@
 
 - Node.JS ~6.2
 - npm ~3.9
-- yarn ~0.18.0
+- yarn ~0.21.3
 - Docker (optional)
 
 ## Getting started
@@ -19,9 +19,9 @@ What's in the box?
 
 ### Dependencies
 
-All dependencies are defined in `package.json` and are managed with npm.  To
+All dependencies are defined in `package.json` and are managed with npm/yarn.  To
 initially install all dependencies and when the list dependency has changed,
-run `npm install`.
+run `yarn install`.
 
 ```
 $ yarn install
