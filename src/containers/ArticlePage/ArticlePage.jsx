@@ -19,6 +19,12 @@ import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
+import config from '../../config';
+
+
+const assets = __CLIENT__ ? window.assets : ( // eslint-disable-line no-nested-ternary
+  config.isProduction ? require('../../../htdocs/assets/assets') : require('../../../server/developmentAssets') // eslint-disable-line import/no-unresolved
+);
 
 class ArticlePage extends Component {
   componentWillMount() {
@@ -30,12 +36,28 @@ class ArticlePage extends Component {
     }
   }
 
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
   render() {
     const { article, subject, topicPath, locale } = this.props;
     if (!article) {
       return null;
     }
     const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
+    if (article.content.indexOf('<math') > -1) {
+      scripts.push({ async: true, src: `https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`, type: 'text/javascript' });
+    }
+
     const metaDescription = article.metaDescription ? { name: 'description', content: article.metaDescription } : {};
     return (
       <div>

@@ -94,7 +94,7 @@ const phrases = {
     },
   },
   searchPage: {
-    noHits: 'Ingen atikler samsvarte med søket ditt på: %{query}',
+    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
   topicPage: {
     closeArticleTopic: 'Skjul emnebeskrivelse',

@@ -14,6 +14,9 @@ const entry = {
   embed: [
     './server/embedScripts.js',
   ],
+  mathjaxConfig: [
+    './src/mathjaxConfig.js',
+  ],
 };
 module.exports = options => ({
   entry: Object.assign(entry, {
