@@ -56,7 +56,17 @@ class TopicPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
+                { subject ?
+                  <TopicBreadcrumb
+                    toSubjects={() => '/'}
+                    subjectsTitle={t('breadcrumb.subjectsLinkText')}
+                    subject={subject}
+                    topicPath={topicPath.slice(0, -1)}
+                    toTopic={toTopic}
+                  >
+                    { t('breadcrumb.label') }
+                  </TopicBreadcrumb>
+                : null }
                 <h1 className="c-hero__title" style={{ clear: 'both' }}>{topic.name}</h1>
               </section>
             </div>

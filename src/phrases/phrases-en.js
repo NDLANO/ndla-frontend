@@ -90,10 +90,18 @@ const phrases = {
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
   },
+  breadcrumb: {
+    subjectsLinkText: 'Subject',
+    label: 'You are here:',
+  },
+  subjectPage: {
+    tabs: {
+      topics: 'Topics',
+    },
+  },
   topicPage: {
     closeArticleTopic: 'Hide topic description',
     openArticleTopic: 'See whole topic description',
-    breadcrumbLabel: 'You are here:',
     tabs: {
       learningresources: 'Learning Resources',
       topics: 'Topics',

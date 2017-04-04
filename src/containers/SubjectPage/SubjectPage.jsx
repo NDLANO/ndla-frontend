@@ -8,10 +8,12 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { OneColumn, Hero, ResourceWrapper, TopicIntroductionList } from 'ndla-ui';
 import Tabs from 'ndla-tabs';
 import { Link } from 'react-router';
 import defined from 'defined';
+import { injectT } from '../../i18n';
 import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
@@ -37,7 +39,7 @@ class SubjectPage extends Component {
   }
 
   render() {
-    const { subjectTopics, subject, topic } = this.props;
+    const { subjectTopics, subject, t, topic } = this.props;
     if (!subject) {
       return null;
     }
@@ -50,10 +52,10 @@ class SubjectPage extends Component {
             <div className="c-hero__content">
               <section>
                 <div className="c-breadcrumb">
-                  Du er her:
+                  {t('breadcrumb.label')}
                   <ol className="c-breadcrumb__list">
                     <li className="c-breadcrumb__item">
-                      <Link to="/">Fag</Link> &#x203A;
+                      <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> &#x203A;
                     </li>
                   </ol>
                 </div>
@@ -66,16 +68,9 @@ class SubjectPage extends Component {
         <ResourceWrapper>
           <Tabs
             tabs={[
-              { title: 'Emner',
-                content:
-  <TopicIntroductionList
-    subjectId={subject.id}
-    toTopic={toTopic(subject.id)}
-    topics={topics}
-    goToTopicTitle="Gå til emne"
-    goToTopicResourcesTitle="Se fagstoff"
-    toTopicResources={toTopic(subject.id)}
-  />,
+              {
+                title: t('subjectPage.tabs.topics'),
+                content: <TopicIntroductionList toTopic={toTopic(subject.id)} topics={topics} />,
               },
             ]}
           />
@@ -112,4 +107,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  injectT,
+)(SubjectPage);

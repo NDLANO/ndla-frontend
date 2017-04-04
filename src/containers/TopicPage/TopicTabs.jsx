@@ -29,15 +29,7 @@ function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
   if (subtopics.length > 0) {
     tabs.push({
       title: t('topicPage.tabs.topics'),
-      content: (
-        <TopicIntroductionList
-          subjectId={subjectId}
-          goToTopicTitle="Gå til emne"
-          goToTopicResourcesTitle="Se fagstoff"
-          toTopicResources={toTopic(subjectId, topicPath)}
-          toTopic={toTopic(subjectId, topicPath)}
-          topics={subtopics}
-        />
+      content: (<TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
       ),
     });
   }
