@@ -7,7 +7,7 @@
  */
 
 import reducer, { initalState } from '../subjectReducer';
-import * as constants from '../subjectConstants';
+import * as actions from '../subjectActions';
 import { subjects } from './mockSubjects';
 
 test('reducers/subject initalState', () => {
@@ -21,7 +21,7 @@ test('reducers/subject initalState', () => {
 });
 
 test('reducers/subject handle fetch subjects', () => {
-  const nextState = reducer(undefined, { type: constants.FETCH_SUBJECTS });
+  const nextState = reducer(undefined, { type: actions.fetchSubjects.toString() });
 
   expect(nextState).toEqual({
     hasFetched: false,
@@ -33,7 +33,7 @@ test('reducers/subject handle fetch subjects', () => {
 
 test('reducers/subjects handle set subjects', () => {
   const nextState = reducer(initalState, {
-    type: constants.SET_SUBJECTS,
+    type: actions.setSubjects.toString(),
     payload: subjects,
   });
 

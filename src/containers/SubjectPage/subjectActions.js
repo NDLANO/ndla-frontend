@@ -7,7 +7,6 @@
  */
 
 import { createAction } from 'redux-actions';
-import * as constants from './subjectConstants';
 
-export const fetchSubjects = createAction(constants.FETCH_SUBJECTS);
-export const setSubjects = createAction(constants.SET_SUBJECTS);
+export const fetchSubjects = createAction('FETCH_SUBJECTS');
+export const setSubjects = createAction('SET_SUBJECTS');

@@ -8,7 +8,6 @@
 
 import { take, call, put, select } from 'redux-saga-effects';
 import { hasFetched } from './subjectSelectors';
-import * as constants from './subjectConstants';
 import * as actions from './subjectActions';
 import * as api from './subjectApi';
 import { getAccessToken } from '../App/sessionSelectors';
@@ -27,7 +26,7 @@ export function* fetchSubjects() {
 
 export function* watchFetchSubjects() {
   while (true) {
-    yield take(constants.FETCH_SUBJECTS);
+    yield take(actions.fetchSubjects);
     const fetched = yield select(hasFetched);
     if (!fetched) {
       yield call(fetchSubjects);
