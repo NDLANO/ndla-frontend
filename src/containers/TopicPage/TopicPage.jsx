@@ -23,16 +23,16 @@ import { toTopic } from '../../routes';
 
 class TopicPage extends Component {
   componentWillMount() {
-    const { params: { subjectId, topicId }, fetchTopicArticle, fetchSubjects } = this.props;
+    const { params: { subjectId, topicId }, fetchTopics, fetchSubjects } = this.props;
+    fetchTopics({ subjectId, topicId });
     fetchSubjects();
-    fetchTopicArticle({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { subjectId, topicId }, fetchTopicArticle } = this.props;
+    const { params: { subjectId, topicId }, fetchTopics } = this.props;
 
     if (nextProps.params.topicId !== topicId) {
-      fetchTopicArticle({ subjectId, topicId: nextProps.params.topicId });
+      fetchTopics({ subjectId, topicId: nextProps.params.topicId });
     }
   }
 
@@ -90,8 +90,8 @@ TopicPage.propTypes = {
     subjectId: PropTypes.string.isRequired,
     topicId: PropTypes.string,
   }).isRequired,
-  fetchTopicArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
+  fetchTopics: PropTypes.func.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -100,7 +100,7 @@ TopicPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopicArticle: actions.fetchTopicArticle,
+  fetchTopics: actions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {

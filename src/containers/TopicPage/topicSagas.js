@@ -36,15 +36,20 @@ export function* fetchTopicIntroductions(topics) {
   }
 }
 
-export function* fetchTopics(subjectId, topicId) {
+export function* fetchTopicArticle(subjectId, topicId) {
+  const topic = yield select(getTopic(subjectId, topicId));
+  const articleId = getArticleIdFromResource(topic);
+  if (articleId) {
+    yield put(fetchArticle(articleId));
+  }
+}
+
+export function* fetchTopics(subjectId) {
   try {
     const token = yield select(getAccessToken);
     const topics = yield call(api.fetchTopics, subjectId, token);
     yield put(actions.setTopics({ topics, subjectId }));
-    if (topicId) { // Fetch related article if topicId is defined
-      yield put(actions.fetchTopicArticle({ topicId, subjectId }));
-    }
-    yield call(fetchTopicIntroductions, topics);
+    return topics;
   } catch (error) {
     throw error;
     // TODO: handle error
@@ -69,30 +74,16 @@ export function* watchFetchTopics() {
     const { payload: { subjectId, topicId } } = yield take(actions.fetchTopics);
     const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
     if (!hasFetched) {
-      yield call(fetchTopics, subjectId, topicId);
+      const topics = yield call(fetchTopics, subjectId);
+      yield [call(fetchTopicArticle, subjectId, topicId), call(fetchTopicIntroductions, topics)];
+    } else {
+      yield call(fetchTopicArticle, subjectId, topicId);
     }
   }
 }
 
-
-export function* watchFetchTopicArticle() {
-  while (true) {
-    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopicArticle);
-    const topic = yield select(getTopic(subjectId, topicId));
-
-    if (!topic) {
-      yield put(actions.fetchTopics({ subjectId, topicId })); // Need to fetch topics first
-    } else if (isArticleResource) {
-      const articleId = getArticleIdFromResource(topic);
-      if (articleId) {
-        yield put(fetchArticle(articleId));
-      }
-    }
-  }
-}
 
 export default [
   watchFetchTopics,
-  watchFetchTopicArticle,
   watchFetchTopicResources,
 ];
