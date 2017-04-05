@@ -7,7 +7,7 @@
  */
 
 import reducer, { initalState } from '../topicReducer';
-import * as constants from '../topicConstants';
+import * as actions from '../topicActions';
 import { topics } from './mockTopics';
 
 test('reducers/topic initalState', () => {
@@ -22,7 +22,7 @@ test('reducers/topic initalState', () => {
 
 test('reducers/topics handle set topics', () => {
   const nextState = reducer(initalState, {
-    type: constants.SET_TOPICS,
+    type: actions.setTopics.toString(),
     payload: {
       subjectId: 'urn:subject:1',
       topics,
@@ -35,7 +35,7 @@ test('reducers/topics handle set topics', () => {
   });
 
   const nextNextState = reducer(nextState, {
-    type: constants.SET_TOPICS,
+    type: actions.setTopics.toString(),
     payload: {
       subjectId: 'urn:subject:2',
       topics: [],
@@ -50,7 +50,7 @@ test('reducers/topics handle set topics', () => {
 
 test('reducers/topics handle set topic introductions', () => {
   const nextState = reducer(initalState, {
-    type: constants.SET_TOPIC_INTRODUCTIONS,
+    type: actions.setTopicIntroductions.toString(),
     payload: {
       articleIntroductions: [{ id: '1', intro: 'Test1' }, { id: '2', intro: 'Test2' }, { id: '3', intro: 'Test3' }],
       topics: [{ id: 'topicId1', contentUri: 'urn:article:1' }, { id: 'topicId2', contentUri: 'urn:article:3' }, { id: 'topicId3', contentUri: 'urn:image:3' }],

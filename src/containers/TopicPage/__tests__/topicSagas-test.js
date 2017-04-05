@@ -12,7 +12,6 @@ import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import { fetchArticle } from '../../ArticlePage/articleActions';
-import * as constants from '../topicConstants';
 import * as actions from '../topicActions';
 import { getAccessToken } from '../../App/sessionSelectors';
 import { topics } from './mockTopics';
@@ -42,7 +41,7 @@ test('topicSagas fetchTopics', () => {
     .call(api.fetchTopics, 1234, token)
 
     .next([{ id: '123', name: 'Algebra', parent: undefined }])
-    .put({ type: constants.SET_TOPICS, payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
+    .put({ type: actions.setTopics.toString(), payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
 
     .next()
     .isDone();
@@ -113,7 +112,7 @@ test('topicSagas fetchTopicIntroductions', () => {
     .call(articleApi.fetchArticles, ['1', '1331'], token)
 
     .next(data)
-    .put({ type: constants.SET_TOPIC_INTRODUCTIONS, payload: { topics: mockTopics, articleIntroductions: data.results } })
+    .put({ type: actions.setTopicIntroductions.toString(), payload: { topics: mockTopics, articleIntroductions: data.results } })
 
     .next()
     .isDone();
