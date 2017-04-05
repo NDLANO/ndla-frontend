@@ -9,7 +9,7 @@
 import config from '../../config';
 import { toArticle } from '../../routes';
 
-const LEARNING_PATH_DOMAIN = __SERVER__ ? config.learningPathDomain : window.config.learningPathDomain;
+const LEARNING_PATH_DOMAIN = __SERVER__ || process.env.NODE_ENV === 'unittest' ? config.learningPathDomain : window.config.learningPathDomain;
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 

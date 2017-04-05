@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
 import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from './topicSelectors';
-import * as actions from './topicActions';
+import * as resourceActions from '../Resources/resourceActions';
 import { injectT } from '../../i18n';
 import { ResourceShape, TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
@@ -76,7 +76,7 @@ TopicTabs.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTopicResources: actions.fetchTopicResources,
+  fetchTopicResources: resourceActions.fetchTopicResources,
 };
 
 const mapStateToProps = (state, ownProps) => {

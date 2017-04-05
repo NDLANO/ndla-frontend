@@ -6,13 +6,14 @@
  *
  */
 
-import { call, put, select } from 'redux-saga-effects';
+import { take, call, put, select } from 'redux-saga-effects';
 import * as actions from './resourceActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as learningPathApi from './learningPathApi';
 import * as api from './resourceApi';
 import { isLearningPathResource, isArticleResource, getArticleIdFromResource, getLearningPathIdFromResource } from './resourceHelpers';
 import { getAccessToken } from '../App/sessionSelectors';
+import { getResourcesByTopicId } from './resourceSelectors';
 
 export function* fetchLearningPathResourcesData(topicId, resources, token) {
   try {
@@ -52,6 +53,16 @@ export function* fetchTopicResources(topicId) {
   }
 }
 
+export function* watchFetchTopicResources() {
+  while (true) {
+    const { payload: { topicId } } = yield take(actions.fetchTopicResources);
+    const resources = yield select(getResourcesByTopicId(topicId));
+    if (resources.length === 0) {
+      yield call(fetchTopicResources, topicId);
+    }
+  }
+}
 
 export default [
+  watchFetchTopicResources,
 ];

@@ -12,5 +12,4 @@ export const fetchTopics = createAction('FETCH_TOPICS');
 export const setTopics = createAction('SET_TOPICS');
 export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
 
-export const fetchTopicResources = createAction('FETCH_TOPIC_RESOURCES');
 export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
