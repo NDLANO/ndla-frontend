@@ -16,7 +16,6 @@ import * as actions from '../topicActions';
 import { getAccessToken } from '../../App/sessionSelectors';
 import { topics } from './mockTopics';
 
-// import * as resourceSagas from '../../Resources/resourceSagas';
 // import { hasFetchedTopicsBySubjectId, getTopic } from '../topicSelectors';
 
 test('topicSagas fetchTopicArticle if articleId is defined', () => {
@@ -82,23 +81,6 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
     .finish()
     .isDone();
 });
-
-// test('topicSagas watchFetchTopicResources', () => {
-//   const saga = testSaga(sagas.watchFetchTopicResources);
-//   saga
-//     .next()
-//     .take(actions.fetchTopicResources)
-//
-//     .next({ payload: { subjectId: 1, topicId: 2 } })
-//     .next([{ id: 1 }, { id: 3 }])
-//     .parallel([
-//       call(sagas.fetchTopicIntroductions, [{ id: 1 }, { id: 3 }]),
-//       call(resourceSagas.fetchTopicResources, 2),
-//     ])
-//     .finish()
-//     .next()
-//     .isDone();
-// });
 
 test('topicSagas fetchTopicIntroductions', () => {
   const mockTopics = [{ contentUri: 'urn:article:1' }, { contentUri: 'urn:learningpath:2' }, { contentUri: 'urn:article:1331' }, { id: 3 }];
