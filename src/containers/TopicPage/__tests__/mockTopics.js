@@ -11,7 +11,7 @@ export const topics = [
     id: 'urn:topic:1',
     name: 'Idéutvikling og mediedesign',
     contentUri: 'urn:article:1',
-    parent: undefined,
+    parent: 'urn:subject:1',
   },
   {
     id: 'urn:topic:1_1',

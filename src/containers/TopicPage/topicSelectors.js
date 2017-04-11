@@ -35,7 +35,7 @@ export const getAllTopicsBySubjectId = subjectId => createSelector(
 
 export const getTopicsBySubjectId = subjectId => createSelector(
   [getAllTopicsBySubjectId(subjectId)],
-  topics => topics.filter(topic => !topic.parent),
+  topics => topics.filter(topic => !topic.parent || topic.parent === subjectId),
 );
 
 export const getTopicsBySubjectIdWithIntroduction = subjectId => createSelector(
@@ -78,7 +78,7 @@ export const getSubjectMenu = subjectId => createSelector(
       return { ...topic, subtopics: subtopicsWithSubtopics };
     };
 
-    return topics.filter(t => !t.parent).map(root => toMenu(root));
+    return topics.filter(t => !t.parent || t.parent === subjectId).map(root => toMenu(root));
   },
 );
 
@@ -90,7 +90,7 @@ export const getTopicPath = (subjectId, topicId) => createSelector(
     }
 
     const toBreadcrumb = (topic) => {
-      if (!topic.parent) {
+      if (!topic.parent || topic.parent === subjectId) {
         return [topic];
       }
       const parent = topics.find(t => topic.parent === t.id);

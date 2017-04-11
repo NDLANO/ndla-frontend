@@ -100,7 +100,7 @@ test('topicSelectors getSubjectMenu', () => {
       {
         id: 'urn:topic:1',
         name: 'Idéutvikling og mediedesign',
-        parent: undefined,
+        parent: 'urn:subject:1',
         contentUri: 'urn:article:1',
         subtopics: [
           {
