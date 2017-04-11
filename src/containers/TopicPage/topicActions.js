@@ -7,11 +7,9 @@
  */
 
 import { createAction } from 'redux-actions';
-import * as constants from './topicConstants';
 
-export const fetchTopics = createAction(constants.FETCH_TOPICS);
-export const setTopics = createAction(constants.SET_TOPICS);
-export const fetchTopicArticle = createAction(constants.FETCH_TOPIC_ARTICLE);
+export const fetchTopics = createAction('FETCH_TOPICS');
+export const setTopics = createAction('SET_TOPICS');
+export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
 
-export const fetchTopicResources = createAction(constants.FETCH_TOPIC_RESOURCES);
-export const setTopicIntroductions = createAction(constants.SET_TOPIC_INTRODUCTIONS);
+export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');

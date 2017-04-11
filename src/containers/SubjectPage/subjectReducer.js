@@ -7,7 +7,7 @@
  */
 
 import { handleActions } from 'redux-actions';
-import * as constants from './subjectConstants';
+import * as actions from './subjectActions';
 
 export const initalState = {
   hasFetched: false,
@@ -16,11 +16,11 @@ export const initalState = {
 };
 
 export default handleActions({
-  [constants.FETCH_SUBJECTS]: {
+  [actions.fetchSubjects]: {
     next: state => ({ ...state, fetching: true }),
     throw: state => state,
   },
-  [constants.SET_SUBJECTS]: {
+  [actions.setSubjects]: {
     next: (state, action) => ({ ...state, all: action.payload, fetching: false, hasFetched: true }),
     throw: state => state,
   },

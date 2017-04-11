@@ -83,7 +83,7 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[0])
     .toEqual({ id: 'urn:topic:1_1', introduction: 'Tester', name: 'Mediedesign', parent: topics[0].id });
   expect(getSubtopicsWithIntroduction('urn:subject:1', topics[0].id)(state)[1])
-    .toEqual({ id: 'urn:topic:1_2', introduction: undefined, name: 'Idéutvikling', parent: topics[0].id });
+    .toEqual({ contentUri: 'urn:article:1_2', id: 'urn:topic:1_2', introduction: undefined, name: 'Idéutvikling', parent: topics[0].id });
 });
 
 test('topicSelectors getSubjectMenu', () => {
@@ -100,7 +100,8 @@ test('topicSelectors getSubjectMenu', () => {
       {
         id: 'urn:topic:1',
         name: 'Idéutvikling og mediedesign',
-        parent: undefined,
+        parent: 'urn:subject:1',
+        contentUri: 'urn:article:1',
         subtopics: [
           {
             id: 'urn:topic:1_1',
@@ -112,6 +113,7 @@ test('topicSelectors getSubjectMenu', () => {
             id: 'urn:topic:1_2',
             name: 'Idéutvikling',
             parent: 'urn:topic:1',
+            contentUri: 'urn:article:1_2',
             subtopics: [
               {
                 id: 'urn:topic:1_2_1',

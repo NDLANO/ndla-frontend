@@ -18,9 +18,8 @@ export function* fetchAccessToken() {
     const accessToken = yield call(api.fetchAccessToken);
     yield put(actions.setAccessToken(accessToken.access_token));
   } catch (error) {
-    throw error;
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
   }
 }
 

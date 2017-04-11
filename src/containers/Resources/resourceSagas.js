@@ -6,13 +6,14 @@
  *
  */
 
-import { call, put, select } from 'redux-saga-effects';
+import { take, call, put, select } from 'redux-saga-effects';
 import * as actions from './resourceActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as learningPathApi from './learningPathApi';
 import * as api from './resourceApi';
 import { isLearningPathResource, isArticleResource, getArticleIdFromResource, getLearningPathIdFromResource } from './resourceHelpers';
 import { getAccessToken } from '../App/sessionSelectors';
+import { getResourcesByTopicId } from './resourceSelectors';
 
 export function* fetchLearningPathResourcesData(topicId, resources, token) {
   try {
@@ -22,7 +23,8 @@ export function* fetchLearningPathResourcesData(topicId, resources, token) {
       yield put(actions.setLearningPathResourceData({ topicId, learningPathResourceData: data.results }));
     }
   } catch (error) {
-    throw error;
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
   }
 }
 
@@ -34,7 +36,7 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
       yield put(actions.setArticleResourceData({ topicId, articleResourceData: data.results }));
     }
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -48,10 +50,21 @@ export function* fetchTopicResources(topicId) {
       call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),
     ];
   } catch (error) {
-    throw error;
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
   }
 }
 
+export function* watchFetchTopicResources() {
+  while (true) {
+    const { payload: { topicId } } = yield take(actions.fetchTopicResources);
+    const resources = yield select(getResourcesByTopicId(topicId));
+    if (resources.length === 0) {
+      yield call(fetchTopicResources, topicId);
+    }
+  }
+}
 
 export default [
+  watchFetchTopicResources,
 ];

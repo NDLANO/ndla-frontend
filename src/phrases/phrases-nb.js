@@ -96,13 +96,21 @@ const phrases = {
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
+  breadcrumb: {
+    subjectsLinkText: 'Fag',
+    label: 'Du er her:',
+  },
+  subjectPage: {
+    tabs: {
+      topics: 'Emner',
+    },
+  },
   topicPage: {
     closeArticleTopic: 'Skjul emnebeskrivelse',
     openArticleTopic: 'Se hele emnebeskrivelse',
-    breadcrumbLabel: 'Du er her:',
     tabs: {
       learningresources: 'Fagstoff',
-      topics: 'Underemner',
+      topics: 'Emner',
     },
   },
   footer: {

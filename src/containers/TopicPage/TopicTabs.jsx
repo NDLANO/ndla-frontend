@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import Tabs from 'ndla-tabs';
 import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from './topicSelectors';
-import * as actions from './topicActions';
+import * as resourceActions from '../Resources/resourceActions';
 import { injectT } from '../../i18n';
 import { ResourceShape, TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
@@ -29,15 +29,7 @@ function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
   if (subtopics.length > 0) {
     tabs.push({
       title: t('topicPage.tabs.topics'),
-      content: (
-        <TopicIntroductionList
-          subjectId={subjectId}
-          goToTopicTitle="Gå til emne"
-          goToTopicResourcesTitle="Se fagstoff"
-          toTopicResources={toTopic(subjectId, topicPath)}
-          toTopic={toTopic(subjectId, topicPath)}
-          topics={subtopics}
-        />
+      content: (<TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
       ),
     });
   }
@@ -84,7 +76,7 @@ TopicTabs.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTopicResources: actions.fetchTopicResources,
+  fetchTopicResources: resourceActions.fetchTopicResources,
 };
 
 const mapStateToProps = (state, ownProps) => {

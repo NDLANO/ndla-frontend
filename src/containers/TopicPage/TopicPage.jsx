@@ -23,16 +23,16 @@ import { toTopic } from '../../routes';
 
 class TopicPage extends Component {
   componentWillMount() {
-    const { params: { subjectId, topicId }, fetchTopicArticle, fetchSubjects } = this.props;
+    const { params: { subjectId, topicId }, fetchTopics, fetchSubjects } = this.props;
+    fetchTopics({ subjectId, topicId });
     fetchSubjects();
-    fetchTopicArticle({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { subjectId, topicId }, fetchTopicArticle } = this.props;
+    const { params: { subjectId, topicId }, fetchTopics } = this.props;
 
     if (nextProps.params.topicId !== topicId) {
-      fetchTopicArticle({ subjectId, topicId: nextProps.params.topicId });
+      fetchTopics({ subjectId, topicId: nextProps.params.topicId });
     }
   }
 
@@ -56,7 +56,17 @@ class TopicPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                { subject ? <TopicBreadcrumb toSubjects={() => '/'} subjectsTitle="Fag" subject={subject} topicPath={topicPath.slice(0, -1)} toTopic={toTopic}>{t('topicPage.breadcrumbLabel')}</TopicBreadcrumb> : null }
+                { subject ?
+                  <TopicBreadcrumb
+                    toSubjects={() => '/'}
+                    subjectsTitle={t('breadcrumb.subjectsLinkText')}
+                    subject={subject}
+                    topicPath={topicPath.slice(0, -1)}
+                    toTopic={toTopic}
+                  >
+                    { t('breadcrumb.label') }
+                  </TopicBreadcrumb>
+                : null }
                 <h1 className="c-hero__title" style={{ clear: 'both' }}>{topic.name}</h1>
               </section>
             </div>
@@ -80,8 +90,8 @@ TopicPage.propTypes = {
     subjectId: PropTypes.string.isRequired,
     topicId: PropTypes.string,
   }).isRequired,
-  fetchTopicArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
+  fetchTopics: PropTypes.func.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -90,7 +100,7 @@ TopicPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopicArticle: actions.fetchTopicArticle,
+  fetchTopics: actions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {

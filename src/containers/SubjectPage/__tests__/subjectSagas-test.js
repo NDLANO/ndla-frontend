@@ -10,7 +10,7 @@ import testSaga from 'redux-saga-test-plan';
 import { hasFetched } from '../subjectSelectors';
 import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';
-import * as constants from '../subjectConstants';
+import * as actions from '../subjectActions';
 import { getAccessToken } from '../../App/sessionSelectors';
 
 test('subjectSagas fetchSubjects', () => {
@@ -23,7 +23,7 @@ test('subjectSagas fetchSubjects', () => {
     .call(api.fetchSubjects, token)
 
     .next([{ id: '123', name: 'Matematikk' }])
-    .put({ type: constants.SET_SUBJECTS, payload: [{ id: '123', name: 'Matematikk' }] })
+    .put({ type: actions.setSubjects.toString(), payload: [{ id: '123', name: 'Matematikk' }] })
 
     .next()
     .isDone();
@@ -33,7 +33,7 @@ test('subjectSagas watchFetchSubjects ', () => {
   const saga = testSaga(sagas.watchFetchSubjects);
   saga
     .next()
-    .take(constants.FETCH_SUBJECTS)
+    .take(actions.fetchSubjects)
 
     .next()
     .select(hasFetched)
@@ -50,7 +50,7 @@ test('subjectSagas watchFetchSubjects when hasFetched is true', () => {
   const saga = testSaga(sagas.watchFetchSubjects);
   saga
     .next()
-    .take(constants.FETCH_SUBJECTS)
+    .take(actions.fetchSubjects)
 
     .next()
     .select(hasFetched)

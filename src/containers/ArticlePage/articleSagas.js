@@ -21,9 +21,8 @@ export function* fetchArticle(id) {
     const article = yield call(api.fetchArticle, id, locale, token);
     yield put(actions.setArticle(article));
   } catch (error) {
-    throw error;
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
   }
 }
 
