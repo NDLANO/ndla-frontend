@@ -25,10 +25,8 @@ export function* search(query, page, sortOrder) {
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
-    throw error;
-
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
   }
 }
 

@@ -23,7 +23,8 @@ export function* fetchLearningPathResourcesData(topicId, resources, token) {
       yield put(actions.setLearningPathResourceData({ topicId, learningPathResourceData: data.results }));
     }
   } catch (error) {
-    throw error;
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
   }
 }
 
@@ -35,7 +36,7 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
       yield put(actions.setArticleResourceData({ topicId, articleResourceData: data.results }));
     }
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
 
@@ -49,7 +50,8 @@ export function* fetchTopicResources(topicId) {
       call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),
     ];
   } catch (error) {
-    throw error;
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
   }
 }
 

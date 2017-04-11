@@ -18,9 +18,8 @@ export function* fetchSubjects() {
     const subjects = yield call(api.fetchSubjects, token);
     yield put(actions.setSubjects(subjects));
   } catch (error) {
-    throw error;
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
   }
 }
 

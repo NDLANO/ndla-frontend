@@ -29,9 +29,8 @@ export function* fetchTopicIntroductions(topics) {
     const data = yield call(articleApi.fetchArticles, ids, token);
     yield put(actions.setTopicIntroductions({ topics, articleIntroductions: data.results }));
   } catch (error) {
-    throw error;
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
   }
 }
 
@@ -50,9 +49,9 @@ export function* fetchTopics(subjectId) {
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
-    throw error;
     // TODO: handle error
-    // yield put(actions.applicationError());
+    console.error(error); //eslint-disable-line
+    return [];
   }
 }
 
