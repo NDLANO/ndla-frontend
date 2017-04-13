@@ -3818,6 +3818,12 @@ ndla-article-scripts@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.2.tgz#f50770821164a6f252bef2f235a54704cc6723a0"
 
+ndla-error-reporter@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.2.tgz#2bed950333d87e59c85417ec0ea38686f257c87d"
+  dependencies:
+    raven-js "^3.9.2"
+
 ndla-licenses@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.6.tgz#d9439b92f6a7feb295644f568c2071ea2731fc6f"
@@ -4940,6 +4946,10 @@ randombytes@^2.0.0, randombytes@^2.0.1:
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
+
+raven-js@^3.9.2:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.14.1.tgz#9c3c5f570a1b918b5c30c5fad66982e17fe38e39"
 
 rc@^1.0.1, rc@^1.1.7:
   version "1.2.1"
