@@ -42,5 +42,5 @@ module.exports = require('./webpack.config.base')({
   fileLoader: 'file-loader?name=[name].[ext]',
 
   // Emit a source map for easier debugging
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-source-map',
 });
