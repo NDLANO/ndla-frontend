@@ -108,10 +108,7 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Skjul emnebeskrivelse',
     openArticleTopic: 'Se hele emnebeskrivelse',
-    tabs: {
-      learningresources: 'Fagstoff',
-      topics: 'Emner',
-    },
+    topics: 'Emner',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

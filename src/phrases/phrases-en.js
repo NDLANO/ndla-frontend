@@ -102,10 +102,7 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Hide topic description',
     openArticleTopic: 'See whole topic description',
-    tabs: {
-      learningresources: 'Learning Resources',
-      topics: 'Topics',
-    },
+    topics: 'Topics',
   },
   footer: {
     aboutNDLA: 'About NDLA',
