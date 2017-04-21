@@ -41,7 +41,7 @@ class TopicResources extends Component {
     const { subtopics, topic: { id: topicId }, subjectId, topicPath, t } = this.props;
     return (
       <ResourceWrapper>
-        <h2>{t('topicPage.topics')}</h2>
+        <h1>{t('topicPage.topics')}</h1>
         <TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
         <Resources topicId={topicId} />
       </ResourceWrapper>

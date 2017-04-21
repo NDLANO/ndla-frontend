@@ -71,27 +71,6 @@ const phrases = {
     },
   },
   resources: {
-    tabs: {
-      all: 'Alle',
-      learningpaths: 'Læringsstier',
-      subjectMaterial: 'Fagstoff',
-    },
-    subjectMaterial: {
-      title: 'Fagstoff',
-      description: 'Foretrekker du å se en video, eller lese en tekst? Velg selv.',
-    },
-    learningpaths: {
-      title: 'Læringsstier',
-      description: 'Gå steg for steg gjennom emnet.',
-    },
-    tasks: {
-      title: 'Oppgaver',
-      description: 'Lær bedre gjennom å løse konkrete oppgaver.',
-    },
-    links: {
-      viewAllLearningPaths: 'Se alle læringsstier \u2192',
-      viewAllSubjectMaterials: 'Se alt fagstoff \u2192',
-    },
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',

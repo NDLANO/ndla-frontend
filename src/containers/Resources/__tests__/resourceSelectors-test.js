@@ -8,8 +8,6 @@
 
 import {
   getResourcesByTopicId,
-  getArticleResourcesByTopicId,
-  getLearningPathResourcesByTopicId,
 } from '../resourceSelectors';
 
 import { resourceData } from './mockResources';
@@ -59,20 +57,3 @@ test('resourceSelectors getResourcesByTopicId en locale', () => {
   expect(resources[2].introduction).toBe('Intro ideas');
 });
 
-test('resourceSelectors getLearningPathResourcesByTopicId', () => {
-  const state = resourcesState;
-
-  const resources = getLearningPathResourcesByTopicId('urn:topic:1')(state);
-
-  expect(resources.length).toBe(1);
-  expect(resources[0].contentUri).toBe('urn:learningpath:1');
-});
-
-test('resourceSelectors getArticleResourcesByTopicId', () => {
-  const state = resourcesState;
-  const resources = getArticleResourcesByTopicId('urn:topic:1')(state);
-
-  expect(resources.length).toBe(2);
-  expect(resources[0].contentUri).toBe('urn:article:1');
-  expect(resources[1].contentUri).toBe('urn:article:2');
-});
