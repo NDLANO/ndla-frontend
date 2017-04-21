@@ -15,6 +15,7 @@ test('reducers/resources initalState', () => {
 
   expect(nextState).toEqual({
     all: {},
+    types: [],
   });
 });
 
@@ -30,6 +31,7 @@ test('reducers/resources handle set topic resources', () => {
 
   expect(nextState).toEqual({
     all: { 1: resources },
+    types: [],
   });
 
   const nextNextState = reducer(nextState, {

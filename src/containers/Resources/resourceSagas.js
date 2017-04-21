@@ -36,15 +36,20 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
       yield put(actions.setArticleResourceData({ topicId, articleResourceData: data.results }));
     }
   } catch (error) {
-    console.error(error);
+    console.error(error); //eslint-disable-line
   }
 }
 
 export function* fetchTopicResources(topicId) {
   try {
     const token = yield select(getAccessToken);
-    const resources = yield call(api.fetchTopicResources, topicId, token);
+    const [resources, resourceTypes] = yield [
+      call(api.fetchTopicResources, topicId, token),
+      call(api.fetchResourceTypes, token),
+    ];
+
     yield put(actions.setTopicResources({ topicId, resources }));
+    yield put(actions.setResourceTypes(resourceTypes));
     yield [
       call(fetchArticleResourcesData, topicId, resources.filter(isArticleResource), token),
       call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),

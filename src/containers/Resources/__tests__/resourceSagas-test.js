@@ -38,10 +38,15 @@ test('topicSagas fetchTopicResources', () => {
     .select(getAccessToken)
     .next(token)
 
-    .call(api.fetchTopicResources, topicId, token)
-    .next(resources)
+    .parallel([
+      call(api.fetchTopicResources, topicId, token),
+      call(api.fetchResourceTypes, token),
+    ])
+    .next([resources, []])
 
     .put({ type: actions.setTopicResources.toString(), payload: { topicId, resources } })
+    .next()
+    .put({ type: actions.setResourceTypes.toString(), payload: [] })
     .next()
 
     .parallel([
