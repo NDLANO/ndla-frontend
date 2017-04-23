@@ -14,6 +14,7 @@ import { Router, useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
 import { IntlProvider } from 'react-intl';
+import ErrorReporter from 'ndla-error-reporter';
 import isEmpty from 'lodash/isEmpty';
 
 import { getLocaleObject, isValidLocale } from './i18n';
@@ -48,6 +49,12 @@ store.runSaga(rootSaga);
 
 const history = syncHistoryWithStore(browserHistory, store);
 const routes = configureRoutes(store);
+
+if (__CLIENT__) {
+  const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
+  window.errorReporter =
+    ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
+}
 
 ReactDOM.render(
   <Provider store={store}>
