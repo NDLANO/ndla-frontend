@@ -37,29 +37,27 @@ export const getResourcesByTopicId = topicId => createSelector(
     }),
 );
 
+export const getResourceByTopicIdGroupedByResourceTypes = topicId => createSelector(
+    [getResourcesByTopicId(topicId)],
+    resourcesByTopic => resourcesByTopic.reduce((obj, resource) => {
+      const resourceTypesWithResources = resource.resourceTypes.map((type) => {
+        const existing = defined(obj[type.id], []);
+        return { ...type, resources: [...existing, resource] };
+      });
+      const reduced = resourceTypesWithResources.reduce((acc, type) => ({ ...acc, [type.id]: type.resources }), {});
+      return ({ ...obj, ...reduced });
+    }, {}),
+);
 
 export const getResourceTypesByTopicId = topicId => createSelector(
-    [getResourceTypes, getResourcesByTopicId(topicId), getLocale],
-    (types, resources) => {
-      const resourcesByResourceTypeId = resources.reduce((obj, resource) => {
-        const resourceTypesWithResources = resource.resourceTypes.map((type) => {
-          const existing = defined(obj[type.id], []);
-          return { ...type, resources: [...existing, resource] };
-        });
-        const reduced = resourceTypesWithResources.reduce((acc, type) => ({ ...acc, [type.id]: type.resources }), {});
-        return ({ ...obj, ...reduced });
-      }, {});
-
-
-      return types.map((type) => {
-        if (type.subTypes) {
-          return {
-            ...type,
-            subtypes: type.subTypes.map(subtype => ({ ...subtype, resources: resourcesByResourceTypeId[subtype.id] })),
-            resources: resourcesByResourceTypeId[type.id],
-          };
-        }
-        return { ...type, resources: resourcesByResourceTypeId[type.id] };
-      });
-    },
+    [getResourceTypes, getResourceByTopicIdGroupedByResourceTypes(topicId)],
+    (types, resourcesByResourceTypeId) =>
+       types.map((type) => {
+         let subtypeResources = [];
+         if (type.subtypes) {
+           subtypeResources = type.subtypes.reduce((acc, subtype) => (acc.concat(defined(resourcesByResourceTypeId[subtype.id], []))), []);
+         }
+         const resources = defined(resourcesByResourceTypeId[type.id], []).concat(subtypeResources);
+         return { ...type, resources };
+       }).filter(type => type.resources.length > 0),
 );

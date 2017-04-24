@@ -40,16 +40,22 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
   }
 }
 
+export function* fetchResourceTypes() {
+  try {
+    const token = yield select(getAccessToken);
+    const resourceTypes = yield call(api.fetchResourceTypes, token);
+    yield put(actions.setResourceTypes(resourceTypes));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
+  }
+}
+
 export function* fetchTopicResources(topicId) {
   try {
     const token = yield select(getAccessToken);
-    const [resources, resourceTypes] = yield [
-      call(api.fetchTopicResources, topicId, token),
-      call(api.fetchResourceTypes, token),
-    ];
-
+    const resources = yield call(api.fetchTopicResources, topicId, token);
     yield put(actions.setTopicResources({ topicId, resources }));
-    yield put(actions.setResourceTypes(resourceTypes));
     yield [
       call(fetchArticleResourcesData, topicId, resources.filter(isArticleResource), token),
       call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),
@@ -65,7 +71,10 @@ export function* watchFetchTopicResources() {
     const { payload: { topicId } } = yield take(actions.fetchTopicResources);
     const resources = yield select(getResourcesByTopicId(topicId));
     if (resources.length === 0) {
-      yield call(fetchTopicResources, topicId);
+      yield [
+        call(fetchTopicResources, topicId),
+        call(fetchResourceTypes),
+      ];
     }
   }
 }

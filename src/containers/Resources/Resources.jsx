@@ -29,8 +29,6 @@ class Resources extends Component {
 
     const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
 
-    // const icons = ['Pencil', 'Document', 'Path'];
-
     return (
       <div>
         {topicResourcesByType.map(type => (
