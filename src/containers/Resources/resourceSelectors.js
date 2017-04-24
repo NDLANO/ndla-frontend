@@ -37,7 +37,7 @@ export const getResourcesByTopicId = topicId => createSelector(
     }),
 );
 
-export const getResourceByTopicIdGroupedByResourceTypes = topicId => createSelector(
+export const getResourcesByTopicIdGroupedByResourceTypes = topicId => createSelector(
     [getResourcesByTopicId(topicId)],
     resourcesByTopic => resourcesByTopic.reduce((obj, resource) => {
       const resourceTypesWithResources = resource.resourceTypes.map((type) => {
@@ -50,7 +50,7 @@ export const getResourceByTopicIdGroupedByResourceTypes = topicId => createSelec
 );
 
 export const getResourceTypesByTopicId = topicId => createSelector(
-    [getResourceTypes, getResourceByTopicIdGroupedByResourceTypes(topicId)],
+    [getResourceTypes, getResourcesByTopicIdGroupedByResourceTypes(topicId)],
     (types, resourcesByResourceTypeId) =>
        types.map((type) => {
          let subtypeResources = [];
