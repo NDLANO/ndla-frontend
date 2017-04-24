@@ -48,19 +48,25 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
 });
 
-app.get('/article-iframe/:lang/:id', (req, res) => {
+function handleArticleIframeResponse(req, res, token) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const articleId = req.params.id;
-  fetchArticle(articleId, lang)
+  fetchArticle(articleId, lang, token.access_token)
     .then((article) => {
       res.send(htmlTemplate(lang, article.content, article.introduction, titleI18N(article, lang, true)));
       res.end();
     }).catch((error) => {
       res.status(error.status).send(htmlErrorTemplate(lang, error));
     });
+}
+
+app.get('/article-iframe/:lang/:id', (req, res) => {
+  getToken().then((token) => {
+    handleArticleIframeResponse(req, res, token);
+  }).catch(err => res.status(500).send(err.message));
 });
 
-app.get('/oembed', (req, res) => {
+function handleOembedResponse(req, res, token) {
   res.setHeader('Content-Type', 'application/json');
   // http://ndla-frontend.test.api.ndla.no/article/3023
   const url = req.query.url;
@@ -70,7 +76,7 @@ app.get('/oembed', (req, res) => {
   const paths = url.split('/');
   const articleId = paths.length > 5 ? paths[5] : paths[4];
   const lang = paths.length > 2 && isValidLocale(paths[3]) ? paths[3] : 'nb';
-  fetchArticle(articleId, lang)
+  fetchArticle(articleId, lang, token.access_token)
     .then((article) => {
       res.json({
         type: 'rich',
@@ -83,6 +89,12 @@ app.get('/oembed', (req, res) => {
     }).catch((error) => {
       res.status(error.status).json(error.message);
     });
+}
+
+app.get('/oembed', (req, res) => {
+  getToken().then((token) => {
+    handleOembedResponse(req, res, token);
+  }).catch(err => res.status(500).send(err.message));
 });
 
 app.get('/get_token', (req, res) => {
