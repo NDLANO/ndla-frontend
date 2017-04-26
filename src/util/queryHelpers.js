@@ -7,15 +7,8 @@
  */
 
 export function parseQueryString(query) {
-  const entries = Array.from(new URLSearchParams(query));
-  return entries.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+  const pairs = query.replace('?', '').split('&').map(pair => pair.split('='));
+  return pairs.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
 }
 
-export function createQueryString(object) {
-  const params = new URLSearchParams(); // new URLSearchParams(object) Sending object in constructer does'nt work in Chrome (56)
-  Object.keys(object).forEach((key) => {
-    const str = typeof object[key] === 'string' ? object[key] : JSON.stringify(object[key]);
-    params.set(key, str);
-  });
-  return params.toString();
-}
+export const createQueryString = obj => Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');

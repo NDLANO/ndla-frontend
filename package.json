@@ -100,8 +100,7 @@
     "redux-saga": "^0.14.3",
     "redux-saga-effects": "^1.1.0",
     "reselect": "2.5.4",
-    "serialize-javascript": "1.3.0",
-    "url-search-params-polyfill": "^1.2.0"
+    "serialize-javascript": "1.3.0"
   },
   "repository": {
     "type": "git",
