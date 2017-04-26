@@ -16,7 +16,7 @@ import * as actions from './topicActions';
 import * as subjectActions from '../SubjectPage/subjectActions';
 import { getTopicArticle, getTopic, getTopicPath } from './topicSelectors';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
-import TopicTabs from './TopicTabs';
+import TopicResources from './TopicResources';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
 import { toTopic } from '../../routes';
@@ -79,7 +79,7 @@ class TopicPage extends Component {
             </div>
           </OneColumn>
         </div>
-        <TopicTabs subjectId={subjectId} topic={topic} topicPath={topicPath} />
+        <TopicResources subjectId={subjectId} topic={topic} topicPath={topicPath} />
       </div>
     );
   }

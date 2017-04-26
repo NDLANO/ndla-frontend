@@ -36,7 +36,18 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
       yield put(actions.setArticleResourceData({ topicId, articleResourceData: data.results }));
     }
   } catch (error) {
-    console.error(error);
+    console.error(error); //eslint-disable-line
+  }
+}
+
+export function* fetchResourceTypes() {
+  try {
+    const token = yield select(getAccessToken);
+    const resourceTypes = yield call(api.fetchResourceTypes, token);
+    yield put(actions.setResourceTypes(resourceTypes));
+  } catch (error) {
+    // TODO: handle error
+    console.error(error); //eslint-disable-line
   }
 }
 
@@ -60,7 +71,10 @@ export function* watchFetchTopicResources() {
     const { payload: { topicId } } = yield take(actions.fetchTopicResources);
     const resources = yield select(getResourcesByTopicId(topicId));
     if (resources.length === 0) {
-      yield call(fetchTopicResources, topicId);
+      yield [
+        call(fetchTopicResources, topicId),
+        call(fetchResourceTypes),
+      ];
     }
   }
 }

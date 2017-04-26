@@ -65,27 +65,6 @@ const phrases = {
     },
   },
   resources: {
-    tabs: {
-      all: 'All',
-      learningpaths: 'Learning paths',
-      subjectMaterial: 'Subject material',
-    },
-    subjectMaterial: {
-      title: 'Subject material',
-      description: 'Subject material description',
-    },
-    learningpaths: {
-      title: 'Learning paths',
-      description: 'Learning paths description',
-    },
-    tasks: {
-      title: 'Oppgaver',
-      description: 'Lær bedre gjennom å løse konkrete oppgaver.',
-    },
-    links: {
-      viewAllLearningPaths: 'View all learning paths \u2192',
-      viewAllSubjectMaterials: 'View all subject material \u2192',
-    },
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
@@ -102,10 +81,7 @@ const phrases = {
   topicPage: {
     closeArticleTopic: 'Hide topic description',
     openArticleTopic: 'See whole topic description',
-    tabs: {
-      learningresources: 'Learning Resources',
-      topics: 'Topics',
-    },
+    topics: 'Topics',
   },
   footer: {
     aboutNDLA: 'About NDLA',

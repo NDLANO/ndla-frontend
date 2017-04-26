@@ -9,12 +9,11 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Tabs from 'ndla-tabs';
 import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
 import { getSubtopicsWithIntroduction } from './topicSelectors';
 import * as resourceActions from '../Resources/resourceActions';
 import { injectT } from '../../i18n';
-import { ResourceShape, TopicShape } from '../../shapes';
+import { TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { getResourcesByTopicId } from '../Resources/resourceSelectors';
 import { toTopicPartial } from '../../routes';
@@ -24,24 +23,8 @@ const toTopic = (subjectId, topicPath) => {
   return toTopicPartial(subjectId, ...topicIds);
 };
 
-function buildTabList(t, subtopics, resources, topicId, subjectId, topicPath) {
-  const tabs = [];
-  if (subtopics.length > 0) {
-    tabs.push({
-      title: t('topicPage.tabs.topics'),
-      content: (<TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
-      ),
-    });
-  }
-  if (resources.length > 0) {
-    tabs.push({ title: t('topicPage.tabs.learningresources'), content: <Resources topicId={topicId} /> });
-  }
 
-  return tabs;
-}
-
-
-class TopicTabs extends Component {
+class TopicResources extends Component {
   componentWillMount() {
     const { subjectId, topic: { id: topicId }, fetchTopicResources } = this.props;
     fetchTopicResources({ subjectId, topicId });
@@ -55,24 +38,23 @@ class TopicTabs extends Component {
   }
 
   render() {
-    const { subtopics, topic: { id: topicId }, subjectId, resources, topicPath, t } = this.props;
-    const tabs = buildTabList(t, subtopics, resources, topicId, subjectId, topicPath);
-    if (tabs.length === 0) return null;
+    const { subtopics, topic: { id: topicId }, subjectId, topicPath, t } = this.props;
     return (
       <ResourceWrapper>
-        <Tabs tabs={tabs} />
+        <h1>{t('topicPage.topics')}</h1>
+        <TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
+        <Resources topicId={topicId} />
       </ResourceWrapper>
     );
   }
 }
 
-TopicTabs.propTypes = {
+TopicResources.propTypes = {
   subjectId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   topic: TopicShape.isRequired,
   topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
-  resources: PropTypes.arrayOf(ResourceShape).isRequired,
 };
 
 const mapDispatchToProps = {
@@ -90,4 +72,4 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   injectT,
-)(TopicTabs);
+)(TopicResources);

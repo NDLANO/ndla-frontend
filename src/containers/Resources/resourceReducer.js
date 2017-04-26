@@ -13,6 +13,7 @@ import { getArticleIdFromResource, getLearningPathIdFromResource } from './resou
 
 export const initalState = {
   all: {},
+  types: [],
 };
 
 export default handleActions({
@@ -22,6 +23,16 @@ export default handleActions({
       return {
         ...state,
         all: { ...state.all, [topicId]: resources },
+      };
+    },
+    throw: state => state,
+  },
+  [actions.setResourceTypes]: {
+    next: (state, action) => {
+      const resourceTypes = action.payload;
+      return {
+        ...state,
+        types: resourceTypes,
       };
     },
     throw: state => state,

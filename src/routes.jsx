@@ -43,9 +43,6 @@ export function toTopic(subjectId, ...topicIds) {
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
    toTopic(subjectId, ...topicIds, topicId);
 
-export function toTopicResourceTab(location, index) {
-  return { ...location, query: { resourceTabIndex: index } };
-}
 
 export default function () {
   return (

@@ -22,9 +22,29 @@ test('resourceSagas watchFetchTopicResources', () => {
     .take(actions.fetchTopicResources)
     .next({ payload: { topicId: 2 } })
     .next([])
-    .call(sagas.fetchTopicResources, 2)
+    .parallel([
+      call(sagas.fetchTopicResources, 2),
+      call(sagas.fetchResourceTypes),
+    ])
 
     .finish()
+    .next()
+    .isDone();
+});
+
+test('topicSagas fetchResourceTypes', () => {
+  const token = '12345678';
+  const topicId = 'urn:topic:1234';
+  const saga = testSaga(sagas.fetchResourceTypes, topicId);
+  saga
+    .next()
+    .select(getAccessToken)
+    .next(token)
+
+    .call(api.fetchResourceTypes, token)
+    .next([])
+    .put({ type: actions.setResourceTypes.toString(), payload: [] })
+
     .next()
     .isDone();
 });
@@ -38,11 +58,16 @@ test('topicSagas fetchTopicResources', () => {
     .select(getAccessToken)
     .next(token)
 
+    // .parallel([
+    //   call(api.fetchResourceTypes, token),
+    // ])
     .call(api.fetchTopicResources, topicId, token)
     .next(resources)
 
     .put({ type: actions.setTopicResources.toString(), payload: { topicId, resources } })
     .next()
+    // .put({ type: actions.setResourceTypes.toString(), payload: [] })
+    // .next()
 
     .parallel([
       call(sagas.fetchArticleResourcesData, topicId, resources.slice(2), token),

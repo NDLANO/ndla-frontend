@@ -8,16 +8,35 @@
 
 import reducer, { initalState } from '../resourceReducer';
 import * as actions from '../resourceActions';
-import { resources } from './mockResources';
+import { resources, resourceTypes } from './mockResources';
 
 test('reducers/resources initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
     all: {},
+    types: [],
   });
 });
 
+test('reducers/resources handle set resource types', () => {
+  const nextState = reducer(initalState, {
+    type: actions.setResourceTypes,
+    payload: resourceTypes,
+  });
+
+  expect(nextState).toEqual({
+    all: { },
+    types: resourceTypes,
+  });
+
+  const nextNextState = reducer(nextState, {
+    type: actions.setResourceTypes,
+    payload: [],
+  });
+
+  expect(nextNextState.types).toEqual([]);
+});
 
 test('reducers/resources handle set topic resources', () => {
   const nextState = reducer(initalState, {
@@ -30,6 +49,7 @@ test('reducers/resources handle set topic resources', () => {
 
   expect(nextState).toEqual({
     all: { 1: resources },
+    types: [],
   });
 
   const nextNextState = reducer(nextState, {

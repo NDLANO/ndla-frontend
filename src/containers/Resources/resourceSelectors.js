@@ -8,11 +8,8 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-// import groupBy from 'lodash/groupBy';
-// import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N, titleI18N, descriptionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
-import { isLearningPathResource, isArticleResource } from './resourceHelpers';
 
 
 const getResourcesFromState = state => state.resources;
@@ -20,6 +17,11 @@ const getResourcesFromState = state => state.resources;
 export const getResources = createSelector(
     [getResourcesFromState],
     resources => resources.all,
+);
+
+export const getResourceTypes = createSelector(
+    [getResourcesFromState],
+    resources => resources.types,
 );
 
 export const getResourcesByTopicId = topicId => createSelector(
@@ -35,13 +37,27 @@ export const getResourcesByTopicId = topicId => createSelector(
     }),
 );
 
-
-export const getArticleResourcesByTopicId = topicId => createSelector(
+export const getResourcesByTopicIdGroupedByResourceTypes = topicId => createSelector(
     [getResourcesByTopicId(topicId)],
-    resources => resources.filter(isArticleResource).map(resource => ({ ...resource, icon: 'Document' })),
+    resourcesByTopic => resourcesByTopic.reduce((obj, resource) => {
+      const resourceTypesWithResources = resource.resourceTypes.map((type) => {
+        const existing = defined(obj[type.id], []);
+        return { ...type, resources: [...existing, resource] };
+      });
+      const reduced = resourceTypesWithResources.reduce((acc, type) => ({ ...acc, [type.id]: type.resources }), {});
+      return ({ ...obj, ...reduced });
+    }, {}),
 );
 
-export const getLearningPathResourcesByTopicId = topicId => createSelector(
-    [getResourcesByTopicId(topicId)],
-    resources => resources.filter(isLearningPathResource).map(resource => ({ ...resource, icon: 'Path' })),
+export const getResourceTypesByTopicId = topicId => createSelector(
+    [getResourceTypes, getResourcesByTopicIdGroupedByResourceTypes(topicId)],
+    (types, resourcesByResourceTypeId) =>
+       types.map((type) => {
+         let subtypeResources = [];
+         if (type.subtypes) {
+           subtypeResources = type.subtypes.reduce((acc, subtype) => (acc.concat(defined(resourcesByResourceTypeId[subtype.id], []))), []);
+         }
+         const resources = defined(resourcesByResourceTypeId[type.id], []).concat(subtypeResources);
+         return { ...type, resources };
+       }).filter(type => type.resources.length > 0),
 );
