@@ -60,7 +60,7 @@ export default function () {
         <Route path="/subjects/:subjectId/" component={SubjectPage} />
         <Route path="/subjects" component={SubjectsPage} />
 
-        <Route status={404} component={NotFoundPage} />
+        <Route component={NotFoundPage} />
       </Switch>
     </App>
   );

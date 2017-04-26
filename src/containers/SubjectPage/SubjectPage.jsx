@@ -10,7 +10,6 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn, Hero, ResourceWrapper, TopicIntroductionList } from 'ndla-ui';
-import Tabs from 'ndla-tabs';
 import { Link } from 'react-router-dom';
 import defined from 'defined';
 import { injectT } from '../../i18n';
@@ -66,14 +65,8 @@ class SubjectPage extends Component {
         </Hero>
 
         <ResourceWrapper>
-          <Tabs
-            tabs={[
-              {
-                title: t('subjectPage.tabs.topics'),
-                content: <TopicIntroductionList toTopic={toTopic(subject.id)} topics={topics} />,
-              },
-            ]}
-          />
+          <h1>{t('subjectPage.tabs.topics')}</h1>
+          <TopicIntroductionList toTopic={toTopic(subject.id)} topics={topics} />
         </ResourceWrapper>
         <OneColumn />
       </div>

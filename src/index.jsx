@@ -22,19 +22,12 @@ import configureStore from './configureStore';
 import configureRoutes from './routes';
 import rootSaga from './sagas';
 
-
-function getBasename(path) {
-  if (isValidLocale(path)) {
-    return `/${path}/`;
-  }
-  return '';
-}
-
 const initialState = window.initialState;
 const localeString = initialState.locale;
-
 const locale = getLocaleObject(localeString);
-const basename = getBasename(localeString);
+
+const paths = window.location.pathname.split('/');
+const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
 const store = configureStore(
   initialState,
