@@ -22,10 +22,10 @@ test('searchSagas search', () => {
   });
 
   const apiMock = nock('http://ndla-api')
-    .get('/article-api/v1/articles/?query=testing&page=3&language=nb&sort=alfa')
+    .get('/article-api/v1/articles/?query=testing&page=3&sort=alfa&language=nb')
     .reply(200, { results: [1, 2, 3] });
 
-  const task = sagaTester.start(search.bind(undefined, 'testing', '3', 'alfa', { push: () => {} }));
+  const task = sagaTester.start(search.bind(undefined, '?query=testing&page=3&sort=alfa'));
 
   return task.done.then(() => {
     expect(sagaTester.wasCalled(actions.setSearchResult().type)).toBeTruthy();

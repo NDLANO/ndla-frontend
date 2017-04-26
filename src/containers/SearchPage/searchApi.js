@@ -11,5 +11,5 @@ import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } f
 
 const baseUrl = apiResourceUrl('/article-api/v1/articles');
 
-export const search = (query, page, locale, sortOrder, token) =>
-  fetch(`${baseUrl}/?query=${query}&page=${page}&language=${locale}&sort=${sortOrder}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const search = (queryString, locale, token) =>
+  fetch(`${baseUrl}/${queryString}&language=${locale}`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);

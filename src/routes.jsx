@@ -44,24 +44,22 @@ export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
    toTopic(subjectId, ...topicIds, topicId);
 
 
-export default function () {
-  return (
-    <App>
-      <Switch>
-        <Route path="/" exact component={WelcomePage} />
+export default (
+  <App>
+    <Switch>
+      <Route path="/" exact component={WelcomePage} />
 
-        <Route path="/article/:subjectId/:topicId/:articleId" component={ArticlePage} />
-        <Route path="/article/:articleId" component={ArticlePage} />
+      <Route path="/article/:subjectId/:topicId/:articleId" component={ArticlePage} />
+      <Route path="/article/:articleId" component={ArticlePage} />
 
-        <Route path="/search" component={SearchPage} />
+      <Route path="/search" component={SearchPage} />
 
-        <Route path="/subjects/:subjectId/(.*)/:topicId" component={TopicPage} />
-        <Route path="/subjects/:subjectId/:topicId" component={TopicPage} />
-        <Route path="/subjects/:subjectId/" component={SubjectPage} />
-        <Route path="/subjects" component={SubjectsPage} />
+      <Route path="/subjects/:subjectId/(.*)/:topicId" component={TopicPage} />
+      <Route path="/subjects/:subjectId/:topicId" component={TopicPage} />
+      <Route path="/subjects/:subjectId/" component={SubjectPage} />
+      <Route path="/subjects" component={SubjectsPage} />
 
-        <Route component={NotFoundPage} />
-      </Switch>
-    </App>
-  );
-}
+      <Route component={NotFoundPage} />
+    </Switch>
+  </App>
+);

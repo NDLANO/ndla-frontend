@@ -17,7 +17,7 @@ import defined from 'defined';
 
 import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
-import configureRoutes from '../src/routes';
+import routes from '../src/routes';
 import configureStore from '../src/configureStore';
 import rootSaga from '../src/sagas';
 import { getLocaleObject, isValidLocale, getHtmlLang } from '../src/i18n';
@@ -115,7 +115,6 @@ function handleResponse(req, res, token) {
 
   const store = configureStore({ locale, accessToken: token.access_token });
 
-  const routes = configureRoutes(store);
   const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
   const context = {};

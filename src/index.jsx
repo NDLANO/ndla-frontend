@@ -11,15 +11,13 @@ import 'url-search-params-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
 
 import { getLocaleObject, isValidLocale } from './i18n';
-import configureHistory from './configureHistory';
 import configureStore from './configureStore';
-import configureRoutes from './routes';
+import routes from './routes';
 import rootSaga from './sagas';
 
 const initialState = window.initialState;
@@ -35,10 +33,6 @@ const store = configureStore(
 
 store.runSaga(rootSaga);
 
-const history = configureHistory(createHistory({ basename }));
-
-const routes = configureRoutes(store);
-
 if (__CLIENT__) {
   const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
   window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
@@ -47,9 +41,9 @@ if (__CLIENT__) {
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+      <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
         {routes}
-      </Router>
+      </BrowserRouter>
     </IntlProvider>
   </Provider>,
   document.getElementById('root'),
