@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
@@ -46,16 +46,22 @@ export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
 
 export default function () {
   return (
-    <Route path="/" component={App}>
-      <IndexRoute component={WelcomePage} />
-      <Route path="article/:articleId(/)" component={ArticlePage} />
-      <Route path="search(/)" component={SearchPage} />
-      <Route path="subjects(/)" component={SubjectsPage} />
-      <Route path="subjects/:subjectId(/)" component={SubjectPage} />
-      <Route path="subjects/:subjectId/:topicId(/)" component={TopicPage} />
-      <Route path="subjects/:subjectId/**/:topicId(/)" component={TopicPage} />
-      <Route path="article/:subjectId/:topicId/:articleId" component={ArticlePage} />
-      <Route path="*" status={404} component={NotFoundPage} />
-    </Route>
+    <App>
+      <Switch>
+        <Route path="/" exact component={WelcomePage} />
+
+        <Route path="/article/:subjectId/:topicId/:articleId" component={ArticlePage} />
+        <Route path="/article/:articleId" component={ArticlePage} />
+
+        <Route path="/search" component={SearchPage} />
+
+        <Route path="/subjects/:subjectId/(.*)/:topicId" component={TopicPage} />
+        <Route path="/subjects/:subjectId/:topicId" component={TopicPage} />
+        <Route path="/subjects/:subjectId/" component={SubjectPage} />
+        <Route path="/subjects" component={SubjectsPage} />
+
+        <Route status={404} component={NotFoundPage} />
+      </Switch>
+    </App>
   );
 }

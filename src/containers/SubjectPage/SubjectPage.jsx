@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn, Hero, ResourceWrapper, TopicIntroductionList } from 'ndla-ui';
 import Tabs from 'ndla-tabs';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import defined from 'defined';
 import { injectT } from '../../i18n';
 import * as actions from './subjectActions';
@@ -25,16 +25,16 @@ const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   componentWillMount() {
-    const { params: { subjectId }, fetchTopics, fetchSubjects } = this.props;
+    const { match: { params: { subjectId } }, fetchTopics, fetchSubjects } = this.props;
     fetchSubjects();
     fetchTopics({ subjectId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { params: { subjectId }, fetchTopics } = this.props;
+    const { match: { params: { subjectId } }, fetchTopics } = this.props;
 
-    if (nextProps.params.subjectId !== subjectId) {
-      fetchTopics({ subjectId: nextProps.params.subjectId });
+    if (nextProps.match.params.subjectId !== subjectId) {
+      fetchTopics({ subjectId: nextProps.match.params.subjectId });
     }
   }
 
@@ -82,9 +82,11 @@ class SubjectPage extends Component {
 }
 
 SubjectPage.propTypes = {
-  params: PropTypes.shape({
-    subjectId: PropTypes.string.isRequired,
-    topicId: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   fetchTopics: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
@@ -99,7 +101,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.params;
+  const { subjectId, topicId } = ownProps.match.params;
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),

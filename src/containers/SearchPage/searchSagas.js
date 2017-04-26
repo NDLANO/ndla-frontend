@@ -7,7 +7,6 @@
  */
 
 import { take, call, put, select } from 'redux-saga-effects';
-import { push } from 'react-router-redux';
 
 import { getLocale } from '../Locale/localeSelectors';
 import { toSearch } from '../../routes';
@@ -16,12 +15,12 @@ import * as constants from './searchConstants';
 import * as actions from './searchActions';
 import * as api from './searchApi';
 
-export function* search(query, page, sortOrder) {
+export function* search(query, page, sortOrder, history) {
   try {
     const locale = yield select(getLocale);
     const token = yield select(getAccessToken);
     const searchResult = yield call(api.search, query, page, locale, sortOrder, token);
-    yield put(push({ pathname: toSearch(), query: { query, page, sortOrder } }));
+    history.push({ pathname: toSearch(), query: { query, page, sortOrder } });
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
@@ -32,8 +31,8 @@ export function* search(query, page, sortOrder) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: { query, page, sortOrder } } = yield take(constants.SEARCH);
-    yield call(search, query, page, sortOrder);
+    const { payload: { query, page, sortOrder, history } } = yield take(constants.SEARCH);
+    yield call(search, query, page, sortOrder, history);
   }
 }
 

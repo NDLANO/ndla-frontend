@@ -22,9 +22,9 @@ import { toSearch } from '../../routes';
 class SearchPage extends Component {
 
   componentWillMount() {
-    const { location: { query }, search } = this.props;
+    const { location: { query }, search, history } = this.props;
     if (query.query !== undefined) {
-      search(query);
+      search({ ...query, history });
     }
   }
 
@@ -36,19 +36,19 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location: { query }, results, locale, searching, search, lastPage } = this.props;
+    const { location: { query }, results, locale, searching, search, lastPage, history } = this.props;
 
     return (
       <OneColumn cssModifier="narrow">
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : '-relevance' })}
+          onSearchQuerySubmit={searchQuery => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : '-relevance', history })}
         />
 
         <SelectSearchSortOrder
           sort={query.sortOrder}
-          onSortOrderChange={sortOrder => search({ query: query.query, sortOrder, page: 1 })}
+          onSortOrderChange={sortOrder => search({ query: query.query, sortOrder, page: 1, history })}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />
@@ -57,7 +57,7 @@ class SearchPage extends Component {
           page={query.page ? parseInt(query.page, 10) : 1}
           lastPage={lastPage}
           query={query}
-          onClick={q => search(q)}
+          onClick={q => search({ ...q, history })}
           pathname={toSearch()}
         />
       </OneColumn>
@@ -71,6 +71,9 @@ SearchPage.propTypes = {
       query: PropTypes.string,
       page: PropTypes.string,
     }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
   clearSearchResult: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,

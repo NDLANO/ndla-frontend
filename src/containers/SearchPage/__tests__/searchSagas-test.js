@@ -8,7 +8,6 @@
 
 
 import nock from 'nock';
-import { push } from 'react-router-redux';
 
 import SagaTester from '../../../__tests__/_SagaTester';
 import reducer from '../searchReducer';
@@ -26,11 +25,10 @@ test('searchSagas search', () => {
     .get('/article-api/v1/articles/?query=testing&page=3&language=nb&sort=alfa')
     .reply(200, { results: [1, 2, 3] });
 
-  const task = sagaTester.start(search.bind(undefined, 'testing', '3', 'alfa'));
+  const task = sagaTester.start(search.bind(undefined, 'testing', '3', 'alfa', { push: () => {} }));
 
   return task.done.then(() => {
     expect(sagaTester.wasCalled(actions.setSearchResult().type)).toBeTruthy();
-    expect(sagaTester.wasCalled(push().type)).toBeTruthy();
 
     expect(sagaTester.getState().search.results).toEqual([1, 2, 3]);
     expect(() => apiMock.done()).not.toThrow();

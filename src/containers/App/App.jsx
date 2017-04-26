@@ -8,6 +8,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 
@@ -27,7 +28,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t, params } = this.props;
+    const { dispatch, children, messages, t, match: { params } } = this.props;
     return (
       <PageContainer>
         <Helmet
@@ -47,9 +48,11 @@ export class App extends React.Component {
 }
 
 App.propTypes = {
-  params: PropTypes.shape({
-    subjectId: PropTypes.string,
-    topicId: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string,
+      topicId: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
@@ -65,4 +68,4 @@ const mapStateToProps = state => ({
   messages: getMessages(state),
 });
 
-export default connect(mapStateToProps)(injectT(App));
+export default withRouter(connect(mapStateToProps)(injectT(App)));

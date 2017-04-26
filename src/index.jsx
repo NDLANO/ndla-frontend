@@ -7,53 +7,48 @@
  */
 
 import 'babel-polyfill';
+import 'url-search-params-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { createHistory } from 'history';
+import { Router } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
-import isEmpty from 'lodash/isEmpty';
 
 import { getLocaleObject, isValidLocale } from './i18n';
+import configureHistory from './configureHistory';
 import configureStore from './configureStore';
 import configureRoutes from './routes';
 import rootSaga from './sagas';
 
 
-function configureBrowserHistory(path) {
+function getBasename(path) {
   if (isValidLocale(path)) {
-    const basename = `/${path}/`;
-    return useRouterHistory(createHistory)({
-      basename,
-    });
+    return `/${path}/`;
   }
-  return useRouterHistory(createHistory)();
+  return '';
 }
 
-const paths = window.location.pathname.split('/');
-const path = paths.length > 2 ? paths[1] : '/';
-const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
+const initialState = window.initialState;
+const localeString = initialState.locale;
 
 const locale = getLocaleObject(localeString);
-const browserHistory = configureBrowserHistory(path);
+const basename = getBasename(localeString);
 
-const initialState = !isEmpty(window.initialState) ? window.initialState : { locale: locale.abbreviation };
 const store = configureStore(
-  initialState
-, browserHistory);
+  initialState,
+);
 
 store.runSaga(rootSaga);
 
-const history = syncHistoryWithStore(browserHistory, store);
+const history = configureHistory(createHistory({ basename }));
+
 const routes = configureRoutes(store);
 
 if (__CLIENT__) {
   const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
-  window.errorReporter =
-    ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
+  window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
 }
 
 ReactDOM.render(
