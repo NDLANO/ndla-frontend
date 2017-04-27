@@ -40,6 +40,11 @@ app.use(compression());
 app.use(express.static('htdocs', {
   maxAge: 1000 * 60 * 60 * 24 * 365, // One year
 }));
+app.use((req, res, next) => {
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('Content-Security-Policy', 'default-src \'self\'; script-src \'self\' \'unsafe-inline\' \'unsafe-eval\' https://*.ndla.no https://players.brightcove.net https://www.nrk.no https://www.googletagmanager.com https://www.google-analytics.com https://www.youtube.com https://s.ytimg.com https://cdn.auth0.com; style-src \'self\' \'unsafe-inline\' \'unsafe-eval\' https://fonts.googleapis.com https://fonts.gstatic.com; font-src \'self\' https://fonts.googleapis.com https://fonts.gstatic.com; connect-src \'self\' https://*.ndla.no https://logs-01.loggly.com; img-src https://*.ndla.no https://www.google-analytics.com https://stats.g.doubleclick.net data: ;');
+  next();
+});
 
 const renderHtmlString = (locale, userAgentString, state = {}, component = undefined) =>
   renderToString(<Html lang={locale} state={state} component={component} className={getConditionalClassnames(userAgentString)} />);
