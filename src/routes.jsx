@@ -40,12 +40,21 @@ export function toTopic(subjectId, ...topicIds) {
   return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
-export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
-   toTopic(subjectId, ...topicIds, topicId);
+export const toTopicPartial = (subjectId, ...topicIds) => topicId => toTopic(subjectId, ...topicIds, topicId);
 
+class ScrollToTop extends React.Component {
+  componentDidUpdate() {
+    window.scrollTo(0, 0);
+  }
+
+  render() {
+    return null;
+  }
+}
 
 export default (
   <App>
+    <ScrollToTop />
     <Switch>
       <Route path="/" exact component={WelcomePage} />
 
