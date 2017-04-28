@@ -6,31 +6,24 @@
  *
  */
 
-
 import nock from 'nock';
 
-import SagaTester from '../../../__tests__/_SagaTester';
-import reducer from '../searchReducer';
-import { search } from '../searchSagas';
+import { expectSaga } from 'redux-saga-test-plan';
+import * as sagas from '../searchSagas';
 import * as actions from '../searchActions';
 
+expectSaga.DEFAULT_TIMEOUT = 100;
 
 test('searchSagas search', () => {
-  const sagaTester = new SagaTester({
-    initialState: {},
-    reducers: { search: reducer, locale: () => 'nb' },
-  });
-
-  const apiMock = nock('http://ndla-api')
+  nock('http://ndla-api')
     .get('/article-api/v1/articles/?query=testing&page=3&sort=alfa&language=nb')
     .reply(200, { results: [1, 2, 3] });
 
-  const task = sagaTester.start(search.bind(undefined, '?query=testing&page=3&sort=alfa'));
+  return expectSaga(sagas.watchSearch)
+          .withState({ locale: 'nb', accessToken: '123456789' })
+          .put(actions.setSearchResult({ results: [1, 2, 3] }))
 
-  return task.done.then(() => {
-    expect(sagaTester.wasCalled(actions.setSearchResult().type)).toBeTruthy();
-
-    expect(sagaTester.getState().search.results).toEqual([1, 2, 3]);
-    expect(() => apiMock.done()).not.toThrow();
-  });
+          .dispatch(actions.search('?query=testing&page=3&sort=alfa'))
+          .run({ silenceTimeout: true });
 });
+
