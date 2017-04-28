@@ -7,8 +7,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { withRouter } from 'react-router';
-import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ResourceList } from 'ndla-ui';
 import { ResourceTypeShape } from '../../shapes';
@@ -24,8 +23,7 @@ class Resources extends Component {
   }
 
   render() {
-    const { router, topicResourcesByType } = this.props;
-    const { params } = router;
+    const { match: { params }, topicResourcesByType } = this.props;
 
     const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
 
@@ -45,12 +43,12 @@ class Resources extends Component {
 
 Resources.propTypes = {
   topicResourcesByType: PropTypes.arrayOf(ResourceTypeShape),
-  router: PropTypes.shape({
+  match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
+      topicId: PropTypes.string.isRequired,
     }).isRequired,
-  }),
+  }).isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -60,7 +58,4 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
-export default compose(
-  connect(mapStateToProps),
-  withRouter,
-)(Resources);
+export default withRouter(connect(mapStateToProps)(Resources));

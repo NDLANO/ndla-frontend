@@ -44,5 +44,5 @@ export const resourceToLinkProps = (resource, subjectId, topicId) => {
       to: toArticle(getArticleIdFromResource(resource), subjectId, topicId),
     };
   }
-  return undefined;
+  return { to: '/404' };
 };

@@ -35,10 +35,10 @@ const MastheadContainer = ({ t, subject, topics }) => (
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
         </SiteNavItem>
-        <SiteNavItem to="#">
+        <SiteNavItem to="/#">
           {t('siteNav.contact')}
         </SiteNavItem>
-        <SiteNavItem to="#">
+        <SiteNavItem to="/#">
           {t('siteNav.help')}
         </SiteNavItem>
       </SiteNav>

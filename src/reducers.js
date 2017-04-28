@@ -7,7 +7,6 @@
  */
 
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
@@ -27,7 +26,6 @@ const rootReducers = combineReducers({
   search,
   subjects,
   topics,
-  routing: routerReducer,
 });
 
 export default rootReducers;

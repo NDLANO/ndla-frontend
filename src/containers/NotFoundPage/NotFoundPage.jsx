@@ -6,12 +6,31 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { Route } from 'react-router-dom';
+
+const Status = ({ code, children }) => (
+  <Route
+    render={({ staticContext }) => {
+      const context = staticContext;
+      if (staticContext) {
+        context.status = code;
+      }
+      return children;
+    }}
+  />
+);
+
+Status.propTypes = {
+  code: PropTypes.number.isRequired,
+};
 
 export default function NotFound() {
   return (
-    <div>
-      <h2>404 - The page cannot be found</h2>
-    </div>
+    <Status code={404}>
+      <div>
+        <h2>404 - The page cannot be found</h2>
+      </div>
+    </Status>
   );
 }

@@ -7,7 +7,6 @@
  */
 
 import { compose, createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware, { END } from 'redux-saga';
 
 import rootReducer from './reducers';
@@ -15,15 +14,13 @@ import rootReducer from './reducers';
 import { errorReporter } from './middleware';
 
 
-export default function configureStore(initialState, history) {
-  const middleware = routerMiddleware(history);
+export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
     applyMiddleware(
       sagaMiddleware,
       errorReporter,
-      middleware,
     ),
     __CLIENT__ && window && window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore);

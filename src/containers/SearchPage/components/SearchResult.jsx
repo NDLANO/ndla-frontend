@@ -7,7 +7,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toArticle } from '../../../routes';
 import { titleI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';

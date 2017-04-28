@@ -28,7 +28,8 @@ const assets = __CLIENT__ ? window.assets : ( // eslint-disable-line no-nested-t
 
 class ArticlePage extends Component {
   componentWillMount() {
-    const { fetchArticle, fetchTopics, fetchSubjects, params: { articleId, subjectId } } = this.props;
+    const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = this.props;
+    const { articleId, subjectId } = params;
     fetchArticle(articleId);
     if (subjectId) {
       fetchSubjects();
@@ -74,10 +75,12 @@ class ArticlePage extends Component {
 }
 
 ArticlePage.propTypes = {
-  params: PropTypes.shape({
-    articleId: PropTypes.string.isRequired,
-    subjectId: PropTypes.string,
-    topicId: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      articleId: PropTypes.string.isRequired,
+      subjectId: PropTypes.string,
+      topicId: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,
@@ -95,7 +98,7 @@ const mapDispatchToProps = {
 };
 
 const makeMapStateToProps = (_, ownProps) => {
-  const { articleId, subjectId, topicId } = ownProps.params;
+  const { articleId, subjectId, topicId } = ownProps.match.params;
   const getArticleSelector = getArticle(articleId);
   const getTopicPathSelector = subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId ? getSubjectById(subjectId) : () => undefined;

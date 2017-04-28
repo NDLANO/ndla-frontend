@@ -2,13 +2,12 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
+ * LICENSE file in the root directory of this source tree. *
  */
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { Pager, OneColumn } from 'ndla-ui';
+import { OneColumn, Pager } from 'ndla-ui';
 
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
@@ -18,37 +17,39 @@ import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
 import { toSearch } from '../../routes';
+import { createQueryString, parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
 
   componentWillMount() {
-    const { location: { query }, search } = this.props;
-    if (query.query !== undefined) {
-      search(query);
+    const { location, search } = this.props;
+    if (location.search) {
+      search(location.search);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location: { query }, results, clearSearchResult } = nextProps;
-    if (query.query === undefined && results.length !== 0) {
-      clearSearchResult();
+    const { location, search } = nextProps;
+    if (location.search && location.search !== this.props.location.search) {
+      search(location.search);
     }
   }
 
   render() {
-    const { location: { query }, results, locale, searching, search, lastPage } = this.props;
+    const { location, results, locale, searching, lastPage, history } = this.props;
+    const query = parseQueryString(location.search);
 
     return (
       <OneColumn cssModifier="narrow">
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => search({ query: searchQuery, page: 1, sortOrder: query.sortOrder ? query.sortOrder : '-relevance' })}
+          onSearchQuerySubmit={searchQuery => history.push(`/search?${createQueryString({ query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' })}`)}
         />
 
         <SelectSearchSortOrder
-          sort={query.sortOrder}
-          onSortOrderChange={sortOrder => search({ query: query.query, sortOrder, page: 1 })}
+          sort={query.sort}
+          onSortOrderChange={sort => history.push(`/search?${createQueryString({ query: query.query, sort, page: 1 })}`)}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />
@@ -57,7 +58,6 @@ class SearchPage extends Component {
           page={query.page ? parseInt(query.page, 10) : 1}
           lastPage={lastPage}
           query={query}
-          onClick={q => search(q)}
           pathname={toSearch()}
         />
       </OneColumn>
@@ -67,10 +67,10 @@ class SearchPage extends Component {
 
 SearchPage.propTypes = {
   location: PropTypes.shape({
-    query: PropTypes.shape({
-      query: PropTypes.string,
-      page: PropTypes.string,
-    }).isRequired,
+    search: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
   clearSearchResult: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,

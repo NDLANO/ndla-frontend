@@ -10,58 +10,39 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { createHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import ErrorReporter from 'ndla-error-reporter';
-import isEmpty from 'lodash/isEmpty';
 
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import configureRoutes from './routes';
+import routes from './routes';
 import rootSaga from './sagas';
 
-
-function configureBrowserHistory(path) {
-  if (isValidLocale(path)) {
-    const basename = `/${path}/`;
-    return useRouterHistory(createHistory)({
-      basename,
-    });
-  }
-  return useRouterHistory(createHistory)();
-}
+const initialState = window.initialState;
+const localeString = initialState.locale;
+const locale = getLocaleObject(localeString);
 
 const paths = window.location.pathname.split('/');
-const path = paths.length > 2 ? paths[1] : '/';
-const localeString = paths.length > 2 && isValidLocale(paths[1]) ? paths[1] : 'nb';
+const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-const locale = getLocaleObject(localeString);
-const browserHistory = configureBrowserHistory(path);
-
-const initialState = !isEmpty(window.initialState) ? window.initialState : { locale: locale.abbreviation };
 const store = configureStore(
-  initialState
-, browserHistory);
+  initialState,
+);
 
 store.runSaga(rootSaga);
 
-const history = syncHistoryWithStore(browserHistory, store);
-const routes = configureRoutes(store);
-
 if (__CLIENT__) {
   const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
-  window.errorReporter =
-    ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
+  window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
 }
 
 ReactDOM.render(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
+      <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
         {routes}
-      </Router>
+      </BrowserRouter>
     </IntlProvider>
   </Provider>,
   document.getElementById('root'),
