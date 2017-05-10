@@ -25,12 +25,12 @@
     "npm": "~3.10.3"
   },
   "devDependencies": {
-    "babel-core": "^6.24.0",
+    "babel-core": "^6.24.1",
     "babel-jest": "^19.0.0",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^7.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.2.2",
-    "babel-preset-react": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-react": "^6.24.1",
     "cross-env": "^3.1.4",
     "css-loader": "^0.27.3",
     "enzyme": "^2.7.1",
@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "babel-register": "^6.24.0",
+    "babel-register": "^6.24.1",
     "btoa": "^1.1.2",
     "classnames": "2.2.5",
     "compression": "1.6.2",
