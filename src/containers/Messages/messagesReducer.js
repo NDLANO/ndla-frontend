@@ -7,7 +7,6 @@
  */
 
 import { handleActions } from 'redux-actions';
-import cloneDeep from 'lodash/cloneDeep';
 import { uuid } from 'ndla-util';
 
 export default handleActions({
@@ -21,9 +20,7 @@ export default handleActions({
         timeToLive: (typeof action.payload.timeToLive === 'undefined') ? 1500 : action.payload.timeToLive,
       };
 
-      const nextState = cloneDeep(state);
-      nextState.push(message);
-      return nextState;
+      return [...state, message];
     },
     throw(state) { return state; },
   },
@@ -42,15 +39,11 @@ export default handleActions({
 
   APPLICATION_ERROR: {
     throw(state, action) {
-      const nextState = cloneDeep(state);
-
       if (action.payload.json && action.payload.json.messages) {
-        action.payload.json.messages.forEach((m) => {
-          nextState.push({ id: uuid(), message: `${m.field}: ${m.message}`, severity: 'danger', timeToLive: 0 });
-        });
+        const messages = action.payload.json.messages.map(m => ({ id: uuid(), message: `${m.field}: ${m.message}`, severity: 'danger', timeToLive: 0 }));
+        return [...state, ...messages];
       }
-
-      return nextState;
+      return state;
     },
   },
 }, []);
