@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga-effects';
+import { all, take, call, put, select } from 'redux-saga/effects';
 import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
 import * as actions from './topicActions';
 import { getArticleIdFromResource, isArticleResource } from '../Resources/resourceHelpers';
@@ -62,7 +62,7 @@ export function* watchFetchTopics() {
     const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
     if (!hasFetched) {
       const topics = yield call(fetchTopics, subjectId);
-      yield [call(fetchTopicArticle, subjectId, topicId), call(fetchTopicIntroductions, topics)];
+      yield all([call(fetchTopicArticle, subjectId, topicId), call(fetchTopicIntroductions, topics)]);
     } else {
       yield call(fetchTopicArticle, subjectId, topicId);
     }

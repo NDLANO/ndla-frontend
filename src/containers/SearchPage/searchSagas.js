@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga-effects';
+import { take, call, put, select } from 'redux-saga/effects';
 
 import { getLocale } from '../Locale/localeSelectors';
 import { getAccessToken } from '../App/sessionSelectors';

@@ -7,7 +7,7 @@
  */
 
 import { testSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-effects';
+import { call } from 'redux-saga/effects';
 import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';

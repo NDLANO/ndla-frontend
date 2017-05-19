@@ -7,7 +7,7 @@
  */
 
 import { testSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga-effects';
+import { call } from 'redux-saga/effects';
 import * as sagas from '../resourceSagas';
 import * as actions from '../resourceActions';
 import * as api from '../resourceApi';
@@ -58,7 +58,7 @@ test('topicSagas fetchTopicResources', () => {
     .select(getAccessToken)
     .next(token)
 
-    // .parallel([
+    // .all([
     //   call(api.fetchResourceTypes, token),
     // ])
     .call(api.fetchTopicResources, topicId, token)
