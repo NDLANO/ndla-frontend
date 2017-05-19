@@ -6,7 +6,7 @@
  *
  */
 
-import testSaga from 'redux-saga-test-plan';
+import { testSaga } from 'redux-saga-test-plan';
 import { hasFetched } from '../subjectSelectors';
 import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';

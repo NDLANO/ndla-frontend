@@ -6,7 +6,8 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { toArticle } from '../../../routes';
 import { titleI18N } from '../../../util/i18nFieldFinder';
