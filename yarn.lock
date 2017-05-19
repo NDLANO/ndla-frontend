@@ -3874,9 +3874,9 @@ ndla-tabs@^0.2.1:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.4.2.tgz#984591e0ccc3542064ec42187e319ec341eec4bc"
+ndla-ui@^0.3.2:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.3.3.tgz#e7d2a0790718e306d427162c322f3e5cc259fe37"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
