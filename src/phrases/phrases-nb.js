@@ -41,7 +41,7 @@ const phrases = {
     created: 'Opprettet',
     lastUpdated: 'Sist oppdatert',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Gjenbruk {contentType}',
+    openLicenseBox: 'Gjenbruk',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
@@ -51,8 +51,7 @@ const phrases = {
     introduction: `Alt innhold på NDLA har egne opphavsrettigheter. Disse må du ta hensyn
       til dersom du skal gjenbruke noe av dette innholdet utenfor ndla.no. Opphavsretten
       bestemmer hvordan du kan bruke innholdet, enten det skal publiseres, deles på internett,
-      eller hvis noen skal tjene penger på det. Under kan du kan du se hvordan du kan bruke innholdet
-      i {contentType}.`,
+      eller hvis noen skal tjene penger på det. Under kan du kan du se hvordan du kan bruke innholdet.`,
     tabs: {
       texts: 'Tekst',
       images: 'Bilder',

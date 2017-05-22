@@ -40,7 +40,7 @@ class Article extends Component {
 
     return (
       <ToggleLicenseBox
-        openTitle={t('article.openLicenseBox', { contentType: article.contentType.toLowerCase() })}
+        openTitle={t('article.openLicenseBox')}
         closeTitle={t('article.closeLicenseBox')}
         licenseBox={<LicenseBox article={article} locale={locale} license={license} />}
       >
