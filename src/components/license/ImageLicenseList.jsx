@@ -6,7 +6,8 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import { MediaList, MediaListItem, MediaListItemImage, MediaListItemBody, MediaListItemActions, MediaListItemMeta } from './MediaList';
 import Icon from '../Icon';

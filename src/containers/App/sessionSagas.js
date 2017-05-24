@@ -6,8 +6,8 @@
  *
  */
 
-import { call, put, select } from 'redux-saga-effects';
 import { delay } from 'redux-saga';
+import { call, put, select } from 'redux-saga/effects';
 import * as actions from './sessionActions';
 import * as api from './sessionApi';
 import { getTimeToUpdateInMs } from '../../util/jwtHelper';

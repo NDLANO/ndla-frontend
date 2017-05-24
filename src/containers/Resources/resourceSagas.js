@@ -6,7 +6,7 @@
  *
  */
 
-import { take, call, put, select } from 'redux-saga-effects';
+import { all, take, call, put, select } from 'redux-saga/effects';
 import * as actions from './resourceActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as learningPathApi from './learningPathApi';
@@ -56,10 +56,10 @@ export function* fetchTopicResources(topicId) {
     const token = yield select(getAccessToken);
     const resources = yield call(api.fetchTopicResources, topicId, token);
     yield put(actions.setTopicResources({ topicId, resources }));
-    yield [
+    yield all([
       call(fetchArticleResourcesData, topicId, resources.filter(isArticleResource), token),
       call(fetchLearningPathResourcesData, topicId, resources.filter(isLearningPathResource), token),
-    ];
+    ]);
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -71,10 +71,10 @@ export function* watchFetchTopicResources() {
     const { payload: { topicId } } = yield take(actions.fetchTopicResources);
     const resources = yield select(getResourcesByTopicId(topicId));
     if (resources.length === 0) {
-      yield [
+      yield all([
         call(fetchTopicResources, topicId),
         call(fetchResourceTypes),
-      ];
+      ]);
     }
   }
 }

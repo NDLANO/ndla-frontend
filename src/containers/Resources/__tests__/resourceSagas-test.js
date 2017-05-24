@@ -6,8 +6,8 @@
  *
  */
 
-import testSaga from 'redux-saga-test-plan';
-import { call } from 'redux-saga-effects';
+import { testSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga/effects';
 import * as sagas from '../resourceSagas';
 import * as actions from '../resourceActions';
 import * as api from '../resourceApi';
@@ -22,7 +22,7 @@ test('resourceSagas watchFetchTopicResources', () => {
     .take(actions.fetchTopicResources)
     .next({ payload: { topicId: 2 } })
     .next([])
-    .parallel([
+    .all([
       call(sagas.fetchTopicResources, 2),
       call(sagas.fetchResourceTypes),
     ])
@@ -58,7 +58,7 @@ test('topicSagas fetchTopicResources', () => {
     .select(getAccessToken)
     .next(token)
 
-    // .parallel([
+    // .all([
     //   call(api.fetchResourceTypes, token),
     // ])
     .call(api.fetchTopicResources, topicId, token)
@@ -69,7 +69,7 @@ test('topicSagas fetchTopicResources', () => {
     // .put({ type: actions.setResourceTypes.toString(), payload: [] })
     // .next()
 
-    .parallel([
+    .all([
       call(sagas.fetchArticleResourcesData, topicId, resources.slice(2), token),
       call(sagas.fetchLearningPathResourcesData, topicId, resources.slice(0, 2), token),
     ])

@@ -6,7 +6,8 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import SearchResult from './SearchResult';
 import { injectT } from '../../../i18n';
 import { ArticleResultShape } from '../../../shapes';

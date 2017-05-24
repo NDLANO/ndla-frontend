@@ -6,7 +6,7 @@
  *
  */
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,

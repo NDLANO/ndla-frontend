@@ -6,7 +6,8 @@
  *
  */
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { Article as UIArticle, LicenseByline, TopicBreadcrumb, OneColumn } from 'ndla-ui';
 import {

@@ -6,8 +6,8 @@
  *
  */
 
-import testSaga from 'redux-saga-test-plan';
-import { call } from 'redux-saga-effects';
+import { testSaga } from 'redux-saga-test-plan';
+import { call } from 'redux-saga/effects';
 import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
@@ -59,7 +59,7 @@ test('topicSagas watchFetchTopics', () => {
     .call(sagas.fetchTopics, 'urn:subject:1')
     .next(topics)
 
-    .parallel([
+    .all([
       call(sagas.fetchTopicArticle, 'urn:subject:1', 'urn:topic:1'),
       call(sagas.fetchTopicIntroductions, topics),
     ])
