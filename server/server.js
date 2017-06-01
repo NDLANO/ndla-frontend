@@ -146,7 +146,7 @@ function handleResponse(req, res, token) {
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
-  if (global.__DISABLE_SSR__) {
+  if (__DISABLE_SSR__) {
     // eslint-disable-line no-underscore-dangle
     const htmlString = renderHtmlString(locale, userAgentString, {
       accessToken: token.access_token,

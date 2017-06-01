@@ -22,11 +22,11 @@ import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
 import config from '../../config';
 
-const assets = __CLIENT__
-  ? window.assets // eslint-disable-line no-nested-ternary
+const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
+  ? window.assets
   : config.isProduction
-      ? require('../../../htdocs/assets/assets')
-      : require('../../../server/developmentAssets'); // eslint-disable-line import/no-unresolved
+      ? require('../../../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+      : require('../../../server/developmentAssets');
 
 class ArticlePage extends Component {
   componentWillMount() {

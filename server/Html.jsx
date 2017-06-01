@@ -15,8 +15,8 @@ import Helmet from 'react-helmet';
 import config from '../src/config';
 
 const assets = config.isProduction
-  ? require('../htdocs/assets/assets')
-  : require('./developmentAssets'); // eslint-disable-line import/no-unresolved
+  ? require('../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+  : require('./developmentAssets');
 
 const GoogleTagMangerNoScript = () => {
   if (config.googleTagMangerId) {
