@@ -3,8 +3,10 @@ const spawn = require('child_process').spawnSync;
 const chalk = require('chalk');
 
 function runCommand(cmd, args, cwd = __dirname) {
-  const displayArgs = args.length > 25 ? `${args.slice(0, 25)  }...` : args.join(' ');
-  console.log(chalk.dim(`$ cwd ${  cwd  }\n$ ${cmd} ${displayArgs}\n`));
+  const displayArgs = args.length > 25
+    ? `${args.slice(0, 25)}...`
+    : args.join(' ');
+  console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`));
   const result = spawn(cmd, args, {
     cwd,
     shell: true,
@@ -16,7 +18,7 @@ function runCommand(cmd, args, cwd = __dirname) {
     error.stack = message;
     throw error;
   }
-};
+}
 
 const shouldWrite = process.argv[2] === 'write';
 const isWindows = process.platform === 'win32';
@@ -29,14 +31,19 @@ const options = {
   'trailing-comma': 'all',
 };
 
+// prettier-ignore
 const args = Object.keys(options)
   .map(key => `--${key}=${options[key]}`)
-  .concat(`--${shouldWrite ? 'write' : 'l'}`, '"{src,server}/**/*(*.js|*.jsx)"');
+  .concat(
+    `--${shouldWrite ? 'write' : 'l'}`,
+    '"{src,server}/**/*(*.js|*.jsx)"'
+  );
 
 try {
   runCommand(prettierCmd, args);
 } catch (e) {
   if (!shouldWrite) {
+    // prettier-ignore
     console.log(
       `${chalk.red(`\nThis project uses prettier to format all JavaScript code.\n`) +
         chalk.dim(`Please run `) +

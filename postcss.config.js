@@ -17,10 +17,12 @@ module.exports = {
       glob: true,
     }),
     postcssFocus(), // Add a :focus to every :hover
-    cssnext({ // Allow future CSS features to be used, also auto-prefixes the CSS...
+    cssnext({
+      // Allow future CSS features to be used, also auto-prefixes the CSS...
       browsers: ['last 2 versions', 'IE >= 10'], // ...based on this browser list
     }),
-    postcssReporter({ // Posts messages from plugins to the terminal
+    postcssReporter({
+      // Posts messages from plugins to the terminal
       clearMessages: true,
     }),
   ],

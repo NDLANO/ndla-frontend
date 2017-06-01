@@ -7,44 +7,46 @@ const path = require('path');
 const webpack = require('webpack');
 
 const entry = {
-  main: [
-    './src/index.jsx',
-    './style/index.css',
-  ],
-  embed: [
-    './server/embedScripts.js',
-  ],
-  mathjaxConfig: [
-    './src/mathjaxConfig.js',
-  ],
+  main: ['./src/index.jsx', './style/index.css'],
+  embed: ['./server/embedScripts.js'],
+  mathjaxConfig: ['./src/mathjaxConfig.js'],
 };
+
 module.exports = options => ({
   entry: Object.assign(entry, {
     main: options.entry.main.concat(entry.main),
     embed: options.entry.embed.concat(entry.embed),
   }),
 
-  output: Object.assign({ // Compile into htdocs/assets
-    path: path.resolve(process.cwd(), 'htdocs/assets'),
-    publicPath: '/assets/',
-  }, options.output), // Merge with env dependent settings
+  // prettier-ignore
+  output: Object.assign(
+    {
+      // Compile into htdocs/assets
+      path: path.resolve(process.cwd(), 'htdocs/assets'),
+      publicPath: '/assets/',
+    },
+    options.output
+  ), // Merge with env dependent settings
 
   module: {
     rules: options.rules.concat([
       {
         test: /\.jsx?|\.js?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/, // See .babelrc
-        use:
-        {
+        use: {
           loader: 'babel-loader',
           options: {
             babelrc: false,
             presets: [
-              'react', ['env', {
-                targets: options.babelPresetTargets,
-                useBuiltIns: true,
-                modules: false,
-              }],
+              'react',
+              [
+                'env',
+                {
+                  targets: options.babelPresetTargets,
+                  useBuiltIns: true,
+                  modules: false,
+                },
+              ],
             ],
             plugins: ['transform-object-rest-spread'],
           },
@@ -76,17 +78,8 @@ module.exports = options => ({
 
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.css',
-    ],
-    mainFields: [
-      'jsnext:main',
-      'browser',
-      'main',
-    ],
+    extensions: ['.js', '.json', '.jsx', '.css'],
+    mainFields: ['jsnext:main', 'browser', 'main'],
   },
 
   devtool: options.devtool,
