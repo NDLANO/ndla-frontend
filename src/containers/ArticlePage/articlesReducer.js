@@ -11,9 +11,15 @@ import * as constants from './articleConstants';
 
 const initalState = {};
 
-export default handleActions({
-  [constants.SET_ARTICLE]: {
-    next: (state, action) => ({ ...state, [action.payload.id]: { ...action.payload } }),
-    throw: state => state,
+export default handleActions(
+  {
+    [constants.SET_ARTICLE]: {
+      next: (state, action) => ({
+        ...state,
+        [action.payload.id]: { ...action.payload },
+      }),
+      throw: state => state,
+    },
   },
-}, initalState);
+  initalState,
+);

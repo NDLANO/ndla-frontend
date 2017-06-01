@@ -10,14 +10,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { OneColumn, Hero, ResourceWrapper, TopicIntroductionList } from 'ndla-ui';
+import {
+  OneColumn,
+  Hero,
+  ResourceWrapper,
+  TopicIntroductionList,
+} from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import defined from 'defined';
 import { injectT } from '../../i18n';
 import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getSubjectById } from './subjectSelectors';
-import { getTopicsBySubjectIdWithIntroduction, getTopic } from '../TopicPage/topicSelectors';
+import {
+  getTopicsBySubjectIdWithIntroduction,
+  getTopic,
+} from '../TopicPage/topicSelectors';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routes';
 
@@ -25,7 +33,11 @@ const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   componentWillMount() {
-    const { match: { params: { subjectId } }, fetchTopics, fetchSubjects } = this.props;
+    const {
+      match: { params: { subjectId } },
+      fetchTopics,
+      fetchSubjects,
+    } = this.props;
     fetchSubjects();
     fetchTopics({ subjectId });
   }
@@ -55,7 +67,7 @@ class SubjectPage extends Component {
                   {t('breadcrumb.label')}
                   <ol className="c-breadcrumb__list">
                     <li className="c-breadcrumb__item">
-                      <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> &#x203A;
+                      <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> ›
                     </li>
                   </ol>
                 </div>
@@ -67,7 +79,10 @@ class SubjectPage extends Component {
 
         <ResourceWrapper>
           <h1>{t('subjectPage.tabs.topics')}</h1>
-          <TopicIntroductionList toTopic={toTopic(subject.id)} topics={topics} />
+          <TopicIntroductionList
+            toTopic={toTopic(subject.id)}
+            topics={topics}
+          />
         </ResourceWrapper>
         <OneColumn />
       </div>
@@ -103,7 +118,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  injectT,
-)(SubjectPage);
+export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+  SubjectPage,
+);

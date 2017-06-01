@@ -13,16 +13,14 @@ import rootReducer from './reducers';
 
 import { errorReporter } from './middleware';
 
-
 export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
-    applyMiddleware(
-      sagaMiddleware,
-      errorReporter,
-    ),
-    __CLIENT__ && window && window.devToolsExtension ? window.devToolsExtension() : f => f,
+    applyMiddleware(sagaMiddleware, errorReporter),
+    __CLIENT__ && window && window.devToolsExtension
+      ? window.devToolsExtension()
+      : f => f,
   )(createStore);
 
   const store = createFinalStore(rootReducer, initialState);

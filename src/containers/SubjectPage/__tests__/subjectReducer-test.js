@@ -21,7 +21,9 @@ test('reducers/subject initalState', () => {
 });
 
 test('reducers/subject handle fetch subjects', () => {
-  const nextState = reducer(undefined, { type: actions.fetchSubjects.toString() });
+  const nextState = reducer(undefined, {
+    type: actions.fetchSubjects.toString(),
+  });
 
   expect(nextState).toEqual({
     hasFetched: false,
@@ -29,7 +31,6 @@ test('reducers/subject handle fetch subjects', () => {
     all: [],
   });
 });
-
 
 test('reducers/subjects handle set subjects', () => {
   const nextState = reducer(initalState, {

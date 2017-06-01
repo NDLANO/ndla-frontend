@@ -14,7 +14,6 @@ import * as api from '../resourceApi';
 import { getAccessToken } from '../../App/sessionSelectors';
 import { resources } from './mockResources';
 
-
 test('resourceSagas watchFetchTopicResources', () => {
   const saga = testSaga(sagas.watchFetchTopicResources);
   saga
@@ -22,11 +21,7 @@ test('resourceSagas watchFetchTopicResources', () => {
     .take(actions.fetchTopicResources)
     .next({ payload: { topicId: 2 } })
     .next([])
-    .all([
-      call(sagas.fetchTopicResources, 2),
-      call(sagas.fetchResourceTypes),
-    ])
-
+    .all([call(sagas.fetchTopicResources, 2), call(sagas.fetchResourceTypes)])
     .finish()
     .next()
     .isDone();
@@ -40,11 +35,9 @@ test('topicSagas fetchResourceTypes', () => {
     .next()
     .select(getAccessToken)
     .next(token)
-
     .call(api.fetchResourceTypes, token)
     .next([])
     .put({ type: actions.setResourceTypes.toString(), payload: [] })
-
     .next()
     .isDone();
 });
@@ -57,23 +50,28 @@ test('topicSagas fetchTopicResources', () => {
     .next()
     .select(getAccessToken)
     .next(token)
-
     // .all([
     //   call(api.fetchResourceTypes, token),
     // ])
     .call(api.fetchTopicResources, topicId, token)
     .next(resources)
-
-    .put({ type: actions.setTopicResources.toString(), payload: { topicId, resources } })
+    .put({
+      type: actions.setTopicResources.toString(),
+      payload: { topicId, resources },
+    })
     .next()
     // .put({ type: actions.setResourceTypes.toString(), payload: [] })
     // .next()
 
     .all([
       call(sagas.fetchArticleResourcesData, topicId, resources.slice(2), token),
-      call(sagas.fetchLearningPathResourcesData, topicId, resources.slice(0, 2), token),
+      call(
+        sagas.fetchLearningPathResourcesData,
+        topicId,
+        resources.slice(0, 2),
+        token,
+      ),
     ])
-
     .next()
     .isDone();
 });

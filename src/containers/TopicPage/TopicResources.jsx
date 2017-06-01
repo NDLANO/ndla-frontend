@@ -24,10 +24,13 @@ const toTopic = (subjectId, topicPath) => {
   return toTopicPartial(subjectId, ...topicIds);
 };
 
-
 class TopicResources extends Component {
   componentWillMount() {
-    const { subjectId, topic: { id: topicId }, fetchTopicResources } = this.props;
+    const {
+      subjectId,
+      topic: { id: topicId },
+      fetchTopicResources,
+    } = this.props;
     fetchTopicResources({ subjectId, topicId });
   }
 
@@ -39,11 +42,20 @@ class TopicResources extends Component {
   }
 
   render() {
-    const { subtopics, topic: { id: topicId }, subjectId, topicPath, t } = this.props;
+    const {
+      subtopics,
+      topic: { id: topicId },
+      subjectId,
+      topicPath,
+      t,
+    } = this.props;
     return (
       <ResourceWrapper>
         <h1>{t('topicPage.topics')}</h1>
-        <TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
+        <TopicIntroductionList
+          toTopic={toTopic(subjectId, topicPath)}
+          topics={subtopics}
+        />
         <Resources topicId={topicId} />
       </ResourceWrapper>
     );
@@ -64,13 +76,12 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topic: { id: topicId } } = ownProps;
-  return ({
+  return {
     subtopics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
     resources: getResourcesByTopicId(topicId)(state),
-  });
+  };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  injectT,
-)(TopicResources);
+export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+  TopicResources,
+);

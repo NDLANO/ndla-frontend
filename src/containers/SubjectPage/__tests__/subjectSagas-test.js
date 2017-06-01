@@ -21,10 +21,11 @@ test('subjectSagas fetchSubjects', () => {
     .select(getAccessToken)
     .next(token)
     .call(api.fetchSubjects, token)
-
     .next([{ id: '123', name: 'Matematikk' }])
-    .put({ type: actions.setSubjects.toString(), payload: [{ id: '123', name: 'Matematikk' }] })
-
+    .put({
+      type: actions.setSubjects.toString(),
+      payload: [{ id: '123', name: 'Matematikk' }],
+    })
     .next()
     .isDone();
 });
@@ -34,13 +35,10 @@ test('subjectSagas watchFetchSubjects ', () => {
   saga
     .next()
     .take(actions.fetchSubjects)
-
     .next()
     .select(hasFetched)
-
     .next(false)
     .call(sagas.fetchSubjects)
-
     .finish()
     .next()
     .isDone();
@@ -51,12 +49,9 @@ test('subjectSagas watchFetchSubjects when hasFetched is true', () => {
   saga
     .next()
     .take(actions.fetchSubjects)
-
     .next()
     .select(hasFetched)
-
     .next(true)
-
     .finish()
     .next()
     .isDone();

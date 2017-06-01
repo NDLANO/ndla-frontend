@@ -26,7 +26,7 @@ test('reducers/resources handle set resource types', () => {
   });
 
   expect(nextState).toEqual({
-    all: { },
+    all: {},
     types: resourceTypes,
   });
 
@@ -67,7 +67,8 @@ test('reducers/resources handle set topic resources', () => {
 });
 
 test('reducers/resources handle set article resource data', () => {
-  const nextState = reducer({ all: { 1: resources } },
+  const nextState = reducer(
+    { all: { 1: resources } },
     {
       type: actions.setArticleResourceData,
       payload: {
@@ -75,9 +76,11 @@ test('reducers/resources handle set article resource data', () => {
         articleResourceData: [
           { id: '1', introduction: 'Intro 1', title: 'Title 1' },
           { id: '2', introduction: 'Intro 2', title: 'Title 2' },
-          { id: 'abc', introduction: 'No corresponding article resource' }],
+          { id: 'abc', introduction: 'No corresponding article resource' },
+        ],
       },
-    });
+    },
+  );
   const articleResource1 = nextState.all['1'][2];
   const articleResource2 = nextState.all['1'][3];
   const articleResource3 = nextState.all['1'][4];
@@ -92,17 +95,30 @@ test('reducers/resources handle set article resource data', () => {
 });
 
 test('reducers/resources handle set learning path resource data', () => {
-  const nextState = reducer({ all: { 1: resources } },
+  const nextState = reducer(
+    { all: { 1: resources } },
     {
       type: actions.setLearningPathResourceData,
       payload: {
         topicId: '1',
         learningPathResourceData: [
-          { id: '1', title: 'Title 1', description: 'Desc 1', coverPhotoUrl: 'https://example.com/1.jpg' },
-          { id: '2', title: 'Title 2', description: 'Desc 2', coverPhotoUrl: 'https://example.com/2.jpg' },
-          { id: 'abc', description: 'No corresponding learning path resource' }],
+          {
+            id: '1',
+            title: 'Title 1',
+            description: 'Desc 1',
+            coverPhotoUrl: 'https://example.com/1.jpg',
+          },
+          {
+            id: '2',
+            title: 'Title 2',
+            description: 'Desc 2',
+            coverPhotoUrl: 'https://example.com/2.jpg',
+          },
+          { id: 'abc', description: 'No corresponding learning path resource' },
+        ],
       },
-    });
+    },
+  );
 
   const learningPathResource1 = nextState.all['1'][0];
   const learningPathResource2 = nextState.all['1'][1];

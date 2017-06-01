@@ -13,30 +13,35 @@ import { connect } from 'react-redux';
 import { ResourceList } from 'ndla-ui';
 import { ResourceTypeShape } from '../../shapes';
 import { getResourceTypesByTopicId } from './resourceSelectors';
-import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
-
+import {
+  resourceToLinkProps as resourceToLinkPropsHelper,
+} from './resourceHelpers';
 
 class Resources extends Component {
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
-  componentWillReceiveProps() {
-  }
+  componentWillReceiveProps() {}
 
   render() {
     const { match: { params }, topicResourcesByType } = this.props;
 
-    const resourceToLinkProps = resource => resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
+    const resourceToLinkProps = resource =>
+      resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
 
     return (
       <div>
         {topicResourcesByType.map(type => (
           <div key={type.id}>
             <h1>{type.name}</h1>
-            <ResourceList resourceToLinkProps={resourceToLinkProps} resources={type.resources.map(resource => ({ ...resource, icon: 'Pencil' }))} />
-          </div>),
-        )
-        }
+            <ResourceList
+              resourceToLinkProps={resourceToLinkProps}
+              resources={type.resources.map(resource => ({
+                ...resource,
+                icon: 'Pencil',
+              }))}
+            />
+          </div>
+        ))}
       </div>
     );
   }
@@ -54,9 +59,9 @@ Resources.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { topicId } = ownProps;
-  return ({
+  return {
     topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
-  });
+  };
 };
 
 export default withRouter(connect(mapStateToProps)(Resources));

@@ -26,15 +26,22 @@ const locale = getLocaleObject(localeString);
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-const store = configureStore(
-  initialState,
-);
+const store = configureStore(initialState);
 
 store.runSaga(rootSaga);
 
 if (__CLIENT__) {
-  const { logglyApiKey, logEnvironment: environment, componentName } = window.config;
-  window.errorReporter = ErrorReporter.getInstance({ store, logglyApiKey, environment, componentName });
+  const {
+    logglyApiKey,
+    logEnvironment: environment,
+    componentName,
+  } = window.config;
+  window.errorReporter = ErrorReporter.getInstance({
+    store,
+    logglyApiKey,
+    environment,
+    componentName,
+  });
 }
 
 ReactDOM.render(

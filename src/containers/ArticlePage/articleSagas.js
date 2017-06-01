@@ -36,6 +36,4 @@ export function* watchFetchArticle() {
   }
 }
 
-export default [
-  watchFetchArticle,
-];
+export default [watchFetchArticle];

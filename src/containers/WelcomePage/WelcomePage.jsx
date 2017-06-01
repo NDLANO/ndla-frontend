@@ -15,7 +15,7 @@ import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
-export const WelcomePage = ({ t, subjects }) =>
+export const WelcomePage = ({ t, subjects }) => (
   <div className="c-resources u-padding-top-large">
     <OneColumn cssModifier="narrow">
       <article>
@@ -26,13 +26,10 @@ export const WelcomePage = ({ t, subjects }) =>
       </article>
     </OneColumn>
   </div>
-;
+);
 
 WelcomePage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
 };
 
-export default compose(
-  injectT,
-  injectSubjects,
-)(WelcomePage);
+export default compose(injectT, injectSubjects)(WelcomePage);

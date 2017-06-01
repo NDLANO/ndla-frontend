@@ -25,7 +25,6 @@ test('topicSagas fetchTopicArticle if articleId is defined', () => {
     // .select(getTopic('urn:subject:1', 'urn:topic:1'))
     .next(topics[0])
     .put({ type: `${fetchArticle}`, payload: '1' })
-
     .next()
     .isDone();
 });
@@ -38,10 +37,14 @@ test('topicSagas fetchTopics', () => {
     .select(getAccessToken)
     .next(token)
     .call(api.fetchTopics, 1234, token)
-
     .next([{ id: '123', name: 'Algebra', parent: undefined }])
-    .put({ type: actions.setTopics.toString(), payload: { topics: [{ id: '123', name: 'Algebra', parent: undefined }], subjectId: 1234 } })
-
+    .put({
+      type: actions.setTopics.toString(),
+      payload: {
+        topics: [{ id: '123', name: 'Algebra', parent: undefined }],
+        subjectId: 1234,
+      },
+    })
     .next()
     .isDone();
 });
@@ -51,14 +54,10 @@ test('topicSagas watchFetchTopics', () => {
   saga
     .next()
     .take(actions.fetchTopics)
-
     .next({ payload: { subjectId: 'urn:subject:1', topicId: 'urn:topic:1' } })
-
     .next(false)
-
     .call(sagas.fetchTopics, 'urn:subject:1')
     .next(topics)
-
     .all([
       call(sagas.fetchTopicArticle, 'urn:subject:1', 'urn:topic:1'),
       call(sagas.fetchTopicIntroductions, topics),
@@ -72,7 +71,6 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
   saga
     .next()
     .take(actions.fetchTopics)
-
     .next({ payload: { subjectId: 1234 } })
     // .select(hasFetchedTopicsBySubjectId(1234))
 
@@ -83,19 +81,27 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
 });
 
 test('topicSagas fetchTopicIntroductions', () => {
-  const mockTopics = [{ contentUri: 'urn:article:1' }, { contentUri: 'urn:learningpath:2' }, { contentUri: 'urn:article:1331' }, { id: 3 }];
+  const mockTopics = [
+    { contentUri: 'urn:article:1' },
+    { contentUri: 'urn:learningpath:2' },
+    { contentUri: 'urn:article:1331' },
+    { id: 3 },
+  ];
   const token = '12345678';
   const saga = testSaga(sagas.fetchTopicIntroductions, mockTopics);
-  const data = { results: [{ id: '1', intro: 'Test' }, { id: '1331', intro: 'Test' }] };
+  const data = {
+    results: [{ id: '1', intro: 'Test' }, { id: '1331', intro: 'Test' }],
+  };
   saga
     .next()
     .select(getAccessToken)
     .next(token)
     .call(articleApi.fetchArticles, ['1', '1331'], token)
-
     .next(data)
-    .put({ type: actions.setTopicIntroductions.toString(), payload: { topics: mockTopics, articleIntroductions: data.results } })
-
+    .put({
+      type: actions.setTopicIntroductions.toString(),
+      payload: { topics: mockTopics, articleIntroductions: data.results },
+    })
     .next()
     .isDone();
 });
@@ -103,7 +109,5 @@ test('topicSagas fetchTopicIntroductions', () => {
 test('topicSagas fetchTopicIntroductions do not call fetchArticles if no valid ids', () => {
   const mockTopics = [{ contentUri: 'urn:learningpath:2' }];
   const saga = testSaga(sagas.fetchTopicIntroductions, mockTopics);
-  saga
-    .next()
-    .isDone();
+  saga.next().isDone();
 });

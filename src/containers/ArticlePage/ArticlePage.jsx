@@ -22,14 +22,20 @@ import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
 import config from '../../config';
 
-
-const assets = __CLIENT__ ? window.assets : ( // eslint-disable-line no-nested-ternary
-  config.isProduction ? require('../../../htdocs/assets/assets') : require('../../../server/developmentAssets') // eslint-disable-line import/no-unresolved
-);
+const assets = __CLIENT__
+  ? window.assets // eslint-disable-line no-nested-ternary
+  : config.isProduction
+      ? require('../../../htdocs/assets/assets')
+      : require('../../../server/developmentAssets'); // eslint-disable-line import/no-unresolved
 
 class ArticlePage extends Component {
   componentWillMount() {
-    const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = this.props;
+    const {
+      fetchArticle,
+      fetchTopics,
+      fetchSubjects,
+      match: { params },
+    } = this.props;
     const { articleId, subjectId } = params;
     fetchArticle(articleId);
     if (subjectId) {
@@ -55,12 +61,23 @@ class ArticlePage extends Component {
     if (!article) {
       return null;
     }
-    const scripts = article.requiredLibraries ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
+    const scripts = article.requiredLibraries
+      ? article.requiredLibraries.map(lib => ({
+          src: lib.url,
+          type: lib.mediaType,
+        }))
+      : [];
     if (article.content.indexOf('<math') > -1) {
-      scripts.push({ async: true, src: `https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`, type: 'text/javascript' });
+      scripts.push({
+        async: true,
+        src: `https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`,
+        type: 'text/javascript',
+      });
     }
 
-    const metaDescription = article.metaDescription ? { name: 'description', content: article.metaDescription } : {};
+    const metaDescription = article.metaDescription
+      ? { name: 'description', content: article.metaDescription }
+      : {};
     return (
       <div>
         <Hero white><span /></Hero>
@@ -69,7 +86,12 @@ class ArticlePage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        <Article article={article} subject={subject} topicPath={topicPath} locale={locale} />
+        <Article
+          article={article}
+          subject={subject}
+          topicPath={topicPath}
+          locale={locale}
+        />
       </div>
     );
   }
@@ -101,8 +123,12 @@ const mapDispatchToProps = {
 const makeMapStateToProps = (_, ownProps) => {
   const { articleId, subjectId, topicId } = ownProps.match.params;
   const getArticleSelector = getArticle(articleId);
-  const getTopicPathSelector = subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
-  const getSubjectByIdSelector = subjectId ? getSubjectById(subjectId) : () => undefined;
+  const getTopicPathSelector = subjectId && topicId
+    ? getTopicPath(subjectId, topicId)
+    : () => undefined;
+  const getSubjectByIdSelector = subjectId
+    ? getSubjectById(subjectId)
+    : () => undefined;
   return state => ({
     article: getArticleSelector(state),
     topicPath: getTopicPathSelector(state),
@@ -110,6 +136,5 @@ const makeMapStateToProps = (_, ownProps) => {
     locale: getLocale(state),
   });
 };
-
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(ArticlePage);

@@ -54,9 +54,7 @@ export const resourceData = [
       { description: 'Desc: Teknikker for idéutvikling', language: 'nb' },
       { description: 'Desc: Technique', language: 'en' },
     ],
-    resourceTypes: [
-      { id: 'urn:resource-type:1' },
-    ],
+    resourceTypes: [{ id: 'urn:resource-type:1' }],
     contentUri: 'urn:learningpath:1',
   },
   {
@@ -83,48 +81,44 @@ export const resourceData = [
       { introduction: 'Intro ideer og idéutvikling', language: 'nb' },
       { introduction: 'Intro ideas', language: 'en' },
     ],
-    resourceTypes: [
-      { id: 'urn:resource-type:3' },
-    ],
+    resourceTypes: [{ id: 'urn:resource-type:3' }],
     contentUri: 'urn:article:2',
   },
 ];
 
-export const resourceTypes =
-  [
-    {
-      id: 'urn:resource-type:1',
-      name: 'Fagstoff',
-      subtypes: [
-        {
-          id: 'urn:resource-type:3',
-          name: 'Artikler',
-        },
-        {
-          id: 'urn:resource-type:4',
-          name: 'Video',
-        },
-      ],
-    },
-    {
-      id: 'urn:resource-type:2',
-      name: 'Læringssti',
-    },
-    {
-      id: 'urn:resource-type:5',
-      name: 'Vedlegg',
-    },
-    {
-      id: 'urn:resource-type:6',
-      name: 'Interaktivitet',
-    },
-    {
-      id: 'urn:resource-type:7',
-      name: 'Oppgave',
-    },
-    {
-      id: 'urn:resource-type:8',
-      name: 'Simulering',
-    },
-  ];
-
+export const resourceTypes = [
+  {
+    id: 'urn:resource-type:1',
+    name: 'Fagstoff',
+    subtypes: [
+      {
+        id: 'urn:resource-type:3',
+        name: 'Artikler',
+      },
+      {
+        id: 'urn:resource-type:4',
+        name: 'Video',
+      },
+    ],
+  },
+  {
+    id: 'urn:resource-type:2',
+    name: 'Læringssti',
+  },
+  {
+    id: 'urn:resource-type:5',
+    name: 'Vedlegg',
+  },
+  {
+    id: 'urn:resource-type:6',
+    name: 'Interaktivitet',
+  },
+  {
+    id: 'urn:resource-type:7',
+    name: 'Oppgave',
+  },
+  {
+    id: 'urn:resource-type:8',
+    name: 'Simulering',
+  },
+];

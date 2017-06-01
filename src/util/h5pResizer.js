@@ -5,7 +5,11 @@
     return;
   }
 
-  if (!window.postMessage || !window.addEventListener || window.h5pResizerInitialized) {
+  if (
+    !window.postMessage ||
+    !window.addEventListener ||
+    window.h5pResizerInitialized
+  ) {
     return; // Not supported
   }
 
@@ -42,8 +46,10 @@
    */
   actionHandlers.prepareResize = (iframe, data, respond) => {
     // Do not resize unless page and scrolling differs
-    if (iframe.clientHeight !== data.scrollHeight ||
-        data.scrollHeight !== data.clientHeight) {
+    if (
+      iframe.clientHeight !== data.scrollHeight ||
+      data.scrollHeight !== data.clientHeight
+    ) {
       // Reset iframe height, in case content has shrinked.
       iframe.style.height = `${data.clientHeight}px`; // eslint-disable-line no-param-reassign
       respond('resizePrepared');
@@ -58,33 +64,39 @@
   };
 
   // Listen for messages from iframes
-  window.addEventListener('message', (event) => {
-    if (event.data.context !== 'h5p') {
-      return; // Only handle h5p requests.
-    }
-
-    // Find out who sent the message
-    let iframe;
-    const iframes = document.getElementsByTagName('iframe');
-    for (let i = 0; i < iframes.length; i += 1) {
-      if (iframes[i].contentWindow === event.source) {
-        iframe = iframes[i];
-        break;
+  window.addEventListener(
+    'message',
+    event => {
+      if (event.data.context !== 'h5p') {
+        return; // Only handle h5p requests.
       }
-    }
 
-    if (!iframe) {
-      return; // Cannot find sender
-    }
+      // Find out who sent the message
+      let iframe;
+      const iframes = document.getElementsByTagName('iframe');
+      for (let i = 0; i < iframes.length; i += 1) {
+        if (iframes[i].contentWindow === event.source) {
+          iframe = iframes[i];
+          break;
+        }
+      }
 
-    // Find action handler handler
-    if (actionHandlers[event.data.action]) {
-      actionHandlers[event.data.action](iframe, event.data, (action, data = {}) => {
-        const payload = Object.assign({}, data, { action, context: 'h5p' });
-        event.source.postMessage(payload, event.origin);
-      });
-    }
-  }, false);
+      if (!iframe) {
+        return; // Cannot find sender
+      }
+
+      // Find action handler handler
+      if (actionHandlers[event.data.action]) {
+        actionHandlers[
+          event.data.action
+        ](iframe, event.data, (action, data = {}) => {
+          const payload = Object.assign({}, data, { action, context: 'h5p' });
+          event.source.postMessage(payload, event.origin);
+        });
+      }
+    },
+    false,
+  );
 
   // Let h5p iframes know we're ready!
   const iframes = document.getElementsByTagName('iframe');
@@ -97,4 +109,4 @@
       iframes[i].contentWindow.postMessage(ready, '*');
     }
   }
-}());
+})();

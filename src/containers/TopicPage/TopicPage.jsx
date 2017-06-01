@@ -40,15 +40,29 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { match: { params }, topic, article, t, topicPath, subject } = this.props;
+    const {
+      match: { params },
+      topic,
+      article,
+      t,
+      topicPath,
+      subject,
+    } = this.props;
     const { subjectId } = params;
     if (!topic) {
       return null;
     }
 
-    const metaDescription = article ? { name: 'description', content: article.metaDescription } : {};
+    const metaDescription = article
+      ? { name: 'description', content: article.metaDescription }
+      : {};
     const title = article ? article.title : topic.name;
-    const scripts = article ? article.requiredLibraries.map(lib => ({ src: lib.url, type: lib.mediaType })) : [];
+    const scripts = article
+      ? article.requiredLibraries.map(lib => ({
+          src: lib.url,
+          type: lib.mediaType,
+        }))
+      : [];
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet
@@ -60,18 +74,19 @@ class TopicPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                { subject ?
-                  <TopicBreadcrumb
-                    toSubjects={() => '/'}
-                    subjectsTitle={t('breadcrumb.subjectsLinkText')}
-                    subject={subject}
-                    topicPath={topicPath.slice(0, -1)}
-                    toTopic={toTopic}
-                  >
-                    { t('breadcrumb.label') }
-                  </TopicBreadcrumb>
-                : null }
-                <h1 className="c-hero__title" style={{ clear: 'both' }}>{topic.name}</h1>
+                {subject
+                  ? <TopicBreadcrumb
+                      toSubjects={() => '/'}
+                      subjectsTitle={t('breadcrumb.subjectsLinkText')}
+                      subject={subject}
+                      topicPath={topicPath.slice(0, -1)}
+                      toTopic={toTopic}>
+                      {t('breadcrumb.label')}
+                    </TopicBreadcrumb>
+                  : null}
+                <h1 className="c-hero__title" style={{ clear: 'both' }}>
+                  {topic.name}
+                </h1>
               </section>
             </div>
           </OneColumn>
@@ -79,11 +94,22 @@ class TopicPage extends Component {
         <div className="u-bg-lightblue">
           <OneColumn cssModifier="narrow">
             <div>
-              { article ? <TopicArticle article={article} openTitle={`${t('topicPage.openArticleTopic')}`} closeTitle={t('topicPage.closeArticleTopic')} notitle /> : null }
+              {article
+                ? <TopicArticle
+                    article={article}
+                    openTitle={`${t('topicPage.openArticleTopic')}`}
+                    closeTitle={t('topicPage.closeArticleTopic')}
+                    notitle
+                  />
+                : null}
             </div>
           </OneColumn>
         </div>
-        <TopicResources subjectId={subjectId} topic={topic} topicPath={topicPath} />
+        <TopicResources
+          subjectId={subjectId}
+          topic={topic}
+          topicPath={topicPath}
+        />
       </div>
     );
   }
@@ -123,7 +149,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  injectT,
-)(TopicPage);
+export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+  TopicPage,
+);

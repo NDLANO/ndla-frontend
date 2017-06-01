@@ -11,4 +11,5 @@ export function parseQueryString(query) {
   return pairs.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
 }
 
-export const createQueryString = obj => Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');
+export const createQueryString = obj =>
+  Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');

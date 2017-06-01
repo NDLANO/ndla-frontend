@@ -19,7 +19,6 @@ test('reducers/topic initalState', () => {
   });
 });
 
-
 test('reducers/topics handle set topics', () => {
   const nextState = reducer(initalState, {
     type: actions.setTopics.toString(),
@@ -52,8 +51,16 @@ test('reducers/topics handle set topic introductions', () => {
   const nextState = reducer(initalState, {
     type: actions.setTopicIntroductions.toString(),
     payload: {
-      articleIntroductions: [{ id: '1', intro: 'Test1' }, { id: '2', intro: 'Test2' }, { id: '3', intro: 'Test3' }],
-      topics: [{ id: 'topicId1', contentUri: 'urn:article:1' }, { id: 'topicId2', contentUri: 'urn:article:3' }, { id: 'topicId3', contentUri: 'urn:image:3' }],
+      articleIntroductions: [
+        { id: '1', intro: 'Test1' },
+        { id: '2', intro: 'Test2' },
+        { id: '3', intro: 'Test3' },
+      ],
+      topics: [
+        { id: 'topicId1', contentUri: 'urn:article:1' },
+        { id: 'topicId2', contentUri: 'urn:article:3' },
+        { id: 'topicId3', contentUri: 'urn:image:3' },
+      ],
     },
   });
 

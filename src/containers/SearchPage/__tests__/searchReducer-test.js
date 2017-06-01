@@ -38,7 +38,6 @@ test('reducers/search searchError', () => {
   expect(nextState.searching).toBe(false);
 });
 
-
 test('reducers/search handle set search result', () => {
   const nextState = reducer(initalState, {
     type: constants.SET_SEARCH_RESULT,

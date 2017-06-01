@@ -11,21 +11,19 @@ import { createSelector } from 'reselect';
 const getSubjectsFromState = state => state.subjects;
 
 export const getSubjects = createSelector(
-    [getSubjectsFromState],
-    subjects => subjects.all,
+  [getSubjectsFromState],
+  subjects => subjects.all,
 );
 
 export const getTopicIntroductions = createSelector(
-    [getSubjectsFromState],
-    subjects => subjects.topicIntroductions,
+  [getSubjectsFromState],
+  subjects => subjects.topicIntroductions,
 );
 
-export const getSubjectById = id => createSelector(
-  [getSubjects],
-  subjects => subjects.find(s => s.id === id),
-);
+export const getSubjectById = id =>
+  createSelector([getSubjects], subjects => subjects.find(s => s.id === id));
 
 export const hasFetched = createSelector(
-    [getSubjectsFromState],
-    subjects => subjects.hasFetched,
+  [getSubjectsFromState],
+  subjects => subjects.hasFetched,
 );

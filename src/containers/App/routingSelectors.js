@@ -16,11 +16,11 @@ export const getLocationBeforeTransitions = createSelector(
 );
 
 export const getPathnameBeforeTransitions = createSelector(
-    [getLocationBeforeTransitions],
-    location => location.pathname,
+  [getLocationBeforeTransitions],
+  location => location.pathname,
 );
 
 export const getSearchBeforeTransitions = createSelector(
-    [getLocationBeforeTransitions],
-    location => location.search,
+  [getLocationBeforeTransitions],
+  location => location.search,
 );

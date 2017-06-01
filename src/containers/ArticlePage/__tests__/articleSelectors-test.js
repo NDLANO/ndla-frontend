@@ -15,8 +15,8 @@ const state = {
       id: 1,
       created: '2014-12-24T10:44:06Z',
       title: [
-            { title: 'Tester', language: 'nb' },
-            { title: 'Testing', language: 'en' },
+        { title: 'Tester', language: 'nb' },
+        { title: 'Testing', language: 'en' },
       ],
       metaDescription: [
         { metaDescription: 'Beskrivelse', language: 'nb' },
@@ -27,8 +27,8 @@ const state = {
       id: 2,
       created: '2014-11-24T10:44:06Z',
       title: [
-          { title: 'Tester', language: 'nb' },
-          { title: 'Testing', language: 'en' },
+        { title: 'Tester', language: 'nb' },
+        { title: 'Testing', language: 'en' },
       ],
     },
   },
@@ -53,7 +53,9 @@ test('articleSelectors getArticle en locale', () => {
   expect(getArticleSelector(stateWithEnLocale).id).toBe(1);
   expect(getArticleSelector(stateWithEnLocale).title).toBe('Testing');
   expect(getArticleSelector(stateWithEnLocale).created).toBe('12/24/2014');
-  expect(getArticleSelector(stateWithEnLocale).metaDescription).toBe('Description');
+  expect(getArticleSelector(stateWithEnLocale).metaDescription).toBe(
+    'Description',
+  );
 });
 
 test('articleSelectors getArticle returns undefined if article is not in state', () => {
