@@ -8,7 +8,7 @@
 
 @import '../node_modules/normalize-css/normalize.css';
 @import 'vars.css';
-@import '../node_modules/ndla-ui/lib/style.css';
+@import '../node_modules/ndla-ui/lib/main.css';
 @import 'forms.css';
 @import 'article.css';
 @import 'buttons.css';

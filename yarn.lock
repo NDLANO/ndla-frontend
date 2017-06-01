@@ -3874,13 +3874,14 @@ ndla-tabs@^0.2.1:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.3.2:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.3.3.tgz#e7d2a0790718e306d427162c322f3e5cc259fe37"
+ndla-ui@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.5.1.tgz#050d1330e64bf1d5bf34fb270b5acdc8b39778c3"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
+    shortid "^2.2.8"
 
 ndla-util@^0.1.1:
   version "0.1.1"
@@ -5247,10 +5248,6 @@ redux-mock-store@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.3.tgz#1b3ad299da91cb41ba30d68e3b6f024475fb9e1b"
 
-redux-saga-effects@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/redux-saga-effects/-/redux-saga-effects-1.1.0.tgz#fba610e988eb8bef7a6e58008d9ec54943870a5f"
-
 redux-saga-test-plan@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-3.0.2.tgz#77b6f1c5db564d4e46a236299f57846763395ce2"
@@ -5577,6 +5574,10 @@ shelljs@^0.7.5:
 shellwords@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.0.tgz#66afd47b6a12932d9071cbfd98a52e785cd0ba14"
+
+shortid@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
 
 signal-exit@^3.0.0:
   version "3.0.2"
