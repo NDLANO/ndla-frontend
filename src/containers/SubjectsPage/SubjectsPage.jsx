@@ -16,17 +16,20 @@ import { SubjectShape } from '../../shapes';
 import { injectT } from '../../i18n';
 
 const SubjectsPage = ({ t, subjects }) => (
-  <OneColumn>
-    <h2>{t('subjectsPage.chooseSubject')}</h2>
-    <SubjectLinkList subjects={subjects} />
-  </OneColumn>
+  <div className="c-resources u-padding-top-large">
+    <OneColumn>
+      <article>
+        <section>
+          <h2>{t('subjectsPage.chooseSubject')}</h2>
+          <SubjectLinkList subjects={subjects} />
+        </section>
+      </article>
+    </OneColumn>
+  </div>
 );
 
 SubjectsPage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
 };
 
-export default compose(
-  injectT,
-  injectSubjects,
-)(SubjectsPage);
+export default compose(injectT, injectSubjects)(SubjectsPage);

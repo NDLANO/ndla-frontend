@@ -9,25 +9,30 @@
 import { all, take, call, put, select } from 'redux-saga/effects';
 import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
 import * as actions from './topicActions';
-import { getArticleIdFromResource, isArticleResource } from '../Resources/resourceHelpers';
+import {
+  getArticleIdFromResource,
+  isArticleResource,
+} from '../Resources/resourceHelpers';
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 import { getAccessToken } from '../App/sessionSelectors';
 
-
 export function* fetchTopicIntroductions(topics) {
   try {
-    const ids = topics
-                  .filter(isArticleResource)
-                  .map(getArticleIdFromResource);
+    const ids = topics.filter(isArticleResource).map(getArticleIdFromResource);
 
     if (ids.length === 0) {
       return;
     }
     const token = yield select(getAccessToken);
     const data = yield call(articleApi.fetchArticles, ids, token);
-    yield put(actions.setTopicIntroductions({ topics, articleIntroductions: data.results }));
+    yield put(
+      actions.setTopicIntroductions({
+        topics,
+        articleIntroductions: data.results,
+      }),
+    );
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line
@@ -55,21 +60,20 @@ export function* fetchTopics(subjectId) {
   }
 }
 
-
 export function* watchFetchTopics() {
   while (true) {
     const { payload: { subjectId, topicId } } = yield take(actions.fetchTopics);
     const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
     if (!hasFetched) {
       const topics = yield call(fetchTopics, subjectId);
-      yield all([call(fetchTopicArticle, subjectId, topicId), call(fetchTopicIntroductions, topics)]);
+      yield all([
+        call(fetchTopicArticle, subjectId, topicId),
+        call(fetchTopicIntroductions, topics),
+      ]);
     } else {
       yield call(fetchTopicArticle, subjectId, topicId);
     }
   }
 }
 
-
-export default [
-  watchFetchTopics,
-];
+export default [watchFetchTopics];

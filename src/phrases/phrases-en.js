@@ -64,8 +64,7 @@ const phrases = {
       heading: 'TODO: audio license heading text',
     },
   },
-  resources: {
-  },
+  resources: {},
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
   },

@@ -40,7 +40,8 @@ export function toTopic(subjectId, ...topicIds) {
   return `/subjects/${subjectId}/${topicIds.join('/')}`;
 }
 
-export const toTopicPartial = (subjectId, ...topicIds) => topicId => toTopic(subjectId, ...topicIds, topicId);
+export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
+  toTopic(subjectId, ...topicIds, topicId);
 
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
@@ -58,7 +59,10 @@ export default (
     <Switch>
       <Route path="/" exact component={WelcomePage} />
 
-      <Route path="/article/:subjectId/:topicId/:articleId" component={ArticlePage} />
+      <Route
+        path="/article/:subjectId/:topicId/:articleId"
+        component={ArticlePage}
+      />
       <Route path="/article/:articleId" component={ArticlePage} />
 
       <Route path="/search" component={SearchPage} />

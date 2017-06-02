@@ -18,7 +18,9 @@ const noop = () => {};
 
 test('component/Alerts one message', () => {
   const alertMessages = [{ id: uuid(), message: 'Testmessage' }];
-  const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
+  const component = shallow(
+    <Alerts messages={alertMessages} dispatch={noop} />,
+  );
   const alertElement = component.find(Alert);
 
   expect(alertElement.length).toBe(1);
@@ -26,26 +28,32 @@ test('component/Alerts one message', () => {
 
 test('component/Alerts two messages', () => {
   const messages = ['Testmessage', 'TEST'];
-  const alertMessages = [{ id: uuid(), message: messages[0], severity: 'success' }, { id: uuid(), message: messages[1] }];
-  const component = shallow(<Alerts messages={alertMessages} dispatch={noop} />);
+  const alertMessages = [
+    { id: uuid(), message: messages[0], severity: 'success' },
+    { id: uuid(), message: messages[1] },
+  ];
+  const component = shallow(
+    <Alerts messages={alertMessages} dispatch={noop} />,
+  );
 
   const alertElement = component.find(Alert);
   expect(alertElement.length).toBe(2);
 });
-
 
 test('component/Alerts without messages', () => {
   const component = shallow(<Alerts messages={[]} dispatch={noop} />);
   expect(component.hasClass('alert-overlay--hidden')).toBeTruthy();
 });
 
-
 test('component/Alert dismiss', () => {
   const dispatch = sinon.spy(() => {});
   const id = uuid();
 
   const dismissBt = shallow(
-    <Alert message={{ id, message: 'whatever', severity: 'info' }} dispatch={dispatch} />,
+    <Alert
+      message={{ id, message: 'whatever', severity: 'info' }}
+      dispatch={dispatch}
+    />,
   ).find('.alert_dismiss');
 
   dismissBt.simulate('click');
@@ -57,9 +65,7 @@ test('component/Alert dismiss', () => {
 test('component/Action click', () => {
   const handleClick = sinon.spy(() => {});
 
-  const actionBtn = shallow(
-    <Action title="Undo" onClick={handleClick} />,
-  );
+  const actionBtn = shallow(<Action title="Undo" onClick={handleClick} />);
 
   actionBtn.simulate('click');
 

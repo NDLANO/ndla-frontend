@@ -11,6 +11,6 @@ import { createSelector } from 'reselect';
 const getMessagesFromState = state => state.messages;
 
 export const getMessages = createSelector(
-    [getMessagesFromState],
-    messages => messages,
+  [getMessagesFromState],
+  messages => messages,
 );

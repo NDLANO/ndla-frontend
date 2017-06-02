@@ -49,18 +49,23 @@ const learningPathDomain = () => {
   }
 };
 
-module.exports = Object.assign({
-  componentName: process.env.npm_package_name,
-  host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
-  port: process.env.NDLA_FRONTENTD_PORT || '3000',
-  redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
-  googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
-  logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
-  logglyApiKey: process.env.LOGGLY_API_KEY,
-  disableSSR: process.env.DISABLE_SSR || false,
-  ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-  ndlaFrontendClientId: process.env.NDLA_FRONTEND_CLIENT_ID || 'swagger-client',
-  ndlaFrontendClientSecret: process.env.NDLA_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
-  ndlaFrontendDomain: ndlaFrontendDomain(),
-  learningPathDomain: learningPathDomain(),
-}, environment);
+module.exports = Object.assign(
+  {
+    componentName: process.env.npm_package_name,
+    host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
+    port: process.env.NDLA_FRONTENTD_PORT || '3000',
+    redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
+    googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
+    logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
+    logglyApiKey: process.env.LOGGLY_API_KEY,
+    disableSSR: process.env.DISABLE_SSR || false,
+    ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
+    ndlaFrontendClientId: process.env.NDLA_FRONTEND_CLIENT_ID ||
+      'swagger-client',
+    ndlaFrontendClientSecret: process.env.NDLA_FRONTEND_CLIENT_SECRET ||
+      'swagger-public-client-secret',
+    ndlaFrontendDomain: ndlaFrontendDomain(),
+    learningPathDomain: learningPathDomain(),
+  },
+  environment,
+);

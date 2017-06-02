@@ -11,9 +11,12 @@ import * as actions from './sessionActions';
 
 const initalState = '';
 
-export default handleActions({
-  [actions.setAccessToken]: {
-    next: (state, action) => action.payload,
-    throw: state => state,
+export default handleActions(
+  {
+    [actions.setAccessToken]: {
+      next: (state, action) => action.payload,
+      throw: state => state,
+    },
   },
-}, initalState);
+  initalState,
+);

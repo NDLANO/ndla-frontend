@@ -15,13 +15,21 @@ export const initalState = {
   all: [],
 };
 
-export default handleActions({
-  [actions.fetchSubjects]: {
-    next: state => ({ ...state, fetching: true }),
-    throw: state => state,
+export default handleActions(
+  {
+    [actions.fetchSubjects]: {
+      next: state => ({ ...state, fetching: true }),
+      throw: state => state,
+    },
+    [actions.setSubjects]: {
+      next: (state, action) => ({
+        ...state,
+        all: action.payload,
+        fetching: false,
+        hasFetched: true,
+      }),
+      throw: state => state,
+    },
   },
-  [actions.setSubjects]: {
-    next: (state, action) => ({ ...state, all: action.payload, fetching: false, hasFetched: true }),
-    throw: state => state,
-  },
-}, initalState);
+  initalState,
+);

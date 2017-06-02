@@ -13,11 +13,11 @@ import { SubjectShape } from '../shapes';
 
 const SubjectLinkList = ({ subjects }) => (
   <ul className="o-list--arrows">
-    { subjects.map(subject =>
-      (<li key={subject.id}>
-        <Link to={`/subjects/${subject.id}`}>{ subject.name }</Link>
-      </li>),
-    )}
+    {subjects.map(subject => (
+      <li key={subject.id}>
+        <Link to={`/subjects/${subject.id}`}>{subject.name}</Link>
+      </li>
+    ))}
   </ul>
 );
 

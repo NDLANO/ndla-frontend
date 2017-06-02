@@ -21,7 +21,6 @@ import { toSearch } from '../../routes';
 import { createQueryString, parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
-
   componentWillMount() {
     const { location, search } = this.props;
     if (location.search) {
@@ -37,7 +36,14 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, locale, searching, lastPage, history } = this.props;
+    const {
+      location,
+      results,
+      locale,
+      searching,
+      lastPage,
+      history,
+    } = this.props;
     const query = parseQueryString(location.search);
 
     return (
@@ -45,12 +51,26 @@ class SearchPage extends Component {
         <SearchForm
           query={query.query}
           searching={searching}
-          onSearchQuerySubmit={searchQuery => history.push(`/search?${createQueryString({ query: searchQuery, page: 1, sort: query.sort ? query.sort : '-relevance' })}`)}
+          onSearchQuerySubmit={searchQuery =>
+            history.push(
+              `/search?${createQueryString({
+                query: searchQuery,
+                page: 1,
+                sort: query.sort ? query.sort : '-relevance',
+              })}`,
+            )}
         />
 
         <SelectSearchSortOrder
           sort={query.sort}
-          onSortOrderChange={sort => history.push(`/search?${createQueryString({ query: query.query, sort, page: 1 })}`)}
+          onSortOrderChange={sort =>
+            history.push(
+              `/search?${createQueryString({
+                query: query.query,
+                sort,
+                page: 1,
+              })}`,
+            )}
         />
 
         <SearchResultList query={query} locale={locale} results={results} />

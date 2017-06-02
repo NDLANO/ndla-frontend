@@ -9,23 +9,29 @@
 import config from '../../config';
 import { toArticle } from '../../routes';
 
-const LEARNING_PATH_DOMAIN = __SERVER__ || process.env.NODE_ENV === 'unittest' ? config.learningPathDomain : window.config.learningPathDomain;
+const LEARNING_PATH_DOMAIN = __SERVER__ || process.env.NODE_ENV === 'unittest'
+  ? config.learningPathDomain
+  : window.config.learningPathDomain;
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 
 const hasContentUri = resource => (resource && resource.contentUri) || false;
 
-export const isLearningPathResource = resource => hasContentUri(resource) && resource.contentUri.startsWith(URN_LEARTNING_PATH);
-export const isArticleResource = resource => hasContentUri(resource) && resource.contentUri.startsWith(URN_ARTICLE);
+export const isLearningPathResource = resource =>
+  hasContentUri(resource) && resource.contentUri.startsWith(URN_LEARTNING_PATH);
+export const isArticleResource = resource =>
+  hasContentUri(resource) &&
+  resource.contentUri.startsWith(URN_ARTICLE) &&
+  resource.contentUri.length > 12;
 
-export const getArticleIdFromResource = (resource) => {
+export const getArticleIdFromResource = resource => {
   if (isArticleResource(resource)) {
     return resource.contentUri.replace(URN_ARTICLE, '');
   }
   return undefined;
 };
 
-export const getLearningPathIdFromResource = (resource) => {
+export const getLearningPathIdFromResource = resource => {
   if (isLearningPathResource(resource)) {
     return resource.contentUri.replace(URN_LEARTNING_PATH, '');
   }

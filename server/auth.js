@@ -14,13 +14,19 @@ const NDLA_API_URL = config.ndlaApiUrl;
 
 const url = `${NDLA_API_URL}/auth/tokens`;
 
-const b64EncodeUnicode = str => btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(`0x${p1}`)));
+const b64EncodeUnicode = str =>
+  btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
+      String.fromCharCode(`0x${p1}`),
+    ),
+  );
 
-export const getToken = () => fetch(url, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    Authorization: `Basic ${b64EncodeUnicode(`${config.ndlaFrontendClientId}:${config.ndlaFrontendClientSecret}`)}`,
-  },
-  body: 'grant_type=client_credentials',
-}).then(res => res.json());
+export const getToken = () =>
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      Authorization: `Basic ${b64EncodeUnicode(`${config.ndlaFrontendClientId}:${config.ndlaFrontendClientSecret}`)}`,
+    },
+    body: 'grant_type=client_credentials',
+  }).then(res => res.json());

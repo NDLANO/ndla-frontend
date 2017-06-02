@@ -16,19 +16,24 @@ import { appLocales } from '../../i18n';
 import { getLocale } from './localeSelectors';
 
 const SelectLocale = ({ locale, location: { pathname, search } }) => {
-  const handleChange = (newLocale) => {
+  const handleChange = newLocale => {
     const path = pathname.startsWith('/') ? pathname.substring(1) : pathname;
     createHistory().push(`/${newLocale}/${path}${search}`); // Need create new history or else basename is included
     window.location.reload();
   };
 
   return (
-    <select onChange={(evt) => { handleChange(evt.target.value); }} value={locale}>
-      {appLocales.map(l => <option key={l.abbreviation} value={l.abbreviation}>{l.name}</option>)}
+    <select
+      onChange={evt => {
+        handleChange(evt.target.value);
+      }}
+      value={locale}>
+      {appLocales.map(l => (
+        <option key={l.abbreviation} value={l.abbreviation}>{l.name}</option>
+      ))}
     </select>
   );
-}
-;
+};
 
 SelectLocale.propTypes = {
   locale: PropTypes.string.isRequired,

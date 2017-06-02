@@ -8,7 +8,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, SiteNav, SiteNavItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
+import {
+  Masthead,
+  MastheadItem,
+  SiteNav,
+  SiteNavItem,
+  Logo,
+  ClickToggle,
+  TopicMenu,
+} from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toSearch, toTopic } from '../../routes';
@@ -23,15 +31,18 @@ function toTopicWithSubjectIdBound(subjectId) {
 const MastheadContainer = ({ t, subject, topics }) => (
   <Masthead>
     <MastheadItem left>
-      <Logo to="/" altText="Nasjonal digital læringsarena" />
-      { subject ?
-        <ClickToggle title={subject.name} className="c-topic-menu-container" buttonClassName="c-topic-menu-toggle-button">
-          <TopicMenu subjectId={subject.id} toTopic={toTopicWithSubjectIdBound(subject.id)} topics={topics} />
-        </ClickToggle>
-            : null
-      }
-    </MastheadItem>
-    <MastheadItem right>
+      {subject
+        ? <ClickToggle
+            title={subject.name}
+            className="c-topic-menu-container"
+            buttonClassName="c-topic-menu-toggle-button">
+            <TopicMenu
+              subjectId={subject.id}
+              toTopic={toTopicWithSubjectIdBound(subject.id)}
+              topics={topics}
+            />
+          </ClickToggle>
+        : null}
       <SiteNav>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
@@ -43,6 +54,9 @@ const MastheadContainer = ({ t, subject, topics }) => (
           {t('siteNav.help')}
         </SiteNavItem>
       </SiteNav>
+    </MastheadItem>
+    <MastheadItem right>
+      <Logo to="/" altText="Nasjonal digital læringsarena" />
     </MastheadItem>
   </Masthead>
 );
@@ -65,6 +79,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-)(MastheadContainer);
+export default compose(connect(mapStateToProps))(MastheadContainer);

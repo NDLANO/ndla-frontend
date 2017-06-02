@@ -16,7 +16,6 @@ import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
 import { ArticleShape } from '../../shapes';
 
-
 function buildLicenseTabList(article, license, locale, t) {
   const images = defined(article.contentCopyrights.image, []);
   const audios = defined(article.contentCopyrights.audio, []);
@@ -32,7 +31,8 @@ function buildLicenseTabList(article, license, locale, t) {
           heading={t('license.images.heading')}
           description={t('license.images.description')}
           locale={locale}
-        />),
+        />
+      ),
     });
   }
 
@@ -40,32 +40,44 @@ function buildLicenseTabList(article, license, locale, t) {
     title: t('license.tabs.texts'),
     content: (
       <TextLicenseList
-        texts={[{ type: 'text', src: location.href, copyright: article.copyright }]}
+        texts={[
+          { type: 'text', src: location.href, copyright: article.copyright },
+        ]}
         heading={t('license.texts.heading')}
         description={t('license.texts.description')}
         locale={locale}
-      />),
+      />
+    ),
   });
 
   if (audios.length > 0) {
-    tabs.push({ title: t('license.tabs.audios'), content: <AudioLicenseList audios={audios} heading={t('license.audios.heading')} locale={locale} /> });
+    tabs.push({
+      title: t('license.tabs.audios'),
+      content: (
+        <AudioLicenseList
+          audios={audios}
+          heading={t('license.audios.heading')}
+          locale={locale}
+        />
+      ),
+    });
   }
 
   return tabs;
 }
-
 
 const LicenseBox = ({ article, license, locale, t }) => {
   const tabs = buildLicenseTabList(article, license, locale, t);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
-      <p className="c-licensebox__introduction license__introduction">{t('license.introduction')}</p>
+      <p className="c-licensebox__introduction license__introduction">
+        {t('license.introduction')}
+      </p>
       <Tabs tabs={tabs} />
     </div>
   );
 };
-
 
 LicenseBox.propTypes = {
   license: PropTypes.shape({
@@ -74,6 +86,5 @@ LicenseBox.propTypes = {
   locale: PropTypes.string.isRequired,
   article: ArticleShape.isRequired,
 };
-
 
 export default injectT(LicenseBox);

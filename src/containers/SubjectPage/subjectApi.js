@@ -7,8 +7,15 @@
  */
 
 import fetch from 'isomorphic-fetch';
-import { resolveJsonOrRejectWithError, apiResourceUrl, headerWithAccessToken } from '../../util/apiHelpers';
+import {
+  resolveJsonOrRejectWithError,
+  apiResourceUrl,
+  headerWithAccessToken,
+} from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchSubjects = token => fetch(`${baseUrl}/subjects/`, { headers: headerWithAccessToken(token) }).then(resolveJsonOrRejectWithError);
+export const fetchSubjects = token =>
+  fetch(`${baseUrl}/subjects/`, { headers: headerWithAccessToken(token) }).then(
+    resolveJsonOrRejectWithError,
+  );

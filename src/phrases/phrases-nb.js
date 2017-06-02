@@ -69,8 +69,7 @@ const phrases = {
       heading: 'Slik bruker du lydfiler',
     },
   },
-  resources: {
-  },
+  resources: {},
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },

@@ -8,8 +8,6 @@
 
 import MastheadContainer from './MastheadContainer';
 
-export {
-  MastheadContainer,
-};
+export { MastheadContainer };
 
 export default MastheadContainer;

@@ -9,9 +9,13 @@
 import httpStaus from 'http-status';
 import config from '../src/config';
 
-const assets = config.isProduction ? require('../htdocs/assets/assets') : require('./developmentAssets'); // eslint-disable-line import/no-unresolved
+const assets = config.isProduction
+  ? require('../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+  : require('./developmentAssets');
 
-const styleLink = config.isProduction ? `<link rel="stylesheet" type="text/css" href=/assets/${assets['main.css']} />` : '';
+const styleLink = config.isProduction
+  ? `<link rel="stylesheet" type="text/css" href=/assets/${assets['main.css']} />`
+  : '';
 
 export const htmlTemplate = (lang, body, introduction, title) =>
   `<!doctype html>\n<html lang=${lang} >
@@ -36,12 +40,18 @@ export const htmlTemplate = (lang, body, introduction, title) =>
     </body>
   </html>`;
 
-export const htmlErrorTemplate = (lang, { status, message, description, stacktrace }) => {
+export const htmlErrorTemplate = (
+  lang,
+  { status, message, description, stacktrace },
+) => {
   const statusMsg = httpStaus[status];
-  return htmlTemplate(lang, `
+  return htmlTemplate(
+    lang,
+    `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
     <div><b>Description: </b>${description}</div>
     <div>${stacktrace}</div>
-  `);
+  `,
+  );
 };

@@ -13,26 +13,31 @@ import formatDate from '../../util/formatDate';
 
 const getArticleFromState = state => state.articles;
 
-export const getArticleById = articleId => createSelector(
-  [getArticleFromState],
-  articles => articles[articleId],
-);
+export const getArticleById = articleId =>
+  createSelector([getArticleFromState], articles => articles[articleId]);
 
-export const getArticle = articleId => createSelector(
-  [getArticleById(articleId), getLocale],
-  (article, locale) => (
-    article ? {
-      ...article,
-      title: titleI18N(article, locale, true),
-      metaDescription: metaDescriptionI18N(article, locale, true),
-      created: formatDate(article.created, locale),
-      updated: formatDate(article.updated, locale),
-      requiredLibraries: article.requiredLibraries ? article.requiredLibraries.map((lib) => {
-        if (lib.url.startsWith('http://')) {
-          return { ...lib, url: lib.url.replace('http://', 'https://') };
-        }
-        return lib;
-      }) : [],
-    } : undefined
-  ),
-);
+export const getArticle = articleId =>
+  createSelector(
+    [getArticleById(articleId), getLocale],
+    (article, locale) =>
+      article
+        ? {
+            ...article,
+            title: titleI18N(article, locale, true),
+            metaDescription: metaDescriptionI18N(article, locale, true),
+            created: formatDate(article.created, locale),
+            updated: formatDate(article.updated, locale),
+            requiredLibraries: article.requiredLibraries
+              ? article.requiredLibraries.map(lib => {
+                  if (lib.url.startsWith('http://')) {
+                    return {
+                      ...lib,
+                      url: lib.url.replace('http://', 'https://'),
+                    };
+                  }
+                  return lib;
+                })
+              : [],
+          }
+        : undefined,
+  );

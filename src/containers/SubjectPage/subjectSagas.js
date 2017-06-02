@@ -33,6 +33,4 @@ export function* watchFetchSubjects() {
   }
 }
 
-export default [
-  watchFetchSubjects,
-];
+export default [watchFetchSubjects];

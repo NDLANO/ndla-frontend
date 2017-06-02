@@ -14,63 +14,72 @@ import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 
-
 const getTopicsFromState = state => state.topics;
 
 export const getTopicIntroductions = createSelector(
+  [getTopicsFromState],
+  topics => topics.topicIntroductions,
+);
+
+export const hasFetchedTopicsBySubjectId = subjectId =>
+  createSelector(
     [getTopicsFromState],
-    topics => topics.topicIntroductions,
-);
+    topics => topics.all[subjectId] !== undefined,
+  );
 
-export const hasFetchedTopicsBySubjectId = subjectId => createSelector(
-  [getTopicsFromState],
-  topics => topics.all[subjectId] !== undefined,
-);
+export const getAllTopicsBySubjectId = subjectId =>
+  createSelector([getTopicsFromState], topics =>
+    defined(topics.all[subjectId], []),
+  );
 
+export const getTopicsBySubjectId = subjectId =>
+  createSelector([getAllTopicsBySubjectId(subjectId)], topics =>
+    topics.filter(topic => !topic.parent || topic.parent === subjectId),
+  );
 
-export const getAllTopicsBySubjectId = subjectId => createSelector(
-  [getTopicsFromState],
-  topics => defined(topics.all[subjectId], []),
-);
+export const getTopicsBySubjectIdWithIntroduction = subjectId =>
+  createSelector(
+    [getTopicsBySubjectId(subjectId), getTopicIntroductions, getLocale],
+    (topics, topicIntroductions, locale) =>
+      topics.map(topic => {
+        if (topic && topicIntroductions) {
+          const topicIntroduction = topicIntroductions[topic.id];
+          const introduction = topicIntroduction
+            ? introductionI18N(topicIntroduction, locale, true)
+            : undefined;
+          return { ...topic, introduction };
+        }
+        return topic;
+      }),
+  );
 
-export const getTopicsBySubjectId = subjectId => createSelector(
-  [getAllTopicsBySubjectId(subjectId)],
-  topics => topics.filter(topic => !topic.parent || topic.parent === subjectId),
-);
+export const getTopic = (subjectId, topicId = undefined) =>
+  createSelector([getAllTopicsBySubjectId(subjectId)], topics =>
+    topics.find(topic => topicId === topic.id),
+  );
 
-export const getTopicsBySubjectIdWithIntroduction = subjectId => createSelector(
-  [getTopicsBySubjectId(subjectId), getTopicIntroductions, getLocale],
-  (topics, topicIntroductions, locale) => topics.map((topic) => {
-    if (topic && topicIntroductions) {
-      const topicIntroduction = topicIntroductions[topic.id];
-      const introduction = topicIntroduction ? introductionI18N(topicIntroduction, locale, true) : undefined;
-      return { ...topic, introduction };
-    }
-    return topic;
-  }),
-);
+export const getTopicArticle = (subjectId, topicId) =>
+  createSelector(
+    [getTopic(subjectId, topicId), state => state],
+    (topic, state) =>
+      topic && topic.contentUri
+        ? getArticle(getArticleIdFromResource(topic))(state)
+        : undefined,
+  );
 
-export const getTopic = (subjectId, topicId = undefined) => createSelector(
-  [getAllTopicsBySubjectId(subjectId)],
-  topics => topics.find(topic => topicId === topic.id),
-);
+export const getSubtopics = (subjectId, topicId) =>
+  createSelector([getAllTopicsBySubjectId(subjectId)], topics =>
+    topics.filter(topic => topicId === topic.parent),
+  );
 
-export const getTopicArticle = (subjectId, topicId) => createSelector(
-  [getTopic(subjectId, topicId), state => state],
-  (topic, state) => (topic && topic.contentUri ? getArticle(getArticleIdFromResource(topic))(state) : undefined),
-);
+export const getSubjectMenu = subjectId =>
+  createSelector([getAllTopicsBySubjectId(subjectId)], topics => {
+    const groupedSubtopicsByParent = groupBy(
+      topics.filter(topic => topic.parent),
+      'parent',
+    );
 
-export const getSubtopics = (subjectId, topicId) => createSelector(
-  [getAllTopicsBySubjectId(subjectId)],
-  topics => topics.filter(topic => topicId === topic.parent),
-);
-
-export const getSubjectMenu = subjectId => createSelector(
-  [getAllTopicsBySubjectId(subjectId)],
-  (topics) => {
-    const groupedSubtopicsByParent = groupBy(topics.filter(topic => topic.parent), 'parent');
-
-    const toMenu = (topic) => {
+    const toMenu = topic => {
       const subtopics = defined(groupedSubtopicsByParent[topic.id], []);
 
       const subtopicsWithSubtopics = subtopics.map(child => toMenu(child));
@@ -78,40 +87,46 @@ export const getSubjectMenu = subjectId => createSelector(
       return { ...topic, subtopics: subtopicsWithSubtopics };
     };
 
-    return topics.filter(t => !t.parent || t.parent === subjectId).map(root => toMenu(root));
-  },
-);
+    return topics
+      .filter(t => !t.parent || t.parent === subjectId)
+      .map(root => toMenu(root));
+  });
 
-export const getTopicPath = (subjectId, topicId) => createSelector(
-  [getTopic(subjectId, topicId), getAllTopicsBySubjectId(subjectId)],
-  (leaf, topics) => {
-    if (!leaf) {
-      return [];
-    }
-
-    const toBreadcrumb = (topic) => {
-      if (!topic.parent || topic.parent === subjectId) {
-        return [topic];
+export const getTopicPath = (subjectId, topicId) =>
+  createSelector(
+    [getTopic(subjectId, topicId), getAllTopicsBySubjectId(subjectId)],
+    (leaf, topics) => {
+      if (!leaf) {
+        return [];
       }
-      const parent = topics.find(t => topic.parent === t.id);
-      const parentPath = toBreadcrumb(parent);
-      return [...parentPath, topic];
-    };
 
-    const topicPath = toBreadcrumb(leaf);
+      const toBreadcrumb = topic => {
+        if (!topic.parent || topic.parent === subjectId) {
+          return [topic];
+        }
+        const parent = topics.find(t => topic.parent === t.id);
+        const parentPath = toBreadcrumb(parent);
+        return [...parentPath, topic];
+      };
 
-    return topicPath; // Remove last item (leaf topic)
-  },
-);
+      const topicPath = toBreadcrumb(leaf);
 
-export const getSubtopicsWithIntroduction = (subjectId, topicId) => createSelector(
-  [getSubtopics(subjectId, topicId), getTopicIntroductions, getLocale],
-  (topics, topicIntroductions, locale) => topics.map((topic) => {
-    if (topic && topicIntroductions) {
-      const topicIntroduction = topicIntroductions[topic.id];
-      const introduction = topicIntroduction ? introductionI18N(topicIntroduction, locale, true) : undefined;
-      return { ...topic, introduction };
-    }
-    return topic;
-  }),
-);
+      return topicPath; // Remove last item (leaf topic)
+    },
+  );
+
+export const getSubtopicsWithIntroduction = (subjectId, topicId) =>
+  createSelector(
+    [getSubtopics(subjectId, topicId), getTopicIntroductions, getLocale],
+    (topics, topicIntroductions, locale) =>
+      topics.map(topic => {
+        if (topic && topicIntroductions) {
+          const topicIntroduction = topicIntroductions[topic.id];
+          const introduction = topicIntroduction
+            ? introductionI18N(topicIntroduction, locale, true)
+            : undefined;
+          return { ...topic, introduction };
+        }
+        return topic;
+      }),
+  );

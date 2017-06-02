@@ -8,6 +8,4 @@
 
 import SubjectLinkList from './SubjectLinkList';
 
-export {
-  SubjectLinkList,
-};
+export { SubjectLinkList };

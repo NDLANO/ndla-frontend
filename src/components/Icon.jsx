@@ -29,14 +29,14 @@ Icon.propTypes = {
   icon: elementType,
 };
 
-Icon.Download = props => (<Icon {...props} icon={Download} />);
-Icon.Copy = props => (<Icon {...props} icon={Copy} />);
-Icon.Audio = props => (<Icon {...props} icon={Audio} />);
-Icon.Document = props => (<Icon {...props} icon={Document} />);
-Icon.ArrowDown = props => (<Icon {...props} icon={ArrowDown} />);
-Icon.Grid = props => (<Icon {...props} icon={Grid} />);
-Icon.Link = props => (<Icon {...props} icon={Link} />);
-Icon.Embed = props => (<Icon {...props} icon={Embed} />);
-Icon.OpenWindow = props => (<Icon {...props} icon={OpenWindow} />);
+Icon.Download = props => <Icon {...props} icon={Download} />;
+Icon.Copy = props => <Icon {...props} icon={Copy} />;
+Icon.Audio = props => <Icon {...props} icon={Audio} />;
+Icon.Document = props => <Icon {...props} icon={Document} />;
+Icon.ArrowDown = props => <Icon {...props} icon={ArrowDown} />;
+Icon.Grid = props => <Icon {...props} icon={Grid} />;
+Icon.Link = props => <Icon {...props} icon={Link} />;
+Icon.Embed = props => <Icon {...props} icon={Embed} />;
+Icon.OpenWindow = props => <Icon {...props} icon={OpenWindow} />;
 
 export default Icon;

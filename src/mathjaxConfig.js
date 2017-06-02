@@ -36,26 +36,23 @@ window.MathJax.Hub.Config({
 });
 
 window.MathJax.Ajax.Preloading(
-
   '[MathJax]/jax/input/MathML/config.js',
   '[MathJax]/jax/input/MathML/jax.js',
-
   '[MathJax]/jax/output/CommonHTML/config.js',
   '[MathJax]/jax/output/CommonHTML/jax.js',
   '[MathJax]/jax/output/CommonHTML/autoload/mtable.js',
   '[MathJax]/jax/output/CommonHTML/autoload/menclose.js',
-
   '[MathJax]/jax/element/mml/jax.js',
-
   '[MathJax]/extensions/mml2jax.js',
   '[MathJax]/extensions/MathEvents.js',
   '[MathJax]/extensions/AssistiveMML.js',
   // '[MathJax]/extensions/toMathML.js',
-
 
   // '[MathJax]/jax/output/PreviewHTML/config.js',
   // '[MathJax]/jax/output/PreviewHTML/jax.js',
   // '[MathJax]/extensions/fast-preview.js',
 );
 
-window.MathJax.Ajax.loadComplete(`/assets/${window.assets['mathjaxConfig.js']}`);
+window.MathJax.Ajax.loadComplete(
+  `/assets/${window.assets['mathjaxConfig.js']}`,
+);

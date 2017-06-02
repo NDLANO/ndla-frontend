@@ -35,6 +35,4 @@ export function* watchFetchAccessToken() {
   }
 }
 
-export default [
-  watchFetchAccessToken,
-];
+export default [watchFetchAccessToken];

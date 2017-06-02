@@ -35,7 +35,8 @@ class SearchForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="search-form">
         <input
-          type="text" className="search-form_query"
+          type="text"
+          className="search-form_query"
           onChange={this.handleQueryChange}
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}

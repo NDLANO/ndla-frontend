@@ -36,9 +36,7 @@ test('util/i18nFieldFinder titleI18N with fallback', () => {
   expect(titleI18N(someObject1, 'nn', true)).toEqual('Bokmål');
 
   const someObject2 = {
-    title: [
-      { title: 'English', language: 'en' },
-    ],
+    title: [{ title: 'English', language: 'en' }],
   };
 
   expect(titleI18N(someObject2, 'nb', true)).toEqual('English');
@@ -51,14 +49,27 @@ test('util/i18nFieldFinder oembedContentI18N', () => {
 
   const someObject = {
     embedUrl: [
-      { url: 'http://example.com/sv', html: '<iframe src="http://example.com/sv">', width: 500, language: 'sv' },
-      { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' },
+      {
+        url: 'http://example.com/sv',
+        html: '<iframe src="http://example.com/sv">',
+        width: 500,
+        language: 'sv',
+      },
+      {
+        url: 'http://example.com',
+        html: '<iframe src="http://example.com">',
+        width: 500,
+        language: 'nb',
+      },
     ],
   };
 
-  expect(oembedContentI18N(someObject, 'nb')).toEqual(
-    { url: 'http://example.com', html: '<iframe src="http://example.com">', width: 500, language: 'nb' },
-  );
+  expect(oembedContentI18N(someObject, 'nb')).toEqual({
+    url: 'http://example.com',
+    html: '<iframe src="http://example.com">',
+    width: 500,
+    language: 'nb',
+  });
 
   expect(oembedContentI18N(someObject, 'eo')).toBeFalsy();
 });

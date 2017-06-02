@@ -13,8 +13,7 @@ import * as actions from './subjectActions';
 import { getSubjects } from './subjectSelectors';
 import { SubjectShape } from '../../shapes';
 
-
-export const injectSubjects = (WrappedComponent) => {
+export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
     componentWillMount() {
       this.props.fetchSubjects();
@@ -34,13 +33,12 @@ export const injectSubjects = (WrappedComponent) => {
     fetchSubjects: actions.fetchSubjects,
   };
 
-
   const mapStateToProps = state => ({
     subjects: getSubjects(state),
   });
 
-  const getDisplayName = component => component.displayName || component.name || 'Component';
-
+  const getDisplayName = component =>
+    component.displayName || component.name || 'Component';
 
   SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(WrappedComponent)})`;
 

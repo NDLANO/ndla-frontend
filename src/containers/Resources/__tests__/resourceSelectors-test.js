@@ -46,7 +46,6 @@ test('resourceSelectors getResourcesByTopicId default locale', () => {
   expect(getResourcesByTopicId('urn:topic:2')(state)).toEqual([]);
 });
 
-
 test('resourceSelectors getResourcesByTopicId en locale', () => {
   const state = {
     locale: 'en',
@@ -66,7 +65,9 @@ test('resourceSelectors getResourcesByTopicId en locale', () => {
 
 test('resourceSelectors getResourcesByTopicIdGroupedByResourceTypes', () => {
   const state = resourcesState;
-  const resourcesByResourceType = getResourcesByTopicIdGroupedByResourceTypes('urn:topic:1')(state);
+  const resourcesByResourceType = getResourcesByTopicIdGroupedByResourceTypes(
+    'urn:topic:1',
+  )(state);
 
   expect(resourcesByResourceType['urn:resource-type:1'].length).toBe(2);
   expect(resourcesByResourceType['urn:resource-type:2'].length).toBe(1);

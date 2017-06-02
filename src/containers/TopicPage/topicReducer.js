@@ -14,31 +14,40 @@ export const initalState = {
   topicIntroductions: {},
 };
 
-export default handleActions({
-  [actions.setTopics]: {
-    next: (state, action) => {
-      const { subjectId, topics } = action.payload;
-      return {
-        ...state,
-        all: { ...state.all, [subjectId]: topics },
-      };
+export default handleActions(
+  {
+    [actions.setTopics]: {
+      next: (state, action) => {
+        const { subjectId, topics } = action.payload;
+        return {
+          ...state,
+          all: { ...state.all, [subjectId]: topics },
+        };
+      },
+      throw: state => state,
     },
-    throw: state => state,
-  },
-  [actions.setTopicIntroductions]: {
-    next: (state, action) => {
-      const { articleIntroductions, topics } = action.payload;
-      // Map article introduction to topic
-      const topicIntroductions = topics.reduce((obj, item) => {
-        const intro = articleIntroductions.find(articleIntroduction => item.contentUri === `urn:article:${articleIntroduction.id}`);
-        return intro ? { ...obj, [item.id]: intro } : obj;
-      }, {});
+    [actions.setTopicIntroductions]: {
+      next: (state, action) => {
+        const { articleIntroductions, topics } = action.payload;
+        // Map article introduction to topic
+        const topicIntroductions = topics.reduce((obj, item) => {
+          const intro = articleIntroductions.find(
+            articleIntroduction =>
+              item.contentUri === `urn:article:${articleIntroduction.id}`,
+          );
+          return intro ? { ...obj, [item.id]: intro } : obj;
+        }, {});
 
-      return {
-        ...state,
-        topicIntroductions: { ...state.topicIntroductions, ...topicIntroductions },
-      };
+        return {
+          ...state,
+          topicIntroductions: {
+            ...state.topicIntroductions,
+            ...topicIntroductions,
+          },
+        };
+      },
+      throw: state => state,
     },
-    throw: state => state,
   },
-}, initalState);
+  initalState,
+);

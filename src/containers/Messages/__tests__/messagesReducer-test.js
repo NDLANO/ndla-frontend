@@ -90,12 +90,19 @@ test('reducers/messages application error', () => {
     error: true,
     payload: {
       json: {
-        messages: [{ field: 'Generic error', message: 'Another somewhat less dangerous error' }],
+        messages: [
+          {
+            field: 'Generic error',
+            message: 'Another somewhat less dangerous error',
+          },
+        ],
       },
     },
   });
 
   expect(nextState.length).toBe(1);
   expect(nextState[0].severity).toBe('danger');
-  expect(nextState[0].message).toBe('Generic error: Another somewhat less dangerous error');
+  expect(nextState[0].message).toBe(
+    'Generic error: Another somewhat less dangerous error',
+  );
 });

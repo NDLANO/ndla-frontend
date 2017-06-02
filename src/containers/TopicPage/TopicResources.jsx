@@ -10,24 +10,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { TopicIntroductionList, ResourceWrapper } from 'ndla-ui';
-import { getSubtopicsWithIntroduction } from './topicSelectors';
 import * as resourceActions from '../Resources/resourceActions';
 import { injectT } from '../../i18n';
 import { TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { getResourcesByTopicId } from '../Resources/resourceSelectors';
-import { toTopicPartial } from '../../routes';
-
-const toTopic = (subjectId, topicPath) => {
-  const topicIds = topicPath.map(topic => topic.id);
-  return toTopicPartial(subjectId, ...topicIds);
-};
-
 
 class TopicResources extends Component {
   componentWillMount() {
-    const { subjectId, topic: { id: topicId }, fetchTopicResources } = this.props;
+    const {
+      subjectId,
+      topic: { id: topicId },
+      fetchTopicResources,
+    } = this.props;
     fetchTopicResources({ subjectId, topicId });
   }
 
@@ -39,14 +34,8 @@ class TopicResources extends Component {
   }
 
   render() {
-    const { subtopics, topic: { id: topicId }, subjectId, topicPath, t } = this.props;
-    return (
-      <ResourceWrapper>
-        <h1>{t('topicPage.topics')}</h1>
-        <TopicIntroductionList toTopic={toTopic(subjectId, topicPath)} topics={subtopics} />
-        <Resources topicId={topicId} />
-      </ResourceWrapper>
-    );
+    const { topic: { id: topicId } } = this.props;
+    return <Resources topicId={topicId} />;
   }
 }
 
@@ -54,8 +43,6 @@ TopicResources.propTypes = {
   subjectId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   topic: TopicShape.isRequired,
-  topicPath: PropTypes.arrayOf(TopicShape).isRequired,
-  subtopics: PropTypes.arrayOf(TopicShape).isRequired,
 };
 
 const mapDispatchToProps = {
@@ -63,14 +50,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topic: { id: topicId } } = ownProps;
-  return ({
-    subtopics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
+  const { topic: { id: topicId } } = ownProps;
+  return {
     resources: getResourcesByTopicId(topicId)(state),
-  });
+  };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  injectT,
-)(TopicResources);
+export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
+  TopicResources,
+);

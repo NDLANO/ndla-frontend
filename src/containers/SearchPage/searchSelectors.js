@@ -11,16 +11,15 @@ import { createSelector } from 'reselect';
 const getSearchFromState = state => state.search;
 
 export const getResults = createSelector(
-    [getSearchFromState],
-    search => search.results,
+  [getSearchFromState],
+  search => search.results,
 );
 
 export const getSearching = createSelector(
-    [getSearchFromState],
-    search => search.searching,
+  [getSearchFromState],
+  search => search.searching,
 );
 
-export const getLastPage = createSelector(
-    [getSearchFromState],
-    search => Math.ceil(search.totalCount / search.pageSize),
+export const getLastPage = createSelector([getSearchFromState], search =>
+  Math.ceil(search.totalCount / search.pageSize),
 );
