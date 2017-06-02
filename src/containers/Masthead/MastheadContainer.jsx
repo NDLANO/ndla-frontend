@@ -31,7 +31,6 @@ function toTopicWithSubjectIdBound(subjectId) {
 const MastheadContainer = ({ t, subject, topics }) => (
   <Masthead>
     <MastheadItem left>
-      <Logo to="/" altText="Nasjonal digital læringsarena" />
       {subject
         ? <ClickToggle
             title={subject.name}
@@ -44,8 +43,6 @@ const MastheadContainer = ({ t, subject, topics }) => (
             />
           </ClickToggle>
         : null}
-    </MastheadItem>
-    <MastheadItem right>
       <SiteNav>
         <SiteNavItem to={toSearch()}>
           {t('siteNav.search')}
@@ -57,6 +54,9 @@ const MastheadContainer = ({ t, subject, topics }) => (
           {t('siteNav.help')}
         </SiteNavItem>
       </SiteNav>
+    </MastheadItem>
+    <MastheadItem right>
+      <Logo to="/" altText="Nasjonal digital læringsarena" />
     </MastheadItem>
   </Masthead>
 );

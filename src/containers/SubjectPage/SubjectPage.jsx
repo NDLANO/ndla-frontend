@@ -10,12 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  OneColumn,
-  Hero,
-  ResourceWrapper,
-  TopicIntroductionList,
-} from 'ndla-ui';
+import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import defined from 'defined';
 import { injectT } from '../../i18n';
@@ -64,27 +59,33 @@ class SubjectPage extends Component {
             <div className="c-hero__content">
               <section>
                 <div className="c-breadcrumb">
-                  {t('breadcrumb.label')}
+                  {/* {t('breadcrumb.label')}*/}
                   <ol className="c-breadcrumb__list">
                     <li className="c-breadcrumb__item">
                       <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> ›
                     </li>
                   </ol>
                 </div>
-                <h1 className="c-hero__title">{subject.name}</h1>
+                {/* <h1 className="c-hero__title">{subject.name}</h1>*/}
               </section>
             </div>
           </OneColumn>
         </Hero>
-
-        <ResourceWrapper>
-          <h1>{t('subjectPage.tabs.topics')}</h1>
-          <TopicIntroductionList
-            toTopic={toTopic(subject.id)}
-            topics={topics}
-          />
-        </ResourceWrapper>
-        <OneColumn />
+        <OneColumn>
+          <article className="c-article">
+            <section className="u-4/6@desktop u-push-1/6@desktop">
+              <div className="c-resources">
+                <h1 className="c-resources__title">
+                  {t('subjectPage.tabs.topics')}
+                </h1>
+                <TopicIntroductionList
+                  toTopic={toTopic(subject.id)}
+                  topics={topics}
+                />
+              </div>
+            </section>
+          </article>
+        </OneColumn>
       </div>
     );
   }

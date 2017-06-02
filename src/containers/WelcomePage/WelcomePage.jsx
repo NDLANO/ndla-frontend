@@ -17,7 +17,7 @@ import { SubjectLinkList } from '../../components';
 
 export const WelcomePage = ({ t, subjects }) => (
   <div className="c-resources u-padding-top-large">
-    <OneColumn cssModifier="narrow">
+    <OneColumn>
       <article>
         <section>
           <h1>{t('welcomePage.subjects')}</h1>
