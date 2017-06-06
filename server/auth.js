@@ -14,6 +14,11 @@ const NDLA_API_URL = config.ndlaApiUrl;
 
 const url = `${NDLA_API_URL}/auth/tokens`;
 
+const ndlaFrontendClientId =
+  process.env.NDLA_FRONTEND_CLIENT_ID || 'swagger-client';
+const ndlaFrontendClientSecret =
+  process.env.NDLA_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret';
+
 const b64EncodeUnicode = str =>
   btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
@@ -26,7 +31,7 @@ export const getToken = () =>
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      Authorization: `Basic ${b64EncodeUnicode(`${config.ndlaFrontendClientId}:${config.ndlaFrontendClientSecret}`)}`,
+      Authorization: `Basic ${b64EncodeUnicode(`${ndlaFrontendClientId}:${ndlaFrontendClientSecret}`)}`,
     },
     body: 'grant_type=client_credentials',
   }).then(res => res.json());
