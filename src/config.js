@@ -15,7 +15,8 @@ const environment = {
   },
 }[process.env.NODE_ENV || 'development'];
 
-const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'staging';
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
+
 const apiDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
@@ -59,7 +60,7 @@ module.exports = Object.assign(
     logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
     logglyApiKey: process.env.LOGGLY_API_KEY,
     disableSSR: process.env.DISABLE_SSR || false,
-    searchEnabled: process.env.SEARCH_ENABLED || false,
+    searchEnabled: ndlaEnvironment !== 'prod',
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
     ndlaFrontendDomain: ndlaFrontendDomain(),
     learningPathDomain: learningPathDomain(),
