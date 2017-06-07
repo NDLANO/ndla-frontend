@@ -4,7 +4,7 @@ ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
 
 #Install yarn
-ENV YARN_VERSION 0.21.3
+ENV YARN_VERSION 0.24.6
 ADD https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v${YARN_VERSION}.tar.gz /opt/yarn.tar.gz
 RUN cd /opt/ && tar xf yarn.tar.gz && mv dist yarn && rm yarn.tar.gz
 ENV PATH $PATH:/opt/yarn/bin/
