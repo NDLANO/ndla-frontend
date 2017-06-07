@@ -45,7 +45,8 @@ const phrases = {
     associatedTopics: 'Associated topics',
   },
   license: {
-    heading: 'You can download, or reuse content from NDLA on your own own website',
+    heading:
+      'You can download, or reuse content from NDLA on your own own website',
     introduction: 'Lorem ipsum...',
     tabs: {
       texts: 'Texts',

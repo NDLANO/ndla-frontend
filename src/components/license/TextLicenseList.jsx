@@ -20,7 +20,7 @@ import {
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const TextLicenseInfo = ({ text, locale }) => (
+const TextLicenseInfo = ({ text, locale }) =>
   <MediaListItem>
     <MediaListItemImage>
       <Icon.Document className="c-medialist__icon" />
@@ -43,25 +43,23 @@ const TextLicenseInfo = ({ text, locale }) => (
       </MediaListItemActions>
       <MediaListItemMeta authors={text.copyright.authors} />
     </MediaListItemBody>
-  </MediaListItem>
-);
+  </MediaListItem>;
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   text: CopyrightObjectShape,
 };
 
-const TextLicenseList = ({ texts, heading, description, locale }) => (
+const TextLicenseList = ({ texts, heading, description, locale }) =>
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
     <MediaList>
-      {texts.map(text => (
-        <TextLicenseInfo text={text} key={uuid()} locale={locale} />
-      ))}
+      {texts.map(text =>
+        <TextLicenseInfo text={text} key={uuid()} locale={locale} />,
+      )}
     </MediaList>
-  </div>
-);
+  </div>;
 
 TextLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,

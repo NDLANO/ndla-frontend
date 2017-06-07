@@ -28,7 +28,7 @@ function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, topics }) => (
+const MastheadContainer = ({ t, subject, topics }) =>
   <Masthead>
     <MastheadItem left>
       {subject
@@ -58,8 +58,7 @@ const MastheadContainer = ({ t, subject, topics }) => (
     <MastheadItem right>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
     </MastheadItem>
-  </Masthead>
-);
+  </Masthead>;
 
 MastheadContainer.propTypes = {
   params: PropTypes.shape({

@@ -60,10 +60,10 @@ module.exports = Object.assign(
     logglyApiKey: process.env.LOGGLY_API_KEY,
     disableSSR: process.env.DISABLE_SSR || false,
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-    ndlaFrontendClientId: process.env.NDLA_FRONTEND_CLIENT_ID ||
-      'swagger-client',
-    ndlaFrontendClientSecret: process.env.NDLA_FRONTEND_CLIENT_SECRET ||
-      'swagger-public-client-secret',
+    ndlaFrontendClientId:
+      process.env.NDLA_FRONTEND_CLIENT_ID || 'swagger-client',
+    ndlaFrontendClientSecret:
+      process.env.NDLA_FRONTEND_CLIENT_SECRET || 'swagger-public-client-secret',
     ndlaFrontendDomain: ndlaFrontendDomain(),
     learningPathDomain: learningPathDomain(),
   },

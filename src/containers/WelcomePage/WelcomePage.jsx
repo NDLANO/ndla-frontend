@@ -15,7 +15,7 @@ import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
-export const WelcomePage = ({ t, subjects }) => (
+export const WelcomePage = ({ t, subjects }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn>
       <article>
@@ -25,8 +25,7 @@ export const WelcomePage = ({ t, subjects }) => (
         </section>
       </article>
     </OneColumn>
-  </div>
-);
+  </div>;
 
 WelcomePage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),

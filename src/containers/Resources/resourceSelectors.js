@@ -33,8 +33,9 @@ export const getResourcesByTopicId = topicId =>
       const mappedResource = {
         ...resource,
         title: titleI18N(resource, locale, true),
-        introduction: introductionI18N(resource, locale, true) ||
-          descriptionI18N(resource, locale, true),
+        introduction:
+          introductionI18N(resource, locale, true) ||
+            descriptionI18N(resource, locale, true),
       };
       delete mappedResource.description;
       return mappedResource;

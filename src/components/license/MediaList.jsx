@@ -23,33 +23,29 @@ const cClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-export const MediaList = ({ children }) => (
+export const MediaList = ({ children }) =>
   <ul {...cClasses()}>
     {children}
-  </ul>
-);
+  </ul>;
 
-export const MediaListItem = ({ children }) => (
+export const MediaListItem = ({ children }) =>
   <li {...oClasses(null, null, cClasses().className)}>
     {children}
-  </li>
-);
+  </li>;
 
-export const MediaListItemImage = ({ children }) => (
+export const MediaListItemImage = ({ children }) =>
   <div {...oClasses('img', null, cClasses('img').className)}>
     {children}
-  </div>
-);
+  </div>;
 
-export const MediaListItemBody = ({ children, license, title, locale }) => (
+export const MediaListItemBody = ({ children, license, title, locale }) =>
   <div {...oClasses('body', null, cClasses('body').className)}>
     {title ? <h3 className="c-medialist__title">{title} </h3> : null}
     <ClickableLicenseByline
       license={getLicenseByAbbreviation(license, locale)}
     />
     {children}
-  </div>
-);
+  </div>;
 
 MediaListItemBody.propTypes = {
   children: PropTypes.node.isRequired,
@@ -58,21 +54,19 @@ MediaListItemBody.propTypes = {
   title: PropTypes.string,
 };
 
-export const MediaListItemActions = ({ children }) => (
+export const MediaListItemActions = ({ children }) =>
   <div {...cClasses('actions')}>
     {children}
-  </div>
-);
+  </div>;
 
-export const MediaListItemMeta = ({ authors }) => (
+export const MediaListItemMeta = ({ authors }) =>
   <ul {...cClasses('actions')}>
-    {authors.map(author => (
+    {authors.map(author =>
       <li key={uuid()} className="c-medialist__meta-item">
         {author.type}: {author.name}
-      </li>
-    ))}
-  </ul>
-);
+      </li>,
+    )}
+  </ul>;
 
 MediaListItemMeta.propTypes = {
   authors: PropTypes.arrayOf(
