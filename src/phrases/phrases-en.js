@@ -12,18 +12,13 @@ const phrases = {
   },
   welcomePage: {
     subjects: 'Subjects',
+    search: 'Search',
   },
   subjectsPage: {
     chooseSubject: 'Choose subject',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
-  },
-  siteNav: {
-    chooseSubject: 'Choose Subject',
-    search: 'Search',
-    contact: 'Contact',
-    help: 'Help',
   },
   searchForm: {
     placeholder: 'Search articles',

@@ -15,18 +15,13 @@ const phrases = {
   messages: 'messages',
   welcomePage: {
     subjects: 'Fag',
+    search: 'Gå til søk',
   },
   subjectsPage: {
     chooseSubject: 'Velg fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
-  },
-  siteNav: {
-    chooseSubject: 'Velg fag',
-    search: 'Søk',
-    contact: 'Kontakt',
-    help: 'Hjelp',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',

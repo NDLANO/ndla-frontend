@@ -17,6 +17,11 @@ import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+import config from './config';
+
+const searchEnabled = __SERVER__ || process.env.NODE_ENV === 'unittest'
+  ? config.searchEnabled
+  : window.config.searchEnabled;
 
 export function toSearch() {
   return '/search';
@@ -57,7 +62,11 @@ export default (
   <App>
     <ScrollToTop />
     <Switch>
-      <Route path="/" exact component={WelcomePage} />
+      <Route
+        path="/"
+        exact
+        render={() => <WelcomePage searchEnabled={searchEnabled} />}
+      />
 
       <Route
         path="/article/:subjectId/:topicId/:articleId"
@@ -65,7 +74,7 @@ export default (
       />
       <Route path="/article/:articleId" component={ArticlePage} />
 
-      <Route path="/search" component={SearchPage} />
+      {searchEnabled ? <Route path="/search" component={SearchPage} /> : null}
 
       <Route path="/subjects/:subjectId/(.*)/:topicId" component={TopicPage} />
       <Route path="/subjects/:subjectId/:topicId" component={TopicPage} />
