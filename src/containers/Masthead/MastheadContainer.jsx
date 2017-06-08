@@ -28,7 +28,7 @@ function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, topics }) => (
+const MastheadContainer = ({ t, subject, searchEnabled, topics }) => (
   <Masthead>
     <MastheadItem left>
       {subject
@@ -43,17 +43,13 @@ const MastheadContainer = ({ t, subject, topics }) => (
             />
           </ClickToggle>
         : null}
-      <SiteNav>
-        <SiteNavItem to={toSearch()}>
-          {t('siteNav.search')}
-        </SiteNavItem>
-        <SiteNavItem to="/#">
-          {t('siteNav.contact')}
-        </SiteNavItem>
-        <SiteNavItem to="/#">
-          {t('siteNav.help')}
-        </SiteNavItem>
-      </SiteNav>
+      {searchEnabled
+        ? <SiteNav>
+            <SiteNavItem to={toSearch()}>
+              {t('siteNav.search')}
+            </SiteNavItem>
+          </SiteNav>
+        : null}
     </MastheadItem>
     <MastheadItem right>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -62,6 +58,7 @@ const MastheadContainer = ({ t, subject, topics }) => (
 );
 
 MastheadContainer.propTypes = {
+  searchEnabled: PropTypes.bool.isRequired,
   params: PropTypes.shape({
     subjectId: PropTypes.string,
     topicId: PropTypes.string,

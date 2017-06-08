@@ -29,7 +29,14 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t, match: { params } } = this.props;
+    const {
+      dispatch,
+      children,
+      messages,
+      searchEnabled,
+      t,
+      match: { params },
+    } = this.props;
     return (
       <PageContainer>
         <Helmet
@@ -37,7 +44,7 @@ export class App extends React.Component {
           meta={[{ name: 'description', content: t('meta.description') }]}
         />
 
-        <Masthead t={t} params={params} />
+        <Masthead t={t} searchEnabled={searchEnabled} params={params} />
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
@@ -54,6 +61,7 @@ App.propTypes = {
     }).isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  searchEnabled: PropTypes.bool.isRequired,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
