@@ -13,15 +13,14 @@ import { toArticle } from '../../../routes';
 import { titleI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';
 
-const SearchResult = ({ article, locale }) => (
+const SearchResult = ({ article, locale }) =>
   <div className="search-result">
     <Link className="search-result_link" to={toArticle(article.id)}>
       <h3 className="search-result_title">
         {titleI18N(article, locale, true)}
       </h3>
     </Link>
-  </div>
-);
+  </div>;
 
 SearchResult.propTypes = {
   article: ArticleResultShape.isRequired,

@@ -40,7 +40,9 @@ export const injectSubjects = WrappedComponent => {
   const getDisplayName = component =>
     component.displayName || component.name || 'Component';
 
-  SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(WrappedComponent)})`;
+  SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(
+    WrappedComponent,
+  )})`;
 
   return connect(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
 };

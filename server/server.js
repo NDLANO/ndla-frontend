@@ -171,10 +171,6 @@ function handleResponse(req, res, token) {
     </Provider>
   );
 
-  // Trigger sagas for components by rendering them
-  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
-  renderToString(component);
-
   if (context.url) {
     res.writeHead(301, {
       Location: context.url,
@@ -198,6 +194,10 @@ function handleResponse(req, res, token) {
         res.status(500).send(error.message);
       });
   }
+
+  // Trigger sagas for components by rendering them
+  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
+  renderToString(component);
 
   // Dispatch a close event so sagas stop listening after they have resolved
   store.close();

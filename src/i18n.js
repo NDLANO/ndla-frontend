@@ -84,12 +84,11 @@ export const injectT = WrappedComponent => {
     return component.displayName || component.name || 'Component';
   }
 
-  const InjectT = (props, context) => (
+  const InjectT = (props, context) =>
     <WrappedComponent
       {...props}
       t={(id, value = {}) => context.intl.formatMessage({ id }, value)}
-    />
-  );
+    />;
 
   InjectT.contextTypes = {
     intl: intlShape,

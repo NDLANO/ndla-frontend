@@ -9,23 +9,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Article as UIArticle,
-  LicenseByline,
-  TopicBreadcrumb,
-  OneColumn,
-} from 'ndla-ui';
+import { Article as UIArticle, LicenseByline, LayoutItem } from 'ndla-ui';
 import {
   initArticleScripts,
   removeEventListenerForResize,
   removeAsideClickListener,
 } from 'ndla-article-scripts';
 import getLicenseByAbbreviation from 'ndla-licenses';
-import { toTopic } from '../../../routes';
 import { injectT } from '../../../i18n';
 import ToggleLicenseBox from './ToggleLicenseBox';
+import ArticleByline from './ArticleByline';
 import LicenseBox from '../../../components/license/LicenseBox';
-import { SubjectShape, TopicShape } from '../../../shapes';
 
 class Article extends Component {
   componentDidMount() {
@@ -65,45 +59,35 @@ class Article extends Component {
   }
 
   render() {
-    const { article, subject, topicPath } = this.props;
+    const { article } = this.props;
 
     return (
-      <section className="c-article-content">
-        <OneColumn cssModifier="narrow">
-          <section>
-            {subject
-              ? <TopicBreadcrumb
-                  toSubjects={() => '/'}
-                  subjectsTitle="Fag"
-                  subject={subject}
-                  topicPath={topicPath}
-                  toTopic={toTopic}>
-                  Du er her:
-                </TopicBreadcrumb>
-              : null}
-            {this.renderToggleLicenseBox()}
-            <h1>{article.title}</h1>
-            <UIArticle.Introduction introduction={article.introduction} />
-          </section>
-        </OneColumn>
-        <OneColumn cssModifier="narrow">
-          <div dangerouslySetInnerHTML={{ __html: article.content }} />
-        </OneColumn>
-        <OneColumn cssModifier="narrow">
-          <section>
-            {article.footNotes
-              ? <UIArticle.FootNotes footNotes={article.footNotes} />
-              : null}
-            {this.renderToggleLicenseBox(true)}
-            <a
-              className="article-old-ndla-link"
-              rel="noopener noreferrer"
-              target="_blank"
-              href={article.oldNdlaUrl}>
-              Gå til orginal artikkel
-            </a>
-          </section>
-        </OneColumn>
+      <section className="c-article">
+        <LayoutItem layout="center">
+          <h1>{article.title}</h1>
+          <UIArticle.Introduction introduction={article.introduction} />
+          <ArticleByline
+            authors={article.copyright.authors}
+            updated={article.updated}
+          />
+          {this.renderToggleLicenseBox()}
+        </LayoutItem>
+        <LayoutItem layout="center">
+          <UIArticle.Content content={article.content} />
+        </LayoutItem>
+        <LayoutItem layout="center">
+          {article.footNotes
+            ? <UIArticle.FootNotes footNotes={article.footNotes} />
+            : null}
+          {this.renderToggleLicenseBox()}
+          <a
+            className="article-old-ndla-link"
+            rel="noopener noreferrer"
+            target="_blank"
+            href={article.oldNdlaUrl}>
+            Gå til orginal artikkel
+          </a>
+        </LayoutItem>
       </section>
     );
   }
@@ -117,8 +101,6 @@ Article.propTypes = {
       authors: PropTypes.array.isRequired,
     }).isRequired,
   }).isRequired,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
   locale: PropTypes.string.isRequired,
 };
 

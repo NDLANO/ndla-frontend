@@ -19,6 +19,8 @@ import Grid from 'ndla-ui/es/icons/Grid';
 import Link from 'ndla-ui/es/icons/Link';
 import Embed from 'ndla-ui/es/icons/Embed';
 import OpenWindow from 'ndla-ui/es/icons/OpenWindow';
+import Time from 'ndla-ui/es/icons/Time';
+import User from 'ndla-ui/es/icons/User';
 
 function Icon(props) {
   const { icon, ...rest } = props;
@@ -38,5 +40,7 @@ Icon.Grid = props => <Icon {...props} icon={Grid} />;
 Icon.Link = props => <Icon {...props} icon={Link} />;
 Icon.Embed = props => <Icon {...props} icon={Embed} />;
 Icon.OpenWindow = props => <Icon {...props} icon={OpenWindow} />;
+Icon.Time = props => <Icon {...props} icon={Time} />;
+Icon.User = props => <Icon {...props} icon={User} />;
 
 export default Icon;

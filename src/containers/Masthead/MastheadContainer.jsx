@@ -8,18 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Masthead,
-  MastheadItem,
-  SiteNav,
-  SiteNavItem,
-  Logo,
-  ClickToggle,
-  TopicMenu,
-} from 'ndla-ui';
+import { Masthead, MastheadItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toSearch, toTopic } from '../../routes';
+import { toTopic, toSubject } from '../../routes';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
 import { getSubjectMenu } from '../TopicPage/topicSelectors';
 import { SubjectShape, TopicShape } from '../../shapes';
@@ -28,37 +20,30 @@ function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, searchEnabled, topics }) => (
+const MastheadContainer = ({ t, subject, topics }) =>
   <Masthead>
     <MastheadItem left>
       {subject
         ? <ClickToggle
-            title={subject.name}
+            title={t('masthead.menu')}
+            openTitle={t('masthead.close')}
             className="c-topic-menu-container"
-            buttonClassName="c-topic-menu-toggle-button">
+            buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
             <TopicMenu
-              subjectId={subject.id}
+              toSubject={toSubject(subject.id)}
+              subject={subject.name}
               toTopic={toTopicWithSubjectIdBound(subject.id)}
               topics={topics}
             />
           </ClickToggle>
         : null}
-      {searchEnabled
-        ? <SiteNav>
-            <SiteNavItem to={toSearch()}>
-              {t('siteNav.search')}
-            </SiteNavItem>
-          </SiteNav>
-        : null}
     </MastheadItem>
     <MastheadItem right>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
     </MastheadItem>
-  </Masthead>
-);
+  </Masthead>;
 
 MastheadContainer.propTypes = {
-  searchEnabled: PropTypes.bool.isRequired,
   params: PropTypes.shape({
     subjectId: PropTypes.string,
     topicId: PropTypes.string,

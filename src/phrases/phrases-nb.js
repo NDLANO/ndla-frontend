@@ -8,24 +8,24 @@
 
 const phrases = {
   meta: {
-    description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+    description:
+      'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+  },
+  masthead: {
+    menu: 'Meny',
+    close: 'Lukk',
   },
   message: 'message',
   messages: 'messages',
   welcomePage: {
     subjects: 'Fag',
+    search: 'Gå til søk',
   },
   subjectsPage: {
     chooseSubject: 'Velg fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
-  },
-  siteNav: {
-    chooseSubject: 'Velg fag',
-    search: 'Søk',
-    contact: 'Kontakt',
-    help: 'Hjelp',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',
@@ -41,7 +41,7 @@ const phrases = {
     created: 'Opprettet',
     lastUpdated: 'Sist oppdatert',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Gjenbruk',
+    openLicenseBox: 'Bruk artikkel',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
@@ -59,11 +59,13 @@ const phrases = {
     },
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
-      description: 'Klikk på lisensene for å se reglene. Husk å kopier teksten som skal legges ved bildet der du bruker det.',
+      description:
+        'Klikk på lisensene for å se reglene. Husk å kopier teksten som skal legges ved bildet der du bruker det.',
     },
     texts: {
       heading: 'Slik bruker du tekst fra artikkelen',
-      description: 'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her. Klikk på lisensene for å se reglene for hver enkelt del.',
+      description:
+        'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her. Klikk på lisensene for å se reglene for hver enkelt del.',
     },
     audios: {
       heading: 'Slik bruker du lydfiler',

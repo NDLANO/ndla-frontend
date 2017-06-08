@@ -41,7 +41,9 @@ export const getLearningPathIdFromResource = resource => {
 export const resourceToLinkProps = (resource, subjectId, topicId) => {
   if (isLearningPathResource(resource)) {
     return {
-      href: `${LEARNING_PATH_DOMAIN}/learningpaths/${getLearningPathIdFromResource(resource)}`,
+      href: `${LEARNING_PATH_DOMAIN}/learningpaths/${getLearningPathIdFromResource(
+        resource,
+      )}`,
       target: '_blank',
       rel: 'noopener noreferrer',
     };

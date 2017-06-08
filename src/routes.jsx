@@ -59,10 +59,14 @@ class ScrollToTop extends React.Component {
 }
 
 export default (
-  <App searchEnabled={searchEnabled}>
+  <App>
     <ScrollToTop />
     <Switch>
-      <Route path="/" exact component={WelcomePage} />
+      <Route
+        path="/"
+        exact
+        render={() => <WelcomePage searchEnabled={searchEnabled} />}
+      />
 
       <Route
         path="/article/:subjectId/:topicId/:articleId"

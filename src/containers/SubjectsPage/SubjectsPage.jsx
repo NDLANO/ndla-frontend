@@ -15,7 +15,7 @@ import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';
 import { injectT } from '../../i18n';
 
-const SubjectsPage = ({ t, subjects }) => (
+const SubjectsPage = ({ t, subjects }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn>
       <article>
@@ -25,8 +25,7 @@ const SubjectsPage = ({ t, subjects }) => (
         </section>
       </article>
     </OneColumn>
-  </div>
-);
+  </div>;
 
 SubjectsPage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,

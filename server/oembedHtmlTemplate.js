@@ -14,7 +14,9 @@ const assets = config.isProduction
   : require('./developmentAssets');
 
 const styleLink = config.isProduction
-  ? `<link rel="stylesheet" type="text/css" href=/assets/${assets['main.css']} />`
+  ? `<link rel="stylesheet" type="text/css" href=/assets/${assets[
+      'main.css'
+    ]} />`
   : '';
 
 export const htmlTemplate = (lang, body, introduction, title) =>
@@ -22,7 +24,9 @@ export const htmlTemplate = (lang, body, introduction, title) =>
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <link rel="shortcut icon" href="/assets/${assets['ndla-favicon.png']}"" type="image/x-icon" />
+      <link rel="shortcut icon" href="/assets/${assets[
+        'ndla-favicon.png'
+      ]}"" type="image/x-icon" />
       <title>NDLA | ${title}</title>
       ${styleLink}
     </head>
@@ -36,7 +40,9 @@ export const htmlTemplate = (lang, body, introduction, title) =>
           ${body}
         </article>
       </div>
-      <script type="text/javascript" src="/assets/${assets['embed.js']}"></script>
+      <script type="text/javascript" src="/assets/${assets[
+        'embed.js'
+      ]}"></script>
     </body>
   </html>`;
 

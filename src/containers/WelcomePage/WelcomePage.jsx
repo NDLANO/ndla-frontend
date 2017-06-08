@@ -10,12 +10,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
+import { Link } from 'react-router-dom';
+
 import { injectT } from '../../i18n';
+import { toSearch } from '../../routes';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
-export const WelcomePage = ({ t, subjects }) => (
+export const WelcomePage = ({ t, subjects, searchEnabled }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn>
       <article>
@@ -23,13 +26,18 @@ export const WelcomePage = ({ t, subjects }) => (
           <h1>{t('welcomePage.subjects')}</h1>
           <SubjectLinkList subjects={subjects} />
         </section>
+        {searchEnabled
+          ? <section>
+              <Link to={toSearch()}>{t('welcomePage.search')}</Link>
+            </section>
+          : null}
       </article>
     </OneColumn>
-  </div>
-);
+  </div>;
 
 WelcomePage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
+  searchEnabled: PropTypes.bool.isRequired,
 };
 
 export default compose(injectT, injectSubjects)(WelcomePage);

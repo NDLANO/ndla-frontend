@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 
@@ -29,22 +29,21 @@ export class App extends React.Component {
   }
 
   render() {
-    const {
-      dispatch,
-      children,
-      messages,
-      searchEnabled,
-      t,
-      match: { params },
-    } = this.props;
+    const { dispatch, children, messages, t, match } = this.props;
     return (
       <PageContainer>
         <Helmet
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
         />
-
-        <Masthead t={t} searchEnabled={searchEnabled} params={params} />
+        <Switch>
+          <Route
+            path={`${match.url}subjects/:subjectId`}
+            render={({ match: routeMatch }) =>
+              <Masthead t={t} params={routeMatch.params} />}
+          />
+          <Route render={() => <Masthead t={t} params={{}} />} />
+        </Switch>
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />
@@ -55,13 +54,9 @@ export class App extends React.Component {
 
 App.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string,
-      topicId: PropTypes.string,
-    }).isRequired,
+    url: PropTypes.string,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  searchEnabled: PropTypes.bool.isRequired,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
