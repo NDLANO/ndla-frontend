@@ -19,7 +19,7 @@ import {
 } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toSearch, toTopic } from '../../routes';
+import { toSearch, toTopic, toSubject } from '../../routes';
 import { getSubjectById } from '../SubjectPage/subjectSelectors';
 import { getSubjectMenu } from '../TopicPage/topicSelectors';
 import { SubjectShape, TopicShape } from '../../shapes';
@@ -31,13 +31,15 @@ function toTopicWithSubjectIdBound(subjectId) {
 const MastheadContainer = ({ t, subject, topics }) =>
   <Masthead>
     <MastheadItem left>
-      {subject
+      {subject && topics.length > 0
         ? <ClickToggle
-            title={subject.name}
+            title="Meny"
+            openTitle="Lukk"
             className="c-topic-menu-container"
-            buttonClassName="c-topic-menu-toggle-button">
+            buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
             <TopicMenu
-              subjectId={subject.id}
+              toSubject={toSubject(subject.id)}
+              subject={subject.name}
               toTopic={toTopicWithSubjectIdBound(subject.id)}
               topics={topics}
             />
