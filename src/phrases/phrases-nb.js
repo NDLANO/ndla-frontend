@@ -41,7 +41,7 @@ const phrases = {
     created: 'Opprettet',
     lastUpdated: 'Sist oppdatert',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Gjenbruk',
+    openLicenseBox: 'Bruk artikkel',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
