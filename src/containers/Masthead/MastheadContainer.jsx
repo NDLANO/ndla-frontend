@@ -20,13 +20,13 @@ function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ subject, topics }) =>
+const MastheadContainer = ({ t, subject, topics }) =>
   <Masthead>
     <MastheadItem left>
-      {subject && topics.length > 0
+      {subject
         ? <ClickToggle
-            title="Meny"
-            openTitle="Lukk"
+            title={t('masthead.menu')}
+            openTitle={t('masthead.close')}
             className="c-topic-menu-container"
             buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
             <TopicMenu
