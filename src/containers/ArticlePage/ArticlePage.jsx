@@ -65,6 +65,10 @@ class ArticlePage extends Component {
     if (!article) {
       return null;
     }
+    if (article.status === 404) {
+      // tmp hack
+      return <h1>404 Fant ikke artikkelen</h1>;
+    }
     const scripts = article.requiredLibraries
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,

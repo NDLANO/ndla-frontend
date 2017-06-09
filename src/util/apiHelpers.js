@@ -44,13 +44,14 @@ export function resolveJsonOrRejectWithError(res) {
     }
     return res
       .json()
-      .then(json =>
-        createErrorPayload(
+      .then(json => {
+        const payload = createErrorPayload(
           res.status,
           defined(json.message, res.statusText),
           json,
-        ),
-      )
+        );
+        reject(payload);
+      })
       .catch(reject);
   });
 }
