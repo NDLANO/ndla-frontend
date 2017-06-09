@@ -21,7 +21,17 @@ export function* fetchArticle(id) {
     const article = yield call(api.fetchArticle, id, locale, token);
     yield put(actions.setArticle(article));
   } catch (error) {
-    // TODO: handle error
+    // TODO: better error handling
+    if (error.json && error.json.status === 404) {
+      // tmp hack
+      yield put(
+        actions.setArticle({
+          id,
+          status: 404,
+          content: '',
+        }),
+      );
+    }
     console.error(error); //eslint-disable-line
   }
 }
