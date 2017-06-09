@@ -100,7 +100,7 @@ class ArticlePage extends Component {
                       toSubjects={() => '/'}
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}
-                      topicPath={topicPath.slice(0, -1)}
+                      topicPath={topicPath}
                       toTopic={toTopic}>
                       {/* {t('breadcrumb.label')}*/}
                     </TopicBreadcrumb>
