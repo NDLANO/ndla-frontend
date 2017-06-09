@@ -11,7 +11,6 @@ import searchSagas from './containers/SearchPage/searchSagas';
 import subjectSagas from './containers/SubjectPage/subjectSagas';
 import topicSagas from './containers/TopicPage/topicSagas';
 import resourceSagas from './containers/Resources/resourceSagas';
-import sessionSagas from './containers/App/sessionSagas';
 
 export default function* root() {
   yield all([
@@ -20,6 +19,5 @@ export default function* root() {
     ...subjectSagas.map(s => fork(s)),
     ...topicSagas.map(s => fork(s)),
     ...resourceSagas.map(s => fork(s)),
-    ...sessionSagas.map(s => fork(s)),
   ]);
 }

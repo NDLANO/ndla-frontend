@@ -11,16 +11,12 @@ import { hasFetched } from '../subjectSelectors';
 import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';
 import * as actions from '../subjectActions';
-import { getAccessToken } from '../../App/sessionSelectors';
 
 test('subjectSagas fetchSubjects', () => {
-  const token = '12345678';
   const saga = testSaga(sagas.fetchSubjects);
   saga
     .next()
-    .select(getAccessToken)
-    .next(token)
-    .call(api.fetchSubjects, token)
+    .call(api.fetchSubjects)
     .next([{ id: '123', name: 'Matematikk' }])
     .put({
       type: actions.setSubjects.toString(),

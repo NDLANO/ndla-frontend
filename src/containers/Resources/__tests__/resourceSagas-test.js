@@ -11,7 +11,6 @@ import { call } from 'redux-saga/effects';
 import * as sagas from '../resourceSagas';
 import * as actions from '../resourceActions';
 import * as api from '../resourceApi';
-import { getAccessToken } from '../../App/sessionSelectors';
 import { resources } from './mockResources';
 
 test('resourceSagas watchFetchTopicResources', () => {
@@ -28,14 +27,11 @@ test('resourceSagas watchFetchTopicResources', () => {
 });
 
 test('topicSagas fetchResourceTypes', () => {
-  const token = '12345678';
   const topicId = 'urn:topic:1234';
   const saga = testSaga(sagas.fetchResourceTypes, topicId);
   saga
     .next()
-    .select(getAccessToken)
-    .next(token)
-    .call(api.fetchResourceTypes, token)
+    .call(api.fetchResourceTypes)
     .next([])
     .put({ type: actions.setResourceTypes.toString(), payload: [] })
     .next()
@@ -48,8 +44,6 @@ test('topicSagas fetchTopicResources', () => {
   const saga = testSaga(sagas.fetchTopicResources, topicId);
   saga
     .next()
-    .select(getAccessToken)
-    .next(token)
     // .all([
     //   call(api.fetchResourceTypes, token),
     // ])

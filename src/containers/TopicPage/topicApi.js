@@ -6,16 +6,13 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  headerWithAccessToken,
+  fetchWithAccessToken
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopics = (subjectId, token) =>
-  fetch(`${baseUrl}/subjects/${subjectId}/topics/?recursive=true`, {
-    headers: headerWithAccessToken(token),
-  }).then(resolveJsonOrRejectWithError);
+export const fetchTopics = (subjectId) =>
+  fetchWithAccessToken(`${baseUrl}/subjects/${subjectId}/topics/?recursive=true`).then(resolveJsonOrRejectWithError);

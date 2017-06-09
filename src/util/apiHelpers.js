@@ -8,6 +8,8 @@
 
 import defined from 'defined';
 import config from '../config';
+import { expiresIn } from './jwtHelper'
+import { fetchAccessToken } from '../containers/App/sessionApi';
 
 const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.config.ndlaApiUrl;
 
@@ -54,3 +56,31 @@ export function resolveJsonOrRejectWithError(res) {
       .catch(reject);
   });
 }
+export const setAccessTokenInLocalStorage = accessToken => {
+  localStorage.setItem('access_token', accessToken);
+  localStorage.setItem(
+    'access_token_expires_at',
+    expiresIn(accessToken) * 1000 + new Date().getTime(),
+  );
+};
+
+export const fetchWithAccessToken = (url, options = {}) => {
+  const accessToken = localStorage.getItem('access_token');
+  const expiresAt = accessToken
+    ? JSON.parse(localStorage.getItem('access_token_expires_at'))
+    : 0;
+
+  if (new Date().getTime() > expiresAt) {
+    return fetchAccessToken().then(res => {
+      setAccessTokenInLocalStorage(res.access_token);
+      return fetch(url, {
+        ...options,
+        headers: { Authorization: `Bearer ${res.access_token}` },
+      });
+    });
+  }
+  return fetch(url, {
+    ...options,
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+};
