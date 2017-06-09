@@ -47,7 +47,13 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.ndla.no https://players.brightcove.net https://www.nrk.no https://www.googletagmanager.com https://www.google-analytics.com https://www.youtube.com https://s.ytimg.com https://cdn.auth0.com; style-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'self' https://*.ndla.no https://logs-01.loggly.com; img-src 'self' https://*.ndla.no https://www.google-analytics.com https://stats.g.doubleclick.net data: ;",
+    "default-src 'self' blob: ; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.ndla.no https://players.brightcove.net http://players.brightcove.net https://players.brightcove.net https://www.nrk.no https://www.googletagmanager.com https://www.google-analytics.com https://www.youtube.com https://s.ytimg.com https://cdn.auth0.com https://vjs.zencdn.net https://httpsak-a.akamaihd.net; " +
+    "child-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.ndla.no https://players.brightcove.net http://players.brightcove.net https://players.brightcove.net http://localhost:3000 blob: ; " +
+    "style-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; " +
+    "font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com data: ; " +
+    "connect-src 'self' https://*.ndla.no https://logs-01.loggly.com https://edge.api.brightcove.com https://secure.brightcove.com https://bcsecure01-a.akamaihd.net https://hlsak-a.akamaihd.net ; " +
+    "img-src 'self' https://*.ndla.no https://www.google-analytics.com https://stats.g.doubleclick.net http://metrics.brightcove.com https://httpsak-a.akamaihd.net data: ;",
   );
   next();
 });
