@@ -6,7 +6,6 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -15,7 +14,11 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopicResources = (topicId) =>
-  fetchWithAccessToken(`${baseUrl}/topics/${topicId}/resources/?recursive=true`).then(resolveJsonOrRejectWithError);
+export const fetchTopicResources = topicId =>
+  fetchWithAccessToken(
+    `${baseUrl}/topics/${topicId}/resources/?recursive=true`,
+  ).then(resolveJsonOrRejectWithError);
 export const fetchResourceTypes = () =>
-  fetchWithAccessToken(`${baseUrl}/resource-types/`).then(resolveJsonOrRejectWithError);
+  fetchWithAccessToken(`${baseUrl}/resource-types/`).then(
+    resolveJsonOrRejectWithError,
+  );

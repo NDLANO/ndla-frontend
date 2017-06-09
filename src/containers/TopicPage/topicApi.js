@@ -9,10 +9,12 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken
+  fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopics = (subjectId) =>
-  fetchWithAccessToken(`${baseUrl}/subjects/${subjectId}/topics/?recursive=true`).then(resolveJsonOrRejectWithError);
+export const fetchTopics = subjectId =>
+  fetchWithAccessToken(
+    `${baseUrl}/subjects/${subjectId}/topics/?recursive=true`,
+  ).then(resolveJsonOrRejectWithError);

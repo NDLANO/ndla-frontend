@@ -8,7 +8,7 @@
 
 import defined from 'defined';
 import config from '../config';
-import { expiresIn } from './jwtHelper'
+import { expiresIn } from './jwtHelper';
 import { fetchAccessToken } from '../containers/App/sessionApi';
 
 const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.config.ndlaApiUrl;

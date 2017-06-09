@@ -27,7 +27,6 @@ export function getTimeToUpdateInMs(token) {
   return (getTokenExpiration(token) - getTokenIssuedAt(token) - 60 * 5) * 1000; // Removes 5 minutes from time to update
 }
 
-
 export function expiresIn(token) {
   const decoded = decode(token);
   return decoded.exp - decoded.iat - 60; // Add 60 second buffer
