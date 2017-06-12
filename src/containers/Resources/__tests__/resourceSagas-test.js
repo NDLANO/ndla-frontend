@@ -39,31 +39,23 @@ test('topicSagas fetchResourceTypes', () => {
 });
 
 test('topicSagas fetchTopicResources', () => {
-  const token = '12345678';
   const topicId = 'urn:topic:1234';
   const saga = testSaga(sagas.fetchTopicResources, topicId);
   saga
     .next()
-    // .all([
-    //   call(api.fetchResourceTypes, token),
-    // ])
-    .call(api.fetchTopicResources, topicId, token)
+    .call(api.fetchTopicResources, topicId)
     .next(resources)
     .put({
       type: actions.setTopicResources.toString(),
       payload: { topicId, resources },
     })
     .next()
-    // .put({ type: actions.setResourceTypes.toString(), payload: [] })
-    // .next()
-
     .all([
-      call(sagas.fetchArticleResourcesData, topicId, resources.slice(2), token),
+      call(sagas.fetchArticleResourcesData, topicId, resources.slice(2)),
       call(
         sagas.fetchLearningPathResourcesData,
         topicId,
         resources.slice(0, 2),
-        token,
       ),
     ])
     .next()

@@ -12,6 +12,7 @@ import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
+import { getAccessToken } from '../src/util/apiHelpers';
 import config from '../src/config';
 
 const assets = config.isProduction
@@ -99,6 +100,11 @@ const Html = props => {
         <script
           dangerouslySetInnerHTML={{
             __html: `window.config = ${serialize(config)}`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.accessToken = ${serialize(getAccessToken())}`,
           }}
         />
         <script src={`/assets/${assets['main.js']}`} />

@@ -26,6 +26,7 @@ import Html from './Html';
 import config from '../src/config';
 import { htmlTemplate, htmlErrorTemplate } from './oembedHtmlTemplate';
 import { titleI18N } from '../src/util/i18nFieldFinder';
+import { storeAccessToken } from '../src/util/apiHelpers';
 import { getToken } from './auth';
 
 const app = express();
@@ -142,6 +143,7 @@ app.get('/get_token', (req, res) => {
 });
 
 function handleResponse(req, res, token) {
+  storeAccessToken(token.access_token);
   const paths = req.url.split('/');
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
@@ -149,14 +151,13 @@ function handleResponse(req, res, token) {
   if (__DISABLE_SSR__) {
     // eslint-disable-line no-underscore-dangle
     const htmlString = renderHtmlString(locale, userAgentString, {
-      accessToken: token.access_token,
       locale,
     });
     res.send(`<!doctype html>\n${htmlString}`);
     return;
   }
 
-  const store = configureStore({ locale, accessToken: token.access_token });
+  const store = configureStore({ locale });
 
   const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 

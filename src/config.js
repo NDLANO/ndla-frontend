@@ -15,7 +15,7 @@ const environment = {
   },
 }[process.env.NODE_ENV || 'development'];
 
-const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
+const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'staging';
 
 const apiDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
