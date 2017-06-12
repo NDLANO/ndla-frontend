@@ -12,10 +12,10 @@ import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
 import { StaticRouter } from 'react-router';
 import defined from 'defined';
 
+import IntlProvider from '../src/components/IntlProvider';
 import enableDevMiddleWare from './enableDevMiddleware';
 import getConditionalClassnames from './getConditionalClassnames';
 import routes from '../src/routes';
