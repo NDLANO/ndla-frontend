@@ -6,28 +6,18 @@
  *
  */
 
-import React from 'react';
-import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
-import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
-import { StaticRouter } from 'react-router';
 import defined from 'defined';
 
 import enableDevMiddleWare from './enableDevMiddleware';
-import getConditionalClassnames from './getConditionalClassnames';
-import routes from '../src/routes';
-import configureStore from '../src/configureStore';
-import rootSaga from '../src/sagas';
-import { getLocaleObject, isValidLocale, getHtmlLang } from '../src/i18n';
+import { isValidLocale, getHtmlLang } from '../src/i18n';
 import { fetchArticle } from '../src/containers/ArticlePage/articleApi';
-import Html from './Html';
 import config from '../src/config';
 import { htmlTemplate, htmlErrorTemplate } from './oembedHtmlTemplate';
 import { titleI18N } from '../src/util/i18nFieldFinder';
-import { storeAccessToken } from '../src/util/apiHelpers';
 import { getToken } from './auth';
+import { defaultRoute } from './routes/default';
 
 const app = express();
 
@@ -52,21 +42,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-const renderHtmlString = (
-  locale,
-  userAgentString,
-  state = {},
-  component = undefined,
-) =>
-  renderToString(
-    <Html
-      lang={locale}
-      state={state}
-      component={component}
-      className={getConditionalClassnames(userAgentString)}
-    />,
-  );
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
@@ -142,72 +117,10 @@ app.get('/get_token', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-function handleResponse(req, res, token) {
-  storeAccessToken(token.access_token);
-  const paths = req.url.split('/');
-  const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers['user-agent'];
-
-  if (__DISABLE_SSR__) {
-    // eslint-disable-line no-underscore-dangle
-    const htmlString = renderHtmlString(locale, userAgentString, {
-      locale,
-    });
-    res.send(`<!doctype html>\n${htmlString}`);
-    return;
-  }
-
-  const store = configureStore({ locale });
-
-  const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
-
-  const context = {};
-  const component = (
-    <Provider store={store}>
-      <IntlProvider locale={locale} messages={messages}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes}
-        </StaticRouter>
-      </IntlProvider>
-    </Provider>
-  );
-
-  if (context.url) {
-    res.writeHead(301, {
-      Location: context.url,
-    });
-    res.end();
-  } else {
-    store
-      .runSaga(rootSaga)
-      .done.then(() => {
-        const state = store.getState();
-        const htmlString = renderHtmlString(
-          locale,
-          userAgentString,
-          state,
-          component,
-        );
-        const status = defined(context.status, 200);
-        res.status(status).send(`<!doctype html>\n${htmlString}`);
-      })
-      .catch(error => {
-        res.status(500).send(error.message);
-      });
-  }
-
-  // Trigger sagas for components by rendering them
-  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
-  renderToString(component);
-
-  // Dispatch a close event so sagas stop listening after they have resolved
-  store.close();
-}
-
 app.get('*', (req, res) => {
   getToken()
     .then(token => {
-      handleResponse(req, res, token);
+      defaultRoute(req, res, token);
     })
     .catch(() => {
       res.status(500).send('Internal server error');
