@@ -7,11 +7,11 @@
  */
 
 import httpStaus from 'http-status';
-import config from '../src/config';
+import config from '../../src/config';
 
 const assets = config.isProduction
   ? require('../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
-  : require('./developmentAssets');
+  : require('../developmentAssets');
 
 const styleLink = config.isProduction
   ? `<link rel="stylesheet" type="text/css" href=/assets/${assets[

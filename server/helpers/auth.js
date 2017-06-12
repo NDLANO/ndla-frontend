@@ -8,7 +8,7 @@
 
 import 'isomorphic-fetch';
 import btoa from 'btoa';
-import config from '../src/config';
+import config from '../../src/config';
 
 const NDLA_API_URL = config.ndlaApiUrl;
 

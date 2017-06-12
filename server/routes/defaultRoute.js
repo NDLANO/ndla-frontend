@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
@@ -6,11 +14,11 @@ import { StaticRouter } from 'react-router';
 import defined from 'defined';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
+import Html from '../helpers/Html';
 import routes from '../../src/routes';
 import configureStore from '../../src/configureStore';
 import rootSaga from '../../src/sagas';
 import { getLocaleObject, isValidLocale } from '../../src/i18n';
-import Html from './Html';
 import { storeAccessToken } from '../../src/util/apiHelpers';
 
 const renderHtmlString = (
