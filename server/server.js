@@ -104,13 +104,13 @@ app.use(
           'data:',
         ],
         imgSrc: [
-          " 'self' " +
-            ' https://*.ndla.no' +
-            ' https://www.google-analytics.com' +
-            ' https://stats.g.doubleclick.net' +
-            ' http://metrics.brightcove.com' +
-            ' https://httpsak-a.akamaihd.net' +
-            ' data:',
+          "'self'",
+          'https://*.ndla.no',
+          'https://www.google-analytics.com',
+          'https://stats.g.doubleclick.net',
+          'http://metrics.brightcove.com',
+          'https://httpsak-a.akamaihd.net',
+          ' data:',
         ],
         connectSrc: [
           " 'self' ",
