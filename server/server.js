@@ -10,11 +10,11 @@ import express from 'express';
 import compression from 'compression';
 import defined from 'defined';
 
-import enableDevMiddleWare from './enableDevMiddleware';
+import enableDevMiddleWare from './helpers/enableDevMiddleware';
 import { isValidLocale, getHtmlLang } from '../src/i18n';
 import { fetchArticle } from '../src/containers/ArticlePage/articleApi';
 import config from '../src/config';
-import { htmlTemplate, htmlErrorTemplate } from './oembedHtmlTemplate';
+import { htmlTemplate, htmlErrorTemplate } from './helpers/oembedHtmlTemplate';
 import { titleI18N } from '../src/util/i18nFieldFinder';
 import { getToken } from './auth';
 import { defaultRoute } from './routes/default';

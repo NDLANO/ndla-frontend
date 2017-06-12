@@ -5,7 +5,7 @@ import { IntlProvider } from 'react-intl';
 import { StaticRouter } from 'react-router';
 import defined from 'defined';
 
-import getConditionalClassnames from '../getConditionalClassnames';
+import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import routes from '../../src/routes';
 import configureStore from '../../src/configureStore';
 import rootSaga from '../../src/sagas';
