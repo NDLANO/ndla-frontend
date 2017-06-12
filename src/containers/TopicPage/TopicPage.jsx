@@ -101,14 +101,11 @@ class TopicPage extends Component {
                       toSubjects={() => '/'}
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}
-                      topicPath={topicPath.slice(0, -1)}
+                      topicPath={topicPath}
                       toTopic={toTopic}>
                       {/* {t('breadcrumb.label')}*/}
                     </TopicBreadcrumb>
                   : null}
-                <h1 className="c-hero__title" style={{ clear: 'both' }}>
-                  {topic.name}
-                </h1>
               </section>
             </div>
           </OneColumn>

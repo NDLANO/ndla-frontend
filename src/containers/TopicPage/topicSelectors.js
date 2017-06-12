@@ -8,7 +8,8 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import groupBy from 'lodash/groupBy';
+import groupBy from '../../util/groupBy';
+
 import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
