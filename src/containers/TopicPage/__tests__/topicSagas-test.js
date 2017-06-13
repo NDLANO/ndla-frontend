@@ -13,7 +13,6 @@ import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import { fetchArticle } from '../../ArticlePage/articleActions';
 import * as actions from '../topicActions';
-import { getAccessToken } from '../../App/sessionSelectors';
 import { topics } from './mockTopics';
 
 // import { hasFetchedTopicsBySubjectId, getTopic } from '../topicSelectors';
@@ -30,13 +29,10 @@ test('topicSagas fetchTopicArticle if articleId is defined', () => {
 });
 
 test('topicSagas fetchTopics', () => {
-  const token = '12345678';
   const saga = testSaga(sagas.fetchTopics, 1234);
   saga
     .next()
-    .select(getAccessToken)
-    .next(token)
-    .call(api.fetchTopics, 1234, token)
+    .call(api.fetchTopics, 1234)
     .next([{ id: '123', name: 'Algebra', parent: undefined }])
     .put({
       type: actions.setTopics.toString(),
@@ -87,16 +83,14 @@ test('topicSagas fetchTopicIntroductions', () => {
     { contentUri: 'urn:article:1331' },
     { id: 3 },
   ];
-  const token = '12345678';
+
   const saga = testSaga(sagas.fetchTopicIntroductions, mockTopics);
   const data = {
     results: [{ id: '1', intro: 'Test' }, { id: '1331', intro: 'Test' }],
   };
   saga
     .next()
-    .select(getAccessToken)
-    .next(token)
-    .call(articleApi.fetchArticles, ['1', '1331'], token)
+    .call(articleApi.fetchArticles, ['1', '1331'])
     .next(data)
     .put({
       type: actions.setTopicIntroductions.toString(),

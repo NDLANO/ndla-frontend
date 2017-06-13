@@ -17,7 +17,6 @@ import {
   getArticleIdFromResource,
   getLearningPathIdFromResource,
 } from './resourceHelpers';
-import { getAccessToken } from '../App/sessionSelectors';
 import { getResourcesByTopicId } from './resourceSelectors';
 
 export function* fetchLearningPathResourcesData(topicId, resources, token) {
@@ -57,8 +56,7 @@ export function* fetchArticleResourcesData(topicId, resources, token) {
 
 export function* fetchResourceTypes() {
   try {
-    const token = yield select(getAccessToken);
-    const resourceTypes = yield call(api.fetchResourceTypes, token);
+    const resourceTypes = yield call(api.fetchResourceTypes);
     yield put(actions.setResourceTypes(resourceTypes));
   } catch (error) {
     // TODO: handle error
@@ -68,21 +66,18 @@ export function* fetchResourceTypes() {
 
 export function* fetchTopicResources(topicId) {
   try {
-    const token = yield select(getAccessToken);
-    const resources = yield call(api.fetchTopicResources, topicId, token);
+    const resources = yield call(api.fetchTopicResources, topicId);
     yield put(actions.setTopicResources({ topicId, resources }));
     yield all([
       call(
         fetchArticleResourcesData,
         topicId,
         resources.filter(isArticleResource),
-        token,
       ),
       call(
         fetchLearningPathResourcesData,
         topicId,
         resources.filter(isLearningPathResource),
-        token,
       ),
     ]);
   } catch (error) {

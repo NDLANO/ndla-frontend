@@ -8,21 +8,7 @@
 
 import decode from 'jwt-decode';
 
-export function getTokenExpiration(token) {
+export function expiresIn(token) {
   const decoded = decode(token);
-  return decoded.exp;
-}
-export function getTokenIssuedAt(token) {
-  const decoded = decode(token);
-  return decoded.iat;
-}
-
-export function isTokenExpired(token) {
-  return getTokenExpiration(token) - getTokenIssuedAt(token) < 0;
-}
-
-export const decodeIdToken = idToken => decode(idToken);
-
-export function getTimeToUpdateInMs(token) {
-  return (getTokenExpiration(token) - getTokenIssuedAt(token) - 60 * 5) * 1000; // Removes 5 minutes from time to update
+  return decoded.exp - decoded.iat - 60; // Add 60 second buffer
 }

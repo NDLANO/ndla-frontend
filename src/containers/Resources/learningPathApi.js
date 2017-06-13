@@ -6,16 +6,15 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
 import {
   resolveJsonOrRejectWithError,
+  fetchWithAccessToken,
   apiResourceUrl,
-  headerWithAccessToken,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v1/learningpaths');
 
-export const fetchLearningPaths = (ids, token) =>
-  fetch(`${baseUrl}?ids=${ids.join(',')}`, {
-    headers: headerWithAccessToken(token),
-  }).then(resolveJsonOrRejectWithError);
+export const fetchLearningPaths = ids =>
+  fetchWithAccessToken(`${baseUrl}?ids=${ids.join(',')}`).then(
+    resolveJsonOrRejectWithError,
+  );

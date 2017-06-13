@@ -15,6 +15,7 @@ import ErrorReporter from 'ndla-error-reporter';
 
 import IntlProvider from './components/IntlProvider';
 import { getLocaleObject, isValidLocale } from './i18n';
+import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 import rootSaga from './sagas';
@@ -26,23 +27,23 @@ const locale = getLocaleObject(localeString);
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
+storeAccessToken(window.accessToken);
 const store = configureStore(initialState);
 
 store.runSaga(rootSaga);
 
-if (__CLIENT__) {
-  const {
-    logglyApiKey,
-    logEnvironment: environment,
-    componentName,
-  } = window.config;
-  window.errorReporter = ErrorReporter.getInstance({
-    store,
-    logglyApiKey,
-    environment,
-    componentName,
-  });
-}
+const {
+  logglyApiKey,
+  logEnvironment: environment,
+  componentName,
+} = window.config;
+
+window.errorReporter = ErrorReporter.getInstance({
+  store,
+  logglyApiKey,
+  environment,
+  componentName,
+});
 
 ReactDOM.render(
   <Provider store={store}>

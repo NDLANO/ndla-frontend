@@ -16,7 +16,6 @@ import {
 import { fetchArticle } from '../ArticlePage/articleActions';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
-import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchTopicIntroductions(topics) {
   try {
@@ -25,8 +24,7 @@ export function* fetchTopicIntroductions(topics) {
     if (ids.length === 0) {
       return;
     }
-    const token = yield select(getAccessToken);
-    const data = yield call(articleApi.fetchArticles, ids, token);
+    const data = yield call(articleApi.fetchArticles, ids);
     yield put(
       actions.setTopicIntroductions({
         topics,
@@ -49,8 +47,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
 
 export function* fetchTopics(subjectId) {
   try {
-    const token = yield select(getAccessToken);
-    const topics = yield call(api.fetchTopics, subjectId, token);
+    const topics = yield call(api.fetchTopics, subjectId);
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {

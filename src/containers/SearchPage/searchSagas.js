@@ -9,7 +9,6 @@
 import { take, call, put, select } from 'redux-saga/effects';
 
 import { getLocale } from '../Locale/localeSelectors';
-import { getAccessToken } from '../App/sessionSelectors';
 import * as constants from './searchConstants';
 import * as actions from './searchActions';
 import * as api from './searchApi';
@@ -17,8 +16,7 @@ import * as api from './searchApi';
 export function* search(queryString) {
   try {
     const locale = yield select(getLocale);
-    const token = yield select(getAccessToken);
-    const searchResult = yield call(api.search, queryString, locale, token);
+    const searchResult = yield call(api.search, queryString, locale);
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());

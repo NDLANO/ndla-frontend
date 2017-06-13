@@ -10,12 +10,10 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { hasFetched } from './subjectSelectors';
 import * as actions from './subjectActions';
 import * as api from './subjectApi';
-import { getAccessToken } from '../App/sessionSelectors';
 
 export function* fetchSubjects() {
   try {
-    const token = yield select(getAccessToken);
-    const subjects = yield call(api.fetchSubjects, token);
+    const subjects = yield call(api.fetchSubjects);
     yield put(actions.setSubjects(subjects));
   } catch (error) {
     // TODO: handle error
