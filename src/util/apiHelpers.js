@@ -6,16 +6,12 @@
  *
  */
 
+import fetch from 'isomorphic-fetch';
 import defined from 'defined';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
-import { fetchAccessToken } from '../containers/App/sessionApi';
 
 const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.config.ndlaApiUrl;
-
-if (process.env.NODE_ENV === 'unittest') {
-  global.__SERVER__ = false; //eslint-disable-line
-}
 
 const apiBaseUrl = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -26,10 +22,6 @@ const apiBaseUrl = (() => {
 })();
 
 export { apiBaseUrl };
-
-export function headerWithAccessToken(token) {
-  return { Authorization: `Bearer ${token}` };
-}
 
 export function apiResourceUrl(path) {
   return apiBaseUrl + path;
@@ -91,6 +83,9 @@ const getAccessTokenExpiresAt = () => {
   }
   return 0;
 };
+
+export const fetchAccessToken = () =>
+  fetch('/get_token').then(resolveJsonOrRejectWithError);
 
 export const fetchWithAccessToken = (url, options = {}) => {
   const accessToken = getAccessToken();
