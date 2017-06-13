@@ -42,6 +42,11 @@ export class App extends React.Component {
             render={({ match: routeMatch }) =>
               <Masthead t={t} params={routeMatch.params} />}
           />
+          <Route
+            path={`${match.url}article/:subjectId/:topicId/:articleId`}
+            render={({ match: routeMatch }) =>
+              <Masthead t={t} params={routeMatch.params} />}
+          />
           <Route render={() => <Masthead t={t} params={{}} />} />
         </Switch>
         {children}

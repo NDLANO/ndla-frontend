@@ -7,16 +7,10 @@
  */
 
 import React from 'react';
-import { addLocaleData, intlShape } from 'react-intl';
-
-import enLocaleData from 'react-intl/locale-data/en';
-import nbLocaleData from 'react-intl/locale-data/nb';
-import nnLocaleData from 'react-intl/locale-data/nn';
+import PropTypes from 'prop-types';
 
 import nb from './phrases/phrases-nb';
 import en from './phrases/phrases-en';
-
-addLocaleData([...nbLocaleData, ...nnLocaleData, ...enLocaleData]);
 
 function* entries(obj) {
   // eslint-disable-next-line
@@ -87,11 +81,11 @@ export const injectT = WrappedComponent => {
   const InjectT = (props, context) =>
     <WrappedComponent
       {...props}
-      t={(id, value = {}) => context.intl.formatMessage({ id }, value)}
+      t={(id, value = {}) => context.formatMessage(id, value)}
     />;
 
   InjectT.contextTypes = {
-    intl: intlShape,
+    formatMessage: PropTypes.func.isRequired,
   };
 
   InjectT.displayName = `InjectT(${getDisplayName(WrappedComponent)})`;

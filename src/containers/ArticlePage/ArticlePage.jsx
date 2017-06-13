@@ -65,6 +65,10 @@ class ArticlePage extends Component {
     if (!article) {
       return null;
     }
+    if (article.status === 404) {
+      // tmp hack
+      return <h1>404 Fant ikke artikkelen</h1>;
+    }
     const scripts = article.requiredLibraries
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,
@@ -100,7 +104,7 @@ class ArticlePage extends Component {
                       toSubjects={() => '/'}
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}
-                      topicPath={topicPath.slice(0, -1)}
+                      topicPath={topicPath}
                       toTopic={toTopic}>
                       {/* {t('breadcrumb.label')}*/}
                     </TopicBreadcrumb>

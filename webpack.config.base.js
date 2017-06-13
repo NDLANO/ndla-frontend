@@ -79,7 +79,7 @@ module.exports = options => ({
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.json', '.jsx', '.css'],
-    mainFields: ['jsnext:main', 'browser', 'main'],
+    mainFields: ['jsnext:main', 'module', 'browser', 'main'],
   },
 
   devtool: options.devtool,
