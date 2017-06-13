@@ -18,6 +18,7 @@ export const fetchTopicResources = topicId =>
   fetchWithAccessToken(
     `${baseUrl}/topics/${topicId}/resources/?recursive=true`,
   ).then(resolveJsonOrRejectWithError);
+
 export const fetchResourceTypes = () =>
   fetchWithAccessToken(`${baseUrl}/resource-types/`).then(
     resolveJsonOrRejectWithError,

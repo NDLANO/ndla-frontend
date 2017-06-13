@@ -19,6 +19,7 @@ const hasContentUri = resource => (resource && resource.contentUri) || false;
 
 export const isLearningPathResource = resource =>
   hasContentUri(resource) && resource.contentUri.startsWith(URN_LEARTNING_PATH);
+
 export const isArticleResource = resource =>
   hasContentUri(resource) &&
   resource.contentUri.startsWith(URN_ARTICLE) &&

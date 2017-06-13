@@ -33,34 +33,15 @@ test('resourceSelectors getResourceTypes', () => {
   expect(types).toEqual(types);
 });
 
-test('resourceSelectors getResourcesByTopicId default locale', () => {
+test('resourceSelectors getResourcesByTopicId', () => {
   const state = resourcesState;
   const resources = getResourcesByTopicId('urn:topic:1')(state);
 
   expect(resources.length).toBe(3);
-  expect(resources[0].title).toBe('Teknikker for idéutvikling');
-  expect(resources[0].introduction).toBe('Desc: Teknikker for idéutvikling');
-  expect(resources[2].title).toBe('Ideer og idéutvikling');
-  expect(resources[2].introduction).toBe('Intro ideer og idéutvikling');
+  expect(resources[0].name).toBe('Teknikker for idéutvikling');
+  expect(resources[2].name).toBe('Ideer og idéutvikling');
 
   expect(getResourcesByTopicId('urn:topic:2')(state)).toEqual([]);
-});
-
-test('resourceSelectors getResourcesByTopicId en locale', () => {
-  const state = {
-    locale: 'en',
-    ...resourcesState,
-  };
-
-  const resources = getResourcesByTopicId('urn:topic:1')(state);
-
-  expect(resources.length).toBe(3);
-
-  expect(resources[0].title).toBe('Technique');
-  expect(resources[0].introduction).toBe('Desc: Technique');
-
-  expect(resources[2].title).toBe('Ideas');
-  expect(resources[2].introduction).toBe('Intro ideas');
 });
 
 test('resourceSelectors getResourcesByTopicIdGroupedByResourceTypes', () => {

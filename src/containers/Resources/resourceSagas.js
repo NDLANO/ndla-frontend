@@ -8,51 +8,8 @@
 
 import { all, take, call, put, select } from 'redux-saga/effects';
 import * as actions from './resourceActions';
-import * as articleApi from '../ArticlePage/articleApi';
-import * as learningPathApi from './learningPathApi';
 import * as api from './resourceApi';
-import {
-  isLearningPathResource,
-  isArticleResource,
-  getArticleIdFromResource,
-  getLearningPathIdFromResource,
-} from './resourceHelpers';
 import { getResourcesByTopicId } from './resourceSelectors';
-
-export function* fetchLearningPathResourcesData(topicId, resources, token) {
-  try {
-    const ids = resources.map(getLearningPathIdFromResource);
-    if (ids.length > 0) {
-      const data = yield call(learningPathApi.fetchLearningPaths, ids, token);
-      yield put(
-        actions.setLearningPathResourceData({
-          topicId,
-          learningPathResourceData: data.results,
-        }),
-      );
-    }
-  } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
-  }
-}
-
-export function* fetchArticleResourcesData(topicId, resources, token) {
-  try {
-    const ids = resources.map(getArticleIdFromResource);
-    if (ids.length > 0) {
-      const data = yield call(articleApi.fetchArticles, ids, token);
-      yield put(
-        actions.setArticleResourceData({
-          topicId,
-          articleResourceData: data.results,
-        }),
-      );
-    }
-  } catch (error) {
-    console.error(error); //eslint-disable-line
-  }
-}
 
 export function* fetchResourceTypes() {
   try {
@@ -68,18 +25,6 @@ export function* fetchTopicResources(topicId) {
   try {
     const resources = yield call(api.fetchTopicResources, topicId);
     yield put(actions.setTopicResources({ topicId, resources }));
-    yield all([
-      call(
-        fetchArticleResourcesData,
-        topicId,
-        resources.filter(isArticleResource),
-      ),
-      call(
-        fetchLearningPathResourcesData,
-        topicId,
-        resources.filter(isLearningPathResource),
-      ),
-    ]);
   } catch (error) {
     // TODO: handle error
     console.error(error); //eslint-disable-line

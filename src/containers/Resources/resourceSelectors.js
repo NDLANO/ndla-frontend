@@ -8,12 +8,6 @@
 
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import {
-  introductionI18N,
-  titleI18N,
-  descriptionI18N,
-} from '../../util/i18nFieldFinder';
-import { getLocale } from '../Locale/localeSelectors';
 
 const getResourcesFromState = state => state.resources;
 
@@ -28,19 +22,7 @@ export const getResourceTypes = createSelector(
 );
 
 export const getResourcesByTopicId = topicId =>
-  createSelector([getResources, getLocale], (all, locale) =>
-    defined(all[topicId], []).map(resource => {
-      const mappedResource = {
-        ...resource,
-        title: titleI18N(resource, locale, true),
-        introduction:
-          introductionI18N(resource, locale, true) ||
-            descriptionI18N(resource, locale, true),
-      };
-      delete mappedResource.description;
-      return mappedResource;
-    }),
-  );
+  createSelector([getResources], all => defined(all[topicId], []));
 
 export const getResourcesByTopicIdGroupedByResourceTypes = topicId =>
   createSelector([getResourcesByTopicId(topicId)], resourcesByTopic =>

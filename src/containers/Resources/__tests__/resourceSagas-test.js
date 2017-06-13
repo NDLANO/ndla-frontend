@@ -50,14 +50,6 @@ test('topicSagas fetchTopicResources', () => {
       payload: { topicId, resources },
     })
     .next()
-    .all([
-      call(sagas.fetchArticleResourcesData, topicId, resources.slice(2)),
-      call(
-        sagas.fetchLearningPathResourcesData,
-        topicId,
-        resources.slice(0, 2),
-      ),
-    ])
     .next()
     .isDone();
 });
