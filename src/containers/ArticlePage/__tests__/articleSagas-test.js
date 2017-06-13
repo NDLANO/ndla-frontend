@@ -13,7 +13,7 @@ import * as sagas from '../articleSagas';
 import * as constants from '../articleConstants';
 import * as actions from '../articleActions';
 
-expectSaga.DEFAULT_TIMEOUT = 100;
+expectSaga.DEFAULT_TIMEOUT = 200;
 
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
