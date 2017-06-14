@@ -9,7 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import Switch from 'react-router-dom/Switch';
+import Route from 'react-router-dom/Route';
+import withRouter from 'react-router-dom/withRouter';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 

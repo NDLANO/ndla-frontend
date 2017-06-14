@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from '../../i18n';
 import * as actions from './subjectActions';

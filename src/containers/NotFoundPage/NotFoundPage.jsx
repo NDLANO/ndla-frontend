@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
 
 const Status = ({ code, children }) =>
   <Route
