@@ -35,6 +35,7 @@ module.exports = require('./webpack.config.base')({
     },
   ],
 
+  vendorFilename: '[name].[chunkhash].js',
   // Use hashes in prod to anbale caching
   fileLoader: 'file-loader?name=[name]-[hash].[ext]',
 

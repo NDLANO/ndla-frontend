@@ -74,6 +74,15 @@ module.exports = options => ({
       __CLIENT__: true,
       __SERVER__: false,
     }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      chunks: ['main'],
+      filename: options.vendorFilename,
+      minChunks(module) {
+        return module.context && module.context.indexOf('node_modules') !== -1;
+      },
+    }),
   ]),
 
   resolve: {
