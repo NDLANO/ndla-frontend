@@ -6,12 +6,12 @@
  *
  */
 
-import fetch from 'isomorphic-unfetch';
 import defined from 'defined';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
 
 const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.config.ndlaApiUrl;
+const fetch = __SERVER__ ? require('node-fetch') : window.fetch;
 
 const apiBaseUrl = (() => {
   if (process.env.NODE_ENV === 'unittest') {

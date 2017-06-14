@@ -6,7 +6,7 @@
  *
  */
 
-import fetch from 'isomorphic-unfetch';
+const fetch = require('node-fetch');
 import btoa from 'btoa';
 import config from '../../src/config';
 
