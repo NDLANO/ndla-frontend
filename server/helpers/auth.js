@@ -6,7 +6,7 @@
  *
  */
 
-import 'isomorphic-fetch';
+import fetch from 'isomorphic-unfetch';
 import btoa from 'btoa';
 import config from '../../src/config';
 

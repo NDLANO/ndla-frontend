@@ -191,10 +191,6 @@ https://babeljs.io/
 Compile object rest and spread to ES5
 https://babeljs.io/
 
-**isomorphic-fetch:**
-Isomorphic WHATWG Fetch API, for Node & Browserify.
-https://github.com/matthew-andrews/isomorphic-fetch/issues
-
 ### Webpack and friends
 
 **webpack:**

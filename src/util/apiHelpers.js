@@ -6,7 +6,7 @@
  *
  */
 
-import fetch from 'isomorphic-fetch';
+import fetch from 'isomorphic-unfetch';
 import defined from 'defined';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
