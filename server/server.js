@@ -46,7 +46,7 @@ app.use(
           'https://players.brightcove.net',
           'http://players.brightcove.net',
           'https://players.brightcove.net',
-          'https://www.nrk.no',
+          'nrk.no',
           'https://www.googletagmanager.com',
           'https://www.google-analytics.com',
           'https://www.youtube.com',
@@ -77,6 +77,8 @@ app.use(
           'vjs.zencdn.net',
           ' *.gallerysites.net',
         ],
+        frameSrc: ['*.nrk.no'],
+        workerSrc: ["'self'", 'blob:'],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -97,8 +99,10 @@ app.use(
           'https://stats.g.doubleclick.net',
           'http://metrics.brightcove.com',
           'https://httpsak-a.akamaihd.net',
+          'https://www.nrk.no/',
           ' data:',
         ],
+        mediaSrc: ["'self'", 'blob:', 'https://*.ndla.no'],
         connectSrc: [
           " 'self' ",
           'https://*.ndla.no',
