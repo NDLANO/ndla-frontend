@@ -23,8 +23,11 @@ import Time from 'ndla-ui/es/icons/Time';
 import User from 'ndla-ui/es/icons/User';
 
 function Icon(props) {
-  const { icon, ...rest } = props;
-  return createElement(icon, { className: classNames('icon', rest.className) });
+  const { icon, className, ...rest } = props;
+  return createElement(icon, {
+    className: classNames('c-icon', className),
+    ...rest,
+  });
 }
 
 Icon.propTypes = {
