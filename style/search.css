@@ -6,20 +6,56 @@
  *
  */
 
-.search-form_query {
-  flex: 1;
-}
 
 .search-form {
-  display: flex;
-  align-items: center;
-  width: 100%;
+  margin-top: 8rem;
+  width: 670px;
+
+  &__query {
+    float: left;
+    margin: 0;
+    font-size: 1.2rem;
+    height: 3rem;
+    width: 85%;
+    outline: none;
+  }
+
+  &__button {
+    width: 15%;
+    margin-left: -1px;
+    height: 3rem;
+
+    &:hover,
+    &:focus,
+    &:disabled {
+      transform: none;
+    }
+  }
 }
 
-.search-form_btn {
-  margin-left: 0.5em;
+.search-filters {
+  margin-top: 1rem;
+
+  &__select {
+    margin-right: 0.5em;
+  }
 }
 
-.search-sort-order {
-  margin-top: 10px
+.search-result {
+  color: var(--brand-grey-dark);
+
+  &__link {
+    &:any-link {
+      color: var(--brand-color);
+    }
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    margin: 0.8rem 0 0.3rem;
+  }
+
+  &__description {
+    margin: 0.2rem 0 1.2rem;
+  }
 }

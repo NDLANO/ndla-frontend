@@ -61,17 +61,19 @@ class SearchPage extends Component {
             )}
         />
 
-        <SelectSearchSortOrder
-          sort={query.sort}
-          onSortOrderChange={sort =>
-            history.push(
-              `/search?${createQueryString({
-                query: query.query,
-                sort,
-                page: 1,
-              })}`,
-            )}
-        />
+        <div className="search-filters">
+          <SelectSearchSortOrder
+            sort={query.sort}
+            onSortOrderChange={sort =>
+              history.push(
+                `/search?${createQueryString({
+                  query: query.query,
+                  sort,
+                  page: 1,
+                })}`,
+              )}
+          />
+        </div>
 
         <SearchResultList query={query} locale={locale} results={results} />
 

@@ -1078,9 +1078,9 @@ caniuse-api@^1.5.2, caniuse-api@^1.5.3:
     lodash.memoize "^4.1.0"
     lodash.uniq "^4.3.0"
 
-caniuse-db@^1.0.30000346, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639, caniuse-db@^1.0.30000684:
-  version "1.0.30000684"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000684.tgz#99acb0118b8fd1fdd601a15e0c0f2dfc15a81680"
+caniuse-db@^1.0.30000346, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639, caniuse-db@^1.0.30000686:
+  version "1.0.30000686"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000686.tgz#d55b479ed6e6402c1fd3f1fd8f46e694d86ea464"
 
 caniuse-lite@^1.0.30000670:
   version "1.0.30000679"
@@ -1427,9 +1427,9 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
     create-hash "^1.1.0"
     inherits "^2.0.1"
 
-create-react-class@^15.5.2, create-react-class@^15.5.3:
-  version "15.5.3"
-  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.3.tgz#fb0f7cae79339e9a179e194ef466efa3923820fe"
+create-react-class@^15.5.3, create-react-class@^15.6.0:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
@@ -2002,9 +2002,9 @@ eslint-config-airbnb@15.0.1:
   dependencies:
     eslint-config-airbnb-base "^11.2.0"
 
-eslint-config-ndla@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-0.2.0.tgz#154aec81c45f906cdcfd2916e1c322afadf0b361"
+eslint-config-ndla@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-0.2.1.tgz#92a4ae47f25064500e7b25898ba5c11c3b25f48e"
   dependencies:
     babel-eslint "7.2.3"
     eslint-config-airbnb "15.0.1"
@@ -2299,7 +2299,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -3623,7 +3623,7 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.0.2, loader-utils@^1.x:
+loader-utils@^1.0.2, loader-utils@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -3968,36 +3968,36 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@next:
-  version "0.0.4-0"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.4-0.tgz#b0f16843f6ff968b802ebe2282b2716276a44dc8"
+ndla-article-scripts@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.4.tgz#c9d5ae5b1cc85ec1eaa58fb08fa8145d817e97dd"
 
-ndla-error-reporter@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.4.tgz#2f2e6d9d1a90547a5b6468409ff373c071053a00"
+ndla-error-reporter@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.5.tgz#1f2c53bb82a041fb473ca2f67d6d55bc1caec783"
   dependencies:
     raven-js "^3.9.2"
 
-ndla-licenses@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.7.tgz#8337dc92c5726706c936c2b2691130037ee43f6f"
+ndla-licenses@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.8.tgz#758fbe422c185ce8c41147f2a2a45576a90f77a6"
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.1.tgz#8d382bc9db1d31035ba4b6035166c0e74f329f45"
+ndla-tabs@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.2.tgz#a26ab7216aad12dd0ff0fabaf5dbed6812d93c7e"
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.5.5.tgz#222374889504ea8ea58e94b6638e347639cd0a51"
+ndla-ui@^0.5.8:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.5.8.tgz#07aa983519b4a9cb3b08e6f6586dff3e57f1bba4"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
-    shortid "^2.2.8"
+    react-sticky-header "^0.1.6"
 
 ndla-util@^0.1.1:
   version "0.1.1"
@@ -4723,7 +4723,7 @@ postcss-initial@^1.3.1:
     lodash.template "^4.2.4"
     postcss "^5.0.19"
 
-postcss-load-config@^1.x:
+postcss-load-config@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
   dependencies:
@@ -4746,14 +4746,14 @@ postcss-load-plugins@^2.3.0:
     cosmiconfig "^2.1.1"
     object-assign "^4.1.0"
 
-postcss-loader@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.0.5.tgz#c19d3e8b83eb1ac316f5621ef4c0ef5b3d1b8b3a"
+postcss-loader@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.0.6.tgz#8c7e0055a3df1889abc6bad52dd45b2f41bbc6fc"
   dependencies:
-    loader-utils "^1.x"
-    postcss "^6.x"
-    postcss-load-config "^1.x"
-    schema-utils "^0.x"
+    loader-utils "^1.1.0"
+    postcss "^6.0.2"
+    postcss-load-config "^1.2.0"
+    schema-utils "^0.3.0"
 
 postcss-media-minmax@^2.1.0:
   version "2.1.2"
@@ -4997,9 +4997,17 @@ postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.1, postcss@^6.x:
+postcss@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.1.tgz#000dbd1f8eef217aa368b9a212c5fc40b2a8f3f2"
+  dependencies:
+    chalk "^1.1.3"
+    source-map "^0.5.6"
+    supports-color "^3.2.3"
+
+postcss@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.2.tgz#5c4fea589f0ac3b00caa75b1cbc3a284195b7e5d"
   dependencies:
     chalk "^1.1.3"
     source-map "^0.5.6"
@@ -5050,7 +5058,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@~15.5.7:
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -5151,12 +5159,9 @@ rc@^1.0.1, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-addons-test-utils@^15.5.1:
-  version "15.5.1"
-  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.5.1.tgz#e0d258cda2a122ad0dff69f838260d0c3958f5f7"
-  dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
+react-addons-test-utils@^15.6.0:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.0.tgz#062d36117fe8d18f3ba5e06eb33383b0b85ea5b9"
 
 react-bem-helper@1.4.1, react-bem-helper@^1.4.1:
   version "1.4.1"
@@ -5164,14 +5169,14 @@ react-bem-helper@1.4.1, react-bem-helper@^1.4.1:
   dependencies:
     object-assign "^4.1.1"
 
-react-dom@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.0.tgz#8bc23cb0c80e706355b76ca9f8ce47cf7bdfb6d1"
+react-dom@^15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "~15.5.7"
+    prop-types "^15.5.10"
 
 react-helmet@^5.1.3:
   version "5.1.3"
@@ -5228,6 +5233,12 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^0.2.2"
 
+react-sticky-header@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-sticky-header/-/react-sticky-header-0.1.6.tgz#a0f0fe88b05be366ace1704e1648380af5764bca"
+  dependencies:
+    react "^15.5.4"
+
 react-tabs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-1.1.0.tgz#f1e3d6136e1d89f70f5ef8835468a2f03a54777a"
@@ -5235,22 +5246,22 @@ react-tabs@^1.1.0:
     classnames "^2.2.0"
     prop-types "^15.5.0"
 
-react-test-renderer@^15.5.4:
-  version "15.5.4"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
+react-test-renderer@^15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.6.1.tgz#026f4a5bb5552661fd2cc4bbcd0d4bc8a35ebf7e"
   dependencies:
     fbjs "^0.8.9"
     object-assign "^4.1.0"
 
-react@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.0.tgz#c23299b48e30ed302508ce89e1a02c919f826bce"
+react@^15.5.4, react@^15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
-    create-react-class "^15.5.2"
+    create-react-class "^15.6.0"
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.7"
+    prop-types "^15.5.10"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -5601,7 +5612,7 @@ sax@^1.2.1, sax@~1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
 
-schema-utils@^0.3.0, schema-utils@^0.x:
+schema-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
   dependencies:
@@ -5697,10 +5708,6 @@ shelljs@^0.7.5:
 shellwords@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.0.tgz#66afd47b6a12932d9071cbfd98a52e785cd0ba14"
-
-shortid@^2.2.8:
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
 
 signal-exit@^3.0.0:
   version "3.0.2"

@@ -10,13 +10,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
+  Button,
   MediaList,
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListItemMeta,
-} from './MediaList';
+} from 'ndla-ui';
+import { MediaListItemMeta } from './MediaList';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
@@ -27,21 +28,20 @@ const TextLicenseInfo = ({ text, locale }) =>
     </MediaListItemImage>
     <MediaListItemBody
       license={text.copyright.license.license}
-      title={text.title}
+      title="Regler for bruk av teksten:"
       locale={locale}>
       <MediaListItemActions>
-        <button
-          className="c-button c-button--small c-button--transparent"
-          type="button">
-          <Icon.Copy className="c-modal__button-icon" /> Kopier referanse
-        </button>
-        <button
-          className="c-button c-button--small c-button--transparent"
-          type="button">
-          <Icon.Download className="c-modal__button-icon" /> Last ned
-        </button>
+        <h3 className="c-medialist__title">
+          Slik skal du referere til teksten:
+        </h3>
+        <MediaListItemMeta authors={text.copyright.authors} />
+        <Button outline className="c-licenseToggle__button">
+          Kopier referanse
+        </Button>
+        <Button outline className="c-licenseToggle__button">
+          Last ned
+        </Button>
       </MediaListItemActions>
-      <MediaListItemMeta authors={text.copyright.authors} />
     </MediaListItemBody>
   </MediaListItem>;
 

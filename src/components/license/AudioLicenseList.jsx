@@ -10,13 +10,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
+  Button,
   MediaList,
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListItemMeta,
-} from './MediaList';
+} from 'ndla-ui';
+import { MediaListItemMeta } from './MediaList';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
@@ -27,21 +28,23 @@ const AudioLicenseInfo = ({ audio, locale }) =>
     </MediaListItemImage>
     <MediaListItemBody
       license={audio.copyright.license.license}
+      title="Regler for bruk av lydfilen:"
       locale={locale}>
       <MediaListItemActions>
-        <button
-          className="c-button c-button--small c-button--transparent"
-          type="button">
-          <Icon.Copy className="c-modal__button-icon" />Kopier referanse
-        </button>
+        <h3 className="c-medialist__title">
+          Slik skal du referere til lydfilen:
+        </h3>
+        <MediaListItemMeta authors={audio.copyright.authors} />
+        <Button outline className="c-licenseToggle__button">
+          Kopier referanse
+        </Button>
         <a
           href={audio.src}
-          className="c-button c-button--small c-button--transparent"
+          className="c-button c-button--outline c-licenseToggle__button"
           download>
-          <Icon.Download className="c-modal__button-icon" />Last ned
+          Last ned
         </a>
       </MediaListItemActions>
-      <MediaListItemMeta authors={audio.copyright.authors} />
     </MediaListItemBody>
   </MediaListItem>;
 

@@ -10,10 +10,7 @@
 @import 'vars.css';
 @import '../node_modules/ndla-ui/lib/main.css';
 @import 'forms.css';
-@import 'article.css';
-@import 'buttons.css';
 @import 'search.css';
-@import 'table.css';
 @import 'alert.css';
 
 .article-old-ndla-link:any-link {

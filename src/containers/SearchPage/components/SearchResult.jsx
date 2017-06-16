@@ -15,10 +15,10 @@ import { ArticleResultShape } from '../../../shapes';
 
 const SearchResult = ({ article, locale }) =>
   <div className="search-result">
-    <Link className="search-result_link" to={toArticle(article.id)}>
-      <h3 className="search-result_title">
+    <Link className="search-result__link" to={toArticle(article.id)}>
+      <h1 className="search-result__title">
         {titleI18N(article, locale, true)}
-      </h3>
+      </h1>
     </Link>
   </div>;
 
