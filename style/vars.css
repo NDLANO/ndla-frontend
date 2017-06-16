@@ -1,14 +1,4 @@
 :root {
-  --main-color: #303030;
-  --background-color: #f8f8f8;
-  --background-color--alt: #e8e8e8;
-  --brand-color: #20588F;
-  --spacing: 12px;
-  --font-size--small: 16px;
-  --font-size--medium: 18px;
-  --font-size--large: 20px;
-  --font-size--huge: 24px;
-
   @custom-media --xlarge-viewport (min-width: 1200px);
   @custom-media --large-viewport (min-width: 800px);
   @custom-media --medium-viewport (max-width: 800px);
