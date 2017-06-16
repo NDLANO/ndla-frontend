@@ -17,7 +17,7 @@ expectSaga.DEFAULT_TIMEOUT = 200;
 
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
-    .get('/article-converter/raw/nb/123')
+    .get('/article-converter/json/nb/123')
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
