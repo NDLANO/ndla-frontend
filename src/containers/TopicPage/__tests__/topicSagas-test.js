@@ -32,7 +32,8 @@ test('topicSagas fetchTopics', () => {
   const saga = testSaga(sagas.fetchTopics, 1234);
   saga
     .next()
-    .call(api.fetchTopics, 1234)
+    .next('nb')
+    .call(api.fetchTopics, 1234, 'nb')
     .next([{ id: '123', name: 'Algebra', parent: undefined }])
     .put({
       type: actions.setTopics.toString(),
