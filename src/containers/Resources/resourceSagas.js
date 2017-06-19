@@ -9,10 +9,12 @@
 import { all, take, call, put, select } from 'redux-saga/effects';
 import * as api from './resourceApi';
 import { actions, getResourcesByTopicId } from './resource';
+import { getLocale } from '../Locale/localeSelectors';
 
 export function* fetchResourceTypes() {
   try {
-    const resourceTypes = yield call(api.fetchResourceTypes);
+    const locale = yield select(getLocale);
+    const resourceTypes = yield call(api.fetchResourceTypes, locale);
     yield put(actions.setResourceTypes(resourceTypes));
   } catch (error) {
     // TODO: handle error
@@ -22,7 +24,8 @@ export function* fetchResourceTypes() {
 
 export function* fetchTopicResources(topicId) {
   try {
-    const resources = yield call(api.fetchTopicResources, topicId);
+    const locale = yield select(getLocale);
+    const resources = yield call(api.fetchTopicResources, topicId, locale);
     yield put(actions.setTopicResources({ topicId, resources }));
   } catch (error) {
     // TODO: handle error

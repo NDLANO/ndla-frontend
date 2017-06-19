@@ -31,7 +31,8 @@ test('topicSagas fetchResourceTypes', () => {
   const saga = testSaga(sagas.fetchResourceTypes, topicId);
   saga
     .next()
-    .call(api.fetchResourceTypes)
+    .next('nb')
+    .call(api.fetchResourceTypes, 'nb')
     .next([])
     .put({ type: actions.setResourceTypes.toString(), payload: [] })
     .next()
@@ -43,7 +44,8 @@ test('topicSagas fetchTopicResources', () => {
   const saga = testSaga(sagas.fetchTopicResources, topicId);
   saga
     .next()
-    .call(api.fetchTopicResources, topicId)
+    .next('nb')
+    .call(api.fetchTopicResources, topicId, 'nb')
     .next(resources)
     .put({
       type: actions.setTopicResources.toString(),
