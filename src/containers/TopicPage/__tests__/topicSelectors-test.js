@@ -13,7 +13,7 @@ import {
   getSubjectMenu,
   getSubtopics,
   getTopicPath,
-} from '../topicSelectors';
+} from '../topic';
 
 import { topics } from './mockTopics';
 

@@ -13,10 +13,9 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
 
-import { toTopic } from '../../routes';
+import { toTopic } from '../../routeHelpers';
 import * as actions from './articleActions';
-import * as topicActions from '../TopicPage/topicActions';
-import { getTopicPath } from '../TopicPage/topicSelectors';
+import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
   actions as subjectActions,
@@ -148,7 +147,7 @@ ArticlePage.propTypes = {
 const mapDispatchToProps = {
   fetchArticle: actions.fetchArticle,
   fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopics: topicActions.fetchTopicArticle,
+  fetchTopics: topicActions.fetchTopics,
 };
 
 const makeMapStateToProps = (_, ownProps) => {

@@ -11,10 +11,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { TopicIntroductionList } from 'ndla-ui';
-import { getSubtopicsWithIntroduction } from './topicSelectors';
+import { getSubtopicsWithIntroduction } from './topic';
 import { injectT } from '../../i18n';
 import { TopicShape } from '../../shapes';
-import { toTopicPartial } from '../../routes';
+import { toTopicPartial } from '../../routeHelpers';
 
 const toTopic = (subjectId, topicPath) => {
   const topicIds = topicPath.map(topic => topic.id);

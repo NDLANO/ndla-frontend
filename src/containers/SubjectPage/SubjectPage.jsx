@@ -14,14 +14,14 @@ import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from '../../i18n';
-import * as topicActions from '../TopicPage/topicActions';
 import { actions, getSubjectById } from './subjects';
 import {
+  actions as topicActions,
   getTopicsBySubjectIdWithIntroduction,
   getTopic,
-} from '../TopicPage/topicSelectors';
+} from '../TopicPage/topic';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { toTopicPartial } from '../../routes';
+import { toTopicPartial } from '../../routeHelpers';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 

@@ -12,7 +12,7 @@ import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
 import articles from './containers/ArticlePage/articlesReducer';
 import subjects from './containers/SubjectPage/subjects';
-import topics from './containers/TopicPage/topicReducer';
+import topics from './containers/TopicPage/topic';
 import search from './containers/SearchPage/searchReducer';
 import resources from './containers/Resources/resourceReducer';
 

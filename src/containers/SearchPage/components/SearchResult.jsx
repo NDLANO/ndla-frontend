@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
-import { toArticle } from '../../../routes';
+import { toArticle } from '../../../routeHelpers';
 import { titleI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';
 

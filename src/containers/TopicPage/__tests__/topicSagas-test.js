@@ -12,7 +12,7 @@ import * as sagas from '../topicSagas';
 import * as api from '../topicApi';
 import * as articleApi from '../../ArticlePage/articleApi';
 import { fetchArticle } from '../../ArticlePage/articleActions';
-import * as actions from '../topicActions';
+import { actions } from '../topic';
 import { topics } from './mockTopics';
 
 // import { hasFetchedTopicsBySubjectId, getTopic } from '../topicSelectors';

@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toTopic, toSubject } from '../../routes';
+import { toTopic, toSubject } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
-import { getSubjectMenu } from '../TopicPage/topicSelectors';
+import { getSubjectMenu } from '../TopicPage/topic';
 import { SubjectShape, TopicShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {
