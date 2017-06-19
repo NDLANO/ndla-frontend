@@ -14,7 +14,7 @@ import articles from './containers/ArticlePage/articlesReducer';
 import subjects from './containers/SubjectPage/subjects';
 import topics from './containers/TopicPage/topic';
 import search from './containers/SearchPage/searchReducer';
-import resources from './containers/Resources/resourceReducer';
+import resources from './containers/Resources/resource';
 
 const rootReducers = combineReducers({
   articles,

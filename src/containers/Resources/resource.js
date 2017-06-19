@@ -6,8 +6,50 @@
  *
  */
 
+import { createAction, handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
+
+export const setTopicResources = createAction('SET_TOPIC_RESOURCES');
+export const fetchTopicResources = createAction('FETCH_TOPIC_RESOURCES');
+export const setResourceTypes = createAction('SET_RESOURCE_TYPES');
+
+export const actions = {
+  setTopicResources,
+  fetchTopicResources,
+  setResourceTypes,
+};
+
+export const initalState = {
+  all: {},
+  types: [],
+};
+
+export default handleActions(
+  {
+    [actions.setTopicResources]: {
+      next: (state, action) => {
+        const { topicId, resources } = action.payload;
+        return {
+          ...state,
+          all: { ...state.all, [topicId]: resources },
+        };
+      },
+      throw: state => state,
+    },
+    [actions.setResourceTypes]: {
+      next: (state, action) => {
+        const resourceTypes = action.payload;
+        return {
+          ...state,
+          types: resourceTypes,
+        };
+      },
+      throw: state => state,
+    },
+  },
+  initalState,
+);
 
 const getResourcesFromState = state => state.resources;
 

@@ -7,9 +7,8 @@
  */
 
 import { all, take, call, put, select } from 'redux-saga/effects';
-import * as actions from './resourceActions';
 import * as api from './resourceApi';
-import { getResourcesByTopicId } from './resourceSelectors';
+import { actions, getResourcesByTopicId } from './resource';
 
 export function* fetchResourceTypes() {
   try {

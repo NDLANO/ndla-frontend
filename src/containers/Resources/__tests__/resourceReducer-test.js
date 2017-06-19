@@ -6,8 +6,7 @@
  *
  */
 
-import reducer, { initalState } from '../resourceReducer';
-import * as actions from '../resourceActions';
+import reducer, { initalState, actions } from '../resource';
 import { resources, resourceTypes } from './mockResources';
 
 test('reducers/resources initalState', () => {

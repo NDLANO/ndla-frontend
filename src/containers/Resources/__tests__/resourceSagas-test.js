@@ -9,7 +9,7 @@
 import { testSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga/effects';
 import * as sagas from '../resourceSagas';
-import * as actions from '../resourceActions';
+import { actions } from '../resource';
 import * as api from '../resourceApi';
 import { resources } from './mockResources';
 

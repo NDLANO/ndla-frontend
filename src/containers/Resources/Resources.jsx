@@ -13,7 +13,7 @@ import withRouter from 'react-router-dom/withRouter';
 import { connect } from 'react-redux';
 import { ResourceList } from 'ndla-ui';
 import { ResourceTypeShape } from '../../shapes';
-import { getResourceTypesByTopicId } from './resourceSelectors';
+import { getResourceTypesByTopicId } from './resource';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 
 const resClasses = new BEMHelper({
