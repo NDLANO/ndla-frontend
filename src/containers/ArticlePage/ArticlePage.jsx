@@ -17,8 +17,10 @@ import { toTopic } from '../../routes';
 import * as actions from './articleActions';
 import * as topicActions from '../TopicPage/topicActions';
 import { getTopicPath } from '../TopicPage/topicSelectors';
-import { getSubjectById } from '../SubjectPage/subjectSelectors';
-import * as subjectActions from '../SubjectPage/subjectActions';
+import {
+  getSubjectById,
+  actions as subjectActions,
+} from '../SubjectPage/subjects';
 import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';

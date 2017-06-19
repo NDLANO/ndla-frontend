@@ -6,7 +6,7 @@
  *
  */
 
-import { getSubjects, getSubjectById } from '../subjectSelectors';
+import { getSubjects, getSubjectById } from '../subjects';
 
 import { subjects } from './mockSubjects';
 

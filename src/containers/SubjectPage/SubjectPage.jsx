@@ -14,9 +14,8 @@ import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from '../../i18n';
-import * as actions from './subjectActions';
 import * as topicActions from '../TopicPage/topicActions';
-import { getSubjectById } from './subjectSelectors';
+import { actions, getSubjectById } from './subjects';
 import {
   getTopicsBySubjectIdWithIntroduction,
   getTopic,

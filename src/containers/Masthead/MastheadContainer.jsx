@@ -12,7 +12,7 @@ import { Masthead, MastheadItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toTopic, toSubject } from '../../routes';
-import { getSubjectById } from '../SubjectPage/subjectSelectors';
+import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu } from '../TopicPage/topicSelectors';
 import { SubjectShape, TopicShape } from '../../shapes';
 

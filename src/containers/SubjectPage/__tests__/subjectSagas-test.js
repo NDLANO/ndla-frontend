@@ -7,10 +7,9 @@
  */
 
 import { testSaga } from 'redux-saga-test-plan';
-import { hasFetched } from '../subjectSelectors';
 import * as sagas from '../subjectSagas';
 import * as api from '../subjectApi';
-import * as actions from '../subjectActions';
+import { hasFetched, actions } from '../subjects';
 
 test('subjectSagas fetchSubjects', () => {
   const saga = testSaga(sagas.fetchSubjects);

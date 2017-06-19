@@ -7,8 +7,7 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import { hasFetched } from './subjectSelectors';
-import * as actions from './subjectActions';
+import { hasFetched, actions } from './subjects';
 import * as api from './subjectApi';
 
 export function* fetchSubjects() {
