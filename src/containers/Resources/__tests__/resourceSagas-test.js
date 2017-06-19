@@ -6,52 +6,37 @@
  *
  */
 
-import { testSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga/effects';
+import { expectSaga } from 'redux-saga-test-plan';
+import nock from 'nock';
 import * as sagas from '../resourceSagas';
-import { actions } from '../resource';
-import * as api from '../resourceApi';
-import { resources } from './mockResources';
+import { actions, initalState } from '../resource';
+import { resources, resourceTypes } from './mockResources';
+
+expectSaga.DEFAULT_TIMEOUT = 200;
 
 test('resourceSagas watchFetchTopicResources', () => {
-  const saga = testSaga(sagas.watchFetchTopicResources);
-  saga
-    .next()
-    .take(actions.fetchTopicResources)
-    .next({ payload: { topicId: 2 } })
-    .next([])
-    .all([call(sagas.fetchTopicResources, 2), call(sagas.fetchResourceTypes)])
-    .finish()
-    .next()
-    .isDone();
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/topics/2/resources/?recursive=true&language=en')
+    .reply(200, resources);
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/resource-types/?language=en')
+    .reply(200, resourceTypes);
+
+  return expectSaga(sagas.watchFetchTopicResources)
+    .withState({ resources: initalState, locale: 'en' })
+    .put(actions.setTopicResources({ topicId: 2, resources }))
+    .put(actions.setResourceTypes(resourceTypes))
+    .dispatch(actions.fetchTopicResources({ topicId: 2 }))
+    .run({ silenceTimeout: true });
 });
 
-test('topicSagas fetchResourceTypes', () => {
-  const topicId = 'urn:topic:1234';
-  const saga = testSaga(sagas.fetchResourceTypes, topicId);
-  saga
-    .next()
-    .next('nb')
-    .call(api.fetchResourceTypes, 'nb')
-    .next([])
-    .put({ type: actions.setResourceTypes.toString(), payload: [] })
-    .next()
-    .isDone();
-});
-
-test('topicSagas fetchTopicResources', () => {
-  const topicId = 'urn:topic:1234';
-  const saga = testSaga(sagas.fetchTopicResources, topicId);
-  saga
-    .next()
-    .next('nb')
-    .call(api.fetchTopicResources, topicId, 'nb')
-    .next(resources)
-    .put({
-      type: actions.setTopicResources.toString(),
-      payload: { topicId, resources },
+test('resourceSagas watchFetchTopicResources do not refetch if already fetched', () =>
+  expectSaga(sagas.watchFetchTopicResources)
+    .withState({
+      resources: { all: { 2: { id: 2, resources } } },
+      locale: 'en',
     })
-    .next()
-    .next()
-    .isDone();
-});
+    .not.put(actions.setTopicResources({ topicId: 2, resources }))
+    .not.put(actions.setResourceTypes(resourceTypes))
+    .dispatch(actions.fetchTopicResources({ topicId: 2 }))
+    .run({ silenceTimeout: true }));
