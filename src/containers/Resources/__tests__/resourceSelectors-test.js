@@ -11,7 +11,7 @@ import {
   getResourceTypes,
   getResourcesByTopicIdGroupedByResourceTypes,
   getResourceTypesByTopicId,
-} from '../resourceSelectors';
+} from '../resource';
 
 import { resourceData, resourceTypes } from './mockResources';
 

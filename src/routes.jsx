@@ -24,31 +24,6 @@ const searchEnabled = __SERVER__ || process.env.NODE_ENV === 'unittest'
   ? config.searchEnabled
   : window.config.searchEnabled;
 
-export function toSearch() {
-  return '/search';
-}
-
-export function toArticle(articleId, subjectId, topicId) {
-  if (subjectId && topicId) {
-    return `/article/${subjectId}/${topicId}/${articleId}`;
-  }
-  return `/article/${articleId}`;
-}
-
-export function toSubject(subjectId) {
-  return `/subjects/${subjectId}`;
-}
-
-export function toTopic(subjectId, ...topicIds) {
-  if (topicIds.length === 0) {
-    return toSubject(subjectId);
-  }
-  return `/subjects/${subjectId}/${topicIds.join('/')}`;
-}
-
-export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
-  toTopic(subjectId, ...topicIds, topicId);
-
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
     window.scrollTo(0, 0);

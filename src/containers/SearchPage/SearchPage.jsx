@@ -17,7 +17,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
-import { toSearch } from '../../routes';
+import { toSearch } from '../../routeHelpers';
 import { createQueryString, parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {

@@ -7,7 +7,7 @@
  */
 
 import config from '../../config';
-import { toArticle } from '../../routes';
+import { toArticle } from '../../routeHelpers';
 
 const LEARNING_PATH_DOMAIN = __SERVER__ || process.env.NODE_ENV === 'unittest'
   ? config.learningPathDomain

@@ -35,3 +35,14 @@ export const topics = [
     parent: undefined,
   },
 ];
+
+export const articles = [
+  {
+    id: 'urn:article:1',
+    introduction: 'Introduction 1',
+  },
+  {
+    id: 'urn:article:1_2',
+    introduction: 'Introduction 2',
+  },
+];

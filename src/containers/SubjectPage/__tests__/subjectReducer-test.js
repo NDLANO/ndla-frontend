@@ -6,8 +6,7 @@
  *
  */
 
-import reducer, { initalState } from '../subjectReducer';
-import * as actions from '../subjectActions';
+import reducer, { actions, initalState } from '../subjects';
 import { subjects } from './mockSubjects';
 
 test('reducers/subject initalState', () => {

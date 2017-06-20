@@ -13,15 +13,16 @@ import { compose } from 'redux';
 import { Hero, OneColumn, TopicBreadcrumb, LayoutItem, Article } from 'ndla-ui';
 import Helmet from 'react-helmet';
 
-import * as actions from './topicActions';
-import * as subjectActions from '../SubjectPage/subjectActions';
-import { getTopicArticle, getTopic, getTopicPath } from './topicSelectors';
-import { getSubjectById } from '../SubjectPage/subjectSelectors';
+import { actions, getTopicArticle, getTopic, getTopicPath } from './topic';
+import {
+  getSubjectById,
+  actions as subjectActions,
+} from '../SubjectPage/subjects';
 import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { injectT } from '../../i18n';
-import { toTopic } from '../../routes';
+import { toTopic } from '../../routeHelpers';
 
 const TopicArticle = ({ article }) =>
   <article className="c-article">

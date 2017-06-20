@@ -6,14 +6,71 @@
  *
  */
 
+import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
-import groupBy from '../../util/groupBy';
 
+import groupBy from '../../util/groupBy';
 import { getArticle } from '../ArticlePage/articleSelectors';
 import { introductionI18N } from '../../util/i18nFieldFinder';
 import { getLocale } from '../Locale/localeSelectors';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
+
+export const fetchTopics = createAction('FETCH_TOPICS');
+export const setTopics = createAction('SET_TOPICS');
+export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
+
+export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
+
+export const actions = {
+  fetchTopics,
+  setTopics,
+  fetchTopicArticle,
+  setTopicIntroductions,
+};
+
+export const initialState = {
+  all: {},
+  topicIntroductions: {},
+};
+
+export default handleActions(
+  {
+    [setTopics]: {
+      next: (state, action) => {
+        const { subjectId, topics } = action.payload;
+        return {
+          ...state,
+          all: { ...state.all, [subjectId]: topics },
+        };
+      },
+      throw: state => state,
+    },
+    [setTopicIntroductions]: {
+      next: (state, action) => {
+        const { articleIntroductions, topics } = action.payload;
+        // Map article introduction to topic
+        const topicIntroductions = topics.reduce((obj, item) => {
+          const intro = articleIntroductions.find(
+            articleIntroduction =>
+              item.contentUri === `urn:article:${articleIntroduction.id}`,
+          );
+          return intro ? { ...obj, [item.id]: intro } : obj;
+        }, {});
+
+        return {
+          ...state,
+          topicIntroductions: {
+            ...state.topicIntroductions,
+            ...topicIntroductions,
+          },
+        };
+      },
+      throw: state => state,
+    },
+  },
+  initialState,
+);
 
 const getTopicsFromState = state => state.topics;
 

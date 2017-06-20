@@ -7,8 +7,8 @@
  */
 
 import { all, take, call, put, select } from 'redux-saga/effects';
-import { getTopic, hasFetchedTopicsBySubjectId } from './topicSelectors';
-import * as actions from './topicActions';
+import { actions, getTopic, hasFetchedTopicsBySubjectId } from './topic';
+import { getLocale } from '../Locale/localeSelectors';
 import {
   getArticleIdFromResource,
   isArticleResource,
@@ -47,7 +47,8 @@ export function* fetchTopicArticle(subjectId, topicId) {
 
 export function* fetchTopics(subjectId) {
   try {
-    const topics = yield call(api.fetchTopics, subjectId);
+    const locale = yield select(getLocale);
+    const topics = yield call(api.fetchTopics, subjectId, locale);
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
