@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resourceSagas watchFetchTopics 1`] = `
+Object {
+  "call": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "urn:subject:1",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Object {},
+          "@@redux-saga-test-plan/json/function/refineYieldedValue",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/sagaWrapper",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "urn:subject:1",
+          "en",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "urn:subject:1",
+          "urn:topic:1",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopicArticle",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Array [
+            Object {
+              "contentUri": "urn:article:1",
+              "id": "urn:topic:1",
+              "name": "Idéutvikling og mediedesign",
+              "parent": "urn:subject:1",
+            },
+            Object {
+              "id": "urn:topic:1_1",
+              "name": "Mediedesign",
+              "parent": "urn:topic:1",
+            },
+            Object {
+              "contentUri": "urn:article:1_2",
+              "id": "urn:topic:1_2",
+              "name": "Idéutvikling",
+              "parent": "urn:topic:1",
+            },
+            Object {
+              "id": "urn:topic:1_2_1",
+              "name": "Mediebransjen",
+              "parent": "urn:topic:1_2",
+            },
+            Object {
+              "id": "urn:topic:2",
+              "name": "Mediekommunikasjon",
+            },
+          ],
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopicIntroductions",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Object {},
+          "@@redux-saga-test-plan/json/function/refineYieldedValue",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/sagaWrapper",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Object {},
+          "@@redux-saga-test-plan/json/function/refineYieldedValue",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/sagaWrapper",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Array [
+            "1",
+            "1_2",
+          ],
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
+  ],
+  "put": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "payload": Object {
+            "subjectId": "urn:subject:1",
+            "topics": Array [
+              Object {
+                "contentUri": "urn:article:1",
+                "id": "urn:topic:1",
+                "name": "Idéutvikling og mediedesign",
+                "parent": "urn:subject:1",
+              },
+              Object {
+                "id": "urn:topic:1_1",
+                "name": "Mediedesign",
+                "parent": "urn:topic:1",
+              },
+              Object {
+                "contentUri": "urn:article:1_2",
+                "id": "urn:topic:1_2",
+                "name": "Idéutvikling",
+                "parent": "urn:topic:1",
+              },
+              Object {
+                "id": "urn:topic:1_2_1",
+                "name": "Mediebransjen",
+                "parent": "urn:topic:1_2",
+              },
+              Object {
+                "id": "urn:topic:2",
+                "name": "Mediekommunikasjon",
+              },
+            ],
+          },
+          "type": "SET_TOPICS",
+        },
+        "channel": null,
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "payload": Object {
+            "articleIntroductions": Array [
+              Object {
+                "id": "urn:article:1",
+                "introduction": "Introduction 1",
+              },
+              Object {
+                "id": "urn:article:1_2",
+                "introduction": "Introduction 2",
+              },
+            ],
+            "topics": Array [
+              Object {
+                "contentUri": "urn:article:1",
+                "id": "urn:topic:1",
+                "name": "Idéutvikling og mediedesign",
+                "parent": "urn:subject:1",
+              },
+              Object {
+                "id": "urn:topic:1_1",
+                "name": "Mediedesign",
+                "parent": "urn:topic:1",
+              },
+              Object {
+                "contentUri": "urn:article:1_2",
+                "id": "urn:topic:1_2",
+                "name": "Idéutvikling",
+                "parent": "urn:topic:1",
+              },
+              Object {
+                "id": "urn:topic:1_2_1",
+                "name": "Mediebransjen",
+                "parent": "urn:topic:1_2",
+              },
+              Object {
+                "id": "urn:topic:2",
+                "name": "Mediekommunikasjon",
+              },
+            ],
+          },
+          "type": "SET_TOPIC_INTRODUCTIONS",
+        },
+        "channel": null,
+      },
+    },
+  ],
+  "select": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "SELECT": Object {
+        "args": Array [],
+        "selector": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "SELECT": Object {
+        "args": Array [],
+        "selector": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "SELECT": Object {
+        "args": Array [],
+        "selector": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
+  ],
+  "take": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "TAKE": Object {
+        "pattern": "@@redux-saga-test-plan/json/function/actionCreator",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "TAKE": Object {
+        "pattern": "@@redux-saga-test-plan/json/function/actionCreator",
+      },
+    },
+  ],
+}
+`;

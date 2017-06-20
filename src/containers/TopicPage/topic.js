@@ -29,7 +29,7 @@ export const actions = {
   setTopicIntroductions,
 };
 
-export const initalState = {
+export const initialState = {
   all: {},
   topicIntroductions: {},
 };
@@ -69,7 +69,7 @@ export default handleActions(
       throw: state => state,
     },
   },
-  initalState,
+  initialState,
 );
 
 const getTopicsFromState = state => state.topics;

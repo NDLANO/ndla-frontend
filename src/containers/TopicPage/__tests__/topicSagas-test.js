@@ -6,61 +6,37 @@
  *
  */
 
-import { testSaga } from 'redux-saga-test-plan';
-import { call } from 'redux-saga/effects';
+import { testSaga, expectSaga } from 'redux-saga-test-plan';
+import nock from 'nock';
 import * as sagas from '../topicSagas';
-import * as api from '../topicApi';
-import * as articleApi from '../../ArticlePage/articleApi';
-import { fetchArticle } from '../../ArticlePage/articleActions';
-import { actions } from '../topic';
-import { topics } from './mockTopics';
+import { initialState, actions } from '../topic';
+import { topics, articles } from './mockTopics';
 
-// import { hasFetchedTopicsBySubjectId, getTopic } from '../topicSelectors';
+test('resourceSagas watchFetchTopics', () => {
+  const req1 = nock('http://ndla-api')
+    .get(
+      '/taxonomy/v1/subjects/urn:subject:1/topics/?recursive=true&language=en',
+    )
+    .reply(200, topics);
 
-test('topicSagas fetchTopicArticle if articleId is defined', () => {
-  const saga = testSaga(sagas.fetchTopicArticle, 1234);
-  saga
-    .next()
-    // .select(getTopic('urn:subject:1', 'urn:topic:1'))
-    .next(topics[0])
-    .put({ type: `${fetchArticle}`, payload: '1' })
-    .next()
-    .isDone();
-});
+  const req2 = nock('http://ndla-api')
+    .get('/article-api/v1/articles?ids=1,1_2')
+    .reply(200, { results: articles });
 
-test('topicSagas fetchTopics', () => {
-  const saga = testSaga(sagas.fetchTopics, 1234);
-  saga
-    .next()
-    .next('nb')
-    .call(api.fetchTopics, 1234, 'nb')
-    .next([{ id: '123', name: 'Algebra', parent: undefined }])
-    .put({
-      type: actions.setTopics.toString(),
-      payload: {
-        topics: [{ id: '123', name: 'Algebra', parent: undefined }],
-        subjectId: 1234,
-      },
-    })
-    .next()
-    .isDone();
-});
-
-test('topicSagas watchFetchTopics', () => {
-  const saga = testSaga(sagas.watchFetchTopics);
-  saga
-    .next()
-    .take(actions.fetchTopics)
-    .next({ payload: { subjectId: 'urn:subject:1', topicId: 'urn:topic:1' } })
-    .next(false)
-    .call(sagas.fetchTopics, 'urn:subject:1')
-    .next(topics)
-    .all([
-      call(sagas.fetchTopicArticle, 'urn:subject:1', 'urn:topic:1'),
-      call(sagas.fetchTopicIntroductions, topics),
-    ])
-    .finish()
-    .isDone();
+  return expectSaga(sagas.watchFetchTopics)
+    .withState({ topics: initialState, locale: 'en' })
+    .dispatch(
+      actions.fetchTopics({
+        subjectId: 'urn:subject:1',
+        topicId: 'urn:topic:1',
+      }),
+    )
+    .run({ silenceTimeout: true })
+    .then(result => {
+      expect(result.toJSON()).toMatchSnapshot();
+      req1.done();
+      req2.done();
+    });
 });
 
 test('topicSagas watchFetchTopics should not refetch topics', () => {
@@ -69,35 +45,9 @@ test('topicSagas watchFetchTopics should not refetch topics', () => {
     .next()
     .take(actions.fetchTopics)
     .next({ payload: { subjectId: 1234 } })
-    // .select(hasFetchedTopicsBySubjectId(1234))
-
     .next(true)
     .call(sagas.fetchTopicArticle, 1234, undefined)
     .finish()
-    .isDone();
-});
-
-test('topicSagas fetchTopicIntroductions', () => {
-  const mockTopics = [
-    { contentUri: 'urn:article:1' },
-    { contentUri: 'urn:learningpath:2' },
-    { contentUri: 'urn:article:1331' },
-    { id: 3 },
-  ];
-
-  const saga = testSaga(sagas.fetchTopicIntroductions, mockTopics);
-  const data = {
-    results: [{ id: '1', intro: 'Test' }, { id: '1331', intro: 'Test' }],
-  };
-  saga
-    .next()
-    .call(articleApi.fetchArticles, ['1', '1331'])
-    .next(data)
-    .put({
-      type: actions.setTopicIntroductions.toString(),
-      payload: { topics: mockTopics, articleIntroductions: data.results },
-    })
-    .next()
     .isDone();
 });
 
