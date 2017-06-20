@@ -31,7 +31,7 @@ test('resourceSagas watchFetchTopics', () => {
         topicId: 'urn:topic:1',
       }),
     )
-    .run({ silenceTimeout: true })
+    .silentRun(500)
     .then(result => {
       expect(result.toJSON()).toMatchSnapshot();
       req1.done();
