@@ -8,9 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid, copyTextToClipboard } from 'ndla-util';
+import { uuid } from 'ndla-util';
 import {
-  Button,
   MediaList,
   MediaListItem,
   MediaListItemImage,
@@ -18,45 +17,38 @@ import {
   MediaListItemActions,
 } from 'ndla-ui';
 import { MediaListItemMeta } from './MediaList';
+import CopyTextButton from './CopyTextButton';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const AudioLicenseInfo = ({ audio, locale }) => {
-  const authorsCopyString = audio.copyright.authors
-    .map(author => `${author.type}: ${author.name}`)
-    .join('\n');
-
-  return (
-    <MediaListItem>
-      <MediaListItemImage>
-        <Icon.Audio className="c-medialist__icon" />
-      </MediaListItemImage>
-      <MediaListItemBody
-        license={audio.copyright.license.license}
-        title="Regler for bruk av lydfilen:"
-        locale={locale}>
-        <MediaListItemActions>
-          <h3 className="c-medialist__title">
-            Slik skal du referere til lydfilen:
-          </h3>
-          <MediaListItemMeta authors={audio.copyright.authors} />
-          <Button
-            outline
-            className="c-licenseToggle__button"
-            onClick={() => copyTextToClipboard(authorsCopyString)}>
-            Kopier referanse
-          </Button>
-          <a
-            href={audio.src}
-            className="c-button c-button--outline c-licenseToggle__button"
-            download>
-            Last ned
-          </a>
-        </MediaListItemActions>
-      </MediaListItemBody>
-    </MediaListItem>
-  );
-};
+const AudioLicenseInfo = ({ audio, locale }) =>
+  <MediaListItem>
+    <MediaListItemImage>
+      <Icon.Audio className="c-medialist__icon" />
+    </MediaListItemImage>
+    <MediaListItemBody
+      license={audio.copyright.license.license}
+      title="Regler for bruk av lydfilen:"
+      locale={locale}>
+      <MediaListItemActions>
+        <h3 className="c-medialist__title">
+          Slik skal du referere til lydfilen:
+        </h3>
+        <MediaListItemMeta authors={audio.copyright.authors} />
+        <CopyTextButton
+          authors={audio.copyright.authors}
+          copyTitle="Kopier referanse"
+          hasCopiedTitle="Kopiert!"
+        />
+        <a
+          href={audio.src}
+          className="c-button c-button--outline c-licenseToggle__button"
+          download>
+          Last ned
+        </a>
+      </MediaListItemActions>
+    </MediaListItemBody>
+  </MediaListItem>;
 
 AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,

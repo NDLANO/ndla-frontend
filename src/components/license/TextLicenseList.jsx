@@ -8,9 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid, copyTextToClipboard } from 'ndla-util';
+import { uuid } from 'ndla-util';
 import {
-  Button,
   MediaList,
   MediaListItem,
   MediaListItemImage,
@@ -18,38 +17,32 @@ import {
   MediaListItemActions,
 } from 'ndla-ui';
 import { MediaListItemMeta } from './MediaList';
+import CopyTextButton from './CopyTextButton';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const TextLicenseInfo = ({ text, locale }) => {
-  const authorsCopyString = text.copyright.authors
-    .map(author => `${author.type}: ${author.name}`)
-    .join('\n');
-  return (
-    <MediaListItem>
-      <MediaListItemImage>
-        <Icon.Document className="c-medialist__icon" />
-      </MediaListItemImage>
-      <MediaListItemBody
-        license={text.copyright.license.license}
-        title="Regler for bruk av teksten:"
-        locale={locale}>
-        <MediaListItemActions>
-          <h3 className="c-medialist__title">
-            Slik skal du referere til teksten:
-          </h3>
-          <MediaListItemMeta authors={text.copyright.authors} />
-          <Button
-            outline
-            className="c-licenseToggle__button"
-            onClick={() => copyTextToClipboard(authorsCopyString)}>
-            Kopier referanse
-          </Button>
-        </MediaListItemActions>
-      </MediaListItemBody>
-    </MediaListItem>
-  );
-};
+const TextLicenseInfo = ({ text, locale }) =>
+  <MediaListItem>
+    <MediaListItemImage>
+      <Icon.Document className="c-medialist__icon" />
+    </MediaListItemImage>
+    <MediaListItemBody
+      license={text.copyright.license.license}
+      title="Regler for bruk av teksten:"
+      locale={locale}>
+      <MediaListItemActions>
+        <h3 className="c-medialist__title">
+          Slik skal du referere til teksten:
+        </h3>
+        <MediaListItemMeta authors={text.copyright.authors} />
+        <CopyTextButton
+          authors={text.copyright.authors}
+          copyTitle="Kopier referanse"
+          hasCopiedTitle="Kopiert!"
+        />
+      </MediaListItemActions>
+    </MediaListItemBody>
+  </MediaListItem>;
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,

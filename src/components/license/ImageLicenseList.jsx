@@ -8,9 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid, copyTextToClipboard } from 'ndla-util';
+import { uuid } from 'ndla-util';
 import {
-  Button,
   MediaList,
   MediaListItem,
   MediaListItemImage,
@@ -18,6 +17,7 @@ import {
   MediaListItemActions,
 } from 'ndla-ui';
 import { MediaListItemMeta } from './MediaList';
+import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
 const getSrcSets = image =>
@@ -33,48 +33,41 @@ const getSrcSets = image =>
     `${image.src}?width=320 320w`,
   ].join(', ');
 
-const ImageLicenseInfo = ({ image, locale }) => {
-  const authorsCopyString = image.copyright.authors
-    .map(author => `${author.type}: ${author.name}`)
-    .join('\n');
-  return (
-    <MediaListItem>
-      <MediaListItemImage>
-        <img
-          alt={image.altText}
-          src={`${image.src}`}
-          srcSet={getSrcSets(image)}
-          sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
-        />
-      </MediaListItemImage>
-      <MediaListItemBody
-        title="Regler for bruk av bildet:"
-        license={image.copyright.license.license}
-        locale={locale}>
-        <MediaListItemActions>
-          <div className="c-medialist__ref">
-            <h3 className="c-medialist__title">
-              Slik skal du referere til bildet:
-            </h3>
-            <MediaListItemMeta authors={image.copyright.authors} />
-            <Button
-              outline
-              className="c-licenseToggle__button"
-              onClick={() => copyTextToClipboard(authorsCopyString)}>
-              Kopier referanse
-            </Button>
-            <a
-              href={image.src}
-              className="c-button c-button--outline c-licenseToggle__button"
-              download>
-              Last ned
-            </a>
-          </div>
-        </MediaListItemActions>
-      </MediaListItemBody>
-    </MediaListItem>
-  );
-};
+const ImageLicenseInfo = ({ image, locale }) =>
+  <MediaListItem>
+    <MediaListItemImage>
+      <img
+        alt={image.altText}
+        src={`${image.src}`}
+        srcSet={getSrcSets(image)}
+        sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
+      />
+    </MediaListItemImage>
+    <MediaListItemBody
+      title="Regler for bruk av bildet:"
+      license={image.copyright.license.license}
+      locale={locale}>
+      <MediaListItemActions>
+        <div className="c-medialist__ref">
+          <h3 className="c-medialist__title">
+            Slik skal du referere til bildet:
+          </h3>
+          <MediaListItemMeta authors={image.copyright.authors} />
+          <CopyTextButton
+            authors={image.copyright.authors}
+            copyTitle="Kopier referanse"
+            hasCopiedTitle="Kopiert!"
+          />
+          <a
+            href={image.src}
+            className="c-button c-button--outline c-licenseToggle__button"
+            download>
+            Last ned
+          </a>
+        </div>
+      </MediaListItemActions>
+    </MediaListItemBody>
+  </MediaListItem>;
 
 ImageLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
