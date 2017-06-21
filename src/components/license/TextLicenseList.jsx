@@ -16,29 +16,30 @@ import {
   MediaListItemBody,
   MediaListItemActions,
 } from 'ndla-ui';
+import { injectT } from '../../i18n';
 import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
-const TextLicenseInfo = ({ text, locale }) =>
+const TextLicenseInfo = ({ text, locale, t }) =>
   <MediaListItem>
     <MediaListItemImage>
       <Icon.Document className="c-medialist__icon" />
     </MediaListItemImage>
     <MediaListItemBody
       license={text.copyright.license.license}
-      title="Regler for bruk av teksten:"
+      title={t('rules')}
       locale={locale}>
       <MediaListItemActions>
         <h3 className="c-medialist__title">
-          Slik skal du referere til teksten:
+          {t('howToReference')}
         </h3>
         <MediaListItemMeta authors={text.copyright.authors} />
         <CopyTextButton
           authors={text.copyright.authors}
-          copyTitle="Kopier referanse"
-          hasCopiedTitle="Kopiert!"
+          copyTitle={t('copyTitle')}
+          hasCopiedTitle={t('hasCopiedTitle')}
         />
       </MediaListItemActions>
     </MediaListItemBody>
@@ -49,13 +50,13 @@ TextLicenseInfo.propTypes = {
   text: CopyrightObjectShape,
 };
 
-const TextLicenseList = ({ texts, heading, description, locale }) =>
+const TextLicenseList = ({ texts, heading, description, locale, t }) =>
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
     <MediaList>
       {texts.map(text =>
-        <TextLicenseInfo text={text} key={uuid()} locale={locale} />,
+        <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />,
       )}
     </MediaList>
   </div>;
@@ -67,4 +68,4 @@ TextLicenseList.propTypes = {
   texts: PropTypes.arrayOf(CopyrightObjectShape),
 };
 
-export default TextLicenseList;
+export default injectT(TextLicenseList, 'license.texts.');

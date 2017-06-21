@@ -16,6 +16,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
 } from 'ndla-ui';
+import { injectT } from '../../i18n';
 import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
@@ -33,7 +34,7 @@ const getSrcSets = image =>
     `${image.src}?width=320 320w`,
   ].join(', ');
 
-const ImageLicenseInfo = ({ image, locale }) =>
+const ImageLicenseInfo = ({ image, locale, t }) =>
   <MediaListItem>
     <MediaListItemImage>
       <img
@@ -44,25 +45,25 @@ const ImageLicenseInfo = ({ image, locale }) =>
       />
     </MediaListItemImage>
     <MediaListItemBody
-      title="Regler for bruk av bildet:"
+      title={t('rules')}
       license={image.copyright.license.license}
       locale={locale}>
       <MediaListItemActions>
         <div className="c-medialist__ref">
           <h3 className="c-medialist__title">
-            Slik skal du referere til bildet:
+            {t('howToReference')}
           </h3>
           <MediaListItemMeta authors={image.copyright.authors} />
           <CopyTextButton
             authors={image.copyright.authors}
-            copyTitle="Kopier referanse"
-            hasCopiedTitle="Kopiert!"
+            copyTitle={t('copyTitle')}
+            hasCopiedTitle={t('hasCopiedTitle')}
           />
           <a
             href={image.src}
             className="c-button c-button--outline c-licenseToggle__button"
             download>
-            Last ned
+            {t('download')}
           </a>
         </div>
       </MediaListItemActions>
@@ -74,13 +75,13 @@ ImageLicenseInfo.propTypes = {
   image: CopyrightObjectShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale }) =>
+const ImageLicenseList = ({ images, heading, description, locale, t }) =>
   <div>
     <h2>{heading}</h2>
     <p>{description}</p>
     <MediaList>
       {images.map(image =>
-        <ImageLicenseInfo image={image} key={uuid()} locale={locale} />,
+        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />,
       )}
     </MediaList>
   </div>;
@@ -92,4 +93,4 @@ ImageLicenseList.propTypes = {
   images: PropTypes.arrayOf(CopyrightObjectShape),
 };
 
-export default ImageLicenseList;
+export default injectT(ImageLicenseList, 'license.images.');

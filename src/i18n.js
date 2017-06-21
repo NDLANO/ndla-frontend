@@ -73,7 +73,7 @@ export const getHtmlLang = localeAbbreviation => {
   return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
 };
 
-export const injectT = WrappedComponent => {
+export const injectT = (WrappedComponent, prefix = '') => {
   function getDisplayName(component) {
     return component.displayName || component.name || 'Component';
   }
@@ -81,7 +81,7 @@ export const injectT = WrappedComponent => {
   const InjectT = (props, context) =>
     <WrappedComponent
       {...props}
-      t={(id, value = {}) => context.formatMessage(id, value)}
+      t={(id, value = {}) => context.formatMessage(prefix + id, value)}
     />;
 
   InjectT.contextTypes = {
