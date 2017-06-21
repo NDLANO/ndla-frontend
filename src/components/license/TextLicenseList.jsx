@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
+  Icon,
   MediaList,
   MediaListItem,
   MediaListItemImage,
@@ -19,7 +20,6 @@ import {
 import { injectT } from '../../i18n';
 import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
-import Icon from '../Icon';
 import { CopyrightObjectShape } from '../../shapes';
 
 const TextLicenseInfo = ({ text, locale, t }) =>

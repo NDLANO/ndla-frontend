@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import Icon from '../../../components/Icon';
+import { Icon } from 'ndla-ui';
 
 const classes = new BEMHelper({
   name: 'article',
