@@ -10,11 +10,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FootNoteShape } from '../../../shapes';
 
-
 const FootNote = ({ footNote, editionTitle, publisherTitle, refNr }) =>
   <li className="c-footnote__item">
-    <cite className="c-footnote__cite">{`${footNote.title} (${footNote.year}), ${footNote.authors.join(' ')} ${editionTitle}: ${footNote.edition}, ${publisherTitle}: ${footNote.publisher}`}</cite>
-    &nbsp;<a href={`#$ref_${refNr}_sup`} name={`#$ref_${refNr}_foot`}>&#8617;</a>
+    <cite className="c-footnote__cite">{`${footNote.title} (${footNote.year}), ${footNote.authors.join(
+      ' ',
+    )} ${editionTitle}: ${footNote.edition}, ${publisherTitle}: ${footNote.publisher}`}</cite>
+    &nbsp;<a href={`#$ref_${refNr}_sup`} name={`#$ref_${refNr}_foot`}>
+      &#8617;
+    </a>
   </li>;
 
 FootNote.propTypes = {
@@ -24,16 +27,17 @@ FootNote.propTypes = {
   publisherTitle: PropTypes.string.isRequired,
 };
 
-
-const ArticleFootNotes = ({ footNotes, ...rest }) => (
+const ArticleFootNotes = ({ footNotes, ...rest }) =>
   <ol className="c-footnotes">
-    {
-    Object.keys(footNotes).map(key => (
-      <FootNote key={key} refNr={key.replace('ref_', '')} footNote={footNotes[key]} {...rest} />
-    ))
-    }
-  </ol>
-);
+    {Object.keys(footNotes).map(key =>
+      <FootNote
+        key={key}
+        refNr={key.replace('ref_', '')}
+        footNote={footNotes[key]}
+        {...rest}
+      />,
+    )}
+  </ol>;
 
 ArticleFootNotes.propTypes = {
   footNotes: PropTypes.object,

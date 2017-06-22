@@ -17,7 +17,7 @@ import {
 } from 'ndla-article-scripts';
 import getLicenseByAbbreviation from 'ndla-licenses';
 import { injectT } from '../../../i18n';
-import ArticleFootNotes from './ArticleFootNotes'
+import ArticleFootNotes from './ArticleFootNotes';
 import ToggleLicenseBox from './ToggleLicenseBox';
 import ArticleByline from './ArticleByline';
 import LicenseBox from '../../../components/license/LicenseBox';
