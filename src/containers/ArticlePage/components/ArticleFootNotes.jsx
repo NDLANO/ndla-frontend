@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import FootNoteShape from '../../../shapes';
+import { FootNoteShape } from '../../../shapes';
 
 
 const FootNote = ({ footNote, editionTitle, publisherTitle, refNr }) =>
