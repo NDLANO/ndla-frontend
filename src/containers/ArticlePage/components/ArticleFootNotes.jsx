@@ -40,7 +40,7 @@ const ArticleFootNotes = ({ footNotes, ...rest }) =>
   </ol>;
 
 ArticleFootNotes.propTypes = {
-  footNotes: PropTypes.object,
+  footNotes: FootNoteShape,
   editionTitle: PropTypes.string.isRequired,
   publisherTitle: PropTypes.string.isRequired,
 };
