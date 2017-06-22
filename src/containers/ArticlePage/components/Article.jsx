@@ -68,9 +68,9 @@ class Article extends Component {
           <UIArticle.Introduction introduction={article.introduction} />
           <ArticleByline
             authors={article.copyright.authors}
-            updated={article.updated}
-          />
-          {this.renderToggleLicenseBox()}
+            updated={article.updated}>
+            {this.renderToggleLicenseBox()}
+          </ArticleByline>
         </LayoutItem>
         <LayoutItem layout="center">
           <UIArticle.Content content={article.content} />

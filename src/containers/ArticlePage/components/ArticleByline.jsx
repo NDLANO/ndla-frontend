@@ -38,11 +38,12 @@ LastUpdated.propTypes = {
   date: PropTypes.string,
 };
 
-const ArticleByline = ({ authors, updated }) =>
+const ArticleByline = ({ authors, updated, children }) =>
   <div>
     <section {...classes('byline')}>
       {authors && <AuthorsList authors={authors} />}
       <LastUpdated date={updated} />
+      {children}
     </section>
   </div>;
 
