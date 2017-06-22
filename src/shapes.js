@@ -74,3 +74,11 @@ export const CopyrightObjectShape = PropTypes.shape({
     authors: PropTypes.array.isRequired,
   }).isRequired,
 });
+
+export const FootNoteShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  authors: PropTypes.array.isRequired,
+  edition: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
+});

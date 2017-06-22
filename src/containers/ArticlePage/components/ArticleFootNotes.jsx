@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import FootNoteShape from '../../../shapes';
 
 
 const FootNote = ({ footNote, editionTitle, publisherTitle, refNr }) =>
@@ -15,14 +16,6 @@ const FootNote = ({ footNote, editionTitle, publisherTitle, refNr }) =>
     <cite className="c-footnote__cite">{`${footNote.title} (${footNote.year}), ${footNote.authors.join(' ')} ${editionTitle}: ${footNote.edition}, ${publisherTitle}: ${footNote.publisher}`}</cite>
     &nbsp;<a href={`#$ref_${refNr}_sup`} name={`#$ref_${refNr}_foot`}>&#8617;</a>
   </li>;
-
-export const FootNoteShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired,
-  authors: PropTypes.array.isRequired,
-  edition: PropTypes.string.isRequired,
-  publisher: PropTypes.string.isRequired,
-});
 
 FootNote.propTypes = {
   refNr: PropTypes.string.isRequired,
