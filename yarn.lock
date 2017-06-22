@@ -3968,9 +3968,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.4.tgz#c9d5ae5b1cc85ec1eaa58fb08fa8145d817e97dd"
+ndla-article-scripts@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.5.tgz#09bdf5b561e7531e4dd626d105ba5a69300d4944"
 
 ndla-error-reporter@^0.1.6:
   version "0.1.6"
@@ -3990,9 +3990,9 @@ ndla-tabs@^0.3.2:
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.5.9:
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.5.9.tgz#55f9ceb24d6b1afcb28a21205c167f7edd2f0757"
+ndla-ui@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.6.0.tgz#7c188738c70244cb5a6dd1ada14b0f8e79e3ffdc"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
