@@ -10,12 +10,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { OneColumn } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';
-import { injectT } from '../../i18n';
 
-const SubjectsPage = ({ t, subjects }) =>
+const SubjectsPage = ({ t, subjects }) => (
   <div className="c-resources u-padding-top-large">
     <OneColumn>
       <article>
@@ -25,7 +25,8 @@ const SubjectsPage = ({ t, subjects }) =>
         </section>
       </article>
     </OneColumn>
-  </div>;
+  </div>
+);
 
 SubjectsPage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,

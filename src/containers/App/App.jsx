@@ -14,6 +14,7 @@ import Route from 'react-router-dom/Route';
 import withRouter from 'react-router-dom/withRouter';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 
 import { MessageShape } from '../../shapes';
 import Masthead from '../Masthead';
@@ -21,7 +22,6 @@ import Footer from './components/Footer';
 import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
 import Alerts from '../Messages/Alerts';
-import { injectT } from '../../i18n';
 
 export class App extends React.Component {
   getChildContext() {
@@ -41,13 +41,15 @@ export class App extends React.Component {
         <Switch>
           <Route
             path={`${match.url}subjects/:subjectId`}
-            render={({ match: routeMatch }) =>
-              <Masthead t={t} params={routeMatch.params} />}
+            render={({ match: routeMatch }) => (
+              <Masthead t={t} params={routeMatch.params} />
+            )}
           />
           <Route
             path={`${match.url}article/:subjectId/:topicId/:articleId`}
-            render={({ match: routeMatch }) =>
-              <Masthead t={t} params={routeMatch.params} />}
+            render={({ match: routeMatch }) => (
+              <Masthead t={t} params={routeMatch.params} />
+            )}
           />
           <Route render={() => <Masthead t={t} params={{}} />} />
         </Switch>

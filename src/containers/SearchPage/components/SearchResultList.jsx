@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
-import { injectT } from '../../../i18n';
 import { ArticleResultShape } from '../../../shapes';
 
 const SearchResultList = ({ results, query, locale, t }) => {
@@ -18,9 +18,9 @@ const SearchResultList = ({ results, query, locale, t }) => {
     <div className="search-results">
       {noSearchHits
         ? <p>{t('searchPage.noHits', { query: query.query })}</p>
-        : results.map(result =>
-            <SearchResult key={result.id} locale={locale} article={result} />,
-          )}
+        : results.map(result => (
+            <SearchResult key={result.id} locale={locale} article={result} />
+          ))}
     </div>
   );
 };
