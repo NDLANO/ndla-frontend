@@ -50,7 +50,12 @@ export const resourceToLinkProps = (resource, subjectId, topicId) => {
     };
   } else if (isArticleResource(resource)) {
     return {
-      to: toArticle(getArticleIdFromResource(resource), subjectId, topicId),
+      to: toArticle(
+        getArticleIdFromResource(resource),
+        subjectId,
+        topicId,
+        resource.id,
+      ),
     };
   }
   return { to: '/404' };

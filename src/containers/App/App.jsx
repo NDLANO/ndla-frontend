@@ -45,7 +45,7 @@ export class App extends React.Component {
               <Masthead t={t} params={routeMatch.params} />}
           />
           <Route
-            path={`${match.url}article/:subjectId/:topicId/:articleId`}
+            path={`${match.url}article/:subjectId/:topicId/:resourceId/:articleId`}
             render={({ match: routeMatch }) =>
               <Masthead t={t} params={routeMatch.params} />}
           />

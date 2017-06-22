@@ -10,9 +10,9 @@ export function toSearch() {
   return '/search';
 }
 
-export function toArticle(articleId, subjectId, topicId) {
-  if (subjectId && topicId) {
-    return `/article/${subjectId}/${topicId}/${articleId}`;
+export function toArticle(articleId, subjectId, topicId, resourceId) {
+  if (subjectId && topicId && resourceId) {
+    return `/article/${subjectId}/${topicId}/${resourceId}/${articleId}`;
   }
   return `/article/${articleId}`;
 }
