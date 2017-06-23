@@ -15,7 +15,7 @@ const FootNote = ({ footNote, editionTitle, publisherTitle, refNr }) =>
     <cite className="c-footnote__cite">{`${footNote.title} (${footNote.year}), ${footNote.authors.join(
       ' ',
     )} ${editionTitle}: ${footNote.edition}, ${publisherTitle}: ${footNote.publisher}`}</cite>
-    &nbsp;<a href={`#$ref_${refNr}_sup`} name={`#$ref_${refNr}_foot`}>
+    &nbsp;<a href={`#ref_${refNr}_sup`} name={`ref_${refNr}_cite`}>
       &#8617;
     </a>
   </li>;
