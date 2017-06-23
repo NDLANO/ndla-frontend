@@ -10,39 +10,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
-  Button,
+  Icon,
   MediaList,
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
 } from 'ndla-ui';
+import { injectT } from '../../i18n';
 import { MediaListItemMeta } from './MediaList';
-import Icon from '../Icon';
+import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const AudioLicenseInfo = ({ audio, locale }) =>
+const AudioLicenseInfo = ({ audio, locale, t }) =>
   <MediaListItem>
     <MediaListItemImage>
       <Icon.Audio className="c-medialist__icon" />
     </MediaListItemImage>
     <MediaListItemBody
       license={audio.copyright.license.license}
-      title="Regler for bruk av lydfilen:"
+      title={t('rules')}
       locale={locale}>
       <MediaListItemActions>
         <h3 className="c-medialist__title">
-          Slik skal du referere til lydfilen:
+          {t('howToReference')}
         </h3>
         <MediaListItemMeta authors={audio.copyright.authors} />
-        <Button outline className="c-licenseToggle__button">
-          Kopier referanse
-        </Button>
+        <CopyTextButton
+          authors={audio.copyright.authors}
+          copyTitle={t('copyTitle')}
+          hasCopiedTitle={t('hasCopiedTitle')}
+        />
         <a
           href={audio.src}
           className="c-button c-button--outline c-licenseToggle__button"
           download>
-          Last ned
+          {t('download')}
         </a>
       </MediaListItemActions>
     </MediaListItemBody>
@@ -53,12 +56,12 @@ AudioLicenseInfo.propTypes = {
   audio: CopyrightObjectShape.isRequired,
 };
 
-const AudioLicenseList = ({ audios, heading, locale }) =>
+const AudioLicenseList = ({ audios, heading, locale, t }) =>
   <div>
     <h2>{heading}</h2>
     <MediaList>
       {audios.map(audio =>
-        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />,
+        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />,
       )}
     </MediaList>
   </div>;
@@ -69,4 +72,4 @@ AudioLicenseList.propTypes = {
   audios: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
 };
 
-export default AudioLicenseList;
+export default injectT(AudioLicenseList, 'license.audios.');
