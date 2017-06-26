@@ -14,8 +14,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 import ErrorReporter from 'ndla-error-reporter';
+import IntlProvider from 'ndla-i18n';
 
-import IntlProvider from './components/IntlProvider';
 import { getLocaleObject, isValidLocale } from './i18n';
 import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';

@@ -3978,6 +3978,14 @@ ndla-error-reporter@^0.1.6:
   dependencies:
     raven-js "^3.9.2"
 
+ndla-i18n@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.0.1.tgz#36f0663cf8d72364397c20123664556c8464190d"
+  dependencies:
+    intl-format-cache "^2.0.5"
+    intl-messageformat "^1.3.0"
+    invariant "^2.2.2"
+
 ndla-licenses@^0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.8.tgz#758fbe422c185ce8c41147f2a2a45576a90f77a6"

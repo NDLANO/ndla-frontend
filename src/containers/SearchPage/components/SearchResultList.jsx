@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from 'ndla-i18n';
 import SearchResult from './SearchResult';
-import { injectT } from '../../../i18n';
 import { ArticleResultShape } from '../../../shapes';
 
 const SearchResultList = ({ results, query, locale, t }) => {

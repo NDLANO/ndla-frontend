@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Hero, OneColumn, TopicBreadcrumb, LayoutItem, Article } from 'ndla-ui';
 import Helmet from 'react-helmet';
+import { injectT } from 'ndla-i18n';
 
 import { actions, getTopicArticle, getTopic, getTopicPath } from './topic';
 import {
@@ -21,7 +22,6 @@ import {
 import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
-import { injectT } from '../../i18n';
 import { toTopic } from '../../routeHelpers';
 
 const TopicArticle = ({ article }) =>

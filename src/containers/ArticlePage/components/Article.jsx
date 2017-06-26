@@ -16,7 +16,7 @@ import {
   removeAsideClickListener,
 } from 'ndla-article-scripts';
 import getLicenseByAbbreviation from 'ndla-licenses';
-import { injectT } from '../../../i18n';
+import { injectT } from 'ndla-i18n';
 import ArticleFootNotes from './ArticleFootNotes';
 import ToggleLicenseBox from './ToggleLicenseBox';
 import ArticleByline from './ArticleByline';

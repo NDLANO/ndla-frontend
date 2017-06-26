@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { TopicIntroductionList } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { getSubtopicsWithIntroduction } from './topic';
-import { injectT } from '../../i18n';
 import { TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 

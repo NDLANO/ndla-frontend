@@ -16,7 +16,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
 } from 'ndla-ui';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
