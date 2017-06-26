@@ -29,18 +29,23 @@ class SubjectPage extends Component {
   componentWillMount() {
     const {
       match: { params: { subjectId } },
-      fetchTopics,
+      fetchTopicsWithIntroductions,
       fetchSubjects,
     } = this.props;
     fetchSubjects();
-    fetchTopics({ subjectId });
+    fetchTopicsWithIntroductions({ subjectId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match: { params: { subjectId } }, fetchTopics } = this.props;
+    const {
+      match: { params: { subjectId } },
+      fetchTopicsWithIntroductions,
+    } = this.props;
 
     if (nextProps.match.params.subjectId !== subjectId) {
-      fetchTopics({ subjectId: nextProps.match.params.subjectId });
+      fetchTopicsWithIntroductions({
+        subjectId: nextProps.match.params.subjectId,
+      });
     }
   }
 
@@ -97,7 +102,7 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  fetchTopics: PropTypes.func.isRequired,
+  fetchTopicsWithIntroductions: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
   subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
   subject: SubjectShape,
@@ -106,7 +111,7 @@ SubjectPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: actions.fetchSubjects,
-  fetchTopics: topicActions.fetchTopics,
+  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
 };
 
 const mapStateToProps = (state, ownProps) => {

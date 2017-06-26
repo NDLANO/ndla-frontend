@@ -6,8 +6,13 @@
  *
  */
 
-import { all, take, call, put, select } from 'redux-saga/effects';
-import { actions, getTopic, hasFetchedTopicsBySubjectId } from './topic';
+import { take, call, put, select } from 'redux-saga/effects';
+import {
+  actions,
+  getTopic,
+  hasFetchedTopicsBySubjectId,
+  getAllTopicsBySubjectId,
+} from './topic';
 import { getLocale } from '../Locale/localeSelectors';
 import {
   getArticleIdFromResource,
@@ -38,7 +43,11 @@ export function* fetchTopicIntroductions(topics) {
 }
 
 export function* fetchTopicArticle(subjectId, topicId) {
-  const topic = yield select(getTopic(subjectId, topicId));
+  const locale = yield select(getLocale);
+  let topic = yield select(getTopic(subjectId, topicId));
+  if (!topic) {
+    topic = yield call(api.fetchTopic, topicId, locale);
+  }
   const articleId = getArticleIdFromResource(topic);
   if (articleId) {
     yield put(fetchArticle(articleId));
@@ -58,20 +67,45 @@ export function* fetchTopics(subjectId) {
   }
 }
 
+export function* fetchTopicsWithIntroductions(subjectId) {
+  const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
+  if (!hasFetched) {
+    const topics = yield call(fetchTopics, subjectId);
+    yield call(fetchTopicIntroductions, topics);
+  } else {
+    const topics = yield select(getAllTopicsBySubjectId(subjectId));
+    yield call(fetchTopicIntroductions, topics);
+  }
+}
+
+export function* watchFetchTopicsWithIntroductions() {
+  const { payload: { subjectId } } = yield take(
+    actions.fetchTopicsWithIntroductions,
+  );
+  yield call(fetchTopicsWithIntroductions, subjectId);
+}
+
 export function* watchFetchTopics() {
   while (true) {
-    const { payload: { subjectId, topicId } } = yield take(actions.fetchTopics);
+    const { payload: { subjectId } } = yield take(actions.fetchTopics);
     const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
     if (!hasFetched) {
-      const topics = yield call(fetchTopics, subjectId);
-      yield all([
-        call(fetchTopicArticle, subjectId, topicId),
-        call(fetchTopicIntroductions, topics),
-      ]);
-    } else {
-      yield call(fetchTopicArticle, subjectId, topicId);
+      yield call(fetchTopics, subjectId);
     }
   }
 }
 
-export default [watchFetchTopics];
+export function* watchFetchTopicArticle() {
+  while (true) {
+    const { payload: { subjectId, topicId } } = yield take(
+      actions.fetchTopicArticle,
+    );
+    yield call(fetchTopicArticle, subjectId, topicId);
+  }
+}
+
+export default [
+  watchFetchTopics,
+  watchFetchTopicsWithIntroductions,
+  watchFetchTopicArticle,
+];
