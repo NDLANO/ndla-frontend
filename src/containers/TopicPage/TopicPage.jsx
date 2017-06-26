@@ -24,7 +24,7 @@ import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
 
-const TopicArticle = ({ article }) => (
+const TopicArticle = ({ article }) =>
   <article className="c-article">
     <LayoutItem layout="center">
       <h1>{article.title}</h1>
@@ -39,8 +39,7 @@ const TopicArticle = ({ article }) => (
         ? <Article.FootNotes footNotes={article.footNotes} />
         : null}
     </LayoutItem>
-  </article>
-);
+  </article>;
 
 TopicArticle.propTypes = {
   article: ArticleShape.isRequired,
