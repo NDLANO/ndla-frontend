@@ -14,6 +14,11 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
+export const fetchResource = (resourceId, locale) =>
+  fetchWithAccessToken(
+    `${baseUrl}/resources/${resourceId}/?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+
 export const fetchTopicResources = (topicId, locale) =>
   fetchWithAccessToken(
     `${baseUrl}/topics/${topicId}/resources/?recursive=true&language=${locale}`,

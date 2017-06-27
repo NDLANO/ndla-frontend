@@ -41,8 +41,8 @@ class ArticlePage extends Component {
       fetchSubjects,
       match: { params },
     } = this.props;
-    const { articleId, subjectId } = params;
-    fetchArticle({ articleId });
+    const { articleId, subjectId, resourceId } = params;
+    fetchArticle({ articleId, resourceId });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });
@@ -133,6 +133,7 @@ ArticlePage.propTypes = {
       articleId: PropTypes.string.isRequired,
       subjectId: PropTypes.string,
       topicId: PropTypes.string,
+      resourceId: PropTypes.string,
     }).isRequired,
   }).isRequired,
   article: ArticleShape,

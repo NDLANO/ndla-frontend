@@ -27,6 +27,30 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
     .run({ silenceTimeout: true });
 });
 
+test('articleSagas watchFetchArticle fetch article with resource info if not in state', () => {
+  nock('http://ndla-api')
+    .get('/article-converter/json/nb/123')
+    .reply(200, { id: 123, title: 'unit test' });
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/resources/urn:resource:123/?language=nb')
+    .reply(200, { id: 'urn:resource:123' });
+
+  return expectSaga(sagas.watchFetchArticle)
+    .withState({ articles: {}, locale: 'nb' })
+    .put(
+      actions.setArticle({
+        id: 123,
+        title: 'unit test',
+        resource: { id: 'urn:resource:123' },
+      }),
+    )
+    .dispatch({
+      type: constants.FETCH_ARTICLE,
+      payload: { articleId: 123, resourceId: 'urn:resource:123' },
+    })
+    .run({ silenceTimeout: true });
+});
+
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
   expectSaga(sagas.watchFetchArticle)
     .withState({
