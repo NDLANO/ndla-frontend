@@ -42,7 +42,7 @@ class ArticlePage extends Component {
       match: { params },
     } = this.props;
     const { articleId, subjectId } = params;
-    fetchArticle(articleId);
+    fetchArticle({ articleId });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });

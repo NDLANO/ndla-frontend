@@ -50,7 +50,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
   }
   const articleId = getArticleIdFromResource(topic);
   if (articleId) {
-    yield put(fetchArticle(articleId));
+    yield put(fetchArticle({ articleId }));
   }
 }
 

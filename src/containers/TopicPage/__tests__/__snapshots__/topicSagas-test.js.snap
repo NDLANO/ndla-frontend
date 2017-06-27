@@ -42,7 +42,9 @@ Object {
       "@@redux-saga/IO": true,
       "PUT": Object {
         "action": Object {
-          "payload": "1",
+          "payload": Object {
+            "articleId": "1",
+          },
           "type": "FETCH_ARTICLE",
         },
         "channel": null,

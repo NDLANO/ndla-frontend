@@ -36,7 +36,7 @@ export function* fetchArticle(id) {
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: id } = yield take(constants.FETCH_ARTICLE);
+    const { payload: { articleId: id } } = yield take(constants.FETCH_ARTICLE);
     const currentArticle = yield select(getArticle(id));
     if (!currentArticle || currentArticle.id !== id) {
       yield call(fetchArticle, id);
