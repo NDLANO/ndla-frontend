@@ -14,9 +14,9 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchResource = (resourceId, locale) =>
+export const fetchResourceTypesForResource = (resourceId, locale) =>
   fetchWithAccessToken(
-    `${baseUrl}/resources/${resourceId}/?language=${locale}`,
+    `${baseUrl}/resources/${resourceId}/resource-types/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchTopicResources = (topicId, locale) =>

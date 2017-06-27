@@ -14,13 +14,17 @@ import * as actions from './articleActions';
 import * as api from './articleApi';
 import * as resourceApi from '../Resources/resourceApi';
 
-export function* fetchResource(resourceId, locale) {
+export function* fetchResourceTypesForArticle(resourceId, locale) {
   try {
-    const resource = yield call(resourceApi.fetchResource, resourceId, locale);
+    const resource = yield call(
+      resourceApi.fetchResourceTypesForResource,
+      resourceId,
+      locale,
+    );
     return resource;
   } catch (error) {
     console.error(error); //eslint-disable-line
-    return undefined;
+    return [];
   }
 }
 
@@ -28,11 +32,11 @@ export function* fetchArticle(articleId, resourceId) {
   try {
     const locale = yield select(getLocale);
     if (resourceId) {
-      const [article, resource] = yield all([
+      const [article, resourceTypes] = yield all([
         call(api.fetchArticle, articleId, locale),
-        call(fetchResource, resourceId, locale),
+        call(fetchResourceTypesForArticle, resourceId, locale),
       ]);
-      yield put(actions.setArticle({ ...article, resource }));
+      yield put(actions.setArticle({ ...article, resourceTypes }));
     } else {
       const article = yield call(api.fetchArticle, articleId, locale);
       yield put(actions.setArticle(article));

@@ -32,8 +32,8 @@ test('articleSagas watchFetchArticle fetch article with resource info if not in 
     .get('/article-converter/json/nb/123')
     .reply(200, { id: 123, title: 'unit test' });
   nock('http://ndla-api')
-    .get('/taxonomy/v1/resources/urn:resource:123/?language=nb')
-    .reply(200, { id: 'urn:resource:123' });
+    .get('/taxonomy/v1/resources/urn:resource:123/resource-types/?language=nb')
+    .reply(200, [{ id: 'urn:resource-type:video' }]);
 
   return expectSaga(sagas.watchFetchArticle)
     .withState({ articles: {}, locale: 'nb' })
@@ -41,7 +41,7 @@ test('articleSagas watchFetchArticle fetch article with resource info if not in 
       actions.setArticle({
         id: 123,
         title: 'unit test',
-        resource: { id: 'urn:resource:123' },
+        resourceTypes: [{ id: 'urn:resource-type:video' }],
       }),
     )
     .dispatch({
