@@ -16,7 +16,8 @@ import {
   removeAsideClickListener,
 } from 'ndla-article-scripts';
 import getLicenseByAbbreviation from 'ndla-licenses';
-import { injectT } from '../../../i18n';
+import { injectT } from 'ndla-i18n';
+import ArticleFootNotes from './ArticleFootNotes';
 import ToggleLicenseBox from './ToggleLicenseBox';
 import ArticleByline from './ArticleByline';
 import LicenseBox from '../../../components/license/LicenseBox';
@@ -68,16 +69,16 @@ class Article extends Component {
           <UIArticle.Introduction introduction={article.introduction} />
           <ArticleByline
             authors={article.copyright.authors}
-            updated={article.updated}
-          />
-          {this.renderToggleLicenseBox()}
+            updated={article.updated}>
+            {this.renderToggleLicenseBox()}
+          </ArticleByline>
         </LayoutItem>
         <LayoutItem layout="center">
           <UIArticle.Content content={article.content} />
         </LayoutItem>
         <LayoutItem layout="center">
           {article.footNotes
-            ? <UIArticle.FootNotes footNotes={article.footNotes} />
+            ? <ArticleFootNotes footNotes={article.footNotes} />
             : null}
           {this.renderToggleLicenseBox()}
           <a

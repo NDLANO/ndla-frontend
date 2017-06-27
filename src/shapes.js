@@ -66,11 +66,24 @@ export const MessageShape = PropTypes.shape({
   }),
 });
 
+export const LicenseAuthorShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
 export const CopyrightObjectShape = PropTypes.shape({
   title: PropTypes.string,
   src: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
-    authors: PropTypes.array.isRequired,
+    authors: PropTypes.arrayOf(LicenseAuthorShape.isRequired).isRequired,
   }).isRequired,
+});
+
+export const FootNoteShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  authors: PropTypes.array.isRequired,
+  edition: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
 });

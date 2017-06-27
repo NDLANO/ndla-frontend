@@ -11,8 +11,8 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import defined from 'defined';
+import IntlProvider from 'ndla-i18n';
 
-import IntlProvider from '../../src/components/IntlProvider';
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Html from '../helpers/Html';
 import routes from '../../src/routes';

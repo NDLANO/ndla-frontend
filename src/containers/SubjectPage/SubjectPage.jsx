@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 import { actions, getSubjectById } from './subjects';
 import {
   actions as topicActions,

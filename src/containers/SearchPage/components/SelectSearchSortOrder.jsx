@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '../../../i18n';
+import { injectT } from 'ndla-i18n';
 
 class SelectSearchSortOrder extends Component {
   constructor(props) {

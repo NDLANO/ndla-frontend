@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 
 import { toTopic } from '../../routeHelpers';
 import * as actions from './articleActions';
@@ -25,7 +26,6 @@ import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
 import config from '../../config';
-import { injectT } from '../../i18n';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
   ? window.assets

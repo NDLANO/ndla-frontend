@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { injectT } from '../../i18n';
+import { injectT } from 'ndla-i18n';
 import { TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { actions, getResourcesByTopicId } from '../Resources/resource';
