@@ -25,6 +25,7 @@ import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
+import getResourceTypeMetaData from './components/getResourceTypeMetaData';
 import config from '../../config';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
@@ -86,6 +87,8 @@ class ArticlePage extends Component {
       });
     }
 
+    const resourceTypeMetaData = getResourceTypeMetaData(article.resourceTypes);
+
     const metaDescription = article.metaDescription
       ? { name: 'description', content: article.metaDescription }
       : {};
@@ -96,7 +99,7 @@ class ArticlePage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        <Hero>
+        <Hero {...resourceTypeMetaData.heroProps}>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
