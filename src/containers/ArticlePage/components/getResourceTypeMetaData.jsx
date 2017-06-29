@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Document, Pencil, Path } from 'ndla-ui/icons';
 
 const mapping = {
@@ -21,11 +20,11 @@ const mapping = {
   },
   'urn:resource-type:assignment': {
     icon: <Pencil />,
-    heroProps: {},
+    heroProps: { green: true },
   },
   default: {
     icon: <Document />,
-    heroProps: { green: true },
+    heroProps: { red: true },
   },
 };
 
