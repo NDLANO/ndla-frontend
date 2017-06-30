@@ -58,7 +58,9 @@ AudioLicenseInfo.propTypes = {
 
 const AudioLicenseList = ({ audios, heading, locale, t }) =>
   <div>
-    <h2>{heading}</h2>
+    <h2>
+      {heading}
+    </h2>
     <MediaList>
       {audios.map(audio =>
         <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />,

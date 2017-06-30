@@ -17,7 +17,9 @@ const SearchResultList = ({ results, query, locale, t }) => {
   return (
     <div className="search-results">
       {noSearchHits
-        ? <p>{t('searchPage.noHits', { query: query.query })}</p>
+        ? <p>
+            {t('searchPage.noHits', { query: query.query })}
+          </p>
         : results.map(result =>
             <SearchResult key={result.id} locale={locale} article={result} />,
           )}

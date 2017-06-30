@@ -20,7 +20,9 @@ const SubjectsPage = ({ t, subjects }) =>
     <OneColumn>
       <article>
         <section>
-          <h2>{t('subjectsPage.chooseSubject')}</h2>
+          <h2>
+            {t('subjectsPage.chooseSubject')}
+          </h2>
           <SubjectLinkList subjects={subjects} />
         </section>
       </article>

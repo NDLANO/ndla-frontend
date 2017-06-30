@@ -27,7 +27,9 @@ import { toTopic } from '../../routeHelpers';
 const TopicArticle = ({ article }) =>
   <article className="c-article">
     <LayoutItem layout="center">
-      <h1>{article.title}</h1>
+      <h1>
+        {article.title}
+      </h1>
       <Article.Introduction introduction={article.introduction} />
       {/* <ArticleByline article={article} />*/}
     </LayoutItem>

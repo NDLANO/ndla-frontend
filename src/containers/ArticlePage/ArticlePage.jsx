@@ -157,9 +157,8 @@ const mapDispatchToProps = {
 const makeMapStateToProps = (_, ownProps) => {
   const { articleId, subjectId, topicId } = ownProps.match.params;
   const getArticleSelector = getArticle(articleId);
-  const getTopicPathSelector = subjectId && topicId
-    ? getTopicPath(subjectId, topicId)
-    : () => undefined;
+  const getTopicPathSelector =
+    subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId
     ? getSubjectById(subjectId)
     : () => undefined;

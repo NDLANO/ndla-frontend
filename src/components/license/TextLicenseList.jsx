@@ -52,8 +52,12 @@ TextLicenseInfo.propTypes = {
 
 const TextLicenseList = ({ texts, heading, description, locale, t }) =>
   <div>
-    <h2>{heading}</h2>
-    <p>{description}</p>
+    <h2>
+      {heading}
+    </h2>
+    <p>
+      {description}
+    </p>
     <MediaList>
       {texts.map(text =>
         <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />,

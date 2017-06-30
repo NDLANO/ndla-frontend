@@ -121,12 +121,13 @@ app.use(
         ],
       },
     },
-    frameguard: process.env.NODE_ENV === 'development'
-      ? {
-          action: 'allow-from',
-          domain: '*://localhost',
-        }
-      : undefined,
+    frameguard:
+      process.env.NODE_ENV === 'development'
+        ? {
+            action: 'allow-from',
+            domain: '*://localhost',
+          }
+        : undefined,
   }),
 );
 

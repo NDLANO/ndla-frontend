@@ -8,7 +8,9 @@
 
 import defined from 'defined';
 
-import createFieldByLanguageFinder, { findFallbackTranslation } from './createFieldByLanguageFinder';
+import createFieldByLanguageFinder, {
+  findFallbackTranslation,
+} from './createFieldByLanguageFinder';
 
 export const titleI18N = createFieldByLanguageFinder('title');
 export const titlesI18N = createFieldByLanguageFinder('titles', 'title');

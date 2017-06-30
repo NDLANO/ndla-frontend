@@ -30,7 +30,9 @@ const FooterWrapper = ({ t }) =>
         name="Pål Frønsdal"
       />
     </Footer.Text>
-    <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
+    <Footer.Text>
+      {t('footer.footerInfo')}
+    </Footer.Text>
   </Footer>;
 
 FooterWrapper.propTypes = {

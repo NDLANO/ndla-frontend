@@ -38,7 +38,9 @@ class Resources extends Component {
           <div
             key={type.id}
             {...resClasses('', [(type.name.replace(/æ/g, ''): '')])}>
-            <h1 className="c-resources__title">{type.name}</h1>
+            <h1 className="c-resources__title">
+              {type.name}
+            </h1>
             <ResourceList
               type={type.name}
               resourceToLinkProps={resourceToLinkProps}

@@ -15,7 +15,9 @@ import { MessageShape } from '../../shapes';
 
 export const Action = ({ title, onClick }) =>
   <button onClick={onClick} className="un-button alert_action">
-    <span className="alert_action-text">{title}</span>
+    <span className="alert_action-text">
+      {title}
+    </span>
   </button>;
 
 Action.propTypes = {
