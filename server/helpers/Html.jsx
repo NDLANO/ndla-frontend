@@ -107,6 +107,7 @@ const Html = props => {
             __html: `window.accessToken = ${serialize(getAccessToken())}`,
           }}
         />
+        <script src={`/assets/${assets['manifest.js']}`} />
         <script src={`/assets/${assets['vendor.js']}`} />
         <script src={`/assets/${assets['main.js']}`} />
         {/* <script type="text/javascript" async src={`https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`} /> */}
