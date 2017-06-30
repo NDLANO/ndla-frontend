@@ -10,13 +10,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
-  Icon,
   MediaList,
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
 } from 'ndla-ui';
+import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
@@ -25,7 +25,7 @@ import { CopyrightObjectShape } from '../../shapes';
 const AudioLicenseInfo = ({ audio, locale, t }) =>
   <MediaListItem>
     <MediaListItemImage>
-      <Icon.Audio className="c-medialist__icon" />
+      <Audio className="c-medialist__icon" />
     </MediaListItemImage>
     <MediaListItemBody
       license={audio.copyright.license.license}

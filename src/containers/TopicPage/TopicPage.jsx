@@ -47,18 +47,32 @@ TopicArticle.propTypes = {
 
 class TopicPage extends Component {
   componentWillMount() {
-    const { match: { params }, fetchTopics, fetchSubjects } = this.props;
+    const {
+      match: { params },
+      fetchTopicArticle,
+      fetchTopicsWithIntroductions,
+      fetchSubjects,
+    } = this.props;
     const { subjectId, topicId } = params;
-    fetchTopics({ subjectId, topicId });
+    fetchTopicArticle({ subjectId, topicId });
+    fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match: { params }, fetchTopics } = this.props;
+    const {
+      match: { params },
+      fetchTopicArticle,
+      fetchTopicsWithIntroductions,
+    } = this.props;
     const { subjectId, topicId } = params;
 
     if (nextProps.match.params.topicId !== topicId) {
-      fetchTopics({ subjectId, topicId: nextProps.match.params.topicId });
+      fetchTopicArticle({
+        subjectId,
+        topicId: nextProps.match.params.topicId,
+      });
+      fetchTopicsWithIntroductions({ subjectId });
     }
   }
 
@@ -139,7 +153,8 @@ TopicPage.propTypes = {
     }).isRequired,
   }).isRequired,
   fetchSubjects: PropTypes.func.isRequired,
-  fetchTopics: PropTypes.func.isRequired,
+  fetchTopicArticle: PropTypes.func.isRequired,
+  fetchTopicsWithIntroductions: PropTypes.func.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -148,7 +163,8 @@ TopicPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopics: actions.fetchTopics,
+  fetchTopicArticle: actions.fetchTopicArticle,
+  fetchTopicsWithIntroductions: actions.fetchTopicsWithIntroductions,
 };
 
 const mapStateToProps = (state, ownProps) => {

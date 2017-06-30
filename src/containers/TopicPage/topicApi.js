@@ -18,3 +18,8 @@ export const fetchTopics = (subjectId, locale) =>
   fetchWithAccessToken(
     `${baseUrl}/subjects/${subjectId}/topics/?recursive=true&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
+
+export const fetchTopic = (topicId, locale) =>
+  fetchWithAccessToken(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );

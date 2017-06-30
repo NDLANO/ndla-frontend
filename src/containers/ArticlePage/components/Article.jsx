@@ -20,6 +20,7 @@ import { injectT } from 'ndla-i18n';
 import ArticleFootNotes from './ArticleFootNotes';
 import ToggleLicenseBox from './ToggleLicenseBox';
 import ArticleByline from './ArticleByline';
+import ArticleTitle from './ArticleTitle';
 import LicenseBox from '../../../components/license/LicenseBox';
 
 class Article extends Component {
@@ -65,7 +66,10 @@ class Article extends Component {
     return (
       <section className="c-article">
         <LayoutItem layout="center">
-          <h1>{article.title}</h1>
+          <ArticleTitle
+            title={article.title}
+            resourceTypes={article.resourceTypes}
+          />
           <UIArticle.Introduction introduction={article.introduction} />
           <ArticleByline
             authors={article.copyright.authors}

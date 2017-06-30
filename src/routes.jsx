@@ -45,7 +45,7 @@ export default (
       />
 
       <Route
-        path="/article/:subjectId/:topicId/:articleId"
+        path="/article/:subjectId/:topicId/:resourceId/:articleId"
         component={ArticlePage}
       />
       <Route path="/article/:articleId" component={ArticlePage} />

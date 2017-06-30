@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { Icon } from 'ndla-ui';
+import { Time, User } from 'ndla-ui/icons';
 
 const classes = new BEMHelper({
   name: 'article',
@@ -18,7 +18,7 @@ const classes = new BEMHelper({
 
 const AuthorsList = ({ authors }) =>
   <span {...classes('authors')}>
-    <Icon.User /> {authors.map(author => author.name).join(', ')}
+    <User /> {authors.map(author => author.name).join(', ')}
   </span>;
 
 AuthorsList.propTypes = {
@@ -31,7 +31,7 @@ AuthorsList.propTypes = {
 
 const LastUpdated = ({ date }) =>
   <span {...classes('date')}>
-    <Icon.Time /> Sist oppdatert: {date}
+    <Time /> Sist oppdatert: {date}
   </span>;
 
 LastUpdated.propTypes = {

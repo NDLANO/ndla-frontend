@@ -17,6 +17,9 @@ import { getLocale } from '../Locale/localeSelectors';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 
 export const fetchTopics = createAction('FETCH_TOPICS');
+export const fetchTopicsWithIntroductions = createAction(
+  'FETCH_TOPICS_WITH_INTRODUCTIONS',
+);
 export const setTopics = createAction('SET_TOPICS');
 export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
 
@@ -24,6 +27,7 @@ export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
 
 export const actions = {
   fetchTopics,
+  fetchTopicsWithIntroductions,
   setTopics,
   fetchTopicArticle,
   setTopicIntroductions,
