@@ -3,15 +3,17 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
-    "clean": "rimraf ./htdocs/assets/*",
+    "build-server": "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
+    "build-client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
+    "build": "yarn build-server --silent && yarn build-client --silent",
+    "clean": "rimraf ./htdocs/*",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch",
     "lint": "yarn run lint-prettier --silent && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
     "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --watch server",
     "start-with-ssr": "cross-env NODE_ENV=development nodemon server --watch server",
-    "start-prod": "cross-env NODE_ENV=production node server",
+    "start-prod": "cross-env NODE_ENV=production node htdocs/server",
     "prebuild": "npm run clean",
     "pretest": "npm run lint",
     "prettier": "node prettier.js write"
@@ -27,6 +29,7 @@
     "npm": "~3.10.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^20.0.3",
     "babel-loader": "^7.1.1",

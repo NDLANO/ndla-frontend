@@ -16,7 +16,7 @@ import { getAccessToken } from '../../src/util/apiHelpers';
 import config from '../../src/config';
 
 const assets = config.isProduction
-  ? require('../../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+  ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
   : require('../developmentAssets');
 
 const GoogleTagMangerNoScript = () => {
