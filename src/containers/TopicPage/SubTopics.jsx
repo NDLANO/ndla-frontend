@@ -27,7 +27,9 @@ export const TopicResources = ({ subtopics, subjectId, topicPath, t }) => {
   }
   return (
     <div>
-      <h1 className="c-resources__title">{t('topicPage.topics')}</h1>
+      <h1 className="c-resources__title">
+        {t('topicPage.topics')}
+      </h1>
       <TopicIntroductionList
         toTopic={toTopic(subjectId, topicPath)}
         topics={subtopics}

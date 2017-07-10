@@ -21,11 +21,18 @@ const ArticleTitle = ({ resourceTypes, title }) => {
   if (resourceTypes && resourceTypes.length > 0) {
     const resourceTypeMetaData = getResourceTypeMetaData(resourceTypes);
     return (
-      <h1 {...classes('title', 'icon')}>{resourceTypeMetaData.icon}{title}</h1>
+      <h1 {...classes('title', 'icon')}>
+        {resourceTypeMetaData.icon}
+        {title}
+      </h1>
     );
   }
 
-  return <h1 {...classes('title')}>{title}</h1>;
+  return (
+    <h1 {...classes('title')}>
+      {title}
+    </h1>
+  );
 };
 
 ArticleTitle.propTypes = {

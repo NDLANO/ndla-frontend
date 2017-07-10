@@ -18,9 +18,10 @@ export default handleActions(
           message: action.payload.message,
           severity: action.payload.severity,
           action: action.payload.action,
-          timeToLive: typeof action.payload.timeToLive === 'undefined'
-            ? 1500
-            : action.payload.timeToLive,
+          timeToLive:
+            typeof action.payload.timeToLive === 'undefined'
+              ? 1500
+              : action.payload.timeToLive,
         };
 
         return [...state, message];

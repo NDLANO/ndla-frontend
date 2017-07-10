@@ -77,8 +77,12 @@ ImageLicenseInfo.propTypes = {
 
 const ImageLicenseList = ({ images, heading, description, locale, t }) =>
   <div>
-    <h2>{heading}</h2>
-    <p>{description}</p>
+    <h2>
+      {heading}
+    </h2>
+    <p>
+      {description}
+    </p>
     <MediaList>
       {images.map(image =>
         <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />,

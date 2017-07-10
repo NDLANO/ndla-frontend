@@ -29,7 +29,9 @@ const SelectLocale = ({ locale, location: { pathname, search } }) => {
       }}
       value={locale}>
       {appLocales.map(l =>
-        <option key={l.abbreviation} value={l.abbreviation}>{l.name}</option>,
+        <option key={l.abbreviation} value={l.abbreviation}>
+          {l.name}
+        </option>,
       )}
     </select>
   );

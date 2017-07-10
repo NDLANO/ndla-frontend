@@ -6,12 +6,12 @@
  *
  */
 
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../webpack.config.dev';
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
 export default function enableDevMiddleWare(app) {
+  const webpackConfig = require('../../webpack.config.dev'); // eslint-disable-line global-require
   const compiler = webpack(webpackConfig);
   app.use(
     webpackDevMiddleware(compiler, {

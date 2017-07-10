@@ -23,12 +23,16 @@ export const WelcomePage = ({ t, subjects, searchEnabled }) =>
     <OneColumn>
       <article>
         <section>
-          <h1>{t('welcomePage.subjects')}</h1>
+          <h1>
+            {t('welcomePage.subjects')}
+          </h1>
           <SubjectLinkList subjects={subjects} />
         </section>
         {searchEnabled
           ? <section>
-              <Link to={toSearch()}>{t('welcomePage.search')}</Link>
+              <Link to={toSearch()}>
+                {t('welcomePage.search')}
+              </Link>
             </section>
           : null}
       </article>

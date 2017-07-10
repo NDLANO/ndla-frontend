@@ -31,7 +31,7 @@ import config from '../../config';
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
   ? window.assets
   : config.isProduction
-    ? require('../../../htdocs/assets/assets') // eslint-disable-line import/no-unresolved
+    ? require('../../../assets/assets') // eslint-disable-line import/no-unresolved
     : require('../../../server/developmentAssets');
 
 class ArticlePage extends Component {
@@ -157,9 +157,8 @@ const mapDispatchToProps = {
 const makeMapStateToProps = (_, ownProps) => {
   const { articleId, subjectId, topicId } = ownProps.match.params;
   const getArticleSelector = getArticle(articleId);
-  const getTopicPathSelector = subjectId && topicId
-    ? getTopicPath(subjectId, topicId)
-    : () => undefined;
+  const getTopicPathSelector =
+    subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId
     ? getSubjectById(subjectId)
     : () => undefined;
