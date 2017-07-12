@@ -18,13 +18,17 @@ const mapping = {
     icon: <Document />,
     heroProps: { red: true },
   },
+  'urn:resource-type:article': {
+    icon: <Document />,
+    heroProps: { red: true },
+  },
   'urn:resource-type:assignment': {
     icon: <Pencil />,
     heroProps: { green: true },
   },
   default: {
     icon: <Document />,
-    heroProps: { red: true },
+    heroProps: {},
   },
 };
 

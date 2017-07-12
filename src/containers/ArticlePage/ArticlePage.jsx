@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import defined from 'defined';
 
 import { toTopic } from '../../routeHelpers';
 import * as actions from './articleActions';
@@ -87,7 +88,9 @@ class ArticlePage extends Component {
       });
     }
 
-    const resourceTypeMetaData = getResourceTypeMetaData(article.resourceTypes);
+    const resourceTypeMetaData = getResourceTypeMetaData(
+      defined(article.resourceTypes, []),
+    );
 
     const metaDescription = article.metaDescription
       ? { name: 'description', content: article.metaDescription }
