@@ -12,8 +12,13 @@ const phrases = {
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   masthead: {
-    menu: 'Meny',
-    close: 'Lukk',
+    menu: {
+      close: 'Lukk',
+      goTo: 'Gå til',
+      search: 'Søk',
+      subjectOverview: 'Fagoversikt',
+      title: 'Meny',
+    },
   },
   message: 'message',
   messages: 'messages',

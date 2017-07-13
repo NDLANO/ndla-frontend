@@ -11,8 +11,13 @@ const phrases = {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
   masthead: {
-    menu: 'Menu',
-    close: 'Close',
+    menu: {
+      close: 'Close',
+      goTo: 'Go to',
+      search: 'Search',
+      subjectOverview: 'Subject overview',
+      title: 'Menu',
+    },
   },
   welcomePage: {
     subjects: 'Subjects',
