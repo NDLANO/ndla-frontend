@@ -25,15 +25,20 @@ const MastheadContainer = ({ t, subject, topics }) =>
     <MastheadItem left>
       {subject
         ? <ClickToggle
-            title={t('masthead.menu')}
-            openTitle={t('masthead.close')}
+            title={t('masthead.menu.title')}
+            openTitle={t('masthead.menu.close')}
             className="c-topic-menu-container"
             buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
             <TopicMenu
-              toSubject={toSubject(subject.id)}
-              subject={subject.name}
+              toSubject={() => toSubject(subject.id)}
+              subjectTitle={subject.name}
               toTopic={toTopicWithSubjectIdBound(subject.id)}
               topics={topics}
+              messages={{
+                goTo: t('masthead.menu.goTo'),
+                subjectOverview: t('masthead.menu.subjectOverview'),
+                search: t('masthead.menu.search'),
+              }}
             />
           </ClickToggle>
         : null}

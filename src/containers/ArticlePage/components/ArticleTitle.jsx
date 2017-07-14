@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import getResourceTypeMetaData from './getResourceTypeMetaData';
+import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
 import { ResourceTypeShape } from '../../../shapes';
 
 const classes = new BEMHelper({

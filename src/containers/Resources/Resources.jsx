@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import withRouter from 'react-router-dom/withRouter';
 import { connect } from 'react-redux';
-import { ResourceList } from 'ndla-ui';
+import ResourceList from './ResourceList';
+import getResourceTypeMetaData from '../../components/getResourceTypeMetaData';
 import { ResourceTypeShape } from '../../shapes';
 import { getResourceTypesByTopicId } from './resource';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
@@ -20,6 +21,30 @@ const resClasses = new BEMHelper({
   name: 'resource-group',
   prefix: 'c-',
 });
+
+const ResourceType = ({ type, resourceToLinkProps }) => {
+  const metaData = getResourceTypeMetaData([type]);
+  return (
+    <div key={type.id} {...resClasses('', '', metaData.resourceListClassName)}>
+      <h1 className="c-resources__title">
+        {type.name}
+      </h1>
+      <ResourceList
+        icon={metaData.icon}
+        resourceToLinkProps={resourceToLinkProps}
+        resources={type.resources.map(resource => ({
+          ...resource,
+          icon: metaData.icon,
+        }))}
+      />
+    </div>
+  );
+};
+
+ResourceType.propTypes = {
+  type: ResourceTypeShape.isRequired,
+  resourceToLinkProps: PropTypes.func.isRequired,
+};
 
 class Resources extends Component {
   componentWillMount() {}
@@ -35,21 +60,11 @@ class Resources extends Component {
     return (
       <div>
         {topicResourcesByType.map(type =>
-          <div
+          <ResourceType
             key={type.id}
-            {...resClasses('', [(type.name.replace(/æ/g, ''): '')])}>
-            <h1 className="c-resources__title">
-              {type.name}
-            </h1>
-            <ResourceList
-              type={type.name}
-              resourceToLinkProps={resourceToLinkProps}
-              resources={type.resources.map(resource => ({
-                ...resource,
-                type: type.name,
-              }))}
-            />
-          </div>,
+            resourceToLinkProps={resourceToLinkProps}
+            type={type}
+          />,
         )}
       </div>
     );
