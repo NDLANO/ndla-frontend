@@ -13,18 +13,26 @@ const mapping = {
   'urn:resource-type:learning-path': {
     icon: <Path />,
     heroProps: {},
+    resourceListClassName:
+      'c-resource-group--urn-resource-type-0368610f-19bf-4a6f-86fa-9e6ea8876511',
   },
   'urn:resource-type:subject-matter': {
     icon: <Document />,
     heroProps: { red: true },
+    resourceListClassName:
+      'c-resource-group--urn-resource-type-6c0bd4b9-23cb-43bf-affa-557e673d2c73',
   },
   'urn:resource-type:article': {
     icon: <Document />,
     heroProps: { red: true },
+    resourceListClassName:
+      'c-resource-group--urn-resource-type-6c0bd4b9-23cb-43bf-affa-557e673d2c73',
   },
   'urn:resource-type:assignment': {
     icon: <Pencil />,
     heroProps: { green: true },
+    resourceListClassName:
+      'c-resource-group--urn-resource-type-622364e0-8cea-4083-9ce1-74e33e14e0b4',
   },
   default: {
     icon: <Document />,

@@ -22,3 +22,7 @@
     color: #20588f;
   }
 }
+
+.c-topic-resource__item--hidden {
+  display: none;
+}
