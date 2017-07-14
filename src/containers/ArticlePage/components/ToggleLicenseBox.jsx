@@ -37,7 +37,7 @@ class ToggleLicenseBox extends Component {
         })}>
         <Button
           stripped
-          className="license-toggler"
+          className="c-article__license-toggler"
           onClick={this.toogleLicenseBox}>
           {expanded ? closeTitle : openTitle}
         </Button>

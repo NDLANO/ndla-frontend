@@ -12,38 +12,30 @@ import BEMHelper from 'react-bem-helper';
 import { Time, User } from 'ndla-ui/icons';
 
 const classes = new BEMHelper({
-  name: 'article',
+  name: 'article-byline',
   prefix: 'c-',
 });
 
-const AuthorsList = ({ authors }) =>
-  <span {...classes('authors')}>
-    <User /> {authors.map(author => author.name).join(', ')}
-  </span>;
-
-AuthorsList.propTypes = {
-  authors: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};
-
-const LastUpdated = ({ date }) =>
-  <span {...classes('date')}>
-    <Time /> Sist oppdatert: {date}
-  </span>;
-
-LastUpdated.propTypes = {
-  date: PropTypes.string,
-};
-
 const ArticleByline = ({ authors, updated, children }) =>
   <div>
-    <section {...classes('byline')}>
-      {authors && <AuthorsList authors={authors} />}
-      <LastUpdated date={updated} />
-      {children}
+    <section {...classes()}>
+      <span {...classes('flex')}>
+        <span {...classes('icon')}>
+          <User />
+        </span>
+        <span {...classes('authors')}>
+          Skrevet av {authors && authors.map(author => author.name).join(', ')}
+        </span>
+      </span>
+      <span {...classes('flex')}>
+        <span {...classes('icon')}>
+          <Time />
+        </span>
+        <span {...classes('date')}>
+          Sist oppdatert {updated}
+        </span>
+        {children}
+      </span>
     </section>
   </div>;
 
