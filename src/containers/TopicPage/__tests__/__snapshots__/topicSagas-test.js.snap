@@ -316,6 +316,12 @@ Object {
         "pattern": "@@redux-saga-test-plan/json/function/actionCreator",
       },
     },
+    Object {
+      "@@redux-saga/IO": true,
+      "TAKE": Object {
+        "pattern": "@@redux-saga-test-plan/json/function/actionCreator",
+      },
+    },
   ],
 }
 `;
@@ -615,6 +621,12 @@ Object {
     },
   ],
   "take": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "TAKE": Object {
+        "pattern": "@@redux-saga-test-plan/json/function/actionCreator",
+      },
+    },
     Object {
       "@@redux-saga/IO": true,
       "TAKE": Object {

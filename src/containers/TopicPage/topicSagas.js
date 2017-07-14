@@ -79,10 +79,12 @@ export function* fetchTopicsWithIntroductions(subjectId) {
 }
 
 export function* watchFetchTopicsWithIntroductions() {
-  const { payload: { subjectId } } = yield take(
-    actions.fetchTopicsWithIntroductions,
-  );
-  yield call(fetchTopicsWithIntroductions, subjectId);
+  while (true) {
+    const { payload: { subjectId } } = yield take(
+      actions.fetchTopicsWithIntroductions,
+    );
+    yield call(fetchTopicsWithIntroductions, subjectId);
+  }
 }
 
 export function* watchFetchTopics() {
