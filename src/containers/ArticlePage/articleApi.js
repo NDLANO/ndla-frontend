@@ -13,7 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const converterBaseUrl = apiResourceUrl('/article-converter/json');
-const baseUrl = apiResourceUrl('/article-api/v1/articles');
+const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, locale) =>
   fetchWithAccessToken(`${converterBaseUrl}/${locale}/${id}`).then(

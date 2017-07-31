@@ -7,24 +7,21 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import { toArticle } from '../../../routeHelpers';
-import { titleI18N } from '../../../util/i18nFieldFinder';
 import { ArticleResultShape } from '../../../shapes';
 
-const SearchResult = ({ article, locale }) =>
+const SearchResult = ({ article }) =>
   <div className="search-result">
     <Link className="search-result__link" to={toArticle(article.id)}>
       <h1 className="search-result__title">
-        {titleI18N(article, locale, true)}
+        {article.title}
       </h1>
     </Link>
   </div>;
 
 SearchResult.propTypes = {
   article: ArticleResultShape.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchResult;

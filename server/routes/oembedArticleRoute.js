@@ -8,7 +8,6 @@
 
 import { isValidLocale } from '../../src/i18n';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
-import { titleI18N } from '../../src/util/i18nFieldFinder';
 import config from '../../src/config';
 
 export function oembedArticleRoute(req, res, token) {
@@ -28,7 +27,7 @@ export function oembedArticleRoute(req, res, token) {
         version: '1.0', // oEmbed version
         height: req.query.height ? req.query.height : 800,
         width: req.query.width ? req.query.width : 800,
-        title: titleI18N(article, lang, true),
+        title: article.title,
         html: `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
       });
     })

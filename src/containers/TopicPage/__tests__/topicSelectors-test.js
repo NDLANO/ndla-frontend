@@ -70,10 +70,7 @@ test('topicSelectors getSubtopicsWithIntroduction', () => {
       },
       topicIntroductions: {
         'urn:topic:1_1': {
-          introduction: [
-            { introduction: 'Tester', language: 'nb' },
-            { introduction: 'Testing', language: 'en' },
-          ],
+          introduction: 'Tester',
         },
       },
     },

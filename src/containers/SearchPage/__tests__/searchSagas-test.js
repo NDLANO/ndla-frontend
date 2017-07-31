@@ -16,7 +16,7 @@ expectSaga.DEFAULT_TIMEOUT = 200;
 
 test('searchSagas search', () => {
   nock('http://ndla-api')
-    .get('/article-api/v1/articles/?query=testing&page=3&sort=alfa&language=nb')
+    .get('/article-api/v2/articles/?query=testing&page=3&sort=alfa&language=nb')
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)
