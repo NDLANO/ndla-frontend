@@ -10,7 +10,6 @@ import defined from 'defined';
 import { getHtmlLang } from '../../src/i18n';
 import { htmlTemplate, htmlErrorTemplate } from '../helpers/oembedHtmlTemplate';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
-import { titleI18N } from '../../src/util/i18nFieldFinder';
 
 export function iframeArticleRoute(req, res, token) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
@@ -22,7 +21,7 @@ export function iframeArticleRoute(req, res, token) {
           lang,
           article.content,
           article.introduction,
-          titleI18N(article, lang, true),
+          article.title,
         ),
       );
       res.end();

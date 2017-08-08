@@ -13,7 +13,6 @@ import { OneColumn, Pager } from 'ndla-ui';
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
-import { getLocale } from '../Locale/localeSelectors';
 import SearchForm from './components/SearchForm';
 import SearchResultList from './components/SearchResultList';
 import SelectSearchSortOrder from './components/SelectSearchSortOrder';
@@ -36,14 +35,7 @@ class SearchPage extends Component {
   }
 
   render() {
-    const {
-      location,
-      results,
-      locale,
-      searching,
-      lastPage,
-      history,
-    } = this.props;
+    const { location, results, searching, lastPage, history } = this.props;
     const query = parseQueryString(location.search);
 
     return (
@@ -75,7 +67,7 @@ class SearchPage extends Component {
           />
         </div>
 
-        <SearchResultList query={query} locale={locale} results={results} />
+        <SearchResultList query={query} results={results} />
 
         <Pager
           page={query.page ? parseInt(query.page, 10) : 1}
@@ -96,7 +88,6 @@ SearchPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   clearSearchResult: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: PropTypes.arrayOf(ArticleResultShape).isRequired,
   searching: PropTypes.bool.isRequired,
@@ -109,7 +100,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  locale: getLocale(state),
   results: getResults(state),
   lastPage: getLastPage(state),
   searching: getSearching(state),

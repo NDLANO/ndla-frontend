@@ -12,8 +12,6 @@ import defined from 'defined';
 
 import groupBy from '../../util/groupBy';
 import { getArticle } from '../ArticlePage/articleSelectors';
-import { introductionI18N } from '../../util/i18nFieldFinder';
-import { getLocale } from '../Locale/localeSelectors';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 
 export const fetchTopics = createAction('FETCH_TOPICS');
@@ -101,13 +99,13 @@ export const getTopicsBySubjectId = subjectId =>
 
 export const getTopicsBySubjectIdWithIntroduction = subjectId =>
   createSelector(
-    [getTopicsBySubjectId(subjectId), getTopicIntroductions, getLocale],
-    (topics, topicIntroductions, locale) =>
+    [getTopicsBySubjectId(subjectId), getTopicIntroductions],
+    (topics, topicIntroductions) =>
       topics.map(topic => {
         if (topic && topicIntroductions) {
           const topicIntroduction = topicIntroductions[topic.id];
           const introduction = topicIntroduction
-            ? introductionI18N(topicIntroduction, locale, true)
+            ? topicIntroduction.introduction
             : undefined;
           return { ...topic, introduction };
         }
@@ -179,13 +177,13 @@ export const getTopicPath = (subjectId, topicId) =>
 
 export const getSubtopicsWithIntroduction = (subjectId, topicId) =>
   createSelector(
-    [getSubtopics(subjectId, topicId), getTopicIntroductions, getLocale],
-    (topics, topicIntroductions, locale) =>
+    [getSubtopics(subjectId, topicId), getTopicIntroductions],
+    (topics, topicIntroductions) =>
       topics.map(topic => {
         if (topic && topicIntroductions) {
           const topicIntroduction = topicIntroductions[topic.id];
           const introduction = topicIntroduction
-            ? introductionI18N(topicIntroduction, locale, true)
+            ? topicIntroduction.introduction
             : undefined;
           return { ...topic, introduction };
         }

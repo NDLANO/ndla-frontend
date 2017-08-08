@@ -12,7 +12,7 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v1/articles');
+const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const search = (queryString, locale) =>
   fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`).then(

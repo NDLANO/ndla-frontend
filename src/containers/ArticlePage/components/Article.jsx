@@ -71,9 +71,8 @@ class Article extends Component {
           <UIArticle.Content content={article.content} />
         </LayoutItem>
         <LayoutItem layout="center">
-          {article.footNotes
-            ? <ArticleFootNotes footNotes={article.footNotes} />
-            : null}
+          {Object.keys(article.footNotes).length > 0 &&
+            <ArticleFootNotes footNotes={article.footNotes} />}
           {this.renderToggleLicenseBox(true)}
           <a
             className="article-old-ndla-link"

@@ -20,7 +20,7 @@ test('resourceSagas watchFetchTopicsWithIntroductions', () => {
     .reply(200, topics);
 
   const req2 = nock('http://ndla-api')
-    .get('/article-api/v1/articles?ids=1,1_2')
+    .get('/article-api/v2/articles?ids=1,1_2')
     .reply(200, { results: articles });
 
   return expectSaga(sagas.watchFetchTopicsWithIntroductions)
@@ -41,7 +41,7 @@ test('resourceSagas watchFetchTopicsWithIntroductions', () => {
 
 test('topicSagas watchFetchTopicsWithIntroductions when topics are in state', () => {
   const req1 = nock('http://ndla-api')
-    .get('/article-api/v1/articles?ids=1,1_2')
+    .get('/article-api/v2/articles?ids=1,1_2')
     .reply(200, { results: articles });
 
   return expectSaga(sagas.watchFetchTopicsWithIntroductions)
