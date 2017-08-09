@@ -63,6 +63,7 @@ app.use(
           'http://players.brightcove.net',
           'https://players.brightcove.net',
           '*.nrk.no',
+          'http://nrk.no',
           'https://www.googletagmanager.com',
           'https://www.google-analytics.com',
           'https://www.youtube.com',
