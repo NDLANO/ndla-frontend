@@ -29,6 +29,22 @@ app.use(
   }),
 );
 
+const connectSrc = (() => {
+  const defaultConnectSrc = [
+    " 'self' ",
+    'https://*.ndla.no',
+    'https://logs-01.loggly.com',
+    'https://edge.api.brightcove.com',
+    'https://secure.brightcove.com',
+    'https://bcsecure01-a.akamaihd.net',
+    'https://hlsak-a.akamaihd.net',
+  ];
+  if (process.env.LOCAL_ARTICLE_CONVERTER) {
+    return [...defaultConnectSrc, 'http://localhost:3100'];
+  }
+  return defaultConnectSrc;
+})();
+
 app.use(
   helmet({
     hsts: {
@@ -110,15 +126,7 @@ app.use(
           ' data:',
         ],
         mediaSrc: ["'self'", 'blob:', 'https://*.ndla.no'],
-        connectSrc: [
-          " 'self' ",
-          'https://*.ndla.no',
-          'https://logs-01.loggly.com',
-          'https://edge.api.brightcove.com',
-          'https://secure.brightcove.com',
-          'https://bcsecure01-a.akamaihd.net',
-          'https://hlsak-a.akamaihd.net',
-        ],
+        connectSrc,
       },
     },
     frameguard:

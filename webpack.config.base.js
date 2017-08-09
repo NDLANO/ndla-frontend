@@ -70,6 +70,7 @@ module.exports = options => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        LOCAL_ARTICLE_CONVERTER: process.env.LOCAL_ARTICLE_CONVERTER,
       },
       __CLIENT__: true,
       __SERVER__: false,
