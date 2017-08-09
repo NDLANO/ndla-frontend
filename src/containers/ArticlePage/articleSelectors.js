@@ -6,6 +6,7 @@
  *
  */
 
+import defined from 'defined';
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
 import formatDate from '../../util/formatDate';
@@ -24,6 +25,7 @@ export const getArticle = articleId =>
             ...article,
             created: formatDate(article.created, locale),
             updated: formatDate(article.updated, locale),
+            footNotes: defined(article.footNotes, {}),
             requiredLibraries: article.requiredLibraries
               ? article.requiredLibraries.map(lib => {
                   if (lib.url.startsWith('http://')) {
