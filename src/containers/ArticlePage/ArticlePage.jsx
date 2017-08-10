@@ -38,13 +38,14 @@ const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
 class ArticlePage extends Component {
   componentWillMount() {
     const {
+      history,
       fetchArticle,
       fetchTopics,
       fetchSubjects,
       match: { params },
     } = this.props;
     const { articleId, subjectId, resourceId } = params;
-    fetchArticle({ articleId, resourceId });
+    fetchArticle({ articleId, resourceId, history });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });
@@ -68,10 +69,7 @@ class ArticlePage extends Component {
     if (!article) {
       return null;
     }
-    if (article.status === 404) {
-      // tmp hack
-      return <h1>404 Fant ikke artikkelen</h1>;
-    }
+
     const scripts = article.requiredLibraries
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,
@@ -141,6 +139,9 @@ ArticlePage.propTypes = {
       topicId: PropTypes.string,
       resourceId: PropTypes.string,
     }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
   article: ArticleShape,
   locale: PropTypes.string.isRequired,

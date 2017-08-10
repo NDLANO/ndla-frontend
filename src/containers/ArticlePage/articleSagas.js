@@ -28,7 +28,7 @@ export function* fetchResourceTypesForArticle(resourceId, locale) {
   }
 }
 
-export function* fetchArticle(articleId, resourceId) {
+export function* fetchArticle(articleId, resourceId, history) {
   try {
     const locale = yield select(getLocale);
     if (resourceId) {
@@ -42,16 +42,8 @@ export function* fetchArticle(articleId, resourceId) {
       yield put(actions.setArticle(article));
     }
   } catch (error) {
-    // TODO: better error handling
-    if (error.json && error.json.status === 404) {
-      // tmp hack
-      yield put(
-        actions.setArticle({
-          id: articleId,
-          status: 404,
-          content: '',
-        }),
-      );
+    if (error.json && error.json.status === 404 && history) {
+      history.replace('/not-found');
     }
     console.error(error); //eslint-disable-line
   }
@@ -59,12 +51,12 @@ export function* fetchArticle(articleId, resourceId) {
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: { articleId, resourceId } } = yield take(
+    const { payload: { articleId, resourceId, history } } = yield take(
       constants.FETCH_ARTICLE,
     );
     const currentArticle = yield select(getArticle(articleId));
     if (!currentArticle || currentArticle.id !== articleId) {
-      yield call(fetchArticle, articleId, resourceId);
+      yield call(fetchArticle, articleId, resourceId, history);
     }
   }
 }
