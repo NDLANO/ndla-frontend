@@ -16,13 +16,12 @@ import { injectT } from 'ndla-i18n';
 import defined from 'defined';
 
 import { toTopic } from '../../routeHelpers';
-import * as actions from './articleActions';
+import { actions, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
-import { getArticle } from './articleSelectors';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';

@@ -6,10 +6,36 @@
  *
  */
 
+import { handleActions, createAction } from 'redux-actions';
 import defined from 'defined';
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
 import formatDate from '../../util/formatDate';
+
+export const fetchArticle = createAction('FETCH_ARTICLE');
+export const setArticle = createAction('SET_ARTICLE');
+export const actions = {
+  fetchArticle,
+  setArticle,
+};
+
+const initalState = {
+  all: {},
+  isLoading: false,
+};
+
+export default handleActions(
+  {
+    [actions.setArticle]: {
+      next: (state, action) => ({
+        ...state,
+        all: { ...state.all, [action.payload.id]: { ...action.payload } },
+      }),
+      throw: state => state,
+    },
+  },
+  initalState,
+);
 
 const getArticlesFromState = state => state.articles;
 

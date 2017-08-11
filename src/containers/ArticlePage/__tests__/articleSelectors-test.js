@@ -6,7 +6,7 @@
  *
  */
 
-import { getArticle } from '../articleSelectors';
+import { getArticle } from '../article';
 
 const state = {
   locale: 'nb',

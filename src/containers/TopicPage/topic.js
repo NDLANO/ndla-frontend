@@ -11,7 +11,7 @@ import { createSelector } from 'reselect';
 import defined from 'defined';
 
 import groupBy from '../../util/groupBy';
-import { getArticle } from '../ArticlePage/articleSelectors';
+import { getArticle } from '../ArticlePage/article';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 
 export const fetchTopics = createAction('FETCH_TOPICS');

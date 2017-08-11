@@ -8,8 +8,7 @@
 
 import { take, call, all, put, select } from 'redux-saga/effects';
 import { getLocale } from '../Locale/localeSelectors';
-import { getArticle } from './articleSelectors';
-import * as actions from './articleActions';
+import { actions, getArticle } from './article';
 import * as api from './articleApi';
 import * as resourceApi from '../Resources/resourceApi';
 

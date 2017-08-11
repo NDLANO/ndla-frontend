@@ -6,8 +6,7 @@
  *
  */
 
-import reducer from '../articlesReducer';
-import * as actions from '../articleActions';
+import reducer, { actions } from '../article';
 
 test('reducers/article initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
