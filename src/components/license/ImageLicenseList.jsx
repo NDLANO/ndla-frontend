@@ -21,18 +21,20 @@ import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const getSrcSets = image =>
-  [
-    `${image.src}?width=1440 1440w`,
-    `${image.src}?width=1120 1120w`,
-    `${image.src}?width=1000 1000w`,
-    `${image.src}?width=960 960w`,
-    `${image.src}?width=800 800w`,
-    `${image.src}?width=640 640w`,
-    `${image.src}?width=480 480w`,
-    `${image.src}?width=320 320w`,
-    `${image.src}?width=320 320w`,
+const getSrcSets = image => {
+  const src = encodeURI(image.src);
+  return [
+    `${src}?width=1440 1440w`,
+    `${src}?width=1120 1120w`,
+    `${src}?width=1000 1000w`,
+    `${src}?width=960 960w`,
+    `${src}?width=800 800w`,
+    `${src}?width=640 640w`,
+    `${src}?width=480 480w`,
+    `${src}?width=320 320w`,
+    `${src}?width=320 320w`,
   ].join(', ');
+};
 
 const ImageLicenseInfo = ({ image, locale, t }) =>
   <MediaListItem>
