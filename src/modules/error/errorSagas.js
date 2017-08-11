@@ -12,7 +12,7 @@ import { actions } from './';
 
 export function* watchApplicationError() {
   while (true) {
-    const { payload: { error } } = yield take(actions.applicationError);
+    const { payload: error } = yield take(actions.applicationError);
     if (process.env.NODE_ENV === 'production') {
       ErrorReporter.getInstance().captureError(error);
     } else {

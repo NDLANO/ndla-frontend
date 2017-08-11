@@ -54,6 +54,7 @@ test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer(
     {
       all: { 1: { id: 1, title: 'Unit test 1' } },
+      isLoading: false,
     },
     actions.setArticle({ id: 1, title: 'Unit test 2' }),
   );
@@ -62,5 +63,6 @@ test('reducers/article overwrite articles with same id', () => {
     all: {
       1: { id: 1, title: 'Unit test 2' },
     },
+    isLoading: false,
   });
 });

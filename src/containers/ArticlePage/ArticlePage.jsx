@@ -11,12 +11,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
-import defined from 'defined';
-
-import { toTopic } from '../../routeHelpers';
-import { actions, getArticle } from './article';
+import { OneColumn } from 'ndla-ui';
+import { actions, hasArticleFetchFailed, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
@@ -25,7 +21,7 @@ import {
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
-import getResourceTypeMetaData from '../../components/getResourceTypeMetaData';
+import ArticleHero from './components/ArticleHero';
 import config from '../../config';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
@@ -64,7 +60,19 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, topicPath, locale, t } = this.props;
+    const { article, subject, hasFailed, topicPath, locale } = this.props;
+
+    if (hasFailed) {
+      return (
+        <div>
+          <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
+          <OneColumn cssModifier="narrow">
+            <section className="c-article">Failed</section>
+          </OneColumn>
+        </div>
+      );
+    }
+
     if (!article) {
       return null;
     }
@@ -85,10 +93,6 @@ class ArticlePage extends Component {
       });
     }
 
-    const resourceTypeMetaData = getResourceTypeMetaData(
-      defined(article.resourceTypes, []),
-    );
-
     const metaDescription = article.metaDescription
       ? { name: 'description', content: article.metaDescription }
       : {};
@@ -99,24 +103,11 @@ class ArticlePage extends Component {
           meta={[metaDescription]}
           script={scripts}
         />
-        <Hero {...resourceTypeMetaData.heroProps}>
-          <OneColumn cssModifier="narrow">
-            <div className="c-hero__content">
-              <section>
-                {subject
-                  ? <TopicBreadcrumb
-                      toSubjects={() => '/'}
-                      subjectsTitle={t('breadcrumb.subjectsLinkText')}
-                      subject={subject}
-                      topicPath={topicPath}
-                      toTopic={toTopic}>
-                      {/* {t('breadcrumb.label')}*/}
-                    </TopicBreadcrumb>
-                  : null}
-              </section>
-            </div>
-          </OneColumn>
-        </Hero>
+        <ArticleHero
+          subject={subject}
+          topicPath={topicPath}
+          article={article}
+        />
         <OneColumn cssModifier="narrow">
           <Article
             article={article}
@@ -143,6 +134,7 @@ ArticlePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   article: ArticleShape,
+  hasFailed: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   fetchArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
@@ -167,13 +159,13 @@ const makeMapStateToProps = (_, ownProps) => {
     : () => undefined;
   return state => ({
     article: getArticleSelector(state),
+    hasFailed: hasArticleFetchFailed(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
     locale: getLocale(state),
   });
 };
 
-export default compose(
-  connect(makeMapStateToProps, mapDispatchToProps),
-  injectT,
-)(ArticlePage);
+export default compose(connect(makeMapStateToProps, mapDispatchToProps))(
+  ArticlePage,
+);

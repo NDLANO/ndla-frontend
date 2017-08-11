@@ -13,15 +13,20 @@ import { getLocale } from '../Locale/localeSelectors';
 import formatDate from '../../util/formatDate';
 
 export const fetchArticle = createAction('FETCH_ARTICLE');
+export const fetchArticleError = createAction('FETCH_ARTICLE_ERROR');
+export const fetchArticleSuccess = createAction('FETCH_ARTICLE_SUCCESS');
 export const setArticle = createAction('SET_ARTICLE');
 export const actions = {
+  fetchArticleError,
   fetchArticle,
   setArticle,
+  fetchArticleSuccess,
 };
 
 const initalState = {
   all: {},
   isLoading: false,
+  error: undefined,
 };
 
 export default handleActions(
@@ -33,6 +38,29 @@ export default handleActions(
       }),
       throw: state => state,
     },
+    [actions.fetchingArticle]: {
+      next: state => ({
+        ...state,
+        isLoading: true,
+      }),
+      throw: state => state,
+    },
+    [actions.fetchArticleError]: {
+      next: (state, action) => ({
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+      }),
+      throw: state => state,
+    },
+    [actions.fetchArticleSuccess]: {
+      next: state => ({
+        ...state,
+        isLoading: false,
+        error: undefined,
+      }),
+      throw: state => state,
+    },
   },
   initalState,
 );
@@ -41,6 +69,9 @@ const getArticlesFromState = state => state.articles;
 
 export const getArticleById = articleId =>
   createSelector([getArticlesFromState], articles => articles.all[articleId]);
+
+export const hasArticleFetchFailed = state =>
+  state.articles.error !== undefined;
 
 export const getArticle = articleId =>
   createSelector(

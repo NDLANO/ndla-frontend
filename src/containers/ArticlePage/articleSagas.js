@@ -11,6 +11,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import { actions, getArticle } from './article';
 import * as api from './articleApi';
 import * as resourceApi from '../Resources/resourceApi';
+import { applicationError } from '../../modules/error';
 
 export function* fetchResourceTypesForArticle(resourceId, locale) {
   try {
@@ -39,11 +40,13 @@ export function* fetchArticle(articleId, resourceId, history) {
       const article = yield call(api.fetchArticle, articleId, locale);
       yield put(actions.setArticle(article));
     }
+    yield put(actions.fetchArticleSuccess());
   } catch (error) {
     if (error.json && error.json.status === 404 && history) {
       history.replace('/not-found');
     }
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchArticleError({ error }));
   }
 }
 

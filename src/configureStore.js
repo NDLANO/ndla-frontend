@@ -11,13 +11,11 @@ import createSagaMiddleware, { END } from 'redux-saga';
 
 import rootReducer from './reducers';
 
-import { errorReporter } from './middleware';
-
 export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware();
 
   const createFinalStore = compose(
-    applyMiddleware(sagaMiddleware, errorReporter),
+    applyMiddleware(sagaMiddleware),
     __CLIENT__ && window && window.devToolsExtension
       ? window.devToolsExtension()
       : f => f,
