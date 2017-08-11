@@ -9,14 +9,17 @@
 import { handleActions } from 'redux-actions';
 import * as actions from './articleActions';
 
-const initalState = {};
+const initalState = {
+  all: {},
+  isLoading: false,
+};
 
 export default handleActions(
   {
     [actions.setArticle]: {
       next: (state, action) => ({
         ...state,
-        [action.payload.id]: { ...action.payload },
+        all: { ...state.all, [action.payload.id]: { ...action.payload } },
       }),
       throw: state => state,
     },

@@ -11,10 +11,10 @@ import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
 import formatDate from '../../util/formatDate';
 
-const getArticleFromState = state => state.articles;
+const getArticlesFromState = state => state.articles;
 
 export const getArticleById = articleId =>
-  createSelector([getArticleFromState], articles => articles[articleId]);
+  createSelector([getArticlesFromState], articles => articles.all[articleId]);
 
 export const getArticle = articleId =>
   createSelector(

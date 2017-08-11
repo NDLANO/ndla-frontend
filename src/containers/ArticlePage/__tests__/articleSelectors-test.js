@@ -11,19 +11,21 @@ import { getArticle } from '../articleSelectors';
 const state = {
   locale: 'nb',
   articles: {
-    1: {
-      id: 1,
-      created: '2014-12-24T10:44:06Z',
-      language: 'nb',
-      title: 'Tester',
-      metaDescription: 'Beskrivelse',
-    },
-    2: {
-      id: 2,
-      created: '2014-11-24T10:44:06Z',
-      language: 'en',
-      title: 'Testing',
-      metaDescription: 'Description',
+    all: {
+      1: {
+        id: 1,
+        created: '2014-12-24T10:44:06Z',
+        language: 'nb',
+        title: 'Tester',
+        metaDescription: 'Beskrivelse',
+      },
+      2: {
+        id: 2,
+        created: '2014-11-24T10:44:06Z',
+        language: 'en',
+        title: 'Testing',
+        metaDescription: 'Description',
+      },
     },
   },
 };

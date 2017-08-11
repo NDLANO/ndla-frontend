@@ -12,7 +12,10 @@ import * as actions from '../articleActions';
 test('reducers/article initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
-  expect(nextState).toEqual({});
+  expect(nextState).toEqual({
+    all: {},
+    isLoading: false,
+  });
 });
 
 test('reducers/article set article', () => {
@@ -22,7 +25,10 @@ test('reducers/article set article', () => {
   );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test' },
+    all: {
+      1: { id: 1, title: 'Unit test' },
+    },
+    isLoading: false,
   });
 });
 
@@ -37,20 +43,25 @@ test('reducers/article set multiple articles', () => {
   );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 1' },
-    2: { id: 2, title: 'Unit test 2' },
+    all: {
+      1: { id: 1, title: 'Unit test 1' },
+      2: { id: 2, title: 'Unit test 2' },
+    },
+    isLoading: false,
   });
 });
 
 test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer(
     {
-      1: { id: 1, title: 'Unit test 1' },
+      all: { 1: { id: 1, title: 'Unit test 1' } },
     },
     actions.setArticle({ id: 1, title: 'Unit test 2' }),
   );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 2' },
+    all: {
+      1: { id: 1, title: 'Unit test 2' },
+    },
   });
 });
