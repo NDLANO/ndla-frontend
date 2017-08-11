@@ -7,13 +7,13 @@
  */
 
 import { handleActions } from 'redux-actions';
-import * as constants from './articleConstants';
+import * as actions from './articleActions';
 
 const initalState = {};
 
 export default handleActions(
   {
-    [constants.SET_ARTICLE]: {
+    [actions.setArticle]: {
       next: (state, action) => ({
         ...state,
         [action.payload.id]: { ...action.payload },

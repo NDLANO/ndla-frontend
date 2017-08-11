@@ -9,7 +9,6 @@
 import { take, call, all, put, select } from 'redux-saga/effects';
 import { getLocale } from '../Locale/localeSelectors';
 import { getArticle } from './articleSelectors';
-import * as constants from './articleConstants';
 import * as actions from './articleActions';
 import * as api from './articleApi';
 import * as resourceApi from '../Resources/resourceApi';
@@ -52,7 +51,7 @@ export function* fetchArticle(articleId, resourceId, history) {
 export function* watchFetchArticle() {
   while (true) {
     const { payload: { articleId, resourceId, history } } = yield take(
-      constants.FETCH_ARTICLE,
+      actions.fetchArticle,
     );
     const currentArticle = yield select(getArticle(articleId));
     if (!currentArticle || currentArticle.id !== articleId) {

@@ -7,7 +7,7 @@
  */
 
 import reducer from '../articlesReducer';
-import * as constants from '../articleConstants';
+import * as actions from '../articleActions';
 
 test('reducers/article initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -16,10 +16,10 @@ test('reducers/article initalState', () => {
 });
 
 test('reducers/article set article', () => {
-  const nextState = reducer(undefined, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 1, title: 'Unit test' },
-  });
+  const nextState = reducer(
+    undefined,
+    actions.setArticle({ id: 1, title: 'Unit test' }),
+  );
 
   expect(nextState).toEqual({
     1: { id: 1, title: 'Unit test' },
@@ -27,14 +27,14 @@ test('reducers/article set article', () => {
 });
 
 test('reducers/article set multiple articles', () => {
-  const state = reducer(undefined, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 1, title: 'Unit test 1' },
-  });
-  const nextState = reducer(state, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 2, title: 'Unit test 2' },
-  });
+  const state = reducer(
+    undefined,
+    actions.setArticle({ id: 1, title: 'Unit test 1' }),
+  );
+  const nextState = reducer(
+    state,
+    actions.setArticle({ id: 2, title: 'Unit test 2' }),
+  );
 
   expect(nextState).toEqual({
     1: { id: 1, title: 'Unit test 1' },
@@ -47,7 +47,7 @@ test('reducers/article overwrite articles with same id', () => {
     {
       1: { id: 1, title: 'Unit test 1' },
     },
-    { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 2' } },
+    actions.setArticle({ id: 1, title: 'Unit test 2' }),
   );
 
   expect(nextState).toEqual({
