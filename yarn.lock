@@ -4059,48 +4059,48 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.6.tgz#ab88c86cc2ba60a92c637a80ef5e04a97c642fd0"
+ndla-article-scripts@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.7.tgz#c12e487b647195bbf5d7a3694273030304f2227e"
 
-ndla-error-reporter@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.6.tgz#078fb9e0bea643a73df376676c14cf6f78a69446"
+ndla-error-reporter@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.9.tgz#415ad7151bd386edd45ac1e67d8abf9267ea32fd"
   dependencies:
     raven-js "^3.9.2"
 
-ndla-i18n@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.0.2.tgz#f0ca9575ebf719f66e8a757e480eafcb4862cd1f"
+ndla-i18n@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.0.3.tgz#f717d4530c8f5cb486ca1af17169a186f39e19a0"
   dependencies:
     intl-format-cache "^2.0.5"
     intl-messageformat "^1.3.0"
     invariant "^2.2.2"
 
-ndla-licenses@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.8.tgz#758fbe422c185ce8c41147f2a2a45576a90f77a6"
+ndla-licenses@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.9.tgz#5ba25c076403e5d7cffc251f37feb2ff4e9bdf69"
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.2.tgz#a26ab7216aad12dd0ff0fabaf5dbed6812d93c7e"
+ndla-tabs@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.3.tgz#9fb4397058820f10818dd93d84c8a1126cfa22d0"
   dependencies:
     lodash "^4.17.2"
 
-ndla-ui@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.0.tgz#c3a73c22263b7dec916de84651aec8b6e115f11a"
+ndla-ui@^0.7.8:
+  version "0.7.8"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.8.tgz#6e9ac757f6516501ab28798b62a97588302b4a49"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-sticky-header "^0.1.6"
 
-ndla-util@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.3.tgz#41a9d65e76c9360bdc69c5cc1956bb77bc8cd042"
+ndla-util@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.4.tgz#1ade34998a9a1c93cba4f4da64abd931f33d1a8a"
   dependencies:
     defined "1.0.0"
 
