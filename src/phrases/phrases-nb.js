@@ -29,6 +29,12 @@ const phrases = {
   subjectsPage: {
     chooseSubject: 'Velg fag',
   },
+  notFoundPage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
+  },
   logo: {
     altText: 'Nasjonal digital læringsarena',
   },

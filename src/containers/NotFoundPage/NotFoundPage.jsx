@@ -8,6 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import Route from 'react-router-dom/Route';
 
 const Status = ({ code, children }) =>
@@ -25,12 +27,25 @@ Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-export default function NotFound() {
-  return (
-    <Status code={404}>
-      <div>
-        <h2>404 - The page cannot be found</h2>
-      </div>
-    </Status>
-  );
-}
+const NotFound = ({ t }) =>
+  <Status code={404}>
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        goBack={() => '#'}
+        messages={{
+          title: t('notFoundPage.title'),
+          description:
+            'Vi beklager, men vi fant ikke den siden du prøvde å komme til.',
+          back: 'Tilbake',
+          goToFrontPage: 'Gå til forsiden',
+        }}
+      />
+    </OneColumn>
+  </Status>;
+
+NotFound.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+  }).isRequired,
+};
+export default injectT(NotFound);
