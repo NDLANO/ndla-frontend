@@ -19,6 +19,12 @@ const phrases = {
       title: 'Menu',
     },
   },
+  notFoundPage: {
+    title: 'Oops, something went wrong',
+    description: "We can't seem to find the page you are looking for.",
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
+  },
   welcomePage: {
     subjects: 'Subjects',
     search: 'Search',

@@ -31,21 +31,16 @@ const NotFound = ({ t }) =>
   <Status code={404}>
     <OneColumn cssModifier="clear">
       <ErrorMessage
-        goBack={() => '#'}
         messages={{
           title: t('notFoundPage.title'),
-          description:
-            'Vi beklager, men vi fant ikke den siden du prøvde å komme til.',
-          back: 'Tilbake',
-          goToFrontPage: 'Gå til forsiden',
+          description: t('notFoundPage.description'),
+          back: t('notFoundPage.back'),
+          goToFrontPage: t('notFoundPage.goToFrontPage'),
         }}
       />
     </OneColumn>
   </Status>;
 
-NotFound.propTypes = {
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-  }).isRequired,
-};
+NotFound.propTypes = {};
+
 export default injectT(NotFound);
