@@ -35,6 +35,15 @@ const phrases = {
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
   },
+  articlePage: {
+    errorMessage: {
+      title: 'Oops, noe gikk galt',
+      description:
+        'Vi beklager, men en feil oppsto under lasting av ressursen.',
+      back: 'Tilbake',
+      goToFrontPage: 'Gå til forsiden',
+    },
+  },
   logo: {
     altText: 'Nasjonal digital læringsarena',
   },

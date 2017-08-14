@@ -25,6 +25,14 @@ const phrases = {
     back: 'Back',
     goToFrontPage: 'Go to frontpage',
   },
+  articlePage: {
+    errorMessage: {
+      title: 'Oops, something went wrong',
+      description: 'Sorry, an error occurd while loading the resource.',
+      back: 'Back',
+      goToFrontPage: 'Go to frontpage',
+    },
+  },
   welcomePage: {
     subjects: 'Subjects',
     search: 'Search',

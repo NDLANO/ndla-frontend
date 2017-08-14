@@ -14,7 +14,7 @@ import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
 
 import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
 import { toTopic } from '../../../routeHelpers';
-import { ArticleShape, SubjectShape, TopicShape } from '../../../shapes';
+import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
 const ArticleHero = ({ article, subject, topicPath, t }) => {
   const resourceTypeMetaData = getResourceTypeMetaData(
@@ -42,7 +42,9 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
 };
 
 ArticleHero.propTypes = {
-  article: ArticleShape,
+  article: PropTypes.shape({
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }),
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
 };

@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { actions, hasArticleFetchFailed, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
@@ -60,14 +61,23 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, hasFailed, topicPath, locale } = this.props;
+    const { article, subject, hasFailed, topicPath, locale, t } = this.props;
 
     if (hasFailed) {
       return (
         <div>
           <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
-          <OneColumn cssModifier="narrow">
-            <section className="c-article">Failed</section>
+          <OneColumn>
+            <article className="c-article">
+              <ErrorMessage
+                messages={{
+                  title: t('articlePage.errorMessage.title'),
+                  description: t('articlePage.errorMessage.description'),
+                  back: t('articlePage.errorMessage.back'),
+                  goToFrontPage: t('articlePage.errorMessage.goToFrontPage'),
+                }}
+              />
+            </article>
           </OneColumn>
         </div>
       );
@@ -166,6 +176,7 @@ const makeMapStateToProps = (_, ownProps) => {
   });
 };
 
-export default compose(connect(makeMapStateToProps, mapDispatchToProps))(
-  ArticlePage,
-);
+export default compose(
+  injectT,
+  connect(makeMapStateToProps, mapDispatchToProps),
+)(ArticlePage);
