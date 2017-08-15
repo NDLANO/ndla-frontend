@@ -19,6 +19,13 @@ const phrases = {
       title: 'Menu',
     },
   },
+  // Default ErrorMessage texts
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
+  },
   notFoundPage: {
     title: 'Oops, something went wrong',
     description: "We can't seem to find the page you are looking for.",
@@ -36,9 +43,11 @@ const phrases = {
   welcomePage: {
     subjects: 'Subjects',
     search: 'Search',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
   subjectsPage: {
     chooseSubject: 'Choose subject',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

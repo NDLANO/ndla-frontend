@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 
@@ -18,28 +18,32 @@ import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
-export const WelcomePage = ({ t, subjects, searchEnabled }) =>
+export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn>
-      <article>
-        <section>
-          <h1>
-            {t('welcomePage.subjects')}
-          </h1>
-          <SubjectLinkList subjects={subjects} />
-        </section>
-        {searchEnabled
-          ? <section>
-              <Link to={toSearch()}>
-                {t('welcomePage.search')}
-              </Link>
-            </section>
-          : null}
-      </article>
+      {!hasFailed
+        ? <section>
+            <h2>{t('subjectsPage.chooseSubject')}</h2>
+            <SubjectLinkList subjects={subjects} />{' '}
+          </section>
+        : <ErrorMessage
+            messages={{
+              title: t('errorMessage.title'),
+              description: t('welcomePage.errorDescription'),
+            }}
+          />}
+      {searchEnabled
+        ? <section>
+            <Link to={toSearch()}>
+              {t('welcomePage.search')}
+            </Link>
+          </section>
+        : null}
     </OneColumn>
   </div>;
 
 WelcomePage.propTypes = {
+  hasFailed: PropTypes.bool.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
   searchEnabled: PropTypes.bool.isRequired,
 };

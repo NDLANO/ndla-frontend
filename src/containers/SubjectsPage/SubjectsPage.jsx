@@ -9,28 +9,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { OneColumn } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';
 
-const SubjectsPage = ({ t, subjects }) =>
+const SubjectsPage = ({ t, subjects, hasFailed }) =>
   <div className="c-resources u-padding-top-large">
     <OneColumn>
-      <article>
-        <section>
-          <h2>
-            {t('subjectsPage.chooseSubject')}
-          </h2>
-          <SubjectLinkList subjects={subjects} />
-        </section>
-      </article>
+      {!hasFailed
+        ? <section>
+            <h2>{t('subjectsPage.chooseSubject')}</h2>
+            <SubjectLinkList subjects={subjects} />{' '}
+          </section>
+        : <ErrorMessage
+            messages={{
+              title: t('errorMessage.title'),
+              description: t('subjectsPage.errorDescription'),
+              back: t('errorMessage.back'),
+              goToFrontPage: t('errorMessage.goToFrontPage'),
+            }}
+          />}
     </OneColumn>
   </div>;
 
 SubjectsPage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+  hasFailed: PropTypes.bool.isRequired,
 };
 
 export default compose(injectT, injectSubjects)(SubjectsPage);

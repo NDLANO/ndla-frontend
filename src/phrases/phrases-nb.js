@@ -25,9 +25,20 @@ const phrases = {
   welcomePage: {
     subjects: 'Fag',
     search: 'Gå til søk',
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
   },
   subjectsPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
     chooseSubject: 'Velg fag',
+  },
+  // Default ErrorMessage texts
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, , men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   notFoundPage: {
     title: 'Oops, noe gikk galt',
