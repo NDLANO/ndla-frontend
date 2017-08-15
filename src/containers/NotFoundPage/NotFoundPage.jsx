@@ -32,10 +32,10 @@ const NotFound = ({ t }) =>
     <OneColumn cssModifier="clear">
       <ErrorMessage
         messages={{
-          title: t('notFoundPage.title'),
-          description: t('notFoundPage.description'),
-          back: t('notFoundPage.back'),
-          goToFrontPage: t('notFoundPage.goToFrontPage'),
+          title: t('errorMessage.title'),
+          description: t('notFoundPage.errorDescription'),
+          back: t('errorMessage.back'),
+          goToFrontPage: t('errorMessage.goToFrontPage'),
         }}
       />
     </OneColumn>

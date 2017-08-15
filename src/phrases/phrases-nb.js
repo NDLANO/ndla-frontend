@@ -41,19 +41,12 @@ const phrases = {
     goToFrontPage: 'Gå til forsiden',
   },
   notFoundPage: {
-    title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
-    back: 'Tilbake',
-    goToFrontPage: 'Gå til forsiden',
+    errorDescription:
+      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
   },
   articlePage: {
-    errorMessage: {
-      title: 'Oops, noe gikk galt',
-      description:
-        'Vi beklager, men en feil oppsto under lasting av ressursen.',
-      back: 'Tilbake',
-      goToFrontPage: 'Gå til forsiden',
-    },
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av ressursen.',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

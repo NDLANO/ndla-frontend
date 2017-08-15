@@ -27,18 +27,10 @@ const phrases = {
     goToFrontPage: 'Go to frontpage',
   },
   notFoundPage: {
-    title: 'Oops, something went wrong',
-    description: "We can't seem to find the page you are looking for.",
-    back: 'Back',
-    goToFrontPage: 'Go to frontpage',
+    errorDescription: "We can't seem to find the page you are looking for.",
   },
   articlePage: {
-    errorMessage: {
-      title: 'Oops, something went wrong',
-      description: 'Sorry, an error occurd while loading the resource.',
-      back: 'Back',
-      goToFrontPage: 'Go to frontpage',
-    },
+    errorDescription: 'Sorry, an error occurd while loading the resource.',
   },
   welcomePage: {
     subjects: 'Subjects',

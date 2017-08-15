@@ -71,10 +71,10 @@ class ArticlePage extends Component {
             <article className="c-article">
               <ErrorMessage
                 messages={{
-                  title: t('articlePage.errorMessage.title'),
-                  description: t('articlePage.errorMessage.description'),
-                  back: t('articlePage.errorMessage.back'),
-                  goToFrontPage: t('articlePage.errorMessage.goToFrontPage'),
+                  title: t('errorMessage.title'),
+                  description: t('articlePage.errorDescription'),
+                  back: t('errorMessage.back'),
+                  goToFrontPage: t('errorMessage.goToFrontPage'),
                 }}
               />
             </article>
