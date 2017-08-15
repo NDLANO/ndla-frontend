@@ -12,6 +12,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import * as constants from './searchConstants';
 import * as actions from './searchActions';
 import * as api from './searchApi';
+import { applicationError } from '../../modules/error';
 
 export function* search(queryString) {
   try {
@@ -20,8 +21,7 @@ export function* search(queryString) {
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
   }
 }
 
