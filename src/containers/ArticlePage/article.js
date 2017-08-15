@@ -11,16 +11,13 @@ import defined from 'defined';
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
 import formatDate from '../../util/formatDate';
+import createFetchActions from '../../util/createFetchActions';
 
-export const fetchArticle = createAction('FETCH_ARTICLE');
-export const fetchArticleError = createAction('FETCH_ARTICLE_ERROR');
-export const fetchArticleSuccess = createAction('FETCH_ARTICLE_SUCCESS');
+export const fetchArticleActions = createFetchActions('ARTICLE');
 export const setArticle = createAction('SET_ARTICLE');
 export const actions = {
-  fetchArticleError,
-  fetchArticle,
+  ...fetchArticleActions,
   setArticle,
-  fetchArticleSuccess,
 };
 
 const initalState = {

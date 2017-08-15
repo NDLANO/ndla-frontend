@@ -18,7 +18,7 @@ import {
   getArticleIdFromResource,
   isArticleResource,
 } from '../Resources/resourceHelpers';
-import { fetchArticle } from '../ArticlePage/article';
+import { fetchArticleActions } from '../ArticlePage/article';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 
@@ -50,7 +50,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
   }
   const articleId = getArticleIdFromResource(topic);
   if (articleId) {
-    yield put(fetchArticle({ articleId }));
+    yield put(fetchArticleActions.fetchArticle({ articleId }));
   }
 }
 
