@@ -22,7 +22,7 @@ export function* fetchResourceTypesForArticle(resourceId, locale) {
     );
     return resource;
   } catch (error) {
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
     return [];
   }
 }
