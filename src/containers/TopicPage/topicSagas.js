@@ -43,14 +43,18 @@ export function* fetchTopicIntroductions(topics) {
 }
 
 export function* fetchTopicArticle(subjectId, topicId) {
-  const locale = yield select(getLocale);
-  let topic = yield select(getTopic(subjectId, topicId));
-  if (!topic) {
-    topic = yield call(api.fetchTopic, topicId, locale);
-  }
-  const articleId = getArticleIdFromResource(topic);
-  if (articleId) {
-    yield put(fetchArticleActions.fetchArticle({ articleId }));
+  try {
+    const locale = yield select(getLocale);
+    let topic = yield select(getTopic(subjectId, topicId));
+    if (!topic) {
+      topic = yield call(api.fetchTopic, topicId, locale);
+    }
+    const articleId = getArticleIdFromResource(topic);
+    if (articleId) {
+      yield put(fetchArticleActions.fetchArticle({ articleId }));
+    }
+  } catch (error) {
+    yield put(applicationError(error));
   }
 }
 
