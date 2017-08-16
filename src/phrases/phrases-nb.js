@@ -36,7 +36,7 @@ const phrases = {
   // Default ErrorMessage texts
   errorMessage: {
     title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, , men en feil oppsto.',
+    description: 'Vi beklager, men en feil oppsto.',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
   },
@@ -119,6 +119,8 @@ const phrases = {
     label: 'Du er her:',
   },
   subjectPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emnene.',
     tabs: {
       topics: 'Emner',
     },

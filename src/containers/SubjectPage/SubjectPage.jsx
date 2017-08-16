@@ -10,15 +10,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { OneColumn, Hero, TopicIntroductionList } from 'ndla-ui';
+import { OneColumn, Hero, ErrorMessage, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
-import { actions, getSubjectById } from './subjects';
+import { actions } from './subjects';
 import {
   actions as topicActions,
   getTopicsBySubjectIdWithIntroduction,
   getTopic,
+  hasFetchTopicsFailed,
 } from '../TopicPage/topic';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
@@ -50,10 +51,8 @@ class SubjectPage extends Component {
   }
 
   render() {
-    const { subjectTopics, subject, t, topic } = this.props;
-    if (!subject) {
-      return null;
-    }
+    const { subjectTopics, t, topic, match, hasFailed } = this.props;
+    const { params: { subjectId } } = match;
 
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
@@ -63,14 +62,12 @@ class SubjectPage extends Component {
             <div className="c-hero__content">
               <section>
                 <div className="c-breadcrumb">
-                  {/* {t('breadcrumb.label')}*/}
                   <ol className="c-breadcrumb__list">
                     <li className="c-breadcrumb__item">
                       <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> ›
                     </li>
                   </ol>
                 </div>
-                {/* <h1 className="c-hero__title">{subject.name}</h1>*/}
               </section>
             </div>
           </OneColumn>
@@ -78,15 +75,24 @@ class SubjectPage extends Component {
         <OneColumn>
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
-              <div className="c-resources">
-                <h1 className="c-resources__title">
-                  {t('subjectPage.tabs.topics')}
-                </h1>
-                <TopicIntroductionList
-                  toTopic={toTopic(subject.id)}
-                  topics={topics}
-                />
-              </div>
+              {hasFailed
+                ? <ErrorMessage
+                    messages={{
+                      title: t('errorMessage.title'),
+                      description: t('subjectPage.errorDescription'),
+                      back: t('errorMessage.back'),
+                      goToFrontPage: t('errorMessage.goToFrontPage'),
+                    }}
+                  />
+                : <div className="c-resources">
+                    <h1 className="c-resources__title">
+                      {t('subjectPage.tabs.topics')}
+                    </h1>
+                    <TopicIntroductionList
+                      toTopic={toTopic(subjectId)}
+                      topics={topics}
+                    />
+                  </div>}
             </section>
           </article>
         </OneColumn>
@@ -104,6 +110,7 @@ SubjectPage.propTypes = {
   }).isRequired,
   fetchTopicsWithIntroductions: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
+  hasFailed: PropTypes.bool.isRequired,
   subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
   subject: SubjectShape,
   topic: TopicShape,
@@ -119,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
-    subject: getSubjectById(subjectId)(state),
+    hasFailed: hasFetchTopicsFailed(state),
   };
 };
 

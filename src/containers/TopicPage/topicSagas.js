@@ -19,6 +19,7 @@ import {
   isArticleResource,
 } from '../Resources/resourceHelpers';
 import { fetchArticleActions } from '../ArticlePage/article';
+import { applicationError } from '../../modules/error';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 
@@ -37,8 +38,7 @@ export function* fetchTopicIntroductions(topics) {
       }),
     );
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
   }
 }
 
@@ -61,8 +61,8 @@ export function* fetchTopics(subjectId) {
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicsError());
     return [];
   }
 }

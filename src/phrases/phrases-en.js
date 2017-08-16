@@ -108,6 +108,7 @@ const phrases = {
     label: 'You are here:',
   },
   subjectPage: {
+    errorDescription: 'Sorry, an error occurd while loading the topics.',
     tabs: {
       topics: 'Topics',
     },

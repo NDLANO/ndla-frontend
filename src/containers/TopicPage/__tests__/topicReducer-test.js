@@ -14,13 +14,14 @@ test('reducers/topic initalState', () => {
 
   expect(nextState).toEqual({
     all: {},
+    fetchTopicsFailed: false,
     topicIntroductions: {},
   });
 });
 
 test('reducers/topics handle set topics', () => {
   const nextState = reducer(initalState, {
-    type: actions.setTopics.toString(),
+    type: actions.setTopics,
     payload: {
       subjectId: 'urn:subject:1',
       topics,
@@ -29,11 +30,12 @@ test('reducers/topics handle set topics', () => {
 
   expect(nextState).toEqual({
     all: { 'urn:subject:1': topics },
+    fetchTopicsFailed: false,
     topicIntroductions: {},
   });
 
   const nextNextState = reducer(nextState, {
-    type: actions.setTopics.toString(),
+    type: actions.setTopics,
     payload: {
       subjectId: 'urn:subject:2',
       topics: [],
@@ -48,7 +50,7 @@ test('reducers/topics handle set topics', () => {
 
 test('reducers/topics handle set topic introductions', () => {
   const nextState = reducer(initalState, {
-    type: actions.setTopicIntroductions.toString(),
+    type: actions.setTopicIntroductions,
     payload: {
       articleIntroductions: [
         { id: '1', intro: 'Test1' },
@@ -72,5 +74,18 @@ test('reducers/topics handle set topic introductions', () => {
       id: '3',
       intro: 'Test3',
     },
+  });
+});
+
+test('reducers/topics handle fetch topics error', () => {
+  const nextState = reducer(initalState, {
+    type: actions.fetchTopicsError,
+    payload: {},
+  });
+
+  expect(nextState).toEqual({
+    all: {},
+    fetchTopicsFailed: true,
+    topicIntroductions: {},
   });
 });
