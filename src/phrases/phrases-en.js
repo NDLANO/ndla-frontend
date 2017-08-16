@@ -27,7 +27,10 @@ const phrases = {
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
   topicPage: {
-    errorDescription: 'Sorry, an error occurd while loading topic content.',
+    topicErrorDescription:
+      'Sorry, an error occurd while loading topic content.',
+    articleErrorDescription:
+      'Sorry, an error occurd while loading the topic description.',
     topics: 'Topics',
   },
   welcomePage: {

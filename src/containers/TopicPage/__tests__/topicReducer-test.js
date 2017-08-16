@@ -15,6 +15,7 @@ test('reducers/topic initalState', () => {
   expect(nextState).toEqual({
     all: {},
     fetchTopicsFailed: false,
+    fetchTopicArticleFailed: false,
     topicIntroductions: {},
   });
 });
@@ -31,6 +32,7 @@ test('reducers/topics handle set topics', () => {
   expect(nextState).toEqual({
     all: { 'urn:subject:1': topics },
     fetchTopicsFailed: false,
+    fetchTopicArticleFailed: false,
     topicIntroductions: {},
   });
 
@@ -86,6 +88,7 @@ test('reducers/topics handle fetch topics error', () => {
   expect(nextState).toEqual({
     all: {},
     fetchTopicsFailed: true,
+    fetchTopicArticleFailed: false,
     topicIntroductions: {},
   });
 });

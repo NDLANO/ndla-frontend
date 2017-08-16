@@ -26,6 +26,7 @@ import {
   getTopic,
   getTopicPath,
   hasFetchTopicsFailed,
+  hasFetchTopicArticleFailed,
 } from './topic';
 import {
   getSubjectById,
@@ -105,7 +106,8 @@ class TopicPage extends Component {
       article,
       t,
       topicPath,
-      hasFailed,
+      fetchTopicsFailed,
+      fetchTopicArticleFailed,
       subject,
     } = this.props;
     const { subjectId } = params;
@@ -114,6 +116,7 @@ class TopicPage extends Component {
       ? { name: 'description', content: article.metaDescription }
       : {};
     const title = getTitle(article, topic);
+
     const scripts = article
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,
@@ -137,23 +140,26 @@ class TopicPage extends Component {
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}
                       topicPath={topicPath}
-                      toTopic={toTopic}>
-                      {/* {t('breadcrumb.label')}*/}
-                    </TopicBreadcrumb>
+                      toTopic={toTopic}
+                    />
                   : null}
               </section>
             </div>
           </OneColumn>
         </Hero>
-        {hasFailed &&
+        {(fetchTopicsFailed || fetchTopicArticleFailed) &&
           <OneColumn cssModifier="narrow">
             <div className="c-article">
               <ErrorMessage
                 messages={{
                   title: t('errorMessage.title'),
-                  description: t('topicPage.errorDescription'),
-                  back: t('errorMessage.back'),
-                  goToFrontPage: t('errorMessage.goToFrontPage'),
+                  description: fetchTopicsFailed
+                    ? t('topicPage.topicErrorDescription')
+                    : t('topicPage.articleErrorDescription'),
+                  back: fetchTopicsFailed ? t('errorMessage.back') : undefined,
+                  goToFrontPage: fetchTopicsFailed
+                    ? t('errorMessage.goToFrontPage')
+                    : undefined,
                 }}
               />
             </div>
@@ -190,7 +196,8 @@ TopicPage.propTypes = {
   fetchSubjects: PropTypes.func.isRequired,
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchTopicsWithIntroductions: PropTypes.func.isRequired,
-  hasFailed: PropTypes.bool.isRequired,
+  fetchTopicsFailed: PropTypes.bool.isRequired,
+  fetchTopicArticleFailed: PropTypes.bool.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -214,7 +221,8 @@ const mapStateToProps = (state, ownProps) => {
     article: getTopicArticleSelector(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
-    hasFailed: hasFetchTopicsFailed(state),
+    fetchTopicArticleFailed: hasFetchTopicArticleFailed(state),
+    fetchTopicsFailed: hasFetchTopicsFailed(state),
   };
 };
 

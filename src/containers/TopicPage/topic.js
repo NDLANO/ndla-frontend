@@ -20,21 +20,22 @@ export const fetchTopicsWithIntroductions = createAction(
   'FETCH_TOPICS_WITH_INTRODUCTIONS',
 );
 export const setTopics = createAction('SET_TOPICS');
-export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
+export const fetchTopicArticleActions = createFetchActions('TOPIC_ARTICLE');
 
 export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
 
 export const actions = {
   ...fetchTopicsActions,
+  ...fetchTopicArticleActions,
   fetchTopicsWithIntroductions,
   setTopics,
-  fetchTopicArticle,
   setTopicIntroductions,
 };
 
 export const initialState = {
   all: {},
   fetchTopicsFailed: false,
+  fetchTopicArticleFailed: false,
   topicIntroductions: {},
 };
 
@@ -79,11 +80,19 @@ export default handleActions(
       }),
       throw: state => state,
     },
+    [actions.fetchTopicArticleError]: {
+      next: state => ({
+        ...state,
+        fetchTopicArticleFailed: true,
+      }),
+      throw: state => state,
+    },
   },
   initialState,
 );
 
 const getTopicsFromState = state => state.topics;
+const getArticlesFromState = state => state.articles;
 
 export const getTopicIntroductions = createSelector(
   [getTopicsFromState],
@@ -99,6 +108,12 @@ export const hasFetchedTopicsBySubjectId = subjectId =>
 export const hasFetchTopicsFailed = createSelector(
   [getTopicsFromState],
   topics => topics.fetchTopicsFailed,
+);
+
+export const hasFetchTopicArticleFailed = createSelector(
+  [getTopicsFromState, getArticlesFromState],
+  (topics, articles) =>
+    topics.fetchTopicArticleFailed || articles.fetchArticleFailed,
 );
 
 export const getAllTopicsBySubjectId = subjectId =>

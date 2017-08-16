@@ -55,6 +55,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
     }
   } catch (error) {
     yield put(applicationError(error));
+    yield put(actions.fetchTopicArticleError());
   }
 }
 

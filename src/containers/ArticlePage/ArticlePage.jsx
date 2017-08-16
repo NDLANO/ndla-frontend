@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { actions, hasArticleFetchFailed, getArticle } from './article';
+import { actions, hasFetchArticleFailed, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
@@ -169,7 +169,7 @@ const makeMapStateToProps = (_, ownProps) => {
     : () => undefined;
   return state => ({
     article: getArticleSelector(state),
-    hasFailed: hasArticleFetchFailed(state),
+    hasFailed: hasFetchArticleFailed(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
     locale: getLocale(state),

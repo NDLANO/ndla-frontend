@@ -67,7 +67,7 @@ const getArticlesFromState = state => state.articles;
 export const getArticleById = articleId =>
   createSelector([getArticlesFromState], articles => articles.all[articleId]);
 
-export const hasArticleFetchFailed = state => state.articles.fetchArticleFailed;
+export const hasFetchArticleFailed = state => state.articles.fetchArticleFailed;
 
 export const getArticle = articleId =>
   createSelector(
