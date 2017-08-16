@@ -7,6 +7,40 @@
  */
 
 const phrases = {
+  articlePage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av ressursen.',
+  },
+  notFoundPage: {
+    errorDescription:
+      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
+  },
+  searchPage: {
+    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+  },
+  subjectPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emnene.',
+    tabs: {
+      topics: 'Emner',
+    },
+  },
+  subjectsPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
+    chooseSubject: 'Velg fag',
+  },
+  topicPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
+    topics: 'Emner',
+  },
+  welcomePage: {
+    subjects: 'Fag',
+    search: 'Gå til søk',
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
+  },
   meta: {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
@@ -19,34 +53,6 @@ const phrases = {
       subjectOverview: 'Fagoversikt',
       title: 'Meny',
     },
-  },
-  message: 'message',
-  messages: 'messages',
-  welcomePage: {
-    subjects: 'Fag',
-    search: 'Gå til søk',
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
-  },
-  subjectsPage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
-    chooseSubject: 'Velg fag',
-  },
-  // Default ErrorMessage texts
-  errorMessage: {
-    title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, men en feil oppsto.',
-    back: 'Tilbake',
-    goToFrontPage: 'Gå til forsiden',
-  },
-  notFoundPage: {
-    errorDescription:
-      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
-  },
-  articlePage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av ressursen.',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -110,24 +116,15 @@ const phrases = {
       download: 'Last ned',
     },
   },
-  searchPage: {
-    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
-  },
   breadcrumb: {
     subjectsLinkText: 'Fag',
     label: 'Du er her:',
   },
-  subjectPage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emnene.',
-    tabs: {
-      topics: 'Emner',
-    },
-  },
-  topicPage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
-    topics: 'Emner',
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

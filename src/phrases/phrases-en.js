@@ -7,6 +7,34 @@
  */
 
 const phrases = {
+  articlePage: {
+    errorDescription: 'Sorry, an error occurd while loading the resource.',
+  },
+  notFoundPage: {
+    errorDescription: "We can't seem to find the page you are looking for.",
+  },
+  searchPage: {
+    noHits: 'Your search - {query} - did not match any articles. ',
+  },
+  subjectPage: {
+    errorDescription: 'Sorry, an error occurd while loading the topics.',
+    tabs: {
+      topics: 'Topics',
+    },
+  },
+  subjectsPage: {
+    chooseSubject: 'Choose subject',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
+  },
+  topicPage: {
+    errorDescription: 'Sorry, an error occurd while loading topic content.',
+    topics: 'Topics',
+  },
+  welcomePage: {
+    subjects: 'Subjects',
+    search: 'Search',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
+  },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
@@ -18,28 +46,6 @@ const phrases = {
       subjectOverview: 'Subject overview',
       title: 'Menu',
     },
-  },
-  // Default ErrorMessage texts
-  errorMessage: {
-    title: 'Oops, something went wrong',
-    description: 'Sorry, an error occurd.',
-    back: 'Back',
-    goToFrontPage: 'Go to frontpage',
-  },
-  notFoundPage: {
-    errorDescription: "We can't seem to find the page you are looking for.",
-  },
-  articlePage: {
-    errorDescription: 'Sorry, an error occurd while loading the resource.',
-  },
-  welcomePage: {
-    subjects: 'Subjects',
-    search: 'Search',
-    errorDescription: 'Sorry, an error occurd while loading the subjects.',
-  },
-  subjectsPage: {
-    chooseSubject: 'Choose subject',
-    errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -99,23 +105,15 @@ const phrases = {
       download: 'Download',
     },
   },
-  resources: {},
-  searchPage: {
-    noHits: 'Your search - {query} - did not match any articles. ',
-  },
   breadcrumb: {
     subjectsLinkText: 'Subject',
     label: 'You are here:',
   },
-  subjectPage: {
-    errorDescription: 'Sorry, an error occurd while loading the topics.',
-    tabs: {
-      topics: 'Topics',
-    },
-  },
-  topicPage: {
-    errorDescription: 'Sorry, an error occurd while loading topic content.',
-    topics: 'Topics',
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
   },
   footer: {
     aboutNDLA: 'About NDLA',
