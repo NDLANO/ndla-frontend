@@ -14,6 +14,7 @@ test('reducers/article initalState', () => {
   expect(nextState).toEqual({
     all: {},
     isLoading: false,
+    fetchArticleFailed: false,
   });
 });
 
@@ -28,6 +29,7 @@ test('reducers/article set article', () => {
       1: { id: 1, title: 'Unit test' },
     },
     isLoading: false,
+    fetchArticleFailed: false,
   });
 });
 
@@ -47,6 +49,7 @@ test('reducers/article set multiple articles', () => {
       2: { id: 2, title: 'Unit test 2' },
     },
     isLoading: false,
+    fetchArticleFailed: false,
   });
 });
 
@@ -55,6 +58,7 @@ test('reducers/article overwrite articles with same id', () => {
     {
       all: { 1: { id: 1, title: 'Unit test 1' } },
       isLoading: false,
+      fetchArticleFailed: false,
     },
     actions.setArticle({ id: 1, title: 'Unit test 2' }),
   );
@@ -64,5 +68,6 @@ test('reducers/article overwrite articles with same id', () => {
       1: { id: 1, title: 'Unit test 2' },
     },
     isLoading: false,
+    fetchArticleFailed: false,
   });
 });

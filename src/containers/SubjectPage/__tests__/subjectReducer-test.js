@@ -16,7 +16,7 @@ test('reducers/subject initalState', () => {
     hasFetched: false,
     fetching: false,
     all: [],
-    error: false,
+    hasFetchSubjectsFailed: false,
   });
 });
 
@@ -29,7 +29,7 @@ test('reducers/subject handle fetch subjects', () => {
     hasFetched: false,
     fetching: true,
     all: [],
-    error: false,
+    hasFetchSubjectsFailed: false,
   });
 });
 
@@ -42,7 +42,7 @@ test('reducers/subject handle fetch subjects error', () => {
     hasFetched: false,
     fetching: false,
     all: [],
-    error: true,
+    hasFetchSubjectsFailed: true,
   });
 });
 
@@ -56,6 +56,6 @@ test('reducers/subjects handle set subjects', () => {
     hasFetched: true,
     fetching: false,
     all: subjects,
-    error: false,
+    hasFetchSubjectsFailed: false,
   });
 });

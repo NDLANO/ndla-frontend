@@ -46,7 +46,7 @@ export function* fetchArticle(articleId, resourceId, history) {
       history.replace('/not-found');
     }
     yield put(applicationError(error));
-    yield put(actions.fetchArticleError({ error }));
+    yield put(actions.fetchArticleError());
   }
 }
 

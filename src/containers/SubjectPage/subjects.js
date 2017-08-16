@@ -22,13 +22,17 @@ export const initalState = {
   hasFetched: false,
   fetching: false,
   all: [],
-  error: false,
+  hasFetchSubjectsFailed: false,
 };
 
 export default handleActions(
   {
     [actions.fetchSubjects]: {
-      next: state => ({ ...state, fetching: true, error: false }),
+      next: state => ({
+        ...state,
+        fetching: true,
+        hasFetchSubjectsFailed: false,
+      }),
       throw: state => state,
     },
     [actions.setSubjects]: {
@@ -37,7 +41,7 @@ export default handleActions(
         all: action.payload,
         fetching: false,
         hasFetched: true,
-        error: false,
+        hasFetchSubjectsFailed: false,
       }),
       throw: state => state,
     },
@@ -45,7 +49,7 @@ export default handleActions(
       next: state => ({
         ...state,
         fetching: false,
-        error: true,
+        hasFetchSubjectsFailed: true,
       }),
       throw: state => state,
     },
@@ -60,9 +64,9 @@ export const getSubjects = createSelector(
   subjects => subjects.all,
 );
 
-export const hasFailed = createSelector(
+export const hasFetchSubjectsFailed = createSelector(
   [getSubjectsFromState],
-  subjects => subjects.error,
+  subjects => subjects.hasFetchSubjectsFailed,
 );
 
 export const getTopicIntroductions = createSelector(

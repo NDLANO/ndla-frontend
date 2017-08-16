@@ -23,7 +23,7 @@ export const actions = {
 const initalState = {
   all: {},
   isLoading: false,
-  error: undefined,
+  fetchArticleFailed: false,
 };
 
 export default handleActions(
@@ -43,10 +43,10 @@ export default handleActions(
       throw: state => state,
     },
     [actions.fetchArticleError]: {
-      next: (state, action) => ({
+      next: state => ({
         ...state,
         isLoading: false,
-        error: action.payload.error,
+        fetchArticleFailed: true,
       }),
       throw: state => state,
     },
@@ -54,7 +54,7 @@ export default handleActions(
       next: state => ({
         ...state,
         isLoading: false,
-        error: undefined,
+        fetchArticleFailed: false,
       }),
       throw: state => state,
     },
@@ -67,8 +67,7 @@ const getArticlesFromState = state => state.articles;
 export const getArticleById = articleId =>
   createSelector([getArticlesFromState], articles => articles.all[articleId]);
 
-export const hasArticleFetchFailed = state =>
-  state.articles.error !== undefined;
+export const hasArticleFetchFailed = state => state.articles.fetchArticleFailed;
 
 export const getArticle = articleId =>
   createSelector(

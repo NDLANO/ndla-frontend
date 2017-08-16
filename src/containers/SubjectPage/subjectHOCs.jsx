@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { actions, getSubjects, hasFailed } from './subjects';
+import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
 import { SubjectShape } from '../../shapes';
 
 export const injectSubjects = WrappedComponent => {
@@ -35,7 +35,7 @@ export const injectSubjects = WrappedComponent => {
 
   const mapStateToProps = state => ({
     subjects: getSubjects(state),
-    hasFailed: hasFailed(state),
+    hasFailed: hasFetchSubjectsFailed(state),
   });
 
   const getDisplayName = component =>
