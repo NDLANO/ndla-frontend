@@ -11,10 +11,15 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import withRouter from 'react-router-dom/withRouter';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { injectT } from 'ndla-i18n';
 import ResourceList from './ResourceList';
 import getResourceTypeMetaData from '../../components/getResourceTypeMetaData';
 import { ResourceTypeShape } from '../../shapes';
-import { getResourceTypesByTopicId } from './resource';
+import {
+  getResourceTypesByTopicId,
+  hasFetchTopicResourcesFailed,
+} from './resource';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 
 const resClasses = new BEMHelper({
@@ -52,13 +57,22 @@ class Resources extends Component {
   componentWillReceiveProps() {}
 
   render() {
-    const { match: { params }, topicResourcesByType } = this.props;
+    const {
+      match: { params },
+      t,
+      topicResourcesByType,
+      fetchTopicResourcesFailed,
+    } = this.props;
 
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
 
     return (
       <div>
+        {fetchTopicResourcesFailed &&
+          <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
+            {t('resource.errorDescription')}
+          </p>}
         {topicResourcesByType.map(type =>
           <ResourceType
             key={type.id}
@@ -73,6 +87,7 @@ class Resources extends Component {
 
 Resources.propTypes = {
   topicResourcesByType: PropTypes.arrayOf(ResourceTypeShape),
+  fetchTopicResourcesFailed: PropTypes.bool.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
@@ -85,7 +100,10 @@ const mapStateToProps = (state, ownProps) => {
   const { topicId } = ownProps;
   return {
     topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
+    fetchTopicResourcesFailed: hasFetchTopicResourcesFailed(state),
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Resources));
+export default compose(withRouter, injectT, connect(mapStateToProps))(
+  Resources,
+);

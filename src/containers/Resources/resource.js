@@ -9,19 +9,21 @@
 import { createAction, handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
+import createFetchActions from '../../util/createFetchActions';
 
 export const setTopicResources = createAction('SET_TOPIC_RESOURCES');
-export const fetchTopicResources = createAction('FETCH_TOPIC_RESOURCES');
+export const fetchTopicResourcesActions = createFetchActions('TOPIC_RESOURCES');
 export const setResourceTypes = createAction('SET_RESOURCE_TYPES');
 
 export const actions = {
+  ...fetchTopicResourcesActions,
   setTopicResources,
-  fetchTopicResources,
   setResourceTypes,
 };
 
 export const initalState = {
   all: {},
+  fetchTopicResourcesFailed: false,
   types: [],
 };
 
@@ -32,6 +34,7 @@ export default handleActions(
         const { topicId, resources } = action.payload;
         return {
           ...state,
+          fetchTopicResourcesFailed: false,
           all: { ...state.all, [topicId]: resources },
         };
       },
@@ -42,9 +45,17 @@ export default handleActions(
         const resourceTypes = action.payload;
         return {
           ...state,
+          fetchTopicResourcesFailed: false,
           types: resourceTypes,
         };
       },
+      throw: state => state,
+    },
+    [actions.fetchTopicResourcesError]: {
+      next: state => ({
+        ...state,
+        fetchTopicResourcesFailed: true,
+      }),
       throw: state => state,
     },
   },
@@ -61,6 +72,11 @@ export const getResources = createSelector(
 export const getResourceTypes = createSelector(
   [getResourcesFromState],
   resources => resources.types,
+);
+
+export const hasFetchTopicResourcesFailed = createSelector(
+  [getResourcesFromState],
+  resources => resources.fetchTopicResourcesFailed,
 );
 
 export const getResourcesByTopicId = topicId =>

@@ -15,6 +15,7 @@ test('reducers/resources initalState', () => {
   expect(nextState).toEqual({
     all: {},
     types: [],
+    fetchTopicResourcesFailed: false,
   });
 });
 
@@ -26,6 +27,7 @@ test('reducers/resources handle set resource types', () => {
 
   expect(nextState).toEqual({
     all: {},
+    fetchTopicResourcesFailed: false,
     types: resourceTypes,
   });
 
@@ -48,6 +50,7 @@ test('reducers/resources handle set topic resources', () => {
 
   expect(nextState).toEqual({
     all: { 1: resources },
+    fetchTopicResourcesFailed: false,
     types: [],
   });
 

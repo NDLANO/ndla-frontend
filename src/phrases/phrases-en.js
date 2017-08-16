@@ -53,6 +53,10 @@ const phrases = {
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
   },
+  resource: {
+    errorDescription:
+      'Sorry, an error occurd while loading the topic resources.',
+  },
   searchForm: {
     placeholder: 'Search articles',
     btn: 'Search',

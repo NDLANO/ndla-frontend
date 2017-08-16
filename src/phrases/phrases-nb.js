@@ -59,6 +59,10 @@ const phrases = {
   logo: {
     altText: 'Nasjonal digital læringsarena',
   },
+  resource: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
+  },
   searchForm: {
     placeholder: 'Søk etter artikler',
     btn: 'Søk',
