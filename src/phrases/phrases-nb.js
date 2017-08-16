@@ -110,7 +110,6 @@ const phrases = {
       download: 'Last ned',
     },
   },
-  resources: {},
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
@@ -126,8 +125,8 @@ const phrases = {
     },
   },
   topicPage: {
-    closeArticleTopic: 'Skjul emnebeskrivelse',
-    openArticleTopic: 'Se hele emnebeskrivelse',
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
     topics: 'Emner',
   },
   footer: {

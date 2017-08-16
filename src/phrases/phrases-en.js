@@ -114,8 +114,7 @@ const phrases = {
     },
   },
   topicPage: {
-    closeArticleTopic: 'Hide topic description',
-    openArticleTopic: 'See whole topic description',
+    errorDescription: 'Sorry, an error occurd while loading topic content.',
     topics: 'Topics',
   },
   footer: {
