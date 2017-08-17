@@ -8,11 +8,16 @@
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware, { END } from 'redux-saga';
+import handleError from './util/handleError';
 
 import rootReducer from './reducers';
 
 export default function configureStore(initialState) {
-  const sagaMiddleware = createSagaMiddleware();
+  const sagaMiddleware = createSagaMiddleware({
+    onError: error => {
+      handleError(error);
+    },
+  });
 
   const createFinalStore = compose(
     applyMiddleware(sagaMiddleware),

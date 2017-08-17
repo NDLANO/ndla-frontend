@@ -7,17 +7,13 @@
  */
 
 import { take } from 'redux-saga/effects';
-import ErrorReporter from 'ndla-error-reporter';
 import { actions } from './';
+import handleError from '../../util/handleError';
 
 export function* watchApplicationError() {
   while (true) {
     const { payload: error } = yield take(actions.applicationError);
-    if (process.env.NODE_ENV === 'production') {
-      ErrorReporter.getInstance().captureError(error);
-    } else {
-      console.error(error); // eslint-disable-line no-console
-    }
+    handleError(error);
   }
 }
 
