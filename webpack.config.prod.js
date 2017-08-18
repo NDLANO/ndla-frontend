@@ -40,6 +40,7 @@ module.exports = require('./webpack.config.base')({
   fileLoader: 'file-loader?name=[name]-[hash].[ext]',
 
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     // Minify and optimize the JavaScript
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
