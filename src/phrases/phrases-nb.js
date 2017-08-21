@@ -7,6 +7,42 @@
  */
 
 const phrases = {
+  articlePage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av ressursen.',
+  },
+  notFoundPage: {
+    errorDescription:
+      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
+  },
+  searchPage: {
+    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+  },
+  subjectPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emnene.',
+    tabs: {
+      topics: 'Emner',
+    },
+  },
+  subjectsPage: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
+    chooseSubject: 'Velg fag',
+  },
+  topicPage: {
+    topicErrorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
+    articleErrorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne beskrivelsen.',
+    topics: 'Emner',
+  },
+  welcomePage: {
+    subjects: 'Fag',
+    search: 'Gå til søk',
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av fagene.',
+  },
   meta: {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
@@ -20,17 +56,12 @@ const phrases = {
       title: 'Meny',
     },
   },
-  message: 'message',
-  messages: 'messages',
-  welcomePage: {
-    subjects: 'Fag',
-    search: 'Gå til søk',
-  },
-  subjectsPage: {
-    chooseSubject: 'Velg fag',
-  },
   logo: {
     altText: 'Nasjonal digital læringsarena',
+  },
+  resource: {
+    errorDescription:
+      'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',
@@ -91,23 +122,15 @@ const phrases = {
       download: 'Last ned',
     },
   },
-  resources: {},
-  searchPage: {
-    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
-  },
   breadcrumb: {
     subjectsLinkText: 'Fag',
     label: 'Du er her:',
   },
-  subjectPage: {
-    tabs: {
-      topics: 'Emner',
-    },
-  },
-  topicPage: {
-    closeArticleTopic: 'Skjul emnebeskrivelse',
-    openArticleTopic: 'Se hele emnebeskrivelse',
-    topics: 'Emner',
+  errorMessage: {
+    title: 'Oops, noe gikk galt',
+    description: 'Vi beklager, men en feil oppsto.',
+    back: 'Tilbake',
+    goToFrontPage: 'Gå til forsiden',
   },
   footer: {
     aboutNDLA: 'Om NDLA',

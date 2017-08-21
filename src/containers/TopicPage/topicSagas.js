@@ -18,7 +18,8 @@ import {
   getArticleIdFromResource,
   isArticleResource,
 } from '../Resources/resourceHelpers';
-import { fetchArticle } from '../ArticlePage/articleActions';
+import { fetchArticle } from '../ArticlePage/articleSagas';
+import { applicationError } from '../../modules/error';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
 
@@ -37,20 +38,24 @@ export function* fetchTopicIntroductions(topics) {
       }),
     );
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
   }
 }
 
 export function* fetchTopicArticle(subjectId, topicId) {
-  const locale = yield select(getLocale);
-  let topic = yield select(getTopic(subjectId, topicId));
-  if (!topic) {
-    topic = yield call(api.fetchTopic, topicId, locale);
-  }
-  const articleId = getArticleIdFromResource(topic);
-  if (articleId) {
-    yield put(fetchArticle({ articleId }));
+  try {
+    const locale = yield select(getLocale);
+    let topic = yield select(getTopic(subjectId, topicId));
+    if (!topic) {
+      topic = yield call(api.fetchTopic, topicId, locale);
+    }
+    const articleId = getArticleIdFromResource(topic);
+    if (articleId) {
+      yield call(fetchArticle, articleId);
+    }
+  } catch (error) {
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicArticleError());
   }
 }
 
@@ -61,8 +66,8 @@ export function* fetchTopics(subjectId) {
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicsError());
     return [];
   }
 }

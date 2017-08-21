@@ -10,11 +10,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Hero, OneColumn, TopicBreadcrumb, LayoutItem, Article } from 'ndla-ui';
+import {
+  Hero,
+  OneColumn,
+  TopicBreadcrumb,
+  LayoutItem,
+  Article,
+  ErrorMessage,
+} from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
-
-import { actions, getTopicArticle, getTopic, getTopicPath } from './topic';
+import {
+  actions,
+  getTopicArticle,
+  getTopic,
+  getTopicPath,
+  hasFetchTopicsFailed,
+  hasFetchTopicArticleFailed,
+} from './topic';
 import {
   getSubjectById,
   actions as subjectActions,
@@ -31,7 +44,6 @@ const TopicArticle = ({ article }) =>
         {article.title}
       </h1>
       <Article.Introduction introduction={article.introduction} />
-      {/* <ArticleByline article={article} />*/}
     </LayoutItem>
     <LayoutItem layout="center">
       <Article.Content content={article.content} />
@@ -45,6 +57,15 @@ const TopicArticle = ({ article }) =>
 
 TopicArticle.propTypes = {
   article: ArticleShape.isRequired,
+};
+
+const getTitle = (article, topic) => {
+  if (article) {
+    return article.title;
+  } else if (topic) {
+    return topic.name;
+  }
+  return '';
 };
 
 class TopicPage extends Component {
@@ -85,17 +106,17 @@ class TopicPage extends Component {
       article,
       t,
       topicPath,
+      fetchTopicsFailed,
+      fetchTopicArticleFailed,
       subject,
     } = this.props;
     const { subjectId } = params;
-    if (!topic) {
-      return null;
-    }
 
     const metaDescription = article
       ? { name: 'description', content: article.metaDescription }
       : {};
-    const title = article ? article.title : topic.name;
+    const title = getTitle(article, topic);
+
     const scripts = article
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,
@@ -119,29 +140,47 @@ class TopicPage extends Component {
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}
                       topicPath={topicPath}
-                      toTopic={toTopic}>
-                      {/* {t('breadcrumb.label')}*/}
-                    </TopicBreadcrumb>
+                      toTopic={toTopic}
+                    />
                   : null}
               </section>
             </div>
           </OneColumn>
         </Hero>
+        {(fetchTopicsFailed || fetchTopicArticleFailed) &&
+          <OneColumn cssModifier="narrow">
+            <div className="c-article">
+              <ErrorMessage
+                messages={{
+                  title: t('errorMessage.title'),
+                  description: fetchTopicsFailed
+                    ? t('topicPage.topicErrorDescription')
+                    : t('topicPage.articleErrorDescription'),
+                  back: fetchTopicsFailed ? t('errorMessage.back') : undefined,
+                  goToFrontPage: fetchTopicsFailed
+                    ? t('errorMessage.goToFrontPage')
+                    : undefined,
+                }}
+              />
+            </div>
+          </OneColumn>}
         <OneColumn cssModifier="narrow">
           {article ? <TopicArticle article={article} /> : null}
         </OneColumn>
-        <OneColumn cssModifier="narrow">
-          <SubTopics
-            subjectId={subjectId}
-            topic={topic}
-            topicPath={topicPath}
-          />
-          <TopicResources
-            subjectId={subjectId}
-            topic={topic}
-            topicPath={topicPath}
-          />
-        </OneColumn>
+        {topic
+          ? <OneColumn cssModifier="narrow">
+              <SubTopics
+                subjectId={subjectId}
+                topic={topic}
+                topicPath={topicPath}
+              />
+              <TopicResources
+                subjectId={subjectId}
+                topic={topic}
+                topicPath={topicPath}
+              />
+            </OneColumn>
+          : null}
       </div>
     );
   }
@@ -157,6 +196,8 @@ TopicPage.propTypes = {
   fetchSubjects: PropTypes.func.isRequired,
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchTopicsWithIntroductions: PropTypes.func.isRequired,
+  fetchTopicsFailed: PropTypes.bool.isRequired,
+  fetchTopicArticleFailed: PropTypes.bool.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -180,6 +221,8 @@ const mapStateToProps = (state, ownProps) => {
     article: getTopicArticleSelector(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
+    fetchTopicArticleFailed: hasFetchTopicArticleFailed(state),
+    fetchTopicsFailed: hasFetchTopicsFailed(state),
   };
 };
 

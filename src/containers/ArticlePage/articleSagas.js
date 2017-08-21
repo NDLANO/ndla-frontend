@@ -8,11 +8,10 @@
 
 import { take, call, all, put, select } from 'redux-saga/effects';
 import { getLocale } from '../Locale/localeSelectors';
-import { getArticle } from './articleSelectors';
-import * as constants from './articleConstants';
-import * as actions from './articleActions';
+import { actions, getArticle } from './article';
 import * as api from './articleApi';
 import * as resourceApi from '../Resources/resourceApi';
+import { applicationError } from '../../modules/error';
 
 export function* fetchResourceTypesForArticle(resourceId, locale) {
   try {
@@ -23,12 +22,12 @@ export function* fetchResourceTypesForArticle(resourceId, locale) {
     );
     return resource;
   } catch (error) {
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
     return [];
   }
 }
 
-export function* fetchArticle(articleId, resourceId) {
+export function* fetchArticle(articleId, resourceId, history) {
   try {
     const locale = yield select(getLocale);
     if (resourceId) {
@@ -41,30 +40,24 @@ export function* fetchArticle(articleId, resourceId) {
       const article = yield call(api.fetchArticle, articleId, locale);
       yield put(actions.setArticle(article));
     }
+    yield put(actions.fetchArticleSuccess());
   } catch (error) {
-    // TODO: better error handling
-    if (error.json && error.json.status === 404) {
-      // tmp hack
-      yield put(
-        actions.setArticle({
-          id: articleId,
-          status: 404,
-          content: '',
-        }),
-      );
+    if (error.json && error.json.status === 404 && history) {
+      history.replace('/not-found');
     }
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchArticleError());
   }
 }
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: { articleId, resourceId } } = yield take(
-      constants.FETCH_ARTICLE,
+    const { payload: { articleId, resourceId, history } } = yield take(
+      actions.fetchArticle,
     );
     const currentArticle = yield select(getArticle(articleId));
     if (!currentArticle || currentArticle.id !== articleId) {
-      yield call(fetchArticle, articleId, resourceId);
+      yield call(fetchArticle, articleId, resourceId, history);
     }
   }
 }

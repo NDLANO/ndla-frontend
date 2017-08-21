@@ -10,14 +10,16 @@ import { combineReducers } from 'redux';
 
 import locale from './containers/Locale/localeReducer';
 import messages from './containers/Messages/messagesReducer';
-import articles from './containers/ArticlePage/articlesReducer';
+import articles from './containers/ArticlePage/article';
 import subjects from './containers/SubjectPage/subjects';
 import topics from './containers/TopicPage/topic';
 import search from './containers/SearchPage/searchReducer';
 import resources from './containers/Resources/resource';
+import errors from './modules/error';
 
 const rootReducers = combineReducers({
   articles,
+  errors,
   locale,
   messages,
   resources,

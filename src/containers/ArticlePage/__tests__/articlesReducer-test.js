@@ -6,51 +6,68 @@
  *
  */
 
-import reducer from '../articlesReducer';
-import * as constants from '../articleConstants';
+import reducer, { actions } from '../article';
 
 test('reducers/article initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
-  expect(nextState).toEqual({});
+  expect(nextState).toEqual({
+    all: {},
+    isLoading: false,
+    fetchArticleFailed: false,
+  });
 });
 
 test('reducers/article set article', () => {
-  const nextState = reducer(undefined, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 1, title: 'Unit test' },
-  });
+  const nextState = reducer(
+    undefined,
+    actions.setArticle({ id: 1, title: 'Unit test' }),
+  );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test' },
+    all: {
+      1: { id: 1, title: 'Unit test' },
+    },
+    isLoading: false,
+    fetchArticleFailed: false,
   });
 });
 
 test('reducers/article set multiple articles', () => {
-  const state = reducer(undefined, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 1, title: 'Unit test 1' },
-  });
-  const nextState = reducer(state, {
-    type: constants.SET_ARTICLE,
-    payload: { id: 2, title: 'Unit test 2' },
-  });
+  const state = reducer(
+    undefined,
+    actions.setArticle({ id: 1, title: 'Unit test 1' }),
+  );
+  const nextState = reducer(
+    state,
+    actions.setArticle({ id: 2, title: 'Unit test 2' }),
+  );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 1' },
-    2: { id: 2, title: 'Unit test 2' },
+    all: {
+      1: { id: 1, title: 'Unit test 1' },
+      2: { id: 2, title: 'Unit test 2' },
+    },
+    isLoading: false,
+    fetchArticleFailed: false,
   });
 });
 
 test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer(
     {
-      1: { id: 1, title: 'Unit test 1' },
+      all: { 1: { id: 1, title: 'Unit test 1' } },
+      isLoading: false,
+      fetchArticleFailed: false,
     },
-    { type: constants.SET_ARTICLE, payload: { id: 1, title: 'Unit test 2' } },
+    actions.setArticle({ id: 1, title: 'Unit test 2' }),
   );
 
   expect(nextState).toEqual({
-    1: { id: 1, title: 'Unit test 2' },
+    all: {
+      1: { id: 1, title: 'Unit test 2' },
+    },
+    isLoading: false,
+    fetchArticleFailed: false,
   });
 });

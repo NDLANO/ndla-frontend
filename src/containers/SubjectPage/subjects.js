@@ -8,12 +8,13 @@
 
 import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
+import createFetchActions from '../../util/createFetchActions';
 
-export const fetchSubjects = createAction('FETCH_SUBJECTS');
+export const fetchSubjectsActions = createFetchActions('SUBJECTS');
 export const setSubjects = createAction('SET_SUBJECTS');
 
 export const actions = {
-  fetchSubjects,
+  ...fetchSubjectsActions,
   setSubjects,
 };
 
@@ -21,12 +22,17 @@ export const initalState = {
   hasFetched: false,
   fetching: false,
   all: [],
+  hasFetchSubjectsFailed: false,
 };
 
 export default handleActions(
   {
     [actions.fetchSubjects]: {
-      next: state => ({ ...state, fetching: true }),
+      next: state => ({
+        ...state,
+        fetching: true,
+        hasFetchSubjectsFailed: false,
+      }),
       throw: state => state,
     },
     [actions.setSubjects]: {
@@ -35,6 +41,15 @@ export default handleActions(
         all: action.payload,
         fetching: false,
         hasFetched: true,
+        hasFetchSubjectsFailed: false,
+      }),
+      throw: state => state,
+    },
+    [actions.fetchSubjectsError]: {
+      next: state => ({
+        ...state,
+        fetching: false,
+        hasFetchSubjectsFailed: true,
       }),
       throw: state => state,
     },
@@ -47,6 +62,11 @@ const getSubjectsFromState = state => state.subjects;
 export const getSubjects = createSelector(
   [getSubjectsFromState],
   subjects => subjects.all,
+);
+
+export const hasFetchSubjectsFailed = createSelector(
+  [getSubjectsFromState],
+  subjects => subjects.hasFetchSubjectsFailed,
 );
 
 export const getTopicIntroductions = createSelector(

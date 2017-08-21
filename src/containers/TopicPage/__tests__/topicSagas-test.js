@@ -104,6 +104,10 @@ test('resourceSagas watchFetchTopicArticle', () => {
     .get('/taxonomy/v1/topics/urn:topic:1/?language=en')
     .reply(200, topics[0]);
 
+  const req2 = nock('http://ndla-api')
+    .get('/article-converter/json/en/1')
+    .reply(200, {});
+
   return expectSaga(sagas.watchFetchTopicArticle)
     .withState({ topics: initialState, locale: 'en' })
     .dispatch(
@@ -116,5 +120,6 @@ test('resourceSagas watchFetchTopicArticle', () => {
     .then(result => {
       expect(result.toJSON()).toMatchSnapshot();
       req1.done();
+      req2.done();
     });
 });

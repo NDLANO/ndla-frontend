@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { actions, getSubjects } from './subjects';
+import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
 import { SubjectShape } from '../../shapes';
 
 export const injectSubjects = WrappedComponent => {
@@ -25,6 +25,7 @@ export const injectSubjects = WrappedComponent => {
 
   SubjectsContainer.propTypes = {
     subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+    hasFailed: PropTypes.bool.isRequired,
     fetchSubjects: PropTypes.func.isRequired,
   };
 
@@ -34,6 +35,7 @@ export const injectSubjects = WrappedComponent => {
 
   const mapStateToProps = state => ({
     subjects: getSubjects(state),
+    hasFailed: hasFetchSubjectsFailed(state),
   });
 
   const getDisplayName = component =>

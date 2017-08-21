@@ -6,18 +6,19 @@
  *
  */
 
-import { handleActions } from 'redux-actions';
-import * as constants from './articleConstants';
+import { handleActions, createAction } from 'redux-actions';
+
+export const applicationError = createAction('APPLICATION_ERROR');
+export const actions = {
+  applicationError,
+};
 
 const initalState = {};
 
 export default handleActions(
   {
-    [constants.SET_ARTICLE]: {
-      next: (state, action) => ({
-        ...state,
-        [action.payload.id]: { ...action.payload },
-      }),
+    [actions.applicationError]: {
+      next: state => state,
       throw: state => state,
     },
   },

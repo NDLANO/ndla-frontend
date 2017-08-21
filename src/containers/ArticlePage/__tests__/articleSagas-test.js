@@ -10,8 +10,7 @@ import nock from 'nock';
 
 import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../articleSagas';
-import * as constants from '../articleConstants';
-import * as actions from '../articleActions';
+import { actions } from '../article';
 
 expectSaga.DEFAULT_TIMEOUT = 200;
 
@@ -21,9 +20,9 @@ test('articleSagas watchFetchArticle fetch article if not in state', () => {
     .reply(200, { id: 123, title: 'unit test' });
 
   return expectSaga(sagas.watchFetchArticle)
-    .withState({ articles: {}, locale: 'nb' })
+    .withState({ articles: { all: {} }, locale: 'nb' })
     .put(actions.setArticle({ id: 123, title: 'unit test' }))
-    .dispatch({ type: constants.FETCH_ARTICLE, payload: { articleId: 123 } })
+    .dispatch(actions.fetchArticle({ articleId: 123 }))
     .run({ silenceTimeout: true });
 });
 
@@ -36,7 +35,7 @@ test('articleSagas watchFetchArticle fetch article with resource info if not in 
     .reply(200, [{ id: 'urn:resource-type:video' }]);
 
   return expectSaga(sagas.watchFetchArticle)
-    .withState({ articles: {}, locale: 'nb' })
+    .withState({ articles: { all: {} }, locale: 'nb' })
     .put(
       actions.setArticle({
         id: 123,
@@ -44,18 +43,17 @@ test('articleSagas watchFetchArticle fetch article with resource info if not in 
         resourceTypes: [{ id: 'urn:resource-type:video' }],
       }),
     )
-    .dispatch({
-      type: constants.FETCH_ARTICLE,
-      payload: { articleId: 123, resourceId: 'urn:resource:123' },
-    })
+    .dispatch(
+      actions.fetchArticle({ articleId: 123, resourceId: 'urn:resource:123' }),
+    )
     .run({ silenceTimeout: true });
 });
 
 test('articleSagas watchFetchArticle do not refetch existing article ', () =>
   expectSaga(sagas.watchFetchArticle)
     .withState({
-      articles: { 123: { id: 123 } },
+      articles: { all: { 123: { id: 123 } } },
       locale: 'nb',
     })
-    .dispatch({ type: constants.FETCH_ARTICLE, payload: { articleId: 123 } })
+    .dispatch(actions.fetchArticle({ articleId: 123 }))
     .run({ silenceTimeout: true }));

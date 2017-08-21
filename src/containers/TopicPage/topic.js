@@ -11,28 +11,31 @@ import { createSelector } from 'reselect';
 import defined from 'defined';
 
 import groupBy from '../../util/groupBy';
-import { getArticle } from '../ArticlePage/articleSelectors';
+import { getArticle } from '../ArticlePage/article';
 import { getArticleIdFromResource } from '../Resources/resourceHelpers';
+import createFetchActions from '../../util/createFetchActions';
 
-export const fetchTopics = createAction('FETCH_TOPICS');
+export const fetchTopicsActions = createFetchActions('TOPICS');
 export const fetchTopicsWithIntroductions = createAction(
   'FETCH_TOPICS_WITH_INTRODUCTIONS',
 );
 export const setTopics = createAction('SET_TOPICS');
-export const fetchTopicArticle = createAction('FETCH_TOPIC_ARTICLE');
+export const fetchTopicArticleActions = createFetchActions('TOPIC_ARTICLE');
 
 export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
 
 export const actions = {
-  fetchTopics,
+  ...fetchTopicsActions,
+  ...fetchTopicArticleActions,
   fetchTopicsWithIntroductions,
   setTopics,
-  fetchTopicArticle,
   setTopicIntroductions,
 };
 
 export const initialState = {
   all: {},
+  fetchTopicsFailed: false,
+  fetchTopicArticleFailed: false,
   topicIntroductions: {},
 };
 
@@ -70,11 +73,26 @@ export default handleActions(
       },
       throw: state => state,
     },
+    [actions.fetchTopicsError]: {
+      next: state => ({
+        ...state,
+        fetchTopicsFailed: true,
+      }),
+      throw: state => state,
+    },
+    [actions.fetchTopicArticleError]: {
+      next: state => ({
+        ...state,
+        fetchTopicArticleFailed: true,
+      }),
+      throw: state => state,
+    },
   },
   initialState,
 );
 
 const getTopicsFromState = state => state.topics;
+const getArticlesFromState = state => state.articles;
 
 export const getTopicIntroductions = createSelector(
   [getTopicsFromState],
@@ -86,6 +104,17 @@ export const hasFetchedTopicsBySubjectId = subjectId =>
     [getTopicsFromState],
     topics => topics.all[subjectId] !== undefined,
   );
+
+export const hasFetchTopicsFailed = createSelector(
+  [getTopicsFromState],
+  topics => topics.fetchTopicsFailed,
+);
+
+export const hasFetchTopicArticleFailed = createSelector(
+  [getTopicsFromState, getArticlesFromState],
+  (topics, articles) =>
+    topics.fetchTopicArticleFailed || articles.fetchArticleFailed,
+);
 
 export const getAllTopicsBySubjectId = subjectId =>
   createSelector([getTopicsFromState], topics =>

@@ -10,6 +10,7 @@ import { all, take, call, put, select } from 'redux-saga/effects';
 import * as api from './resourceApi';
 import { actions, getResourcesByTopicId } from './resource';
 import { getLocale } from '../Locale/localeSelectors';
+import { applicationError } from '../../modules/error';
 
 export function* fetchResourceTypes() {
   try {
@@ -17,8 +18,8 @@ export function* fetchResourceTypes() {
     const resourceTypes = yield call(api.fetchResourceTypes, locale);
     yield put(actions.setResourceTypes(resourceTypes));
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicResourcesError());
   }
 }
 
@@ -28,8 +29,8 @@ export function* fetchTopicResources(topicId) {
     const resources = yield call(api.fetchTopicResources, topicId, locale);
     yield put(actions.setTopicResources({ topicId, resources }));
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicResourcesError());
   }
 }
 

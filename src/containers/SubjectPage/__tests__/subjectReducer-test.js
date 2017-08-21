@@ -16,18 +16,33 @@ test('reducers/subject initalState', () => {
     hasFetched: false,
     fetching: false,
     all: [],
+    hasFetchSubjectsFailed: false,
   });
 });
 
 test('reducers/subject handle fetch subjects', () => {
   const nextState = reducer(undefined, {
-    type: actions.fetchSubjects.toString(),
+    type: actions.fetchSubjects,
   });
 
   expect(nextState).toEqual({
     hasFetched: false,
     fetching: true,
     all: [],
+    hasFetchSubjectsFailed: false,
+  });
+});
+
+test('reducers/subject handle fetch subjects error', () => {
+  const nextState = reducer(undefined, {
+    type: actions.fetchSubjectsError,
+  });
+
+  expect(nextState).toEqual({
+    hasFetched: false,
+    fetching: false,
+    all: [],
+    hasFetchSubjectsFailed: true,
   });
 });
 
@@ -41,5 +56,6 @@ test('reducers/subjects handle set subjects', () => {
     hasFetched: true,
     fetching: false,
     all: subjects,
+    hasFetchSubjectsFailed: false,
   });
 });

@@ -7,6 +7,37 @@
  */
 
 const phrases = {
+  articlePage: {
+    errorDescription: 'Sorry, an error occurd while loading the resource.',
+  },
+  notFoundPage: {
+    errorDescription: "We can't seem to find the page you are looking for.",
+  },
+  searchPage: {
+    noHits: 'Your search - {query} - did not match any articles. ',
+  },
+  subjectPage: {
+    errorDescription: 'Sorry, an error occurd while loading the topics.',
+    tabs: {
+      topics: 'Topics',
+    },
+  },
+  subjectsPage: {
+    chooseSubject: 'Choose subject',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
+  },
+  topicPage: {
+    topicErrorDescription:
+      'Sorry, an error occurd while loading topic content.',
+    articleErrorDescription:
+      'Sorry, an error occurd while loading the topic description.',
+    topics: 'Topics',
+  },
+  welcomePage: {
+    subjects: 'Subjects',
+    search: 'Search',
+    errorDescription: 'Sorry, an error occurd while loading the subjects.',
+  },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
@@ -19,15 +50,12 @@ const phrases = {
       title: 'Menu',
     },
   },
-  welcomePage: {
-    subjects: 'Subjects',
-    search: 'Search',
-  },
-  subjectsPage: {
-    chooseSubject: 'Choose subject',
-  },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
+  },
+  resource: {
+    errorDescription:
+      'Sorry, an error occurd while loading the topic resources.',
   },
   searchForm: {
     placeholder: 'Search articles',
@@ -84,23 +112,15 @@ const phrases = {
       download: 'Download',
     },
   },
-  resources: {},
-  searchPage: {
-    noHits: 'Your search - {query} - did not match any articles. ',
-  },
   breadcrumb: {
     subjectsLinkText: 'Subject',
     label: 'You are here:',
   },
-  subjectPage: {
-    tabs: {
-      topics: 'Topics',
-    },
-  },
-  topicPage: {
-    closeArticleTopic: 'Hide topic description',
-    openArticleTopic: 'See whole topic description',
-    topics: 'Topics',
+  errorMessage: {
+    title: 'Oops, something went wrong',
+    description: 'Sorry, an error occurd.',
+    back: 'Back',
+    goToFrontPage: 'Go to frontpage',
   },
   footer: {
     aboutNDLA: 'About NDLA',

@@ -10,6 +10,7 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { getLocale } from '../Locale/localeSelectors';
 import { hasFetched, actions } from './subjects';
 import * as api from './subjectApi';
+import { applicationError } from '../../modules/error';
 
 export function* fetchSubjects() {
   try {
@@ -17,8 +18,8 @@ export function* fetchSubjects() {
     const subjects = yield call(api.fetchSubjects, locale);
     yield put(actions.setSubjects(subjects));
   } catch (error) {
-    // TODO: handle error
-    console.error(error); //eslint-disable-line
+    yield put(applicationError(error));
+    yield put(actions.fetchSubjectsError());
   }
 }
 

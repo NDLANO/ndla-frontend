@@ -11,8 +11,6 @@
 
 var http = require('http');
 
-require('babel-polyfill');
-
 var config = require('../src/config');
 
 global.__CLIENT__ = false;
