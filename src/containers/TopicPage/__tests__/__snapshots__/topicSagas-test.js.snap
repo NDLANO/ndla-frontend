@@ -36,22 +36,68 @@ Object {
         "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
       },
     },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "1",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/fetchArticle",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          Object {},
+          "@@redux-saga-test-plan/json/function/refineYieldedValue",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/sagaWrapper",
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "CALL": Object {
+        "args": Array [
+          "1",
+          "en",
+        ],
+        "context": null,
+        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
   ],
   "put": Array [
     Object {
       "@@redux-saga/IO": true,
       "PUT": Object {
         "action": Object {
-          "payload": Object {
-            "articleId": "1",
-          },
-          "type": "FETCH_ARTICLE",
+          "payload": Object {},
+          "type": "SET_ARTICLE",
+        },
+        "channel": null,
+      },
+    },
+    Object {
+      "@@redux-saga/IO": true,
+      "PUT": Object {
+        "action": Object {
+          "type": "FETCH_ARTICLE_SUCCESS",
         },
         "channel": null,
       },
     },
   ],
   "select": Array [
+    Object {
+      "@@redux-saga/IO": true,
+      "SELECT": Object {
+        "args": Array [],
+        "selector": "@@redux-saga-test-plan/json/function/<anonymous>",
+      },
+    },
     Object {
       "@@redux-saga/IO": true,
       "SELECT": Object {
