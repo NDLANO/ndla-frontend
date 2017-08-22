@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import {
   Hero,
   OneColumn,
-  TopicBreadcrumb,
+  Breadcrumb,
   LayoutItem,
   Article,
   ErrorMessage,
@@ -135,7 +135,7 @@ class TopicPage extends Component {
             <div className="c-hero__content">
               <section>
                 {subject
-                  ? <TopicBreadcrumb
+                  ? <Breadcrumb
                       toSubjects={() => '/'}
                       subjectsTitle={t('breadcrumb.subjectsLinkText')}
                       subject={subject}

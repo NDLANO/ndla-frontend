@@ -8,19 +8,27 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo, ClickToggle, TopicMenu } from 'ndla-ui';
+import {
+  BreadcrumbBlock,
+  DisplayOnPageYOffset,
+  Masthead,
+  MastheadItem,
+  Logo,
+  ClickToggle,
+  TopicMenu,
+} from 'ndla-ui';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toTopic, toSubject } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
-import { getSubjectMenu } from '../TopicPage/topic';
+import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import { SubjectShape, TopicShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, topics }) =>
+const MastheadContainer = ({ t, subject, topics, topicPath }) =>
   <Masthead>
     <MastheadItem left>
       {subject
@@ -42,6 +50,15 @@ const MastheadContainer = ({ t, subject, topics }) =>
             />
           </ClickToggle>
         : null}
+      {subject
+        ? <DisplayOnPageYOffset yOffset={150}>
+            <BreadcrumbBlock
+              subject={subject}
+              topicPath={topicPath}
+              toTopic={toTopic}
+            />
+          </DisplayOnPageYOffset>
+        : null}
     </MastheadItem>
     <MastheadItem right>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
@@ -56,13 +73,15 @@ MastheadContainer.propTypes = {
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
+  topicPath: PropTypes.arrayOf(TopicShape),
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId } = ownProps.params;
+  const { subjectId, topicId } = ownProps.params;
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
+    topicPath: getTopicPath(subjectId, topicId)(state),
   };
 };
 

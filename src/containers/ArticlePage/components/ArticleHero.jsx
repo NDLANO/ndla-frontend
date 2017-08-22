@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
-import { Hero, OneColumn, TopicBreadcrumb } from 'ndla-ui';
+import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
 import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
 import { toTopic } from '../../../routeHelpers';
@@ -26,7 +26,7 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
         <div className="c-hero__content">
           <section>
             {subject
-              ? <TopicBreadcrumb
+              ? <Breadcrumb
                   toSubjects={() => '/'}
                   subjectsTitle={t('breadcrumb.subjectsLinkText')}
                   subject={subject}
