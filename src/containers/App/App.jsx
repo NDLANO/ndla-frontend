@@ -9,15 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Switch from 'react-router-dom/Switch';
-import Route from 'react-router-dom/Route';
 import withRouter from 'react-router-dom/withRouter';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
 import { MessageShape } from '../../shapes';
-import Masthead from '../Masthead';
 import Footer from './components/Footer';
 import { getLocale } from '../Locale/localeSelectors';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -31,26 +28,13 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t, match } = this.props;
+    const { dispatch, children, messages, t } = this.props;
     return (
       <PageContainer>
         <Helmet
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
         />
-        <Switch>
-          <Route
-            path={`${match.url}subjects/:subjectId`}
-            render={({ match: routeMatch }) =>
-              <Masthead t={t} params={routeMatch.params} />}
-          />
-          <Route
-            path={`${match.url}article/:subjectId/:topicId/:resourceId/:articleId`}
-            render={({ match: routeMatch }) =>
-              <Masthead t={t} params={routeMatch.params} />}
-          />
-          <Route render={() => <Masthead t={t} params={{}} />} />
-        </Switch>
         {children}
         <Footer t={t} />
         <Alerts dispatch={dispatch} messages={messages} />

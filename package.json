@@ -88,7 +88,7 @@
     "ndla-i18n": "^0.0.5",
     "ndla-licenses": "^0.0.11",
     "ndla-tabs": "^0.3.5",
-    "ndla-ui": "^0.7.12",
+    "ndla-ui": "^0.7.16",
     "ndla-util": "^0.1.6",
     "node-fetch": "^1.7.2",
     "normalize-css": "2.3.1",

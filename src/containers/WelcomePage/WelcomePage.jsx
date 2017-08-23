@@ -19,28 +19,26 @@ import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectLinkList } from '../../components';
 
 export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) =>
-  <div className="c-resources u-padding-top-large">
-    <OneColumn>
-      {!hasFailed
-        ? <section>
-            <h2>{t('subjectsPage.chooseSubject')}</h2>
-            <SubjectLinkList subjects={subjects} />{' '}
-          </section>
-        : <ErrorMessage
-            messages={{
-              title: t('errorMessage.title'),
-              description: t('welcomePage.errorDescription'),
-            }}
-          />}
-      {searchEnabled
-        ? <section>
-            <Link to={toSearch()}>
-              {t('welcomePage.search')}
-            </Link>
-          </section>
-        : null}
-    </OneColumn>
-  </div>;
+  <OneColumn cssModifier="clear">
+    {!hasFailed
+      ? <section>
+          <h1>{t('welcomePage.subjects')}</h1>
+          <SubjectLinkList subjects={subjects} />{' '}
+        </section>
+      : <ErrorMessage
+          messages={{
+            title: t('errorMessage.title'),
+            description: t('welcomePage.errorDescription'),
+          }}
+        />}
+    {searchEnabled
+      ? <section>
+          <Link to={toSearch()}>
+            {t('welcomePage.search')}
+          </Link>
+        </section>
+      : null}
+  </OneColumn>;
 
 WelcomePage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
