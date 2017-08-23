@@ -17,6 +17,7 @@ import {
   ClickToggle,
   TopicMenu,
 } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toTopic, toSubject } from '../../routeHelpers';
@@ -66,9 +67,11 @@ const MastheadContainer = ({ t, subject, topics, topicPath }) =>
   </Masthead>;
 
 MastheadContainer.propTypes = {
-  params: PropTypes.shape({
-    subjectId: PropTypes.string,
-    topicId: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string,
+      topicId: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
@@ -77,7 +80,7 @@ MastheadContainer.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.params;
+  const { subjectId, topicId } = ownProps.match.params;
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
@@ -85,4 +88,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps))(MastheadContainer);
+export default compose(injectT, connect(mapStateToProps))(MastheadContainer);

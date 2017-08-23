@@ -7,11 +7,13 @@
  */
 
 import React from 'react';
-import Route from 'react-router-dom/Route';
+import PropTypes from 'prop-types';
+import ReactRoute from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
+import Masthead from './containers/Masthead';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
@@ -35,16 +37,25 @@ class ScrollToTop extends React.Component {
   }
 }
 
+const Route = ({ component: Component, ...rest }) =>
+  <ReactRoute
+    {...rest}
+    render={props =>
+      <div>
+        <Masthead {...props} />
+        <Component {...props} searchEnabled={searchEnabled} />
+      </div>}
+  />;
+
+Route.propTypes = {
+  component: PropTypes.func.isRequired,
+};
+
 export default (
   <App>
     <ScrollToTop />
     <Switch>
-      <Route
-        path="/"
-        exact
-        render={() => <WelcomePage searchEnabled={searchEnabled} />}
-      />
-
+      <Route path="/" exact component={WelcomePage} />
       <Route
         path="/article/:subjectId/:topicId/:resourceId/:articleId"
         component={ArticlePage}
