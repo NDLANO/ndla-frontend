@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactRoute from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
+import { Content } from 'ndla-ui';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
@@ -41,10 +42,10 @@ const Route = ({ component: Component, ...rest }) =>
   <ReactRoute
     {...rest}
     render={props =>
-      <div>
+      <Content>
         <Masthead {...props} />
         <Component {...props} searchEnabled={searchEnabled} />
-      </div>}
+      </Content>}
   />;
 
 Route.propTypes = {
