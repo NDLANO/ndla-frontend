@@ -65,7 +65,10 @@ module.exports = options => ({
                 },
               ],
             ],
-            plugins: ['transform-object-rest-spread'],
+            plugins: [
+              'transform-object-rest-spread',
+              'transform-class-properties',
+            ],
           },
         },
       },
