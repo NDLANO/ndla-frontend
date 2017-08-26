@@ -20,7 +20,6 @@ import { getLocaleObject, isValidLocale } from './i18n';
 import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
-import rootSaga from './sagas';
 
 const initialState = window.initialState;
 const localeString = initialState.locale;
@@ -31,8 +30,6 @@ const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
 storeAccessToken(window.accessToken);
 const store = configureStore(initialState);
-
-store.runSaga(rootSaga);
 
 const {
   logglyApiKey,
