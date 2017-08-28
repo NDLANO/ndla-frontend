@@ -20,7 +20,7 @@ const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
 const apiDomain = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'local':
-      return 'http://proxy.ndla-local';
+      return 'http://api-gateway.ndla-local';
     case 'prod':
       return 'https://api.ndla.no';
     default:
