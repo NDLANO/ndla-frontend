@@ -20,7 +20,9 @@ export const ArticleShape = PropTypes.shape({
 
 export const ArticleResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
 });
 
 export const SubjectShape = PropTypes.shape({
