@@ -55,9 +55,9 @@ test('reducers/topics handle set topic introductions', () => {
     type: actions.setTopicIntroductions,
     payload: {
       articleIntroductions: [
-        { id: '1', intro: 'Test1' },
-        { id: '2', intro: 'Test2' },
-        { id: '3', intro: 'Test3' },
+        { id: '1', introduction: { introduction: 'Test1' } },
+        { id: '2', introduction: { introduction: 'Test2' } },
+        { id: '3', introduction: { introduction: 'Test3' } },
       ],
       topics: [
         { id: 'topicId1', contentUri: 'urn:article:1' },
@@ -69,12 +69,10 @@ test('reducers/topics handle set topic introductions', () => {
 
   expect(nextState.topicIntroductions).toEqual({
     topicId1: {
-      id: '1',
-      intro: 'Test1',
+      introduction: 'Test1',
     },
     topicId2: {
-      id: '3',
-      intro: 'Test3',
+      introduction: 'Test3',
     },
   });
 });

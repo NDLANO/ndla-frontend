@@ -56,11 +56,11 @@ export default handleActions(
         const { articleIntroductions, topics } = action.payload;
         // Map article introduction to topic
         const topicIntroductions = topics.reduce((obj, item) => {
-          const intro = articleIntroductions.find(
+          const article = articleIntroductions.find(
             articleIntroduction =>
               item.contentUri === `urn:article:${articleIntroduction.id}`,
           );
-          return intro ? { ...obj, [item.id]: intro } : obj;
+          return article ? { ...obj, [item.id]: article.introduction } : obj;
         }, {});
 
         return {
