@@ -15,6 +15,7 @@
     "start-with-local-converter": "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
     "start-with-ssr": "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server",
     "start-prod": "cross-env NODE_ENV=production node htdocs/server",
+    "now-start": "cross-env NODE_ENV=production node htdocs/server",
     "prebuild": "npm run clean",
     "pretest": "npm run lint",
     "prettier": "node prettier.js write"
