@@ -112,6 +112,8 @@ app.use(
           'prezi.com',
           '*.commoncraft.com',
           'commoncraft.com',
+          '*.embed.kahoot.it',
+          'embed.kahoot.it',
         ],
         workerSrc: ["'self'", 'blob:'],
         styleSrc: [
