@@ -79,7 +79,6 @@
     "date-fns": "^1.28.5",
     "defined": "1.0.0",
     "express": "^4.15.4",
-    "express-robots": "^0.1.6",
     "helmet": "^3.8.1",
     "history": "^4.6.3",
     "http-status": "^1.0.1",
