@@ -8,6 +8,7 @@
 
 import express from 'express';
 import helmet from 'helmet';
+import robots from 'express-robots';
 import compression from 'compression';
 
 import enableDevMiddleWare from './helpers/enableDevMiddleware';
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
   enableDevMiddleWare(app);
 }
 
+app.use(robots({ UserAgent: '*', Disallow: '/' }));
 app.use(compression());
 app.use(
   express.static('htdocs', {

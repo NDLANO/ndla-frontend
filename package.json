@@ -26,8 +26,8 @@
     ]
   },
   "engines": {
-    "node": "~6.6.0",
-    "npm": "~3.10.3"
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -79,6 +79,7 @@
     "date-fns": "^1.28.5",
     "defined": "1.0.0",
     "express": "^4.15.4",
+    "express-robots": "^0.1.6",
     "helmet": "^3.8.1",
     "history": "^4.6.3",
     "http-status": "^1.0.1",
