@@ -5,11 +5,11 @@
   "scripts": {
     "build-server": "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
     "build-client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
-    "build": "yarn build-server --silent && yarn build-client --silent",
+    "build": "yarn build-server && yarn build-client",
     "clean": "rimraf ./htdocs/*",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch",
-    "lint": "yarn run lint-prettier --silent && eslint --ext .js --ext .jsx src server",
+    "lint": "yarn run lint-prettier && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
     "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server",
     "start-with-local-converter": "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
@@ -21,9 +21,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.0.0",
