@@ -198,12 +198,6 @@ arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
-"as-array@git://github.com/weo-edu/as-array.git":
-  version "1.0.0"
-  resolved "git://github.com/weo-edu/as-array.git#17a37ea02091a778c18c0e84465ddfc5dd321df7"
-  dependencies:
-    isarray "0.0.1"
-
 asap@~2.0.3:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
@@ -2477,12 +2471,6 @@ expand-range@^1.8.1:
 expect-ct@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.0.tgz#52735678de18530890d8d7b95f0ac63640958094"
-
-express-robots@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/express-robots/-/express-robots-0.1.6.tgz#842e81067668206ae5e8bf387a456e920429507d"
-  dependencies:
-    as-array "git://github.com/weo-edu/as-array"
 
 express@^4.15.2:
   version "4.15.3"

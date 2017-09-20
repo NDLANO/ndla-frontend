@@ -1,4 +1,4 @@
-FROM node:8.1.4-alpine
+FROM node:8.5.0-alpine
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -21,4 +21,4 @@ COPY server $APP_PATH/server
 # Build client code
 WORKDIR $APP_PATH
 RUN yarn run build
-CMD ["npm", "run", "start-prod"]
+CMD ["yarn", "start-prod"]
