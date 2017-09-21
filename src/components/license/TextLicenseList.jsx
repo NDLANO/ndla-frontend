@@ -22,7 +22,7 @@ import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const TextLicenseInfo = ({ text, locale, t }) =>
+const TextLicenseInfo = ({ text, locale, t }) => (
   <MediaListItem>
     <MediaListItemImage>
       <Document className="c-medialist__icon" />
@@ -32,9 +32,7 @@ const TextLicenseInfo = ({ text, locale, t }) =>
       title={t('rules')}
       locale={locale}>
       <MediaListItemActions>
-        <h3 className="c-medialist__title">
-          {t('howToReference')}
-        </h3>
+        <h3 className="c-medialist__title">{t('howToReference')}</h3>
         <MediaListItemMeta authors={text.copyright.authors} />
         <CopyTextButton
           authors={text.copyright.authors}
@@ -43,27 +41,25 @@ const TextLicenseInfo = ({ text, locale, t }) =>
         />
       </MediaListItemActions>
     </MediaListItemBody>
-  </MediaListItem>;
+  </MediaListItem>
+);
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   text: CopyrightObjectShape,
 };
 
-const TextLicenseList = ({ texts, heading, description, locale, t }) =>
+const TextLicenseList = ({ texts, heading, description, locale, t }) => (
   <div>
-    <h2>
-      {heading}
-    </h2>
-    <p>
-      {description}
-    </p>
+    <h2>{heading}</h2>
+    <p>{description}</p>
     <MediaList>
-      {texts.map(text =>
-        <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />,
-      )}
+      {texts.map(text => (
+        <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
+      ))}
     </MediaList>
-  </div>;
+  </div>
+);
 
 TextLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,

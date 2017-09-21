@@ -7,9 +7,14 @@
  */
 
 export function parseQueryString(query) {
-  const pairs = query.replace('?', '').split('&').map(pair => pair.split('='));
+  const pairs = query
+    .replace('?', '')
+    .split('&')
+    .map(pair => pair.split('='));
   return pairs.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
 }
 
 export const createQueryString = obj =>
-  Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');
+  Object.keys(obj)
+    .map(key => `${key}=${obj[key]}`)
+    .join('&');

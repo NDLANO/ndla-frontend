@@ -25,15 +25,15 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
       <OneColumn cssModifier="narrow">
         <div className="c-hero__content">
           <section>
-            {subject
-              ? <Breadcrumb
-                  toSubjects={() => '/'}
-                  subjectsTitle={t('breadcrumb.subjectsLinkText')}
-                  subject={subject}
-                  topicPath={topicPath}
-                  toTopic={toTopic}
-                />
-              : null}
+            {subject ? (
+              <Breadcrumb
+                toSubjects={() => '/'}
+                subjectsTitle={t('breadcrumb.subjectsLinkText')}
+                subject={subject}
+                topicPath={topicPath}
+                toTopic={toTopic}
+              />
+            ) : null}
           </section>
         </div>
       </OneColumn>

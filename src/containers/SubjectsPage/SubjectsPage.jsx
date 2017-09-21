@@ -15,24 +15,27 @@ import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';
 
-const SubjectsPage = ({ t, subjects, hasFailed }) =>
+const SubjectsPage = ({ t, subjects, hasFailed }) => (
   <div className="c-resources u-padding-top-large">
     <OneColumn>
-      {!hasFailed
-        ? <section>
-            <h2>{t('subjectsPage.chooseSubject')}</h2>
-            <SubjectLinkList subjects={subjects} />{' '}
-          </section>
-        : <ErrorMessage
-            messages={{
-              title: t('errorMessage.title'),
-              description: t('subjectsPage.errorDescription'),
-              back: t('errorMessage.back'),
-              goToFrontPage: t('errorMessage.goToFrontPage'),
-            }}
-          />}
+      {!hasFailed ? (
+        <section>
+          <h2>{t('subjectsPage.chooseSubject')}</h2>
+          <SubjectLinkList subjects={subjects} />{' '}
+        </section>
+      ) : (
+        <ErrorMessage
+          messages={{
+            title: t('errorMessage.title'),
+            description: t('subjectsPage.errorDescription'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
+          }}
+        />
+      )}
     </OneColumn>
-  </div>;
+  </div>
+);
 
 SubjectsPage.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,

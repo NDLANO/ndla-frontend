@@ -12,7 +12,7 @@ import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import Route from 'react-router-dom/Route';
 
-const Status = ({ code, children }) =>
+const Status = ({ code, children }) => (
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
@@ -21,13 +21,14 @@ const Status = ({ code, children }) =>
       }
       return children;
     }}
-  />;
+  />
+);
 
 Status.propTypes = {
   code: PropTypes.number.isRequired,
 };
 
-const NotFound = ({ t }) =>
+const NotFound = ({ t }) => (
   <Status code={404}>
     <OneColumn cssModifier="clear">
       <ErrorMessage
@@ -39,7 +40,8 @@ const NotFound = ({ t }) =>
         }}
       />
     </OneColumn>
-  </Status>;
+  </Status>
+);
 
 NotFound.propTypes = {};
 
