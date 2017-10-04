@@ -114,6 +114,7 @@ app.use(
           'commoncraft.com',
           '*.embed.kahoot.it',
           'embed.kahoot.it',
+          'fast.wistia.com',
         ],
         workerSrc: ["'self'", 'blob:'],
         styleSrc: [
