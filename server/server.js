@@ -95,6 +95,7 @@ app.use(
           ' *.gallerysites.net',
           'ndla.no',
           '*.ndla.no',
+          'cdnjs.cloudflare.com',
         ],
         frameSrc: [
           '*.nrk.no',
@@ -129,6 +130,7 @@ app.use(
           'https://fonts.googleapis.com',
           'https://fonts.gstatic.com',
           'data:',
+          'cdnjs.cloudflare.com',
         ],
         imgSrc: [
           "'self'",
