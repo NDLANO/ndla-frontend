@@ -22,7 +22,7 @@ import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const AudioLicenseInfo = ({ audio, locale, t }) =>
+const AudioLicenseInfo = ({ audio, locale, t }) => (
   <MediaListItem>
     <MediaListItemImage>
       <Audio className="c-medialist__icon" />
@@ -32,9 +32,7 @@ const AudioLicenseInfo = ({ audio, locale, t }) =>
       title={t('rules')}
       locale={locale}>
       <MediaListItemActions>
-        <h3 className="c-medialist__title">
-          {t('howToReference')}
-        </h3>
+        <h3 className="c-medialist__title">{t('howToReference')}</h3>
         <MediaListItemMeta authors={audio.copyright.authors} />
         <CopyTextButton
           authors={audio.copyright.authors}
@@ -49,24 +47,24 @@ const AudioLicenseInfo = ({ audio, locale, t }) =>
         </a>
       </MediaListItemActions>
     </MediaListItemBody>
-  </MediaListItem>;
+  </MediaListItem>
+);
 
 AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   audio: CopyrightObjectShape.isRequired,
 };
 
-const AudioLicenseList = ({ audios, heading, locale, t }) =>
+const AudioLicenseList = ({ audios, heading, locale, t }) => (
   <div>
-    <h2>
-      {heading}
-    </h2>
+    <h2>{heading}</h2>
     <MediaList>
-      {audios.map(audio =>
-        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />,
-      )}
+      {audios.map(audio => (
+        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />
+      ))}
     </MediaList>
-  </div>;
+  </div>
+);
 
 AudioLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,

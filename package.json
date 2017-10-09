@@ -21,7 +21,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -40,8 +42,8 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.5",
     "enzyme": "^2.9.1",
-    "eslint": "^3.16.1",
-    "eslint-config-ndla": "^0.2.1",
+    "eslint": "^4.7.1",
+    "eslint-config-ndla": "^0.3.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "flux-standard-action": "^1.2.0",

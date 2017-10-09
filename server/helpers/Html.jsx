@@ -66,13 +66,13 @@ const Html = props => {
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.script.toComponent()}
-        {config.isProduction
-          ? <link
-              rel="stylesheet"
-              type="text/css"
-              href={`/assets/${assets['main.css']}`}
-            />
-          : null}
+        {config.isProduction ? (
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href={`/assets/${assets['main.css']}`}
+          />
+        ) : null}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700"

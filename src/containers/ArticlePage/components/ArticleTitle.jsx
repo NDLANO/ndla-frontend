@@ -28,11 +28,7 @@ const ArticleTitle = ({ resourceTypes, title }) => {
     );
   }
 
-  return (
-    <h1 {...classes('title')}>
-      {title}
-    </h1>
-  );
+  return <h1 {...classes('title')}>{title}</h1>;
 };
 
 ArticleTitle.propTypes = {

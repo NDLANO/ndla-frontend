@@ -11,16 +11,15 @@ import PropTypes from 'prop-types';
 import Link from 'react-router-dom/Link';
 import { SubjectShape } from '../shapes';
 
-const SubjectLinkList = ({ subjects }) =>
+const SubjectLinkList = ({ subjects }) => (
   <ul className="o-list--arrows">
-    {subjects.map(subject =>
+    {subjects.map(subject => (
       <li key={subject.id}>
-        <Link to={`/subjects/${subject.id}`}>
-          {subject.name}
-        </Link>
-      </li>,
-    )}
-  </ul>;
+        <Link to={`/subjects/${subject.id}`}>{subject.name}</Link>
+      </li>
+    ))}
+  </ul>
+);
 
 SubjectLinkList.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),

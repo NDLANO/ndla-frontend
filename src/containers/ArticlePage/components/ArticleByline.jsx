@@ -16,7 +16,7 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ArticleByline = ({ authors, updated, children }) =>
+const ArticleByline = ({ authors, updated, children }) => (
   <div>
     <section {...classes()}>
       <span {...classes('flex')}>
@@ -31,13 +31,12 @@ const ArticleByline = ({ authors, updated, children }) =>
         <span {...classes('icon')}>
           <Time />
         </span>
-        <span {...classes('date')}>
-          Sist oppdatert {updated}
-        </span>
+        <span {...classes('date')}>Sist oppdatert {updated}</span>
         {children}
       </span>
     </section>
-  </div>;
+  </div>
+);
 
 ArticleByline.propTypes = {
   authors: PropTypes.arrayOf(
