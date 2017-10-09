@@ -15,6 +15,7 @@ import {
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
+  MediaListCCLink,
 } from 'ndla-ui';
 import { Document } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
@@ -31,14 +32,16 @@ const TextLicenseInfo = ({ text, locale, t }) => (
       license={text.copyright.license.license}
       title={t('rules')}
       locale={locale}>
+      <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
       <MediaListItemActions>
-        <h3 className="c-medialist__title">{t('howToReference')}</h3>
-        <MediaListItemMeta authors={text.copyright.authors} />
-        <CopyTextButton
-          authors={text.copyright.authors}
-          copyTitle={t('copyTitle')}
-          hasCopiedTitle={t('hasCopiedTitle')}
-        />
+        <div className="c-medialist__ref">
+          <MediaListItemMeta authors={text.copyright.authors} />
+          <CopyTextButton
+            authors={text.copyright.authors}
+            copyTitle={t('copyTitle')}
+            hasCopiedTitle={t('hasCopiedTitle')}
+          />
+        </div>
       </MediaListItemActions>
     </MediaListItemBody>
   </MediaListItem>

@@ -77,9 +77,7 @@ const phrases = {
     associatedTopics: 'Associated topics',
   },
   license: {
-    heading:
-      'You can download, or reuse content from NDLA on your own own website',
-    introduction: 'Lorem ipsum...',
+    heading: 'Howto reuse content',
     tabs: {
       texts: 'Texts',
       images: 'Images',
@@ -88,7 +86,7 @@ const phrases = {
     images: {
       heading: 'How to use images from the article',
       description: 'TODO: image license description text',
-      howToReference: "Here's how to refer to the image:",
+      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of image:',
       copyTitle: 'Copy reference',
       hasCopiedTitle: 'Copied!',
@@ -97,7 +95,7 @@ const phrases = {
     texts: {
       heading: 'How to use text from the article',
       description: 'TODO: text license description text',
-      howToReference: "Here's how to refer to the text:",
+      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of text:',
       copyTitle: 'Copy reference',
       hasCopiedTitle: 'Copied!',
@@ -105,7 +103,7 @@ const phrases = {
     },
     audios: {
       heading: 'How to use audio files from the article',
-      howToReference: "Here's how to refer to the audio file:",
+      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of audio file:',
       copyTitle: 'Copy reference',
       hasCopiedTitle: 'Copied!',

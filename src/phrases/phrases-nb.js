@@ -83,11 +83,7 @@ const phrases = {
     associatedTopics: 'Tilhørende emner',
   },
   license: {
-    heading: 'Hvordan gjenbruke innhold fra NDLA',
-    introduction: `Alt innhold på NDLA har egne opphavsrettigheter. Disse må du ta hensyn
-      til dersom du skal gjenbruke noe av dette innholdet utenfor ndla.no. Opphavsretten
-      bestemmer hvordan du kan bruke innholdet, enten det skal publiseres, deles på internett,
-      eller hvis noen skal tjene penger på det. Under kan du kan du se hvordan du kan bruke innholdet.`,
+    heading: 'Slik gjenbruker du innhold',
     tabs: {
       texts: 'Tekst',
       images: 'Bilder',
@@ -96,8 +92,8 @@ const phrases = {
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
       description:
-        'Klikk på lisensene for å se reglene. Husk å kopier teksten som skal legges ved bildet der du bruker det.',
-      howToReference: 'Slik skal du referere til bildet:',
+        'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
+      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av bildet:',
       copyTitle: 'Kopier referanse',
       hasCopiedTitle: 'Kopiert!',
@@ -106,8 +102,8 @@ const phrases = {
     texts: {
       heading: 'Slik bruker du tekst fra artikkelen',
       description:
-        'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her. Klikk på lisensene for å se reglene for hver enkelt del.',
-      howToReference: 'Slik skal du referere til teksten:',
+        'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
+      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av teksten:',
       copyTitle: 'Kopier referanse',
       hasCopiedTitle: 'Kopiert!',
@@ -115,7 +111,9 @@ const phrases = {
     },
     audios: {
       heading: 'Slik bruker du lydfiler',
-      howToReference: 'Slik skal du referere til lydfilen:',
+      description:
+        'Husk å kopier teksten som skal legges ved lydfilen der du bruker den.',
+      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av lydfilen:',
       copyTitle: 'Kopier referanse',
       hasCopiedTitle: 'Kopiert!',

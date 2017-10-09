@@ -14,6 +14,7 @@ import {
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
+  MediaListCCLink,
   MediaListItemActions,
 } from 'ndla-ui';
 import { Audio } from 'ndla-ui/icons';
@@ -28,23 +29,25 @@ const AudioLicenseInfo = ({ audio, locale, t }) => (
       <Audio className="c-medialist__icon" />
     </MediaListItemImage>
     <MediaListItemBody
-      license={audio.copyright.license.license}
       title={t('rules')}
+      license={audio.copyright.license.license}
       locale={locale}>
+      <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
       <MediaListItemActions>
-        <h3 className="c-medialist__title">{t('howToReference')}</h3>
-        <MediaListItemMeta authors={audio.copyright.authors} />
-        <CopyTextButton
-          authors={audio.copyright.authors}
-          copyTitle={t('copyTitle')}
-          hasCopiedTitle={t('hasCopiedTitle')}
-        />
-        <a
-          href={audio.src}
-          className="c-button c-button--outline c-licenseToggle__button"
-          download>
-          {t('download')}
-        </a>
+        <div className="c-medialist__ref">
+          <MediaListItemMeta authors={audio.copyright.authors} />
+          <CopyTextButton
+            authors={audio.copyright.authors}
+            copyTitle={t('copyTitle')}
+            hasCopiedTitle={t('hasCopiedTitle')}
+          />
+          <a
+            href={audio.src}
+            className="c-button c-button--outline c-licenseToggle__button"
+            download>
+            {t('download')}
+          </a>
+        </div>
       </MediaListItemActions>
     </MediaListItemBody>
   </MediaListItem>
