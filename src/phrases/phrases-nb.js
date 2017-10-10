@@ -98,6 +98,7 @@ const phrases = {
       copyTitle: 'Kopier referanse',
       hasCopiedTitle: 'Kopiert!',
       download: 'Last ned',
+      source: 'Kilde',
     },
     texts: {
       heading: 'Slik bruker du tekst fra artikkelen',

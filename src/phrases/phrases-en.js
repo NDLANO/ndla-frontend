@@ -91,6 +91,7 @@ const phrases = {
       copyTitle: 'Copy reference',
       hasCopiedTitle: 'Copied!',
       download: 'Download',
+      source: 'Source',
     },
     texts: {
       heading: 'How to use text from the article',
