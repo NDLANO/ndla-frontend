@@ -16,14 +16,15 @@ const cClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-export const MediaListItemMeta = ({ authors }) =>
+export const MediaListItemMeta = ({ authors }) => (
   <ul {...cClasses('actions')}>
-    {authors.map(author =>
+    {authors.map(author => (
       <li key={uuid()} className="c-medialist__meta-item">
         {author.type}: {author.name}
-      </li>,
-    )}
-  </ul>;
+      </li>
+    ))}
+  </ul>
+);
 
 MediaListItemMeta.propTypes = {
   authors: PropTypes.arrayOf(

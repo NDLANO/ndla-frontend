@@ -28,18 +28,14 @@ const Resource = ({ resource, resourceToLinkProps, isHidden }) => {
         'o-flag  o-flag--top': true,
         hidden: isHidden,
       })}>
-      <div {...classes('icon o-flag__img')}>
-        {resource.icon}
-      </div>
+      <div {...classes('icon o-flag__img')}>{resource.icon}</div>
       <div {...classes('body o-flag__body')}>
         <h1 {...classes('title')}>
-          {linkProps.href
-            ? <a {...linkProps}>
-                {resource.name}
-              </a>
-            : <Link {...resourceToLinkProps(resource)}>
-                {resource.name}
-              </Link>}
+          {linkProps.href ? (
+            <a {...linkProps}>{resource.name}</a>
+          ) : (
+            <Link {...resourceToLinkProps(resource)}>{resource.name}</Link>
+          )}
         </h1>
       </div>
     </li>
@@ -71,25 +67,25 @@ class ResourceList extends Component {
     return (
       <div>
         <ul {...classes('list')}>
-          {resources.map((resource, index) =>
+          {resources.map((resource, index) => (
             <Resource
               key={resource.id}
               type={type}
               {...rest}
               resource={resource}
               isHidden={!(showAll || index < limit)}
-            />,
-          )}
+            />
+          ))}
         </ul>
-        {resources.length > limit
-          ? <div {...classes('button-wrapper')}>
-              <Button
-                {...classes('button', '', 'c-btn c-button--outline')}
-                onClick={this.handleClick}>
-                {showAll ? 'Vis mindre' : 'Vis mer'}
-              </Button>
-            </div>
-          : null}
+        {resources.length > limit ? (
+          <div {...classes('button-wrapper')}>
+            <Button
+              {...classes('button', '', 'c-btn c-button--outline')}
+              onClick={this.handleClick}>
+              {showAll ? 'Vis mindre' : 'Vis mer'}
+            </Button>
+          </div>
+        ) : null}
       </div>
     );
   }

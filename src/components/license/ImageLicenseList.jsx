@@ -36,7 +36,7 @@ const getSrcSets = image => {
   ].join(', ');
 };
 
-const ImageLicenseInfo = ({ image, locale, t }) =>
+const ImageLicenseInfo = ({ image, locale, t }) => (
   <MediaListItem>
     <MediaListItemImage>
       <img
@@ -52,9 +52,7 @@ const ImageLicenseInfo = ({ image, locale, t }) =>
       locale={locale}>
       <MediaListItemActions>
         <div className="c-medialist__ref">
-          <h3 className="c-medialist__title">
-            {t('howToReference')}
-          </h3>
+          <h3 className="c-medialist__title">{t('howToReference')}</h3>
           <MediaListItemMeta authors={image.copyright.authors} />
           <CopyTextButton
             authors={image.copyright.authors}
@@ -70,27 +68,25 @@ const ImageLicenseInfo = ({ image, locale, t }) =>
         </div>
       </MediaListItemActions>
     </MediaListItemBody>
-  </MediaListItem>;
+  </MediaListItem>
+);
 
 ImageLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   image: CopyrightObjectShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale, t }) =>
+const ImageLicenseList = ({ images, heading, description, locale, t }) => (
   <div>
-    <h2>
-      {heading}
-    </h2>
-    <p>
-      {description}
-    </p>
+    <h2>{heading}</h2>
+    <p>{description}</p>
     <MediaList>
-      {images.map(image =>
-        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />,
-      )}
+      {images.map(image => (
+        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
+      ))}
     </MediaList>
-  </div>;
+  </div>
+);
 
 ImageLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,

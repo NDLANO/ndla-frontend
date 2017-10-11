@@ -31,9 +31,7 @@ const ResourceType = ({ type, resourceToLinkProps }) => {
   const metaData = getResourceTypeMetaData([type]);
   return (
     <div key={type.id} {...resClasses('', '', metaData.resourceListClassName)}>
-      <h1 className="c-resources__title">
-        {type.name}
-      </h1>
+      <h1 className="c-resources__title">{type.name}</h1>
       <ResourceList
         icon={metaData.icon}
         resourceToLinkProps={resourceToLinkProps}
@@ -69,17 +67,18 @@ class Resources extends Component {
 
     return (
       <div>
-        {fetchTopicResourcesFailed &&
+        {fetchTopicResourcesFailed && (
           <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
             {t('resource.errorDescription')}
-          </p>}
-        {topicResourcesByType.map(type =>
+          </p>
+        )}
+        {topicResourcesByType.map(type => (
           <ResourceType
             key={type.id}
             resourceToLinkProps={resourceToLinkProps}
             type={type}
-          />,
-        )}
+          />
+        ))}
       </div>
     );
   }

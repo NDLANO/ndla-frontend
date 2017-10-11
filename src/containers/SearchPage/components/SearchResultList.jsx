@@ -16,13 +16,11 @@ const SearchResultList = ({ results, query, t }) => {
   const noSearchHits = query.query && results.length === 0;
   return (
     <div className="search-results">
-      {noSearchHits
-        ? <p>
-            {t('searchPage.noHits', { query: query.query })}
-          </p>
-        : results.map(result =>
-            <SearchResult key={result.id} article={result} />,
-          )}
+      {noSearchHits ? (
+        <p>{t('searchPage.noHits', { query: query.query })}</p>
+      ) : (
+        results.map(result => <SearchResult key={result.id} article={result} />)
+      )}
     </div>
   );
 };

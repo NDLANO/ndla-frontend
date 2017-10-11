@@ -5,11 +5,11 @@
   "scripts": {
     "build-server": "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
     "build-client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
-    "build": "yarn build-server --silent && yarn build-client --silent",
+    "build": "yarn build-server && yarn build-client",
     "clean": "rimraf ./htdocs/*",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch",
-    "lint": "yarn run lint-prettier --silent && eslint --ext .js --ext .jsx src server",
+    "lint": "yarn run lint-prettier && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
     "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server",
     "start-with-local-converter": "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
@@ -27,8 +27,8 @@
     ]
   },
   "engines": {
-    "node": "~6.6.0",
-    "npm": "~3.10.3"
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -43,8 +43,8 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.5",
     "enzyme": "^2.9.1",
-    "eslint": "^3.16.1",
-    "eslint-config-ndla": "^0.2.1",
+    "eslint": "^4.7.1",
+    "eslint-config-ndla": "^0.3.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "flux-standard-action": "^1.2.0",

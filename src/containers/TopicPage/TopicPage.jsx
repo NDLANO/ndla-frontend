@@ -37,23 +37,22 @@ import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
 
-const TopicArticle = ({ article }) =>
+const TopicArticle = ({ article }) => (
   <article className="c-article">
     <LayoutItem layout="center">
-      <h1>
-        {article.title}
-      </h1>
+      <h1>{article.title}</h1>
       <Article.Introduction introduction={article.introduction} />
     </LayoutItem>
     <LayoutItem layout="center">
       <Article.Content content={article.content} />
     </LayoutItem>
     <LayoutItem layout="center">
-      {article.footNotes
-        ? <Article.FootNotes footNotes={article.footNotes} />
-        : null}
+      {article.footNotes ? (
+        <Article.FootNotes footNotes={article.footNotes} />
+      ) : null}
     </LayoutItem>
-  </article>;
+  </article>
+);
 
 TopicArticle.propTypes = {
   article: ArticleShape.isRequired,
@@ -134,53 +133,56 @@ class TopicPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                {subject
-                  ? <Breadcrumb
-                      toSubjects={() => '/'}
-                      subjectsTitle={t('breadcrumb.subjectsLinkText')}
-                      subject={subject}
-                      topicPath={topicPath}
-                      toTopic={toTopic}
-                    />
-                  : null}
+                {subject ? (
+                  <Breadcrumb
+                    toSubjects={() => '/'}
+                    subjectsTitle={t('breadcrumb.subjectsLinkText')}
+                    subject={subject}
+                    topicPath={topicPath}
+                    toTopic={toTopic}
+                  />
+                ) : null}
               </section>
             </div>
           </OneColumn>
         </Hero>
-        {(fetchTopicsFailed || fetchTopicArticleFailed) &&
-          <OneColumn cssModifier="narrow">
-            <div className="c-article">
-              <ErrorMessage
-                messages={{
-                  title: t('errorMessage.title'),
-                  description: fetchTopicsFailed
-                    ? t('topicPage.topicErrorDescription')
-                    : t('topicPage.articleErrorDescription'),
-                  back: fetchTopicsFailed ? t('errorMessage.back') : undefined,
-                  goToFrontPage: fetchTopicsFailed
-                    ? t('errorMessage.goToFrontPage')
-                    : undefined,
-                }}
-              />
-            </div>
-          </OneColumn>}
+        {(fetchTopicsFailed || fetchTopicArticleFailed) && (
+            <OneColumn cssModifier="narrow">
+              <div className="c-article">
+                <ErrorMessage
+                  messages={{
+                    title: t('errorMessage.title'),
+                    description: fetchTopicsFailed
+                      ? t('topicPage.topicErrorDescription')
+                      : t('topicPage.articleErrorDescription'),
+                    back: fetchTopicsFailed
+                      ? t('errorMessage.back')
+                      : undefined,
+                    goToFrontPage: fetchTopicsFailed
+                      ? t('errorMessage.goToFrontPage')
+                      : undefined,
+                  }}
+                />
+              </div>
+            </OneColumn>
+          )}
         <OneColumn cssModifier="narrow">
           {article ? <TopicArticle article={article} /> : null}
         </OneColumn>
-        {topic
-          ? <OneColumn cssModifier="narrow">
-              <SubTopics
-                subjectId={subjectId}
-                topic={topic}
-                topicPath={topicPath}
-              />
-              <TopicResources
-                subjectId={subjectId}
-                topic={topic}
-                topicPath={topicPath}
-              />
-            </OneColumn>
-          : null}
+        {topic ? (
+          <OneColumn cssModifier="narrow">
+            <SubTopics
+              subjectId={subjectId}
+              topic={topic}
+              topicPath={topicPath}
+            />
+            <TopicResources
+              subjectId={subjectId}
+              topic={topic}
+              topicPath={topicPath}
+            />
+          </OneColumn>
+        ) : null}
       </div>
     );
   }

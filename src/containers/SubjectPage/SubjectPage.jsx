@@ -75,24 +75,26 @@ class SubjectPage extends Component {
         <OneColumn>
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
-              {hasFailed
-                ? <ErrorMessage
-                    messages={{
-                      title: t('errorMessage.title'),
-                      description: t('subjectPage.errorDescription'),
-                      back: t('errorMessage.back'),
-                      goToFrontPage: t('errorMessage.goToFrontPage'),
-                    }}
+              {hasFailed ? (
+                <ErrorMessage
+                  messages={{
+                    title: t('errorMessage.title'),
+                    description: t('subjectPage.errorDescription'),
+                    back: t('errorMessage.back'),
+                    goToFrontPage: t('errorMessage.goToFrontPage'),
+                  }}
+                />
+              ) : (
+                <div className="c-resources">
+                  <h1 className="c-resources__title">
+                    {t('subjectPage.tabs.topics')}
+                  </h1>
+                  <TopicIntroductionList
+                    toTopic={toTopic(subjectId)}
+                    topics={topics}
                   />
-                : <div className="c-resources">
-                    <h1 className="c-resources__title">
-                      {t('subjectPage.tabs.topics')}
-                    </h1>
-                    <TopicIntroductionList
-                      toTopic={toTopic(subjectId)}
-                      topics={topics}
-                    />
-                  </div>}
+                </div>
+              )}
             </section>
           </article>
         </OneColumn>

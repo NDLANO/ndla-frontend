@@ -29,42 +29,43 @@ function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, topics, topicPath }) =>
+const MastheadContainer = ({ t, subject, topics, topicPath }) => (
   <Masthead>
     <MastheadItem left>
-      {subject
-        ? <ClickToggle
-            title={t('masthead.menu.title')}
-            openTitle={t('masthead.menu.close')}
-            className="c-topic-menu-container"
-            buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
-            <TopicMenu
-              toSubject={() => toSubject(subject.id)}
-              subjectTitle={subject.name}
-              toTopic={toTopicWithSubjectIdBound(subject.id)}
-              topics={topics}
-              messages={{
-                goTo: t('masthead.menu.goTo'),
-                subjectOverview: t('masthead.menu.subjectOverview'),
-                search: t('masthead.menu.search'),
-              }}
-            />
-          </ClickToggle>
-        : null}
-      {subject
-        ? <DisplayOnPageYOffset yOffset={150}>
-            <BreadcrumbBlock
-              subject={subject}
-              topicPath={topicPath}
-              toTopic={toTopic}
-            />
-          </DisplayOnPageYOffset>
-        : null}
+      {subject ? (
+        <ClickToggle
+          title={t('masthead.menu.title')}
+          openTitle={t('masthead.menu.close')}
+          className="c-topic-menu-container"
+          buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
+          <TopicMenu
+            toSubject={() => toSubject(subject.id)}
+            subjectTitle={subject.name}
+            toTopic={toTopicWithSubjectIdBound(subject.id)}
+            topics={topics}
+            messages={{
+              goTo: t('masthead.menu.goTo'),
+              subjectOverview: t('masthead.menu.subjectOverview'),
+              search: t('masthead.menu.search'),
+            }}
+          />
+        </ClickToggle>
+      ) : null}
+      {subject ? (
+        <DisplayOnPageYOffset yOffset={150}>
+          <BreadcrumbBlock
+            subject={subject}
+            topicPath={topicPath}
+            toTopic={toTopic}
+          />
+        </DisplayOnPageYOffset>
+      ) : null}
     </MastheadItem>
     <MastheadItem right>
       <Logo to="/" altText="Nasjonal digital læringsarena" />
     </MastheadItem>
-  </Masthead>;
+  </Masthead>
+);
 
 MastheadContainer.propTypes = {
   match: PropTypes.shape({
