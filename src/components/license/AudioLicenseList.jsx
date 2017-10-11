@@ -14,41 +14,50 @@ import {
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
+  MediaListCCLink,
   MediaListItemActions,
+  MediaListItemMeta,
 } from 'ndla-ui';
 import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
-import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const AudioLicenseInfo = ({ audio, locale, t }) => (
-  <MediaListItem>
-    <MediaListItemImage>
-      <Audio className="c-medialist__icon" />
-    </MediaListItemImage>
-    <MediaListItemBody
-      license={audio.copyright.license.license}
-      title={t('rules')}
-      locale={locale}>
-      <MediaListItemActions>
-        <h3 className="c-medialist__title">{t('howToReference')}</h3>
-        <MediaListItemMeta authors={audio.copyright.authors} />
-        <CopyTextButton
-          authors={audio.copyright.authors}
-          copyTitle={t('copyTitle')}
-          hasCopiedTitle={t('hasCopiedTitle')}
-        />
-        <a
-          href={audio.src}
-          className="c-button c-button--outline c-licenseToggle__button"
-          download>
-          {t('download')}
-        </a>
-      </MediaListItemActions>
-    </MediaListItemBody>
-  </MediaListItem>
-);
+const AudioLicenseInfo = ({ audio, locale, t }) => {
+  const items = audio.copyright.authors.map(author => ({
+    label: author.type,
+    description: author.name,
+  }));
+  return (
+    <MediaListItem>
+      <MediaListItemImage>
+        <Audio className="c-medialist__icon" />
+      </MediaListItemImage>
+      <MediaListItemBody
+        title={t('rules')}
+        license={audio.copyright.license.license}
+        locale={locale}>
+        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
+        <MediaListItemActions>
+          <div className="c-medialist__ref">
+            <MediaListItemMeta items={items} />
+            <CopyTextButton
+              authors={audio.copyright.authors}
+              copyTitle={t('copyTitle')}
+              hasCopiedTitle={t('hasCopiedTitle')}
+            />
+            <a
+              href={audio.src}
+              className="c-button c-button--outline c-licenseToggle__button"
+              download>
+              {t('download')}
+            </a>
+          </div>
+        </MediaListItemActions>
+      </MediaListItemBody>
+    </MediaListItem>
+  );
+};
 
 AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,

@@ -71,9 +71,6 @@ const LicenseBox = ({ article, license, locale, t }) => {
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
-      <p className="c-licensebox__introduction license__introduction">
-        {t('license.introduction')}
-      </p>
       <Tabs tabs={tabs} />
     </div>
   );

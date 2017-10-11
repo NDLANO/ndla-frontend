@@ -3364,9 +3364,9 @@ intl-messageformat-parser@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.2.0.tgz#5906b7f953ab7470e0dc8549097b648b991892ff"
 
-intl-messageformat@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-1.3.0.tgz#f7d926aded7a3ab19b2dc601efd54e99a4bd4eae"
+intl-messageformat@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.1.0.tgz#1c51da76f02a3f7b360654cdc51bbc4d3fa6c72c"
   dependencies:
     intl-messageformat-parser "1.2.0"
 
@@ -4298,7 +4298,7 @@ lodash.uniq@^4.3.0, lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4495,48 +4495,49 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.0.9.tgz#798fcfa04a8515d19222b1a6a23fc36d4cc55d70"
+ndla-article-scripts@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.1.tgz#0b18afbef5e7265de60c37e6a6c356cd8eb09814"
 
-ndla-error-reporter@^0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.11.tgz#1c3afb3b450bb0dd4b27f3127709be3f8ebb7321"
+ndla-error-reporter@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.13.tgz#6c1502abe9d220a73441830fa2fca577e6acce39"
   dependencies:
     raven-js "^3.9.2"
 
-ndla-i18n@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.0.5.tgz#687f6e0649e250239af9a459f006e0cc12fc1b57"
+ndla-i18n@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.2.0.tgz#1e663e0675254a1918394b243191949560dc01a6"
   dependencies:
+    hoist-non-react-statics "^2.3.0"
     intl-format-cache "^2.0.5"
-    intl-messageformat "^1.3.0"
+    intl-messageformat "^2.1.0"
     invariant "^2.2.2"
 
-ndla-licenses@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.0.11.tgz#02058c4264a257ce1b3b172c88ebcd352b788989"
+ndla-licenses@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.0.tgz#24f8d97e8dbb14ecbe9df485b414cd731a74cbd4"
   dependencies:
     defined "1.0.0"
 
-ndla-tabs@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.3.5.tgz#6c881e5fc2300324604c074f5e829ad91fc95797"
+ndla-tabs@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.0.tgz#bad5d6e0cea3c3603020c8652e96d6769c116304"
   dependencies:
-    lodash "^4.17.2"
+    lodash "^4.17.4"
 
-ndla-ui@^0.7.16:
-  version "0.7.16"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.7.16.tgz#63493e5ca6e48087f0dfa9f02423aa45ba49bbb8"
+ndla-ui@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.7.tgz#b4d889e78dec1848280ba19e408207014b636928"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
     react-sticky-header "^0.1.6"
 
-ndla-util@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.6.tgz#657457e993ad17755d6fb0b27cabc36b9d9d2c89"
+ndla-util@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.7.tgz#e47bf1c5f55d1df02e36dd2fbe510831439fd232"
   dependencies:
     defined "1.0.0"
 

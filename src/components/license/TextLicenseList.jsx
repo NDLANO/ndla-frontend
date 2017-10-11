@@ -15,34 +15,43 @@ import {
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
+  MediaListCCLink,
+  MediaListItemMeta,
 } from 'ndla-ui';
 import { Document } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
-import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const TextLicenseInfo = ({ text, locale, t }) => (
-  <MediaListItem>
-    <MediaListItemImage>
-      <Document className="c-medialist__icon" />
-    </MediaListItemImage>
-    <MediaListItemBody
-      license={text.copyright.license.license}
-      title={t('rules')}
-      locale={locale}>
-      <MediaListItemActions>
-        <h3 className="c-medialist__title">{t('howToReference')}</h3>
-        <MediaListItemMeta authors={text.copyright.authors} />
-        <CopyTextButton
-          authors={text.copyright.authors}
-          copyTitle={t('copyTitle')}
-          hasCopiedTitle={t('hasCopiedTitle')}
-        />
-      </MediaListItemActions>
-    </MediaListItemBody>
-  </MediaListItem>
-);
+const TextLicenseInfo = ({ text, locale, t }) => {
+  const items = text.copyright.authors.map(author => ({
+    label: author.type,
+    description: author.name,
+  }));
+  return (
+    <MediaListItem>
+      <MediaListItemImage>
+        <Document className="c-medialist__icon" />
+      </MediaListItemImage>
+      <MediaListItemBody
+        license={text.copyright.license.license}
+        title={t('rules')}
+        locale={locale}>
+        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
+        <MediaListItemActions>
+          <div className="c-medialist__ref">
+            <MediaListItemMeta items={items} />
+            <CopyTextButton
+              authors={text.copyright.authors}
+              copyTitle={t('copyTitle')}
+              hasCopiedTitle={t('hasCopiedTitle')}
+            />
+          </div>
+        </MediaListItemActions>
+      </MediaListItemBody>
+    </MediaListItem>
+  );
+};
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
