@@ -1,9 +1,15 @@
 language: node_js
+
 node_js:
-- '8'
+  - '8'
+
 script:
-- yarn test
-- yarn build
+  - yarn test
+  - yarn build
+
+after_script:
+  - node now-travis.js
+
 notifications:
   slack:
     on_success: change
