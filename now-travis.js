@@ -174,7 +174,7 @@ async function deploy(sha) {
 const {
   TRAVIS_EVENT_TYPE,
   TRAVIS_PULL_REQUEST_SHA,
-  TRAVIS_COMMIT,
+  // TRAVIS_COMMIT,
 } = process.env;
 
 switch (TRAVIS_EVENT_TYPE) {
@@ -182,10 +182,10 @@ switch (TRAVIS_EVENT_TYPE) {
     deploy(TRAVIS_PULL_REQUEST_SHA);
     break;
   }
-  case 'push': {
-    deploy(TRAVIS_COMMIT);
-    break;
-  }
+  // case 'push': {
+  //   deploy(TRAVIS_COMMIT);
+  //   break;
+  // }
   default: {
     console.log(`${TRAVIS_EVENT_TYPE} is not supported by now-travis`);
   }
