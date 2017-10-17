@@ -101,14 +101,14 @@ export default (
     <Switch>
       {routes
         .filter(route => route !== undefined)
-        .map(route =>
+        .map(route => (
           <Route
             key={uuid()}
             exact={route.exact}
             component={route.component}
             path={route.path}
-          />,
-        )}
+          />
+        ))}
     </Switch>
   </App>
 );

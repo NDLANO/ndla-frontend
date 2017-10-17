@@ -198,10 +198,12 @@ app.get('/get_token', (req, res) => {
 app.get('*', (req, res) => {
   getToken()
     .then(token => {
-      defaultRoute(req, res, token).then().catch(e => {
-        console.error(e);
-        res.status(500).send('Internal server error');
-      });
+      defaultRoute(req, res, token)
+        .then()
+        .catch(e => {
+          console.error(e);
+          res.status(500).send('Internal server error');
+        });
     })
     .catch(() => {
       res.status(500).send('Internal server error');
