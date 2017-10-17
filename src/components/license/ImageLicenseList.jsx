@@ -15,9 +15,10 @@ import {
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
+  MediaListCCLink,
+  MediaListItemMeta,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { MediaListItemMeta } from './MediaList';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
@@ -36,61 +37,67 @@ const getSrcSets = image => {
   ].join(', ');
 };
 
-const ImageLicenseInfo = ({ image, locale, t }) =>
-  <MediaListItem>
-    <MediaListItemImage>
-      <img
-        alt={image.altText}
-        src={`${image.src}`}
-        srcSet={getSrcSets(image)}
-        sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
-      />
-    </MediaListItemImage>
-    <MediaListItemBody
-      title={t('rules')}
-      license={image.copyright.license.license}
-      locale={locale}>
-      <MediaListItemActions>
-        <div className="c-medialist__ref">
-          <h3 className="c-medialist__title">
-            {t('howToReference')}
-          </h3>
-          <MediaListItemMeta authors={image.copyright.authors} />
-          <CopyTextButton
-            authors={image.copyright.authors}
-            copyTitle={t('copyTitle')}
-            hasCopiedTitle={t('hasCopiedTitle')}
-          />
-          <a
-            href={image.src}
-            className="c-button c-button--outline c-licenseToggle__button"
-            download>
-            {t('download')}
-          </a>
-        </div>
-      </MediaListItemActions>
-    </MediaListItemBody>
-  </MediaListItem>;
+const ImageLicenseInfo = ({ image, locale, t }) => {
+  const items = [
+    ...image.copyright.authors.map(author => ({
+      label: author.type,
+      description: author.name,
+    })),
+    { label: t('source'), description: image.copyright.origin },
+  ];
+
+  return (
+    <MediaListItem>
+      <MediaListItemImage>
+        <img
+          alt={image.altText}
+          src={`${image.src}`}
+          srcSet={getSrcSets(image)}
+          sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
+        />
+      </MediaListItemImage>
+      <MediaListItemBody
+        title={t('rules')}
+        license={image.copyright.license.license}
+        locale={locale}>
+        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
+        <MediaListItemActions>
+          <div className="c-medialist__ref">
+            <MediaListItemMeta items={items} />
+            <CopyTextButton
+              authors={image.copyright.authors}
+              copyTitle={t('copyTitle')}
+              hasCopiedTitle={t('hasCopiedTitle')}
+            />
+            <a
+              href={image.src}
+              className="c-button c-button--outline c-licenseToggle__button"
+              download>
+              {t('download')}
+            </a>
+          </div>
+        </MediaListItemActions>
+      </MediaListItemBody>
+    </MediaListItem>
+  );
+};
 
 ImageLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
   image: CopyrightObjectShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale, t }) =>
+const ImageLicenseList = ({ images, heading, description, locale, t }) => (
   <div>
-    <h2>
-      {heading}
-    </h2>
-    <p>
-      {description}
-    </p>
+    <h2>{heading}</h2>
+    <p>{description}</p>
     <MediaList>
-      {images.map(image =>
-        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />,
-      )}
+      {images.map(image => (
+        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
+      ))}
     </MediaList>
-  </div>;
+  </div>
+);
 
 ImageLicenseList.propTypes = {
   heading: PropTypes.string.isRequired,

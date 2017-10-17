@@ -95,12 +95,27 @@ app.use(
           ' *.gallerysites.net',
           'ndla.no',
           '*.ndla.no',
+          'cdnjs.cloudflare.com',
         ],
         frameSrc: [
           '*.nrk.no',
+          'nrk.no',
           'https://www.youtube.com',
           'ndla.no',
           '*.ndla.no',
+          '*.slideshare.net',
+          'slideshare.net',
+          '*.vimeo.com',
+          'vimeo.com',
+          '*.ndla.filmiundervisning.no',
+          'ndla.filmiundervisning.no',
+          '*.prezi.com',
+          'prezi.com',
+          '*.commoncraft.com',
+          'commoncraft.com',
+          '*.embed.kahoot.it',
+          'embed.kahoot.it',
+          'fast.wistia.com',
         ],
         workerSrc: ["'self'", 'blob:'],
         styleSrc: [
@@ -115,6 +130,7 @@ app.use(
           'https://fonts.googleapis.com',
           'https://fonts.gstatic.com',
           'data:',
+          'cdnjs.cloudflare.com',
         ],
         imgSrc: [
           "'self'",
@@ -126,7 +142,13 @@ app.use(
           'https://www.nrk.no/',
           ' data:',
         ],
-        mediaSrc: ["'self'", 'blob:', 'https://*.ndla.no'],
+        mediaSrc: [
+          "'self'",
+          'blob:',
+          'https://*.ndla.no',
+          '*.brightcove.com',
+          'brightcove.com',
+        ],
         connectSrc,
       },
     },
@@ -139,6 +161,11 @@ app.use(
         : undefined,
   }),
 );
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('User-agent: *\nDisallow: /');
+});
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });

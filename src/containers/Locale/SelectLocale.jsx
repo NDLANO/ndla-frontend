@@ -28,11 +28,11 @@ const SelectLocale = ({ locale, location: { pathname, search } }) => {
         handleChange(evt.target.value);
       }}
       value={locale}>
-      {appLocales.map(l =>
+      {appLocales.map(l => (
         <option key={l.abbreviation} value={l.abbreviation}>
           {l.name}
-        </option>,
-      )}
+        </option>
+      ))}
     </select>
   );
 };

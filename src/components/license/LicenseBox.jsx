@@ -70,12 +70,7 @@ const LicenseBox = ({ article, license, locale, t }) => {
   const tabs = buildLicenseTabList(article, license, locale, t);
   return (
     <div>
-      <h1 className="license__heading">
-        {t('license.heading')}
-      </h1>
-      <p className="c-licensebox__introduction license__introduction">
-        {t('license.introduction')}
-      </p>
+      <h1 className="license__heading">{t('license.heading')}</h1>
       <Tabs tabs={tabs} />
     </div>
   );

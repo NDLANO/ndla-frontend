@@ -39,15 +39,17 @@ class ScrollToTop extends React.Component {
   }
 }
 
-const Route = ({ component: Component, ...rest }) =>
+const Route = ({ component: Component, ...rest }) => (
   <ReactRoute
     {...rest}
-    render={props =>
+    render={props => (
       <Content>
         <Masthead {...props} />
         <Component {...props} searchEnabled={searchEnabled} />
-      </Content>}
-  />;
+      </Content>
+    )}
+  />
+);
 
 Route.propTypes = {
   component: PropTypes.func.isRequired,
