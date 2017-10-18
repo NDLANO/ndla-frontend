@@ -4735,6 +4735,17 @@ ndla-licenses@^0.1.0:
   dependencies:
     defined "1.0.0"
 
+ndla-scripts@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.0.tgz#9cec1bd2dd0b9123ac62bc304d548230593fd354"
+  dependencies:
+    await-url "^0.3.0"
+    cross-spawn "^5.1.0"
+    normalize-url "^1.9.1"
+    now "^8.3.10"
+    octonode "^0.8.0"
+    url-regex "^4.1.1"
+
 ndla-tabs@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.0.tgz#bad5d6e0cea3c3603020c8652e96d6769c116304"
