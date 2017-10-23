@@ -13,30 +13,22 @@ const mapping = {
   'urn:resourcetype:learningPath': {
     icon: <Path />,
     heroProps: {},
-    resourceListClassName:
-      'c-resource-group--urn-resource-type-0368610f-19bf-4a6f-86fa-9e6ea8876511',
+    resourceListClassName: 'c-resource-group--learingpath',
   },
   'urn:resourcetype:subjectMaterial': {
     icon: <Document />,
     heroProps: { red: true },
-    resourceListClassName:
-      'c-resource-group--urn-resource-type-6c0bd4b9-23cb-43bf-affa-557e673d2c73',
-  },
-  'urn:resource-type:article': {
-    icon: <Document />,
-    heroProps: { red: true },
-    resourceListClassName:
-      'c-resource-group--urn-resource-type-6c0bd4b9-23cb-43bf-affa-557e673d2c73',
+    resourceListClassName: 'c-resource-group--subject-material',
   },
   'urn:resourcetype:tasksAndActivities': {
     icon: <Pencil />,
     heroProps: { green: true },
-    resourceListClassName:
-      'c-resource-group--urn-resource-type-622364e0-8cea-4083-9ce1-74e33e14e0b4',
+    resourceListClassName: 'c-resource-group--tasks-and-activities',
   },
   default: {
     icon: <Document />,
     heroProps: {},
+    resourceListClassName: 'c-resource-group--subject-material',
   },
 };
 

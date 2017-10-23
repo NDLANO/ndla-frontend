@@ -8,12 +8,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import withRouter from 'react-router-dom/withRouter';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
-import ResourceList from './ResourceList';
+import { ResourceGroup } from 'ndla-ui';
 import getResourceTypeMetaData from '../../components/getResourceTypeMetaData';
 import { ResourceTypeShape } from '../../shapes';
 import {
@@ -21,33 +20,6 @@ import {
   hasFetchTopicResourcesFailed,
 } from './resource';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
-
-const resClasses = new BEMHelper({
-  name: 'resource-group',
-  prefix: 'c-',
-});
-
-const ResourceType = ({ type, resourceToLinkProps }) => {
-  const metaData = getResourceTypeMetaData([type]);
-  return (
-    <div key={type.id} {...resClasses('', '', metaData.resourceListClassName)}>
-      <h1 className="c-resources__title">{type.name}</h1>
-      <ResourceList
-        icon={metaData.icon}
-        resourceToLinkProps={resourceToLinkProps}
-        resources={type.resources.map(resource => ({
-          ...resource,
-          icon: metaData.icon,
-        }))}
-      />
-    </div>
-  );
-};
-
-ResourceType.propTypes = {
-  type: ResourceTypeShape.isRequired,
-  resourceToLinkProps: PropTypes.func.isRequired,
-};
 
 class Resources extends Component {
   componentWillMount() {}
@@ -65,6 +37,10 @@ class Resources extends Component {
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
 
+    const topicResourcesByTypeWithMetaData = topicResourcesByType.map(type => ({
+      ...type,
+      meta: getResourceTypeMetaData([type]),
+    }));
     return (
       <div>
         {fetchTopicResourcesFailed && (
@@ -72,11 +48,20 @@ class Resources extends Component {
             {t('resource.errorDescription')}
           </p>
         )}
-        {topicResourcesByType.map(type => (
-          <ResourceType
+        {topicResourcesByTypeWithMetaData.map(type => (
+          <ResourceGroup
             key={type.id}
+            title={type.name}
+            resources={type.resources}
+            className={type.meta.resourceListClassName}
+            icon={type.meta.icon}
+            hideResourceToggleFilter
+            messages={{
+              toggleFilterLabel: t('resource.toggleFilterLabel'),
+              showLess: t('resource.showLess'),
+              showMore: t('resource.showMore'),
+            }}
             resourceToLinkProps={resourceToLinkProps}
-            type={type}
           />
         ))}
       </div>

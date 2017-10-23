@@ -56,6 +56,9 @@ const phrases = {
   resource: {
     errorDescription:
       'Sorry, an error occurd while loading the topic resources.',
+    toggleFilterLabel: 'Additional content',
+    showLess: 'Show less',
+    showMore: 'Show more',
   },
   searchForm: {
     placeholder: 'Search articles',
