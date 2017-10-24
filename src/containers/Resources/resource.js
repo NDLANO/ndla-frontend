@@ -103,18 +103,7 @@ export const getResourceTypesByTopicId = topicId =>
     (types, resourcesByResourceTypeId) =>
       types
         .map(type => {
-          let subtypeResources = [];
-          if (type.subtypes) {
-            subtypeResources = type.subtypes.reduce(
-              (acc, subtype) =>
-                acc.concat(defined(resourcesByResourceTypeId[subtype.id], [])),
-              [],
-            );
-          }
-          const resources = defined(
-            resourcesByResourceTypeId[type.id],
-            [],
-          ).concat(subtypeResources);
+          const resources = defined(resourcesByResourceTypeId[type.id], []);
           return { ...type, resources };
         })
         .filter(type => type.resources.length > 0),

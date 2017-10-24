@@ -50,7 +50,7 @@ test('resourceSelectors getResourcesByTopicIdGroupedByResourceTypes', () => {
     'urn:topic:1',
   )(state);
 
-  expect(resourcesByResourceType['urn:resource-type:1'].length).toBe(2);
+  expect(resourcesByResourceType['urn:resource-type:1'].length).toBe(3);
   expect(resourcesByResourceType['urn:resource-type:2'].length).toBe(1);
   expect(resourcesByResourceType['urn:resource-type:3'].length).toBe(1);
 });

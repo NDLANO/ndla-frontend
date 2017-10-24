@@ -60,7 +60,10 @@ export const resourceData = [
   },
   {
     name: 'Ideer og idéutvikling',
-    resourceTypes: [{ id: 'urn:resource-type:3' }],
+    resourceTypes: [
+      { id: 'urn:resource-type:1' },
+      { id: 'urn:resource-type:3' },
+    ],
     contentUri: 'urn:article:2',
   },
 ];

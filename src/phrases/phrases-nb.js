@@ -62,6 +62,9 @@ const phrases = {
   resource: {
     errorDescription:
       'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
+    toggleFilterLabel: 'Tilleggstoff',
+    showLess: 'Vis mindre',
+    showMore: 'Vis mer',
   },
   searchForm: {
     placeholder: 'Søk etter artikler',
