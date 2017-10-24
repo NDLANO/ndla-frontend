@@ -123,6 +123,11 @@ SubjectPage.propTypes = {
   topic: TopicShape,
 };
 
+const mapDispatchToProps = {
+  fetchSubjects: actions.fetchSubjects,
+  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
+};
+
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.match.params;
   return {
@@ -130,11 +135,6 @@ const mapStateToProps = (state, ownProps) => {
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
     hasFailed: hasFetchTopicsFailed(state),
   };
-};
-
-const mapDispatchToProps = {
-  fetchSubjects: actions.fetchSubjects,
-  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
 };
 
 export default compose(

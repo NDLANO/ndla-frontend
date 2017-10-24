@@ -42,13 +42,13 @@ export const injectSubjects = WrappedComponent => {
   const getDisplayName = component =>
     component.displayName || component.name || 'Component';
 
-  SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(
-    WrappedComponent,
-  )})`;
-
   const mapDispatchToProps = {
     fetchSubjects: actions.fetchSubjects,
   };
+
+  SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(
+    WrappedComponent,
+  )})`;
 
   return connectSSR(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
 };

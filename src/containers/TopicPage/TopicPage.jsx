@@ -210,6 +210,12 @@ TopicPage.propTypes = {
   article: ArticleShape,
 };
 
+const mapDispatchToProps = {
+  fetchSubjects: subjectActions.fetchSubjects,
+  fetchTopicArticle: actions.fetchTopicArticle,
+  fetchTopicsWithIntroductions: actions.fetchTopicsWithIntroductions,
+};
+
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.match.params;
   const getTopicSelector = getTopic(subjectId, topicId);
@@ -224,12 +230,6 @@ const mapStateToProps = (state, ownProps) => {
     fetchTopicArticleFailed: hasFetchTopicArticleFailed(state),
     fetchTopicsFailed: hasFetchTopicsFailed(state),
   };
-};
-
-const mapDispatchToProps = {
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopicArticle: actions.fetchTopicArticle,
-  fetchTopicsWithIntroductions: actions.fetchTopicsWithIntroductions,
 };
 
 export default compose(
