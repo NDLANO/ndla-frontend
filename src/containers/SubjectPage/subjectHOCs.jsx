@@ -9,13 +9,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import withSSR from '../../components/withSSR';
 import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
 import { SubjectShape } from '../../shapes';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
-    componentWillMount() {
-      this.props.fetchSubjects();
+    static mapDispatchToProps = {
+      fetchSubjects: actions.fetchSubjects,
+    };
+
+    static getInitialProps(ctx) {
+      ctx.fetchSubjects();
+    }
+
+    componentDidMount() {
+      SubjectsContainer.getInitialProps(this.props);
     }
 
     render() {
@@ -27,10 +37,6 @@ export const injectSubjects = WrappedComponent => {
     subjects: PropTypes.arrayOf(SubjectShape).isRequired,
     hasFailed: PropTypes.bool.isRequired,
     fetchSubjects: PropTypes.func.isRequired,
-  };
-
-  const mapDispatchToProps = {
-    fetchSubjects: actions.fetchSubjects,
   };
 
   const mapStateToProps = state => ({
@@ -45,5 +51,8 @@ export const injectSubjects = WrappedComponent => {
     WrappedComponent,
   )})`;
 
-  return connect(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
+  return compose(
+    connect(mapStateToProps, SubjectsContainer.mapDispatchToProps),
+    withSSR,
+  )(SubjectsContainer);
 };

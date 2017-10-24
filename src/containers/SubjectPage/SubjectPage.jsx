@@ -14,6 +14,7 @@ import { OneColumn, Hero, ErrorMessage, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
+import withSSR from '../../components/withSSR';
 import { actions } from './subjects';
 import {
   actions as topicActions,
@@ -27,14 +28,23 @@ import { toTopicPartial } from '../../routeHelpers';
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
-  componentWillMount() {
+  static mapDispatchToProps = {
+    fetchSubjects: actions.fetchSubjects,
+    fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
+  };
+
+  static getInitialProps(ctx) {
     const {
       match: { params: { subjectId } },
       fetchTopicsWithIntroductions,
       fetchSubjects,
-    } = this.props;
+    } = ctx;
     fetchSubjects();
     fetchTopicsWithIntroductions({ subjectId });
+  }
+
+  componentDidMount() {
+    SubjectPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -118,11 +128,6 @@ SubjectPage.propTypes = {
   topic: TopicShape,
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: actions.fetchSubjects,
-  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
-};
-
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.match.params;
   return {
@@ -132,6 +137,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  SubjectPage,
-);
+export default compose(
+  connect(mapStateToProps, SubjectPage.mapDispatchToProps),
+  injectT,
+  withSSR,
+)(SubjectPage);

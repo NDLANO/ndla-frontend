@@ -103,7 +103,7 @@ export async function defaultRoute(req, res, token) {
     const htmlString = renderHtmlString(
       locale,
       userAgentString,
-      store.getState,
+      store.getState(),
       Page,
     );
     const status = defined(context.status, 200);

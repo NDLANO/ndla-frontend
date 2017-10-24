@@ -9,6 +9,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { OneColumn, Pager } from 'ndla-ui';
+import { compose } from 'redux';
+import withSSR from '../../components/withSSR';
 
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
@@ -20,11 +22,20 @@ import { toSearch } from '../../routeHelpers';
 import { createQueryString, parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
-  componentWillMount() {
-    const { location, search } = this.props;
-    if (location.search) {
+  static mapDispatchToProps = {
+    search: actions.search,
+    clearSearchResult: actions.clearSearchResult,
+  };
+
+  static getInitialProps(ctx) {
+    const { location, search } = ctx;
+    if (location && location.search) {
       search(location.search);
     }
+  }
+
+  componentDidMount() {
+    SearchPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,15 +105,13 @@ SearchPage.propTypes = {
   search: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  search: actions.search,
-  clearSearchResult: actions.clearSearchResult,
-};
-
 const mapStateToProps = state => ({
   results: getResults(state),
   lastPage: getLastPage(state),
   searching: getSearching(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default compose(
+  connect(mapStateToProps, SearchPage.mapDispatchToProps),
+  withSSR,
+)(SearchPage);

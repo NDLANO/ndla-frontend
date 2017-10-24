@@ -20,6 +20,7 @@ import {
 } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
+import withSSR from '../../components/withSSR';
 import {
   actions,
   getTopicArticle,
@@ -68,17 +69,27 @@ const getTitle = (article, topic) => {
 };
 
 class TopicPage extends Component {
-  componentWillMount() {
+  static mapDispatchToProps = {
+    fetchSubjects: subjectActions.fetchSubjects,
+    fetchTopicArticle: actions.fetchTopicArticle,
+    fetchTopicsWithIntroductions: actions.fetchTopicsWithIntroductions,
+  };
+
+  static getInitialProps(ctx) {
     const {
       match: { params },
       fetchTopicArticle,
       fetchTopicsWithIntroductions,
       fetchSubjects,
-    } = this.props;
+    } = ctx;
     const { subjectId, topicId } = params;
     fetchTopicArticle({ subjectId, topicId });
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
+  }
+
+  componentDidMount() {
+    TopicPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -206,12 +217,6 @@ TopicPage.propTypes = {
   article: ArticleShape,
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopicArticle: actions.fetchTopicArticle,
-  fetchTopicsWithIntroductions: actions.fetchTopicsWithIntroductions,
-};
-
 const mapStateToProps = (state, ownProps) => {
   const { subjectId, topicId } = ownProps.match.params;
   const getTopicSelector = getTopic(subjectId, topicId);
@@ -228,6 +233,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  TopicPage,
-);
+export default compose(
+  connect(mapStateToProps, TopicPage.mapDispatchToProps),
+  injectT,
+  withSSR,
+)(TopicPage);
