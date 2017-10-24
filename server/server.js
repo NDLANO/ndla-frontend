@@ -187,27 +187,27 @@ app.get('/oembed', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-app.get('/get_token', (req, res) => {
-  getToken()
-    .then(token => {
-      res.send(token);
-    })
-    .catch(err => res.status(500).send(err.message));
+app.get('/get_token', async (req, res) => {
+  try {
+    const token = await getToken();
+    res.json(token);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-app.get('*', (req, res) => {
-  getToken()
-    .then(token => {
-      defaultRoute(req, res, token)
-        .then()
-        .catch(e => {
-          console.error(e);
-          res.status(500).send('Internal server error');
-        });
-    })
-    .catch(() => {
+app.get('*', async (req, res) => {
+  try {
+    const token = await getToken();
+    try {
+      await defaultRoute(req, res, token);
+    } catch (e) {
+      console.error(e);
       res.status(500).send('Internal server error');
-    });
+    }
+  } catch (e) {
+    res.status(500).send('Internal server error');
+  }
 });
 
 module.exports = app;
