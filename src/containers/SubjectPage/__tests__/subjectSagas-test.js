@@ -11,8 +11,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../subjectSagas';
 import { actions } from '../subjects';
 
-expectSaga.DEFAULT_TIMEOUT = 200;
-
 test('subjectSagas watchFetchSubjects ', () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects/?language=en')

@@ -12,8 +12,6 @@ import { expectSaga } from 'redux-saga-test-plan';
 import * as sagas from '../articleSagas';
 import { actions } from '../article';
 
-expectSaga.DEFAULT_TIMEOUT = 200;
-
 test('articleSagas watchFetchArticle fetch article if not in state', () => {
   nock('http://ndla-api')
     .get('/article-converter/json/nb/123')
