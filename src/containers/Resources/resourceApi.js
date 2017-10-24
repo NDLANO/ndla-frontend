@@ -21,7 +21,7 @@ export const fetchResourceTypesForResource = (resourceId, locale) =>
 
 export const fetchTopicResources = (topicId, locale) =>
   fetchWithAccessToken(
-    `${baseUrl}/topics/${topicId}/resources/?recursive=true&language=${locale}`,
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchResourceTypes = locale =>
