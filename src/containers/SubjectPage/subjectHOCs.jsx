@@ -8,18 +8,13 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import withSSR from '../../components/withSSR';
+import connectSSR from '../../components/connectSSR';
+
 import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
 import { SubjectShape } from '../../shapes';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
-    static mapDispatchToProps = {
-      fetchSubjects: actions.fetchSubjects,
-    };
-
     static getInitialProps(ctx) {
       ctx.fetchSubjects();
     }
@@ -51,8 +46,9 @@ export const injectSubjects = WrappedComponent => {
     WrappedComponent,
   )})`;
 
-  return compose(
-    connect(mapStateToProps, SubjectsContainer.mapDispatchToProps),
-    withSSR,
-  )(SubjectsContainer);
+  const mapDispatchToProps = {
+    fetchSubjects: actions.fetchSubjects,
+  };
+
+  return connectSSR(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
 };

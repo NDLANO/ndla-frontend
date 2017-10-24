@@ -1,15 +1,20 @@
 import React from 'react';
 import { getComponentName } from 'ndla-util';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { connect } from 'react-redux';
 import { END } from 'redux-saga';
 
-function withSSR(BaseComponent) {
+export const connectSSR = (
+  mapStateToProps,
+  mapDispatchToProps,
+) => BaseComponent => {
   const WrappedComponent = props => <BaseComponent {...props} />;
 
   WrappedComponent.displayName = `withSSR(${getComponentName(BaseComponent)})`;
 
   const component = hoistNonReactStatics(WrappedComponent, BaseComponent);
 
+  component.mapDispatchToProps = mapDispatchToProps;
   component.getInitialProps = async function getInitialProps(ctx) {
     const { isServer, store } = ctx;
     let props = {};
@@ -26,7 +31,7 @@ function withSSR(BaseComponent) {
     return props;
   };
 
-  return component;
-}
+  return connect(mapStateToProps, mapDispatchToProps)(component);
+};
 
-export default withSSR;
+export default connectSSR;

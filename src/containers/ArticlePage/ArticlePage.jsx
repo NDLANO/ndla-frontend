@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { actions, hasFetchArticleFailed, getArticle } from './article';
@@ -23,7 +22,7 @@ import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from './components/Article';
 import ArticleHero from './components/ArticleHero';
 import config from '../../config';
-import withSSR from '../../components/withSSR';
+import connectSSR from '../../components/connectSSR';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
   ? window.assets
@@ -32,12 +31,6 @@ const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
     : require('../../../server/developmentAssets');
 
 class ArticlePage extends Component {
-  static mapDispatchToProps = {
-    fetchArticle: actions.fetchArticle,
-    fetchSubjects: subjectActions.fetchSubjects,
-    fetchTopics: topicActions.fetchTopics,
-  };
-
   static getInitialProps(ctx) {
     const {
       history,
@@ -160,6 +153,12 @@ ArticlePage.propTypes = {
   topicPath: PropTypes.arrayOf(TopicShape),
 };
 
+const mapDispatchToProps = {
+  fetchArticle: actions.fetchArticle,
+  fetchSubjects: subjectActions.fetchSubjects,
+  fetchTopics: topicActions.fetchTopics,
+};
+
 const makeMapStateToProps = (_, ownProps) => {
   const { articleId, subjectId, topicId } = ownProps.match.params;
   const getArticleSelector = getArticle(articleId);
@@ -177,7 +176,6 @@ const makeMapStateToProps = (_, ownProps) => {
   });
 };
 
-export default compose(
-  connect(makeMapStateToProps, ArticlePage.mapDispatchToProps),
-  withSSR,
-)(ArticlePage);
+export default compose(connectSSR(makeMapStateToProps, mapDispatchToProps))(
+  ArticlePage,
+);
