@@ -10,7 +10,9 @@ export const connectSSR = (
 ) => BaseComponent => {
   const WrappedComponent = props => <BaseComponent {...props} />;
 
-  WrappedComponent.displayName = `withSSR(${getComponentName(BaseComponent)})`;
+  WrappedComponent.displayName = `connectSSR(${getComponentName(
+    BaseComponent,
+  )})`;
 
   const component = hoistNonReactStatics(WrappedComponent, BaseComponent);
 
