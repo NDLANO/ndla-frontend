@@ -23,7 +23,7 @@ export const getToken = () =>
       grant_type: 'client_credentials',
       client_id: `${ndlaFrontendClientId}`,
       client_secret: `${ndlaFrontendClientSecret}`,
-      audience: 'ndla_system'
+      audience: 'ndla_system',
     }),
-    json: true
+    json: true,
   }).then(res => res.json());
