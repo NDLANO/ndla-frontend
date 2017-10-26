@@ -14,11 +14,13 @@ import { injectT } from 'ndla-i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
+import VideoLicenseList from './VideoLicenseList';
 import { ArticleShape } from '../../shapes';
 
 function buildLicenseTabList(article, license, locale, t) {
   const images = defined(article.contentCopyrights.image, []);
   const audios = defined(article.contentCopyrights.audio, []);
+  const brightcove = defined(article.contentCopyrights.brightcove, []);
 
   const tabs = [];
 
@@ -57,6 +59,19 @@ function buildLicenseTabList(article, license, locale, t) {
         <AudioLicenseList
           audios={audios}
           heading={t('license.audios.heading')}
+          locale={locale}
+        />
+      ),
+    });
+  }
+
+  if (brightcove.length > 0) {
+    tabs.push({
+      title: t('license.tabs.video'),
+      content: (
+        <VideoLicenseList
+          videos={brightcove}
+          heading={t('license.video.heading')}
           locale={locale}
         />
       ),

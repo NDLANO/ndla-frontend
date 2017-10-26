@@ -90,7 +90,8 @@ const phrases = {
     tabs: {
       texts: 'Tekst',
       images: 'Bilder',
-      audios: 'Lydfiler',
+      audios: 'Lyd',
+      video: 'Video',
     },
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
@@ -123,6 +124,16 @@ const phrases = {
       hasCopiedTitle: 'Kopiert!',
       download: 'Last ned',
     },
+    video: {
+      heading: 'Slik bruker du video fra artikkelen',
+      description:
+        'Husk å kopier teksten som skal legges ved videoen der du bruker den.',
+      rules: 'Regler for bruk av videoen:',
+    },
+    learnMore: 'Lær mer om åpne lisenser',
+    copyTitle: 'Kopier referanse',
+    hasCopiedTitle: 'Kopiert!',
+    download: 'Last ned',
   },
   breadcrumb: {
     subjectsLinkText: 'Fag',
