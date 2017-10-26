@@ -71,9 +71,6 @@ const LicenseBox = ({ article, locale, t }) => {
 };
 
 LicenseBox.propTypes = {
-  license: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
   article: ArticleShape.isRequired,
 };

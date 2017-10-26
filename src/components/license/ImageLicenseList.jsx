@@ -43,7 +43,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
       label: author.type,
       description: author.name,
     })),
-    { label: t('source'), description: image.copyright.origin },
+    { label: t('images.source'), description: image.copyright.origin },
   ];
 
   return (

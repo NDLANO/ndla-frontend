@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 
 import { Article as UIArticle } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import ToggleLicenseBox from './ToggleLicenseBox';
-import LicenseBox from '../../../components/license/LicenseBox';
+import ToggleLicenseBox from '../../../components/ToggleLicenseBox';
 import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
 
 const Article = ({ article, locale, t }) => {
@@ -29,10 +28,11 @@ const Article = ({ article, locale, t }) => {
       icon={icon}
       licenseBox={
         <ToggleLicenseBox
+          article={article}
+          locale={locale}
           openTitle={t('openLicenseBox')}
-          closeTitle={t('closeLicenseBox')}>
-          <LicenseBox article={article} locale={locale} />
-        </ToggleLicenseBox>
+          closeTitle={t('closeLicenseBox')}
+        />
       }
       messages={{
         writtenBy: t('writtenBy'),

@@ -118,7 +118,7 @@ class ArticlePage extends Component {
           topicPath={topicPath}
           article={article}
         />
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           <Article
             article={article}
             subject={subject}
