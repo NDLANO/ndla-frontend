@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Hero, OneColumn, Breadcrumb, Article, ErrorMessage } from 'ndla-ui';
+import { Hero, OneColumn, Breadcrumb, ErrorMessage } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
@@ -29,7 +29,7 @@ import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
-import ToggleLicenseBox from '../../components/ToggleLicenseBox';
+import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 
 const getTitle = (article, topic) => {
@@ -146,25 +146,7 @@ class TopicPage extends Component {
             </OneColumn>
           )}
         <OneColumn cssModifier="narrow">
-          {article ? (
-            <Article
-              article={article}
-              licenseBox={
-                <ToggleLicenseBox
-                  article={article}
-                  locale={locale}
-                  openTitle={t('article.openLicenseBox')}
-                  closeTitle={t('article.closeLicenseBox')}
-                />
-              }
-              messages={{
-                writtenBy: t('article.writtenBy'),
-                lastUpdated: t('article.lastUpdated'),
-                edition: t('article.edition'),
-                publisher: t('article.publisher'),
-              }}
-            />
-          ) : null}
+          {article ? <Article article={article} locale={locale} /> : null}
         </OneColumn>
         {topic ? (
           <OneColumn cssModifier="narrow">

@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 
 import { Article as UIArticle } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import ToggleLicenseBox from '../../../components/ToggleLicenseBox';
-import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
+import ToggleLicenseBox from './ToggleLicenseBox';
+import getResourceTypeMetaData from './getResourceTypeMetaData';
 
 const Article = ({ article, locale, t }) => {
   const hasResourceTypes =
