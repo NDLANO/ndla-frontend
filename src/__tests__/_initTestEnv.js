@@ -6,6 +6,8 @@
  *
  */
 
+import { expectSaga } from 'redux-saga-test-plan';
+
 /* eslint-disable */
 
 global.__CLIENT__ = false;
@@ -16,6 +18,11 @@ global.__SERVER__ = true;
 window.config = {
   ndlaApiUrl: 'http://ndla-api',
 };
+
+global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
+  ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
+  : 100;
+expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};
