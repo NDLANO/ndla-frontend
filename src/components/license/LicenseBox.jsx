@@ -17,7 +17,7 @@ import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import { ArticleShape } from '../../shapes';
 
-function buildLicenseTabList(article, license, locale, t) {
+function buildLicenseTabList(article, locale, t) {
   const images = defined(article.contentCopyrights.image, []);
   const audios = defined(article.contentCopyrights.audio, []);
   const brightcove = defined(article.contentCopyrights.brightcove, []);
@@ -60,8 +60,8 @@ function buildLicenseTabList(article, license, locale, t) {
   return tabs;
 }
 
-const LicenseBox = ({ article, license, locale, t }) => {
-  const tabs = buildLicenseTabList(article, license, locale, t);
+const LicenseBox = ({ article, locale, t }) => {
+  const tabs = buildLicenseTabList(article, locale, t);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>

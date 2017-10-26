@@ -92,6 +92,7 @@ const phrases = {
       description:
         'Remember to copy the text to be attached to the image where you use it.',
       rules: 'Rules for use of image:',
+      source: 'Source',
     },
     text: {
       heading: 'How to use text from the article',

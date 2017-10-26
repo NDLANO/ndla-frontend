@@ -75,10 +75,10 @@ const phrases = {
     },
   },
   article: {
-    author: 'Forfatter',
-    published: 'Publisert',
-    created: 'Opprettet',
+    writtenBy: 'Skrevet av',
     lastUpdated: 'Sist oppdatert',
+    edition: 'Utgave',
+    publisher: 'Utgiver',
     closeLicenseBox: 'Lukk boks',
     openLicenseBox: 'Bruk artikkel',
   },
@@ -102,6 +102,7 @@ const phrases = {
       description:
         'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
+      source: 'Kilde',
     },
     text: {
       heading: 'Slik bruker du tekst fra artikkelen',
