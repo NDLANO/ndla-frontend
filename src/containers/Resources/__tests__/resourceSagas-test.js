@@ -12,8 +12,6 @@ import * as sagas from '../resourceSagas';
 import { actions, initalState } from '../resource';
 import { resources, resourceTypes } from './mockResources';
 
-expectSaga.DEFAULT_TIMEOUT = 200;
-
 test('resourceSagas watchFetchTopicResources', () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/topics/2/resources/?language=en')

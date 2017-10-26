@@ -10,16 +10,31 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
+import { matchPath } from 'react-router-dom';
 import defined from 'defined';
+import { bindActionCreators } from 'redux';
 import IntlProvider from 'ndla-i18n';
+import { getComponentName } from 'ndla-util';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Html from '../helpers/Html';
-import routes from '../../src/routes';
+import routes, { routes as serverRoutes } from '../../src/routes';
 import configureStore from '../../src/configureStore';
-import rootSaga from '../../src/sagas';
+
 import { getLocaleObject, isValidLocale } from '../../src/i18n';
 import { storeAccessToken } from '../../src/util/apiHelpers';
+
+async function loadGetInitialProps(Component, ctx) {
+  if (!Component.getInitialProps) return {};
+
+  const props = await Component.getInitialProps(ctx);
+  if (!props && (!ctx.res || !ctx.res.finished)) {
+    const compName = getComponentName(Component);
+    const message = `"${compName}.getInitialProps()" should resolve to an object. But found "${props}" instead.`;
+    throw new Error(message);
+  }
+  return props;
+}
 
 const renderHtmlString = (
   locale,
@@ -36,7 +51,7 @@ const renderHtmlString = (
     />,
   );
 
-export function defaultRoute(req, res, token) {
+export async function defaultRoute(req, res, token) {
   storeAccessToken(token.access_token);
   const paths = req.url.split('/');
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
@@ -52,11 +67,24 @@ export function defaultRoute(req, res, token) {
   }
 
   const store = configureStore({ locale });
+  const route = serverRoutes.find(r => matchPath(req.url, r));
+  const Component = route.component;
+  const match = matchPath(req.url, route);
+
+  const actions = Component.mapDispatchToProps
+    ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
+    : {};
+  await loadGetInitialProps(route.component, {
+    isServer: true,
+    store,
+    ...actions,
+    match,
+  });
 
   const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
   const context = {};
-  const component = (
+  const Page = (
     <Provider store={store}>
       <IntlProvider locale={locale} messages={messages}>
         <StaticRouter basename={basename} location={req.url} context={context}>
@@ -72,28 +100,13 @@ export function defaultRoute(req, res, token) {
     });
     res.end();
   } else {
-    store
-      .runSaga(rootSaga)
-      .done.then(() => {
-        const state = store.getState();
-        const htmlString = renderHtmlString(
-          locale,
-          userAgentString,
-          state,
-          component,
-        );
-        const status = defined(context.status, 200);
-        res.status(status).send(`<!doctype html>\n${htmlString}`);
-      })
-      .catch(error => {
-        res.status(500).send(error.message);
-      });
+    const htmlString = renderHtmlString(
+      locale,
+      userAgentString,
+      store.getState(),
+      Page,
+    );
+    const status = defined(context.status, 200);
+    res.status(status).send(`<!doctype html>\n${htmlString}`);
   }
-
-  // Trigger sagas for components by rendering them
-  // https://github.com/yelouafi/redux-saga/issues/255#issuecomment-210275959
-  renderToString(component);
-
-  // Dispatch a close event so sagas stop listening after they have resolved
-  store.close();
 }

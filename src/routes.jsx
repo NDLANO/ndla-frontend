@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import ReactRoute from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 import { Content } from 'ndla-ui';
+import { uuid } from 'ndla-util';
 
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
@@ -54,25 +55,60 @@ Route.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
+const SearchRoute = searchEnabled
+  ? { path: '/search', component: SearchPage }
+  : undefined;
+
+export const routes = [
+  {
+    path: '/',
+    exact: true,
+    component: WelcomePage,
+  },
+  {
+    path: '/article/:subjectId/:topicId/:resourceId/:articleId',
+    component: ArticlePage,
+  },
+  {
+    path: '/article/:articleId',
+    component: ArticlePage,
+  },
+  SearchRoute,
+  {
+    path: '/subjects/:subjectId/(.*)/:topicId',
+    component: TopicPage,
+  },
+  {
+    path: '/subjects/:subjectId/:topicId',
+    component: TopicPage,
+  },
+  {
+    path: '/subjects/:subjectId/',
+    component: SubjectPage,
+  },
+  {
+    path: '/subjects',
+    component: SubjectsPage,
+  },
+  {
+    component: NotFoundPage,
+  },
+];
+
 export default (
   <App>
     <ScrollToTop />
     <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      <Route
-        path="/article/:subjectId/:topicId/:resourceId/:articleId"
-        component={ArticlePage}
-      />
-      <Route path="/article/:articleId" component={ArticlePage} />
-
-      {searchEnabled ? <Route path="/search" component={SearchPage} /> : null}
-
-      <Route path="/subjects/:subjectId/(.*)/:topicId" component={TopicPage} />
-      <Route path="/subjects/:subjectId/:topicId" component={TopicPage} />
-      <Route path="/subjects/:subjectId/" component={SubjectPage} />
-      <Route path="/subjects" component={SubjectsPage} />
-
-      <Route component={NotFoundPage} />
+      {routes
+        .filter(route => route !== undefined)
+        .map(route => (
+          <Route
+            key={uuid()}
+            exact={route.exact}
+            component={route.component}
+            path={route.path}
+          />
+        ))}
     </Switch>
   </App>
 );

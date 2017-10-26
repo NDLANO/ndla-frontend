@@ -8,12 +8,13 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { OneColumn, Hero, ErrorMessage, TopicIntroductionList } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
+
+import connectSSR from '../../components/connectSSR';
 import { actions } from './subjects';
 import {
   actions as topicActions,
@@ -27,14 +28,18 @@ import { toTopicPartial } from '../../routeHelpers';
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
-  componentWillMount() {
+  static getInitialProps(ctx) {
     const {
       match: { params: { subjectId } },
       fetchTopicsWithIntroductions,
       fetchSubjects,
-    } = this.props;
+    } = ctx;
     fetchSubjects();
     fetchTopicsWithIntroductions({ subjectId });
+  }
+
+  componentDidMount() {
+    SubjectPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -132,6 +137,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  SubjectPage,
-);
+export default compose(
+  connectSSR(mapStateToProps, mapDispatchToProps),
+  injectT,
+)(SubjectPage);

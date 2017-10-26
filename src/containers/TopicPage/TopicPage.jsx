@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   Hero,
@@ -20,6 +19,7 @@ import {
 } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
+import connectSSR from '../../components/connectSSR';
 import {
   actions,
   getTopicArticle,
@@ -68,17 +68,21 @@ const getTitle = (article, topic) => {
 };
 
 class TopicPage extends Component {
-  componentWillMount() {
+  static getInitialProps(ctx) {
     const {
       match: { params },
       fetchTopicArticle,
       fetchTopicsWithIntroductions,
       fetchSubjects,
-    } = this.props;
+    } = ctx;
     const { subjectId, topicId } = params;
     fetchTopicArticle({ subjectId, topicId });
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
+  }
+
+  componentDidMount() {
+    TopicPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -228,6 +232,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), injectT)(
-  TopicPage,
-);
+export default compose(
+  connectSSR(mapStateToProps, mapDispatchToProps),
+  injectT,
+)(TopicPage);

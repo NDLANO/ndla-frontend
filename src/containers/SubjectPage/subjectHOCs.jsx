@@ -8,14 +8,19 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import connectSSR from '../../components/connectSSR';
+
 import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
 import { SubjectShape } from '../../shapes';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
-    componentWillMount() {
-      this.props.fetchSubjects();
+    static getInitialProps(ctx) {
+      ctx.fetchSubjects();
+    }
+
+    componentDidMount() {
+      SubjectsContainer.getInitialProps(this.props);
     }
 
     render() {
@@ -29,10 +34,6 @@ export const injectSubjects = WrappedComponent => {
     fetchSubjects: PropTypes.func.isRequired,
   };
 
-  const mapDispatchToProps = {
-    fetchSubjects: actions.fetchSubjects,
-  };
-
   const mapStateToProps = state => ({
     subjects: getSubjects(state),
     hasFailed: hasFetchSubjectsFailed(state),
@@ -41,9 +42,13 @@ export const injectSubjects = WrappedComponent => {
   const getDisplayName = component =>
     component.displayName || component.name || 'Component';
 
+  const mapDispatchToProps = {
+    fetchSubjects: actions.fetchSubjects,
+  };
+
   SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(
     WrappedComponent,
   )})`;
 
-  return connect(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
+  return connectSSR(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
 };
