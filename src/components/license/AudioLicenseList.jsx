@@ -34,7 +34,7 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
         <Audio className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('rules')}
+        title={t('audio.rules')}
         license={audio.copyright.license.license}
         locale={locale}>
         <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
@@ -64,9 +64,10 @@ AudioLicenseInfo.propTypes = {
   audio: CopyrightObjectShape.isRequired,
 };
 
-const AudioLicenseList = ({ audios, heading, locale, t }) => (
+const AudioLicenseList = ({ audios, locale, t }) => (
   <div>
-    <h2>{heading}</h2>
+    <h2>{t('audio.heading')}</h2>
+    <p>{t('audio.description')}</p>
     <MediaList>
       {audios.map(audio => (
         <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />
@@ -76,9 +77,8 @@ const AudioLicenseList = ({ audios, heading, locale, t }) => (
 );
 
 AudioLicenseList.propTypes = {
-  heading: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   audios: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
 };
 
-export default injectT(AudioLicenseList, 'license.audios.');
+export default injectT(AudioLicenseList, 'license.');

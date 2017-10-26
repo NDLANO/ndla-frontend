@@ -87,42 +87,33 @@ const phrases = {
   },
   license: {
     heading: 'Slik gjenbruker du innhold',
+    learnMore: 'Lær mer om åpne lisenser',
+    copyTitle: 'Kopier referanse',
+    hasCopiedTitle: 'Kopiert!',
+    download: 'Last ned',
     tabs: {
-      texts: 'Tekst',
+      text: 'Tekst',
       images: 'Bilder',
-      audios: 'Lyd',
+      audio: 'Lyd',
       video: 'Video',
     },
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
       description:
         'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
-      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av bildet:',
-      copyTitle: 'Kopier referanse',
-      hasCopiedTitle: 'Kopiert!',
-      download: 'Last ned',
-      source: 'Kilde',
     },
-    texts: {
+    text: {
       heading: 'Slik bruker du tekst fra artikkelen',
       description:
         'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
-      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av teksten:',
-      copyTitle: 'Kopier referanse',
-      hasCopiedTitle: 'Kopiert!',
-      download: 'Last ned',
     },
-    audios: {
+    audio: {
       heading: 'Slik bruker du lydfiler',
       description:
         'Husk å kopier teksten som skal legges ved lydfilen der du bruker den.',
-      learnMore: 'Lær mer om åpne lisenser',
       rules: 'Regler for bruk av lydfilen:',
-      copyTitle: 'Kopier referanse',
-      hasCopiedTitle: 'Kopiert!',
-      download: 'Last ned',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
@@ -130,10 +121,6 @@ const phrases = {
         'Husk å kopier teksten som skal legges ved videoen der du bruker den.',
       rules: 'Regler for bruk av videoen:',
     },
-    learnMore: 'Lær mer om åpne lisenser',
-    copyTitle: 'Kopier referanse',
-    hasCopiedTitle: 'Kopiert!',
-    download: 'Last ned',
   },
   breadcrumb: {
     subjectsLinkText: 'Fag',

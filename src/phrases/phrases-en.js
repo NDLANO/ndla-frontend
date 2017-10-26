@@ -82,41 +82,28 @@ const phrases = {
   license: {
     heading: 'Howto reuse content',
     tabs: {
-      texts: 'Texts',
+      text: 'Text',
       images: 'Images',
-      audios: 'Audio files',
+      audio: 'Audio',
       video: 'Video',
     },
     images: {
       heading: 'How to use images from the article',
       description:
         'Remember to copy the text to be attached to the image where you use it.',
-      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of image:',
-      copyTitle: 'Copy reference',
-      hasCopiedTitle: 'Copied!',
-      download: 'Download',
-      source: 'Source',
     },
-    texts: {
+    text: {
       heading: 'How to use text from the article',
       description:
         'The article may be composed of several different texts, which are listed here.',
-      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of text:',
-      copyTitle: 'Copy reference',
-      hasCopiedTitle: 'Copied!',
-      download: 'Download',
     },
-    audios: {
+    audio: {
       heading: 'How to use audio files from the article',
       description:
         'Remember to copy the text to be attached to the audio where you use it.',
-      learnMore: 'Learn more about open licenses',
       rules: 'Rules for use of audio file:',
-      copyTitle: 'Copy reference',
-      hasCopiedTitle: 'Copied!',
-      download: 'Download',
     },
     video: {
       heading: 'How to use videos from the article',

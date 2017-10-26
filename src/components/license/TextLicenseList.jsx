@@ -35,7 +35,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license.license}
-        title={t('rules')}
+        title={t('text.rules')}
         locale={locale}>
         <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
@@ -58,10 +58,10 @@ TextLicenseInfo.propTypes = {
   text: CopyrightObjectShape,
 };
 
-const TextLicenseList = ({ texts, heading, description, locale, t }) => (
+const TextLicenseList = ({ texts, locale, t }) => (
   <div>
-    <h2>{heading}</h2>
-    <p>{description}</p>
+    <h2>{t('text.heading')}</h2>
+    <p>{t('text.description')}</p>
     <MediaList>
       {texts.map(text => (
         <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
@@ -71,10 +71,8 @@ const TextLicenseList = ({ texts, heading, description, locale, t }) => (
 );
 
 TextLicenseList.propTypes = {
-  heading: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   texts: PropTypes.arrayOf(CopyrightObjectShape),
 };
 
-export default injectT(TextLicenseList, 'license.texts.');
+export default injectT(TextLicenseList, 'license.');

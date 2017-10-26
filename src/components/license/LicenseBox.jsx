@@ -27,26 +27,17 @@ function buildLicenseTabList(article, license, locale, t) {
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
-      content: (
-        <ImageLicenseList
-          images={images}
-          heading={t('license.images.heading')}
-          description={t('license.images.description')}
-          locale={locale}
-        />
-      ),
+      content: <ImageLicenseList images={images} locale={locale} />,
     });
   }
 
   tabs.push({
-    title: t('license.tabs.texts'),
+    title: t('license.tabs.text'),
     content: (
       <TextLicenseList
         texts={[
           { type: 'text', src: location.href, copyright: article.copyright },
         ]}
-        heading={t('license.texts.heading')}
-        description={t('license.texts.description')}
         locale={locale}
       />
     ),
@@ -54,27 +45,15 @@ function buildLicenseTabList(article, license, locale, t) {
 
   if (audios.length > 0) {
     tabs.push({
-      title: t('license.tabs.audios'),
-      content: (
-        <AudioLicenseList
-          audios={audios}
-          heading={t('license.audios.heading')}
-          locale={locale}
-        />
-      ),
+      title: t('license.tabs.audio'),
+      content: <AudioLicenseList audios={audios} locale={locale} />,
     });
   }
 
   if (brightcove.length > 0) {
     tabs.push({
       title: t('license.tabs.video'),
-      content: (
-        <VideoLicenseList
-          videos={brightcove}
-          heading={t('license.video.heading')}
-          locale={locale}
-        />
-      ),
+      content: <VideoLicenseList videos={brightcove} locale={locale} />,
     });
   }
 

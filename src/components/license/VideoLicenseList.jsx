@@ -37,17 +37,17 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
         />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('license.video.rules')}
+        title={t('video.rules')}
         license={video.copyright.license.license}
         locale={locale}>
-        <MediaListCCLink>{t('license.learnMore')}</MediaListCCLink>
+        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
               authors={video.copyright.authors}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
+              copyTitle={t('copyTitle')}
+              hasCopiedTitle={t('hasCopiedTitle')}
             />
           </div>
         </MediaListItemActions>
@@ -61,9 +61,10 @@ VideoLicenseInfo.propTypes = {
   video: CopyrightObjectShape.isRequired,
 };
 
-const VideoLicenseList = ({ videos, heading, locale, t }) => (
+const VideoLicenseList = ({ videos, locale, t }) => (
   <div>
-    <h2>{heading}</h2>
+    <h2>{t('video.heading')}</h2>
+    <p>{t('video.description')}</p>
     <MediaList>
       {videos.map(video => (
         <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
@@ -73,9 +74,8 @@ const VideoLicenseList = ({ videos, heading, locale, t }) => (
 );
 
 VideoLicenseList.propTypes = {
-  heading: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   videos: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
 };
 
-export default injectT(VideoLicenseList);
+export default injectT(VideoLicenseList, 'license.');
