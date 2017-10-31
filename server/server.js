@@ -35,7 +35,7 @@ const connectSrc = (() => {
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',
-    'https://secure.brightcove.com',
+    'https://*.brightcove.com',
     'https://bcsecure01-a.akamaihd.net',
     'https://hlsak-a.akamaihd.net',
   ];
