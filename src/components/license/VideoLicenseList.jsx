@@ -18,40 +18,37 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const AudioLicenseInfo = ({ audio, locale, t }) => {
-  const items = audio.copyright.authors.map(author => ({
+const VideoLicenseInfo = ({ video, locale, t }) => {
+  const items = video.copyright.authors.map(author => ({
     label: author.type,
     description: author.name,
   }));
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Audio className="c-medialist__icon" />
+        <img
+          alt="presentation"
+          src={video.src}
+          sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
+        />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('audio.rules')}
-        license={audio.copyright.license.license}
+        title={t('video.rules')}
+        license={video.copyright.license.license}
         locale={locale}>
         <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              authors={audio.copyright.authors}
+              authors={video.copyright.authors}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <a
-              href={audio.src}
-              className="c-button c-button--outline c-licenseToggle__button"
-              download>
-              {t('download')}
-            </a>
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
@@ -59,26 +56,26 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
   );
 };
 
-AudioLicenseInfo.propTypes = {
+VideoLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  audio: CopyrightObjectShape.isRequired,
+  video: CopyrightObjectShape.isRequired,
 };
 
-const AudioLicenseList = ({ audios, locale, t }) => (
+const VideoLicenseList = ({ videos, locale, t }) => (
   <div>
-    <h2>{t('audio.heading')}</h2>
-    <p>{t('audio.description')}</p>
+    <h2>{t('video.heading')}</h2>
+    <p>{t('video.description')}</p>
     <MediaList>
-      {audios.map(audio => (
-        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} t={t} />
+      {videos.map(video => (
+        <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
       ))}
     </MediaList>
   </div>
 );
 
-AudioLicenseList.propTypes = {
+VideoLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
-  audios: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
+  videos: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
 };
 
-export default injectT(AudioLicenseList, 'license.');
+export default injectT(VideoLicenseList, 'license.');

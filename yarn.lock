@@ -3346,7 +3346,7 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.2.1, hoist-non-react-statics@^2.3.0:
+hoist-non-react-statics@^2.2.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.0.tgz#ede16318c2ff1f9fe3a025396ba06fd4c44608bb"
 
@@ -4782,9 +4782,9 @@ ndla-tabs@^0.4.0:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.13:
-  version "0.8.13"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.13.tgz#f6829e26a950edab96cc615ae5143fce3dec1fb0"
+ndla-ui@^0.8.14:
+  version "0.8.14"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.14.tgz#d60fdd98838def66c590bf9349f69a27345f4fff"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"

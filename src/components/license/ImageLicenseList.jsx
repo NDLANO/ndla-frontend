@@ -43,7 +43,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
       label: author.type,
       description: author.name,
     })),
-    { label: t('source'), description: image.copyright.origin },
+    { label: t('images.source'), description: image.copyright.origin },
   ];
 
   return (
@@ -53,11 +53,10 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
           alt={image.altText}
           src={`${image.src}`}
           srcSet={getSrcSets(image)}
-          sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
         />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('rules')}
+        title={t('images.rules')}
         license={image.copyright.license.license}
         locale={locale}>
         <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
@@ -87,10 +86,10 @@ ImageLicenseInfo.propTypes = {
   image: CopyrightObjectShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, heading, description, locale, t }) => (
+const ImageLicenseList = ({ images, locale, t }) => (
   <div>
-    <h2>{heading}</h2>
-    <p>{description}</p>
+    <h2>{t('images.heading')}</h2>
+    <p>{t('images.description')}</p>
     <MediaList>
       {images.map(image => (
         <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
@@ -100,10 +99,8 @@ const ImageLicenseList = ({ images, heading, description, locale, t }) => (
 );
 
 ImageLicenseList.propTypes = {
-  heading: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(CopyrightObjectShape),
 };
 
-export default injectT(ImageLicenseList, 'license.images.');
+export default injectT(ImageLicenseList, 'license.');

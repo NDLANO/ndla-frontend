@@ -19,7 +19,7 @@ import {
 } from '../SubjectPage/subjects';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
-import Article from './components/Article';
+import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import config from '../../config';
 import connectSSR from '../../components/connectSSR';
@@ -118,13 +118,8 @@ class ArticlePage extends Component {
           topicPath={topicPath}
           article={article}
         />
-        <OneColumn cssModifier="narrow">
-          <Article
-            article={article}
-            subject={subject}
-            topicPath={topicPath}
-            locale={locale}
-          />
+        <OneColumn>
+          <Article article={article} locale={locale} />
         </OneColumn>
       </div>
     );

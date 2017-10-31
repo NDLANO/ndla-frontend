@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Button } from 'ndla-ui';
+import LicenseBox from './license/LicenseBox';
+import { ArticleShape } from '../shapes';
 
 class ToggleLicenseBox extends Component {
   constructor() {
@@ -27,14 +29,13 @@ class ToggleLicenseBox extends Component {
   }
 
   render() {
-    const { openTitle, closeTitle, children, clear, licenseBox } = this.props;
+    const { openTitle, closeTitle, article, locale } = this.props;
     const { expanded } = this.state;
 
     return (
       <div
         className={classnames('license c-licensebox', {
           'c-licensebox--expanded': expanded,
-          'c-licensebox--clear': clear,
         })}>
         <Button
           stripped
@@ -42,19 +43,17 @@ class ToggleLicenseBox extends Component {
           onClick={this.toogleLicenseBox}>
           {expanded ? closeTitle : openTitle}
         </Button>
-        {children}
-        {expanded ? licenseBox : null}
+        {expanded ? <LicenseBox article={article} locale={locale} /> : null}
       </div>
     );
   }
 }
 
 ToggleLicenseBox.propTypes = {
-  clear: PropTypes.bool.isRequired,
   openTitle: PropTypes.string.isRequired,
   closeTitle: PropTypes.string.isRequired,
-  children: PropTypes.node,
-  licenseBox: PropTypes.node.isRequired,
+  locale: PropTypes.string.isRequired,
+  article: ArticleShape.isRequired,
 };
 
 export default ToggleLicenseBox;
