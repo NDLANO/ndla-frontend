@@ -116,6 +116,8 @@ app.use(
           '*.embed.kahoot.it',
           'embed.kahoot.it',
           'fast.wistia.com',
+          'https://khanacademy.org/',
+          '*.khanacademy.org/',
         ],
         workerSrc: ["'self'", 'blob:'],
         styleSrc: [
