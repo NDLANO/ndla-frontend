@@ -96,7 +96,7 @@ class ArticlePage extends Component {
     if (article.content.indexOf('<math') > -1) {
       scripts.push({
         async: true,
-        src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=/assets/${assets[
+        src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=/assets/${assets[
           'mathjaxConfig.js'
         ]}`,
         type: 'text/javascript',
