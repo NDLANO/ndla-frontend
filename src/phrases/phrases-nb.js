@@ -62,7 +62,7 @@ const phrases = {
   resource: {
     errorDescription:
       'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
-    toggleFilterLabel: 'Tilleggstoff',
+    toggleFilterLabel: 'Tilleggsstoff',
     showLess: 'Vis mindre',
     showMore: 'Vis mer',
   },
@@ -137,7 +137,7 @@ const phrases = {
   footer: {
     aboutNDLA: 'Om NDLA',
     selectLanguage: 'Velg språk (language): ',
-    footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
+    footerInfo: 'Nettstedet er utarbeidet av NDLA med åpen kildekode.',
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
   },
