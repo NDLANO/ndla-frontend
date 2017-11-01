@@ -26,3 +26,18 @@
 .c-topic-resource__item--hidden {
   display: none;
 }
+
+/* Hack to fix updiagonalstrike positioning on menclose tags */
+.mjx-menclose {
+  position: relative;
+}
+
+.mjx-menclose svg {
+  vertical-align: 0 !important;
+  margin-left: 0 !important;
+  transform: rotate(10deg);
+  left: -0.2em;
+  position: absolute;
+  bottom: 0.3em;
+  font-size: 13px;
+}
