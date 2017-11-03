@@ -87,12 +87,14 @@
 
       // Find action handler handler
       if (actionHandlers[event.data.action]) {
-        actionHandlers[
-          event.data.action
-        ](iframe, event.data, (action, data = {}) => {
-          const payload = Object.assign({}, data, { action, context: 'h5p' });
-          event.source.postMessage(payload, event.origin);
-        });
+        actionHandlers[event.data.action](
+          iframe,
+          event.data,
+          (action, data = {}) => {
+            const payload = Object.assign({}, data, { action, context: 'h5p' });
+            event.source.postMessage(payload, event.origin);
+          },
+        );
       }
     },
     false,
