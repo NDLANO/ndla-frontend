@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Helmet from 'react-helmet';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { actions, hasFetchArticleFailed, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
@@ -171,6 +172,7 @@ const makeMapStateToProps = (_, ownProps) => {
   });
 };
 
-export default compose(connectSSR(makeMapStateToProps, mapDispatchToProps))(
-  ArticlePage,
-);
+export default compose(
+  connectSSR(makeMapStateToProps, mapDispatchToProps),
+  injectT,
+)(ArticlePage);
