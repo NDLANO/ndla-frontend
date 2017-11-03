@@ -126,25 +126,23 @@ class TopicPage extends Component {
           </OneColumn>
         </Hero>
         {(fetchTopicsFailed || fetchTopicArticleFailed) && (
-            <OneColumn cssModifier="narrow">
-              <div className="c-article">
-                <ErrorMessage
-                  messages={{
-                    title: t('errorMessage.title'),
-                    description: fetchTopicsFailed
-                      ? t('topicPage.topicErrorDescription')
-                      : t('topicPage.articleErrorDescription'),
-                    back: fetchTopicsFailed
-                      ? t('errorMessage.back')
-                      : undefined,
-                    goToFrontPage: fetchTopicsFailed
-                      ? t('errorMessage.goToFrontPage')
-                      : undefined,
-                  }}
-                />
-              </div>
-            </OneColumn>
-          )}
+          <OneColumn cssModifier="narrow">
+            <div className="c-article">
+              <ErrorMessage
+                messages={{
+                  title: t('errorMessage.title'),
+                  description: fetchTopicsFailed
+                    ? t('topicPage.topicErrorDescription')
+                    : t('topicPage.articleErrorDescription'),
+                  back: fetchTopicsFailed ? t('errorMessage.back') : undefined,
+                  goToFrontPage: fetchTopicsFailed
+                    ? t('errorMessage.goToFrontPage')
+                    : undefined,
+                }}
+              />
+            </div>
+          </OneColumn>
+        )}
         <OneColumn cssModifier="narrow">
           {article ? <Article article={article} locale={locale} /> : null}
         </OneColumn>
