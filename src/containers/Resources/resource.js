@@ -69,9 +69,22 @@ export const getResources = createSelector(
   resources => resources.all,
 );
 
+const sortOrder = {
+  'urn:resourcetype:learningPath': 1,
+  'urn:resourcetype:subjectMaterial': 2,
+  'urn:resourcetype:tasksAndActivities': 3,
+};
+
 export const getResourceTypes = createSelector(
   [getResourcesFromState],
-  resources => resources.types,
+  resources =>
+    resources.types.sort((a, b) => {
+      if (sortOrder[a.id] === undefined && sortOrder[b.id] === undefined)
+        return 0;
+      if (sortOrder[a.id] === undefined) return 1;
+
+      return sortOrder[a.id] > sortOrder[b.id];
+    }),
 );
 
 export const hasFetchTopicResourcesFailed = createSelector(
