@@ -44,6 +44,36 @@ export const resources = [
   },
 ];
 
+export const additionalResources = [
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:124553',
+    name: 'Spørreundersøkelser',
+    contentUri: 'urn:article:11',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:124553',
+    connectionId: 'urn:topic-resource:cef4a496-4698-43b9-a998-d0a918d08573',
+    additional: true,
+  },
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:125331',
+    name: 'Jeg vil delta - hvor er debatten?',
+    contentUri: 'urn:article:12',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:125331',
+    connectionId: 'urn:topic-resource:b4942e5d-5ac2-4255-96ab-21f4d7ec31fd',
+    additional: true,
+  },
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:17360',
+    name: 'Kjenner vi våre rettigheter?',
+    contentUri: 'urn:article:13',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:17360',
+    connectionId: 'urn:topic-resource:e2cb96c1-afe2-426d-bf65-9b178f8f87fa',
+    additional: true,
+  },
+];
+
 export const resourceData = [
   {
     name: 'Teknikker for idéutvikling',

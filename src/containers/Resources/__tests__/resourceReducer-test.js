@@ -7,7 +7,7 @@
  */
 
 import reducer, { initalState, actions } from '../resource';
-import { resources, resourceTypes } from './mockResources';
+import { resources, additionalResources, resourceTypes } from './mockResources';
 
 test('reducers/resources initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -45,11 +45,12 @@ test('reducers/resources handle set topic resources', () => {
     payload: {
       topicId: '1',
       resources,
+      additionalResources,
     },
   });
 
   expect(nextState).toEqual({
-    all: { 1: resources },
+    all: { 1: [...additionalResources, ...resources] },
     fetchTopicResourcesFailed: false,
     types: [],
   });
@@ -59,11 +60,12 @@ test('reducers/resources handle set topic resources', () => {
     payload: {
       topicId: '2',
       resources: [],
+      additionalResources: [],
     },
   });
 
   expect(nextNextState.all).toEqual({
-    1: resources,
+    1: [...additionalResources, ...resources],
     2: [],
   });
 });
