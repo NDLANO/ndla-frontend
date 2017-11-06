@@ -10,6 +10,11 @@ import { createAction, handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
 import createFetchActions from '../../util/createFetchActions';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+} from '../../constants';
 
 export const setTopicResources = createAction('SET_TOPIC_RESOURCES');
 export const fetchTopicResourcesActions = createFetchActions('TOPIC_RESOURCES');
@@ -70,9 +75,9 @@ export const getResources = createSelector(
 );
 
 const sortOrder = {
-  'urn:resourcetype:learningPath': 1,
-  'urn:resourcetype:subjectMaterial': 2,
-  'urn:resourcetype:tasksAndActivities': 3,
+  [RESOURCE_TYPE_LEARNING_PATH]: 1,
+  [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
+  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
 };
 
 export const getResourceTypes = createSelector(
