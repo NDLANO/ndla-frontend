@@ -36,7 +36,6 @@ class Resources extends Component {
 
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(resource, params.subjectId, params.topicId);
-
     const topicResourcesByTypeWithMetaData = topicResourcesByType.map(type => ({
       ...type,
       meta: getResourceTypeMetaData([type]),
@@ -55,7 +54,6 @@ class Resources extends Component {
             resources={type.resources}
             className={type.meta.resourceListClassName}
             icon={type.meta.icon}
-            hideResourceToggleFilter
             messages={{
               toggleFilterLabel: t('resource.toggleFilterLabel'),
               showLess: t('resource.showLess'),

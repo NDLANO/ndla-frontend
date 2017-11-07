@@ -36,11 +36,15 @@ export default handleActions(
   {
     [actions.setTopicResources]: {
       next: (state, action) => {
-        const { topicId, resources } = action.payload;
+        const { topicId, resources, additionalResources } = action.payload;
+        const additional = additionalResources.map(r => ({
+          ...r,
+          additional: true,
+        }));
         return {
           ...state,
           fetchTopicResourcesFailed: false,
-          all: { ...state.all, [topicId]: resources },
+          all: { ...state.all, [topicId]: [...additional, ...resources] },
         };
       },
       throw: state => state,

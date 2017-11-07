@@ -19,9 +19,13 @@ export const fetchResourceTypesForResource = (resourceId, locale) =>
     `${baseUrl}/resources/${resourceId}/resource-types/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 
-export const fetchTopicResources = (topicId, locale) =>
+export const fetchTopicResources = (
+  topicId,
+  locale,
+  relevance = 'urn:relevance:core',
+) =>
   fetchWithAccessToken(
-    `${baseUrl}/topics/${topicId}/resources/?language=${locale}`,
+    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchResourceTypes = locale =>
