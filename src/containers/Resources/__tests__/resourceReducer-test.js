@@ -64,6 +64,7 @@ test('reducers/resources handle set topic resources', () => {
     },
   });
 
+
   expect(nextNextState.all).toEqual({
     1: [...additionalResources, ...resources],
     2: [],
