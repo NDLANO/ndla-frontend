@@ -29,8 +29,9 @@ test('resourceSelectors getResourceTypes', () => {
   const state = resourcesState;
   const types = getResourceTypes(state);
 
-  expect(types.length).toBe(6);
-  expect(types).toEqual(types);
+  expect(types.length).toBe(7);
+  expect(types[0].id).toBe('urn:resourcetype:learningPath'); // expect learningPath to be first
+  expect(types).toMatchSnapshot();
 });
 
 test('resourceSelectors getResourcesByTopicId', () => {
@@ -50,17 +51,23 @@ test('resourceSelectors getResourcesByTopicIdGroupedByResourceTypes', () => {
     'urn:topic:1',
   )(state);
 
-  expect(resourcesByResourceType['urn:resource-type:1'].length).toBe(3);
-  expect(resourcesByResourceType['urn:resource-type:2'].length).toBe(1);
-  expect(resourcesByResourceType['urn:resource-type:3'].length).toBe(1);
+  expect(
+    resourcesByResourceType['urn:resourcetype:subjectMaterial'].length,
+  ).toBe(3);
+  expect(resourcesByResourceType['urn:resourcetype:learningPath'].length).toBe(
+    1,
+  );
+  expect(
+    resourcesByResourceType['urn:resourcetype:academicArticle'].length,
+  ).toBe(1);
 });
 
 test('resourceSelectors getResourceTypesByTopicId', () => {
   const state = resourcesState;
   const topicResourcesByType = getResourceTypesByTopicId('urn:topic:1')(state);
 
-  expect(topicResourcesByType[0].resources.length).toBe(3);
-  expect(topicResourcesByType[0].name).toBe('Fagstoff');
-  expect(topicResourcesByType[1].resources.length).toBe(1);
-  expect(topicResourcesByType[1].name).toBe('Læringssti');
+  expect(topicResourcesByType[0].resources.length).toBe(1);
+  expect(topicResourcesByType[0].name).toBe('Læringssti');
+  expect(topicResourcesByType[1].resources.length).toBe(3);
+  expect(topicResourcesByType[1].name).toBe('Fagstoff');
 });

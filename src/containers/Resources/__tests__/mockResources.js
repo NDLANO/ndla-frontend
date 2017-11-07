@@ -47,22 +47,22 @@ export const resources = [
 export const resourceData = [
   {
     name: 'Teknikker for idéutvikling',
-    resourceTypes: [{ id: 'urn:resource-type:1' }],
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }],
     contentUri: 'urn:learningpath:1',
   },
   {
     name: 'Hva er en idé?',
     resourceTypes: [
-      { id: 'urn:resource-type:1' },
-      { id: 'urn:resource-type:2' },
+      { id: 'urn:resourcetype:subjectMaterial' },
+      { id: 'urn:resourcetype:learningPath' },
     ],
     contentUri: 'urn:article:1',
   },
   {
     name: 'Ideer og idéutvikling',
     resourceTypes: [
-      { id: 'urn:resource-type:1' },
-      { id: 'urn:resource-type:3' },
+      { id: 'urn:resourcetype:subjectMaterial' },
+      { id: 'urn:resourcetype:academicArticle' },
     ],
     contentUri: 'urn:article:2',
   },
@@ -70,37 +70,35 @@ export const resourceData = [
 
 export const resourceTypes = [
   {
-    id: 'urn:resource-type:1',
+    id: 'urn:resourcetype:SourceMaterial',
+    name: 'Kildemateriale',
+  },
+  {
+    id: 'urn:resourcetype:externalResource',
+    name: 'Ekstern læringsressurs',
+  },
+  {
+    id: 'urn:resourcetype:subjectMaterial',
     name: 'Fagstoff',
     subtypes: [
-      {
-        id: 'urn:resource-type:3',
-        name: 'Artikler',
-      },
-      {
-        id: 'urn:resource-type:4',
-        name: 'Video',
-      },
+      { id: 'urn:resourcetype:academicArticle', name: 'Fagartikkel' },
+      { id: 'urn:resourcetype:movieAndClip', name: 'Film og filmklipp' },
+      { id: 'urn:resourcetype:simulation', name: 'Simulering' },
     ],
   },
   {
-    id: 'urn:resource-type:2',
-    name: 'Læringssti',
+    id: 'urn:resourcetype:tasksAndActivities',
+    name: 'Oppgaver og aktiviteter',
+    subtypes: [
+      { id: 'urn:resourcetype:exercise', name: 'Øvelse' },
+      { id: 'urn:resourcetype:task', name: 'Oppgave' },
+      { id: 'urn:resourcetype:workAssignment', name: 'Arbeidsoppdrag' },
+    ],
   },
   {
-    id: 'urn:resource-type:5',
-    name: 'Vedlegg',
+    id: 'urn:resourcetype:reviewResource',
+    name: 'Vurderingsressurs',
   },
-  {
-    id: 'urn:resource-type:6',
-    name: 'Interaktivitet',
-  },
-  {
-    id: 'urn:resource-type:7',
-    name: 'Oppgave',
-  },
-  {
-    id: 'urn:resource-type:8',
-    name: 'Simulering',
-  },
+  { id: 'urn:resourcetype:learningPath', name: 'Læringssti' },
+  { id: 'urn:resourcetype:concept', name: 'Begrep' },
 ];

@@ -10,6 +10,11 @@ import { createAction, handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import defined from 'defined';
 import createFetchActions from '../../util/createFetchActions';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+} from '../../constants';
 
 export const setTopicResources = createAction('SET_TOPIC_RESOURCES');
 export const fetchTopicResourcesActions = createFetchActions('TOPIC_RESOURCES');
@@ -69,9 +74,22 @@ export const getResources = createSelector(
   resources => resources.all,
 );
 
+const sortOrder = {
+  [RESOURCE_TYPE_LEARNING_PATH]: 1,
+  [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
+  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
+};
+
 export const getResourceTypes = createSelector(
   [getResourcesFromState],
-  resources => resources.types,
+  resources =>
+    resources.types.sort((a, b) => {
+      if (sortOrder[a.id] === undefined && sortOrder[b.id] === undefined)
+        return 0;
+      if (sortOrder[a.id] === undefined) return 1;
+
+      return sortOrder[a.id] > sortOrder[b.id];
+    }),
 );
 
 export const hasFetchTopicResourcesFailed = createSelector(
