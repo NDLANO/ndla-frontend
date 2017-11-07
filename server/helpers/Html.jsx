@@ -65,6 +65,10 @@ const Html = props => {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         {head.title.toComponent()}
         {head.meta.toComponent()}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
+        />
         {config.isProduction ? (
           <link
             rel="stylesheet"
@@ -72,10 +76,6 @@ const Html = props => {
             href={`/assets/${assets['main.css']}`}
           />
         ) : null}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300italic,400,600,700|Signika:400,600,300,700"
-        />
         <link
           rel="shortcut icon"
           href={`/assets/${assets['ndla-favicon.png']}`}
