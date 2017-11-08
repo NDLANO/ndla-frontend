@@ -56,7 +56,7 @@ export function* watchFetchArticle() {
       actions.fetchArticle,
     );
     const currentArticle = yield select(getArticle(articleId));
-    if (!currentArticle || currentArticle.id !== articleId) {
+    if (!currentArticle || currentArticle.id.toString() !== articleId) {
       yield call(fetchArticle, articleId, resourceId, history);
     }
   }
