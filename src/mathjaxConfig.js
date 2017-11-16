@@ -27,6 +27,7 @@ import 'mathjax/unpacked/jax/output/CommonHTML/fonts/TeX/AMS-Regular';
 
 import 'mathjax/unpacked/jax/output/PreviewHTML/config';
 import 'mathjax/unpacked/jax/output/PreviewHTML/jax';
+import './menclose';
 // import 'mathjax/unpacked/extensions/fast-preview';
 
 window.MathJax.Ajax.config.root = 'https://cdn.mathjax.org/mathjax/latest';

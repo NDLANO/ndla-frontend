@@ -110,7 +110,6 @@ const Html = props => {
         <script src={`/assets/${assets['vendor.js']}`} />
         <script src={`/assets/${assets['main.js']}`} />
         {head.script.toComponent()}
-        {/* <script type="text/javascript" async src={`https://cdn.mathjax.org/mathjax/2.7-latest/MathJax.js?config=/assets/${assets['mathjaxConfig.js']}`} /> */}
       </body>
     </html>
   );
