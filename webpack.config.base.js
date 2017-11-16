@@ -9,7 +9,7 @@ const webpack = require('webpack');
 const entry = {
   main: ['./src/index.jsx', './style/index.css', './style/ndla-favicon.png'],
   embed: ['./server/embedScripts.js'],
-  mathjaxConfig: ['./src/mathjaxConfig.js'],
+  mathjaxConfig: ['./src/mathjax/config.js'],
 };
 
 module.exports = options => ({
