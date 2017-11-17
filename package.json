@@ -92,7 +92,7 @@
     "ndla-article-scripts": "^0.1.4",
     "ndla-error-reporter": "^0.1.13",
     "ndla-i18n": "^0.2.0",
-    "ndla-licenses": "^0.1.0",
+    "ndla-licenses": "^0.1.2",
     "ndla-tabs": "^0.4.0",
     "ndla-ui": "^0.8.18",
     "ndla-util": "^0.1.7",

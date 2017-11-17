@@ -70,26 +70,26 @@ export const getArticleById = articleId =>
 export const hasFetchArticleFailed = state => state.articles.fetchArticleFailed;
 
 export const getArticle = articleId =>
-  createSelector(
-    [getArticleById(articleId), getLocale],
-    (article, locale) =>
-      article
-        ? {
-            ...article,
-            created: formatDate(article.created, locale),
-            updated: formatDate(article.updated, locale),
-            footNotes: defined(article.footNotes, {}),
-            requiredLibraries: article.requiredLibraries
-              ? article.requiredLibraries.map(lib => {
-                  if (lib.url.startsWith('http://')) {
-                    return {
-                      ...lib,
-                      url: lib.url.replace('http://', 'https://'),
-                    };
-                  }
-                  return lib;
-                })
-              : [],
-          }
-        : undefined,
-  );
+  createSelector([getArticleById(articleId), getLocale], (article, locale) => {
+    if (article) {
+      const footNotes = defined(article.metaData.footnotes, []);
+      return {
+        ...article,
+        created: formatDate(article.created, locale),
+        updated: formatDate(article.updated, locale),
+        footNotes: footNotes.reduce((acc, note) => ({ ...acc, ...note }), {}),
+        requiredLibraries: article.requiredLibraries
+          ? article.requiredLibraries.map(lib => {
+              if (lib.url.startsWith('http://')) {
+                return {
+                  ...lib,
+                  url: lib.url.replace('http://', 'https://'),
+                };
+              }
+              return lib;
+            })
+          : [],
+      };
+    }
+    return undefined;
+  });

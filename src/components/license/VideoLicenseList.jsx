@@ -14,33 +14,38 @@ import {
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
-  MediaListCCLink,
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { metaTypes } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+
+const VideoShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  cover: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});
 
 const VideoLicenseInfo = ({ video, locale, t }) => {
   const items = video.copyright.authors.map(author => ({
     label: author.type,
     description: author.name,
+    metaType: metaTypes.author,
   }));
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <img
-          alt="presentation"
-          src={video.src}
-          sizes="(min-width: 800px) 360px, (min-width: 600px) 300px, 100vw"
-        />
+        <img alt="presentation" src={video.cover} />
       </MediaListItemImage>
       <MediaListItemBody
         title={t('video.rules')}
         license={video.copyright.license.license}
+        resourceType="video"
+        resourceUrl={video.src}
         locale={locale}>
-        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -58,7 +63,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
 
 VideoLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  video: CopyrightObjectShape.isRequired,
+  video: VideoShape.isRequired,
 };
 
 const VideoLicenseList = ({ videos, locale, t }) => (
@@ -75,7 +80,7 @@ const VideoLicenseList = ({ videos, locale, t }) => (
 
 VideoLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
-  videos: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
+  videos: PropTypes.arrayOf(VideoShape).isRequired,
 };
 
 export default injectT(VideoLicenseList, 'license.');
