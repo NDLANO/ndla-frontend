@@ -15,18 +15,24 @@ import {
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListCCLink,
   MediaListItemMeta,
 } from 'ndla-ui';
 import { Document } from 'ndla-ui/icons';
+import { metaTypes } from 'ndla-licenses';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+
+const TextShape = PropTypes.shape({
+  src: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});
 
 const TextLicenseInfo = ({ text, locale, t }) => {
   const items = text.copyright.authors.map(author => ({
     label: author.type,
     description: author.name,
+    metaType: metaTypes.author,
   }));
   return (
     <MediaListItem>
@@ -36,8 +42,9 @@ const TextLicenseInfo = ({ text, locale, t }) => {
       <MediaListItemBody
         license={text.copyright.license.license}
         title={t('text.rules')}
+        resourceType="text"
+        resourceUrl={text.src}
         locale={locale}>
-        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -55,7 +62,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  text: CopyrightObjectShape,
+  text: TextShape,
 };
 
 const TextLicenseList = ({ texts, locale, t }) => (
@@ -72,7 +79,7 @@ const TextLicenseList = ({ texts, locale, t }) => (
 
 TextLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
-  texts: PropTypes.arrayOf(CopyrightObjectShape),
+  texts: PropTypes.arrayOf(TextShape),
 };
 
 export default injectT(TextLicenseList, 'license.');

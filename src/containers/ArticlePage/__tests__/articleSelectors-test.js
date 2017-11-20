@@ -18,6 +18,7 @@ const state = {
         language: 'nb',
         title: 'Tester',
         metaDescription: 'Beskrivelse',
+        metaData: {},
       },
       2: {
         id: 2,
@@ -25,6 +26,7 @@ const state = {
         language: 'en',
         title: 'Testing',
         metaDescription: 'Description',
+        metaData: {},
       },
     },
   },

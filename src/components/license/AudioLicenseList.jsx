@@ -14,19 +14,26 @@ import {
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
-  MediaListCCLink,
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
+import { metaTypes } from 'ndla-licenses';
 import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
+const AudioShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});
+
 const AudioLicenseInfo = ({ audio, locale, t }) => {
   const items = audio.copyright.authors.map(author => ({
     label: author.type,
     description: author.name,
+    metaType: metaTypes.author,
   }));
   return (
     <MediaListItem>
@@ -36,8 +43,9 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
       <MediaListItemBody
         title={t('audio.rules')}
         license={audio.copyright.license.license}
+        resourceType="audio"
+        resourceUrl={audio.src}
         locale={locale}>
-        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -61,7 +69,7 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
 
 AudioLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  audio: CopyrightObjectShape.isRequired,
+  audio: AudioShape.isRequired,
 };
 
 const AudioLicenseList = ({ audios, locale, t }) => (
@@ -78,7 +86,7 @@ const AudioLicenseList = ({ audios, locale, t }) => (
 
 AudioLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
-  audios: PropTypes.arrayOf(CopyrightObjectShape).isRequired,
+  audios: PropTypes.arrayOf(AudioShape).isRequired,
 };
 
 export default injectT(AudioLicenseList, 'license.');
