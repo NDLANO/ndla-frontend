@@ -43,7 +43,7 @@ window.MathJax.Ajax.Preloading(
   '[MathJax]/jax/output/CommonHTML/config.js',
   '[MathJax]/jax/output/CommonHTML/jax.js',
   // '[MathJax]/jax/output/CommonHTML/autoload/mtable.js',
-  // '[MathJax]/jax/output/CommonHTML/autoload/menclose.js',
+  '[MathJax]/jax/output/CommonHTML/autoload/menclose.js',
   '[MathJax]/jax/element/mml/jax.js',
   '[MathJax]/extensions/mml2jax.js',
   '[MathJax]/extensions/MathEvents.js',
