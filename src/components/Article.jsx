@@ -35,7 +35,6 @@ const Article = ({ article, locale, t }) => {
         />
       }
       messages={{
-        writtenBy: t('writtenBy'),
         lastUpdated: t('lastUpdated'),
         edition: t('edition'),
         publisher: t('publisher'),

@@ -75,7 +75,6 @@ const phrases = {
     },
   },
   article: {
-    writtenBy: 'Skrevet av',
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',
     publisher: 'Utgiver',
