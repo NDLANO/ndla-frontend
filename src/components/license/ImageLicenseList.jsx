@@ -10,56 +10,51 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from 'ndla-util';
 import {
+  Image,
   MediaList,
   MediaListItem,
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListCCLink,
   MediaListItemMeta,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { metaTypes } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
-const getSrcSets = image => {
-  const src = encodeURI(image.src);
-  return [
-    `${src}?width=1440 1440w`,
-    `${src}?width=1120 1120w`,
-    `${src}?width=1000 1000w`,
-    `${src}?width=960 960w`,
-    `${src}?width=800 800w`,
-    `${src}?width=640 640w`,
-    `${src}?width=480 480w`,
-    `${src}?width=320 320w`,
-    `${src}?width=320 320w`,
-  ].join(', ');
-};
+const ImageShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  altText: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});
 
 const ImageLicenseInfo = ({ image, locale, t }) => {
   const items = [
     ...image.copyright.authors.map(author => ({
       label: author.type,
       description: author.name,
+      metaType: metaTypes.author,
     })),
-    { label: t('images.source'), description: image.copyright.origin },
+    {
+      label: t('images.source'),
+      description: image.copyright.origin,
+      metaType: metaTypes.other,
+    },
   ];
 
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <img
-          alt={image.altText}
-          src={`${image.src}`}
-          srcSet={getSrcSets(image)}
-        />
+        <Image alt={image.altText} src={image.src} />
       </MediaListItemImage>
       <MediaListItemBody
         title={t('images.rules')}
         license={image.copyright.license.license}
+        resourceType="image"
+        resourceUrl={image.src}
         locale={locale}>
-        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -83,7 +78,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
 
 ImageLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  image: CopyrightObjectShape.isRequired,
+  image: ImageShape.isRequired,
 };
 
 const ImageLicenseList = ({ images, locale, t }) => (
@@ -100,7 +95,7 @@ const ImageLicenseList = ({ images, locale, t }) => (
 
 ImageLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(CopyrightObjectShape),
+  images: PropTypes.arrayOf(ImageShape),
 };
 
 export default injectT(ImageLicenseList, 'license.');
