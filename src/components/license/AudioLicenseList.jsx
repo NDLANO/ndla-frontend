@@ -17,24 +17,20 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { metaTypes } from 'ndla-licenses';
 import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
-import { CopyrightObjectShape } from '../../shapes';
+import { NewCopyrightObjectShape } from '../../shapes';
+import { getLicenseMetaInfo } from './getLicenseMetaInfo';
 
 const AudioShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  copyright: CopyrightObjectShape.isRequired,
+  copyright: NewCopyrightObjectShape.isRequired,
 });
 
 const AudioLicenseInfo = ({ audio, locale, t }) => {
-  const items = audio.copyright.authors.map(author => ({
-    label: author.type,
-    description: author.name,
-    metaType: metaTypes.author,
-  }));
+  const items = getLicenseMetaInfo(audio.copyright, t);
   return (
     <MediaListItem>
       <MediaListItemImage>

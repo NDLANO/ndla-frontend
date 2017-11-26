@@ -72,6 +72,17 @@ export const CopyrightObjectShape = PropTypes.shape({
   authors: PropTypes.arrayOf(LicenseAuthorShape.isRequired).isRequired,
 });
 
+export const LicenseHolderShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
+export const NewCopyrightObjectShape = PropTypes.shape({
+  creators: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
+  processors: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
+  rightsholders: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
+});
+
 export const FootNoteShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
