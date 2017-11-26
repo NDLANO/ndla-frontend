@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`creators processors and rightsholders 1`] = `
+Array [
+  Object {
+    "description": "director Francis Ford Coppola",
+    "label": "originator",
+    "metaType": "author",
+  },
+  Object {
+    "description": "Paramount Pictures, distributor Alfran Productions",
+    "label": "rightsholder",
+    "metaType": "copyrightHolder",
+  },
+  Object {
+    "description": "Francis Ford Coppola, linguistic Mario Puzo",
+    "label": "processor",
+    "metaType": "contributor",
+  },
+]
+`;
+
+exports[`creators writer and artist 1`] = `
+Array [
+  Object {
+    "description": "writer Ernst Hemingway, artist Salvador Dalí",
+    "label": "originator",
+    "metaType": "author",
+  },
+]
+`;
+
+exports[`simple creators array 1`] = `
+Array [
+  Object {
+    "description": "Siri Knudsen",
+    "label": "originator",
+    "metaType": "author",
+  },
+]
+`;
