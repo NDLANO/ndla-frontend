@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { copyTextToClipboard } from 'ndla-util';
 import { Button } from 'ndla-ui';
-import { LicenseAuthorShape } from '../../shapes';
+import { CopyrightObjectShape } from '../../shapes';
 
 class CopyTextButton extends Component {
   constructor(props) {
@@ -20,11 +20,29 @@ class CopyTextButton extends Component {
   }
 
   handleClick() {
-    const authorsCopyString = this.props.authors
-      .map(author => `${author.type}: ${author.name}`)
-      .join('\n');
+    const { copyright, t } = this.props;
+    const license = copyright.license.license;
+    let creatorsCopyString;
 
-    const success = copyTextToClipboard(authorsCopyString);
+    if (copyright.authors) {
+      creatorsCopyString = copyright.authors
+        .map(author => `${author.type}: ${author.name}`)
+        .join('\n');
+    } else {
+      creatorsCopyString = copyright.creators
+        .map(creator => {
+          const type = t(`creditType.${creator.type.toLowerCase()}`);
+          return `${type}: ${creator.name}`;
+        })
+        .join('\n');
+    }
+
+    const licenseCopyString = `${license.toLowerCase().includes('by')
+      ? 'CC '
+      : ''}${license}`.toUpperCase();
+
+    const copyString = `${licenseCopyString} ${creatorsCopyString}`;
+    const success = copyTextToClipboard(copyString);
 
     if (success) {
       this.setState({ hasCopied: true });
@@ -52,7 +70,7 @@ class CopyTextButton extends Component {
 }
 
 CopyTextButton.propTypes = {
-  authors: PropTypes.arrayOf(LicenseAuthorShape),
+  copyright: CopyrightObjectShape.isRequired,
   copyTitle: PropTypes.string.isRequired,
   hasCopiedTitle: PropTypes.string.isRequired,
 };

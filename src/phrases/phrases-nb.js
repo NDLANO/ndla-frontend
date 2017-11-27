@@ -102,12 +102,14 @@ const phrases = {
         'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kilde',
+      title: 'Tittel',
     },
     text: {
       heading: 'Slik bruker du tekst fra artikkelen',
       description:
         'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
       rules: 'Regler for bruk av teksten:',
+      published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',

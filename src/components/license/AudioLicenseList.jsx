@@ -46,7 +46,8 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              authors={audio.copyright.authors}
+              t={t}
+              copyright={audio.copyright}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />

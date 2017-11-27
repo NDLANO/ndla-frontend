@@ -22,6 +22,7 @@ import { injectT } from 'ndla-i18n';
 import { metaTypes } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+import { getLicenseMetaInfo } from './getLicenseMetaInfo';
 
 const ImageShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -31,18 +32,33 @@ const ImageShape = PropTypes.shape({
 });
 
 const ImageLicenseInfo = ({ image, locale, t }) => {
-  const items = [
-    ...image.copyright.authors.map(author => ({
+  let items = [];
+
+  if (image.copyright.authors) {
+    items = image.copyright.authors.map(author => ({
       label: author.type,
       description: author.name,
       metaType: metaTypes.author,
-    })),
-    {
+    }));
+  } else {
+    items = getLicenseMetaInfo(image.copyright, t);
+  }
+
+  if (image.title) {
+    items.unshift({
+      label: t('images.title'),
+      description: image.title,
+      metaType: metaTypes.title,
+    });
+  }
+
+  if (image.copyright.origin) {
+    items.push({
       label: t('images.source'),
       description: image.copyright.origin,
       metaType: metaTypes.other,
-    },
-  ];
+    });
+  }
 
   return (
     <MediaListItem>
@@ -59,7 +75,8 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              authors={image.copyright.authors}
+              copyright={image.copyright}
+              t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />

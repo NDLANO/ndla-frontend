@@ -63,24 +63,23 @@ export const MessageShape = PropTypes.shape({
   }),
 });
 
-export const LicenseAuthorShape = PropTypes.shape({
+export const LicenseMetaInfoShape = PropTypes.shape({
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });
 
 export const CopyrightObjectShape = PropTypes.shape({
-  authors: PropTypes.arrayOf(LicenseAuthorShape.isRequired).isRequired,
-});
-
-export const LicenseHolderShape = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  license: PropTypes.shape({ license: PropTypes.string.isRequired }),
+  authors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  creators: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  processors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  rightsholders: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
 });
 
 export const NewCopyrightObjectShape = PropTypes.shape({
-  creators: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
-  processors: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
-  rightsholders: PropTypes.arrayOf(LicenseHolderShape.isRequired).isRequired,
+  creators: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired).isRequired,
+  processors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired).isRequired,
+  rightsholders: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired).isRequired,
 });
 
 export const FootNoteShape = PropTypes.shape({

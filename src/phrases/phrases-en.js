@@ -93,12 +93,14 @@ const phrases = {
         'Remember to copy the text to be attached to the image where you use it.',
       rules: 'Rules for use of image:',
       source: 'Source',
+      title: 'Title',
     },
     text: {
       heading: 'How to use text from the article',
       description:
         'The article may be composed of several different texts, which are listed here.',
       rules: 'Rules for use of text:',
+      published: 'Published',
     },
     audio: {
       heading: 'How to use audio files from the article',
