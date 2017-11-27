@@ -22,8 +22,7 @@ export const actions = {
 
 const initalState = {
   all: {},
-  isLoading: false,
-  fetchArticleFailed: false,
+  status: 'initial',
 };
 
 export default handleActions(
@@ -38,23 +37,24 @@ export default handleActions(
     [actions.fetchingArticle]: {
       next: state => ({
         ...state,
-        isLoading: true,
+        status: 'loading',
       }),
       throw: state => state,
     },
     [actions.fetchArticleError]: {
-      next: state => ({
+      next: (state, action) => ({
         ...state,
-        isLoading: false,
-        fetchArticleFailed: true,
+        status:
+          action.payload.error.json && action.payload.error.json.status === 404
+            ? 'error404'
+            : 'error',
       }),
       throw: state => state,
     },
     [actions.fetchArticleSuccess]: {
       next: state => ({
         ...state,
-        isLoading: false,
-        fetchArticleFailed: false,
+        status: 'success',
       }),
       throw: state => state,
     },
@@ -68,6 +68,8 @@ export const getArticleById = articleId =>
   createSelector([getArticlesFromState], articles => articles.all[articleId]);
 
 export const hasFetchArticleFailed = state => state.articles.fetchArticleFailed;
+
+export const getFetchStatus = state => state.articles.status;
 
 export const getArticle = articleId =>
   createSelector([getArticleById(articleId), getLocale], (article, locale) => {

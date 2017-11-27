@@ -10,6 +10,8 @@ const phrases = {
   articlePage: {
     errorDescription:
       'Vi beklager, men en feil oppsto under lasting av ressursen.',
+    error404Description:
+      'Vi beklager, men vi kunne ikke finne ressursen du leter etter.',
   },
   notFoundPage: {
     errorDescription:

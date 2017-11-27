@@ -27,7 +27,7 @@ export function* fetchResourceTypesForArticle(resourceId, locale) {
   }
 }
 
-export function* fetchArticle(articleId, resourceId, history) {
+export function* fetchArticle(articleId, resourceId) {
   try {
     const locale = yield select(getLocale);
     if (resourceId) {
@@ -42,22 +42,19 @@ export function* fetchArticle(articleId, resourceId, history) {
     }
     yield put(actions.fetchArticleSuccess());
   } catch (error) {
-    if (error.json && error.json.status === 404 && history) {
-      history.replace('/not-found');
-    }
     yield put(applicationError(error));
-    yield put(actions.fetchArticleError());
+    yield put(actions.fetchArticleError({ error }));
   }
 }
 
 export function* watchFetchArticle() {
   while (true) {
-    const { payload: { articleId, resourceId, history } } = yield take(
+    const { payload: { articleId, resourceId } } = yield take(
       actions.fetchArticle,
     );
     const currentArticle = yield select(getArticle(articleId));
     if (!currentArticle || currentArticle.id.toString() !== articleId) {
-      yield call(fetchArticle, articleId, resourceId, history);
+      yield call(fetchArticle, articleId, resourceId);
     }
   }
 }

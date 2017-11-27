@@ -9,6 +9,8 @@
 const phrases = {
   articlePage: {
     errorDescription: 'Sorry, an error occurd while loading the resource.',
+    error404Description:
+      "Sorry, we can't locate the resource you are looking for.",
   },
   notFoundPage: {
     errorDescription: "We can't seem to find the page you are looking for.",
