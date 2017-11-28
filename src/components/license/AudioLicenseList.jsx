@@ -19,9 +19,9 @@ import {
 } from 'ndla-ui';
 import { Audio } from 'ndla-ui/icons';
 import { injectT } from 'ndla-i18n';
+import { getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { NewCopyrightObjectShape } from '../../shapes';
-import { getLicenseMetaInfo } from './getLicenseMetaInfo';
 
 const AudioShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -30,7 +30,7 @@ const AudioShape = PropTypes.shape({
 });
 
 const AudioLicenseInfo = ({ audio, locale, t }) => {
-  const items = getLicenseMetaInfo(audio.copyright, t);
+  const items = getGroupedContributorDescriptionList(audio.copyright, locale);
   return (
     <MediaListItem>
       <MediaListItemImage>

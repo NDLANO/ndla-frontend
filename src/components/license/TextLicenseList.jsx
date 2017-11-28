@@ -18,11 +18,10 @@ import {
   MediaListItemMeta,
 } from 'ndla-ui';
 import { Document } from 'ndla-ui/icons';
-import { metaTypes } from 'ndla-licenses';
+import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
-import { getLicenseMetaInfo } from './getLicenseMetaInfo';
 
 const TextShape = PropTypes.shape({
   src: PropTypes.string.isRequired,
@@ -39,7 +38,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
       metaType: metaTypes.author,
     }));
   } else {
-    items = getLicenseMetaInfo(text.copyright, t);
+    items = getGroupedContributorDescriptionList(text.copyright, locale);
   }
 
   items.push({

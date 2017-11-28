@@ -19,10 +19,9 @@ import {
   MediaListItemMeta,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { metaTypes } from 'ndla-licenses';
+import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
-import { getLicenseMetaInfo } from './getLicenseMetaInfo';
 
 const ImageShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -41,7 +40,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
       metaType: metaTypes.author,
     }));
   } else {
-    items = getLicenseMetaInfo(image.copyright, t);
+    items = getGroupedContributorDescriptionList(image.copyright, locale);
   }
 
   if (image.title) {
