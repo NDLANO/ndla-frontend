@@ -3,22 +3,17 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "build-server":
-      "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
-    "build-client":
-      "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
+    "build-server": "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
+    "build-client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
     "build": "yarn build-server && yarn build-client",
     "clean": "rimraf ./htdocs/*",
     "test": "cross-env NODE_ENV=unittest jest",
     "tdd": "cross-env NODE_ENV=unittest jest --watch",
     "lint": "yarn run lint-prettier && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
-    "start":
-      "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server",
-    "start-with-local-converter":
-      "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
-    "start-with-ssr":
-      "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server",
+    "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server",
+    "start-with-local-converter": "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
+    "start-with-ssr": "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server",
     "start-prod": "cross-env NODE_ENV=production node htdocs/server",
     "now-build": "npm run build-server && npm run build-client",
     "now-start": "cross-env NODE_ENV=production NOW=true node htdocs/server",
@@ -28,7 +23,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -95,9 +92,10 @@
     "ndla-article-scripts": "^0.1.4",
     "ndla-error-reporter": "^0.1.13",
     "ndla-i18n": "^0.2.0",
+    "ndla-icons": "^0.0.1-0",
     "ndla-licenses": "^0.1.2",
     "ndla-tabs": "^0.4.0",
-    "ndla-ui": "^0.8.22",
+    "ndla-ui": "^0.8.24-0",
     "ndla-util": "^0.1.7",
     "node-fetch": "^1.7.2",
     "normalize-css": "2.3.1",

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Document, Pencil, Path } from 'ndla-ui/icons';
+import { Document, Pencil, Path } from 'ndla-icons/common';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
