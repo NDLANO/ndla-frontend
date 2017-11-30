@@ -21,12 +21,13 @@ const SelectLocale = ({ locale, location: { pathname, search } }) => {
     createHistory().push(`/${newLocale}/${path}${search}`); // Need create new history or else basename is included
     window.location.reload();
   };
-
   return (
     <select
       onChange={evt => {
         handleChange(evt.target.value);
       }}
+      // autoComplete="off" is need to make the selected attribute work in firefox
+      autoComplete="off"
       value={locale}>
       {appLocales.map(l => (
         <option key={l.abbreviation} value={l.abbreviation}>
