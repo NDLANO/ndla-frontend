@@ -9,6 +9,8 @@
 const phrases = {
   articlePage: {
     errorDescription: 'Sorry, an error occurd while loading the resource.',
+    error404Description:
+      "Sorry, we can't locate the resource you are looking for.",
   },
   notFoundPage: {
     errorDescription: "We can't seem to find the page you are looking for.",
@@ -93,12 +95,14 @@ const phrases = {
         'Remember to copy the text to be attached to the image where you use it.',
       rules: 'Rules for use of image:',
       source: 'Source',
+      title: 'Title',
     },
     text: {
       heading: 'How to use text from the article',
       description:
         'The article may be composed of several different texts, which are listed here.',
       rules: 'Rules for use of text:',
+      published: 'Published',
     },
     audio: {
       heading: 'How to use audio files from the article',
@@ -116,6 +120,30 @@ const phrases = {
     copyTitle: 'Copy reference',
     hasCopiedTitle: 'Copied!',
     download: 'Download',
+    creditType: {
+      originator: 'Originator',
+      photographer: 'Photographer',
+      artist: 'Artist',
+      editorial: 'Editorial',
+      writer: 'Writer',
+      scriptwriter: 'Scriptwriter',
+      reader: 'Reader',
+      translator: 'Translator',
+      director: 'Director',
+      illustrator: 'Illustrator',
+      cowriter: 'Cowriter',
+      composer: 'Composer',
+      processor: 'Processor',
+      facilitator: 'facilitator',
+      linguistic: 'Linguistic',
+      idea: 'Idea',
+      compiler: 'Compiler',
+      correction: 'Correction',
+      rightsholder: 'Rightsholder',
+      publisher: 'Publisher',
+      distributor: 'Distributor',
+      supplier: 'Supplier',
+    },
   },
   breadcrumb: {
     subjectsLinkText: 'Subject',

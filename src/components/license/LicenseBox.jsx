@@ -35,7 +35,13 @@ function buildLicenseTabList(article, locale, t) {
     title: t('license.tabs.text'),
     content: (
       <TextLicenseList
-        texts={[{ src: location.href, copyright: article.copyright }]}
+        texts={[
+          {
+            src: location.href,
+            copyright: article.copyright,
+            created: article.created,
+          },
+        ]}
         locale={locale}
       />
     ),

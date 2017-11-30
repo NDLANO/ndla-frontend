@@ -10,6 +10,8 @@ const phrases = {
   articlePage: {
     errorDescription:
       'Vi beklager, men en feil oppsto under lasting av ressursen.',
+    error404Description:
+      'Vi beklager, men vi kunne ikke finne ressursen du leter etter.',
   },
   notFoundPage: {
     errorDescription:
@@ -102,12 +104,14 @@ const phrases = {
         'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kilde',
+      title: 'Tittel',
     },
     text: {
       heading: 'Slik bruker du tekst fra artikkelen',
       description:
         'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
       rules: 'Regler for bruk av teksten:',
+      published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
@@ -120,6 +124,30 @@ const phrases = {
       description:
         'Husk å kopier teksten som skal legges ved videoen der du bruker den.',
       rules: 'Regler for bruk av videoen:',
+    },
+    creditType: {
+      originator: 'Opphavsmann',
+      photographer: 'Fotograf',
+      artist: 'Kunstner',
+      editorial: 'Redaksjonelt',
+      writer: 'Forfatter',
+      scriptwriter: 'Manusforfatter',
+      reader: 'Innleser',
+      translator: 'Oversetter',
+      director: 'Regissør',
+      illustrator: 'Illustratør',
+      cowriter: 'Medforfatter',
+      composer: 'Komponist',
+      processor: 'Bearbeider',
+      facilitator: 'Tilrettelegger',
+      linguistic: 'Språklig',
+      idea: 'Idé',
+      compiler: 'Sammenstiller',
+      correction: 'Korrektur',
+      rightsholder: 'Rettighetshaver',
+      publisher: 'Forlag',
+      distributor: 'Distributør',
+      supplier: 'Leverandør',
     },
   },
   breadcrumb: {

@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import Helmet from 'react-helmet';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { actions, hasFetchArticleFailed, getArticle } from './article';
+import { actions, getFetchStatus, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
@@ -33,15 +33,9 @@ const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
-    const {
-      history,
-      fetchArticle,
-      fetchTopics,
-      fetchSubjects,
-      match: { params },
-    } = ctx;
+    const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = ctx;
     const { articleId, subjectId, resourceId } = params;
-    fetchArticle({ articleId, resourceId, history });
+    fetchArticle({ articleId, resourceId });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });
@@ -62,9 +56,9 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, hasFailed, topicPath, locale, t } = this.props;
+    const { article, subject, status, topicPath, locale, t } = this.props;
 
-    if (hasFailed) {
+    if (status === 'error' || status === 'error404') {
       return (
         <div>
           <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
@@ -73,7 +67,10 @@ class ArticlePage extends Component {
               <ErrorMessage
                 messages={{
                   title: t('errorMessage.title'),
-                  description: t('articlePage.errorDescription'),
+                  description:
+                    status === 'error404'
+                      ? t('articlePage.error404Description')
+                      : t('articlePage.errorDescription'),
                   back: t('errorMessage.back'),
                   goToFrontPage: t('errorMessage.goToFrontPage'),
                 }}
@@ -136,11 +133,8 @@ ArticlePage.propTypes = {
       resourceId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   article: ArticleShape,
-  hasFailed: PropTypes.bool.isRequired,
+  status: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   fetchArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
@@ -165,7 +159,7 @@ const makeMapStateToProps = (_, ownProps) => {
     : () => undefined;
   return state => ({
     article: getArticleSelector(state),
-    hasFailed: hasFetchArticleFailed(state),
+    status: getFetchStatus(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
     locale: getLocale(state),

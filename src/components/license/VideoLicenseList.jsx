@@ -50,7 +50,8 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              authors={video.copyright.authors}
+              copyright={video.copyright}
+              t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />

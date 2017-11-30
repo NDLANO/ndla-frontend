@@ -4743,15 +4743,15 @@ ndla-i18n@^0.2.0:
     intl-messageformat "^2.1.0"
     invariant "^2.2.2"
 
-ndla-licenses@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.2.tgz#5ccbea4d6b1ebe79ea08249725ac57ef0be12420"
+ndla-licenses@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.3.tgz#79cdbcd2a788f2f6b6a3b65d80f2f1379ebe2974"
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.1.tgz#047b96a89fa1d45a8396d51fa5ef7be1e0473fb4"
+ndla-scripts@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.2.tgz#b56c0f1c5145fb3ec1f092576e6d5f5b71ae9ac3"
   dependencies:
     await-url "^0.3.0"
     cross-spawn "^5.1.0"
@@ -4766,9 +4766,9 @@ ndla-tabs@^0.4.0:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.22:
-  version "0.8.22"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.22.tgz#a916b8dd1552a2e64285cb854cfc2c93e3f7285a"
+ndla-ui@^0.8.23:
+  version "0.8.23"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.23.tgz#897ec32edd6dfe8e597f7a161f2078f4b606df75"
   dependencies:
     classnames "2.2.5"
     react-bem-helper "1.4.1"
