@@ -12,7 +12,7 @@ export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
-    authors: PropTypes.array.isRequired,
+    creators: PropTypes.array.isRequired,
   }).isRequired,
   created: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,

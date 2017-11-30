@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Article as UIArticle } from 'ndla-ui';
+import { Article as UIArticle, ToggleLicenseBox } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import ToggleLicenseBox from './ToggleLicenseBox';
+import LicenseBox from './license/LicenseBox';
 import getResourceTypeMetaData from './getResourceTypeMetaData';
 
 const Article = ({ article, locale, t }) => {
@@ -31,8 +31,9 @@ const Article = ({ article, locale, t }) => {
           article={article}
           locale={locale}
           openTitle={t('openLicenseBox')}
-          closeTitle={t('closeLicenseBox')}
-        />
+          closeTitle={t('closeLicenseBox')}>
+          <LicenseBox article={article} locale={locale} />
+        </ToggleLicenseBox>
       }
       messages={{
         lastUpdated: t('lastUpdated'),
@@ -55,7 +56,8 @@ Article.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     copyright: PropTypes.shape({
-      authors: PropTypes.array.isRequired,
+      authors: PropTypes.array,
+      creators: PropTypes.array,
     }).isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,

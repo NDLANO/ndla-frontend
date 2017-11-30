@@ -17,7 +17,6 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { metaTypes } from 'ndla-licenses';
 import { Audio } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import { getGroupedContributorDescriptionList } from 'ndla-licenses';
