@@ -17,7 +17,8 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { Audio } from 'ndla-ui/icons';
+import { metaTypes } from 'ndla-licenses';
+import { Audio } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import { getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
