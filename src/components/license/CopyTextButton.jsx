@@ -42,7 +42,7 @@ class CopyTextButton extends Component {
       : ''}${license}`.toUpperCase();
 
     const copyString = `${licenseCopyString} ${creatorsCopyString}`;
-    const success = copyTextToClipboard(copyString);
+    const success = copyTextToClipboard(copyString, this.buttonContainer);
 
     if (success) {
       this.setState({ hasCopied: true });
@@ -58,13 +58,18 @@ class CopyTextButton extends Component {
     const { hasCopied } = this.state;
     const { copyTitle, hasCopiedTitle } = this.props;
     return (
-      <Button
-        outline
-        className="c-licenseToggle__button"
-        disabled={hasCopied}
-        onClick={this.handleClick}>
-        {hasCopied ? hasCopiedTitle : copyTitle}
-      </Button>
+      <span
+        ref={r => {
+          this.buttonContainer = r;
+        }}>
+        <Button
+          outline
+          className="c-licenseToggle__button"
+          disabled={hasCopied}
+          onClick={this.handleClick}>
+          {hasCopied ? hasCopiedTitle : copyTitle}
+        </Button>
+      </span>
     );
   }
 }

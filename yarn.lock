@@ -2036,6 +2036,10 @@ decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
+decode-uri-component@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
+
 decompress-response@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/decompress-response/-/decompress-response-3.3.0.tgz#80a4dd323748384bfa248083622aedec982adff3"
@@ -3583,19 +3587,19 @@ interpret@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.2.tgz#f4f623f0bb7122f15f5717c8e254b8161b5c5b2d"
 
-intl-format-cache@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-2.0.5.tgz#b484cefcb9353f374f25de389a3ceea1af18d7c9"
-
-intl-messageformat-parser@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.2.0.tgz#5906b7f953ab7470e0dc8549097b648b991892ff"
-
-intl-messageformat@^2.1.0:
+intl-format-cache@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.1.0.tgz#1c51da76f02a3f7b360654cdc51bbc4d3fa6c72c"
+  resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-2.1.0.tgz#04a369fecbfad6da6005bae1f14333332dcf9316"
+
+intl-messageformat-parser@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.4.0.tgz#b43d45a97468cadbe44331d74bb1e8dea44fc075"
+
+intl-messageformat@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.2.0.tgz#345bcd46de630b7683330c2e52177ff5eab484fc"
   dependencies:
-    intl-messageformat-parser "1.2.0"
+    intl-messageformat-parser "1.4.0"
 
 invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
@@ -4734,31 +4738,31 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.1.4:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.6.tgz#e1ebc1c4422a541a54cccad21ae7cbbbce5c5bf7"
+ndla-article-scripts@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.8.tgz#96363ea419719a3c2c6fdcdc1e19f83b06092888"
   dependencies:
     focus-trap "^2.3.1"
     jump.js "^1.0.2"
 
-ndla-error-reporter@^0.1.13:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.14.tgz#3f7385af8cd175a3f62f8df0d39b6b8d628160cf"
+ndla-error-reporter@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.15.tgz#7250f3db9cf7edcbdea8633521e9402e93eacc67"
   dependencies:
-    raven-js "^3.9.2"
+    raven-js "^3.20.1"
 
-ndla-i18n@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.2.0.tgz#1e663e0675254a1918394b243191949560dc01a6"
+ndla-i18n@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.2.1.tgz#191a4968c1db22f39f4cbf0b37f639aab4e31b81"
   dependencies:
     hoist-non-react-statics "^2.3.0"
-    intl-format-cache "^2.0.5"
-    intl-messageformat "^2.1.0"
+    intl-format-cache "^2.1.0"
+    intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.0.tgz#0978c6926e9331d1d6dcadf70b0326bc81e605af"
+ndla-icons@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.1.tgz#0fd14542f136079f63bf4b7bc72b15a324155779"
 
 ndla-licenses@^0.1.2:
   version "0.1.4"
@@ -4766,15 +4770,15 @@ ndla-licenses@^0.1.2:
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.2.tgz#b56c0f1c5145fb3ec1f092576e6d5f5b71ae9ac3"
+ndla-scripts@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.1.3.tgz#827ad4895f46755d5f1d7847a9055fda164c4383"
   dependencies:
     await-url "^0.3.0"
     cross-spawn "^5.1.0"
-    normalize-url "^1.9.1"
-    now "^8.3.10"
-    octonode "^0.8.0"
+    normalize-url "^2.0.0"
+    now "^8.5.4"
+    octonode "^0.9.1"
     url-regex "^4.1.1"
 
 ndla-tabs@^0.4.0:
@@ -4783,9 +4787,9 @@ ndla-tabs@^0.4.0:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.25:
-  version "0.8.25"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.25.tgz#6cafd5559dfb8d7c1213a87d504dbc5c2cd2d991"
+ndla-ui@^0.8.27:
+  version "0.8.27"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.27.tgz#83a65eb49a3f431fddd540f6f250d8dc0c87965d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.3.1"
@@ -4793,9 +4797,9 @@ ndla-ui@^0.8.25:
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
 
-ndla-util@^0.1.7:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.8.tgz#f963f644ab5c6fd242a7eaa48d2024d556bbff3b"
+ndla-util@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.9.tgz#ca3ba0410177659649565e4f65605e543cb8a6bd"
   dependencies:
     defined "1.0.0"
 
@@ -4986,7 +4990,7 @@ normalize-range@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
 
-normalize-url@^1.4.0, normalize-url@^1.9.1:
+normalize-url@^1.4.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-1.9.1.tgz#2cc0d66b31ea23036458436e3620d85954c66c3c"
   dependencies:
@@ -4995,9 +4999,17 @@ normalize-url@^1.4.0, normalize-url@^1.9.1:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-now@^8.3.10:
-  version "8.3.10"
-  resolved "https://registry.yarnpkg.com/now/-/now-8.3.10.tgz#13b0dc1b8651284d5c345bc969d664d11c7885e8"
+normalize-url@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-2.0.0.tgz#e04d8a369f3a4cadc850a2854f8fb0f8a8120328"
+  dependencies:
+    prepend-http "^2.0.0"
+    query-string "^5.0.1"
+    sort-keys "^2.0.0"
+
+now@^8.5.4:
+  version "8.5.4"
+  resolved "https://registry.yarnpkg.com/now/-/now-8.5.4.tgz#48094ed25c54a9e50c1a0b087000872df7025dd8"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -5085,9 +5097,9 @@ object.values@^1.0.4:
     function-bind "^1.1.0"
     has "^1.0.1"
 
-octonode@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.8.0.tgz#6ba74a1ba9038e9b1e7ecb1e63ef83461b87af8d"
+octonode@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.1.tgz#a8ac6e767a5db0256b9f064527134f3f4e92e635"
   dependencies:
     bluebird "^3.5.0"
     deep-extend "^0.4.1"
@@ -5932,6 +5944,10 @@ prepend-http@^1.0.0, prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
 
+prepend-http@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
+
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
@@ -6053,6 +6069,14 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
+query-string@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.0.1.tgz#6e2b86fe0e08aef682ecbe86e85834765402bd88"
+  dependencies:
+    decode-uri-component "^0.2.0"
+    object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
+
 querystring-es3@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
@@ -6099,9 +6123,9 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-raven-js@^3.9.2:
-  version "3.20.0"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.20.0.tgz#b6f92f3db7f168ac32cd466fd5743f40fff4cffe"
+raven-js@^3.20.1:
+  version "3.20.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.20.1.tgz#3170bdb35c05098ddb8548ee5be0687f9d763330"
 
 raw-body@2.3.2:
   version "2.3.2"
@@ -6803,6 +6827,12 @@ sntp@2.x.x:
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
+  dependencies:
+    is-plain-obj "^1.0.0"
+
+sort-keys@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-2.0.0.tgz#658535584861ec97d730d6cf41822e1f56684128"
   dependencies:
     is-plain-obj "^1.0.0"
 
