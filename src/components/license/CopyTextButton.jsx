@@ -18,6 +18,10 @@ class CopyTextButton extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentWillUnmount() {
+    window.clearTimeout(this.timeout);
+  }
+
   handleClick() {
     const { stringToCopy } = this.props;
     const success = copyTextToClipboard(stringToCopy, this.buttonContainer);
@@ -25,7 +29,7 @@ class CopyTextButton extends Component {
     if (success) {
       this.setState({ hasCopied: true });
 
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         // Reset state after 10 seconds
         this.setState({ hasCopied: false });
       }, 10000);
