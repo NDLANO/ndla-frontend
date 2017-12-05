@@ -55,6 +55,12 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
+            <a
+              href={video.src}
+              className="c-button c-button--outline c-licenseToggle__button"
+              download>
+              {t('download')}
+            </a>
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
