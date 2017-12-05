@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Hero, OneColumn, Breadcrumb, ErrorMessage } from 'ndla-ui';
+import { Hero, OneColumn, Breadcrumb, LayoutItem, ErrorMessage } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
@@ -147,17 +147,21 @@ class TopicPage extends Component {
           {article ? <Article article={article} locale={locale} /> : null}
         </OneColumn>
         {topic ? (
-          <OneColumn cssModifier="narrow">
-            <SubTopics
-              subjectId={subjectId}
-              topic={topic}
-              topicPath={topicPath}
-            />
-            <TopicResources
-              subjectId={subjectId}
-              topic={topic}
-              topicPath={topicPath}
-            />
+          <OneColumn>
+            <LayoutItem layout="extend">
+              <OneColumn cssModifier="narrow">
+                <SubTopics
+                  subjectId={subjectId}
+                  topic={topic}
+                  topicPath={topicPath}
+                />
+                <TopicResources
+                  subjectId={subjectId}
+                  topic={topic}
+                  topicPath={topicPath}
+                />
+              </OneColumn>
+            </LayoutItem>
           </OneColumn>
         ) : null}
       </div>
