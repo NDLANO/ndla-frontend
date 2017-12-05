@@ -21,6 +21,7 @@ import { injectT } from 'ndla-i18n';
 import { metaTypes } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const VideoShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -50,7 +51,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              copyright={video.copyright}
+              stringToCopy={getCopyrightCopyString(video.copyright, t)}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
@@ -61,6 +62,16 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
               download>
               {t('download')}
             </a>
+
+            <CopyTextButton
+              stringToCopy={`<iframe title="${video.title}" height="${video
+                .iframe.height}" width="${video.iframe
+                .width}" frameborder="0" src="${video.iframe
+                .src}" allowfullscreen=""></iframe>`}
+              t={t}
+              copyTitle={t('embed')}
+              hasCopiedTitle={t('embedCopied')}
+            />
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
