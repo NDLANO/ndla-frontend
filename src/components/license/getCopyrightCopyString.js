@@ -7,7 +7,7 @@
  */
 
 export function getCopyrightCopyString(copyright, t) {
-  const license = copyright.license.license;
+  const { license } = copyright.license;
   let creatorsCopyString;
 
   if (copyright.authors) {
