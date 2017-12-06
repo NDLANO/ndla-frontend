@@ -28,7 +28,9 @@ export function oembedArticleRoute(req, res, token) {
         height: req.query.height ? req.query.height : 800,
         width: req.query.width ? req.query.width : 800,
         title: article.title,
-        html: `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
+        html: `<iframe src="${
+          config.ndlaFrontendDomain
+        }/article-iframe/${lang}/${articleId}" frameborder="0" />`,
       });
     })
     .catch(error => {

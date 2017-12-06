@@ -25,7 +25,9 @@ const GoogleTagMangerNoScript = () => {
       <noscript>
         <iframe
           title="google tag manager"
-          src={`//www.googletagmanager.com/ns.html?id=${config.googleTagMangerId}`}
+          src={`//www.googletagmanager.com/ns.html?id=${
+            config.googleTagMangerId
+          }`}
           height="0"
           width="0"
           style={{ display: 'none', visibility: 'hidden' }}

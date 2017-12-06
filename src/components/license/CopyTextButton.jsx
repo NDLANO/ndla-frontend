@@ -37,9 +37,9 @@ class CopyTextButton extends Component {
         .join('\n');
     }
 
-    const licenseCopyString = `${license.toLowerCase().includes('by')
-      ? 'CC '
-      : ''}${license}`.toUpperCase();
+    const licenseCopyString = `${
+      license.toLowerCase().includes('by') ? 'CC ' : ''
+    }${license}`.toUpperCase();
 
     const copyString = `${licenseCopyString} ${creatorsCopyString}`;
     const success = copyTextToClipboard(copyString, this.buttonContainer);
