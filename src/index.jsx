@@ -21,7 +21,7 @@ import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 
-const initialState = window.initialState;
+const { initialState } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 

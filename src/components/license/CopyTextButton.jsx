@@ -21,7 +21,7 @@ class CopyTextButton extends Component {
 
   handleClick() {
     const { copyright, t } = this.props;
-    const license = copyright.license.license;
+    const { license } = copyright.license;
     let creatorsCopyString;
 
     if (copyright.authors) {

@@ -13,7 +13,7 @@ import config from '../../src/config';
 export function oembedArticleRoute(req, res, token) {
   res.setHeader('Content-Type', 'application/json');
   // http://ndla-frontend.test.api.ndla.no/article/3023
-  const url = req.query.url;
+  const { url } = req.query;
   if (!url) {
     res.status(404).json({ status: 404, text: 'Url not found' });
   }
