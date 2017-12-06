@@ -113,7 +113,7 @@ export const hasFetchTopicsFailed = createSelector(
 export const hasFetchTopicArticleFailed = createSelector(
   [getTopicsFromState, getArticlesFromState],
   (topics, articles) =>
-    topics.fetchTopicArticleFailed || articles.fetchArticleFailed,
+    topics.fetchTopicArticleFailed || articles.status.startsWith('error'),
 );
 
 export const getAllTopicsBySubjectId = subjectId =>
