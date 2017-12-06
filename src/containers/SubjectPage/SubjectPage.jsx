@@ -20,7 +20,7 @@ import {
   actions as topicActions,
   getTopicsBySubjectIdWithIntroduction,
   getTopic,
-  hasFetchTopicsFailed,
+  getFetchTopicsStatus,
 } from '../TopicPage/topic';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
@@ -133,7 +133,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
-    hasFailed: hasFetchTopicsFailed(state),
+    hasFailed: getFetchTopicsStatus(state) === 'error',
   };
 };
 

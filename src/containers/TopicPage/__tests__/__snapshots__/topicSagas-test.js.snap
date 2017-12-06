@@ -41,27 +41,6 @@ Object {
       "CALL": Object {
         "args": Array [
           "1",
-        ],
-        "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/fetchArticle",
-      },
-    },
-    Object {
-      "@@redux-saga/IO": true,
-      "CALL": Object {
-        "args": Array [
-          Object {},
-          "@@redux-saga-test-plan/json/function/refineYieldedValue",
-        ],
-        "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/sagaWrapper",
-      },
-    },
-    Object {
-      "@@redux-saga/IO": true,
-      "CALL": Object {
-        "args": Array [
-          "1",
           "en",
         ],
         "context": null,
@@ -84,7 +63,7 @@ Object {
       "@@redux-saga/IO": true,
       "PUT": Object {
         "action": Object {
-          "type": "FETCH_ARTICLE_SUCCESS",
+          "type": "FETCH_TOPIC_ARTICLE_SUCCESS",
         },
         "channel": null,
       },
