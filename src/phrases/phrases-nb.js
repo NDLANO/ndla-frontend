@@ -91,6 +91,8 @@ const phrases = {
     learnMore: 'Lær mer om åpne lisenser',
     copyTitle: 'Kopier referanse',
     hasCopiedTitle: 'Kopiert!',
+    embed: 'Bygg inn',
+    embedCopied: 'Kopierte bygg inn kode!',
     download: 'Last ned',
     tabs: {
       text: 'Tekst',
