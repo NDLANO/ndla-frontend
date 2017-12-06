@@ -22,6 +22,7 @@ import { injectT } from 'ndla-i18n';
 import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const ImageShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
@@ -74,7 +75,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              copyright={image.copyright}
+              stringToCopy={getCopyrightCopyString(image.copyright, t)}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

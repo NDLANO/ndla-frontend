@@ -118,6 +118,8 @@ const phrases = {
     },
     learnMore: 'Learn more about open licenses',
     copyTitle: 'Copy reference',
+    embed: 'Embed',
+    embedCopied: 'Copied embed code!',
     hasCopiedTitle: 'Copied!',
     download: 'Download',
     creditType: {
