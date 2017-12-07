@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Hero, OneColumn, Breadcrumb, ErrorMessage } from 'ndla-ui';
+import { Hero, OneColumn, Breadcrumb, LayoutItem } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
@@ -18,8 +18,8 @@ import {
   getTopicArticle,
   getTopic,
   getTopicPath,
-  hasFetchTopicsFailed,
-  hasFetchTopicArticleFailed,
+  getFetchTopicsStatus,
+  getFetchTopicArticleStatus,
 } from './topic';
 import {
   getSubjectById,
@@ -31,6 +31,7 @@ import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
+import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -84,8 +85,8 @@ class TopicPage extends Component {
       article,
       t,
       topicPath,
-      fetchTopicsFailed,
-      fetchTopicArticleFailed,
+      fetchTopicsStatus,
+      fetchTopicArticleStatus,
       subject,
     } = this.props;
     const { subjectId } = params;
@@ -94,7 +95,6 @@ class TopicPage extends Component {
       ? { name: 'description', content: article.metaDescription }
       : {};
     const title = getTitle(article, topic);
-
     const scripts = article
       ? article.requiredLibraries.map(lib => ({
           src: lib.url,
@@ -109,7 +109,7 @@ class TopicPage extends Component {
           script={scripts}
         />
         <Hero>
-          <OneColumn cssModifier="narrow">
+          <OneColumn>
             <div className="c-hero__content">
               <section>
                 {subject ? (
@@ -125,39 +125,32 @@ class TopicPage extends Component {
             </div>
           </OneColumn>
         </Hero>
-        {(fetchTopicsFailed || fetchTopicArticleFailed) && (
-          <OneColumn cssModifier="narrow">
-            <div className="c-article">
-              <ErrorMessage
-                messages={{
-                  title: t('errorMessage.title'),
-                  description: fetchTopicsFailed
-                    ? t('topicPage.topicErrorDescription')
-                    : t('topicPage.articleErrorDescription'),
-                  back: fetchTopicsFailed ? t('errorMessage.back') : undefined,
-                  goToFrontPage: fetchTopicsFailed
-                    ? t('errorMessage.goToFrontPage')
-                    : undefined,
-                }}
-              />
-            </div>
-          </OneColumn>
+        {(fetchTopicsStatus === 'error' ||
+          fetchTopicArticleStatus === 'error') && (
+          <TopicPageErrorMessage
+            t={t}
+            fetchTopicsFailed={fetchTopicsStatus === 'error'}
+          />
         )}
-        <OneColumn cssModifier="narrow">
+        <OneColumn>
           {article ? <Article article={article} locale={locale} /> : null}
         </OneColumn>
         {topic ? (
-          <OneColumn cssModifier="narrow">
-            <SubTopics
-              subjectId={subjectId}
-              topic={topic}
-              topicPath={topicPath}
-            />
-            <TopicResources
-              subjectId={subjectId}
-              topic={topic}
-              topicPath={topicPath}
-            />
+          <OneColumn>
+            <LayoutItem layout="extend">
+              <OneColumn cssModifier="narrow">
+                <SubTopics
+                  subjectId={subjectId}
+                  topic={topic}
+                  topicPath={topicPath}
+                />
+                <TopicResources
+                  subjectId={subjectId}
+                  topic={topic}
+                  topicPath={topicPath}
+                />
+              </OneColumn>
+            </LayoutItem>
           </OneColumn>
         ) : null}
       </div>
@@ -175,9 +168,9 @@ TopicPage.propTypes = {
   fetchSubjects: PropTypes.func.isRequired,
   fetchTopicArticle: PropTypes.func.isRequired,
   fetchTopicsWithIntroductions: PropTypes.func.isRequired,
-  fetchTopicsFailed: PropTypes.bool.isRequired,
-  fetchTopicArticleFailed: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
+  fetchTopicArticleStatus: PropTypes.string.isRequired,
+  fetchTopicsStatus: PropTypes.string.isRequired,
   topic: TopicShape,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
@@ -201,8 +194,8 @@ const mapStateToProps = (state, ownProps) => {
     article: getTopicArticleSelector(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
-    fetchTopicArticleFailed: hasFetchTopicArticleFailed(state),
-    fetchTopicsFailed: hasFetchTopicsFailed(state),
+    fetchTopicArticleStatus: getFetchTopicArticleStatus(state),
+    fetchTopicsStatus: getFetchTopicsStatus(state),
     locale: getLocale(state),
   };
 };

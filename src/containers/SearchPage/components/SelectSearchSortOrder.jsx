@@ -44,8 +44,4 @@ SelectSearchSortOrder.propTypes = {
   onSortOrderChange: PropTypes.func.isRequired,
 };
 
-SelectSearchSortOrder.defaultProps = {
-  sort: '-relevance',
-};
-
 export default injectT(SelectSearchSortOrder);

@@ -21,7 +21,7 @@ import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 
-const initialState = window.initialState;
+const { initialState } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 
@@ -32,6 +32,7 @@ storeAccessToken(window.accessToken);
 const store = configureStore(initialState);
 
 const {
+  disableSSR,
   logglyApiKey,
   logEnvironment: environment,
   componentName,
@@ -44,7 +45,9 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-ReactDOM.hydrate(
+const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+
+renderOrHydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
