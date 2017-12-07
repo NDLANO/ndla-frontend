@@ -26,8 +26,18 @@ export function* fetchResourceTypes() {
 export function* fetchTopicResources(topicId) {
   try {
     const locale = yield select(getLocale);
-    const resources = yield call(api.fetchTopicResources, topicId, locale);
-    yield put(actions.setTopicResources({ topicId, resources }));
+    const [resources, additionalResources] = yield all([
+      call(api.fetchTopicResources, topicId, locale),
+      call(
+        api.fetchTopicResources,
+        topicId,
+        locale,
+        'urn:relevance:supplementary',
+      ),
+    ]);
+    yield put(
+      actions.setTopicResources({ topicId, resources, additionalResources }),
+    );
   } catch (error) {
     yield put(applicationError(error));
     yield put(actions.fetchTopicResourcesError());

@@ -14,37 +14,34 @@ import { injectT } from 'ndla-i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
+import VideoLicenseList from './VideoLicenseList';
 import { ArticleShape } from '../../shapes';
 
-function buildLicenseTabList(article, license, locale, t) {
-  const images = defined(article.contentCopyrights.image, []);
-  const audios = defined(article.contentCopyrights.audio, []);
+function buildLicenseTabList(article, locale, t) {
+  const images = defined(article.metaData.images, []);
+  const audios = defined(article.metaData.audios, []);
+  const brightcove = defined(article.metaData.brightcoves, []);
 
   const tabs = [];
 
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
-      content: (
-        <ImageLicenseList
-          images={images}
-          heading={t('license.images.heading')}
-          description={t('license.images.description')}
-          locale={locale}
-        />
-      ),
+      content: <ImageLicenseList images={images} locale={locale} />,
     });
   }
 
   tabs.push({
-    title: t('license.tabs.texts'),
+    title: t('license.tabs.text'),
     content: (
       <TextLicenseList
         texts={[
-          { type: 'text', src: location.href, copyright: article.copyright },
+          {
+            src: location.href,
+            copyright: article.copyright,
+            created: article.created,
+          },
         ]}
-        heading={t('license.texts.heading')}
-        description={t('license.texts.description')}
         locale={locale}
       />
     ),
@@ -52,22 +49,23 @@ function buildLicenseTabList(article, license, locale, t) {
 
   if (audios.length > 0) {
     tabs.push({
-      title: t('license.tabs.audios'),
-      content: (
-        <AudioLicenseList
-          audios={audios}
-          heading={t('license.audios.heading')}
-          locale={locale}
-        />
-      ),
+      title: t('license.tabs.audio'),
+      content: <AudioLicenseList audios={audios} locale={locale} />,
+    });
+  }
+
+  if (brightcove.length > 0) {
+    tabs.push({
+      title: t('license.tabs.video'),
+      content: <VideoLicenseList videos={brightcove} locale={locale} />,
     });
   }
 
   return tabs;
 }
 
-const LicenseBox = ({ article, license, locale, t }) => {
-  const tabs = buildLicenseTabList(article, license, locale, t);
+const LicenseBox = ({ article, locale, t }) => {
+  const tabs = buildLicenseTabList(article, locale, t);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
@@ -77,9 +75,6 @@ const LicenseBox = ({ article, license, locale, t }) => {
 };
 
 LicenseBox.propTypes = {
-  license: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
   article: ArticleShape.isRequired,
 };

@@ -12,7 +12,7 @@ script:
   - yarn build
 
 after_script:
-  - yarn ndla-scripts now-travis
+  - travis_wait yarn ndla-scripts now-travis
 
 notifications:
   slack:

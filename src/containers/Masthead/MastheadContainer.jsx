@@ -30,7 +30,7 @@ function toTopicWithSubjectIdBound(subjectId) {
 }
 
 const MastheadContainer = ({ t, subject, topics, topicPath }) => (
-  <Masthead>
+  <Masthead fixed>
     <MastheadItem left>
       {subject ? (
         <ClickToggle

@@ -7,8 +7,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { OneColumn, Pager } from 'ndla-ui';
+import connectSSR from '../../components/connectSSR';
 
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
@@ -20,11 +20,15 @@ import { toSearch } from '../../routeHelpers';
 import { createQueryString, parseQueryString } from '../../util/queryHelpers';
 
 class SearchPage extends Component {
-  componentWillMount() {
-    const { location, search } = this.props;
-    if (location.search) {
+  static getInitialProps(ctx) {
+    const { location, search } = ctx;
+    if (location && location.search) {
       search(location.search);
     }
+  }
+
+  componentDidMount() {
+    SearchPage.getInitialProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -105,4 +109,4 @@ const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default connectSSR(mapStateToProps, mapDispatchToProps)(SearchPage);

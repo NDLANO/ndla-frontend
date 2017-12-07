@@ -26,3 +26,7 @@
 .c-topic-resource__item--hidden {
   display: none;
 }
+
+.MJXc-display {
+  display: inline-block !important;
+}

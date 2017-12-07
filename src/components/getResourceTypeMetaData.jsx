@@ -7,20 +7,25 @@
  */
 
 import React from 'react';
-import { Document, Pencil, Path } from 'ndla-ui/icons';
+import { Document, Pencil, Path } from 'ndla-icons/common';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+} from '../constants';
 
 const mapping = {
-  'urn:resourcetype:learningPath': {
+  [RESOURCE_TYPE_LEARNING_PATH]: {
     icon: <Path />,
     heroProps: {},
     resourceListClassName: 'c-resource-group--learingpath',
   },
-  'urn:resourcetype:subjectMaterial': {
+  [RESOURCE_TYPE_SUBJECT_MATERIAL]: {
     icon: <Document />,
     heroProps: { red: true },
     resourceListClassName: 'c-resource-group--subject-material',
   },
-  'urn:resourcetype:tasksAndActivities': {
+  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: {
     icon: <Pencil />,
     heroProps: { green: true },
     resourceListClassName: 'c-resource-group--tasks-and-activities',

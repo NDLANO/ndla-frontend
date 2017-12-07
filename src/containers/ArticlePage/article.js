@@ -22,8 +22,7 @@ export const actions = {
 
 const initalState = {
   all: {},
-  isLoading: false,
-  fetchArticleFailed: false,
+  status: 'initial',
 };
 
 export default handleActions(
@@ -38,23 +37,24 @@ export default handleActions(
     [actions.fetchingArticle]: {
       next: state => ({
         ...state,
-        isLoading: true,
+        status: 'loading',
       }),
       throw: state => state,
     },
     [actions.fetchArticleError]: {
-      next: state => ({
+      next: (state, action) => ({
         ...state,
-        isLoading: false,
-        fetchArticleFailed: true,
+        status:
+          action.payload.error.json && action.payload.error.json.status === 404
+            ? 'error404'
+            : 'error',
       }),
       throw: state => state,
     },
     [actions.fetchArticleSuccess]: {
       next: state => ({
         ...state,
-        isLoading: false,
-        fetchArticleFailed: false,
+        status: 'success',
       }),
       throw: state => state,
     },
@@ -69,27 +69,29 @@ export const getArticleById = articleId =>
 
 export const hasFetchArticleFailed = state => state.articles.fetchArticleFailed;
 
+export const getFetchStatus = state => state.articles.status;
+
 export const getArticle = articleId =>
-  createSelector(
-    [getArticleById(articleId), getLocale],
-    (article, locale) =>
-      article
-        ? {
-            ...article,
-            created: formatDate(article.created, locale),
-            updated: formatDate(article.updated, locale),
-            footNotes: defined(article.footNotes, {}),
-            requiredLibraries: article.requiredLibraries
-              ? article.requiredLibraries.map(lib => {
-                  if (lib.url.startsWith('http://')) {
-                    return {
-                      ...lib,
-                      url: lib.url.replace('http://', 'https://'),
-                    };
-                  }
-                  return lib;
-                })
-              : [],
-          }
-        : undefined,
-  );
+  createSelector([getArticleById(articleId), getLocale], (article, locale) => {
+    if (article) {
+      const footNotes = defined(article.metaData.footnotes, []);
+      return {
+        ...article,
+        created: formatDate(article.created, locale),
+        updated: formatDate(article.updated, locale),
+        footNotes: footNotes.reduce((acc, note) => ({ ...acc, ...note }), {}),
+        requiredLibraries: article.requiredLibraries
+          ? article.requiredLibraries.map(lib => {
+              if (lib.url.startsWith('http://')) {
+                return {
+                  ...lib,
+                  url: lib.url.replace('http://', 'https://'),
+                };
+              }
+              return lib;
+            })
+          : [],
+      };
+    }
+    return undefined;
+  });

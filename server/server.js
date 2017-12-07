@@ -35,7 +35,7 @@ const connectSrc = (() => {
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',
-    'https://secure.brightcove.com',
+    'https://*.brightcove.com',
     'https://bcsecure01-a.akamaihd.net',
     'https://hlsak-a.akamaihd.net',
   ];
@@ -114,8 +114,11 @@ app.use(
           '*.commoncraft.com',
           'commoncraft.com',
           '*.embed.kahoot.it',
+          '*.brightcove.net',
           'embed.kahoot.it',
           'fast.wistia.com',
+          'https://khanacademy.org/',
+          '*.khanacademy.org/',
         ],
         workerSrc: ["'self'", 'blob:'],
         styleSrc: [
@@ -187,22 +190,27 @@ app.get('/oembed', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-app.get('/get_token', (req, res) => {
-  getToken()
-    .then(token => {
-      res.send(token);
-    })
-    .catch(err => res.status(500).send(err.message));
+app.get('/get_token', async (req, res) => {
+  try {
+    const token = await getToken();
+    res.json(token);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-app.get('*', (req, res) => {
-  getToken()
-    .then(token => {
-      defaultRoute(req, res, token);
-    })
-    .catch(() => {
+app.get('*', async (req, res) => {
+  try {
+    const token = await getToken();
+    try {
+      await defaultRoute(req, res, token);
+    } catch (e) {
+      console.error(e);
       res.status(500).send('Internal server error');
-    });
+    }
+  } catch (e) {
+    res.status(500).send('Internal server error');
+  }
 });
 
 module.exports = app;

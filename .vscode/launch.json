@@ -5,14 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "name": "Launch Program",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "protocol": "inspector",
-      "program": "${workspaceRoot}/server/index.js"
+      "name": "Launch Chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceRoot}",
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///*": "${webRoot}/*"
+      }
     }
   ]
 }

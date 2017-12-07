@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { copyTextToClipboard } from 'ndla-util';
 import { Button } from 'ndla-ui';
-import { LicenseAuthorShape } from '../../shapes';
 
 class CopyTextButton extends Component {
   constructor(props) {
@@ -19,17 +18,18 @@ class CopyTextButton extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    const authorsCopyString = this.props.authors
-      .map(author => `${author.type}: ${author.name}`)
-      .join('\n');
+  componentWillUnmount() {
+    window.clearTimeout(this.timeout);
+  }
 
-    const success = copyTextToClipboard(authorsCopyString);
+  handleClick() {
+    const { stringToCopy } = this.props;
+    const success = copyTextToClipboard(stringToCopy, this.buttonContainer);
 
     if (success) {
       this.setState({ hasCopied: true });
 
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         // Reset state after 10 seconds
         this.setState({ hasCopied: false });
       }, 10000);
@@ -40,19 +40,24 @@ class CopyTextButton extends Component {
     const { hasCopied } = this.state;
     const { copyTitle, hasCopiedTitle } = this.props;
     return (
-      <Button
-        outline
-        className="c-licenseToggle__button"
-        disabled={hasCopied}
-        onClick={this.handleClick}>
-        {hasCopied ? hasCopiedTitle : copyTitle}
-      </Button>
+      <span
+        ref={r => {
+          this.buttonContainer = r;
+        }}>
+        <Button
+          outline
+          className="c-licenseToggle__button"
+          disabled={hasCopied}
+          onClick={this.handleClick}>
+          {hasCopied ? hasCopiedTitle : copyTitle}
+        </Button>
+      </span>
     );
   }
 }
 
 CopyTextButton.propTypes = {
-  authors: PropTypes.arrayOf(LicenseAuthorShape),
+  stringToCopy: PropTypes.string.isRequired,
   copyTitle: PropTypes.string.isRequired,
   hasCopiedTitle: PropTypes.string.isRequired,
 };

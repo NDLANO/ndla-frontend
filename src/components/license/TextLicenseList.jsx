@@ -15,19 +15,39 @@ import {
   MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListCCLink,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { Document } from 'ndla-ui/icons';
+import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
+import { Document } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
+import { getCopyrightCopyString } from './getCopyrightCopyString';
+
+const TextShape = PropTypes.shape({
+  src: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});
 
 const TextLicenseInfo = ({ text, locale, t }) => {
-  const items = text.copyright.authors.map(author => ({
-    label: author.type,
-    description: author.name,
-  }));
+  let items;
+
+  if (text.copyright.authors) {
+    items = text.copyright.authors.map(author => ({
+      label: author.type,
+      description: author.name,
+      metaType: metaTypes.author,
+    }));
+  } else {
+    items = getGroupedContributorDescriptionList(text.copyright, locale);
+  }
+
+  items.push({
+    label: t('text.published'),
+    description: text.created,
+    metaType: metaTypes.other,
+  });
+
   return (
     <MediaListItem>
       <MediaListItemImage>
@@ -35,14 +55,16 @@ const TextLicenseInfo = ({ text, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license.license}
-        title={t('rules')}
+        title={t('text.rules')}
+        resourceType="text"
+        resourceUrl={text.src}
         locale={locale}>
-        <MediaListCCLink>{t('learnMore')}</MediaListCCLink>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              authors={text.copyright.authors}
+              stringToCopy={getCopyrightCopyString(text.copyright, t)}
+              t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
@@ -55,13 +77,13 @@ const TextLicenseInfo = ({ text, locale, t }) => {
 
 TextLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  text: CopyrightObjectShape,
+  text: TextShape,
 };
 
-const TextLicenseList = ({ texts, heading, description, locale, t }) => (
+const TextLicenseList = ({ texts, locale, t }) => (
   <div>
-    <h2>{heading}</h2>
-    <p>{description}</p>
+    <h2>{t('text.heading')}</h2>
+    <p>{t('text.description')}</p>
     <MediaList>
       {texts.map(text => (
         <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
@@ -71,10 +93,8 @@ const TextLicenseList = ({ texts, heading, description, locale, t }) => (
 );
 
 TextLicenseList.propTypes = {
-  heading: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  texts: PropTypes.arrayOf(CopyrightObjectShape),
+  texts: PropTypes.arrayOf(TextShape),
 };
 
-export default injectT(TextLicenseList, 'license.texts.');
+export default injectT(TextLicenseList, 'license.');

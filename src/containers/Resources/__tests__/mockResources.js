@@ -44,25 +44,55 @@ export const resources = [
   },
 ];
 
+export const additionalResources = [
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:124553',
+    name: 'Spørreundersøkelser',
+    contentUri: 'urn:article:11',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:124553',
+    connectionId: 'urn:topic-resource:cef4a496-4698-43b9-a998-d0a918d08573',
+    additional: true,
+  },
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:125331',
+    name: 'Jeg vil delta - hvor er debatten?',
+    contentUri: 'urn:article:12',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:125331',
+    connectionId: 'urn:topic-resource:b4942e5d-5ac2-4255-96ab-21f4d7ec31fd',
+    additional: true,
+  },
+  {
+    topicId: 'urn:topic:1:170165',
+    id: 'urn:resource:1:17360',
+    name: 'Kjenner vi våre rettigheter?',
+    contentUri: 'urn:article:13',
+    path: '/subject:3/topic:1:179373/topic:1:170165/resource:1:17360',
+    connectionId: 'urn:topic-resource:e2cb96c1-afe2-426d-bf65-9b178f8f87fa',
+    additional: true,
+  },
+];
+
 export const resourceData = [
   {
     name: 'Teknikker for idéutvikling',
-    resourceTypes: [{ id: 'urn:resource-type:1' }],
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }],
     contentUri: 'urn:learningpath:1',
   },
   {
     name: 'Hva er en idé?',
     resourceTypes: [
-      { id: 'urn:resource-type:1' },
-      { id: 'urn:resource-type:2' },
+      { id: 'urn:resourcetype:subjectMaterial' },
+      { id: 'urn:resourcetype:learningPath' },
     ],
     contentUri: 'urn:article:1',
   },
   {
     name: 'Ideer og idéutvikling',
     resourceTypes: [
-      { id: 'urn:resource-type:1' },
-      { id: 'urn:resource-type:3' },
+      { id: 'urn:resourcetype:subjectMaterial' },
+      { id: 'urn:resourcetype:academicArticle' },
     ],
     contentUri: 'urn:article:2',
   },
@@ -70,37 +100,35 @@ export const resourceData = [
 
 export const resourceTypes = [
   {
-    id: 'urn:resource-type:1',
+    id: 'urn:resourcetype:SourceMaterial',
+    name: 'Kildemateriale',
+  },
+  {
+    id: 'urn:resourcetype:externalResource',
+    name: 'Ekstern læringsressurs',
+  },
+  {
+    id: 'urn:resourcetype:subjectMaterial',
     name: 'Fagstoff',
     subtypes: [
-      {
-        id: 'urn:resource-type:3',
-        name: 'Artikler',
-      },
-      {
-        id: 'urn:resource-type:4',
-        name: 'Video',
-      },
+      { id: 'urn:resourcetype:academicArticle', name: 'Fagartikkel' },
+      { id: 'urn:resourcetype:movieAndClip', name: 'Film og filmklipp' },
+      { id: 'urn:resourcetype:simulation', name: 'Simulering' },
     ],
   },
   {
-    id: 'urn:resource-type:2',
-    name: 'Læringssti',
+    id: 'urn:resourcetype:tasksAndActivities',
+    name: 'Oppgaver og aktiviteter',
+    subtypes: [
+      { id: 'urn:resourcetype:exercise', name: 'Øvelse' },
+      { id: 'urn:resourcetype:task', name: 'Oppgave' },
+      { id: 'urn:resourcetype:workAssignment', name: 'Arbeidsoppdrag' },
+    ],
   },
   {
-    id: 'urn:resource-type:5',
-    name: 'Vedlegg',
+    id: 'urn:resourcetype:reviewResource',
+    name: 'Vurderingsressurs',
   },
-  {
-    id: 'urn:resource-type:6',
-    name: 'Interaktivitet',
-  },
-  {
-    id: 'urn:resource-type:7',
-    name: 'Oppgave',
-  },
-  {
-    id: 'urn:resource-type:8',
-    name: 'Simulering',
-  },
+  { id: 'urn:resourcetype:learningPath', name: 'Læringssti' },
+  { id: 'urn:resourcetype:concept', name: 'Begrep' },
 ];

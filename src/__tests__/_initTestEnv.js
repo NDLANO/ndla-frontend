@@ -6,7 +6,13 @@
  *
  */
 
+import './raf-polyfill';
+
 /* eslint-disable */
+
+import { expectSaga } from 'redux-saga-test-plan';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
@@ -16,6 +22,13 @@ global.__SERVER__ = true;
 window.config = {
   ndlaApiUrl: 'http://ndla-api',
 };
+
+global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
+  ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
+  : 100;
+expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
+
+configure({ adapter: new Adapter() });
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};
