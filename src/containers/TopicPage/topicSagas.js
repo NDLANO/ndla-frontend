@@ -18,7 +18,7 @@ import {
   getArticleIdFromResource,
   isArticleResource,
 } from '../Resources/resourceHelpers';
-import { fetchArticle } from '../ArticlePage/articleSagas';
+import { actions as articleActions, getArticle } from '../ArticlePage/article';
 import { applicationError } from '../../modules/error';
 import * as articleApi from '../ArticlePage/articleApi';
 import * as api from './topicApi';
@@ -50,9 +50,12 @@ export function* fetchTopicArticle(subjectId, topicId) {
       topic = yield call(api.fetchTopic, topicId, locale);
     }
     const articleId = getArticleIdFromResource(topic);
-    if (articleId) {
-      yield call(fetchArticle, articleId);
+    let article = yield select(getArticle(articleId));
+    if (articleId && !article) {
+      article = yield call(articleApi.fetchArticle, articleId, locale);
+      yield put(articleActions.setArticle(article));
     }
+    yield put(actions.fetchTopicArticleSuccess());
   } catch (error) {
     yield put(applicationError(error));
     yield put(actions.fetchTopicArticleError());

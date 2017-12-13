@@ -13,7 +13,7 @@ import config from '../../src/config';
 export function oembedArticleRoute(req, res, token) {
   res.setHeader('Content-Type', 'application/json');
   // http://ndla-frontend.test.api.ndla.no/article/3023
-  const url = req.query.url;
+  const { url } = req.query;
   if (!url) {
     res.status(404).json({ status: 404, text: 'Url not found' });
   }
@@ -28,7 +28,9 @@ export function oembedArticleRoute(req, res, token) {
         height: req.query.height ? req.query.height : 800,
         width: req.query.width ? req.query.width : 800,
         title: article.title,
-        html: `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${articleId}" frameborder="0" />`,
+        html: `<iframe src="${
+          config.ndlaFrontendDomain
+        }/article-iframe/${lang}/${articleId}" frameborder="0" />`,
       });
     })
     .catch(error => {

@@ -3,7 +3,7 @@
 
 ## Requirements
 
-- Node.JS ~6.2
+- Node.JS ~8.2
 - npm ~3.9
 - yarn ~0.21.3
 - Docker (optional)

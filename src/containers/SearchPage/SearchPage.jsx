@@ -54,7 +54,8 @@ class SearchPage extends Component {
                 page: 1,
                 sort: query.sort ? query.sort : '-relevance',
               })}`,
-            )}
+            )
+          }
         />
 
         <div className="search-filters">
@@ -67,7 +68,8 @@ class SearchPage extends Component {
                   sort,
                   page: 1,
                 })}`,
-              )}
+              )
+            }
           />
         </div>
 

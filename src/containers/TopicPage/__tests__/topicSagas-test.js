@@ -109,7 +109,7 @@ test('resourceSagas watchFetchTopicArticle', () => {
     .reply(200, {});
 
   return expectSaga(sagas.watchFetchTopicArticle)
-    .withState({ topics: initialState, locale: 'en' })
+    .withState({ topics: initialState, articles: { all: {} }, locale: 'en' })
     .dispatch(
       actions.fetchTopicArticle({
         subjectId: 'urn:subject:1',

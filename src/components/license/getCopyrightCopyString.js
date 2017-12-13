@@ -7,7 +7,7 @@
  */
 
 export function getCopyrightCopyString(copyright, t) {
-  const license = copyright.license.license;
+  const { license } = copyright.license;
   let creatorsCopyString;
 
   if (copyright.authors) {
@@ -23,9 +23,9 @@ export function getCopyrightCopyString(copyright, t) {
       .join('\n');
   }
 
-  const licenseCopyString = `${license.toLowerCase().includes('by')
-    ? 'CC '
-    : ''}${license}`.toUpperCase();
+  const licenseCopyString = `${
+    license.toLowerCase().includes('by') ? 'CC ' : ''
+  }${license}`.toUpperCase();
 
   const copyString = `${licenseCopyString} ${creatorsCopyString}`;
   return copyString;

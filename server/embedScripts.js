@@ -5,12 +5,12 @@ import {
 } from 'ndla-article-scripts';
 
 const parentPostMessage = () => {
-  if (parent.postMessage) {
+  if (window.parent.postMessage) {
     const data = {
       context: 'ndla-oembed',
       height: document.getElementsByTagName('body')[0].offsetHeight,
     };
-    parent.postMessage(data, '*');
+    window.parent.postMessage(data, '*');
   }
 };
 

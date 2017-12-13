@@ -34,8 +34,8 @@ export const actions = {
 
 export const initialState = {
   all: {},
-  fetchTopicsFailed: false,
-  fetchTopicArticleFailed: false,
+  fetchTopicsStatus: 'initial',
+  fetchTopicArticleStatus: 'initial',
   topicIntroductions: {},
 };
 
@@ -46,6 +46,7 @@ export default handleActions(
         const { subjectId, topics } = action.payload;
         return {
           ...state,
+          fetchTopicsStatus: 'success',
           all: { ...state.all, [subjectId]: topics },
         };
       },
@@ -76,14 +77,28 @@ export default handleActions(
     [actions.fetchTopicsError]: {
       next: state => ({
         ...state,
-        fetchTopicsFailed: true,
+        fetchTopicsStatus: 'error',
+      }),
+      throw: state => state,
+    },
+    [actions.fetchTopicArticle]: {
+      next: state => ({
+        ...state,
+        fetchTopicArticleStatus: 'loading',
       }),
       throw: state => state,
     },
     [actions.fetchTopicArticleError]: {
       next: state => ({
         ...state,
-        fetchTopicArticleFailed: true,
+        fetchTopicArticleStatus: 'error',
+      }),
+      throw: state => state,
+    },
+    [actions.fetchTopicArticleSuccess]: {
+      next: state => ({
+        ...state,
+        fetchTopicArticleStatus: 'success',
       }),
       throw: state => state,
     },
@@ -92,7 +107,6 @@ export default handleActions(
 );
 
 const getTopicsFromState = state => state.topics;
-const getArticlesFromState = state => state.articles;
 
 export const getTopicIntroductions = createSelector(
   [getTopicsFromState],
@@ -105,15 +119,14 @@ export const hasFetchedTopicsBySubjectId = subjectId =>
     topics => topics.all[subjectId] !== undefined,
   );
 
-export const hasFetchTopicsFailed = createSelector(
+export const getFetchTopicsStatus = createSelector(
   [getTopicsFromState],
-  topics => topics.fetchTopicsFailed,
+  topics => topics.fetchTopicsStatus,
 );
 
-export const hasFetchTopicArticleFailed = createSelector(
-  [getTopicsFromState, getArticlesFromState],
-  (topics, articles) =>
-    topics.fetchTopicArticleFailed || articles.fetchArticleFailed,
+export const getFetchTopicArticleStatus = createSelector(
+  [getTopicsFromState],
+  topics => topics.fetchTopicArticleStatus,
 );
 
 export const getAllTopicsBySubjectId = subjectId =>
