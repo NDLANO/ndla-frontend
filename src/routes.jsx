@@ -66,7 +66,8 @@ export const routes = [
     component: WelcomePage,
   },
   {
-    path: '/article/:subjectId/:topicId/:resourceId/:articleId',
+    path:
+      '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId',
     component: ArticlePage,
   },
   {

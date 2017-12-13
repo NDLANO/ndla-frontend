@@ -40,7 +40,7 @@ export const getLearningPathIdFromResource = resource => {
   return undefined;
 };
 
-export const resourceToLinkProps = (resource, subjectId, topicId) => {
+export const resourceToLinkProps = (resource, subjectTopicPath) => {
   if (isLearningPathResource(resource)) {
     return {
       href: `${LEARNING_PATH_DOMAIN}/learningpaths/${getLearningPathIdFromResource(
@@ -53,8 +53,7 @@ export const resourceToLinkProps = (resource, subjectId, topicId) => {
     return {
       to: toArticle(
         getArticleIdFromResource(resource),
-        subjectId,
-        topicId,
+        subjectTopicPath,
         resource.id,
       ),
     };
