@@ -10,8 +10,11 @@ const fetch = require('node-fetch');
 
 const url = `https://ndla.eu.auth0.com/oauth/token`;
 
-const ndlaFrontendClientId = process.env.NDLA_FRONTEND_CLIENT_ID;
-const ndlaFrontendClientSecret = process.env.NDLA_FRONTEND_CLIENT_SECRET;
+const ndlaFrontendClientId =
+  process.env.NDLA_FRONTEND_CLIENT_ID || 'IxLzDBlvwmHBUMfLaGfJshD6Kahb362L';
+const ndlaFrontendClientSecret =
+  process.env.NDLA_FRONTEND_CLIENT_SECRET ||
+  'w9P-niyBUZK9fadBt5yNkG-7KMBULm59HB8GnJJPgwvT_gwlG98nfvdik2sVW9d_';
 
 export const getToken = () =>
   fetch(url, {
