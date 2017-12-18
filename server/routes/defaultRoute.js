@@ -55,6 +55,9 @@ const renderHtmlString = (
 export async function defaultRoute(req, res, token) {
   storeAccessToken(token.access_token);
   const paths = req.url.split('/');
+  const basename = isValidLocale(paths[1]) ? paths[1] : '';
+  const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
+
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
@@ -68,9 +71,9 @@ export async function defaultRoute(req, res, token) {
   }
 
   const store = configureStore({ locale });
-  const route = serverRoutes.find(r => matchPath(req.url, r));
+  const route = serverRoutes.find(r => matchPath(path, r));
   const Component = route.component;
-  const match = matchPath(req.url, route);
+  const match = matchPath(path, route);
 
   const actions = Component.mapDispatchToProps
     ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
@@ -81,8 +84,6 @@ export async function defaultRoute(req, res, token) {
     ...actions,
     match,
   });
-
-  const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
   const context = {};
   const Page = (
