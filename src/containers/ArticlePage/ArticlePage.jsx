@@ -34,7 +34,11 @@ const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
     const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = ctx;
-    const { articleId, subjectId, resourceId } = params;
+    const { articleId, subjectId, plainResourceId } = params;
+    const resourceId = plainResourceId
+      ? `urn:resource:${plainResourceId}`
+      : undefined;
+
     fetchArticle({ articleId, resourceId });
     if (subjectId) {
       fetchSubjects();
