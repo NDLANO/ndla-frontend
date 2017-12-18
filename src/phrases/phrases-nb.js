@@ -64,6 +64,9 @@ const phrases = {
   resource: {
     errorDescription:
       'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
+    noCoreResourcesAvailable: 'Det er ikke noe kjernestoff tilgjengelig.',
+    activateSuggestion: 'Kanskje du vil',
+    activateAdditionalResources: 'aktivere tilleggsstoff',
     toggleFilterLabel: 'Tilleggsstoff',
     showLess: 'Vis mindre',
     showMore: 'Vis mer',
