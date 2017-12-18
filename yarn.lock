@@ -4890,9 +4890,9 @@ ndla-scripts@^0.1.3:
     octonode "^0.9.1"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.1.tgz#2e75ace0ab45862ed3238e2a0f59378295f342b6"
+ndla-tabs@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.2.tgz#2bb3c84c1ba054093280c95e03511a5568cdccbf"
   dependencies:
     lodash "^4.17.4"
 
