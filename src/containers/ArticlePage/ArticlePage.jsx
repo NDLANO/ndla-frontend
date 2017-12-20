@@ -22,14 +22,8 @@ import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
-import config from '../../config';
 import connectSSR from '../../components/connectSSR';
-
-const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
-  ? window.assets
-  : config.isProduction
-    ? require('../../../assets/assets') // eslint-disable-line import/no-unresolved
-    : require('../../../server/developmentAssets');
+import { getArticleScripts } from '../../util/getArticleScripts';
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
@@ -89,22 +83,7 @@ class ArticlePage extends Component {
       return null;
     }
 
-    const scripts = article.requiredLibraries
-      ? article.requiredLibraries.map(lib => ({
-          src: lib.url,
-          type: lib.mediaType,
-        }))
-      : [];
-    if (article.content.indexOf('<math') > -1) {
-      scripts.push({
-        async: true,
-        src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=/assets/${
-          assets['mathjaxConfig.js']
-        }`,
-        type: 'text/javascript',
-      });
-    }
-
+    const scripts = getArticleScripts(article);
     const metaDescription = article.metaDescription
       ? { name: 'description', content: article.metaDescription }
       : {};
