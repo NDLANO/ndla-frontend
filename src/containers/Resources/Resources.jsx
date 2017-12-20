@@ -56,6 +56,11 @@ class Resources extends Component {
             className={type.meta.resourceListClassName}
             icon={type.meta.icon}
             messages={{
+              noCoreResourcesAvailable: t('resource.noCoreResourcesAvailable'),
+              activateSuggestion: t('resource.activateSuggestion'),
+              activateAdditionalResources: t(
+                'resource.activateAdditionalResources',
+              ),
               toggleFilterLabel: t('resource.toggleFilterLabel'),
               showLess: t('resource.showLess'),
               showMore: t('resource.showMore'),

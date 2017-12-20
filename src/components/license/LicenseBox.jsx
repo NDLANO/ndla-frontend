@@ -37,7 +37,6 @@ function buildLicenseTabList(article, locale, t) {
       <TextLicenseList
         texts={[
           {
-            src: window.location.href,
             copyright: article.copyright,
             created: article.created,
           },
