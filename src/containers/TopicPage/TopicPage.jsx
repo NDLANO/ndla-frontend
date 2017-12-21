@@ -32,6 +32,7 @@ import { toTopic } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
+import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -91,9 +92,6 @@ class TopicPage extends Component {
     } = this.props;
     const { subjectId } = params;
 
-    const metaDescription = article
-      ? { name: 'description', content: article.metaDescription }
-      : {};
     const title = getTitle(article, topic);
     const scripts = article
       ? article.requiredLibraries.map(lib => ({
@@ -101,13 +99,28 @@ class TopicPage extends Component {
           type: lib.mediaType,
         }))
       : [];
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Helmet
-          title={`NDLA | ${title}`}
-          meta={[metaDescription]}
-          script={scripts}
-        />
+        <Helmet>
+          <title>{`NDLA | ${title}`}</title>
+          {article.metaDescription && (
+            <meta name="description" content={article.metaDescription} />
+          )}
+
+          {scripts.map(script => (
+            <script
+              key={script.src}
+              src={script.src}
+              type={script.type}
+              async={script.async}
+            />
+          ))}
+
+          <script type="application/ld+json">
+            {JSON.stringify(getStructuredDataFromArticle(article))}
+          </script>
+        </Helmet>
         <Hero>
           <OneColumn>
             <div className="c-hero__content">

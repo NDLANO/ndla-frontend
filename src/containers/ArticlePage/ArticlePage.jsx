@@ -24,6 +24,7 @@ import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import config from '../../config';
 import connectSSR from '../../components/connectSSR';
+import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
   ? window.assets
@@ -105,16 +106,27 @@ class ArticlePage extends Component {
       });
     }
 
-    const metaDescription = article.metaDescription
-      ? { name: 'description', content: article.metaDescription }
-      : {};
     return (
       <div>
-        <Helmet
-          title={`NDLA | ${article.title}`}
-          meta={[metaDescription]}
-          script={scripts}
-        />
+        <Helmet>
+          <title>{`NDLA | ${article.title}`}</title>
+          {article.metaDescription && (
+            <meta name="description" content={article.metaDescription} />
+          )}
+
+          {scripts.map(script => (
+            <script
+              key={script.src}
+              src={script.src}
+              type={script.type}
+              async={script.async}
+            />
+          ))}
+
+          <script type="application/ld+json">
+            {JSON.stringify(getStructuredDataFromArticle(article))}
+          </script>
+        </Helmet>
         <ArticleHero
           subject={subject}
           topicPath={topicPath}
