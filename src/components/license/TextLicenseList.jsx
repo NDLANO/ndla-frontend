@@ -25,7 +25,6 @@ import { CopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
-  src: PropTypes.string.isRequired,
   copyright: CopyrightObjectShape.isRequired,
 });
 

@@ -15,6 +15,7 @@ import defined from 'defined';
 import { bindActionCreators } from 'redux';
 import IntlProvider from 'ndla-i18n';
 import { getComponentName } from 'ndla-util';
+import { resetIdCounter } from 'ndla-tabs';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Html from '../helpers/Html';
@@ -54,6 +55,9 @@ const renderHtmlString = (
 export async function defaultRoute(req, res, token) {
   storeAccessToken(token.access_token);
   const paths = req.url.split('/');
+  const basename = isValidLocale(paths[1]) ? paths[1] : '';
+  const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
+
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
@@ -67,9 +71,9 @@ export async function defaultRoute(req, res, token) {
   }
 
   const store = configureStore({ locale });
-  const route = serverRoutes.find(r => matchPath(req.url, r));
+  const route = serverRoutes.find(r => matchPath(path, r));
   const Component = route.component;
-  const match = matchPath(req.url, route);
+  const match = matchPath(path, route);
 
   const actions = Component.mapDispatchToProps
     ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
@@ -80,8 +84,6 @@ export async function defaultRoute(req, res, token) {
     ...actions,
     match,
   });
-
-  const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
   const context = {};
   const Page = (
@@ -100,6 +102,8 @@ export async function defaultRoute(req, res, token) {
     });
     res.end();
   } else {
+    // resetIdCounter must be called on server before render to prevent server and client markup diff
+    resetIdCounter();
     const htmlString = renderHtmlString(
       locale,
       userAgentString,

@@ -3026,8 +3026,8 @@ flux-standard-action@^2.0.0:
     lodash "^4.0.0"
 
 focus-trap@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.3.1.tgz#f4fb86cfe6da38dc652b373e9f42ba476eab1c14"
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.2.tgz#44ea1c55a9c22c2b6529dcebbde6390eb2ee4c88"
   dependencies:
     tabbable "^1.0.3"
 
@@ -4848,8 +4848,8 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
 ndla-article-scripts@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.9.tgz#881c75ef7e73d60f9322dc93190e71c132b6f0fd"
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.1.10.tgz#6ec89765ff15a9f00aa539a36b0315b5303ece7c"
   dependencies:
     focus-trap "^2.3.1"
     jump.js "^1.0.2"
@@ -4870,8 +4870,8 @@ ndla-i18n@^0.2.1:
     invariant "^2.2.2"
 
 ndla-icons@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.5.tgz#ebd8c65eb500201e0f302783cca053eb5307166c"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.6.tgz#37e101fddade5adbb39d81c5f3a3eff6bd1c9150"
 
 ndla-licenses@^0.1.2:
   version "0.1.5"
@@ -4890,15 +4890,15 @@ ndla-scripts@^0.1.3:
     octonode "^0.9.1"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.1.tgz#2e75ace0ab45862ed3238e2a0f59378295f342b6"
+ndla-tabs@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.4.2.tgz#2bb3c84c1ba054093280c95e03511a5568cdccbf"
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.8.30:
-  version "0.8.30"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.30.tgz#e5894691716436faff215e947bf6a3544ebb3486"
+ndla-ui@^0.8.32:
+  version "0.8.32"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.8.32.tgz#8d4e1d5ea3fdfc26ccf84d96b65a3cbf6b65f9d9"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.3.1"
@@ -7190,8 +7190,8 @@ symbol-tree@^3.2.1:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
 tabbable@^1.0.3:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-1.1.1.tgz#88618caa0dc76e877572a678f0ad97519bba6761"
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-1.1.2.tgz#b171680aea6e0a3e9281ff23532e2e5de11c0d94"
 
 table@^4.0.1:
   version "4.0.1"
