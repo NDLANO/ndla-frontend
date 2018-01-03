@@ -32,6 +32,7 @@ import { toTopic } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
+import { getArticleScripts } from '../../util/getArticleScripts';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -95,12 +96,8 @@ class TopicPage extends Component {
       ? { name: 'description', content: article.metaDescription }
       : {};
     const title = getTitle(article, topic);
-    const scripts = article
-      ? article.requiredLibraries.map(lib => ({
-          src: lib.url,
-          type: lib.mediaType,
-        }))
-      : [];
+    const scripts = getArticleScripts(article);
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet
