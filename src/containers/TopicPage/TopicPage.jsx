@@ -33,6 +33,7 @@ import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
+import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -92,19 +93,31 @@ class TopicPage extends Component {
     } = this.props;
     const { subjectId } = params;
 
-    const metaDescription = article
-      ? { name: 'description', content: article.metaDescription }
-      : {};
     const title = getTitle(article, topic);
     const scripts = getArticleScripts(article);
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Helmet
-          title={`NDLA | ${title}`}
-          meta={[metaDescription]}
-          script={scripts}
-        />
+        <Helmet>
+          <title>{`NDLA | ${title}`}</title>
+          {article &&
+            article.metaDescription && (
+              <meta name="description" content={article.metaDescription} />
+            )}
+
+          {scripts.map(script => (
+            <script
+              key={script.src}
+              src={script.src}
+              type={script.type}
+              async={script.async}
+            />
+          ))}
+
+          <script type="application/ld+json">
+            {JSON.stringify(getStructuredDataFromArticle(article))}
+          </script>
+        </Helmet>
         <Hero>
           <OneColumn>
             <div className="c-hero__content">
