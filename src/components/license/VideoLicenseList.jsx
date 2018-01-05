@@ -18,7 +18,7 @@ import {
   MediaListItemMeta,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { metaTypes } from 'ndla-licenses';
+import { getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
@@ -31,11 +31,7 @@ const VideoShape = PropTypes.shape({
 });
 
 const VideoLicenseInfo = ({ video, locale, t }) => {
-  const items = video.copyright.authors.map(author => ({
-    label: author.type,
-    description: author.name,
-    metaType: metaTypes.author,
-  }));
+  const items = getGroupedContributorDescriptionList(video.copyright, locale);
   return (
     <MediaListItem>
       <MediaListItemImage>

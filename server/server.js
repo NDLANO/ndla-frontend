@@ -142,6 +142,7 @@ app.use(
           'https://stats.g.doubleclick.net',
           'http://metrics.brightcove.com',
           'https://httpsak-a.akamaihd.net',
+          'https://*.boltdns.net',
           'https://www.nrk.no/',
           ' data:',
         ],

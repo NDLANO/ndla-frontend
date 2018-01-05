@@ -32,17 +32,7 @@ const ImageShape = PropTypes.shape({
 });
 
 const ImageLicenseInfo = ({ image, locale, t }) => {
-  let items = [];
-
-  if (image.copyright.authors) {
-    items = image.copyright.authors.map(author => ({
-      label: author.type,
-      description: author.name,
-      metaType: metaTypes.author,
-    }));
-  } else {
-    items = getGroupedContributorDescriptionList(image.copyright, locale);
-  }
+  const items = getGroupedContributorDescriptionList(image.copyright, locale);
 
   if (image.title) {
     items.unshift({

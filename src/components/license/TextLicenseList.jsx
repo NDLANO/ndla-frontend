@@ -29,17 +29,7 @@ const TextShape = PropTypes.shape({
 });
 
 const TextLicenseInfo = ({ text, locale, t }) => {
-  let items;
-
-  if (text.copyright.authors) {
-    items = text.copyright.authors.map(author => ({
-      label: author.type,
-      description: author.name,
-      metaType: metaTypes.author,
-    }));
-  } else {
-    items = getGroupedContributorDescriptionList(text.copyright, locale);
-  }
+  const items = getGroupedContributorDescriptionList(text.copyright, locale);
 
   items.push({
     label: t('text.published'),
