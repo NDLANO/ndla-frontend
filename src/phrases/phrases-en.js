@@ -59,8 +59,7 @@ const phrases = {
     errorDescription:
       'Sorry, an error occurd while loading the topic resources.',
     noCoreResourcesAvailable: 'There is no core content available.',
-    activateSuggestion: 'Maybe you would like to',
-    activateAdditionalResources: 'activate additional content',
+    activateAdditionalResources: 'Show additional content',
     toggleFilterLabel: 'Additional content',
     showLess: 'Show less',
     showMore: 'Show more',

@@ -1,8 +1,4 @@
-import {
-  addEventListenerForResize,
-  updateIFrameDimensions,
-  addAsideClickListener,
-} from 'ndla-article-scripts';
+import { initArticleScripts } from 'ndla-article-scripts';
 
 const parentPostMessage = () => {
   if (window.parent.postMessage) {
@@ -16,7 +12,5 @@ const parentPostMessage = () => {
 
 window.onload = () => {
   parentPostMessage();
-  addEventListenerForResize();
-  updateIFrameDimensions();
-  addAsideClickListener();
+  initArticleScripts();
 };

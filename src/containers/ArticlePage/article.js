@@ -77,7 +77,7 @@ export const getArticle = articleId =>
         ...article,
         created: formatDate(article.created, locale),
         updated: formatDate(article.updated, locale),
-        footNotes: footNotes.reduce((acc, note) => ({ ...acc, ...note }), {}),
+        footNotes,
         requiredLibraries: article.requiredLibraries
           ? article.requiredLibraries.map(lib => {
               if (lib.url.startsWith('http://')) {

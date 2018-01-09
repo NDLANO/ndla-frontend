@@ -57,7 +57,6 @@ class Resources extends Component {
             icon={type.meta.icon}
             messages={{
               noCoreResourcesAvailable: t('resource.noCoreResourcesAvailable'),
-              activateSuggestion: t('resource.activateSuggestion'),
               activateAdditionalResources: t(
                 'resource.activateAdditionalResources',
               ),
