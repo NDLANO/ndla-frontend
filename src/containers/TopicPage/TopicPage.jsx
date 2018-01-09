@@ -156,7 +156,7 @@ class TopicPage extends Component {
                 />
                 <TopicResources
                   subjectId={subjectId}
-                  topic={topic}
+                  topicId={topic.id}
                   topicPath={topicPath}
                 />
               </OneColumn>

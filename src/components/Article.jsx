@@ -14,7 +14,7 @@ import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
 import getResourceTypeMetaData from './getResourceTypeMetaData';
 
-const Article = ({ article, locale, t }) => {
+const Article = ({ article, children, locale, t }) => {
   const hasResourceTypes =
     article.resourceTypes && article.resourceTypes.length > 0;
 
@@ -40,6 +40,7 @@ const Article = ({ article, locale, t }) => {
         edition: t('edition'),
         publisher: t('publisher'),
       }}>
+      {children}
       <a
         className="article-old-ndla-link"
         rel="noopener noreferrer"
@@ -60,6 +61,7 @@ Article.propTypes = {
       creators: PropTypes.array,
     }).isRequired,
   }).isRequired,
+  children: PropTypes.node,
   locale: PropTypes.string.isRequired,
 };
 

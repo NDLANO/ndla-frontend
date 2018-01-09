@@ -10,9 +10,14 @@ export function toSearch() {
   return '/search';
 }
 
-export function toArticle(articleId, subjectTopicPath, resourceId) {
-  if (subjectTopicPath && resourceId) {
-    return `/article/${subjectTopicPath}/${resourceId}/${articleId}`;
+export function toArticle(articleId, resource) {
+  if (resource) {
+    const resourcePath = resource.path
+      .split('/')
+      .filter(part => part !== '')
+      .map(part => `urn:${part}`)
+      .join('/');
+    return `/article/${resourcePath}/${articleId}`;
   }
   return `/article/${articleId}`;
 }
