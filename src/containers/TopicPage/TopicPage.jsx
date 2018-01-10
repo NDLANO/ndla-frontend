@@ -6,10 +6,10 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Hero, OneColumn, Breadcrumb, LayoutItem } from 'ndla-ui';
+import { SubjectHero, OneColumn, Breadcrumb } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
@@ -29,7 +29,7 @@ import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
-import Article from '../../components/Article';
+import TopicArticle from '../../components/TopicArticle';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -118,7 +118,7 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <Hero>
+        <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">
               <section>
@@ -134,7 +134,7 @@ class TopicPage extends Component {
               </section>
             </div>
           </OneColumn>
-        </Hero>
+        </SubjectHero>
         {(fetchTopicsStatus === 'error' ||
           fetchTopicArticleStatus === 'error') && (
           <TopicPageErrorMessage
@@ -143,12 +143,9 @@ class TopicPage extends Component {
           />
         )}
         <OneColumn>
-          {article ? <Article article={article} locale={locale} /> : null}
-        </OneColumn>
-        {topic ? (
-          <OneColumn>
-            <LayoutItem layout="extend">
-              <OneColumn cssModifier="narrow">
+          <TopicArticle article={article} locale={locale}>
+            {topic ? (
+              <Fragment>
                 <SubTopics
                   subjectId={subjectId}
                   topic={topic}
@@ -159,10 +156,10 @@ class TopicPage extends Component {
                   topicId={topic.id}
                   topicPath={topicPath}
                 />
-              </OneColumn>
-            </LayoutItem>
-          </OneColumn>
-        ) : null}
+              </Fragment>
+            ) : null}
+          </TopicArticle>
+        </OneColumn>
       </div>
     );
   }

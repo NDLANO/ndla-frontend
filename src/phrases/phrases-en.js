@@ -76,6 +76,7 @@ const phrases = {
     author: 'Author',
     published: 'Published',
     created: 'Created',
+    topic: 'TOPIC',
     lastUpdated: 'Last updated',
     closeLicenseBox: 'Close box',
     openLicenseBox: 'Cite or use',

@@ -39,7 +39,6 @@ const mapping = {
     contentType: contentTypes.SOURCE_MATERIAL,
   },
   default: {
-    name: '',
     contentType: contentTypes.SUBJECT_MATERIAL,
   },
 };
@@ -47,7 +46,7 @@ const mapping = {
 export default resourceTypes => {
   const resourceType = resourceTypes.find(type => mapping[type.id]);
   if (resourceType) {
-    return { ...mapping[resourceType.id] };
+    return mapping[resourceType.id];
   }
   return mapping.default;
 };

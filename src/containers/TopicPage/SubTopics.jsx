@@ -10,7 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { TopicIntroductionList } from 'ndla-ui';
+import {
+  ResourcesWrapper,
+  ResourcesTitle,
+  TopicIntroductionList,
+} from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { getSubtopicsWithIntroduction } from './topic';
 import { TopicShape } from '../../shapes';
@@ -26,13 +30,13 @@ export const TopicResources = ({ subtopics, subjectId, topicPath, t }) => {
     return null;
   }
   return (
-    <div>
-      <h1 className="c-resources__title">{t('topicPage.topics')}</h1>
+    <ResourcesWrapper>
+      <ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>
       <TopicIntroductionList
         toTopic={toTopic(subjectId, topicPath)}
         topics={subtopics}
       />
-    </div>
+    </ResourcesWrapper>
   );
 };
 

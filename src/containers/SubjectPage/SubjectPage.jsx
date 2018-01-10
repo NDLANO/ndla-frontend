@@ -9,7 +9,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { OneColumn, Hero, ErrorMessage, TopicIntroductionList } from 'ndla-ui';
+import {
+  OneColumn,
+  SubjectHero,
+  ErrorMessage,
+  TopicIntroductionList,
+} from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
@@ -62,7 +67,7 @@ class SubjectPage extends Component {
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
       <div>
-        <Hero>
+        <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
@@ -76,7 +81,7 @@ class SubjectPage extends Component {
               </section>
             </div>
           </OneColumn>
-        </Hero>
+        </SubjectHero>
         <OneColumn>
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">

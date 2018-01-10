@@ -95,7 +95,7 @@ export const routes = [
   {
     path: '/subjects/:subjectId/',
     component: SubjectPage,
-    background: false,
+    background: true,
   },
   {
     path: '/subjects',

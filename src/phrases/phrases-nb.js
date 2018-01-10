@@ -81,6 +81,7 @@ const phrases = {
   article: {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',
+    topic: 'EMNE',
     publisher: 'Utgiver',
     closeLicenseBox: 'Lukk boks',
     openLicenseBox: 'Bruk artikkel',
