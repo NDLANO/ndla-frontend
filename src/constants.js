@@ -12,7 +12,7 @@ export const RESOURCE_TYPE_SUBJECT_MATERIAL =
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES =
   'urn:resourcetype:tasksAndActivities';
 export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
-  'urn:resourcetype:assessment-resources';
+  'urn:resourcetype:reviewResource';
 export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
-  'urn:resourcetype:external-learning-resources';
-export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:source-material';
+  'urn:resourcetype:externalResource';
+export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
