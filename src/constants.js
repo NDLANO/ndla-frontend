@@ -11,3 +11,8 @@ export const RESOURCE_TYPE_SUBJECT_MATERIAL =
   'urn:resourcetype:subjectMaterial';
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES =
   'urn:resourcetype:tasksAndActivities';
+export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
+  'urn:resourcetype:assessment-resources';
+export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
+  'urn:resourcetype:external-learning-resources';
+export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:source-material';

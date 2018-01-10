@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
-import { ResourceGroup } from 'ndla-ui';
-import getResourceTypeMetaData from '../../components/getResourceTypeMetaData';
+import { ResourceGroup, ContentTypeBadge } from 'ndla-ui';
+import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
 import { ResourceTypeShape } from '../../shapes';
 import {
   getResourceTypesByTopicId,
@@ -23,7 +23,7 @@ import { resourceToLinkProps } from './resourceHelpers';
 const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
   const topicResourcesByTypeWithMetaData = topicResourcesByType.map(type => ({
     ...type,
-    meta: getResourceTypeMetaData([type]),
+    contentType: getContentTypeFromResourceTypes([type]).contentType,
   }));
   return (
     <div>
@@ -37,8 +37,8 @@ const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
           key={type.id}
           title={type.name}
           resources={type.resources}
-          className={type.meta.resourceListClassName}
-          icon={type.meta.icon}
+          contentType={type.contentType}
+          icon={<ContentTypeBadge type={type.contentType} />}
           messages={{
             noCoreResourcesAvailable: t('resource.noCoreResourcesAvailable'),
             activateAdditionalResources: t(

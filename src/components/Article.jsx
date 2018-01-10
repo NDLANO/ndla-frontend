@@ -9,18 +9,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Article as UIArticle, ToggleLicenseBox } from 'ndla-ui';
+import {
+  Article as UIArticle,
+  ContentTypeBadge,
+  ToggleLicenseBox,
+} from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
-import getResourceTypeMetaData from './getResourceTypeMetaData';
+import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
 
 const Article = ({ article, children, locale, t }) => {
   const hasResourceTypes =
     article.resourceTypes && article.resourceTypes.length > 0;
 
-  const icon = hasResourceTypes
-    ? getResourceTypeMetaData(article.resourceTypes).icon
+  const contentType = hasResourceTypes
+    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
     : undefined;
+
+  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
+  const icon = contentType ? (
+    <ContentTypeBadge type={contentType} background size="large" />
+  ) : null;
 
   return (
     <UIArticle
@@ -39,6 +48,7 @@ const Article = ({ article, children, locale, t }) => {
         lastUpdated: t('lastUpdated'),
         edition: t('edition'),
         publisher: t('publisher'),
+        label,
       }}>
       {children}
       <a
