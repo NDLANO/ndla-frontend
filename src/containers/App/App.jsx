@@ -28,9 +28,9 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, messages, t } = this.props;
+    const { dispatch, children, background, messages, t } = this.props;
     return (
-      <PageContainer>
+      <PageContainer background={background}>
         <Helmet
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
@@ -48,8 +48,13 @@ App.propTypes = {
     url: PropTypes.string,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  background: PropTypes.bool,
   messages: PropTypes.arrayOf(MessageShape).isRequired,
   dispatch: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  background: true,
 };
 
 App.childContextTypes = {

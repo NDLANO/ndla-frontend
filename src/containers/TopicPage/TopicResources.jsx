@@ -11,37 +11,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
-import { TopicShape } from '../../shapes';
 import Resources from '../Resources/Resources';
 import { actions, getResourcesByTopicId } from '../Resources/resource';
 
 class TopicResources extends Component {
   componentWillMount() {
-    const {
-      subjectId,
-      topic: { id: topicId },
-      fetchTopicResources,
-    } = this.props;
+    const { subjectId, topicId, fetchTopicResources } = this.props;
     fetchTopicResources({ subjectId, topicId });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { topic, subjectId, fetchTopicResources } = this.props;
-    if (nextProps.topic.id !== topic.id) {
-      fetchTopicResources({ subjectId, topicId: nextProps.topic.id });
+    const { topicId, subjectId, fetchTopicResources } = this.props;
+    if (nextProps.topicId !== topicId) {
+      fetchTopicResources({ subjectId, topicId: nextProps.topicId });
     }
   }
 
   render() {
-    const { topic: { id: topicId } } = this.props;
+    const { topicId } = this.props;
     return <Resources topicId={topicId} />;
   }
 }
 
 TopicResources.propTypes = {
   subjectId: PropTypes.string.isRequired,
+  topicId: PropTypes.string.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
-  topic: TopicShape.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -49,7 +44,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { topic: { id: topicId } } = ownProps;
+  const { topicId } = ownProps;
   return {
     resources: getResourcesByTopicId(topicId)(state),
   };

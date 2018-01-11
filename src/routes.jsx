@@ -39,24 +39,28 @@ class ScrollToTop extends React.Component {
   }
 }
 
-const Route = ({ component: Component, ...rest }) => (
+const Route = ({ component: Component, background, ...rest }) => (
   <ReactRoute
     {...rest}
     render={props => (
-      <Content>
-        <Masthead {...props} />
-        <Component {...props} searchEnabled={searchEnabled} />
-      </Content>
+      <App background={background}>
+        <ScrollToTop />
+        <Content>
+          <Masthead {...props} />
+          <Component {...props} searchEnabled={searchEnabled} />
+        </Content>
+      </App>
     )}
   />
 );
 
 Route.propTypes = {
   component: PropTypes.func.isRequired,
+  background: PropTypes.bool.isRequired,
 };
 
 const SearchRoute = searchEnabled
-  ? { path: '/search', component: SearchPage }
+  ? { path: '/search', component: SearchPage, background: false }
   : undefined;
 
 export const routes = [
@@ -64,52 +68,58 @@ export const routes = [
     path: '/',
     exact: true,
     component: WelcomePage,
+    background: false,
   },
   {
     path:
       '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId',
     component: ArticlePage,
+    background: true,
   },
   {
     path: '/article/:articleId',
     component: ArticlePage,
+    background: true,
   },
   SearchRoute,
   {
     path: '/subjects/:subjectId/(.*)/:topicId',
     component: TopicPage,
+    background: true,
   },
   {
     path: '/subjects/:subjectId/:topicId',
     component: TopicPage,
+    background: true,
   },
   {
     path: '/subjects/:subjectId/',
     component: SubjectPage,
+    background: true,
   },
   {
     path: '/subjects',
     component: SubjectsPage,
+    background: false,
   },
   {
     component: NotFoundPage,
+    background: false,
   },
 ];
 
 export default (
-  <App>
-    <ScrollToTop />
-    <Switch>
-      {routes
-        .filter(route => route !== undefined)
-        .map(route => (
-          <Route
-            key={uuid()}
-            exact={route.exact}
-            component={route.component}
-            path={route.path}
-          />
-        ))}
-    </Switch>
-  </App>
+  <Switch>
+    {routes
+      .filter(route => route !== undefined)
+      .map(route => (
+        <Route
+          key={uuid()}
+          exact={route.exact}
+          component={route.component}
+          background={route.background}
+          path={route.path}
+        />
+      ))}
+  </Switch>
 );

@@ -21,6 +21,7 @@ import {
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from '../../components/Article';
+import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
 import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -48,6 +49,15 @@ class ArticlePage extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { match: { params } } = this.props;
+    const { articleId } = params;
+
+    if (nextProps.match.params.articleId !== articleId) {
+      ArticlePage.getInitialProps(nextProps);
+    }
+  }
+
   componentDidUpdate() {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
@@ -55,7 +65,16 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, status, topicPath, locale, t } = this.props;
+    const {
+      article,
+      subject,
+      status,
+      topicPath,
+      match: { params },
+      locale,
+      t,
+    } = this.props;
+    const { topicId } = params;
 
     if (status === 'error' || status === 'error404') {
       return (
@@ -113,7 +132,12 @@ class ArticlePage extends Component {
           article={article}
         />
         <OneColumn>
-          <Article article={article} locale={locale} />
+          <Article article={article} locale={locale}>
+            {subject &&
+              topicId && (
+                <TopicResources subjectId={subject.id} topicId={topicId} />
+              )}
+          </Article>
         </OneColumn>
       </div>
     );
@@ -145,24 +169,23 @@ const mapDispatchToProps = {
   fetchTopics: topicActions.fetchTopics,
 };
 
-const makeMapStateToProps = (_, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const { articleId, subjectId, topicId } = ownProps.match.params;
-  const getArticleSelector = getArticle(articleId);
   const getTopicPathSelector =
     subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId
     ? getSubjectById(subjectId)
     : () => undefined;
-  return state => ({
-    article: getArticleSelector(state),
+  return {
+    article: getArticle(articleId)(state),
     status: getFetchStatus(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
     locale: getLocale(state),
-  });
+  };
 };
 
 export default compose(
-  connectSSR(makeMapStateToProps, mapDispatchToProps),
+  connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
 )(ArticlePage);

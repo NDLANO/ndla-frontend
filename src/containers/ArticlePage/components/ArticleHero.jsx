@@ -12,16 +12,16 @@ import defined from 'defined';
 import { injectT } from 'ndla-i18n';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
-import getResourceTypeMetaData from '../../../components/getResourceTypeMetaData';
+import getContentTypeFromResourceTypes from '../../../components/getContentTypeFromResourceTypes';
 import { toTopic } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
 const ArticleHero = ({ article, subject, topicPath, t }) => {
-  const resourceTypeMetaData = getResourceTypeMetaData(
+  const resourceTypeMetaData = getContentTypeFromResourceTypes(
     defined(article.resourceTypes, []),
   );
   return (
-    <Hero {...resourceTypeMetaData.heroProps}>
+    <Hero contentType={resourceTypeMetaData.contentType}>
       <OneColumn cssModifier="narrow">
         <div className="c-hero__content">
           <section>

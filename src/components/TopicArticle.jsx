@@ -11,30 +11,28 @@ import PropTypes from 'prop-types';
 
 import {
   Article as UIArticle,
+  constants,
   ContentTypeBadge,
   ToggleLicenseBox,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
-import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
 
-const Article = ({ article, children, locale, t }) => {
-  const hasResourceTypes =
-    article.resourceTypes && article.resourceTypes.length > 0;
-
-  const contentType = hasResourceTypes
-    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
-    : undefined;
-
-  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
-  const icon = contentType ? (
-    <ContentTypeBadge type={contentType} background size="large" />
-  ) : null;
+const TopicArticle = ({ article, children, locale, t }) => {
+  if (!article) {
+    return children;
+  }
 
   return (
     <UIArticle
       article={article}
-      icon={icon}
+      icon={
+        <ContentTypeBadge
+          type={constants.contentTypes.SUBJECT}
+          background
+          size="large"
+        />
+      }
       licenseBox={
         <ToggleLicenseBox
           article={article}
@@ -48,9 +46,8 @@ const Article = ({ article, children, locale, t }) => {
         lastUpdated: t('lastUpdated'),
         edition: t('edition'),
         publisher: t('publisher'),
-        label,
+        label: t('topic'),
       }}>
-      {children}
       <a
         className="article-old-ndla-link"
         rel="noopener noreferrer"
@@ -58,11 +55,12 @@ const Article = ({ article, children, locale, t }) => {
         href={article.oldNdlaUrl}>
         Gå til orginal artikkel
       </a>
+      {children}
     </UIArticle>
   );
 };
 
-Article.propTypes = {
+TopicArticle.propTypes = {
   article: PropTypes.shape({
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -70,9 +68,9 @@ Article.propTypes = {
       authors: PropTypes.array,
       creators: PropTypes.array,
     }).isRequired,
-  }).isRequired,
+  }),
   children: PropTypes.node,
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(Article, 'article.');
+export default injectT(TopicArticle, 'article.');
