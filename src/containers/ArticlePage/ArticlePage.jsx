@@ -27,6 +27,8 @@ import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 
+const getTitle = article => (article ? article.title : '');
+
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
     const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = ctx;
@@ -93,14 +95,14 @@ class ArticlePage extends Component {
                   goToFrontPage: t('errorMessage.goToFrontPage'),
                 }}
               />
+              {subject &&
+                topicId && (
+                  <TopicResources subjectId={subject.id} topicId={topicId} />
+                )}
             </article>
           </OneColumn>
         </div>
       );
-    }
-
-    if (!article) {
-      return null;
     }
 
     const scripts = getArticleScripts(article);
@@ -108,10 +110,11 @@ class ArticlePage extends Component {
     return (
       <div>
         <Helmet>
-          <title>{`NDLA | ${article.title}`}</title>
-          {article.metaDescription && (
-            <meta name="description" content={article.metaDescription} />
-          )}
+          <title>{`NDLA | ${getTitle(article)}`}</title>
+          {article &&
+            article.metaDescription && (
+              <meta name="description" content={article.metaDescription} />
+            )}
 
           {scripts.map(script => (
             <script
@@ -126,11 +129,13 @@ class ArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <ArticleHero
-          subject={subject}
-          topicPath={topicPath}
-          article={article}
-        />
+        {article && (
+          <ArticleHero
+            subject={subject}
+            topicPath={topicPath}
+            article={article}
+          />
+        )}
         <OneColumn>
           <Article article={article} locale={locale}>
             {subject &&

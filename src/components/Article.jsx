@@ -16,9 +16,14 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
+import { ArticleShape } from '../shapes';
 import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
 
 const Article = ({ article, children, locale, t }) => {
+  if (!article) {
+    return children || null;
+  }
+
   const hasResourceTypes =
     article.resourceTypes && article.resourceTypes.length > 0;
 
@@ -63,14 +68,7 @@ const Article = ({ article, children, locale, t }) => {
 };
 
 Article.propTypes = {
-  article: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    copyright: PropTypes.shape({
-      authors: PropTypes.array,
-      creators: PropTypes.array,
-    }).isRequired,
-  }).isRequired,
+  article: ArticleShape,
   children: PropTypes.node,
   locale: PropTypes.string.isRequired,
 };

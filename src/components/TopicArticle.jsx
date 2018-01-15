@@ -20,7 +20,7 @@ import LicenseBox from './license/LicenseBox';
 
 const TopicArticle = ({ article, children, locale, t }) => {
   if (!article) {
-    return children;
+    return children || null;
   }
 
   return (

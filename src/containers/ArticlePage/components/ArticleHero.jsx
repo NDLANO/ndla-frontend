@@ -44,7 +44,7 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
 ArticleHero.propTypes = {
   article: PropTypes.shape({
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
+  }).isRequired,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
 };
