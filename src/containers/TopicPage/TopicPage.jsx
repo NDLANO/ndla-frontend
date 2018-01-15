@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { SubjectHero, OneColumn, Breadcrumb } from 'ndla-ui';
+import { SubjectHero, OneColumn, Breadcrumb, constants } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
@@ -29,7 +29,7 @@ import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
-import TopicArticle from '../../components/TopicArticle';
+import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -143,7 +143,11 @@ class TopicPage extends Component {
           />
         )}
         <OneColumn>
-          <TopicArticle article={article} locale={locale}>
+          <Article
+            article={article}
+            locale={locale}
+            label={t('topicPage.topic')}
+            contentType={constants.contentTypes.SUBJECT}>
             {topic ? (
               <Fragment>
                 <SubTopics
@@ -158,7 +162,7 @@ class TopicPage extends Component {
                 />
               </Fragment>
             ) : null}
-          </TopicArticle>
+          </Article>
         </OneColumn>
       </div>
     );

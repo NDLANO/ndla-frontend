@@ -26,8 +26,21 @@ import ArticleHero from './components/ArticleHero';
 import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
 
 const getTitle = article => (article ? article.title : '');
+
+const getArticleProps = article => {
+  const hasResourceTypes =
+    article && article.resourceTypes && article.resourceTypes.length > 0;
+
+  const contentType = hasResourceTypes
+    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
+    : undefined;
+
+  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
+  return { contentType, label };
+};
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
@@ -137,7 +150,10 @@ class ArticlePage extends Component {
           />
         )}
         <OneColumn>
-          <Article article={article} locale={locale}>
+          <Article
+            article={article}
+            locale={locale}
+            {...getArticleProps(article)}>
             {subject &&
               topicId && (
                 <TopicResources subjectId={subject.id} topicId={topicId} />

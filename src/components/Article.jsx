@@ -17,21 +17,12 @@ import {
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
-import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
 
-const Article = ({ article, children, locale, t }) => {
+const Article = ({ article, children, contentType, label, locale, t }) => {
   if (!article) {
     return children || null;
   }
 
-  const hasResourceTypes =
-    article.resourceTypes && article.resourceTypes.length > 0;
-
-  const contentType = hasResourceTypes
-    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
-    : undefined;
-
-  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
   const icon = contentType ? (
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
@@ -70,6 +61,8 @@ const Article = ({ article, children, locale, t }) => {
 Article.propTypes = {
   article: ArticleShape,
   children: PropTypes.node,
+  contentType: PropTypes.string,
+  label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
 

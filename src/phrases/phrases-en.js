@@ -33,6 +33,7 @@ const phrases = {
       'Sorry, an error occurd while loading topic content.',
     articleErrorDescription:
       'Sorry, an error occurd while loading the topic description.',
+    topic: 'TOPIC',
     topics: 'Topics',
   },
   welcomePage: {
@@ -76,7 +77,6 @@ const phrases = {
     author: 'Author',
     published: 'Published',
     created: 'Created',
-    topic: 'TOPIC',
     lastUpdated: 'Last updated',
     closeLicenseBox: 'Close box',
     openLicenseBox: 'Cite or use',
