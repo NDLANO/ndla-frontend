@@ -7,6 +7,7 @@
  */
 
 import httpStaus from 'http-status';
+import serialize from 'serialize-javascript';
 import config from '../../src/config';
 
 const assets = config.isProduction
@@ -26,20 +27,23 @@ export const htmlTemplate = (lang, body, introduction, title) =>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <link rel="shortcut icon" href="/assets/${
         assets['ndla-favicon.png']
-      }"" type="image/x-icon" />
+      }" type="image/x-icon" />
       <title>NDLA | ${title}</title>
       ${styleLink}
     </head>
     <body>
-      <div class="o-wrapper u-1/1">
-        <article class="c-article">
-          <h1>${title}</h1>
-          <section class="article_introduction">
-            <p class="article_introduction">${introduction}</p>
-          </section>
-          ${body}
-        </article>
+      ${body}
+      <div id="root">
+
       </div>
+
+      <script type="text/javascript">
+        window.locale = "${lang}";
+        window.config = ${serialize(config)}
+      </script>
+      <script type="text/javascript" src="/assets/${
+        assets['manifest.js']
+      }"> </script>
       <script type="text/javascript" src="/assets/${
         assets['embed.js']
       }"></script>

@@ -8,7 +8,7 @@ const webpack = require('webpack');
 
 const entry = {
   main: ['./src/index.jsx', './style/index.css', './style/ndla-favicon.png'],
-  embed: ['./server/embedScripts.js'],
+  embed: ['./src/Oembed.jsx'],
   mathjaxConfig: ['./src/mathjax/config.js'],
 };
 
@@ -18,15 +18,14 @@ module.exports = options => ({
     embed: options.entry.embed.concat(entry.embed),
   }),
 
-  // prettier-ignore
   output: Object.assign(
     {
       // Compile into htdocs/assets
       path: path.resolve(process.cwd(), 'htdocs/assets'),
       publicPath: '/assets/',
     },
-    options.output
-  ), // Merge with env dependent settings
+    options.output,
+  ),
 
   module: {
     rules: options.rules.concat([

@@ -179,12 +179,18 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
 });
 
-app.get('/article-iframe/:lang/:id', (req, res) => {
-  getToken()
-    .then(token => {
-      iframeArticleRoute(req, res, token);
-    })
-    .catch(err => res.status(500).send(err.message));
+app.get('/article-iframe/:lang/:id', async (req, res) => {
+  try {
+    const token = await getToken();
+    try {
+      await iframeArticleRoute(req, res, token);
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Internal server error');
+    }
+  } catch (e) {
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.get('/oembed', (req, res) => {

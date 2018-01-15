@@ -10,23 +10,18 @@ import defined from 'defined';
 import { getHtmlLang } from '../../src/i18n';
 import { htmlTemplate, htmlErrorTemplate } from '../helpers/oembedHtmlTemplate';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import { storeAccessToken } from '../../src/util/apiHelpers';
 
-export function iframeArticleRoute(req, res, token) {
+export async function iframeArticleRoute(req, res, token) {
+  storeAccessToken(token.access_token);
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const articleId = req.params.id;
-  fetchArticle(articleId, lang, token.access_token)
-    .then(article => {
-      res.send(
-        htmlTemplate(
-          lang,
-          article.content,
-          article.introduction,
-          article.title,
-        ),
-      );
-      res.end();
-    })
-    .catch(error => {
-      res.status(error.status).send(htmlErrorTemplate(lang, error));
-    });
+  try {
+    const article = await fetchArticle(articleId, lang);
+    res.send(htmlTemplate(lang, '', article.introduction, article.title));
+    res.end();
+  } catch (error) {
+    console.log(error);
+    res.status(error.status).send(htmlErrorTemplate(lang, error));
+  }
 }
