@@ -11,18 +11,16 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorReporter from 'ndla-error-reporter';
-import IntlProvider from 'ndla-i18n';
+import OembedPage from './OembedPage';
 
-import { getLocaleObject } from './i18n';
-
-const locale = getLocaleObject(window.locale);
+const { locale, config, article } = window.DATA;
 
 const {
   disableSSR,
   logglyApiKey,
   logEnvironment: environment,
   componentName,
-} = window.config;
+} = config;
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
@@ -33,8 +31,6 @@ window.errorReporter = ErrorReporter.getInstance({
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 renderOrHydrate(
-  <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-    <div>test</div>
-  </IntlProvider>,
+  <OembedPage locale={locale} article={article} lang={locale.abbreviation} />,
   document.getElementById('root'),
 );

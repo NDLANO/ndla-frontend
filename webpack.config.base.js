@@ -8,7 +8,7 @@ const webpack = require('webpack');
 
 const entry = {
   main: ['./src/index.jsx', './style/index.css', './style/ndla-favicon.png'],
-  embed: ['./src/Oembed.jsx'],
+  embed: ['./src/oembed/index'],
   mathjaxConfig: ['./src/mathjax/config.js'],
 };
 

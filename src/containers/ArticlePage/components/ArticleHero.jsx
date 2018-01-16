@@ -22,7 +22,7 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
   );
   return (
     <Hero contentType={resourceTypeMetaData.contentType}>
-      <OneColumn cssModifier="narrow">
+      <OneColumn>
         <div className="c-hero__content">
           <section>
             {subject ? (
