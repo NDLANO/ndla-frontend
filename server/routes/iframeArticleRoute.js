@@ -16,7 +16,7 @@ import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 import Document from '../helpers/Document';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
 import { storeAccessToken } from '../../src/util/apiHelpers';
-import OembedPage from '../../src/oembed/OembedPage';
+import IframeArticlePage from '../../src/iframe/IframeArticlePage';
 import config from '../../src/config';
 
 const assets = config.isProduction
@@ -32,7 +32,7 @@ const renderPage = initialProps => {
   resetIdCounter();
   const html = config.disableSSR
     ? ''
-    : renderToString(<OembedPage {...initialProps} />);
+    : renderToString(<IframeArticlePage {...initialProps} />);
   const helmet = Helmet.renderStatic();
   return {
     html,

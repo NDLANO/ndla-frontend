@@ -11,7 +11,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorReporter from 'ndla-error-reporter';
-import OembedPage from './OembedPage';
+import IframeArticlePage from './IframeArticlePage';
 
 const { config, initialProps } = window.DATA;
 
@@ -31,6 +31,6 @@ window.errorReporter = ErrorReporter.getInstance({
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 renderOrHydrate(
-  <OembedPage {...initialProps} />,
+  <IframeArticlePage {...initialProps} />,
   document.getElementById('root'),
 );

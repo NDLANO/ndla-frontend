@@ -58,7 +58,7 @@ Success.propTypes = {
   article: ArticleShape.isRequired,
 };
 
-const OembedPage = ({
+const IframeArticlePage = ({
   status,
   locale: { abbreviation: locale, messages },
   article,
@@ -72,7 +72,7 @@ const OembedPage = ({
   </IntlProvider>
 );
 
-OembedPage.propTypes = {
+IframeArticlePage.propTypes = {
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
@@ -81,4 +81,4 @@ OembedPage.propTypes = {
   status: PropTypes.oneOf(['success', 'error']),
 };
 
-export default OembedPage;
+export default IframeArticlePage;
