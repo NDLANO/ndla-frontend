@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { PageContainer, OneColumn, ErrorMessage } from 'ndla-ui';
 import IntlProvider, { injectT } from 'ndla-i18n';
-import { transformArticle } from '../containers/ArticlePage/article';
+import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape } from '../shapes';
