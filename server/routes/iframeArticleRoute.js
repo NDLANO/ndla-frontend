@@ -11,9 +11,8 @@ import defined from 'defined';
 import Helmet from 'react-helmet';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { resetIdCounter } from 'ndla-tabs';
-import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 
-import { htmlErrorTemplate } from '../helpers/oembedHtmlTemplate';
+import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 import Document from '../helpers/Document';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
 import { storeAccessToken } from '../../src/util/apiHelpers';
@@ -29,6 +28,23 @@ const getAssets = () => ({
   js: [`/assets/${assets['manifest.js']}`, `/assets/${assets['embed.js']}`],
 });
 
+const renderPage = initialProps => {
+  resetIdCounter();
+  const html = config.disableSSR
+    ? ''
+    : renderToString(<OembedPage {...initialProps} />);
+  const helmet = Helmet.renderStatic();
+  return {
+    html,
+    helmet,
+    assets: getAssets(),
+    data: {
+      initialProps,
+      config,
+    },
+  };
+};
+
 export async function iframeArticleRoute(req, res, token) {
   storeAccessToken(token.access_token);
   const lang = getHtmlLang(defined(req.params.lang, ''));
@@ -38,22 +54,10 @@ export async function iframeArticleRoute(req, res, token) {
   try {
     const article = await fetchArticle(articleId, lang);
 
-    const renderPage = () => {
-      resetIdCounter();
-      const html = renderToString(
-        <OembedPage article={article} locale={locale} />,
-      );
-      const helmet = Helmet.renderStatic();
-      return { html, helmet };
-    };
-
-    const { html, ...docProps } = await Document.getInitialProps({
-      req,
-      res,
-      lang,
-      assets: getAssets(),
-      renderPage,
-      data: { lang, locale, article, config },
+    const { html, ...docProps } = renderPage({
+      article,
+      locale,
+      status: 'success',
     });
     const doc = renderToStaticMarkup(<Document {...docProps} />);
 
@@ -61,6 +65,13 @@ export async function iframeArticleRoute(req, res, token) {
     res.end();
   } catch (error) {
     console.log(error);
-    res.status(error.status).send(htmlErrorTemplate(lang, error));
+    const { html, ...docProps } = renderPage({
+      locale,
+      status: 'error',
+    });
+    const doc = renderToStaticMarkup(<Document {...docProps} />);
+    res
+      .status(error.status || 503)
+      .send(`<!doctype html>${doc.replace('REPLACE_ME', html)}`);
   }
 }

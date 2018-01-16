@@ -9,58 +9,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Document extends React.Component {
-  static getInitialProps({ assets, data, renderPage }) {
-    const page = renderPage();
-    return { assets, data, ...page };
-  }
+const Document = ({ helmet, assets, data }) => {
+  const htmlAttrs = helmet.htmlAttributes.toComponent();
+  const bodyAttrs = helmet.bodyAttributes.toComponent();
 
-  render() {
-    const { helmet, assets, data, lang } = this.props;
-    // get attributes from React Helmet
-    const htmlAttrs = helmet.htmlAttributes.toComponent();
-    const bodyAttrs = helmet.bodyAttributes.toComponent();
+  return (
+    // eslint-disable-next-line jsx-a11y/html-has-lang
+    <html {...htmlAttrs}>
+      <head>
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta charSet="utf-8" />
+        <title>NDLA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
+        />
+        {helmet.title.toComponent()}
+        {helmet.meta.toComponent()}
+        {helmet.link.toComponent()}
+        {assets.css && <link rel="stylesheet" href={assets.css} />}
+      </head>
+      <body {...bodyAttrs}>
+        <div id="root">REPLACE_ME</div>
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `window.DATA = ${JSON.stringify(data)}; `,
+          }}
+        />
+        {assets.js.map(js => (
+          <script key={js} type="text/javascript" src={js} defer />
+        ))}
 
-    return (
-      <html lang={lang} {...htmlAttrs}>
-        <head>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <meta charSet="utf-8" />
-          <title>NDLA</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
-          />
-          {helmet.title.toComponent()}
-          {helmet.meta.toComponent()}
-          {helmet.link.toComponent()}
-          {assets.css && <link rel="stylesheet" href={assets.css} />}
-        </head>
-        <body {...bodyAttrs}>
-          <div id="root">REPLACE_ME</div>
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `window.DATA = ${JSON.stringify(data)}; `,
-            }}
-          />
-          {assets.js.map(js => (
-            <script type="text/javascript" src={js} defer />
-          ))}
-
-          {helmet.script.toComponent()}
-        </body>
-      </html>
-    );
-  }
-}
+        {helmet.script.toComponent()}
+      </body>
+    </html>
+  );
+};
 
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  lang: PropTypes.string.isRequired,
-  assets: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  assets: PropTypes.shape({
+    css: PropTypes.string,
+    js: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export default Document;

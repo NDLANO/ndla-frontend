@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom';
 import ErrorReporter from 'ndla-error-reporter';
 import OembedPage from './OembedPage';
 
-const { locale, config, article } = window.DATA;
+const { config, initialProps } = window.DATA;
 
 const {
   disableSSR,
@@ -31,6 +31,6 @@ window.errorReporter = ErrorReporter.getInstance({
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 renderOrHydrate(
-  <OembedPage locale={locale} article={article} lang={locale.abbreviation} />,
+  <OembedPage {...initialProps} />,
   document.getElementById('root'),
 );
