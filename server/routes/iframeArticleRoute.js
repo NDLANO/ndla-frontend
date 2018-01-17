@@ -25,6 +25,7 @@ const assets = config.isProduction
   : require('../developmentAssets');
 
 const getAssets = () => ({
+  favicon: `/assets/${assets['ndla-favicon.png']}`,
   css: config.isProduction ? `/assets/${assets['main.css']}` : undefined,
   js: [`/assets/${assets['manifest.js']}`, `/assets/${assets['embed.js']}`],
 });

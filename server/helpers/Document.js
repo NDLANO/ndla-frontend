@@ -29,6 +29,9 @@ const Document = ({ helmet, assets, data }) => {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
+        {assets.favicon && (
+          <link rel="shortcut icon" href={assets.favicon} type="image/x-icon" />
+        )}
       </head>
       <body {...bodyAttrs}>
         <div id="root">REPLACE_ME</div>
