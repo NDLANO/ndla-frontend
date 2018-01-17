@@ -15,6 +15,7 @@ import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
+import { storeAccessToken } from '../src/util/apiHelpers';
 
 const app = express();
 
@@ -179,28 +180,6 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, text: 'Health check ok' });
 });
 
-app.get('/article-iframe/:lang/:id', async (req, res) => {
-  try {
-    const token = await getToken();
-    try {
-      await iframeArticleRoute(req, res, token);
-    } catch (e) {
-      console.error(e);
-      res.status(500).send('Internal server error');
-    }
-  } catch (e) {
-    res.status(500).send('Internal server error');
-  }
-});
-
-app.get('/oembed', (req, res) => {
-  getToken()
-    .then(token => {
-      oembedArticleRoute(req, res, token);
-    })
-    .catch(err => res.status(500).send(err.message));
-});
-
 app.get('/get_token', async (req, res) => {
   try {
     const token = await getToken();
@@ -210,18 +189,39 @@ app.get('/get_token', async (req, res) => {
   }
 });
 
-app.get('*', async (req, res) => {
-  try {
-    const token = await getToken();
-    try {
-      await defaultRoute(req, res, token);
-    } catch (e) {
-      console.error(e);
-      res.status(500).send('Internal server error');
-    }
-  } catch (e) {
+function handleInternalServerError(res) {
+  if (res.getHeader('Content-Type') === 'application/json') {
+    res.status(500).json({ status: 500, text: 'Internal server error' });
+  } else {
     res.status(500).send('Internal server error');
   }
+}
+
+async function handleRoute(req, res, route) {
+  try {
+    const token = await getToken();
+    storeAccessToken(token.access_token);
+    try {
+      await route(req, res);
+    } catch (e) {
+      console.error(e);
+      handleInternalServerError(res);
+    }
+  } catch (e) {
+    console.error(e);
+    handleInternalServerError(res);
+  }
+}
+
+app.get('/article-iframe/:lang/:id', async (req, res) =>
+  handleRoute(req, res, iframeArticleRoute),
+);
+
+app.get('/oembed', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  handleRoute(req, res, oembedArticleRoute);
 });
+
+app.get('*', async (req, res) => handleRoute(req, res, defaultRoute));
 
 module.exports = app;

@@ -15,7 +15,6 @@ import { resetIdCounter } from 'ndla-tabs';
 import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 import Document from '../helpers/Document';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
-import { storeAccessToken } from '../../src/util/apiHelpers';
 import IframeArticlePage from '../../src/iframe/IframeArticlePage';
 import config from '../../src/config';
 
@@ -45,8 +44,7 @@ const renderPage = initialProps => {
   };
 };
 
-export async function iframeArticleRoute(req, res, token) {
-  storeAccessToken(token.access_token);
+export async function iframeArticleRoute(req, res) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
   const articleId = req.params.id;

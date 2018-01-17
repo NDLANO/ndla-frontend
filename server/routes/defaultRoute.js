@@ -23,7 +23,6 @@ import routes, { routes as serverRoutes } from '../../src/routes';
 import configureStore from '../../src/configureStore';
 
 import { getLocaleObject, isValidLocale } from '../../src/i18n';
-import { storeAccessToken } from '../../src/util/apiHelpers';
 
 async function loadGetInitialProps(Component, ctx) {
   if (!Component.getInitialProps) return {};
@@ -52,8 +51,7 @@ const renderHtmlString = (
     />,
   );
 
-export async function defaultRoute(req, res, token) {
-  storeAccessToken(token.access_token);
+export async function defaultRoute(req, res) {
   const paths = req.url.split('/');
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
@@ -67,7 +65,6 @@ export async function defaultRoute(req, res, token) {
       locale,
     });
     res.send(`<!doctype html>\n${htmlString}`);
-    return;
   }
 
   const store = configureStore({ locale });

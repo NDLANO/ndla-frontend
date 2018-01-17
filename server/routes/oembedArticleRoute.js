@@ -12,7 +12,6 @@ import { isValidLocale } from '../../src/i18n';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
 import { articlePath } from '../../src/routes';
 import config from '../../src/config';
-import { storeAccessToken } from '../../src/util/apiHelpers';
 
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);
@@ -23,12 +22,7 @@ export function parseAndMatchUrl(url) {
   return matchPath(pathname, articlePath);
 }
 
-export async function oembedArticleRoute(req, res, token) {
-  res.setHeader('Content-Type', 'application/json');
-  if (process.env.NODE_ENV !== 'unittest') {
-    storeAccessToken(token.access_token);
-  }
-
+export async function oembedArticleRoute(req, res) {
   const { url } = req.query;
   if (!url) {
     res
