@@ -63,6 +63,9 @@ const SearchRoute = searchEnabled
   ? { path: '/search', component: SearchPage, background: false }
   : undefined;
 
+export const articlePath =
+  '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId';
+
 export const routes = [
   {
     path: '/',
@@ -71,8 +74,7 @@ export const routes = [
     background: false,
   },
   {
-    path:
-      '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId',
+    path: articlePath,
     component: ArticlePage,
     background: true,
   },

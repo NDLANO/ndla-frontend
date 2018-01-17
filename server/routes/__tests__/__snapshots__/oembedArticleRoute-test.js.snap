@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`oembedArticleRoute invalid url 1`] = `
+Object {
+  "status": 400,
+  "text": "Bad request. Invalid url.",
+}
+`;
+
+exports[`oembedArticleRoute success 1`] = `
+Object {
+  "height": 800,
+  "html": "<iframe src=\\"https://ndla-frontend.test.api.ndla.no/article-iframe/nb/1:1682/26050\\" frameborder=\\"0\\" />",
+  "title": "unit test",
+  "type": "rich",
+  "version": "1.0",
+  "width": 800,
+}
+`;
+
+exports[`parseAndMatchUrl 1`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "0": "urn:topic:1:168542",
+    "articleId": "127",
+    "plainResourceId": "1:168554",
+    "subjectId": "urn:subject:3",
+    "topicId": "urn:topic:1:173292",
+  },
+  "path": "/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
+  "url": "/article/urn:subject:3/urn:topic:1:168542/urn:topic:1:173292/urn:resource:1:168554/127",
+}
+`;
+
+exports[`parseAndMatchUrl 2`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "0": "urn:topic:1:55163",
+    "articleId": "26050",
+    "plainResourceId": "1:1682",
+    "subjectId": "urn:subject:3",
+    "topicId": "urn:topic:1:168398",
+  },
+  "path": "/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
+  "url": "/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050",
+}
+`;
+
+exports[`parseAndMatchUrl 3`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "0": "urn:topic:1:55163",
+    "articleId": "26050",
+    "lang": "nn",
+    "plainResourceId": "1:1682",
+    "subjectId": "urn:subject:3",
+    "topicId": "urn:topic:1:168398",
+  },
+  "path": "/:lang/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
+  "url": "/nn/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050",
+}
+`;
