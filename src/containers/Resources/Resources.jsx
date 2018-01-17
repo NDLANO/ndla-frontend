@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import { ResourceGroup, ContentTypeBadge } from 'ndla-ui';
-import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
+import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { ResourceTypeShape } from '../../shapes';
 import {
   getResourceTypesByTopicId,

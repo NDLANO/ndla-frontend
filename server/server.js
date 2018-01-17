@@ -213,11 +213,11 @@ async function handleRoute(req, res, route) {
   }
 }
 
-app.get('/article-iframe/:lang/:id', async (req, res) =>
+app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) =>
   handleRoute(req, res, iframeArticleRoute),
 );
 
-app.get('/oembed', (req, res) => {
+app.get('/oembed', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRoute(req, res, oembedArticleRoute);
 });

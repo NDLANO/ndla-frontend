@@ -15,6 +15,7 @@ import { resetIdCounter } from 'ndla-tabs';
 import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 import Document from '../helpers/Document';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import { fetchResourceTypesForResource } from '../../src/containers/Resources/resourceApi';
 import IframeArticlePage from '../../src/iframe/IframeArticlePage';
 import config from '../../src/config';
 
@@ -47,13 +48,17 @@ const renderPage = initialProps => {
 export async function iframeArticleRoute(req, res) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
-  const articleId = req.params.id;
+  const { articleId, resourceId } = req.params;
 
   try {
     const article = await fetchArticle(articleId, lang);
+    const resourceTypes = await fetchResourceTypesForResource(
+      `urn:resource:${resourceId}`,
+      lang,
+    );
 
     const { html, ...docProps } = renderPage({
-      article,
+      article: { ...article, resourceTypes },
       locale,
       status: 'success',
     });
@@ -62,7 +67,7 @@ export async function iframeArticleRoute(req, res) {
     res.send(`<!doctype html>${doc.replace('REPLACE_ME', html)}`);
     res.end();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     const { html, ...docProps } = renderPage({
       locale,
       status: 'error',

@@ -12,7 +12,7 @@ import defined from 'defined';
 import { injectT } from 'ndla-i18n';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
-import getContentTypeFromResourceTypes from '../../../components/getContentTypeFromResourceTypes';
+import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 import { toTopic } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 

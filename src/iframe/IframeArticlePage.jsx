@@ -16,6 +16,7 @@ import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape } from '../shapes';
+import { getArticleProps } from '../util/getArticleProps';
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
@@ -48,7 +49,11 @@ const Success = ({ article: rawArticle, locale }) => {
           />
         ))}
       </Helmet>
-      <Article article={article} locale={locale} label="test" />
+      <Article
+        article={article}
+        locale={locale}
+        {...getArticleProps(article)}
+      />
     </OneColumn>
   );
 };

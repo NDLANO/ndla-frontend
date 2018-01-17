@@ -65,6 +65,7 @@ export async function defaultRoute(req, res) {
       locale,
     });
     res.send(`<!doctype html>\n${htmlString}`);
+    return;
   }
 
   const store = configureStore({ locale });
