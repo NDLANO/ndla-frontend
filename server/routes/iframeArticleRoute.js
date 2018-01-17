@@ -11,6 +11,7 @@ import defined from 'defined';
 import Helmet from 'react-helmet';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { resetIdCounter } from 'ndla-tabs';
+import { OK, INTERNAL_SERVER_ERROR } from 'http-status';
 
 import { getHtmlLang, getLocaleObject } from '../../src/i18n';
 import Document from '../helpers/Document';
@@ -45,7 +46,7 @@ const renderPage = initialProps => {
   };
 };
 
-export async function iframeArticleRoute(req, res) {
+export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
@@ -64,8 +65,10 @@ export async function iframeArticleRoute(req, res) {
     });
     const doc = renderToStaticMarkup(<Document {...docProps} />);
 
-    res.send(`<!doctype html>${doc.replace('REPLACE_ME', html)}`);
-    res.end();
+    return {
+      status: OK,
+      data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    };
   } catch (error) {
     console.error(error);
     const { html, ...docProps } = renderPage({
@@ -73,8 +76,9 @@ export async function iframeArticleRoute(req, res) {
       status: 'error',
     });
     const doc = renderToStaticMarkup(<Document {...docProps} />);
-    res
-      .status(error.status || 503)
-      .send(`<!doctype html>${doc.replace('REPLACE_ME', html)}`);
+    return {
+      status: error.status || INTERNAL_SERVER_ERROR,
+      data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    };
   }
 }

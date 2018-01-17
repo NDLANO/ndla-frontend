@@ -7,15 +7,7 @@
  */
 
 import nock from 'nock';
-import sinon from 'sinon';
 import { parseAndMatchUrl, oembedArticleRoute } from '../oembedArticleRoute';
-
-const response = {
-  setHeader: jest.fn(),
-  status: jest.fn(),
-  json: jest.fn(),
-};
-response.status.mockImplementation(() => response);
 
 const validArticleUrl1 =
   'https://ndla-frontend.test.api.ndla.no/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050';
@@ -39,34 +31,21 @@ test('oembedArticleRoute success', async () => {
     .get('/article-converter/json/nb/26050')
     .reply(200, { id: 123, title: 'unit test', metaData: {} });
 
-  const spy = sinon.spy(response, 'json');
-  await oembedArticleRoute(
-    {
-      query: {
-        url: validArticleUrl1,
-      },
+  const response = await oembedArticleRoute({
+    query: {
+      url: validArticleUrl1,
     },
-    response,
-  );
+  });
 
-  expect(spy.calledOnce).toBe(true);
-  expect(spy.getCall(0).args[0]).toMatchSnapshot();
-  spy.restore();
+  expect(response).toMatchSnapshot();
 });
 
 test('oembedArticleRoute invalid url', async () => {
-  const spy = sinon.spy(response, 'json');
-
-  await oembedArticleRoute(
-    {
-      query: {
-        url: unvalidArticleUrl,
-      },
+  const response = await oembedArticleRoute({
+    query: {
+      url: unvalidArticleUrl,
     },
-    response,
-  );
+  });
 
-  expect(spy.calledOnce).toBe(true);
-  expect(spy.getCall(0).args[0]).toMatchSnapshot();
-  spy.restore();
+  expect(response).toMatchSnapshot();
 });

@@ -7,6 +7,7 @@
  */
 
 import { matchPath } from 'react-router-dom';
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import parseUrl from 'parse-url';
 import { isValidLocale } from '../../src/i18n';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
@@ -22,20 +23,22 @@ export function parseAndMatchUrl(url) {
   return matchPath(pathname, articlePath);
 }
 
-export async function oembedArticleRoute(req, res) {
+export async function oembedArticleRoute(req) {
   const { url } = req.query;
   if (!url) {
-    res
-      .status(400)
-      .json({ status: 404, text: 'Bad request. Missing url param.' });
-    return;
+    return {
+      status: BAD_REQUEST,
+      data: 'Bad request. Missing url param.',
+    };
   }
 
   const match = parseAndMatchUrl(url);
 
   if (!match) {
-    res.status(400).json({ status: 400, text: 'Bad request. Invalid url.' });
-    return;
+    return {
+      status: BAD_REQUEST,
+      data: 'Bad request. Invalid url.',
+    };
   }
 
   const {
@@ -44,19 +47,24 @@ export async function oembedArticleRoute(req, res) {
 
   try {
     const article = await fetchArticle(articleId, lang);
-
-    res.json({
-      type: 'rich',
-      version: '1.0', // oEmbed version
-      height: req.query.height ? req.query.height : 800,
-      width: req.query.width ? req.query.width : 800,
-      title: article.title,
-      html: `<iframe src="${
-        config.ndlaFrontendDomain
-      }/article-iframe/${lang}/${resourceId}/${articleId}" frameborder="0" />`,
-    });
+    return {
+      data: {
+        type: 'rich',
+        version: '1.0', // oEmbed version
+        height: req.query.height ? req.query.height : 800,
+        width: req.query.width ? req.query.width : 800,
+        title: article.title,
+        html: `<iframe src="${
+          config.ndlaFrontendDomain
+        }/article-iframe/${lang}/${resourceId}/${articleId}" frameborder="0" />`,
+      },
+    };
   } catch (error) {
     console.error(error);
-    res.status(error.status || 503).json('Internal server error');
+    const status = error.status || INTERNAL_SERVER_ERROR;
+    return {
+      status,
+      data: 'Internal server error',
+    };
   }
 }

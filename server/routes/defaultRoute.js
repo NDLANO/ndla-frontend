@@ -16,6 +16,7 @@ import { bindActionCreators } from 'redux';
 import IntlProvider from 'ndla-i18n';
 import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
+import { OK, MOVED_PERMANENTLY } from 'http-status';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Html from '../helpers/Html';
@@ -51,7 +52,7 @@ const renderHtmlString = (
     />,
   );
 
-export async function defaultRoute(req, res) {
+export async function defaultRoute(req) {
   const paths = req.url.split('/');
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
@@ -64,8 +65,7 @@ export async function defaultRoute(req, res) {
     const htmlString = renderHtmlString(locale, userAgentString, {
       locale,
     });
-    res.send(`<!doctype html>\n${htmlString}`);
-    return;
+    return { status: OK, data: `<!doctype html>\n${htmlString}` };
   }
 
   const store = configureStore({ locale });
@@ -95,20 +95,21 @@ export async function defaultRoute(req, res) {
   );
 
   if (context.url) {
-    res.writeHead(301, {
-      Location: context.url,
-    });
-    res.end();
-  } else {
-    // resetIdCounter must be called on server before render to prevent server and client markup diff
-    resetIdCounter();
-    const htmlString = renderHtmlString(
-      locale,
-      userAgentString,
-      store.getState(),
-      Page,
-    );
-    const status = defined(context.status, 200);
-    res.status(status).send(`<!doctype html>\n${htmlString}`);
+    return {
+      status: MOVED_PERMANENTLY,
+      data: {
+        Location: context.url,
+      },
+    };
   }
+  // resetIdCounter must be called on server before render to prevent server and client markup diff
+  resetIdCounter();
+  const htmlString = renderHtmlString(
+    locale,
+    userAgentString,
+    store.getState(),
+    Page,
+  );
+  const status = defined(context.status, OK);
+  return { status, data: `<!doctype html>\n${htmlString}` };
 }

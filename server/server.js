@@ -9,6 +9,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
+import { OK, INTERNAL_SERVER_ERROR, MOVED_PERMANENTLY } from 'http-status';
 
 import enableDevMiddleWare from './helpers/enableDevMiddleware';
 import { getToken } from './helpers/auth';
@@ -177,7 +178,7 @@ app.get('/robots.txt', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 200, text: 'Health check ok' });
+  res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
 app.get('/get_token', async (req, res) => {
@@ -185,43 +186,56 @@ app.get('/get_token', async (req, res) => {
     const token = await getToken();
     res.json(token);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error(err);
+    res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   }
 });
 
-function handleInternalServerError(res) {
+function sendInternalServerError(res) {
   if (res.getHeader('Content-Type') === 'application/json') {
-    res.status(500).json({ status: 500, text: 'Internal server error' });
+    res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
-    res.status(500).send('Internal server error');
+    res.status(INTERNAL_SERVER_ERROR).send('Internal server error');
   }
 }
 
-async function handleRoute(req, res, route) {
+function sendResponse(res, data, status = OK) {
+  if (status === MOVED_PERMANENTLY) {
+    res.writeHead(status, data);
+    res.end();
+  } else if (res.getHeader('Content-Type') === 'application/json') {
+    res.status(status).json(data);
+  } else {
+    res.status(status).send(data);
+  }
+}
+
+async function handleRequest(req, res, route) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      await route(req, res);
+      const { data, status } = await route(req);
+      sendResponse(res, data, status);
     } catch (e) {
       console.error(e);
-      handleInternalServerError(res);
+      sendInternalServerError(res);
     }
   } catch (e) {
     console.error(e);
-    handleInternalServerError(res);
+    sendInternalServerError(res);
   }
 }
 
 app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) =>
-  handleRoute(req, res, iframeArticleRoute),
+  handleRequest(req, res, iframeArticleRoute),
 );
 
 app.get('/oembed', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  handleRoute(req, res, oembedArticleRoute);
+  handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('*', async (req, res) => handleRoute(req, res, defaultRoute));
+app.get('*', async (req, res) => handleRequest(req, res, defaultRoute));
 
 module.exports = app;

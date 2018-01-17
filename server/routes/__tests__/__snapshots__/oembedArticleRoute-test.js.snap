@@ -2,19 +2,21 @@
 
 exports[`oembedArticleRoute invalid url 1`] = `
 Object {
+  "data": "Bad request. Invalid url.",
   "status": 400,
-  "text": "Bad request. Invalid url.",
 }
 `;
 
 exports[`oembedArticleRoute success 1`] = `
 Object {
-  "height": 800,
-  "html": "<iframe src=\\"https://ndla-frontend.test.api.ndla.no/article-iframe/nb/1:1682/26050\\" frameborder=\\"0\\" />",
-  "title": "unit test",
-  "type": "rich",
-  "version": "1.0",
-  "width": 800,
+  "data": Object {
+    "height": 800,
+    "html": "<iframe src=\\"https://ndla-frontend.test.api.ndla.no/article-iframe/nb/1:1682/26050\\" frameborder=\\"0\\" />",
+    "title": "unit test",
+    "type": "rich",
+    "version": "1.0",
+    "width": 800,
+  },
 }
 `;
 
