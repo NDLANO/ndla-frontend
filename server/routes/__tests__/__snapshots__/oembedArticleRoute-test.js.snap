@@ -22,21 +22,6 @@ exports[`parseAndMatchUrl 1`] = `
 Object {
   "isExact": true,
   "params": Object {
-    "0": "urn:topic:1:168542",
-    "articleId": "127",
-    "plainResourceId": "1:168554",
-    "subjectId": "urn:subject:3",
-    "topicId": "urn:topic:1:173292",
-  },
-  "path": "/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
-  "url": "/article/urn:subject:3/urn:topic:1:168542/urn:topic:1:173292/urn:resource:1:168554/127",
-}
-`;
-
-exports[`parseAndMatchUrl 2`] = `
-Object {
-  "isExact": true,
-  "params": Object {
     "0": "urn:topic:1:55163",
     "articleId": "26050",
     "plainResourceId": "1:1682",
@@ -45,6 +30,21 @@ Object {
   },
   "path": "/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
   "url": "/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050",
+}
+`;
+
+exports[`parseAndMatchUrl 2`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "0": "urn:topic:1:168542",
+    "articleId": "127",
+    "plainResourceId": "1:168554",
+    "subjectId": "urn:subject:3",
+    "topicId": "urn:topic:1:173292",
+  },
+  "path": "/article/:subjectId/(.*)/:topicId/urn\\\\:resource\\\\::plainResourceId/:articleId",
+  "url": "/article/urn:subject:3/urn:topic:1:168542/urn:topic:1:173292/urn:resource:1:168554/127",
 }
 `;
 

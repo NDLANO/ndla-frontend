@@ -47,7 +47,6 @@ test('oembedArticleRoute success', async () => {
       },
     },
     response,
-    { access_token: '123' },
   );
 
   expect(spy.calledOnce).toBe(true);
@@ -65,7 +64,6 @@ test('oembedArticleRoute invalid url', async () => {
       },
     },
     response,
-    { access_token: '123' },
   );
 
   expect(spy.calledOnce).toBe(true);
