@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`iframeArticleRoute 200 OK 1`] = `
+Object {
+  "data": "<!doctype html><html lang=\\"en\\"><body><div data-reactroot=\\"\\"><p>success</p></div></body></html>",
+  "status": 200,
+}
+`;
+
+exports[`iframeArticleRoute 500 Internal server error 1`] = `
+Object {
+  "data": "<!doctype html><html lang=\\"en\\"><body><div data-reactroot=\\"\\"><p>error</p></div></body></html>",
+  "status": 500,
+}
+`;

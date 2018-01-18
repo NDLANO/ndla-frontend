@@ -20,6 +20,11 @@ import { fetchResourceTypesForResource } from '../../src/containers/Resources/re
 import IframeArticlePage from '../../src/iframe/IframeArticlePage';
 import config from '../../src/config';
 
+// Because JSDom exists, ExecutionEnvironment assumes that we're on the client.
+if (process.env.NODE_ENV === 'unittest') {
+  Helmet.canUseDOM = false;
+}
+
 const assets = config.isProduction
   ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
   : require('../developmentAssets');
@@ -71,7 +76,10 @@ export async function iframeArticleRoute(req) {
       data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
     };
   } catch (error) {
-    console.error(error);
+    if (process.env.NODE_ENV !== 'unittest') {
+      // skip log in unittests
+      console.error(error);
+    }
     const { html, ...docProps } = renderPage({
       locale,
       status: 'error',
