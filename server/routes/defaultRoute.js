@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
@@ -17,13 +17,30 @@ import IntlProvider from 'ndla-i18n';
 import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
+import Helmet from 'react-helmet';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
-import Html from '../helpers/Html';
+import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../src/routes';
 import configureStore from '../../src/configureStore';
+import config from '../../src/config';
 
 import { getLocaleObject, isValidLocale } from '../../src/i18n';
+
+const assets = config.isProduction
+  ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
+  : require('../developmentAssets');
+
+const getAssets = () => ({
+  favicon: `/assets/${assets['ndla-favicon.png']}`,
+  css: config.isProduction ? `/assets/${assets['main.css']}` : undefined,
+  js: [
+    `/assets/${assets['manifest.js']}`,
+    `/assets/${assets['vendor.js']}`,
+    `/assets/${assets['main.js']}`,
+  ],
+  mathJax: `/assets/${assets['mathjax.js']}`,
+});
 
 async function loadGetInitialProps(Component, ctx) {
   if (!Component.getInitialProps) return {};
@@ -37,20 +54,24 @@ async function loadGetInitialProps(Component, ctx) {
   return props;
 }
 
-const renderHtmlString = (
-  locale,
-  userAgentString,
-  state = {},
-  component = undefined,
-) =>
-  renderToString(
-    <Html
-      lang={locale}
-      state={state}
-      component={component}
-      className={getConditionalClassnames(userAgentString)}
-    />,
-  );
+const renderPage = (initialProps, initialState, Page) => {
+  resetIdCounter();
+  const html = config.disableSSR ? '' : renderToString(Page);
+  const helmet = Helmet.renderStatic();
+  return {
+    html,
+    helmet,
+    assets: getAssets(),
+    // Following is serialized to window.DATA
+    data: {
+      initialProps,
+      initialState,
+      assets,
+      config,
+      accessToken: global.access_token,
+    },
+  };
+};
 
 export async function defaultRoute(req) {
   const paths = req.url.split('/');
@@ -59,29 +80,24 @@ export async function defaultRoute(req) {
 
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
-
-  if (__DISABLE_SSR__) {
-    // eslint-disable-line no-underscore-dangle
-    const htmlString = renderHtmlString(locale, userAgentString, {
-      locale,
-    });
-    return { status: OK, data: `<!doctype html>\n${htmlString}` };
-  }
+  const className = getConditionalClassnames(userAgentString);
 
   const store = configureStore({ locale });
-  const route = serverRoutes.find(r => matchPath(path, r));
-  const Component = route.component;
-  const match = matchPath(path, route);
 
-  const actions = Component.mapDispatchToProps
-    ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
-    : {};
-  await loadGetInitialProps(route.component, {
-    isServer: true,
-    store,
-    ...actions,
-    match,
-  });
+  if (!config.disableSSR) {
+    const route = serverRoutes.find(r => matchPath(path, r));
+    const match = matchPath(path, route);
+    const Component = route.component;
+    const actions = Component.mapDispatchToProps
+      ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
+      : {};
+    await loadGetInitialProps(route.component, {
+      isServer: true,
+      store,
+      ...actions,
+      match,
+    });
+  }
 
   const context = {};
   const Page = (
@@ -102,14 +118,15 @@ export async function defaultRoute(req) {
       },
     };
   }
-  // resetIdCounter must be called on server before render to prevent server and client markup diff
-  resetIdCounter();
-  const htmlString = renderHtmlString(
-    locale,
-    userAgentString,
-    store.getState(),
-    Page,
-  );
+
   const status = defined(context.status, OK);
-  return { status, data: `<!doctype html>\n${htmlString}` };
+  const { html, ...docProps } = renderPage({}, store.getState(), Page);
+  const doc = renderToStaticMarkup(
+    <Document className={className} {...docProps} />,
+  );
+
+  return {
+    status,
+    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+  };
 }

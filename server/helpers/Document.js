@@ -8,14 +8,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 
-const Document = ({ helmet, assets, data }) => {
+const Document = ({ helmet, className, assets, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
     // eslint-disable-next-line jsx-a11y/html-has-lang
-    <html {...htmlAttrs}>
+    <html className={className} {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
@@ -34,6 +35,8 @@ const Document = ({ helmet, assets, data }) => {
         )}
       </head>
       <body {...bodyAttrs}>
+        <GoogleTagMangerNoScript />
+        <GoogleTagMangerScript />
         <div id="root">REPLACE_ME</div>
         <script
           type="text/javascript"
@@ -54,6 +57,7 @@ const Document = ({ helmet, assets, data }) => {
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  className: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,

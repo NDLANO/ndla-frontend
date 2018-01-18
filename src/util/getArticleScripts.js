@@ -9,7 +9,7 @@
 import config from '../config';
 
 const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
-  ? window.assets
+  ? window.DATA.assets
   : config.isProduction
     ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
     : require('../../server/developmentAssets');

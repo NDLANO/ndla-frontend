@@ -19,8 +19,10 @@ global.__SERVER__ = true;
 
 /* eslint-enable */
 
-window.config = {
-  ndlaApiUrl: 'http://ndla-api',
+window.DATA = {
+  config: {
+    ndlaApiUrl: 'http://ndla-api',
+  },
 };
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT

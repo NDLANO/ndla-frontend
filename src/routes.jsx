@@ -27,7 +27,7 @@ import config from './config';
 const searchEnabled =
   __SERVER__ || process.env.NODE_ENV === 'unittest'
     ? config.searchEnabled
-    : window.config.searchEnabled;
+    : window.DATA.config.searchEnabled;
 
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
