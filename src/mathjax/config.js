@@ -45,5 +45,5 @@ window.MathJax.Ajax.Preloading(
 );
 
 window.MathJax.Ajax.loadComplete(
-  `/assets/${window.assets['mathjaxConfig.js']}`,
+  `/assets/${window.DATA.assets['mathjaxConfig.js']}`,
 );

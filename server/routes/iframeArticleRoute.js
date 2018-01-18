@@ -46,6 +46,7 @@ const renderPage = initialProps => {
     helmet,
     assets: getAssets(),
     data: {
+      assets,
       initialProps,
       config,
     },
