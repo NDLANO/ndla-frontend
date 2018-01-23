@@ -55,9 +55,9 @@ test('reducers/topics handle set topic introductions', () => {
     type: actions.setTopicIntroductions,
     payload: {
       articleIntroductions: [
-        { id: '1', introduction: { introduction: 'Test1' } },
-        { id: '2', introduction: { introduction: 'Test2' } },
-        { id: '3', introduction: { introduction: 'Test3' } },
+        { id: '1', metaDescription: { metaDescription: 'Test1' } },
+        { id: '2', metaDescription: { metaDescription: 'Test2' } },
+        { id: '3', metaDescription: { metaDescription: 'Test3' } },
       ],
       topics: [
         { id: 'topicId1', contentUri: 'urn:article:1' },

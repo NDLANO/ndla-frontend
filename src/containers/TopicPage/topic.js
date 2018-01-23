@@ -61,7 +61,11 @@ export default handleActions(
             articleIntroduction =>
               item.contentUri === `urn:article:${articleIntroduction.id}`,
           );
-          return article ? { ...obj, [item.id]: article.introduction } : obj;
+          const introduction =
+            article && article.metaDescription
+              ? { introduction: article.metaDescription.metaDescription }
+              : '';
+          return article ? { ...obj, [item.id]: introduction } : obj;
         }, {});
 
         return {
