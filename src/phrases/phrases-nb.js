@@ -9,34 +9,34 @@
 const phrases = {
   articlePage: {
     errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av ressursen.',
+      'Beklager, en feil oppsto under lasting av ressursen.',
     error404Description:
-      'Vi beklager, men vi kunne ikke finne ressursen du leter etter.',
+      'Beklager, finner ikke ressursen du leter etter.',
   },
   notFoundPage: {
     errorDescription:
-      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
+      'Beklager, finner ikke siden du prøvde å komme til.',
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
   subjectPage: {
     errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emnene.',
+      'Beklager, en feil oppsto under lasting av emnene.',
     tabs: {
       topics: 'Emner',
     },
   },
   subjectsPage: {
     errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
+      'Beklager, en feil oppsto under lasting av fagene.',
     chooseSubject: 'Velg fag',
   },
   topicPage: {
     topicErrorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
+      'Beklager, en feil oppsto under lasting av emneinnholdet.',
     articleErrorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne beskrivelsen.',
+      'Beklager, en feil oppsto under lasting av emnebeskrivelsen.',
     topic: 'EMNE',
     topics: 'Emner',
   },
@@ -44,7 +44,7 @@ const phrases = {
     subjects: 'Fag',
     search: 'Gå til søk',
     errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
+      'Beklager, en feil oppsto under lasting av fagene.',
   },
   meta: {
     description:
@@ -64,7 +64,7 @@ const phrases = {
   },
   resource: {
     errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
+      'Beklager, men en feil oppsto under lasting av emneressurser.',
     noCoreResourcesAvailable: 'Det er ikke noe kjernestoff tilgjengelig.',
     activateAdditionalResources: 'Vis tilleggsstoff',
     toggleFilterLabel: 'Tilleggsstoff',
@@ -95,7 +95,7 @@ const phrases = {
     copyTitle: 'Kopier referanse',
     hasCopiedTitle: 'Kopiert!',
     embed: 'Bygg inn',
-    embedCopied: 'Kopierte bygg inn kode!',
+    embedCopied: 'Kopierte innbyggingskode!',
     download: 'Last ned',
     tabs: {
       text: 'Tekst',
@@ -106,7 +106,7 @@ const phrases = {
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
       description:
-        'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
+        'Husk å kopiere teksten som skal legges ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kilde',
       title: 'Tittel',
@@ -114,20 +114,20 @@ const phrases = {
     text: {
       heading: 'Slik bruker du tekst fra artikkelen',
       description:
-        'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
+        'Artikkelen kan være sammensatt av flere tekster som listes opp her.',
       rules: 'Regler for bruk av teksten:',
       published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
       description:
-        'Husk å kopier teksten som skal legges ved lydfilen der du bruker den.',
+        'Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.',
       rules: 'Regler for bruk av lydfilen:',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
       description:
-        'Husk å kopier teksten som skal legges ved videoen der du bruker den.',
+        'Husk å kopiere teksten som skal legges ved videoen der du bruker den.',
       rules: 'Regler for bruk av videoen:',
     },
     creditType: {
@@ -160,8 +160,8 @@ const phrases = {
     label: 'Du er her:',
   },
   errorMessage: {
-    title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, men en feil oppsto.',
+    title: 'Ops, noe gikk galt',
+    description: 'Beklager, en feil oppsto.',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
   },
