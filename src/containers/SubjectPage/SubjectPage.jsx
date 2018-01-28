@@ -14,6 +14,7 @@ import {
   SubjectHero,
   ErrorMessage,
   TopicIntroductionList,
+  FilterList,
 } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import defined from 'defined';
@@ -27,6 +28,7 @@ import {
   getTopic,
   getFetchTopicsStatus,
 } from '../TopicPage/topic';
+import { actions as filterActions, getActiveFilter } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 
@@ -38,8 +40,10 @@ class SubjectPage extends Component {
       match: { params: { subjectId } },
       fetchTopicsWithIntroductions,
       fetchSubjects,
+      fetchSubjectFilters,
     } = ctx;
     fetchSubjects();
+    fetchSubjectFilters(subjectId);
     fetchTopicsWithIntroductions({ subjectId });
   }
 
@@ -60,8 +64,26 @@ class SubjectPage extends Component {
     }
   }
 
+  handleFilterClick = e => {
+    const {
+      match: { params: { subjectId } },
+      filters,
+      setActiveFilter,
+    } = this.props;
+    const filterId = filters.find(it => it.name === e.target.id).id;
+    setActiveFilter({ filterId, subjectId });
+  };
+
   render() {
-    const { subjectTopics, t, topic, match, hasFailed } = this.props;
+    const {
+      subjectTopics,
+      t,
+      topic,
+      match,
+      hasFailed,
+      filters,
+      activeFilter,
+    } = this.props;
     const { params: { subjectId } } = match;
 
     const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
@@ -85,6 +107,14 @@ class SubjectPage extends Component {
         <OneColumn>
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
+              <FilterList
+                filterContent={filters.map(it => ({
+                  ...it,
+                  title: it.name,
+                  active: activeFilter === it.id,
+                }))}
+                onClick={this.handleFilterClick}
+              />
               {hasFailed ? (
                 <ErrorMessage
                   messages={{
@@ -130,7 +160,9 @@ SubjectPage.propTypes = {
 
 const mapDispatchToProps = {
   fetchSubjects: actions.fetchSubjects,
+  fetchSubjectFilters: filterActions.fetchSubjectFilters,
   fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
+  setActiveFilter: filterActions.setActive,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -139,6 +171,8 @@ const mapStateToProps = (state, ownProps) => {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
     hasFailed: getFetchTopicsStatus(state) === 'error',
+    filters: state.filters.all[subjectId] || [],
+    activeFilter: getActiveFilter(subjectId)(state),
   };
 };
 

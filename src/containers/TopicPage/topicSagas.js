@@ -62,10 +62,10 @@ export function* fetchTopicArticle(subjectId, topicId) {
   }
 }
 
-export function* fetchTopics(subjectId) {
+export function* fetchTopics(subjectId, filters) {
   try {
     const locale = yield select(getLocale);
-    const topics = yield call(api.fetchTopics, subjectId, locale);
+    const topics = yield call(api.fetchTopics, subjectId, locale, filters);
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
@@ -88,10 +88,10 @@ export function* fetchTopicsWithIntroductions(subjectId) {
 
 export function* watchFetchTopicsWithIntroductions() {
   while (true) {
-    const { payload: { subjectId } } = yield take(
+    const { payload: { subjectId, filters } } = yield take(
       actions.fetchTopicsWithIntroductions,
     );
-    yield call(fetchTopicsWithIntroductions, subjectId);
+    yield call(fetchTopicsWithIntroductions, subjectId, filters);
   }
 }
 

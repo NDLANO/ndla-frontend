@@ -14,14 +14,7 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopics = (subjectId, locale, filters) =>
-  fetchWithAccessToken(
-    `${baseUrl}/subjects/${subjectId}/topics/?recursive=true&language=${locale}${
-      filters ? `&filter=${filters}` : ''
-    }`,
-  ).then(resolveJsonOrRejectWithError);
-
-export const fetchTopic = (topicId, locale) =>
-  fetchWithAccessToken(`${baseUrl}/topics/${topicId}/?language=${locale}`).then(
+export const fetchSubjectFilters = id =>
+  fetchWithAccessToken(`${baseUrl}/subjects/${id}/filters`).then(
     resolveJsonOrRejectWithError,
   );
