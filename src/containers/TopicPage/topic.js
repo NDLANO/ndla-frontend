@@ -16,12 +16,13 @@ import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 import createFetchActions from '../../util/createFetchActions';
 
 export const fetchTopicsActions = createFetchActions('TOPICS');
+export const fetchTopicArticleActions = createFetchActions('TOPIC_ARTICLE');
 export const fetchTopicsWithIntroductions = createAction(
   'FETCH_TOPICS_WITH_INTRODUCTIONS',
 );
-export const setTopics = createAction('SET_TOPICS');
-export const fetchTopicArticleActions = createFetchActions('TOPIC_ARTICLE');
 
+export const setTopics = createAction('SET_TOPICS');
+export const setFilteredTopics = createAction('SET_FILTERED_TOPICS');
 export const setTopicIntroductions = createAction('SET_TOPIC_INTRODUCTIONS');
 
 export const actions = {
@@ -29,6 +30,7 @@ export const actions = {
   ...fetchTopicArticleActions,
   fetchTopicsWithIntroductions,
   setTopics,
+  setFilteredTopics,
   setTopicIntroductions,
 };
 
@@ -77,6 +79,25 @@ export default handleActions(
         };
       },
       throw: state => state,
+    },
+    [actions.setFilteredTopics]: {
+      next: (state, { payload: { subjectId, topics, filterId } }) => ({
+        ...state,
+        all: {
+          ...state.all,
+          [subjectId]: state.all[subjectId].map(it => {
+            const isFiltered = topics.find(
+              filteredTop => filteredTop.id === it.id,
+            );
+            return isFiltered
+              ? {
+                  ...it,
+                  filter: [...(it.filter || []), filterId],
+                }
+              : it;
+          }),
+        },
+      }),
     },
     [actions.fetchTopicsError]: {
       next: state => ({

@@ -28,7 +28,11 @@ import {
   getTopic,
   getFetchTopicsStatus,
 } from '../TopicPage/topic';
-import { actions as filterActions, getActiveFilter } from '../Filters/filter';
+import {
+  actions as filterActions,
+  getActiveFilter,
+  getFilters,
+} from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 
@@ -82,7 +86,7 @@ class SubjectPage extends Component {
       match,
       hasFailed,
       filters,
-      activeFilter,
+      activeFilters,
     } = this.props;
     const { params: { subjectId } } = match;
 
@@ -108,10 +112,10 @@ class SubjectPage extends Component {
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
               <FilterList
-                filterContent={filters.map(it => ({
-                  ...it,
-                  title: it.name,
-                  active: activeFilter === it.id,
+                filterContent={filters.map(filt => ({
+                  ...filt,
+                  title: filt.name,
+                  active: !!activeFilters.find(actId => actId === filt.id),
                 }))}
                 onClick={this.handleFilterClick}
               />
@@ -131,7 +135,17 @@ class SubjectPage extends Component {
                   </h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId)}
-                    topics={topics}
+                    topics={
+                      activeFilters.length === 0
+                        ? topics
+                        : topics.filter(
+                            top =>
+                              top.filter &&
+                              !activeFilters.find(
+                                active => top.filter.indexOf(active) === -1,
+                              ),
+                          )
+                    }
                   />
                 </div>
               )}
@@ -156,6 +170,9 @@ SubjectPage.propTypes = {
   subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
   subject: SubjectShape,
   topic: TopicShape,
+  filters: PropTypes.arrayOf(PropTypes.object),
+  setActiveFilter: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapDispatchToProps = {
@@ -171,8 +188,8 @@ const mapStateToProps = (state, ownProps) => {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
     hasFailed: getFetchTopicsStatus(state) === 'error',
-    filters: state.filters.all[subjectId] || [],
-    activeFilter: getActiveFilter(subjectId)(state),
+    filters: getFilters(subjectId)(state),
+    activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };
 

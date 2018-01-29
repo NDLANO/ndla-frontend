@@ -14,10 +14,10 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export const fetchTopics = (subjectId, locale, filters) =>
+export const fetchTopics = (subjectId, locale, filter) =>
   fetchWithAccessToken(
     `${baseUrl}/subjects/${subjectId}/topics/?recursive=true&language=${locale}${
-      filters ? `&filter=${filters}` : ''
+      filter ? `&filter=${filter}` : ''
     }`,
   ).then(resolveJsonOrRejectWithError);
 

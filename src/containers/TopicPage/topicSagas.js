@@ -62,11 +62,24 @@ export function* fetchTopicArticle(subjectId, topicId) {
   }
 }
 
-export function* fetchTopics(subjectId, filters) {
+export function* fetchTopics(subjectId) {
   try {
     const locale = yield select(getLocale);
-    const topics = yield call(api.fetchTopics, subjectId, locale, filters);
+    const topics = yield call(api.fetchTopics, subjectId, locale);
     yield put(actions.setTopics({ topics, subjectId }));
+    return topics;
+  } catch (error) {
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicsError());
+    return [];
+  }
+}
+
+export function* fetchTopicsFiltered({ payload: { subjectId, filterId } }) {
+  try {
+    const locale = yield select(getLocale);
+    const topics = yield call(api.fetchTopics, subjectId, locale, filterId);
+    yield put(actions.setFilteredTopics({ topics, subjectId, filterId }));
     return topics;
   } catch (error) {
     yield put(applicationError(error));
