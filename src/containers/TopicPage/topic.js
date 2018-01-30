@@ -180,6 +180,22 @@ export const getTopicsBySubjectIdWithIntroduction = subjectId =>
       }),
   );
 
+export const getTopicsBySubjectIdWithIntroductionFiltered = subjectId =>
+  createSelector(
+    state => state.filters.active,
+    getTopicsBySubjectIdWithIntroduction(subjectId),
+    (activeFilters, topics) =>
+      activeFilters[subjectId] && activeFilters[subjectId].length > 0
+        ? topics.filter(
+            top =>
+              top.filter &&
+              !activeFilters[subjectId].find(
+                active => top.filter.indexOf(active) === -1,
+              ),
+          )
+        : topics,
+  );
+
 export const getTopic = (subjectId, topicId = undefined) =>
   createSelector([getAllTopicsBySubjectId(subjectId)], topics =>
     topics.find(topic => topicId === topic.id),
