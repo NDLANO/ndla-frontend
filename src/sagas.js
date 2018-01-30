@@ -11,6 +11,7 @@ import articleSagas from './containers/ArticlePage/articleSagas';
 import searchSagas from './containers/SearchPage/searchSagas';
 import subjectSagas from './containers/SubjectPage/subjectSagas';
 import topicSagas from './containers/TopicPage/topicSagas';
+import filterSagas from './containers/Filters/filterSagas';
 import resourceSagas from './containers/Resources/resourceSagas';
 import errorSagas from './modules/error/errorSagas';
 import handleError from './util/handleError';
@@ -56,6 +57,7 @@ export default function* root() {
     ...searchSagas.map(s => fork(s)),
     ...subjectSagas.map(s => fork(s)),
     ...topicSagas.map(s => fork(s)),
+    ...filterSagas.map(s => fork(s)),
     ...resourceSagas.map(s => fork(s)),
     ...errorSagas.map(s => fork(s)),
   ]);

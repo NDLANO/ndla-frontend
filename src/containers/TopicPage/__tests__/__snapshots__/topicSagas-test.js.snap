@@ -117,6 +117,7 @@ Object {
       "CALL": Object {
         "args": Array [
           "urn:subject:1",
+          undefined,
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopicsWithIntroductions",
@@ -498,6 +499,7 @@ Object {
       "CALL": Object {
         "args": Array [
           "urn:subject:1",
+          undefined,
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopicsWithIntroductions",

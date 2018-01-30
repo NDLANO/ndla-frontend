@@ -75,6 +75,19 @@ export function* fetchTopics(subjectId) {
   }
 }
 
+export function* fetchTopicsFiltered({ payload: { subjectId, filterId } }) {
+  try {
+    const locale = yield select(getLocale);
+    const topics = yield call(api.fetchTopics, subjectId, locale, filterId);
+    yield put(actions.setFilteredTopics({ topics, subjectId, filterId }));
+    return topics;
+  } catch (error) {
+    yield put(applicationError(error));
+    yield put(actions.fetchTopicsError());
+    return [];
+  }
+}
+
 export function* fetchTopicsWithIntroductions(subjectId) {
   const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
   if (!hasFetched) {
@@ -88,10 +101,10 @@ export function* fetchTopicsWithIntroductions(subjectId) {
 
 export function* watchFetchTopicsWithIntroductions() {
   while (true) {
-    const { payload: { subjectId } } = yield take(
+    const { payload: { subjectId, filters } } = yield take(
       actions.fetchTopicsWithIntroductions,
     );
-    yield call(fetchTopicsWithIntroductions, subjectId);
+    yield call(fetchTopicsWithIntroductions, subjectId, filters);
   }
 }
 
