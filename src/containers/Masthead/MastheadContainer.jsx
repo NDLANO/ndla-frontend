@@ -50,7 +50,6 @@ class MastheadContainer extends React.PureComponent {
       topicPath,
       filters,
       activeFilters,
-      setActiveFilter,
     } = this.props;
     return (
       <Masthead fixed>
@@ -127,6 +126,9 @@ MastheadContainer.propTypes = {
   subject: SubjectShape,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
+  filters: PropTypes.arrayOf(PropTypes.object),
+  setActiveFilter: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = (state, ownProps) => {
