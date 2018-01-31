@@ -180,11 +180,10 @@ export const getTopicsBySubjectIdWithIntroduction = subjectId =>
       }),
   );
 
-export const getTopicsBySubjectIdWithIntroductionFiltered = subjectId =>
+export const getTopicsFiltered = (subjectId, topics) =>
   createSelector(
     state => state.filters.active,
-    getTopicsBySubjectIdWithIntroduction(subjectId),
-    (activeFilters, topics) =>
+    activeFilters =>
       activeFilters[subjectId] && activeFilters[subjectId].length > 0
         ? topics.filter(
             top =>
@@ -194,6 +193,13 @@ export const getTopicsBySubjectIdWithIntroductionFiltered = subjectId =>
               ),
           )
         : topics,
+  );
+
+export const getTopicsBySubjectIdWithIntroductionFiltered = subjectId =>
+  createSelector(
+    state => state,
+    getTopicsBySubjectIdWithIntroduction(subjectId),
+    (state, topics) => getTopicsFiltered(subjectId, topics)(state),
   );
 
 export const getTopic = (subjectId, topicId = undefined) =>
@@ -216,24 +222,28 @@ export const getSubtopics = (subjectId, topicId) =>
   );
 
 export const getSubjectMenu = subjectId =>
-  createSelector([getAllTopicsBySubjectId(subjectId)], topics => {
-    const groupedSubtopicsByParent = groupBy(
-      topics.filter(topic => topic.parent),
-      'parent',
-    );
+  createSelector(
+    [state => state, getAllTopicsBySubjectId(subjectId)],
+    (state, topics) => {
+      const filteredTopics = getTopicsFiltered(subjectId, topics)(state);
+      const groupedSubtopicsByParent = groupBy(
+        filteredTopics.filter(topic => topic.parent),
+        'parent',
+      );
 
-    const toMenu = topic => {
-      const subtopics = defined(groupedSubtopicsByParent[topic.id], []);
+      const toMenu = topic => {
+        const subtopics = defined(groupedSubtopicsByParent[topic.id], []);
 
-      const subtopicsWithSubtopics = subtopics.map(child => toMenu(child));
+        const subtopicsWithSubtopics = subtopics.map(child => toMenu(child));
 
-      return { ...topic, subtopics: subtopicsWithSubtopics };
-    };
+        return { ...topic, subtopics: subtopicsWithSubtopics };
+      };
 
-    return topics
-      .filter(t => !t.parent || t.parent === subjectId)
-      .map(root => toMenu(root));
-  });
+      return filteredTopics
+        .filter(t => !t.parent || t.parent === subjectId)
+        .map(root => toMenu(root));
+    },
+  );
 
 export const getTopicPath = (subjectId, topicId) =>
   createSelector(

@@ -23,49 +23,98 @@ import { compose } from 'redux';
 import { toTopic, toSubject } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
+import {
+  actions as filterActions,
+  getActiveFilter,
+  getFilters,
+} from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-const MastheadContainer = ({ t, subject, topics, topicPath }) => (
-  <Masthead fixed>
-    <MastheadItem left>
-      {subject ? (
-        <ClickToggle
-          title={t('masthead.menu.title')}
-          openTitle={t('masthead.menu.close')}
-          className="c-topic-menu-container"
-          buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
-          <TopicMenu
-            toSubject={() => toSubject(subject.id)}
-            subjectTitle={subject.name}
-            toTopic={toTopicWithSubjectIdBound(subject.id)}
-            topics={topics}
-            messages={{
-              goTo: t('masthead.menu.goTo'),
-              subjectOverview: t('masthead.menu.subjectOverview'),
-              search: t('masthead.menu.search'),
-            }}
-          />
-        </ClickToggle>
-      ) : null}
-      {subject ? (
-        <DisplayOnPageYOffset yOffset={150}>
-          <BreadcrumbBlock
-            subject={subject}
-            topicPath={topicPath}
-            toTopic={toTopic}
-          />
-        </DisplayOnPageYOffset>
-      ) : null}
-    </MastheadItem>
-    <MastheadItem right>
-      <Logo to="/" altText="Nasjonal digital læringsarena" />
-    </MastheadItem>
-  </Masthead>
-);
+class MastheadContainer extends React.PureComponent {
+  state = { isOpen: false };
+  filterClick = (newValues, filterId) =>
+    this.props.setActiveFilter({
+      newValues,
+      subjectId: this.props.subject.id,
+      filterId,
+    });
+  render() {
+    const {
+      t,
+      subject,
+      topics,
+      topicPath,
+      filters,
+      activeFilters,
+      setActiveFilter,
+    } = this.props;
+    return (
+      <Masthead fixed>
+        <MastheadItem left>
+          {subject ? (
+            <ClickToggle
+              title={t('masthead.menu.title')}
+              openTitle={t('masthead.menu.close')}
+              className="c-topic-menu-container"
+              isOpen={this.state.isOpen}
+              onToggle={bool => this.setState({ isOpen: bool })}
+              buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
+              <TopicMenu
+                toSubject={() => toSubject(subject.id)}
+                subjectTitle={subject.name}
+                toTopic={toTopicWithSubjectIdBound(subject.id)}
+                topics={topics}
+                withSearchAndFilter
+                messages={{
+                  goTo: t('masthead.menu.goTo'),
+                  subjectOverview: t('masthead.menu.subjectOverview'),
+                  search: t('masthead.menu.search'),
+                  subjectPage: t('masthead.menu.subjectPage'),
+                  learningResourcesHeading: t(
+                    'masthead.menu.learningResourcesHeading',
+                  ),
+                  back: 'Tilbake',
+                  contentTypeResultsShowMore: t(
+                    'masthead.menu.contentTypeResultsShowMore',
+                  ),
+                }}
+                filterOptions={filters}
+                onFilterClick={this.filterClick}
+                filterValues={activeFilters}
+                onOpenSearch={() => {}}
+                onNavigate={(expandedTopicId, expandedSubtopicId) => {
+                  this.setState({
+                    expandedTopicId,
+                    expandedSubtopicId,
+                  });
+                }}
+                expandedTopicId={this.state.expandedTopicId}
+                expandedSubtopicId={this.state.expandedSubtopicId}
+                searchPageUrl="#"
+              />
+            </ClickToggle>
+          ) : null}
+          {subject ? (
+            <DisplayOnPageYOffset yOffset={150}>
+              <BreadcrumbBlock
+                subject={subject}
+                topicPath={topicPath}
+                toTopic={toTopic}
+              />
+            </DisplayOnPageYOffset>
+          ) : null}
+        </MastheadItem>
+        <MastheadItem right>
+          <Logo to="/" altText="Nasjonal digital læringsarena" />
+        </MastheadItem>
+      </Masthead>
+    );
+  }
+}
 
 MastheadContainer.propTypes = {
   match: PropTypes.shape({
@@ -86,7 +135,12 @@ const mapStateToProps = (state, ownProps) => {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
+    filters: getFilters(subjectId)(state),
+    activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };
 
-export default compose(injectT, connect(mapStateToProps))(MastheadContainer);
+export default compose(
+  injectT,
+  connect(mapStateToProps, { setActiveFilter: filterActions.setActive }),
+)(MastheadContainer);

@@ -66,14 +66,9 @@ class SubjectPage extends Component {
     }
   }
 
-  handleFilterClick = e => {
-    const {
-      match: { params: { subjectId } },
-      filters,
-      setActiveFilter,
-    } = this.props;
-    const filterId = filters.find(it => it.name === e.target.id).id;
-    setActiveFilter({ filterId, subjectId });
+  handleFilterClick = (newValues, filterId) => {
+    const { match: { params: { subjectId } }, setActiveFilter } = this.props;
+    setActiveFilter({ newValues, subjectId, filterId });
   };
 
   render() {
@@ -108,12 +103,9 @@ class SubjectPage extends Component {
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
               <FilterList
-                filterContent={filters.map(filt => ({
-                  ...filt,
-                  title: filt.name,
-                  active: !!activeFilters.find(actId => actId === filt.id),
-                }))}
-                onClick={this.handleFilterClick}
+                options={filters}
+                values={activeFilters}
+                onChange={this.handleFilterClick}
               />
               {hasFailed ? (
                 <ErrorMessage
