@@ -63,6 +63,7 @@ class MastheadContainer extends React.PureComponent {
               onToggle={bool => this.setState({ isOpen: bool })}
               buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
               <TopicMenu
+                hideSearch
                 toSubject={() => toSubject(subject.id)}
                 subjectTitle={subject.name}
                 toTopic={toTopicWithSubjectIdBound(subject.id)}
