@@ -12,7 +12,7 @@ import defined from 'defined';
 import { injectT } from 'ndla-i18n';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
-import getContentTypeFromResourceTypes from '../../../components/getContentTypeFromResourceTypes';
+import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 import { toTopic } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
@@ -22,7 +22,7 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
   );
   return (
     <Hero contentType={resourceTypeMetaData.contentType}>
-      <OneColumn cssModifier="narrow">
+      <OneColumn>
         <div className="c-hero__content">
           <section>
             {subject ? (

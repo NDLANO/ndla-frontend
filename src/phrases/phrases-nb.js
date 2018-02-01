@@ -164,8 +164,8 @@ const phrases = {
     label: 'Du er her:',
   },
   errorMessage: {
-    title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, men en feil oppsto.',
+    title: 'Oisann, her gikk noe galt',
+    description: 'Vi beklager, en ukjent feil oppsto.',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsiden',
   },

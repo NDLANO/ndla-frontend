@@ -6,23 +6,49 @@
  *
  */
 
+import { matchPath } from 'react-router-dom';
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
+import parseUrl from 'parse-url';
 import { isValidLocale } from '../../src/i18n';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import { articlePath } from '../../src/routes';
 import config from '../../src/config';
 
-export function oembedArticleRoute(req, res, token) {
-  res.setHeader('Content-Type', 'application/json');
-  // http://ndla-frontend.test.api.ndla.no/article/3023
+export function parseAndMatchUrl(url) {
+  const { pathname } = parseUrl(url);
+  const paths = pathname.split('/');
+  if (isValidLocale(paths[1])) {
+    return matchPath(pathname, `/:lang${articlePath}`);
+  }
+  return matchPath(pathname, articlePath);
+}
+
+export async function oembedArticleRoute(req) {
   const { url } = req.query;
   if (!url) {
-    res.status(404).json({ status: 404, text: 'Url not found' });
+    return {
+      status: BAD_REQUEST,
+      data: 'Bad request. Missing url param.',
+    };
   }
-  const paths = url.split('/');
-  const articleId = paths.length > 5 ? paths[5] : paths[4];
-  const lang = paths.length > 2 && isValidLocale(paths[3]) ? paths[3] : 'nb';
-  fetchArticle(articleId, lang, token.access_token)
-    .then(article => {
-      res.json({
+
+  const match = parseAndMatchUrl(url);
+
+  if (!match) {
+    return {
+      status: BAD_REQUEST,
+      data: 'Bad request. Invalid url.',
+    };
+  }
+
+  const {
+    params: { articleId, plainResourceId: resourceId, lang = 'nb' },
+  } = match;
+
+  try {
+    const article = await fetchArticle(articleId, lang);
+    return {
+      data: {
         type: 'rich',
         version: '1.0', // oEmbed version
         height: req.query.height ? req.query.height : 800,
@@ -30,10 +56,15 @@ export function oembedArticleRoute(req, res, token) {
         title: article.title,
         html: `<iframe src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/${articleId}" frameborder="0" />`,
-      });
-    })
-    .catch(error => {
-      res.status(error.status).json(error.message);
-    });
+        }/article-iframe/${lang}/${resourceId}/${articleId}" frameborder="0" />`,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    const status = error.status || INTERNAL_SERVER_ERROR;
+    return {
+      status,
+      data: 'Internal server error',
+    };
+  }
 }

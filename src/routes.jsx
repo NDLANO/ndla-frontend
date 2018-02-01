@@ -27,7 +27,7 @@ import config from './config';
 const searchEnabled =
   __SERVER__ || process.env.NODE_ENV === 'unittest'
     ? config.searchEnabled
-    : window.config.searchEnabled;
+    : window.DATA.config.searchEnabled;
 
 class ScrollToTop extends React.Component {
   componentDidUpdate() {
@@ -63,6 +63,9 @@ const SearchRoute = searchEnabled
   ? { path: '/search', component: SearchPage, background: false }
   : undefined;
 
+export const articlePath =
+  '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId';
+
 export const routes = [
   {
     path: '/',
@@ -71,8 +74,7 @@ export const routes = [
     background: false,
   },
   {
-    path:
-      '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId',
+    path: articlePath,
     component: ArticlePage,
     background: true,
   },

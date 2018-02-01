@@ -1,0 +1,574 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IframeArticlePage displays error message on status === error 1`] = `
+<div
+  className="o-container"
+>
+  <div
+    className="o-wrapper o-wrapper--clear "
+  >
+    <div
+      className="c-error-message"
+    >
+      <div>
+        <p>
+          [illustrasjon]
+        </p>
+        <h1>
+          Oisann, her gikk noe galt
+        </h1>
+        <p
+          className="c-error-message__description"
+        >
+          Vi beklager, en ukjent feil oppsto.
+        </p>
+        <h3 />
+        <div
+          className="c-search"
+        >
+          <input
+            aria-autocomplete="list"
+            autoComplete="on"
+            className="c-search__input"
+            id="search"
+            name="search"
+            placeholder="Søk etter innhold"
+            tabIndex="0"
+            type="search"
+            value=""
+          />
+          <button
+            className="c-search__button"
+            tabIndex="-1"
+            type="submit"
+            value="Search"
+          >
+            <svg
+              className="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style={
+                Object {
+                  "color": undefined,
+                  "verticalAlign": "middle",
+                }
+              }
+              viewBox="0 0 48 48"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`IframeArticlePage renderers correctly 1`] = `
+<div
+  className="o-container"
+>
+  <div
+    className="o-wrapper o-wrapper--clear "
+  >
+    <article
+      className="c-article"
+    >
+      <section
+        className="u-4/6@desktop u-push-1/6@desktop"
+      >
+        <div
+          className="c-article__title"
+        >
+          <h1>
+            Politiske skillelinjer
+          </h1>
+        </div>
+        <p
+          className="article_introduction"
+        >
+          Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+        </p>
+        <div
+          className="c-article-byline"
+        >
+          <span
+            className="c-article-byline__flex"
+          >
+            <span
+              className="c-article-byline__icon"
+            >
+              <svg
+                className="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style={
+                  Object {
+                    "color": undefined,
+                    "verticalAlign": "middle",
+                  }
+                }
+                viewBox="0 0 48 48"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M24 24c4.42 0 8-3.59 8-8 0-4.42-3.58-8-8-8s-8 3.58-8 8c0 4.41 3.58 8 8 8zm0 4c-5.33 0-16 2.67-16 8v4h32v-4c0-5.33-10.67-8-16-8z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <span
+              className="c-article-byline__authors"
+            >
+              Someone.
+               
+              <br />
+              (
+              CC BY-SA
+              )
+            </span>
+          </span>
+          <span
+            className="c-article-byline__flex"
+          >
+            <span
+              className="c-article-byline__icon"
+            >
+              <svg
+                className="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style={
+                  Object {
+                    "color": undefined,
+                    "verticalAlign": "middle",
+                  }
+                }
+                viewBox="0 0 48 48"
+                width="1em"
+              >
+                <g>
+                  <path
+                    d="M23.99 4C12.94 4 4 12.95 4 24s8.94 20 19.99 20C35.04 44 44 35.05 44 24S35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16zm1-26h-3v12l10.49 6.3L34 29.84l-9-5.34z"
+                  />
+                </g>
+              </svg>
+            </span>
+            <span
+              className="c-article-byline__date"
+            >
+              Sist oppdatert
+               
+              09.01.2018
+            </span>
+            <button
+              className="c-button c-button--stripped c-article__license-toggler"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              Bruk artikkel
+            </button>
+            <div
+              className="o-backdrop c-licensebox__backdrop"
+            />
+            <div
+              className="c-licensebox"
+            >
+              <div
+                aria-hidden={true}
+                aria-labelledby="license-heading"
+                className="c-licensebox__content"
+                role="dialog"
+              >
+                <button
+                  className="c-button c-button--stripped c-article__license-toggler"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  Bruk artikkel
+                </button>
+                <div>
+                  <h1
+                    className="license__heading"
+                  >
+                    Slik gjenbruker du innhold
+                  </h1>
+                  <div
+                    className="c-tabs"
+                    data-tabs={true}
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                  >
+                    <ul
+                      className="c-tabs__list"
+                      role="tablist"
+                    >
+                      <li
+                        aria-controls="react-tabs-1"
+                        aria-disabled="false"
+                        aria-selected="true"
+                        className="c-tabs__tab c-tabs__tab--selected react-tabs__tab--selected"
+                        id="react-tabs-0"
+                        role="tab"
+                        tabIndex="0"
+                      >
+                        Tekst
+                      </li>
+                    </ul>
+                    <div
+                      aria-labelledby="react-tabs-0"
+                      className="c-tabs__panel react-tabs__tab-panel--selected"
+                      id="react-tabs-1"
+                      role="tabpanel"
+                    >
+                      <div>
+                        <h2>
+                          Slik bruker du tekst fra artikkelen
+                        </h2>
+                        <p>
+                          Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.
+                        </p>
+                        <ul
+                          className="c-medialist"
+                        >
+                          <li
+                            className="o-media c-medialist__item"
+                          >
+                            <div
+                              className="o-media__img c-medialist__img"
+                            >
+                              <svg
+                                className="c-icon c-medialist__icon"
+                                data-license="CC-BY 4.0"
+                                data-source="Netlife"
+                                fill="currentColor"
+                                height="1em"
+                                preserveAspectRatio="xMidYMid meet"
+                                style={
+                                  Object {
+                                    "color": undefined,
+                                    "verticalAlign": "middle",
+                                  }
+                                }
+                                viewBox="0 0 78 77"
+                                width="1em"
+                              >
+                                <g>
+                                  <circle
+                                    cx="38.5"
+                                    cy="38.9"
+                                    fill="#FFF"
+                                    r="38.3"
+                                  />
+                                  <g
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M39.0741334,76.5226713 C60.3071369,76.5226713 77.5202746,59.4081284 77.5202746,38.2935557 C77.5202746,17.178983 60.3071369,0.061854495 39.0741334,0.061854495 C17.8411299,0.061854495 0.627992189,17.178983 0.627992189,38.2935557 C0.627992189,59.4081284 17.8411299,76.5226713 39.0741334,76.5226713"
+                                      fill="#DA788D"
+                                    />
+                                    <polygon
+                                      fill="#FFF"
+                                      points="58.32 62.973 58.32 34.859 58.32 20.762 48.164 10.663 19.83 10.663 19.83 21.098 19.83 34.859 19.83 62.973"
+                                    />
+                                    <polygon
+                                      fill="gray"
+                                      points="48.165 20.762 58.321 20.762 48.165 10.662"
+                                    />
+                                    <polygon
+                                      fill="#CCC"
+                                      points="58.32 20.762 48.164 20.762 58.32 30.861"
+                                    />
+                                    <polygon
+                                      fill="#DA788D"
+                                      points="27.12 21.457 38.896 21.457 38.896 20.5 27.12 20.5"
+                                    />
+                                    <polygon
+                                      fill="#B3B3B3"
+                                      points="27.12 26.16 51.033 26.16 51.033 25.203 27.12 25.203"
+                                    />
+                                    <polygon
+                                      fill="#B3B3B3"
+                                      points="27.12 29.162 51.033 29.162 51.033 28.208 27.12 28.208"
+                                    />
+                                    <polygon
+                                      fill="#B3B3B3"
+                                      points="27.12 32.167 51.033 32.167 51.033 31.21 27.12 31.21"
+                                    />
+                                    <polygon
+                                      fill="#B3B3B3"
+                                      points="27.12 35.171 51.033 35.171 51.033 34.214 27.12 34.214"
+                                    />
+                                    <polygon
+                                      fill="#DA788D"
+                                      points="27.12 58.53 50.802 58.53 50.802 39.262 27.12 39.262"
+                                    />
+                                    <polygon
+                                      fill="#FFF"
+                                      points="44.342 48.896 35.73 53.178 35.73 44.614"
+                                    />
+                                  </g>
+                                </g>
+                              </svg>
+                            </div>
+                            <div
+                              about=""
+                              className="o-media__body c-medialist__body"
+                              xmlns:cc="https://creativecommons.org/ns#"
+                              xmlns:dct="http://purl.org/dc/terms/"
+                            >
+                              <span
+                                href="http://purl.org/dc/dcmitype/Text"
+                                rel="dct:type"
+                                style={
+                                  Object {
+                                    "display": "none",
+                                  }
+                                }
+                              />
+                              <h3
+                                className="c-medialist__title"
+                              >
+                                Regler for bruk av teksten:
+                                 
+                              </h3>
+                              <div
+                                className="c-license-byline"
+                              >
+                                <div>
+                                  <ul
+                                    className="c-license-icons__list"
+                                  >
+                                    <li
+                                      className="c-license-icons__item"
+                                    >
+                                      <svg
+                                        aria-label="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
+                                        className="c-icon c-license-icons__icon"
+                                        data-license="CC-BY 4.0"
+                                        data-source="Creative Commons"
+                                        fill="currentColor"
+                                        height="1em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        style={
+                                          Object {
+                                            "color": undefined,
+                                            "verticalAlign": "middle",
+                                          }
+                                        }
+                                        viewBox="5.5 -3.5 64 64"
+                                        width="1em"
+                                      >
+                                        <g>
+                                          <circle
+                                            cx="37.785"
+                                            cy="28.501"
+                                            fill="none"
+                                            r="28.836"
+                                          />
+                                          <path
+                                            d="M37.441-3.5c8.951,0,16.572,3.125,22.857,9.372c3.008,3.009,5.295,6.448,6.857,10.314		c1.561,3.867,2.344,7.971,2.344,12.314c0,4.381-0.773,8.486-2.314,12.313c-1.543,3.828-3.82,7.21-6.828,10.143		c-3.123,3.085-6.666,5.448-10.629,7.086c-3.961,1.638-8.057,2.457-12.285,2.457s-8.276-0.808-12.143-2.429		c-3.866-1.618-7.333-3.961-10.4-7.027c-3.067-3.066-5.4-6.524-7-10.372S5.5,32.767,5.5,28.5c0-4.229,0.809-8.295,2.428-12.2		c1.619-3.905,3.972-7.4,7.057-10.486C21.08-0.394,28.565-3.5,37.441-3.5z M37.557,2.272c-7.314,0-13.467,2.553-18.458,7.657		c-2.515,2.553-4.448,5.419-5.8,8.6c-1.354,3.181-2.029,6.505-2.029,9.972c0,3.429,0.675,6.734,2.029,9.913		c1.353,3.183,3.285,6.021,5.8,8.516c2.514,2.496,5.351,4.399,8.515,5.715c3.161,1.314,6.476,1.971,9.943,1.971		c3.428,0,6.75-0.665,9.973-1.999c3.219-1.335,6.121-3.257,8.713-5.771c4.99-4.876,7.484-10.99,7.484-18.344		c0-3.543-0.648-6.895-1.943-10.057c-1.293-3.162-3.18-5.98-5.654-8.458C50.984,4.844,44.795,2.272,37.557,2.272z M37.156,23.187		l-4.287,2.229c-0.458-0.951-1.019-1.619-1.685-2c-0.667-0.38-1.286-0.571-1.858-0.571c-2.856,0-4.286,1.885-4.286,5.657		c0,1.714,0.362,3.084,1.085,4.113c0.724,1.029,1.791,1.544,3.201,1.544c1.867,0,3.181-0.915,3.944-2.743l3.942,2		c-0.838,1.563-2,2.791-3.486,3.686c-1.484,0.896-3.123,1.343-4.914,1.343c-2.857,0-5.163-0.875-6.915-2.629		c-1.752-1.752-2.628-4.19-2.628-7.313c0-3.048,0.886-5.466,2.657-7.257c1.771-1.79,4.009-2.686,6.715-2.686		C32.604,18.558,35.441,20.101,37.156,23.187z M55.613,23.187l-4.229,2.229c-0.457-0.951-1.02-1.619-1.686-2		c-0.668-0.38-1.307-0.571-1.914-0.571c-2.857,0-4.287,1.885-4.287,5.657c0,1.714,0.363,3.084,1.086,4.113		c0.723,1.029,1.789,1.544,3.201,1.544c1.865,0,3.18-0.915,3.941-2.743l4,2c-0.875,1.563-2.057,2.791-3.541,3.686		c-1.486,0.896-3.105,1.343-4.857,1.343c-2.896,0-5.209-0.875-6.941-2.629c-1.736-1.752-2.602-4.19-2.602-7.313		c0-3.048,0.885-5.466,2.658-7.257c1.77-1.79,4.008-2.686,6.713-2.686C51.117,18.558,53.938,20.101,55.613,23.187z"
+                                          />
+                                        </g>
+                                      </svg>
+                                      <span
+                                        className="c-license-icons__licenselabel"
+                                      >
+                                        Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår.
+                                      </span>
+                                    </li>
+                                    <li
+                                      className="c-license-icons__item"
+                                    >
+                                      <svg
+                                        aria-label="Du må alltid oppgi hvem som har laget innholdet."
+                                        className="c-icon c-license-icons__icon"
+                                        data-license="CC-BY 4.0"
+                                        data-source="Creative Commons"
+                                        fill="currentColor"
+                                        height="1em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        style={
+                                          Object {
+                                            "color": undefined,
+                                            "verticalAlign": "middle",
+                                          }
+                                        }
+                                        viewBox="5.5 -3.5 64 64"
+                                        width="1em"
+                                      >
+                                        <g>
+                                          <circle
+                                            cx="37.637"
+                                            cy="28.806"
+                                            fill="none"
+                                            r="28.276"
+                                          />
+                                          <g>
+                                            <path
+                                              d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456	C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5	c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657	c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571			C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557			c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6			C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514			c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"
+                                            />
+                                          </g>
+                                        </g>
+                                      </svg>
+                                      <span
+                                        className="c-license-icons__licenselabel"
+                                      >
+                                        Du må alltid oppgi hvem som har laget innholdet.
+                                      </span>
+                                    </li>
+                                    <li
+                                      className="c-license-icons__item"
+                                    >
+                                      <svg
+                                        aria-label="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
+                                        className="c-icon c-license-icons__icon"
+                                        data-license="CC-BY 4.0"
+                                        data-source="Creative Commons"
+                                        fill="currentColor"
+                                        height="1em"
+                                        preserveAspectRatio="xMidYMid meet"
+                                        style={
+                                          Object {
+                                            "color": undefined,
+                                            "verticalAlign": "middle",
+                                          }
+                                        }
+                                        viewBox="5.5 -3.5 64 64"
+                                        width="1em"
+                                      >
+                                        <g>
+                                          <circle
+                                            cx="36.944"
+                                            cy="28.631"
+                                            fill="none"
+                                            r="29.105"
+                                          />
+                                          <g>
+                                            <path
+                                              d="M37.443-3.5c8.951,0,16.531,3.105,22.742,9.315C66.393,11.987,69.5,19.548,69.5,28.5c0,8.954-3.049,16.457-9.145,22.514			C53.918,57.338,46.279,60.5,37.443,60.5c-8.649,0-16.153-3.143-22.514-9.429C8.644,44.786,5.5,37.264,5.5,28.501			c0-8.723,3.144-16.285,9.429-22.685C21.138-0.395,28.643-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.572-18.457,7.715			c-5.22,5.296-7.829,11.467-7.829,18.513c0,7.125,2.59,13.257,7.77,18.4c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.609,18.629-7.828c5.029-4.876,7.543-10.99,7.543-18.343c0-7.313-2.553-13.485-7.656-18.513			C51.004,4.842,44.832,2.272,37.557,2.272z M23.271,23.985c0.609-3.924,2.189-6.962,4.742-9.114			c2.552-2.152,5.656-3.228,9.314-3.228c5.027,0,9.029,1.62,12,4.856c2.971,3.238,4.457,7.391,4.457,12.457			c0,4.915-1.543,9-4.627,12.256c-3.088,3.256-7.086,4.886-12.002,4.886c-3.619,0-6.743-1.085-9.371-3.257			c-2.629-2.172-4.209-5.257-4.743-9.257H31.1c0.19,3.886,2.533,5.829,7.029,5.829c2.246,0,4.057-0.972,5.428-2.914			c1.373-1.942,2.059-4.534,2.059-7.771c0-3.391-0.629-5.971-1.885-7.743c-1.258-1.771-3.066-2.657-5.43-2.657			c-4.268,0-6.667,1.885-7.2,5.656h2.343l-6.342,6.343l-6.343-6.343L23.271,23.985L23.271,23.985z"
+                                            />
+                                          </g>
+                                        </g>
+                                      </svg>
+                                      <span
+                                        className="c-license-icons__licenselabel"
+                                      >
+                                        Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet.
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <a
+                                className="c-figure-license__link"
+                                href="https://creativecommons.org/licenses/by-sa/3.0/no/"
+                                rel="noopener noreferrer license"
+                                target="_blank"
+                              >
+                                Lær mer om åpne lisenser
+                              </a>
+                              <div
+                                className="c-medialist__actions"
+                              >
+                                <div
+                                  className="c-medialist__ref"
+                                >
+                                  <ul
+                                    className="c-medialist__actions"
+                                    content="Opphavsmann: Forfatter Someone"
+                                    property="cc:attributionName"
+                                  >
+                                    <li
+                                      className="c-medialist__meta-item"
+                                    >
+                                      Opphavsmann
+                                      :
+                                       
+                                      <span>
+                                        Forfatter Someone
+                                      </span>
+                                    </li>
+                                    <li
+                                      className="c-medialist__meta-item"
+                                    >
+                                      Publiseringsdato
+                                      :
+                                       
+                                      <span>
+                                        09.01.2018
+                                      </span>
+                                    </li>
+                                  </ul>
+                                  <span>
+                                    <button
+                                      className="c-button c-button--outline c-licenseToggle__button"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      Kopier referanse
+                                    </button>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+      </section>
+      <section
+        className="u-4/6@desktop u-push-1/6@desktop"
+      >
+        <div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>",
+            }
+          }
+        />
+      </section>
+      <section
+        className="u-4/6@desktop u-push-1/6@desktop"
+      />
+      <section
+        className="u-10/12@desktop u-push-1/12@desktop"
+      >
+        <a
+          className="article-old-ndla-link"
+          href="//red.ndla.no/node/168554"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Gå til orginal artikkel
+        </a>
+      </section>
+    </article>
+  </div>
+</div>
+`;

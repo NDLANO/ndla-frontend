@@ -7,10 +7,9 @@
  */
 
 import { handleActions, createAction } from 'redux-actions';
-import defined from 'defined';
 import { createSelector } from 'reselect';
 import { getLocale } from '../Locale/localeSelectors';
-import formatDate from '../../util/formatDate';
+import { transformArticle } from '../../util/transformArticle';
 import createFetchActions from '../../util/createFetchActions';
 
 export const fetchArticleActions = createFetchActions('ARTICLE');
@@ -72,24 +71,7 @@ export const getFetchStatus = state => state.articles.status;
 export const getArticle = articleId =>
   createSelector([getArticleById(articleId), getLocale], (article, locale) => {
     if (article) {
-      const footNotes = defined(article.metaData.footnotes, []);
-      return {
-        ...article,
-        created: formatDate(article.created, locale),
-        updated: formatDate(article.updated, locale),
-        footNotes,
-        requiredLibraries: article.requiredLibraries
-          ? article.requiredLibraries.map(lib => {
-              if (lib.url.startsWith('http://')) {
-                return {
-                  ...lib,
-                  url: lib.url.replace('http://', 'https://'),
-                };
-              }
-              return lib;
-            })
-          : [],
-      };
+      return transformArticle(article, locale);
     }
     return undefined;
   });

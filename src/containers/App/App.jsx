@@ -28,10 +28,11 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, children, background, messages, t } = this.props;
+    const { dispatch, children, background, locale, messages, t } = this.props;
     return (
       <PageContainer background={background}>
         <Helmet
+          htmlAttributes={{ lang: locale }}
           title="NDLA"
           meta={[{ name: 'description', content: t('meta.description') }]}
         />

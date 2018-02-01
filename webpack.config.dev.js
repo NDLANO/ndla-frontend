@@ -14,7 +14,10 @@ module.exports = require('./webpack.config.base')({
     // Add hot reloading in development
     main: ['webpack-hot-middleware/client?reload=true&quiet=true'],
     // Inject styles for embed development.
-    embed: ['./style/index.css'],
+    embed: [
+      'webpack-hot-middleware/client?reload=true&quiet=true',
+      './style/index.css',
+    ],
   },
 
   // Don't use hashes in dev mode for better performance

@@ -6,27 +6,89 @@
  *
  */
 
+import React from 'react';
 import defined from 'defined';
-import { getHtmlLang } from '../../src/i18n';
-import { htmlTemplate, htmlErrorTemplate } from '../helpers/oembedHtmlTemplate';
-import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import Helmet from 'react-helmet';
+import { renderToString, renderToStaticMarkup } from 'react-dom/server';
+import { resetIdCounter } from 'ndla-tabs';
+import { OK, INTERNAL_SERVER_ERROR } from 'http-status';
 
-export function iframeArticleRoute(req, res, token) {
+import { getHtmlLang, getLocaleObject } from '../../src/i18n';
+import Document from '../helpers/Document';
+import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import { fetchResourceTypesForResource } from '../../src/containers/Resources/resourceApi';
+import IframeArticlePage from '../../src/iframe/IframeArticlePage';
+import config from '../../src/config';
+
+// Because JSDom exists, ExecutionEnvironment assumes that we're on the client.
+if (process.env.NODE_ENV === 'unittest') {
+  Helmet.canUseDOM = false;
+}
+
+const assets = config.isProduction
+  ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
+  : require('../developmentAssets');
+
+const getAssets = () => ({
+  favicon: `/assets/${assets['ndla-favicon.png']}`,
+  css: config.isProduction ? `/assets/${assets['main.css']}` : undefined,
+  js: [`/assets/${assets['manifest.js']}`, `/assets/${assets['embed.js']}`],
+});
+
+const renderPage = initialProps => {
+  resetIdCounter();
+  const html = config.disableSSR
+    ? ''
+    : renderToString(<IframeArticlePage {...initialProps} />);
+  const helmet = Helmet.renderStatic();
+  return {
+    html,
+    helmet,
+    assets: getAssets(),
+    data: {
+      assets,
+      initialProps,
+      config,
+    },
+  };
+};
+
+export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
-  const articleId = req.params.id;
-  fetchArticle(articleId, lang, token.access_token)
-    .then(article => {
-      res.send(
-        htmlTemplate(
-          lang,
-          article.content,
-          article.introduction,
-          article.title,
-        ),
-      );
-      res.end();
-    })
-    .catch(error => {
-      res.status(error.status).send(htmlErrorTemplate(lang, error));
+  const locale = getLocaleObject(lang);
+  const { articleId, resourceId } = req.params;
+
+  try {
+    const article = await fetchArticle(articleId, lang);
+    const resourceTypes = await fetchResourceTypesForResource(
+      `urn:resource:${resourceId}`,
+      lang,
+    );
+
+    const { html, ...docProps } = renderPage({
+      article: { ...article, resourceTypes },
+      locale,
+      status: 'success',
     });
+    const doc = renderToStaticMarkup(<Document {...docProps} />);
+
+    return {
+      status: OK,
+      data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    };
+  } catch (error) {
+    if (process.env.NODE_ENV !== 'unittest') {
+      // skip log in unittests
+      console.error(error);
+    }
+    const { html, ...docProps } = renderPage({
+      locale,
+      status: 'error',
+    });
+    const doc = renderToStaticMarkup(<Document {...docProps} />);
+    return {
+      status: error.status || INTERNAL_SERVER_ERROR,
+      data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    };
+  }
 }
