@@ -12,7 +12,7 @@ import { toArticle } from '../../routeHelpers';
 const LEARNING_PATH_DOMAIN =
   __SERVER__ || process.env.NODE_ENV === 'unittest'
     ? config.learningPathDomain
-    : window.config.learningPathDomain;
+    : window.DATA.config.learningPathDomain;
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 

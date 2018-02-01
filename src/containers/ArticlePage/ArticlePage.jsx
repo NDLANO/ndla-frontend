@@ -26,21 +26,9 @@ import ArticleHero from './components/ArticleHero';
 import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
-import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
+import { getArticleProps } from '../../util/getArticleProps';
 
 const getTitle = article => (article ? article.title : '');
-
-const getArticleProps = article => {
-  const hasResourceTypes =
-    article && article.resourceTypes && article.resourceTypes.length > 0;
-
-  const contentType = hasResourceTypes
-    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
-    : undefined;
-
-  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
-  return { contentType, label };
-};
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {

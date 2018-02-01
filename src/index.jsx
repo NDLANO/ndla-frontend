@@ -21,14 +21,14 @@ import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 
-const { initialState } = window;
+const { DATA: { initialState, config, accessToken } } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 
-storeAccessToken(window.accessToken);
+storeAccessToken(accessToken);
 const store = configureStore(initialState);
 
 const {
@@ -36,7 +36,7 @@ const {
   logglyApiKey,
   logEnvironment: environment,
   componentName,
-} = window.config;
+} = config;
 
 window.errorReporter = ErrorReporter.getInstance({
   store,
