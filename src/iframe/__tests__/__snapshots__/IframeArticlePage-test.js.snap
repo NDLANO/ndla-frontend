@@ -5,7 +5,7 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
   className="o-container"
 >
   <div
-    className="o-wrapper o-wrapper--clear "
+    className="o-wrapper o-wrapper--clear undefined"
   >
     <div
       className="c-error-message"
@@ -23,50 +23,6 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
           Vi beklager, en ukjent feil oppsto.
         </p>
         <h3 />
-        <div
-          className="c-search"
-        >
-          <input
-            aria-autocomplete="list"
-            autoComplete="on"
-            className="c-search__input"
-            id="search"
-            name="search"
-            placeholder="Søk etter innhold"
-            tabIndex="0"
-            type="search"
-            value=""
-          />
-          <button
-            className="c-search__button"
-            tabIndex="-1"
-            type="submit"
-            value="Search"
-          >
-            <svg
-              className="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style={
-                Object {
-                  "color": undefined,
-                  "verticalAlign": "middle",
-                }
-              }
-              viewBox="0 0 48 48"
-              width="1em"
-            >
-              <g>
-                <path
-                  d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
-                />
-              </g>
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   </div>
