@@ -78,7 +78,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
   className="o-container"
 >
   <div
-    className="o-wrapper o-wrapper--clear "
+    className="o-wrapper o-wrapper--clear undefined"
   >
     <article
       className="c-article"

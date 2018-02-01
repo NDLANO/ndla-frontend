@@ -31,7 +31,7 @@ import {
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { actions, getResourceTypesByTopicId } from '../Resources/resource';
-import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
+import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
