@@ -11,7 +11,7 @@ script:
   - yarn test
   - yarn build
 
-after_script:
+after_success:
   - travis_wait yarn ndla-scripts now-travis
 
 notifications:
