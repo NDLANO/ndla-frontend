@@ -16,6 +16,7 @@ import {
   Logo,
   ClickToggle,
   TopicMenu,
+  ContentTypeBadge,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
@@ -29,19 +30,53 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
+import { actions, getResourceTypesByTopicId } from '../Resources/resource';
+import getContentTypeFromResourceTypes from '../../components/getContentTypeFromResourceTypes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
+function mapResourcesToMenu(resourceTypeArray) {
+  return resourceTypeArray.map(type => ({
+    ...type,
+    title: type.name,
+    totalCount: type.resources.length,
+    icon: (
+      <ContentTypeBadge
+        type={getContentTypeFromResourceTypes([type]).contentType}
+        size="x-small"
+      />
+    ),
+  }));
+}
+
 class MastheadContainer extends React.PureComponent {
   state = { isOpen: false };
+
+  componentDidMount() {
+    if (this.props.filters.length === 0)
+      this.props.fetchSubjectFilters(this.props.match.params.subjectId);
+  }
+
+  onNavigate = (expandedTopicId, expandedSubtopicId) => {
+    const { match: { params: { subjectId } } } = this.props;
+    this.setState({
+      expandedTopicId,
+      expandedSubtopicId,
+    });
+    const newTopic = expandedSubtopicId || expandedTopicId;
+    if (newTopic)
+      this.props.fetchTopicResources({ topicId: newTopic, subjectId });
+  };
+
   filterClick = (newValues, filterId) =>
     this.props.setActiveFilter({
       newValues,
       subjectId: this.props.subject.id,
       filterId,
     });
+
   render() {
     const {
       t,
@@ -50,7 +85,13 @@ class MastheadContainer extends React.PureComponent {
       topicPath,
       filters,
       activeFilters,
+      topicResourcesByType,
     } = this.props;
+    const getResources = this.state.expandedTopicId
+      ? topicResourcesByType(
+          this.state.expandedSubtopicId || this.state.expandedTopicId,
+        )
+      : [];
     return (
       <Masthead fixed>
         <MastheadItem left>
@@ -86,15 +127,11 @@ class MastheadContainer extends React.PureComponent {
                 onFilterClick={this.filterClick}
                 filterValues={activeFilters}
                 onOpenSearch={() => {}}
-                onNavigate={(expandedTopicId, expandedSubtopicId) => {
-                  this.setState({
-                    expandedTopicId,
-                    expandedSubtopicId,
-                  });
-                }}
+                onNavigate={this.onNavigate}
                 expandedTopicId={this.state.expandedTopicId}
                 expandedSubtopicId={this.state.expandedSubtopicId}
                 searchPageUrl="#"
+                contentTypeResults={mapResourcesToMenu(getResources)}
               />
             </ClickToggle>
           ) : null}
@@ -127,9 +164,18 @@ MastheadContainer.propTypes = {
   subject: SubjectShape,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
-  filters: PropTypes.arrayOf(PropTypes.object),
-  setActiveFilter: PropTypes.func,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setActiveFilter: PropTypes.func.isRequired,
+  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
+  topicResourcesByType: PropTypes.func.isRequired,
+  fetchTopicResources: PropTypes.func.isRequired,
+  fetchSubjectFilters: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  fetchTopicResources: actions.fetchTopicResources,
+  setActiveFilter: filterActions.setActive,
+  fetchSubjectFilters: filterActions.fetchSubjectFilters,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -137,13 +183,13 @@ const mapStateToProps = (state, ownProps) => {
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
+    topicResourcesByType: topic => getResourceTypesByTopicId(topic)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };
 
-export default compose(
-  injectT,
-  connect(mapStateToProps, { setActiveFilter: filterActions.setActive }),
-)(MastheadContainer);
+export default compose(injectT, connect(mapStateToProps, mapDispatchToProps))(
+  MastheadContainer,
+);
