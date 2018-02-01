@@ -34,18 +34,19 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { toTopicPartial } from '../../routeHelpers';
+import { toTopicPartial, getUrnParams } from '../../routeHelpers';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   static getInitialProps(ctx) {
     const {
-      match: { params: { subjectId } },
+      match: { params },
       fetchTopicsWithIntroductions,
       fetchSubjects,
       fetchSubjectFilters,
     } = ctx;
+    const { subjectId } = getUrnParams(params);
     fetchSubjects();
     fetchSubjectFilters(subjectId);
     fetchTopicsWithIntroductions({ subjectId });
@@ -63,7 +64,7 @@ class SubjectPage extends Component {
 
     if (nextProps.match.params.subjectId !== subjectId) {
       fetchTopicsWithIntroductions({
-        subjectId: nextProps.match.params.subjectId,
+        subjectId: `urn:${nextProps.match.params.subjectId}`,
       });
     }
   }
@@ -75,7 +76,7 @@ class SubjectPage extends Component {
       setActiveFilter,
     } = this.props;
     const filterId = filters.find(it => it.name === e.target.id).id;
-    setActiveFilter({ filterId, subjectId });
+    setActiveFilter({ filterId, subjectId: `urn:${subjectId}` });
   };
 
   render() {
@@ -183,7 +184,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.match.params;
+  const { subjectId, topicId } = getUrnParams(ownProps.match.params);
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
