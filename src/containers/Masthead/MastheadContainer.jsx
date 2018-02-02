@@ -55,8 +55,22 @@ class MastheadContainer extends React.PureComponent {
   state = { isOpen: false };
 
   componentDidMount() {
-    if (this.props.filters.length === 0)
+    if (this.props.filters.length === 0) {
       this.props.fetchSubjectFilters(this.props.match.params.subjectId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // remove active topic if filtered away
+    if (nextProps.activeFilters.length !== this.props.activeFilters.length) {
+      const { expandedTopicId, expandedSubtopicId } = this.state;
+      if (nextProps.topics.indexOf(expandedTopicId) === -1) {
+        this.setState({ expandedTopicId: undefined });
+      }
+      if (this.props.topics.indexOf(expandedSubtopicId) === -1) {
+        this.setState({ expandedSubtopicId: undefined });
+      }
+    }
   }
 
   onNavigate = (expandedTopicId, expandedSubtopicId) => {
@@ -66,8 +80,9 @@ class MastheadContainer extends React.PureComponent {
       expandedSubtopicId,
     });
     const newTopic = expandedSubtopicId || expandedTopicId;
-    if (newTopic)
+    if (newTopic) {
       this.props.fetchTopicResources({ topicId: newTopic, subjectId });
+    }
   };
 
   filterClick = (newValues, filterId) =>
