@@ -8,28 +8,24 @@
 
 const phrases = {
   articlePage: {
-    errorDescription:
-      'Orsak, ein feil oppstod under lasting av ressursen.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av ressursen.',
     error404Description:
       'Orsak, vi kunne ikkje finne ressursen du leiter etter.',
   },
   notFoundPage: {
-    errorDescription:
-      'Orsak, vi fann ikkje sida du prøvde å kome til.',
+    errorDescription: 'Orsak, vi fann ikkje sida du prøvde å kome til.',
   },
   searchPage: {
     noHits: 'Ingen artiklar samsvara med søket ditt på: {query}',
   },
   subjectPage: {
-    errorDescription:
-      'Orsak, ein feil oppstod under lasting av emnene.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av emnene.',
     tabs: {
       topics: 'Emner',
     },
   },
   subjectsPage: {
-    errorDescription:
-      'Orsak, ein feil oppstod under lasting av faga.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
     chooseSubject: 'Vel fag',
   },
   topicPage: {
@@ -43,8 +39,7 @@ const phrases = {
   welcomePage: {
     subjects: 'Fag',
     search: 'Gå til søk',
-    errorDescription:
-      'Orsak, ein feil oppstod under lasting av faga.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
   },
   meta: {
     description:
@@ -63,8 +58,7 @@ const phrases = {
     altText: 'Nasjonal digital læringsarena',
   },
   resource: {
-    errorDescription:
-      'Orsak, ein feil oppstod under lasting av emneressursar.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av emneressursar.',
     noCoreResourcesAvailable: 'Det er ikkje noko kjernestoff tilgjengeleg.',
     activateAdditionalResources: 'Vis tilleggsstoff',
     toggleFilterLabel: 'Tilleggsstoff',
