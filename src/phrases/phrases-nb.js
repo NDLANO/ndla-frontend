@@ -8,28 +8,23 @@
 
 const phrases = {
   articlePage: {
-    errorDescription:
-      'Beklager, en feil oppsto under lasting av ressursen.',
-    error404Description:
-      'Beklager, finner ikke ressursen du leter etter.',
+    errorDescription: 'Beklager, en feil oppsto under lasting av ressursen.',
+    error404Description: 'Beklager, finner ikke ressursen du leter etter.',
   },
   notFoundPage: {
-    errorDescription:
-      'Beklager, finner ikke siden du prøvde å komme til.',
+    errorDescription: 'Beklager, finner ikke siden du prøvde å komme til.',
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
   subjectPage: {
-    errorDescription:
-      'Beklager, en feil oppsto under lasting av emnene.',
+    errorDescription: 'Beklager, en feil oppsto under lasting av emnene.',
     tabs: {
       topics: 'Emner',
     },
   },
   subjectsPage: {
-    errorDescription:
-      'Beklager, en feil oppsto under lasting av fagene.',
+    errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
     chooseSubject: 'Velg fag',
   },
   topicPage: {
@@ -43,8 +38,7 @@ const phrases = {
   welcomePage: {
     subjects: 'Fag',
     search: 'Gå til søk',
-    errorDescription:
-      'Beklager, en feil oppsto under lasting av fagene.',
+    errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
   },
   meta: {
     description:
