@@ -10,19 +10,10 @@ export function toSearch() {
   return '/search';
 }
 
-const removeUrn = string => {
-  if (string.startsWith('urn:')) {
-    return string.substring(4, string.length);
-  }
-  return string;
-};
-const stripUrn = path =>
-  path
-    .split('/')
-    .map(part => (part.startsWith('urn:') ? part.substring(0, 3) : part))
-    .join('/');
+const removeUrn = string => string.replace('urn:', '');
 
-export function getUrnParams(params) {
+export function getUrnIdsFromProps(props) {
+  const { match: { params } } = props;
   return {
     subjectId: params.subjectId ? `urn:${params.subjectId}` : undefined,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
@@ -33,12 +24,7 @@ export function getUrnParams(params) {
 
 export function toArticle(articleId, resource) {
   if (resource) {
-    // const resourcePath = resource.path
-    //   .split('/')
-    //   .filter(part => part !== '')
-    //   .map(part => `urn:${part}`)
-    //   .join('/');
-    return `/article/${resource.path}/`;
+    return `/subjects${resource.path}/`;
   }
   return `/article/${articleId}`;
 }
@@ -48,10 +34,13 @@ export function toSubject(subjectId) {
 }
 
 export function toTopic(subjectId, ...topicIds) {
+  const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(subjectId);
+    return toSubject(urnFreeSubjectId);
   }
-  return `/subjects/${subjectId}/${topicIds.join('/')}`;
+  const urnFreeTopicIds = topicIds.map(removeUrn);
+
+  return `/subjects/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`;
 }
 
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>

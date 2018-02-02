@@ -34,19 +34,18 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { toTopicPartial, getUrnParams } from '../../routeHelpers';
+import { toTopicPartial, getUrnIdsFromProps } from '../../routeHelpers';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   static getInitialProps(ctx) {
     const {
-      match: { params },
       fetchTopicsWithIntroductions,
       fetchSubjects,
       fetchSubjectFilters,
     } = ctx;
-    const { subjectId } = getUrnParams(params);
+    const { subjectId } = getUrnIdsFromProps(ctx);
     fetchSubjects();
     fetchSubjectFilters(subjectId);
     fetchTopicsWithIntroductions({ subjectId });
@@ -57,26 +56,22 @@ class SubjectPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params: { subjectId } },
-      fetchTopicsWithIntroductions,
-    } = this.props;
+    const { fetchTopicsWithIntroductions } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
+    const { subjectId: nextSubjectId } = getUrnIdsFromProps(nextProps);
 
-    if (nextProps.match.params.subjectId !== subjectId) {
+    if (nextSubjectId !== subjectId) {
       fetchTopicsWithIntroductions({
-        subjectId: `urn:${nextProps.match.params.subjectId}`,
+        subjectId: nextSubjectId,
       });
     }
   }
 
   handleFilterClick = e => {
-    const {
-      match: { params: { subjectId } },
-      filters,
-      setActiveFilter,
-    } = this.props;
+    const { filters, setActiveFilter } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
     const filterId = filters.find(it => it.name === e.target.id).id;
-    setActiveFilter({ filterId, subjectId: `urn:${subjectId}` });
+    setActiveFilter({ filterId, subjectId });
   };
 
   render() {
@@ -184,7 +179,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = getUrnParams(ownProps.match.params);
+  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
   return {
     topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
     subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
