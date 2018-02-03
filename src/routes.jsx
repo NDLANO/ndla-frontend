@@ -17,6 +17,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import Masthead from './containers/Masthead';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
+import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
@@ -93,7 +94,7 @@ export const routes = [
   },
   {
     path: '/article/:articleId',
-    component: ArticlePage,
+    component: PlainArticlePage,
     background: true,
   },
   SearchRoute,
