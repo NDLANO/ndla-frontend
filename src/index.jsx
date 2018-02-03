@@ -21,7 +21,7 @@ import { storeAccessToken } from '../src/util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 
-const { DATA: { initialState, config, accessToken } } = window;
+const { DATA: { initialState, initialProps, config, accessToken } } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);
 
@@ -51,7 +51,7 @@ renderOrHydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
-        {routes}
+        {routes(initialProps, locale.abbreviation)}
       </BrowserRouter>
     </IntlProvider>
   </Provider>,

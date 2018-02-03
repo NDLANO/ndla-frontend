@@ -39,7 +39,13 @@ class ScrollToTop extends React.Component {
   }
 }
 
-const Route = ({ component: Component, background, ...rest }) => (
+const Route = ({
+  component: Component,
+  initialProps,
+  locale,
+  background,
+  ...rest
+}) => (
   <ReactRoute
     {...rest}
     render={props => (
@@ -47,7 +53,12 @@ const Route = ({ component: Component, background, ...rest }) => (
         <ScrollToTop />
         <Content>
           <Masthead {...props} />
-          <Component {...props} searchEnabled={searchEnabled} />
+          <Component
+            {...props}
+            locale={locale}
+            initialProps={initialProps}
+            searchEnabled={searchEnabled}
+          />
         </Content>
       </App>
     )}
@@ -57,6 +68,8 @@ const Route = ({ component: Component, background, ...rest }) => (
 Route.propTypes = {
   component: PropTypes.func.isRequired,
   background: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
+  initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const SearchRoute = searchEnabled
@@ -110,18 +123,22 @@ export const routes = [
   },
 ];
 
-export default (
-  <Switch>
-    {routes
-      .filter(route => route !== undefined)
-      .map(route => (
-        <Route
-          key={uuid()}
-          exact={route.exact}
-          component={route.component}
-          background={route.background}
-          path={route.path}
-        />
-      ))}
-  </Switch>
-);
+export default function(initialProps, locale) {
+  return (
+    <Switch>
+      {routes
+        .filter(route => route !== undefined)
+        .map(route => (
+          <Route
+            key={uuid()}
+            exact={route.exact}
+            initialProps={initialProps}
+            locale={locale}
+            component={route.component}
+            background={route.background}
+            path={route.path}
+          />
+        ))}
+    </Switch>
+  );
+}
