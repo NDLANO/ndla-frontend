@@ -43,6 +43,10 @@ class PlainArticlePage extends Component {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
+
+    if (this.props.status === 'initial') {
+      this.props.refetch();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
