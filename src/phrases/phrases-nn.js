@@ -8,47 +8,42 @@
 
 const phrases = {
   articlePage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av ressursen.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av ressursen.',
     error404Description:
-      'Vi beklager, men vi kunne ikke finne ressursen du leter etter.',
+      'Orsak, vi kunne ikkje finne ressursen du leiter etter.',
   },
   notFoundPage: {
-    errorDescription:
-      'Vi beklager, men vi fant ikke siden du prøvde å komme til.',
+    errorDescription: 'Orsak, vi fann ikkje sida du prøvde å kome til.',
   },
   searchPage: {
-    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    noHits: 'Ingen artiklar samsvara med søket ditt på: {query}',
   },
   subjectPage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emnene.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av emnene.',
     tabs: {
       topics: 'Emner',
     },
   },
   subjectsPage: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
-    chooseSubject: 'Velg fag',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
+    chooseSubject: 'Vel fag',
   },
   topicPage: {
     topicErrorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne innholdet.',
+      'Orsak, ein feil oppstod under lasting av emneinnhaldet.',
     articleErrorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne beskrivelsen.',
+      'Orsak, ein feil oppstod under lasting av emneskildringa.',
     topic: 'EMNE',
     topics: 'Emner',
   },
   welcomePage: {
     subjects: 'Fag',
     search: 'Gå til søk',
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av fagene.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
   },
   meta: {
     description:
-      'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+      'Kvalitetssikra fritt tilgjengelege nettbaserte læremiddel for videregåande opplæring',
   },
   masthead: {
     menu: {
@@ -63,16 +58,15 @@ const phrases = {
     altText: 'Nasjonal digital læringsarena',
   },
   resource: {
-    errorDescription:
-      'Vi beklager, men en feil oppsto under lasting av emne ressurser.',
-    noCoreResourcesAvailable: 'Det er ikke noe kjernestoff tilgjengelig.',
+    errorDescription: 'Orsak, ein feil oppstod under lasting av emneressursar.',
+    noCoreResourcesAvailable: 'Det er ikkje noko kjernestoff tilgjengeleg.',
     activateAdditionalResources: 'Vis tilleggsstoff',
     toggleFilterLabel: 'Tilleggsstoff',
     showLess: 'Vis mindre',
-    showMore: 'Vis mer',
+    showMore: 'Vis meir',
   },
   searchForm: {
-    placeholder: 'Søk etter artikler',
+    placeholder: 'Søk etter artiklar',
     btn: 'Søk',
     order: {
       relevance: 'Relevans',
@@ -81,8 +75,8 @@ const phrases = {
   },
   article: {
     lastUpdated: 'Sist oppdatert',
-    edition: 'Utgave',
-    publisher: 'Utgiver',
+    edition: 'Utgåve',
+    publisher: 'Utgjevar',
     closeLicenseBox: 'Lukk boks',
     openLicenseBox: 'Bruk artikkel',
   },
@@ -90,66 +84,66 @@ const phrases = {
     associatedTopics: 'Tilhørende emner',
   },
   license: {
-    heading: 'Slik gjenbruker du innhold',
-    learnMore: 'Lær mer om åpne lisenser',
+    heading: 'Slik gjenbruker du innhald',
+    learnMore: 'Lær meir om opne lisensar',
     copyTitle: 'Kopier referanse',
     hasCopiedTitle: 'Kopiert!',
     embed: 'Bygg inn',
-    embedCopied: 'Kopierte bygg inn kode!',
+    embedCopied: 'Kopierte innbyggingskode!',
     download: 'Last ned',
     tabs: {
       text: 'Tekst',
-      images: 'Bilder',
+      images: 'Bilde',
       audio: 'Lyd',
       video: 'Video',
     },
     images: {
-      heading: 'Slik bruker du bilder fra artikkelen',
+      heading: 'Slik bruker du bilder frå artikkelen',
       description:
-        'Husk å kopier teksten som skal legges ved bildet der du bruker det.',
+        'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
-      source: 'Kilde',
+      source: 'Kjelde',
       title: 'Tittel',
     },
     text: {
-      heading: 'Slik bruker du tekst fra artikkelen',
+      heading: 'Slik bruker du tekst frå artikkelen',
       description:
-        'Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.',
-      rules: 'Regler for bruk av teksten:',
+        'Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.',
+      rules: 'Reglar for bruk av teksten:',
       published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
       description:
-        'Husk å kopier teksten som skal legges ved lydfilen der du bruker den.',
-      rules: 'Regler for bruk av lydfilen:',
+        'Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.',
+      rules: 'Regler for bruk av lydfila:',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
       description:
-        'Husk å kopier teksten som skal legges ved videoen der du bruker den.',
+        'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
       rules: 'Regler for bruk av videoen:',
     },
     creditType: {
       originator: 'Opphavsmann',
       photographer: 'Fotograf',
-      artist: 'Kunstner',
+      artist: 'Kunstnar',
       editorial: 'Redaksjonelt',
-      writer: 'Forfatter',
-      scriptwriter: 'Manusforfatter',
-      reader: 'Innleser',
-      translator: 'Oversetter',
+      writer: 'Forfattar',
+      scriptwriter: 'Manusforfattar',
+      reader: 'Innlesar',
+      translator: 'Omsetjar',
       director: 'Regissør',
       illustrator: 'Illustratør',
       cowriter: 'Medforfatter',
       composer: 'Komponist',
-      processor: 'Bearbeider',
-      facilitator: 'Tilrettelegger',
-      linguistic: 'Språklig',
+      processor: 'Tilarbeidar',
+      facilitator: 'Tilretteleggjar',
+      linguistic: 'Språkleg',
       idea: 'Idé',
-      compiler: 'Sammenstiller',
+      compiler: 'Sammenstillar',
       correction: 'Korrektur',
-      rightsholder: 'Rettighetshaver',
+      rightsholder: 'Rettshaver',
       publisher: 'Forlag',
       distributor: 'Distributør',
       supplier: 'Leverandør',
@@ -160,17 +154,17 @@ const phrases = {
     label: 'Du er her:',
   },
   errorMessage: {
-    title: 'Oops, noe gikk galt',
-    description: 'Vi beklager, men en feil oppsto.',
+    title: 'Ops, noko gjekk gale',
+    description: 'Orsak, ein feil oppstod.',
     back: 'Tilbake',
-    goToFrontPage: 'Gå til forsiden',
+    goToFrontPage: 'Gå til forsida',
   },
   footer: {
     aboutNDLA: 'Om NDLA',
-    selectLanguage: 'Velg språk (language): ',
-    footerInfo: 'Nettstedet er utarbeidet av NDLA med åpen kildekode.',
-    footerEditiorInChief: 'Ansvarlig redaktør: ',
-    footerManagingEditor: 'Utgaveansvarlig: ',
+    selectLanguage: 'Vel språk (language): ',
+    footerInfo: 'Nettstaden er utarbeida av NDLA med open kjeldekode.',
+    footerEditiorInChief: 'Ansvarleg redaktør: ',
+    footerManagingEditor: 'Utgåveansvarleg: ',
   },
 };
 

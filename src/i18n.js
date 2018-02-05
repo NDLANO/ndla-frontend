@@ -7,6 +7,7 @@
  */
 
 import nb from './phrases/phrases-nb';
+import nn from './phrases/phrases-nn';
 import en from './phrases/phrases-en';
 
 function* entries(obj) {
@@ -45,7 +46,7 @@ const NB = {
 const NN = {
   name: 'Nynorsk',
   abbreviation: 'nn',
-  messages: formatNestedMessages(nb),
+  messages: formatNestedMessages(nn),
 };
 const EN = {
   name: 'English',

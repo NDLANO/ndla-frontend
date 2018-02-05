@@ -75,6 +75,7 @@ const renderPage = (initialProps, initialState, Page) => {
 
 export async function defaultRoute(req) {
   const paths = req.url.split('/');
+  let initialProps = {};
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
 
@@ -91,8 +92,9 @@ export async function defaultRoute(req) {
     const actions = Component.mapDispatchToProps
       ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
       : {};
-    await loadGetInitialProps(route.component, {
+    initialProps = await loadGetInitialProps(route.component, {
       isServer: true,
+      locale,
       store,
       ...actions,
       match,
@@ -104,7 +106,7 @@ export async function defaultRoute(req) {
     <Provider store={store}>
       <IntlProvider locale={locale} messages={messages}>
         <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes}
+          {routes(initialProps, locale)}
         </StaticRouter>
       </IntlProvider>
     </Provider>
@@ -120,7 +122,11 @@ export async function defaultRoute(req) {
   }
 
   const status = defined(context.status, OK);
-  const { html, ...docProps } = renderPage({}, store.getState(), Page);
+  const { html, ...docProps } = renderPage(
+    initialProps,
+    store.getState(),
+    Page,
+  );
   const doc = renderToStaticMarkup(
     <Document className={className} {...docProps} />,
   );

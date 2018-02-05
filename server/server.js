@@ -227,9 +227,10 @@ async function handleRequest(req, res, route) {
   }
 }
 
-app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) =>
-  handleRequest(req, res, iframeArticleRoute),
-);
+app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeArticleRoute);
+});
 
 app.get('/oembed', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
