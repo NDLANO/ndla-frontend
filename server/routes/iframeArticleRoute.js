@@ -60,10 +60,7 @@ export async function iframeArticleRoute(req) {
 
   try {
     const article = await fetchArticle(articleId, lang);
-    const resourceTypes = await fetchResourceTypesForResource(
-      `urn:resource:${resourceId}`,
-      lang,
-    );
+    const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
 
     const { html, ...docProps } = renderPage({
       article: { ...article, resourceTypes },
