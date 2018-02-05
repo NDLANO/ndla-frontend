@@ -22,7 +22,8 @@ export const connectSSR = (
     let props = {};
 
     if (BaseComponent.getInitialProps) {
-      props = await BaseComponent.getInitialProps(ctx);
+      const baseProps = await BaseComponent.getInitialProps(ctx);
+      props = { ...baseProps };
     }
 
     if (isServer) {
