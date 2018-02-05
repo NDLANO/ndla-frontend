@@ -15,12 +15,12 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
           [illustrasjon]
         </p>
         <h1>
-          Oisann, her gikk noe galt
+          Ops, noe gikk galt
         </h1>
         <p
           className="c-error-message__description"
         >
-          Vi beklager, en ukjent feil oppsto.
+          Beklager, en feil oppsto.
         </p>
         <h3 />
       </div>
@@ -200,7 +200,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                           Slik bruker du tekst fra artikkelen
                         </h2>
                         <p>
-                          Artikkelen kan være satt sammen av flere ulike tekster, som listes opp her.
+                          Artikkelen kan være sammensatt av flere tekster som listes opp her.
                         </p>
                         <ul
                           className="c-medialist"
