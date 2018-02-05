@@ -17,7 +17,9 @@ export function getUrnIdsFromProps(props) {
   return {
     subjectId: params.subjectId ? `urn:${params.subjectId}` : undefined,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
-    resourceId: params.resourceId ? `urn:${params.resourceId}` : undefined,
+    resourceId: params.resourceId
+      ? `urn:resource:${params.resourceId}`
+      : undefined,
     articleId: params.articleId,
   };
 }

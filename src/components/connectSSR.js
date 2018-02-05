@@ -28,8 +28,8 @@ export const connectSSR = (
     if (isServer) {
       store.dispatch(END);
       await store.sagaTask.done;
-      return { ...props, store };
     }
+
     return props;
   };
 

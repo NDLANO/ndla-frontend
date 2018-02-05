@@ -20,12 +20,12 @@ test('reducers/article initalState', () => {
 test('reducers/article set article', () => {
   const nextState = reducer(
     undefined,
-    actions.setArticle({ id: 1, title: 'Unit test' }),
+    actions.setArticle({ id: 1, urn: 'urn:resource:1', title: 'Unit test' }),
   );
 
   expect(nextState).toEqual({
     all: {
-      1: { id: 1, title: 'Unit test' },
+      'urn:resource:1': { id: 1, urn: 'urn:resource:1', title: 'Unit test' },
     },
     status: 'initial',
   });
@@ -34,17 +34,17 @@ test('reducers/article set article', () => {
 test('reducers/article set multiple articles', () => {
   const state = reducer(
     undefined,
-    actions.setArticle({ id: 1, title: 'Unit test 1' }),
+    actions.setArticle({ id: 1, urn: 'urn:resource:1', title: 'Unit test 1' }),
   );
   const nextState = reducer(
     state,
-    actions.setArticle({ id: 2, title: 'Unit test 2' }),
+    actions.setArticle({ id: 2, urn: 'urn:resource:2', title: 'Unit test 2' }),
   );
 
   expect(nextState).toEqual({
     all: {
-      1: { id: 1, title: 'Unit test 1' },
-      2: { id: 2, title: 'Unit test 2' },
+      'urn:resource:1': { id: 1, urn: 'urn:resource:1', title: 'Unit test 1' },
+      'urn:resource:2': { id: 2, urn: 'urn:resource:2', title: 'Unit test 2' },
     },
     status: 'initial',
   });
@@ -53,15 +53,21 @@ test('reducers/article set multiple articles', () => {
 test('reducers/article overwrite articles with same id', () => {
   const nextState = reducer(
     {
-      all: { 1: { id: 1, title: 'Unit test 1' } },
+      all: {
+        'urn:resource:1': {
+          id: 1,
+          urn: 'urn:resource:1',
+          title: 'Unit test 1',
+        },
+      },
       status: 'initial',
     },
-    actions.setArticle({ id: 1, title: 'Unit test 2' }),
+    actions.setArticle({ id: 2, urn: 'urn:resource:1', title: 'Unit test 2' }),
   );
 
   expect(nextState).toEqual({
     all: {
-      1: { id: 1, title: 'Unit test 2' },
+      'urn:resource:1': { id: 2, urn: 'urn:resource:1', title: 'Unit test 2' },
     },
     status: 'initial',
   });

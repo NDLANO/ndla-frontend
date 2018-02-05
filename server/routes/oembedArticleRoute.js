@@ -10,7 +10,8 @@ import { matchPath } from 'react-router-dom';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import parseUrl from 'parse-url';
 import { isValidLocale } from '../../src/i18n';
-import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
+import { getArticleIdFromResource } from '../../src/containers/Resources/resourceHelpers';
+import { fetchResource } from '../../src/containers/Resources/resourceApi';
 import { articlePath } from '../../src/routes';
 import config from '../../src/config';
 
@@ -41,22 +42,23 @@ export async function oembedArticleRoute(req) {
     };
   }
 
-  const {
-    params: { articleId, plainResourceId: resourceId, lang = 'nb' },
-  } = match;
+  const { params: { resourceId, lang = 'nb' } } = match;
 
   try {
-    const article = await fetchArticle(articleId, lang);
+    const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
+    const articleId = getArticleIdFromResource(resource);
     return {
       data: {
         type: 'rich',
         version: '1.0', // oEmbed version
         height: req.query.height ? req.query.height : 800,
         width: req.query.width ? req.query.width : 800,
-        title: article.title,
+        title: resource.title,
         html: `<iframe src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/${resourceId}/${articleId}" frameborder="0" />`,
+        }/article-iframe/${lang}/${
+          resource.id
+        }/${articleId}" frameborder="0" />`,
       },
     };
   } catch (error) {
