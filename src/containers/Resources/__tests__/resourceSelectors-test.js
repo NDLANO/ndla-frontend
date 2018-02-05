@@ -11,15 +11,18 @@ import {
   getResourceTypes,
   getResourcesByTopicIdGroupedByResourceTypes,
   getResourceTypesByTopicId,
+  getAllResourcesAsArray,
+  getResource,
 } from '../resource';
 
-import { resourceData, resourceTypes } from './mockResources';
+import { resourceData1, resourceData2, resourceTypes } from './mockResources';
 
 const resourcesState = {
   resources: {
     all: {
-      'urn:topic:1': resourceData,
+      'urn:topic:1': resourceData1,
       'urn:topic:2': [],
+      'urn:topic:3': resourceData2,
     },
     types: resourceTypes,
   },
@@ -70,4 +73,18 @@ test('resourceSelectors getResourceTypesByTopicId', () => {
   expect(topicResourcesByType[0].name).toBe('Læringssti');
   expect(topicResourcesByType[1].resources.length).toBe(3);
   expect(topicResourcesByType[1].name).toBe('Fagstoff');
+});
+
+test('get all resources as array', () => {
+  const all = getAllResourcesAsArray(resourcesState);
+  expect(Array.isArray(all)).toBe(true);
+  expect(all.length).toBe(6);
+});
+
+test('get resource by id', () => {
+  const resource1 = getResource('urn:resource:1')(resourcesState);
+  expect(resource1.id).toBe('urn:resource:1');
+
+  const resource2 = getResource('urn:resource:4')(resourcesState);
+  expect(resource2.id).toBe('urn:resource:4');
 });

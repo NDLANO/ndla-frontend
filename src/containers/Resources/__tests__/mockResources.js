@@ -74,13 +74,15 @@ export const additionalResources = [
   },
 ];
 
-export const resourceData = [
+export const resourceData1 = [
   {
+    id: 'urn:resource:1',
     name: 'Teknikker for idéutvikling',
     resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }],
     contentUri: 'urn:learningpath:1',
   },
   {
+    id: 'urn:resource:2',
     name: 'Hva er en idé?',
     resourceTypes: [
       { id: 'urn:resourcetype:subjectMaterial' },
@@ -89,7 +91,32 @@ export const resourceData = [
     contentUri: 'urn:article:1',
   },
   {
+    id: 'urn:resource:3',
     name: 'Ideer og idéutvikling',
+    resourceTypes: [
+      { id: 'urn:resourcetype:subjectMaterial' },
+      { id: 'urn:resourcetype:academicArticle' },
+    ],
+    contentUri: 'urn:article:2',
+  },
+];
+
+export const resourceData2 = [
+  {
+    id: 'urn:resource:4',
+    name: 'Hva er menneskerettigheter?',
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }],
+    contentUri: 'urn:article:3',
+  },
+  {
+    id: 'urn:resource:5',
+    name: 'Påstander konflikter',
+    resourceTypes: [{ id: 'urn:resourcetype:tasksAndActivities' }],
+    contentUri: 'urn:article:4',
+  },
+  {
+    id: 'urn:resource:6',
+    name: 'Endring av NATOs strategi',
     resourceTypes: [
       { id: 'urn:resourcetype:subjectMaterial' },
       { id: 'urn:resourcetype:academicArticle' },
