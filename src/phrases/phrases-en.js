@@ -51,6 +51,10 @@ const phrases = {
       search: 'Search',
       subjectOverview: 'Subject overview',
       title: 'Menu',
+      subjectPage: 'Subject front page',
+      learningResourcesHeading: 'Educational Resources',
+      back: 'Back',
+      contentTypeResultsShowMore: 'Show more',
     },
   },
   logo: {
