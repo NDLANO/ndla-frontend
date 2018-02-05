@@ -10,12 +10,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Helmet from 'react-helmet';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { ArticleShape } from '../../shapes';
 import ssr from '../../components/ssr';
 import Article from '../../components/Article';
 import ArticleHero from '../ArticlePage/components/ArticleHero';
+import ArticleErrorMessage from '../ArticlePage/components/ArticleErrorMessage';
 import { fetchArticle } from '../ArticlePage/articleApi';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
@@ -59,27 +60,13 @@ class PlainArticlePage extends Component {
   }
 
   render() {
-    const { article, status, locale, t } = this.props;
+    const { article, status, locale } = this.props;
 
     if (status === 'error' || status === 'error404') {
       return (
         <div>
           <ArticleHero article={{}} />
-          <OneColumn>
-            <article className="c-article">
-              <ErrorMessage
-                messages={{
-                  title: t('errorMessage.title'),
-                  description:
-                    status === 'error404'
-                      ? t('articlePage.error404Description')
-                      : t('articlePage.errorDescription'),
-                  back: t('errorMessage.back'),
-                  goToFrontPage: t('errorMessage.goToFrontPage'),
-                }}
-              />
-            </article>
-          </OneColumn>
+          <ArticleErrorMessage status={status} />
         </div>
       );
     }
