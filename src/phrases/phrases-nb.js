@@ -51,6 +51,10 @@ const phrases = {
       search: 'Søk',
       subjectOverview: 'Fagoversikt',
       title: 'Meny',
+      subjectPage: 'Fagforside',
+      learningResourcesHeading: 'Læringsressurser',
+      back: 'Tilbake',
+      contentTypeResultsShowMore: 'Vis mer',
     },
   },
   logo: {

@@ -102,6 +102,10 @@ test('topicSelectors getSubjectMenu', () => {
         'urn:subject:1': topics,
       },
     },
+    filters: {
+      active: {},
+      all: {},
+    },
   };
 
   expect(getSubjectMenu('urn:subject:1')(state)).toEqual([

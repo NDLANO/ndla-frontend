@@ -17,15 +17,13 @@ import {
   FilterList,
 } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
-import defined from 'defined';
 import { injectT } from 'ndla-i18n';
 
 import connectSSR from '../../components/connectSSR';
 import { actions } from './subjects';
 import {
   actions as topicActions,
-  getTopicsBySubjectIdWithIntroduction,
-  getTopic,
+  getTopicsBySubjectIdWithIntroductionFiltered,
   getFetchTopicsStatus,
 } from '../TopicPage/topic';
 import {
@@ -68,21 +66,15 @@ class SubjectPage extends Component {
     }
   }
 
-  handleFilterClick = e => {
-    const {
-      match: { params: { subjectId } },
-      filters,
-      setActiveFilter,
-    } = this.props;
-    const filterId = filters.find(it => it.name === e.target.id).id;
-    setActiveFilter({ filterId, subjectId });
+  handleFilterClick = (newValues, filterId) => {
+    const { match: { params: { subjectId } }, setActiveFilter } = this.props;
+    setActiveFilter({ newValues, subjectId, filterId });
   };
 
   render() {
     const {
       subjectTopics,
       t,
-      topic,
       match,
       hasFailed,
       filters,
@@ -90,7 +82,6 @@ class SubjectPage extends Component {
     } = this.props;
     const { params: { subjectId } } = match;
 
-    const topics = topic ? defined(topic.subtopics, []) : subjectTopics;
     return (
       <div>
         <SubjectHero>
@@ -112,12 +103,9 @@ class SubjectPage extends Component {
           <article className="c-article">
             <section className="u-4/6@desktop u-push-1/6@desktop">
               <FilterList
-                filterContent={filters.map(filt => ({
-                  ...filt,
-                  title: filt.name,
-                  active: !!activeFilters.find(actId => actId === filt.id),
-                }))}
-                onClick={this.handleFilterClick}
+                options={filters}
+                values={activeFilters}
+                onChange={this.handleFilterClick}
               />
               {hasFailed ? (
                 <ErrorMessage
@@ -135,17 +123,7 @@ class SubjectPage extends Component {
                   </h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId)}
-                    topics={
-                      activeFilters.length === 0
-                        ? topics
-                        : topics.filter(
-                            top =>
-                              top.filter &&
-                              !activeFilters.find(
-                                active => top.filter.indexOf(active) === -1,
-                              ),
-                          )
-                    }
+                    topics={subjectTopics}
                   />
                 </div>
               )}
@@ -169,7 +147,6 @@ SubjectPage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
   subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
   subject: SubjectShape,
-  topic: TopicShape,
   filters: PropTypes.arrayOf(PropTypes.object),
   setActiveFilter: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
@@ -183,10 +160,11 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.match.params;
+  const { subjectId } = ownProps.match.params;
   return {
-    topic: topicId ? getTopic(subjectId, topicId)(state) : undefined,
-    subjectTopics: getTopicsBySubjectIdWithIntroduction(subjectId)(state),
+    subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
+      state,
+    ),
     hasFailed: getFetchTopicsStatus(state) === 'error',
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],

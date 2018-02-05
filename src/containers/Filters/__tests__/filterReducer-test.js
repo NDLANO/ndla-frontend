@@ -21,6 +21,7 @@ const filters = [
 
 const subjectId = 'urn:subject:1';
 const filterId = 'test:abcd';
+const newValues = [filterId];
 
 test('reducer initalState', () => {
   const nextState = reducer(undefined, { type: '' });
@@ -43,17 +44,17 @@ test('handle fetched filter, set active', () => {
 
   const nextNextState = reducer(nextState, {
     type: actions.setActive,
-    payload: { filterId, subjectId },
+    payload: { newValues, filterId, subjectId },
   });
 
   expect(nextNextState).toEqual({
     ...nextState,
-    active: { [subjectId]: [filterId] },
+    active: { [subjectId]: newValues },
   });
 
   const nextNextNextState = reducer(nextNextState, {
     type: actions.setActive,
-    payload: { filterId, subjectId },
+    payload: { newValues: [], filterId, subjectId },
   });
 
   expect(nextNextNextState).toEqual({
