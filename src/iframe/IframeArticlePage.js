@@ -17,6 +17,7 @@ import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
+import PostResizeMessage from './PostResizeMessage';
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
@@ -49,6 +50,7 @@ const Success = ({ article: rawArticle, locale }) => {
           />
         ))}
       </Helmet>
+      <PostResizeMessage />
       <Article
         article={article}
         locale={locale}
