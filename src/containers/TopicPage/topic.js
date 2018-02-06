@@ -12,7 +12,6 @@ import defined from 'defined';
 
 import groupBy from '../../util/groupBy';
 import { getArticle } from '../ArticlePage/article';
-import { getArticleIdFromResource } from '../Resources/resourceHelpers';
 import createFetchActions from '../../util/createFetchActions';
 
 export const fetchTopicsActions = createFetchActions('TOPICS');
@@ -211,9 +210,7 @@ export const getTopicArticle = (subjectId, topicId) =>
   createSelector(
     [getTopic(subjectId, topicId), state => state],
     (topic, state) =>
-      topic && topic.contentUri
-        ? getArticle(getArticleIdFromResource(topic))(state)
-        : undefined,
+      topic && topic.contentUri ? getArticle(topic.id)(state) : undefined,
   );
 
 export const getSubtopics = (subjectId, topicId) =>
