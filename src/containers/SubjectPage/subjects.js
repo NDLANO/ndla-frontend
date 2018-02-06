@@ -18,7 +18,7 @@ export const actions = {
   setSubjects,
 };
 
-export const initalState = {
+export const initialState = {
   hasFetched: false,
   fetching: false,
   all: [],
@@ -54,7 +54,7 @@ export default handleActions(
       throw: state => state,
     },
   },
-  initalState,
+  initialState,
 );
 
 const getSubjectsFromState = state => state.subjects;

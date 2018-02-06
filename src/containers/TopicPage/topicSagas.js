@@ -53,7 +53,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
     let article = yield select(getArticle(articleId));
     if (articleId && !article) {
       article = yield call(articleApi.fetchArticle, articleId, locale);
-      yield put(articleActions.setArticle(article));
+      yield put(articleActions.setArticle({ ...article, urn: topicId }));
     }
     yield put(actions.fetchTopicArticleSuccess());
   } catch (error) {

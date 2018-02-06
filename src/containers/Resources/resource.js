@@ -96,6 +96,23 @@ export const getResourceTypes = createSelector(
     }),
 );
 
+export const getAllResourcesAsArray = createSelector(
+  [getResourcesFromState],
+  resources => {
+    const test = Object.keys(resources.all).reduce(
+      (acc, key) => [...acc, ...resources.all[key]],
+      [],
+    );
+    return test;
+  },
+);
+
+export const getResource = resourceId =>
+  createSelector([getAllResourcesAsArray], resources => {
+    const found = resources.find(resource => resource.id === resourceId);
+    return found;
+  });
+
 export const hasFetchTopicResourcesFailed = createSelector(
   [getResourcesFromState],
   resources => resources.fetchTopicResourcesFailed,

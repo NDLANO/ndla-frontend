@@ -32,18 +32,18 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { toTopicPartial } from '../../routeHelpers';
+import { toTopicPartial, getUrnIdsFromProps } from '../../routeHelpers';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
   static getInitialProps(ctx) {
     const {
-      match: { params: { subjectId } },
       fetchTopicsWithIntroductions,
       fetchSubjects,
       fetchSubjectFilters,
     } = ctx;
+    const { subjectId } = getUrnIdsFromProps(ctx);
     fetchSubjects();
     fetchSubjectFilters(subjectId);
     fetchTopicsWithIntroductions({ subjectId });
@@ -54,20 +54,20 @@ class SubjectPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params: { subjectId } },
-      fetchTopicsWithIntroductions,
-    } = this.props;
+    const { fetchTopicsWithIntroductions } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
+    const { subjectId: nextSubjectId } = getUrnIdsFromProps(nextProps);
 
-    if (nextProps.match.params.subjectId !== subjectId) {
+    if (nextSubjectId !== subjectId) {
       fetchTopicsWithIntroductions({
-        subjectId: nextProps.match.params.subjectId,
+        subjectId: nextSubjectId,
       });
     }
   }
 
   handleFilterClick = (newValues, filterId) => {
-    const { match: { params: { subjectId } }, setActiveFilter } = this.props;
+    const { setActiveFilter } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
     setActiveFilter({ newValues, subjectId, filterId });
   };
 
@@ -160,7 +160,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId } = ownProps.match.params;
+  const { subjectId } = getUrnIdsFromProps(ownProps);
   return {
     subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
       state,

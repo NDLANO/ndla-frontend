@@ -53,7 +53,9 @@ Object {
       "@@redux-saga/IO": true,
       "PUT": Object {
         "action": Object {
-          "payload": Object {},
+          "payload": Object {
+            "urn": "urn:topic:1",
+          },
           "type": "SET_ARTICLE",
         },
         "channel": null,

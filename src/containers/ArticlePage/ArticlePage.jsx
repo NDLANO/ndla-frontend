@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import Helmet from 'react-helmet';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { actions, getFetchStatus, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
@@ -23,22 +23,21 @@ import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
 import Article from '../../components/Article';
 import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
+import ArticleErrorMessage from './components/ArticleErrorMessage';
 import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 
 const getTitle = article => (article ? article.title : '');
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
-    const { fetchArticle, fetchTopics, fetchSubjects, match: { params } } = ctx;
-    const { articleId, subjectId, plainResourceId } = params;
-    const resourceId = plainResourceId
-      ? `urn:resource:${plainResourceId}`
-      : undefined;
+    const { fetchArticle, fetchTopics, fetchSubjects } = ctx;
+    const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
 
-    fetchArticle({ articleId, resourceId });
+    fetchArticle({ resourceId });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });
@@ -53,10 +52,10 @@ class ArticlePage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { match: { params } } = this.props;
-    const { articleId } = params;
+    const { resourceId } = getUrnIdsFromProps(this.props);
+    const { resourceId: nextResourceId } = getUrnIdsFromProps(nextProps);
 
-    if (nextProps.match.params.articleId !== articleId) {
+    if (resourceId !== nextResourceId) {
       ArticlePage.getInitialProps(nextProps);
     }
   }
@@ -68,40 +67,22 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const {
-      article,
-      subject,
-      status,
-      topicPath,
-      match: { params },
-      locale,
-      t,
-    } = this.props;
-    const { topicId } = params;
+    const { article, subject, status, topicPath, locale } = this.props;
+    const { topicId } = getUrnIdsFromProps(this.props);
 
     if (status === 'error' || status === 'error404') {
       return (
         <div>
           <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
-          <OneColumn>
-            <article className="c-article">
-              <ErrorMessage
-                messages={{
-                  title: t('errorMessage.title'),
-                  description:
-                    status === 'error404'
-                      ? t('articlePage.error404Description')
-                      : t('articlePage.errorDescription'),
-                  back: t('errorMessage.back'),
-                  goToFrontPage: t('errorMessage.goToFrontPage'),
-                }}
-              />
-              {subject &&
-                topicId && (
-                  <TopicResources subjectId={subject.id} topicId={topicId} />
-                )}
-            </article>
-          </OneColumn>
+          <ArticleErrorMessage
+            subject={subject}
+            topicPath={topicPath}
+            status={status}>
+            {subject &&
+              topicId && (
+                <TopicResources subjectId={subject.id} topicId={topicId} />
+              )}
+          </ArticleErrorMessage>
         </div>
       );
     }
@@ -156,10 +137,9 @@ class ArticlePage extends Component {
 ArticlePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      articleId: PropTypes.string.isRequired,
-      subjectId: PropTypes.string,
-      topicId: PropTypes.string,
-      resourceId: PropTypes.string,
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string.isRequired,
+      resourceId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   article: ArticleShape,
@@ -179,14 +159,14 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { articleId, subjectId, topicId } = ownProps.match.params;
+  const { resourceId, subjectId, topicId } = getUrnIdsFromProps(ownProps);
   const getTopicPathSelector =
     subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId
     ? getSubjectById(subjectId)
     : () => undefined;
   return {
-    article: getArticle(articleId)(state),
+    article: getArticle(resourceId)(state),
     status: getFetchStatus(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
