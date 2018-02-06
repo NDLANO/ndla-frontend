@@ -7,6 +7,10 @@ class PostResizeMessage extends React.Component {
     window.addEventListener('resize', this.sendResizeToParentWindow);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.sendResizeToParentWindow);
+  }
+
   sendResizeToParentWindow = () => {
     if (window.parent !== undefined) {
       window.parent.postMessage(
