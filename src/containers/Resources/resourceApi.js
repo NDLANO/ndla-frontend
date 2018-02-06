@@ -32,3 +32,10 @@ export const fetchResourceTypes = locale =>
   fetchWithAccessToken(`${baseUrl}/resource-types/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchResource = async (resourceId, locale) => {
+  const response = await fetchWithAccessToken(
+    `${baseUrl}/resources/${resourceId}/?language=${locale}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};

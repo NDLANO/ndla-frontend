@@ -17,6 +17,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import App from './containers/App/App';
 import Masthead from './containers/Masthead';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
+import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
@@ -39,7 +40,13 @@ class ScrollToTop extends React.Component {
   }
 }
 
-const Route = ({ component: Component, background, ...rest }) => (
+const Route = ({
+  component: Component,
+  initialProps,
+  locale,
+  background,
+  ...rest
+}) => (
   <ReactRoute
     {...rest}
     render={props => (
@@ -47,7 +54,12 @@ const Route = ({ component: Component, background, ...rest }) => (
         <ScrollToTop />
         <Content>
           <Masthead {...props} />
-          <Component {...props} searchEnabled={searchEnabled} />
+          <Component
+            {...props}
+            locale={locale}
+            initialProps={initialProps}
+            searchEnabled={searchEnabled}
+          />
         </Content>
       </App>
     )}
@@ -57,6 +69,8 @@ const Route = ({ component: Component, background, ...rest }) => (
 Route.propTypes = {
   component: PropTypes.func.isRequired,
   background: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
+  initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 const SearchRoute = searchEnabled
@@ -64,7 +78,7 @@ const SearchRoute = searchEnabled
   : undefined;
 
 export const articlePath =
-  '/article/:subjectId/(.*)/:topicId/urn\\:resource\\::plainResourceId/:articleId';
+  '/subjects/:subjectId/(.*)/:topicId/resource\\::resourceId';
 
 export const routes = [
   {
@@ -80,7 +94,7 @@ export const routes = [
   },
   {
     path: '/article/:articleId',
-    component: ArticlePage,
+    component: PlainArticlePage,
     background: true,
   },
   SearchRoute,
@@ -110,18 +124,22 @@ export const routes = [
   },
 ];
 
-export default (
-  <Switch>
-    {routes
-      .filter(route => route !== undefined)
-      .map(route => (
-        <Route
-          key={uuid()}
-          exact={route.exact}
-          component={route.component}
-          background={route.background}
-          path={route.path}
-        />
-      ))}
-  </Switch>
-);
+export default function(initialProps, locale) {
+  return (
+    <Switch>
+      {routes
+        .filter(route => route !== undefined)
+        .map(route => (
+          <Route
+            key={uuid()}
+            exact={route.exact}
+            initialProps={initialProps}
+            locale={locale}
+            component={route.component}
+            background={route.background}
+            path={route.path}
+          />
+        ))}
+    </Switch>
+  );
+}

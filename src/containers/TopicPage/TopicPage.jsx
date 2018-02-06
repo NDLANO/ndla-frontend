@@ -28,7 +28,7 @@ import {
 import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
-import { toTopic } from '../../routeHelpers';
+import { toTopic, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
@@ -47,12 +47,11 @@ const getTitle = (article, topic) => {
 class TopicPage extends Component {
   static getInitialProps(ctx) {
     const {
-      match: { params },
       fetchTopicArticle,
       fetchTopicsWithIntroductions,
       fetchSubjects,
     } = ctx;
-    const { subjectId, topicId } = params;
+    const { subjectId, topicId } = getUrnIdsFromProps(ctx);
     fetchTopicArticle({ subjectId, topicId });
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
@@ -63,17 +62,14 @@ class TopicPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      match: { params },
-      fetchTopicArticle,
-      fetchTopicsWithIntroductions,
-    } = this.props;
-    const { subjectId, topicId } = params;
+    const { fetchTopicArticle, fetchTopicsWithIntroductions } = this.props;
+    const { subjectId, topicId } = getUrnIdsFromProps(this.props);
+    const { topicId: nextTopicId } = getUrnIdsFromProps(nextProps);
 
-    if (nextProps.match.params.topicId !== topicId) {
+    if (nextTopicId !== topicId) {
       fetchTopicArticle({
         subjectId,
-        topicId: nextProps.match.params.topicId,
+        topicId: nextTopicId,
       });
       fetchTopicsWithIntroductions({ subjectId });
     }
@@ -81,7 +77,6 @@ class TopicPage extends Component {
 
   render() {
     const {
-      match: { params },
       topic,
       locale,
       article,
@@ -91,7 +86,7 @@ class TopicPage extends Component {
       fetchTopicArticleStatus,
       subject,
     } = this.props;
-    const { subjectId } = params;
+    const { subjectId } = getUrnIdsFromProps(this.props);
 
     const title = getTitle(article, topic);
     const scripts = getArticleScripts(article);
@@ -195,7 +190,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.match.params;
+  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
   const getTopicSelector = getTopic(subjectId, topicId);
   const getTopicArticleSelector = getTopicArticle(subjectId, topicId);
   const getTopicPathSelector = getTopicPath(subjectId, topicId);

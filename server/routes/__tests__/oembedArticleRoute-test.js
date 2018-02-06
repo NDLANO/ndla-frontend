@@ -10,14 +10,14 @@ import nock from 'nock';
 import { parseAndMatchUrl, oembedArticleRoute } from '../oembedArticleRoute';
 
 const validArticleUrl1 =
-  'https://ndla-frontend.test.api.ndla.no/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050';
+  'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
 const validArticleUrl2 =
-  'http://localhost:3000/article/urn:subject:3/urn:topic:1:168542/urn:topic:1:173292/urn:resource:1:168554/127';
+  'http://localhost:3000/subjects/subject:3/topic:1:168542/topic:1:173292/resource:1:168554';
 
 const validArticleUrlWithLang =
-  'https://ndla-frontend.test.api.ndla.no/nn/article/urn:subject:3/urn:topic:1:55163/urn:topic:1:168398/urn:resource:1:1682/26050';
+  'https://ndla-frontend.test.api.ndla.no/nn/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
 const unvalidArticleUrl =
-  'https://ndla-frontend.test.api.ndla.no/subjects/urn:subject:3/urn:topic:1:55163';
+  'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163';
 
 test('parseAndMatchUrl', () => {
   expect(parseAndMatchUrl(validArticleUrl1)).toMatchSnapshot();
@@ -28,8 +28,12 @@ test('parseAndMatchUrl', () => {
 
 test('oembedArticleRoute success', async () => {
   nock('http://ndla-api')
-    .get('/article-converter/json/nb/26050')
-    .reply(200, { id: 123, title: 'unit test', metaData: {} });
+    .get('/taxonomy/v1/resources/urn:resource:1:1682/?language=nb')
+    .reply(200, {
+      id: 'urn:resource:1',
+      contentUri: 'urn:article:123',
+      title: 'Resource title',
+    });
 
   const response = await oembedArticleRoute({
     query: {

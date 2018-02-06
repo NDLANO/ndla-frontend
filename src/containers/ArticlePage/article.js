@@ -29,7 +29,7 @@ export default handleActions(
     [actions.setArticle]: {
       next: (state, action) => ({
         ...state,
-        all: { ...state.all, [action.payload.id]: { ...action.payload } },
+        all: { ...state.all, [action.payload.urn]: { ...action.payload } },
       }),
       throw: state => state,
     },
@@ -63,13 +63,13 @@ export default handleActions(
 
 const getArticlesFromState = state => state.articles;
 
-export const getArticleById = articleId =>
-  createSelector([getArticlesFromState], articles => articles.all[articleId]);
+export const getArticleByUrn = urn =>
+  createSelector([getArticlesFromState], articles => articles.all[urn]);
 
 export const getFetchStatus = state => state.articles.status;
 
-export const getArticle = articleId =>
-  createSelector([getArticleById(articleId), getLocale], (article, locale) => {
+export const getArticle = urn =>
+  createSelector([getArticleByUrn(urn), getLocale], (article, locale) => {
     if (article) {
       return transformArticle(article, locale);
     }

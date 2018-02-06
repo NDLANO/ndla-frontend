@@ -41,7 +41,7 @@ test('iframeArticleRoute 200 OK', async () => {
     params: {
       lang: 'nb',
       articleId: '26050',
-      resourceId: '123',
+      resourceId: 'urn:resource:123',
     },
   });
 
