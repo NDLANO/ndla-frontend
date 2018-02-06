@@ -60,18 +60,13 @@ export default handleActions(
       }),
     },
     [actions.setActive]: {
-      next: (state, { payload: { filterId, subjectId } }) => {
-        const arr = state.active[subjectId] || [];
-        return {
-          ...state,
-          active: {
-            ...state.active,
-            [subjectId]: arr.find(it => it === filterId)
-              ? arr.filter(it => it !== filterId)
-              : [...arr, filterId],
-          },
-        };
-      },
+      next: (state, { payload: { newValues, subjectId } }) => ({
+        ...state,
+        active: {
+          ...state.active,
+          [subjectId]: newValues,
+        },
+      }),
     },
   },
   initialState,
@@ -83,7 +78,17 @@ export const getActiveFilter = subjectId =>
   createSelector([getState], state => state.active[subjectId]);
 
 export const getFilters = subjectId =>
-  createSelector([getState], state => state.all[subjectId] || []);
+  createSelector(
+    [getState],
+    state =>
+      state.all[subjectId]
+        ? state.all[subjectId].map(filt => ({
+            ...filt,
+            title: filt.name,
+            value: filt.id,
+          }))
+        : [],
+  );
 
 export const filterHasFetched = ({ subjectId, filterId }) =>
   createSelector(
