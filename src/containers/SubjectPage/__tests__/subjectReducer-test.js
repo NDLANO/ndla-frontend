@@ -6,7 +6,7 @@
  *
  */
 
-import reducer, { actions, initalState } from '../subjects';
+import reducer, { actions, initialState } from '../subjects';
 import { subjects } from './mockSubjects';
 
 test('reducers/subject initalState', () => {
@@ -47,7 +47,7 @@ test('reducers/subject handle fetch subjects error', () => {
 });
 
 test('reducers/subjects handle set subjects', () => {
-  const nextState = reducer(initalState, {
+  const nextState = reducer(initialState, {
     type: actions.setSubjects.toString(),
     payload: subjects,
   });

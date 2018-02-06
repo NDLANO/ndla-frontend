@@ -24,15 +24,19 @@ export function getUrnIdsFromProps(props) {
   };
 }
 
+export function toSubjects() {
+  return `/subjects`;
+}
+
 export function toArticle(articleId, resource) {
   if (resource) {
-    return `/subjects${resource.path}/`;
+    return `${toSubjects()}${resource.path}/`;
   }
   return `/article/${articleId}`;
 }
 
 export function toSubject(subjectId) {
-  return `/subjects/${removeUrn(subjectId)}`;
+  return `${toSubjects()}/${removeUrn(subjectId)}`;
 }
 
 export function toTopic(subjectId, ...topicIds) {
@@ -40,9 +44,9 @@ export function toTopic(subjectId, ...topicIds) {
   if (topicIds.length === 0) {
     return toSubject(urnFreeSubjectId);
   }
-  const urnFreeTopicIds = topicIds.map(removeUrn);
+  const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
 
-  return `/subjects/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`;
+  return `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`;
 }
 
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
