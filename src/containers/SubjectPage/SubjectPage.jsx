@@ -66,7 +66,8 @@ class SubjectPage extends Component {
   }
 
   handleFilterClick = (newValues, filterId) => {
-    const { match: { params: { subjectId } }, setActiveFilter } = this.props;
+    const { setActiveFilter } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
     setActiveFilter({ newValues, subjectId, filterId });
   };
 

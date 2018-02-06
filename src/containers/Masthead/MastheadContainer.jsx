@@ -21,7 +21,7 @@ import {
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toTopic, toSubject } from '../../routeHelpers';
+import { toTopic, toSubject, getUrnIdsFromProps } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import {
@@ -55,8 +55,9 @@ class MastheadContainer extends React.PureComponent {
   state = { isOpen: false };
 
   componentDidMount() {
+    const { subjectId } = getUrnIdsFromProps(this.props);
     if (this.props.filters.length === 0) {
-      this.props.fetchSubjectFilters(this.props.match.params.subjectId);
+      this.props.fetchSubjectFilters(subjectId);
     }
   }
 
@@ -74,7 +75,7 @@ class MastheadContainer extends React.PureComponent {
   }
 
   onNavigate = (expandedTopicId, expandedSubtopicId) => {
-    const { match: { params: { subjectId } } } = this.props;
+    const { subjectId } = getUrnIdsFromProps(this.props);
     this.setState({
       expandedTopicId,
       expandedSubtopicId,
@@ -194,7 +195,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = ownProps.match.params;
+  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
