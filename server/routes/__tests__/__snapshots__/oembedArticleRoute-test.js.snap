@@ -24,12 +24,12 @@ exports[`parseAndMatchUrl 1`] = `
 Object {
   "isExact": true,
   "params": Object {
-    "0": "topic:1:55163",
     "resourceId": "1:1682",
     "subjectId": "subject:3",
     "topicId": "topic:1:168398",
+    "topicPath": "topic:1:55163",
   },
-  "path": "/subjects/:subjectId/(.*)/:topicId/resource\\\\::resourceId",
+  "path": "/subjects/:subjectId/:topicPath*/:topicId/resource\\\\::resourceId",
   "url": "/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
 }
 `;
@@ -38,12 +38,12 @@ exports[`parseAndMatchUrl 2`] = `
 Object {
   "isExact": true,
   "params": Object {
-    "0": "topic:1:168542",
     "resourceId": "1:168554",
     "subjectId": "subject:3",
     "topicId": "topic:1:173292",
+    "topicPath": "topic:1:168542",
   },
-  "path": "/subjects/:subjectId/(.*)/:topicId/resource\\\\::resourceId",
+  "path": "/subjects/:subjectId/:topicPath*/:topicId/resource\\\\::resourceId",
   "url": "/subjects/subject:3/topic:1:168542/topic:1:173292/resource:1:168554",
 }
 `;
@@ -52,13 +52,27 @@ exports[`parseAndMatchUrl 3`] = `
 Object {
   "isExact": true,
   "params": Object {
-    "0": "topic:1:55163",
+    "resourceId": "1:168554",
+    "subjectId": "subject:3",
+    "topicId": "topic:1:168542",
+    "topicPath": undefined,
+  },
+  "path": "/subjects/:subjectId/:topicPath*/:topicId/resource\\\\::resourceId",
+  "url": "/subjects/subject:3/topic:1:168542/resource:1:168554",
+}
+`;
+
+exports[`parseAndMatchUrl 4`] = `
+Object {
+  "isExact": true,
+  "params": Object {
     "lang": "nn",
     "resourceId": "1:1682",
     "subjectId": "subject:3",
     "topicId": "topic:1:168398",
+    "topicPath": "topic:1:55163",
   },
-  "path": "/:lang/subjects/:subjectId/(.*)/:topicId/resource\\\\::resourceId",
+  "path": "/:lang/subjects/:subjectId/:topicPath*/:topicId/resource\\\\::resourceId",
   "url": "/nn/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
 }
 `;

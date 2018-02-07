@@ -78,7 +78,7 @@ const SearchRoute = searchEnabled
   : undefined;
 
 export const articlePath =
-  '/subjects/:subjectId/(.*)/:topicId/resource\\::resourceId';
+  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
 export const routes = [
   {
