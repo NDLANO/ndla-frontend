@@ -90,7 +90,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
               className="c-article-byline__authors"
             >
               Someone.
-
+               
               <br />
               (
               CC BY-SA
@@ -130,7 +130,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
               className="c-article-byline__date"
             >
               Sist oppdatert
-
+               
               09.01.2018
             </span>
             <button
@@ -304,7 +304,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                 className="c-medialist__title"
                               >
                                 Regler for bruk av teksten:
-
+                                 
                               </h3>
                               <div
                                 className="c-license-byline"
@@ -458,7 +458,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                     >
                                       Opphavsmann
                                       :
-
+                                       
                                       <span>
                                         Forfatter Someone
                                       </span>
@@ -468,7 +468,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                     >
                                       Publiseringsdato
                                       :
-
+                                       
                                       <span>
                                         09.01.2018
                                       </span>
