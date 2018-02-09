@@ -95,6 +95,7 @@
     "ndla-icons": "^0.1.17",
     "ndla-licenses": "^0.1.2",
     "ndla-tabs": "^0.4.2",
+    "ndla-tracker": "^0.0.1",
     "ndla-ui": "^0.10.5",
     "ndla-util": "^0.1.10",
     "node-fetch": "^1.7.2",
@@ -115,7 +116,8 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "serialize-javascript": "^1.4.0",
-    "unfetch": "^3.0.0"
+    "unfetch": "^3.0.0",
+    "warning": "^3.0.0"
   },
   "repository": {
     "type": "git",

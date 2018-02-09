@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { SubjectHero, OneColumn, Breadcrumb, constants } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
+import { withTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
 import {
   actions,
@@ -57,6 +58,25 @@ class TopicPage extends Component {
     fetchSubjects();
   }
 
+  static getDocumentTitle({ article, topic }) {
+    return getTitle(article, topic);
+  }
+
+  static willTrackPageView(trackPageView, currentProps) {
+    const { topic } = currentProps;
+    console.log('CRR', currentProps);
+    if (topic && topic.id) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDimensions(props) {
+    console.log(props);
+    return {
+      CustDimOverordnet: 'test',
+    };
+  }
+
   componentDidMount() {
     TopicPage.getInitialProps(this.props);
   }
@@ -88,13 +108,14 @@ class TopicPage extends Component {
     } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
 
-    const title = getTitle(article, topic);
     const scripts = getArticleScripts(article);
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
-          <title>{`NDLA | ${title}`}</title>
+          <title>{`NDLA | ${this.constructor.getDocumentTitle(
+            this.props,
+          )}`}</title>
           {article &&
             article.metaDescription && (
               <meta name="description" content={article.metaDescription} />
@@ -113,6 +134,7 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
+
         <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">
@@ -209,4 +231,5 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
+  withTracker,
 )(TopicPage);

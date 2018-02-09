@@ -4894,6 +4894,12 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
+ndla-tracker@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.0.1.tgz#2b57b0f5c11e6fa50b5f2f7d5c53769c11ba36c2"
+  dependencies:
+    lodash "^4.17.4"
+
 ndla-ui@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.5.tgz#2c25934388a56b56804ba3acd61cf59f6ba373a8"
