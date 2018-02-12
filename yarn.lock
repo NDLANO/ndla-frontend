@@ -4845,9 +4845,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.2.2.tgz#f47e80ec1bb3f4ad461883656335f076412ef7b2"
+ndla-article-scripts@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.1.tgz#ee5af0f6e9aa2c15f3332ee4c4bd562837a01867"
   dependencies:
     focus-trap "^2.4.2"
     jump.js "^1.0.2"
@@ -4894,9 +4894,9 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.10.5:
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.5.tgz#2c25934388a56b56804ba3acd61cf59f6ba373a8"
+ndla-ui@^0.10.7:
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.7.tgz#acc920e97548439837577909aa60d40021b3c20d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.2"
