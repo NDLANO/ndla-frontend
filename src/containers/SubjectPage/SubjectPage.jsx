@@ -15,12 +15,12 @@ import {
   ErrorMessage,
   TopicIntroductionList,
   FilterList,
+  Breadcrumb,
 } from 'ndla-ui';
-import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 
 import connectSSR from '../../components/connectSSR';
-import { actions } from './subjects';
+import { actions, getSubjectById } from './subjects';
 import {
   actions as topicActions,
   getTopicsBySubjectIdWithIntroductionFiltered,
@@ -73,6 +73,7 @@ class SubjectPage extends Component {
 
   render() {
     const {
+      subject,
       subjectTopics,
       t,
       match,
@@ -88,13 +89,14 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                <div className="c-breadcrumb">
-                  <ol className="c-breadcrumb__list">
-                    <li className="c-breadcrumb__item">
-                      <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> ›
-                    </li>
-                  </ol>
-                </div>
+                {subject ? (
+                  <Breadcrumb
+                    toSubjects={() => '/'}
+                    subject={subject}
+                    topicPath={[]}
+                    toTopic={() => ''}
+                  />
+                ) : null}
               </section>
             </div>
           </OneColumn>
@@ -167,6 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     ),
     hasFailed: getFetchTopicsStatus(state) === 'error',
     filters: getFilters(subjectId)(state),
+    subject: getSubjectById(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };

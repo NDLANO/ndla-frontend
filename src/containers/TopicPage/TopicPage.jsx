@@ -120,7 +120,6 @@ class TopicPage extends Component {
                 {subject ? (
                   <Breadcrumb
                     toSubjects={() => '/'}
-                    subjectsTitle={t('breadcrumb.subjectsLinkText')}
                     subject={subject}
                     topicPath={topicPath}
                     toTopic={toTopic}

@@ -28,7 +28,6 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
             {subject ? (
               <Breadcrumb
                 toSubjects={() => '/'}
-                subjectsTitle={t('breadcrumb.subjectsLinkText')}
                 subject={subject}
                 topicPath={topicPath}
                 toTopic={toTopic}

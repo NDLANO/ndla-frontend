@@ -153,10 +153,6 @@ const phrases = {
       supplier: 'Leverandør',
     },
   },
-  breadcrumb: {
-    subjectsLinkText: 'Fag',
-    label: 'Du er her:',
-  },
   errorMessage: {
     title: 'Ops, noko gjekk gale',
     description: 'Orsak, ein feil oppstod.',
