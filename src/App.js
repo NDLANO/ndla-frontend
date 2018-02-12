@@ -6,10 +6,11 @@ import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from 'ndla-ui';
 import { uuid } from 'ndla-util';
-import App from './containers/App/App';
+import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import config from './config';
+import handleError from './util/handleError';
 
 const searchEnabled =
   __SERVER__ || process.env.NODE_ENV === 'unittest'
@@ -26,7 +27,7 @@ const Route = ({
   <ReactRoute
     {...rest}
     render={props => (
-      <App background={background}>
+      <Page background={background}>
         <Content>
           <Masthead {...props} />
           <Component
@@ -36,7 +37,7 @@ const Route = ({
             searchEnabled={searchEnabled}
           />
         </Content>
-      </App>
+      </Page>
     )}
   />
 );
@@ -60,7 +61,7 @@ async function loadInitialProps(pathname, ctx) {
   return Promise.all(promises);
 }
 
-class Load extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: props.initialProps };
@@ -89,7 +90,7 @@ class Load extends React.Component {
       });
       this.setState({ data: data[0] });
     } catch (e) {
-      console.error(e);
+      handleError(e);
     }
   }
 
@@ -114,10 +115,10 @@ class Load extends React.Component {
   }
 }
 
-Load.propTypes = {
+App.propTypes = {
   locale: PropTypes.string.isRequired,
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withRouter(Load);
+export default withRouter(App);

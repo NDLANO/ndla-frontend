@@ -16,7 +16,7 @@ import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import config from './config';
-import Load from './Load';
+import App from './App';
 
 const searchEnabled =
   __SERVER__ || process.env.NODE_ENV === 'unittest'
@@ -75,5 +75,5 @@ export const routes = [
 ];
 
 export default function(initialProps = {}, locale) {
-  return <Load initialProps={initialProps} locale={locale} />;
+  return <App initialProps={initialProps} locale={locale} />;
 }
