@@ -8,15 +8,15 @@ class PostResizeMessage extends React.Component {
     };
   }
   componentDidMount() {
-    this.resize();
-    window.addEventListener('resize', this.resize);
+    this.onResizeReady();
+    window.addEventListener('resize', this.onResizeReady);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', this.onResizeReady);
   }
 
-  resize = () => {
+  onResizeReady = () => {
     if (document.readyState === 'complete') {
       this.sendResizeToParentWindow();
     } else {
