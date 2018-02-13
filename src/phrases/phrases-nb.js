@@ -55,6 +55,7 @@ const phrases = {
       learningResourcesHeading: 'Læringsressurser',
       back: 'Tilbake',
       contentTypeResultsShowMore: 'Vis mer',
+      contentTypeResultsNoHit: 'Ingen treff',
     },
   },
   logo: {

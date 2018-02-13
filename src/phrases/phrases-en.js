@@ -55,6 +55,7 @@ const phrases = {
       learningResourcesHeading: 'Educational Resources',
       back: 'Back',
       contentTypeResultsShowMore: 'Show more',
+      contentTypeResultsNoHit: 'No hits',
     },
   },
   logo: {
