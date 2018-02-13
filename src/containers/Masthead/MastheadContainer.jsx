@@ -156,6 +156,9 @@ class MastheadContainer extends React.PureComponent {
                   contentTypeResultsShowMore: t(
                     'masthead.menu.contentTypeResultsShowMore',
                   ),
+                  contentTypeResultsNoHit: t(
+                    'masthead.menu.contentTypeResultsNoHit',
+                  ),
                 }}
                 filterOptions={filters}
                 onFilterClick={this.filterClick}
