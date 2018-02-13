@@ -52,8 +52,7 @@ class PlainArticlePage extends Component {
   }
 
   static getDimensions(props) {
-    const articleProps = getArticleProps(props.article);
-    return getAllDimensions(props, articleProps.label, true);
+    return getAllDimensions(props, undefined, true);
   }
 
   componentDidMount() {

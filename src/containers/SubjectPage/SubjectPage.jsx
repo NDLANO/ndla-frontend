@@ -20,7 +20,7 @@ import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { HelmetWithTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
-import { actions } from './subjects';
+import { actions, getSubjectById } from './subjects';
 import {
   actions as topicActions,
   getTopicsBySubjectIdWithIntroductionFiltered,
@@ -78,13 +78,17 @@ class SubjectPage extends Component {
       match,
       hasFailed,
       filters,
+      subject,
       activeFilters,
     } = this.props;
     const { params: { subjectId } } = match;
-
     return (
       <div>
-        <HelmetWithTracker title={t('htmlTitles.subjectPage')} />
+        <HelmetWithTracker
+          title={`${subject ? subject.name : ''} ${t(
+            'htmlTitles.titleTemplate',
+          )}`}
+        />
         <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
@@ -162,12 +166,16 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId } = getUrnIdsFromProps(ownProps);
+  const getSubjectByIdSelector = subjectId
+    ? getSubjectById(subjectId)
+    : () => undefined;
   return {
     subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
       state,
     ),
     hasFailed: getFetchTopicsStatus(state) === 'error',
     filters: getFilters(subjectId)(state),
+    subject: getSubjectByIdSelector(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };

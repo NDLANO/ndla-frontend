@@ -47,20 +47,37 @@ export const convertToGaOrGtmDimension = (dimensions, type) => {
   return newDimensions;
 };
 
-export const getAllDimensions = (props, title, isArticle = false) => {
+const getCopyrightFieldWithFallBack = (article, field, fallback) =>
+  article && article.copyright && article.copyright[field]
+    ? article.copyright[field]
+    : fallback;
+
+export const getAllDimensions = (
+  props,
+  contentTypeLabel,
+  isArticle = false,
+) => {
   const { article, subject, topicPath } = props;
-  const creators =
-    article && article.copyright && article.copyright.creators
-      ? article.copyright.creators
-      : undefined;
+  const rightsholders = getCopyrightFieldWithFallBack(
+    article,
+    'rightsholders',
+    undefined,
+  );
+  const authors = getCopyrightFieldWithFallBack(
+    article,
+    'creators',
+    rightsholders,
+  );
+
   const dimensions = {
-    4: title,
+    4: contentTypeLabel,
     5: subject ? subject.name : undefined,
     6: topicPath && topicPath[0] ? topicPath[0].name : undefined,
     7: topicPath && topicPath[1] ? topicPath[1].name : undefined,
     8: isArticle && article ? article.title : undefined,
-    9: creators ? creators.map(creator => creator.name).join(', ') : undefined,
+    9: authors ? authors.map(author => author.name).join(', ') : undefined,
   };
+
   return {
     ga: convertToGaOrGtmDimension(dimensions, 'ga'),
     gtm: convertToGaOrGtmDimension(dimensions, 'gtm'),
