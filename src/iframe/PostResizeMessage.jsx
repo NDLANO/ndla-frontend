@@ -8,12 +8,21 @@ class PostResizeMessage extends React.Component {
     };
   }
   componentDidMount() {
-    this.sendResizeToParentWindow();
-    window.addEventListener('resize', this.sendResizeToParentWindow);
+    this.resize();
+    window.addEventListener('resize', this.resize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.sendResizeToParentWindow);
+    window.removeEventListener('resize', this.resize);
+  }
+
+  resize = () => {
+    if(document.readyState === "complete") {
+      this.sendResizeToParentWindow();
+    }
+    else {
+      window.addEventListener("onload", () => this.sendResizeToParentWindow, false);
+    }
   }
 
   sendResizeToParentWindow = () => {
