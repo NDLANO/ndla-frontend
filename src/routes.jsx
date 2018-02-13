@@ -73,10 +73,6 @@ Route.propTypes = {
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-const SearchRoute = searchEnabled
-  ? { path: '/search', component: SearchPage, background: false }
-  : undefined;
-
 export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
@@ -97,7 +93,11 @@ export const routes = [
     component: PlainArticlePage,
     background: true,
   },
-  SearchRoute,
+  {
+    path: '/search',
+    component: searchEnabled ? SearchPage : NotFoundPage,
+    background: false,
+  },
   {
     path: '/subjects/:subjectId/(.*)/:topicId',
     component: TopicPage,
