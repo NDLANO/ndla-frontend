@@ -15,6 +15,8 @@ import { fetchResource } from '../../src/containers/Resources/resourceApi';
 import { articlePath } from '../../src/routes';
 import config from '../../src/config';
 
+const log = require('../../src/util/logger');
+
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);
   const paths = pathname.split('/');
@@ -62,7 +64,7 @@ export async function oembedArticleRoute(req) {
       },
     };
   } catch (error) {
-    console.error(error);
+    log.error(error);
     const status = error.status || INTERNAL_SERVER_ERROR;
     return {
       status,
