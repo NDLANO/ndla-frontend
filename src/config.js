@@ -63,8 +63,8 @@ module.exports = Object.assign(
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
     ndlaFrontendDomain: ndlaFrontendDomain(),
     learningPathDomain: learningPathDomain(),
-    googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
-    gaTrackingId: process.env.NDLA_GA_TRACKING_ID,
+    googleTagManagerId: process.env.NDLA_GOOGLE_TAG_MANAGER_ID,
+    gaTrackingId: process.env.NDLA_FRONTEND_GA_TRACKING_ID,
   },
   environment,
 );
