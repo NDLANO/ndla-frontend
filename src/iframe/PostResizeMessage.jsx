@@ -21,7 +21,7 @@ class PostResizeMessage extends React.Component {
       this.sendResizeToParentWindow();
     }
     else {
-      window.addEventListener("onload", () => this.sendResizeToParentWindow, false);
+      window.addEventListener("onload", this.sendResizeToParentWindow, false);
     }
   }
 
