@@ -35,6 +35,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -58,23 +59,21 @@ class TopicPage extends Component {
     fetchSubjects();
   }
 
-  static getDocumentTitle({ article, topic }) {
-    return getTitle(article, topic);
+  static getDocumentTitle({ t, article, topic, subject }) {
+    return `${subject ? subject.name : ''} - ${getTitle(article, topic)}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { topic } = currentProps;
-    console.log('CRR', currentProps);
-    if (topic && topic.id) {
+    const { topic, topicPath, subject, article } = currentProps;
+    if (article && article.id && topic && topic.id && topicPath && subject) {
       trackPageView(currentProps);
     }
   }
 
   static getDimensions(props) {
-    console.log(props);
-    return {
-      CustDimOverordnet: 'test',
-    };
+    return getAllDimensions(props, props.t('htmlTitles.topicPage'));
   }
 
   componentDidMount() {
@@ -107,15 +106,11 @@ class TopicPage extends Component {
       subject,
     } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
-
     const scripts = getArticleScripts(article);
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
-          <title>{`NDLA | ${this.constructor.getDocumentTitle(
-            this.props,
-          )}`}</title>
+          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article &&
             article.metaDescription && (
               <meta name="description" content={article.metaDescription} />

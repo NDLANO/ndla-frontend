@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
-
+import { HelmetWithTracker } from 'ndla-tracker';
 import { toSearch } from '../../routeHelpers';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
@@ -20,6 +20,7 @@ import { SubjectLinkList } from '../../components';
 
 export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
   <OneColumn cssModifier="clear">
+    <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
     {!hasFailed ? (
       <section>
         <h1>{t('welcomePage.subjects')}</h1>

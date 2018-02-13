@@ -6,7 +6,18 @@
  *
  */
 
+const titleTemplate = ' - NDLA';
+
 const phrases = {
+  htmlTitles: {
+    titleTemplate,
+    welcomePage: `Frontpage${titleTemplate}`,
+    topicPage: 'Topic',
+    subjectPage: `Choose subjects${titleTemplate}`,
+    subjectsPage: `Choose subjects${titleTemplate}`,
+    searchPage: `Search${titleTemplate}`,
+    notFound: `Page not found${titleTemplate}`,
+  },
   articlePage: {
     errorDescription: 'Sorry, an error occurd while loading the resource.',
     error404Description:

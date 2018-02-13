@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { HelmetWithTracker } from 'ndla-tracker';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { SubjectLinkList } from '../../components';
@@ -17,6 +18,7 @@ import { SubjectShape } from '../../shapes';
 
 const SubjectsPage = ({ t, subjects, hasFailed }) => (
   <div className="c-resources u-padding-top-large">
+    <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
     <OneColumn>
       {!hasFailed ? (
         <section>

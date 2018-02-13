@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { withTracker } from 'ndla-tracker';
 import { actions, getFetchStatus, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
@@ -29,6 +30,7 @@ import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getUrnIdsFromProps } from '../../routeHelpers';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getTitle = article => (article ? article.title : '');
 
@@ -42,6 +44,24 @@ class ArticlePage extends Component {
       fetchSubjects();
       fetchTopics({ subjectId });
     }
+  }
+
+  static getDocumentTitle({ t, article, subject }) {
+    return `${subject ? subject.name : ''} - ${getTitle(article)}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
+  }
+
+  static willTrackPageView(trackPageView, currentProps) {
+    const { topicPath, subject, article } = currentProps;
+    if (article && article.id && topicPath && subject) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDimensions(props) {
+    const articleProps = getArticleProps(props.article);
+    return getAllDimensions(props, articleProps.label, true);
   }
 
   componentDidMount() {
@@ -69,7 +89,6 @@ class ArticlePage extends Component {
   render() {
     const { article, subject, status, topicPath, locale } = this.props;
     const { topicId } = getUrnIdsFromProps(this.props);
-
     if (status === 'error' || status === 'error404') {
       return (
         <div>
@@ -92,7 +111,7 @@ class ArticlePage extends Component {
     return (
       <div>
         <Helmet>
-          <title>{`NDLA | ${getTitle(article)}`}</title>
+          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article &&
             article.metaDescription && (
               <meta name="description" content={article.metaDescription} />
@@ -177,4 +196,5 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
+  withTracker,
 )(ArticlePage);

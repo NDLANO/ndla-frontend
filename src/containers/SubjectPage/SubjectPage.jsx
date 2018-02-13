@@ -18,7 +18,7 @@ import {
 } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
-
+import { HelmetWithTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
 import { actions } from './subjects';
 import {
@@ -84,6 +84,7 @@ class SubjectPage extends Component {
 
     return (
       <div>
+        <HelmetWithTracker title={t('htmlTitles.subjectPage')} />
         <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">

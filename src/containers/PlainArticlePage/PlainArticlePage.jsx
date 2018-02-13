@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
+import { withTracker } from 'ndla-tracker';
 import { ArticleShape } from '../../shapes';
 import ssr from '../../components/ssr';
 import Article from '../../components/Article';
@@ -21,6 +22,7 @@ import { fetchArticle } from '../ArticlePage/articleApi';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getTitle = article => (article ? article.title : '');
 
@@ -37,6 +39,21 @@ class PlainArticlePage extends Component {
         error.json && error.json.status === 404 ? 'error404' : 'error';
       return { status };
     }
+  }
+  static getDocumentTitle({ t, article }) {
+    return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
+  }
+
+  static willTrackPageView(trackPageView, currentProps) {
+    const { article } = currentProps;
+    if (article && article.id) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDimensions(props) {
+    const articleProps = getArticleProps(props.article);
+    return getAllDimensions(props, articleProps.label, true);
   }
 
   componentDidMount() {
@@ -80,7 +97,7 @@ class PlainArticlePage extends Component {
     return (
       <div>
         <Helmet>
-          <title>{`NDLA | ${getTitle(article)}`}</title>
+          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article &&
             article.metaDescription && (
               <meta name="description" content={article.metaDescription} />
@@ -128,4 +145,4 @@ PlainArticlePage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(injectT, ssr)(PlainArticlePage);
+export default compose(injectT, ssr, withTracker)(PlainArticlePage);

@@ -53,6 +53,7 @@ configureTracker({
   listen: browserHistory.listen,
   gaTrackingId: config.gaTrackingId,
   googleTagManagerId: config.googleTagManagerId,
+  debug: true,
 });
 
 renderOrHydrate(

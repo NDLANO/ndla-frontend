@@ -26,7 +26,6 @@ const Article = ({ article, children, contentType, label, locale, t }) => {
   const icon = contentType ? (
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
-
   return (
     <UIArticle
       article={article}
