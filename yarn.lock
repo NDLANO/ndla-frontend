@@ -4867,13 +4867,13 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.17:
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.17.tgz#627b5b57ccf5349cbb02f0855509876afed75eff"
+ndla-icons@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.0.tgz#9db37ee93f8e36e530fa835baf3e5128433a59ba"
 
-ndla-licenses@^0.1.2:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.6.tgz#0d0d6cf944ca03aba7a681ccabb5f3f6dce9b404"
+ndla-licenses@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.7.tgz#49f73efdd6a90f2c4d70550f3d930dcd139e9c54"
   dependencies:
     defined "1.0.0"
 
