@@ -17,13 +17,16 @@ class PostResizeMessage extends React.Component {
   }
 
   resize = () => {
-    if(document.readyState === "complete") {
+    if (document.readyState === 'complete') {
       this.sendResizeToParentWindow();
+    } else {
+      document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+          this.sendResizeToParentWindow();
+        }
+      };
     }
-    else {
-      window.addEventListener("onload", this.sendResizeToParentWindow, false);
-    }
-  }
+  };
 
   sendResizeToParentWindow = () => {
     if (window.parent !== undefined && this.state.width !== window.outerWidth) {
