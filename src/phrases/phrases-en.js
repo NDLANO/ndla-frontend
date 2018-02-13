@@ -91,6 +91,8 @@ const phrases = {
   article: {
     author: 'Author',
     published: 'Published',
+    edition: 'Edition',
+    publisher: 'Publisher',
     created: 'Created',
     lastUpdated: 'Last updated',
     closeLicenseBox: 'Close box',

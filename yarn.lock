@@ -4845,9 +4845,9 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-ndla-article-scripts@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.2.2.tgz#f47e80ec1bb3f4ad461883656335f076412ef7b2"
+ndla-article-scripts@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.1.tgz#ee5af0f6e9aa2c15f3332ee4c4bd562837a01867"
   dependencies:
     focus-trap "^2.4.2"
     jump.js "^1.0.2"
@@ -4867,13 +4867,13 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.2"
 
-ndla-icons@^0.1.17:
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.1.17.tgz#627b5b57ccf5349cbb02f0855509876afed75eff"
+ndla-icons@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.0.tgz#9db37ee93f8e36e530fa835baf3e5128433a59ba"
 
-ndla-licenses@^0.1.2:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.6.tgz#0d0d6cf944ca03aba7a681ccabb5f3f6dce9b404"
+ndla-licenses@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.7.tgz#49f73efdd6a90f2c4d70550f3d930dcd139e9c54"
   dependencies:
     defined "1.0.0"
 
@@ -4898,9 +4898,9 @@ ndla-tracker@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.0.6.tgz#4d6b0eeba205dcbb830d1551c8e39be2b2b7dd00"
 
-ndla-ui@^0.10.5:
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.5.tgz#2c25934388a56b56804ba3acd61cf59f6ba373a8"
+ndla-ui@^0.10.7:
+  version "0.10.7"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.7.tgz#acc920e97548439837577909aa60d40021b3c20d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.2"
