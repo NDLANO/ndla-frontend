@@ -16,9 +16,9 @@
     "start":
       "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server | bunyan",
     "start-with-local-converter":
-      "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server",
+      "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server | bunyan",
     "start-with-ssr":
-      "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server",
+      "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server | bunyan",
     "start-prod": "cross-env NODE_ENV=production node htdocs/server | bunyan",
     "now-build": "npm run build-server && npm run build-client",
     "now-start": "cross-env NODE_ENV=production NOW=true node htdocs/server",
