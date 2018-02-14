@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import defined from 'defined';
-import { bindActionCreators } from 'redux';
 import IntlProvider from 'ndla-i18n';
 import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
@@ -88,15 +87,10 @@ export async function defaultRoute(req) {
   if (!config.disableSSR) {
     const route = serverRoutes.find(r => matchPath(path, r));
     const match = matchPath(path, route);
-    const Component = route.component;
-    const actions = Component.mapDispatchToProps
-      ? bindActionCreators(Component.mapDispatchToProps, store.dispatch)
-      : {};
     initialProps = await loadGetInitialProps(route.component, {
       isServer: true,
       locale,
       store,
-      ...actions,
       match,
     });
   }

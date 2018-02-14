@@ -14,7 +14,6 @@ import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
 import { ArticleShape } from '../../shapes';
-import ssr from '../../components/ssr';
 import Article from '../../components/Article';
 import ArticleHero from '../ArticlePage/components/ArticleHero';
 import ArticleErrorMessage from '../ArticlePage/components/ArticleErrorMessage';
@@ -58,18 +57,6 @@ class PlainArticlePage extends Component {
   componentDidMount() {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-
-    if (this.props.status === 'initial') {
-      this.props.refetch();
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { match: { params }, refetch } = this.props;
-    const { articleId } = params;
-    if (nextProps.match.params.articleId !== articleId) {
-      refetch();
     }
   }
 
@@ -136,7 +123,6 @@ PlainArticlePage.propTypes = {
   }).isRequired,
   article: ArticleShape,
   status: PropTypes.string,
-  refetch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
@@ -144,4 +130,4 @@ PlainArticlePage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(injectT, ssr, withTracker)(PlainArticlePage);
+export default compose(injectT, withTracker)(PlainArticlePage);

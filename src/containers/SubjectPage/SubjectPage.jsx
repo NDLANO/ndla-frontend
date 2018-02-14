@@ -15,8 +15,8 @@ import {
   ErrorMessage,
   TopicIntroductionList,
   FilterList,
+  Breadcrumb,
 } from 'ndla-ui';
-import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { HelmetWithTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
@@ -49,22 +49,6 @@ class SubjectPage extends Component {
     fetchTopicsWithIntroductions({ subjectId });
   }
 
-  componentDidMount() {
-    SubjectPage.getInitialProps(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { fetchTopicsWithIntroductions } = this.props;
-    const { subjectId } = getUrnIdsFromProps(this.props);
-    const { subjectId: nextSubjectId } = getUrnIdsFromProps(nextProps);
-
-    if (nextSubjectId !== subjectId) {
-      fetchTopicsWithIntroductions({
-        subjectId: nextSubjectId,
-      });
-    }
-  }
-
   handleFilterClick = (newValues, filterId) => {
     const { setActiveFilter } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
@@ -73,12 +57,12 @@ class SubjectPage extends Component {
 
   render() {
     const {
+      subject,
       subjectTopics,
       t,
       match,
       hasFailed,
       filters,
-      subject,
       activeFilters,
     } = this.props;
     const { params: { subjectId } } = match;
@@ -93,13 +77,14 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                <div className="c-breadcrumb">
-                  <ol className="c-breadcrumb__list">
-                    <li className="c-breadcrumb__item">
-                      <Link to="/">{t('breadcrumb.subjectsLinkText')}</Link> ›
-                    </li>
-                  </ol>
-                </div>
+                {subject && (
+                  <Breadcrumb
+                    toSubjects={() => '/'}
+                    subject={subject}
+                    topicPath={[]}
+                    toTopic={() => ''}
+                  />
+                )}
               </section>
             </div>
           </OneColumn>
@@ -166,16 +151,13 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
   const { subjectId } = getUrnIdsFromProps(ownProps);
-  const getSubjectByIdSelector = subjectId
-    ? getSubjectById(subjectId)
-    : () => undefined;
   return {
     subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
       state,
     ),
     hasFailed: getFetchTopicsStatus(state) === 'error',
     filters: getFilters(subjectId)(state),
-    subject: getSubjectByIdSelector(state),
+    subject: getSubjectById(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };
 };

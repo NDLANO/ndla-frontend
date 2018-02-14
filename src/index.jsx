@@ -58,7 +58,7 @@ configureTracker({
 renderOrHydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
+      <Router history={browserHistory}>
         {routes(initialProps, locale.abbreviation)}
       </Router>
     </IntlProvider>

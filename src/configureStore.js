@@ -13,6 +13,8 @@ import rootSaga from './sagas';
 
 import rootReducer from './reducers';
 
+export const STORE_KEY = '__REDUX_STORE__';
+
 export default function configureStore(initialState) {
   const sagaMiddleware = createSagaMiddleware({
     onError: error => {
@@ -31,5 +33,8 @@ export default function configureStore(initialState) {
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
 
+  if (__CLIENT__) {
+    window[STORE_KEY] = store;
+  }
   return store;
 }

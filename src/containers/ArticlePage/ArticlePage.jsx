@@ -65,18 +65,8 @@ class ArticlePage extends Component {
   }
 
   componentDidMount() {
-    ArticlePage.getInitialProps(this.props);
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { resourceId } = getUrnIdsFromProps(this.props);
-    const { resourceId: nextResourceId } = getUrnIdsFromProps(nextProps);
-
-    if (resourceId !== nextResourceId) {
-      ArticlePage.getInitialProps(nextProps);
     }
   }
 

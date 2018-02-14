@@ -96,6 +96,11 @@ export const getResourceTypes = createSelector(
     }),
 );
 
+export const hasFetchedResourceTypes = createSelector(
+  [getResourceTypes],
+  types => types.length > 0,
+);
+
 export const getAllResourcesAsArray = createSelector(
   [getResourcesFromState],
   resources => {
@@ -120,6 +125,9 @@ export const hasFetchTopicResourcesFailed = createSelector(
 
 export const getResourcesByTopicId = topicId =>
   createSelector([getResources], all => defined(all[topicId], []));
+
+export const hasFetchedResourcesForTopicId = topicId =>
+  createSelector([getResources], all => all[topicId] !== undefined);
 
 export const getResourcesByTopicIdGroupedByResourceTypes = topicId =>
   createSelector([getResourcesByTopicId(topicId)], resourcesByTopic =>

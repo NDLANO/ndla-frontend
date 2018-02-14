@@ -66,6 +66,7 @@ const phrases = {
       learningResourcesHeading: 'Læringsressurser',
       back: 'Tilbake',
       contentTypeResultsShowMore: 'Vis mer',
+      contentTypeResultsNoHit: 'Ingen treff',
     },
   },
   logo: {
@@ -163,10 +164,6 @@ const phrases = {
       distributor: 'Distributør',
       supplier: 'Leverandør',
     },
-  },
-  breadcrumb: {
-    subjectsLinkText: 'Fag',
-    label: 'Du er her:',
   },
   errorMessage: {
     title: 'Ops, noe gikk galt',
