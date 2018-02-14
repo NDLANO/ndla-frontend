@@ -73,14 +73,14 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                {subject ? (
+                {subject && (
                   <Breadcrumb
                     toSubjects={() => '/'}
                     subject={subject}
                     topicPath={[]}
                     toTopic={() => ''}
                   />
-                ) : null}
+                )}
               </section>
             </div>
           </OneColumn>
