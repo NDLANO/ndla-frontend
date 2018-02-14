@@ -126,7 +126,6 @@ class MastheadContainer extends React.PureComponent {
     const getResources = expandedTopicId
       ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
       : [];
-    console.log(subject);
     return (
       <Masthead
         infoContent={t(
