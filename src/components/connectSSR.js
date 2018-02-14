@@ -1,8 +1,10 @@
 import React from 'react';
 import { getComponentName } from 'ndla-util';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { END } from 'redux-saga';
+import { STORE_KEY } from '../configureStore';
 
 export const connectSSR = (
   mapStateToProps,
@@ -18,11 +20,18 @@ export const connectSSR = (
 
   component.mapDispatchToProps = mapDispatchToProps;
   component.getInitialProps = async function getInitialProps(ctx) {
-    const { isServer, store } = ctx;
+    const { isServer } = ctx;
+    const store = isServer ? ctx.store : window[STORE_KEY];
     let props = {};
+    const actions = mapDispatchToProps
+      ? bindActionCreators(mapDispatchToProps, store.dispatch)
+      : {};
 
     if (BaseComponent.getInitialProps) {
-      const baseProps = await BaseComponent.getInitialProps(ctx);
+      const baseProps = await BaseComponent.getInitialProps({
+        ...ctx,
+        ...actions,
+      });
       props = { ...baseProps };
     }
 
