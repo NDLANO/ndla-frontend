@@ -18,6 +18,7 @@ import {
   TopicMenu,
   ContentTypeBadge,
 } from 'ndla-ui';
+import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -128,9 +129,12 @@ class MastheadContainer extends React.PureComponent {
       : [];
     return (
       <Masthead
-        infoContent={t(
-          `masthead.menu.${subject ? 'betaInfo' : 'betaInfoFront'}`,
-        )}
+        infoContent={
+          <span>
+            {t(`masthead.menu.${subject ? 'betaInfo' : 'betaInfoFront'}`)}
+            {subject && <Link to="/">{t('masthead.menu.readMore')}</Link>}
+          </span>
+        }
         fixed>
         <MastheadItem left>
           {subject ? (

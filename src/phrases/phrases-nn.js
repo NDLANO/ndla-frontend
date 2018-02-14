@@ -100,6 +100,9 @@ const phrases = {
       back: 'Tilbake',
       contentTypeResultsShowMore: 'Vis mer',
       contentTypeResultsNoHit: 'Ingen treff',
+      betaInfoFront: 'Velkommen til betaversjonen av ndla.no',
+      betaInfo: 'Du tester nå de nye nettsidene. ',
+      readMore: 'Les mer om nye NDLA.no',
     },
   },
   logo: {
