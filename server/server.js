@@ -18,6 +18,8 @@ import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
 import { storeAccessToken } from '../src/util/apiHelpers';
 
+const log = require('../src/util/logger');
+
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
@@ -186,7 +188,7 @@ app.get('/get_token', async (req, res) => {
     const token = await getToken();
     res.json(token);
   } catch (err) {
-    console.error(err);
+    log.error(err);
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   }
 });
@@ -218,11 +220,11 @@ async function handleRequest(req, res, route) {
       const { data, status } = await route(req);
       sendResponse(res, data, status);
     } catch (e) {
-      console.error(e);
+      log.error(e);
       sendInternalServerError(res);
     }
   } catch (e) {
-    console.error(e);
+    log.error(e);
     sendInternalServerError(res);
   }
 }

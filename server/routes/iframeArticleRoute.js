@@ -20,6 +20,8 @@ import { fetchResourceTypesForResource } from '../../src/containers/Resources/re
 import IframeArticlePage from '../../src/iframe/IframeArticlePage';
 import config from '../../src/config';
 
+const log = require('../../src/util/logger');
+
 // Because JSDom exists, ExecutionEnvironment assumes that we're on the client.
 if (process.env.NODE_ENV === 'unittest') {
   Helmet.canUseDOM = false;
@@ -76,7 +78,7 @@ export async function iframeArticleRoute(req) {
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
-      console.error(error);
+      log.error(error);
     }
     const { html, ...docProps } = renderPage({
       locale,
