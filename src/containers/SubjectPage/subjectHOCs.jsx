@@ -19,10 +19,6 @@ export const injectSubjects = WrappedComponent => {
       ctx.fetchSubjects();
     }
 
-    componentDidMount() {
-      SubjectsContainer.getInitialProps(this.props);
-    }
-
     render() {
       return <WrappedComponent {...this.props} />;
     }

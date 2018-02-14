@@ -55,6 +55,7 @@ const phrases = {
       learningResourcesHeading: 'Educational Resources',
       back: 'Back',
       contentTypeResultsShowMore: 'Show more',
+      contentTypeResultsNoHit: 'No hits',
     },
   },
   logo: {
@@ -155,10 +156,6 @@ const phrases = {
       distributor: 'Distributor',
       supplier: 'Supplier',
     },
-  },
-  breadcrumb: {
-    subjectsLinkText: 'Subject',
-    label: 'You are here:',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

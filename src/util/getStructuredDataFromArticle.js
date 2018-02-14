@@ -19,13 +19,13 @@ const getStructuredDataBase = () => ({
   '@context': 'http://schema.org',
 });
 
-const getCopyrightData = copyright => {
+const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   const data = {
-    license: copyright.license.url,
+    license: license.url,
   };
 
   // can only be one since it is a person or a organization
-  const author = copyright.creators[0];
+  const author = creators.length > 0 ? creators[0] : rightsholders[0];
 
   if (author) {
     data.author = {
@@ -35,7 +35,7 @@ const getCopyrightData = copyright => {
   }
 
   // can only be one since it is a person or a organization
-  const copyrightHolder = copyright.rightsholders[0];
+  const copyrightHolder = rightsholders[0];
 
   if (copyrightHolder) {
     data.copyrightHolder = {
@@ -45,7 +45,7 @@ const getCopyrightData = copyright => {
   }
 
   // can only be one since it is a person or a organization
-  const contributor = copyright.processors[0];
+  const contributor = processors[0];
 
   if (contributor) {
     data.contributor = {
