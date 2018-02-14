@@ -67,7 +67,15 @@ class TopicPage extends Component {
 
   static willTrackPageView(trackPageView, currentProps) {
     const { topic, topicPath, subject, article } = currentProps;
-    if (article && article.id && topic && topic.id && topicPath && subject) {
+    if (
+      article &&
+      article.id &&
+      topic &&
+      topic.id &&
+      topicPath &&
+      topicPath.length > 0 &&
+      subject
+    ) {
       trackPageView(currentProps);
     }
   }

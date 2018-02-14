@@ -13,7 +13,6 @@ const phrases = {
     titleTemplate,
     welcomePage: `Frontpage${titleTemplate}`,
     topicPage: 'Topic',
-    subjectPage: `Choose subjects${titleTemplate}`,
     subjectsPage: `Choose subjects${titleTemplate}`,
     searchPage: `Search${titleTemplate}`,
     notFound: `Page not found${titleTemplate}`,

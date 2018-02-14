@@ -13,7 +13,6 @@ const phrases = {
     titleTemplate,
     welcomePage: `Forsiden${titleTemplate}`,
     topicPage: 'Emne',
-    subjectPage: `Velg fag${titleTemplate}`,
     subjectsPage: `Velg fag${titleTemplate}`,
     searchPage: `Søk${titleTemplate}`,
     notFound: `Siden finnes ikke${titleTemplate}`,
