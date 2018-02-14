@@ -157,10 +157,6 @@ const phrases = {
       supplier: 'Supplier',
     },
   },
-  breadcrumb: {
-    subjectsLinkText: 'Subject',
-    label: 'You are here:',
-  },
   errorMessage: {
     title: 'Oops, something went wrong',
     description: 'Sorry, an error occurd.',

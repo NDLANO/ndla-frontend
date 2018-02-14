@@ -9,14 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defined from 'defined';
-import { injectT } from 'ndla-i18n';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
 import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 import { toTopic } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
-const ArticleHero = ({ article, subject, topicPath, t }) => {
+const ArticleHero = ({ article, subject, topicPath }) => {
   const resourceTypeMetaData = getContentTypeFromResourceTypes(
     defined(article.resourceTypes, []),
   );
@@ -28,7 +27,6 @@ const ArticleHero = ({ article, subject, topicPath, t }) => {
             {subject ? (
               <Breadcrumb
                 toSubjects={() => '/'}
-                subjectsTitle={t('breadcrumb.subjectsLinkText')}
                 subject={subject}
                 topicPath={topicPath}
                 toTopic={toTopic}
@@ -48,4 +46,4 @@ ArticleHero.propTypes = {
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
 };
-export default injectT(ArticleHero);
+export default ArticleHero;
