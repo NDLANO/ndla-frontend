@@ -126,8 +126,13 @@ class MastheadContainer extends React.PureComponent {
     const getResources = expandedTopicId
       ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
       : [];
+    console.log(subject);
     return (
-      <Masthead fixed>
+      <Masthead
+        infoContent={t(
+          `masthead.menu.${subject ? 'betaInfo' : 'betaInfoFront'}`,
+        )}
+        fixed>
         <MastheadItem left>
           {subject ? (
             <ClickToggle
@@ -139,6 +144,7 @@ class MastheadContainer extends React.PureComponent {
               buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
               <TopicMenu
                 hideSearch
+                isBeta
                 toSubject={() => toSubject(subject.id)}
                 subjectTitle={subject.name}
                 toTopic={toTopicWithSubjectIdBound(subject.id)}
@@ -176,7 +182,7 @@ class MastheadContainer extends React.PureComponent {
             </ClickToggle>
           ) : null}
           {subject ? (
-            <DisplayOnPageYOffset yOffset={150}>
+            <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock
                 subject={subject}
                 topicPath={topicPath}
@@ -186,7 +192,7 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          <Logo to="/" altText="Nasjonal digital læringsarena" />
+          <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
     );
