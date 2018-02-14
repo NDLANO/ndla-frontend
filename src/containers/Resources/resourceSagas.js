@@ -8,12 +8,21 @@
 
 import { all, take, call, put, select } from 'redux-saga/effects';
 import * as api from './resourceApi';
-import { actions, getResourcesByTopicId } from './resource';
+import {
+  actions,
+  hasFetchedResourcesForTopicId,
+  hasFetchedResourceTypes,
+} from './resource';
 import { getLocale } from '../Locale/localeSelectors';
 import { applicationError } from '../../modules/error';
 
 export function* fetchResourceTypes() {
   try {
+    const hasFetched = yield select(hasFetchedResourceTypes);
+    if (hasFetched) {
+      return;
+    }
+
     const locale = yield select(getLocale);
     const resourceTypes = yield call(api.fetchResourceTypes, locale);
     yield put(actions.setResourceTypes(resourceTypes));
@@ -47,8 +56,8 @@ export function* fetchTopicResources(topicId) {
 export function* watchFetchTopicResources() {
   while (true) {
     const { payload: { topicId } } = yield take(actions.fetchTopicResources);
-    const resources = yield select(getResourcesByTopicId(topicId));
-    if (resources.length === 0) {
+    const hasFetched = yield select(hasFetchedResourcesForTopicId(topicId));
+    if (!hasFetched) {
       yield all([call(fetchTopicResources, topicId), call(fetchResourceTypes)]);
     }
   }

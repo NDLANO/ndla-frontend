@@ -70,7 +70,7 @@ class MastheadContainer extends React.PureComponent {
 
   componentDidMount() {
     const { subjectId } = getUrnIdsFromProps(this.props);
-    if (this.props.filters.length === 0) {
+    if (subjectId && this.props.filters.length === 0) {
       this.props.fetchSubjectFilters(subjectId);
     }
   }

@@ -50,7 +50,7 @@ const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <BrowserRouter basename={basename} onUpdate={() => window.scrollTo(0, 0)}>
+      <BrowserRouter basename={basename}>
         {routes(initialProps, locale.abbreviation)}
       </BrowserRouter>
     </IntlProvider>
