@@ -1490,6 +1490,10 @@ center-align@^0.1.1:
     deep-eql "^0.1.3"
     type-detect "^1.0.0"
 
+chain-function@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/chain-function/-/chain-function-1.0.0.tgz#0d4ab37e7e18ead0bdc47b920764118ce58733dc"
+
 chalk@^1.1.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -1585,7 +1589,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@2.2.5, classnames@^2.2.0:
+classnames@2.2.5, classnames@^2.2.0, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -2233,6 +2237,10 @@ doctrine@^2.0.0, doctrine@^2.0.2:
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.0.2.tgz#68f96ce8efc56cc42651f1faadb4f175273b0075"
   dependencies:
     esutils "^2.0.2"
+
+dom-helpers@^3.2.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
 
 dom-serializer@0, dom-serializer@~0.1.0:
   version "0.1.0"
@@ -4939,9 +4947,9 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.4"
 
-ndla-ui@^0.10.8:
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.8.tgz#b520a3abac53f0a8949c54c6e40961c3bd5367ce"
+ndla-ui@^0.10.9:
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.9.tgz#fa340482c2662ca4abd745a67cc8a11e0ca44a9c"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.2"
@@ -4949,6 +4957,7 @@ ndla-ui@^0.10.8:
     lodash "^4.17.4"
     react-bem-helper "1.4.1"
     react-prop-types "0.4.0"
+    react-transition-group "^2.2.1"
 
 ndla-util@^0.1.10:
   version "0.1.10"
@@ -6158,7 +6167,7 @@ prop-types@^15.5.0, prop-types@^15.5.4:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.5.10, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -6411,6 +6420,17 @@ react-test-renderer@^16.2.0:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+react-transition-group@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
+  dependencies:
+    chain-function "^1.0.0"
+    classnames "^2.2.5"
+    dom-helpers "^3.2.0"
+    loose-envify "^1.3.1"
+    prop-types "^15.5.8"
+    warning "^3.0.0"
 
 react@^16.2.0:
   version "16.2.0"
