@@ -55,6 +55,7 @@ const phrases = {
       learningResourcesHeading: 'Educational Resources',
       back: 'Back',
       contentTypeResultsShowMore: 'Show more',
+      contentTypeResultsNoHit: 'No hits',
     },
   },
   logo: {
@@ -80,6 +81,8 @@ const phrases = {
   article: {
     author: 'Author',
     published: 'Published',
+    edition: 'Edition',
+    publisher: 'Publisher',
     created: 'Created',
     lastUpdated: 'Last updated',
     closeLicenseBox: 'Close box',

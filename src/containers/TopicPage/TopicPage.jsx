@@ -57,24 +57,6 @@ class TopicPage extends Component {
     fetchSubjects();
   }
 
-  componentDidMount() {
-    TopicPage.getInitialProps(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { fetchTopicArticle, fetchTopicsWithIntroductions } = this.props;
-    const { subjectId, topicId } = getUrnIdsFromProps(this.props);
-    const { topicId: nextTopicId } = getUrnIdsFromProps(nextProps);
-
-    if (nextTopicId !== topicId) {
-      fetchTopicArticle({
-        subjectId,
-        topicId: nextTopicId,
-      });
-      fetchTopicsWithIntroductions({ subjectId });
-    }
-  }
-
   render() {
     const {
       topic,

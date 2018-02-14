@@ -70,7 +70,7 @@ class MastheadContainer extends React.PureComponent {
 
   componentDidMount() {
     const { subjectId } = getUrnIdsFromProps(this.props);
-    if (this.props.filters.length === 0) {
+    if (subjectId && this.props.filters.length === 0) {
       this.props.fetchSubjectFilters(subjectId);
     }
   }
@@ -155,6 +155,9 @@ class MastheadContainer extends React.PureComponent {
                   back: 'Tilbake',
                   contentTypeResultsShowMore: t(
                     'masthead.menu.contentTypeResultsShowMore',
+                  ),
+                  contentTypeResultsNoHit: t(
+                    'masthead.menu.contentTypeResultsNoHit',
                   ),
                 }}
                 filterOptions={filters}

@@ -49,22 +49,6 @@ class SubjectPage extends Component {
     fetchTopicsWithIntroductions({ subjectId });
   }
 
-  componentDidMount() {
-    SubjectPage.getInitialProps(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { fetchTopicsWithIntroductions } = this.props;
-    const { subjectId } = getUrnIdsFromProps(this.props);
-    const { subjectId: nextSubjectId } = getUrnIdsFromProps(nextProps);
-
-    if (nextSubjectId !== subjectId) {
-      fetchTopicsWithIntroductions({
-        subjectId: nextSubjectId,
-      });
-    }
-  }
-
   handleFilterClick = (newValues, filterId) => {
     const { setActiveFilter } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
