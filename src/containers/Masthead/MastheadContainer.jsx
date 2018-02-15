@@ -18,6 +18,7 @@ import {
   TopicMenu,
   ContentTypeBadge,
 } from 'ndla-ui';
+import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -127,7 +128,14 @@ class MastheadContainer extends React.PureComponent {
       ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
       : [];
     return (
-      <Masthead fixed>
+      <Masthead
+        infoContent={
+          <span>
+            {t(`masthead.menu.${subject ? 'betaInfo' : 'betaInfoFront'}`)}
+            {subject && <Link to="/">{t('masthead.menu.readMore')}</Link>}
+          </span>
+        }
+        fixed>
         <MastheadItem left>
           {subject ? (
             <ClickToggle
@@ -139,6 +147,7 @@ class MastheadContainer extends React.PureComponent {
               buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
               <TopicMenu
                 hideSearch
+                isBeta
                 toSubject={() => toSubject(subject.id)}
                 subjectTitle={subject.name}
                 toTopic={toTopicWithSubjectIdBound(subject.id)}
@@ -176,7 +185,7 @@ class MastheadContainer extends React.PureComponent {
             </ClickToggle>
           ) : null}
           {subject ? (
-            <DisplayOnPageYOffset yOffset={150}>
+            <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock
                 subject={subject}
                 topicPath={topicPath}
@@ -186,7 +195,7 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          <Logo to="/" altText="Nasjonal digital læringsarena" />
+          <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
     );
