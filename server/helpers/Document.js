@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import serialize from 'serialize-javascript';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../src/config';
 
@@ -53,7 +54,7 @@ const Document = ({ helmet, className, assets, data }) => {
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
-            __html: `window.DATA = ${JSON.stringify(data)}; `,
+            __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
         {assets.js.map(js => (
