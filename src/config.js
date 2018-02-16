@@ -56,7 +56,6 @@ module.exports = Object.assign(
     host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
     port: process.env.NDLA_FRONTENTD_PORT || '3000',
     redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
-    googleTagMangerId: process.env.GOOGLE_TAG_MANGER_ID || undefined,
     logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
     logglyApiKey: process.env.LOGGLY_API_KEY,
     disableSSR: process.env.DISABLE_SSR || false,
@@ -64,6 +63,8 @@ module.exports = Object.assign(
     ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
     ndlaFrontendDomain: ndlaFrontendDomain(),
     learningPathDomain: learningPathDomain(),
+    googleTagManagerId: process.env.NDLA_GOOGLE_TAG_MANAGER_ID,
+    gaTrackingId: process.env.NDLA_FRONTEND_GA_TRACKING_ID,
   },
   environment,
 );

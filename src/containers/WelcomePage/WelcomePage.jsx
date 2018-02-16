@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { OneColumn, ErrorMessage, BetaNavigation, Hero } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-
+import { HelmetWithTracker } from 'ndla-tracker';
 import { toSubject } from '../../routeHelpers';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
@@ -20,6 +20,7 @@ import BetaFrontpage from './BetaFrontpage';
 export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
   <React.Fragment>
     <Hero contentType="beta">
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
       <OneColumn>
         {!hasFailed ? (
           <div className="c-hero__content">

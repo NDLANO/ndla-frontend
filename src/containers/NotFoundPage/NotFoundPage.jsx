@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import Route from 'react-router-dom/Route';
+import { HelmetWithTracker } from 'ndla-tracker';
 
 const Status = ({ code, children }) => (
   <Route
@@ -30,6 +31,7 @@ Status.propTypes = {
 
 const NotFound = ({ t }) => (
   <Status code={404}>
+    <HelmetWithTracker title={t('htmlTitles.notFound')} />
     <OneColumn cssModifier="clear">
       <ErrorMessage
         messages={{

@@ -6,7 +6,17 @@
  *
  */
 
+const titleTemplate = ' - NDLA';
+
 const phrases = {
+  htmlTitles: {
+    titleTemplate,
+    welcomePage: `Framsida${titleTemplate}`,
+    topicPage: 'Emne',
+    subjectsPage: `Velg fag${titleTemplate}`,
+    searchPage: `Søk${titleTemplate}`,
+    notFound: `Sida finst ikkje${titleTemplate}`,
+  },
   articlePage: {
     errorDescription: 'Orsak, ein feil oppstod under lasting av ressursen.',
     error404Description:

@@ -8,8 +8,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, Pager } from 'ndla-ui';
+import { HelmetWithTracker } from 'ndla-tracker';
+import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
-
 import * as actions from './searchActions';
 import { ArticleResultShape } from '../../shapes';
 import { getResults, getLastPage, getSearching } from './searchSelectors';
@@ -39,11 +40,12 @@ class SearchPage extends Component {
   }
 
   render() {
-    const { location, results, searching, lastPage, history } = this.props;
+    const { location, results, searching, lastPage, history, t } = this.props;
     const query = parseQueryString(location.search);
 
     return (
       <OneColumn cssModifier="narrow">
+        <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <SearchForm
           query={query.query}
           searching={searching}
@@ -111,4 +113,6 @@ const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default connectSSR(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default injectT(connectSSR(mapStateToProps, mapDispatchToProps))(
+  SearchPage,
+);

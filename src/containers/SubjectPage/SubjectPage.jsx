@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import Helmet from 'react-helmet';
 import {
   OneColumn,
   SubjectHero,
@@ -18,7 +19,7 @@ import {
   Breadcrumb,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-
+import { withTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
 import { actions, getSubjectById } from './subjects';
 import {
@@ -43,10 +44,22 @@ class SubjectPage extends Component {
       fetchSubjects,
       fetchSubjectFilters,
     } = ctx;
+
     const { subjectId } = getUrnIdsFromProps(ctx);
     fetchSubjects();
     fetchSubjectFilters(subjectId);
     fetchTopicsWithIntroductions({ subjectId });
+  }
+
+  static getDocumentTitle({ t, subject }) {
+    return `${subject ? subject.name : ''} ${t('htmlTitles.titleTemplate')}`;
+  }
+
+  static willTrackPageView(trackPageView, currentProps) {
+    const { subject, subjectTopics } = currentProps;
+    if (subject && subjectTopics && subjectTopics.length > 0) {
+      trackPageView(currentProps);
+    }
   }
 
   handleFilterClick = (newValues, filterId) => {
@@ -66,9 +79,11 @@ class SubjectPage extends Component {
       activeFilters,
     } = this.props;
     const { params: { subjectId } } = match;
-
     return (
       <div>
+        <Helmet>
+          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
+        </Helmet>
         <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
@@ -161,4 +176,5 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
+  withTracker,
 )(SubjectPage);

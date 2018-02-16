@@ -34,7 +34,6 @@ const Article = ({
   const icon = contentType ? (
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
-
   return (
     <UIArticle
       article={article}

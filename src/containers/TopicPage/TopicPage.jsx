@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { SubjectHero, OneColumn, Breadcrumb, constants } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
+import { withTracker } from 'ndla-tracker';
 import connectSSR from '../../components/connectSSR';
 import {
   actions,
@@ -34,6 +35,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -57,6 +59,49 @@ class TopicPage extends Component {
     fetchSubjects();
   }
 
+  static getDocumentTitle({ t, article, topic, subject }) {
+    return `${subject ? subject.name : ''} - ${getTitle(article, topic)}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
+  }
+
+  static willTrackPageView(trackPageView, currentProps) {
+    const { topic, topicPath, subject, article } = currentProps;
+    if (
+      article &&
+      article.id &&
+      topic &&
+      topic.id &&
+      topicPath &&
+      topicPath.length > 0 &&
+      subject
+    ) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDimensions(props) {
+    return getAllDimensions(props, props.t('htmlTitles.topicPage'));
+  }
+
+  componentDidMount() {
+    TopicPage.getInitialProps(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { fetchTopicArticle, fetchTopicsWithIntroductions } = this.props;
+    const { subjectId, topicId } = getUrnIdsFromProps(this.props);
+    const { topicId: nextTopicId } = getUrnIdsFromProps(nextProps);
+
+    if (nextTopicId !== topicId) {
+      fetchTopicArticle({
+        subjectId,
+        topicId: nextTopicId,
+      });
+      fetchTopicsWithIntroductions({ subjectId });
+    }
+  }
+
   render() {
     const {
       topic,
@@ -69,14 +114,11 @@ class TopicPage extends Component {
       subject,
     } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
-
-    const title = getTitle(article, topic);
     const scripts = getArticleScripts(article);
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
-          <title>{`NDLA | ${title}`}</title>
+          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article &&
             article.metaDescription && (
               <meta name="description" content={article.metaDescription} />
@@ -95,6 +137,7 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
+
         <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">
@@ -190,4 +233,5 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
   connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
+  withTracker,
 )(TopicPage);

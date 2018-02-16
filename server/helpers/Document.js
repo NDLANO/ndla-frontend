@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
+import config from '../../src/config';
 
 const Document = ({ helmet, className, assets, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
@@ -26,6 +27,10 @@ const Document = ({ helmet, className, assets, data }) => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
         />
+        {config.gaTrackingId && (
+          <script async src="https://www.google-analytics.com/analytics.js" />
+        )}
+        <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
@@ -36,7 +41,14 @@ const Document = ({ helmet, className, assets, data }) => {
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
-        <GoogleTagMangerScript />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
+            window.dataLayer.push(window.originalLocation);`,
+          }}
+        />
         <div id="root">REPLACE_ME</div>
         <script
           type="text/javascript"
