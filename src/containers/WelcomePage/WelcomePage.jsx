@@ -9,37 +9,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
-import Link from 'react-router-dom/Link';
+import { OneColumn, ErrorMessage, BetaNavigation, Hero } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { HelmetWithTracker } from 'ndla-tracker';
-import { toSearch } from '../../routeHelpers';
+import { toSubject } from '../../routeHelpers';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
-import { SubjectLinkList } from '../../components';
+import BetaFrontpage from './BetaFrontpage';
 
 export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
-  <OneColumn cssModifier="clear">
-    <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-    {!hasFailed ? (
-      <section>
-        <h1>{t('welcomePage.subjects')}</h1>
-        <SubjectLinkList subjects={subjects} />{' '}
-      </section>
-    ) : (
-      <ErrorMessage
-        messages={{
-          title: t('errorMessage.title'),
-          description: t('welcomePage.errorDescription'),
-        }}
-      />
-    )}
-    {searchEnabled ? (
-      <section>
-        <Link to={toSearch()}>{t('welcomePage.search')}</Link>
-      </section>
-    ) : null}
-  </OneColumn>
+  <React.Fragment>
+    <Hero contentType="beta">
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <OneColumn>
+        {!hasFailed ? (
+          <div className="c-hero__content">
+            <BetaNavigation
+              links={subjects.map(it => ({
+                url: toSubject(it.id),
+                text: it.name,
+              }))}
+            />
+          </div>
+        ) : (
+          <ErrorMessage
+            messages={{
+              title: t('errorMessage.title'),
+              description: t('welcomePage.errorDescription'),
+            }}
+          />
+        )}
+      </OneColumn>
+    </Hero>
+    <BetaFrontpage searchEnabled={searchEnabled} />
+  </React.Fragment>
 );
 
 WelcomePage.propTypes = {

@@ -34,7 +34,7 @@ const Success = ({ article: rawArticle, locale }) => {
   const article = transformArticle(rawArticle, locale);
   const scripts = getArticleScripts(article);
   return (
-    <OneColumn cssModifier="clear">
+    <OneColumn>
       <Helmet>
         <title>{`NDLA | ${article.title}`}</title>
         {article.metaDescription && (
@@ -54,6 +54,7 @@ const Success = ({ article: rawArticle, locale }) => {
       <Article
         article={article}
         locale={locale}
+        modifier="clean"
         {...getArticleProps(article)}
       />
     </OneColumn>

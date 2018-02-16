@@ -18,7 +18,15 @@ import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
 
-const Article = ({ article, children, contentType, label, locale, t }) => {
+const Article = ({
+  article,
+  children,
+  contentType,
+  label,
+  locale,
+  t,
+  ...rest
+}) => {
   if (!article) {
     return children || null;
   }
@@ -44,7 +52,8 @@ const Article = ({ article, children, contentType, label, locale, t }) => {
         edition: t('edition'),
         publisher: t('publisher'),
         label,
-      }}>
+      }}
+      {...rest}>
       {children}
       <a
         className="article-old-ndla-link"
