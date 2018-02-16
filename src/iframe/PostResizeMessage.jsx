@@ -7,6 +7,7 @@ class PostResizeMessage extends React.Component {
       width: 0,
     };
   }
+  
   componentDidMount() {
     this.onResizeReady();
     window.addEventListener('resize', this.onResizeReady);
