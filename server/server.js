@@ -128,7 +128,6 @@ app.use(
           'https://khanacademy.org/',
           '*.khanacademy.org/',
         ],
-        workerSrc: ["'self'", 'blob:'],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
