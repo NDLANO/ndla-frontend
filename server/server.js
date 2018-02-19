@@ -42,6 +42,9 @@ const connectSrc = (() => {
     'https://*.brightcove.com',
     'https://bcsecure01-a.akamaihd.net',
     'https://hlsak-a.akamaihd.net',
+    'ws://*.hotjar.com wss://*.hotjar.com',
+    'https://*.hotjar.com',
+    'https://*.hotjar.com:*',
   ];
   if (process.env.LOCAL_ARTICLE_CONVERTER) {
     return [...defaultConnectSrc, 'http://localhost:3100'];
@@ -101,6 +104,9 @@ app.use(
           ' *.gallerysites.net',
           'ndla.no',
           '*.ndla.no',
+          'ws://*.hotjar.com',
+          'wss://*.hotjar.com',
+          'https://*.hotjar.com',
           'cdnjs.cloudflare.com',
         ],
         frameSrc: [
@@ -142,6 +148,7 @@ app.use(
           'https://fonts.gstatic.com',
           'data:',
           'cdnjs.cloudflare.com',
+          'https://*.hotjar.com',
         ],
         imgSrc: [
           "'self'",
@@ -152,6 +159,7 @@ app.use(
           'https://httpsak-a.akamaihd.net',
           'https://*.boltdns.net',
           'https://www.nrk.no/',
+          'https://*.hotjar.com',
           ' data:',
         ],
         mediaSrc: [
