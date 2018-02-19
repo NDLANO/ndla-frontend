@@ -33,7 +33,7 @@ const ndlaFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
-      return 'https://ndla-frontend.api.ndla.no';
+      return 'https://beta.ndla.no';
     default:
       return `https://ndla-frontend.${ndlaEnvironment}.api.ndla.no`;
   }
@@ -44,9 +44,9 @@ const learningPathDomain = () => {
     case 'local':
       return 'http://localhost:30007';
     case 'prod':
-      return 'http://learningpath-frontend.api.ndla.no';
+      return 'https://beta.sti.ndla.no';
     default:
-      return `http://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
   }
 };
 
