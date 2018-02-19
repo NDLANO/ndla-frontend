@@ -18,6 +18,7 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
+import FixDialogPosition from './FixDialogPosition';
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
@@ -51,10 +52,11 @@ const Success = ({ article: rawArticle, locale }) => {
         ))}
       </Helmet>
       <PostResizeMessage />
+      <FixDialogPosition />
       <Article
         article={article}
         locale={locale}
-        modifier="clean"
+        modifier="clean iframe"
         {...getArticleProps(article)}
       />
     </OneColumn>

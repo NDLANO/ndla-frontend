@@ -37,7 +37,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
     className="o-wrapper undefined"
   >
     <article
-      className="c-article c-article--clean"
+      className="c-article c-article--clean c-article--iframe"
     >
       <section
         className="u-4/6@desktop u-push-1/6@desktop"

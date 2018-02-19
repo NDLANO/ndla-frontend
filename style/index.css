@@ -15,7 +15,7 @@
 
 .article-old-ndla-link:any-link {
   &:any-link {
-    font-size: .8333rem;
+    font-size: 0.8333rem;
     color: black;
   }
   &:hover {
