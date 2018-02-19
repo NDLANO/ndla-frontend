@@ -129,6 +129,7 @@ app.use(
           'commoncraft.com',
           '*.embed.kahoot.it',
           '*.brightcove.net',
+          'https://*.hotjar.com',
           'embed.kahoot.it',
           'fast.wistia.com',
           'https://khanacademy.org/',
