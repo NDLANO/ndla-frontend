@@ -19,7 +19,7 @@ import { getLocale } from '../Locale/localeSelectors';
 const Page = props => {
   const { children, background, locale, t } = props;
   return (
-    <PageContainer background={background}>
+    <PageContainer backgroundWide={background}>
       <Helmet
         htmlAttributes={{ lang: locale }}
         title="NDLA"
