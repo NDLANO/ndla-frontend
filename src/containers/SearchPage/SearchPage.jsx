@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { OneColumn, Pager } from 'ndla-ui';
 import { HelmetWithTracker } from 'ndla-tracker';
 import { injectT } from 'ndla-i18n';
@@ -24,17 +25,6 @@ class SearchPage extends Component {
   static getInitialProps(ctx) {
     const { location, search } = ctx;
     if (location && location.search) {
-      search(location.search);
-    }
-  }
-
-  componentDidMount() {
-    SearchPage.getInitialProps(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { location, search } = nextProps;
-    if (location.search && location.search !== this.props.location.search) {
       search(location.search);
     }
   }
@@ -113,6 +103,7 @@ const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default injectT(connectSSR(mapStateToProps, mapDispatchToProps))(
-  SearchPage,
-);
+export default compose(
+  injectT,
+  connectSSR(mapStateToProps, mapDispatchToProps),
+)(SearchPage);
