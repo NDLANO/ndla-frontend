@@ -3053,8 +3053,8 @@ flux-standard-action@^2.0.0:
     lodash "^4.0.0"
 
 focus-trap@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.2.tgz#44ea1c55a9c22c2b6529dcebbde6390eb2ee4c88"
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.3.tgz#95edc23e77829b7772cb2486d61fd6371ce112f9"
   dependencies:
     tabbable "^1.0.3"
 
@@ -4637,9 +4637,13 @@ lodash.uniq@^4.3.0, lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
+lodash@^4.17.4:
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 log-symbols@^2.0.0:
   version "2.0.0"
@@ -4899,8 +4903,8 @@ ncp@~2.0.0:
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
 ndla-article-scripts@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.1.tgz#ee5af0f6e9aa2c15f3332ee4c4bd562837a01867"
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.2.tgz#309c2043e18cd7b76039f48ec54b9a21d4cc65ac"
   dependencies:
     focus-trap "^2.4.2"
     jump.js "^1.0.2"
@@ -4921,8 +4925,8 @@ ndla-i18n@^0.2.1:
     invariant "^2.2.2"
 
 ndla-icons@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.1.tgz#2018683ed2fbdbb43560022382bf9b859ce8a3f6"
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.3.tgz#fb999788e1976d75f25c69ec65888dde49408546"
 
 ndla-licenses@^0.1.7:
   version "0.1.7"
@@ -4952,8 +4956,8 @@ ndla-tracker@^0.0.7:
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.0.7.tgz#ea2e965372eed2d5b9bf35f317e8d13e1e27b800"
 
 ndla-ui@^0.10.9:
-  version "0.10.9"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.9.tgz#fa340482c2662ca4abd745a67cc8a11e0ca44a9c"
+  version "0.10.10"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.10.tgz#613859a86c548e7fc1b7d2ddd301a9dc21945d1c"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.2"
