@@ -85,6 +85,7 @@ class App extends React.Component {
   async handleLoadInitialProps(props) {
     try {
       const data = await loadInitialProps(props.location.pathname, {
+        locale: props.locale,
         location: props.location,
         history: props.history,
       });
