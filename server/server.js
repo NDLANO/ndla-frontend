@@ -112,6 +112,8 @@ app.use(
         frameSrc: [
           '*.nrk.no',
           'nrk.no',
+          'https://www.tv2skole.no/',
+          'https://www.scribd.com/',
           'https://www.youtube.com',
           'ndla.no',
           'https://*.ndlah5p.com',
