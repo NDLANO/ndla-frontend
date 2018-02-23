@@ -19,7 +19,7 @@ import config from './config';
 import App from './App';
 
 const searchEnabled =
-  __SERVER__ || process.env.NODE_ENV === 'unittest'
+  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
     ? config.searchEnabled
     : window.DATA.config.searchEnabled;
 

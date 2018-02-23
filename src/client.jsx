@@ -6,8 +6,8 @@
  *
  */
 
-import 'babel-polyfill';
-import 'unfetch/polyfill';
+// import 'babel-polyfill';
+import 'isomorphic-unfetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,7 +18,7 @@ import ErrorReporter from 'ndla-error-reporter';
 import IntlProvider from 'ndla-i18n';
 import { configureTracker } from 'ndla-tracker';
 import { getLocaleObject, isValidLocale } from './i18n';
-import { storeAccessToken } from '../src/util/apiHelpers';
+import { storeAccessToken } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 
@@ -33,12 +33,7 @@ const browserHistory = basename ? createHistory({ basename }) : createHistory();
 storeAccessToken(accessToken);
 const store = configureStore(initialState);
 
-const {
-  disableSSR,
-  logglyApiKey,
-  logEnvironment: environment,
-  componentName,
-} = config;
+const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
 window.errorReporter = ErrorReporter.getInstance({
   store,
@@ -47,15 +42,13 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
-
 configureTracker({
   listen: browserHistory.listen,
   gaTrackingId: config.gaTrackingId,
   googleTagManagerId: config.googleTagManagerId,
 });
 
-renderOrHydrate(
+ReactDOM.hydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <Router history={browserHistory}>

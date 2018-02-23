@@ -11,9 +11,10 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import config from './config';
 import handleError from './util/handleError';
+import './style/index.css';
 
 const searchEnabled =
-  __SERVER__ || process.env.NODE_ENV === 'unittest'
+  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
     ? config.searchEnabled
     : window.DATA.config.searchEnabled;
 

@@ -6,15 +6,6 @@
  *
  */
 
-const environment = {
-  development: {
-    isProduction: false,
-  },
-  production: {
-    isProduction: true,
-  },
-}[process.env.NODE_ENV || 'development'];
-
 const ndlaEnvironment = process.env.NDLA_ENVIRONMENT || 'test';
 
 const apiDomain = () => {
@@ -50,21 +41,18 @@ const learningPathDomain = () => {
   }
 };
 
-module.exports = Object.assign(
-  {
-    componentName: process.env.npm_package_name,
-    host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
-    port: process.env.NDLA_FRONTENTD_PORT || '3000',
-    redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
-    logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
-    logglyApiKey: process.env.LOGGLY_API_KEY,
-    disableSSR: process.env.DISABLE_SSR || false,
-    searchEnabled: ndlaEnvironment !== 'prod',
-    ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
-    ndlaFrontendDomain: ndlaFrontendDomain(),
-    learningPathDomain: learningPathDomain(),
-    googleTagManagerId: process.env.NDLA_GOOGLE_TAG_MANAGER_ID,
-    gaTrackingId: process.env.NDLA_FRONTEND_GA_TRACKING_ID,
-  },
-  environment,
-);
+export default {
+  componentName: process.env.npm_package_name,
+  host: process.env.NDLA_FRONTENTD_HOST || 'localhost',
+  port: process.env.NDLA_FRONTENTD_PORT || '3000',
+  redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
+  logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
+  logglyApiKey: process.env.LOGGLY_API_KEY,
+  disableSSR: process.env.DISABLE_SSR || false,
+  searchEnabled: ndlaEnvironment !== 'prod',
+  ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
+  ndlaFrontendDomain: ndlaFrontendDomain(),
+  learningPathDomain: learningPathDomain(),
+  googleTagManagerId: process.env.NDLA_GOOGLE_TAG_MANAGER_ID,
+  gaTrackingId: process.env.NDLA_FRONTEND_GA_TRACKING_ID,
+};

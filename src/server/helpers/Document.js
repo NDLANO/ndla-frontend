@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
-import config from '../../src/config';
+import config from '../../config';
 
 const Document = ({ helmet, className, assets, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
@@ -36,9 +36,11 @@ const Document = ({ helmet, className, assets, data }) => {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
-        {assets.favicon && (
-          <link rel="shortcut icon" href={assets.favicon} type="image/x-icon" />
-        )}
+        <link
+          rel="shortcut icon"
+          href="/ndla-favicon.png"
+          type="image/x-icon"
+        />
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
@@ -58,9 +60,14 @@ const Document = ({ helmet, className, assets, data }) => {
           }}
         />
         {assets.js.map(js => (
-          <script key={js} type="text/javascript" src={js} defer />
+          <script
+            key={js}
+            type="text/javascript"
+            src={js}
+            defer
+            crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
+          />
         ))}
-
         {helmet.script.toComponent()}
       </body>
     </html>

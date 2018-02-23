@@ -13,28 +13,23 @@ import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, INTERNAL_SERVER_ERROR } from 'http-status';
 
-import { getHtmlLang, getLocaleObject } from '../../src/i18n';
+import { getHtmlLang, getLocaleObject } from '../../i18n';
 import Document from '../helpers/Document';
-import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
-import { fetchResourceTypesForResource } from '../../src/containers/Resources/resourceApi';
-import IframeArticlePage from '../../src/iframe/IframeArticlePage';
-import config from '../../src/config';
+import { fetchArticle } from '../../containers/ArticlePage/articleApi';
+import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
+import IframeArticlePage from '../../iframe/IframeArticlePage';
+import config from '../../config';
 
-const log = require('../../src/util/logger');
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const log = require('../../util/logger');
 
-// Because JSDom exists, ExecutionEnvironment assumes that we're on the client.
 if (process.env.NODE_ENV === 'unittest') {
   Helmet.canUseDOM = false;
 }
 
-const assets = config.isProduction
-  ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
-  : require('../developmentAssets');
-
 const getAssets = () => ({
-  favicon: `/assets/${assets['ndla-favicon.png']}`,
-  css: config.isProduction ? `/assets/${assets['main.css']}` : undefined,
-  js: [`/assets/${assets['manifest.js']}`, `/assets/${assets['embed.js']}`],
+  css: assets.client.css,
+  js: [assets.embed.js],
 });
 
 const renderPage = initialProps => {

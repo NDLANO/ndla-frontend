@@ -3,30 +3,25 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "build-server": "babel server -d htdocs/server --ignore __tests__/ && babel src -d htdocs/src --ignore __tests__/",
-    "build-client": "cross-env NODE_ENV=production webpack --config ./webpack.config.prod.js -p --bail",
-    "build": "yarn build-server && yarn build-client",
-    "clean": "rimraf ./htdocs/*",
+    "build": "razzle build",
     "test": "cross-env NODE_ENV=unittest jest",
     "test-ci": "cross-env NODE_ENV=unittest jest --maxWorkers=2",
     "tdd": "cross-env NODE_ENV=unittest jest --watch",
     "lint": "yarn run lint-prettier && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
-    "start": "cross-env NODE_ENV=development DISABLE_SSR=true nodemon server --exec babel-node --watch server | bunyan",
-    "start-with-local-converter": "cross-env NODE_ENV=development DISABLE_SSR=true LOCAL_ARTICLE_CONVERTER=true nodemon server --exec babel-node --watch server | bunyan",
-    "start-with-ssr": "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server | bunyan",
-    "start-prod": "cross-env NODE_ENV=production node htdocs/server | bunyan",
-    "now-build": "npm run build-server && npm run build-client",
-    "now-start": "cross-env NODE_ENV=production NOW=true node htdocs/server",
-    "prebuild": "npm run clean",
+    "start": "razzle start",
+    "start-without-ssr": "cross-env DISABLE_SSR=true razzle start",
+    "start-with-local-converter":
+      "cross-env LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-prod": "cross-env NODE_ENV=production node build/server",
+    "now-build": "npm run build",
+    "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "pretest": "npm run lint",
     "prettier": "node prettier.js write"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -63,6 +58,7 @@
     "postcss-loader": "^2.0.9",
     "postcss-reporter": "^5.0.0",
     "prettier": "^1.9.1",
+    "razzle-config-utils": "^0.1.0",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.2.3",
@@ -90,6 +86,7 @@
     "history": "^4.6.3",
     "hoist-non-react-statics": "^2.3.0",
     "http-status": "^1.0.1",
+    "isomorphic-unfetch": "^2.0.0",
     "jwt-decode": "^2.2.0",
     "ndla-article-scripts": "^0.3.1",
     "ndla-error-reporter": "^0.1.15",
@@ -104,6 +101,7 @@
     "normalize-css": "2.3.1",
     "parse-url": "^3.0.2",
     "prop-types": "^15.6.0",
+    "razzle": "^0.8.12",
     "react": "^16.2.0",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^16.2.0",

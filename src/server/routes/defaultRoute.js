@@ -20,25 +20,17 @@ import Helmet from 'react-helmet';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Document from '../helpers/Document';
-import routes, { routes as serverRoutes } from '../../src/routes';
-import configureStore from '../../src/configureStore';
-import config from '../../src/config';
+import routes, { routes as serverRoutes } from '../../routes';
+import configureStore from '../../configureStore';
+import config from '../../config';
 
-import { getLocaleObject, isValidLocale } from '../../src/i18n';
+import { getLocaleObject, isValidLocale } from '../../i18n';
 
-const assets = config.isProduction
-  ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
-  : require('../developmentAssets');
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = () => ({
-  favicon: `/assets/${assets['ndla-favicon.png']}`,
-  css: config.isProduction ? `/assets/${assets['main.css']}` : undefined,
-  js: [
-    `/assets/${assets['manifest.js']}`,
-    `/assets/${assets['vendor.js']}`,
-    `/assets/${assets['main.js']}`,
-  ],
-  mathJax: `/assets/${assets['mathjax.js']}`,
+  css: assets.client.css ? assets.client.css : undefined,
+  js: [assets.client.js],
 });
 
 async function loadGetInitialProps(Component, ctx) {
@@ -65,8 +57,8 @@ const renderPage = (initialProps, initialState, Page) => {
     data: {
       initialProps,
       initialState,
-      assets,
       config,
+      assets,
       accessToken: global.access_token,
     },
   };
@@ -74,6 +66,7 @@ const renderPage = (initialProps, initialState, Page) => {
 
 export async function defaultRoute(req) {
   const paths = req.url.split('/');
+  global.assets = assets;
   let initialProps = {};
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.url.replace(`/${basename}`, '') : req.url;

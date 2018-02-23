@@ -9,13 +9,13 @@
 import { matchPath } from 'react-router-dom';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import parseUrl from 'parse-url';
-import { isValidLocale } from '../../src/i18n';
-import { getArticleIdFromResource } from '../../src/containers/Resources/resourceHelpers';
-import { fetchResource } from '../../src/containers/Resources/resourceApi';
-import { articlePath } from '../../src/routes';
-import config from '../../src/config';
+import { isValidLocale } from '../../i18n';
+import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
+import { fetchResource } from '../../containers/Resources/resourceApi';
+import { articlePath } from '../../routes';
+import config from '../../config';
 
-const log = require('../../src/util/logger');
+const log = require('../../util/logger');
 
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);

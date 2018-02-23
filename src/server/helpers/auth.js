@@ -6,8 +6,7 @@
  *
  */
 
-const fetch = require('node-fetch');
-const log = require('../../src/util/logger');
+const log = require('../../util/logger');
 
 const url = `https://ndla.eu.auth0.com/oauth/token`;
 

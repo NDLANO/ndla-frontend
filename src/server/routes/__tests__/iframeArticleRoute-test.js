@@ -16,7 +16,7 @@ jest.mock('../../helpers/Document', () => () => (
   </html>
 ));
 
-jest.mock('../../../src/iframe/IframeArticlePage', () =>
+jest.mock('../../../iframe/IframeArticlePage', () =>
   // eslint-disable-next-line react/prop-types
   ({ status }) => (
     <div>

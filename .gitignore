@@ -4,6 +4,7 @@ npm-debug.log
 *.iml
 /.idea
 /htdocs/
+/build/
 /coverage/
 
 ### VisualStudioCode ###
