@@ -45,6 +45,7 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
+    'https://www.google-analytics.com',
   ];
   if (process.env.LOCAL_ARTICLE_CONVERTER) {
     return [...defaultConnectSrc, 'http://localhost:3100'];
@@ -75,6 +76,7 @@ app.use(
           'http://nrk.no',
           'https://www.googletagmanager.com',
           'https://www.google-analytics.com',
+          'https://tagmanager.google.com',
           'https://www.youtube.com',
           'https://s.ytimg.com',
           'https://cdn.auth0.com',
