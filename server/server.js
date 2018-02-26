@@ -145,6 +145,7 @@ app.use(
           "'unsafe-eval'",
           'https://fonts.googleapis.com',
           'https://fonts.gstatic.com',
+          'https://tagmanager.google.com',
         ],
         fontSrc: [
           "'self'",
@@ -163,6 +164,8 @@ app.use(
           'https://httpsak-a.akamaihd.net',
           'https://*.boltdns.net',
           'https://www.nrk.no/',
+          'https://ssl.gstatic.com',
+          'https://www.gstatic.com',
           'https://*.hotjar.com',
           ' data:',
         ],
