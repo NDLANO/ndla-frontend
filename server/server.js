@@ -75,6 +75,7 @@ app.use(
           'http://nrk.no',
           'https://www.googletagmanager.com',
           'https://www.google-analytics.com',
+          'https://tagmanager.google.com',
           'https://www.youtube.com',
           'https://s.ytimg.com',
           'https://cdn.auth0.com',
