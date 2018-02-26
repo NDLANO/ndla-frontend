@@ -6,7 +6,7 @@
  *
  */
 
-const log = require('../../util/logger');
+import handleError from '../../util/handleError';
 
 const url = `https://ndla.eu.auth0.com/oauth/token`;
 
@@ -35,7 +35,7 @@ export async function getToken() {
     return response.json();
   }
 
-  log.error(await response.text());
+  handleError(await response.text());
 
   throw new Error('Failed to fetch token from auth0');
 }

@@ -11,8 +11,9 @@
     "lint-prettier": "node prettier.js lint",
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
-    "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
-    "start-prod": "cross-env NODE_ENV=production node build/server",
+    "start-with-local-converter":
+      "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "pretest": "npm run lint",
@@ -20,9 +21,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.0.0",

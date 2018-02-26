@@ -19,12 +19,12 @@ import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
 import IframeArticlePage from '../../iframe/IframeArticlePage';
 import config from '../../config';
+import handleError from '../../util/handleError';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : { client: { css: 'mock.css' }, embed: { js: 'mock.js' } };
-const log = require('../../util/logger');
 
 if (process.env.NODE_ENV === 'unittest') {
   Helmet.canUseDOM = false;
@@ -76,7 +76,7 @@ export async function iframeArticleRoute(req) {
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
-      log.error(error);
+      handleError(error);
     }
     const { html, ...docProps } = renderPage({
       locale,

@@ -14,8 +14,7 @@ import { getArticleIdFromResource } from '../../containers/Resources/resourceHel
 import { fetchResource } from '../../containers/Resources/resourceApi';
 import { articlePath } from '../../routes';
 import config from '../../config';
-
-const log = require('../../util/logger');
+import handleError from '../../util/handleError';
 
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);
@@ -64,7 +63,7 @@ export async function oembedArticleRoute(req) {
       },
     };
   } catch (error) {
-    log.error(error);
+    handleError(error);
     const status = error.status || INTERNAL_SERVER_ERROR;
     return {
       status,
