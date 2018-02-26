@@ -1,4 +1,6 @@
 const { modifyRule } = require('razzle-config-utils');
+const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   modify(config, { target, dev }) {
@@ -18,10 +20,21 @@ module.exports = {
       } else {
         appConfig.entry.embed = ['./src/iframe'];
       }
-      appConfig.entry.mathJaxConfig = [
-        appConfig.entry.client[0],
-        './src/mathjax/config.js',
-      ];
+
+      appConfig.entry.mathJaxConfig = dev
+        ? [appConfig.entry.client[0], './src/mathjax/config.js']
+        : ['./src/mathjax/config.js'];
+
+      if (!dev) {
+        appConfig.plugins.push(
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false,
+            reportFilename: 'bundle-analyzer-report.html',
+          }),
+          new webpack.optimize.ModuleConcatenationPlugin(),
+        );
+      }
     }
 
     return appConfig;
