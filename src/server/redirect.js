@@ -13,9 +13,10 @@ const app = express();
 app.get('*', (req, res) => {
   const hostname = req.get('Host');
   if (hostname === undefined || !hostname.match(/^(.+\.)?ndla\.no$/gi)) {
-    res.send(400);
+    res.sendStatus(400);
   }
 
   res.redirect(301, `https://${hostname}${req.url}`);
 });
-module.exports = app;
+
+export default app;
