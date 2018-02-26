@@ -33,7 +33,12 @@ const browserHistory = basename ? createHistory({ basename }) : createHistory();
 storeAccessToken(accessToken);
 const store = configureStore(initialState);
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
+const {
+  disableSSR,
+  logglyApiKey,
+  logEnvironment: environment,
+  componentName,
+} = config;
 
 window.errorReporter = ErrorReporter.getInstance({
   store,
@@ -48,7 +53,9 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-ReactDOM.hydrate(
+const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+
+renderOrHydrate(
   <Provider store={store}>
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <Router history={browserHistory}>

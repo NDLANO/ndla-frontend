@@ -11,9 +11,9 @@
     "lint": "yarn run lint-prettier && eslint --ext .js --ext .jsx src server",
     "lint-prettier": "node prettier.js lint",
     "start": "razzle start",
-    "start-without-ssr": "cross-env DISABLE_SSR=true razzle start",
+    "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-converter":
-      "cross-env LOCAL_ARTICLE_CONVERTER=true razzle start",
+      "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",

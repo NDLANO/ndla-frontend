@@ -48,7 +48,7 @@ export default {
   redirectPort: process.env.NDLA_REDIRECT_PORT || '3001',
   logEnvironment: process.env.NDLA_ENVIRONMENT || 'local',
   logglyApiKey: process.env.LOGGLY_API_KEY,
-  disableSSR: process.env.DISABLE_SSR || false,
+  disableSSR: process.env.RAZZLE_DISABLE_SSR || false,
   searchEnabled: ndlaEnvironment !== 'prod',
   ndlaApiUrl: process.env.NDLA_API_URL || apiDomain(),
   ndlaFrontendDomain: ndlaFrontendDomain(),

@@ -11,14 +11,15 @@ const connectSrc = (() => {
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
   ];
-  if (process.env.LOCAL_ARTICLE_CONVERTER) {
-    return [...defaultConnectSrc, 'http://localhost:3100'];
-  }
-  if (process.env.NODE_ENV === 'development') {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER
+  ) {
     return [
       ...defaultConnectSrc,
       'http://localhost:3001',
       'ws://localhost:3001',
+      'http://localhost:3100',
     ];
   }
 
