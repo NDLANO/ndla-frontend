@@ -18,7 +18,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -33,7 +35,7 @@ Object {
           "en",
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopic",
       },
     },
     Object {
@@ -44,7 +46,7 @@ Object {
           "en",
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchArticle",
       },
     },
   ],
@@ -129,7 +131,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -150,7 +154,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -165,7 +171,7 @@ Object {
           "en",
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
       },
     },
     Object {
@@ -209,7 +215,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -226,7 +234,7 @@ Object {
           ],
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchArticles",
       },
     },
   ],
@@ -371,7 +379,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -386,7 +396,7 @@ Object {
           "en",
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
       },
     },
   ],
@@ -511,7 +521,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -560,7 +572,9 @@ Object {
       "@@redux-saga/IO": true,
       "CALL": Object {
         "args": Array [
-          Object {},
+          Object {
+            "_invoke": "@@redux-saga-test-plan/json/function/invoke",
+          },
           "@@redux-saga-test-plan/json/function/refineYieldedValue",
         ],
         "context": null,
@@ -577,7 +591,7 @@ Object {
           ],
         ],
         "context": null,
-        "fn": "@@redux-saga-test-plan/json/function/<anonymous>",
+        "fn": "@@redux-saga-test-plan/json/function/fetchArticles",
       },
     },
   ],

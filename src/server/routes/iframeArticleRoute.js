@@ -20,7 +20,10 @@ import { fetchResourceTypesForResource } from '../../containers/Resources/resour
 import IframeArticlePage from '../../iframe/IframeArticlePage';
 import config from '../../config';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const assets =
+  process.env.NODE_ENV !== 'unittest'
+    ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
+    : { client: { css: 'mock.css' }, embed: { js: 'mock.js' } };
 const log = require('../../util/logger');
 
 if (process.env.NODE_ENV === 'unittest') {

@@ -6,7 +6,6 @@
  *
  */
 
-// import 'babel-polyfill';
 import 'isomorphic-unfetch';
 
 import React from 'react';
@@ -21,6 +20,7 @@ import { getLocaleObject, isValidLocale } from './i18n';
 import { storeAccessToken } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
+import './style/index.css';
 
 const { DATA: { initialState, initialProps, config, accessToken } } = window;
 const localeString = initialState.locale;

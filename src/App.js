@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';
@@ -11,7 +19,6 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import config from './config';
 import handleError from './util/handleError';
-import './style/index.css';
 
 const searchEnabled =
   process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
