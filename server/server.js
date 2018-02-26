@@ -45,7 +45,7 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
-    'https://www.google-analytics.com'
+    'https://www.google-analytics.com',
   ];
   if (process.env.LOCAL_ARTICLE_CONVERTER) {
     return [...defaultConnectSrc, 'http://localhost:3100'];
