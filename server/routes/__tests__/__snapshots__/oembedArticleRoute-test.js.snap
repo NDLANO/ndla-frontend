@@ -80,7 +80,6 @@ Object {
 exports[`parseAndMatchUrl 5`] = `
 Object {
   "isExact": true,
-  "isSimpleArticle": true,
   "params": Object {
     "articleId": "4809",
   },
@@ -92,7 +91,6 @@ Object {
 exports[`parseAndMatchUrl 6`] = `
 Object {
   "isExact": true,
-  "isSimpleArticle": true,
   "params": Object {
     "articleId": "4809",
     "lang": "nn",
