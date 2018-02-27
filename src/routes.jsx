@@ -26,6 +26,8 @@ const searchEnabled =
 export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
+export const simpleArticlePath = '/article/:articleId';
+
 export const routes = [
   {
     path: '/',
@@ -39,7 +41,7 @@ export const routes = [
     background: true,
   },
   {
-    path: '/article/:articleId',
+    path: simpleArticlePath,
     component: PlainArticlePage,
     background: true,
   },

@@ -14,14 +14,12 @@ import { getArticleIdFromResource } from '../../src/containers/Resources/resourc
 import { fetchResource } from '../../src/containers/Resources/resourceApi';
 import { fetchArticle } from '../../src/containers/ArticlePage/articleApi';
 
-import { articlePath } from '../../src/routes';
+import { articlePath, simpleArticlePath } from '../../src/routes';
 import config from '../../src/config';
 
 const log = require('../../src/util/logger');
 
-const simpleArticlePath = '/article/:articleId';
-
-function matchUrl(pathname, isSimpleArticle, lang = false) {
+export function matchUrl(pathname, isSimpleArticle, lang = false) {
   if (isSimpleArticle) {
     return {
       isSimpleArticle: true,
