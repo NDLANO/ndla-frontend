@@ -59,11 +59,9 @@ export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
-
   try {
     const article = await fetchArticle(articleId, lang);
     const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
-
     const { html, ...docProps } = renderPage({
       article: { ...article, resourceTypes },
       locale,
