@@ -18,7 +18,7 @@ class PostResizeMessage extends React.Component {
   }
 
   async componentDidMount() {
-    this.onWatchHeight(true);
+    this.onWatchHeight();
     this.onResizeReady();
     window.addEventListener('resize', this.onResizeReady);
   }
@@ -40,14 +40,13 @@ class PostResizeMessage extends React.Component {
     }
   };
 
-  onWatchHeight = (initialLoad = false) => {
-    setTimeout(() => {
+  onWatchHeight = () => {
+    setInterval(() => {
       const container = document.querySelector('.c-article--iframe');
       const height = container ? container.scrollHeight + 20 : 0;
-      if (this.state.height !== height && !initialLoad) {
+      if (this.state.height !== height) {
         this.resizer();
       }
-      this.onWatchHeight(false);
     }, 100);
   };
 
