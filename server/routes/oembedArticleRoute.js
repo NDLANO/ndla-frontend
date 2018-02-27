@@ -19,15 +19,12 @@ import config from '../../src/config';
 
 const log = require('../../src/util/logger');
 
-export function matchUrl(pathname, isSimpleArticle, lang = false) {
-  if (isSimpleArticle) {
-    return {
-      isSimpleArticle: true,
-      ...matchPath(
-        pathname,
-        lang ? `/:lang${simpleArticlePath}` : simpleArticlePath,
-      ),
-    };
+export function matchUrl(pathname, isPlainArticle, lang = false) {
+  if (isPlainArticle) {
+    return matchPath(
+      pathname,
+      lang ? `/:lang${simpleArticlePath}` : simpleArticlePath,
+    );
   }
   return matchPath(pathname, lang ? `/:lang${articlePath}` : articlePath);
 }
@@ -38,7 +35,7 @@ export function parseAndMatchUrl(url) {
   if (isValidLocale(paths[1])) {
     return matchUrl(pathname, paths[2] === 'article', true);
   }
-  return matchUrl(pathname, paths[1] === 'article');
+  return matchUrl(pathname, paths[1] === 'article', false);
 }
 
 function getOembedObject(req, title, html) {
@@ -71,9 +68,9 @@ export async function oembedArticleRoute(req) {
     };
   }
 
-  const { isSimpleArticle, params: { lang = 'nb' } } = match;
+  const { params: { resourceId, lang = 'nb' } } = match;
   try {
-    if (isSimpleArticle) {
+    if (!resourceId) {
       const { params: { articleId } } = match;
       const article = await fetchArticle(articleId, lang);
       return getOembedObject(
@@ -85,7 +82,6 @@ export async function oembedArticleRoute(req) {
       );
     }
 
-    const { params: { resourceId } } = match;
     const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
     const articleId = getArticleIdFromResource(resource);
 
