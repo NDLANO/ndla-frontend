@@ -15,6 +15,6 @@ import {
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const search = (queryString, locale) =>
-  fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchWithAccessToken(
+    `${baseUrl}/?query=${queryString}&language=${locale}&falback=true`,
+  ).then(resolveJsonOrRejectWithError);

@@ -14,6 +14,7 @@ export const initalState = {
   totalCount: 1,
   pageSize: 10,
   searching: false,
+  filterState: { currentTab: 'all' },
 };
 
 export default handleActions(
@@ -37,6 +38,15 @@ export default handleActions(
     [constants.SEARCH_ERROR]: {
       next: state => ({ ...state, searching: false }),
       throw: state => state,
+    },
+    [constants.UPDATE_FILTER]: {
+      next: (state, action) => ({
+        ...state,
+        filterState: {
+          ...state.filterState,
+          ...action.payload,
+        },
+      }),
     },
   },
   initalState,

@@ -146,7 +146,6 @@ class MastheadContainer extends React.PureComponent {
               onToggle={bool => this.setState({ isOpen: bool })}
               buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
               <TopicMenu
-                hideSearch
                 isBeta
                 toSubject={() => toSubject(subject.id)}
                 subjectTitle={subject.name}
@@ -176,7 +175,7 @@ class MastheadContainer extends React.PureComponent {
                 onNavigate={this.onNavigate}
                 expandedTopicId={expandedTopicId}
                 expandedSubtopicId={expandedSubtopicId}
-                searchPageUrl="#"
+                searchPageUrl={`/search/${subject.id || ''}`}
                 contentTypeResults={mapResourcesToMenu(
                   getResources,
                   toTopic(subject.id, expandedTopicId, expandedSubtopicId),

@@ -25,6 +25,11 @@ const phrases = {
     errorDescription: 'Beklager, finner ikke siden du prøvde å komme til.',
   },
   searchPage: {
+    all: 'Alle',
+    subject: 'Emne',
+    subjectMaterial: 'Fagstoff',
+    learningPath: 'Læringssti',
+    externalLearningResources: 'Ekstern læringsressurs',
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
   subjectPage: {

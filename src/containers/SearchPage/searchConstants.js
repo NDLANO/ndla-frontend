@@ -10,3 +10,4 @@ export const SEARCH = 'SEARCH';
 export const SET_SEARCH_RESULT = 'SET_SEARCH_RESULT';
 export const CLEAR_SEARCH_RESULT = 'CLEAR_SEARCH_RESULT';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
+export const UPDATE_FILTER = 'UPDATE_FILTER';

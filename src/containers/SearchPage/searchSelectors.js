@@ -20,6 +20,11 @@ export const getSearching = createSelector(
   search => search.searching,
 );
 
+export const getFilterState = createSelector(
+  [getSearchFromState],
+  search => search.filterState,
+);
+
 export const getLastPage = createSelector([getSearchFromState], search =>
   Math.ceil(search.totalCount / search.pageSize),
 );
