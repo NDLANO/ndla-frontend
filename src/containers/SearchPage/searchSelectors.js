@@ -10,9 +10,10 @@ import { createSelector } from 'reselect';
 
 const getSearchFromState = state => state.search;
 
-export const getResults = createSelector(
-  [getSearchFromState],
-  search => search.results,
+export const getResults = createSelector([getSearchFromState], search =>
+  search.results.map(it => ({
+    ...it,
+  })),
 );
 
 export const getSearching = createSelector(

@@ -14,7 +14,7 @@ export const initalState = {
   totalCount: 1,
   pageSize: 10,
   searching: false,
-  filterState: { currentTab: 'all' },
+  filterState: { query: '', currentTab: 'all' },
 };
 
 export default handleActions(

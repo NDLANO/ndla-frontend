@@ -228,6 +228,13 @@ const phrases = {
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
   },
+  contentTypes: {
+    'urn:resourcetype:learningPath': 'Læringssti',
+    'urn:resourcetype:subjectMaterial': 'Fagstoff',
+    'urn:resourcetype:tasksAndActivities': 'Oppgaver og aktiviteter',
+    'urn:resourcetype:externalResource': 'Ekstern læringsressurs',
+    'urn:resourcetype:SourceMaterial': 'Kildemateriale',
+  },
 };
 
 export default phrases;

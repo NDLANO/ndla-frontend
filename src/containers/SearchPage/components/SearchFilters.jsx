@@ -2,22 +2,18 @@ import React, { Fragment } from 'react';
 import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
 import { Additional } from 'ndla-icons/common';
 
-const SearchFilters = () => {
+const SearchFilters = ({ subjects, filterState, onChange }) => {
+  const allSubjects = subjects.map(it => ({
+    title: it.name,
+    value: it.id,
+  }));
   return (
     <Fragment>
       <SearchFilter
         label="Medieuttrykk og mediasamfunnet"
-        options={[
-          {
-            title: 'Medieuttrykk',
-            value: 'value',
-          },
-          {
-            title: 'Mediesamfunnet',
-            value: 'value2',
-          },
-        ]}
-        values={['value']}>
+        options={allSubjects.filter((_, i) => i < 2)}
+        onChange={e => onChange(e, 'subject')}
+        values={filterState.subject || []}>
         <SearchPopoverFilter
           messages={{
             backButton: 'Tilbake til filter',
@@ -27,25 +23,9 @@ const SearchFilters = () => {
             hasValuesButtonText: 'Bytt fag',
             noValuesButtonText: 'Velg fag',
           }}
-          options={[
-            {
-              title: 'Kinesisk',
-              value: 'value1',
-            },
-            {
-              title: 'Brønnteknikk',
-              value: 'value2',
-            },
-            {
-              title: 'Markedsføring og ledelse',
-              value: 'value3',
-            },
-            {
-              title: 'Naturbruk',
-              value: 'value4',
-            },
-          ]}
-          values={[]}
+          options={allSubjects}
+          values={filterState.subject || []}
+          onChange={e => onChange(e, 'subject')}
         />
       </SearchFilter>
       <SearchFilter
@@ -76,7 +56,8 @@ const SearchFilters = () => {
             value: 'SOURCE_MATERIAL',
           },
         ]}
-        values={['LEARNING_PATH']}
+        values={filterState.contentType || []}
+        onChange={e => onChange(e, 'contentType')}
       />
       <SearchFilter
         label="Nivå"
@@ -95,7 +76,8 @@ const SearchFilters = () => {
             noResults: true,
           },
         ]}
-        values={[]}
+        values={filterState.level || []}
+        onChange={e => onChange(e, 'level')}
       />
       <SearchFilter
         label="Innhold"
@@ -106,7 +88,8 @@ const SearchFilters = () => {
             icon: Additional,
           },
         ]}
-        values={['additional']}
+        values={filterState.content || []}
+        onChange={e => onChange(e, 'content')}
       />
       <SearchFilter
         label="Språk"
@@ -128,7 +111,8 @@ const SearchFilters = () => {
             value: 'cn',
           },
         ]}
-        values={['nb']}
+        values={filterState.language || []}
+        onChange={e => onChange(e, 'language')}
         defaultVisibleCount={3}
         showLabel="Flere språk"
         hideLabel="Færre språk"
@@ -145,7 +129,8 @@ const SearchFilters = () => {
             value: 'other',
           },
         ]}
-        values={['ndla']}
+        values={filterState.madeBy || []}
+        onChange={e => onChange(e, 'madeBy')}
       />
       <Button outline>Vis flere filter</Button>
     </Fragment>
