@@ -10,10 +10,12 @@ import defined from 'defined';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
 
+const __SERVER__ = process.env.BUILD_TARGET === 'server'; //eslint-disable-line
+const __CLIENT__ = process.env.BUILD_TARGET === 'client'; //eslint-disable-line
+
 const NDLA_API_URL = __SERVER__
   ? config.ndlaApiUrl
   : window.DATA.config.ndlaApiUrl;
-const fetch = __SERVER__ ? require('node-fetch') : window.fetch;
 
 const apiBaseUrl = (() => {
   if (process.env.NODE_ENV === 'unittest') {

@@ -49,7 +49,7 @@ const makeRestartable = saga =>
     }
   });
 
-const fork = __SERVER__ ? makeFork : makeRestartable;
+const fork = process.env.BUILD_TARGET === 'server' ? makeFork : makeRestartable;
 
 export default function* root() {
   yield all([

@@ -6,9 +6,9 @@
  *
  */
 
-@import '../node_modules/normalize-css/normalize.css';
+@import '../../node_modules/normalize-css/normalize.css';
 @import 'vars.css';
-@import '../node_modules/ndla-ui/lib/main.css';
+@import '../../node_modules/ndla-ui/lib/main.css';
 @import 'forms.css';
 @import 'search.css';
 @import 'alert.css';

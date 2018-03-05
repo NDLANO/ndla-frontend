@@ -9,6 +9,7 @@
 // N.B! don't import this on the client!
 
 const bunyan = require('bunyan');
+require('source-map-support').install();
 
 let log;
 
