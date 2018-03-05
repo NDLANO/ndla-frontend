@@ -13,6 +13,7 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
+import { transformArticle } from '../../util/transformArticle';
 import { ArticleShape } from '../../shapes';
 import Article from '../../components/Article';
 import ArticleHero from '../ArticlePage/components/ArticleHero';
@@ -67,7 +68,7 @@ class PlainArticlePage extends Component {
   }
 
   render() {
-    const { article, status, locale } = this.props;
+    const { article: rawArticle, status, locale } = this.props;
 
     if (status === 'error' || status === 'error404') {
       return (
@@ -78,6 +79,7 @@ class PlainArticlePage extends Component {
       );
     }
 
+    const article = transformArticle(rawArticle, locale);
     const scripts = getArticleScripts(article);
 
     return (
