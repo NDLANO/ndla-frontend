@@ -87,7 +87,7 @@ export async function defaultRoute(req) {
       match,
     });
   }
-
+  
   const context = {};
   const Page = (
     <Provider store={store}>
@@ -115,7 +115,7 @@ export async function defaultRoute(req) {
     Page,
   );
   const doc = renderToStaticMarkup(
-    <Document className={className} {...docProps} />,
+    <Document className={className} {...docProps} locale={locale} useZendesk/>,
   );
 
   return {
