@@ -12,17 +12,41 @@ import parseUrl from 'parse-url';
 import { isValidLocale } from '../../i18n';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import { fetchResource } from '../../containers/Resources/resourceApi';
-import { articlePath } from '../../routes';
+import { articlePath, simpleArticlePath } from '../../routes';
 import config from '../../config';
 import handleError from '../../util/handleError';
+import { fetchArticle } from '../../containers/ArticlePage/articleApi';
+
+export function matchUrl(pathname, isPlainArticle, lang = false) {
+  if (isPlainArticle) {
+    return matchPath(
+      pathname,
+      lang ? `/:lang${simpleArticlePath}` : simpleArticlePath,
+    );
+  }
+  return matchPath(pathname, lang ? `/:lang${articlePath}` : articlePath);
+}
 
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);
   const paths = pathname.split('/');
   if (isValidLocale(paths[1])) {
-    return matchPath(pathname, `/:lang${articlePath}`);
+    return matchUrl(pathname, paths[2] === 'article', true);
   }
-  return matchPath(pathname, articlePath);
+  return matchUrl(pathname, paths[1] === 'article', false);
+}
+
+function getOembedObject(req, title, html) {
+  return {
+    data: {
+      type: 'rich',
+      version: '1.0', // oEmbed version
+      height: req.query.height ? req.query.height : 800,
+      width: req.query.width ? req.query.width : 800,
+      title,
+      html,
+    },
+  };
 }
 
 export async function oembedArticleRoute(req) {
@@ -35,7 +59,6 @@ export async function oembedArticleRoute(req) {
   }
 
   const match = parseAndMatchUrl(url);
-
   if (!match) {
     return {
       status: BAD_REQUEST,
@@ -44,24 +67,29 @@ export async function oembedArticleRoute(req) {
   }
 
   const { params: { resourceId, lang = 'nb' } } = match;
-
   try {
+    if (!resourceId) {
+      const { params: { articleId } } = match;
+      const article = await fetchArticle(articleId, lang);
+      return getOembedObject(
+        req,
+        article.title,
+        `<iframe src="${
+          config.ndlaFrontendDomain
+        }/article-iframe/${lang}/article/${articleId}" frameborder="0" />`,
+      );
+    }
+
     const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
     const articleId = getArticleIdFromResource(resource);
-    return {
-      data: {
-        type: 'rich',
-        version: '1.0', // oEmbed version
-        height: req.query.height ? req.query.height : 800,
-        width: req.query.width ? req.query.width : 800,
-        title: resource.title,
-        html: `<iframe src="${
-          config.ndlaFrontendDomain
-        }/article-iframe/${lang}/${
-          resource.id
-        }/${articleId}" frameborder="0" />`,
-      },
-    };
+
+    return getOembedObject(
+      req,
+      resource.title,
+      `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${
+        resource.id
+      }/${articleId}" frameborder="0" />`,
+    );
   } catch (error) {
     handleError(error);
     const status = error.status || INTERNAL_SERVER_ERROR;

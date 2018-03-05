@@ -103,6 +103,11 @@ async function handleRequest(req, res, route) {
   }
 }
 
+app.get('/article-iframe/:lang/article/:articleId', async (req, res) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeArticleRoute);
+});
+
 app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) => {
   res.removeHeader('X-Frame-Options');
   handleRequest(req, res, iframeArticleRoute);

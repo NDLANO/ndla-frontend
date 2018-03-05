@@ -10,6 +10,7 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
+    'https://www.google-analytics.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -41,6 +42,7 @@ const scriptSrc = (() => {
     'http://nrk.no',
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
+    'https://tagmanager.google.com',
     'https://www.youtube.com',
     'https://s.ytimg.com',
     'https://cdn.auth0.com',
@@ -119,6 +121,7 @@ export default {
       "'unsafe-eval'",
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
+      'https://tagmanager.google.com',
     ],
     fontSrc: [
       "'self'",
@@ -137,6 +140,8 @@ export default {
       'https://httpsak-a.akamaihd.net',
       'https://*.boltdns.net',
       'https://www.nrk.no/',
+      'https://ssl.gstatic.com',
+      'https://www.gstatic.com',
       'https://*.hotjar.com',
       ' data:',
     ],

@@ -21,12 +21,23 @@ const validArticleUrlWithLang =
 const unvalidArticleUrl =
   'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163';
 
+const validateSimpleArticlePath1 =
+  'https://ndla-frontend.test.api.ndla.no/article/4809';
+const validateSimpleArticlePath2 =
+  'https://ndla-frontend.test.api.ndla.no/nn/article/4809';
+
+const unvalidateSimpleArticlePath =
+  'https://ndla-frontend.test.api.ndla.no/articles/4809';
+
 test('parseAndMatchUrl', () => {
   expect(parseAndMatchUrl(validArticleUrl1)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl2)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl3)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrlWithLang)).toMatchSnapshot();
   expect(parseAndMatchUrl(unvalidArticleUrl)).toBe(null);
+  expect(parseAndMatchUrl(validateSimpleArticlePath1)).toMatchSnapshot();
+  expect(parseAndMatchUrl(validateSimpleArticlePath2)).toMatchSnapshot();
+  expect(parseAndMatchUrl(unvalidateSimpleArticlePath)).toBe(null);
 });
 
 test('oembedArticleRoute success', async () => {
