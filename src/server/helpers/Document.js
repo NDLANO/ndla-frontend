@@ -71,7 +71,7 @@ const Document = ({ helmet, className, assets, data, locale, useZendesk }) => {
         ))}
         {helmet.script.toComponent()}
         <ZendeskWidget useZendesk={useZendesk} />
-        <ZendeskConfig useZendesk={useZendesk} locale={locale}/>
+        <ZendeskConfig useZendesk={useZendesk} locale={locale} />
       </body>
     </html>
   );
