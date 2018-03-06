@@ -6,8 +6,7 @@
  *
  */
 
-import 'babel-polyfill';
-import 'unfetch/polyfill';
+import 'isomorphic-unfetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,9 +17,10 @@ import ErrorReporter from 'ndla-error-reporter';
 import IntlProvider from 'ndla-i18n';
 import { configureTracker } from 'ndla-tracker';
 import { getLocaleObject, isValidLocale } from './i18n';
-import { storeAccessToken } from '../src/util/apiHelpers';
+import { storeAccessToken } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
+import './style/index.css';
 
 const { DATA: { initialState, initialProps, config, accessToken } } = window;
 const localeString = initialState.locale;
@@ -47,13 +47,13 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
-
 configureTracker({
   listen: browserHistory.listen,
   gaTrackingId: config.gaTrackingId,
   googleTagManagerId: config.googleTagManagerId,
 });
+
+const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 renderOrHydrate(
   <Provider store={store}>

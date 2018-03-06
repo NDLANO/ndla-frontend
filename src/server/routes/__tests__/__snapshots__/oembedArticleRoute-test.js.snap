@@ -76,3 +76,26 @@ Object {
   "url": "/nn/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
 }
 `;
+
+exports[`parseAndMatchUrl 5`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "articleId": "4809",
+  },
+  "path": "/article/:articleId",
+  "url": "/article/4809",
+}
+`;
+
+exports[`parseAndMatchUrl 6`] = `
+Object {
+  "isExact": true,
+  "params": Object {
+    "articleId": "4809",
+    "lang": "nn",
+  },
+  "path": "/:lang/article/:articleId",
+  "url": "/nn/article/4809",
+}
+`;

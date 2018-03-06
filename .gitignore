@@ -1,11 +1,14 @@
 node_modules
 npm-debug.log
+yarn-error.log
 .DS_Store
 *.iml
 /.idea
-/htdocs/
+/build/
 /coverage/
 /build/
+/htdocs/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json

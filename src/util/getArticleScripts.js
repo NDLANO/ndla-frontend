@@ -6,15 +6,16 @@
  *
  */
 
-import config from '../config';
-
-const assets = __CLIENT__ // eslint-disable-line no-nested-ternary
-  ? window.DATA.assets
-  : config.isProduction
-    ? require('../../assets/assets') // eslint-disable-line import/no-unresolved
-    : require('../../server/developmentAssets');
+function getAssets() {
+  if (process.env.BUILD_TARGET === 'client') {
+    return window.DATA.assets;
+  }
+  return global.assets;
+}
 
 export function getArticleScripts(article) {
+  const assets = getAssets();
+
   const scripts = article
     ? article.requiredLibraries.map(lib => ({
         src: lib.url,
@@ -25,8 +26,8 @@ export function getArticleScripts(article) {
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
       async: true,
-      src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=/assets/${
-        assets['mathjaxConfig.js']
+      src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=${
+        assets.mathJaxConfig.js
       }`,
       type: 'text/javascript',
     });
