@@ -46,33 +46,53 @@ import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResour
 
 class SearchContainer extends Component {
   static getInitialProps(ctx) {
-    const {
-      location,
-      search,
-      subject,
-      subjectId,
-      fetchSubjectFilters,
-      fetchSubjects,
-    } = ctx;
-    if (location && location.search) {
-      search(location.search);
-    }
-    if (!subject) {
+    const { subjects, subjectId, fetchSubjectFilters, fetchSubjects } = ctx;
+    if (!subjects) {
       fetchSubjects();
       if (subjectId) fetchSubjectFilters(subjectId);
     }
   }
 
+  componentWillMount() {
+    const { subject, updateFilter } = this.props;
+    // insert subject into state
+    if (subject) {
+      updateFilter({
+        subject: [subject.id],
+      });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { filterState: { query } } = nextProps;
-    if (query !== this.props.filterState.query) {
-      this.props.search(query);
+    const {
+      subject,
+      filterState: { query, language, subject: selectedSubjects },
+      updateFilter,
+    } = nextProps;
+    if (
+      query !== this.props.filterState.query ||
+      language !== this.props.filterState.language ||
+      selectedSubjects !== this.props.filterState.subject
+    ) {
+      this.sendSearch(query, language);
+    }
+    if (subject && !this.props.subject) {
+      updateFilter({
+        subject: [subject.id],
+      });
     }
   }
 
   onFilterChange = (newValues, type) => {
     this.props.updateFilter({
       [type]: newValues,
+    });
+  };
+
+  sendSearch = (q, l) => {
+    this.props.search({
+      query: q,
+      language: l,
     });
   };
 
@@ -90,12 +110,14 @@ class SearchContainer extends Component {
     const activeSubjects = Array.isArray(filterState.subject)
       ? filterState.subject
       : [];
-    const ActiveSubjectsMapped = subjects
-      .filter(it => activeSubjects.indexOf(it.id) > -1)
-      .map(sub => ({
-        value: sub.id,
-        title: sub.name,
-      }));
+    const ActiveSubjectsMapped = activeSubjects.map(it => {
+      const subj = subjects.find(s => s.id === it);
+      return {
+        value: subj.id,
+        title: subj.name,
+      };
+    });
+    const allActiveFilters = [...ActiveSubjectsMapped];
 
     return (
       <OneColumn cssModifier="clear-desktop" wide>
@@ -110,18 +132,8 @@ class SearchContainer extends Component {
               subject: filterState.subject.filter(it => it !== val),
             })
           }
-          searchFieldFilters={
-            // this needs to always be the active subjects in state, and rather insert into state the subject at mounting
-            subject
-              ? [
-                  {
-                    value: subject.id,
-                    title: subject.name,
-                  },
-                ]
-              : ActiveSubjectsMapped
-          }
-          activeFilters={ActiveSubjectsMapped}
+          searchFieldFilters={ActiveSubjectsMapped}
+          activeFilters={allActiveFilters}
           onActiveFilterRemove={() => {}}
           messages={{
             filterHeading: 'Filter',
@@ -135,6 +147,8 @@ class SearchContainer extends Component {
               onChange={this.onFilterChange}
               filterState={filterState}
               subjects={subjects}
+              enabledTabs={enabledTabs}
+              t={t}
             />
           }>
           <SearchResult
@@ -145,7 +159,7 @@ class SearchContainer extends Component {
             searchString={filterState.query}
             tabOptions={enabledTabs.map(it => ({
               value: it,
-              title: t(`searchPage.${it}`),
+              title: t(`contentTypes.${it}`),
             }))}
             onTabChange={tab => updateFilter({ currentTab: tab })}
             currentTab={filterState.currentTab}>
@@ -191,7 +205,7 @@ SearchContainer.propTypes = {
 SearchContainer.defaultProps = {
   enabledTabs: [
     'all',
-    'subject',
+    'topic',
     'subjectMaterial',
     'learningPath',
     'externalLearningResources',

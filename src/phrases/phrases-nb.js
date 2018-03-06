@@ -25,11 +25,6 @@ const phrases = {
     errorDescription: 'Beklager, finner ikke siden du prøvde å komme til.',
   },
   searchPage: {
-    all: 'Alle',
-    subject: 'Emne',
-    subjectMaterial: 'Fagstoff',
-    learningPath: 'Læringssti',
-    externalLearningResources: 'Ekstern læringsressurs',
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
   },
   subjectPage: {
@@ -229,11 +224,13 @@ const phrases = {
     footerManagingEditor: 'Utgaveansvarlig: ',
   },
   contentTypes: {
-    'urn:resourcetype:learningPath': 'Læringssti',
-    'urn:resourcetype:subjectMaterial': 'Fagstoff',
-    'urn:resourcetype:tasksAndActivities': 'Oppgaver og aktiviteter',
-    'urn:resourcetype:externalResource': 'Ekstern læringsressurs',
-    'urn:resourcetype:SourceMaterial': 'Kildemateriale',
+    all: 'Alle',
+    topic: 'Emne',
+    learningPath: 'Læringssti',
+    subjectMaterial: 'Fagstoff',
+    tasksAndActivities: 'Oppgaver og aktiviteter',
+    externalLearningResources: 'Ekstern læringsressurs',
+    SourceMaterial: 'Kildemateriale',
   },
 };
 

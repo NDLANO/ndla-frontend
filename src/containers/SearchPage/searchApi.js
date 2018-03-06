@@ -12,9 +12,15 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v2/articles');
+const baseUrl = 'http://localhost:3333/search';
+const groupUrl = 'http://localhost:3333/groupSearch';
 
 export const search = (queryString, locale) =>
   fetchWithAccessToken(
-    `${baseUrl}/?query=${queryString}&language=${locale}&falback=true`,
+    `${baseUrl}/?query=${queryString}&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
+
+export const groupSearch = queryString =>
+  fetchWithAccessToken(`${groupUrl}/?query=${queryString}`).then(
+    resolveJsonOrRejectWithError,
+  );

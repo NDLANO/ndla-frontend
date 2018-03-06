@@ -1,4 +1,5 @@
 import React from 'react';
+import { bool, func, arrayOf, object, shape, number, string } from 'prop-types';
 import { ToggleSearchButton, SearchOverlay, SearchField } from 'ndla-ui';
 
 const SearchButtonView = ({
@@ -36,6 +37,18 @@ const SearchButtonView = ({
       </SearchOverlay>
     </ToggleSearchButton>
   );
+};
+
+SearchButtonView.propTypes = {
+  isOpen: bool,
+  openToggle: func,
+  subject: shape({
+    id: string,
+    name: string,
+  }),
+  filterState: shape({ query: string }),
+  updateFilter: func,
+  results: arrayOf(object),
 };
 
 export default SearchButtonView;

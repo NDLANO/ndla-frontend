@@ -48,7 +48,7 @@ export const routes = [
   {
     path: '/search/:subjectId?',
     component: searchEnabled ? SearchContainer : NotFoundPage,
-    background: false,
+    background: true,
   },
   {
     path: '/subjects/:subjectId/(.*)/:topicId',

@@ -21,7 +21,7 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { getFilterState, getResults } from '../SearchPage/searchSelectors';
+import { getFilterState, getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { actions, getResourceTypesByTopicId } from '../Resources/resource';
@@ -90,14 +90,17 @@ class MastheadContainer extends React.PureComponent {
     const {
       t,
       subject,
-      filters,
-      activeFilters,
       updateFilter,
       filterState,
       results,
+      location,
       ...props
     } = this.props;
-
+    const resultsMapped = results.map(it => ({
+      ...it,
+      title: t(`contentTypes.${it.resourceType}`),
+      showAllLinkUrl: `/search/?resourceType=${it.resourceType}`,
+    }));
     return (
       <Masthead
         infoContent={
@@ -112,6 +115,7 @@ class MastheadContainer extends React.PureComponent {
             <MenuView
               subject={subject}
               t={t}
+              filterClick={this.filterClick}
               toggleMenu={bool => this.setState({ isOpen: bool })}
               onNavigate={this.onNavigate}
               onOpenSearch={() => {
@@ -126,15 +130,22 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          <SearchButtonView
-            isOpen={this.state.searchIsOpen}
-            openToggle={isOpen => {
-              this.setState({
-                searchIsOpen: isOpen,
-              });
-            }}
-            {...{ subject, updateFilter, filterState, results }}
-          />
+          {!location.pathname.includes('search') && (
+            <SearchButtonView
+              isOpen={this.state.searchIsOpen}
+              openToggle={isOpen => {
+                this.setState({
+                  searchIsOpen: isOpen,
+                });
+              }}
+              {...{
+                subject,
+                updateFilter,
+                filterState,
+                results: resultsMapped,
+              }}
+            />
+          )}
           <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
@@ -162,6 +173,11 @@ MastheadContainer.propTypes = {
   topicResourcesByType: PropTypes.func.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
+  results: PropTypes.arrayOf(PropTypes.object),
+  filterState: PropTypes.shape({
+    query: PropTypes.string,
+  }),
+  updateFilter: PropTypes.func,
 };
 
 const mapDispatchToProps = {
@@ -169,7 +185,7 @@ const mapDispatchToProps = {
   setActiveFilter: filterActions.setActive,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
   updateFilter: searchActions.updateFilter,
-  search: searchActions.search,
+  search: searchActions.groupSearch,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -182,7 +198,7 @@ const mapStateToProps = (state, ownProps) => {
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
     filterState: getFilterState(state),
-    results: getResults(state),
+    results: getGroupResults(state),
   };
 };
 

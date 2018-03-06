@@ -1,5 +1,15 @@
 import React from 'react';
 import {
+  bool,
+  shape,
+  func,
+  string,
+  number,
+  arrayOf,
+  any,
+  object,
+} from 'prop-types';
+import {
   ClickToggle,
   TopicMenu,
   DisplayOnPageYOffset,
@@ -45,6 +55,7 @@ const MenuView = ({
   topicPath,
   onOpenSearch,
   onNavigate,
+  filterClick,
 }) => {
   const getResources = expandedTopicId
     ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
@@ -80,7 +91,7 @@ const MenuView = ({
             contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
           }}
           filterOptions={filters}
-          onFilterClick={this.filterClick}
+          onFilterClick={filterClick}
           filterValues={activeFilters}
           onOpenSearch={onOpenSearch}
           onNavigate={onNavigate}
@@ -102,6 +113,25 @@ const MenuView = ({
       </DisplayOnPageYOffset>
     </React.Fragment>
   );
+};
+
+MenuView.propTypes = {
+  isOpen: bool,
+  toggleMenu: func,
+  subject: shape({
+    id: string,
+    name: string,
+  }),
+  topics: arrayOf(object),
+  filters: arrayOf(object),
+  activeFilters: arrayOf(string),
+  expandedSubtopicId: string,
+  expandedTopicId: string,
+  topicResourcesByType: func,
+  topicPath: arrayOf(string),
+  onOpenSearch: func,
+  onNavigate: func,
+  filterClick: func,
 };
 
 export default MenuView;

@@ -13,7 +13,20 @@ const getSearchFromState = state => state.search;
 export const getResults = createSelector([getSearchFromState], search =>
   search.results.map(it => ({
     ...it,
+    ...(it.subjects.length === 1
+      ? { breadcrumb: it.subjects[0].breadcrumbs, subjects: undefined }
+      : {
+          subjects: it.subjects.map(sub => ({
+            url: sub.path,
+            title: sub.name,
+          })),
+        }),
   })),
+);
+
+export const getGroupResults = createSelector(
+  [getSearchFromState],
+  search => search.groupResult,
 );
 
 export const getSearching = createSelector(

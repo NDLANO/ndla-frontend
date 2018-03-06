@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
 import { Additional } from 'ndla-icons/common';
 
-const SearchFilters = ({ subjects, filterState, onChange }) => {
+const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
   const allSubjects = subjects.map(it => ({
     title: it.name,
     value: it.id,
@@ -34,28 +34,10 @@ const SearchFilters = ({ subjects, filterState, onChange }) => {
         defaultVisibleCount={3}
         showLabel="Flere innholdstyper"
         hideLabel="Færre innholdstyper"
-        options={[
-          {
-            title: 'Læringssti',
-            value: 'LEARNING_PATH',
-          },
-          {
-            title: 'Fagstoff',
-            value: 'SUBJECT_MATERIAL',
-          },
-          {
-            title: 'Oppgaver og aktiviteter',
-            value: 'TASKS_AND_ACTIVITIES',
-          },
-          {
-            title: 'Ekstern læringsressurs',
-            value: 'EXTERNAL_LEARNING_RESOURCES',
-          },
-          {
-            title: 'Kildemateriale',
-            value: 'SOURCE_MATERIAL',
-          },
-        ]}
+        options={enabledTabs.map(it => ({
+          title: t(`contentTypes.${it}`),
+          value: it,
+        }))}
         values={filterState.contentType || []}
         onChange={e => onChange(e, 'contentType')}
       />
