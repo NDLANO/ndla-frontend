@@ -43,6 +43,9 @@ test('iframeArticleRoute 200 OK', async () => {
       articleId: '26050',
       resourceId: 'urn:resource:123',
     },
+    headers: {
+      'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
+    },
   });
 
   expect(response).toMatchSnapshot();
@@ -58,6 +61,9 @@ test('iframeArticleRoute 500 Internal server error', async () => {
       lang: 'nb',
       articleId: '26050',
       resourceId: '123',
+    },
+    headers: {
+      'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
     },
   });
 
