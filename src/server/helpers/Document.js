@@ -9,10 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
+import useragent from 'useragent';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({ helmet, className, assets, data }) => {
+const Document = ({ helmet, className, assets, data, userAgentString }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -24,6 +25,13 @@ const Document = ({ helmet, className, assets, data }) => {
         <meta charSet="utf-8" />
         <title>NDLA</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {useragent.parse(userAgentString).family === 'IE' && (
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"
+            defer
+            async
+          />
+        )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
@@ -77,6 +85,7 @@ const Document = ({ helmet, className, assets, data }) => {
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  userAgentString: PropTypes.string.isRequired,
   className: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,

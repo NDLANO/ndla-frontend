@@ -115,7 +115,11 @@ export async function defaultRoute(req) {
     Page,
   );
   const doc = renderToStaticMarkup(
-    <Document className={className} {...docProps} />,
+    <Document
+      className={className}
+      userAgentString={userAgentString}
+      {...docProps}
+    />,
   );
 
   return {

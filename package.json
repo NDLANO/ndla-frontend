@@ -96,6 +96,7 @@
     "reselect": "^3.0.1",
     "serialize-javascript": "^1.4.0",
     "source-map-support": "^0.5.3",
+    "useragent": "^2.3.0",
     "warning": "^3.0.0"
   },
   "repository": {
