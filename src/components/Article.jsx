@@ -17,6 +17,12 @@ import {
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
+import config from '../config';
+
+const showOldNdlaLink =
+  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
+    ? config.searchEnabled
+    : window.DATA.config.searchEnabled;
 
 const Article = ({
   article,
@@ -55,13 +61,15 @@ const Article = ({
       }}
       {...rest}>
       {children}
-      <a
-        className="article-old-ndla-link"
-        rel="noopener noreferrer"
-        target="_blank"
-        href={article.oldNdlaUrl}>
-        Gå til orginal artikkel
-      </a>
+      {showOldNdlaLink && (
+        <a
+          className="article-old-ndla-link"
+          rel="noopener noreferrer"
+          target="_blank"
+          href={article.oldNdlaUrl}>
+          Gå til orginal artikkel
+        </a>
+      )}
     </UIArticle>
   );
 };
