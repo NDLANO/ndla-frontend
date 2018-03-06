@@ -17,6 +17,7 @@ const phrases = {
     searchPage: `Search${titleTemplate}`,
     notFound: `Page not found${titleTemplate}`,
   },
+  askNDLA: 'Ask NDLA',
   articlePage: {
     errorDescription: 'Sorry, an error occurd while loading the resource.',
     error404Description:

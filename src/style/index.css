@@ -30,3 +30,15 @@
 .MJXc-display {
   display: inline-block !important;
 }
+
+.c-zendesk__button {
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 2px;
+}
+
+.zEWidget-launcher {
+  display: none;
+}

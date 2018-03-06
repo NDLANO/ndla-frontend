@@ -11,6 +11,7 @@ const connectSrc = (() => {
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
     'https://www.google-analytics.com',
+    'https://*.zendesk.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -76,6 +77,7 @@ const scriptSrc = (() => {
     'wss://*.hotjar.com',
     'https://*.hotjar.com',
     'cdnjs.cloudflare.com',
+    'https://*.zendesk.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, 'http://localhost:3001'];

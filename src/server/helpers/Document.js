@@ -12,8 +12,17 @@ import serialize from 'serialize-javascript';
 import useragent from 'useragent';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
+import { ZendeskWidget, ZendeskConfig } from './Zendesk';
 
-const Document = ({ helmet, className, assets, data, userAgentString }) => {
+const Document = ({
+  helmet,
+  className,
+  assets,
+  data,
+  locale,
+  useZendesk,
+  userAgentString,
+}) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -77,6 +86,8 @@ const Document = ({ helmet, className, assets, data, userAgentString }) => {
           />
         ))}
         {helmet.script.toComponent()}
+        <ZendeskWidget useZendesk={useZendesk} />
+        <ZendeskConfig useZendesk={useZendesk} locale={locale} />
       </body>
     </html>
   );
@@ -91,6 +102,8 @@ Document.propTypes = {
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
+  useZendesk: PropTypes.bool,
 };
 
 export default Document;

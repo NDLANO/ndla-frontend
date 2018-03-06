@@ -119,6 +119,8 @@ export async function defaultRoute(req) {
       className={className}
       userAgentString={userAgentString}
       {...docProps}
+      locale={locale}
+      useZendesk
     />,
   );
 
