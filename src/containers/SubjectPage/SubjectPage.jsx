@@ -94,6 +94,7 @@ class SubjectPage extends Component {
                     subject={subject}
                     topicPath={[]}
                     toTopic={() => ''}
+                    isCurrent
                   />
                 )}
               </section>

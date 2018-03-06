@@ -148,6 +148,7 @@ class TopicPage extends Component {
                     subject={subject}
                     topicPath={topicPath}
                     toTopic={toTopic}
+                    isCurrent
                   />
                 ) : null}
               </section>
