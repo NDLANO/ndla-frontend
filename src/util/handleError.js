@@ -8,11 +8,19 @@
 
 import ErrorReporter from 'ndla-error-reporter';
 
+const log =
+  process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;
+
 export default error => {
-  if (process.env.NODE_ENV === 'production' && __CLIENT__) {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    process.env.BUILD_TARGET === 'client'
+  ) {
     ErrorReporter.getInstance().captureError(error);
-  } else if (__SERVER__) {
-    const log = require('./logger'); // eslint-disable-line global-require
+  } else if (
+    process.env.NODE_ENV === 'production' &&
+    process.env.BUILD_TARGET === 'server'
+  ) {
     log.error(error);
   } else {
     console.error(error); // eslint-disable-line no-console

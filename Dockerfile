@@ -8,19 +8,17 @@ COPY yarn.lock package.json $APP_PATH/
 
 # Run yarn before src copy to enable better layer caching
 WORKDIR $APP_PATH
-RUN mkdir -p $APP_PATH/htdocs/assets/ && \
-    yarn
+RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc webpack.config.base.js webpack.config.dev.js webpack.config.prod.js postcss.config.js $APP_PATH/
+COPY .babelrc razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
-COPY style $APP_PATH/style
-COPY server $APP_PATH/server
+COPY src $APP_PATH/public
 
 # Build client code
 ENV NODE_ENV=production
 WORKDIR $APP_PATH
 RUN yarn run build
 
-CMD ["node", "htdocs/server"]
+CMD ["node", "build/server", "|", "bunyan"]

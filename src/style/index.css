@@ -6,9 +6,9 @@
  *
  */
 
-@import '../node_modules/normalize-css/normalize.css';
+@import '../../node_modules/normalize-css/normalize.css';
 @import 'vars.css';
-@import '../node_modules/ndla-ui/lib/main.css';
+@import '../../node_modules/ndla-ui/lib/main.css';
 @import 'forms.css';
 @import 'search.css';
 @import 'alert.css';
@@ -29,4 +29,16 @@
 
 .MJXc-display {
   display: inline-block !important;
+}
+
+.c-zendesk__button {
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 2px;
+}
+
+.zEWidget-launcher {
+  display: none;
 }

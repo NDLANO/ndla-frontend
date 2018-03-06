@@ -6,6 +6,7 @@
  *
  */
 
+import 'isomorphic-unfetch';
 import './raf-polyfill';
 
 /* eslint-disable */
@@ -24,6 +25,8 @@ window.DATA = {
     ndlaApiUrl: 'http://ndla-api',
   },
 };
+
+jest.mock('../style/index.css', () => {});
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)

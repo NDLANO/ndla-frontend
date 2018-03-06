@@ -9,10 +9,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
+import useragent from 'useragent';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
-import config from '../../src/config';
+import config from '../../config';
+import { ZendeskWidget, ZendeskConfig } from './Zendesk';
 
-const Document = ({ helmet, className, assets, data }) => {
+const Document = ({
+  helmet,
+  className,
+  assets,
+  data,
+  locale,
+  useZendesk,
+  userAgentString,
+}) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -24,6 +34,13 @@ const Document = ({ helmet, className, assets, data }) => {
         <meta charSet="utf-8" />
         <title>NDLA</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {useragent.parse(userAgentString).family === 'IE' && (
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"
+            defer
+            async
+          />
+        )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
@@ -36,9 +53,11 @@ const Document = ({ helmet, className, assets, data }) => {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
-        {assets.favicon && (
-          <link rel="shortcut icon" href={assets.favicon} type="image/x-icon" />
-        )}
+        <link
+          rel="shortcut icon"
+          href="/ndla-favicon.png"
+          type="image/x-icon"
+        />
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
@@ -58,10 +77,17 @@ const Document = ({ helmet, className, assets, data }) => {
           }}
         />
         {assets.js.map(js => (
-          <script key={js} type="text/javascript" src={js} defer />
+          <script
+            key={js}
+            type="text/javascript"
+            src={js}
+            defer
+            crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
+          />
         ))}
-
         {helmet.script.toComponent()}
+        <ZendeskWidget useZendesk={useZendesk} />
+        <ZendeskConfig useZendesk={useZendesk} locale={locale} />
       </body>
     </html>
   );
@@ -70,11 +96,14 @@ const Document = ({ helmet, className, assets, data }) => {
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  userAgentString: PropTypes.string.isRequired,
   className: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
+  useZendesk: PropTypes.bool,
 };
 
 export default Document;

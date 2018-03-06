@@ -24,7 +24,7 @@ export default function configureStore(initialState) {
 
   const createFinalStore = compose(
     applyMiddleware(sagaMiddleware),
-    __CLIENT__ && window && window.devToolsExtension
+    process.env.BUILD_TARGET === 'client' && window && window.devToolsExtension
       ? window.devToolsExtension()
       : f => f,
   )(createStore);
@@ -33,7 +33,7 @@ export default function configureStore(initialState) {
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
 
-  if (__CLIENT__) {
+  if (process.env.BUILD_TARGET === 'client') {
     window[STORE_KEY] = store;
   }
   return store;
