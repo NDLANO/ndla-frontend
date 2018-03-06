@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, Logo, ContentTypeBadge } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
+import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -21,7 +22,7 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { getFilterState, getGroupResults } from '../SearchPage/searchSelectors';
+import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { actions, getResourceTypesByTopicId } from '../Resources/resource';
@@ -31,6 +32,7 @@ import MenuView from './MenuView';
 
 const initialState = {
   isOpen: false,
+  query: '',
   searchIsOpen: false,
   expandedTopicId: undefined,
   expandedSubtopicId: undefined,
@@ -46,24 +48,19 @@ class MastheadContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname !== this.props.location.pathname) {
+    const { location, activeFilters, topics } = nextProps;
+    if (location.pathname !== this.props.location.pathname) {
       this.setState(initialState); // reset on location change
 
       // remove active topic if filtered away
-    } else if (
-      nextProps.activeFilters.length !== this.props.activeFilters.length
-    ) {
+    } else if (activeFilters.length !== this.props.activeFilters.length) {
       const { expandedTopicId, expandedSubtopicId } = this.state;
-      if (nextProps.topics.indexOf(expandedTopicId) === -1) {
+      if (topics.indexOf(expandedTopicId) === -1) {
         this.setState({ expandedTopicId: undefined });
       }
       if (this.props.topics.indexOf(expandedSubtopicId) === -1) {
         this.setState({ expandedSubtopicId: undefined });
       }
-    }
-
-    if (nextProps.filterState.query !== this.props.filterState.query) {
-      this.props.search(nextProps.filterState.query);
     }
   }
 
@@ -86,20 +83,19 @@ class MastheadContainer extends React.PureComponent {
       filterId,
     });
 
+  updateFilter = e => {
+    this.setState({ query: e });
+    this.props.search(e);
+  };
+
   render() {
-    const {
-      t,
-      subject,
-      updateFilter,
-      filterState,
-      results,
-      location,
-      ...props
-    } = this.props;
+    const { t, subject, results, location, ...props } = this.props;
     const resultsMapped = results.map(it => ({
       ...it,
       title: t(`contentTypes.${it.resourceType}`),
-      showAllLinkUrl: `/search/?resourceType=${it.resourceType}`,
+      showAllLinkUrl: `/search/?currentTab=${it.resourceType}${
+        subject ? `&subject=${subject.id}` : ''
+      }`,
     }));
     return (
       <Masthead
@@ -138,12 +134,10 @@ class MastheadContainer extends React.PureComponent {
                   searchIsOpen: isOpen,
                 });
               }}
-              {...{
-                subject,
-                updateFilter,
-                filterState,
-                results: resultsMapped,
-              }}
+              subject={subject}
+              updateFilter={this.updateFilter}
+              query={this.state.query}
+              results={resultsMapped}
             />
           )}
           <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
@@ -174,17 +168,12 @@ MastheadContainer.propTypes = {
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
-  filterState: PropTypes.shape({
-    query: PropTypes.string,
-  }),
-  updateFilter: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   fetchTopicResources: actions.fetchTopicResources,
   setActiveFilter: filterActions.setActive,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
-  updateFilter: searchActions.updateFilter,
   search: searchActions.groupSearch,
 };
 
@@ -197,7 +186,6 @@ const mapStateToProps = (state, ownProps) => {
     topicPath: getTopicPath(subjectId, topicId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
-    filterState: getFilterState(state),
     results: getGroupResults(state),
   };
 };

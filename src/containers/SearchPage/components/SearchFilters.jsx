@@ -13,7 +13,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
         label="Medieuttrykk og mediasamfunnet"
         options={allSubjects.filter((_, i) => i < 2)}
         onChange={e => onChange(e, 'subject')}
-        values={filterState.subject || []}>
+        values={filterState.subject}>
         <SearchPopoverFilter
           messages={{
             backButton: 'Tilbake til filter',
@@ -24,7 +24,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             noValuesButtonText: 'Velg fag',
           }}
           options={allSubjects}
-          values={filterState.subject || []}
+          values={filterState.subject}
           onChange={e => onChange(e, 'subject')}
         />
       </SearchFilter>
@@ -58,7 +58,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             noResults: true,
           },
         ]}
-        values={filterState.level || []}
+        values={filterState.level}
         onChange={e => onChange(e, 'level')}
       />
       <SearchFilter
@@ -70,7 +70,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             icon: Additional,
           },
         ]}
-        values={filterState.content || []}
+        values={filterState.content}
         onChange={e => onChange(e, 'content')}
       />
       <SearchFilter
@@ -93,7 +93,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             value: 'cn',
           },
         ]}
-        values={filterState.language || []}
+        values={filterState.language}
         onChange={e => onChange(e, 'language')}
         defaultVisibleCount={3}
         showLabel="Flere språk"

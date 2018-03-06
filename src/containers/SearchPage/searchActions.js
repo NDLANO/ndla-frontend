@@ -17,4 +17,3 @@ export const setSearchResult = createAction(constants.SET_SEARCH_RESULT);
 export const setGroupSearchResult = createAction(
   constants.SET_GROUP_SEARCH_RESULT,
 );
-export const updateFilter = createAction(constants.UPDATE_FILTER);

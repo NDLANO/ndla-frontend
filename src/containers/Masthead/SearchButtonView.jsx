@@ -6,38 +6,36 @@ const SearchButtonView = ({
   isOpen,
   openToggle,
   subject,
-  filterState,
+  query,
   updateFilter,
   results,
-}) => {
-  return (
-    <ToggleSearchButton
-      isOpen={isOpen}
-      onToggle={openToggle}
-      messages={{ buttonText: 'Søk' }}>
-      <SearchOverlay>
-        <SearchField
-          placeholder="Søk i fagstoff, oppgaver og aktiviteter eller læringsstier"
-          value={filterState.query || ''}
-          onChange={event => {
-            updateFilter({ query: event.target.value });
-          }}
-          filters={subject ? [{ value: subject.id, title: subject.name }] : []}
-          onFilterRemove={() => {}}
-          messages={{
-            allContentTypeResultLabel: 'Se alle',
-            allResultButtonText: 'Vis alle søketreff',
-            searchFieldTitle: 'Søk',
-            searchResultHeading: 'Forslag:',
-            contentTypeResultNoHit: 'Ingen treff',
-          }}
-          allResultUrl={subject ? `/search/${subject.id}` : '/search'}
-          searchResult={results}
-        />
-      </SearchOverlay>
-    </ToggleSearchButton>
-  );
-};
+}) => (
+  <ToggleSearchButton
+    isOpen={isOpen}
+    onToggle={openToggle}
+    messages={{ buttonText: 'Søk' }}>
+    <SearchOverlay>
+      <SearchField
+        placeholder="Søk i fagstoff, oppgaver og aktiviteter eller læringsstier"
+        value={query}
+        onChange={event => {
+          updateFilter(event.target.value);
+        }}
+        filters={subject ? [{ value: subject.id, title: subject.name }] : []}
+        onFilterRemove={() => {}}
+        messages={{
+          allContentTypeResultLabel: 'Se alle',
+          allResultButtonText: 'Vis alle søketreff',
+          searchFieldTitle: 'Søk',
+          searchResultHeading: 'Forslag:',
+          contentTypeResultNoHit: 'Ingen treff',
+        }}
+        allResultUrl={subject ? `/search?subject=${subject.id}` : '/search'}
+        searchResult={results}
+      />
+    </SearchOverlay>
+  </ToggleSearchButton>
+);
 
 SearchButtonView.propTypes = {
   isOpen: bool,
@@ -46,7 +44,7 @@ SearchButtonView.propTypes = {
     id: string,
     name: string,
   }),
-  filterState: shape({ query: string }),
+  query: string,
   updateFilter: func,
   results: arrayOf(object),
 };
