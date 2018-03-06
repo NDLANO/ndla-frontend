@@ -57,6 +57,8 @@ export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
+  const userAgentString = req.headers['user-agent'];
+
   try {
     const article = await fetchArticle(articleId, lang);
     const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
@@ -65,7 +67,9 @@ export async function iframeArticleRoute(req) {
       locale,
       status: 'success',
     });
-    const doc = renderToStaticMarkup(<Document {...docProps} />);
+    const doc = renderToStaticMarkup(
+      <Document userAgentString={userAgentString} {...docProps} />,
+    );
 
     return {
       status: OK,
@@ -80,7 +84,9 @@ export async function iframeArticleRoute(req) {
       locale,
       status: 'error',
     });
-    const doc = renderToStaticMarkup(<Document {...docProps} />);
+    const doc = renderToStaticMarkup(
+      <Document userAgentString={userAgentString} {...docProps} />,
+    );
     return {
       status: error.status || INTERNAL_SERVER_ERROR,
       data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
