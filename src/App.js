@@ -19,6 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import config from './config';
 import handleError from './util/handleError';
+import ZendeskButton from './components/ZendeskButton';
 
 const searchEnabled =
   process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
@@ -45,6 +46,7 @@ const Route = ({
             searchEnabled={searchEnabled}
           />
         </Content>
+        <ZendeskButton />
       </Page>
     )}
   />

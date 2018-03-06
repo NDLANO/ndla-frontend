@@ -11,8 +11,9 @@ import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
+import { ZendeskWidget, ZendeskConfig } from './Zendesk';
 
-const Document = ({ helmet, className, assets, data }) => {
+const Document = ({ helmet, className, assets, data, locale, useZendesk }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -69,6 +70,8 @@ const Document = ({ helmet, className, assets, data }) => {
           />
         ))}
         {helmet.script.toComponent()}
+        <ZendeskWidget useZendesk={useZendesk} />
+        <ZendeskConfig useZendesk={useZendesk} locale={locale} />
       </body>
     </html>
   );
@@ -82,6 +85,8 @@ Document.propTypes = {
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
+  useZendesk: PropTypes.bool,
 };
 
 export default Document;

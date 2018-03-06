@@ -17,6 +17,7 @@ const phrases = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Siden finnes ikke${titleTemplate}`,
   },
+  askNDLA: 'Spør NDLA',
   articlePage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av ressursen.',
     error404Description: 'Beklager, finner ikke ressursen du leter etter.',

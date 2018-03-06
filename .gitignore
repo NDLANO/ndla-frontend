@@ -6,7 +6,7 @@ yarn-error.log
 /.idea
 /build/
 /coverage/
-
+/htdocs/
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
