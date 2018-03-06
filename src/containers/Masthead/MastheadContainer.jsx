@@ -69,8 +69,20 @@ const initialState = {
 class MastheadContainer extends React.PureComponent {
   state = initialState;
 
+  componentWillMount() {
+    const { topicPath } = this.props;
+    if (topicPath) {
+      const expandedTopicId =
+        topicPath.length > 0 ? topicPath[0].id : undefined;
+      const expandedSubtopicId =
+        topicPath.length > 1 ? topicPath[1].id : undefined;
+      this.setState({ expandedTopicId, expandedSubtopicId });
+    }
+  }
+
   componentDidMount() {
     const { subjectId } = getUrnIdsFromProps(this.props);
+
     if (subjectId && this.props.filters.length === 0) {
       this.props.fetchSubjectFilters(subjectId);
     }
