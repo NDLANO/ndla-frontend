@@ -5,7 +5,7 @@ npm-debug.log
 /.idea
 /htdocs/
 /coverage/
-
+/build/
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json

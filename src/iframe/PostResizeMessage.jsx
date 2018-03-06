@@ -14,6 +14,7 @@ class PostResizeMessage extends React.Component {
     this.state = {
       width: 0,
       height: 0,
+      intervalId: undefined,
     };
   }
 
@@ -25,7 +26,9 @@ class PostResizeMessage extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResizeReady);
-    this.onWatchHeight = null;
+    if (this.state.intervalId) {
+      clearInterval(this.state.intervalId);
+    }
   }
 
   onResizeReady = () => {
@@ -41,13 +44,14 @@ class PostResizeMessage extends React.Component {
   };
 
   onWatchHeight = () => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       const container = document.querySelector('.c-article--iframe');
       const height = container ? container.scrollHeight + 20 : 0;
       if (this.state.height !== height) {
         this.resizer();
       }
     }, 100);
+    this.setState({ intervalId });
   };
 
   sendResizeToParentWindow = () => {
