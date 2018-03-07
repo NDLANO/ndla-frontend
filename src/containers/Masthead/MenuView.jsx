@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  bool,
-  shape,
-  func,
-  string,
-  number,
-  arrayOf,
-  any,
-  object,
-} from 'prop-types';
+import { bool, shape, func, string, arrayOf, object } from 'prop-types';
 import {
   ClickToggle,
   TopicMenu,

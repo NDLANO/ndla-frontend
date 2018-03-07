@@ -1,4 +1,13 @@
 import React, { Fragment } from 'react';
+import {
+  func,
+  objectOf,
+  arrayOf,
+  shape,
+  string,
+  number,
+  array,
+} from 'prop-types';
 import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
 import { Additional } from 'ndla-icons/common';
 
@@ -117,6 +126,18 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
       <Button outline>Vis flere filter</Button>
     </Fragment>
   );
+};
+
+SearchFilters.propTypes = {
+  subjects: arrayOf(
+    shape({
+      name: string,
+      id: number,
+    }),
+  ),
+  filterState: objectOf(array),
+  onChange: func,
+  enabledTabs: arrayOf(string),
 };
 
 export default SearchFilters;

@@ -14,7 +14,7 @@ test('searchSelectors getResults', () => {
     search,
   };
 
-  expect(getResults(state)).toBe(search.results);
+  expect(getResults(state)).toEqual(search.results);
 });
 
 test('searchSelectors getLastPage', () => {

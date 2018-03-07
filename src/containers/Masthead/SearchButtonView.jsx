@@ -1,5 +1,5 @@
 import React from 'react';
-import { bool, func, arrayOf, object, shape, number, string } from 'prop-types';
+import { bool, func, arrayOf, object, shape, string } from 'prop-types';
 import { ToggleSearchButton, SearchOverlay, SearchField } from 'ndla-ui';
 
 const SearchButtonView = ({

@@ -5,7 +5,6 @@ import ReactRoute from 'react-router-dom/Route';
 import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from 'ndla-ui';
-import { uuid } from 'ndla-util';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';

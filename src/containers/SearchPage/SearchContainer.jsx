@@ -38,7 +38,6 @@ import {
 } from '../SubjectPage/subjects';
 import { getFilters, actions as filterActions } from '../Filters/filter';
 import SearchFilters from './components/SearchFilters';
-import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
 class SearchContainer extends Component {
   static getInitialProps(ctx) {
@@ -154,7 +153,13 @@ class SearchContainer extends Component {
                 noResultDescription:
                   'Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.',
               }}
-              results={results}
+              results={results.map(it => ({
+                ...it,
+                contentTypeIcon: (
+                  <ContentTypeBadge type={it.contentType} size="x-small" />
+                ),
+                contentTypeLabel: t(`contentTypes.${it.contentType}`),
+              }))}
             />
           </SearchResult>
         </SearchPage>
@@ -184,10 +189,10 @@ SearchContainer.propTypes = {
 SearchContainer.defaultProps = {
   enabledTabs: [
     'all',
-    'topic',
-    'subjectMaterial',
-    'learningPath',
-    'externalLearningResources',
+    'subject',
+    'subject-material',
+    'learning-path',
+    'external-learning-resources',
   ],
 };
 

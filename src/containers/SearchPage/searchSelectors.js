@@ -11,17 +11,22 @@ import { createSelector } from 'reselect';
 const getSearchFromState = state => state.search;
 
 export const getResults = createSelector([getSearchFromState], search =>
-  search.results.map(it => ({
-    ...it,
-    ...(it.subjects.length === 1
-      ? { breadcrumb: it.subjects[0].breadcrumbs, subjects: undefined }
-      : {
-          subjects: it.subjects.map(sub => ({
-            url: sub.path,
-            title: sub.name,
-          })),
-        }),
-  })),
+  search.results.map(
+    it =>
+      Array.isArray(it.subjects)
+        ? {
+            ...it,
+            ...(it.subjects.length === 1
+              ? { breadcrumb: it.subjects[0].breadcrumbs, subjects: undefined }
+              : {
+                  subjects: it.subjects.map(sub => ({
+                    url: sub.path,
+                    title: sub.name,
+                  })),
+                }),
+          }
+        : it,
+  ),
 );
 
 export const getGroupResults = createSelector(

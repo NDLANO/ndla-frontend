@@ -8,12 +8,12 @@
 
 import {
   resolveJsonOrRejectWithError,
-  apiResourceUrl,
+  apiResourceUrl, // eslint-disable-line
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = 'http://localhost:3333/search';
-const groupUrl = 'http://localhost:3333/groupSearch';
+const baseUrl = apiResourceUrl('/search-api/search');
+const groupUrl = apiResourceUrl('/search-api/groupSearch');
 
 export const search = (queryString, locale) =>
   fetchWithAccessToken(

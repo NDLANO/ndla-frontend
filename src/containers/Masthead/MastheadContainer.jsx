@@ -8,9 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo, ContentTypeBadge } from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
-import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -26,7 +25,7 @@ import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { actions, getResourceTypesByTopicId } from '../Resources/resource';
-
+import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 import SearchButtonView from './SearchButtonView';
 import MenuView from './MenuView';
 
@@ -90,13 +89,16 @@ class MastheadContainer extends React.PureComponent {
 
   render() {
     const { t, subject, results, location, ...props } = this.props;
-    const resultsMapped = results.map(it => ({
-      ...it,
-      title: t(`contentTypes.${it.resourceType}`),
-      showAllLinkUrl: `/search/?currentTab=${it.resourceType}${
-        subject ? `&subject=${subject.id}` : ''
-      }`,
-    }));
+    const resultsMapped = results.map(it => {
+      const { contentType } = contentTypeMapping[it.resourceType];
+      return {
+        ...it,
+        title: t(`contentTypes.${contentType}`),
+        showAllLinkUrl: `/search/?currentTab=${contentType}${
+          subject ? `&subject=${subject.id}` : ''
+        }`,
+      };
+    });
     return (
       <Masthead
         infoContent={
@@ -168,6 +170,7 @@ MastheadContainer.propTypes = {
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
+  search: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

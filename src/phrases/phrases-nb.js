@@ -225,12 +225,12 @@ const phrases = {
   },
   contentTypes: {
     all: 'Alle',
-    topic: 'Emne',
-    learningPath: 'Læringssti',
-    subjectMaterial: 'Fagstoff',
-    tasksAndActivities: 'Oppgaver og aktiviteter',
-    externalLearningResources: 'Ekstern læringsressurs',
-    SourceMaterial: 'Kildemateriale',
+    subject: 'Emne',
+    'learning-path': 'Læringssti',
+    'subject-material': 'Fagstoff',
+    'tasks-and-activities': 'Oppgaver og aktiviteter',
+    'external-learning-resources': 'Ekstern læringsressurs',
+    'Source-material': 'Kildemateriale',
   },
 };
 
