@@ -19,7 +19,7 @@ test('subjectSelectors getSubjects', () => {
     },
   };
 
-  expect(getSubjects(state)).toBe(subjects);
+  expect(getSubjects(state)).toEqual(subjects);
 });
 
 test('subjectSelectors getSubjectById', () => {
