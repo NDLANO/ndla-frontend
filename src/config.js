@@ -61,4 +61,5 @@ export default {
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
+  zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
 };
