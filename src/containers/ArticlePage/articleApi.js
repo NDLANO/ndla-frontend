@@ -13,7 +13,7 @@ import {
 } from '../../util/apiHelpers';
 
 const converterBaseUrl = (() => {
-  if (process.env.LOCAL_ARTICLE_CONVERTER) {
+  if (process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER) {
     return 'http://localhost:3100/article-converter/json';
   }
   return apiResourceUrl('/article-converter/json');

@@ -44,6 +44,4 @@ window.MathJax.Ajax.Preloading(
   '[MathJax]/extensions/AssistiveMML.js',
 );
 
-window.MathJax.Ajax.loadComplete(
-  `/assets/${window.DATA.assets['mathjaxConfig.js']}`,
-);
+window.MathJax.Ajax.loadComplete(window.DATA.assets.mathJaxConfig.js);

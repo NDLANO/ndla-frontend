@@ -19,6 +19,7 @@ import { ArticleShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
+import '../style/index.css';
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">

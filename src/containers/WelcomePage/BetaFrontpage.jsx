@@ -1,6 +1,7 @@
 import React from 'react';
 import { bool } from 'prop-types';
 import {
+  InfoBox,
   LayoutItem,
   ArticleTitle,
   ArticleWrapper,
@@ -16,14 +17,18 @@ const BetaFrontpage = ({ searchEnabled, t }) => (
   <OneColumn cssModifier="narrow">
     <ArticleWrapper>
       <LayoutItem layout="center">
+        <InfoBox>
+          <p>{t('welcomePage.beta.info')}</p>
+        </InfoBox>{' '}
         <ArticleTitle>{t('welcomePage.beta.title')}</ArticleTitle>
         <ArticleIntroduction>{t('welcomePage.beta.intro')}</ArticleIntroduction>
       </LayoutItem>
       <LayoutItem layout="center">
         <h2>{t('welcomePage.beta.whatHelp')}</h2>
         <p>{t('welcomePage.beta.help')}</p>
+        <p>{t('welcomePage.beta.tips')}</p>
         <h2>{t('welcomePage.beta.whatsNew')}</h2>
-        <ul>
+        <ul className="o-list--no-margin-top">
           <li>{t('welcomePage.beta.item1')}</li>
           <li>{t('welcomePage.beta.item2')}</li>
           <li>{t('welcomePage.beta.item3')}</li>
@@ -36,7 +41,7 @@ const BetaFrontpage = ({ searchEnabled, t }) => (
         <p>{t('welcomePage.beta.lp')}</p>
         <h3>{t('welcomePage.beta.newDesign')}</h3>
         <p>{t('welcomePage.beta.design')}</p>
-        <h3>{t('welcomePage.beta.whatNow')}</h3>
+        <h2>{t('welcomePage.beta.whatNow')}</h2>
         <p>{t('welcomePage.beta.soon')}</p>
       </LayoutItem>
     </ArticleWrapper>

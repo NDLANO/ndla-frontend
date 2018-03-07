@@ -10,6 +10,7 @@ import defined from 'defined';
 import formatDate from './formatDate';
 
 export const transformArticle = (article, locale) => {
+  if (!article) return undefined;
   const footNotes = defined(article.metaData.footnotes, []);
   return {
     ...article,

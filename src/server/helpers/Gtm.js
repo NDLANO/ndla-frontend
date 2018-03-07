@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import config from '../../src/config';
+import config from '../../config';
 
 export const GoogleTagMangerNoScript = () => {
   if (config.googleTagManagerId) {

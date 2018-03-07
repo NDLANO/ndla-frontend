@@ -6,16 +6,19 @@
  *
  */
 
-const fetch = require('node-fetch');
-const log = require('../../src/util/logger');
+import handleError from '../../util/handleError';
+import { getEnvironmentVariabel } from '../../config';
 
 const url = `https://ndla.eu.auth0.com/oauth/token`;
 
-const ndlaFrontendClientId =
-  process.env.NDLA_FRONTEND_CLIENT_ID || 'IxLzDBlvwmHBUMfLaGfJshD6Kahb362L';
-const ndlaFrontendClientSecret =
-  process.env.NDLA_FRONTEND_CLIENT_SECRET ||
-  'w9P-niyBUZK9fadBt5yNkG-7KMBULm59HB8GnJJPgwvT_gwlG98nfvdik2sVW9d_';
+const ndlaFrontendClientId = getEnvironmentVariabel(
+  'NDLA_FRONTEND_CLIENT_ID',
+  'IxLzDBlvwmHBUMfLaGfJshD6Kahb362L',
+);
+const ndlaFrontendClientSecret = getEnvironmentVariabel(
+  'NDLA_FRONTEND_CLIENT_SECRET',
+  'w9P-niyBUZK9fadBt5yNkG-7KMBULm59HB8GnJJPgwvT_gwlG98nfvdik2sVW9d_',
+);
 
 export async function getToken() {
   const response = await fetch(url, {
@@ -36,7 +39,7 @@ export async function getToken() {
     return response.json();
   }
 
-  log.error(await response.text());
+  handleError(await response.text());
 
   throw new Error('Failed to fetch token from auth0');
 }
