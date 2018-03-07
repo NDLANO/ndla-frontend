@@ -30,6 +30,7 @@ const ArticleHero = ({ article, subject, topicPath }) => {
                 subject={subject}
                 topicPath={topicPath}
                 toTopic={toTopic}
+                isCurrent={false}
               />
             ) : null}
           </section>
