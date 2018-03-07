@@ -37,7 +37,7 @@ const Route = ({
     render={props => (
       <Page background={background}>
         <Content>
-          <Masthead {...props} />
+          <Masthead searchEnabled={searchEnabled} {...props} />
           <Component
             {...props}
             locale={locale}

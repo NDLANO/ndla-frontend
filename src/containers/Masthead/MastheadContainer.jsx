@@ -100,7 +100,14 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { t, subject, results, location, ...props } = this.props;
+    const {
+      t,
+      subject,
+      results,
+      location,
+      searchEnabled,
+      ...props
+    } = this.props;
     const resultsMapped = results.map(it => {
       const { contentType } = contentTypeMapping[it.resourceType];
       return {
@@ -124,6 +131,7 @@ class MastheadContainer extends React.PureComponent {
           {subject ? (
             <MenuView
               subject={subject}
+              searchEnabled={searchEnabled}
               t={t}
               filterClick={this.filterClick}
               toggleMenu={bool => this.setState({ isOpen: bool })}
@@ -140,20 +148,21 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          {!location.pathname.includes('search') && (
-            <SearchButtonView
-              isOpen={this.state.searchIsOpen}
-              openToggle={isOpen => {
-                this.setState({
-                  searchIsOpen: isOpen,
-                });
-              }}
-              subject={subject}
-              updateFilter={this.updateFilter}
-              query={this.state.query}
-              results={resultsMapped}
-            />
-          )}
+          {!location.pathname.includes('search') &&
+            searchEnabled && (
+              <SearchButtonView
+                isOpen={this.state.searchIsOpen}
+                openToggle={isOpen => {
+                  this.setState({
+                    searchIsOpen: isOpen,
+                  });
+                }}
+                subject={subject}
+                updateFilter={this.updateFilter}
+                query={this.state.query}
+                results={resultsMapped}
+              />
+            )}
           <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
@@ -183,6 +192,7 @@ MastheadContainer.propTypes = {
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   search: PropTypes.func.isRequired,
+  searchEnabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

@@ -47,6 +47,7 @@ const MenuView = ({
   onOpenSearch,
   onNavigate,
   filterClick,
+  searchEnabled,
 }) => {
   const getResources = expandedTopicId
     ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
@@ -62,6 +63,7 @@ const MenuView = ({
         buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
         <TopicMenu
           isBeta
+          hideSearch={!searchEnabled}
           toSubject={() => toSubject(subject.id)}
           subjectTitle={subject.name}
           toTopic={toTopicWithSubjectIdBound(subject.id)}
@@ -123,6 +125,7 @@ MenuView.propTypes = {
   onOpenSearch: func,
   onNavigate: func,
   filterClick: func,
+  searchEnabled: bool,
 };
 
 export default MenuView;
