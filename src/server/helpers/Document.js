@@ -12,7 +12,7 @@ import serialize from 'serialize-javascript';
 import useragent from 'useragent';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
-import { ZendeskWidget, ZendeskConfig } from './Zendesk';
+import Zendesk from './Zendesk';
 
 const Document = ({
   helmet,
@@ -86,8 +86,7 @@ const Document = ({
           />
         ))}
         {helmet.script.toComponent()}
-        <ZendeskWidget useZendesk={useZendesk} />
-        <ZendeskConfig useZendesk={useZendesk} locale={locale} />
+        <Zendesk useZendesk={useZendesk} locale={locale} />
       </body>
     </html>
   );
