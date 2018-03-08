@@ -47,18 +47,28 @@ const learningPathDomain = () => {
   }
 };
 
-export default {
+const config = {
   componentName: getEnvironmentVariabel('npm_package_name'),
-  host: getEnvironmentVariabel('NDLA_FRONTENTD_HOST', 'localhost'),
-  port: getEnvironmentVariabel('NDLA_FRONTENTD_PORT', '3000'),
+  host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
+  port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
   searchEnabled: ndlaEnvironment !== 'prod',
+  isNdlaProduction: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
 };
+
+export function getUniversalConfig() {
+  return process.env.BUILD_TARGET === 'server' ||
+    process.env.NODE_ENV === 'unittest'
+    ? config
+    : window.DATA.config;
+}
+
+export default getUniversalConfig();
