@@ -47,15 +47,15 @@ const learningPathDomain = () => {
   }
 };
 
-export default {
-  componentName: getEnvironmentVariabel('npm_package_name'),
-  host: getEnvironmentVariabel('NDLA_FRONTENTD_HOST', 'localhost'),
-  port: getEnvironmentVariabel('NDLA_FRONTENTD_PORT', '3000'),
+const config = {
+  componentName: 'ndla-frontend',
+  host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
+  port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
-  searchEnabled: ndlaEnvironment !== 'prod',
+  isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
@@ -63,3 +63,12 @@ export default {
   gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
   zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
 };
+
+export function getUniversalConfig() {
+  return process.env.BUILD_TARGET === 'server' ||
+    process.env.NODE_ENV === 'unittest'
+    ? config
+    : window.DATA.config;
+}
+
+export default getUniversalConfig();
