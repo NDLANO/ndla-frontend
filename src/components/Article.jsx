@@ -56,7 +56,7 @@ const Article = ({
       }}
       {...rest}>
       {children}
-      {config.isNdlaProduction && (
+      {!config.isNdlaProdEnvironment && (
         <a
           className="article-old-ndla-link"
           rel="noopener noreferrer"

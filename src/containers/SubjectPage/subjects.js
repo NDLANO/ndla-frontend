@@ -11,11 +11,6 @@ import { createSelector } from 'reselect';
 import createFetchActions from '../../util/createFetchActions';
 import config from '../../config';
 
-const shouldRemoveMKSubject =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? !config.searchEnabled
-    : !window.DATA.config.searchEnabled;
-
 export const fetchSubjectsActions = createFetchActions('SUBJECTS');
 export const setSubjects = createAction('SET_SUBJECTS');
 
@@ -68,7 +63,7 @@ const getSubjectsFromState = state => state.subjects;
 export const getSubjects = createSelector([getSubjectsFromState], subjects =>
   // Quick fix for removing MK subject in prod
   subjects.all.filter(subject => {
-    if (shouldRemoveMKSubject) {
+    if (config.isNdlaProdEnvironment) {
       return subject.id !== 'urn:subject:1';
     }
     return true;

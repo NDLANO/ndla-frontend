@@ -9,10 +9,6 @@
 import config from '../../config';
 import { toArticle } from '../../routeHelpers';
 
-const LEARNING_PATH_DOMAIN =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config.learningPathDomain
-    : window.DATA.config.learningPathDomain;
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 
@@ -43,9 +39,9 @@ export const getLearningPathIdFromResource = resource => {
 export const resourceToLinkProps = resource => {
   if (isLearningPathResource(resource)) {
     return {
-      href: `${LEARNING_PATH_DOMAIN}/learningpaths/${getLearningPathIdFromResource(
-        resource,
-      )}`,
+      href: `${
+        config.learningPathDomain
+      }/learningpaths/${getLearningPathIdFromResource(resource)}`,
       target: '_blank',
       rel: 'noopener noreferrer',
     };
