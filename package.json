@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.2",
     "btoa": "^1.1.2",
     "bunyan": "^1.8.12",
     "classnames": "2.2.5",
