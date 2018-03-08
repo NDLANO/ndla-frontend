@@ -48,7 +48,7 @@ const learningPathDomain = () => {
 };
 
 const config = {
-  componentName: getEnvironmentVariabel('npm_package_name'),
+  componentName: 'ndla-frontend',
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
