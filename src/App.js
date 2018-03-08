@@ -21,11 +21,6 @@ import config from './config';
 import handleError from './util/handleError';
 import ZendeskButton from './components/ZendeskButton';
 
-const searchEnabled =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config.searchEnabled
-    : window.DATA.config.searchEnabled;
-
 const Route = ({
   component: Component,
   initialProps,
@@ -43,7 +38,7 @@ const Route = ({
             {...props}
             locale={locale}
             {...initialProps}
-            searchEnabled={searchEnabled}
+            searchEnabled={!config.isNdlaProdEnvironment}
           />
         </Content>
         <ZendeskButton />

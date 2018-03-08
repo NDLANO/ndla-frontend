@@ -19,11 +19,6 @@ import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
 import config from '../config';
 
-const showOldNdlaLink =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config.searchEnabled
-    : window.DATA.config.searchEnabled;
-
 const Article = ({
   article,
   children,
@@ -61,7 +56,7 @@ const Article = ({
       }}
       {...rest}>
       {children}
-      {showOldNdlaLink && (
+      {!config.isNdlaProdEnvironment && (
         <a
           className="article-old-ndla-link"
           rel="noopener noreferrer"
