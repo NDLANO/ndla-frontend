@@ -74,7 +74,7 @@
     "ndla-licenses": "^0.1.7",
     "ndla-tabs": "^0.4.2",
     "ndla-tracker": "^0.0.7",
-    "ndla-ui": "^0.10.14",
+    "ndla-ui": "^0.10.15",
     "ndla-util": "^0.1.10",
     "node-fetch": "^1.7.2",
     "normalize-css": "2.3.1",
