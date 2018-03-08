@@ -41,7 +41,7 @@ export const resourceToLinkProps = resource => {
     return {
       href: `${
         config.learningPathDomain
-      }/learningpaths/${getLearningPathIdFromResource(resource)}`,
+      }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`,
       target: '_blank',
       rel: 'noopener noreferrer',
     };
