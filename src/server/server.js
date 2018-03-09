@@ -17,7 +17,6 @@ import {
   MOVED_PERMANENTLY,
   NOT_ACCEPTABLE,
 } from 'http-status';
-import ErrorReporter from 'ndla-error-reporter';
 import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
@@ -25,15 +24,9 @@ import { iframeArticleRoute } from './routes/iframeArticleRoute';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import config from '../config';
+import errorLogger from '../util/logger';
 
 const app = express();
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-const errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-});
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 app.disable('x-powered-by');
@@ -86,12 +79,7 @@ app.post('/csp-report', (req, res) => {
     } because it violates the following Content Security Policy directive: ${
       cspReport['violated-directive']
     }`;
-
-    if (process.env.NODE_ENV === 'production') {
-      errorReporter.captureError(errorMessage, cspReport);
-    } else {
-      console.error(errorMessage, cspReport); // eslint-disable-line no-console
-    }
+    errorLogger.error(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
   } else {
     res
