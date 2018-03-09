@@ -37,7 +37,7 @@
     "eslint-plugin-react": "^7.7.0",
     "flux-standard-action": "^2.0.0",
     "mathjax": "^2.7.1",
-    "ndla-scripts": "^0.2.0",
+    "ndla-scripts": "^0.3.0",
     "nock": "^9.1.4",
     "postcss-cssnext": "^3.0.2",
     "postcss-focus": "^3.0.0",
