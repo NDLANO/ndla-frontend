@@ -74,9 +74,7 @@ app.post('/csp-report', (req, res) => {
   const { body } = req;
   if (body && body['csp-report']) {
     const cspReport = body['csp-report'];
-    const errorMessage = `Refused to load the script ${
-      cspReport['source-file']
-    } because it violates the following Content Security Policy directive: ${
+    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${
       cspReport['violated-directive']
     }`;
     errorLogger.error(errorMessage, cspReport);
