@@ -45,6 +45,7 @@ window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
   environment,
   componentName,
+  ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
 configureTracker({
