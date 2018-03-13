@@ -5317,9 +5317,9 @@ ndla-article-scripts@^0.3.1:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
 
-ndla-error-reporter@^0.1.15:
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.1.17.tgz#f008b87cba87eff7cb2dd8b0c27460adf88f2434"
+ndla-error-reporter@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.2.0.tgz#37344451b413a7a4b782073bae8a00186bceee2b"
   dependencies:
     raven-js "^3.22.3"
 
@@ -5332,9 +5332,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.1:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.4.tgz#1f0dbd4764f8a524af871bf9af2a24eeca5b39f6"
+ndla-icons@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.8.tgz#740f94ccd9187e0b88d011d81dbc85c21927a1b6"
 
 ndla-licenses@^0.1.7:
   version "0.1.8"
@@ -5359,13 +5359,13 @@ ndla-tabs@^0.4.2:
   dependencies:
     lodash "^4.17.5"
 
-ndla-tracker@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.0.7.tgz#ea2e965372eed2d5b9bf35f317e8d13e1e27b800"
+ndla-tracker@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.10.15:
-  version "0.10.15"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.15.tgz#4c31e3e06d77f19bec37043a9b2545eb8ccb3c02"
+ndla-ui@^0.10.18:
+  version "0.10.18"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.10.18.tgz#d7c6d7ea7a8b06be131234fefad2a1f2e4736488"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
