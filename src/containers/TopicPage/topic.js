@@ -182,16 +182,25 @@ export const getTopicsBySubjectIdWithIntroduction = subjectId =>
 export const getTopicsFiltered = (subjectId, topics) =>
   createSelector(
     state => state.filters.active,
-    activeFilters =>
-      activeFilters[subjectId] && activeFilters[subjectId].length > 0
-        ? topics.filter(
-            top =>
-              top.filter &&
-              !activeFilters[subjectId].find(
-                active => top.filter.indexOf(active) === -1,
-              ),
-          )
-        : topics,
+    allFilters => {
+      const activeFilters = allFilters[subjectId];
+      if (activeFilters && activeFilters.length > 0) {
+        return topics.filter(topic => {
+          if (!topic.filter || topic.filter.length === 0) {
+            return false;
+          }
+
+          const topicHasFilter = (t, activeFilter) =>
+            t.filter.indexOf(activeFilter) !== -1;
+
+          return (
+            activeFilters.findIndex(active => topicHasFilter(topic, active)) !==
+            -1
+          );
+        });
+      }
+      return topics;
+    },
   );
 
 export const getTopicsBySubjectIdWithIntroductionFiltered = subjectId =>
