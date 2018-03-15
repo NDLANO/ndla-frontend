@@ -52,6 +52,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
     const articleId = getArticleIdFromResource(topic);
     let article = yield select(getArticle(topicId));
     if (!article) {
+      console.log(articleId);
       article = yield call(articleApi.fetchArticle, articleId, locale);
       yield put(articleActions.setArticle({ ...article, urn: topicId }));
     }

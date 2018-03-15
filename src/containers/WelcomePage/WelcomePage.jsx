@@ -23,7 +23,7 @@ export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
       <OneColumn>
         {!hasFailed ? (
-          <div className="c-hero__content">
+          <div className="c-hero__content" data-cy="subject-list">
             <BetaNavigation
               links={subjects.map(it => ({
                 url: toSubject(it.id),

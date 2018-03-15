@@ -87,7 +87,7 @@ class SubjectPage extends Component {
         <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
-              <section>
+              <section data-cy="breadcrumb-section">
                 {subject && (
                   <Breadcrumb
                     toSubjects={() => '/'}
@@ -119,7 +119,7 @@ class SubjectPage extends Component {
                   }}
                 />
               ) : (
-                <div className="c-resources">
+                <div className="c-resources" data-cy="topic-list">
                   <h1 className="c-resources__title">
                     {t('subjectPage.tabs.topics')}
                   </h1>
