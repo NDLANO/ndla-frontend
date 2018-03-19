@@ -173,7 +173,8 @@ class MastheadContainer extends React.PureComponent {
                   learningResourcesHeading: t(
                     'masthead.menu.learningResourcesHeading',
                   ),
-                  back: 'Tilbake',
+                  back: t('masthead.menu.back'),
+                  closeButton: t('masthead.menu.close'),
                   contentTypeResultsShowMore: t(
                     'masthead.menu.contentTypeResultsShowMore',
                   ),
