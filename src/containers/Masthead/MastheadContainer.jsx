@@ -37,6 +37,7 @@ import {
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 import { actions, getResourceTypesByTopicId } from '../Resources/resource';
+import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
 function toTopicWithSubjectIdBound(subjectId) {
@@ -193,6 +194,7 @@ class MastheadContainer extends React.PureComponent {
                   getResources,
                   toTopic(subject.id, expandedTopicId, expandedSubtopicId),
                 )}
+                resourceToLinkProps={resourceToLinkProps}
               />
             </ClickToggle>
           ) : null}
