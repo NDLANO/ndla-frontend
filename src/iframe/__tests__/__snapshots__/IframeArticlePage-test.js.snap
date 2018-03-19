@@ -133,9 +133,6 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                
               09.01.2018
             </span>
-            <span
-              className="c-article-byline__additional"
-            />
             <button
               className="c-button c-button--stripped c-article__license-toggler"
               disabled={false}
