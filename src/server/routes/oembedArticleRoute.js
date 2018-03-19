@@ -76,7 +76,7 @@ export async function oembedArticleRoute(req) {
         article.title,
         `<iframe src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/article/${articleId}" frameborder="0" />`,
+        }/article-iframe/${lang}/article/${articleId}" frameborder="0" allowFullscreen="" />`,
       );
     }
 
