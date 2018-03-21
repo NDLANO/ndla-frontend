@@ -62,10 +62,15 @@ function mapResourcesToMenu(resourceTypeArray, topicUrl) {
   }));
 }
 
+function getSelectedTopic(topics) {
+  return [...topics] // prevent reverse mutation.
+    .reverse()
+    .find(topicId => topicId !== undefined && topicId !== null);
+}
+
 const initialState = {
   isOpen: false,
-  expandedTopicId: undefined,
-  expandedSubtopicId: undefined,
+  expandedTopicIds: [],
 };
 class MastheadContainer extends React.PureComponent {
   state = initialState;
@@ -73,11 +78,9 @@ class MastheadContainer extends React.PureComponent {
   componentWillMount() {
     const { topicPath } = this.props;
     if (topicPath) {
-      const expandedTopicId =
-        topicPath.length > 0 ? topicPath[0].id : undefined;
-      const expandedSubtopicId =
-        topicPath.length > 1 ? topicPath[1].id : undefined;
-      this.setState({ expandedTopicId, expandedSubtopicId });
+      this.setState({
+        expandedTopicIds: topicPath.map(topic => topic.id),
+      });
     }
   }
 
@@ -92,30 +95,17 @@ class MastheadContainer extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.setState(initialState); // reset on location change
-
-      // remove active topic if filtered away
-    } else if (
-      nextProps.activeFilters.length !== this.props.activeFilters.length
-    ) {
-      const { expandedTopicId, expandedSubtopicId } = this.state;
-      if (nextProps.topics.indexOf(expandedTopicId) === -1) {
-        this.setState({ expandedTopicId: undefined });
-      }
-      if (this.props.topics.indexOf(expandedSubtopicId) === -1) {
-        this.setState({ expandedSubtopicId: undefined });
-      }
     }
   }
 
-  onNavigate = (expandedTopicId, expandedSubtopicId) => {
+  onNavigate = (...expandedTopicIds) => {
     const { subjectId } = getUrnIdsFromProps(this.props);
     this.setState({
-      expandedTopicId,
-      expandedSubtopicId,
+      expandedTopicIds,
     });
-    const newTopic = expandedSubtopicId || expandedTopicId;
-    if (newTopic) {
-      this.props.fetchTopicResources({ topicId: newTopic, subjectId });
+    const selectedTopicId = getSelectedTopic(expandedTopicIds);
+    if (selectedTopicId) {
+      this.props.fetchTopicResources({ topicId: selectedTopicId, subjectId });
     }
   };
 
@@ -136,9 +126,11 @@ class MastheadContainer extends React.PureComponent {
       activeFilters,
       topicResourcesByType,
     } = this.props;
-    const { expandedTopicId, expandedSubtopicId } = this.state;
+    const { expandedTopicIds } = this.state;
+    const [expandedTopicId, expandedSubtopicId] = expandedTopicIds;
+    const selectedTopicId = getSelectedTopic(expandedTopicIds);
     const getResources = expandedTopicId
-      ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
+      ? topicResourcesByType(selectedTopicId)
       : [];
     return (
       <Masthead
