@@ -17,6 +17,12 @@ import {
 } from '../topic';
 
 import { topics } from './mockTopics';
+import {
+  resourceData1,
+  additionalResources,
+  resourceData2,
+  resourceTypes,
+} from '../../Resources/__tests__/mockResources';
 
 test('topicSelectors getAllTopicsBySubjectId', () => {
   const state = {
@@ -108,8 +114,12 @@ test('topicSelectors getSubjectMenu', () => {
       all: {},
     },
     resources: {
-      all: {},
-      types: [],
+      all: {
+        'urn:topic:1': resourceData1,
+        'urn:topic:2': additionalResources,
+        'urn:topic:1_2': resourceData2,
+      },
+      types: resourceTypes,
     },
   };
 

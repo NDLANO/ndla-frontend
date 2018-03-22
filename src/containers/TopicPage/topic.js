@@ -188,10 +188,12 @@ export const getAllTopicsBySubjectIdWithContentTypes = subjectId =>
       topics.map(topic => {
         const resourceTypeArray = getResourceTypesByTopicId(topic.id)(state);
         const contentTypeResults = resourceTypeArray.map(type => ({
-          resources: type.resources.map(resource => ({
-            ...resource,
-            path: toSubjects() + resource.path,
-          })),
+          resources: type.resources
+            .map(resource => ({
+              ...resource,
+              path: toSubjects() + resource.path,
+            }))
+            .filter(resource => !resource.additional),
           title: type.name,
         }));
         return { ...topic, contentTypeResults };
