@@ -107,44 +107,13 @@ test('topicSelectors getSubjectMenu', () => {
       active: {},
       all: {},
     },
+    resources: {
+      all: {},
+      types: [],
+    },
   };
 
-  expect(getSubjectMenu('urn:subject:1')(state)).toEqual([
-    {
-      id: 'urn:topic:1',
-      name: 'Idéutvikling og mediedesign',
-      parent: 'urn:subject:1',
-      contentUri: 'urn:article:1',
-      subtopics: [
-        {
-          id: 'urn:topic:1_1',
-          name: 'Mediedesign',
-          parent: 'urn:topic:1',
-          subtopics: [],
-        },
-        {
-          id: 'urn:topic:1_2',
-          name: 'Idéutvikling',
-          parent: 'urn:topic:1',
-          contentUri: 'urn:article:1_2',
-          subtopics: [
-            {
-              id: 'urn:topic:1_2_1',
-              parent: 'urn:topic:1_2',
-              name: 'Mediebransjen',
-              subtopics: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'urn:topic:2',
-      name: 'Mediekommunikasjon',
-      parent: undefined,
-      subtopics: [],
-    },
-  ]);
+  expect(getSubjectMenu('urn:subject:1')(state)).toMatchSnapshot();
 });
 
 test('topicSelectors getTopicPath', () => {

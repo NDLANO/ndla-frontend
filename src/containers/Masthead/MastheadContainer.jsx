@@ -16,18 +16,12 @@ import {
   Logo,
   ClickToggle,
   TopicMenu,
-  ContentTypeBadge,
 } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  toTopic,
-  toSubject,
-  toSubjects,
-  getUrnIdsFromProps,
-} from '../../routeHelpers';
+import { toTopic, toSubject, getUrnIdsFromProps } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import {
@@ -36,30 +30,11 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { actions, getResourceTypesByTopicId } from '../Resources/resource';
+import { actions } from '../Resources/resource';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
-import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
-}
-
-function mapResourcesToMenu(resourceTypeArray, topicUrl) {
-  return resourceTypeArray.map(type => ({
-    ...type,
-    resources: type.resources
-      .slice(0, 2)
-      .map(resource => ({ ...resource, path: toSubjects() + resource.path })),
-    title: type.name,
-    totalCount: type.resources.length,
-    showAllLinkUrl: type.resources.length >= 2 ? topicUrl : undefined,
-    icon: (
-      <ContentTypeBadge
-        type={getContentTypeFromResourceTypes([type]).contentType}
-        size="x-small"
-      />
-    ),
-  }));
 }
 
 function getSelectedTopic(topics) {
@@ -124,14 +99,13 @@ class MastheadContainer extends React.PureComponent {
       topicPath,
       filters,
       activeFilters,
-      topicResourcesByType,
     } = this.props;
     const { expandedTopicIds } = this.state;
-    const [expandedTopicId, expandedSubtopicId] = expandedTopicIds;
-    const selectedTopicId = getSelectedTopic(expandedTopicIds);
-    const getResources = expandedTopicId
-      ? topicResourcesByType(selectedTopicId)
-      : [];
+    const [
+      expandedTopicId,
+      expandedSubtopicId,
+      expandedSubtopicLevel2Id,
+    ] = expandedTopicIds;
     return (
       <Masthead
         infoContent={
@@ -171,6 +145,9 @@ class MastheadContainer extends React.PureComponent {
                   contentTypeResultsShowMore: t(
                     'masthead.menu.contentTypeResultsShowMore',
                   ),
+                  contentTypeResultsShowLess: t(
+                    'masthead.menu.contentTypeResultsShowLess',
+                  ),
                   contentTypeResultsNoHit: t(
                     'masthead.menu.contentTypeResultsNoHit',
                   ),
@@ -182,11 +159,8 @@ class MastheadContainer extends React.PureComponent {
                 onNavigate={this.onNavigate}
                 expandedTopicId={expandedTopicId}
                 expandedSubtopicId={expandedSubtopicId}
+                expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
                 searchPageUrl="#"
-                contentTypeResults={mapResourcesToMenu(
-                  getResources,
-                  toTopic(subject.id, expandedTopicId, expandedSubtopicId),
-                )}
                 resourceToLinkProps={resourceToLinkProps}
               />
             </ClickToggle>
@@ -226,7 +200,6 @@ MastheadContainer.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   setActiveFilter: PropTypes.func.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topicResourcesByType: PropTypes.func.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
 };
@@ -242,7 +215,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
-    topicResourcesByType: topic => getResourceTypesByTopicId(topic)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
