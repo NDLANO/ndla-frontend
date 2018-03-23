@@ -6,7 +6,7 @@
  *
  */
 
-import { toBreadcrumbList } from '../routeHelpers';
+import { toBreadcrumbItems } from '../routeHelpers';
 
 const subject = {
   name: 'Historie vg2 og vg3',
@@ -29,14 +29,14 @@ const resource = {
   path: '/subject:9/topic:1:179373/topic:1:170165/resource:1:168389',
 };
 
-test('should make breadcrumb list from subject ', () => {
-  expect(toBreadcrumbList(subject)).toMatchSnapshot();
+test('breadcrumb items from subject ', () => {
+  expect(toBreadcrumbItems(subject)).toMatchSnapshot();
 });
 
-test('should make breadcrumb list from subject, topicpath ', () => {
-  expect(toBreadcrumbList(subject, topicPath)).toMatchSnapshot();
+test('breadcrumb items from from subject and topicpath', () => {
+  expect(toBreadcrumbItems(subject, topicPath)).toMatchSnapshot();
 });
 
-test('should make breadcrumb list from subject, topicpath and resouce', () => {
-  expect(toBreadcrumbList(subject, topicPath, resource)).toMatchSnapshot();
+test('breadcrumb items from from subject, topicpath and resouce', () => {
+  expect(toBreadcrumbItems(subject, topicPath, resource)).toMatchSnapshot();
 });

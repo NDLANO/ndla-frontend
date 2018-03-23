@@ -26,7 +26,7 @@ import {
   toTopic,
   toSubject,
   toSubjects,
-  toBreadcrumbList,
+  toBreadcrumbItems,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
@@ -205,7 +205,7 @@ class MastheadContainer extends React.PureComponent {
           {subject ? (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock
-                items={toBreadcrumbList(
+                items={toBreadcrumbItems(
                   subject,
                   topicPath,
                   article ? article.resource : undefined,

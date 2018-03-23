@@ -34,7 +34,7 @@ import {
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
 import {
-  toBreadcrumbList,
+  toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
@@ -92,7 +92,7 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section>
-                {subject && <Breadcrumb items={toBreadcrumbList(subject)} />}
+                {subject && <Breadcrumb items={toBreadcrumbItems(subject)} />}
               </section>
             </div>
           </OneColumn>

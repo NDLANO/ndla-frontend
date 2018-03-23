@@ -52,7 +52,7 @@ export function toTopic(subjectId, ...topicIds) {
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
   toTopic(subjectId, ...topicIds, topicId);
 
-export function toBreadcrumbList(subject, topicPath = [], resource) {
+export function toBreadcrumbItems(subject, topicPath = [], resource) {
   const topicLinks = topicPath.map(topic => ({
     to: toSubjects() + topic.path,
     name: topic.name,
