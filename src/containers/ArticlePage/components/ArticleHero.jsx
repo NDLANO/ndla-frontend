@@ -12,7 +12,7 @@ import defined from 'defined';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
 
 import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
-import { toTopic } from '../../../routeHelpers';
+import { toBreadcrumbList } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
 const ArticleHero = ({ article, subject, topicPath }) => {
@@ -26,11 +26,7 @@ const ArticleHero = ({ article, subject, topicPath }) => {
           <section>
             {subject ? (
               <Breadcrumb
-                toSubjects={() => '/'}
-                subject={subject}
-                topicPath={topicPath}
-                toTopic={toTopic}
-                isCurrent={false}
+                items={toBreadcrumbList(subject, topicPath, article.resource)}
               />
             ) : null}
           </section>
