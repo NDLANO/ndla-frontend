@@ -63,7 +63,7 @@ export function toBreadcrumbItems(subject, topicPath = [], resource) {
     : [];
 
   return [
-    { to: '/', name: 'Home' },
+    { to: '/', name: '' }, // Name is never shown for the first item, but it is still a required prop.
     { to: toSubjects() + subject.path, name: subject.name },
     ...topicLinks,
     ...resourceLink,
