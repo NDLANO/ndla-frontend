@@ -80,3 +80,163 @@ Array [
   },
 ]
 `;
+
+exports[`topicSelectors getSubjectMenu 1`] = `
+Array [
+  Object {
+    "contentTypeResults": Array [
+      Object {
+        "resources": Array [
+          Object {
+            "contentUri": "urn:article:1",
+            "id": "urn:resource:2",
+            "name": "Hva er en idé?",
+            "path": "/subjectsundefined",
+            "resourceTypes": Array [
+              Object {
+                "id": "urn:resourcetype:subjectMaterial",
+              },
+              Object {
+                "id": "urn:resourcetype:learningPath",
+              },
+            ],
+          },
+        ],
+        "title": "Læringssti",
+      },
+      Object {
+        "resources": Array [
+          Object {
+            "contentUri": "urn:learningpath:1",
+            "id": "urn:resource:1",
+            "name": "Teknikker for idéutvikling",
+            "path": "/subjectsundefined",
+            "resourceTypes": Array [
+              Object {
+                "id": "urn:resourcetype:subjectMaterial",
+              },
+            ],
+          },
+          Object {
+            "contentUri": "urn:article:1",
+            "id": "urn:resource:2",
+            "name": "Hva er en idé?",
+            "path": "/subjectsundefined",
+            "resourceTypes": Array [
+              Object {
+                "id": "urn:resourcetype:subjectMaterial",
+              },
+              Object {
+                "id": "urn:resourcetype:learningPath",
+              },
+            ],
+          },
+          Object {
+            "contentUri": "urn:article:2",
+            "id": "urn:resource:3",
+            "name": "Ideer og idéutvikling",
+            "path": "/subjectsundefined",
+            "resourceTypes": Array [
+              Object {
+                "id": "urn:resourcetype:subjectMaterial",
+              },
+              Object {
+                "id": "urn:resourcetype:academicArticle",
+              },
+            ],
+          },
+        ],
+        "title": "Fagstoff",
+      },
+    ],
+    "contentUri": "urn:article:1",
+    "id": "urn:topic:1",
+    "name": "Idéutvikling og mediedesign",
+    "parent": "urn:subject:1",
+    "subtopics": Array [
+      Object {
+        "contentTypeResults": Array [],
+        "id": "urn:topic:1_1",
+        "name": "Mediedesign",
+        "parent": "urn:topic:1",
+        "subtopics": Array [],
+      },
+      Object {
+        "contentTypeResults": Array [
+          Object {
+            "resources": Array [
+              Object {
+                "contentUri": "urn:article:3",
+                "id": "urn:resource:4",
+                "name": "Hva er menneskerettigheter?",
+                "path": "/subjectsundefined",
+                "resourceTypes": Array [
+                  Object {
+                    "id": "urn:resourcetype:subjectMaterial",
+                  },
+                ],
+              },
+              Object {
+                "contentUri": "urn:article:2",
+                "id": "urn:resource:6",
+                "name": "Endring av NATOs strategi",
+                "path": "/subjectsundefined",
+                "resourceTypes": Array [
+                  Object {
+                    "id": "urn:resourcetype:subjectMaterial",
+                  },
+                  Object {
+                    "id": "urn:resourcetype:academicArticle",
+                  },
+                ],
+              },
+            ],
+            "title": "Fagstoff",
+          },
+          Object {
+            "resources": Array [
+              Object {
+                "contentUri": "urn:article:4",
+                "id": "urn:resource:5",
+                "name": "Påstander konflikter",
+                "path": "/subjectsundefined",
+                "resourceTypes": Array [
+                  Object {
+                    "id": "urn:resourcetype:tasksAndActivities",
+                  },
+                ],
+              },
+            ],
+            "title": "Oppgaver og aktiviteter",
+          },
+        ],
+        "contentUri": "urn:article:1_2",
+        "id": "urn:topic:1_2",
+        "name": "Idéutvikling",
+        "parent": "urn:topic:1",
+        "subtopics": Array [
+          Object {
+            "contentTypeResults": Array [],
+            "id": "urn:topic:1_2_1",
+            "name": "Mediebransjen",
+            "parent": "urn:topic:1_2",
+            "subtopics": Array [],
+          },
+        ],
+      },
+    ],
+  },
+  Object {
+    "contentTypeResults": Array [
+      Object {
+        "resources": Array [],
+        "title": "Fagstoff",
+      },
+    ],
+    "id": "urn:topic:2",
+    "name": "Mediekommunikasjon",
+    "parent": undefined,
+    "subtopics": Array [],
+  },
+]
+`;
