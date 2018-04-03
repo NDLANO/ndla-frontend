@@ -291,7 +291,7 @@ export const getTopicPath = (subjectId, topicId) =>
 
       const topicPath = toBreadcrumb(leaf);
 
-      return topicPath; // Remove last item (leaf topic)
+      return topicPath;
     },
   );
 

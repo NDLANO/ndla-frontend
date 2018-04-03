@@ -29,7 +29,7 @@ import {
 import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
 import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
-import { toTopic, getUrnIdsFromProps } from '../../routeHelpers';
+import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
@@ -143,13 +143,7 @@ class TopicPage extends Component {
             <div className="c-hero__content">
               <section>
                 {subject ? (
-                  <Breadcrumb
-                    toSubjects={() => '/'}
-                    subject={subject}
-                    topicPath={topicPath}
-                    toTopic={toTopic}
-                    isCurrent
-                  />
+                  <Breadcrumb items={toBreadcrumbItems(subject, topicPath)} />
                 ) : null}
               </section>
             </div>

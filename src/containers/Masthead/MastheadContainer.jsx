@@ -21,7 +21,12 @@ import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toTopic, toSubject, getUrnIdsFromProps } from '../../routeHelpers';
+import {
+  toTopic,
+  toSubject,
+  toBreadcrumbItems,
+  getUrnIdsFromProps,
+} from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import {
@@ -29,9 +34,10 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { SubjectShape, TopicShape } from '../../shapes';
 import { actions } from '../Resources/resource';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
+import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
+import { getArticleByUrn } from '../ArticlePage/article';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
@@ -95,6 +101,7 @@ class MastheadContainer extends React.PureComponent {
     const {
       t,
       subject,
+      article,
       topics,
       topicPath,
       filters,
@@ -168,9 +175,11 @@ class MastheadContainer extends React.PureComponent {
           {subject ? (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock
-                subject={subject}
-                topicPath={topicPath}
-                toTopic={toTopic}
+                items={toBreadcrumbItems(
+                  subject,
+                  topicPath,
+                  article ? article.resource : undefined,
+                ).slice(1)}
               />
             </DisplayOnPageYOffset>
           ) : null}
@@ -195,6 +204,9 @@ MastheadContainer.propTypes = {
   }),
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
+  article: PropTypes.shape({
+    resource: ResourceShape.isRequired,
+  }),
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -211,11 +223,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
+  const { subjectId, topicId, resourceId } = getUrnIdsFromProps(ownProps);
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
+    article: getArticleByUrn(resourceId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };

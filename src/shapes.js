@@ -40,6 +40,7 @@ export const ResourceShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   contentUri: PropTypes.string,
+  path: PropTypes.string.isRequired,
 });
 
 export const ResourceTypeShape = PropTypes.shape({
