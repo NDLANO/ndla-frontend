@@ -12,8 +12,7 @@
     "lint-prettier": "node prettier.js lint",
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
-    "start-with-local-converter":
-      "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
@@ -22,7 +21,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -75,7 +76,7 @@
     "ndla-licenses": "^0.1.7",
     "ndla-tabs": "^0.4.2",
     "ndla-tracker": "^0.1.0",
-    "ndla-ui": "^0.10.20",
+    "ndla-ui": "^0.11.0",
     "ndla-util": "^0.1.10",
     "node-fetch": "^1.7.2",
     "normalize-css": "2.3.1",

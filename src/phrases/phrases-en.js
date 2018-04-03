@@ -111,6 +111,7 @@ const phrases = {
       learningResourcesHeading: 'Educational Resources',
       back: 'Back',
       contentTypeResultsShowMore: 'Show more',
+      contentTypeResultsShowLess: 'Show Less',
       contentTypeResultsNoHit: 'No hits',
       betaInfoFront: 'Velkommen til betaversjonen av ndla.no',
       betaInfo: 'Du tester nå de nye nettsidene. ',

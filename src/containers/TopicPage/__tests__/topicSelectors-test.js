@@ -17,6 +17,12 @@ import {
 } from '../topic';
 
 import { topics } from './mockTopics';
+import {
+  resourceData1,
+  additionalResources,
+  resourceData2,
+  resourceTypes,
+} from '../../Resources/__tests__/mockResources';
 
 test('topicSelectors getAllTopicsBySubjectId', () => {
   const state = {
@@ -107,44 +113,17 @@ test('topicSelectors getSubjectMenu', () => {
       active: {},
       all: {},
     },
+    resources: {
+      all: {
+        'urn:topic:1': resourceData1,
+        'urn:topic:2': additionalResources,
+        'urn:topic:1_2': resourceData2,
+      },
+      types: resourceTypes,
+    },
   };
 
-  expect(getSubjectMenu('urn:subject:1')(state)).toEqual([
-    {
-      id: 'urn:topic:1',
-      name: 'Idéutvikling og mediedesign',
-      parent: 'urn:subject:1',
-      contentUri: 'urn:article:1',
-      subtopics: [
-        {
-          id: 'urn:topic:1_1',
-          name: 'Mediedesign',
-          parent: 'urn:topic:1',
-          subtopics: [],
-        },
-        {
-          id: 'urn:topic:1_2',
-          name: 'Idéutvikling',
-          parent: 'urn:topic:1',
-          contentUri: 'urn:article:1_2',
-          subtopics: [
-            {
-              id: 'urn:topic:1_2_1',
-              parent: 'urn:topic:1_2',
-              name: 'Mediebransjen',
-              subtopics: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'urn:topic:2',
-      name: 'Mediekommunikasjon',
-      parent: undefined,
-      subtopics: [],
-    },
-  ]);
+  expect(getSubjectMenu('urn:subject:1')(state)).toMatchSnapshot();
 });
 
 test('topicSelectors getTopicPath', () => {
