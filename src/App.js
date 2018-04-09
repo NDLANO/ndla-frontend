@@ -14,6 +14,7 @@ import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from 'ndla-ui';
 import { uuid } from 'ndla-util';
+import { withApollo } from 'react-apollo';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
@@ -93,6 +94,7 @@ class App extends React.Component {
         locale: props.locale,
         location: props.location,
         history: props.history,
+        client: props.client,
       });
       this.setState({ data: data[0] });
     } catch (e) {
@@ -127,4 +129,4 @@ App.propTypes = {
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withRouter(App);
+export default withRouter(withApollo(App));

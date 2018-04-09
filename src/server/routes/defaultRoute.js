@@ -17,12 +17,14 @@ import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
+import { ApolloProvider } from 'react-apollo';
 
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../routes';
 import configureStore from '../../configureStore';
 import config from '../../config';
+import { createApolloClient } from '../../util/apiHelpers';
 
 import { getLocaleObject, isValidLocale } from '../../i18n';
 
@@ -45,7 +47,7 @@ async function loadGetInitialProps(Component, ctx) {
   return props;
 }
 
-const renderPage = (initialProps, initialState, Page) => {
+const renderPage = (initialProps, initialState, Page, apolloState) => {
   resetIdCounter();
   const html = config.disableSSR ? '' : renderToString(Page);
   const helmet = Helmet.renderStatic();
@@ -57,6 +59,7 @@ const renderPage = (initialProps, initialState, Page) => {
     data: {
       initialProps,
       initialState,
+      apolloState,
       config,
       assets,
       accessToken: global.access_token,
@@ -76,6 +79,7 @@ export async function defaultRoute(req) {
   const className = getConditionalClassnames(userAgentString);
 
   const store = configureStore({ locale });
+  const client = createApolloClient();
 
   if (!config.disableSSR) {
     const route = serverRoutes.find(r => matchPath(path, r));
@@ -85,17 +89,23 @@ export async function defaultRoute(req) {
       locale,
       store,
       match,
+      client,
     });
   }
 
   const context = {};
   const Page = (
     <Provider store={store}>
-      <IntlProvider locale={locale} messages={messages}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes(initialProps, locale)}
-        </StaticRouter>
-      </IntlProvider>
+      <ApolloProvider client={client}>
+        <IntlProvider locale={locale} messages={messages}>
+          <StaticRouter
+            basename={basename}
+            location={req.url}
+            context={context}>
+            {routes(initialProps, locale)}
+          </StaticRouter>
+        </IntlProvider>
+      </ApolloProvider>
     </Provider>
   );
 
@@ -109,10 +119,12 @@ export async function defaultRoute(req) {
   }
 
   const status = defined(context.status, OK);
+  const apolloState = client.extract();
   const { html, ...docProps } = renderPage(
     initialProps,
     store.getState(),
     Page,
+    apolloState,
   );
   const doc = renderToStaticMarkup(
     <Document

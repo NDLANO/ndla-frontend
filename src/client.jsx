@@ -15,9 +15,10 @@ import Router from 'react-router-dom/Router';
 import createHistory from 'history/createBrowserHistory';
 import ErrorReporter from 'ndla-error-reporter';
 import IntlProvider from 'ndla-i18n';
+import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from 'ndla-tracker';
 import { getLocaleObject, isValidLocale } from './i18n';
-import { storeAccessToken } from './util/apiHelpers';
+import { storeAccessToken, createApolloClient } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 import './style/index.css';
@@ -56,13 +57,17 @@ configureTracker({
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
+const client = createApolloClient();
+
 renderOrHydrate(
   <Provider store={store}>
-    <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <Router history={browserHistory}>
-        {routes(initialProps, locale.abbreviation)}
-      </Router>
-    </IntlProvider>
+    <ApolloProvider client={client}>
+      <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+        <Router history={browserHistory}>
+          {routes(initialProps, locale.abbreviation)}
+        </Router>
+      </IntlProvider>
+    </ApolloProvider>
   </Provider>,
   document.getElementById('root'),
 );

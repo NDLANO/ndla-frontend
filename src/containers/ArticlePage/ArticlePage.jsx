@@ -13,6 +13,7 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
+import gql from 'graphql-tag';
 import { actions, getFetchStatus, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
@@ -31,12 +32,13 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getArticleProps } from '../../util/getArticleProps';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { transformArticle } from '../../util/transformArticle';
 
 const getTitle = article => (article ? article.title : '');
 
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
-    const { fetchArticle, fetchTopics, fetchSubjects } = ctx;
+    const { client, fetchArticle, fetchTopics, fetchSubjects } = ctx;
     const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
 
     fetchArticle({ resourceId });
@@ -44,6 +46,61 @@ class ArticlePage extends Component {
       fetchSubjects();
       fetchTopics({ subjectId });
     }
+
+    return client.query({
+      query: gql`
+        {
+          resource(id: "urn:resource:1:124037") {
+            name
+            contentUri
+            article {
+              title
+              metaDescription
+              created
+              updated
+              content
+              requiredLibraries {
+                name
+                mediaType
+              }
+              metaData {
+                footnotes {
+                  ref
+                  title
+                  year
+                  authors
+                  edition
+                  publisher
+                  url
+                }
+              }
+              copyright {
+                license {
+                  license
+                  url
+                }
+                creators {
+                  name
+                  type
+                }
+                processors {
+                  name
+                  type
+                }
+                rightsholders {
+                  name
+                  type
+                }
+              }
+            }
+            resourceTypes {
+              id
+              name
+            }
+          }
+        }
+      `,
+    });
   }
 
   static getDocumentTitle({ t, article, subject }) {
@@ -77,7 +134,11 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, status, topicPath, locale } = this.props;
+    const { subject, status, data, topicPath, locale } = this.props;
+    if (!data) {
+      return null;
+    }
+    const article = transformArticle(data.resource.article);
     const { topicId } = getUrnIdsFromProps(this.props);
     if (status === 'error' || status === 'error404') {
       return (
@@ -152,6 +213,11 @@ ArticlePage.propTypes = {
     }).isRequired,
   }).isRequired,
   article: ArticleShape,
+  data: PropTypes.shape({
+    resource: PropTypes.shape({
+      article: ArticleShape,
+    }),
+  }),
   status: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   fetchArticle: PropTypes.func.isRequired,
