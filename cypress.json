@@ -1,7 +1,12 @@
 {
   "baseUrl": "http://localhost:3000",
-  "integrationFolder": "end-to-end-tests/integration",
-  "fixturesFolder": "end-to-end-tests/fixtures",
-  "pluginsFile": "end-to-end-tests/plugins/index.js",
-  "supportFile": "end-to-end-tests/support/index.js"
+  "integrationFolder": "e2e/integration",
+  "fixturesFolder": "e2e/fixtures",
+  "pluginsFile": "e2e/plugins/index.js",
+  "supportFile": "e2e/support/index.js",
+  "screenshotsFolder": "e2e/screenshots",
+  "videosFolder": "e2e/videos",
+  "chromeWebSecurity": false,
+  "screenshotOnHeadlessFailure": false,
+  "videoRecording": false
 }
