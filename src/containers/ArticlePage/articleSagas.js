@@ -48,7 +48,12 @@ function* fetchArticle(resourceId) {
       call(fetchResourceTypesForArticle, resourceId, locale),
     ]);
     yield put(
-      actions.setArticle({ ...article, urn: resourceId, resourceTypes }),
+      actions.setArticle({
+        ...article,
+        urn: resourceId,
+        resource,
+        resourceTypes,
+      }),
     );
     yield put(actions.fetchArticleSuccess());
   } catch (error) {

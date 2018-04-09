@@ -51,3 +51,21 @@ export function toTopic(subjectId, ...topicIds) {
 
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
   toTopic(subjectId, ...topicIds, topicId);
+
+export function toBreadcrumbItems(subject, topicPath = [], resource) {
+  const topicLinks = topicPath.map(topic => ({
+    to: toSubjects() + topic.path,
+    name: topic.name,
+  }));
+
+  const resourceLink = resource
+    ? [{ to: toSubjects() + resource.path, name: resource.name }]
+    : [];
+
+  return [
+    { to: '/', name: '' }, // Name is never shown for the first item, but it is still a required prop.
+    { to: toSubjects() + subject.path, name: subject.name },
+    ...topicLinks,
+    ...resourceLink,
+  ];
+}

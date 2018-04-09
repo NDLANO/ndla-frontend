@@ -16,7 +16,6 @@ import {
   Logo,
   ClickToggle,
   TopicMenu,
-  ContentTypeBadge,
 } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
@@ -25,7 +24,7 @@ import { compose } from 'redux';
 import {
   toTopic,
   toSubject,
-  toSubjects,
+  toBreadcrumbItems,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
@@ -35,36 +34,24 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { SubjectShape, TopicShape } from '../../shapes';
-import { actions, getResourceTypesByTopicId } from '../Resources/resource';
-import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
+import { actions } from '../Resources/resource';
+import { resourceToLinkProps } from '../Resources/resourceHelpers';
+import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
+import { getArticleByUrn } from '../ArticlePage/article';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
 
-function mapResourcesToMenu(resourceTypeArray, topicUrl) {
-  return resourceTypeArray.map(type => ({
-    ...type,
-    resources: type.resources
-      .slice(0, 2)
-      .map(resource => ({ ...resource, path: toSubjects() + resource.path })),
-    title: type.name,
-    totalCount: type.resources.length,
-    showAllLinkUrl: type.resources.length >= 2 ? topicUrl : undefined,
-    icon: (
-      <ContentTypeBadge
-        type={getContentTypeFromResourceTypes([type]).contentType}
-        size="x-small"
-      />
-    ),
-  }));
+function getSelectedTopic(topics) {
+  return [...topics] // prevent reverse mutation.
+    .reverse()
+    .find(topicId => topicId !== undefined && topicId !== null);
 }
 
 const initialState = {
   isOpen: false,
-  expandedTopicId: undefined,
-  expandedSubtopicId: undefined,
+  expandedTopicIds: [],
 };
 class MastheadContainer extends React.PureComponent {
   state = initialState;
@@ -72,11 +59,9 @@ class MastheadContainer extends React.PureComponent {
   componentWillMount() {
     const { topicPath } = this.props;
     if (topicPath) {
-      const expandedTopicId =
-        topicPath.length > 0 ? topicPath[0].id : undefined;
-      const expandedSubtopicId =
-        topicPath.length > 1 ? topicPath[1].id : undefined;
-      this.setState({ expandedTopicId, expandedSubtopicId });
+      this.setState({
+        expandedTopicIds: topicPath.map(topic => topic.id),
+      });
     }
   }
 
@@ -91,30 +76,17 @@ class MastheadContainer extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.setState(initialState); // reset on location change
-
-      // remove active topic if filtered away
-    } else if (
-      nextProps.activeFilters.length !== this.props.activeFilters.length
-    ) {
-      const { expandedTopicId, expandedSubtopicId } = this.state;
-      if (nextProps.topics.indexOf(expandedTopicId) === -1) {
-        this.setState({ expandedTopicId: undefined });
-      }
-      if (this.props.topics.indexOf(expandedSubtopicId) === -1) {
-        this.setState({ expandedSubtopicId: undefined });
-      }
     }
   }
 
-  onNavigate = (expandedTopicId, expandedSubtopicId) => {
+  onNavigate = (...expandedTopicIds) => {
     const { subjectId } = getUrnIdsFromProps(this.props);
     this.setState({
-      expandedTopicId,
-      expandedSubtopicId,
+      expandedTopicIds,
     });
-    const newTopic = expandedSubtopicId || expandedTopicId;
-    if (newTopic) {
-      this.props.fetchTopicResources({ topicId: newTopic, subjectId });
+    const selectedTopicId = getSelectedTopic(expandedTopicIds);
+    if (selectedTopicId) {
+      this.props.fetchTopicResources({ topicId: selectedTopicId, subjectId });
     }
   };
 
@@ -129,16 +101,18 @@ class MastheadContainer extends React.PureComponent {
     const {
       t,
       subject,
+      article,
       topics,
       topicPath,
       filters,
       activeFilters,
-      topicResourcesByType,
     } = this.props;
-    const { expandedTopicId, expandedSubtopicId } = this.state;
-    const getResources = expandedTopicId
-      ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
-      : [];
+    const { expandedTopicIds } = this.state;
+    const [
+      expandedTopicId,
+      expandedSubtopicId,
+      expandedSubtopicLevel2Id,
+    ] = expandedTopicIds;
     return (
       <Masthead
         infoContent={
@@ -173,9 +147,13 @@ class MastheadContainer extends React.PureComponent {
                   learningResourcesHeading: t(
                     'masthead.menu.learningResourcesHeading',
                   ),
-                  back: 'Tilbake',
+                  back: t('masthead.menu.back'),
+                  closeButton: t('masthead.menu.close'),
                   contentTypeResultsShowMore: t(
                     'masthead.menu.contentTypeResultsShowMore',
+                  ),
+                  contentTypeResultsShowLess: t(
+                    'masthead.menu.contentTypeResultsShowLess',
                   ),
                   contentTypeResultsNoHit: t(
                     'masthead.menu.contentTypeResultsNoHit',
@@ -188,20 +166,20 @@ class MastheadContainer extends React.PureComponent {
                 onNavigate={this.onNavigate}
                 expandedTopicId={expandedTopicId}
                 expandedSubtopicId={expandedSubtopicId}
+                expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
                 searchPageUrl="#"
-                contentTypeResults={mapResourcesToMenu(
-                  getResources,
-                  toTopic(subject.id, expandedTopicId, expandedSubtopicId),
-                )}
+                resourceToLinkProps={resourceToLinkProps}
               />
             </ClickToggle>
           ) : null}
           {subject ? (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock
-                subject={subject}
-                topicPath={topicPath}
-                toTopic={toTopic}
+                items={toBreadcrumbItems(
+                  subject,
+                  topicPath,
+                  article ? article.resource : undefined,
+                ).slice(1)}
               />
             </DisplayOnPageYOffset>
           ) : null}
@@ -226,12 +204,14 @@ MastheadContainer.propTypes = {
   }),
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
+  article: PropTypes.shape({
+    resource: ResourceShape.isRequired,
+  }),
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   setActiveFilter: PropTypes.func.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topicResourcesByType: PropTypes.func.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
 };
@@ -243,12 +223,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
+  const { subjectId, topicId, resourceId } = getUrnIdsFromProps(ownProps);
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
-    topicResourcesByType: topic => getResourceTypesByTopicId(topic)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
+    article: getArticleByUrn(resourceId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
   };

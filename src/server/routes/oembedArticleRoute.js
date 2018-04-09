@@ -76,7 +76,7 @@ export async function oembedArticleRoute(req) {
         article.title,
         `<iframe src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/article/${articleId}" frameborder="0" />`,
+        }/article-iframe/${lang}/article/${articleId}" frameborder="0" allowFullscreen="" />`,
       );
     }
 
@@ -88,7 +88,7 @@ export async function oembedArticleRoute(req) {
       resource.title,
       `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${
         resource.id
-      }/${articleId}" frameborder="0" />`,
+      }/${articleId}" frameborder="0" allowFullscreen="" />`,
     );
   } catch (error) {
     handleError(error);

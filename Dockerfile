@@ -14,7 +14,7 @@ RUN yarn
 COPY .babelrc razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
-COPY src $APP_PATH/public
+COPY public $APP_PATH/public
 
 # Build client code
 ENV NODE_ENV=production

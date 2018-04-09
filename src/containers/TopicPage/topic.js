@@ -13,6 +13,8 @@ import defined from 'defined';
 import groupBy from '../../util/groupBy';
 import { getArticle } from '../ArticlePage/article';
 import createFetchActions from '../../util/createFetchActions';
+import { getResourceTypesByTopicId } from '../Resources/resource';
+import { toSubjects } from '../../routeHelpers';
 
 export const fetchTopicsActions = createFetchActions('TOPICS');
 export const fetchTopicArticleActions = createFetchActions('TOPIC_ARTICLE');
@@ -179,6 +181,25 @@ export const getTopicsBySubjectIdWithIntroduction = subjectId =>
       }),
   );
 
+export const getAllTopicsBySubjectIdWithContentTypes = subjectId =>
+  createSelector(
+    [state => state, getAllTopicsBySubjectId(subjectId)],
+    (state, topics) =>
+      topics.map(topic => {
+        const resourceTypeArray = getResourceTypesByTopicId(topic.id)(state);
+        const contentTypeResults = resourceTypeArray.map(type => ({
+          resources: type.resources
+            .map(resource => ({
+              ...resource,
+              path: toSubjects() + resource.path,
+            }))
+            .filter(resource => !resource.additional),
+          title: type.name,
+        }));
+        return { ...topic, contentTypeResults };
+      }),
+  );
+
 export const getTopicsFiltered = (subjectId, topics) =>
   createSelector(
     state => state.filters.active,
@@ -229,7 +250,7 @@ export const getSubtopics = (subjectId, topicId) =>
 
 export const getSubjectMenu = subjectId =>
   createSelector(
-    [state => state, getAllTopicsBySubjectId(subjectId)],
+    [state => state, getAllTopicsBySubjectIdWithContentTypes(subjectId)],
     (state, topics) => {
       const filteredTopics = getTopicsFiltered(subjectId, topics)(state);
       const groupedSubtopicsByParent = groupBy(
@@ -270,7 +291,7 @@ export const getTopicPath = (subjectId, topicId) =>
 
       const topicPath = toBreadcrumb(leaf);
 
-      return topicPath; // Remove last item (leaf topic)
+      return topicPath;
     },
   );
 
