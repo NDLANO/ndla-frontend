@@ -6,7 +6,7 @@ function runCommand(cmd, args, cwd = __dirname) {
   const displayArgs = args.length > 25
     ? `${args.slice(0, 25)}...`
     : args.join(' ');
-  console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`));
+  console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`)); // eslint-disable-line
   const result = spawn(cmd, args, {
     cwd,
     shell: true,
@@ -44,7 +44,7 @@ try {
 } catch (e) {
   if (!shouldWrite) {
     // prettier-ignore
-    console.log(
+    console.log( // eslint-disable-line
       `${chalk.red(`\nThis project uses prettier to format all JavaScript code.\n`) +
         chalk.dim(`Please run `) +
         chalk.reset('yarn prettier') +
