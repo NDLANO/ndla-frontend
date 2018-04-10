@@ -79,7 +79,7 @@ export async function defaultRoute(req) {
   const className = getConditionalClassnames(userAgentString);
 
   const store = configureStore({ locale });
-  const client = createApolloClient();
+  const client = createApolloClient(locale);
 
   if (!config.disableSSR) {
     const route = serverRoutes.find(r => matchPath(path, r));

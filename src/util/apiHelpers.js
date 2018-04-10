@@ -126,14 +126,17 @@ export const getOrFetchAccessToken = () => {
   return accessToken;
 };
 
-export const createApolloClient = () =>
+export const createApolloClient = (language = 'nb') =>
   new ApolloClient({
     cache: __CLIENT__ && new InMemoryCache().restore(window.DATA.apolloState),
     uri: 'http://localhost:4000/graphql',
     request: async operation => {
       const accessToken = await getOrFetchAccessToken();
       operation.setContext({
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': language,
+        },
       });
     },
   });

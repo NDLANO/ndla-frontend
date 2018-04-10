@@ -57,7 +57,7 @@ configureTracker({
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient();
+const client = createApolloClient(locale.abbreviation);
 
 renderOrHydrate(
   <Provider store={store}>
