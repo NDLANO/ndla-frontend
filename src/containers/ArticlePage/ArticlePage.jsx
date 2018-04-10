@@ -13,7 +13,6 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import gql from 'graphql-tag';
 import { actions, getFetchStatus, getArticle } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
@@ -33,6 +32,7 @@ import { getArticleProps } from '../../util/getArticleProps';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
+import { resourceQuery } from '../../queries';
 
 const getTitle = article => (article ? article.title : '');
 
@@ -48,58 +48,10 @@ class ArticlePage extends Component {
     }
 
     return client.query({
-      query: gql`
-        {
-          resource(id: "urn:resource:1:124037") {
-            name
-            contentUri
-            article {
-              title
-              metaDescription
-              created
-              updated
-              content
-              requiredLibraries {
-                name
-                mediaType
-              }
-              metaData {
-                footnotes {
-                  ref
-                  title
-                  year
-                  authors
-                  edition
-                  publisher
-                  url
-                }
-              }
-              copyright {
-                license {
-                  license
-                  url
-                }
-                creators {
-                  name
-                  type
-                }
-                processors {
-                  name
-                  type
-                }
-                rightsholders {
-                  name
-                  type
-                }
-              }
-            }
-            resourceTypes {
-              id
-              name
-            }
-          }
-        }
-      `,
+      query: resourceQuery,
+      variables: {
+        id: resourceId,
+      },
     });
   }
 
