@@ -6,8 +6,6 @@
  *
  */
 
-import defined from 'defined';
-
 const CREATIVE_WORK_TYPE = 'CreativeWork';
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
@@ -73,7 +71,7 @@ const getStructuredDataFromArticle = article => {
 
   const mediaElements = [];
 
-  const images = defined(article.metaData.images, []);
+  const images = article.metaData.images || [];
   images.forEach(image => {
     mediaElements.push({
       data: image,
@@ -81,7 +79,7 @@ const getStructuredDataFromArticle = article => {
     });
   });
 
-  const audios = defined(article.metaData.audios, []);
+  const audios = article.metaData.audios || [];
   audios.forEach(audio => {
     mediaElements.push({
       data: audio,
@@ -89,7 +87,7 @@ const getStructuredDataFromArticle = article => {
     });
   });
 
-  const videos = defined(article.metaData.brightcoves, []);
+  const videos = article.metaData.brightcoves || [];
 
   videos.forEach(video => {
     mediaElements.push({
