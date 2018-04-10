@@ -10,7 +10,7 @@ import React from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-import SearchPage from './containers/SearchPage/SearchPage';
+import SearchContainer from './containers/SearchPage/SearchContainer';
 import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
@@ -22,6 +22,8 @@ export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
 export const simpleArticlePath = '/article/:articleId';
+
+const { searchEnabled } = config;
 
 export const routes = [
   {
@@ -41,9 +43,9 @@ export const routes = [
     background: true,
   },
   {
-    path: '/search',
-    component: config.isNdlaProdEnvironment ? NotFoundPage : SearchPage,
-    background: false,
+    path: '/search/:subjectId?',
+    component: searchEnabled ? SearchContainer : NotFoundPage,
+    background: true,
   },
   {
     path: '/subjects/:subjectId/(.*)/:topicId',

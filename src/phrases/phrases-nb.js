@@ -227,6 +227,15 @@ const phrases = {
     footerEditiorInChief: 'Ansvarlig redaktør: ',
     footerManagingEditor: 'Utgaveansvarlig: ',
   },
+  contentTypes: {
+    all: 'Alle',
+    subject: 'Emne',
+    'learning-path': 'Læringssti',
+    'subject-material': 'Fagstoff',
+    'tasks-and-activities': 'Oppgaver og aktiviteter',
+    'external-learning-resources': 'Ekstern læringsressurs',
+    'Source-material': 'Kildemateriale',
+  },
 };
 
 export default phrases;

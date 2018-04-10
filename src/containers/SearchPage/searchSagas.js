@@ -14,11 +14,26 @@ import * as actions from './searchActions';
 import * as api from './searchApi';
 import { applicationError } from '../../modules/error';
 
-export function* search(queryString) {
+export function* search(queryString, language) {
   try {
     const locale = yield select(getLocale);
-    const searchResult = yield call(api.search, queryString, locale);
+    const searchResult = yield call(
+      api.search,
+      queryString,
+      language || locale,
+    );
     yield put(actions.setSearchResult(searchResult));
+  } catch (error) {
+    yield put(actions.searchError());
+    yield put(applicationError(error));
+  }
+}
+
+export function* groupSearch(queryString) {
+  try {
+    const locale = yield select(getLocale);
+    const searchResult = yield call(api.groupSearch, queryString, locale);
+    yield put(actions.setGroupSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
     yield put(applicationError(error));
@@ -27,9 +42,16 @@ export function* search(queryString) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: queryString } = yield take(constants.SEARCH);
-    yield call(search, queryString);
+    const { payload: { query, language } } = yield take(constants.SEARCH);
+    yield call(search, query, language);
   }
 }
 
-export default [watchSearch];
+export function* watchGroupSearch() {
+  while (true) {
+    const { payload: query } = yield take(constants.GROUP_SEARCH);
+    yield call(groupSearch, query);
+  }
+}
+
+export default [watchSearch, watchGroupSearch];
