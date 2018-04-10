@@ -106,11 +106,7 @@ class PlainArticlePage extends Component {
         </Helmet>
         {article && <ArticleHero article={article} />}
         <OneColumn>
-          <Article
-            article={article}
-            locale={locale}
-            {...getArticleProps(article)}
-          />
+          <Article article={article} locale={locale} {...getArticleProps()} />
         </OneColumn>
       </div>
     );

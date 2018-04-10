@@ -15,9 +15,9 @@ import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromRes
 import { toBreadcrumbItems } from '../../../routeHelpers';
 import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
 
-const ArticleHero = ({ article, subject, topicPath }) => {
+const ArticleHero = ({ resource, subject, topicPath }) => {
   const resourceTypeMetaData = getContentTypeFromResourceTypes(
-    defined(article.resourceTypes, []),
+    defined(resource.resourceTypes, []),
   );
   return (
     <Hero contentType={resourceTypeMetaData.contentType}>
@@ -26,7 +26,7 @@ const ArticleHero = ({ article, subject, topicPath }) => {
           <section>
             {subject ? (
               <Breadcrumb
-                items={toBreadcrumbItems(subject, topicPath, article.resource)}
+                items={toBreadcrumbItems(subject, topicPath, resource)}
               />
             ) : null}
           </section>
@@ -37,7 +37,7 @@ const ArticleHero = ({ article, subject, topicPath }) => {
 };
 
 ArticleHero.propTypes = {
-  article: PropTypes.shape({
+  resource: PropTypes.shape({
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }).isRequired,
   subject: SubjectShape,

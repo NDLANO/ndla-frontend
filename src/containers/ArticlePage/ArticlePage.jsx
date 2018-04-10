@@ -13,14 +13,19 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { actions, getFetchStatus, getArticle } from './article';
+import { getFetchStatus } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
 import { getLocale } from '../Locale/localeSelectors';
-import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  TopicShape,
+  ResourceTypeShape,
+} from '../../shapes';
 import Article from '../../components/Article';
 import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
@@ -34,14 +39,11 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { resourceQuery } from '../../queries';
 
-const getTitle = article => (article ? article.title : '');
-
 class ArticlePage extends Component {
   static getInitialProps(ctx) {
-    const { client, fetchArticle, fetchTopics, fetchSubjects } = ctx;
+    const { client, fetchTopics, fetchSubjects } = ctx;
     const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
 
-    fetchArticle({ resourceId });
     if (subjectId) {
       fetchSubjects();
       fetchTopics({ subjectId });
@@ -55,21 +57,21 @@ class ArticlePage extends Component {
     });
   }
 
-  static getDocumentTitle({ t, article, subject }) {
-    return `${subject ? subject.name : ''} - ${getTitle(article)}${t(
+  static getDocumentTitle({ t, data: { resource: { article } }, subject }) {
+    return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { topicPath, subject, article } = currentProps;
-    if (article && article.id && topicPath && topicPath.length > 0 && subject) {
+    const { topicPath, subject, data } = currentProps;
+    if (data.resource && topicPath && topicPath.length > 0 && subject) {
       trackPageView(currentProps);
     }
   }
 
   static getDimensions(props) {
-    const articleProps = getArticleProps(props.article);
+    const articleProps = getArticleProps(props.data.resource);
     return getAllDimensions(props, articleProps.label, true);
   }
 
@@ -90,8 +92,11 @@ class ArticlePage extends Component {
     if (!data) {
       return null;
     }
-    const article = transformArticle(data.resource.article);
+
+    const { resource } = data;
+    const article = transformArticle(resource.article);
     const { topicId } = getUrnIdsFromProps(this.props);
+
     if (status === 'error' || status === 'error404') {
       return (
         <div>
@@ -133,18 +138,18 @@ class ArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        {article && (
+        {resource && (
           <ArticleHero
             subject={subject}
             topicPath={topicPath}
-            article={article}
+            resource={resource}
           />
         )}
         <OneColumn>
           <Article
             article={article}
             locale={locale}
-            {...getArticleProps(article)}>
+            {...getArticleProps(resource)}>
             {subject &&
               topicId && (
                 <TopicResources subjectId={subject.id} topicId={topicId} />
@@ -164,15 +169,14 @@ ArticlePage.propTypes = {
       resourceId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  article: ArticleShape,
   data: PropTypes.shape({
     resource: PropTypes.shape({
       article: ArticleShape,
+      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
     }),
   }),
   status: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  fetchArticle: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
   fetchTopics: PropTypes.func.isRequired,
   subject: SubjectShape,
@@ -180,20 +184,18 @@ ArticlePage.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
   fetchSubjects: subjectActions.fetchSubjects,
   fetchTopics: topicActions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { resourceId, subjectId, topicId } = getUrnIdsFromProps(ownProps);
+  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
   const getTopicPathSelector =
     subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
   const getSubjectByIdSelector = subjectId
     ? getSubjectById(subjectId)
     : () => undefined;
   return {
-    article: getArticle(resourceId)(state),
     status: getFetchStatus(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),

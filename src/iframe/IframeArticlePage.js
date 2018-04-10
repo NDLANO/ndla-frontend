@@ -15,7 +15,7 @@ import IntlProvider, { injectT } from 'ndla-i18n';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ArticleShape } from '../shapes';
+import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
@@ -32,8 +32,8 @@ const Error = injectT(({ t }) => (
   </OneColumn>
 ));
 
-const Success = ({ article: rawArticle, locale }) => {
-  const article = transformArticle(rawArticle, locale);
+const Success = ({ resource, locale }) => {
+  const article = transformArticle(resource.article, locale);
   const scripts = getArticleScripts(article);
   return (
     <OneColumn>
@@ -58,7 +58,7 @@ const Success = ({ article: rawArticle, locale }) => {
         article={article}
         locale={locale}
         modifier="clean iframe"
-        {...getArticleProps(article)}
+        {...getArticleProps(resource)}
       />
     </OneColumn>
   );
@@ -66,18 +66,21 @@ const Success = ({ article: rawArticle, locale }) => {
 
 Success.propTypes = {
   locale: PropTypes.string.isRequired,
-  article: ArticleShape.isRequired,
+  resource: PropTypes.shape({
+    article: ArticleShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }),
 };
 
 const IframeArticlePage = ({
   status,
   locale: { abbreviation: locale, messages },
-  article,
+  resource,
 }) => (
   <IntlProvider locale={locale} messages={messages}>
     <PageContainer>
       <Helmet htmlAttributes={{ lang: locale }} />
-      {status === 'success' && <Success locale={locale} article={article} />}
+      {status === 'success' && <Success locale={locale} resource={resource} />}
       {status === 'error' && <Error />}
     </PageContainer>
   </IntlProvider>
@@ -88,7 +91,10 @@ IframeArticlePage.propTypes = {
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
   }).isRequired,
-  article: ArticleShape,
+  resource: PropTypes.shape({
+    article: ArticleShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }),
   status: PropTypes.oneOf(['success', 'error']),
 };
 
