@@ -12,10 +12,17 @@ import {
   getSubtopicsWithIntroduction,
   getSubjectMenu,
   getSubtopics,
+  getTopicsFiltered,
   getTopicPath,
 } from '../topic';
 
 import { topics } from './mockTopics';
+import {
+  resourceData1,
+  additionalResources,
+  resourceData2,
+  resourceTypes,
+} from '../../Resources/__tests__/mockResources';
 
 test('topicSelectors getAllTopicsBySubjectId', () => {
   const state = {
@@ -106,44 +113,17 @@ test('topicSelectors getSubjectMenu', () => {
       active: {},
       all: {},
     },
+    resources: {
+      all: {
+        'urn:topic:1': resourceData1,
+        'urn:topic:2': additionalResources,
+        'urn:topic:1_2': resourceData2,
+      },
+      types: resourceTypes,
+    },
   };
 
-  expect(getSubjectMenu('urn:subject:1')(state)).toEqual([
-    {
-      id: 'urn:topic:1',
-      name: 'Idéutvikling og mediedesign',
-      parent: 'urn:subject:1',
-      contentUri: 'urn:article:1',
-      subtopics: [
-        {
-          id: 'urn:topic:1_1',
-          name: 'Mediedesign',
-          parent: 'urn:topic:1',
-          subtopics: [],
-        },
-        {
-          id: 'urn:topic:1_2',
-          name: 'Idéutvikling',
-          parent: 'urn:topic:1',
-          contentUri: 'urn:article:1_2',
-          subtopics: [
-            {
-              id: 'urn:topic:1_2_1',
-              parent: 'urn:topic:1_2',
-              name: 'Mediebransjen',
-              subtopics: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'urn:topic:2',
-      name: 'Mediekommunikasjon',
-      parent: undefined,
-      subtopics: [],
-    },
-  ]);
+  expect(getSubjectMenu('urn:subject:1')(state)).toMatchSnapshot();
 });
 
 test('topicSelectors getTopicPath', () => {
@@ -168,4 +148,78 @@ test('topicSelectors getTopicPath', () => {
   expect(topicPath3.length).toBe(2);
   expect(topicPath1[0].name).toBe('Idéutvikling og mediedesign');
   expect(topicPath1[1].name).toBe('Idéutvikling');
+});
+
+test('get filtered topics with two of three filters active', () => {
+  const state = {
+    filters: {
+      active: {
+        'urn:subject:1': ['urn:filter:1', 'urn:filter:3'],
+      },
+      all: {
+        'urn:subject:1': ['urn:filter:1', 'urn:filter:2', 'urn:filter:3'],
+      },
+    },
+  };
+
+  const topicsWithFilter1 = [{ id: 'urn:topic:1', filter: ['urn:filter:2'] }];
+  expect(getTopicsFiltered('urn:subject:1', topicsWithFilter1)(state)).toEqual(
+    [],
+  );
+
+  const topicsWithFilter2 = [
+    { id: 'urn:topic:1', filter: ['urn:filter:2'] },
+    { id: 'urn:topic:2', filter: ['urn:filter:1'] },
+    { id: 'urn:topic:3', filter: ['urn:filter:3'] },
+  ];
+  expect(
+    getTopicsFiltered('urn:subject:1', topicsWithFilter2)(state),
+  ).toMatchSnapshot();
+
+  const topicsWithFilter3 = [
+    { id: 'urn:topic:1', filter: ['urn:filter:2'] },
+    { id: 'urn:topic:2', filter: ['urn:filter:2', 'urn:filter:1'] },
+    { id: 'urn:topic:3', filter: ['urn:filter:3'] },
+  ];
+  expect(
+    getTopicsFiltered('urn:subject:1', topicsWithFilter3)(state),
+  ).toMatchSnapshot();
+});
+
+test('get filtered topics when all filters are active', () => {
+  const state = {
+    filters: {
+      active: {
+        'urn:subject:1': ['urn:filter:1', 'urn:filter:2', 'urn:filter:3'],
+      },
+    },
+  };
+
+  const topicsWithFilter = [
+    { id: 'urn:topic:1', filter: ['urn:filter:2'] },
+    { id: 'urn:topic:2', filter: ['urn:filter:1'] },
+    { id: 'urn:topic:3', filter: ['urn:filter:3'] },
+  ];
+  expect(
+    getTopicsFiltered('urn:subject:1', topicsWithFilter)(state),
+  ).toMatchSnapshot();
+});
+
+test('get filtered topics when none filters are active', () => {
+  const state = {
+    filters: {
+      active: {
+        'urn:subject:1': [],
+      },
+    },
+  };
+
+  const topicsWithFilter = [
+    { id: 'urn:topic:1', filter: ['urn:filter:2'] },
+    { id: 'urn:topic:2', filter: ['urn:filter:1'] },
+    { id: 'urn:topic:3', filter: ['urn:filter:3'] },
+  ];
+  expect(
+    getTopicsFiltered('urn:subject:1', topicsWithFilter)(state),
+  ).toMatchSnapshot();
 });

@@ -9,14 +9,20 @@
 import React from 'react';
 import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
+import config from '../config';
 
-const ZendeskButton = ({ t }) => (
-  <Button
-    onClick={() => (window && window.zE ? window.zE.activate() : undefined)}
-    className="c-zendesk__button"
-    outline>
-    {t('askNDLA')}
-  </Button>
-);
+const zendeskHost =
+  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
+    ? config.zendeskHost
+    : window.DATA.config.zendeskHost;
+const ZendeskButton = ({ t }) =>
+  zendeskHost ? (
+    <Button
+      onClick={() => (window && window.zE ? window.zE.activate() : undefined)}
+      className="c-zendesk__button"
+      outline>
+      {t('askNDLA')}
+    </Button>
+  ) : null;
 
 export default injectT(ZendeskButton);

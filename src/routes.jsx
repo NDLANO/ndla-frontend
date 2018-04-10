@@ -18,15 +18,12 @@ import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import config from './config';
 import App from './App';
 
-const searchEnabled =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config.searchEnabled
-    : window.DATA.config.searchEnabled;
-
 export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
 export const simpleArticlePath = '/article/:articleId';
+
+const { searchEnabled } = config;
 
 export const routes = [
   {

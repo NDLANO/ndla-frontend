@@ -8,12 +8,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import {
+  Masthead,
+  MastheadItem,
+  Logo,
+} from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import {
+  getUrnIdsFromProps,
+} from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import {
@@ -21,20 +27,26 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
+import { actions } from '../Resources/resource';
+import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
-import { SubjectShape, TopicShape } from '../../shapes';
-import { actions, getResourceTypesByTopicId } from '../Resources/resource';
+import { getArticleByUrn } from '../ArticlePage/article';
 import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 import SearchButtonView from './SearchButtonView';
 import MenuView from './MenuView';
+
+function getSelectedTopic(topics) {
+  return [...topics] // prevent reverse mutation.
+    .reverse()
+    .find(topicId => topicId !== undefined && topicId !== null);
+}
 
 const initialState = {
   isOpen: false,
   query: '',
   searchIsOpen: false,
-  expandedTopicId: undefined,
-  expandedSubtopicId: undefined,
+  expandedTopicIds: [],
 };
 class MastheadContainer extends React.PureComponent {
   state = initialState;
@@ -42,11 +54,9 @@ class MastheadContainer extends React.PureComponent {
   componentWillMount() {
     const { topicPath } = this.props;
     if (topicPath) {
-      const expandedTopicId =
-        topicPath.length > 0 ? topicPath[0].id : undefined;
-      const expandedSubtopicId =
-        topicPath.length > 1 ? topicPath[1].id : undefined;
-      this.setState({ expandedTopicId, expandedSubtopicId });
+      this.setState({
+        expandedTopicIds: topicPath.map(topic => topic.id),
+      });
     }
   }
 
@@ -59,31 +69,20 @@ class MastheadContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { location, activeFilters, topics } = nextProps;
+    const { location } = nextProps;
     if (location.pathname !== this.props.location.pathname) {
       this.setState(initialState); // reset on location change
-
-      // remove active topic if filtered away
-    } else if (activeFilters.length !== this.props.activeFilters.length) {
-      const { expandedTopicId, expandedSubtopicId } = this.state;
-      if (topics.indexOf(expandedTopicId) === -1) {
-        this.setState({ expandedTopicId: undefined });
-      }
-      if (this.props.topics.indexOf(expandedSubtopicId) === -1) {
-        this.setState({ expandedSubtopicId: undefined });
-      }
     }
   }
 
-  onNavigate = (expandedTopicId, expandedSubtopicId) => {
+  onNavigate = (...expandedTopicIds) => {
     const { subjectId } = getUrnIdsFromProps(this.props);
     this.setState({
-      expandedTopicId,
-      expandedSubtopicId,
+      expandedTopicIds,
     });
-    const newTopic = expandedSubtopicId || expandedTopicId;
-    if (newTopic) {
-      this.props.fetchTopicResources({ topicId: newTopic, subjectId });
+    const selectedTopicId = getSelectedTopic(expandedTopicIds);
+    if (selectedTopicId) {
+      this.props.fetchTopicResources({ topicId: selectedTopicId, subjectId });
     }
   };
 
@@ -103,9 +102,9 @@ class MastheadContainer extends React.PureComponent {
     const {
       t,
       subject,
+      searchEnabled,
       results,
       location,
-      searchEnabled,
       ...props
     } = this.props;
     const resultsMapped = results.map(it => {
@@ -118,6 +117,7 @@ class MastheadContainer extends React.PureComponent {
         }`,
       };
     });
+
     return (
       <Masthead
         infoContent={
@@ -182,12 +182,14 @@ MastheadContainer.propTypes = {
   }),
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
+  article: PropTypes.shape({
+    resource: ResourceShape.isRequired,
+  }),
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   setActiveFilter: PropTypes.func.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topicResourcesByType: PropTypes.func.isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
@@ -203,12 +205,12 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
+  const { subjectId, topicId, resourceId } = getUrnIdsFromProps(ownProps);
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
-    topicResourcesByType: topic => getResourceTypesByTopicId(topic)(state),
     topicPath: getTopicPath(subjectId, topicId)(state),
+    article: getArticleByUrn(resourceId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
     results: getGroupResults(state),

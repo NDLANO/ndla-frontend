@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "integrationFolder": "e2e/integration",
+  "fixturesFolder": "e2e/fixtures",
+  "pluginsFile": "e2e/plugins/index.js",
+  "supportFile": "e2e/support/index.js",
+  "screenshotsFolder": "e2e/screenshots",
+  "videosFolder": "e2e/videos",
+  "chromeWebSecurity": false,
+  "screenshotOnHeadlessFailure": false,
+  "videoRecording": false
+}

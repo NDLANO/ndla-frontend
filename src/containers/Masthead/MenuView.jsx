@@ -40,8 +40,7 @@ const MenuView = ({
   topics,
   filters,
   activeFilters,
-  expandedSubtopicId,
-  expandedTopicId,
+  expandedTopicIds,
   topicResourcesByType,
   topicPath,
   onOpenSearch,
@@ -49,6 +48,11 @@ const MenuView = ({
   filterClick,
   searchEnabled,
 }) => {
+  const [
+    expandedTopicId,
+    expandedSubtopicId,
+    expandedSubtopicLevel2Id,
+  ] = expandedTopicIds;
   const getResources = expandedTopicId
     ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
     : [];
@@ -62,8 +66,8 @@ const MenuView = ({
         onToggle={toggleMenu}
         buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
         <TopicMenu
-          isBeta
           hideSearch={!searchEnabled}
+          isBeta
           toSubject={() => toSubject(subject.id)}
           subjectTitle={subject.name}
           toTopic={toTopicWithSubjectIdBound(subject.id)}
@@ -77,19 +81,26 @@ const MenuView = ({
             learningResourcesHeading: t(
               'masthead.menu.learningResourcesHeading',
             ),
-            back: 'Tilbake',
+            back: t('masthead.menu.back'),
+            closeButton: t('masthead.menu.close'),
             contentTypeResultsShowMore: t(
               'masthead.menu.contentTypeResultsShowMore',
             ),
-            contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
+            contentTypeResultsShowLess: t(
+              'masthead.menu.contentTypeResultsShowLess',
+            ),
+            contentTypeResultsNoHit: t(
+              'masthead.menu.contentTypeResultsNoHit',
+            ),
           }}
           filterOptions={filters}
           onFilterClick={filterClick}
           filterValues={activeFilters}
-          onOpenSearch={onOpenSearch}
+          onOpenSearch={() => onOpenSearch}
           onNavigate={onNavigate}
           expandedTopicId={expandedTopicId}
           expandedSubtopicId={expandedSubtopicId}
+          expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
           searchPageUrl={subject ? `/search/${subject.id}` : '/search'}
           contentTypeResults={mapResourcesToMenu(
             getResources,
@@ -118,8 +129,7 @@ MenuView.propTypes = {
   topics: arrayOf(object),
   filters: arrayOf(object),
   activeFilters: arrayOf(string),
-  expandedSubtopicId: string,
-  expandedTopicId: string,
+  expandedTopicIds: arrayOf(string),
   topicResourcesByType: func,
   topicPath: arrayOf(string),
   onOpenSearch: func,

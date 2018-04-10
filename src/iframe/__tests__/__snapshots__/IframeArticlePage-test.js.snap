@@ -51,9 +51,12 @@ exports[`IframeArticlePage renderers correctly 1`] = `
         </div>
         <p
           className="article_introduction"
-        >
-          Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-        </p>
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!",
+            }
+          }
+        />
         <div
           className="c-article-byline"
         >
@@ -133,6 +136,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                
               09.01.2018
             </span>
+            <span
+              className="c-article-byline__additional"
+            />
             <button
               className="c-button c-button--stripped c-article__license-toggler"
               disabled={false}

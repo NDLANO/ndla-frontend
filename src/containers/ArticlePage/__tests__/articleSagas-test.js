@@ -33,6 +33,11 @@ test('articleSagas watchFetchArticle fetch article with resource info if not in 
       actions.setArticle({
         id: 123,
         urn: 'urn:resource:1',
+        resource: {
+          id: 'urn:resource:1',
+          contentUri: 'urn:article:123',
+          title: 'Resource title',
+        },
         title: 'unit test',
         metaData: {},
         resourceTypes: [{ id: 'urn:resource-type:video' }],

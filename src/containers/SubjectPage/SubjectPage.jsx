@@ -33,7 +33,11 @@ import {
   getFilters,
 } from '../Filters/filter';
 import { SubjectShape, TopicShape } from '../../shapes';
-import { toTopicPartial, getUrnIdsFromProps } from '../../routeHelpers';
+import {
+  toBreadcrumbItems,
+  toTopicPartial,
+  getUrnIdsFromProps,
+} from '../../routeHelpers';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
@@ -87,15 +91,8 @@ class SubjectPage extends Component {
         <SubjectHero>
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
-              <section>
-                {subject && (
-                  <Breadcrumb
-                    toSubjects={() => '/'}
-                    subject={subject}
-                    topicPath={[]}
-                    toTopic={() => ''}
-                  />
-                )}
+              <section data-cy="breadcrumb-section">
+                {subject && <Breadcrumb items={toBreadcrumbItems(subject)} />}
               </section>
             </div>
           </OneColumn>
@@ -118,7 +115,7 @@ class SubjectPage extends Component {
                   }}
                 />
               ) : (
-                <div className="c-resources">
+                <div className="c-resources" data-cy="topic-list">
                   <h1 className="c-resources__title">
                     {t('subjectPage.tabs.topics')}
                   </h1>

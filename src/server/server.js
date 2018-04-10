@@ -10,8 +10,13 @@ import 'isomorphic-unfetch';
 import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
-import { OK, INTERNAL_SERVER_ERROR, MOVED_PERMANENTLY } from 'http-status';
-
+import bodyParser from 'body-parser';
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  MOVED_PERMANENTLY,
+  NOT_ACCEPTABLE,
+} from 'http-status';
 import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
@@ -19,8 +24,10 @@ import { iframeArticleRoute } from './routes/iframeArticleRoute';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
+import errorLogger from '../util/logger';
 
 const app = express();
+const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 app.disable('x-powered-by');
 
@@ -28,6 +35,12 @@ app.use(compression());
 app.use(
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
+  }),
+);
+
+app.use(
+  bodyParser.json({
+    type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
 );
 
@@ -55,6 +68,22 @@ app.get('/robots.txt', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.post('/csp-report', (req, res) => {
+  const { body } = req;
+  if (body && body['csp-report']) {
+    const cspReport = body['csp-report'];
+    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${
+      cspReport['violated-directive']
+    }`;
+    errorLogger.error(errorMessage, cspReport);
+    res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
+  } else {
+    res
+      .status(NOT_ACCEPTABLE)
+      .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
+  }
 });
 
 app.get('/get_token', async (req, res) => {
