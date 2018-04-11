@@ -90,3 +90,10 @@ export const FootNoteShape = PropTypes.shape({
   edition: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
 });
+
+export const GraphqlErrorShape = PropTypes.shape({
+  message: PropTypes.string.isRequired,
+  path: PropTypes.arrayOf(PropTypes.string),
+  status: PropTypes.number.isRequired,
+  json: PropTypes.object,
+});

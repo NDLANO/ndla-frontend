@@ -13,7 +13,6 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { getFetchStatus } from './article';
 import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
@@ -25,6 +24,7 @@ import {
   SubjectShape,
   TopicShape,
   ResourceTypeShape,
+  GraphqlErrorShape,
 } from '../../shapes';
 import Article from '../../components/Article';
 import TopicResources from '../TopicPage/TopicResources';
@@ -40,7 +40,7 @@ import { transformArticle } from '../../util/transformArticle';
 import { resourceQuery } from '../../queries';
 
 class ArticlePage extends Component {
-  static getInitialProps(ctx) {
+  static async getInitialProps(ctx) {
     const { client, fetchTopics, fetchSubjects } = ctx;
     const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
 
@@ -48,8 +48,8 @@ class ArticlePage extends Component {
       fetchSubjects();
       fetchTopics({ subjectId });
     }
-
     return client.query({
+      errorPolicy: 'all',
       query: resourceQuery,
       variables: {
         id: resourceId,
@@ -65,7 +65,7 @@ class ArticlePage extends Component {
 
   static willTrackPageView(trackPageView, currentProps) {
     const { topicPath, subject, data } = currentProps;
-    if (data.resource && topicPath && topicPath.length > 0 && subject) {
+    if (data && data.resource && topicPath && topicPath.length > 0 && subject) {
       trackPageView(currentProps);
     }
   }
@@ -88,23 +88,25 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { subject, status, data, topicPath, locale } = this.props;
+    const { subject, data, topicPath, locale, errors } = this.props;
     if (!data) {
       return null;
     }
 
     const { resource } = data;
-    const article = transformArticle(resource.article);
     const { topicId } = getUrnIdsFromProps(this.props);
 
-    if (status === 'error' || status === 'error404') {
+    if (resource === null) {
+      const error = errors.find(e => e.path.includes('resource'));
       return (
         <div>
-          <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
+          <ArticleHero subject={subject} topicPath={topicPath} resource={{}} />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
-            status={status}>
+            status={
+              error.status && error.status === 404 ? 'error404' : 'error'
+            }>
             {subject &&
               topicId && (
                 <TopicResources subjectId={subject.id} topicId={topicId} />
@@ -114,6 +116,7 @@ class ArticlePage extends Component {
       );
     }
 
+    const article = transformArticle(resource.article);
     const scripts = getArticleScripts(article);
 
     return (
@@ -175,7 +178,7 @@ ArticlePage.propTypes = {
       resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
     }),
   }),
-  status: PropTypes.string.isRequired,
+  errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
   fetchTopics: PropTypes.func.isRequired,
@@ -196,7 +199,6 @@ const mapStateToProps = (state, ownProps) => {
     ? getSubjectById(subjectId)
     : () => undefined;
   return {
-    status: getFetchStatus(state),
     topicPath: getTopicPathSelector(state),
     subject: getSubjectByIdSelector(state),
     locale: getLocale(state),
