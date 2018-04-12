@@ -43,15 +43,7 @@
       /* We need to account for the iframe position within the document. */
       const rect = iframe.getBoundingClientRect();
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-      const viewportHeight = Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0,
-      );
-
-      const offset = 0; //-((viewportHeight) / 2);
-
-      const top = event.data.top + rect.top + scrollTop + offset;
+      const top = event.data.top + rect.top + scrollTop;
 
       window.scrollTo({ top })
     }
