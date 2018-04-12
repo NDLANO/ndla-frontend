@@ -33,6 +33,10 @@ class FixDialogPosition extends React.Component {
     forEachElement('.c-figure [data-dialog-trigger-id]', el => {
       const target = el;
       const figure = findAncestorByClass(target, 'c-figure');
+      if (!figure.offsetParent) {
+        // figure.offsetParent returns null if element is hidden
+        return;
+      }
       const parentOffset = getElementOffset(figure.offsetParent).top;
       const top =
         figure.getBoundingClientRect().top + window.pageYOffset - parentOffset;
