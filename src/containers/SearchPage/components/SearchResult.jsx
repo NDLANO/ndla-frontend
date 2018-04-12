@@ -14,10 +14,10 @@ import { ArticleResultShape } from '../../../shapes';
 const SearchResult = ({ article }) => (
   <div className="search-result">
     <Link className="search-result__link" to={toArticle(article.id)}>
-      <h1 className="search-result__title">{article.title.title}</h1>
+      <h1 className="search-result__title">{article.title}</h1>
     </Link>
   </div>
-);
+)
 
 SearchResult.propTypes = {
   article: ArticleResultShape.isRequired,

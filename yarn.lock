@@ -1549,6 +1549,10 @@ camelize@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
 
+can-use-dom@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
+
 caniuse-api@^1.5.2:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-1.5.3.tgz#5018e674b51c393e4d50614275dc017e27c4a2a2"
@@ -2011,6 +2015,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2:
   dependencies:
     create-hash "^1.1.0"
     inherits "^2.0.1"
+
+create-react-class@^15.5.2:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
 
 cross-env@^5.1.1:
   version "5.1.1"
@@ -2615,6 +2627,10 @@ enhanced-resolve@^3.4.0:
     memory-fs "^0.4.0"
     object-assign "^4.0.1"
     tapable "^0.2.7"
+
+enquire.js@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/enquire.js/-/enquire.js-2.1.6.tgz#3e8780c9b8b835084c3f60e166dbc3c2a3c89814"
 
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
@@ -4919,6 +4935,12 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
+json2mq@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/json2mq/-/json2mq-0.2.0.tgz#b637bd3ba9eabe122c83e9720483aeb10d2c904a"
+  dependencies:
+    string-convert "^0.2.0"
+
 json3@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.0.tgz#0e9e7f6c5d270b758929af4d6fefdc84bd66e259"
@@ -5626,9 +5648,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.9.tgz#085e598b407ee1bac97c459cb304a7ebd6d98142"
+ndla-icons@^0.2.14:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.14.tgz#9975692a0dcc3f8a4a47ac2cba71d20d87b909d5"
 
 ndla-licenses@^0.1.7:
   version "0.1.8"
@@ -5657,17 +5679,20 @@ ndla-tracker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.11.0.tgz#f626d622236b6a79f8697836e9b003657ac615ca"
+ndla-ui@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.11.3.tgz#7ccf9a5c9000e31af9a2e8fa9e7cbe6f17995368"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
     lodash "^4.17.5"
     react-bem-helper "1.4.1"
+    react-facebook "^4.2.1"
     react-prop-types "0.4.0"
+    react-slick "^0.19.0"
     react-transition-group "^2.2.1"
+    react-twitter-widgets "^1.7.1"
 
 ndla-util@^0.1.10:
   version "0.1.11"
@@ -6929,6 +6954,14 @@ promise@^8.0.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.3.0, prop-types@^15.5.8:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 prop-types@^15.5.0, prop-types@^15.5.4:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
@@ -6939,14 +6972,6 @@ prop-types@^15.5.0, prop-types@^15.5.4:
 prop-types@^15.5.10, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
-prop-types@^15.5.8:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.3.1"
@@ -7259,6 +7284,16 @@ react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
 
+react-facebook@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-facebook/-/react-facebook-4.2.1.tgz#c4462574347ac3678662248e9f6526995bd6eb48"
+  dependencies:
+    babel-runtime "^6.26.0"
+    can-use-dom "^0.1.0"
+    debug "^3.1.0"
+    prop-types "^15.6.0"
+    react-spinner-children "^1.0.8"
+
 react-helmet@^5.1.3:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"
@@ -7315,6 +7350,24 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^0.2.2"
 
+react-slick@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/react-slick/-/react-slick-0.19.0.tgz#dade3b34c24db0b09a27911b308fcdd53baa592d"
+  dependencies:
+    can-use-dom "^0.1.0"
+    classnames "^2.2.5"
+    create-react-class "^15.5.2"
+    enquire.js "^2.1.6"
+    json2mq "^0.2.0"
+    object-assign "^4.1.0"
+
+react-spinner-children@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-spinner-children/-/react-spinner-children-1.0.8.tgz#6fdd6a89593c5f233bb56f4deccb812382e6ca74"
+  dependencies:
+    prop-types "^15.6.0"
+    spin.js "^2.3.2"
+
 react-tabs@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-2.1.1.tgz#fd806fe78a990b59f1daf02609aded546fe7016c"
@@ -7347,6 +7400,15 @@ react-transition-group@^2.2.1:
     loose-envify "^1.3.1"
     prop-types "^15.5.8"
     warning "^3.0.0"
+
+react-twitter-widgets@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-twitter-widgets/-/react-twitter-widgets-1.7.1.tgz#60061f37a8c4f361c27f3d1d7ceba98d3cd80a40"
+  dependencies:
+    exenv "^1.2.1"
+    lodash "^4.17.4"
+    prop-types "^15.3.0"
+    scriptjs "^2.5.8"
 
 "react@^15 || ^16", react@^16.2.0:
   version "16.2.0"
@@ -7826,6 +7888,10 @@ schema-utils@^0.4.0, schema-utils@^0.4.2:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
 
+scriptjs@^2.5.8:
+  version "2.5.8"
+  resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.8.tgz#d0c43955c2e6bad33b6e4edf7b53b8965aa7ca5f"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -8141,6 +8207,10 @@ spdy@^3.4.1:
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
 
+spin.js@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/spin.js/-/spin.js-2.3.2.tgz#6caa56d520673450fd5cfbc6971e6d0772c37a1a"
+
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
@@ -8208,6 +8278,10 @@ stream-to-observable@^0.1.0:
 strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
+
+string-convert@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string-convert/-/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
 
 string-length@^1.0.1:
   version "1.0.1"

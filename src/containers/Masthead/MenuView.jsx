@@ -7,7 +7,7 @@ import {
   BreadcrumbBlock,
   ContentTypeBadge,
 } from 'ndla-ui';
-
+import { TopicShape } from '../../shapes';
 import { toTopic, toSubject, toSubjects } from '../../routeHelpers';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
@@ -54,8 +54,9 @@ const MenuView = ({
     expandedSubtopicLevel2Id,
   ] = expandedTopicIds;
   const getResources = expandedTopicId
-    ? topicResourcesByType(expandedSubtopicId || expandedTopicId)
+    ? topicResourcesByType
     : [];
+
   return (
     <React.Fragment>
       <ClickToggle
@@ -110,9 +111,7 @@ const MenuView = ({
       </ClickToggle>
       <DisplayOnPageYOffset yOffsetMin={150}>
         <BreadcrumbBlock
-          subject={subject}
-          topicPath={topicPath}
-          toTopic={toTopic}
+          items={[{name: subject.name, to: toTopic(subject.id, expandedTopicId, expandedSubtopicId)}]}
         />
       </DisplayOnPageYOffset>
     </React.Fragment>
@@ -130,7 +129,7 @@ MenuView.propTypes = {
   filters: arrayOf(object),
   activeFilters: arrayOf(string),
   expandedTopicIds: arrayOf(string),
-  topicResourcesByType: func,
+  topicResourcesByType: arrayOf(TopicShape).isRequired,
   topicPath: arrayOf(string),
   onOpenSearch: func,
   onNavigate: func,

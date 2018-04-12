@@ -7,27 +7,64 @@
  */
 
 import { createSelector } from 'reselect';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
+
+const contentType = (result) => {
+  const type = result.contexts[0].learningResourceType
+  switch (type) {
+    case 'learningpath':
+      return 'learning-path';
+    case 'article':
+      return 'article';
+    default:
+      return type;
+  }
+}
+
+const taxonomyData = (result) => {
+  let taxonomyResult = {};
+
+  if (result.contexts.length > 0) {
+    taxonomyResult = {
+      breadcrumb: result.contexts[0].breadcrumbs,
+      subjects: undefined,
+      contentType: result.resourceTypes ? getContentTypeFromResourceTypes(result.resourceTypes) : contentType(result),
+    }
+  }
+  if (result.contexts.length > 1) {
+    taxonomyResult = {
+      ...taxonomyResult,
+      subjects: result.contexts.map(subject => ({
+        url: subject.path,
+        title: subject.subject,
+        contentType: subject.learningResourceType,
+      })),
+    }
+  }
+  return taxonomyResult;
+}
 
 const getSearchFromState = state => state.search;
 
 export const getResults = createSelector([getSearchFromState], search =>
   search.results.map(
-    it =>
-      Array.isArray(it.subjects)
-        ? {
-            ...it,
-            ...(it.subjects.length === 1
-              ? { breadcrumb: it.subjects[0].breadcrumbs, subjects: undefined }
-              : {
-                  subjects: it.subjects.map(sub => ({
-                    url: sub.path,
-                    title: sub.name,
-                  })),
-                }),
-          }
-        : it,
-  ),
+    result => ({
+        ...result,
+        title: convertFieldWithFallback(result, 'title', ''),
+        ingress: convertFieldWithFallback(result, 'metaDescription', ''),
+        ...taxonomyData(result)
+      })),
 );
+
+export const getResultsMetadata = createSelector([getSearchFromState], search => ({
+  pageSize: search.pageSize || 0,
+  totalCount: search.totalCount || 0,
+  lastPage: Math.ceil(search.totalCount / search.pageSize),
+  totalCountLearningPaths: search.totalCountLearningPaths || 0,
+  totalCountSubjectMaterial: search.totalCountSubjectMaterial || 0,
+  totalCountTasks: search.totalCountTasks || 0,
+}));
 
 export const getGroupResults = createSelector(
   [getSearchFromState],

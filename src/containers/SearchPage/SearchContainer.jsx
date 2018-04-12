@@ -29,7 +29,7 @@ import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
 import { SubjectShape, ArticleResultShape } from '../../shapes';
-import { getResults, getLastPage, getSearching } from './searchSelectors';
+import { getResults, getLastPage, getSearching, getResultsMetadata } from './searchSelectors';
 import { actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
@@ -39,68 +39,122 @@ import {
 import { getFilters, actions as filterActions } from '../Filters/filter';
 import SearchFilters from './components/SearchFilters';
 
+const defaultState = {
+  query: '',
+  subjects: [],
+  'language-filter': [],
+  levels: [],
+}
+
 class SearchContainer extends Component {
   static getInitialProps(ctx) {
     const {
       subjects,
-      subjectId,
+      match: {
+        params: {
+          subjectId,
+        }
+      },
       fetchSubjectFilters,
       fetchSubjects,
       location,
       search,
     } = ctx;
+
     if (!subjects) {
       fetchSubjects();
       if (subjectId) fetchSubjectFilters(subjectId);
     }
-    search(queryString.parse(location.search));
+    console.log(ctx);
+    const searchString = location ? location.search : '';
+    console.log("SEARCH", searchString)
+    search({searchString});
   }
 
-  state = {
-    query: '',
-  };
+  state = defaultState;
+
+  componentWillMount() {
+    SearchContainer.getInitialProps(this.props);
+
+    const { match: { params: { subjectId }} } = this.props;
+    const searchObject = this.converSeacrhStringToObject();
+
+    if (searchObject.subject) {
+      this.setState({...searchObject, subjects: subjectId ? [subjectId, ...searchObject.subjects.split(',')] : searchObject.subjects.split(',')});
+    } else {
+      this.setState(searchObject);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {location: nextLocation } = nextProps;
+    const { location, search } = this.props;
+    if (nextLocation && location && location !== nextLocation){
+      this.setState(this.converSeacrhStringToObject());
+      search(nextLocation.search);
+    }
+  }
 
   onFilterChange = (newValues, type) => {
-    this.updateFilter({
+    this.setState({
       [type]: newValues,
     });
+
+    const searchParam = {
+      [type]: newValues.join(',')
+    };
+    this.updateSearchLocation(searchParam)
   };
 
-  updateFilter = obj => {
-    const { location, history } = this.props;
-    const newSearch = {
-      ...queryString.parse(location.search),
-      ...obj,
-    }; // filter out empty keys?
-    history.push({
-      search: queryString.stringify(newSearch),
-      state: location.state,
+  converSeacrhStringToObject = () => {
+    const { location } = this.props;
+    const arrayFields = ['language-filter', 'levels'];
+    const searchLocation = queryString.parse(location ? location.search : '');
+
+    return arrayFields.map(field => ({[field]: searchLocation[field] ? searchLocation[field].split(',') : []})).reduce((result, item) => {
+      const key = Object.keys(item)[0];
+      return {...result, [key]: item[key]};
     });
+  }
+
+  updateFilter = searchParam => {
+    this.setState(searchParam)
+    this.updateSearchLocation(searchParam);
   };
+
+  updateSearchLocation = (searchParam) => {
+    const { location, history } = this.props;
+    const searchParams = {
+      ...queryString.parse(location.search),
+      ...searchParam,
+    };
+    history.push({
+      search: queryString.stringify(searchParams),
+    });
+  }
 
   toArray = input => [
     ...(Array.isArray(input) ? input : [input].filter(it => it !== undefined)),
   ];
 
   render() {
-    const { results, t, enabledTabs, location, subjects } = this.props;
+    const { results, t, enabledTabs, location, subjects, resultMetadata, } = this.props;
     const stateFromUrl = queryString.parse(location.search);
+
     const filterState = {
-      ...stateFromUrl,
-      subject: this.toArray(stateFromUrl.subject),
-      language: this.toArray(stateFromUrl.language),
+      ...this.state,
       content: this.toArray(stateFromUrl.content),
-      level: this.toArray(stateFromUrl.level),
     };
 
-    const ActiveSubjectsMapped = filterState.subject.map(it => {
-      const subj = subjects.find(s => s.id === it) || {};
+    const activeSubjectsMapped = filterState.subjects.map(it => {
+      const subject = subjects.find(s => s.id === it) || {};
       return {
-        value: subj.id,
-        title: subj.name,
+        value: subject.id,
+        title: subject.name,
       };
     });
-    const allActiveFilters = [...ActiveSubjectsMapped];
+
+    const allActiveFilters = [...activeSubjectsMapped];
     return (
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
@@ -115,12 +169,12 @@ class SearchContainer extends Component {
               subject: filterState.subject.filter(it => it !== val),
             })
           }
-          searchFieldFilters={ActiveSubjectsMapped}
+          searchFieldFilters={activeSubjectsMapped}
           activeFilters={allActiveFilters}
           onActiveFilterRemove={() => {}}
           messages={{
             filterHeading: 'Filter',
-            resultHeading: '43 treff i Ndla',
+            resultHeading: `${resultMetadata.totalCount} treff i Ndla`,
             closeButton: 'Lukk',
             narrowScreenFilterHeading: '10 treff på «ideutvikling»',
             searchFieldTitle: 'Søk',
@@ -137,7 +191,7 @@ class SearchContainer extends Component {
           <SearchResult
             messages={{
               searchStringLabel: 'Du søkte på:',
-              subHeading: '43 treff i Ndla',
+              subHeading: `${resultMetadata.totalCount} treff i Ndla`,
             }}
             searchString={filterState.query}
             tabOptions={enabledTabs.map(it => ({
@@ -153,12 +207,12 @@ class SearchContainer extends Component {
                 noResultDescription:
                   'Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.',
               }}
-              results={results.map(it => ({
-                ...it,
+              results={results.map(result => ({
+                ...result,
                 contentTypeIcon: (
-                  <ContentTypeBadge type={it.contentType} size="x-small" />
+                  <ContentTypeBadge type={result.contentType} size="x-small" />
                 ),
-                contentTypeLabel: t(`contentTypes.${it.contentType}`),
+                contentTypeLabel: t(`contentTypes.${result.contentType}`),
               }))}
             />
           </SearchResult>
@@ -184,6 +238,14 @@ SearchContainer.propTypes = {
   subject: SubjectShape,
   subjects: arrayOf(SubjectShape),
   levelFilters: arrayOf(objectOf(string)),
+  resultMetadata: shape({
+    totalCount: number,
+  }),
+  match: shape({
+    params: shape({
+      subjectId: string,
+    })
+  })
 };
 
 SearchContainer.defaultProps = {
@@ -209,6 +271,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     results: getResults(state),
     lastPage: getLastPage(state),
+    resultMetadata: getResultsMetadata(state),
     searching: getSearching(state),
     subject: getSubjectById(subjectId)(state),
     subjects: getSubjects(state),

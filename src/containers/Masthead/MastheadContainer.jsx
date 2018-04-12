@@ -27,7 +27,7 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { actions } from '../Resources/resource';
+import { actions, getResourceTypesByTopicId } from '../Resources/resource';
 import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
@@ -95,7 +95,7 @@ class MastheadContainer extends React.PureComponent {
 
   updateFilter = e => {
     this.setState({ query: e });
-    this.props.search(e);
+    this.props.search({ query: e });
   };
 
   render() {
@@ -214,6 +214,7 @@ const mapStateToProps = (state, ownProps) => {
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
     results: getGroupResults(state),
+    topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
   };
 };
 

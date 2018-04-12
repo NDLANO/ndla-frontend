@@ -1,21 +1,21 @@
 import React, { Fragment } from 'react';
 import {
   func,
-  objectOf,
   arrayOf,
   shape,
   string,
   number,
-  array,
 } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
 import { Additional } from 'ndla-icons/common';
+
 
 const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
   const allSubjects = subjects.map(it => ({
     title: it.name,
     value: it.id,
   }));
+
   return (
     <Fragment>
       <SearchFilter
@@ -33,7 +33,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             noValuesButtonText: 'Velg fag',
           }}
           options={allSubjects}
-          values={filterState.subject}
+          values={filterState.subjects}
           onChange={e => onChange(e, 'subject')}
         />
       </SearchFilter>
@@ -48,7 +48,7 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
           value: it,
         }))}
         values={filterState.contentType || []}
-        onChange={e => onChange(e, 'contentType')}
+        onChange={e => onChange(e, 'contentTypes')}
       />
       <SearchFilter
         label="Nivå"
@@ -67,20 +67,8 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             noResults: true,
           },
         ]}
-        values={filterState.level}
-        onChange={e => onChange(e, 'level')}
-      />
-      <SearchFilter
-        label="Innhold"
-        options={[
-          {
-            title: 'Tilleggstoff',
-            value: 'additional',
-            icon: Additional,
-          },
-        ]}
-        values={filterState.content}
-        onChange={e => onChange(e, 'content')}
+        values={filterState.levels}
+        onChange={e => onChange(e, 'levels')}
       />
       <SearchFilter
         label="Språk"
@@ -102,8 +90,8 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
             value: 'cn',
           },
         ]}
-        values={filterState.language}
-        onChange={e => onChange(e, 'language')}
+        values={filterState['language-filter']}
+        onChange={(newValues) => onChange(newValues, 'language-filter')}
         defaultVisibleCount={3}
         showLabel="Flere språk"
         hideLabel="Færre språk"
@@ -135,7 +123,14 @@ SearchFilters.propTypes = {
       id: number,
     }),
   ),
-  filterState: objectOf(array),
+  filterState: shape({
+    currentTab: string,
+    subject: arrayOf(string),
+    language: arrayOf(string),
+    content: arrayOf(string),
+    level: arrayOf(string),
+
+  }),
   onChange: func,
   enabledTabs: arrayOf(string),
 };
