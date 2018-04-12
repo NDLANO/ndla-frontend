@@ -54,14 +54,18 @@ class FixDialogPosition extends React.Component {
   render() {
     return (
       <Helmet>
-        {/* Remove fadeIn animation which looks weird with postion: absolute  */}
-        {/* And a minor fix for c-licensebox */}
+        {/* 1. Remove fadeIn animation which looks weird with postion: absolute  */}
+        {/* 2. And a minor fix for c-licensebox */}
+        {/* 3. Fix for glossary items in the bottom of the page */}
         <style type="text/css">{`
           .c-article--iframe .c-dialog--active .c-dialog__content {
             transform: none !important;
             animation-name: zoomIn !important;
           }
           .c-licensebox__content {
+            position: relative;
+          }
+          .c-article section {
             position: relative;
           }
         `}</style>
