@@ -8,18 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Masthead,
-  MastheadItem,
-  Logo,
-} from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  getUrnIdsFromProps,
-} from '../../routeHelpers';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
 import {

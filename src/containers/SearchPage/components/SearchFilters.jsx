@@ -1,28 +1,53 @@
 import React, { Fragment } from 'react';
-import {
-  func,
-  arrayOf,
-  shape,
-  string,
-  number,
-} from 'prop-types';
+import { func, arrayOf, shape, string, number } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
-import { Additional } from 'ndla-icons/common';
+import groupBy from '../../../util/groupBy';
 
+const languages = [
+  {
+    title: 'Bokmål',
+    value: 'nb',
+  },
+  {
+    title: 'Nynorsk',
+    value: 'nn',
+  },
+  {
+    title: 'Engelsk',
+    value: 'en',
+  },
+  {
+    title: 'Kinesisk',
+    value: 'cn',
+  },
+];
 
-const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
+const SearchFilters = ({
+  subjects,
+  filters,
+  filterState,
+  onChange,
+  enabledTabs,
+  t,
+}) => {
   const allSubjects = subjects.map(it => ({
     title: it.name,
     value: it.id,
+  }));
+  console.log(allSubjects)
+  console.log(filterState)
+  const allFilters = Object.keys(groupBy(filters || [], 'name')).map(filter => ({
+    title: filter,
+    value: filter,
   }));
 
   return (
     <Fragment>
       <SearchFilter
-        label="Medieuttrykk og mediasamfunnet"
+        label="Fag"
         options={allSubjects.filter((_, i) => i < 2)}
-        onChange={e => onChange(e, 'subject')}
-        values={filterState.subject}>
+        onChange={e => onChange(e, 'subjects')}
+        values={filterState.subjects}>
         <SearchPopoverFilter
           messages={{
             backButton: 'Tilbake til filter',
@@ -52,64 +77,21 @@ const SearchFilters = ({ subjects, filterState, onChange, enabledTabs, t }) => {
       />
       <SearchFilter
         label="Nivå"
-        options={[
-          {
-            title: 'VG1 (15)',
-            value: 'VG1',
-          },
-          {
-            title: 'VG2 (20)',
-            value: 'VG2',
-          },
-          {
-            title: 'VG3',
-            value: 'VG3',
-            noResults: true,
-          },
-        ]}
+        options={allFilters}
+        defaultVisibleCount={3}
+        showLabel="Flere nivåer"
+        hideLabel="Færre nivåer"
         values={filterState.levels}
         onChange={e => onChange(e, 'levels')}
       />
       <SearchFilter
         label="Språk"
-        options={[
-          {
-            title: 'Bokmål',
-            value: 'nb',
-          },
-          {
-            title: 'Nynorsk',
-            value: 'nn',
-          },
-          {
-            title: 'Engelsk',
-            value: 'en',
-          },
-          {
-            title: 'Kinesisk',
-            value: 'cn',
-          },
-        ]}
+        options={languages}
         values={filterState['language-filter']}
-        onChange={(newValues) => onChange(newValues, 'language-filter')}
+        onChange={newValues => onChange(newValues, 'language-filter')}
         defaultVisibleCount={3}
         showLabel="Flere språk"
         hideLabel="Færre språk"
-      />
-      <SearchFilter
-        label="Laget av"
-        options={[
-          {
-            title: 'Ndla',
-            value: 'ndla',
-          },
-          {
-            title: 'Andre',
-            value: 'other',
-          },
-        ]}
-        values={filterState.madeBy || []}
-        onChange={e => onChange(e, 'madeBy')}
       />
       <Button outline>Vis flere filter</Button>
     </Fragment>
@@ -129,7 +111,6 @@ SearchFilters.propTypes = {
     language: arrayOf(string),
     content: arrayOf(string),
     level: arrayOf(string),
-
   }),
   onChange: func,
   enabledTabs: arrayOf(string),

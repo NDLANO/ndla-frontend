@@ -17,7 +17,6 @@ import { applicationError } from '../../modules/error';
 
 export function* search(searchString, language) {
   try {
-    console.log("skjera", searchString)
     const locale = yield select(getLocale);
     const searchResult = yield call(
       api.search,
@@ -54,7 +53,9 @@ export function* groupSearch(searchString) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: { searchString, language } } = yield take(constants.SEARCH);
+    const { payload: { searchString, language } } = yield take(
+      constants.SEARCH,
+    );
     yield call(search, searchString, language);
   }
 }

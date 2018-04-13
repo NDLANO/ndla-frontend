@@ -19,15 +19,15 @@ const groupUrl = apiResourceUrl('/search-api/v1/groupSearch/');
 export const search = (searchString, locale) => {
   if (searchString) {
     return fetchWithAccessToken(
-      `${baseUrl}?${searchString}&language=${locale}`,
+      `${baseUrl}${searchString}&language=${locale}`,
     ).then(resolveJsonOrRejectWithError);
   }
-  return fetchWithAccessToken(
-        `${baseUrl}?language=${locale}`,
-      ).then(resolveJsonOrRejectWithError);
+  return fetchWithAccessToken(`${baseUrl}?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
 };
 
 export const groupSearch = searchString =>
-  fetchWithAccessToken(`${groupUrl}?${queryString.stringify(searchString)}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchWithAccessToken(
+    `${groupUrl}?${queryString.stringify(searchString)}`,
+  ).then(resolveJsonOrRejectWithError);

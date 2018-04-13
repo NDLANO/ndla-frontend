@@ -86,7 +86,7 @@ export async function defaultRoute(req) {
       match,
       location: {
         search: `?${queryString.stringify(req.query)}`,
-      }
+      },
     });
   }
 

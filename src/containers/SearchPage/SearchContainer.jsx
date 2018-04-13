@@ -29,14 +29,24 @@ import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
 import { SubjectShape, ArticleResultShape } from '../../shapes';
-import { getResults, getLastPage, getSearching, getResultsMetadata } from './searchSelectors';
+import {
+  getResults,
+  getLastPage,
+  getSearching,
+  getResultsMetadata,
+} from './searchSelectors';
 import { actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjectById,
   getSubjects,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
-import { getFilters, actions as filterActions } from '../Filters/filter';
+
+import {
+  getFilters,
+  getMultipeSubjectFilters,
+  actions as filterActions,
+} from '../Filters/filter';
 import SearchFilters from './components/SearchFilters';
 
 const defaultState = {
@@ -44,31 +54,43 @@ const defaultState = {
   subjects: [],
   'language-filter': [],
   levels: [],
-}
+  currentTab: 'all',
+};
+
+const getSubjetcsArray = (location, subjectId = undefined) => {
+  const searchObjectSubjects = queryString.parse(location.search).subjects
+    ? queryString.parse(location.search).subjects.split(',')
+    : [];
+  if (subjectId && searchObjectSubjects.length > 0) {
+    return [subjectId, ...searchObjectSubjects];
+  } else if (subjectId) {
+    return [subjectId];
+  } else if (searchObjectSubjects.length > 0) {
+    return searchObjectSubjects;
+  }
+  return [];
+};
 
 class SearchContainer extends Component {
   static getInitialProps(ctx) {
     const {
       subjects,
-      match: {
-        params: {
-          subjectId,
-        }
-      },
-      fetchSubjectFilters,
       fetchSubjects,
       location,
+      fetchFilters,
+      filters,
       search,
     } = ctx;
 
-    if (!subjects) {
+    if (!subjects || subjects.length === 0) {
       fetchSubjects();
-      if (subjectId) fetchSubjectFilters(subjectId);
     }
-    console.log(ctx);
+    if (!filters) {
+      fetchFilters();
+    }
+
     const searchString = location ? location.search : '';
-    console.log("SEARCH", searchString)
-    search({searchString});
+    search({ searchString });
   }
 
   state = defaultState;
@@ -76,21 +98,19 @@ class SearchContainer extends Component {
   componentWillMount() {
     SearchContainer.getInitialProps(this.props);
 
-    const { match: { params: { subjectId }} } = this.props;
+    const { match: { params: { subjectId } }, location } = this.props;
     const searchObject = this.converSeacrhStringToObject();
 
-    if (searchObject.subject) {
-      this.setState({...searchObject, subjects: subjectId ? [subjectId, ...searchObject.subjects.split(',')] : searchObject.subjects.split(',')});
-    } else {
-      this.setState(searchObject);
-    }
+    this.setState({
+      ...searchObject,
+      subjects: getSubjetcsArray(location, subjectId),
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    const {location: nextLocation } = nextProps;
+    const { location: nextLocation } = nextProps;
     const { location, search } = this.props;
-    if (nextLocation && location && location !== nextLocation){
-      this.setState(this.converSeacrhStringToObject());
+    if (nextLocation && location && location !== nextLocation) {
       search(nextLocation.search);
     }
   }
@@ -101,9 +121,9 @@ class SearchContainer extends Component {
     });
 
     const searchParam = {
-      [type]: newValues.join(',')
+      [type]: newValues.join(','),
     };
-    this.updateSearchLocation(searchParam)
+    this.updateSearchLocation(searchParam);
   };
 
   converSeacrhStringToObject = () => {
@@ -111,18 +131,22 @@ class SearchContainer extends Component {
     const arrayFields = ['language-filter', 'levels'];
     const searchLocation = queryString.parse(location ? location.search : '');
 
-    return arrayFields.map(field => ({[field]: searchLocation[field] ? searchLocation[field].split(',') : []})).reduce((result, item) => {
-      const key = Object.keys(item)[0];
-      return {...result, [key]: item[key]};
-    });
-  }
+    return arrayFields
+      .map(field => ({
+        [field]: searchLocation[field] ? searchLocation[field].split(',') : [],
+      }))
+      .reduce((result, item) => {
+        const key = Object.keys(item)[0];
+        return { ...result, [key]: item[key] };
+      });
+  };
 
   updateFilter = searchParam => {
-    this.setState(searchParam)
+    this.setState(searchParam);
     this.updateSearchLocation(searchParam);
   };
 
-  updateSearchLocation = (searchParam) => {
+  updateSearchLocation = searchParam => {
     const { location, history } = this.props;
     const searchParams = {
       ...queryString.parse(location.search),
@@ -131,14 +155,22 @@ class SearchContainer extends Component {
     history.push({
       search: queryString.stringify(searchParams),
     });
-  }
+  };
 
   toArray = input => [
     ...(Array.isArray(input) ? input : [input].filter(it => it !== undefined)),
   ];
 
   render() {
-    const { results, t, enabledTabs, location, subjects, resultMetadata, } = this.props;
+    const {
+      results,
+      t,
+      enabledTabs,
+      location,
+      subjects,
+      resultMetadata,
+      filters,
+    } = this.props;
     const stateFromUrl = queryString.parse(location.search);
 
     const filterState = {
@@ -184,6 +216,7 @@ class SearchContainer extends Component {
               onChange={this.onFilterChange}
               filterState={filterState}
               subjects={subjects}
+              filters={filters}
               enabledTabs={enabledTabs}
               t={t}
             />
@@ -244,8 +277,8 @@ SearchContainer.propTypes = {
   match: shape({
     params: shape({
       subjectId: string,
-    })
-  })
+    }),
+  }),
 };
 
 SearchContainer.defaultProps = {
@@ -263,11 +296,14 @@ const mapDispatchToProps = {
   clearSearchResult: actions.clearSearchResult,
   fetchSubjects: subjectActions.fetchSubjects,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
+  fetchFilters: filterActions.fetchFilters,
   fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId } = ownProps.match.params;
+  const { match: { params: { subjectId } }, location } = ownProps;
+  const subjects = getSubjetcsArray(location, subjectId);
+
   return {
     results: getResults(state),
     lastPage: getLastPage(state),
@@ -275,6 +311,10 @@ const mapStateToProps = (state, ownProps) => {
     searching: getSearching(state),
     subject: getSubjectById(subjectId)(state),
     subjects: getSubjects(state),
+    filters:
+      subjects.length > 0
+        ? getMultipeSubjectFilters(subjects)(state)
+        : getFilters('filters')(state),
     levelFilters: getFilters(subjectId)(state),
   };
 };

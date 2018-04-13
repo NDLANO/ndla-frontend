@@ -53,9 +53,7 @@ const MenuView = ({
     expandedSubtopicId,
     expandedSubtopicLevel2Id,
   ] = expandedTopicIds;
-  const getResources = expandedTopicId
-    ? topicResourcesByType
-    : [];
+  const getResources = expandedTopicId ? topicResourcesByType : [];
 
   return (
     <React.Fragment>
@@ -90,9 +88,7 @@ const MenuView = ({
             contentTypeResultsShowLess: t(
               'masthead.menu.contentTypeResultsShowLess',
             ),
-            contentTypeResultsNoHit: t(
-              'masthead.menu.contentTypeResultsNoHit',
-            ),
+            contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
           }}
           filterOptions={filters}
           onFilterClick={filterClick}
@@ -102,7 +98,7 @@ const MenuView = ({
           expandedTopicId={expandedTopicId}
           expandedSubtopicId={expandedSubtopicId}
           expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-          searchPageUrl={subject ? `/search/${subject.id}` : '/search'}
+          searchPageUrl={subject ? `/search/?subjects=${subject.id}` : '/search'}
           contentTypeResults={mapResourcesToMenu(
             getResources,
             toTopic(subject.id, expandedTopicId, expandedSubtopicId),
@@ -111,7 +107,12 @@ const MenuView = ({
       </ClickToggle>
       <DisplayOnPageYOffset yOffsetMin={150}>
         <BreadcrumbBlock
-          items={[{name: subject.name, to: toTopic(subject.id, expandedTopicId, expandedSubtopicId)}]}
+          items={[
+            {
+              name: subject.name,
+              to: toTopic(subject.id, expandedTopicId, expandedSubtopicId),
+            },
+          ]}
         />
       </DisplayOnPageYOffset>
     </React.Fragment>
