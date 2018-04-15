@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
-import { func, arrayOf, shape, string, number } from 'prop-types';
-import { SearchFilter, SearchPopoverFilter, Button } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
+import { func, arrayOf, shape, string } from 'prop-types';
+import { SearchFilter, SearchPopoverFilter } from 'ndla-ui';
 import groupBy from '../../../util/groupBy';
+import { FilterShape, SubjectShape } from '../../../shapes';
 
 const languages = [
   {
@@ -34,17 +36,33 @@ const SearchFilters = ({
     title: it.name,
     value: it.id,
   }));
-  console.log(allSubjects)
-  console.log(filterState)
-  const allFilters = Object.keys(groupBy(filters || [], 'name')).map(filter => ({
-    title: filter,
-    value: filter,
+  const allFilters = Object.keys(groupBy(filters || [], 'name')).map(
+    filter => ({
+      title: filter,
+      value: filter,
+    }),
+  );
+
+  const allContentTypes = enabledTabs.map(tab => ({
+    title: t(`contentTypes.${tab}`),
+    value: tab,
   }));
+
+  const searchFilters = [
+    {
+      name: 'contentTypes',
+      visibleCount: 3,
+      narrowScreenOnly: true,
+      options: allContentTypes,
+    },
+    { name: 'levels', visibleCount: 3, options: allFilters },
+    { name: 'language-filter', visibleCount: 3, options: languages },
+  ];
 
   return (
     <Fragment>
       <SearchFilter
-        label="Fag"
+        label={t('searchPage.label.subjects')}
         options={allSubjects.filter((_, i) => i < 2)}
         onChange={e => onChange(e, 'subjects')}
         values={filterState.subjects}>
@@ -59,61 +77,37 @@ const SearchFilters = ({
           }}
           options={allSubjects}
           values={filterState.subjects}
-          onChange={e => onChange(e, 'subject')}
+          onChange={e => onChange(e, 'subjects')}
         />
       </SearchFilter>
-      <SearchFilter
-        label="Innholdstype"
-        narrowScreenOnly
-        defaultVisibleCount={3}
-        showLabel="Flere innholdstyper"
-        hideLabel="Færre innholdstyper"
-        options={enabledTabs.map(it => ({
-          title: t(`contentTypes.${it}`),
-          value: it,
-        }))}
-        values={filterState.contentType || []}
-        onChange={e => onChange(e, 'contentTypes')}
-      />
-      <SearchFilter
-        label="Nivå"
-        options={allFilters}
-        defaultVisibleCount={3}
-        showLabel="Flere nivåer"
-        hideLabel="Færre nivåer"
-        values={filterState.levels}
-        onChange={e => onChange(e, 'levels')}
-      />
-      <SearchFilter
-        label="Språk"
-        options={languages}
-        values={filterState['language-filter']}
-        onChange={newValues => onChange(newValues, 'language-filter')}
-        defaultVisibleCount={3}
-        showLabel="Flere språk"
-        hideLabel="Færre språk"
-      />
-      <Button outline>Vis flere filter</Button>
+      {searchFilters.map(searchFilter => (
+        <SearchFilter
+          key={`filter_${searchFilter.name}`}
+          label={t(`searchPage.label.${searchFilter.name}`)}
+          narrowScreenOnly={!!searchFilter.narrowScreenOnly}
+          defaultVisibleCount={searchFilter.visibleCount || 3}
+          showLabel={t(`searchPage.showLabel.${searchFilter.name}`)}
+          hideLabel={t(`searchPage.hideLabel.${searchFilter.name}`)}
+          options={searchFilter.options}
+          values={filterState[searchFilter.name] || []}
+          onChange={newValues => onChange(newValues, searchFilter.name)}
+        />
+      ))}
     </Fragment>
   );
 };
 
 SearchFilters.propTypes = {
-  subjects: arrayOf(
-    shape({
-      name: string,
-      id: number,
-    }),
-  ),
+  subjects: arrayOf(SubjectShape),
   filterState: shape({
-    currentTab: string,
-    subject: arrayOf(string),
-    language: arrayOf(string),
-    content: arrayOf(string),
-    level: arrayOf(string),
+    'resource-types': string,
+    subjects: arrayOf(string),
+    'language-filter': arrayOf(string),
+    levels: arrayOf(string),
   }),
+  filters: arrayOf(FilterShape),
   onChange: func,
   enabledTabs: arrayOf(string),
 };
 
-export default SearchFilters;
+export default injectT(SearchFilters);

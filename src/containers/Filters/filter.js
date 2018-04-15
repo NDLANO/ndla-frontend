@@ -112,7 +112,11 @@ export const getFilters = subjectId =>
   createSelector([getState], state => getFilterFromField(state, subjectId));
 
 export const getMultipeSubjectFilters = subjects =>
-  createSelector([getState], state => getFilterFromField(state, 'filters').filter(filter => subjects.indexOf(filter.subjectId) !== -1));
+  createSelector([getState], state =>
+    getFilterFromField(state, 'filters').filter(
+      filter => subjects.indexOf(filter.subjectId) !== -1,
+    ),
+  );
 
 export const filterHasFetched = ({ subjectId, filterId }) =>
   createSelector(

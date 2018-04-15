@@ -90,3 +90,11 @@ export const FootNoteShape = PropTypes.shape({
   edition: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
 });
+
+export const FilterShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  subjectId: PropTypes.string.isRequired,
+});

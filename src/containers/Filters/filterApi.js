@@ -19,4 +19,5 @@ export const fetchSubjectFilters = id =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchFilters = () => fetchWithAccessToken(`${baseUrl}/filters`).then(resolveJsonOrRejectWithError);
+export const fetchFilters = () =>
+  fetchWithAccessToken(`${baseUrl}/filters`).then(resolveJsonOrRejectWithError);

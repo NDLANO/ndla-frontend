@@ -28,7 +28,7 @@ import { HelmetWithTracker } from 'ndla-tracker';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
-import { SubjectShape, ArticleResultShape } from '../../shapes';
+import { SubjectShape, ArticleResultShape, FilterShape } from '../../shapes';
 import {
   getResults,
   getLastPage,
@@ -50,11 +50,13 @@ import {
 import SearchFilters from './components/SearchFilters';
 
 const defaultState = {
-  query: '',
-  subjects: [],
-  'language-filter': [],
-  levels: [],
-  currentTab: 'all',
+  searchParams: {
+    query: '',
+    subjects: [],
+    'language-filter': [],
+    levels: [],
+    'resource-types': 'all',
+  },
 };
 
 const getSubjetcsArray = (location, subjectId = undefined) => {
@@ -85,7 +87,7 @@ class SearchContainer extends Component {
     if (!subjects || subjects.length === 0) {
       fetchSubjects();
     }
-    if (!filters) {
+    if (!filters || filters.length === 0) {
       fetchFilters();
     }
 
@@ -102,8 +104,10 @@ class SearchContainer extends Component {
     const searchObject = this.converSeacrhStringToObject();
 
     this.setState({
-      ...searchObject,
-      subjects: getSubjetcsArray(location, subjectId),
+      searchParams: {
+        ...searchObject,
+        subjects: getSubjetcsArray(location, subjectId),
+      },
     });
   }
 
@@ -116,9 +120,9 @@ class SearchContainer extends Component {
   }
 
   onFilterChange = (newValues, type) => {
-    this.setState({
-      [type]: newValues,
-    });
+    this.setState(prevState => ({
+      searchParams: { ...prevState.searchParams, [type]: newValues },
+    }));
 
     const searchParam = {
       [type]: newValues.join(','),
@@ -142,8 +146,16 @@ class SearchContainer extends Component {
   };
 
   updateFilter = searchParam => {
-    this.setState(searchParam);
+    this.setState(prevState => ({
+      searchParams: { ...prevState.searchParams, ...searchParam },
+    }));
     this.updateSearchLocation(searchParam);
+  };
+
+  updateQuery = query => {
+    this.setState(prevState => ({
+      searchParams: { ...prevState.searchParams, query },
+    }));
   };
 
   updateSearchLocation = searchParam => {
@@ -174,7 +186,7 @@ class SearchContainer extends Component {
     const stateFromUrl = queryString.parse(location.search);
 
     const filterState = {
-      ...this.state,
+      ...this.state.searchParams,
       content: this.toArray(stateFromUrl.content),
     };
 
@@ -191,14 +203,16 @@ class SearchContainer extends Component {
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <SearchPage
-          closeUrl="#"
-          searchString={this.state.query}
-          onSearchFieldChange={e => this.setState({ query: e.target.value })}
-          onSearch={() => this.updateFilter({ query: this.state.query })}
+          closeUrl="/#"
+          searchString={filterState.query}
+          onSearchFieldChange={e => this.updateQuery(e.target.value)}
+          onSearch={() => this.updateFilter({ query: filterState.query })}
           searchFieldPlaceholder="Søk i fagstoff, oppgaver og aktiviteter eller læringsstier"
-          onSearchFieldFilterRemove={val =>
+          onSearchFieldFilterRemove={removedSubject =>
             this.updateFilter({
-              subject: filterState.subject.filter(it => it !== val),
+              subjects: filterState.subjects.filter(
+                subject => subject !== removedSubject,
+              ),
             })
           }
           searchFieldFilters={activeSubjectsMapped}
@@ -218,7 +232,6 @@ class SearchContainer extends Component {
               subjects={subjects}
               filters={filters}
               enabledTabs={enabledTabs}
-              t={t}
             />
           }>
           <SearchResult
@@ -231,8 +244,8 @@ class SearchContainer extends Component {
               value: it,
               title: t(`contentTypes.${it}`),
             }))}
-            onTabChange={tab => this.updateFilter({ currentTab: tab })}
-            currentTab={filterState.currentTab || 'all'}>
+            onTabChange={tab => this.updateFilter({ 'resource-types': tab })}
+            currentTab={filterState['resource-types'] || 'all'}>
             <SearchResultList
               messages={{
                 subjectsLabel: 'Åpne i fag:',
@@ -274,6 +287,7 @@ SearchContainer.propTypes = {
   resultMetadata: shape({
     totalCount: number,
   }),
+  filters: arrayOf(FilterShape),
   match: shape({
     params: shape({
       subjectId: string,
@@ -303,7 +317,6 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
   const { match: { params: { subjectId } }, location } = ownProps;
   const subjects = getSubjetcsArray(location, subjectId);
-
   return {
     results: getResults(state),
     lastPage: getLastPage(state),

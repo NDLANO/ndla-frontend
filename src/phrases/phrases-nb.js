@@ -27,6 +27,30 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    label: {
+      contentTypes: 'Innholdstyper',
+      levels: 'Nivå',
+      'language-filter': 'Språk',
+      subjects: 'Fag',
+    },
+    showLabel: {
+      contentTypes: 'Flere innholdstyper',
+      levels: 'Flere nivåer',
+      'language-filter': 'Flere språk',
+      subjects: 'Bytt fag',
+    },
+    hideLabel: {
+      contentTypes: 'Færre innholdstyper',
+      levels: 'Færre nivåer',
+      'language-filter': 'Færre språk',
+      subjects: 'Færre fag',
+    },
+    searchResultListMessages: {
+      subjectsLabel: 'Åpne i fag:',
+      noResultHeading: 'Hmm, ikke noe innhold ...',
+      noResultDescription:
+        'Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.',
+    },
   },
   subjectPage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av emnene.',

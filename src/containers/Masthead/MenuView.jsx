@@ -98,7 +98,9 @@ const MenuView = ({
           expandedTopicId={expandedTopicId}
           expandedSubtopicId={expandedSubtopicId}
           expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-          searchPageUrl={subject ? `/search/?subjects=${subject.id}` : '/search'}
+          searchPageUrl={
+            subject ? `/search/?subjects=${subject.id}` : '/search'
+          }
           contentTypeResults={mapResourcesToMenu(
             getResources,
             toTopic(subject.id, expandedTopicId, expandedSubtopicId),
