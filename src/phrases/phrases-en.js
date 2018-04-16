@@ -127,8 +127,6 @@ const phrases = {
     noCoreResourcesAvailable: 'There is no core content available.',
     activateAdditionalResources: 'Show additional content',
     toggleFilterLabel: 'Additional content',
-    showLess: 'Show less',
-    showMore: 'Show more',
   },
   searchForm: {
     placeholder: 'Search articles',

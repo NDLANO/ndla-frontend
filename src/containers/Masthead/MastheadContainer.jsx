@@ -185,7 +185,7 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          <Logo isBeta to="/" altText="Nasjonal digital læringsarena" />
+          <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
     );

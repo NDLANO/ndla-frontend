@@ -127,8 +127,6 @@ const phrases = {
     noCoreResourcesAvailable: 'Det er ikkje noko kjernestoff tilgjengeleg.',
     activateAdditionalResources: 'Vis tilleggsstoff',
     toggleFilterLabel: 'Tilleggsstoff',
-    showLess: 'Vis mindre',
-    showMore: 'Vis meir',
   },
   searchForm: {
     placeholder: 'Søk etter artiklar',
