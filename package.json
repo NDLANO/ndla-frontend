@@ -12,7 +12,8 @@
     "lint-prettier": "node prettier.js lint",
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
-    "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-with-local-converter":
+      "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
@@ -22,9 +23,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -32,33 +31,25 @@
   },
   "devDependencies": {
     "chalk": "^2.3.0",
-    "cross-env": "^5.1.1",
     "cypress": "^2.1.0",
     "enzyme": "^3.2.0",
     "eslint": "^4.18.1",
     "eslint-config-ndla": "^0.4.0",
     "eslint-plugin-react": "^7.7.0",
     "flux-standard-action": "^2.0.0",
-    "mathjax": "^2.7.1",
     "ndla-scripts": "^0.3.1",
     "nock": "^9.1.4",
-    "postcss-cssnext": "^3.0.2",
-    "postcss-focus": "^3.0.0",
-    "postcss-import": "^11.0.0",
-    "postcss-loader": "^2.0.9",
-    "postcss-reporter": "^5.0.0",
     "prettier": "^1.9.1",
-    "razzle-config-utils": "^0.1.0",
     "react-test-renderer": "^16.2.0",
     "redux-saga-test-plan": "^3.3.1",
-    "sinon": "^4.1.2",
-    "webpack-bundle-analyzer": "^2.9.1"
+    "sinon": "^4.1.2"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.2",
     "btoa": "^1.1.2",
     "bunyan": "^1.8.12",
+    "cross-env": "^5.1.1",
     "classnames": "2.2.5",
     "compression": "^1.7.1",
     "date-fns": "^1.29.0",
@@ -71,6 +62,7 @@
     "http-status": "^1.0.1",
     "isomorphic-unfetch": "^2.0.0",
     "jwt-decode": "^2.2.0",
+    "mathjax": "^2.7.4",
     "ndla-article-scripts": "^0.3.4",
     "ndla-error-reporter": "^0.2.0",
     "ndla-i18n": "^0.2.1",
@@ -84,7 +76,13 @@
     "normalize-css": "2.3.1",
     "parse-url": "^3.0.2",
     "prop-types": "^15.6.0",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-focus": "^3.0.0",
+    "postcss-import": "^11.0.0",
+    "postcss-loader": "^2.0.9",
+    "postcss-reporter": "^5.0.0",
     "razzle": "^0.8.12",
+    "razzle-config-utils": "^0.1.0",
     "react": "^16.2.0",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^16.2.0",
@@ -101,7 +99,8 @@
     "serialize-javascript": "^1.4.0",
     "source-map-support": "^0.5.3",
     "useragent": "^2.3.0",
-    "warning": "^3.0.0"
+    "warning": "^3.0.0",
+    "webpack-bundle-analyzer": "^2.9.1"
   },
   "repository": {
     "type": "git",
