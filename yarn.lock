@@ -5648,9 +5648,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.14:
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.14.tgz#9975692a0dcc3f8a4a47ac2cba71d20d87b909d5"
+ndla-icons@^0.2.16:
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.16.tgz#c987252c04e2895366a9740194d5ea2a875fe071"
 
 ndla-licenses@^0.1.7:
   version "0.1.8"
@@ -5679,9 +5679,9 @@ ndla-tracker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.11.3:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.11.3.tgz#7ccf9a5c9000e31af9a2e8fa9e7cbe6f17995368"
+ndla-ui@^0.11.7:
+  version "0.11.7"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.11.7.tgz#d6c897b1044861021646bffc793f672a766f84d4"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -7258,9 +7258,18 @@ react-dev-utils@^4.0.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-"react-dom@^15 || ^16", react-dom@^16.2.0:
+"react-dom@^15 || ^16":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react-dom@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -7410,9 +7419,18 @@ react-twitter-widgets@^1.7.1:
     prop-types "^15.3.0"
     scriptjs "^2.5.8"
 
-"react@^15 || ^16", react@^16.2.0:
+"react@^15 || ^16":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"

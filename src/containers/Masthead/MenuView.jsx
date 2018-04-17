@@ -42,7 +42,7 @@ const MenuView = ({
   activeFilters,
   expandedTopicIds,
   topicResourcesByType,
-  topicPath,
+  // topicPath,
   onOpenSearch,
   onNavigate,
   filterClick,

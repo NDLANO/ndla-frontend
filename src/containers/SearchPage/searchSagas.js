@@ -12,7 +12,6 @@ import { getLocale } from '../Locale/localeSelectors';
 import * as constants from './searchConstants';
 import * as actions from './searchActions';
 import * as api from './searchApi';
-// import * as resourceApi from '../Resources/resourceApi';
 import { applicationError } from '../../modules/error';
 
 export function* search(searchString, language) {
@@ -23,16 +22,6 @@ export function* search(searchString, language) {
       searchString,
       language || locale,
     );
-    /* const newSearchResult = searchResult.results.map(async result => {
-      if (result.contexts.length === 0 ) {
-        return result;
-      }
-      const taxonomyResult = await resourceApi.fetchResourceTypesForResource(result.contexts[0].id, locale)
-      return {
-        ...result,
-        resourceTypes: taxonomyResult,
-      }
-    }) */
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());

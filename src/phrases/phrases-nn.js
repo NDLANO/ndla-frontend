@@ -130,14 +130,6 @@ const phrases = {
     showLess: 'Vis mindre',
     showMore: 'Vis meir',
   },
-  searchForm: {
-    placeholder: 'Søk etter artiklar',
-    btn: 'Søk',
-    order: {
-      relevance: 'Relevans',
-      title: 'Alfabetisk',
-    },
-  },
   article: {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgåve',
@@ -226,6 +218,17 @@ const phrases = {
     footerInfo: 'Nettstaden er utarbeida av NDLA med open kjeldekode.',
     footerEditiorInChief: 'Ansvarleg redaktør: ',
     footerManagingEditor: 'Utgåveansvarleg: ',
+  },
+  languages: {
+    nb: 'Norsk',
+    nn: 'Nynorsk',
+    en: 'Engelsk',
+    fr: 'Fransk',
+    de: 'Tysk',
+    se: 'Samisk',
+    es: 'Spansk',
+    zh: 'Kinesisk',
+    unkown: 'Ukjent',
   },
 };
 

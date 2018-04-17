@@ -27,6 +27,8 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    searchFieldPlaceholder:
+      'Søk i fagstoff, oppgaver og aktiviteter eller læringsstier',
     label: {
       contentTypes: 'Innholdstyper',
       levels: 'Nivå',
@@ -45,11 +47,30 @@ const phrases = {
       'language-filter': 'Færre språk',
       subjects: 'Færre fag',
     },
+    searchResultMessages: {
+      searchStringLabel: 'Du søkte på:',
+      subHeading: '{totalCount} treff i Ndla',
+    },
     searchResultListMessages: {
       subjectsLabel: 'Åpne i fag:',
       noResultHeading: 'Hmm, ikke noe innhold ...',
       noResultDescription:
         'Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.',
+    },
+    searchPageMessages: {
+      filterHeading: 'Filter',
+      resultHeading: '{totalCount} treff i Ndla',
+      closeButton: 'Lukk',
+      narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
+      searchFieldTitle: 'Søk',
+    },
+    searchFilterMessages: {
+      backButton: 'Tilbake til filter',
+      filterLabel: 'Velg fag',
+      closeButton: 'Lukk',
+      confirmButton: 'Bruk fag',
+      hasValuesButtonText: 'Bytt fag',
+      noValuesButtonText: 'Velg fag',
     },
   },
   subjectPage: {
@@ -154,14 +175,6 @@ const phrases = {
     showLess: 'Vis mindre',
     showMore: 'Vis mer',
   },
-  searchForm: {
-    placeholder: 'Søk etter artikler',
-    btn: 'Søk',
-    order: {
-      relevance: 'Relevans',
-      title: 'Alfabetisk',
-    },
-  },
   article: {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',
@@ -258,7 +271,18 @@ const phrases = {
     'subject-material': 'Fagstoff',
     'tasks-and-activities': 'Oppgaver og aktiviteter',
     'external-learning-resources': 'Ekstern læringsressurs',
-    'Source-material': 'Kildemateriale',
+    'source-material': 'Kildemateriale',
+  },
+  languages: {
+    nb: 'Norsk',
+    nn: 'Nynorsk',
+    en: 'Engelsk',
+    fr: 'Fransk',
+    de: 'Tysk',
+    se: 'Samisk',
+    es: 'Spansk',
+    zh: 'Kinesisk',
+    unkown: 'Ukjent',
   },
 };
 

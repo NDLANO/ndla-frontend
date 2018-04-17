@@ -1,41 +1,37 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
 import React, { Fragment } from 'react';
 import { injectT } from 'ndla-i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from 'ndla-ui';
 import groupBy from '../../../util/groupBy';
 import { FilterShape, SubjectShape } from '../../../shapes';
-
-const languages = [
-  {
-    title: 'Bokmål',
-    value: 'nb',
-  },
-  {
-    title: 'Nynorsk',
-    value: 'nn',
-  },
-  {
-    title: 'Engelsk',
-    value: 'en',
-  },
-  {
-    title: 'Kinesisk',
-    value: 'cn',
-  },
-];
+import supportedLanguages from '../../../util/supportedLanguages';
 
 const SearchFilters = ({
   subjects,
   filters,
   filterState,
   onChange,
+  onContentTypeChange,
   enabledTabs,
   t,
 }) => {
-  const allSubjects = subjects.map(it => ({
-    title: it.name,
-    value: it.id,
+  const allSubjects = subjects.map(subject => ({
+    title: subject.name,
+    value: subject.id,
   }));
+
+  const languages = supportedLanguages.map(language => ({
+    title: t(`languages.${language}`),
+    value: language,
+  }));
+
   const allFilters = Object.keys(groupBy(filters || [], 'name')).map(
     filter => ({
       title: filter,
@@ -44,20 +40,21 @@ const SearchFilters = ({
   );
 
   const allContentTypes = enabledTabs.map(tab => ({
-    title: t(`contentTypes.${tab}`),
-    value: tab,
+    title: t(`contentTypes.${tab.name}`),
+    value: tab.value,
   }));
 
   const searchFilters = [
-    {
-      name: 'contentTypes',
-      visibleCount: 3,
-      narrowScreenOnly: true,
-      options: allContentTypes,
-    },
     { name: 'levels', visibleCount: 3, options: allFilters },
     { name: 'language-filter', visibleCount: 3, options: languages },
   ];
+
+  const enabledTab =
+    enabledTabs.find(
+      tab =>
+        filterState['resource-types'] === tab.value ||
+        filterState['context-types'] === tab.value,
+    ) || enabledTabs[0];
 
   return (
     <Fragment>
@@ -68,23 +65,36 @@ const SearchFilters = ({
         values={filterState.subjects}>
         <SearchPopoverFilter
           messages={{
-            backButton: 'Tilbake til filter',
-            filterLabel: 'Velg fag',
-            closeButton: 'Lukk',
-            confirmButton: 'Bruk fag',
-            hasValuesButtonText: 'Bytt fag',
-            noValuesButtonText: 'Velg fag',
+            backButton: t('searchPage.searchFilterMessages.backButton'),
+            filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
+            closeButton: t('searchPage.searchFilterMessages.closeButton'),
+            confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
+            hasValuesButtonText: t(
+              'searchPage.searchFilterMessages.hasValuesButtonText',
+            ),
+            noValuesButtonText: t(
+              'searchPage.searchFilterMessages.noValuesButtonText',
+            ),
           }}
           options={allSubjects}
           values={filterState.subjects}
           onChange={e => onChange(e, 'subjects')}
         />
       </SearchFilter>
+      <SearchFilter
+        label={t(`searchPage.label.contentTypes`)}
+        narrowScreenOnly
+        defaultVisibleCount={3}
+        showLabel={t(`searchPage.showLabel.contentTypes`)}
+        hideLabel={t(`searchPage.hideLabel.contentTypes`)}
+        options={allContentTypes}
+        values={[enabledTab.value]}
+        onChange={(newValues, tab) => onContentTypeChange(tab)}
+      />
       {searchFilters.map(searchFilter => (
         <SearchFilter
           key={`filter_${searchFilter.name}`}
           label={t(`searchPage.label.${searchFilter.name}`)}
-          narrowScreenOnly={!!searchFilter.narrowScreenOnly}
           defaultVisibleCount={searchFilter.visibleCount || 3}
           showLabel={t(`searchPage.showLabel.${searchFilter.name}`)}
           hideLabel={t(`searchPage.hideLabel.${searchFilter.name}`)}
@@ -107,7 +117,14 @@ SearchFilters.propTypes = {
   }),
   filters: arrayOf(FilterShape),
   onChange: func,
-  enabledTabs: arrayOf(string),
+  onContentTypeChange: func,
+  enabledTabs: arrayOf(
+    shape({
+      name: string,
+      value: string,
+      type: string,
+    }),
+  ),
 };
 
 export default injectT(SearchFilters);

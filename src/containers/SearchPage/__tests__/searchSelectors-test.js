@@ -7,11 +7,12 @@
  */
 
 import { getResults, getLastPage } from '../searchSelectors';
-import search from './_mockSearchResult';
+import search, { searchNotTranslated } from './_mockSearchResult';
 
 test('searchSelectors getResults', () => {
   const state = {
-    search,
+    search: searchNotTranslated,
+    locale: 'nb',
   };
 
   expect(getResults(state)).toEqual(search.results);

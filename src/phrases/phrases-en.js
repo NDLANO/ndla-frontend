@@ -28,6 +28,51 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
+    searchFieldPlaceholder:
+      'Search for subjets, tasks and activities or learningpaths',
+    label: {
+      contentTypes: 'Content types',
+      levels: 'Level',
+      'language-filter': 'Language',
+      subjects: 'Subjets',
+    },
+    showLabel: {
+      contentTypes: 'More content types',
+      levels: 'More levels',
+      'language-filter': 'More languages',
+      subjects: 'Change subject',
+    },
+    hideLabel: {
+      contentTypes: 'Hide content types',
+      levels: 'Hide levels',
+      'language-filter': 'Hide languages',
+      subjects: 'Hide subjects',
+    },
+    searchResultMessages: {
+      searchStringLabel: 'You searched on:',
+      subHeading: '{totalCount} hits in Ndla',
+    },
+    searchResultListMessages: {
+      subjectsLabel: 'Open in subject:',
+      noResultHeading: 'Hmm, no content ...',
+      noResultDescription:
+        'Unfortunately, we do not have anything to offer here. If you want to suggest any content for this site, you can use Ask NDLA, located at the bottom right of the screen.',
+    },
+    searchPageMessages: {
+      filterHeading: 'Filter',
+      resultHeading: '{totalCount} hits in Ndla',
+      closeButton: 'Close',
+      narrowScreenFilterHeading: '{totalCount} hits on «{query}»',
+      searchFieldTitle: 'Search',
+    },
+    searchFilterMessages: {
+      backButton: 'Back to filter',
+      filterLabel: 'Chose subjects',
+      closeButton: 'Close',
+      confirmButton: 'Use subject',
+      hasValuesButtonText: 'Change subject',
+      noValuesButtonText: 'Pick subject',
+    },
   },
   subjectPage: {
     errorDescription: 'Sorry, an error occurd while loading the topics.',
@@ -130,14 +175,6 @@ const phrases = {
     showLess: 'Show less',
     showMore: 'Show more',
   },
-  searchForm: {
-    placeholder: 'Search articles',
-    btn: 'Search',
-    order: {
-      relevance: 'Relevance',
-      title: 'Alphabetical',
-    },
-  },
   article: {
     author: 'Author',
     published: 'Published',
@@ -229,6 +266,17 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  languages: {
+    nb: 'Norwegian Bokmål',
+    nn: 'Norwegian Nynorsk',
+    en: 'English',
+    fr: 'French',
+    de: 'German',
+    se: 'Sami',
+    es: 'Spanish',
+    zh: 'Chinese',
+    unkown: 'Unkown',
   },
 };
 

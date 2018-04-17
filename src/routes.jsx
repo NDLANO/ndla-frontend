@@ -43,7 +43,7 @@ export const routes = [
     background: true,
   },
   {
-    path: '/search/:subjectId?',
+    path: '/search',
     component: searchEnabled ? SearchContainer : NotFoundPage,
     background: true,
   },
