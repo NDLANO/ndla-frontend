@@ -2031,6 +2031,12 @@ cross-env@^5.1.1:
     cross-spawn "^5.1.0"
     is-windows "^1.0.0"
 
+cross-spawn-promise@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/cross-spawn-promise/-/cross-spawn-promise-0.10.1.tgz#db9cb4c50c60b72a15be049b78122ce382d87b10"
+  dependencies:
+    cross-spawn "^5.1.0"
+
 cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -2039,9 +2045,9 @@ cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cross-spawn@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.4.tgz#bbf44ccb30fb8314a08f178b62290c669c36d808"
+cross-spawn@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
   dependencies:
     nice-try "^1.0.4"
     path-key "^2.0.1"
@@ -5658,15 +5664,16 @@ ndla-licenses@^0.2.0:
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.3.1.tgz#7a1da87701f889e9b56fd2ddcaf3b1168e3c9e47"
+ndla-scripts@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.4.0.tgz#42dbe472de201adc81e9be1669bf1a859358e141"
   dependencies:
     await-url "^0.3.0"
-    cross-spawn "^6.0.4"
+    cross-spawn "^6.0.5"
+    cross-spawn-promise "^0.10.1"
     normalize-url "^2.0.1"
-    now "^11.1.4"
-    octonode "^0.9.1"
+    now "^11.1.5"
+    octonode "^0.9.2"
     url-regex "^4.1.1"
 
 ndla-tabs@^0.4.2:
@@ -5866,9 +5873,9 @@ normalize-url@^2.0.1:
     query-string "^5.0.1"
     sort-keys "^2.0.0"
 
-now@^11.1.4:
-  version "11.1.4"
-  resolved "https://registry.yarnpkg.com/now/-/now-11.1.4.tgz#0583808aa9ce5a7a45d63edaafb4d510c962e13c"
+now@^11.1.5:
+  version "11.1.5"
+  resolved "https://registry.yarnpkg.com/now/-/now-11.1.5.tgz#f6421ce5a909721bf0a225419a8d08a661ef2a89"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -5964,9 +5971,9 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.1.tgz#104124b6c602c6796881a042541d36db43a5264e"
 
-octonode@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.1.tgz#a8ac6e767a5db0256b9f064527134f3f4e92e635"
+octonode@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.2.tgz#08c44a8ccf4cdecdfdf7cca4fcc1720c45592dd8"
   dependencies:
     bluebird "^3.5.0"
     deep-extend "^0.4.1"
