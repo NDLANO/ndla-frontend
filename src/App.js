@@ -44,7 +44,7 @@ const Route = ({
       </Page>
     )}
   />
-);
+)
 
 Route.propTypes = {
   component: PropTypes.func.isRequired,
@@ -106,7 +106,7 @@ class App extends React.Component {
           .filter(route => route !== undefined)
           .map(route => (
             <Route
-              key={route.path}
+              key={`route_${route.path}`}
               exact={route.exact}
               initialProps={this.state.data}
               locale={this.props.locale}

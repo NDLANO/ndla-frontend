@@ -61,7 +61,7 @@ const SearchFilters = ({
       <SearchFilter
         label={t('searchPage.label.subjects')}
         options={allSubjects.filter((_, i) => i < 2)}
-        onChange={e => onChange(e, 'subjects')}
+        onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
         values={filterState.subjects}>
         <SearchPopoverFilter
           messages={{
@@ -78,7 +78,7 @@ const SearchFilters = ({
           }}
           options={allSubjects}
           values={filterState.subjects}
-          onChange={e => onChange(e, 'subjects')}
+          onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
         />
       </SearchFilter>
       <SearchFilter
@@ -100,7 +100,7 @@ const SearchFilters = ({
           hideLabel={t(`searchPage.hideLabel.${searchFilter.name}`)}
           options={searchFilter.options}
           values={filterState[searchFilter.name] || []}
-          onChange={newValues => onChange(newValues, searchFilter.name)}
+          onChange={(newValues, value) => onChange(newValues, value, searchFilter.name)}
         />
       ))}
     </Fragment>

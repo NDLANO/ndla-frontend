@@ -28,6 +28,7 @@ const SearchResults = ({
   onTabChange,
   t,
 }) => {
+  console.log(results);
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
   return (
@@ -40,7 +41,7 @@ const SearchResults = ({
           totalCount: resultMetadata.totalCount,
         }),
       }}
-      searchString={filterState.query}
+      searchString={filterState.query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
         title: t(`contentTypes.${tab.name}`),

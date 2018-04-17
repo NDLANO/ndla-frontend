@@ -107,20 +107,27 @@ class SearchContainer extends Component {
     this.updateFilter({ query: this.state.searchParams.query });
   };
 
-  onFilterChange = (newValues, type) => {
-    this.setState(
-      prevState => ({
-        searchParams: { ...prevState.searchParams, [type]: newValues },
-      }),
-      this.updateSearchLocation,
-    );
+  onFilterChange = (newValues, value, type) => {
+    if (type === 'subjects' && newValues.length < this.state.searchParams.subjects.length) {
+      this.onRemoveSubject({ subjects: newValues  }, value);
+    } else {
+      this.updateFilter({ [type]: newValues  });
+    }
   };
 
+  onRemoveSubject = (subjectsSearchParam, subject) => {
+    const { filters } = this.props;
+    const { levels } = this.state.searchParams;
+    const removedFilters = filters.filter(level => level.subjectId === subject).map(level => level.name);
+    this.setState((prevState) => ({searchParams: { ...prevState.searchParams, ...subjectsSearchParam,  levels: levels.filter(level => !removedFilters.includes(level))}}), this.updateSearchLocation)
+  }
+
   onSearchFieldFilterRemove = removedSubject => {
+    this.onRemoveSubject(removedSubject);
     const subjects = this.state.searchParams.subjects.filter(
       subject => subject !== removedSubject,
     );
-    this.updateFilter({ subjects });
+    this.onRemoveSubject({ subjects }, removedSubject);
   };
 
   converSearchStringToObject = location => {
@@ -171,6 +178,7 @@ class SearchContainer extends Component {
       this.updateSearchLocation,
     );
   };
+
 
   updateQuery = query => {
     this.setState(prevState => ({
