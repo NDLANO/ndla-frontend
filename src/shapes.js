@@ -20,9 +20,9 @@ export const ArticleShape = PropTypes.shape({
 
 export const ArticleResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  title: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-  }).isRequired,
+  title: PropTypes.string.isRequired,
+  ingress: PropTypes.string.isRequired,
+  contentType: PropTypes.string.isRequired,
 });
 
 export const SubjectShape = PropTypes.shape({
@@ -89,4 +89,12 @@ export const FootNoteShape = PropTypes.shape({
   authors: PropTypes.array.isRequired,
   edition: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
+});
+
+export const FilterShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  subjectId: PropTypes.string.isRequired,
 });

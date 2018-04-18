@@ -6,15 +6,28 @@
  *
  */
 
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
-  apiResourceUrl,
+  apiResourceUrl, // eslint-disable-line
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v2/articles');
+const baseUrl = apiResourceUrl('/search-api/v1/search/');
+const groupUrl = apiResourceUrl('/search-api/v1/groupSearch/');
 
-export const search = (queryString, locale) =>
-  fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`).then(
+export const search = (searchString, locale) => {
+  if (searchString) {
+    return fetchWithAccessToken(
+      `${baseUrl}${searchString}&language=${locale}`,
+    ).then(resolveJsonOrRejectWithError);
+  }
+  return fetchWithAccessToken(`${baseUrl}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+};
+
+export const groupSearch = searchString =>
+  fetchWithAccessToken(
+    `${groupUrl}?${queryString.stringify(searchString)}`,
+  ).then(resolveJsonOrRejectWithError);

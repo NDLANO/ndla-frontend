@@ -18,3 +18,6 @@ export const fetchSubjectFilters = id =>
   fetchWithAccessToken(`${baseUrl}/subjects/${id}/filters`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchFilters = () =>
+  fetchWithAccessToken(`${baseUrl}/filters`).then(resolveJsonOrRejectWithError);

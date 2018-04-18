@@ -14,12 +14,14 @@ import * as actions from '../searchActions';
 
 test('searchSagas search', () => {
   nock('http://ndla-api')
-    .get('/article-api/v2/articles/?query=testing&page=3&sort=alfa&language=nb')
+    .get('/search-api/v1/search/?query=testing&language=nb')
     .reply(200, { results: [1, 2, 3] });
 
   return expectSaga(sagas.watchSearch)
     .withState({ locale: 'nb', accessToken: '123456789' })
     .put(actions.setSearchResult({ results: [1, 2, 3] }))
-    .dispatch(actions.search('?query=testing&page=3&sort=alfa'))
+    .dispatch(
+      actions.search({ searchString: '?query=testing', language: 'nb' }),
+    )
     .run({ silenceTimeout: true });
 });
