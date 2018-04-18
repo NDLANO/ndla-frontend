@@ -10,6 +10,7 @@ import {
 import { TopicShape } from '../../shapes';
 import { toTopic, toSubject, toSubjects } from '../../routeHelpers';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
+import { resourceToLinkProps } from '../Resources/resourceHelpers';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
@@ -98,6 +99,7 @@ const MenuView = ({
           expandedTopicId={expandedTopicId}
           expandedSubtopicId={expandedSubtopicId}
           expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
+          resourceToLinkProps={resourceToLinkProps}
           searchPageUrl={
             subject ? `/search/?subjects=${subject.id}` : '/search'
           }

@@ -156,8 +156,7 @@ class MastheadContainer extends React.PureComponent {
                 query={this.state.query}
                 results={resultsMapped}
               />
-            )
-          }
+            )}
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
