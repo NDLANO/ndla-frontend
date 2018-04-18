@@ -78,7 +78,9 @@ const SearchFilters = ({
           }}
           options={allSubjects}
           values={filterState.subjects}
-          onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
+          onChange={(newValues, value) =>
+            onChange(newValues, value, 'subjects')
+          }
         />
       </SearchFilter>
       <SearchFilter
@@ -100,7 +102,9 @@ const SearchFilters = ({
           hideLabel={t(`searchPage.hideLabel.${searchFilter.name}`)}
           options={searchFilter.options}
           values={filterState[searchFilter.name] || []}
-          onChange={(newValues, value) => onChange(newValues, value, searchFilter.name)}
+          onChange={(newValues, value) =>
+            onChange(newValues, value, searchFilter.name)
+          }
         />
       ))}
     </Fragment>

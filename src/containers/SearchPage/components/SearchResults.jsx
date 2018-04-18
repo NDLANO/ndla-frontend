@@ -28,7 +28,6 @@ const SearchResults = ({
   onTabChange,
   t,
 }) => {
-  console.log(results);
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
   return (

@@ -44,7 +44,7 @@ const Route = ({
       </Page>
     )}
   />
-)
+);
 
 Route.propTypes = {
   component: PropTypes.func.isRequired,
