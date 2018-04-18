@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl, // eslint-disable-line
@@ -14,7 +13,6 @@ import {
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search/');
-const groupUrl = apiResourceUrl('/search-api/v1/groupSearch/');
 
 export const search = (searchString, locale) => {
   if (searchString) {
@@ -27,7 +25,7 @@ export const search = (searchString, locale) => {
   );
 };
 
-export const groupSearch = searchString =>
+export const groupSearch = (searchString, locale) =>
   fetchWithAccessToken(
-    `${groupUrl}?${queryString.stringify(searchString)}`,
+    `${baseUrl}group/${searchString}&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);

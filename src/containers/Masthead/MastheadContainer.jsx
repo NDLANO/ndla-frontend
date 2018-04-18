@@ -13,6 +13,7 @@ import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import queryString from 'query-string';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getSubjectById } from '../SubjectPage/subjects';
 import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
@@ -21,7 +22,7 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { actions, getResourceTypesByTopicId } from '../Resources/resource';
+import { actions, getResourceTypesByTopicId, getResource } from '../Resources/resource';
 import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
@@ -38,25 +39,48 @@ function getSelectedTopic(topics) {
 
 const initialState = {
   isOpen: false,
+  subjectId: undefined,
   query: '',
+  filters: [],
   searchIsOpen: false,
   expandedTopicIds: [],
 };
 class MastheadContainer extends React.PureComponent {
-  state = initialState;
+  /* static getDerivedStateFromProps(nextProps, prevState){
+    const { topicPath, subject } = nextProps;
+    if (subject && subject.id !== prevState.subjectId) {
+      return {
+        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
+        filters: subject ? [{ value: subject.id, title: subject.name }] : [],
+        subjectId: subject.id
+      };
+    }
+    return prevState;
+  } */
 
-  componentWillMount() {
+
+  /* componentWillMount() {
     const { topicPath } = this.props;
     if (topicPath) {
       this.setState({
         expandedTopicIds: topicPath.map(topic => topic.id),
       });
     }
+  } */
+
+  constructor(props) {
+    super(props);
+    const { topicPath, subject } = props;
+
+    this.state = {
+      ...initialState,
+      expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
+      filters: subject ? [{ value: subject.id, title: subject.name }] : [],
+    }
   }
 
   componentDidMount() {
     const { subjectId } = getUrnIdsFromProps(this.props);
-
     if (subjectId && this.props.filters.length === 0) {
       this.props.fetchSubjectFilters(subjectId);
     }
@@ -80,6 +104,22 @@ class MastheadContainer extends React.PureComponent {
     }
   };
 
+  onFilterRemove = () => {
+    this.setState({filters: []});
+  }
+
+  onQueryChange = (query) => {
+    const { groupSearch } = this.props;
+    const { filters } = this.state
+    this.setState({query})
+    const searchParams = {
+      query,
+      subjects: filters.length > 0 ? filters.map(filter => filter.value).join(',') : undefined,
+      'resource-types': 'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities'
+    }
+    groupSearch(`?${queryString.stringify(searchParams)}`);
+  }
+
   filterClick = (newValues, filterId) =>
     this.props.setActiveFilter({
       newValues,
@@ -87,28 +127,22 @@ class MastheadContainer extends React.PureComponent {
       filterId,
     });
 
-  updateFilter = e => {
-    this.setState({ query: e });
-    this.props.search({ query: e });
-  };
-
   render() {
     const {
       t,
       subject,
       searchEnabled,
       results,
+      topicPath,
       location,
       ...props
     } = this.props;
-    const resultsMapped = results.map(it => {
-      const { contentType } = contentTypeMapping[it.resourceType];
+
+    const resultsMapped = results.map(result => {
+      const { contentType } = contentTypeMapping[result.resourceType];
       return {
-        ...it,
+        ...result,
         title: t(`contentTypes.${contentType}`),
-        showAllLinkUrl: `/search/?currentTab=${contentType}${
-          subject ? `&subject=${subject.id}` : ''
-        }`,
       };
     });
 
@@ -127,6 +161,7 @@ class MastheadContainer extends React.PureComponent {
               subject={subject}
               searchEnabled={searchEnabled}
               t={t}
+              topicPath={topicPath}
               filterClick={this.filterClick}
               toggleMenu={bool => this.setState({ isOpen: bool })}
               onNavigate={this.onNavigate}
@@ -151,9 +186,11 @@ class MastheadContainer extends React.PureComponent {
                     searchIsOpen: isOpen,
                   });
                 }}
+                onChange={this.onQueryChange}
                 subject={subject}
-                updateFilter={this.updateFilter}
+                onFilterRemove={this.onFilterRemove}
                 query={this.state.query}
+                filters={this.state.filters}
                 results={resultsMapped}
               />
             )}
@@ -187,7 +224,7 @@ MastheadContainer.propTypes = {
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
-  search: PropTypes.func.isRequired,
+  groupSearch: PropTypes.func.isRequired,
   searchEnabled: PropTypes.bool,
 };
 
@@ -195,7 +232,7 @@ const mapDispatchToProps = {
   fetchTopicResources: actions.fetchTopicResources,
   setActiveFilter: filterActions.setActive,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
-  search: searchActions.groupSearch,
+  groupSearch: searchActions.groupSearch,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -208,6 +245,7 @@ const mapStateToProps = (state, ownProps) => {
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
     results: getGroupResults(state),
+    resource: getResource(resourceId)(state),
     topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
   };
 };

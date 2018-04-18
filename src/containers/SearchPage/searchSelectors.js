@@ -72,7 +72,14 @@ export const getResultsMetadata = createSelector(
 
 export const getGroupResults = createSelector(
   [getSearchFromState],
-  search => search.groupResult,
+  search => search.groupResult.map(result => ({
+      ...result,
+      resources: result.results.map((contentTypeResult) => ({
+        ...contentTypeResult,
+        path: contentTypeResult.url,
+        name: convertFieldWithFallback(contentTypeResult, 'title', ''),
+      })),
+    })),
 );
 
 export const getSearching = createSelector(

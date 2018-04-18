@@ -1,14 +1,19 @@
 import React from 'react';
 import { bool, func, arrayOf, object, shape, string } from 'prop-types';
 import { ToggleSearchButton, SearchOverlay, SearchField } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
+import { resourceToLinkProps } from '../Resources/resourceHelpers';
 
 const SearchButtonView = ({
   isOpen,
   openToggle,
   subject,
   query,
-  updateFilter,
+  filters,
+  onFilterRemove,
+  onChange,
   results,
+  t,
 }) => (
   <ToggleSearchButton
     isOpen={isOpen}
@@ -16,13 +21,14 @@ const SearchButtonView = ({
     messages={{ buttonText: 'Søk' }}>
     <SearchOverlay>
       <SearchField
-        placeholder="Søk i fagstoff, oppgaver og aktiviteter eller læringsstier"
+        placeholder={t('searchPage.searchFieldPlaceholder')}
         value={query}
         onChange={event => {
-          updateFilter(event.target.value);
+          onChange(event.target.value);
         }}
-        filters={subject ? [{ value: subject.id, title: subject.name }] : []}
-        onFilterRemove={() => {}}
+        resourceToLinkProps={resourceToLinkProps}
+        filters={filters}
+        onFilterRemove={onFilterRemove}
         messages={{
           allContentTypeResultLabel: 'Se alle',
           allResultButtonText: 'Vis alle søketreff',
@@ -30,7 +36,7 @@ const SearchButtonView = ({
           searchResultHeading: 'Forslag:',
           contentTypeResultNoHit: 'Ingen treff',
         }}
-        allResultUrl={subject ? `/search?subject=${subject.id}` : '/search'}
+        allResultUrl={subject ? `/search?subjects=${subject.id}` : '/search'}
         searchResult={results}
       />
     </SearchOverlay>
@@ -44,9 +50,11 @@ SearchButtonView.propTypes = {
     id: string,
     name: string,
   }),
+  onChange: func,
   query: string,
-  updateFilter: func,
+  onFilterRemove: func,
   results: arrayOf(object),
+  filters: arrayOf(string),
 };
 
-export default SearchButtonView;
+export default injectT(SearchButtonView);

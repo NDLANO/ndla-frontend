@@ -7,8 +7,8 @@ import {
   BreadcrumbBlock,
   ContentTypeBadge,
 } from 'ndla-ui';
-import { TopicShape } from '../../shapes';
-import { toTopic, toSubject, toSubjects } from '../../routeHelpers';
+import { TopicShape, ResourceShape } from '../../shapes';
+import { toTopic, toSubject, toSubjects,toBreadcrumbItems } from '../../routeHelpers';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 
@@ -43,11 +43,12 @@ const MenuView = ({
   activeFilters,
   expandedTopicIds,
   topicResourcesByType,
-  // topicPath,
+  topicPath,
   onOpenSearch,
   onNavigate,
   filterClick,
   searchEnabled,
+  resource,
 }) => {
   const [
     expandedTopicId,
@@ -55,7 +56,7 @@ const MenuView = ({
     expandedSubtopicLevel2Id,
   ] = expandedTopicIds;
   const getResources = expandedTopicId ? topicResourcesByType : [];
-
+  const breadcrumbBlockItems = toBreadcrumbItems(subject, topicPath, resource);
   return (
     <React.Fragment>
       <ClickToggle
@@ -111,12 +112,7 @@ const MenuView = ({
       </ClickToggle>
       <DisplayOnPageYOffset yOffsetMin={150}>
         <BreadcrumbBlock
-          items={[
-            {
-              name: subject.name,
-              to: toTopic(subject.id, expandedTopicId, expandedSubtopicId),
-            },
-          ]}
+          items={breadcrumbBlockItems.length > 1 ? breadcrumbBlockItems.slice(1) : []}
         />
       </DisplayOnPageYOffset>
     </React.Fragment>
@@ -130,12 +126,13 @@ MenuView.propTypes = {
     id: string,
     name: string,
   }),
+  resource: ResourceShape,
   topics: arrayOf(object),
   filters: arrayOf(object),
   activeFilters: arrayOf(string),
   expandedTopicIds: arrayOf(string),
   topicResourcesByType: arrayOf(TopicShape).isRequired,
-  topicPath: arrayOf(string),
+  topicPath: arrayOf(TopicShape),
   onOpenSearch: func,
   onNavigate: func,
   filterClick: func,
