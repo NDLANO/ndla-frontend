@@ -45,8 +45,6 @@ const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
               'resource.activateAdditionalResources',
             ),
             toggleFilterLabel: t('resource.toggleFilterLabel'),
-            showLess: t('resource.showLess'),
-            showMore: t('resource.showMore'),
           }}
           resourceToLinkProps={resourceToLinkProps}
         />

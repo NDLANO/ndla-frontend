@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+const hmrPort = parseInt(process.env.PORT, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
@@ -27,8 +27,8 @@ const connectSrc = (() => {
   ) {
     return [
       ...defaultConnectSrc,
-      'http://localhost:3001',
-      'ws://localhost:3001',
+      `http://localhost:${hmrPort}`,
+      `ws://localhost:${hmrPort}`,
       'http://localhost:3100',
       'http://localhost:4000',
     ];
@@ -89,7 +89,7 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
   ];
   if (process.env.NODE_ENV === 'development') {
-    return [...defaultScriptSrc, 'http://localhost:3001'];
+    return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
   }
   return defaultScriptSrc;
 })();

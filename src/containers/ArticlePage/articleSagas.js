@@ -66,7 +66,6 @@ export function* watchFetchArticle() {
   while (true) {
     const { payload: { resourceId } } = yield take(actions.fetchArticle);
     const currentArticle = yield select(getArticle(resourceId));
-
     if (!currentArticle || currentArticle.urn !== resourceId) {
       yield call(fetchArticle, resourceId);
     }
