@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<!-- This is a file for embeding an article into a page using an iframe.
+     Useful for testing iframe related issues. It is also a reference for
+     which events the page embeding the iframe should listen to and how
+     it should react to the messages. -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Iframe Test Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: #f8f8f8;
+      margin-top: 50px;
+      margin-bottom: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="margin: 0 auto; max-width: 1000px">
+    <!-- Change the resourceId or articleId to embed a different article -->
+    <iframe style="width: 100%;" scrolling="no" title="test" id="iframe" src="http://localhost:3000/article-iframe/nb/urn:resource:1:76819/28"
+      frameBorder="0"></iframe>
+  </div>
+  <script>
+    const iframe = document.getElementById('iframe')
+
+    window.addEventListener('message', handleIframeMessages);
+
+    /* The iframe content has changed it's height so we need to change the iframe height accordingly */
+    function handleResize(event) {
+      /* Needed to enforce content to stay within iframe on Safari iOS */
+      const newHeight = parseInt(event.data.height || 0, 10);
+      iframe.style.height = `${newHeight}px`;
+    }
+
+    /* The iframe content wants the browser to scroll to a specific location.
+       Consider using a library like https://github.com/callmecavs/jump.js for smoother scrooling */
+    function handleScroll(event) {
+      /* We need to account for the iframe position within the document. */
+      const rect = iframe.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const top = event.data.top + rect.top + scrollTop;
+
+      window.scrollTo({ top })
+    }
+
+    function handleIframeMessages(event) {
+      /* Check that the event is from the expected iframe */
+      if (iframe.contentWindow !== event.source) {
+        return;
+      }
+
+      /* Ignore events with no data */
+      if (!event || !event.data) {
+        return;
+      }
+
+      /* We can expect two different events: resize or scrollTo */
+      switch (event.data.event) {
+        case 'resize':
+          return handleResize(event);
+        case 'scrollTo':
+          return handleScroll(event);
+        default:
+          break;
+      }
+    }
+
+  </script>
+</body>
+
+</html>

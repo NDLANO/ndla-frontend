@@ -2031,6 +2031,12 @@ cross-env@^5.1.1:
     cross-spawn "^5.1.0"
     is-windows "^1.0.0"
 
+cross-spawn-promise@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/cross-spawn-promise/-/cross-spawn-promise-0.10.1.tgz#db9cb4c50c60b72a15be049b78122ce382d87b10"
+  dependencies:
+    cross-spawn "^5.1.0"
+
 cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -2039,9 +2045,9 @@ cross-spawn@5.1.0, cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-cross-spawn@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.4.tgz#bbf44ccb30fb8314a08f178b62290c669c36d808"
+cross-spawn@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
   dependencies:
     nice-try "^1.0.4"
     path-key "^2.0.1"
@@ -5382,9 +5388,9 @@ math-expression-evaluator@^1.2.14:
   version "1.2.16"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.16.tgz#b357fa1ca9faefb8e48d10c14ef2bcb2d9f0a7c9"
 
-mathjax@^2.7.1:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/mathjax/-/mathjax-2.7.2.tgz#97d78bbebfb65a8621ce33fb7c1f10917355a878"
+mathjax@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.yarnpkg.com/mathjax/-/mathjax-2.7.4.tgz#a88c55392b69a9715813cdc041ce02de6548a603"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -5626,9 +5632,9 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-article-scripts@^0.3.1:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.3.tgz#f382fefffec86499891f5b83687a38f29b35f8b0"
+ndla-article-scripts@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.4.tgz#f06893e69a1f077d211ead27901093e4198a0db5"
   dependencies:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
@@ -5652,21 +5658,22 @@ ndla-icons@^0.2.16:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.16.tgz#c987252c04e2895366a9740194d5ea2a875fe071"
 
-ndla-licenses@^0.1.7:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.1.8.tgz#d8add06c68448e1e5407ecfc6647b99dd127a0f0"
+ndla-licenses@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.2.0.tgz#a9ea489c1f8398ff3d5ae66df702b967a652d3cd"
   dependencies:
     defined "1.0.0"
 
-ndla-scripts@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.3.0.tgz#5f0808eaf38fdb8bb8b484819a21c7162b70eaa3"
+ndla-scripts@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ndla-scripts/-/ndla-scripts-0.4.0.tgz#42dbe472de201adc81e9be1669bf1a859358e141"
   dependencies:
     await-url "^0.3.0"
-    cross-spawn "^6.0.4"
+    cross-spawn "^6.0.5"
+    cross-spawn-promise "^0.10.1"
     normalize-url "^2.0.1"
-    now "^9.3.3"
-    octonode "^0.9.1"
+    now "^11.1.5"
+    octonode "^0.9.2"
     url-regex "^4.1.1"
 
 ndla-tabs@^0.4.2:
@@ -5866,9 +5873,9 @@ normalize-url@^2.0.1:
     query-string "^5.0.1"
     sort-keys "^2.0.0"
 
-now@^9.3.3:
-  version "9.3.3"
-  resolved "https://registry.yarnpkg.com/now/-/now-9.3.3.tgz#356184b822c429c0efc725a23b69aad1b9257dbb"
+now@^11.1.5:
+  version "11.1.5"
+  resolved "https://registry.yarnpkg.com/now/-/now-11.1.5.tgz#f6421ce5a909721bf0a225419a8d08a661ef2a89"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -5964,9 +5971,9 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.1.tgz#104124b6c602c6796881a042541d36db43a5264e"
 
-octonode@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.1.tgz#a8ac6e767a5db0256b9f064527134f3f4e92e635"
+octonode@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/octonode/-/octonode-0.9.2.tgz#08c44a8ccf4cdecdfdf7cca4fcc1720c45592dd8"
   dependencies:
     bluebird "^3.5.0"
     deep-extend "^0.4.1"

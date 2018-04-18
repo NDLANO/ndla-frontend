@@ -37,6 +37,17 @@ window.DATA = {
   },
 };
 
+// polyfill for jsdom
+window.matchMedia =
+  window.matchMedia ||
+  function matchMedia() {
+    return {
+      matches: false,
+      addListener() {},
+      removeListener() {},
+    };
+  };
+
 jest.mock('../style/index.css', () => {});
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
