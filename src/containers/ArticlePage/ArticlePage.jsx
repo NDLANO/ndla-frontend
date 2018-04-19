@@ -9,20 +9,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
-import {
-  getSubjectById,
-  actions as subjectActions,
-} from '../SubjectPage/subjects';
 import { getLocale } from '../Locale/localeSelectors';
 import {
   ArticleShape,
   SubjectShape,
-  TopicShape,
   ResourceTypeShape,
   GraphqlErrorShape,
 } from '../../shapes';
@@ -30,42 +25,53 @@ import Article from '../../components/Article';
 import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
-import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
+import { getTopicPath } from '../../util/getTopicPath';
 import { resourceQuery } from '../../queries';
+
+const getTopicPathFromProps = props => {
+  const { data: { subject } } = props;
+  const { topicId } = getUrnIdsFromProps(props);
+  return getTopicPath(subject.id, topicId, subject.topics);
+};
 
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
-    const { client, fetchTopics, fetchSubjects } = ctx;
+    const { client } = ctx;
     const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
 
-    if (subjectId) {
-      fetchSubjects();
-      fetchTopics({ subjectId });
-    }
     return client.query({
       errorPolicy: 'all',
       query: resourceQuery,
       variables: {
+        subjectId,
         id: resourceId,
       },
     });
   }
 
-  static getDocumentTitle({ t, data: { resource: { article } }, subject }) {
+  static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
     return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { topicPath, subject, data } = currentProps;
-    if (data && data.resource && topicPath && topicPath.length > 0 && subject) {
+    const { data } = currentProps;
+    const topicPath = getTopicPathFromProps(currentProps);
+
+    if (
+      data &&
+      data.resource &&
+      topicPath &&
+      topicPath.length > 0 &&
+      data.subject
+    ) {
       trackPageView(currentProps);
     }
   }
@@ -88,13 +94,14 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { subject, data, topicPath, locale, errors } = this.props;
+    const { data, locale, errors } = this.props;
     if (!data) {
       return null;
     }
 
-    const { resource } = data;
+    const { resource, subject } = data;
     const { topicId } = getUrnIdsFromProps(this.props);
+    const topicPath = getTopicPathFromProps(this.props);
 
     if (resource === null) {
       const error = errors.find(e => e.path.includes('resource'));
@@ -177,36 +184,16 @@ ArticlePage.propTypes = {
       article: ArticleShape,
       resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    subject: SubjectShape,
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
-  fetchSubjects: PropTypes.func.isRequired,
-  fetchTopics: PropTypes.func.isRequired,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopics: topicActions.fetchTopics,
-};
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
 
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId } = getUrnIdsFromProps(ownProps);
-  const getTopicPathSelector =
-    subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
-  const getSubjectByIdSelector = subjectId
-    ? getSubjectById(subjectId)
-    : () => undefined;
-  return {
-    topicPath: getTopicPathSelector(state),
-    subject: getSubjectByIdSelector(state),
-    locale: getLocale(state),
-  };
-};
-
-export default compose(
-  connectSSR(mapStateToProps, mapDispatchToProps),
-  injectT,
-  withTracker,
-)(ArticlePage);
+export default compose(connect(mapStateToProps), injectT, withTracker)(
+  ArticlePage,
+);

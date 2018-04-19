@@ -26,10 +26,27 @@ const copyrightInfoFragment = gql`
   }
 `;
 
+const topicInfoFragment = gql`
+  fragment TopicInfo on Topic {
+    id
+    name
+    path
+  }
+`;
+
 export const resourceQuery = gql`
   ${copyrightInfoFragment}
+  ${topicInfoFragment}
 
-  query resource($id: String!) {
+  query resource($id: String!, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true) {
+        ...TopicInfo
+      }
+    }
     resource(id: $id) {
       name
       contentUri
