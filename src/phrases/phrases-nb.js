@@ -27,6 +27,8 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    search: 'Søk',
+    close: 'Lukk',
     searchFieldPlaceholder:
       'Søk i fagstoff, oppgaver og aktiviteter eller læringsstier',
     label: {
@@ -47,6 +49,13 @@ const phrases = {
       'language-filter': 'Færre språk',
       subjects: 'Færre fag',
     },
+    searchField: {
+      contentTypeResultShowMoreLabel: 'Se flere resultater',
+      contentTypeResultShowLessLabel: 'Se færre resultater',
+      allResultButtonText: 'Vis alle søketreff',
+      searchResultHeading: 'Forslag:',
+      contentTypeResultNoHit: 'Ingen treff',
+    },
     searchResultMessages: {
       searchStringLabel: 'Du søkte på:',
       subHeading: '{totalCount} treff i Ndla',
@@ -60,14 +69,11 @@ const phrases = {
     searchPageMessages: {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} treff i Ndla',
-      closeButton: 'Lukk',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
-      searchFieldTitle: 'Søk',
     },
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
       filterLabel: 'Velg fag',
-      closeButton: 'Lukk',
       confirmButton: 'Bruk fag',
       hasValuesButtonText: 'Bytt fag',
       noValuesButtonText: 'Velg fag',

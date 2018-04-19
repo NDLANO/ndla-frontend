@@ -28,6 +28,8 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
+    close: 'Close',
+    search: 'Search',
     searchFieldPlaceholder:
       'Search for subjets, tasks and activities or learningpaths',
     label: {
@@ -48,6 +50,13 @@ const phrases = {
       'language-filter': 'Hide languages',
       subjects: 'Hide subjects',
     },
+    searchField: {
+      contentTypeResultShowMoreLabel: 'Show more results',
+      contentTypeResultShowLessLabel: 'Show less results',
+      allResultButtonText: 'Show all results',
+      searchResultHeading: 'Proposals:',
+      contentTypeResultNoHit: 'No results',
+    },
     searchResultMessages: {
       searchStringLabel: 'You searched on:',
       subHeading: '{totalCount} hits in Ndla',
@@ -61,14 +70,11 @@ const phrases = {
     searchPageMessages: {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} hits in Ndla',
-      closeButton: 'Close',
       narrowScreenFilterHeading: '{totalCount} hits on «{query}»',
-      searchFieldTitle: 'Search',
     },
     searchFilterMessages: {
       backButton: 'Back to filter',
       filterLabel: 'Chose subjects',
-      closeButton: 'Close',
       confirmButton: 'Use subject',
       hasValuesButtonText: 'Change subject',
       noValuesButtonText: 'Pick subject',
@@ -264,6 +270,15 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  contentTypes: {
+    all: 'All',
+    subject: 'Subject',
+    'learning-path': 'Learning path',
+    'subject-material': 'Subject material',
+    'tasks-and-activities': 'Task and activities',
+    'external-learning-resources': 'External learning resources',
+    'source-material': 'Source material',
   },
   languages: {
     nb: 'Norwegian Bokmål',

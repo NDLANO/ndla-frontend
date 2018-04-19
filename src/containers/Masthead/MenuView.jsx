@@ -8,7 +8,12 @@ import {
   ContentTypeBadge,
 } from 'ndla-ui';
 import { TopicShape, ResourceShape } from '../../shapes';
-import { toTopic, toSubject, toSubjects,toBreadcrumbItems } from '../../routeHelpers';
+import {
+  toTopic,
+  toSubject,
+  toSubjects,
+  toBreadcrumbItems,
+} from '../../routeHelpers';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 
@@ -112,7 +117,9 @@ const MenuView = ({
       </ClickToggle>
       <DisplayOnPageYOffset yOffsetMin={150}>
         <BreadcrumbBlock
-          items={breadcrumbBlockItems.length > 1 ? breadcrumbBlockItems.slice(1) : []}
+          items={
+            breadcrumbBlockItems.length > 1 ? breadcrumbBlockItems.slice(1) : []
+          }
         />
       </DisplayOnPageYOffset>
     </React.Fragment>

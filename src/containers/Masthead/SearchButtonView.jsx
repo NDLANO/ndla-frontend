@@ -1,8 +1,9 @@
 import React from 'react';
 import { bool, func, arrayOf, object, shape, string } from 'prop-types';
 import { ToggleSearchButton, SearchOverlay, SearchField } from 'ndla-ui';
+import queryString from 'query-string';
 import { injectT } from 'ndla-i18n';
-import { resourceToLinkProps } from '../Resources/resourceHelpers';
+import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
 
 const SearchButtonView = ({
   isOpen,
@@ -13,35 +14,58 @@ const SearchButtonView = ({
   onFilterRemove,
   onChange,
   results,
+  onSearch,
   t,
-}) => (
-  <ToggleSearchButton
-    isOpen={isOpen}
-    onToggle={openToggle}
-    messages={{ buttonText: 'Søk' }}>
-    <SearchOverlay>
-      <SearchField
-        placeholder={t('searchPage.searchFieldPlaceholder')}
-        value={query}
-        onChange={event => {
-          onChange(event.target.value);
-        }}
-        resourceToLinkProps={resourceToLinkProps}
-        filters={filters}
-        onFilterRemove={onFilterRemove}
-        messages={{
-          allContentTypeResultLabel: 'Se alle',
-          allResultButtonText: 'Vis alle søketreff',
-          searchFieldTitle: 'Søk',
-          searchResultHeading: 'Forslag:',
-          contentTypeResultNoHit: 'Ingen treff',
-        }}
-        allResultUrl={subject ? `/search?subjects=${subject.id}` : '/search'}
-        searchResult={results}
-      />
-    </SearchOverlay>
-  </ToggleSearchButton>
-);
+}) => {
+  const searchString = queryString.stringify({
+    query: query && query.length > 0 ? query : undefined,
+    subjects: subject ? subject.id : undefined,
+  });
+  return (
+    <ToggleSearchButton
+      isOpen={isOpen}
+      onToggle={openToggle}
+      messages={{ buttonText: t('searchPage.search') }}>
+      <SearchOverlay>
+        <SearchField
+          placeholder={t('searchPage.searchFieldPlaceholder')}
+          value={query}
+          onChange={event => {
+            onChange(event.target.value);
+          }}
+          onSearch={onSearch}
+          resourceToLinkProps={res => searchResultToLinkProps(res, results)}
+          filters={filters}
+          onFilterRemove={onFilterRemove}
+          messages={{
+            contentTypeResultShowMoreLabel: t(
+              'searchPage.searchField.contentTypeResultShowMoreLabel',
+            ),
+            contentTypeResultShowLessLabel: t(
+              'searchPage.searchField.contentTypeResultShowLessLabel',
+            ),
+            allResultButtonText: t(
+              'searchPage.searchField.allResultButtonText',
+            ),
+            searchFieldTitle: t('searchPage.search'),
+            searchResultHeading: t(
+              'searchPage.searchField.searchResultHeading',
+            ),
+            contentTypeResultNoHit: t(
+              'searchPage.searchField.contentTypeResultNoHit',
+            ),
+          }}
+          allResultUrl={
+            searchString && searchString.length > 0
+              ? `/search?${searchString}`
+              : '/search'
+          }
+          searchResult={results}
+        />
+      </SearchOverlay>
+    </ToggleSearchButton>
+  );
+};
 
 SearchButtonView.propTypes = {
   isOpen: bool,
@@ -51,10 +75,11 @@ SearchButtonView.propTypes = {
     name: string,
   }),
   onChange: func,
+  onSearch: func,
   query: string,
   onFilterRemove: func,
   results: arrayOf(object),
-  filters: arrayOf(string),
+  filters: arrayOf(object),
 };
 
 export default injectT(SearchButtonView);

@@ -6,17 +6,9 @@
  */
 
 import React, { Component } from 'react';
-import {
-  bool,
-  func,
-  number,
-  string,
-  arrayOf,
-  objectOf,
-  shape,
-} from 'prop-types';
+import { bool, func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
-import { SearchPage, OneColumn } from 'ndla-ui';
+import { SearchPage, OneColumn, Pager } from 'ndla-ui';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from 'ndla-tracker';
@@ -32,7 +24,6 @@ import {
 } from './searchSelectors';
 import { actions as topicActions } from '../TopicPage/topic';
 import {
-  getSubjectById,
   getSubjects,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
@@ -45,20 +36,10 @@ import {
 import { getLocale } from '../Locale/localeSelectors';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
-
-const getSubjetcsArray = (location, subjectId = undefined) => {
-  const searchObjectSubjects = queryString.parse(location.search).subjects
-    ? queryString.parse(location.search).subjects.split(',')
-    : [];
-  if (subjectId && searchObjectSubjects.length > 0) {
-    return [subjectId, ...searchObjectSubjects];
-  } else if (subjectId) {
-    return [subjectId];
-  } else if (searchObjectSubjects.length > 0) {
-    return searchObjectSubjects;
-  }
-  return [];
-};
+import {
+  converSearchStringToObject,
+  convertSearchParam,
+} from './searchHelpers';
 
 class SearchContainer extends Component {
   static getInitialProps = ctx => {
@@ -84,13 +65,13 @@ class SearchContainer extends Component {
 
   constructor(props) {
     super();
-    const { match: { params: { subjectId } }, location } = props;
-    const searchObject = this.converSearchStringToObject(location);
-    const subjects = getSubjetcsArray(location, subjectId);
+    const { location } = props;
+    const searchObject = converSearchStringToObject(location);
     this.state = {
       searchParams: {
+        page: searchObject.page || 1,
         query: searchObject.query || '',
-        subjects: subjects || [],
+        subjects: searchObject.subjects || [],
         'language-filter': searchObject['language-filter'] || [],
         levels: searchObject.levels || [],
         'resource-types': undefined,
@@ -144,29 +125,11 @@ class SearchContainer extends Component {
     this.onRemoveSubject({ subjects }, removedSubject);
   };
 
-  converSearchStringToObject = location => {
-    const arrayFields = ['language-filter', 'levels'];
-    const searchLocation = queryString.parse(location ? location.search : '');
-
-    return {
-      ...searchLocation,
-      ...arrayFields
-        .map(field => ({
-          [field]: searchLocation[field]
-            ? searchLocation[field].split(',')
-            : [],
-        }))
-        .reduce((result, item) => {
-          const key = Object.keys(item)[0];
-          return { ...result, [key]: item[key] };
-        }),
-    };
-  };
-
   updateFilter = searchParam => {
+    const page = searchParam.page || 1;
     this.setState(
       prevState => ({
-        searchParams: { ...prevState.searchParams, ...searchParam },
+        searchParams: { ...prevState.searchParams, ...searchParam, page },
       }),
       this.updateSearchLocation,
     );
@@ -187,6 +150,7 @@ class SearchContainer extends Component {
           'context-types': undefined,
           'resource-types': undefined,
           ...searchParams,
+          page: 1,
         },
       }),
       this.updateSearchLocation,
@@ -195,26 +159,15 @@ class SearchContainer extends Component {
 
   updateQuery = query => {
     this.setState(prevState => ({
-      searchParams: { ...prevState.searchParams, query },
+      searchParams: { ...prevState.searchParams, query, page: 1 },
     }));
-  };
-
-  convertSearchParam = value => {
-    if (!value) {
-      return undefined;
-    } else if (Array.isArray(value)) {
-      return value.length > 0 ? value.join(',') : undefined;
-    }
-    return value.length > 0 ? value : undefined;
   };
 
   updateSearchLocation = () => {
     const { location, history, search } = this.props;
     const stateSearchParams = {};
     Object.keys(this.state.searchParams).forEach(key => {
-      stateSearchParams[key] = this.convertSearchParam(
-        this.state.searchParams[key],
-      );
+      stateSearchParams[key] = convertSearchParam(this.state.searchParams[key]);
     });
 
     const searchParams = {
@@ -267,12 +220,12 @@ class SearchContainer extends Component {
       resultHeading: t('searchPage.searchPageMessages.resultHeading', {
         totalCount: resultMetadata.totalCount,
       }),
-      closeButton: t('searchPage.searchPageMessages.closeButton'),
+      closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
         { totalCount: resultMetadata.totalCount, query: this.state.query },
       ),
-      searchFieldTitle: t('searchPage.searchPageMessages.searchFieldTitle'),
+      searchFieldTitle: t('searchPage.search'),
     };
 
     return (
@@ -297,6 +250,18 @@ class SearchContainer extends Component {
             filterState={this.state.searchParams}
             enabledTabs={enabledTabs}
             onTabChange={this.updateTab}
+          />
+          <Pager
+            page={
+              this.state.searchParams.page
+                ? parseInt(this.state.searchParams.page, 10)
+                : 1
+            }
+            lastPage={resultMetadata.lastPage}
+            query={this.state.searchParam}
+            pathname=""
+            onClick={this.updateFilter}
+            pageItemComponentClass="button"
           />
         </SearchPage>
       </OneColumn>
@@ -323,11 +288,10 @@ SearchContainer.propTypes = {
       type: string,
     }),
   ),
-  subject: SubjectShape,
   subjects: arrayOf(SubjectShape),
-  levelFilters: arrayOf(objectOf(string)),
   resultMetadata: shape({
     totalCount: number,
+    lastPage: number,
   }),
   filters: arrayOf(FilterShape),
   match: shape({
@@ -372,21 +336,19 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { match: { params: { subjectId } }, location } = ownProps;
-  const subjects = getSubjetcsArray(location, subjectId);
+  const { location } = ownProps;
+  const searchObject = converSearchStringToObject(location);
   return {
     results: getResults(state),
     lastPage: getLastPage(state),
     resultMetadata: getResultsMetadata(state),
     searching: getSearching(state),
-    subject: getSubjectById(subjectId)(state),
     subjects: getSubjects(state),
     locale: getLocale(state),
     filters:
-      subjects.length > 0
-        ? getMultipeSubjectFilters(subjects)(state)
+      searchObject.subjects.length > 0
+        ? getMultipeSubjectFilters(searchObject.subjects)(state)
         : getFilters('filters')(state),
-    levelFilters: getFilters(subjectId)(state),
   };
 };
 

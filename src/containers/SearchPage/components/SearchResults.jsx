@@ -11,13 +11,13 @@ import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { ArticleResultShape } from '../../../shapes';
 
-const resultsWithContentTypeBadge = results =>
+const resultsWithContentTypeBadge = (results, t) =>
   results.map(result => ({
     ...result,
     contentTypeIcon: (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
-    contentTypeLabel: result.contentType,
+    contentTypeLabel: t(`contentTypes.${result.contentType}`),
   }));
 
 const SearchResults = ({
@@ -57,7 +57,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadge(results)}
+        results={resultsWithContentTypeBadge(results, t)}
       />
     </SearchResult>
   );

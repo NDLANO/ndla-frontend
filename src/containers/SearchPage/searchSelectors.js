@@ -10,17 +10,10 @@ import { createSelector } from 'reselect';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 
-const contentType = result => {
-  const type = result.contexts[0].learningResourceType;
-  switch (type) {
-    case 'learningpath':
-      return 'learning-path';
-    case 'article':
-      return 'article';
-    default:
-      return type;
-  }
-};
+const getContentType = resource =>
+  resource.resourceTypes.length > 0
+    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
+    : resource.learningResourceType;
 
 const taxonomyData = result => {
   let taxonomyResult = {};
@@ -29,18 +22,16 @@ const taxonomyData = result => {
     taxonomyResult = {
       breadcrumb: result.contexts[0].breadcrumbs,
       subjects: undefined,
-      contentType: result.resourceTypes
-        ? getContentTypeFromResourceTypes(result.resourceTypes)
-        : contentType(result),
+      contentType: getContentType(result.contexts[0]),
     };
   }
   if (result.contexts.length > 1) {
     taxonomyResult = {
       ...taxonomyResult,
       subjects: result.contexts.map(subject => ({
-        url: subject.path,
+        url: `/subjects${subject.path}`,
         title: subject.subject,
-        contentType: subject.learningResourceType,
+        contentType: getContentType(subject),
       })),
     };
   }
@@ -52,6 +43,10 @@ const getSearchFromState = state => state.search;
 export const getResults = createSelector([getSearchFromState], search =>
   search.results.map(result => ({
     ...result,
+    url:
+      result.contexts.length > 0
+        ? `/subjects${result.contexts[0].path}`
+        : result.url,
     title: convertFieldWithFallback(result, 'title', ''),
     ingress: convertFieldWithFallback(result, 'metaDescription', ''),
     ...taxonomyData(result),
@@ -70,16 +65,19 @@ export const getResultsMetadata = createSelector(
   }),
 );
 
-export const getGroupResults = createSelector(
-  [getSearchFromState],
-  search => search.groupResult.map(result => ({
-      ...result,
-      resources: result.results.map((contentTypeResult) => ({
-        ...contentTypeResult,
-        path: contentTypeResult.url,
-        name: convertFieldWithFallback(contentTypeResult, 'title', ''),
-      })),
+export const getGroupResults = createSelector([getSearchFromState], search =>
+  search.groupResult.map(result => ({
+    ...result,
+    resources: result.results.map(contentTypeResult => ({
+      ...contentTypeResult,
+      path:
+        contentTypeResult.paths && contentTypeResult.paths.length > 0
+          ? `/subjects${contentTypeResult.paths[0]}`
+          : contentTypeResult.url,
+      name: convertFieldWithFallback(contentTypeResult, 'title', ''),
+      resourceType: result.resourceType,
     })),
+  })),
 );
 
 export const getSearching = createSelector(

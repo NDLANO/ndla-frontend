@@ -22,7 +22,11 @@ import {
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import { actions, getResourceTypesByTopicId, getResource } from '../Resources/resource';
+import {
+  actions,
+  getResourceTypesByTopicId,
+  getResource,
+} from '../Resources/resource';
 import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
@@ -45,29 +49,8 @@ const initialState = {
   searchIsOpen: false,
   expandedTopicIds: [],
 };
+
 class MastheadContainer extends React.PureComponent {
-  /* static getDerivedStateFromProps(nextProps, prevState){
-    const { topicPath, subject } = nextProps;
-    if (subject && subject.id !== prevState.subjectId) {
-      return {
-        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
-        filters: subject ? [{ value: subject.id, title: subject.name }] : [],
-        subjectId: subject.id
-      };
-    }
-    return prevState;
-  } */
-
-
-  /* componentWillMount() {
-    const { topicPath } = this.props;
-    if (topicPath) {
-      this.setState({
-        expandedTopicIds: topicPath.map(topic => topic.id),
-      });
-    }
-  } */
-
   constructor(props) {
     super(props);
     const { topicPath, subject } = props;
@@ -76,7 +59,7 @@ class MastheadContainer extends React.PureComponent {
       ...initialState,
       expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
       filters: subject ? [{ value: subject.id, title: subject.name }] : [],
-    }
+    };
   }
 
   componentDidMount() {
@@ -105,20 +88,32 @@ class MastheadContainer extends React.PureComponent {
   };
 
   onFilterRemove = () => {
-    this.setState({filters: []});
-  }
+    this.setState({ filters: [] });
+  };
 
-  onQueryChange = (query) => {
+  onQueryChange = query => {
+    this.setState({ query }, this.executeSearch(query));
+  };
+
+  onSearch = () => {
+    this.executeSearch(this.state.query);
+  };
+
+  executeSearch = query => {
     const { groupSearch } = this.props;
-    const { filters } = this.state
-    this.setState({query})
+    const { filters } = this.state;
+
     const searchParams = {
       query,
-      subjects: filters.length > 0 ? filters.map(filter => filter.value).join(',') : undefined,
-      'resource-types': 'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities'
-    }
+      subjects:
+        filters.length > 0
+          ? filters.map(filter => filter.value).join(',')
+          : undefined,
+      'resource-types':
+        'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities',
+    };
     groupSearch(`?${queryString.stringify(searchParams)}`);
-  }
+  };
 
   filterClick = (newValues, filterId) =>
     this.props.setActiveFilter({
@@ -137,7 +132,6 @@ class MastheadContainer extends React.PureComponent {
       location,
       ...props
     } = this.props;
-
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -186,6 +180,7 @@ class MastheadContainer extends React.PureComponent {
                     searchIsOpen: isOpen,
                   });
                 }}
+                onSearch={this.onSearch}
                 onChange={this.onQueryChange}
                 subject={subject}
                 onFilterRemove={this.onFilterRemove}

@@ -67,7 +67,7 @@ const SearchFilters = ({
           messages={{
             backButton: t('searchPage.searchFilterMessages.backButton'),
             filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-            closeButton: t('searchPage.searchFilterMessages.closeButton'),
+            closeButton: t('searchPage.close'),
             confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
             hasValuesButtonText: t(
               'searchPage.searchFilterMessages.hasValuesButtonText',
