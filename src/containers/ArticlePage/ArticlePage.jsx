@@ -62,23 +62,25 @@ class ArticlePage extends Component {
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { data } = currentProps;
+    const { data, loading } = currentProps;
+    if (!data || loading) {
+      return;
+    }
     const topicPath = getTopicPathFromProps(currentProps);
-
-    if (
-      data &&
-      data.resource &&
-      topicPath &&
-      topicPath.length > 0 &&
-      data.subject
-    ) {
+    if (data.resource && topicPath && topicPath.length > 0 && data.subject) {
       trackPageView(currentProps);
     }
   }
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
-    return getAllDimensions(props, articleProps.label, true);
+    const { data: { resource: { article }, subject } } = props;
+    const topicPath = getTopicPathFromProps(props);
+    return getAllDimensions(
+      { article, subject, topicPath },
+      articleProps.label,
+      true,
+    );
   }
 
   componentDidMount() {
@@ -94,8 +96,8 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors } = this.props;
-    if (!data) {
+    const { data, loading, locale, errors } = this.props;
+    if (!data || loading) {
       return null;
     }
 
@@ -188,6 +190,7 @@ ArticlePage.propTypes = {
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

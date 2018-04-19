@@ -57,7 +57,7 @@ export const getAllDimensions = (
   contentTypeLabel,
   isArticle = false,
 ) => {
-  const { data: { resource: { article } }, subject, topicPath } = props;
+  const { article, subject, topicPath } = props;
   const rightsholders = getCopyrightFieldWithFallBack(
     article,
     'rightsholders',

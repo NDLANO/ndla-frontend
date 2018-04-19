@@ -8,43 +8,52 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import connectSSR from '../../components/connectSSR';
-
-import { actions, getSubjects, hasFetchSubjectsFailed } from './subjects';
-import { SubjectShape } from '../../shapes';
+import defined from 'defined';
+import { SubjectShape, GraphqlErrorShape } from '../../shapes';
+import { subjectsQuery } from '../../queries';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
     static getInitialProps(ctx) {
-      ctx.fetchSubjects();
+      return ctx.client.query({
+        errorPolicy: 'all',
+        query: subjectsQuery,
+      });
     }
 
     render() {
-      return <WrappedComponent {...this.props} />;
+      const { loading, errors } = this.props;
+      if (loading !== false) {
+        return null;
+      }
+
+      const data = defined(this.props.data, {});
+      const subjects = data.subjects || [];
+      const hasFailed = errors !== undefined && errors.length > 0;
+      return (
+        <WrappedComponent
+          {...this.props}
+          subjects={subjects}
+          hasFailed={hasFailed}
+        />
+      );
     }
   }
 
   SubjectsContainer.propTypes = {
-    subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-    hasFailed: PropTypes.bool.isRequired,
-    fetchSubjects: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      subjects: PropTypes.arrayOf(SubjectShape),
+    }),
+    errors: PropTypes.arrayOf(GraphqlErrorShape),
+    loading: PropTypes.bool,
   };
-
-  const mapStateToProps = state => ({
-    subjects: getSubjects(state),
-    hasFailed: hasFetchSubjectsFailed(state),
-  });
 
   const getDisplayName = component =>
     component.displayName || component.name || 'Component';
-
-  const mapDispatchToProps = {
-    fetchSubjects: actions.fetchSubjects,
-  };
 
   SubjectsContainer.displayName = `InjectSubjects(${getDisplayName(
     WrappedComponent,
   )})`;
 
-  return connectSSR(mapStateToProps, mapDispatchToProps)(SubjectsContainer);
+  return SubjectsContainer;
 };

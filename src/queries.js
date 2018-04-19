@@ -34,6 +34,24 @@ const topicInfoFragment = gql`
   }
 `;
 
+const subjectInfoFragment = gql`
+  fragment SubjectInfo on Subject {
+    id
+    name
+    path
+  }
+`;
+
+export const subjectsQuery = gql`
+  ${subjectInfoFragment}
+
+  query subjects {
+    subjects {
+      ...SubjectInfo
+    }
+  }
+`;
+
 export const resourceQuery = gql`
   ${copyrightInfoFragment}
   ${topicInfoFragment}
