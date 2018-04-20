@@ -11,7 +11,7 @@ script:
   - yarn lint
   - yarn test-ci
   - yarn build
-  - yarn run start-prod -- --silent &
+  - yarn run start-cypress-server -- --silent &
   - yarn run cypress run
 
 after_success:

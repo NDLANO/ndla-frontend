@@ -14,6 +14,9 @@
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
+    "start-cypress-server": "cross-env NDLA_ENVIRONMENT=prod yarn run start-prod",
+    "start-cypress-server-local": "cross-env NDLA_ENVIRONMENT=prod razzle start",
+
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "pretest": "npm run lint",
