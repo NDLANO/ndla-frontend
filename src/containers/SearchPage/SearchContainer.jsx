@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { bool, func, number, string, arrayOf, shape } from 'prop-types';
+import { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import { SearchPage, OneColumn, Pager } from 'ndla-ui';
 import queryString from 'query-string';
@@ -16,12 +16,7 @@ import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
 import { SubjectShape, ArticleResultShape, FilterShape } from '../../shapes';
-import {
-  getResults,
-  getLastPage,
-  getSearching,
-  getResultsMetadata,
-} from './searchSelectors';
+import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
   actions as subjectActions,
@@ -275,10 +270,7 @@ SearchContainer.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
-  clearSearchResult: func.isRequired,
-  lastPage: number.isRequired,
   results: arrayOf(ArticleResultShape).isRequired,
-  searching: bool.isRequired,
   search: func.isRequired,
   enabledTabs: arrayOf(
     shape({
@@ -327,7 +319,6 @@ SearchContainer.defaultProps = {
 
 const mapDispatchToProps = {
   search: actions.search,
-  clearSearchResult: actions.clearSearchResult,
   fetchSubjects: subjectActions.fetchSubjects,
   fetchFilters: filterActions.fetchFilters,
 };
@@ -337,9 +328,7 @@ const mapStateToProps = (state, ownProps) => {
   const searchObject = converSearchStringToObject(location);
   return {
     results: getResults(state),
-    lastPage: getLastPage(state),
     resultMetadata: getResultsMetadata(state),
-    searching: getSearching(state),
     subjects: getSubjects(state),
     locale: getLocale(state),
     filters:
