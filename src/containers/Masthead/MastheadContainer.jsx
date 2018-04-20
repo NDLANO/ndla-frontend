@@ -123,15 +123,7 @@ class MastheadContainer extends React.PureComponent {
     });
 
   render() {
-    const {
-      t,
-      subject,
-      searchEnabled,
-      results,
-      topicPath,
-      location,
-      ...props
-    } = this.props;
+    const { t, subject, results, topicPath, location, ...props } = this.props;
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -153,7 +145,6 @@ class MastheadContainer extends React.PureComponent {
           {subject ? (
             <MenuView
               subject={subject}
-              searchEnabled={searchEnabled}
               t={t}
               topicPath={topicPath}
               filterClick={this.filterClick}
@@ -171,24 +162,23 @@ class MastheadContainer extends React.PureComponent {
           ) : null}
         </MastheadItem>
         <MastheadItem right>
-          {!location.pathname.includes('search') &&
-            searchEnabled && (
-              <SearchButtonView
-                isOpen={this.state.searchIsOpen}
-                openToggle={isOpen => {
-                  this.setState({
-                    searchIsOpen: isOpen,
-                  });
-                }}
-                onSearch={this.onSearch}
-                onChange={this.onQueryChange}
-                subject={subject}
-                onFilterRemove={this.onFilterRemove}
-                query={this.state.query}
-                filters={this.state.filters}
-                results={resultsMapped}
-              />
-            )}
+          {!location.pathname.includes('search') && (
+            <SearchButtonView
+              isOpen={this.state.searchIsOpen}
+              openToggle={isOpen => {
+                this.setState({
+                  searchIsOpen: isOpen,
+                });
+              }}
+              onSearch={this.onSearch}
+              onChange={this.onQueryChange}
+              subject={subject}
+              onFilterRemove={this.onFilterRemove}
+              query={this.state.query}
+              filters={this.state.filters}
+              results={resultsMapped}
+            />
+          )}
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
@@ -220,7 +210,6 @@ MastheadContainer.propTypes = {
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   groupSearch: PropTypes.func.isRequired,
-  searchEnabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

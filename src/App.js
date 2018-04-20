@@ -16,7 +16,6 @@ import { Content } from 'ndla-ui';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
-import config from './config';
 import handleError from './util/handleError';
 import ZendeskButton from './components/ZendeskButton';
 
@@ -32,13 +31,8 @@ const Route = ({
     render={props => (
       <Page background={background}>
         <Content>
-          <Masthead searchEnabled={config.searchEnabled} {...props} />
-          <Component
-            {...props}
-            locale={locale}
-            {...initialProps}
-            searchEnabled={config.searchEnabled}
-          />
+          <Masthead {...props} />
+          <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />
       </Page>
