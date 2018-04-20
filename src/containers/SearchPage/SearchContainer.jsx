@@ -22,7 +22,6 @@ import {
   getSearching,
   getResultsMetadata,
 } from './searchSelectors';
-import { actions as topicActions } from '../TopicPage/topic';
 import {
   getSubjects,
   actions as subjectActions,
@@ -330,9 +329,7 @@ const mapDispatchToProps = {
   search: actions.search,
   clearSearchResult: actions.clearSearchResult,
   fetchSubjects: subjectActions.fetchSubjects,
-  fetchSubjectFilters: filterActions.fetchSubjectFilters,
   fetchFilters: filterActions.fetchFilters,
-  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
 };
 
 const mapStateToProps = (state, ownProps) => {

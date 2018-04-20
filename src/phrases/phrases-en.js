@@ -274,6 +274,7 @@ const phrases = {
   contentTypes: {
     all: 'All',
     subject: 'Subject',
+    'topic-article': 'Topic article',
     'learning-path': 'Learning path',
     'subject-material': 'Subject material',
     'tasks-and-activities': 'Task and activities',

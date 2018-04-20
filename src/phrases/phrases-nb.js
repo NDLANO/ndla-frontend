@@ -273,6 +273,7 @@ const phrases = {
   contentTypes: {
     all: 'Alle',
     subject: 'Emne',
+    'topic-article': 'Emne',
     'learning-path': 'Læringssti',
     'subject-material': 'Fagstoff',
     'tasks-and-activities': 'Oppgaver og aktiviteter',
