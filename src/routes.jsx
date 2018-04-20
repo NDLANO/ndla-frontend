@@ -15,15 +15,12 @@ import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-import config from './config';
 import App from './App';
 
 export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
 export const simpleArticlePath = '/article/:articleId';
-
-const { searchEnabled } = config;
 
 export const routes = [
   {
@@ -43,8 +40,8 @@ export const routes = [
     background: true,
   },
   {
-    path: '/search',
-    component: searchEnabled ? SearchContainer : NotFoundPage,
+    path: '/search(.*)',
+    component: SearchContainer,
     background: true,
   },
   {
