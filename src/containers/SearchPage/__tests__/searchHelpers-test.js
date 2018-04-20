@@ -1,6 +1,7 @@
 import {
   searchResultToLinkProps,
   converSearchStringToObject,
+  convertSearchParam,
 } from '../searchHelpers';
 
 test('searchHelpers searchResultToLinkProps learningpath', () => {
@@ -45,4 +46,12 @@ test('searchHelpers converSearchStringToObject converts search string', () => {
 
 test('searchHelpers converSearchStringToObject with no location', () => {
   expect(converSearchStringToObject()).toMatchSnapshot();
+});
+
+
+test('searchHelpers convertSearchParam', () => {
+  expect(convertSearchParam()).toEqual(undefined);
+  expect(convertSearchParam("NDLA")).toBe("NDLA");
+  expect(convertSearchParam(27)).toBe(27);
+  expect(convertSearchParam([1,2,3,4,5,6,7,8,9,10])).toBe("1,2,3,4,5,6,7,8,9,10");
 });
