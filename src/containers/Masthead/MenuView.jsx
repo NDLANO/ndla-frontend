@@ -70,48 +70,57 @@ const MenuView = ({
         isOpen={isOpen}
         onToggle={toggleMenu}
         buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
-        <TopicMenu
-          isBeta
-          toSubject={() => toSubject(subject.id)}
-          subjectTitle={subject.name}
-          toTopic={toTopicWithSubjectIdBound(subject.id)}
-          topics={topics}
-          withSearchAndFilter
-          messages={{
-            goTo: t('masthead.menu.goTo'),
-            subjectOverview: t('masthead.menu.subjectOverview'),
-            search: t('masthead.menu.search'),
-            subjectPage: t('masthead.menu.subjectPage'),
-            learningResourcesHeading: t(
-              'masthead.menu.learningResourcesHeading',
-            ),
-            back: t('masthead.menu.back'),
-            closeButton: t('masthead.menu.close'),
-            contentTypeResultsShowMore: t(
-              'masthead.menu.contentTypeResultsShowMore',
-            ),
-            contentTypeResultsShowLess: t(
-              'masthead.menu.contentTypeResultsShowLess',
-            ),
-            contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
-          }}
-          filterOptions={filters}
-          onFilterClick={filterClick}
-          filterValues={activeFilters}
-          onOpenSearch={() => onOpenSearch}
-          onNavigate={onNavigate}
-          expandedTopicId={expandedTopicId}
-          expandedSubtopicId={expandedSubtopicId}
-          expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-          resourceToLinkProps={resourceToLinkProps}
-          searchPageUrl={
-            subject ? `/search/?subjects=${subject.id}` : '/search'
-          }
-          contentTypeResults={mapResourcesToMenu(
-            getResources,
-            toTopic(subject.id, expandedTopicId, expandedSubtopicId),
-          )}
-        />
+        {onClose => (
+          <TopicMenu
+            close={onClose}
+            isBeta
+            toSubject={() => toSubject(subject.id)}
+            subjectTitle={subject.name}
+            toTopic={toTopicWithSubjectIdBound(subject.id)}
+            topics={topics}
+            withSearchAndFilter
+            messages={{
+              goTo: t('masthead.menu.goTo'),
+              subjectOverview: t('masthead.menu.subjectOverview'),
+              search: t('masthead.menu.search'),
+              subjectPage: t('masthead.menu.subjectPage'),
+              learningResourcesHeading: t(
+                'masthead.menu.learningResourcesHeading',
+              ),
+              back: t('masthead.menu.back'),
+              closeButton: t('masthead.menu.close'),
+              contentTypeResultsShowMore: t(
+                'masthead.menu.contentTypeResultsShowMore',
+              ),
+              contentTypeResultsShowLess: t(
+                'masthead.menu.contentTypeResultsShowLess',
+              ),
+              contentTypeResultsNoHit: t(
+                'masthead.menu.contentTypeResultsNoHit',
+              ),
+              compentenceGoalsToggleButtonOpen: '',
+              compentenceGoalsToggleButtonClose: '',
+              compentenceGoalsNarrowOpenButton: '',
+              compentenceGoalsNarrowBackButton: '',
+            }}
+            filterOptions={filters}
+            onFilterClick={filterClick}
+            filterValues={activeFilters}
+            onOpenSearch={() => onOpenSearch}
+            onNavigate={onNavigate}
+            expandedTopicId={expandedTopicId}
+            expandedSubtopicId={expandedSubtopicId}
+            expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
+            resourceToLinkProps={resourceToLinkProps}
+            searchPageUrl={
+              subject ? `/search/?subjects=${subject.id}` : '/search'
+            }
+            contentTypeResults={mapResourcesToMenu(
+              getResources,
+              toTopic(subject.id, expandedTopicId, expandedSubtopicId),
+            )}
+          />
+        )}
       </ClickToggle>
       <DisplayOnPageYOffset yOffsetMin={150}>
         <BreadcrumbBlock
