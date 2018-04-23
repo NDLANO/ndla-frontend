@@ -106,7 +106,7 @@ const MenuView = ({
             filterOptions={filters}
             onFilterClick={filterClick}
             filterValues={activeFilters}
-            onOpenSearch={() => onOpenSearch}
+            onOpenSearch={() => onOpenSearch()}
             onNavigate={onNavigate}
             expandedTopicId={expandedTopicId}
             expandedSubtopicId={expandedSubtopicId}
