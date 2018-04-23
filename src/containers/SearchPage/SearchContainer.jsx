@@ -73,10 +73,6 @@ class SearchContainer extends Component {
     };
   }
 
-  componentDidMount() {
-    SearchContainer.getInitialProps(this.props);
-  }
-
   onQuerySubmit = evt => {
     evt.preventDefault();
     this.updateFilter({ query: this.state.searchParams.query });
