@@ -5654,9 +5654,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.2.16:
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.2.16.tgz#c987252c04e2895366a9740194d5ea2a875fe071"
+ndla-icons@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.0.tgz#0a3177c0a1be146817d5002a9040e9af959d1738"
 
 ndla-licenses@^0.2.0:
   version "0.2.0"
@@ -5686,9 +5686,9 @@ ndla-tracker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.11.4:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.11.4.tgz#3b3bcfb845cc2bfe5ed243b7b5c7bff7ba6f1cac"
+ndla-ui@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.2.tgz#4a5766a4041ca498632c10785c76ef1943942b0d"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -5699,11 +5699,10 @@ ndla-ui@^0.11.4:
     react-prop-types "0.4.0"
     react-slick "^0.19.0"
     react-transition-group "^2.2.1"
-    react-twitter-widgets "^1.7.1"
 
-ndla-util@^0.1.10:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.1.11.tgz#aed9c78841658c4bd844831485947524c81d598f"
+ndla-util@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.0.tgz#4f70e364ae9c22009f793432de3174e8aaf6096b"
   dependencies:
     defined "1.0.0"
 
@@ -6961,14 +6960,6 @@ promise@^8.0.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.3.0, prop-types@^15.5.8:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
 prop-types@^15.5.0, prop-types@^15.5.4:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
@@ -6979,6 +6970,14 @@ prop-types@^15.5.0, prop-types@^15.5.4:
 prop-types@^15.5.10, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
+prop-types@^15.5.8:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.3.1"
@@ -7070,7 +7069,7 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-query-string@^5.0.1:
+query-string@^5.0.1, query-string@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.1.0.tgz#9583b15fd1307f899e973ed418886426a9976469"
   dependencies:
@@ -7265,9 +7264,18 @@ react-dev-utils@^4.0.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-"react-dom@^15 || ^16", react-dom@^16.2.0:
+"react-dom@^15 || ^16":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react-dom@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -7408,18 +7416,18 @@ react-transition-group@^2.2.1:
     prop-types "^15.5.8"
     warning "^3.0.0"
 
-react-twitter-widgets@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/react-twitter-widgets/-/react-twitter-widgets-1.7.1.tgz#60061f37a8c4f361c27f3d1d7ceba98d3cd80a40"
-  dependencies:
-    exenv "^1.2.1"
-    lodash "^4.17.4"
-    prop-types "^15.3.0"
-    scriptjs "^2.5.8"
-
-"react@^15 || ^16", react@^16.2.0:
+"react@^15 || ^16":
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -7894,10 +7902,6 @@ schema-utils@^0.4.0, schema-utils@^0.4.2:
   dependencies:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
-
-scriptjs@^2.5.8:
-  version "2.5.8"
-  resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.8.tgz#d0c43955c2e6bad33b6e4edf7b53b8965aa7ca5f"
 
 select-hose@^2.0.0:
   version "2.0.0"

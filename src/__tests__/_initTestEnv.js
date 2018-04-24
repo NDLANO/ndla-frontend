@@ -18,6 +18,17 @@ import Adapter from 'enzyme-adapter-react-16';
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 
+// fix: `matchMedia` not present, legacy browsers require a polyfill
+global.matchMedia =
+  global.matchMedia ||
+  function() {
+    return {
+      matches: false,
+      addListener() {},
+      removeListener() {},
+    };
+  };
+
 /* eslint-enable */
 
 window.DATA = {

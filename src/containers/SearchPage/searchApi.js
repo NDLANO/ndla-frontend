@@ -8,13 +8,24 @@
 
 import {
   resolveJsonOrRejectWithError,
-  apiResourceUrl,
+  apiResourceUrl, // eslint-disable-line
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/article-api/v2/articles');
+const baseUrl = apiResourceUrl('/search-api/v1/search/');
 
-export const search = (queryString, locale) =>
-  fetchWithAccessToken(`${baseUrl}/${queryString}&language=${locale}`).then(
+export const search = (searchString, locale) => {
+  if (searchString) {
+    return fetchWithAccessToken(
+      `${baseUrl}${searchString}&language=${locale}`,
+    ).then(resolveJsonOrRejectWithError);
+  }
+  return fetchWithAccessToken(`${baseUrl}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
+};
+
+export const groupSearch = (searchString, locale) =>
+  fetchWithAccessToken(
+    `${baseUrl}group/${searchString}&language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);

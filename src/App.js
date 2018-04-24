@@ -13,11 +13,9 @@ import ReactRoute from 'react-router-dom/Route';
 import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from 'ndla-ui';
-import { uuid } from 'ndla-util';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
-import config from './config';
 import handleError from './util/handleError';
 import ZendeskButton from './components/ZendeskButton';
 
@@ -34,12 +32,7 @@ const Route = ({
       <Page background={background}>
         <Content>
           <Masthead {...props} />
-          <Component
-            {...props}
-            locale={locale}
-            {...initialProps}
-            searchEnabled={!config.isNdlaProdEnvironment}
-          />
+          <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />
       </Page>
@@ -107,7 +100,7 @@ class App extends React.Component {
           .filter(route => route !== undefined)
           .map(route => (
             <Route
-              key={uuid()}
+              key={`route_${route.path}`}
               exact={route.exact}
               initialProps={this.state.data}
               locale={this.props.locale}

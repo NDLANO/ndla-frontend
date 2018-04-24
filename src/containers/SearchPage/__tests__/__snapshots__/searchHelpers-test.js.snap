@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
+Object {
+  "language-filter": Array [
+    "1",
+    "2",
+    "3",
+  ],
+  "levels": Array [
+    "urn:test:3",
+    "urn:test:1",
+    "urn:test:2",
+  ],
+  "page": "3",
+  "query": "test",
+  "subjects": Array [
+    "urn:test:3",
+    "urn:test:1",
+    "urn:test:2",
+  ],
+}
+`;
+
+exports[`searchHelpers converSearchStringToObject with no location 1`] = `
+Object {
+  "language-filter": Array [],
+  "levels": Array [],
+  "subjects": Array [],
+}
+`;
+
+exports[`searchHelpers searchResultToLinkProps article 1`] = `
+Object {
+  "to": "/urn:lp:300",
+}
+`;
+
+exports[`searchHelpers searchResultToLinkProps article without paths 1`] = `
+Object {
+  "to": "/404",
+}
+`;
+
+exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
+Object {
+  "href": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
+  "rel": "noopener noreferrer",
+  "target": "_blank",
+}
+`;

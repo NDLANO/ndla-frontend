@@ -17,13 +17,12 @@ import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
-
+import queryString from 'query-string';
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../routes';
 import configureStore from '../../configureStore';
 import config from '../../config';
-
 import { getLocaleObject, isValidLocale } from '../../i18n';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
@@ -85,6 +84,9 @@ export async function defaultRoute(req) {
       locale,
       store,
       match,
+      location: {
+        search: `?${queryString.stringify(req.query)}`,
+      },
     });
   }
 

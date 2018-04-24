@@ -12,7 +12,7 @@ import * as api from './filterApi';
 import { applicationError } from '../../modules/error';
 import { fetchTopicsFiltered } from '../TopicPage/topicSagas';
 
-export function* fetchFilters(id) {
+export function* fetchSubjectFilters(id) {
   try {
     const filters = yield call(api.fetchSubjectFilters, id);
     yield put(actions.fetchSubjectFiltersSuccess({ id, filters }));
@@ -22,14 +22,31 @@ export function* fetchFilters(id) {
   }
 }
 
-export function* watchFetchFilteredTopics() {
-  yield takeEvery(actions.fetchFilteredTopics, fetchTopicsFiltered);
+export function* fetchFilters() {
+  try {
+    const filters = yield call(api.fetchFilters);
+    yield put(actions.fetchFiltersSuccess({ filters }));
+  } catch (error) {
+    yield put(applicationError(error));
+    yield put(actions.fetchFiltersError());
+  }
 }
 
 export function* watchFetchFilters() {
   while (true) {
-    const { payload } = yield take(actions.fetchSubjectFilters);
+    const { payload } = yield take(actions.fetchFilters);
     yield call(fetchFilters, payload);
+  }
+}
+
+export function* watchFetchFilteredTopics() {
+  yield takeEvery(actions.fetchFilteredTopics, fetchTopicsFiltered);
+}
+
+export function* watchFetchSubjectFilters() {
+  while (true) {
+    const { payload } = yield take(actions.fetchSubjectFilters);
+    yield call(fetchSubjectFilters, payload);
   }
 }
 
@@ -43,4 +60,9 @@ export function* watchSetActive() {
   }
 }
 
-export default [watchFetchFilters, watchSetActive, watchFetchFilteredTopics];
+export default [
+  watchFetchFilters,
+  watchFetchSubjectFilters,
+  watchSetActive,
+  watchFetchFilteredTopics,
+];

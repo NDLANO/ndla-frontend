@@ -14,6 +14,7 @@ export const initalState = {
   totalCount: 1,
   pageSize: 10,
   searching: false,
+  groupResult: [],
 };
 
 export default handleActions(
@@ -22,10 +23,22 @@ export default handleActions(
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },
+    [constants.GROUP_SEARCH]: {
+      next: state => ({ ...state, searching: true }),
+      throw: state => state,
+    },
     [constants.SET_SEARCH_RESULT]: {
       next: (state, action) => ({
         ...state,
         ...action.payload,
+        searching: false,
+      }),
+      throw: state => state,
+    },
+    [constants.SET_GROUP_SEARCH_RESULT]: {
+      next: (state, action) => ({
+        ...state,
+        groupResult: action.payload,
         searching: false,
       }),
       throw: state => state,
