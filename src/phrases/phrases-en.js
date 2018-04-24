@@ -28,6 +28,57 @@ const phrases = {
   },
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
+    close: 'Close',
+    search: 'Search',
+    searchFieldPlaceholder:
+      'Search for subjets, tasks and activities or learningpaths',
+    label: {
+      contentTypes: 'Content types',
+      levels: 'Level',
+      'language-filter': 'Language',
+      subjects: 'Subjets',
+    },
+    showLabel: {
+      contentTypes: 'More content types',
+      levels: 'More levels',
+      'language-filter': 'More languages',
+      subjects: 'Change subject',
+    },
+    hideLabel: {
+      contentTypes: 'Hide content types',
+      levels: 'Hide levels',
+      'language-filter': 'Hide languages',
+      subjects: 'Hide subjects',
+    },
+    searchField: {
+      contentTypeResultShowMoreLabel: 'Show more results',
+      contentTypeResultShowLessLabel: 'Show less results',
+      allResultButtonText: 'Show all results',
+      searchResultHeading: 'Proposals:',
+      contentTypeResultNoHit: 'No results',
+    },
+    searchResultMessages: {
+      searchStringLabel: 'You searched on:',
+      subHeading: '{totalCount} hits in Ndla',
+    },
+    searchResultListMessages: {
+      subjectsLabel: 'Open in subject:',
+      noResultHeading: 'Hmm, no content ...',
+      noResultDescription:
+        'Unfortunately, we do not have anything to offer here. If you want to suggest any content for this site, you can use Ask NDLA, located at the bottom right of the screen.',
+    },
+    searchPageMessages: {
+      filterHeading: 'Filter',
+      resultHeading: '{totalCount} hits in Ndla',
+      narrowScreenFilterHeading: '{totalCount} hits on «{query}»',
+    },
+    searchFilterMessages: {
+      backButton: 'Back to filter',
+      filterLabel: 'Chose subjects',
+      confirmButton: 'Use subject',
+      hasValuesButtonText: 'Change subject',
+      noValuesButtonText: 'Pick subject',
+    },
   },
   subjectPage: {
     errorDescription: 'Sorry, an error occurd while loading the topics.',
@@ -128,14 +179,6 @@ const phrases = {
     activateAdditionalResources: 'Show additional content',
     toggleFilterLabel: 'Additional content',
   },
-  searchForm: {
-    placeholder: 'Search articles',
-    btn: 'Search',
-    order: {
-      relevance: 'Relevance',
-      title: 'Alphabetical',
-    },
-  },
   article: {
     author: 'Author',
     published: 'Published',
@@ -227,6 +270,27 @@ const phrases = {
     footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
     footerEditiorInChief: 'Editor in chief: ',
     footerManagingEditor: 'Managing editor: ',
+  },
+  contentTypes: {
+    all: 'All',
+    subject: 'Subject',
+    'topic-article': 'Topic article',
+    'learning-path': 'Learning path',
+    'subject-material': 'Subject material',
+    'tasks-and-activities': 'Task and activities',
+    'external-learning-resources': 'External learning resources',
+    'source-material': 'Source material',
+  },
+  languages: {
+    nb: 'Norwegian Bokmål',
+    nn: 'Norwegian Nynorsk',
+    en: 'English',
+    fr: 'French',
+    de: 'German',
+    se: 'Sami',
+    es: 'Spanish',
+    zh: 'Chinese',
+    unkown: 'Unkown',
   },
 };
 

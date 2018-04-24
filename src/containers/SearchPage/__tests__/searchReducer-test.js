@@ -13,23 +13,13 @@ import searchResult from './_mockSearchResult';
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
-  expect(nextState).toEqual({
-    results: [],
-    totalCount: 1,
-    pageSize: 10,
-    searching: false,
-  });
+  expect(nextState).toEqual(initalState);
 });
 
 test('reducers/search search', () => {
   const nextState = reducer(undefined, { type: constants.SEARCH });
 
-  expect(nextState).toEqual({
-    results: [],
-    totalCount: 1,
-    pageSize: 10,
-    searching: true,
-  });
+  expect(nextState).toEqual({ ...initalState, searching: true });
 });
 
 test('reducers/search searchError', () => {

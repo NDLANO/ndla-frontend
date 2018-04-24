@@ -17,7 +17,7 @@ import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import BetaFrontpage from './BetaFrontpage';
 
-export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
+export const WelcomePage = ({ t, subjects, hasFailed }) => (
   <React.Fragment>
     <Hero contentType="beta">
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
@@ -41,14 +41,13 @@ export const WelcomePage = ({ t, subjects, searchEnabled, hasFailed }) => (
         )}
       </OneColumn>
     </Hero>
-    <BetaFrontpage searchEnabled={searchEnabled} />
+    <BetaFrontpage />
   </React.Fragment>
 );
 
 WelcomePage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
-  searchEnabled: PropTypes.bool.isRequired,
 };
 
 export default compose(injectT, injectSubjects)(WelcomePage);

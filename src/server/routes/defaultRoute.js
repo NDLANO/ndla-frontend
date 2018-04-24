@@ -19,6 +19,7 @@ import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
 import { ApolloProvider } from 'react-apollo';
 
+import queryString from 'query-string';
 import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../routes';
@@ -90,6 +91,9 @@ export async function defaultRoute(req) {
       store,
       match,
       client,
+      location: {
+        search: `?${queryString.stringify(req.query)}`,
+      },
     });
   }
 

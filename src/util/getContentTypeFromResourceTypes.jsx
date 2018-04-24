@@ -19,7 +19,7 @@ import {
 
 const { contentTypes } = constants;
 
-const mapping = {
+export const contentTypeMapping = {
   [RESOURCE_TYPE_LEARNING_PATH]: {
     contentType: contentTypes.LEARNING_PATH,
   },
@@ -44,9 +44,9 @@ const mapping = {
 };
 
 export default resourceTypes => {
-  const resourceType = resourceTypes.find(type => mapping[type.id]);
+  const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
-    return mapping[resourceType.id];
+    return contentTypeMapping[resourceType.id];
   }
-  return mapping.default;
+  return contentTypeMapping.default;
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { bool } from 'prop-types';
 import {
   InfoBox,
   LayoutItem,
@@ -9,11 +8,8 @@ import {
   OneColumn,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import Link from 'react-router-dom/Link';
 
-import { toSearch } from '../../routeHelpers';
-
-const BetaFrontpage = ({ searchEnabled, t }) => (
+const BetaFrontpage = ({ t }) => (
   <OneColumn cssModifier="narrow">
     <ArticleWrapper>
       <LayoutItem layout="center">
@@ -45,16 +41,9 @@ const BetaFrontpage = ({ searchEnabled, t }) => (
         <p>{t('welcomePage.beta.soon')}</p>
       </LayoutItem>
     </ArticleWrapper>
-    {searchEnabled ? (
-      <section>
-        <Link to={toSearch()}>{t('welcomePage.search')}</Link>
-      </section>
-    ) : null}
   </OneColumn>
 );
 
-BetaFrontpage.propTypes = {
-  searchEnabled: bool,
-};
+BetaFrontpage.propTypes = {};
 
 export default injectT(BetaFrontpage);
