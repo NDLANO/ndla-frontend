@@ -44,6 +44,24 @@ test('resourceSelectors getResourceTypes', () => {
   expect(types).toMatchSnapshot();
 });
 
+test('resourceSelectors getResourceTypes with undefined resource', () => {
+  const state = {
+    resources: {
+      ...resourcesState,
+      types: [
+        ...resourceTypes,
+        { id: 'urn:resourcetype:SomeTypeThatDoesNoeExist', title: 'Tittel' },
+      ],
+    },
+  };
+  const types = getResourceTypes(state);
+
+  expect(types.length).toBe(8);
+  expect(types[7].id).toBe('urn:resourcetype:SomeTypeThatDoesNoeExist'); // Expects that undefined types is last in the list.
+
+  expect(types).toMatchSnapshot();
+});
+
 test('resourceSelectors getResourcesByTopicId', () => {
   const state = resourcesState;
   const resources = getResourcesByTopicId('urn:topic:1')(state);
