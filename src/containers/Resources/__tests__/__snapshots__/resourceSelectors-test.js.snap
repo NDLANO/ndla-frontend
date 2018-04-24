@@ -43,16 +43,16 @@ Array [
     ],
   },
   Object {
+    "id": "urn:resourcetype:reviewResource",
+    "name": "Vurderingsressurs",
+  },
+  Object {
     "id": "urn:resourcetype:SourceMaterial",
     "name": "Kildemateriale",
   },
   Object {
     "id": "urn:resourcetype:externalResource",
     "name": "Ekstern læringsressurs",
-  },
-  Object {
-    "id": "urn:resourcetype:reviewResource",
-    "name": "Vurderingsressurs",
   },
   Object {
     "id": "urn:resourcetype:concept",
