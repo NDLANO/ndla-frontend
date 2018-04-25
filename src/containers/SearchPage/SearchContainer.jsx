@@ -68,7 +68,8 @@ class SearchContainer extends Component {
         subjects: searchObject.subjects || [],
         'language-filter': searchObject['language-filter'] || [],
         levels: searchObject.levels || [],
-        'resource-types': undefined,
+        'resource-types': searchObject['resource-types'] || undefined,
+        'context-types': searchObject['context-types'] || undefined,
       },
     };
   }
@@ -165,10 +166,12 @@ class SearchContainer extends Component {
       ...stateSearchParams,
     };
 
-    search({ searchString: `?${queryString.stringify(searchParams)}` });
+    const searchString = `?${queryString.stringify(searchParams)}`;
 
+    search({ searchString });
     history.push({
-      search: queryString.stringify(searchParams),
+      pathname: '/search',
+      search: searchString,
     });
   };
 

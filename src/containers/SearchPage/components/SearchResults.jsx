@@ -6,18 +6,28 @@
  */
 
 import React from 'react';
-import { SearchResult, SearchResultList, ContentTypeBadge } from 'ndla-ui';
+import {
+  SearchResult,
+  SearchResultList,
+  ContentTypeBadge,
+  Image,
+} from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { ArticleResultShape } from '../../../shapes';
 
-const resultsWithContentTypeBadge = (results, t) =>
+const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
     ...result,
     contentTypeIcon: (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
     contentTypeLabel: t(`contentTypes.${result.contentType}`),
+    image: result.metaImage ? (
+      <Image src={result.metaImage} alt={result.title} />
+    ) : (
+      undefined
+    ),
   }));
 
 const SearchResults = ({
@@ -30,6 +40,7 @@ const SearchResults = ({
 }) => {
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
+  console.log(results);
   return (
     <SearchResult
       messages={{
@@ -57,7 +68,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadge(results, t)}
+        results={resultsWithContentTypeBadgeAndImage(results, t)}
       />
     </SearchResult>
   );

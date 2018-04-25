@@ -10,6 +10,7 @@ import { createSelector } from 'reselect';
 import { constants } from 'ndla-ui';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
+import config from '../../config';
 
 const getContentType = resource => {
   if (resource.resourceTypes.length > 0) {
@@ -18,6 +19,19 @@ const getContentType = resource => {
     return constants.contentTypes.SUBJECT;
   }
   return constants.contentTypes.SUBJECT_MATERIAL;
+};
+
+const getUrl = (subject, result) => {
+  if (subject.learningResourceType === 'learningpath') {
+    return {
+      href: `${config.learningPathDomain}/learningpaths/${
+        result.id
+      }/first-step`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    };
+  }
+  return `/subjects${subject.path}`;
 };
 
 const taxonomyData = result => {
@@ -34,7 +48,7 @@ const taxonomyData = result => {
     taxonomyResult = {
       ...taxonomyResult,
       subjects: result.contexts.map(subject => ({
-        url: `/subjects${subject.path}`,
+        url: getUrl(subject, result),
         title: subject.subject,
         contentType: getContentType(subject),
       })),
@@ -50,7 +64,7 @@ export const getResults = createSelector([getSearchFromState], search =>
     ...result,
     url:
       result.contexts.length > 0
-        ? `/subjects${result.contexts[0].path}`
+        ? getUrl(result.contexts[0], result)
         : result.url,
     title: convertFieldWithFallback(result, 'title', ''),
     ingress: convertFieldWithFallback(result, 'metaDescription', ''),
