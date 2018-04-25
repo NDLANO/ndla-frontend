@@ -12,7 +12,7 @@ describe('Topic menu', () => {
 
     cy.get('[data-cy=subject-list] li:first-child a').click();
     cy
-      .get('button')
+      .get('.c-topic-menu-container button')
       .contains('Meny')
       .click();
   });
