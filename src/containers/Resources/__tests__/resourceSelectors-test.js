@@ -33,7 +33,32 @@ test('resourceSelectors getResourceTypes', () => {
   const types = getResourceTypes(state);
 
   expect(types.length).toBe(7);
-  expect(types[0].id).toBe('urn:resourcetype:learningPath'); // expect learningPath to be first
+  expect(types[0].id).toBe('urn:resourcetype:learningPath');
+  expect(types[1].id).toBe('urn:resourcetype:subjectMaterial');
+  expect(types[2].id).toBe('urn:resourcetype:tasksAndActivities');
+  expect(types[3].id).toBe('urn:resourcetype:reviewResource');
+  expect(types[4].id).toBe('urn:resourcetype:SourceMaterial');
+  expect(types[5].id).toBe('urn:resourcetype:externalResource');
+  expect(types[6].id).toBe('urn:resourcetype:concept');
+
+  expect(types).toMatchSnapshot();
+});
+
+test('resourceSelectors getResourceTypes with undefined resource', () => {
+  const state = {
+    resources: {
+      ...resourcesState,
+      types: [
+        ...resourceTypes,
+        { id: 'urn:resourcetype:SomeTypeThatDoesNoeExist', title: 'Tittel' },
+      ],
+    },
+  };
+  const types = getResourceTypes(state);
+
+  expect(types.length).toBe(8);
+  expect(types[7].id).toBe('urn:resourcetype:SomeTypeThatDoesNoeExist'); // Expects that undefined types is last in the list.
+
   expect(types).toMatchSnapshot();
 });
 
