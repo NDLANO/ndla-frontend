@@ -25,6 +25,7 @@ const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
     ...type,
     contentType: getContentTypeFromResourceTypes([type]).contentType,
   }));
+
   return (
     <div>
       {fetchTopicResourcesFailed && (
