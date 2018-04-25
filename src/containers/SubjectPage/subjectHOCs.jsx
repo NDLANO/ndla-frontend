@@ -9,15 +9,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import defined from 'defined';
+import gql from 'graphql-tag';
 import { SubjectShape, GraphqlErrorShape } from '../../shapes';
-import { subjectsQuery } from '../../queries';
+import { subjectInfoFragment } from '../../fragments';
+
+export const query = gql`
+  ${subjectInfoFragment}
+
+  query subjects {
+    subjects {
+      ...SubjectInfo
+    }
+  }
+`;
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
     static getInitialProps(ctx) {
       return ctx.client.query({
         errorPolicy: 'all',
-        query: subjectsQuery,
+        query,
       });
     }
 

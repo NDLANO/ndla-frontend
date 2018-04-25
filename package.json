@@ -13,6 +13,7 @@
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "start-cypress-server": "cross-env NDLA_ENVIRONMENT=test node build/server",
     "start-cypress-server-local": "cross-env NDLA_ENVIRONMENT=prod razzle start",

@@ -14,6 +14,7 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
+import gql from 'graphql-tag';
 import { getLocale } from '../Locale/localeSelectors';
 import {
   ArticleShape,
@@ -32,13 +33,40 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { getTopicPath } from '../../util/getTopicPath';
-import { resourceQuery } from '../../queries';
+import { articleInfoFragment, topicInfoFragment } from '../../fragments';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
   const { topicId } = getUrnIdsFromProps(props);
   return getTopicPath(subject.id, topicId, subject.topics);
 };
+
+export const query = gql`
+  ${articleInfoFragment}
+  ${topicInfoFragment}
+
+  query ArticlePage($resourceId: String!, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true) {
+        ...TopicInfo
+      }
+    }
+    resource(id: $resourceId) {
+      name
+      contentUri
+      article {
+        ...ArticleInfo
+      }
+      resourceTypes {
+        id
+        name
+      }
+    }
+  }
+`;
 
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
@@ -47,10 +75,10 @@ class ArticlePage extends Component {
 
     return client.query({
       errorPolicy: 'all',
-      query: resourceQuery,
+      query,
       variables: {
         subjectId,
-        id: resourceId,
+        resourceId,
       },
     });
   }

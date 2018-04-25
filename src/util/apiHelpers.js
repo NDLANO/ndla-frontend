@@ -126,10 +126,17 @@ export const getOrFetchAccessToken = () => {
   return accessToken;
 };
 
+const uri = (() => {
+  if (config.localGraphQLApi) {
+    return 'http://localhost:4000/graphql-api/graphql';
+  }
+  return apiResourceUrl('/graphql-api/graphql');
+})();
+
 export const createApolloClient = (language = 'nb') =>
   new ApolloClient({
     cache: __CLIENT__ && new InMemoryCache().restore(window.DATA.apolloState),
-    uri: apiResourceUrl('/graphql-api/graphql'),
+    uri,
     request: async operation => {
       const accessToken = await getOrFetchAccessToken();
       operation.setContext({
