@@ -124,6 +124,7 @@ export default {
       'fast.wistia.com',
       'https://khanacademy.org/',
       '*.khanacademy.org/',
+      'http://www.vg.no/',
     ],
     styleSrc: [
       "'self'",
