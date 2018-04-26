@@ -68,7 +68,8 @@ class SearchContainer extends Component {
         subjects: searchObject.subjects || [],
         'language-filter': searchObject['language-filter'] || [],
         levels: searchObject.levels || [],
-        'resource-types': undefined,
+        'resource-types': searchObject['resource-types'] || undefined,
+        'context-types': searchObject['context-types'] || undefined,
       },
     };
   }
@@ -165,10 +166,12 @@ class SearchContainer extends Component {
       ...stateSearchParams,
     };
 
-    search({ searchString: `?${queryString.stringify(searchParams)}` });
+    const searchString = `?${queryString.stringify(searchParams)}`;
 
+    search({ searchString });
     history.push({
-      search: queryString.stringify(searchParams),
+      pathname: '/search',
+      search: searchString,
     });
   };
 
@@ -180,6 +183,7 @@ class SearchContainer extends Component {
       resultMetadata,
       filters,
       results,
+      location,
     } = this.props;
 
     const { searchParams } = this.state;
@@ -237,16 +241,13 @@ class SearchContainer extends Component {
           <SearchResults
             results={results}
             resultMetadata={resultMetadata}
-            filterState={this.state.searchParams}
+            filterState={searchParams}
             enabledTabs={enabledTabs}
             onTabChange={this.updateTab}
+            location={location}
           />
           <Pager
-            page={
-              this.state.searchParams.page
-                ? parseInt(this.state.searchParams.page, 10)
-                : 1
-            }
+            page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
             lastPage={resultMetadata.lastPage}
             query={this.state.searchParam}
             pathname=""

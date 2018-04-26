@@ -6,18 +6,29 @@
  */
 
 import React from 'react';
-import { SearchResult, SearchResultList, ContentTypeBadge } from 'ndla-ui';
+import {
+  SearchResult,
+  SearchResultList,
+  ContentTypeBadge,
+  Image,
+} from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { converSearchStringToObject } from '../searchHelpers';
 import { ArticleResultShape } from '../../../shapes';
 
-const resultsWithContentTypeBadge = (results, t) =>
+const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
     ...result,
     contentTypeIcon: (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
     contentTypeLabel: t(`contentTypes.${result.contentType}`),
+    image: result.metaImage ? (
+      <Image src={result.metaImage} alt={result.title} />
+    ) : (
+      undefined
+    ),
   }));
 
 const SearchResults = ({
@@ -26,10 +37,14 @@ const SearchResults = ({
   filterState,
   enabledTabs,
   onTabChange,
+  location,
   t,
 }) => {
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
+
+  const searchObject = converSearchStringToObject(location);
+
   return (
     <SearchResult
       messages={{
@@ -40,7 +55,7 @@ const SearchResults = ({
           totalCount: resultMetadata.totalCount,
         }),
       }}
-      searchString={filterState.query || ''}
+      searchString={searchObject.query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
         title: t(`contentTypes.${tab.name}`),
@@ -57,7 +72,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadge(results, t)}
+        results={resultsWithContentTypeBadgeAndImage(results, t)}
       />
     </SearchResult>
   );
@@ -70,6 +85,9 @@ SearchResults.propTypes = {
     'language-filter': arrayOf(string),
     levels: arrayOf(string),
   }),
+  location: shape({
+    search: string,
+  }).isRequired,
   enabledTabs: arrayOf(
     shape({
       name: string,

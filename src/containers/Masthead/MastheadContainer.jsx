@@ -95,8 +95,19 @@ class MastheadContainer extends React.PureComponent {
     this.setState({ query }, this.executeSearch(query));
   };
 
-  onSearch = () => {
+  onSearch = evt => {
+    evt.preventDefault();
+
+    const { history, subject } = this.props;
+    const { query } = this.state;
     this.executeSearch(this.state.query);
+    history.push({
+      pathname: '/search',
+      search: `?${queryString.stringify({
+        query: query.length > 0 ? query : undefined,
+        subjects: subject ? subject.id : undefined,
+      })}`,
+    });
   };
 
   executeSearch = query => {
@@ -210,6 +221,9 @@ MastheadContainer.propTypes = {
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   groupSearch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = {
