@@ -183,6 +183,7 @@ class SearchContainer extends Component {
       resultMetadata,
       filters,
       results,
+      location,
     } = this.props;
 
     const { searchParams } = this.state;
@@ -240,16 +241,13 @@ class SearchContainer extends Component {
           <SearchResults
             results={results}
             resultMetadata={resultMetadata}
-            filterState={this.state.searchParams}
+            filterState={searchParams}
             enabledTabs={enabledTabs}
             onTabChange={this.updateTab}
+            location={location}
           />
           <Pager
-            page={
-              this.state.searchParams.page
-                ? parseInt(this.state.searchParams.page, 10)
-                : 1
-            }
+            page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
             lastPage={resultMetadata.lastPage}
             query={this.state.searchParam}
             pathname=""

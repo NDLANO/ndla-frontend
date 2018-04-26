@@ -14,6 +14,7 @@ import {
 } from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { converSearchStringToObject } from '../searchHelpers';
 import { ArticleResultShape } from '../../../shapes';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
@@ -36,10 +37,14 @@ const SearchResults = ({
   filterState,
   enabledTabs,
   onTabChange,
+  location,
   t,
 }) => {
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
+
+  const searchObject = converSearchStringToObject(location);
+
   return (
     <SearchResult
       messages={{
@@ -50,7 +55,7 @@ const SearchResults = ({
           totalCount: resultMetadata.totalCount,
         }),
       }}
-      searchString={filterState.query || ''}
+      searchString={searchObject.query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
         title: t(`contentTypes.${tab.name}`),
@@ -80,6 +85,9 @@ SearchResults.propTypes = {
     'language-filter': arrayOf(string),
     levels: arrayOf(string),
   }),
+  location: shape({
+    search: string,
+  }).isRequired,
   enabledTabs: arrayOf(
     shape({
       name: string,
