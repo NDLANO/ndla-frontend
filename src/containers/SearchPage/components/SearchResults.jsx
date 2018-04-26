@@ -40,7 +40,6 @@ const SearchResults = ({
 }) => {
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
-  console.log(results);
   return (
     <SearchResult
       messages={{
