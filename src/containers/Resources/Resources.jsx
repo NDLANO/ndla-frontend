@@ -20,11 +20,24 @@ import {
 } from './resource';
 import { resourceToLinkProps } from './resourceHelpers';
 
-const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
-  const topicResourcesByTypeWithMetaData = topicResourcesByType.map(type => ({
-    ...type,
-    contentType: getContentTypeFromResourceTypes([type]).contentType,
-  }));
+const Resources = ({
+  t,
+  topicResourcesByType,
+  resourceGroups,
+  fetchTopicResourcesFailed,
+}) => {
+  let resourceGroupsWithMetaData;
+  if (resourceGroups) {
+    resourceGroupsWithMetaData = resourceGroups.map(type => ({
+      ...type,
+      contentType: getContentTypeFromResourceTypes([type]).contentType,
+    }));
+  } else {
+    resourceGroupsWithMetaData = topicResourcesByType.map(type => ({
+      ...type,
+      contentType: getContentTypeFromResourceTypes([type]).contentType,
+    }));
+  }
 
   return (
     <div>
@@ -33,7 +46,7 @@ const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
           {t('resource.errorDescription')}
         </p>
       )}
-      {topicResourcesByTypeWithMetaData.map(type => (
+      {resourceGroupsWithMetaData.map(type => (
         <ResourceGroup
           key={type.id}
           title={type.name}
@@ -57,6 +70,7 @@ const Resources = ({ t, topicResourcesByType, fetchTopicResourcesFailed }) => {
 Resources.propTypes = {
   topicId: PropTypes.string.isRequired,
   topicResourcesByType: PropTypes.arrayOf(ResourceTypeShape),
+  resourceGroups: PropTypes.arrayOf(ResourceTypeShape),
   fetchTopicResourcesFailed: PropTypes.bool.isRequired,
 };
 

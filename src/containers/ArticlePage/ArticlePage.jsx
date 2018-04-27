@@ -33,7 +33,13 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { getTopicPath } from '../../util/getTopicPath';
-import { articleInfoFragment, topicInfoFragment } from '../../fragments';
+import {
+  articleInfoFragment,
+  topicInfoFragment,
+  resourceInfoFragment,
+} from '../../fragments';
+import Resources from '../Resources/Resources';
+import { getResourceGroups } from '../../util/getResourceGroups';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -44,8 +50,13 @@ const getTopicPathFromProps = props => {
 export const query = gql`
   ${articleInfoFragment}
   ${topicInfoFragment}
+  ${resourceInfoFragment}
 
-  query ArticlePage($resourceId: String!, $subjectId: String!) {
+  query ArticlePage(
+    $resourceId: String!
+    $subjectId: String!
+    $topicId: String!
+  ) {
     subject(id: $subjectId) {
       id
       name
@@ -53,6 +64,18 @@ export const query = gql`
       topics(all: true) {
         ...TopicInfo
       }
+    }
+    topic(id: $topicId) {
+      coreResources {
+        ...ResourceInfo
+      }
+      supplementaryResources {
+        ...ResourceInfo
+      }
+    }
+    resourceTypes {
+      id
+      name
     }
     resource(id: $resourceId) {
       name
@@ -71,12 +94,13 @@ export const query = gql`
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
     const { client } = ctx;
-    const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
+    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
 
     return client.query({
       errorPolicy: 'all',
       query,
       variables: {
+        topicId,
         subjectId,
         resourceId,
       },
@@ -129,7 +153,12 @@ class ArticlePage extends Component {
       return null;
     }
 
-    const { resource, subject } = data;
+    const {
+      resource,
+      topic: { coreResources, supplementaryResources },
+      resourceTypes,
+      subject,
+    } = data;
     const { topicId } = getUrnIdsFromProps(this.props);
     const topicPath = getTopicPathFromProps(this.props);
 
@@ -190,10 +219,13 @@ class ArticlePage extends Component {
             article={article}
             locale={locale}
             {...getArticleProps(resource)}>
-            {subject &&
-              topicId && (
-                <TopicResources subjectId={subject.id} topicId={topicId} />
+            <Resources
+              resourceGroups={getResourceGroups(
+                resourceTypes,
+                supplementaryResources,
+                coreResources,
               )}
+            />
           </Article>
         </OneColumn>
       </div>
@@ -214,7 +246,12 @@ ArticlePage.propTypes = {
       article: ArticleShape,
       resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    topic: PropTypes.shape({
+      coreResources: PropTypes.arrayOf(ResourceTypeShape),
+      supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
+    }),
     subject: SubjectShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,

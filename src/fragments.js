@@ -50,6 +50,19 @@ export const subjectInfoFragment = gql`
   }
 `;
 
+export const resourceInfoFragment = gql`
+  fragment ResourceInfo on Resource {
+    id
+    name
+    contentUri
+    path
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
 
