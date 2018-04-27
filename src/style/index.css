@@ -31,6 +31,14 @@
   display: inline-block !important;
 }
 
+.c-article .MJXc-display {
+  margin: 0;
+
+  & .mjx-chtml {
+    padding: 0;
+  }
+}
+
 .c-zendesk__button {
   position: fixed;
   left: 2rem;
