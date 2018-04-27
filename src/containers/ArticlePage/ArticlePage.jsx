@@ -38,6 +38,7 @@ import {
   resourceInfoFragment,
 } from '../../fragments';
 import Resources from '../Resources/Resources';
+import handleError from '../../util/handleError';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -94,15 +95,21 @@ class ArticlePage extends Component {
     const { client } = ctx;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
 
-    return client.query({
-      errorPolicy: 'all',
-      query,
-      variables: {
-        topicId,
-        subjectId,
-        resourceId,
-      },
-    });
+    try {
+      const result = await client.query({
+        errorPolicy: 'all',
+        query,
+        variables: {
+          topicId,
+          subjectId,
+          resourceId,
+        },
+      });
+      return result;
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
   }
 
   static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
