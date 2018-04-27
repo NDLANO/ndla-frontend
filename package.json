@@ -13,8 +13,9 @@
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
+    "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "start-cypress-server": "cross-env NDLA_ENVIRONMENT=prod yarn run start-prod",
+    "start-cypress-server": "cross-env NDLA_ENVIRONMENT=test node build/server",
     "start-cypress-server-local": "cross-env NDLA_ENVIRONMENT=prod razzle start",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
@@ -24,9 +25,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.0.0",
@@ -38,6 +37,7 @@
     "enzyme": "^3.2.0",
     "eslint": "^4.18.1",
     "eslint-config-ndla": "^0.4.0",
+    "eslint-plugin-graphql": "^2.1.0",
     "eslint-plugin-react": "^7.7.0",
     "flux-standard-action": "^2.0.0",
     "ndla-scripts": "^0.4.0",
@@ -48,6 +48,7 @@
     "sinon": "^4.1.2"
   },
   "dependencies": {
+    "apollo-boost": "^0.1.4",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.2",
     "btoa": "^1.1.2",
@@ -59,6 +60,8 @@
     "defined": "1.0.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "express": "^4.16.2",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.8.0",
     "helmet": "^3.9.0",
     "history": "^4.6.3",
     "hoist-non-react-statics": "^2.3.0",
@@ -88,6 +91,7 @@
     "razzle": "^0.8.12",
     "razzle-config-utils": "^0.1.0",
     "react": "^16.3.2",
+    "react-apollo": "^2.1.2",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^16.3.2",
     "react-helmet": "^5.1.3",

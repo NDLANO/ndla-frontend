@@ -7,6 +7,7 @@
  */
 
 import defined from 'defined';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
 
@@ -110,3 +111,39 @@ export const fetchWithAccessToken = (url, options = {}) => {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
+
+export const getOrFetchAccessToken = () => {
+  const accessToken = getAccessToken();
+  const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
+
+  if (__CLIENT__ && new Date().getTime() > expiresAt) {
+    return fetchAccessToken().then(res => {
+      setAccessTokenInLocalStorage(res.access_token);
+      return res.access_token;
+    });
+  }
+
+  return accessToken;
+};
+
+const uri = (() => {
+  if (config.localGraphQLApi) {
+    return 'http://localhost:4000/graphql-api/graphql';
+  }
+  return apiResourceUrl('/graphql-api/graphql');
+})();
+
+export const createApolloClient = (language = 'nb') =>
+  new ApolloClient({
+    cache: __CLIENT__ && new InMemoryCache().restore(window.DATA.apolloState),
+    uri,
+    request: async operation => {
+      const accessToken = await getOrFetchAccessToken();
+      operation.setContext({
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': language,
+        },
+      });
+    },
+  });

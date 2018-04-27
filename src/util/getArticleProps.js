@@ -8,14 +8,14 @@
 
 import getContentTypeFromResourceTypes from './getContentTypeFromResourceTypes';
 
-export const getArticleProps = article => {
+export const getArticleProps = resource => {
   const hasResourceTypes =
-    article && article.resourceTypes && article.resourceTypes.length > 0;
+    resource && resource.resourceTypes && resource.resourceTypes.length > 0;
 
   const contentType = hasResourceTypes
-    ? getContentTypeFromResourceTypes(article.resourceTypes).contentType
+    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
     : undefined;
 
-  const label = hasResourceTypes ? article.resourceTypes[0].name : '';
+  const label = hasResourceTypes ? resource.resourceTypes[0].name : '';
   return { contentType, label };
 };

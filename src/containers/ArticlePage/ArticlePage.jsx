@@ -9,59 +9,106 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { actions, getFetchStatus, getArticle } from './article';
-import { getTopicPath, actions as topicActions } from '../TopicPage/topic';
-import {
-  getSubjectById,
-  actions as subjectActions,
-} from '../SubjectPage/subjects';
+import gql from 'graphql-tag';
 import { getLocale } from '../Locale/localeSelectors';
-import { ArticleShape, SubjectShape, TopicShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  ResourceTypeShape,
+  GraphqlErrorShape,
+} from '../../shapes';
 import Article from '../../components/Article';
 import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
-import connectSSR from '../../components/connectSSR';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { transformArticle } from '../../util/transformArticle';
+import { getTopicPath } from '../../util/getTopicPath';
+import { articleInfoFragment, topicInfoFragment } from '../../fragments';
 
-const getTitle = article => (article ? article.title : '');
+const getTopicPathFromProps = props => {
+  const { data: { subject } } = props;
+  const { topicId } = getUrnIdsFromProps(props);
+  return getTopicPath(subject.id, topicId, subject.topics);
+};
 
-class ArticlePage extends Component {
-  static getInitialProps(ctx) {
-    const { fetchArticle, fetchTopics, fetchSubjects } = ctx;
-    const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
+export const query = gql`
+  ${articleInfoFragment}
+  ${topicInfoFragment}
 
-    fetchArticle({ resourceId });
-    if (subjectId) {
-      fetchSubjects();
-      fetchTopics({ subjectId });
+  query ArticlePage($resourceId: String!, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true) {
+        ...TopicInfo
+      }
+    }
+    resource(id: $resourceId) {
+      name
+      contentUri
+      article {
+        ...ArticleInfo
+      }
+      resourceTypes {
+        id
+        name
+      }
     }
   }
+`;
 
-  static getDocumentTitle({ t, article, subject }) {
-    return `${subject ? subject.name : ''} - ${getTitle(article)}${t(
+class ArticlePage extends Component {
+  static async getInitialProps(ctx) {
+    const { client } = ctx;
+    const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
+
+    return client.query({
+      errorPolicy: 'all',
+      query,
+      variables: {
+        subjectId,
+        resourceId,
+      },
+    });
+  }
+
+  static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
+    return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { topicPath, subject, article } = currentProps;
-    if (article && article.id && topicPath && topicPath.length > 0 && subject) {
+    const { data, loading } = currentProps;
+    if (!data || loading) {
+      return;
+    }
+    const topicPath = getTopicPathFromProps(currentProps);
+    if (data.resource && topicPath && topicPath.length > 0 && data.subject) {
       trackPageView(currentProps);
     }
   }
 
   static getDimensions(props) {
-    const articleProps = getArticleProps(props.article);
-    return getAllDimensions(props, articleProps.label, true);
+    const articleProps = getArticleProps(props.data.resource);
+    const { data: { resource: { article }, subject } } = props;
+    const topicPath = getTopicPathFromProps(props);
+    return getAllDimensions(
+      { article, subject, topicPath },
+      articleProps.label,
+      true,
+    );
   }
 
   componentDidMount() {
@@ -77,16 +124,26 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { article, subject, status, topicPath, locale } = this.props;
+    const { data, loading, locale, errors } = this.props;
+    if (!data || loading) {
+      return null;
+    }
+
+    const { resource, subject } = data;
     const { topicId } = getUrnIdsFromProps(this.props);
-    if (status === 'error' || status === 'error404') {
+    const topicPath = getTopicPathFromProps(this.props);
+
+    if (resource === null) {
+      const error = errors.find(e => e.path.includes('resource'));
       return (
         <div>
-          <ArticleHero subject={subject} topicPath={topicPath} article={{}} />
+          <ArticleHero subject={subject} topicPath={topicPath} resource={{}} />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
-            status={status}>
+            status={
+              error.status && error.status === 404 ? 'error404' : 'error'
+            }>
             {subject &&
               topicId && (
                 <TopicResources subjectId={subject.id} topicId={topicId} />
@@ -96,6 +153,7 @@ class ArticlePage extends Component {
       );
     }
 
+    const article = transformArticle(resource.article);
     const scripts = getArticleScripts(article);
 
     return (
@@ -120,18 +178,18 @@ class ArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        {article && (
+        {resource && (
           <ArticleHero
             subject={subject}
             topicPath={topicPath}
-            article={article}
+            resource={resource}
           />
         )}
         <OneColumn>
           <Article
             article={article}
             locale={locale}
-            {...getArticleProps(article)}>
+            {...getArticleProps(resource)}>
             {subject &&
               topicId && (
                 <TopicResources subjectId={subject.id} topicId={topicId} />
@@ -151,40 +209,22 @@ ArticlePage.propTypes = {
       resourceId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  article: ArticleShape,
-  status: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    resource: PropTypes.shape({
+      article: ArticleShape,
+      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+    }),
+    subject: SubjectShape,
+  }),
+  errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
-  fetchArticle: PropTypes.func.isRequired,
-  fetchSubjects: PropTypes.func.isRequired,
-  fetchTopics: PropTypes.func.isRequired,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
+  loading: PropTypes.bool.isRequired,
 };
 
-const mapDispatchToProps = {
-  fetchArticle: actions.fetchArticle,
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopics: topicActions.fetchTopics,
-};
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
 
-const mapStateToProps = (state, ownProps) => {
-  const { resourceId, subjectId, topicId } = getUrnIdsFromProps(ownProps);
-  const getTopicPathSelector =
-    subjectId && topicId ? getTopicPath(subjectId, topicId) : () => undefined;
-  const getSubjectByIdSelector = subjectId
-    ? getSubjectById(subjectId)
-    : () => undefined;
-  return {
-    article: getArticle(resourceId)(state),
-    status: getFetchStatus(state),
-    topicPath: getTopicPathSelector(state),
-    subject: getSubjectByIdSelector(state),
-    locale: getLocale(state),
-  };
-};
-
-export default compose(
-  connectSSR(mapStateToProps, mapDispatchToProps),
-  injectT,
-  withTracker,
-)(ArticlePage);
+export default compose(connect(mapStateToProps), injectT, withTracker)(
+  ArticlePage,
+);

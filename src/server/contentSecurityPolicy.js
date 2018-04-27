@@ -30,6 +30,7 @@ const connectSrc = (() => {
       `http://localhost:${hmrPort}`,
       `ws://localhost:${hmrPort}`,
       'http://localhost:3100',
+      'http://localhost:4000',
     ];
   }
 

@@ -4,6 +4,13 @@ module.exports = {
     jest: true,
   },
   rules: {
+    'graphql/template-strings': [
+      'error',
+      {
+        env: 'apollo',
+        schemaJson: require('./src/gqlSchema.json'),
+      },
+    ],
     'react/prop-types': [2, { ignore: ['children', 'className', 't'] }],
     'jsx-a11y/anchor-is-valid': [
       'error',
@@ -13,4 +20,5 @@ module.exports = {
       },
     ],
   },
+  plugins: ['graphql'],
 };

@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import defined from 'defined';
 import Tabs from 'ndla-tabs';
 import { injectT } from 'ndla-i18n';
 import ImageLicenseList from './ImageLicenseList';
@@ -18,9 +17,9 @@ import VideoLicenseList from './VideoLicenseList';
 import { ArticleShape } from '../../shapes';
 
 function buildLicenseTabList(article, locale, t) {
-  const images = defined(article.metaData.images, []);
-  const audios = defined(article.metaData.audios, []);
-  const brightcove = defined(article.metaData.brightcoves, []);
+  const images = article.metaData.images || [];
+  const audios = article.metaData.audios || [];
+  const brightcove = article.metaData.brightcoves || [];
 
   const tabs = [];
 
