@@ -134,7 +134,16 @@ class MastheadContainer extends React.PureComponent {
     });
 
   render() {
-    const { t, subject, results, topicPath, location, ...props } = this.props;
+    const {
+      t,
+      subject,
+      results,
+      topicPath,
+      location,
+      topics,
+      resource,
+      topicResourcesByType,
+    } = this.props;
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -168,7 +177,9 @@ class MastheadContainer extends React.PureComponent {
                 });
               }}
               {...this.state}
-              {...props}
+              resource={resource}
+              topics={topics}
+              topicResourcesByType={topicResourcesByType}
             />
           ) : null}
         </MastheadItem>
@@ -209,9 +220,7 @@ MastheadContainer.propTypes = {
   }),
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
-  article: PropTypes.shape({
-    resource: ResourceShape.isRequired,
-  }),
+  resource: ResourceShape,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -220,6 +229,7 @@ MastheadContainer.propTypes = {
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
+  topicResourcesByType: PropTypes.arrayOf(ResourceShape).isRequired,
   groupSearch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
