@@ -8,78 +8,62 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import { ResourceGroup, ContentTypeBadge } from 'ndla-ui';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
-import { ResourceTypeShape } from '../../shapes';
-import {
-  getResourceTypesByTopicId,
-  hasFetchTopicResourcesFailed,
-} from './resource';
+import { ResourceTypeShape, ResourceShape } from '../../shapes';
 import { resourceToLinkProps } from './resourceHelpers';
+import { getResourceGroups } from './getResourceGroups';
 
 const Resources = ({
   t,
-  topicResourcesByType,
-  resourceGroups,
-  fetchTopicResourcesFailed,
+  resourceTypes,
+  supplementaryResources,
+  coreResources,
 }) => {
-  let resourceGroupsWithMetaData;
-  if (resourceGroups) {
-    resourceGroupsWithMetaData = resourceGroups.map(type => ({
-      ...type,
-      contentType: getContentTypeFromResourceTypes([type]).contentType,
-    }));
-  } else {
-    resourceGroupsWithMetaData = topicResourcesByType.map(type => ({
-      ...type,
-      contentType: getContentTypeFromResourceTypes([type]).contentType,
-    }));
+  if (
+    resourceTypes === null ||
+    (coreResources === null && supplementaryResources === null)
+  ) {
+    return (
+      <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
+        {t('resource.errorDescription')}
+      </p>
+    );
   }
 
-  return (
-    <div>
-      {fetchTopicResourcesFailed && (
-        <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
-          {t('resource.errorDescription')}
-        </p>
-      )}
-      {resourceGroupsWithMetaData.map(type => (
-        <ResourceGroup
-          key={type.id}
-          title={type.name}
-          resources={type.resources}
-          contentType={type.contentType}
-          icon={<ContentTypeBadge type={type.contentType} />}
-          messages={{
-            noCoreResourcesAvailable: t('resource.noCoreResourcesAvailable'),
-            activateAdditionalResources: t(
-              'resource.activateAdditionalResources',
-            ),
-            toggleFilterLabel: t('resource.toggleFilterLabel'),
-          }}
-          resourceToLinkProps={resourceToLinkProps}
-        />
-      ))}
-    </div>
+  const resourceGroups = getResourceGroups(
+    resourceTypes,
+    supplementaryResources || [],
+    coreResources || [],
   );
+
+  const resourceGroupsWithMetaData = resourceGroups.map(type => ({
+    ...type,
+    contentType: getContentTypeFromResourceTypes([type]).contentType,
+  }));
+
+  return resourceGroupsWithMetaData.map(type => (
+    <ResourceGroup
+      key={type.id}
+      title={type.name}
+      resources={type.resources}
+      contentType={type.contentType}
+      icon={<ContentTypeBadge type={type.contentType} />}
+      messages={{
+        noCoreResourcesAvailable: t('resource.noCoreResourcesAvailable'),
+        activateAdditionalResources: t('resource.activateAdditionalResources'),
+        toggleFilterLabel: t('resource.toggleFilterLabel'),
+      }}
+      resourceToLinkProps={resourceToLinkProps}
+    />
+  ));
 };
 
 Resources.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  topicResourcesByType: PropTypes.arrayOf(ResourceTypeShape),
-  resourceGroups: PropTypes.arrayOf(ResourceTypeShape),
-  fetchTopicResourcesFailed: PropTypes.bool.isRequired,
+  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  coreResources: PropTypes.arrayOf(ResourceShape),
+  supplementaryResources: PropTypes.arrayOf(ResourceShape),
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { topicId } = ownProps;
-  return {
-    topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
-    fetchTopicResourcesFailed: hasFetchTopicResourcesFailed(state),
-  };
-};
-
-export default compose(injectT, connect(mapStateToProps))(Resources);
+export default injectT(Resources);

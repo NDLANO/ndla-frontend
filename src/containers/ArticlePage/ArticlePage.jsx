@@ -23,7 +23,6 @@ import {
   GraphqlErrorShape,
 } from '../../shapes';
 import Article from '../../components/Article';
-import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -39,7 +38,6 @@ import {
   resourceInfoFragment,
 } from '../../fragments';
 import Resources from '../Resources/Resources';
-import { getResourceGroups } from '../../util/getResourceGroups';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -153,13 +151,7 @@ class ArticlePage extends Component {
       return null;
     }
 
-    const {
-      resource,
-      topic: { coreResources, supplementaryResources },
-      resourceTypes,
-      subject,
-    } = data;
-    const { topicId } = getUrnIdsFromProps(this.props);
+    const { resource, topic, resourceTypes, subject } = data;
     const topicPath = getTopicPathFromProps(this.props);
 
     if (resource === null) {
@@ -173,10 +165,13 @@ class ArticlePage extends Component {
             status={
               error.status && error.status === 404 ? 'error404' : 'error'
             }>
-            {subject &&
-              topicId && (
-                <TopicResources subjectId={subject.id} topicId={topicId} />
-              )}
+            {topic && (
+              <Resources
+                resourceTypes={resourceTypes}
+                supplementaryResources={topic.supplementaryResources}
+                coreResources={topic.coreResources}
+              />
+            )}
           </ArticleErrorMessage>
         </div>
       );
@@ -219,13 +214,13 @@ class ArticlePage extends Component {
             article={article}
             locale={locale}
             {...getArticleProps(resource)}>
-            <Resources
-              resourceGroups={getResourceGroups(
-                resourceTypes,
-                supplementaryResources,
-                coreResources,
-              )}
-            />
+            {topic && (
+              <Resources
+                resourceTypes={resourceTypes}
+                supplementaryResources={topic.supplementaryResources}
+                coreResources={topic.coreResources}
+              />
+            )}
           </Article>
         </OneColumn>
       </div>

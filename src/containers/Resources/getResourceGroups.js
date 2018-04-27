@@ -6,7 +6,7 @@ import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
-} from '../constants';
+} from '../../constants';
 
 export const sortOrder = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,

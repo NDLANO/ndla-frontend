@@ -44,7 +44,6 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getAllDimensions } from '../../util/trackingUtil';
 import { resourceInfoFragment } from '../../fragments';
 import Resources from '../Resources/Resources';
-import { getResourceGroups } from '../../util/getResourceGroups';
 import handleError from '../../util/handleError';
 
 const getTitle = (article, topic) => {
@@ -214,15 +213,11 @@ class TopicPage extends Component {
                 />
                 {data &&
                   data.resourceTypes &&
-                  data.topic &&
-                  data.topic.coreResources &&
-                  data.topic.supplementaryResources && (
+                  data.topic && (
                     <Resources
-                      resourceGroups={getResourceGroups(
-                        data.resourceTypes,
-                        data.topic.supplementaryResources,
-                        data.topic.coreResources,
-                      )}
+                      resourceTypes={data.resourceTypes}
+                      supplementaryResources={data.topic.supplementaryResources}
+                      coreResources={data.topic.coreResources}
                     />
                   )}
               </Fragment>
