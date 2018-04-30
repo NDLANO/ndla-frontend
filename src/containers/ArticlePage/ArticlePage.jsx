@@ -14,7 +14,7 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
 import { getLocale } from '../Locale/localeSelectors';
 import {
   ArticleShape,
@@ -33,12 +33,14 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
-  articleInfoFragment,
-  topicInfoFragment,
-  resourceInfoFragment,
-} from '../../fragments';
+  subjectQuery,
+  resourceTypesQuery,
+  topicResourcesQuery,
+  resourceQuery,
+} from '../../queries';
 import Resources from '../Resources/Resources';
 import handleError from '../../util/handleError';
+import { runQueries } from '../../util/runQueries';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -46,72 +48,26 @@ const getTopicPathFromProps = props => {
   return getTopicPath(subject.id, topicId, subject.topics);
 };
 
-export const query = gql`
-  ${articleInfoFragment}
-  ${topicInfoFragment}
-  ${resourceInfoFragment}
-
-  query ArticlePage(
-    $resourceId: String!
-    $subjectId: String!
-    $topicId: String!
-  ) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    topic(id: $topicId) {
-      coreResources {
-        ...ResourceInfo
-      }
-      supplementaryResources {
-        ...ResourceInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-    resource(id: $resourceId) {
-      name
-      contentUri
-      article {
-        ...ArticleInfo
-      }
-      resourceTypes {
-        id
-        name
-      }
-    }
-  }
-`;
-
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
     const { client } = ctx;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
 
     try {
-      const result = await client.query({
-        errorPolicy: 'all',
-        query,
-        variables: {
+      return runQueries(
+        client,
+        [subjectQuery, resourceTypesQuery, topicResourcesQuery, resourceQuery],
+        {
           topicId,
           subjectId,
           resourceId,
         },
-      });
-      return result;
+      );
     } catch (error) {
       handleError(error);
       return null;
     }
   }
-
   static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
     return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
@@ -264,6 +220,9 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(connect(mapStateToProps), injectT, withTracker)(
-  ArticlePage,
-);
+export default compose(
+  connect(mapStateToProps),
+  injectT,
+  withTracker,
+  withApollo,
+)(ArticlePage);

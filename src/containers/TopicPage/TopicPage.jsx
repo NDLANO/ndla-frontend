@@ -13,7 +13,6 @@ import { SubjectHero, OneColumn, Breadcrumb, constants } from 'ndla-ui';
 import Helmet from 'react-helmet';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import gql from 'graphql-tag';
 import connectSSR from '../../components/connectSSR';
 import {
   actions,
@@ -42,9 +41,10 @@ import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { resourceInfoFragment } from '../../fragments';
 import Resources from '../Resources/Resources';
 import handleError from '../../util/handleError';
+import { runQueries } from '../../util/runQueries';
+import { topicResourcesQuery, resourceTypesQuery } from '../../queries';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -54,25 +54,6 @@ const getTitle = (article, topic) => {
   }
   return '';
 };
-
-const query = gql`
-  ${resourceInfoFragment}
-
-  query TopicPage($topicId: String!) {
-    topic(id: $topicId) {
-      coreResources {
-        ...ResourceInfo
-      }
-      supplementaryResources {
-        ...ResourceInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
 
 class TopicPage extends Component {
   static async getInitialProps(ctx) {
@@ -87,10 +68,8 @@ class TopicPage extends Component {
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
     try {
-      return await client.query({
-        errorPolicy: 'all',
-        query,
-        variables: { topicId },
+      return runQueries(client, [topicResourcesQuery, resourceTypesQuery], {
+        topicId,
       });
     } catch (e) {
       handleError(e);

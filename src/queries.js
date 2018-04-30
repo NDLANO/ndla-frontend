@@ -122,3 +122,68 @@ export const articleInfoFragment = gql`
     }
   }
 `;
+
+export const subjectQuery = gql`
+  ${topicInfoFragment}
+  query subjectQuery($subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true) {
+        ...TopicInfo
+      }
+    }
+  }
+`;
+
+export const subjectsQuery = gql`
+  ${subjectInfoFragment}
+
+  query subjectsQuery {
+    subjects {
+      ...SubjectInfo
+    }
+  }
+`;
+
+export const resourceTypesQuery = gql`
+  query resourceTypesQuery {
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
+export const topicResourcesQuery = gql`
+  ${resourceInfoFragment}
+  query topicResourcesQuery($topicId: String!) {
+    topic(id: $topicId) {
+      coreResources {
+        ...ResourceInfo
+      }
+      supplementaryResources {
+        ...ResourceInfo
+      }
+    }
+  }
+`;
+
+export const resourceQuery = gql`
+  ${articleInfoFragment}
+
+  query resourceQuery($resourceId: String!) {
+    resource(id: $resourceId) {
+      name
+      contentUri
+      article {
+        ...ArticleInfo
+      }
+      resourceTypes {
+        id
+        name
+      }
+    }
+  }
+`;
