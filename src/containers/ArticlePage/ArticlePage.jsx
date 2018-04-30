@@ -91,7 +91,7 @@ class ArticlePage extends Component {
 
   static willTrackPageView(trackPageView, currentProps) {
     const { data, loading } = currentProps;
-    if (!data || loading) {
+    if (!data || !data.resource || !data.subject || loading) {
       return;
     }
     const topicPath = getTopicPathFromProps(currentProps);
@@ -124,8 +124,8 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, loading, locale, errors } = this.props;
-    if (!data || loading) {
+    const { data, locale, errors } = this.props;
+    if (!data || !data.subject) {
       return null;
     }
 
