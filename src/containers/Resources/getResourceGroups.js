@@ -42,6 +42,17 @@ export const groupeResourcesByResourceTypes = (
   }, {});
 };
 
+export const sortResourceTypes = resourceTypes =>
+  [...resourceTypes].sort((a, b) => {
+    if (sortOrder[a.id] === undefined && sortOrder[b.id] === undefined)
+      return 0;
+    if (sortOrder[a.id] === undefined) return 1;
+    if (sortOrder[b.id] === undefined) return -1;
+    if (sortOrder[a.id] > sortOrder[b.id]) return 1;
+    if (sortOrder[a.id] < sortOrder[b.id]) return -1;
+    return 0;
+  });
+
 export const getResourceGroups = (
   resourceTypes,
   supplementaryResources,
@@ -52,16 +63,9 @@ export const getResourceGroups = (
     supplementaryResources,
     coreResouces,
   );
-  return [...resourceTypes]
-    .sort((a, b) => {
-      if (sortOrder[a.id] === undefined && sortOrder[b.id] === undefined)
-        return 0;
-      if (sortOrder[a.id] === undefined) return 1;
-      if (sortOrder[b.id] === undefined) return -1;
-      if (sortOrder[a.id] > sortOrder[b.id]) return 1;
-      if (sortOrder[a.id] < sortOrder[b.id]) return -1;
-      return 0;
-    })
+  const sortedResourceTypes = sortResourceTypes(resourceTypes);
+
+  return sortedResourceTypes
     .map(type => {
       const resources = defined(groupedResources[type.id], []);
       return { ...type, resources };
