@@ -14,7 +14,7 @@ import { subjectsQuery } from '../../queries';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
-    static getInitialProps(ctx) {
+    static async getInitialProps(ctx) {
       return ctx.client.query({
         errorPolicy: 'all',
         query: subjectsQuery,

@@ -5,7 +5,6 @@ import {
   TopicMenu,
   DisplayOnPageYOffset,
   BreadcrumbBlock,
-  ContentTypeBadge,
 } from 'ndla-ui';
 import { TopicShape, ResourceShape } from '../../shapes';
 import {
@@ -14,28 +13,41 @@ import {
   toSubjects,
   toBreadcrumbItems,
 } from '../../routeHelpers';
-import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
+import { getSelectedTopic } from './MastheadContainer';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
-function mapResourcesToMenu(resourceTypeArray, topicUrl) {
-  return resourceTypeArray.map(type => ({
-    ...type,
-    resources: type.resources
-      .slice(0, 2)
-      .map(resource => ({ ...resource, path: toSubjects() + resource.path })),
-    title: type.name,
-    totalCount: type.resources.length,
-    showAllLinkUrl: type.resources.length >= 2 ? topicUrl : undefined,
-    icon: (
-      <ContentTypeBadge
-        type={getContentTypeFromResourceTypes([type]).contentType}
-        size="x-small"
-      />
-    ),
-  }));
+function mapTopicResourcesToTopic(
+  topics,
+  selectedTopicId,
+  topicResourcesByType,
+) {
+  return topics.map(topic => {
+    if (topic.id === selectedTopicId) {
+      const contentTypeResults = topicResourcesByType.map(type => ({
+        resources: type.resources
+          .map(resource => ({
+            ...resource,
+            path: toSubjects() + resource.path,
+          }))
+          .filter(resource => !resource.additional),
+        title: type.name,
+      }));
+      return { ...topic, contentTypeResults };
+    } else if (topic.subtopics && topic.subtopics.length > 0) {
+      return {
+        ...topic,
+        subtopics: mapTopicResourcesToTopic(
+          topic.subtopics,
+          selectedTopicId,
+          topicResourcesByType,
+        ),
+      };
+    }
+    return topic;
+  });
 }
 
 const MenuView = ({
@@ -59,7 +71,13 @@ const MenuView = ({
     expandedSubtopicId,
     expandedSubtopicLevel2Id,
   ] = expandedTopicIds;
-  const getResources = expandedTopicId ? topicResourcesByType : [];
+
+  const topicsWithContentTypes = mapTopicResourcesToTopic(
+    topics,
+    getSelectedTopic(expandedTopicIds),
+    topicResourcesByType,
+  );
+
   const breadcrumbBlockItems = toBreadcrumbItems(subject, topicPath, resource);
   return (
     <React.Fragment>
@@ -77,7 +95,7 @@ const MenuView = ({
             toSubject={() => toSubject(subject.id)}
             subjectTitle={subject.name}
             toTopic={toTopicWithSubjectIdBound(subject.id)}
-            topics={topics}
+            topics={topicsWithContentTypes}
             withSearchAndFilter
             messages={{
               goTo: t('masthead.menu.goTo'),
@@ -115,10 +133,6 @@ const MenuView = ({
             searchPageUrl={
               subject ? `/search/?subjects=${subject.id}` : '/search'
             }
-            contentTypeResults={mapResourcesToMenu(
-              getResources,
-              toTopic(subject.id, expandedTopicId, expandedSubtopicId),
-            )}
           />
         )}
       </ClickToggle>
