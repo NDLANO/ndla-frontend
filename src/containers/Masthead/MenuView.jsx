@@ -19,6 +19,7 @@ import { getSelectedTopic } from './MastheadContainer';
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
 }
+
 function mapTopicResourcesToTopic(
   topics,
   selectedTopicId,
@@ -148,22 +149,22 @@ const MenuView = ({
 };
 
 MenuView.propTypes = {
-  isOpen: bool,
-  toggleMenu: func,
+  isOpen: bool.isRequired,
+  toggleMenu: func.isRequired,
   subject: shape({
     id: string,
     name: string,
-  }),
+  }).isRequired,
   resource: ResourceShape,
   topics: arrayOf(object),
-  filters: arrayOf(object),
-  activeFilters: arrayOf(string),
-  expandedTopicIds: arrayOf(string),
+  filters: arrayOf(object).isRequired,
+  activeFilters: arrayOf(string).isRequired,
+  expandedTopicIds: arrayOf(string).isRequired,
   topicResourcesByType: arrayOf(TopicShape).isRequired,
-  topicPath: arrayOf(TopicShape),
-  onOpenSearch: func,
-  onNavigate: func,
-  filterClick: func,
+  topicPath: arrayOf(TopicShape).isRequired,
+  onOpenSearch: func.isRequired,
+  onNavigate: func.isRequired,
+  filterClick: func.isRequired,
 };
 
 export default MenuView;

@@ -199,7 +199,15 @@ class MastheadContainer extends React.PureComponent {
     });
 
   render() {
-    const { t, subject, results, location, topics } = this.props;
+    const {
+      t,
+      subject,
+      results,
+      location,
+      topics,
+      filters,
+      activeFilters,
+    } = this.props;
     const { data } = this.state;
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
@@ -233,6 +241,8 @@ class MastheadContainer extends React.PureComponent {
                   searchIsOpen: true,
                 });
               }}
+              filters={filters}
+              activeFilters={activeFilters}
               isOpen={this.state.isOpen}
               expandedTopicIds={this.state.expandedTopicIds}
               resource={data.resource}
