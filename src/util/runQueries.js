@@ -13,13 +13,12 @@ const mergeError = (obj, result) => {
   return [...obj.errors, ...result.errors];
 };
 
-export async function runQueries(client, queries, variables) {
+export async function runQueries(client, queries) {
   const results = await Promise.all(
-    queries.map(async query =>
+    queries.map(async options =>
       client.query({
         errorPolicy: 'all',
-        query,
-        variables,
+        ...options,
       }),
     ),
   );

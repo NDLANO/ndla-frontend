@@ -54,15 +54,23 @@ class ArticlePage extends Component {
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
 
     try {
-      return runQueries(
-        client,
-        [subjectQuery, resourceTypesQuery, topicResourcesQuery, resourceQuery],
+      return runQueries(client, [
         {
-          topicId,
-          subjectId,
-          resourceId,
+          query: subjectQuery,
+          variables: { subjectId },
         },
-      );
+        {
+          query: topicResourcesQuery,
+          variables: { topicId },
+        },
+        {
+          query: resourceQuery,
+          variables: { resourceId },
+        },
+        {
+          query: resourceTypesQuery,
+        },
+      ]);
     } catch (error) {
       handleError(error);
       return null;

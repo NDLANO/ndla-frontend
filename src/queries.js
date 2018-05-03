@@ -175,7 +175,9 @@ export const resourceQuery = gql`
 
   query resourceQuery($resourceId: String!) {
     resource(id: $resourceId) {
+      id
       name
+      path
       contentUri
       article {
         ...ArticleInfo

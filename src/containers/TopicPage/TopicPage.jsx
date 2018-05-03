@@ -68,9 +68,10 @@ class TopicPage extends Component {
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
     try {
-      return runQueries(client, [topicResourcesQuery, resourceTypesQuery], {
-        topicId,
-      });
+      return runQueries(client, [
+        { query: topicResourcesQuery, variables: { topicId } },
+        { query: resourceTypesQuery },
+      ]);
     } catch (e) {
       handleError(e);
       return null;

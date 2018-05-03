@@ -12,6 +12,7 @@ module.exports = {
       },
     ],
     'react/prop-types': [2, { ignore: ['children', 'className', 't'] }],
+    'react/no-did-mount-set-state': 0,
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
