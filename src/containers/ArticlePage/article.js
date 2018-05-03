@@ -15,7 +15,6 @@ import createFetchActions from '../../util/createFetchActions';
 export const fetchArticleActions = createFetchActions('ARTICLE');
 export const setArticle = createAction('SET_ARTICLE');
 export const actions = {
-  ...fetchArticleActions,
   setArticle,
 };
 
