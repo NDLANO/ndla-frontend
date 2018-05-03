@@ -14,18 +14,16 @@ import {
 
 const baseUrl = apiResourceUrl('/search-api/v1/search/');
 
-export const search = (searchString, locale) => {
+export const search = searchString => {
   if (searchString) {
-    return fetchWithAccessToken(
-      `${baseUrl}${searchString}&language=${locale}`,
-    ).then(resolveJsonOrRejectWithError);
+    return fetchWithAccessToken(`${baseUrl}${searchString}`).then(
+      resolveJsonOrRejectWithError,
+    );
   }
-  return fetchWithAccessToken(`${baseUrl}?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchWithAccessToken(`${baseUrl}`).then(resolveJsonOrRejectWithError);
 };
 
-export const groupSearch = (searchString, locale) =>
-  fetchWithAccessToken(
-    `${baseUrl}group/${searchString}&language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+export const groupSearch = searchString =>
+  fetchWithAccessToken(`${baseUrl}group/${searchString}`).then(
+    resolveJsonOrRejectWithError,
+  );

@@ -16,8 +16,15 @@ import { compose } from 'redux';
 import queryString from 'query-string';
 import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { getSubjectById } from '../SubjectPage/subjects';
-import { getSubjectMenu, getTopicPath } from '../TopicPage/topic';
+import {
+  getSubjectById,
+  actions as subjectActions,
+} from '../SubjectPage/subjects';
+import {
+  getSubjectMenu,
+  getTopicPath,
+  actions as topicActions,
+} from '../TopicPage/topic';
 import {
   actions as filterActions,
   getActiveFilter,
@@ -65,9 +72,14 @@ class MastheadContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { subjectId } = getUrnIdsFromProps(this.props);
+    const { fetchSubjectFilters, fetchSubjects, fetchTopics } = this.props;
+    const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
     if (subjectId && this.props.filters.length === 0) {
-      this.props.fetchSubjectFilters(subjectId);
+      fetchSubjectFilters(subjectId);
+    }
+    if (subjectId && resourceId) {
+      fetchSubjects();
+      fetchTopics({ subjectId });
     }
 
     const selectedTopicId = getSelectedTopic(this.state.expandedTopicIds);
@@ -257,6 +269,8 @@ MastheadContainer.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
+  fetchTopics: PropTypes.func.isRequired,
+  fetchSubjects: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   groupSearch: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -269,6 +283,8 @@ const mapDispatchToProps = {
   setActiveFilter: filterActions.setActive,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
   groupSearch: searchActions.groupSearch,
+  fetchSubjects: subjectActions.fetchSubjects,
+  fetchTopics: topicActions.fetchTopics,
 };
 
 const mapStateToProps = (state, ownProps) => {
