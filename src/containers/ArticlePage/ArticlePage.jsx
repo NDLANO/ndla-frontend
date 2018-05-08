@@ -84,7 +84,13 @@ class ArticlePage extends Component {
 
   static willTrackPageView(trackPageView, currentProps) {
     const { data, loading } = currentProps;
-    if (!data || !data.resource || !data.subject || loading) {
+    if (
+      !data ||
+      !data.resource ||
+      !data.subject ||
+      !data.resource.article ||
+      loading
+    ) {
       return;
     }
     const topicPath = getTopicPathFromProps(currentProps);
@@ -125,8 +131,8 @@ class ArticlePage extends Component {
     const { resource, topic, resourceTypes, subject } = data;
     const topicPath = getTopicPathFromProps(this.props);
 
-    if (resource === null) {
-      const error = errors.find(e => e.path.includes('resource'));
+    if (resource === null || resource.article === null) {
+      const error = errors ? errors.find(e => e.path.includes('resource')) : {};
       return (
         <div>
           <ArticleHero subject={subject} topicPath={topicPath} resource={{}} />
