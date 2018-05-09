@@ -9,18 +9,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
+import { compose } from 'react-apollo';
 import { ResourceGroup, ContentTypeBadge } from 'ndla-ui';
+import { withRouter } from 'react-router-dom';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { ResourceTypeShape, ResourceShape } from '../../shapes';
-import { resourceToLinkProps } from './resourceHelpers';
+import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
 
 const Resources = ({
+  match: { url },
   t,
   resourceTypes,
   supplementaryResources,
   coreResources,
 }) => {
+  const subjectTopicPath = url.replace('/subjects', '');
+  const resourceToLinkProps = resource =>
+    resourceToLinkPropsHelper(resource, subjectTopicPath);
   if (
     resourceTypes === null ||
     (coreResources === null && supplementaryResources === null)
@@ -66,4 +72,4 @@ Resources.propTypes = {
   supplementaryResources: PropTypes.arrayOf(ResourceShape),
 };
 
-export default injectT(Resources);
+export default compose(withRouter, injectT)(Resources);
