@@ -14,7 +14,7 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
 import { getLocale } from '../Locale/localeSelectors';
 import {
   ArticleShape,
@@ -23,7 +23,6 @@ import {
   GraphqlErrorShape,
 } from '../../shapes';
 import Article from '../../components/Article';
-import TopicResources from '../TopicPage/TopicResources';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -33,7 +32,15 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { getTopicPath } from '../../util/getTopicPath';
-import { articleInfoFragment, topicInfoFragment } from '../../fragments';
+import {
+  subjectQuery,
+  resourceTypesQuery,
+  topicResourcesQuery,
+  resourceQuery,
+} from '../../queries';
+import Resources from '../Resources/Resources';
+import handleError from '../../util/handleError';
+import { runQueries } from '../../util/runQueries';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -41,48 +48,34 @@ const getTopicPathFromProps = props => {
   return getTopicPath(subject.id, topicId, subject.topics);
 };
 
-export const query = gql`
-  ${articleInfoFragment}
-  ${topicInfoFragment}
-
-  query ArticlePage($resourceId: String!, $subjectId: String!) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    resource(id: $resourceId) {
-      name
-      contentUri
-      article {
-        ...ArticleInfo
-      }
-      resourceTypes {
-        id
-        name
-      }
-    }
-  }
-`;
-
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
     const { client } = ctx;
-    const { subjectId, resourceId } = getUrnIdsFromProps(ctx);
+    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
 
-    return client.query({
-      errorPolicy: 'all',
-      query,
-      variables: {
-        subjectId,
-        resourceId,
-      },
-    });
+    try {
+      return runQueries(client, [
+        {
+          query: subjectQuery,
+          variables: { subjectId },
+        },
+        {
+          query: topicResourcesQuery,
+          variables: { topicId },
+        },
+        {
+          query: resourceQuery,
+          variables: { resourceId },
+        },
+        {
+          query: resourceTypesQuery,
+        },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
   }
-
   static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
     return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
@@ -135,8 +128,7 @@ class ArticlePage extends Component {
       return null;
     }
 
-    const { resource, subject } = data;
-    const { topicId } = getUrnIdsFromProps(this.props);
+    const { resource, topic, resourceTypes, subject } = data;
     const topicPath = getTopicPathFromProps(this.props);
 
     if (resource === null || resource.article === null) {
@@ -150,10 +142,13 @@ class ArticlePage extends Component {
             status={
               error.status && error.status === 404 ? 'error404' : 'error'
             }>
-            {subject &&
-              topicId && (
-                <TopicResources subjectId={subject.id} topicId={topicId} />
-              )}
+            {topic && (
+              <Resources
+                resourceTypes={resourceTypes}
+                supplementaryResources={topic.supplementaryResources}
+                coreResources={topic.coreResources}
+              />
+            )}
           </ArticleErrorMessage>
         </div>
       );
@@ -196,10 +191,13 @@ class ArticlePage extends Component {
             article={article}
             locale={locale}
             {...getArticleProps(resource)}>
-            {subject &&
-              topicId && (
-                <TopicResources subjectId={subject.id} topicId={topicId} />
-              )}
+            {topic && (
+              <Resources
+                resourceTypes={resourceTypes}
+                supplementaryResources={topic.supplementaryResources}
+                coreResources={topic.coreResources}
+              />
+            )}
           </Article>
         </OneColumn>
       </div>
@@ -220,7 +218,12 @@ ArticlePage.propTypes = {
       article: ArticleShape,
       resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    topic: PropTypes.shape({
+      coreResources: PropTypes.arrayOf(ResourceTypeShape),
+      supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
+    }),
     subject: SubjectShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
@@ -231,6 +234,9 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(connect(mapStateToProps), injectT, withTracker)(
-  ArticlePage,
-);
+export default compose(
+  connect(mapStateToProps),
+  injectT,
+  withTracker,
+  withApollo,
+)(ArticlePage);

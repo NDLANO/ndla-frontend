@@ -7,9 +7,15 @@
  */
 
 import defined from 'defined';
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { ApolloLink } from 'apollo-link';
+import { setContext } from 'apollo-link-context';
 import config from '../config';
 import { expiresIn } from './jwtHelper';
+import handleError from './handleError';
 
 const __SERVER__ = process.env.BUILD_TARGET === 'server'; //eslint-disable-line
 const __CLIENT__ = process.env.BUILD_TARGET === 'client'; //eslint-disable-line
@@ -133,17 +139,40 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
-export const createApolloClient = (language = 'nb') =>
-  new ApolloClient({
-    cache: __CLIENT__ && new InMemoryCache().restore(window.DATA.apolloState),
-    uri,
-    request: async operation => {
-      const accessToken = await getOrFetchAccessToken();
-      operation.setContext({
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Accept-Language': language,
-        },
-      });
-    },
+export const createApolloClient = (language = 'nb') => {
+  const authLink = setContext(async (_, { headers }) => {
+    const accessToken = await getOrFetchAccessToken();
+    return {
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${accessToken}`,
+        'Accept-Language': language,
+      },
+    };
   });
+
+  const cache = __CLIENT__
+    ? new InMemoryCache().restore(window.DATA.apolloState)
+    : new InMemoryCache();
+
+  const client = new ApolloClient({
+    link: ApolloLink.from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.map(({ message, locations, path }) =>
+            handleError(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+            ),
+          );
+        if (networkError) handleError(`[Network error]: ${networkError}`);
+      }),
+      authLink,
+      new HttpLink({
+        uri,
+      }),
+    ]),
+    cache,
+  });
+
+  return client;
+};

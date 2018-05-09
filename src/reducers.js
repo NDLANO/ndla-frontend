@@ -15,7 +15,6 @@ import subjects from './containers/SubjectPage/subjects';
 import topics from './containers/TopicPage/topic';
 import filters from './containers/Filters/filter';
 import search from './containers/SearchPage/searchReducer';
-import resources from './containers/Resources/resource';
 import errors from './modules/error';
 
 const rootReducers = combineReducers({
@@ -23,7 +22,6 @@ const rootReducers = combineReducers({
   errors,
   locale,
   messages,
-  resources,
   search,
   subjects,
   topics,

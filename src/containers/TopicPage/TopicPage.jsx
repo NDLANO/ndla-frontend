@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -26,9 +26,14 @@ import {
   getSubjectById,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
-import TopicResources from './TopicResources';
 import SubTopics from './SubTopics';
-import { SubjectShape, ArticleShape, TopicShape } from '../../shapes';
+import {
+  SubjectShape,
+  ArticleShape,
+  TopicShape,
+  GraphqlErrorShape,
+  ResourceTypeShape,
+} from '../../shapes';
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
@@ -36,6 +41,10 @@ import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
+import Resources from '../Resources/Resources';
+import handleError from '../../util/handleError';
+import { runQueries } from '../../util/runQueries';
+import { topicResourcesQuery, resourceTypesQuery } from '../../queries';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -47,16 +56,26 @@ const getTitle = (article, topic) => {
 };
 
 class TopicPage extends Component {
-  static getInitialProps(ctx) {
+  static async getInitialProps(ctx) {
     const {
       fetchTopicArticle,
       fetchTopicsWithIntroductions,
       fetchSubjects,
+      client,
     } = ctx;
     const { subjectId, topicId } = getUrnIdsFromProps(ctx);
     fetchTopicArticle({ subjectId, topicId });
     fetchTopicsWithIntroductions({ subjectId });
     fetchSubjects();
+    try {
+      return runQueries(client, [
+        { query: topicResourcesQuery, variables: { topicId } },
+        { query: resourceTypesQuery },
+      ]);
+    } catch (e) {
+      handleError(e);
+      return null;
+    }
   }
 
   static getDocumentTitle({ t, article, topic, subject }) {
@@ -84,10 +103,6 @@ class TopicPage extends Component {
     return getAllDimensions(props, props.t('htmlTitles.topicPage'));
   }
 
-  componentDidMount() {
-    TopicPage.getInitialProps(this.props);
-  }
-
   componentWillReceiveProps(nextProps) {
     const { fetchTopicArticle, fetchTopicsWithIntroductions } = this.props;
     const { subjectId, topicId } = getUrnIdsFromProps(this.props);
@@ -112,9 +127,16 @@ class TopicPage extends Component {
       fetchTopicsStatus,
       fetchTopicArticleStatus,
       subject,
+      loading,
+      data,
     } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
     const scripts = getArticleScripts(article);
+
+    if (loading) {
+      return null;
+    }
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
@@ -169,11 +191,15 @@ class TopicPage extends Component {
                   topic={topic}
                   topicPath={topicPath}
                 />
-                <TopicResources
-                  subjectId={subjectId}
-                  topicId={topic.id}
-                  topicPath={topicPath}
-                />
+                {data &&
+                  data.resourceTypes &&
+                  data.topic && (
+                    <Resources
+                      resourceTypes={data.resourceTypes}
+                      supplementaryResources={data.topic.supplementaryResources}
+                      coreResources={data.topic.coreResources}
+                    />
+                  )}
               </Fragment>
             ) : null}
           </Article>
@@ -200,6 +226,14 @@ TopicPage.propTypes = {
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
   article: ArticleShape,
+  data: PropTypes.shape({
+    topic: PropTypes.shape({
+      coreResources: PropTypes.arrayOf(ResourceTypeShape),
+      supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
+    }),
+  }),
+  errors: PropTypes.arrayOf(GraphqlErrorShape),
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {

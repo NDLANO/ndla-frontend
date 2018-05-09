@@ -27,6 +27,7 @@ const connectSrc = (() => {
   ) {
     return [
       ...defaultConnectSrc,
+      'https://devtools.apollodata.com/graphql',
       `http://localhost:${hmrPort}`,
       `ws://localhost:${hmrPort}`,
       'http://localhost:3100',

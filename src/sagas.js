@@ -7,12 +7,10 @@
  */
 import { all, fork as forkEffect, spawn, call } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
-import articleSagas from './containers/ArticlePage/articleSagas';
 import searchSagas from './containers/SearchPage/searchSagas';
 import subjectSagas from './containers/SubjectPage/subjectSagas';
 import topicSagas from './containers/TopicPage/topicSagas';
 import filterSagas from './containers/Filters/filterSagas';
-import resourceSagas from './containers/Resources/resourceSagas';
 import errorSagas from './modules/error/errorSagas';
 import handleError from './util/handleError';
 import BackoffTime from './util/BackoffTime';
@@ -53,12 +51,10 @@ const fork = process.env.BUILD_TARGET === 'server' ? makeFork : makeRestartable;
 
 export default function* root() {
   yield all([
-    ...articleSagas.map(s => fork(s)),
     ...searchSagas.map(s => fork(s)),
     ...subjectSagas.map(s => fork(s)),
     ...topicSagas.map(s => fork(s)),
     ...filterSagas.map(s => fork(s)),
-    ...resourceSagas.map(s => fork(s)),
     ...errorSagas.map(s => fork(s)),
   ]);
 }

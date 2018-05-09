@@ -14,35 +14,38 @@ import { injectT } from 'ndla-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import queryString from 'query-string';
+import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import {
   getSubjectById,
   actions as subjectActions,
 } from '../SubjectPage/subjects';
-import {
-  getSubjectMenu,
-  getTopicPath,
-  actions as topicActions,
-} from '../TopicPage/topic';
+import { getSubjectMenu, actions as topicActions } from '../TopicPage/topic';
+
+import { getTopicPath } from '../../util/getTopicPath';
 import {
   actions as filterActions,
   getActiveFilter,
   getFilters,
 } from '../Filters/filter';
-import {
-  actions,
-  getResourceTypesByTopicId,
-  getResource,
-} from '../Resources/resource';
-import { SubjectShape, TopicShape, ResourceShape } from '../../shapes';
+import { SubjectShape, TopicShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
 import { getArticleByUrn } from '../ArticlePage/article';
 import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 import SearchButtonView from './SearchButtonView';
 import MenuView from './MenuView';
+import {
+  topicResourcesQuery,
+  resourceTypesQuery,
+  resourceQuery,
+  subjectQuery,
+} from '../../queries';
+import { getResourceGroups } from '../Resources/getResourceGroups';
+import { runQueries } from '../../util/runQueries';
+import handleError from '../../util/handleError';
 
-function getSelectedTopic(topics) {
+export function getSelectedTopic(topics) {
   return [...topics] // prevent reverse mutation.
     .reverse()
     .find(topicId => topicId !== undefined && topicId !== null);
@@ -55,29 +58,37 @@ const initialState = {
   filters: [],
   searchIsOpen: false,
   expandedTopicIds: [],
+  data: {},
 };
 
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { topicPath, subject } = props;
+    const { subject } = props;
 
     this.state = {
       ...initialState,
-      expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
       filters: subject ? [{ value: subject.id, title: subject.name }] : [],
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { fetchSubjectFilters, fetchSubjects, fetchTopics } = this.props;
-    const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
+    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
     if (subjectId && this.props.filters.length === 0) {
       fetchSubjectFilters(subjectId);
     }
     if (subjectId && resourceId) {
       fetchSubjects();
       fetchTopics({ subjectId });
+    }
+
+    if (topicId) {
+      const data = await this.getData(subjectId, topicId, resourceId);
+      this.setState({
+        data,
+        expandedTopicIds: data.topicPath.map(topic => topic.id),
+      });
     }
   }
 
@@ -88,14 +99,19 @@ class MastheadContainer extends React.PureComponent {
     }
   }
 
-  onNavigate = (...expandedTopicIds) => {
-    const { subjectId } = getUrnIdsFromProps(this.props);
-    this.setState({
+  onNavigate = async (...expandedTopicIds) => {
+    const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
+    this.setState(previusState => ({
       expandedTopicIds,
-    });
+      data: {
+        ...previusState.data,
+        topicResourcesByType: [],
+      },
+    }));
     const selectedTopicId = getSelectedTopic(expandedTopicIds);
     if (selectedTopicId) {
-      this.props.fetchTopicResources({ topicId: selectedTopicId, subjectId });
+      const data = await this.getData(subjectId, selectedTopicId, resourceId);
+      this.setState({ data });
     }
   };
 
@@ -122,6 +138,43 @@ class MastheadContainer extends React.PureComponent {
     });
   };
 
+  getData = async (subjectId, topicId, resourceId) => {
+    try {
+      const queries = [
+        {
+          query: subjectQuery,
+          variables: { subjectId },
+        },
+        { query: topicResourcesQuery, variables: { topicId } },
+        { query: resourceTypesQuery },
+      ];
+
+      if (resourceId) {
+        queries.push({
+          query: resourceQuery,
+          variables: { resourceId },
+        });
+      }
+
+      const { data } = await runQueries(this.props.client, queries);
+      const { resourceTypes, topic: { coreResources } } = data;
+      const topicResourcesByType = getResourceGroups(
+        resourceTypes,
+        [],
+        coreResources,
+      );
+      const topicPath =
+        data.subject && data.subject.topics
+          ? getTopicPath(subjectId, topicId, data.subject.topics)
+          : [];
+
+      return { resource: data.resource, topicResourcesByType, topicPath };
+    } catch (e) {
+      handleError(e);
+      return { error: true };
+    }
+  };
+
   executeSearch = query => {
     const { groupSearch } = this.props;
     const { filters } = this.state;
@@ -146,7 +199,16 @@ class MastheadContainer extends React.PureComponent {
     });
 
   render() {
-    const { t, subject, results, topicPath, location, ...props } = this.props;
+    const {
+      t,
+      subject,
+      results,
+      location,
+      topics,
+      filters,
+      activeFilters,
+    } = this.props;
+    const { data } = this.state;
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -169,7 +231,7 @@ class MastheadContainer extends React.PureComponent {
             <MenuView
               subject={subject}
               t={t}
-              topicPath={topicPath}
+              topicPath={data.topicPath || []}
               filterClick={this.filterClick}
               toggleMenu={bool => this.setState({ isOpen: bool })}
               onNavigate={this.onNavigate}
@@ -179,8 +241,13 @@ class MastheadContainer extends React.PureComponent {
                   searchIsOpen: true,
                 });
               }}
-              {...this.state}
-              {...props}
+              filters={filters}
+              activeFilters={activeFilters}
+              isOpen={this.state.isOpen}
+              expandedTopicIds={this.state.expandedTopicIds}
+              resource={data.resource}
+              topics={topics}
+              topicResourcesByType={data.topicResourcesByType || []}
             />
           ) : null}
         </MastheadItem>
@@ -221,15 +288,12 @@ MastheadContainer.propTypes = {
   }),
   t: PropTypes.func.isRequired,
   subject: SubjectShape,
-  article: PropTypes.shape({
-    resource: ResourceShape.isRequired,
-  }),
+  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
   topics: PropTypes.arrayOf(TopicShape).isRequired,
   topicPath: PropTypes.arrayOf(TopicShape),
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   setActiveFilter: PropTypes.func.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchTopicResources: PropTypes.func.isRequired,
   fetchSubjectFilters: PropTypes.func.isRequired,
   fetchTopics: PropTypes.func.isRequired,
   fetchSubjects: PropTypes.func.isRequired,
@@ -241,7 +305,6 @@ MastheadContainer.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTopicResources: actions.fetchTopicResources,
   setActiveFilter: filterActions.setActive,
   fetchSubjectFilters: filterActions.fetchSubjectFilters,
   groupSearch: searchActions.groupSearch,
@@ -250,20 +313,19 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topicId, resourceId } = getUrnIdsFromProps(ownProps);
+  const { subjectId, resourceId } = getUrnIdsFromProps(ownProps);
   return {
     subject: getSubjectById(subjectId)(state),
     topics: getSubjectMenu(subjectId)(state),
-    topicPath: getTopicPath(subjectId, topicId)(state),
     article: getArticleByUrn(resourceId)(state),
     filters: getFilters(subjectId)(state),
     activeFilters: getActiveFilter(subjectId)(state) || [],
     results: getGroupResults(state),
-    resource: getResource(resourceId)(state),
-    topicResourcesByType: getResourceTypesByTopicId(topicId)(state),
   };
 };
 
-export default compose(injectT, connect(mapStateToProps, mapDispatchToProps))(
-  MastheadContainer,
-);
+export default compose(
+  withApollo,
+  injectT,
+  connect(mapStateToProps, mapDispatchToProps),
+)(MastheadContainer);

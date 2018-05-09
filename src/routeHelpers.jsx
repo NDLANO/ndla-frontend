@@ -28,8 +28,10 @@ export function toSubjects() {
   return `/subjects`;
 }
 
-export function toArticle(articleId, resource) {
-  if (resource) {
+export function toArticle(articleId, resource, subjectTopicPath) {
+  if (subjectTopicPath) {
+    return `${toSubjects()}${subjectTopicPath}/${removeUrn(resource.id)}`;
+  } else if (resource) {
     return `${toSubjects()}${resource.path}/`;
   }
   return `/article/${articleId}`;
