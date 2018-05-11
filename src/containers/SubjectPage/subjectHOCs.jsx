@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import defined from 'defined';
 import { SubjectShape, GraphqlErrorShape } from '../../shapes';
 import { subjectsQuery } from '../../queries';
+import config from '../../config';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
@@ -28,7 +29,14 @@ export const injectSubjects = WrappedComponent => {
       }
 
       const data = defined(this.props.data, {});
-      const subjects = data.subjects || [];
+      // Quick fix for removing MK subject in prod
+      const subjects = (data.subjects || []).filter(subject => {
+        if (config.isNdlaProdEnvironment) {
+          return subject.id !== 'urn:subject:1';
+        }
+        return true;
+      });
+
       const hasFailed = errors !== undefined && errors.length > 0;
       return (
         <WrappedComponent
