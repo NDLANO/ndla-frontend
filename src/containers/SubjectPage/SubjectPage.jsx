@@ -9,6 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { withApollo } from 'react-apollo';
+import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import {
   OneColumn,
@@ -38,11 +41,18 @@ import {
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
+import {
+  subjectQuery,
+  topicQuery,
+  subjectsQuery,
+} from '../../queries';
+import { runQueries } from '../../util/runQueries';
+import handleError from '../../util/handleError';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
-  static getInitialProps(ctx) {
+  static getInitialProps2(ctx) {
     const {
       fetchTopicsWithIntroductions,
       fetchSubjects,
@@ -55,33 +65,71 @@ class SubjectPage extends Component {
     fetchTopicsWithIntroductions({ subjectId });
   }
 
+  static async getInitialProps(ctx) {
+    const { client } = ctx;
+    const { subjectId } = getUrnIdsFromProps(ctx);
+    console.log("SUBJECTID", subjectId)
+    console.log(ctx)
+
+    try {
+      return runQueries(client, [
+        {
+          query: subjectsQuery,
+        },
+        {
+          query: topicQuery,
+          variables: { subjectId },
+        },
+        {
+          query: subjectQuery,
+          variables: { subjectId },
+        },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
+  }
+
   static getDocumentTitle({ t, subject }) {
     return `${subject ? subject.name : ''} ${t('htmlTitles.titleTemplate')}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { subject, subjectTopics } = currentProps;
-    if (subject && subjectTopics && subjectTopics.length > 0) {
+    const { data } = currentProps;
+    if (data && data.subject && data.subject.topics && data.subject.topics.length > 0) {
       trackPageView(currentProps);
     }
   }
 
   handleFilterClick = (newValues, filterId) => {
-    const { setActiveFilter } = this.props;
+    const { history } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
-    setActiveFilter({ newValues, subjectId, filterId });
+    const searchString = `?${queryString.stringify({filter: newValues})}`;
+
+    history.push({
+      search: searchString,
+    });
+    // setActiveFilter({ newValues, subjectId, filterId });
   };
+
 
   render() {
     const {
-      subject,
-      subjectTopics,
+      data,
       t,
       match,
       hasFailed,
-      filters,
       activeFilters,
     } = this.props;
+    console.log(this.props);
+    if (!data || !data.subject) {
+      return null;
+    }
+
+    const { subject } = data;
+    const { filters: subjectFilters, topics, } = subject;
+    const filters = subjectFilters.map(filter => ({...filter, title: filter.name, value: filter.id}))
     const { params: { subjectId } } = match;
     return (
       <div>
@@ -121,7 +169,7 @@ class SubjectPage extends Component {
                   </h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId)}
-                    topics={subjectTopics}
+                    topics={topics}
                   />
                 </div>
               )}
@@ -171,6 +219,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default compose(
+  withRouter,
+  withApollo,
   connectSSR(mapStateToProps, mapDispatchToProps),
   injectT,
   withTracker,

@@ -40,6 +40,9 @@ export const topicInfoFragment = gql`
     name
     parent
     path
+    meta {
+      metaDescription
+    }
   }
 `;
 
@@ -134,6 +137,10 @@ export const subjectQuery = gql`
       topics(all: true) {
         ...TopicInfo
       }
+      filters {
+        id
+        name
+      }
     }
   }
 `;
@@ -190,3 +197,18 @@ export const resourceQuery = gql`
     }
   }
 `;
+
+export const topicQuery = gql`
+query subjectQuery($subjectId: String!) {
+  subject(id: $subjectId) {
+    id
+    name
+    topics {
+      id
+      meta {
+        metaDescription
+      }
+    }
+  }
+}
+`
