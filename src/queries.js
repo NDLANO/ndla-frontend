@@ -38,6 +38,7 @@ export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
     name
+    parent
     path
   }
 `;
