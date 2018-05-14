@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { withApollo } from 'react-apollo';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import {
@@ -23,66 +22,29 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import connectSSR from '../../components/connectSSR';
-import { actions, getSubjectById } from './subjects';
-import {
-  actions as topicActions,
-  getTopicsBySubjectIdWithIntroductionFiltered,
-  getFetchTopicsStatus,
-} from '../TopicPage/topic';
-import {
-  actions as filterActions,
-  getActiveFilter,
-  getFilters,
-} from '../Filters/filter';
-import { SubjectShape, TopicShape } from '../../shapes';
+import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
+import { LocationShape } from '../../shapes';
 import {
   toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
-import {
-  subjectQuery,
-  topicQuery,
-  subjectsQuery,
-} from '../../queries';
+import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
-  static getInitialProps2(ctx) {
-    const {
-      fetchTopicsWithIntroductions,
-      fetchSubjects,
-      fetchSubjectFilters,
-    } = ctx;
-
-    const { subjectId } = getUrnIdsFromProps(ctx);
-    fetchSubjects();
-    fetchSubjectFilters(subjectId);
-    fetchTopicsWithIntroductions({ subjectId });
-  }
-
   static async getInitialProps(ctx) {
-    const { client } = ctx;
+    const { client, location } = ctx;
     const { subjectId } = getUrnIdsFromProps(ctx);
-    console.log("SUBJECTID", subjectId)
-    console.log(ctx)
-
+    const urlParams = queryString.parse(location.search || '');
     try {
       return runQueries(client, [
         {
-          query: subjectsQuery,
-        },
-        {
-          query: topicQuery,
-          variables: { subjectId },
-        },
-        {
           query: subjectQuery,
-          variables: { subjectId },
+          variables: { subjectId, filterIdss: urlParams.filters || '' },
         },
       ]);
     } catch (error) {
@@ -91,46 +53,51 @@ class SubjectPage extends Component {
     }
   }
 
-  static getDocumentTitle({ t, subject }) {
-    return `${subject ? subject.name : ''} ${t('htmlTitles.titleTemplate')}`;
+  static getDocumentTitle({ t, data }) {
+    return `${data && data.subject ? data.subject.name : ''} ${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
     const { data } = currentProps;
-    if (data && data.subject && data.subject.topics && data.subject.topics.length > 0) {
+    if (
+      data &&
+      data.subject &&
+      data.subject.topics &&
+      data.subject.topics.length > 0
+    ) {
       trackPageView(currentProps);
     }
   }
 
-  handleFilterClick = (newValues, filterId) => {
+  handleFilterClick = newValues => {
     const { history } = this.props;
-    const { subjectId } = getUrnIdsFromProps(this.props);
-    const searchString = `?${queryString.stringify({filter: newValues})}`;
-
+    const searchString = `?${queryString.stringify({
+      filters: newValues.join(','),
+    })}`;
     history.push({
       search: searchString,
     });
-    // setActiveFilter({ newValues, subjectId, filterId });
   };
 
-
   render() {
-    const {
-      data,
-      t,
-      match,
-      hasFailed,
-      activeFilters,
-    } = this.props;
-    console.log(this.props);
+    const { data, t, match, location } = this.props;
     if (!data || !data.subject) {
       return null;
     }
-
+    const hasFailed = !!data.error;
+    const urlParams = queryString.parse(location.search || '');
+    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { filters: subjectFilters, topics, } = subject;
-    const filters = subjectFilters.map(filter => ({...filter, title: filter.name, value: filter.id}))
+    const { filters: subjectFilters, topics } = subject;
+    const filters = subjectFilters.map(filter => ({
+      ...filter,
+      title: filter.name,
+      value: filter.id,
+    }));
     const { params: { subjectId } } = match;
+
     return (
       <div>
         <Helmet>
@@ -188,40 +155,14 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  fetchTopicsWithIntroductions: PropTypes.func.isRequired,
-  fetchSubjects: PropTypes.func.isRequired,
-  hasFailed: PropTypes.bool.isRequired,
-  subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  subject: SubjectShape,
-  filters: PropTypes.arrayOf(PropTypes.object),
-  setActiveFilter: PropTypes.func,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  data: PropTypes.shape({
+    subject: GraphQLSubjectShape,
+    error: GraphqlErrorShape,
+  }),
+  location: LocationShape,
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: actions.fetchSubjects,
-  fetchSubjectFilters: filterActions.fetchSubjectFilters,
-  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
-  setActiveFilter: filterActions.setActive,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId } = getUrnIdsFromProps(ownProps);
-  return {
-    subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
-      state,
-    ),
-    hasFailed: getFetchTopicsStatus(state) === 'error',
-    filters: getFilters(subjectId)(state),
-    subject: getSubjectById(subjectId)(state),
-    activeFilters: getActiveFilter(subjectId)(state) || [],
-  };
-};
-
-export default compose(
-  withRouter,
-  withApollo,
-  connectSSR(mapStateToProps, mapDispatchToProps),
-  injectT,
-  withTracker,
-)(SubjectPage);
+export default compose(withRouter, injectT, withTracker)(SubjectPage);

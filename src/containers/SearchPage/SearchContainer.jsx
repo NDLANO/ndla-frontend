@@ -15,7 +15,12 @@ import { HelmetWithTracker } from 'ndla-tracker';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
-import { SubjectShape, ArticleResultShape, FilterShape } from '../../shapes';
+import {
+  SubjectShape,
+  ArticleResultShape,
+  FilterShape,
+  LocationShape,
+} from '../../shapes';
 import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
@@ -261,9 +266,7 @@ class SearchContainer extends Component {
 }
 
 SearchContainer.propTypes = {
-  location: shape({
-    search: string,
-  }).isRequired,
+  location: LocationShape,
   history: shape({
     push: func.isRequired,
   }).isRequired,

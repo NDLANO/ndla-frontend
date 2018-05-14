@@ -15,7 +15,7 @@ import {
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { converSearchStringToObject } from '../searchHelpers';
-import { ArticleResultShape } from '../../../shapes';
+import { ArticleResultShape, LocationShape } from '../../../shapes';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
@@ -85,9 +85,7 @@ SearchResults.propTypes = {
     'language-filter': arrayOf(string),
     levels: arrayOf(string),
   }),
-  location: shape({
-    search: string,
-  }).isRequired,
+  location: LocationShape,
   enabledTabs: arrayOf(
     shape({
       name: string,

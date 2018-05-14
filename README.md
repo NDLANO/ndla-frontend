@@ -75,13 +75,13 @@ The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graph
 To update the schema you need to install [apollo-codegen](https://github.com/apollographql/apollo-codegen).
 
 ```
-yarn global install apollo-codegen
+yarn global add apollo-codegen
 ```
 
 Make sure you have an running instance of the GraphQL enpoint with your latest changes
 
 ```
-apollo-codegen introspect-schema http://localhost:4000/graphql --output src/gqlSchema.json
+apollo-codegen introspect-schema http://localhost:4000/graphql-api/graphql --output src/gqlSchema.json
 ```
 
 ## Other scripts

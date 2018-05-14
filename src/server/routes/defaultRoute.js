@@ -69,11 +69,11 @@ const renderPage = (initialProps, initialState, Page, apolloState) => {
 };
 
 export async function defaultRoute(req) {
-  const paths = req.url.split('/');
+  const paths = req.path.split('/');
   global.assets = assets;
   let initialProps = {};
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
-  const path = basename ? req.url.replace(`/${basename}`, '') : req.url;
+  const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
 
   const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];

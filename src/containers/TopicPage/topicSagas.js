@@ -49,6 +49,7 @@ export function* fetchTopicArticle(subjectId, topicId) {
     if (!topic) {
       topic = yield call(api.fetchTopic, topicId, locale);
     }
+
     const articleId = getArticleIdFromResource(topic);
     let article = yield select(getArticle(topicId));
     if (!article) {

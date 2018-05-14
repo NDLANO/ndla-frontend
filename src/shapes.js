@@ -91,13 +91,6 @@ export const FootNoteShape = PropTypes.shape({
   publisher: PropTypes.string.isRequired,
 });
 
-export const GraphqlErrorShape = PropTypes.shape({
-  message: PropTypes.string.isRequired,
-  path: PropTypes.arrayOf(PropTypes.string),
-  status: PropTypes.number,
-  json: PropTypes.object,
-});
-
 export const FilterShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -105,3 +98,7 @@ export const FilterShape = PropTypes.shape({
   value: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
 });
+
+export const LocationShape = PropTypes.shape({
+  search: PropTypes.string,
+}).isRequired;

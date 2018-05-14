@@ -16,12 +16,8 @@ import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
 import { withApollo } from 'react-apollo';
 import { getLocale } from '../Locale/localeSelectors';
-import {
-  ArticleShape,
-  SubjectShape,
-  ResourceTypeShape,
-  GraphqlErrorShape,
-} from '../../shapes';
+import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';

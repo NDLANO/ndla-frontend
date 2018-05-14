@@ -9,8 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import defined from 'defined';
-import { SubjectShape, GraphqlErrorShape } from '../../shapes';
+import { SubjectShape } from '../../shapes';
 import { subjectsQuery } from '../../queries';
+import { GraphqlErrorShape } from '../../graphqlShapes';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
