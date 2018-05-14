@@ -45,7 +45,7 @@ export const routes = [
     background: true,
   },
   {
-    path: '/subjects/:subjectId/(.*)?/:topicId',
+    path: '/subjects/:subjectId/:topicPath(.*)?/:topicId',
     component: TopicPage,
     background: true,
   },
