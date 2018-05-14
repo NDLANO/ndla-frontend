@@ -186,7 +186,7 @@ const phrases = {
     edition: 'Utgave',
     publisher: 'Utgiver',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Bruk artikkel',
+    openLicenseBox: 'Bruk innhold',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
