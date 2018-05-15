@@ -17,14 +17,19 @@ import { ResourceTypeShape, ResourceShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
 
+function getSubjectTopicPath(params) {
+  const topicPath = params.topicPath ? `${params.topicPath}/` : '';
+  return `/${params.subjectId}/${topicPath}${params.topicId}`;
+}
+
 const Resources = ({
-  match: { url },
+  match: { params },
   t,
   resourceTypes,
   supplementaryResources,
   coreResources,
 }) => {
-  const subjectTopicPath = url.replace('/subjects', '');
+  const subjectTopicPath = getSubjectTopicPath(params);
   const resourceToLinkProps = resource =>
     resourceToLinkPropsHelper(resource, subjectTopicPath);
   if (

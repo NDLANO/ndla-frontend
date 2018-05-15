@@ -14,7 +14,6 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { withApollo } from 'react-apollo';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
@@ -230,9 +229,6 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(
-  connect(mapStateToProps),
-  injectT,
-  withTracker,
-  withApollo,
-)(ArticlePage);
+export default compose(connect(mapStateToProps), injectT, withTracker)(
+  ArticlePage,
+);

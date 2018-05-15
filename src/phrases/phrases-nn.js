@@ -27,7 +27,58 @@ const phrases = {
     errorDescription: 'Orsak, vi fann ikkje sida du prøvde å kome til.',
   },
   searchPage: {
-    noHits: 'Ingen artiklar samsvara med søket ditt på: {query}',
+    noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
+    search: 'Søk',
+    close: 'Lukk',
+    searchFieldPlaceholder:
+      'Søk i fagstoff, oppgaver og aktiviteter eller læringsstier',
+    label: {
+      contentTypes: 'Innholdstyper',
+      levels: 'Nivå',
+      'language-filter': 'Språk',
+      subjects: 'Fag',
+    },
+    showLabel: {
+      contentTypes: 'Flere innholdstyper',
+      levels: 'Flere nivåer',
+      'language-filter': 'Flere språk',
+      subjects: 'Bytt fag',
+    },
+    hideLabel: {
+      contentTypes: 'Færre innholdstyper',
+      levels: 'Færre nivåer',
+      'language-filter': 'Færre språk',
+      subjects: 'Færre fag',
+    },
+    searchField: {
+      contentTypeResultShowMoreLabel: 'Se flere resultater',
+      contentTypeResultShowLessLabel: 'Se færre resultater',
+      allResultButtonText: 'Vis alle søketreff',
+      searchResultHeading: 'Forslag:',
+      contentTypeResultNoHit: 'Ingen treff',
+    },
+    searchResultMessages: {
+      searchStringLabel: 'Du søkte på:',
+      subHeading: '{totalCount} treff i Ndla',
+    },
+    searchResultListMessages: {
+      subjectsLabel: 'Åpne i fag:',
+      noResultHeading: 'Hmm, ikke noe innhold ...',
+      noResultDescription:
+        'Vi har dessverre ikke noe å tilby her. Hvis du vil foreslå noe innhold til dette området, kan du bruke Spør NDLA som du finner nede til høyre på skjermen.',
+    },
+    searchPageMessages: {
+      filterHeading: 'Filter',
+      resultHeading: '{totalCount} treff i Ndla',
+      narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
+    },
+    searchFilterMessages: {
+      backButton: 'Tilbake til filter',
+      filterLabel: 'Velg fag',
+      confirmButton: 'Bruk fag',
+      hasValuesButtonText: 'Bytt fag',
+      noValuesButtonText: 'Velg fag',
+    },
   },
   subjectPage: {
     errorDescription: 'Orsak, ein feil oppstod under lasting av emnene.',
@@ -133,7 +184,7 @@ const phrases = {
     edition: 'Utgåve',
     publisher: 'Utgjevar',
     closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Bruk artikkel',
+    openLicenseBox: 'Bruk innhald',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
@@ -216,6 +267,16 @@ const phrases = {
     footerInfo: 'Nettstaden er utarbeida av NDLA med open kjeldekode.',
     footerEditiorInChief: 'Ansvarleg redaktør: ',
     footerManagingEditor: 'Utgåveansvarleg: ',
+  },
+  contentTypes: {
+    all: 'Alle',
+    subject: 'Emne',
+    'topic-article': 'Emne',
+    'learning-path': 'Læringssti',
+    'subject-material': 'Fagstoff',
+    'tasks-and-activities': 'Oppgaver og aktiviteter',
+    'external-learning-resources': 'Ekstern læringsressurs',
+    'source-material': 'Kildemateriale',
   },
   languages: {
     nb: 'Norsk',

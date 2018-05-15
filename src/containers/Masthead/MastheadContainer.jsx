@@ -92,10 +92,15 @@ class MastheadContainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const { location } = nextProps;
     if (location.pathname !== this.props.location.pathname) {
-      this.setState(initialState); // reset on location change
+      const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
+      const data = await this.getData(subjectId, topicId, resourceId);
+      this.setState({
+        data,
+        expandedTopicIds: data.topicPath.map(topic => topic.id),
+      });
     }
   }
 
