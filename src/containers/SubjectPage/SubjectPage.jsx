@@ -12,13 +12,20 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
+import { breakpoints } from 'ndla-util';
 import {
   OneColumn,
-  SubjectHero,
+  SubjectHeader,
   ErrorMessage,
   TopicIntroductionList,
   FilterList,
+  ResourcesWrapper,
+  ResourcesTitle,
+  SubjectFilter,
+  SubjectSidebarWrapper,
+  SubjectLinks,
   Breadcrumb,
+  SubjectContent,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
@@ -94,60 +101,42 @@ class SubjectPage extends Component {
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { filters: subjectFilters, topics } = subject;
+    const { filters: subjectFilters, topics, subjectpage } = subject;
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
     const { params: { subjectId } } = match;
-
+    console.log(data);
     return (
-      <div>
+      <article>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
-        <SubjectHero>
-          <OneColumn cssModifier="narrow">
-            <div className="c-hero__content">
-              <section data-cy="breadcrumb-section">
-                {subject && <Breadcrumb items={toBreadcrumbItems(subject)} />}
-              </section>
-            </div>
-          </OneColumn>
-        </SubjectHero>
-        <OneColumn>
-          <article className="c-article">
-            <section className="u-4/6@desktop u-push-1/6@desktop">
-              <FilterList
-                options={filters}
-                values={activeFilters}
-                onChange={this.handleFilterClick}
-              />
-              {hasFailed ? (
-                <ErrorMessage
-                  messages={{
-                    title: t('errorMessage.title'),
-                    description: t('subjectPage.errorDescription'),
-                    back: t('errorMessage.back'),
-                    goToFrontPage: t('errorMessage.goToFrontPage'),
-                  }}
+        <SubjectHeader heading={subject.name || ''} images={[{url: subjectpage.banner, types: Object.keys(breakpoints)}]}/>
+        <OneColumn noPadding>
+          <SubjectContent  breadcrumb={subject ? <Breadcrumb items={toBreadcrumbItems(subject)} /> : undefined}>
+            <ResourcesWrapper subjectPage header={<ResourcesTitle>Emner</ResourcesTitle>}>
+              <div>
+                <SubjectFilter
+                  label="Filter"
+                  options={filters}
+                  values={activeFilters}
+                  onChange={this.handleFilterClick}
                 />
-              ) : (
-                <div className="c-resources" data-cy="topic-list">
-                  <h1 className="c-resources__title">
-                    {t('subjectPage.tabs.topics')}
-                  </h1>
-                  <TopicIntroductionList
-                    toTopic={toTopic(subjectId)}
-                    topics={topics}
-                  />
-                </div>
-              )}
-            </section>
-          </article>
+                <TopicIntroductionList
+                  toTopic={toTopic(subjectId)}
+                  topics={topics}
+                />
+              </div>
+            </ResourcesWrapper>
+            <SubjectSidebarWrapper>
+              <SubjectLinks heading="Mest lest" links={[]}/>
+            </SubjectSidebarWrapper>
+          </SubjectContent>
         </OneColumn>
-      </div>
+      </article>
     );
   }
 }

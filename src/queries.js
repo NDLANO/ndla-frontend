@@ -148,6 +148,28 @@ export const subjectQuery = gql`
         id
         name
       }
+      subjectpage {
+        topical {
+          id
+          location
+        }
+        mostRead {
+          articleIds
+          location
+        }
+        editorChoices {
+          articleIds
+          location
+        }
+        latestContent {
+          articleIds
+          location
+        }
+        subjectListLocation
+        twitter
+        facebook
+        banner
+      }
     }
   }
 `;
