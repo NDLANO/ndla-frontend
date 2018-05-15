@@ -118,8 +118,8 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors } = this.props;
-    if (!data || !data.subject) {
+    const { data, locale, errors, loading } = this.props;
+    if (!data || !data.subject || loading) {
       return null;
     }
 

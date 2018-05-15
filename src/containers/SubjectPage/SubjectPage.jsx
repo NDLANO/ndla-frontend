@@ -44,7 +44,7 @@ class SubjectPage extends Component {
       return runQueries(client, [
         {
           query: subjectQuery,
-          variables: { subjectId, filterIdss: urlParams.filters || '' },
+          variables: { subjectId, filterIds: urlParams.filters || '' },
         },
       ]);
     } catch (error) {
@@ -76,9 +76,13 @@ class SubjectPage extends Component {
     const searchString = `?${queryString.stringify({
       filters: newValues.join(','),
     })}`;
-    history.push({
-      search: searchString,
-    });
+    history.push(
+      newValues.length > 0
+        ? {
+            search: searchString,
+          }
+        : {},
+    );
   };
 
   render() {

@@ -101,4 +101,5 @@ export const FilterShape = PropTypes.shape({
 
 export const LocationShape = PropTypes.shape({
   search: PropTypes.string,
+  pathname: PropTypes.string.isRequired,
 }).isRequired;

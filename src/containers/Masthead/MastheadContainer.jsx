@@ -16,22 +16,10 @@ import { compose } from 'redux';
 import queryString from 'query-string';
 import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import {
-  getSubjectById,
-  actions as subjectActions,
-} from '../SubjectPage/subjects';
-import { getSubjectMenu, actions as topicActions } from '../TopicPage/topic';
-
 import { getTopicPath } from '../../util/getTopicPath';
-import {
-  actions as filterActions,
-  getActiveFilter,
-  getFilters,
-} from '../Filters/filter';
-import { SubjectShape, TopicShape } from '../../shapes';
+import { LocationShape } from '../../shapes';
 import { getGroupResults } from '../SearchPage/searchSelectors';
 import * as searchActions from '../SearchPage/searchActions';
-import { getArticleByUrn } from '../ArticlePage/article';
 import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 import SearchButtonView from './SearchButtonView';
 import MenuView from './MenuView';
@@ -64,37 +52,27 @@ const initialState = {
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { subject } = props;
-
-    this.state = {
-      ...initialState,
-      filters: subject ? [{ value: subject.id, title: subject.name }] : [],
-    };
+    this.state = initialState;
   }
 
   async componentDidMount() {
-    const { fetchSubjectFilters, fetchSubjects, fetchTopics } = this.props;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
-    if (subjectId && this.props.filters.length === 0) {
-      fetchSubjectFilters(subjectId);
-    }
-    if (subjectId && resourceId) {
-      fetchSubjects();
-      fetchTopics({ subjectId });
-    }
-
-    if (topicId) {
-      const data = await this.getData(subjectId, topicId, resourceId);
-      this.setState({
-        data,
-        expandedTopicIds: data.topicPath.map(topic => topic.id),
-      });
-    }
+    const data = await this.getData(subjectId, topicId, resourceId);
+    const expandedTopicIds = data.topicPath
+      ? data.topicPath.map(topic => topic.id)
+      : [];
+    this.setState({
+      data,
+      expandedTopicIds,
+    });
   }
 
   async componentWillReceiveProps(nextProps) {
     const { location } = nextProps;
-    if (location.pathname !== this.props.location.pathname) {
+    if (
+      location.pathname !== this.props.location.pathname ||
+      location.search !== this.props.location.search
+    ) {
       const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
       const data = await this.getData(subjectId, topicId, resourceId);
       this.setState({
@@ -131,8 +109,8 @@ class MastheadContainer extends React.PureComponent {
   onSearch = evt => {
     evt.preventDefault();
 
-    const { history, subject } = this.props;
-    const { query } = this.state;
+    const { history } = this.props;
+    const { query, data: { subject } } = this.state;
     this.executeSearch(this.state.query);
     history.push({
       pathname: '/search',
@@ -144,16 +122,19 @@ class MastheadContainer extends React.PureComponent {
   };
 
   getData = async (subjectId, topicId, resourceId) => {
+    const { location } = this.props;
+    const urlParams = queryString.parse(location.search);
     try {
-      const queries = [
-        {
+      const queries = [{ query: resourceTypesQuery }];
+      if (subjectId) {
+        queries.push({
           query: subjectQuery,
-          variables: { subjectId },
-        },
-        { query: topicResourcesQuery, variables: { topicId } },
-        { query: resourceTypesQuery },
-      ];
-
+          variables: { subjectId, filterIds: urlParams.filters || '' },
+        });
+      }
+      if (topicId) {
+        queries.push({ query: topicResourcesQuery, variables: { topicId } });
+      }
       if (resourceId) {
         queries.push({
           query: resourceQuery,
@@ -162,18 +143,35 @@ class MastheadContainer extends React.PureComponent {
       }
 
       const { data } = await runQueries(this.props.client, queries);
-      const { resourceTypes, topic: { coreResources } } = data;
+      const { resourceTypes, topic, subject } = data;
+      const coreResources =
+        topic && topic.coreResources ? topic.coreResources : [];
       const topicResourcesByType = getResourceGroups(
         resourceTypes,
         [],
         coreResources,
       );
       const topicPath =
-        data.subject && data.subject.topics
-          ? getTopicPath(subjectId, topicId, data.subject.topics)
+        subject && subject.topics
+          ? getTopicPath(subjectId, topicId, subject.topics)
           : [];
 
-      return { resource: data.resource, topicResourcesByType, topicPath };
+      const filters =
+        subject && subject.filters
+          ? subject.filters.map(filter => ({
+              ...filter,
+              title: filter.name,
+              value: filter.id,
+            }))
+          : [];
+
+      return {
+        filters,
+        resource: data.resource,
+        topicResourcesByType,
+        topicPath,
+        subject,
+      };
     } catch (e) {
       handleError(e);
       return { error: true };
@@ -196,24 +194,26 @@ class MastheadContainer extends React.PureComponent {
     groupSearch(`?${queryString.stringify(searchParams)}`);
   };
 
-  filterClick = (newValues, filterId) =>
-    this.props.setActiveFilter({
-      newValues,
-      subjectId: this.props.subject.id,
-      filterId,
-    });
+  filterClick = newValues => {
+    const { history } = this.props;
+    const searchString = `?${queryString.stringify({
+      filters: newValues.join(','),
+    })}`;
+    history.push(
+      newValues.length > 0
+        ? {
+            search: searchString,
+          }
+        : {},
+    );
+  };
 
   render() {
+    const { t, results, location } = this.props;
     const {
-      t,
-      subject,
-      results,
-      location,
-      topics,
-      filters,
-      activeFilters,
-    } = this.props;
-    const { data } = this.state;
+      data: { subject, topicPath, filters, topicResourcesByType, resource },
+      expandedTopicIds,
+    } = this.state;
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -221,7 +221,8 @@ class MastheadContainer extends React.PureComponent {
         title: t(`contentTypes.${contentType}`),
       };
     });
-
+    const urlParams = queryString.parse(location.search || '');
+    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     return (
       <Masthead
         infoContent={
@@ -236,7 +237,7 @@ class MastheadContainer extends React.PureComponent {
             <MenuView
               subject={subject}
               t={t}
-              topicPath={data.topicPath || []}
+              topicPath={topicPath || []}
               filterClick={this.filterClick}
               toggleMenu={bool => this.setState({ isOpen: bool })}
               onNavigate={this.onNavigate}
@@ -249,10 +250,10 @@ class MastheadContainer extends React.PureComponent {
               filters={filters}
               activeFilters={activeFilters}
               isOpen={this.state.isOpen}
-              expandedTopicIds={this.state.expandedTopicIds}
-              resource={data.resource}
-              topics={topics}
-              topicResourcesByType={data.topicResourcesByType || []}
+              expandedTopicIds={expandedTopicIds}
+              resource={resource}
+              topics={subject.topics}
+              topicResourcesByType={topicResourcesByType || []}
             />
           ) : null}
         </MastheadItem>
@@ -288,20 +289,8 @@ MastheadContainer.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }),
-  t: PropTypes.func.isRequired,
-  subject: SubjectShape,
+  location: LocationShape,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
-  topics: PropTypes.arrayOf(TopicShape).isRequired,
-  topicPath: PropTypes.arrayOf(TopicShape),
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setActiveFilter: PropTypes.func.isRequired,
-  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchSubjectFilters: PropTypes.func.isRequired,
-  fetchTopics: PropTypes.func.isRequired,
-  fetchSubjects: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object),
   groupSearch: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -310,24 +299,12 @@ MastheadContainer.propTypes = {
 };
 
 const mapDispatchToProps = {
-  setActiveFilter: filterActions.setActive,
-  fetchSubjectFilters: filterActions.fetchSubjectFilters,
   groupSearch: searchActions.groupSearch,
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchTopics: topicActions.fetchTopics,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId, resourceId } = getUrnIdsFromProps(ownProps);
-  return {
-    subject: getSubjectById(subjectId)(state),
-    topics: getSubjectMenu(subjectId)(state),
-    article: getArticleByUrn(resourceId)(state),
-    filters: getFilters(subjectId)(state),
-    activeFilters: getActiveFilter(subjectId)(state) || [],
-    results: getGroupResults(state),
-  };
-};
+const mapStateToProps = state => ({
+  results: getGroupResults(state),
+});
 
 export default compose(
   withApollo,
