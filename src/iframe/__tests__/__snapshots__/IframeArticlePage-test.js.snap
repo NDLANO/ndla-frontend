@@ -148,7 +148,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                 onClick={[Function]}
                 type="button"
               >
-                Bruk artikkel
+                Bruk innhold
               </button>
               <div
                 className="o-backdrop c-licensebox__backdrop"
@@ -168,7 +168,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                     onClick={[Function]}
                     type="button"
                   >
-                    Bruk artikkel
+                    Bruk innhold
                   </button>
                   <div>
                     <h1
