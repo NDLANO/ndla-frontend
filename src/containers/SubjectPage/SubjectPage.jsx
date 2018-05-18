@@ -165,15 +165,21 @@ class SubjectPage extends Component {
           <SubjectChildContent>
             <SubjectSocialContent>
               <SubjectSocialSection title="Twitter">
-                <EmbeddedTwitter screenName={subjectpage.twitter.substring(1)} tweetLimit={1} />
+                <EmbeddedTwitter
+                  screenName={subjectpage.twitter.substring(1)}
+                  tweetLimit={1}
+                />
               </SubjectSocialSection>
               <SubjectSocialSection title="Facebook">
-                <EmbeddedFacebook href={`https://www.facebook.com/${subjectpage.facebook}/posts/1648640581877981`} />
+                <EmbeddedFacebook
+                  href={`https://www.facebook.com/${
+                    subjectpage.facebook
+                  }/posts/1648640581877981`}
+                />
               </SubjectSocialSection>
             </SubjectSocialContent>
           </SubjectChildContent>
         </OneColumn>
-
       </article>
     );
   }

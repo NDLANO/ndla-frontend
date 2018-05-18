@@ -88,8 +88,9 @@ const Document = ({
         {helmet.script.toComponent()}
         <Zendesk useZendesk={useZendesk} locale={locale} />
 
-          <script  dangerouslySetInnerHTML={{
-                  __html: `window.twttr = (function (d, s, id) {
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
               t = window.twttr || {};
             if (d.getElementById(id)) return t;
@@ -102,7 +103,9 @@ const Document = ({
               t._e.push(f);
             };
             return t;
-          }(document, "script", "twitter-wjs")); `}}/>
+          }(document, "script", "twitter-wjs")); `,
+          }}
+        />
       </body>
     </html>
   );
