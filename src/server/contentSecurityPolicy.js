@@ -60,6 +60,9 @@ const scriptSrc = (() => {
     'https://vjs.zencdn.net',
     'https://httpsak-a.akamaihd.net',
     '*.brightcove.com',
+    '*.facebook.net',
+    '*.twitter.com',
+    '*.twimg.com',
     '*.brightcove.net',
     'bcove.me',
     'bcove.video',
@@ -127,6 +130,8 @@ export default {
       'https://khanacademy.org/',
       '*.khanacademy.org/',
       '*.vg.no/',
+      '*.facebook.com',
+      '*.twitter.com',
     ],
     styleSrc: [
       "'self'",
@@ -135,6 +140,8 @@ export default {
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
+      '*.twitter.com',
+      '*.twimg.com',
     ],
     fontSrc: [
       "'self'",
@@ -156,6 +163,9 @@ export default {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       'https://*.hotjar.com',
+      '*.facebook.com',
+      '*.twitter.com',
+      '*.twimg.com',
       ' data:',
     ],
     mediaSrc: [

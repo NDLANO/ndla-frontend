@@ -128,8 +128,20 @@ export const articleInfoFragment = gql`
   }
 `;
 
+export const subjectPageArticlesInfo = gql`
+  ${resourceInfoFragment}
+  fragment SubjectPageArticlesInfo on SubjectPageArticles {
+    location
+    resources {
+      ...ResourceInfo
+    }
+  }
+`;
+
 export const subjectQuery = gql`
   ${topicInfoFragment}
+  ${subjectPageArticlesInfo}
+  ${resourceInfoFragment}
   query subjectQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
@@ -149,26 +161,25 @@ export const subjectQuery = gql`
         name
       }
       subjectpage {
+        id
         topical {
-          id
-          location
+          resource {
+            ...ResourceInfo
+          }
         }
+        banner
+        facebook
+        twitter
+        subjectListLocation
         mostRead {
-          articleIds
-          location
-        }
-        editorChoices {
-          articleIds
-          location
+          ...SubjectPageArticlesInfo
         }
         latestContent {
-          articleIds
-          location
+          ...SubjectPageArticlesInfo
         }
-        subjectListLocation
-        twitter
-        facebook
-        banner
+        editorsChoices {
+          ...SubjectPageArticlesInfo
+        }
       }
     }
   }

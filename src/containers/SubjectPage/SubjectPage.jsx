@@ -26,6 +26,11 @@ import {
   SubjectLinks,
   Breadcrumb,
   SubjectContent,
+  SubjectChildContent,
+  SubjectSocialSection,
+  SubjectSocialContent,
+  EmbeddedFacebook,
+  EmbeddedTwitter,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
@@ -114,10 +119,24 @@ class SubjectPage extends Component {
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
-        <SubjectHeader heading={subject.name || ''} images={[{url: subjectpage.banner, types: Object.keys(breakpoints)}]}/>
+        <SubjectHeader
+          heading={subject.name || ''}
+          images={[
+            { url: subjectpage.banner, types: Object.keys(breakpoints) },
+          ]}
+        />
         <OneColumn noPadding>
-          <SubjectContent  breadcrumb={subject ? <Breadcrumb items={toBreadcrumbItems(subject)} /> : undefined}>
-            <ResourcesWrapper subjectPage header={<ResourcesTitle>Emner</ResourcesTitle>}>
+          <SubjectContent
+            breadcrumb={
+              subject ? (
+                <Breadcrumb items={toBreadcrumbItems(subject)} />
+              ) : (
+                undefined
+              )
+            }>
+            <ResourcesWrapper
+              subjectPage
+              header={<ResourcesTitle>Emner</ResourcesTitle>}>
               <div>
                 <SubjectFilter
                   label="Filter"
@@ -132,10 +151,29 @@ class SubjectPage extends Component {
               </div>
             </ResourcesWrapper>
             <SubjectSidebarWrapper>
-              <SubjectLinks heading="Mest lest" links={[]}/>
+              <SubjectLinks
+                heading="Mest lest"
+                links={subjectpage.mostRead.resources.map(resource => ({
+                  text: resource.name,
+                  url: `${resource.path}`,
+                }))}
+              />
             </SubjectSidebarWrapper>
           </SubjectContent>
         </OneColumn>
+        <OneColumn noPadding>
+          <SubjectChildContent>
+            <SubjectSocialContent>
+              <SubjectSocialSection title="Twitter">
+                <EmbeddedTwitter screenName={subjectpage.twitter.substring(1)} tweetLimit={1} />
+              </SubjectSocialSection>
+              <SubjectSocialSection title="Facebook">
+                <EmbeddedFacebook href={`https://www.facebook.com/${subjectpage.facebook}/posts/1648640581877981`} />
+              </SubjectSocialSection>
+            </SubjectSocialContent>
+          </SubjectChildContent>
+        </OneColumn>
+
       </article>
     );
   }
