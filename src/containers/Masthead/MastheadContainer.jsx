@@ -32,6 +32,7 @@ import {
 import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
+import { toTopicMenu } from '../../util/topicsHelper';
 
 export function getSelectedTopic(topics) {
   return [...topics] // prevent reverse mutation.
@@ -165,12 +166,22 @@ class MastheadContainer extends React.PureComponent {
             }))
           : [];
 
+      const topicsWithSubTopics =
+        subject && subject.topics
+          ? subject.topics
+              .filter(t => !t.parent || t.parent === subjectId)
+              .map(t => toTopicMenu(t, subject.topics))
+          : [];
+
       return {
         filters,
         resource: data.resource,
         topicResourcesByType,
         topicPath,
-        subject,
+        subject: {
+          ...subject,
+          topics: topicsWithSubTopics,
+        },
       };
     } catch (e) {
       handleError(e);
@@ -223,6 +234,7 @@ class MastheadContainer extends React.PureComponent {
     });
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+
     return (
       <Masthead
         infoContent={
@@ -239,7 +251,7 @@ class MastheadContainer extends React.PureComponent {
               t={t}
               topicPath={topicPath || []}
               filterClick={this.filterClick}
-              toggleMenu={bool => this.setState({ isOpen: bool })}
+              toggleMenu={isOpen => this.setState({ isOpen })}
               onNavigate={this.onNavigate}
               onOpenSearch={() => {
                 this.setState({
@@ -252,7 +264,6 @@ class MastheadContainer extends React.PureComponent {
               isOpen={this.state.isOpen}
               expandedTopicIds={expandedTopicIds}
               resource={resource}
-              topics={subject.topics}
               topicResourcesByType={topicResourcesByType || []}
             />
           ) : null}

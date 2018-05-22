@@ -32,6 +32,7 @@ import {
 import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
+import { toTopicMenu } from '../../util/topicsHelper';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
@@ -94,13 +95,20 @@ class SubjectPage extends Component {
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { filters: subjectFilters, topics } = subject;
+    const { filters: subjectFilters } = subject;
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
     const { params: { subjectId } } = match;
+
+    const topicsWithSubTopics =
+      subject && subject.topics
+        ? subject.topics
+            .filter(topic => !topic.parent || topic.parent === subject.id)
+            .map(topic => toTopicMenu(topic, subject.topics))
+        : [];
 
     return (
       <div>
@@ -140,7 +148,7 @@ class SubjectPage extends Component {
                   </h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId)}
-                    topics={topics}
+                    topics={topicsWithSubTopics}
                   />
                 </div>
               )}
