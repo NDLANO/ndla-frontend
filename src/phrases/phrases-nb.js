@@ -281,7 +281,7 @@ const phrases = {
     'source-material': 'Kildemateriale',
   },
   languages: {
-    nb: 'Norsk',
+    nb: 'Bokmål',
     nn: 'Nynorsk',
     en: 'Engelsk',
     fr: 'Fransk',
