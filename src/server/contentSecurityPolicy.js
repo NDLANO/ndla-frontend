@@ -102,6 +102,8 @@ export default {
     frameSrc: [
       '*.nrk.no',
       'nrk.no',
+      '*.vg.no',
+      'vg.no',
       'https://www.tv2skole.no/',
       'https://www.scribd.com/',
       'https://www.youtube.com',
@@ -126,7 +128,6 @@ export default {
       'fast.wistia.com',
       'https://khanacademy.org/',
       '*.khanacademy.org/',
-      '*.vg.no/',
     ],
     styleSrc: [
       "'self'",
