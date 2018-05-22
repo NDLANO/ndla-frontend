@@ -44,22 +44,12 @@ describe('Subjects page', () => {
     cy.url().should('include', 'nn');
   });
 
-  it('Should call filter, taxonomi and article-api', () => {
-    cy.route('**/taxonomy/v1/subjects/**/filters').as('filterCall');
-
-    cy
-      .route('**/taxonomy/v1/subjects/**/topics/?recursive=true&language=nb')
-      .as('topicCall');
-
-    cy.route('**/article-api/v2/articles**').as('resourceCall');
+  it('Should call graphql-api', () => {
+    cy.route('POST', '**/graphql').as('graphqlApi');
     cy.get('[data-cy=subject-list] li:first-child a').click();
 
-    cy
-      .wait(['@filterCall', '@topicCall', '@resourceCall'])
-      .spread((filter, topic, resource) => {
-        expect(topic.response.body).to.be.an('array');
-        expect(topic.response.body).to.be.an('array');
-        expect(resource.response.body).to.be.an('object');
-      });
+    cy.wait('@graphqlApi').then(data => {
+      expect(data.response.body).to.be.an('object');
+    });
   });
 });

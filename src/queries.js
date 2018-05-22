@@ -149,12 +149,6 @@ export const subjectQuery = gql`
       path
       topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
-        subtopics {
-          ...TopicInfo
-          subtopics {
-            ...TopicInfo
-          }
-        }
       }
       filters {
         id
