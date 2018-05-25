@@ -15,6 +15,8 @@ const validArticleUrl2 =
   'http://localhost:3000/subjects/subject:3/topic:1:168542/topic:1:173292/resource:1:168554';
 const validArticleUrl3 =
   'http://localhost:3000/subjects/subject:3/topic:1:168542/resource:1:168554';
+const validArticleUrl4 =
+  'https://ndla-frontend.test.api.ndla.no/unknown/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
 
 const validArticleUrlWithLang =
   'https://ndla-frontend.test.api.ndla.no/nn/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
@@ -33,6 +35,7 @@ test('parseAndMatchUrl', () => {
   expect(parseAndMatchUrl(validArticleUrl1)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl2)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl3)).toMatchSnapshot();
+  expect(parseAndMatchUrl(validArticleUrl4)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrlWithLang)).toMatchSnapshot();
   expect(parseAndMatchUrl(unvalidArticleUrl)).toBe(null);
   expect(parseAndMatchUrl(validateSimpleArticlePath1)).toMatchSnapshot();
