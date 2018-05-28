@@ -31,6 +31,34 @@ export const GraphQLSubjectShape = PropTypes.shape({
   filters: PropTypes.arrayOf(GraphQLFilterShape),
 });
 
+
+export const GraphQLResourceTypeShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  id:  PropTypes.string.isRequired,
+
+})
+
+export const GraphQLResourceShape = PropTypes.shape({
+  contentUri: PropTypes.string.isRequired,
+  id:  PropTypes.string.isRequired,
+  name:  PropTypes.string.isRequired,
+  path:  PropTypes.string.isRequired,
+  resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
+  meta: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    introduction: PropTypes.string.isRequired,
+    lastUpdated: PropTypes.string.isRequired,
+    metaDescription: PropTypes.string.isRequired,
+    metaImage: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  })
+})
+
+export const GraphQLSubjectPageShape = PropTypes.shape({
+  location: PropTypes.string.isRequired,
+  resources: PropTypes.arrayOf(GraphQLResourceShape),
+});
+
 export const GraphqlErrorShape = PropTypes.shape({
   message: PropTypes.string.isRequired,
   path: PropTypes.arrayOf(PropTypes.string),

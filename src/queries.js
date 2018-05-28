@@ -64,6 +64,14 @@ export const resourceInfoFragment = gql`
       id
       name
     }
+    meta {
+      id
+      title
+      introduction
+      metaDescription
+      metaImage
+      lastUpdated
+    }
   }
 `;
 

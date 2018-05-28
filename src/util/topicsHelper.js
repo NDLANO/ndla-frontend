@@ -14,6 +14,7 @@ export const groupedSubtopicsByParent = (topics = []) =>
   groupBy(topics.filter(topic => topic.parent), 'parent');
 
 export const toTopicMenu = (topic, topics) => {
+  console.log(topics)
   const groupedSubTopics = groupedSubtopicsByParent(topics);
   const subtopics = defined(groupedSubTopics[topic.id], []);
   const subtopicsWithSubtopics = subtopics.map(child =>

@@ -13,12 +13,14 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import { breakpoints } from 'ndla-util';
+import { withApollo } from 'react-apollo';
 import {
   OneColumn,
   SubjectHeader,
   ErrorMessage,
   TopicIntroductionList,
   FilterList,
+  Image,
   ResourcesWrapper,
   ResourcesTitle,
   SubjectFilter,
@@ -29,6 +31,9 @@ import {
   SubjectChildContent,
   SubjectSocialSection,
   SubjectSocialContent,
+  SubjectCarousel,
+  SubjectAbout,
+  SubjectArchive,
   EmbeddedFacebook,
   EmbeddedTwitter,
 } from 'ndla-ui';
@@ -40,13 +45,17 @@ import {
   toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
+  toSubjects,
 } from '../../routeHelpers';
 import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
+import SubjectPageSecondaryContent from './SubjectPageSecondaryContent';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
+
+const getResources = (field) => field.resources || []
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
@@ -107,30 +116,41 @@ class SubjectPage extends Component {
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { filters: subjectFilters, subjectpage } = subject;
+    const { name: subjectName, filters: subjectFilters, subjectpage: {editorsChoices, latestContent, mostRead, topical, banner, facebook, twitter } } = subject;
+
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
     const { params: { subjectId } } = match;
-
+    console.log(subject.topics)
     const topicsWithSubTopics =
       subject && subject.topics
         ? subject.topics
-            .filter(topic => !topic.parent || topic.parent === subject.id)
+            .filter(topic => !topic || !topic.parent || topic.parent === subject.id)
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
+    const editorsChoicesResources = getResources(editorsChoices).map(resource => ({
+      title: resource.name,
+      image: resource.meta ? resource.meta.metaImage : '',
+      type: resource.resourceTypes && resource.resourceTypes.length > 1 ? resource.resourceTypes[0].name : 'Ukjent',
+      id: resource.meta ? resource.meta.id.toString() : '',
+      text: resource.meta ? resource.meta.metaDescription : '',
+      linkTo: toSubjects() + resource.path,
+    }));
 
+    const mostReadResources = getResources(mostRead);
+    const latestContentResources = getResources(latestContent);
     return (
       <article>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
         <SubjectHeader
-          heading={subject.name || ''}
+          heading={subjectName || ''}
           images={[
-            { url: subjectpage.banner, types: Object.keys(breakpoints) },
+            { url: banner, types: Object.keys(breakpoints) },
           ]}
         />
         <OneColumn noPadding>
@@ -161,27 +181,67 @@ class SubjectPage extends Component {
             <SubjectSidebarWrapper>
               <SubjectLinks
                 heading="Mest lest"
-                links={subjectpage.mostRead.resources.map(resource => ({
+                links={mostReadResources.map(resource => ({
                   text: resource.name,
-                  url: `${resource.path}`,
+                  url: toSubjects() + resource.path,
                 }))}
+              />
+              <SubjectCarousel
+                title="Litt forskjellig fra faget"
+                narrowScreen
+                subjects={editorsChoicesResources}
+              />
+              <SubjectArchive
+               featuringArticle={{
+                 media: (
+                   <Image
+                     alt="Forstørrelsesglass"
+                     src={topical.resource && topical.resource.meta ? topical.resource.meta.metaImage : ''}
+                   />
+                 ),
+                 heading: topical.resource && topical.resource.meta ? topical.resource.meta.title : '',
+                 description: topical.resource && topical.resource.meta ? topical.resource.meta.metaDescription : '',
+                 url: '#1',
+               }}
+               archiveArticles={[]}
+               sectionHeading="Aktuelt"
+               messages={{
+                 archive: 'Arkiv',
+                 close: 'Lukk',
+               }}
+             />
+             <SubjectAbout
+                media={
+                  <Image
+                    alt="Forstørrelsesglass"
+                    src="https://staging.api.ndla.no/image-api/raw/42-45210905.jpg"
+                  />
+                }
+                heading="Om medieuttrykk og mediesamfunnet"
+                description="Her kan det komme en tekstlig beskrivelse av hvordan faget er bygget opp eller hvilke særpreg dette faget har. Det kan også være i form av en film som introduserer faget"
               />
             </SubjectSidebarWrapper>
           </SubjectContent>
         </OneColumn>
+        <SubjectCarousel
+          wideScreen
+          subjects={editorsChoicesResources}
+          title="Litt forskjellig fra faget"
+        />
+      <SubjectPageSecondaryContent subjectName={subjectName} latestContentResources={latestContentResources}/>
         <OneColumn noPadding>
           <SubjectChildContent>
             <SubjectSocialContent>
               <SubjectSocialSection title="Twitter">
                 <EmbeddedTwitter
-                  screenName={subjectpage.twitter.substring(1)}
+                  screenName={twitter.substring(1)}
                   tweetLimit={1}
                 />
               </SubjectSocialSection>
               <SubjectSocialSection title="Facebook">
                 <EmbeddedFacebook
                   href={`https://www.facebook.com/${
-                    subjectpage.facebook
+                    facebook
                   }/posts/1648640581877981`}
                 />
               </SubjectSocialSection>
@@ -210,4 +270,22 @@ SubjectPage.propTypes = {
   location: LocationShape,
 };
 
-export default compose(withRouter, injectT, withTracker)(SubjectPage);
+SubjectPage.defaultProps = {
+  data: {
+    subject: {
+      subjectpage: {
+        editorsChoices: {
+          resources: [],
+        },
+        latestContent: {
+          resources: [],
+        },
+        mostRead: {
+          resources: [],
+        }
+      }
+    },
+  },
+}
+
+export default compose(withRouter, injectT, withTracker, withApollo)(SubjectPage);
