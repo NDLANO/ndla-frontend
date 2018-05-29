@@ -85,8 +85,14 @@ const phrases = {
       topics: 'Emner',
     },
     newsLetter: {
-
+      heading: 'Nyhetsbrev',
+      description: "Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.",
+      mainLinkName: "Meld deg på",
+      iconLinkName: 'Meld deg på nyhetsbrev',
     },
+    newContent: {
+      heading: 'Nytt innhold'
+    }
   },
   subjectsPage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',

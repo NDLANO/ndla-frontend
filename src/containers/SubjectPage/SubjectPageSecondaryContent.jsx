@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   OneColumn,
   SubjectFlexWrapper,
@@ -11,7 +12,7 @@ import {
 import { injectT } from 'ndla-i18n';
 import { EmailOutline } from 'ndla-icons/common';
 import formatDate from '../../util/formatDate';
-import { GraphQLSubjectShape  } from '../../graphqlShapes';
+import { GraphQLResourceShape  } from '../../graphqlShapes';
 import {
   toSubjects,
 } from '../../routeHelpers';
@@ -27,7 +28,7 @@ const SubjectPageSecondaryContent = ({
           <SubjectFlexWrapper>
             <SubjectFlexChild>
               <SubjectNewContent
-                heading="Nytt innhold"
+                heading={t('subjectPage.newContent.heading')}
                 content={latestContentResources.map(content => ({
                   name: content.name,
                   url: toSubjects() + content.path,
@@ -39,16 +40,16 @@ const SubjectPageSecondaryContent = ({
             <SubjectFlexChild>
               <InfoWidget
                 center
-                heading="Nyhetsbrev"
-                description="Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet."
+                heading={t('subjectPage.newsLetter.heading')}
+                description={t('subjectPage.newsLetter.description')}
                 mainLink={{
-                  name: 'Meld deg på',
+                  name: t('subjectPage.newsLetter.mainLinkName'),
                   url: 'http://om.ndla.no/nyhetsbrev/',
                 }}
                 iconLinks={[
                   {
                     icon: <EmailOutline />,
-                    name: 'Meld deg på nyhetsbrev',
+                    name: t('subjectPage.newsLetter.iconLinkName')
                   },
                 ]}
               />
@@ -60,7 +61,8 @@ const SubjectPageSecondaryContent = ({
   );
 
 SubjectPageSecondaryContent.propTypes = {
-  subject: GraphQLSubjectShape,
+  latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),
+  subjectName: PropTypes.string.isRequired,
 };
 
 export default injectT(SubjectPageSecondaryContent);
