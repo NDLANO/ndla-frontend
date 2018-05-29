@@ -98,6 +98,17 @@ export const GraphqlErrorShape = PropTypes.shape({
   json: PropTypes.object,
 });
 
+export const GraphqlResourceTypeShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  subtypes: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
 export const FilterShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

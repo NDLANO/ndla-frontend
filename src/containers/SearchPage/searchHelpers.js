@@ -18,7 +18,12 @@ export const searchResultToLinkProps = result => {
   return { to: '/404' };
 };
 
-const arrayFields = ['language-filter', 'levels', 'subjects'];
+const arrayFields = [
+  'language-filter',
+  'levels',
+  'subjects',
+  'context-filters',
+];
 
 export const converSearchStringToObject = location => {
   const searchLocation = queryString.parse(location ? location.search : '');

@@ -29,6 +29,7 @@ const phrases = {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
     search: 'Søk',
     close: 'Lukk',
+    abilities: 'Egenskaper',
     searchFieldPlaceholder:
       'Søk i fagstoff, oppgaver og aktiviteter eller læringsstier',
     label: {
