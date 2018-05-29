@@ -43,7 +43,7 @@ const SubjectPageSecondaryContent = ({
                 description="Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet."
                 mainLink={{
                   name: 'Meld deg på',
-                  url: '#1',
+                  url: 'http://om.ndla.no/nyhetsbrev/',
                 }}
                 iconLinks={[
                   {

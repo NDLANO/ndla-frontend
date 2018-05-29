@@ -84,6 +84,9 @@ const phrases = {
     tabs: {
       topics: 'Emner',
     },
+    newsLetter: {
+
+    },
   },
   subjectsPage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',

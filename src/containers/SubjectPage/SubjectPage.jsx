@@ -124,7 +124,7 @@ class SubjectPage extends Component {
       value: filter.id,
     }));
     const { params: { subjectId } } = match;
-    console.log(subject.topics)
+
     const topicsWithSubTopics =
       subject && subject.topics
         ? subject.topics
