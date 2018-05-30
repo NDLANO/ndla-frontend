@@ -92,6 +92,26 @@ const phrases = {
       mainLinkName: 'Meld deg på',
       iconLinkName: 'Meld deg på nyhetsbrev',
     },
+    subjectShortcuts: {
+      heading: 'Gå direkte til',
+      showMore: 'Vis flere',
+      showLess: 'Vis færre',
+    },
+    mostRead: {
+      heading: 'Mest lest',
+    },
+    editorsChoices: {
+      heading: 'Litt forskjellig fra faget',
+      unknown: 'Ukjent',
+    },
+    subjectArchive: {
+      heading: 'Aktuelt',
+      archive: 'Arkiv',
+      close: 'Lukk',
+    },
+    subjectFilter: {
+      label: 'Filter',
+    },
     newContent: {
       heading: 'Nytt innhold',
     },

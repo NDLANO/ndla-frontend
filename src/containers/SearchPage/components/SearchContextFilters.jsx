@@ -9,7 +9,8 @@ import React from 'react';
 import { SearchFilter } from 'ndla-ui';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { ArticleResultShape, GraphqlResourceTypeShape } from '../../../shapes';
+import { ArticleResultShape } from '../../../shapes';
+import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
   results,
@@ -59,7 +60,7 @@ SearchContextFilters.propTypes = {
     contextFilters: arrayOf(string),
   }),
   results: arrayOf(ArticleResultShape).isRequired,
-  resourceTypes: arrayOf(GraphqlResourceTypeShape),
+  resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onUpdateContextFilters: func,
 };
 

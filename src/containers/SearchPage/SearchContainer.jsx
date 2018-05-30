@@ -103,7 +103,7 @@ class SearchContainer extends Component {
         levels: searchObject.levels || [],
         'resource-types': searchObject['resource-types'] || undefined,
         'context-types': searchObject['context-types'] || undefined,
-        contextFilters: searchObject['context-filters'] || [],
+        contextFilters: searchObject.contextFilters || [],
       },
     };
   }
