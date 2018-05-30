@@ -67,7 +67,7 @@ class App extends React.Component {
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
-  componentWillMount (){
+  componentWillMount() {
     this.isUnmounted = false;
   }
 
@@ -77,8 +77,6 @@ class App extends React.Component {
       this.handleLoadInitialProps(this.props);
     }
   }
-
-
 
   componentWillReceiveProps(nextProps) {
     this.isUnmounted = false;
@@ -90,28 +88,27 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("WOOOOOW!")
+    console.log('WOOOOOW!');
     this.isUnmounted = true;
   }
 
   async handleLoadInitialProps(props) {
-
     try {
       this.setState(prevState => ({
         data: { ...prevState.data, loading: true },
       }));
-      console.log(this.state.data)
+      console.log(this.state.data);
       const data = await loadInitialProps(props.location.pathname, {
         locale: props.locale,
         location: props.location,
         history: props.history,
         client: props.client,
       });
-      console.log(this.isUnmounted, data)
-      if (!this.isUnmounted){
+      console.log(this.isUnmounted, data);
+      if (!this.isUnmounted) {
         this.setState(prevState => {
-          console.log(prevState, data)
-          return { data: { ...prevState.data, ...data[0], loading: false }};
+          console.log(prevState, data);
+          return { data: { ...prevState.data, ...data[0], loading: false } };
         });
       }
     } catch (e) {

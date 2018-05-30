@@ -6,7 +6,7 @@ import { injectT } from 'ndla-i18n';
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
 
 const SearchButtonView = ({
-  isOpen,
+  searchIsOpen,
   openToggle,
   subject,
   query,
@@ -23,11 +23,11 @@ const SearchButtonView = ({
   });
   return (
     <ToggleSearchButton
-      isOpen={isOpen}
+      isOpen={searchIsOpen}
       onToggle={openToggle}
       messages={{ buttonText: t('searchPage.search') }}>
-      {onClose => (
-        <SearchOverlay close={onClose}>
+      {(onClose, isOpen) => (
+        <SearchOverlay close={onClose} isOpen={isOpen}>
           <SearchField
             placeholder={t('searchPage.searchFieldPlaceholder')}
             value={query}
@@ -70,7 +70,7 @@ const SearchButtonView = ({
 };
 
 SearchButtonView.propTypes = {
-  isOpen: bool,
+  searchIsOpen: bool,
   openToggle: func,
   subject: shape({
     id: string,

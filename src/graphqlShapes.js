@@ -31,18 +31,16 @@ export const GraphQLSubjectShape = PropTypes.shape({
   filters: PropTypes.arrayOf(GraphQLFilterShape),
 });
 
-
 export const GraphQLResourceTypeShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  id:  PropTypes.string.isRequired,
-
-})
+  id: PropTypes.string.isRequired,
+});
 
 export const GraphQLResourceShape = PropTypes.shape({
   contentUri: PropTypes.string.isRequired,
-  id:  PropTypes.string.isRequired,
-  name:  PropTypes.string.isRequired,
-  path:  PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
   meta: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -51,12 +49,18 @@ export const GraphQLResourceShape = PropTypes.shape({
     metaDescription: PropTypes.string.isRequired,
     metaImage: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-  })
-})
+  }),
+});
 
 export const GraphQLSubjectPageShape = PropTypes.shape({
   location: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(GraphQLResourceShape),
+});
+
+export const GraphqlResourceTypeWithsubtypesShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  subtypes: PropTypes.arrayOf(PropTypes.shape(GraphQLResourceTypeShape)),
 });
 
 export const GraphqlErrorShape = PropTypes.shape({

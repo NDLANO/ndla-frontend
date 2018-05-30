@@ -197,6 +197,19 @@ export const subjectsQuery = gql`
   }
 `;
 
+export const resourceTypesWithSubTypesQuery = gql`
+  query resourceTypesQuery {
+    resourceTypes {
+      id
+      name
+      subtypes {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const resourceTypesQuery = gql`
   query resourceTypesQuery {
     resourceTypes {

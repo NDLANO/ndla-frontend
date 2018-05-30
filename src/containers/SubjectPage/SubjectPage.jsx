@@ -55,7 +55,7 @@ import SubjectPageSecondaryContent from './SubjectPageSecondaryContent';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
-const getResources = (field) => field.resources || []
+const getResources = field => field.resources || [];
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
@@ -116,7 +116,19 @@ class SubjectPage extends Component {
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { name: subjectName, filters: subjectFilters, subjectpage: {editorsChoices, latestContent, mostRead, topical, banner, facebook, twitter } } = subject;
+    const {
+      name: subjectName,
+      filters: subjectFilters,
+      subjectpage: {
+        editorsChoices,
+        latestContent,
+        mostRead,
+        topical,
+        banner,
+        facebook,
+        twitter,
+      },
+    } = subject;
 
     const filters = subjectFilters.map(filter => ({
       ...filter,
@@ -128,17 +140,24 @@ class SubjectPage extends Component {
     const topicsWithSubTopics =
       subject && subject.topics
         ? subject.topics
-            .filter(topic => !topic || !topic.parent || topic.parent === subject.id)
+            .filter(
+              topic => !topic || !topic.parent || topic.parent === subject.id,
+            )
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
-    const editorsChoicesResources = getResources(editorsChoices).map(resource => ({
-      title: resource.name,
-      image: resource.meta ? resource.meta.metaImage : '',
-      type: resource.resourceTypes && resource.resourceTypes.length > 1 ? resource.resourceTypes[0].name : 'Ukjent',
-      id: resource.meta ? resource.meta.id.toString() : '',
-      text: resource.meta ? resource.meta.metaDescription : '',
-      linkTo: toSubjects() + resource.path,
-    }));
+    const editorsChoicesResources = getResources(editorsChoices).map(
+      resource => ({
+        title: resource.name,
+        image: resource.meta ? resource.meta.metaImage : '',
+        type:
+          resource.resourceTypes && resource.resourceTypes.length > 1
+            ? resource.resourceTypes[0].name
+            : 'Ukjent',
+        id: resource.meta ? resource.meta.id.toString() : '',
+        text: resource.meta ? resource.meta.metaDescription : '',
+        linkTo: toSubjects() + resource.path,
+      }),
+    );
 
     const mostReadResources = getResources(mostRead);
     const latestContentResources = getResources(latestContent);
@@ -149,9 +168,7 @@ class SubjectPage extends Component {
         </Helmet>
         <SubjectHeader
           heading={subjectName || ''}
-          images={[
-            { url: banner, types: Object.keys(breakpoints) },
-          ]}
+          images={[{ url: banner, types: Object.keys(breakpoints) }]}
         />
         <OneColumn noPadding>
           <SubjectContent
@@ -192,25 +209,35 @@ class SubjectPage extends Component {
                 subjects={editorsChoicesResources}
               />
               <SubjectArchive
-               featuringArticle={{
-                 media: (
-                   <Image
-                     alt="Forstørrelsesglass"
-                     src={topical.resource && topical.resource.meta ? topical.resource.meta.metaImage : ''}
-                   />
-                 ),
-                 heading: topical.resource && topical.resource.meta ? topical.resource.meta.title : '',
-                 description: topical.resource && topical.resource.meta ? topical.resource.meta.metaDescription : '',
-                 url: '#1',
-               }}
-               archiveArticles={[]}
-               sectionHeading="Aktuelt"
-               messages={{
-                 archive: 'Arkiv',
-                 close: 'Lukk',
-               }}
-             />
-             <SubjectAbout
+                featuringArticle={{
+                  media: (
+                    <Image
+                      alt="Forstørrelsesglass"
+                      src={
+                        topical.resource && topical.resource.meta
+                          ? topical.resource.meta.metaImage
+                          : ''
+                      }
+                    />
+                  ),
+                  heading:
+                    topical.resource && topical.resource.meta
+                      ? topical.resource.meta.title
+                      : '',
+                  description:
+                    topical.resource && topical.resource.meta
+                      ? topical.resource.meta.metaDescription
+                      : '',
+                  url: '#1',
+                }}
+                archiveArticles={[]}
+                sectionHeading="Aktuelt"
+                messages={{
+                  archive: 'Arkiv',
+                  close: 'Lukk',
+                }}
+              />
+              <SubjectAbout
                 media={
                   <Image
                     alt="Forstørrelsesglass"
@@ -228,7 +255,10 @@ class SubjectPage extends Component {
           subjects={editorsChoicesResources}
           title="Litt forskjellig fra faget"
         />
-      <SubjectPageSecondaryContent subjectName={subjectName} latestContentResources={latestContentResources}/>
+        <SubjectPageSecondaryContent
+          subjectName={subjectName}
+          latestContentResources={latestContentResources}
+        />
         <OneColumn noPadding>
           <SubjectChildContent>
             <SubjectSocialContent>
@@ -240,9 +270,7 @@ class SubjectPage extends Component {
               </SubjectSocialSection>
               <SubjectSocialSection title="Facebook">
                 <EmbeddedFacebook
-                  href={`https://www.facebook.com/${
-                    facebook
-                  }/posts/1648640581877981`}
+                  href={`https://www.facebook.com/${facebook}/posts/1648640581877981`}
                 />
               </SubjectSocialSection>
             </SubjectSocialContent>
@@ -282,10 +310,12 @@ SubjectPage.defaultProps = {
         },
         mostRead: {
           resources: [],
-        }
-      }
+        },
+      },
     },
   },
-}
+};
 
-export default compose(withRouter, injectT, withTracker, withApollo)(SubjectPage);
+export default compose(withRouter, injectT, withTracker, withApollo)(
+  SubjectPage,
+);

@@ -12,53 +12,53 @@ import {
 import { injectT } from 'ndla-i18n';
 import { EmailOutline } from 'ndla-icons/common';
 import formatDate from '../../util/formatDate';
-import { GraphQLResourceShape  } from '../../graphqlShapes';
-import {
-  toSubjects,
-} from '../../routeHelpers';
+import { GraphQLResourceShape } from '../../graphqlShapes';
+import { toSubjects } from '../../routeHelpers';
 
 const SubjectPageSecondaryContent = ({
   subjectName,
   latestContentResources,
   t,
 }) => (
-    <SubjectSecondaryContent>
-      <OneColumn noPadding>
-        <SubjectChildContent>
-          <SubjectFlexWrapper>
-            <SubjectFlexChild>
-              <SubjectNewContent
-                heading={t('subjectPage.newContent.heading')}
-                content={latestContentResources.map(content => ({
-                  name: content.name,
-                  url: toSubjects() + content.path,
-                  topicName: subjectName,
-                  formattedDate: content.meta ? formatDate(content.meta.lastUpdated) : '',
-                }))}
-              />
-            </SubjectFlexChild>
-            <SubjectFlexChild>
-              <InfoWidget
-                center
-                heading={t('subjectPage.newsLetter.heading')}
-                description={t('subjectPage.newsLetter.description')}
-                mainLink={{
-                  name: t('subjectPage.newsLetter.mainLinkName'),
-                  url: 'http://om.ndla.no/nyhetsbrev/',
-                }}
-                iconLinks={[
-                  {
-                    icon: <EmailOutline />,
-                    name: t('subjectPage.newsLetter.iconLinkName')
-                  },
-                ]}
-              />
-            </SubjectFlexChild>
-          </SubjectFlexWrapper>
-        </SubjectChildContent>
-      </OneColumn>
-    </SubjectSecondaryContent>
-  );
+  <SubjectSecondaryContent>
+    <OneColumn noPadding>
+      <SubjectChildContent>
+        <SubjectFlexWrapper>
+          <SubjectFlexChild>
+            <SubjectNewContent
+              heading={t('subjectPage.newContent.heading')}
+              content={latestContentResources.map(content => ({
+                name: content.name,
+                url: toSubjects() + content.path,
+                topicName: subjectName,
+                formattedDate: content.meta
+                  ? formatDate(content.meta.lastUpdated)
+                  : '',
+              }))}
+            />
+          </SubjectFlexChild>
+          <SubjectFlexChild>
+            <InfoWidget
+              center
+              heading={t('subjectPage.newsLetter.heading')}
+              description={t('subjectPage.newsLetter.description')}
+              mainLink={{
+                name: t('subjectPage.newsLetter.mainLinkName'),
+                url: 'http://om.ndla.no/nyhetsbrev/',
+              }}
+              iconLinks={[
+                {
+                  icon: <EmailOutline />,
+                  name: t('subjectPage.newsLetter.iconLinkName'),
+                },
+              ]}
+            />
+          </SubjectFlexChild>
+        </SubjectFlexWrapper>
+      </SubjectChildContent>
+    </OneColumn>
+  </SubjectSecondaryContent>
+);
 
 SubjectPageSecondaryContent.propTypes = {
   latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),

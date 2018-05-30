@@ -29,6 +29,7 @@ const phrases = {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
     search: 'Søk',
     close: 'Lukk',
+    abilities: 'Egenskaper',
     searchFieldPlaceholder:
       'Søk i fagstoff, oppgaver og aktiviteter eller læringsstier',
     label: {
@@ -86,13 +87,14 @@ const phrases = {
     },
     newsLetter: {
       heading: 'Nyhetsbrev',
-      description: "Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.",
-      mainLinkName: "Meld deg på",
+      description:
+        'Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.',
+      mainLinkName: 'Meld deg på',
       iconLinkName: 'Meld deg på nyhetsbrev',
     },
     newContent: {
-      heading: 'Nytt innhold'
-    }
+      heading: 'Nytt innhold',
+    },
   },
   subjectsPage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
