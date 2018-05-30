@@ -15,7 +15,12 @@ import { HelmetWithTracker } from 'ndla-tracker';
 import { injectT } from 'ndla-i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
-import { SubjectShape, ArticleResultShape, FilterShape } from '../../shapes';
+import {
+  SubjectShape,
+  ArticleResultShape,
+  FilterShape,
+  GraphqlResourceTypeShape,
+} from '../../shapes';
 import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
@@ -34,6 +39,9 @@ import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
+import { runQueries } from '../../util/runQueries';
+import { resourceTypesWithSubTypesQuery } from '../../queries';
+import handleError from '../../util/handleError';
 
 class SearchContainer extends Component {
   static getInitialProps = ctx => {
@@ -44,6 +52,7 @@ class SearchContainer extends Component {
       fetchFilters,
       filters,
       search,
+      client,
     } = ctx;
 
     if (!subjects || subjects.length === 0) {
@@ -53,14 +62,37 @@ class SearchContainer extends Component {
       fetchFilters();
     }
 
-    const searchString = location ? location.search : '';
-    search({ searchString });
+    const searchObject = location ? converSearchStringToObject(location) : {};
+
+    const searchParams = {
+      ...queryString.parse(location.search),
+      'context-types': !searchObject.contextFilters
+        ? searchObject['context-types']
+        : undefined,
+      'resource-types':
+        searchObject.contextFilters || searchObject['resource-types'],
+      contextFilters: undefined,
+    };
+
+    search({ searchString: `?${queryString.stringify(searchParams)}` });
+
+    try {
+      return runQueries(client, [
+        {
+          query: resourceTypesWithSubTypesQuery,
+        },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
   };
 
   constructor(props) {
     super();
     const { location } = props;
     const searchObject = converSearchStringToObject(location);
+
     this.state = {
       searchParams: {
         page: searchObject.page || 1,
@@ -70,6 +102,7 @@ class SearchContainer extends Component {
         levels: searchObject.levels || [],
         'resource-types': searchObject['resource-types'] || undefined,
         'context-types': searchObject['context-types'] || undefined,
+        contextFilters: searchObject['context-filters'] || [],
       },
     };
   }
@@ -116,6 +149,17 @@ class SearchContainer extends Component {
     this.onRemoveSubject({ subjects }, removedSubject);
   };
 
+  onUpdateContextFilters = values => {
+    this.setState(
+      prevState => ({
+        searchParams: {
+          ...prevState.searchParams,
+          contextFilters: values,
+        },
+      }),
+      this.updateSearchLocation,
+    );
+  };
   updateFilter = searchParam => {
     const page = searchParam.page || 1;
     this.setState(
@@ -140,6 +184,7 @@ class SearchContainer extends Component {
           ...prevState.searchParams,
           'context-types': undefined,
           'resource-types': undefined,
+          contextFilters: [],
           ...searchParams,
           page: 1,
         },
@@ -160,18 +205,25 @@ class SearchContainer extends Component {
     Object.keys(this.state.searchParams).forEach(key => {
       stateSearchParams[key] = convertSearchParam(this.state.searchParams[key]);
     });
-
     const searchParams = {
       ...queryString.parse(location.search),
       ...stateSearchParams,
+      'context-types': !stateSearchParams.contextFilters
+        ? stateSearchParams['context-types']
+        : undefined,
+      'resource-types':
+        stateSearchParams.contextFilters || stateSearchParams['resource-types'],
+      contextFilters: undefined,
     };
 
     const searchString = `?${queryString.stringify(searchParams)}`;
-
     search({ searchString });
     history.push({
       pathname: '/search',
-      search: searchString,
+      search: queryString.stringify({
+        ...queryString.parse(location.search),
+        ...stateSearchParams,
+      }),
     });
   };
 
@@ -184,6 +236,7 @@ class SearchContainer extends Component {
       filters,
       results,
       location,
+      data,
     } = this.props;
 
     const { searchParams } = this.state;
@@ -240,11 +293,13 @@ class SearchContainer extends Component {
           filters={searchFilters}>
           <SearchResults
             results={results}
+            resourceTypes={data && data.resourceTypes ? data.resourceTypes : []}
             resultMetadata={resultMetadata}
             filterState={searchParams}
             enabledTabs={enabledTabs}
             onTabChange={this.updateTab}
             location={location}
+            onUpdateContextFilters={this.onUpdateContextFilters}
           />
           <Pager
             page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
@@ -288,6 +343,9 @@ SearchContainer.propTypes = {
     }),
   }),
   locale: string.isRequired,
+  data: shape({
+    resourceTypes: arrayOf(GraphqlResourceTypeShape),
+  }),
 };
 
 SearchContainer.defaultProps = {

@@ -43,6 +43,7 @@ const Article = ({
         <ToggleLicenseBox
           article={article}
           locale={locale}
+          dialogLabelledBy="license-heading"
           openTitle={t('openLicenseBox')}
           closeTitle={t('closeLicenseBox')}>
           <LicenseBox article={article} locale={locale} />
