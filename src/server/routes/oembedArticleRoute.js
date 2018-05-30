@@ -30,10 +30,13 @@ export function matchUrl(pathname, isPlainArticle, lang = false) {
 export function parseAndMatchUrl(url) {
   const { pathname } = parseUrl(url);
   const paths = pathname.split('/');
+  paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
+  const path = paths.join('/');
+
   if (isValidLocale(paths[1])) {
-    return matchUrl(pathname, paths[2] === 'article', true);
+    return matchUrl(path, paths[2] === 'article', true);
   }
-  return matchUrl(pathname, paths[1] === 'article', false);
+  return matchUrl(path, paths[1] === 'article', false);
 }
 
 function getOembedObject(req, title, html) {
