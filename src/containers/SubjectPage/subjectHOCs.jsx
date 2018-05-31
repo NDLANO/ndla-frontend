@@ -17,6 +17,7 @@ import { GraphqlErrorShape } from '../../graphqlShapes';
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
     static async getInitialProps(ctx) {
+      console.log(ctx)
       return ctx.client.query({
         errorPolicy: 'all',
         query: subjectsQuery,

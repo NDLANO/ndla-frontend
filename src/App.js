@@ -25,6 +25,7 @@ const Route = ({
   initialProps,
   locale,
   background,
+  hideMasthead,
   ...rest
 }) => (
   <ReactRoute
@@ -32,7 +33,7 @@ const Route = ({
     render={props => (
       <Page background={background}>
         <Content>
-          <Masthead {...props} />
+          {!hideMasthead && <Masthead {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />
@@ -46,6 +47,7 @@ Route.propTypes = {
   background: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  hideMasthead: PropTypes.bool,
 };
 
 async function loadInitialProps(pathname, ctx) {
@@ -121,6 +123,7 @@ class App extends React.Component {
             <Route
               key={`route_${route.path}`}
               exact={route.exact}
+              hideMasthead={route.hideMasthead}
               initialProps={this.state.data}
               locale={this.props.locale}
               component={route.component}

@@ -25,6 +25,12 @@ const phrases = {
   notFoundPage: {
     errorDescription: 'Beklager, finner ikke siden du prøvde å komme til.',
   },
+  frontpage: {
+    category: {
+      fellesfag: 'Fellesfag',
+      yrkesfag: 'Yrkesfag',
+    },
+  },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
     search: 'Søk',

@@ -197,6 +197,25 @@ export const subjectsQuery = gql`
   }
 `;
 
+export const frontpageQuery = gql`
+  ${resourceInfoFragment}
+  ${subjectInfoFragment}
+
+  query frontpageQuery {
+    frontpage {
+      topical {
+        ...ResourceInfo
+      }
+      subjects {
+        category
+        subjects {
+          ...SubjectInfo
+        }
+      }
+    }
+  }
+`
+
 export const resourceTypesWithSubTypesQuery = gql`
   query resourceTypesQuery {
     resourceTypes {
