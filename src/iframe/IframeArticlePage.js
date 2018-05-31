@@ -20,13 +20,12 @@ import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import '../style/index.css';
-import Oops from '../assets/oops.gif';
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
     <ErrorMessage
       illustration={{
-        url: Oops,
+        url: '/oops.gif',
         altText: t('errorMessage.title'),
       }}
       messages={{

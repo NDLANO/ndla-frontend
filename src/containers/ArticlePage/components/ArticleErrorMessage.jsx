@@ -10,14 +10,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
-import Oops from '../../../assets/oops.gif';
 
 const ArticleErrorMessage = ({ status, children, t }) => (
   <OneColumn>
     <article className="c-article">
       <ErrorMessage
         illustration={{
-          url: Oops,
+          url: '/oops.gif',
           altText: t('errorMessage.title'),
         }}
         messages={{
