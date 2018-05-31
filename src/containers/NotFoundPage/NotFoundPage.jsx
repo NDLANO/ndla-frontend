@@ -12,6 +12,7 @@ import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import Route from 'react-router-dom/Route';
 import { HelmetWithTracker } from 'ndla-tracker';
+import NotExist from '../../assets/not-exist.gif';
 
 const Status = ({ code, children }) => (
   <Route
@@ -34,6 +35,10 @@ const NotFound = ({ t }) => (
     <HelmetWithTracker title={t('htmlTitles.notFound')} />
     <OneColumn cssModifier="clear">
       <ErrorMessage
+        illustration={{
+          url: NotExist,
+          altText: t('errorMessage.title'),
+        }}
         messages={{
           title: t('errorMessage.title'),
           description: t('notFoundPage.errorDescription'),

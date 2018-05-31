@@ -38,6 +38,7 @@ import {
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
+import Oops from '../../assets/oops.gif';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
@@ -107,6 +108,10 @@ class SubjectPage extends Component {
               />
               {hasFailed ? (
                 <ErrorMessage
+                  illustration={{
+                    url: Oops,
+                    altText: t('errorMessage.title'),
+                  }}
                   messages={{
                     title: t('errorMessage.title'),
                     description: t('subjectPage.errorDescription'),

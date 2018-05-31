@@ -9,11 +9,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
+import Oops from '../../../assets/oops.gif';
 
 export const TopicPageErrorMessage = ({ fetchTopicsFailed, t }) => (
   <OneColumn>
     <div className="c-article">
       <ErrorMessage
+        illustration={{
+          url: Oops,
+          altText: t('errorMessage.title'),
+        }}
         messages={{
           title: t('errorMessage.title'),
           description: fetchTopicsFailed

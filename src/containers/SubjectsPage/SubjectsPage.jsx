@@ -15,6 +15,7 @@ import { injectT } from 'ndla-i18n';
 import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';
+import Oops from '../../assets/oops.gif';
 
 const SubjectsPage = ({ t, subjects, hasFailed }) => (
   <div className="c-resources u-padding-top-large">
@@ -27,6 +28,10 @@ const SubjectsPage = ({ t, subjects, hasFailed }) => (
         </section>
       ) : (
         <ErrorMessage
+          illustration={{
+            url: Oops,
+            altText: t('errorMessage.title'),
+          }}
           messages={{
             title: t('errorMessage.title'),
             description: t('subjectsPage.errorDescription'),

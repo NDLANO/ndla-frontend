@@ -158,6 +158,7 @@ export default {
       'https://www.gstatic.com',
       'https://*.hotjar.com',
       ' data:',
+      'http://localhost:3001',
     ],
     mediaSrc: [
       "'self'",

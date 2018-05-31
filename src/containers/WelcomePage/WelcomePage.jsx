@@ -16,6 +16,7 @@ import { toSubject } from '../../routeHelpers';
 import { SubjectShape } from '../../shapes';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import BetaFrontpage from './BetaFrontpage';
+import Oops from '../../assets/oops.gif';
 
 export const WelcomePage = ({ t, subjects, hasFailed }) => (
   <React.Fragment>
@@ -33,6 +34,10 @@ export const WelcomePage = ({ t, subjects, hasFailed }) => (
           </div>
         ) : (
           <ErrorMessage
+            illustration={{
+              url: Oops,
+              altText: t('errorMessage.title'),
+            }}
             messages={{
               title: t('errorMessage.title'),
               description: t('welcomePage.errorDescription'),
