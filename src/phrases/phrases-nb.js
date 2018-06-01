@@ -17,6 +17,13 @@ const phrases = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Siden finnes ikke${titleTemplate}`,
   },
+  newsLetter: {
+    heading: 'Nyhetsbrev',
+    description:
+      'Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.',
+    mainLinkName: 'Meld deg på',
+    iconLinkName: 'Meld deg på nyhetsbrev',
+  },
   askNDLA: 'Spør NDLA',
   articlePage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av ressursen.',
@@ -24,12 +31,6 @@ const phrases = {
   },
   notFoundPage: {
     errorDescription: 'Beklager, finner ikke siden du prøvde å komme til.',
-  },
-  frontpage: {
-    category: {
-      fellesfag: 'Fellesfag',
-      yrkesfag: 'Yrkesfag',
-    },
   },
   searchPage: {
     noHits: 'Ingen artikler samsvarte med søket ditt på: {query}',
@@ -91,13 +92,6 @@ const phrases = {
     tabs: {
       topics: 'Emner',
     },
-    newsLetter: {
-      heading: 'Nyhetsbrev',
-      description:
-        'Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.',
-      mainLinkName: 'Meld deg på',
-      iconLinkName: 'Meld deg på nyhetsbrev',
-    },
     subjectShortcuts: {
       heading: 'Gå direkte til',
       showMore: 'Vis flere',
@@ -135,8 +129,37 @@ const phrases = {
     topics: 'Emner',
   },
   welcomePage: {
-    subjects: 'Fag',
-    search: 'Gå til søk',
+    search: 'Søk',
+    heading: {
+      heading: "Nasjonal digital læringsarena",
+      searchFieldPlaceholder: "Søk etter f.eks emner, lærestoff, nøkkelord...",
+      messages: {
+        searchFieldTitle: 'Søk',
+        menuButton: 'Meny',
+      },
+      links: {
+        aboutNDLA: 'Om NDLA',
+        changeLanguage: 'Skift språk',
+      }
+    },
+    socialMedia: {
+      heading: 'Følg oss',
+      description: "NDLA har mange Facebook og Twitter kontoer. Finn den som passer for deg og følg oss!",
+      mainLink: {
+        name: 'Følg oss',
+      },
+    },
+    aboutNDLA: {
+      heading: 'Om NDLA',
+      description: "NDLAs visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.",
+      mainLink: {
+        name: 'Mer om Ndla',
+      }
+    },
+    category: {
+      fellesfag: 'Fellesfag',
+      yrkesfag: 'Yrkesfag',
+    },
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
     beta: {
       info:

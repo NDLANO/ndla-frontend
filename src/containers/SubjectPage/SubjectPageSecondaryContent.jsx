@@ -40,16 +40,16 @@ const SubjectPageSecondaryContent = ({
           <SubjectFlexChild>
             <InfoWidget
               center
-              heading={t('subjectPage.newsLetter.heading')}
-              description={t('subjectPage.newsLetter.description')}
+              heading={t('newsLetter.heading')}
+              description={t('newsLetter.description')}
               mainLink={{
-                name: t('subjectPage.newsLetter.mainLinkName'),
-                url: 'http://om.ndla.no/nyhetsbrev/',
+                name: t('newsLetter.mainLinkName'),
+                href: 'http://om.ndla.no/nyhetsbrev/',
               }}
               iconLinks={[
                 {
                   icon: <EmailOutline />,
-                  name: t('subjectPage.newsLetter.iconLinkName'),
+                  name: t('newsLetter.iconLinkName'),
                 },
               ]}
             />

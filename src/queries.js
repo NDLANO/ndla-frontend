@@ -206,8 +206,8 @@ export const frontpageQuery = gql`
       topical {
         ...ResourceInfo
       }
-      subjects {
-        category
+      categories {
+        name
         subjects {
           ...SubjectInfo
         }
