@@ -92,7 +92,16 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section data-cy="breadcrumb-section">
-                {subject && <Breadcrumb items={toBreadcrumbItems(subject)} />}
+                {subject && (
+                  <Breadcrumb
+                    items={
+                      (toBreadcrumbItems(subject),
+                      undefined,
+                      undefined,
+                      t('breadcrumb.toFrontPage'))
+                    }
+                  />
+                )}
               </section>
             </div>
           </OneColumn>
