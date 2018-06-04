@@ -58,7 +58,7 @@ export function toBreadcrumbItems(
   subject,
   topicPath = [],
   resource,
-  toFrontPage,
+  toFrontPage = '',
 ) {
   const topicLinks = topicPath.map(topic => ({
     to: toSubjects() + topic.path,
