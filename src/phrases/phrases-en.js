@@ -293,6 +293,9 @@ const phrases = {
     zh: 'Chinese',
     unkown: 'Unkown',
   },
+  breadcrumb: {
+    toFrontpage: 'Til forsiden',
+  },
 };
 
 export default phrases;
