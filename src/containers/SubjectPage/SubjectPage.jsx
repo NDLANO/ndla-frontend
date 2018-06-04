@@ -26,15 +26,9 @@ import {
   SubjectLinks,
   Breadcrumb,
   SubjectContent,
-  SubjectChildContent,
-  SubjectSocialSection,
-  SubjectSocialContent,
   SubjectCarousel,
   SubjectAbout,
   SubjectShortcuts,
-  SubjectArchive,
-  EmbeddedFacebook,
-  EmbeddedTwitter,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
@@ -51,6 +45,8 @@ import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
 import SubjectPageSecondaryContent from './SubjectPageSecondaryContent';
+import SubjectPageSocialMedia from './SubjectPageSocialMedia';
+import SubjectTopical from './SubjectTopical';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
@@ -249,35 +245,7 @@ class SubjectPage extends Component {
                 narrowScreen
                 subjects={editorsChoicesResources}
               />
-              <SubjectArchive
-                featuringArticle={{
-                  media: (
-                    <Image
-                      alt="Forstørrelsesglass"
-                      src={
-                        topical.resource && topical.resource.meta
-                          ? topical.resource.meta.metaImage
-                          : ''
-                      }
-                    />
-                  ),
-                  heading:
-                    topical.resource && topical.resource.meta
-                      ? topical.resource.meta.title
-                      : '',
-                  description:
-                    topical.resource && topical.resource.meta
-                      ? topical.resource.meta.metaDescription
-                      : '',
-                  url: '#1',
-                }}
-                archiveArticles={[]}
-                sectionHeading={t('subjectPage.subjectArchive.heading')}
-                messages={{
-                  archive: t('subjectPage.subjectArchive.archive'),
-                  close: t('subjectPage.subjectArchive.close'),
-                }}
-              />
+              <SubjectTopical topical={topical} />
               <SubjectAbout
                 media={
                   <Image
@@ -300,23 +268,7 @@ class SubjectPage extends Component {
           subjectName={subjectName}
           latestContentResources={latestContentResources}
         />
-        <OneColumn noPadding>
-          <SubjectChildContent>
-            <SubjectSocialContent>
-              <SubjectSocialSection title="Twitter">
-                <EmbeddedTwitter
-                  screenName={twitter.substring(1)}
-                  tweetLimit={1}
-                />
-              </SubjectSocialSection>
-              <SubjectSocialSection title="Facebook">
-                <EmbeddedFacebook
-                  href={`https://www.facebook.com/${facebook}/posts/1648640581877981`}
-                />
-              </SubjectSocialSection>
-            </SubjectSocialContent>
-          </SubjectChildContent>
-        </OneColumn>
+        <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
       </article>
     );
   }

@@ -2100,7 +2100,7 @@
               "deprecationReason": null
             },
             {
-              "name": "subjects",
+              "name": "categories",
               "description": "",
               "args": [],
               "type": {
@@ -2127,7 +2127,7 @@
           "description": "",
           "fields": [
             {
-              "name": "category",
+              "name": "name",
               "description": "",
               "args": [],
               "type": {

@@ -130,9 +130,10 @@ const phrases = {
   },
   welcomePage: {
     search: 'Søk',
+    highlighted: 'Aktuelt',
     heading: {
-      heading: "Nasjonal digital læringsarena",
-      searchFieldPlaceholder: "Søk etter f.eks emner, lærestoff, nøkkelord...",
+      heading: 'Nasjonal digital læringsarena',
+      searchFieldPlaceholder: 'Søk etter f.eks emner, lærestoff, nøkkelord...',
       messages: {
         searchFieldTitle: 'Søk',
         menuButton: 'Meny',
@@ -140,21 +141,23 @@ const phrases = {
       links: {
         aboutNDLA: 'Om NDLA',
         changeLanguage: 'Skift språk',
-      }
+      },
     },
     socialMedia: {
       heading: 'Følg oss',
-      description: "NDLA har mange Facebook og Twitter kontoer. Finn den som passer for deg og følg oss!",
+      description:
+        'NDLA har mange Facebook og Twitter kontoer. Finn den som passer for deg og følg oss!',
       mainLink: {
         name: 'Følg oss',
       },
     },
     aboutNDLA: {
       heading: 'Om NDLA',
-      description: "NDLAs visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.",
+      description:
+        'NDLAs visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.',
       mainLink: {
         name: 'Mer om Ndla',
-      }
+      },
     },
     category: {
       fellesfag: 'Fellesfag',

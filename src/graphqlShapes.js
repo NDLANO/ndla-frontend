@@ -23,14 +23,6 @@ export const GraphQLFilterShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
 });
 
-export const GraphQLSubjectShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  topics: PropTypes.arrayOf(GraphQLTopicShape),
-  filters: PropTypes.arrayOf(GraphQLFilterShape),
-});
-
 export const GraphQLResourceTypeShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -52,9 +44,35 @@ export const GraphQLResourceShape = PropTypes.shape({
   }),
 });
 
-export const GraphQLSubjectPageShape = PropTypes.shape({
-  location: PropTypes.string.isRequired,
+export const GraphQLSubjectPageResourcesShape = PropTypes.shape({
+  location: PropTypes.string,
   resources: PropTypes.arrayOf(GraphQLResourceShape),
+});
+
+export const GraphQLSubjectPageTopicalShape = PropTypes.shape({
+  resource: GraphQLResourceShape,
+});
+
+export const GraphQLSubjectPageShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  subjectListLocation: PropTypes.string.isRequired,
+  resources: PropTypes.arrayOf(GraphQLResourceShape),
+  editorsChoices: GraphQLSubjectPageResourcesShape,
+  latestContent: GraphQLSubjectPageResourcesShape,
+  mostRead: GraphQLSubjectPageResourcesShape,
+  topical: GraphQLSubjectPageTopicalShape,
+  banner: PropTypes.string.isRequired,
+  facebook: PropTypes.string.isRequired,
+  twitter: PropTypes.string.isRequired,
+});
+
+export const GraphQLSubjectShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  topics: PropTypes.arrayOf(GraphQLTopicShape),
+  filters: PropTypes.arrayOf(GraphQLFilterShape),
+  subjectpage: GraphQLSubjectPageShape,
 });
 
 export const GraphqlResourceTypeWithsubtypesShape = PropTypes.shape({

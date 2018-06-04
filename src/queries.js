@@ -214,7 +214,7 @@ export const frontpageQuery = gql`
       }
     }
   }
-`
+`;
 
 export const resourceTypesWithSubTypesQuery = gql`
   query resourceTypesQuery {
