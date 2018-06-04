@@ -169,7 +169,7 @@ class TopicPage extends Component {
                     items={toBreadcrumbItems(
                       subject,
                       topicPath,
-                      t('breadcrumb.toFrontPage'),
+                      t('breadcrumb.toFrontpage'),
                     )}
                   />
                 ) : null}

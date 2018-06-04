@@ -94,12 +94,12 @@ class SubjectPage extends Component {
               <section data-cy="breadcrumb-section">
                 {subject && (
                   <Breadcrumb
-                    items={
-                      (toBreadcrumbItems(subject),
+                    items={toBreadcrumbItems(
+                      subject,
                       undefined,
                       undefined,
-                      t('breadcrumb.toFrontPage'))
-                    }
+                      t('breadcrumb.toFrontpage'),
+                    )}
                   />
                 )}
               </section>
