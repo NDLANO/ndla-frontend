@@ -40,6 +40,9 @@ module.exports = {
         );
         appConfig.devtool = 'source-map';
       }
+      appConfig.performance = {
+        hints: false,
+      };
     }
 
     return appConfig;
