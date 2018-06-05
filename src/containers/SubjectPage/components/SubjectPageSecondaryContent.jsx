@@ -11,9 +11,9 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { EmailOutline } from 'ndla-icons/common';
-import formatDate from '../../util/formatDate';
-import { GraphQLResourceShape } from '../../graphqlShapes';
-import { toSubjects } from '../../routeHelpers';
+import formatDate from '../../../util/formatDate';
+import { GraphQLResourceShape } from '../../../graphqlShapes';
+import { toSubjects } from '../../../routeHelpers';
 
 const SubjectPageSecondaryContent = ({
   subjectName,

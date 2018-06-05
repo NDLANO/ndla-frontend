@@ -9,7 +9,7 @@
 import React from 'react';
 import { Image, SubjectArchive } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { GraphQLSubjectPageTopicalShape } from '../../graphqlShapes';
+import { GraphQLSubjectPageTopicalShape } from '../../../graphqlShapes';
 
 const SubjectTopical = ({ topical, t }) => {
   if (!topical || !topical.resource || !topical.resource.meta) {

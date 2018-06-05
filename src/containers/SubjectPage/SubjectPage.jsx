@@ -26,7 +26,6 @@ import {
   SubjectLinks,
   Breadcrumb,
   SubjectContent,
-  SubjectCarousel,
   SubjectAbout,
   SubjectShortcuts,
 } from 'ndla-ui';
@@ -44,13 +43,14 @@ import { subjectQuery, resourceTypesWithSubTypesQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
-import SubjectPageSecondaryContent from './SubjectPageSecondaryContent';
-import SubjectPageSocialMedia from './SubjectPageSocialMedia';
-import SubjectTopical from './SubjectTopical';
+import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
+import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
+import SubjectTopical from './components/SubjectTopical';
+import SubjectEditorChoices from './components/SubjectEditorChoices';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
-const getResources = field => field.resources || [];
+export const getResources = field => field.resources || [];
 
 const getSearchUrl = (subjectId, resourceType) => {
   const baseUrl = '/search';
@@ -172,19 +172,7 @@ class SubjectPage extends Component {
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
 
-    const editorsChoicesResources = getResources(editorsChoices).map(
-      resource => ({
-        title: resource.name,
-        image: resource.meta ? resource.meta.metaImage : '',
-        type:
-          resource.resourceTypes && resource.resourceTypes.length > 1
-            ? resource.resourceTypes[0].name
-            : t('subjectPage.editorsChoices.unknown'),
-        id: resource.meta ? resource.meta.id.toString() : '',
-        text: resource.meta ? resource.meta.metaDescription : '',
-        linkTo: toSubjects() + resource.path,
-      }),
-    );
+
 
     const mostReadResources = getResources(mostRead);
     const latestContentResources = getResources(latestContent);
@@ -241,11 +229,8 @@ class SubjectPage extends Component {
                   url: toSubjects() + resource.path,
                 }))}
               />
-              <SubjectCarousel
-                title={t('subjectPage.editorsChoices.heading')}
-                narrowScreen
-                subjects={editorsChoicesResources}
-              />
+            <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+
               <SubjectTopical topical={topical} />
               <SubjectAbout
                 media={
@@ -260,11 +245,8 @@ class SubjectPage extends Component {
             </SubjectSidebarWrapper>
           </SubjectContent>
         </OneColumn>
-        <SubjectCarousel
-          wideScreen
-          subjects={editorsChoicesResources}
-          title={t('subjectPage.editorsChoices.heading')}
-        />
+        <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
+
         <SubjectPageSecondaryContent
           subjectName={subjectName}
           latestContentResources={latestContentResources}

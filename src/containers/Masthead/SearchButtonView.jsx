@@ -21,6 +21,8 @@ const SearchButtonView = ({
     query: query && query.length > 0 ? query : undefined,
     subjects: subject ? subject.id : undefined,
   });
+
+  console.log(searchString, filters)
   return (
     <ToggleSearchButton
       isOpen={searchIsOpen}
@@ -36,7 +38,7 @@ const SearchButtonView = ({
             }}
             onSearch={onSearch}
             resourceToLinkProps={res => searchResultToLinkProps(res, results)}
-            filters={filters}
+            filters={['urn:subject:2']}
             onFilterRemove={onFilterRemove}
             messages={{
               contentTypeResultShowMoreLabel: t(
