@@ -120,7 +120,8 @@ class SubjectPage extends Component {
 
   render() {
     const { data, t, match, location } = this.props;
-    if (!data || !data.subject || !data.resourceTypes) {
+
+    if (!data || !data.subject || !data.resourceTypes || !data.subject.subjectpage) {
       return null;
     }
 
@@ -289,24 +290,6 @@ SubjectPage.propTypes = {
     error: GraphqlErrorShape,
   }),
   location: LocationShape,
-};
-
-SubjectPage.defaultProps = {
-  data: {
-    subject: {
-      subjectpage: {
-        editorsChoices: {
-          resources: [],
-        },
-        latestContent: {
-          resources: [],
-        },
-        mostRead: {
-          resources: [],
-        },
-      },
-    },
-  },
 };
 
 export default compose(withRouter, injectT, withTracker, withApollo)(
