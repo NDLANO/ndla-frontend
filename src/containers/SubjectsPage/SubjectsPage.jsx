@@ -27,6 +27,10 @@ const SubjectsPage = ({ t, subjects, hasFailed }) => (
         </section>
       ) : (
         <ErrorMessage
+          illustration={{
+            url: '/oops.gif',
+            altText: t('errorMessage.title'),
+          }}
           messages={{
             title: t('errorMessage.title'),
             description: t('subjectsPage.errorDescription'),

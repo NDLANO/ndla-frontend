@@ -14,6 +14,10 @@ export const TopicPageErrorMessage = ({ fetchTopicsFailed, t }) => (
   <OneColumn>
     <div className="c-article">
       <ErrorMessage
+        illustration={{
+          url: '/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
         messages={{
           title: t('errorMessage.title'),
           description: fetchTopicsFailed

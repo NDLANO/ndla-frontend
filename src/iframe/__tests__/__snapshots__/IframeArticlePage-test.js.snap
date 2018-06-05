@@ -7,24 +7,23 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
   <div
     className="o-wrapper o-wrapper--clear undefined"
   >
-    <div
+    <article
       className="c-error-message"
     >
-      <div>
-        <p>
-          [illustrasjon]
-        </p>
-        <h1>
-          Ops, noe gikk galt
-        </h1>
-        <p
-          className="c-error-message__description"
-        >
-          Beklager, en feil oppsto.
-        </p>
-        <h3 />
-      </div>
-    </div>
+      <img
+        alt="Ops, noe gikk galt"
+        className="c-error-message__illustration"
+        src="/oops.gif"
+      />
+      <h1>
+        Ops, noe gikk galt
+      </h1>
+      <p
+        className="c-error-message__description"
+      >
+        Beklager, en feil oppsto.
+      </p>
+    </article>
   </div>
 </div>
 `;

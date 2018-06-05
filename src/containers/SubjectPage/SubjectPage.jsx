@@ -116,6 +116,10 @@ class SubjectPage extends Component {
               />
               {hasFailed ? (
                 <ErrorMessage
+                  illustration={{
+                    url: '/oops.gif',
+                    altText: t('errorMessage.title'),
+                  }}
                   messages={{
                     title: t('errorMessage.title'),
                     description: t('subjectPage.errorDescription'),
