@@ -34,6 +34,10 @@ const NotFound = ({ t }) => (
     <HelmetWithTracker title={t('htmlTitles.notFound')} />
     <OneColumn cssModifier="clear">
       <ErrorMessage
+        illustration={{
+          url: '/not-exist.gif',
+          altText: t('errorMessage.title'),
+        }}
         messages={{
           title: t('errorMessage.title'),
           description: t('notFoundPage.errorDescription'),

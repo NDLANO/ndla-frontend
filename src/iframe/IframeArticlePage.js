@@ -24,6 +24,10 @@ import '../style/index.css';
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
     <ErrorMessage
+      illustration={{
+        url: '/oops.gif',
+        altText: t('errorMessage.title'),
+      }}
       messages={{
         title: t('errorMessage.title'),
         description: t('errorMessage.description'),

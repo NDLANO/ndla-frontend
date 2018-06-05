@@ -119,7 +119,16 @@ class SubjectPage extends Component {
           <OneColumn cssModifier="narrow">
             <div className="c-hero__content">
               <section data-cy="breadcrumb-section">
-                {subject && <Breadcrumb items={toBreadcrumbItems(subject)} />}
+                {subject && (
+                  <Breadcrumb
+                    items={toBreadcrumbItems(
+                      subject,
+                      undefined,
+                      undefined,
+                      t('breadcrumb.toFrontpage'),
+                    )}
+                  />
+                )}
               </section>
             </div>
           </OneColumn>
@@ -134,6 +143,10 @@ class SubjectPage extends Component {
               />
               {hasFailed ? (
                 <ErrorMessage
+                  illustration={{
+                    url: '/oops.gif',
+                    altText: t('errorMessage.title'),
+                  }}
                   messages={{
                     title: t('errorMessage.title'),
                     description: t('subjectPage.errorDescription'),

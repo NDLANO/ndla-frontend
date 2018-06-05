@@ -33,6 +33,10 @@ export const WelcomePage = ({ t, subjects, hasFailed }) => (
           </div>
         ) : (
           <ErrorMessage
+            illustration={{
+              url: '/oops.gif',
+              altText: t('errorMessage.title'),
+            }}
             messages={{
               title: t('errorMessage.title'),
               description: t('welcomePage.errorDescription'),

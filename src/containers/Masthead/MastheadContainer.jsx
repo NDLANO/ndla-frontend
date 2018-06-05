@@ -271,7 +271,7 @@ class MastheadContainer extends React.PureComponent {
         <MastheadItem right>
           {!location.pathname.includes('search') && (
             <SearchButtonView
-              isOpen={this.state.searchIsOpen}
+              searchIsOpen={this.state.searchIsOpen}
               openToggle={isOpen => {
                 this.setState({
                   searchIsOpen: isOpen,

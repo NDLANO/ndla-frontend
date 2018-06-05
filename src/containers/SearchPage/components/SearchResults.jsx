@@ -16,6 +16,8 @@ import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { converSearchStringToObject } from '../searchHelpers';
 import { ArticleResultShape, LocationShape } from '../../../shapes';
+import { GraphqlResourceTypeShape } from '../../../graphqlShapes';
+import SearchContextFilters from './SearchContextFilters';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
@@ -38,13 +40,14 @@ const SearchResults = ({
   enabledTabs,
   onTabChange,
   location,
+  onUpdateContextFilters,
+  resourceTypes,
   t,
 }) => {
   const enabledTab =
     filterState['resource-types'] || filterState['context-types'];
 
   const searchObject = converSearchStringToObject(location);
-
   return (
     <SearchResult
       messages={{
@@ -62,6 +65,12 @@ const SearchResults = ({
       }))}
       onTabChange={tab => onTabChange(tab)}
       currentTab={enabledTab || 'all'}>
+      <SearchContextFilters
+        filterState={filterState}
+        resourceTypes={resourceTypes}
+        onUpdateContextFilters={onUpdateContextFilters}
+        results={results}
+      />
       <SearchResultList
         messages={{
           subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
@@ -93,11 +102,13 @@ SearchResults.propTypes = {
       type: string,
     }),
   ),
+  resourceTypes: arrayOf(GraphqlResourceTypeShape),
   onTabChange: func,
   results: arrayOf(ArticleResultShape).isRequired,
   resultMetadata: shape({
     totalCount: number,
   }),
+  onUpdateContextFilters: func,
 };
 
 export default injectT(SearchResults);

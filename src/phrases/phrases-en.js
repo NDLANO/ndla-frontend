@@ -29,6 +29,7 @@ const phrases = {
   searchPage: {
     noHits: 'Your search - {query} - did not match any articles. ',
     close: 'Close',
+    abilities: 'Abilities',
     search: 'Search',
     searchFieldPlaceholder:
       'Search for subjets, tasks and activities or learningpaths',
@@ -291,6 +292,9 @@ const phrases = {
     es: 'Spanish',
     zh: 'Chinese',
     unkown: 'Unkown',
+  },
+  breadcrumb: {
+    toFrontpage: 'Til forsiden',
   },
 };
 

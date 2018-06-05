@@ -29,6 +29,7 @@ const phrases = {
   searchPage: {
     noHits: 'Ingen artiklar samsvarte med søket ditt på: {query}',
     search: 'Søk',
+    abilities: 'Egenskaper',
     close: 'Lukk',
     searchFieldPlaceholder:
       'Søk i fagstoff, oppgåver og aktivitetar eller læringsstiar',
@@ -288,6 +289,9 @@ const phrases = {
     es: 'Spansk',
     zh: 'Kinesisk',
     unkown: 'Ukjent',
+  },
+  breadcrumb: {
+    toFrontpage: 'Til forsiden',
   },
 };
 
