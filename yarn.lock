@@ -5805,8 +5805,8 @@ ndla-i18n@^0.2.1:
     invariant "^2.2.3"
 
 ndla-icons@^0.3.4:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.5.tgz#7d989a8b3c74e60da0785239e8ad0a026e6ae142"
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.4.tgz#9b958622f3b66df7c437cc2b1f772fabdd20141a"
 
 ndla-licenses@^0.2.0:
   version "0.2.0"

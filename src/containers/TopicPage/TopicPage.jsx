@@ -168,7 +168,13 @@ class TopicPage extends Component {
             <div className="c-hero__content">
               <section>
                 {subject ? (
-                  <Breadcrumb items={toBreadcrumbItems(subject, topicPath)} />
+                  <Breadcrumb
+                    items={toBreadcrumbItems(
+                      subject,
+                      topicPath,
+                      t('breadcrumb.toFrontpage'),
+                    )}
+                  />
                 ) : null}
               </section>
             </div>

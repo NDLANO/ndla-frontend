@@ -354,6 +354,9 @@ const phrases = {
     zh: 'Kinesisk',
     unkown: 'Ukjent',
   },
+  breadcrumb: {
+    toFrontpage: 'Til forsiden',
+  },
 };
 
 export default phrases;
