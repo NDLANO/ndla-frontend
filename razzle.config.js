@@ -16,13 +16,17 @@ module.exports = {
         : 'static/js/[name].[hash:8].js';
 
       if (dev) {
-        appConfig.entry.embed = [appConfig.entry.client[0], './src/iframe'];
+        appConfig.entry.embed = [
+          appConfig.entry.client[0],
+          appConfig.entry.client[1],
+          './src/iframe',
+        ];
       } else {
         appConfig.entry.embed = ['./src/iframe'];
       }
 
       appConfig.entry.mathJaxConfig = dev
-        ? [appConfig.entry.client[0], './src/mathjax/config.js']
+        ? [appConfig.entry.client[1], './src/mathjax/config.js']
         : ['./src/mathjax/config.js'];
 
       if (!dev) {
