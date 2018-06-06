@@ -37,7 +37,7 @@ const SearchButtonView = ({
             }}
             onSearch={onSearch}
             resourceToLinkProps={res => searchResultToLinkProps(res, results)}
-            filters={['urn:subject:2']}
+            filters={filters}
             onFilterRemove={onFilterRemove}
             messages={{
               contentTypeResultShowMoreLabel: t(

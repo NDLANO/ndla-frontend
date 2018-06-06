@@ -83,11 +83,7 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    this.isUnmounted = true;
-  }
-
-  // eslint-disable-next-line camelcase
+  // eslint-disable-next-line
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.isUnmounted = false;
     const navigated = nextProps.location !== this.props.location;
@@ -95,6 +91,10 @@ class App extends React.Component {
       window.scrollTo(0, 0);
       this.handleLoadInitialProps(nextProps);
     }
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
   }
 
   async handleLoadInitialProps(props) {

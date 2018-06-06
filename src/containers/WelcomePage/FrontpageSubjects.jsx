@@ -12,17 +12,33 @@ import PropTypes from 'prop-types';
 import { FrontpageSubjectsSection, FrontpageSubjectsWrapper } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { toSubject } from '../../routeHelpers';
+import {
+  GraphQLFrontpageCategoryShape,
+  GraphQLSimpleSubjectShape,
+} from '../../graphqlShapes';
+import config from '../../config';
 
-const FrontpageSubjects = ({ categories, expanded, onExpand, t }) => {
-  const frontpageCategories = categories
-    ? categories.map(category => ({
+const getCategories = (subjects = [], categories = []) =>
+  config.showAllFrontpageSubjects
+    ? [
+        {
+          name: 'all',
+          subjects: subjects.map(subject => ({
+            text: subject.name,
+            url: toSubject(subject.id),
+          })),
+        },
+      ]
+    : categories.map(category => ({
         name: category.name,
         subjects: category.subjects.map(categorySubject => ({
           text: categorySubject.name,
           url: toSubject(categorySubject.id),
         })),
-      }))
-    : [];
+      }));
+
+const FrontpageSubjects = ({ categories, subjects, expanded, onExpand, t }) => {
+  const frontpageCategories = getCategories(subjects, categories);
 
   return (
     <FrontpageSubjectsWrapper>
@@ -43,18 +59,8 @@ const FrontpageSubjects = ({ categories, expanded, onExpand, t }) => {
 FrontpageSubjects.propTypes = {
   expanded: PropTypes.string,
   onExpand: PropTypes.func.isRequired,
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      subjects: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          path: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-  ),
+  categories: PropTypes.arrayOf(GraphQLFrontpageCategoryShape),
+  subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
 };
 
 export default injectT(FrontpageSubjects);

@@ -18,26 +18,24 @@ import {
   OneColumn,
   SubjectHeader,
   TopicIntroductionList,
-  Image,
   ResourcesWrapper,
   ResourcesTitle,
   SubjectFilter,
-  SubjectSidebarWrapper,
-  SubjectLinks,
   Breadcrumb,
   SubjectContent,
-  SubjectAbout,
-  SubjectShortcuts,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
+import {
+  GraphQLSubjectShape,
+  GraphqlErrorShape,
+  GraphqlResourceTypeWithsubtypesShape,
+} from '../../graphqlShapes';
 import { LocationShape } from '../../shapes';
 import {
   toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
-  toSubjects,
 } from '../../routeHelpers';
 import { subjectQuery, resourceTypesWithSubTypesQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
@@ -45,25 +43,13 @@ import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
-import SubjectTopical from './components/SubjectTopical';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
+import SubjectPageSidebar from './components/SubjectPageSidebar';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
-export const getResources = field => field.resources || [];
-
-const getSearchUrl = (subjectId, resourceType) => {
-  const baseUrl = '/search';
-  const searchParams = {
-    'resource-types': resourceType.parent
-      ? resourceType.parent.id
-      : resourceType.id,
-    contextFilters: resourceType.parent ? resourceType.id : undefined,
-    page: 1,
-    subjects: subjectId,
-  };
-  return `${baseUrl}?${queryString.stringify(searchParams)}`;
-};
+export const getResources = field =>
+  field && field.resources ? field.resources : [];
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
@@ -121,50 +107,26 @@ class SubjectPage extends Component {
   render() {
     const { data, t, match, location } = this.props;
 
-    if (
-      !data ||
-      !data.subject ||
-      !data.resourceTypes ||
-      !data.subject.subjectpage
-    ) {
+    if (!data || !data.subject || !data.resourceTypes) {
       return null;
     }
 
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject, resourceTypes } = data;
-    const {
-      name: subjectName,
-      filters: subjectFilters,
-      subjectpage: {
-        editorsChoices,
-        latestContent,
-        mostRead,
-        topical,
-        banner,
-        facebook,
-        twitter,
-      },
-    } = subject;
+    const { name: subjectName, filters: subjectFilters } = subject;
+
+    const subjectpage =
+      subject && subject.subjectpage ? subject.subjectpage : {};
+
+    const { editorsChoices, latestContent, banner, facebook, twitter } =
+      subjectpage || {};
 
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
-    const subjectMaterialResourceType = resourceTypes.find(
-      type => type.id === 'urn:resourcetype:subjectMaterial',
-    );
-
-    const flattenResourceTypes = subjectMaterialResourceType.subtypes
-      ? [
-          subjectMaterialResourceType,
-          ...subjectMaterialResourceType.subtypes.map(subtype => ({
-            ...subtype,
-            parent: subjectMaterialResourceType,
-          })),
-        ]
-      : [];
 
     const { params: { subjectId } } = match;
 
@@ -177,7 +139,6 @@ class SubjectPage extends Component {
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
 
-    const mostReadResources = getResources(mostRead);
     const latestContentResources = getResources(latestContent);
     return (
       <article>
@@ -186,7 +147,7 @@ class SubjectPage extends Component {
         </Helmet>
         <SubjectHeader
           heading={subjectName || ''}
-          images={[{ url: banner, types: Object.keys(breakpoints) }]}
+          images={[{ url: banner || '', types: Object.keys(breakpoints) }]}
         />
         <OneColumn noPadding>
           <SubjectContent
@@ -213,50 +174,21 @@ class SubjectPage extends Component {
                 />
               </div>
             </ResourcesWrapper>
-            <SubjectSidebarWrapper>
-              <SubjectShortcuts
-                messages={{
-                  heading: t('subjectPage.subjectShortcuts.heading'),
-                  showMore: t('subjectPage.subjectShortcuts.showMore'),
-                  showLess: t('subjectPage.subjectShortcuts.showLess'),
-                }}
-                links={flattenResourceTypes.map(type => ({
-                  text: type.name,
-                  url: getSearchUrl(subject.id, type),
-                }))}
-              />
-              <SubjectLinks
-                heading={t('subjectPage.mostRead.heading')}
-                links={mostReadResources.map(resource => ({
-                  text: resource.name,
-                  url: toSubjects() + resource.path,
-                }))}
-              />
-              <SubjectEditorChoices
-                narrowScreen
-                editorsChoices={editorsChoices}
-              />
-
-              <SubjectTopical topical={topical} />
-              <SubjectAbout
-                media={
-                  <Image
-                    alt="Forstørrelsesglass"
-                    src="https://staging.api.ndla.no/image-api/raw/42-45210905.jpg"
-                  />
-                }
-                heading="Om medieuttrykk og mediesamfunnet"
-                description="Her kan det komme en tekstlig beskrivelse av hvordan faget er bygget opp eller hvilke særpreg dette faget har. Det kan også være i form av en film som introduserer faget"
-              />
-            </SubjectSidebarWrapper>
+            <SubjectPageSidebar
+              subjectpage={subjectpage}
+              subjectId={subject.id}
+              resourceTypes={resourceTypes}
+            />
           </SubjectContent>
         </OneColumn>
         <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
 
-        <SubjectPageSecondaryContent
-          subjectName={subjectName}
-          latestContentResources={latestContentResources}
-        />
+        {latestContent && (
+          <SubjectPageSecondaryContent
+            subjectName={subjectName}
+            latestContentResources={latestContentResources}
+          />
+        )}
         <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
       </article>
     );
@@ -275,6 +207,7 @@ SubjectPage.propTypes = {
   }).isRequired,
   data: PropTypes.shape({
     subject: GraphQLSubjectShape,
+    resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeWithsubtypesShape),
     error: GraphqlErrorShape,
   }),
   location: LocationShape,

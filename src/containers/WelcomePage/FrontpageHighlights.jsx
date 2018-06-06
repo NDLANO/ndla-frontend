@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { FrontpageHighlighted, ContentCard } from 'ndla-ui';
 import { breakpoints } from 'ndla-util';
 import { injectT } from 'ndla-i18n';
-import { GraphQLResourceShape } from '../../graphqlShapes';
+import config from '../../config';
 
 const getMetaInformation = meta => {
   if (!meta) {
@@ -34,6 +34,10 @@ const getResourceType = resourceTypes => {
 };
 
 const FrontpageHighlights = ({ topical, t }) => {
+  if (config.showAllFrontpageSubjects) {
+    return null;
+  }
+
   const contentCards = topical
     ? topical.map(resource => ({
         id: resource.id,
@@ -70,7 +74,7 @@ const FrontpageHighlights = ({ topical, t }) => {
 
 FrontpageHighlights.propTypes = {
   expanded: PropTypes.string,
-  topical: PropTypes.arrayOf(PropTypes.shape(GraphQLResourceShape)),
+  topical: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(FrontpageHighlights);

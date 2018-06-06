@@ -13,8 +13,8 @@ import queryString from 'query-string';
 import { compose } from 'redux';
 import { FrontpageHeader, FrontpageSearchSection, OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { GraphQLResourceShape } from '../../graphqlShapes';
-import { frontpageQuery } from '../../queries';
+import { GraphQLFrontpageShape } from '../../graphqlShapes';
+import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import WelcomePageInfo from './WelcomePageInfo';
@@ -28,6 +28,9 @@ export class WelcomePage extends Component {
       return runQueries(client, [
         {
           query: frontpageQuery,
+        },
+        {
+          query: subjectsQuery,
         },
       ]);
     } catch (error) {
@@ -70,7 +73,7 @@ export class WelcomePage extends Component {
     if (!data || !data.frontpage) {
       return null;
     }
-    const { frontpage: { categories, topical } } = data;
+    const { frontpage: { categories, topical }, subjects } = data;
     const { expanded, query } = this.state;
     const headerLinks = [
       {
@@ -104,6 +107,7 @@ export class WelcomePage extends Component {
         <main>
           <FrontpageSubjects
             expanded={expanded}
+            subjects={subjects}
             categories={categories}
             onExpand={this.onExpand}
           />
@@ -128,21 +132,7 @@ WelcomePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   data: PropTypes.shape({
-    frontpage: PropTypes.shape({
-      topical: PropTypes.arrayOf(PropTypes.shape(GraphQLResourceShape)),
-      categories: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-          subjects: PropTypes.arrayOf(
-            PropTypes.shape({
-              id: PropTypes.string.isRequired,
-              name: PropTypes.string.isRequired,
-              path: PropTypes.string.isRequired,
-            }),
-          ),
-        }),
-      ),
-    }),
+    frontpage: GraphQLFrontpageShape,
   }),
 };
 

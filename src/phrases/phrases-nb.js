@@ -162,6 +162,7 @@ const phrases = {
     category: {
       fellesfag: 'Fellesfag',
       yrkesfag: 'Yrkesfag',
+      all: 'Alle fag',
     },
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
     beta: {

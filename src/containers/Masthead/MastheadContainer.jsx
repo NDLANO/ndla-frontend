@@ -239,7 +239,6 @@ class MastheadContainer extends React.PureComponent {
     });
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
-    console.log(subject);
     return (
       <Masthead
         infoContent={

@@ -18,24 +18,33 @@ import {
   EmbeddedTwitter,
 } from 'ndla-ui';
 
-export const SubjectPageSocialMedia = ({ twitter, facebook }) => (
-  <OneColumn noPadding>
-    <SubjectChildContent>
-      <SubjectSocialContent>
-        <SubjectSocialSection title="Twitter">
-          <EmbeddedTwitter screenName={twitter} tweetLimit={1} />
-        </SubjectSocialSection>
-        <SubjectSocialSection title="Facebook">
-          <EmbeddedFacebook
-            href={`https://www.facebook.com/${facebook}/posts/1648640581877981`}
-          />
-        </SubjectSocialSection>
-      </SubjectSocialContent>
-    </SubjectChildContent>
-  </OneColumn>
-);
+export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
+  if (!twitter && !facebook) {
+    return null;
+  }
+  return (
+    <OneColumn noPadding>
+      <SubjectChildContent>
+        <SubjectSocialContent>
+          {twitter && (
+            <SubjectSocialSection title="Twitter">
+              <EmbeddedTwitter screenName={twitter} tweetLimit={1} />
+            </SubjectSocialSection>
+          )}
+          {facebook && (
+            <SubjectSocialSection title="Facebook">
+              <EmbeddedFacebook
+                href={`https://www.facebook.com/${facebook}/posts/1648640581877981`}
+              />
+            </SubjectSocialSection>
+          )}
+        </SubjectSocialContent>
+      </SubjectChildContent>
+    </OneColumn>
+  );
+};
 SubjectPageSocialMedia.propTypes = {
-  twitter: PropTypes.string.isRequired,
-  facebook: PropTypes.string.isRequired,
+  twitter: PropTypes.string,
+  facebook: PropTypes.string,
 };
 export default SubjectPageSocialMedia;
