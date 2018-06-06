@@ -54,8 +54,9 @@ class MastheadContainer extends React.PureComponent {
   }
 
   async componentDidMount() {
+    const { location } = this.props;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
-    const data = await this.getData(subjectId, topicId, resourceId);
+    const data = await this.getData(subjectId, topicId, resourceId, location);
     const expandedTopicIds = data.topicPath
       ? data.topicPath.map(topic => topic.id)
       : [];
@@ -76,7 +77,7 @@ class MastheadContainer extends React.PureComponent {
       location.search !== this.props.location.search
     ) {
       const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
-      const data = await this.getData(subjectId, topicId, resourceId);
+      const data = await this.getData(subjectId, topicId, resourceId, location);
       this.setState({
         data,
         expandedTopicIds: data.topicPath.map(topic => topic.id),
@@ -85,6 +86,7 @@ class MastheadContainer extends React.PureComponent {
   }
 
   onNavigate = async (...expandedTopicIds) => {
+    const { location } = this.props;
     const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
     this.setState(previusState => ({
       expandedTopicIds,
@@ -95,7 +97,12 @@ class MastheadContainer extends React.PureComponent {
     }));
     const selectedTopicId = getSelectedTopic(expandedTopicIds);
     if (selectedTopicId) {
-      const data = await this.getData(subjectId, selectedTopicId, resourceId);
+      const data = await this.getData(
+        subjectId,
+        selectedTopicId,
+        resourceId,
+        location,
+      );
       this.setState({ data });
     }
   };
@@ -123,8 +130,7 @@ class MastheadContainer extends React.PureComponent {
     });
   };
 
-  getData = async (subjectId, topicId, resourceId) => {
-    const { location } = this.props;
+  getData = async (subjectId, topicId, resourceId, location) => {
     const urlParams = queryString.parse(location.search);
     try {
       const queries = [{ query: resourceTypesQuery }];
