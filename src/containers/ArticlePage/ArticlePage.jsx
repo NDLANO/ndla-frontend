@@ -71,7 +71,8 @@ class ArticlePage extends Component {
       return null;
     }
   }
-  static getDocumentTitle({ t, data: { resource: { article, subject } } }) {
+
+  static getDocumentTitle({ t, data: { resource: { article }, subject } }) {
     return `${subject ? subject.name : ''} - ${article.title}${t(
       'htmlTitles.titleTemplate',
     )}`;

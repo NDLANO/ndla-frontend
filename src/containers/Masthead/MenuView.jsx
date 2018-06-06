@@ -79,6 +79,7 @@ const MenuView = ({
   );
 
   const breadcrumbBlockItems = toBreadcrumbItems(subject, topicPath, resource);
+
   return (
     <React.Fragment>
       <ClickToggle

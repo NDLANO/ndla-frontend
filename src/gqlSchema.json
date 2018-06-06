@@ -295,7 +295,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "ResourceMeta",
+                "name": "Meta",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -395,7 +395,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ResourceMeta",
+          "name": "Meta",
           "description": "",
           "fields": [
             {
@@ -1924,7 +1924,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "ArticleSubset",
+                "name": "Meta",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -2001,73 +2001,6 @@
                   "name": "Resource",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "ArticleSubset",
-          "description": "",
-          "fields": [
-            {
-              "name": "id",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "title",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "introduction",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "metaDescription",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

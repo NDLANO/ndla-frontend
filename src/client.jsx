@@ -59,15 +59,25 @@ const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(locale.abbreviation);
 
-renderOrHydrate(
-  <Provider store={store}>
-    <ApolloProvider client={client}>
-      <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-        <Router history={browserHistory}>
-          {routes(initialProps, locale.abbreviation)}
-        </Router>
-      </IntlProvider>
-    </ApolloProvider>
-  </Provider>,
-  document.getElementById('root'),
-);
+const renderApp = () => {
+  renderOrHydrate(
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+          <Router history={browserHistory}>
+            {routes(initialProps, locale.abbreviation)}
+          </Router>
+        </IntlProvider>
+      </ApolloProvider>
+    </Provider>,
+    document.getElementById('root'),
+  );
+};
+
+renderApp();
+
+if (module.hot) {
+  module.hot.accept('./routes', () => {
+    renderApp();
+  });
+}

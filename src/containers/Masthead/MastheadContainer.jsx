@@ -40,20 +40,17 @@ export function getSelectedTopic(topics) {
     .find(topicId => topicId !== undefined && topicId !== null);
 }
 
-const initialState = {
-  isOpen: false,
-  subjectId: undefined,
-  query: '',
-  filters: [],
-  searchIsOpen: false,
-  expandedTopicIds: [],
-  data: {},
-};
-
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = initialState;
+    this.state = {
+      isOpen: false,
+      query: '',
+      searchFieldFilters: [],
+      searchIsOpen: false,
+      expandedTopicIds: [],
+      data: {},
+    };
   }
 
   async componentDidMount() {
@@ -62,9 +59,13 @@ class MastheadContainer extends React.PureComponent {
     const expandedTopicIds = data.topicPath
       ? data.topicPath.map(topic => topic.id)
       : [];
+
     this.setState({
       data,
       expandedTopicIds,
+      searchFieldFilters: data.subject
+        ? [{ title: data.subject.name, value: data.subject.id }]
+        : [],
     });
   }
 
@@ -100,7 +101,7 @@ class MastheadContainer extends React.PureComponent {
   };
 
   onFilterRemove = () => {
-    this.setState({ filters: [] });
+    this.setState({ searchFieldFilters: [] });
   };
 
   onQueryChange = query => {
@@ -112,7 +113,7 @@ class MastheadContainer extends React.PureComponent {
 
     const { history } = this.props;
     const { query, data: { subject } } = this.state;
-    this.executeSearch(this.state.query);
+    this.executeSearch(query);
     history.push({
       pathname: '/search',
       search: `?${queryString.stringify({
@@ -191,13 +192,13 @@ class MastheadContainer extends React.PureComponent {
 
   executeSearch = query => {
     const { groupSearch } = this.props;
-    const { filters } = this.state;
+    const { searchFieldFilters } = this.state;
 
     const searchParams = {
       query,
       subjects:
-        filters.length > 0
-          ? filters.map(filter => filter.value).join(',')
+        searchFieldFilters.length > 0
+          ? searchFieldFilters.map(filter => filter.value).join(',')
           : undefined,
       'resource-types':
         'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities',
@@ -224,7 +225,11 @@ class MastheadContainer extends React.PureComponent {
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
       expandedTopicIds,
+      query,
+      searchFieldFilters,
+      searchIsOpen,
     } = this.state;
+
     const resultsMapped = results.map(result => {
       const { contentType } = contentTypeMapping[result.resourceType];
       return {
@@ -234,7 +239,7 @@ class MastheadContainer extends React.PureComponent {
     });
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
-    console.log(subject)
+    console.log(subject);
     return (
       <Masthead
         infoContent={
@@ -271,7 +276,7 @@ class MastheadContainer extends React.PureComponent {
         <MastheadItem right>
           {!location.pathname.includes('search') && (
             <SearchButtonView
-              searchIsOpen={this.state.searchIsOpen}
+              searchIsOpen={searchIsOpen}
               openToggle={isOpen => {
                 this.setState({
                   searchIsOpen: isOpen,
@@ -281,8 +286,8 @@ class MastheadContainer extends React.PureComponent {
               onChange={this.onQueryChange}
               subject={subject}
               onFilterRemove={this.onFilterRemove}
-              query={this.state.query}
-              filters={this.state.filters}
+              query={query}
+              filters={searchFieldFilters}
               results={resultsMapped}
             />
           )}

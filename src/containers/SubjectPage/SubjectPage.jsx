@@ -121,7 +121,12 @@ class SubjectPage extends Component {
   render() {
     const { data, t, match, location } = this.props;
 
-    if (!data || !data.subject || !data.resourceTypes || !data.subject.subjectpage) {
+    if (
+      !data ||
+      !data.subject ||
+      !data.resourceTypes ||
+      !data.subject.subjectpage
+    ) {
       return null;
     }
 
@@ -171,8 +176,6 @@ class SubjectPage extends Component {
             )
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
-
-
 
     const mostReadResources = getResources(mostRead);
     const latestContentResources = getResources(latestContent);
@@ -229,7 +232,10 @@ class SubjectPage extends Component {
                   url: toSubjects() + resource.path,
                 }))}
               />
-            <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+              <SubjectEditorChoices
+                narrowScreen
+                editorsChoices={editorsChoices}
+              />
 
               <SubjectTopical topical={topical} />
               <SubjectAbout

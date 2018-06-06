@@ -75,22 +75,26 @@ class App extends React.Component {
 
   componentDidMount() {
     this.isUnmounted = false;
-    if (window.DATA.config.disableSSR) {
+    if (
+      window.DATA.config.disableSSR ||
+      (module.hot && module.hot.status() === 'apply')
+    ) {
       this.handleLoadInitialProps(this.props);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUnmount() {
+    this.isUnmounted = true;
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.isUnmounted = false;
     const navigated = nextProps.location !== this.props.location;
     if (navigated) {
       window.scrollTo(0, 0);
       this.handleLoadInitialProps(nextProps);
     }
-  }
-
-  componentWillUnmount() {
-    this.isUnmounted = true;
   }
 
   async handleLoadInitialProps(props) {

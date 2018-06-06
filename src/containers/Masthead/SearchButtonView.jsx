@@ -22,7 +22,6 @@ const SearchButtonView = ({
     subjects: subject ? subject.id : undefined,
   });
 
-  console.log(searchString, filters)
   return (
     <ToggleSearchButton
       isOpen={searchIsOpen}

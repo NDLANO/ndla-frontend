@@ -1,5 +1,3 @@
-
-
 /**
  * Copyright (c) 2016-present, NDLA.
  *
@@ -13,12 +11,15 @@ import PropTypes from 'prop-types';
 import { SubjectCarousel } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
-import { getResources } from '../SubjectPage'
-import {
-  toSubjects,
-} from '../../../routeHelpers';
+import { getResources } from '../SubjectPage';
+import { toSubjects } from '../../../routeHelpers';
 
-const SubjectEditorChoices = ({ editorsChoices, narrowScreen, wideScreen, t }) => {
+const SubjectEditorChoices = ({
+  editorsChoices,
+  narrowScreen,
+  wideScreen,
+  t,
+}) => {
   if (!editorsChoices) {
     return null;
   }
@@ -56,6 +57,6 @@ SubjectEditorChoices.propTypes = {
 SubjectEditorChoices.defaultProps = {
   narrowScreen: false,
   wideScreen: false,
-}
+};
 
 export default injectT(SubjectEditorChoices);
