@@ -19,7 +19,11 @@ import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import '../style/index.css';
+
+if (process.env.NODE_ENV !== 'production') {
+  // Can't require in production because of multiple asses emit to the same filename..
+  require('../style/index.css'); // eslint-disable-line global-require
+}
 
 const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">

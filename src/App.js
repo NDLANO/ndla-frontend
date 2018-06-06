@@ -68,12 +68,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (window.DATA.config.disableSSR) {
+    if (
+      window.DATA.config.disableSSR ||
+      (module.hot && module.hot.status() === 'apply')
+    ) {
       this.handleLoadInitialProps(this.props);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const navigated = nextProps.location !== this.props.location;
     if (navigated) {
       window.scrollTo(0, 0);
