@@ -26,18 +26,14 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import {
-  GraphQLSubjectShape,
-  GraphqlErrorShape,
-  GraphqlResourceTypeWithsubtypesShape,
-} from '../../graphqlShapes';
+import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
 import { LocationShape } from '../../shapes';
 import {
   toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
-import { subjectQuery, resourceTypesWithSubTypesQuery } from '../../queries';
+import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
@@ -61,9 +57,6 @@ class SubjectPage extends Component {
         {
           query: subjectQuery,
           variables: { subjectId, filterIds: urlParams.filters || '' },
-        },
-        {
-          query: resourceTypesWithSubTypesQuery,
         },
       ]);
     } catch (error) {
@@ -107,20 +100,26 @@ class SubjectPage extends Component {
   render() {
     const { data, t, match, location } = this.props;
 
-    if (!data || !data.subject || !data.resourceTypes) {
+    if (!data || !data.subject) {
       return null;
     }
 
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
-    const { subject, resourceTypes } = data;
+    const { subject } = data;
     const { name: subjectName, filters: subjectFilters } = subject;
 
     const subjectpage =
       subject && subject.subjectpage ? subject.subjectpage : {};
 
-    const { editorsChoices, latestContent, banner, facebook, twitter } =
-      subjectpage || {};
+    const {
+      editorsChoices,
+      latestContent,
+      banner,
+      facebook,
+      twitter,
+      displayInTwoColumns,
+    } = subjectpage;
 
     const filters = subjectFilters.map(filter => ({
       ...filter,
@@ -151,6 +150,7 @@ class SubjectPage extends Component {
         />
         <OneColumn noPadding>
           <SubjectContent
+            twoColumns={displayInTwoColumns}
             breadcrumb={
               subject ? (
                 <Breadcrumb items={toBreadcrumbItems(subject)} />
@@ -171,13 +171,13 @@ class SubjectPage extends Component {
                 <TopicIntroductionList
                   toTopic={toTopic(subjectId)}
                   topics={topicsWithSubTopics}
+                  twoColumns={displayInTwoColumns}
                 />
               </div>
             </ResourcesWrapper>
             <SubjectPageSidebar
               subjectpage={subjectpage}
               subjectId={subject.id}
-              resourceTypes={resourceTypes}
             />
           </SubjectContent>
         </OneColumn>
@@ -207,7 +207,6 @@ SubjectPage.propTypes = {
   }).isRequired,
   data: PropTypes.shape({
     subject: GraphQLSubjectShape,
-    resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeWithsubtypesShape),
     error: GraphqlErrorShape,
   }),
   location: LocationShape,

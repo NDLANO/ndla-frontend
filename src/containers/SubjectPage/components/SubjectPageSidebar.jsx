@@ -17,10 +17,7 @@ import {
   SubjectShortcuts,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import {
-  GraphQLSubjectPageShape,
-  GraphqlResourceTypeWithsubtypesShape,
-} from '../../../graphqlShapes';
+import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
 import { getResources } from '../SubjectPage';
 import SubjectTopical from './SubjectTopical';
@@ -29,87 +26,101 @@ import SubjectEditorChoices from './SubjectEditorChoices';
 const getSearchUrl = (subjectId, resourceType) => {
   const baseUrl = '/search';
   const searchParams = {
-    'resource-types': resourceType.parent
-      ? resourceType.parent.id
-      : resourceType.id,
-    contextFilters: resourceType.parent ? resourceType.id : undefined,
+    'resource-types': 'urn:resourcetype:subjectMaterial',
+    contextFilters:
+      resourceType.id !== 'urn:resourcetype:subjectMaterial'
+        ? resourceType.id
+        : undefined,
     page: 1,
     subjects: subjectId,
   };
   return `${baseUrl}?${queryString.stringify(searchParams)}`;
 };
 
-export const SubjectPageSidebar = ({
-  subjectId,
-  subjectpage,
-  resourceTypes,
-  t,
-}) => {
-  const { editorsChoices, mostRead, topical } = subjectpage;
-
-  const subjectMaterialResourceType = resourceTypes.find(
-    type => type.id === 'urn:resourcetype:subjectMaterial',
-  );
-
-  const flattenResourceTypes = subjectMaterialResourceType.subtypes
-    ? [
-        subjectMaterialResourceType,
-        ...subjectMaterialResourceType.subtypes.map(subtype => ({
-          ...subtype,
-          parent: subjectMaterialResourceType,
-        })),
-      ]
-    : [];
+export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
+  const { editorsChoices, mostRead, topical, about, goTo } = subjectpage;
 
   const mostReadResources = getResources(mostRead);
-
-  return (
-    <SubjectSidebarWrapper>
-      <SubjectShortcuts
-        messages={{
-          heading: t('subjectPage.subjectShortcuts.heading'),
-          showMore: t('subjectPage.subjectShortcuts.showMore'),
-          showLess: t('subjectPage.subjectShortcuts.showLess'),
-        }}
-        links={flattenResourceTypes.map(type => ({
-          text: type.name,
-          url: getSearchUrl(subjectId, type),
-        }))}
-      />
-      {mostRead && (
+  const components = [
+    {
+      component: goTo && (
+        <SubjectShortcuts
+          key="subject_shortCuts"
+          messages={{
+            heading: t('subjectPage.subjectShortcuts.heading'),
+            showMore: t('subjectPage.subjectShortcuts.showMore'),
+            showLess: t('subjectPage.subjectShortcuts.showLess'),
+          }}
+          links={goTo.resourceTypes.map(type => ({
+            text: type.name,
+            url: getSearchUrl(subjectId, type),
+          }))}
+        />
+      ),
+      location: goTo ? goTo.location : undefined,
+    },
+    {
+      type: 'mostread',
+      component: mostRead && (
         <SubjectLinks
+          key="subject_links"
           heading={t('subjectPage.mostRead.heading')}
           links={mostReadResources.map(resource => ({
             text: resource.name,
             url: toSubjects() + resource.path,
           }))}
         />
-      )}
-      <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+      ),
+      location: mostRead ? mostRead.location : undefined,
+    },
+    {
+      type: 'editorsChoices',
+      component: (
+        <SubjectEditorChoices
+          key="subject_editorChoices"
+          narrowScreen
+          editorsChoices={editorsChoices}
+        />
+      ),
+      location: editorsChoices ? editorsChoices.location : undefined,
+    },
+    {
+      component: <SubjectTopical key="subject_topical" topical={topical} />,
+      location: topical ? topical.location : undefined,
+    },
+    {
+      component: about && (
+        <SubjectAbout
+          key="subject_about"
+          media={
+            <Image
+              alt="Forstørrelsesglass"
+              src="https://staging.api.ndla.no/image-api/raw/42-45210905.jpg"
+            />
+          }
+          heading={about.title}
+          description={about.description}
+        />
+      ),
+      location: about ? about.location : undefined,
+    },
+  ]
+    .filter(component => !!component.location)
+    .sort((a, b) => a.location - b.location);
 
-      <SubjectTopical topical={topical} />
-      <SubjectAbout
-        media={
-          <Image
-            alt="Forstørrelsesglass"
-            src="https://staging.api.ndla.no/image-api/raw/42-45210905.jpg"
-          />
-        }
-        heading="Om medieuttrykk og mediesamfunnet"
-        description="Her kan det komme en tekstlig beskrivelse av hvordan faget er bygget opp eller hvilke særpreg dette faget har. Det kan også være i form av en film som introduserer faget"
-      />
+  return (
+    <SubjectSidebarWrapper>
+      {components.map(component => component.component)}
     </SubjectSidebarWrapper>
   );
 };
 SubjectPageSidebar.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
-  resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeWithsubtypesShape),
   subjectId: PropTypes.string.isRequired,
 };
 
 SubjectPageSidebar.defaultProps = {
   subjectpage: {},
-  resourceTypes: [],
 };
 
 export default injectT(SubjectPageSidebar);

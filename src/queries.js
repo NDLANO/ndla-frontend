@@ -173,6 +173,20 @@ export const subjectQuery = gql`
         facebook
         twitter
         subjectListLocation
+        displayInTwoColumns
+        about {
+          location
+          title
+          description
+          visualElement
+        }
+        goTo {
+          location
+          resourceTypes {
+            id
+            name
+          }
+        }
         mostRead {
           ...SubjectPageArticlesInfo
         }
