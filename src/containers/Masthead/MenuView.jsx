@@ -56,7 +56,6 @@ const MenuView = ({
   isOpen,
   toggleMenu,
   subject,
-  topics,
   filters,
   activeFilters,
   expandedTopicIds,
@@ -74,12 +73,13 @@ const MenuView = ({
   ] = expandedTopicIds;
 
   const topicsWithContentTypes = mapTopicResourcesToTopic(
-    topics,
+    subject.topics,
     getSelectedTopic(expandedTopicIds),
     topicResourcesByType,
   );
 
   const breadcrumbBlockItems = toBreadcrumbItems(subject, topicPath, resource);
+
   return (
     <React.Fragment>
       <ClickToggle
@@ -154,9 +154,9 @@ MenuView.propTypes = {
   subject: shape({
     id: string,
     name: string,
+    topics: arrayOf(object),
   }).isRequired,
   resource: ResourceShape,
-  topics: arrayOf(object),
   filters: arrayOf(object).isRequired,
   activeFilters: arrayOf(string).isRequired,
   expandedTopicIds: arrayOf(string).isRequired,

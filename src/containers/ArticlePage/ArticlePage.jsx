@@ -15,12 +15,8 @@ import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
 import { getLocale } from '../Locale/localeSelectors';
-import {
-  ArticleShape,
-  SubjectShape,
-  ResourceTypeShape,
-  GraphqlErrorShape,
-} from '../../shapes';
+import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -123,8 +119,8 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors } = this.props;
-    if (!data || !data.subject) {
+    const { data, locale, errors, loading } = this.props;
+    if (!data || !data.subject || loading) {
       return null;
     }
 

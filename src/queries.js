@@ -40,6 +40,9 @@ export const topicInfoFragment = gql`
     name
     parent
     path
+    meta {
+      metaDescription
+    }
   }
 `;
 
@@ -127,13 +130,17 @@ export const articleInfoFragment = gql`
 
 export const subjectQuery = gql`
   ${topicInfoFragment}
-  query subjectQuery($subjectId: String!) {
+  query subjectQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
       name
       path
-      topics(all: true) {
+      topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
+      }
+      filters {
+        id
+        name
       }
     }
   }

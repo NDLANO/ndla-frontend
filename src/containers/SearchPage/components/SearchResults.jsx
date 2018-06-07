@@ -15,7 +15,8 @@ import {
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { converSearchStringToObject } from '../searchHelpers';
-import { ArticleResultShape, GraphqlResourceTypeShape } from '../../../shapes';
+import { ArticleResultShape, LocationShape } from '../../../shapes';
+import { GraphqlResourceTypeShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
@@ -93,9 +94,7 @@ SearchResults.propTypes = {
     'language-filter': arrayOf(string),
     levels: arrayOf(string),
   }),
-  location: shape({
-    search: string,
-  }).isRequired,
+  location: LocationShape,
   enabledTabs: arrayOf(
     shape({
       name: string,

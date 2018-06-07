@@ -87,7 +87,9 @@ class App extends React.Component {
 
   async handleLoadInitialProps(props) {
     try {
-      this.setState({ data: { loading: true } });
+      this.setState(prevState => ({
+        data: { ...prevState.data, loading: true },
+      }));
       const data = await loadInitialProps(props.location.pathname, {
         locale: props.locale,
         location: props.location,
