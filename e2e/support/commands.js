@@ -23,3 +23,51 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('myroute', options => {
+  if (Cypress.env('USE_FIXTURES')) {
+    console.log('here');
+    return cy
+      .route(
+        Object.assign({}, options, { response: `fixture:${options.uuid}` }),
+      )
+      .as(options.uuid);
+  }
+  return cy.route(options).as(options.uuid);
+});
+
+const readResponseBody = body => {
+  const fr = new FileReader();
+
+  return new Promise((resolve, reject) => {
+    fr.onerror = () => {
+      fr.abort();
+      reject(new DOMException('Problem parsing body.'));
+    };
+
+    fr.onload = () => {
+      resolve(fr.result);
+    };
+    fr.readAsText(body);
+  });
+};
+
+// function write
+Cypress.Commands.add('mywait', aliases => {
+  if (Cypress.env('WRITE_FIXTURES')) {
+    return cy.wait(aliases).then(responses => {
+      Promise.all(
+        aliases.map((alias, i) => {
+          return readResponseBody(responses[i].response.body).then(json => {
+            return cy.task('writeFixture', {
+              name: alias.replace('@', ''),
+              json: json,
+            });
+          });
+        }),
+      );
+      return responses;
+    });
+  }
+  return cy.wait(aliases);
+});

@@ -7,6 +7,5 @@
   "screenshotsFolder": "e2e/screenshots",
   "videosFolder": "e2e/videos",
   "chromeWebSecurity": false,
-  "screenshotOnHeadlessFailure": false,
-  "videoRecording": false
+  "video": false
 }

@@ -28,16 +28,24 @@ describe('Topic page', () => {
   });
 
   it('send the needed server calls', () => {
-    cy.route('**/article-converter/**').as('articleApi');
-    cy.route('POST', '**/graphql').as('graphqlApi');
+    cy.myroute({
+      url: '**/article-converter/**',
+      uuid: 'topicPageArticleConverter',
+    });
+    cy.myroute({
+      method: 'POST',
+      url: '**/graphql',
+      uuid: 'topicPageGraphql',
+    });
 
-    cy.get('[data-cy=subject-list] li:first-child a').click();
+    cy.get('[data-cy="subject-list"] li:first-child a').click();
     cy.get('[data-cy="topic-list"] li:first-child a').click();
 
-    cy.wait(['@articleApi', '@graphqlApi']).spread((article, graphql) => {
-      // Tmp fix for build. We are going to rewrite how we handle api requests.
-      // expect(article.response.body).to.be.an('object');
-      // expect(graphql.response.body).to.be.an('object');
-    });
+    cy
+      .mywait(['@topicPageArticleConverter', '@topicPageGraphql'])
+      .spread((article, graphql) => {
+        console.log(article);
+        console.log(graphql);
+      });
   });
 });
