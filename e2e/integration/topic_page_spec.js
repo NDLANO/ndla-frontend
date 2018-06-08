@@ -15,7 +15,7 @@ describe('Topic page', () => {
   });
 
   it('contains everything', () => {
-    cy.get('[data-cy="subject-list"] li:first-child a').click();
+    cy.get('[data-cy="subject-list"] li:first-child a').first().click();
     cy.get('[data-cy="topic-list"] li:first-child a').click();
     cy.get('article > section:first-child').within(() => {
       cy.get('h1').contains(/\w+/);

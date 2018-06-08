@@ -161,7 +161,7 @@ class SubjectPage extends Component {
             <ResourcesWrapper
               subjectPage
               header={<ResourcesTitle>Emner</ResourcesTitle>}>
-              <div>
+              <div data-cy="topic-list">
                 <SubjectFilter
                   label={t('subjectPage.subjectFilter.label')}
                   options={filters}

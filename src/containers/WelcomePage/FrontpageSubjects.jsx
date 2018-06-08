@@ -41,18 +41,21 @@ const FrontpageSubjects = ({ categories, subjects, expanded, onExpand, t }) => {
   const frontpageCategories = getCategories(subjects, categories);
 
   return (
-    <FrontpageSubjectsWrapper>
-      {frontpageCategories.map(category => (
-        <FrontpageSubjectsSection
-          key={category.name}
-          id={category.name}
-          expanded={expanded === category.name}
-          onExpand={onExpand}
-          heading={t(`welcomePage.category.${category.name}`)}
-          subjects={category.subjects}
-        />
-      ))}
-    </FrontpageSubjectsWrapper>
+      <FrontpageSubjectsWrapper>
+        <div data-cy="subject-list">
+          {frontpageCategories.map(category => (
+            <FrontpageSubjectsSection
+              key={category.name}
+              data-cy='subject-list'
+              id={category.name}
+              expanded={expanded === category.name}
+              onExpand={onExpand}
+              heading={t(`welcomePage.category.${category.name}`)}
+              subjects={category.subjects}
+            />
+          ))}
+        </div>
+      </FrontpageSubjectsWrapper>
   );
 };
 
