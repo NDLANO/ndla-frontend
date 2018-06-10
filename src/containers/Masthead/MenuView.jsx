@@ -78,7 +78,12 @@ const MenuView = ({
     topicResourcesByType,
   );
 
-  const breadcrumbBlockItems = toBreadcrumbItems(subject, topicPath, resource);
+  const breadcrumbBlockItems = toBreadcrumbItems(
+    t('breadcrumb.toFrontpage'),
+    subject,
+    topicPath,
+    resource,
+  );
 
   return (
     <React.Fragment>

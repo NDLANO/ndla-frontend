@@ -30,13 +30,15 @@ const resource = {
 };
 
 test('breadcrumb items from subject ', () => {
-  expect(toBreadcrumbItems(subject)).toMatchSnapshot();
+  expect(toBreadcrumbItems('Home', subject)).toMatchSnapshot();
 });
 
 test('breadcrumb items from from subject and topicpath', () => {
-  expect(toBreadcrumbItems(subject, topicPath)).toMatchSnapshot();
+  expect(toBreadcrumbItems('Home', subject, topicPath)).toMatchSnapshot();
 });
 
 test('breadcrumb items from from subject, topicpath and resouce', () => {
-  expect(toBreadcrumbItems(subject, topicPath, resource)).toMatchSnapshot();
+  expect(
+    toBreadcrumbItems('Home', subject, topicPath, resource),
+  ).toMatchSnapshot();
 });
