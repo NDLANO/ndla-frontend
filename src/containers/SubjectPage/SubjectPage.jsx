@@ -9,6 +9,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import {
   OneColumn,
@@ -20,69 +22,94 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import connectSSR from '../../components/connectSSR';
-import { actions, getSubjectById } from './subjects';
-import {
-  actions as topicActions,
-  getTopicsBySubjectIdWithIntroductionFiltered,
-  getFetchTopicsStatus,
-} from '../TopicPage/topic';
-import {
-  actions as filterActions,
-  getActiveFilter,
-  getFilters,
-} from '../Filters/filter';
-import { SubjectShape, TopicShape } from '../../shapes';
+import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
+import { LocationShape } from '../../shapes';
 import {
   toBreadcrumbItems,
   toTopicPartial,
   getUrnIdsFromProps,
 } from '../../routeHelpers';
+import { subjectQuery } from '../../queries';
+import { runQueries } from '../../util/runQueries';
+import handleError from '../../util/handleError';
+import { toTopicMenu } from '../../util/topicsHelper';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
 
 class SubjectPage extends Component {
-  static getInitialProps(ctx) {
-    const {
-      fetchTopicsWithIntroductions,
-      fetchSubjects,
-      fetchSubjectFilters,
-    } = ctx;
-
+  static async getInitialProps(ctx) {
+    const { client, location } = ctx;
     const { subjectId } = getUrnIdsFromProps(ctx);
-    fetchSubjects();
-    fetchSubjectFilters(subjectId);
-    fetchTopicsWithIntroductions({ subjectId });
+    const urlParams = queryString.parse(location.search || '');
+    try {
+      return runQueries(client, [
+        {
+          query: subjectQuery,
+          variables: { subjectId, filterIds: urlParams.filters || '' },
+        },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
   }
 
-  static getDocumentTitle({ t, subject }) {
-    return `${subject ? subject.name : ''} ${t('htmlTitles.titleTemplate')}`;
+  static getDocumentTitle({ t, data }) {
+    return `${data && data.subject ? data.subject.name : ''} ${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { subject, subjectTopics } = currentProps;
-    if (subject && subjectTopics && subjectTopics.length > 0) {
+    const { data } = currentProps;
+    if (
+      data &&
+      data.subject &&
+      data.subject.topics &&
+      data.subject.topics.length > 0
+    ) {
       trackPageView(currentProps);
     }
   }
 
-  handleFilterClick = (newValues, filterId) => {
-    const { setActiveFilter } = this.props;
-    const { subjectId } = getUrnIdsFromProps(this.props);
-    setActiveFilter({ newValues, subjectId, filterId });
+  handleFilterClick = newValues => {
+    const { history } = this.props;
+    const searchString = `?${queryString.stringify({
+      filters: newValues.join(','),
+    })}`;
+    history.push(
+      newValues.length > 0
+        ? {
+            search: searchString,
+          }
+        : {},
+    );
   };
 
   render() {
-    const {
-      subject,
-      subjectTopics,
-      t,
-      match,
-      hasFailed,
-      filters,
-      activeFilters,
-    } = this.props;
+    const { data, t, match, location } = this.props;
+    if (!data || !data.subject) {
+      return null;
+    }
+    const hasFailed = !!data.error;
+    const urlParams = queryString.parse(location.search || '');
+    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+    const { subject } = data;
+    const { filters: subjectFilters } = subject;
+    const filters = subjectFilters.map(filter => ({
+      ...filter,
+      title: filter.name,
+      value: filter.id,
+    }));
     const { params: { subjectId } } = match;
+
+    const topicsWithSubTopics =
+      subject && subject.topics
+        ? subject.topics
+            .filter(topic => !topic.parent || topic.parent === subject.id)
+            .map(topic => toTopicMenu(topic, subject.topics))
+        : [];
+
     return (
       <div>
         <Helmet>
@@ -95,10 +122,10 @@ class SubjectPage extends Component {
                 {subject && (
                   <Breadcrumb
                     items={toBreadcrumbItems(
+                      t('breadcrumb.toFrontpage'),
                       subject,
                       undefined,
                       undefined,
-                      t('breadcrumb.toFrontpage'),
                     )}
                   />
                 )}
@@ -134,7 +161,7 @@ class SubjectPage extends Component {
                   </h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId)}
-                    topics={subjectTopics}
+                    topics={topicsWithSubTopics}
                   />
                 </div>
               )}
@@ -153,38 +180,14 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  fetchTopicsWithIntroductions: PropTypes.func.isRequired,
-  fetchSubjects: PropTypes.func.isRequired,
-  hasFailed: PropTypes.bool.isRequired,
-  subjectTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  subject: SubjectShape,
-  filters: PropTypes.arrayOf(PropTypes.object),
-  setActiveFilter: PropTypes.func,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  data: PropTypes.shape({
+    subject: GraphQLSubjectShape,
+    error: GraphqlErrorShape,
+  }),
+  location: LocationShape,
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: actions.fetchSubjects,
-  fetchSubjectFilters: filterActions.fetchSubjectFilters,
-  fetchTopicsWithIntroductions: topicActions.fetchTopicsWithIntroductions,
-  setActiveFilter: filterActions.setActive,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId } = getUrnIdsFromProps(ownProps);
-  return {
-    subjectTopics: getTopicsBySubjectIdWithIntroductionFiltered(subjectId)(
-      state,
-    ),
-    hasFailed: getFetchTopicsStatus(state) === 'error',
-    filters: getFilters(subjectId)(state),
-    subject: getSubjectById(subjectId)(state),
-    activeFilters: getActiveFilter(subjectId)(state) || [],
-  };
-};
-
-export default compose(
-  connectSSR(mapStateToProps, mapDispatchToProps),
-  injectT,
-  withTracker,
-)(SubjectPage);
+export default compose(withRouter, injectT, withTracker)(SubjectPage);

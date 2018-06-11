@@ -10,6 +10,7 @@ module.exports = {
       rule.use.push({ loader: 'postcss-loader' });
     });
 
+    appConfig.module.rules.shift(); // remove eslint-loader
     if (target === 'web') {
       appConfig.output.filename = dev
         ? 'static/js/[name].js'

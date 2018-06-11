@@ -50,7 +50,7 @@ export const routes = [
     background: true,
   },
   {
-    path: '/subjects/:subjectId/',
+    path: '/subjects/:subjectId',
     component: SubjectPage,
     background: true,
   },

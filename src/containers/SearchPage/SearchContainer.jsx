@@ -19,8 +19,9 @@ import {
   SubjectShape,
   ArticleResultShape,
   FilterShape,
-  GraphqlResourceTypeShape,
+  LocationShape,
 } from '../../shapes';
+import { GraphqlResourceTypeShape } from '../../graphqlShapes';
 import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
@@ -316,9 +317,7 @@ class SearchContainer extends Component {
 }
 
 SearchContainer.propTypes = {
-  location: shape({
-    search: string,
-  }).isRequired,
+  location: LocationShape,
   history: shape({
     push: func.isRequired,
   }).isRequired,

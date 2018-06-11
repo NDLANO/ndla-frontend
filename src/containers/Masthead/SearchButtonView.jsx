@@ -21,6 +21,7 @@ const SearchButtonView = ({
     query: query && query.length > 0 ? query : undefined,
     subjects: subject ? subject.id : undefined,
   });
+
   return (
     <ToggleSearchButton
       isOpen={searchIsOpen}

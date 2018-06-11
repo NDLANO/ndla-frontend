@@ -31,9 +31,11 @@ import {
   SubjectShape,
   ArticleShape,
   TopicShape,
-  GraphqlErrorShape,
   ResourceTypeShape,
 } from '../../shapes';
+
+import { GraphqlErrorShape } from '../../graphqlShapes';
+
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
@@ -130,6 +132,7 @@ class TopicPage extends Component {
       loading,
       data,
     } = this.props;
+
     const { subjectId } = getUrnIdsFromProps(this.props);
     const scripts = getArticleScripts(article);
 
@@ -167,9 +170,9 @@ class TopicPage extends Component {
                 {subject ? (
                   <Breadcrumb
                     items={toBreadcrumbItems(
+                      t('breadcrumb.toFrontpage'),
                       subject,
                       topicPath,
-                      t('breadcrumb.toFrontpage'),
                     )}
                   />
                 ) : null}
