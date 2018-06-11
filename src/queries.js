@@ -178,7 +178,11 @@ export const subjectQuery = gql`
           location
           title
           description
-          visualElement
+          visualElement {
+            type
+            url
+            alt
+          }
         }
         goTo {
           location

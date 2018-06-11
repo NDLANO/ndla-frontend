@@ -64,6 +64,17 @@ export const GraphqlResourceTypeShape = PropTypes.shape({
   ),
 });
 
+export const GraphQLSubjectPageAboutShape = PropTypes.shape({
+  location: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  visualElement: PropTypes.shape({
+    type: PropTypes.string,
+    url: PropTypes.string,
+    alt: PropTypes.string,
+  }),
+});
+
 export const GraphQLSubjectPageShape = PropTypes.shape({
   id: PropTypes.number,
   subjectListLocation: PropTypes.string,
@@ -76,12 +87,7 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   facebook: PropTypes.string,
   twitter: PropTypes.string,
   displayInTwoColumns: PropTypes.bool,
-  about: PropTypes.shape({
-    location: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    visualElement: PropTypes.string,
-  }),
+  about: GraphQLSubjectPageAboutShape,
   goTo: PropTypes.shape({
     location: PropTypes.string,
     resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),

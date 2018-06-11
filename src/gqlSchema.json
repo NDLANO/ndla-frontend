@@ -1901,6 +1901,53 @@
               "description": "",
               "args": [],
               "type": {
+                "kind": "OBJECT",
+                "name": "SubjectPageVisualElement",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SubjectPageVisualElement",
+          "description": "",
+          "fields": [
+            {
+              "name": "type",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "url",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "alt",
+              "description": "",
+              "args": [],
+              "type": {
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null

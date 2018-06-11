@@ -9,19 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import {
-  Image,
-  SubjectSidebarWrapper,
-  SubjectLinks,
-  SubjectAbout,
-  SubjectShortcuts,
-} from 'ndla-ui';
+import { SubjectSidebarWrapper, SubjectLinks, SubjectShortcuts } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
 import { getResources } from '../SubjectPage';
 import SubjectTopical from './SubjectTopical';
 import SubjectEditorChoices from './SubjectEditorChoices';
+import SubjectPageAbout from './SubjectPageAbout';
 
 const getSearchUrl = (subjectId, resourceType) => {
   const baseUrl = '/search';
@@ -89,19 +84,7 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
       location: topical ? topical.location : undefined,
     },
     {
-      component: about && (
-        <SubjectAbout
-          key="subject_about"
-          media={
-            <Image
-              alt="Forstørrelsesglass"
-              src="https://staging.api.ndla.no/image-api/raw/42-45210905.jpg"
-            />
-          }
-          heading={about.title}
-          description={about.description}
-        />
-      ),
+      component: <SubjectPageAbout key="subject_about" about={about} />,
       location: about ? about.location : undefined,
     },
   ]
