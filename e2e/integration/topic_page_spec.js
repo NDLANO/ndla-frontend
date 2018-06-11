@@ -15,7 +15,10 @@ describe('Topic page', () => {
   });
 
   it('contains everything', () => {
-    cy.get('[data-cy="subject-list"] li:first-child a').first().click();
+    cy
+      .get('[data-cy="subject-list"] li:first-child a')
+      .first()
+      .click();
     cy.get('[data-cy="topic-list"] li:first-child a').click();
     cy.get('article > section:first-child').within(() => {
       cy.get('h1').contains(/\w+/);
@@ -31,8 +34,14 @@ describe('Topic page', () => {
     cy.route('**/article-converter/**').as('articleApi');
     cy.route('POST', '**/graphql').as('graphqlApi');
 
-    cy.get('[data-cy=subject-list] li:first-child a').click();
-    cy.get('[data-cy="topic-list"] li:first-child a').click();
+    cy
+      .get('[data-cy=subject-list] li:first-child a')
+      .first()
+      .click();
+    cy
+      .get('[data-cy="topic-list"] li:first-child a')
+      .first()
+      .click();
 
     cy.wait(['@articleApi', '@graphqlApi']).spread((article, graphql) => {
       // Tmp fix for build. We are going to rewrite how we handle api requests.
