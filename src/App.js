@@ -96,7 +96,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.data.loading === true) {
+    if (!this.state.data || this.state.data.loading === true) {
       this.handleLoadInitialProps(this.props);
     }
   }
