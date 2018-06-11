@@ -56,18 +56,21 @@ class MastheadContainer extends React.PureComponent {
   async componentDidMount() {
     const { location } = this.props;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
-    const data = await this.getData(subjectId, topicId, resourceId, location);
-    const expandedTopicIds = data.topicPath
-      ? data.topicPath.map(topic => topic.id)
-      : [];
 
-    this.setState({
-      data,
-      expandedTopicIds,
-      searchFieldFilters: data.subject
-        ? [{ title: data.subject.name, value: data.subject.id }]
-        : [],
-    });
+    if (subjectId) {
+      const data = await this.getData(subjectId, topicId, resourceId, location);
+      const expandedTopicIds = data.topicPath
+        ? data.topicPath.map(topic => topic.id)
+        : [];
+
+      this.setState({
+        data,
+        expandedTopicIds,
+        searchFieldFilters: data.subject
+          ? [{ title: data.subject.name, value: data.subject.id }]
+          : [],
+      });
+    }
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -77,11 +80,18 @@ class MastheadContainer extends React.PureComponent {
       location.search !== this.props.location.search
     ) {
       const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
-      const data = await this.getData(subjectId, topicId, resourceId, location);
-      this.setState({
-        data,
-        expandedTopicIds: data.topicPath.map(topic => topic.id),
-      });
+      if (subjectId) {
+        const data = await this.getData(
+          subjectId,
+          topicId,
+          resourceId,
+          location,
+        );
+        this.setState({
+          data,
+          expandedTopicIds: data.topicPath.map(topic => topic.id),
+        });
+      }
     }
   }
 
@@ -133,8 +143,9 @@ class MastheadContainer extends React.PureComponent {
   getData = async (subjectId, topicId, resourceId, location) => {
     const urlParams = queryString.parse(location.search);
     try {
-      const queries = [{ query: resourceTypesQuery }];
+      const queries = [];
       if (subjectId) {
+        queries.push({ query: resourceTypesQuery });
         queries.push({
           query: subjectQuery,
           variables: { subjectId, filterIds: urlParams.filters || '' },

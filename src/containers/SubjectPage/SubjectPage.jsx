@@ -153,7 +153,14 @@ class SubjectPage extends Component {
             twoColumns={displayInTwoColumns}
             breadcrumb={
               subject ? (
-                <Breadcrumb items={toBreadcrumbItems(subject)} />
+                <Breadcrumb
+                  items={toBreadcrumbItems(
+                    t('breadcrumb.toFrontpage'),
+                    subject,
+                    undefined,
+                    undefined,
+                  )}
+                />
               ) : (
                 undefined
               )

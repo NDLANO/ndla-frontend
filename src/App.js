@@ -46,7 +46,7 @@ Route.propTypes = {
   component: PropTypes.func.isRequired,
   background: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
-  initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
 };
 
@@ -63,9 +63,28 @@ async function loadInitialProps(pathname, ctx) {
 }
 
 class App extends React.Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.location === null) {
+      return {
+        location: nextProps.location,
+      };
+    }
+    const navigated = nextProps.location !== prevState.location;
+    if (navigated) {
+      return {
+        data: { ...prevState.data, loading: true },
+        location: nextProps.location,
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
+
   constructor(props) {
     super(props);
-    this.state = { data: props.initialProps };
+    this.location = null;
+    this.state = { data: props.initialProps, location: null };
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
@@ -83,35 +102,34 @@ class App extends React.Component {
     }
   }
 
-  // eslint-disable-next-line
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.isUnmounted = false;
-    const navigated = nextProps.location !== this.props.location;
-    if (navigated) {
-      window.scrollTo(0, 0);
-      this.handleLoadInitialProps(nextProps);
+  componentDidUpdate() {
+    if (this.state.data.loading === true) {
+      this.handleLoadInitialProps(this.props);
     }
   }
 
   componentWillUnmount() {
-    this.isUnmounted = true;
+    this.location = null;
   }
 
   async handleLoadInitialProps(props) {
+    if (props.location === this.location) {
+      // Data for this location is already loading
+      return;
+    }
+
+    this.location = props.location;
     try {
-      this.setState(prevState => ({
-        data: { ...prevState.data, loading: true },
-      }));
       const data = await loadInitialProps(props.location.pathname, {
         locale: props.locale,
         location: props.location,
         history: props.history,
         client: props.client,
       });
-      if (!this.isUnmounted) {
-        this.setState(prevState => ({
-          data: { ...prevState.data, ...data[0], loading: false },
-        }));
+
+      // Only update state if on the same route
+      if (props.location === this.location) {
+        this.setState({ data: data[0] });
       }
     } catch (e) {
       handleError(e);
