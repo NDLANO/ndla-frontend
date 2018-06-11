@@ -6306,12 +6306,13 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-article-scripts@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.4.tgz#f06893e69a1f077d211ead27901093e4198a0db5"
+ndla-article-scripts@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.9.tgz#08bf0cb6ffb2aabf63cc9b4bcc6cb801a8182bd8"
   dependencies:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
+    lodash "^4.17.5"
 
 ndla-error-reporter@^0.2.0:
   version "0.2.0"
@@ -6360,9 +6361,9 @@ ndla-tracker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.12.10:
-  version "0.12.10"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.10.tgz#0489a1aa9b3e0fa6c655f7d27ac9ab5bcde0b1e4"
+ndla-ui@^0.12.16:
+  version "0.12.16"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.16.tgz#60313fd6cacb23c0817b1b8dda8fa513cb1e07e2"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
