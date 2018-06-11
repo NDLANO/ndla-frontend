@@ -122,10 +122,10 @@ class SubjectPage extends Component {
                 {subject && (
                   <Breadcrumb
                     items={toBreadcrumbItems(
+                      t('breadcrumb.toFrontpage'),
                       subject,
                       undefined,
                       undefined,
-                      t('breadcrumb.toFrontpage'),
                     )}
                   />
                 )}

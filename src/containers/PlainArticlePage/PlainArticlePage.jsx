@@ -73,7 +73,7 @@ class PlainArticlePage extends Component {
     if (status === 'error' || status === 'error404') {
       return (
         <div>
-          <ArticleHero article={{}} />
+          <ArticleHero resource={{}} />
           <ArticleErrorMessage status={status} />
         </div>
       );

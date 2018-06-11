@@ -54,12 +54,7 @@ export function toTopic(subjectId, ...topicIds) {
 export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
   toTopic(subjectId, ...topicIds, topicId);
 
-export function toBreadcrumbItems(
-  subject,
-  topicPath = [],
-  resource,
-  toFrontPage = '',
-) {
+export function toBreadcrumbItems(rootName, subject, topicPath = [], resource) {
   const topicLinks = topicPath.map(topic => ({
     to: toSubjects() + topic.path,
     name: topic.name,
@@ -70,7 +65,7 @@ export function toBreadcrumbItems(
     : [];
 
   return [
-    { to: '/', name: toFrontPage },
+    { to: '/', name: rootName },
     { to: toSubjects() + subject.path, name: subject.name },
     ...topicLinks,
     ...resourceLink,
