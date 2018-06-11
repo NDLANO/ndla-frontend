@@ -9,7 +9,7 @@
 import defined from 'defined';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { BatchHttpLink } from 'apollo-link-batch-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
@@ -167,7 +167,7 @@ export const createApolloClient = (language = 'nb') => {
         if (networkError) handleError(`[Network error]: ${networkError}`);
       }),
       authLink,
-      new HttpLink({
+      new BatchHttpLink({
         uri,
       }),
     ]),
