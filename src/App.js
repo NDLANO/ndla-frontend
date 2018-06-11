@@ -86,7 +86,7 @@ class App extends React.Component {
     const navigated = nextProps.location !== prevState.location;
     if (navigated) {
       return {
-        data: { loading: true },
+        data: { ...prevState.data, loading: true },
         location: nextProps.location,
       };
     }
