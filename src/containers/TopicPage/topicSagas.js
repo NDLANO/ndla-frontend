@@ -63,10 +63,10 @@ export function* fetchTopicArticle(subjectId, topicId) {
   }
 }
 
-export function* fetchTopics(subjectId) {
+export function* fetchTopics(subjectId, filter = '') {
   try {
     const locale = yield select(getLocale);
-    const topics = yield call(api.fetchTopics, subjectId, locale);
+    const topics = yield call(api.fetchTopics, subjectId, locale, filter);
     yield put(actions.setTopics({ topics, subjectId }));
     return topics;
   } catch (error) {
@@ -89,10 +89,10 @@ export function* fetchTopicsFiltered({ payload: { subjectId, filterId } }) {
   }
 }
 
-export function* fetchTopicsWithIntroductions(subjectId) {
+export function* fetchTopicsWithIntroductions(subjectId, filter) {
   const hasFetched = yield select(hasFetchedTopicsBySubjectId(subjectId));
-  if (!hasFetched) {
-    const topics = yield call(fetchTopics, subjectId);
+  if (!hasFetched || filter.length > 0) {
+    const topics = yield call(fetchTopics, subjectId, filter);
     yield call(fetchTopicIntroductions, topics);
   } else {
     const topics = yield select(getAllTopicsBySubjectId(subjectId));
@@ -102,10 +102,10 @@ export function* fetchTopicsWithIntroductions(subjectId) {
 
 export function* watchFetchTopicsWithIntroductions() {
   while (true) {
-    const { payload: { subjectId, filters } } = yield take(
+    const { payload: { subjectId, filter } } = yield take(
       actions.fetchTopicsWithIntroductions,
     );
-    yield call(fetchTopicsWithIntroductions, subjectId, filters);
+    yield call(fetchTopicsWithIntroductions, subjectId, filter);
   }
 }
 

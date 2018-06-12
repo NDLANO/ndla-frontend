@@ -33,19 +33,22 @@ import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
+import {
+  getFiltersFromUrl,
+  getFiltersFromUrlAsArray,
+} from '../../util/filterHelper';
 
-const toTopic = subjectId => toTopicPartial(subjectId);
+const toTopic = (subjectId, filters) => toTopicPartial(subjectId, filters);
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
     const { client, location } = ctx;
     const { subjectId } = getUrnIdsFromProps(ctx);
-    const urlParams = queryString.parse(location.search || '');
     try {
       return runQueries(client, [
         {
           query: subjectQuery,
-          variables: { subjectId, filterIds: urlParams.filters || '' },
+          variables: { subjectId, filterIds: getFiltersFromUrl(location) },
         },
       ]);
     } catch (error) {
@@ -92,8 +95,7 @@ class SubjectPage extends Component {
       return null;
     }
     const hasFailed = !!data.error;
-    const urlParams = queryString.parse(location.search || '');
-    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+    const activeFilters = getFiltersFromUrlAsArray(location);
     const { subject } = data;
     const { filters: subjectFilters } = subject;
     const filters = subjectFilters.map(filter => ({
@@ -126,6 +128,7 @@ class SubjectPage extends Component {
                       subject,
                       undefined,
                       undefined,
+                      getFiltersFromUrl(location),
                     )}
                   />
                 )}
@@ -160,7 +163,7 @@ class SubjectPage extends Component {
                     {t('subjectPage.tabs.topics')}
                   </h1>
                   <TopicIntroductionList
-                    toTopic={toTopic(subjectId)}
+                    toTopic={toTopic(subjectId, getFiltersFromUrl(location))}
                     topics={topicsWithSubTopics}
                   />
                 </div>

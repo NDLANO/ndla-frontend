@@ -36,6 +36,7 @@ import {
 import Resources from '../Resources/Resources';
 import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
 const getTopicPathFromProps = props => {
   const { data: { subject } } = props;
@@ -45,18 +46,18 @@ const getTopicPathFromProps = props => {
 
 class ArticlePage extends Component {
   static async getInitialProps(ctx) {
-    const { client } = ctx;
+    const { client, location } = ctx;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
-
+    const filterIds = getFiltersFromUrl(location);
     try {
       return runQueries(client, [
         {
           query: subjectQuery,
-          variables: { subjectId },
+          variables: { subjectId, filterIds },
         },
         {
           query: topicResourcesQuery,
-          variables: { topicId },
+          variables: { topicId, filterIds },
         },
         {
           query: resourceQuery,

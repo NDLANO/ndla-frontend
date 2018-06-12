@@ -1976,7 +1976,18 @@
             {
               "name": "coreResources",
               "description": "",
-              "args": [],
+              "args": [
+                {
+                  "name": "filterIds",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1992,7 +2003,18 @@
             {
               "name": "supplementaryResources",
               "description": "",
-              "args": [],
+              "args": [
+                {
+                  "name": "filterIds",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
               "type": {
                 "kind": "LIST",
                 "name": null,

@@ -6,7 +6,8 @@ import {
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from 'ndla-ui';
-import { TopicShape, ResourceShape } from '../../shapes';
+import { withRouter } from 'react-router-dom';
+import { TopicShape, ResourceShape, LocationShape } from '../../shapes';
 import {
   toTopic,
   toSubject,
@@ -15,6 +16,7 @@ import {
 } from '../../routeHelpers';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import { getSelectedTopic } from './MastheadContainer';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
 function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
@@ -65,6 +67,7 @@ const MenuView = ({
   onNavigate,
   filterClick,
   resource,
+  location,
 }) => {
   const [
     expandedTopicId,
@@ -83,6 +86,7 @@ const MenuView = ({
     subject,
     topicPath,
     resource,
+    getFiltersFromUrl(location),
   );
 
   return (
@@ -170,6 +174,7 @@ MenuView.propTypes = {
   onOpenSearch: func.isRequired,
   onNavigate: func.isRequired,
   filterClick: func.isRequired,
+  location: LocationShape,
 };
 
-export default MenuView;
+export default withRouter(MenuView);
