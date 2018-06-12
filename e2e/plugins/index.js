@@ -14,10 +14,12 @@ const fixturesDir = path.join(__dirname, '..', 'fixtures');
 
 module.exports = (on, config) => {
   on('task', {
-    writeFixture: arg => {
-      const fileName = path.join(fixturesDir, `${arg.name}.json`);
-      fs.writeFileSync(fileName, arg.json, 'utf-8');
-      return arg.json;
+    writeFixtures: fixtures => {
+      return fixtures.map(fixture => {
+        const fileName = path.join(fixturesDir, `${fixture.name}.json`);
+        fs.writeFileSync(fileName, fixture.json, 'utf-8');
+        return fixture.json;
+      });
     },
   });
 };

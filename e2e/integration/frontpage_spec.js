@@ -6,13 +6,18 @@
  *
  */
 
+import { visitOptions } from '../support';
+
 describe('Front page', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.server();
+    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
+    cy.visit('/', visitOptions);
+    cy.apiwait('@frontpageGraphQL');
   });
 
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-cy=subject-list] a').each(el => {
+    cy.get('[data-cy="subject-list"] a').each(el => {
       cy
         .wrap(el)
         .should('have.attr', 'href')

@@ -24,16 +24,11 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('myroute', options => {
+Cypress.Commands.add('apiroute', (method, url, alias) => {
   if (Cypress.env('USE_FIXTURES')) {
-    console.log('here');
-    return cy
-      .route(
-        Object.assign({}, options, { response: `fixture:${options.uuid}` }),
-      )
-      .as(options.uuid);
+    return cy.route(method, url, `fixture:${alias}`).as(alias);
   }
-  return cy.route(options).as(options.uuid);
+  return cy.route(method, url).as(alias);
 });
 
 const readResponseBody = body => {
@@ -52,22 +47,46 @@ const readResponseBody = body => {
   });
 };
 
-// function write
-Cypress.Commands.add('mywait', aliases => {
+Cypress.Commands.add('apiwait', aliases => {
   if (Cypress.env('WRITE_FIXTURES')) {
-    return cy.wait(aliases).then(responses => {
-      Promise.all(
-        aliases.map((alias, i) => {
-          return readResponseBody(responses[i].response.body).then(json => {
-            return cy.task('writeFixture', {
-              name: alias.replace('@', ''),
-              json: json,
-            });
-          });
-        }),
-      );
-      return responses;
-    });
+    let originalXhr = null;
+    return cy
+      .wait(aliases)
+      .then(xhr => {
+        originalXhr = xhr;
+        if (Array.isArray(xhr)) {
+          return xhr;
+        }
+        return [xhr];
+      })
+      .then(xhrs => {
+        return Promise.all(
+          xhrs.map(xhr => readResponseBody(xhr.response.body)),
+        );
+      })
+      .then(jsons => {
+        return cy.task(
+          'writeFixtures',
+          jsons.map((json, i) => ({
+            xhr: originalXhr,
+            name: Array.isArray(aliases)
+              ? aliases[i].replace('@', '')
+              : aliases.replace('@', ''),
+            json: json,
+          })),
+        );
+      })
+      .then(() => {
+        return originalXhr;
+      });
   }
+
+  if (Cypress.env('USE_FIXTURES')) {
+    if (Array.isArray(aliases)) {
+      return aliases.map(alias => cv.fixture(alias.replace('@', '')));
+    }
+    return cy.fixture(aliases.replace('@', ''));
+  }
+
   return cy.wait(aliases);
 });
