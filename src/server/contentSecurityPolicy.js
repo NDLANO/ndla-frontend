@@ -104,6 +104,8 @@ export default {
       'nrk.no',
       '*.vg.no',
       'vg.no',
+      'http://vg.no',
+      'http://www.vg.no',
       'https://www.tv2skole.no/',
       'https://www.scribd.com/',
       'https://www.youtube.com',
