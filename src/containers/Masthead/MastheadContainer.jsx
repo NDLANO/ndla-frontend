@@ -33,6 +33,7 @@ import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
 export function getSelectedTopic(topics) {
   return [...topics] // prevent reverse mutation.
@@ -141,18 +142,21 @@ class MastheadContainer extends React.PureComponent {
   };
 
   getData = async (subjectId, topicId, resourceId, location) => {
-    const urlParams = queryString.parse(location.search);
+    const filterIds = getFiltersFromUrl(location);
     try {
       const queries = [];
       if (subjectId) {
         queries.push({ query: resourceTypesQuery });
         queries.push({
           query: subjectQuery,
-          variables: { subjectId, filterIds: urlParams.filters || '' },
+          variables: { subjectId, filterIds },
         });
       }
       if (topicId) {
-        queries.push({ query: topicResourcesQuery, variables: { topicId } });
+        queries.push({
+          query: topicResourcesQuery,
+          variables: { topicId, filterIds },
+        });
       }
       if (resourceId) {
         queries.push({
