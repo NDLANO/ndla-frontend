@@ -235,6 +235,7 @@ const phrases = {
     },
     creditType: {
       originator: 'Opphavsmann',
+      authorDesc: 'Denne artikkelen er laget av flere opphavsmenn',
       photographer: 'Fotograf',
       artist: 'Kunstner',
       editorial: 'Redaksjonelt',

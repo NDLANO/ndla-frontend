@@ -6306,12 +6306,13 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-article-scripts@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.4.tgz#f06893e69a1f077d211ead27901093e4198a0db5"
+ndla-article-scripts@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.3.9.tgz#08bf0cb6ffb2aabf63cc9b4bcc6cb801a8182bd8"
   dependencies:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
+    lodash "^4.17.5"
 
 ndla-error-reporter@^0.2.0:
   version "0.2.0"
