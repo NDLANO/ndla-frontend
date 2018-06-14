@@ -81,12 +81,5 @@ Cypress.Commands.add('apiwait', aliases => {
       });
   }
 
-  if (Cypress.env('USE_FIXTURES')) {
-    if (Array.isArray(aliases)) {
-      return aliases.map(alias => cv.fixture(alias.replace('@', '')));
-    }
-    return cy.fixture(aliases.replace('@', ''));
-  }
-
   return cy.wait(aliases);
 });
