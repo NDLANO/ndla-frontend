@@ -101,7 +101,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                     className="c-button c-button--link c-article-byline__toggle-authors"
                     disabled={false}
                     onClick={[Function]}
-                    type={undefined}
+                    type="button"
                   >
                     Someone
                   </button>
@@ -203,7 +203,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                   className="c-button c-button--link c-article-byline__toggle-use-article"
                   disabled={false}
                   onClick={[Function]}
-                  type={undefined}
+                  type="button"
                 >
                   Bruk innhold
                 </button>
@@ -543,7 +543,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                             className="c-button c-button--outline c-licenseToggle__button"
                                             disabled={false}
                                             onClick={[Function]}
-                                            type={undefined}
+                                            type="button"
                                           >
                                             Kopier referanse
                                           </button>
