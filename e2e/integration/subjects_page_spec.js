@@ -11,11 +11,16 @@ import { visitOptions } from '../support';
 describe('Subjects page', () => {
   beforeEach(() => {
     cy.server();
+    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
     cy.visit('/', visitOptions);
+    cy.apiwait('@frontpageGraphQL');
+
+    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
+    cy.get('[data-cy="subject-list"] li a:contains("Medieuttrykk")').click();
+    cy.apiwait('@subjectpageGraphQL');
   });
 
   it('should include a list of valid topic links', () => {
-    cy.get('[data-cy=subject-list] li:first-child a').click();
     cy.get('[data-cy="topic-list"] h1').contains(/\w+/);
 
     cy.get('[data-cy="topic-list"] a').each(el => {
@@ -28,30 +33,13 @@ describe('Subjects page', () => {
   });
 
   it('should have a valid breadcrumb, filter and language select', () => {
-    cy.get('[data-cy=subject-list] li:first-child a').click();
-
     cy
       .get('[data-cy="breadcrumb-section"] a')
       .should('have.length', 1)
       .and('have.attr', 'href');
 
     cy.get('input[type="checkbox"]').each(el => {
-      // tmp fix
-      // cy.wrap(el).click();
       expect(el.attr('id')).to.equal(el.siblings().attr('for'));
-    });
-
-    cy.get('[data-cy=language-select]').select(['nn']);
-    cy.url().should('include', 'nn');
-  });
-
-  it('Should call graphql-api', () => {
-    cy.route('POST', '**/graphql').as('graphqlApi');
-    cy.get('[data-cy=subject-list] li:first-child a').click();
-
-    cy.wait('@graphqlApi').then(data => {
-      // Tmp fix for build. We are going to rewrite how we handle api requests.
-      // expect(data.response.body).to.be.an('object');
     });
   });
 });
