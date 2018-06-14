@@ -10,23 +10,23 @@ import React from 'react';
 import { Image, SubjectArchive } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageTopicalShape } from '../../../graphqlShapes';
+import { toSubjects } from '../../../routeHelpers';
 
 const SubjectTopical = ({ topical, t }) => {
   if (!topical || !topical.resource || !topical.resource.meta) {
     return null;
   }
+  const {
+    resource: { meta: { metaImage, title, metaDescription }, path },
+  } = topical;
+
   return (
     <SubjectArchive
       featuringArticle={{
-        media: (
-          <Image
-            alt="Forstørrelsesglass"
-            src={topical.resource.meta.metaImage}
-          />
-        ),
-        heading: topical.resource.meta.title,
-        description: topical.resource.meta.metaDescription,
-        url: '#1',
+        media: <Image alt={title} src={metaImage} />,
+        heading: title,
+        description: metaDescription,
+        url: toSubjects() + path,
       }}
       archiveArticles={[]}
       sectionHeading={t('subjectPage.subjectArchive.heading')}

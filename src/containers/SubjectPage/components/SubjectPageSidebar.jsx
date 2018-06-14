@@ -36,64 +36,35 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
   const { editorsChoices, mostRead, topical, about, goTo } = subjectpage;
 
   const mostReadResources = getResources(mostRead);
-  const components = [
-    {
-      component: goTo && (
+
+  return (
+    <SubjectSidebarWrapper>
+      {goTo && (
         <SubjectShortcuts
-          key="subject_shortCuts"
           messages={{
             heading: t('subjectPage.subjectShortcuts.heading'),
             showMore: t('subjectPage.subjectShortcuts.showMore'),
             showLess: t('subjectPage.subjectShortcuts.showLess'),
           }}
-          links={goTo.resourceTypes.map(type => ({
-            text: type.name,
-            url: getSearchUrl(subjectId, type),
-          }))}
+          links={
+            goTo.resourceTypes &&
+            goTo.resourceTypes.map(type => ({
+              text: type.name,
+              url: getSearchUrl(subjectId, type),
+            }))
+          }
         />
-      ),
-      location: goTo ? goTo.location : undefined,
-    },
-    {
-      type: 'mostread',
-      component: mostRead && (
-        <SubjectLinks
-          key="subject_links"
-          heading={t('subjectPage.mostRead.heading')}
-          links={mostReadResources.map(resource => ({
-            text: resource.name,
-            url: toSubjects() + resource.path,
-          }))}
-        />
-      ),
-      location: mostRead ? mostRead.location : undefined,
-    },
-    {
-      type: 'editorsChoices',
-      component: (
-        <SubjectEditorChoices
-          key="subject_editorChoices"
-          narrowScreen
-          editorsChoices={editorsChoices}
-        />
-      ),
-      location: editorsChoices ? editorsChoices.location : undefined,
-    },
-    {
-      component: <SubjectTopical key="subject_topical" topical={topical} />,
-      location: topical ? topical.location : undefined,
-    },
-    {
-      component: <SubjectPageAbout key="subject_about" about={about} />,
-      location: about ? about.location : undefined,
-    },
-  ]
-    .filter(component => !!component.location)
-    .sort((a, b) => a.location - b.location);
-
-  return (
-    <SubjectSidebarWrapper>
-      {components.map(component => component.component)}
+      )}
+      <SubjectLinks
+        heading={t('subjectPage.mostRead.heading')}
+        links={mostReadResources.map(resource => ({
+          text: resource.name,
+          url: toSubjects() + resource.path,
+        }))}
+      />
+      <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+      <SubjectTopical topical={topical} />
+      <SubjectPageAbout about={about} />
     </SubjectSidebarWrapper>
   );
 };

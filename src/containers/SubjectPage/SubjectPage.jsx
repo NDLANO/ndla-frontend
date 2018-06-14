@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
-import { breakpoints } from 'ndla-util';
 import { withApollo } from 'react-apollo';
 import {
   OneColumn,
@@ -114,9 +113,9 @@ class SubjectPage extends Component {
     const {
       editorsChoices,
       latestContent,
-      banner,
       facebook,
       twitter,
+      banner,
       displayInTwoColumns,
     } = subjectpage;
 
@@ -145,7 +144,13 @@ class SubjectPage extends Component {
         </Helmet>
         <SubjectHeader
           heading={subjectName || ''}
-          images={[{ url: banner || '', types: Object.keys(breakpoints) }]}
+          images={[
+            {
+              url: banner ? banner.desktopUrl : '',
+              types: ['wide', 'desktop', 'tablet'],
+            },
+            { url: banner ? banner.mobileUrl : '', types: ['mobile'] },
+          ]}
         />
         <OneColumn noPadding>
           <SubjectContent

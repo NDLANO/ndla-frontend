@@ -143,7 +143,6 @@ export const subjectPageArticlesInfo = gql`
   ${resourceInfoFragment}
   ${metaInfoFragment}
   fragment SubjectPageArticlesInfo on SubjectPageArticles {
-    location
     resources {
       ...ResourceInfo
       meta {
@@ -180,13 +179,14 @@ export const subjectQuery = gql`
             }
           }
         }
-        banner
+        banner {
+          desktopUrl
+          mobileUrl
+        }
         facebook
         twitter
-        subjectListLocation
         displayInTwoColumns
         about {
-          location
           title
           description
           visualElement {
@@ -196,7 +196,6 @@ export const subjectQuery = gql`
           }
         }
         goTo {
-          location
           resourceTypes {
             id
             name

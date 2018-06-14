@@ -35,12 +35,12 @@ export const GraphQLResourceShape = PropTypes.shape({
   path: PropTypes.string.isRequired,
   resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
   meta: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    introduction: PropTypes.string.isRequired,
-    lastUpdated: PropTypes.string.isRequired,
-    metaDescription: PropTypes.string.isRequired,
-    metaImage: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    introduction: PropTypes.string,
+    lastUpdated: PropTypes.string,
+    metaDescription: PropTypes.string,
+    metaImage: PropTypes.string,
+    title: PropTypes.string,
   }),
 });
 
@@ -65,7 +65,6 @@ export const GraphqlResourceTypeShape = PropTypes.shape({
 });
 
 export const GraphQLSubjectPageAboutShape = PropTypes.shape({
-  location: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   visualElement: PropTypes.shape({
@@ -83,13 +82,17 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   latestContent: GraphQLSubjectPageResourcesShape,
   mostRead: GraphQLSubjectPageResourcesShape,
   topical: GraphQLSubjectPageTopicalShape,
-  banner: PropTypes.string,
+  banner: PropTypes.shape({
+    desktopUrl: PropTypes.string,
+    desktopId: PropTypes.string,
+    mobileUrl: PropTypes.string,
+    mobileId: PropTypes.string,
+  }),
   facebook: PropTypes.string,
   twitter: PropTypes.string,
   displayInTwoColumns: PropTypes.bool,
   about: GraphQLSubjectPageAboutShape,
   goTo: PropTypes.shape({
-    location: PropTypes.string,
     resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),
   }),
 });
