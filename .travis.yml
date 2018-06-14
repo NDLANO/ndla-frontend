@@ -11,8 +11,7 @@ script:
   - yarn lint
   - yarn test-ci
   - yarn build
-  - yarn run start-cypress-server -- --silent &
-  - yarn run cypress run
+  - yarn e2e-ci
 
 after_success:
   - travis_wait yarn ndla-scripts now-travis --npm

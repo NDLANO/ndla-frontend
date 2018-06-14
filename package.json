@@ -15,13 +15,14 @@
     "start-with-local-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "start-cypress-server": "cross-env NDLA_ENVIRONMENT=test node build/server",
-    "start-cypress-server-local": "cross-env NDLA_ENVIRONMENT=prod razzle start",
+    "e2e": "cypress open",
+    "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
+    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress open",
+    "e2e-ci": "concurrently -r -k \"cross-env NDLA_ENVIRONMENT=mock RAZZLE_DISABLE_SSR=true node build/server\" \"yarn e2e-use-fixtures\"",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "pretest": "npm run lint",
-    "prettier": "node prettier.js write",
-    "cypress:open": "cypress open"
+    "prettier": "node prettier.js write"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "chalk": "^2.3.0",
+    "concurrently": "^3.5.1",
     "cypress": "^3.0.1",
     "enzyme": "^3.2.0",
     "eslint": "^4.18.1",
@@ -47,6 +49,7 @@
     "prettier": "^1.9.1",
     "react-test-renderer": "^16.2.0",
     "redux-saga-test-plan": "^3.3.1",
+    "rimraf": "^2.6.2",
     "sinon": "^4.1.2"
   },
   "dependencies": {

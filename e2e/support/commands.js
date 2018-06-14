@@ -48,7 +48,7 @@ const readResponseBody = body => {
 };
 
 Cypress.Commands.add('apiwait', aliases => {
-  if (Cypress.env('WRITE_FIXTURES')) {
+  if (Cypress.env('RECORD_FIXTURES')) {
     let originalXhr = null;
     return cy
       .wait(aliases)
