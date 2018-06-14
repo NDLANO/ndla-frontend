@@ -2038,18 +2038,6 @@
               "deprecationReason": null
             },
             {
-              "name": "parentId",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "subtypes",
               "description": "",
               "args": [],
@@ -2228,7 +2216,18 @@
             {
               "name": "coreResources",
               "description": "",
-              "args": [],
+              "args": [
+                {
+                  "name": "filterIds",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2244,7 +2243,18 @@
             {
               "name": "supplementaryResources",
               "description": "",
-              "args": [],
+              "args": [
+                {
+                  "name": "filterIds",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
               "type": {
                 "kind": "LIST",
                 "name": null,

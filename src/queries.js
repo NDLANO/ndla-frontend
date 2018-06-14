@@ -64,14 +64,17 @@ export const resourceInfoFragment = gql`
       id
       name
     }
-    meta {
-      id
-      title
-      introduction
-      metaDescription
-      metaImage
-      lastUpdated
-    }
+  }
+`;
+
+export const metaInfoFragment = gql`
+  fragment MetaInfo on Meta {
+    id
+    title
+    introduction
+    metaDescription
+    metaImage
+    lastUpdated
   }
 `;
 
@@ -138,10 +141,14 @@ export const articleInfoFragment = gql`
 
 export const subjectPageArticlesInfo = gql`
   ${resourceInfoFragment}
+  ${metaInfoFragment}
   fragment SubjectPageArticlesInfo on SubjectPageArticles {
     location
     resources {
       ...ResourceInfo
+      meta {
+        ...MetaInfo
+      }
     }
   }
 `;
@@ -150,6 +157,7 @@ export const subjectQuery = gql`
   ${topicInfoFragment}
   ${subjectPageArticlesInfo}
   ${resourceInfoFragment}
+  ${metaInfoFragment}
   query subjectQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
@@ -167,6 +175,9 @@ export const subjectQuery = gql`
         topical {
           resource {
             ...ResourceInfo
+            meta {
+              ...MetaInfo
+            }
           }
         }
         banner

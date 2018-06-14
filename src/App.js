@@ -89,11 +89,10 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.isUnmounted = false;
+    this.location = null;
   }
 
   componentDidMount() {
-    this.isUnmounted = false;
     if (
       window.DATA.config.disableSSR ||
       (module.hot && module.hot.status() === 'apply')

@@ -103,7 +103,6 @@ class SubjectPage extends Component {
     if (!data || !data.subject) {
       return null;
     }
-
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
