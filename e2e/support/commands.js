@@ -59,13 +59,10 @@ Cypress.Commands.add('apiwait', aliases => {
         }
         return [xhr];
       })
-      .then(xhrs => {
-        return Promise.all(
+      .then(xhrs => Promise.all(
           xhrs.map(xhr => readResponseBody(xhr.response.body)),
-        );
-      })
-      .then(jsons => {
-        return cy.task(
+        ))
+      .then(jsons => cy.task(
           'writeFixtures',
           jsons.map((json, i) => ({
             xhr: originalXhr,
@@ -74,11 +71,8 @@ Cypress.Commands.add('apiwait', aliases => {
               : aliases.replace('@', ''),
             json: json,
           })),
-        );
-      })
-      .then(() => {
-        return originalXhr;
-      });
+        ))
+      .then(() => originalXhr);
   }
 
   return cy.wait(aliases);

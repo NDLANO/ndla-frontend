@@ -13,6 +13,7 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import defined from 'defined';
 import IntlProvider from 'ndla-i18n';
+import url from 'url';
 import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
@@ -68,6 +69,14 @@ const renderPage = (initialProps, initialState, Page, apolloState) => {
   };
 };
 
+const disableSSR = req => {
+  const urlParts = url.parse(req.url, true);
+  if (config.disableSSR) {
+    return true;
+  }
+  return urlParts.query && urlParts.query.disableSSR === 'true';
+};
+
 export async function defaultRoute(req) {
   const paths = req.path.split('/');
   global.assets = assets;
@@ -82,7 +91,7 @@ export async function defaultRoute(req) {
   const store = configureStore({ locale });
   const client = createApolloClient(locale);
 
-  if (!config.disableSSR) {
+  if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(path, r));
     const match = matchPath(path, route);
     initialProps = await loadGetInitialProps(route.component, {

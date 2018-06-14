@@ -71,6 +71,7 @@ class App extends React.Component {
   componentDidMount() {
     if (
       window.DATA.config.disableSSR ||
+      window.e2e ||
       (module.hot && module.hot.status() === 'apply')
     ) {
       this.handleLoadInitialProps(this.props);

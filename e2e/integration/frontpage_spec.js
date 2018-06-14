@@ -12,7 +12,7 @@ describe('Front page', () => {
   beforeEach(() => {
     cy.server();
     cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
-    cy.visit('/', visitOptions);
+    cy.visit('/?disableSSR=true', visitOptions);
     cy.apiwait('@frontpageGraphQL');
   });
 

@@ -14,9 +14,14 @@ const mergeError = (obj, result) => {
 };
 
 export async function runQueries(client, queries) {
+  const fetchPolicy =
+    process.env.BUILD_TARGET === 'client' && window.e2e === true
+      ? 'no-cache'
+      : 'cache-first';
   const results = await Promise.all(
     queries.map(async options =>
       client.query({
+        fetchPolicy,
         errorPolicy: 'all',
         ...options,
       }),

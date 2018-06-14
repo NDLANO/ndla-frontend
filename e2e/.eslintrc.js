@@ -1,7 +1,8 @@
 module.exports = {
-  extends: '../.eslintrc.js',
+  extends: '../.eslintrc',
   rules: {
     'no-unused-expressions': 0,
+    'object-shorthand': 0,
   },
   globals: {
     cy: true,
