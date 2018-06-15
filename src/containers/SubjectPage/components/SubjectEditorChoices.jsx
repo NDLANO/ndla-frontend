@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { SubjectCarousel } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
-import { getResources } from '../SubjectPage';
+import { getResources } from '../subjectPageHelpers';
 import { toSubjects } from '../../../routeHelpers';
 
 const SubjectEditorChoices = ({

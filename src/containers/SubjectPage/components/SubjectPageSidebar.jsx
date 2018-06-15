@@ -8,38 +8,22 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
-import { SubjectSidebarWrapper, SubjectLinks, SubjectShortcuts } from 'ndla-ui';
+import { SubjectLinks, SubjectShortcuts } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
-import { getResources } from '../SubjectPage';
-import SubjectTopical from './SubjectTopical';
-import SubjectEditorChoices from './SubjectEditorChoices';
-import SubjectPageAbout from './SubjectPageAbout';
-
-const getSearchUrl = (subjectId, resourceType) => {
-  const baseUrl = '/search';
-  const searchParams = {
-    'resource-types': 'urn:resourcetype:subjectMaterial',
-    contextFilters:
-      resourceType.id !== 'urn:resourcetype:subjectMaterial'
-        ? resourceType.id
-        : undefined,
-    page: 1,
-    subjects: subjectId,
-  };
-  return `${baseUrl}?${queryString.stringify(searchParams)}`;
-};
+import { getResources, getSearchUrl } from '../subjectPageHelpers';
+import SubjectPageFlexChild from './SubjectPageFlexChild';
 
 export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
-  const { editorsChoices, mostRead, topical, about, goTo } = subjectpage;
-
+  const { mostRead, goTo, displayInTwoColumns } = subjectpage;
   const mostReadResources = getResources(mostRead);
 
-  return (
-    <SubjectSidebarWrapper>
-      {goTo && (
+  return [
+    goTo && (
+      <SubjectPageFlexChild
+        key="subjectpage_shortcuts"
+        displayInTwoColumns={displayInTwoColumns}>
         <SubjectShortcuts
           messages={{
             heading: t('subjectPage.subjectShortcuts.heading'),
@@ -54,19 +38,22 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
             }))
           }
         />
-      )}
-      <SubjectLinks
-        heading={t('subjectPage.mostRead.heading')}
-        links={mostReadResources.map(resource => ({
-          text: resource.name,
-          url: toSubjects() + resource.path,
-        }))}
-      />
-      <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
-      <SubjectTopical topical={topical} />
-      <SubjectPageAbout about={about} />
-    </SubjectSidebarWrapper>
-  );
+      </SubjectPageFlexChild>
+    ),
+    mostRead && (
+      <SubjectPageFlexChild
+        key="subjectpage_mostread"
+        displayInTwoColumns={displayInTwoColumns}>
+        <SubjectLinks
+          heading={t('subjectPage.mostRead.heading')}
+          links={mostReadResources.map(resource => ({
+            text: resource.name,
+            url: toSubjects() + resource.path,
+          }))}
+        />
+      </SubjectPageFlexChild>
+    ),
+  ];
 };
 SubjectPageSidebar.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
