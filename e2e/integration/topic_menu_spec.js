@@ -10,7 +10,10 @@ describe('Topic menu', () => {
   beforeEach(() => {
     cy.visit('/');
 
-    cy.get('[data-cy=subject-list] li:first-child a').click();
+    cy
+      .get('[data-cy=subject-list] li:first-child a')
+      .first()
+      .click();
     cy
       .get('.c-topic-menu-container button')
       .contains('Meny')

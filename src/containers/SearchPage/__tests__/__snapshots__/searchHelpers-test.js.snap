@@ -2,7 +2,7 @@
 
 exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
 Object {
-  "context-filters": Array [],
+  "contextFilters": Array [],
   "language-filter": Array [
     "1",
     "2",
@@ -25,7 +25,7 @@ Object {
 
 exports[`searchHelpers converSearchStringToObject with no location 1`] = `
 Object {
-  "context-filters": Array [],
+  "contextFilters": Array [],
   "language-filter": Array [],
   "levels": Array [],
   "subjects": Array [],
