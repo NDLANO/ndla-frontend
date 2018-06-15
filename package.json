@@ -18,7 +18,7 @@
     "e2e": "cypress open",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress open",
-    "e2e-ci": "concurrently -r -s last -k \"cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server\" \"cross-env CYPRESS_USE_FIXTURES=true cypress run\"",
+    "e2e-ci": "concurrently -r -s last -k \"cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server\" \"cross-env CYPRESS_USE_FIXTURES=true cypress run --record\"",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "pretest": "npm run lint",
