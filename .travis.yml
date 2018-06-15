@@ -11,11 +11,6 @@ script:
   - yarn lint
   - yarn test-ci
   - yarn build
-  - yarn run start-cypress-server -- --silent &
-  - yarn run cypress run
-
-after_success:
-  - travis_wait yarn ndla-scripts now-travis --npm
 
 notifications:
   slack:

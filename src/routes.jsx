@@ -25,6 +25,7 @@ export const simpleArticlePath = '/article/:articleId';
 export const routes = [
   {
     path: '/',
+    hideMasthead: true,
     exact: true,
     component: WelcomePage,
     background: false,
