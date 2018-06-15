@@ -13,38 +13,22 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import { withApollo } from 'react-apollo';
-import {
-  OneColumn,
-  SubjectHeader,
-  TopicIntroductionList,
-  ResourcesWrapper,
-  ResourcesTitle,
-  SubjectFilter,
-  Breadcrumb,
-  SubjectContent,
-} from 'ndla-ui';
+import { SubjectHeader, Breadcrumb } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
 import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
 import { LocationShape } from '../../shapes';
-import {
-  toBreadcrumbItems,
-  toTopicPartial,
-  getUrnIdsFromProps,
-} from '../../routeHelpers';
+import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
-import { toTopicMenu } from '../../util/topicsHelper';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
+import SubjectPageOneColumn from './components/SubjectPageOneColumn';
+import SubjectPageTwoColumn from './components/SubjectPageTwoColumn';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import SubjectPageSidebar from './components/SubjectPageSidebar';
-
-const toTopic = subjectId => toTopicPartial(subjectId);
-
-export const getResources = field =>
-  field && field.resources ? field.resources : [];
+import { getResources } from './subjectPageHelpers';
+import { toTopicMenu } from '../../util/topicsHelper';
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
@@ -97,13 +81,11 @@ class SubjectPage extends Component {
   };
 
   render() {
-    const { data, t, match, location } = this.props;
+    const { data, match: { params: { subjectId } }, location, t } = this.props;
 
     if (!data || !data.subject) {
       return null;
     }
-    const urlParams = queryString.parse(location.search || '');
-    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
     const { name: subjectName, filters: subjectFilters } = subject;
 
@@ -111,22 +93,20 @@ class SubjectPage extends Component {
       subject && subject.subjectpage ? subject.subjectpage : {};
 
     const {
-      editorsChoices,
       latestContent,
       facebook,
       twitter,
       banner,
+      editorsChoices,
       displayInTwoColumns,
     } = subjectpage;
 
+    const latestContentResources = getResources(latestContent);
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
-
-    const { params: { subjectId } } = match;
-
     const topicsWithSubTopics =
       subject && subject.topics
         ? subject.topics
@@ -135,8 +115,20 @@ class SubjectPage extends Component {
             )
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
-
-    const latestContentResources = getResources(latestContent);
+    const urlParams = queryString.parse(location.search || '');
+    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+    const breadcrumb = subject ? (
+      <Breadcrumb
+        items={toBreadcrumbItems(
+          t('breadcrumb.toFrontpage'),
+          subject,
+          undefined,
+          undefined,
+        )}
+      />
+    ) : (
+      undefined
+    );
     return (
       <article>
         <Helmet>
@@ -152,48 +144,28 @@ class SubjectPage extends Component {
             { url: banner ? banner.mobileUrl : '', types: ['mobile'] },
           ]}
         />
-        <OneColumn noPadding>
-          <SubjectContent
-            twoColumns={displayInTwoColumns}
-            breadcrumb={
-              subject ? (
-                <Breadcrumb
-                  items={toBreadcrumbItems(
-                    t('breadcrumb.toFrontpage'),
-                    subject,
-                    undefined,
-                    undefined,
-                  )}
-                />
-              ) : (
-                undefined
-              )
-            }>
-            <ResourcesWrapper
-              subjectPage
-              header={<ResourcesTitle>Emner</ResourcesTitle>}>
-              <div data-cy="topic-list">
-                <SubjectFilter
-                  label={t('subjectPage.subjectFilter.label')}
-                  options={filters}
-                  values={activeFilters}
-                  onChange={this.handleFilterClick}
-                />
-                <TopicIntroductionList
-                  toTopic={toTopic(subjectId)}
-                  topics={topicsWithSubTopics}
-                  twoColumns={displayInTwoColumns}
-                />
-              </div>
-            </ResourcesWrapper>
-            <SubjectPageSidebar
-              subjectpage={subjectpage}
-              subjectId={subject.id}
-            />
-          </SubjectContent>
-        </OneColumn>
+        {displayInTwoColumns ? (
+          <SubjectPageTwoColumn
+            subjectId={subjectId}
+            subjectpage={subjectpage}
+            topics={topicsWithSubTopics}
+            breadcrumb={breadcrumb}
+            filters={filters}
+            activeFilters={activeFilters}
+            handleFilterClick={this.handleFilterClick}
+          />
+        ) : (
+          <SubjectPageOneColumn
+            subjectId={subjectId}
+            subjectpage={subjectpage}
+            topics={topicsWithSubTopics}
+            breadcrumb={breadcrumb}
+            filters={filters}
+            activeFilters={activeFilters}
+            handleFilterClick={this.handleFilterClick}
+          />
+        )}
         <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
-
         {latestContent && (
           <SubjectPageSecondaryContent
             subjectName={subjectName}
@@ -207,12 +179,6 @@ class SubjectPage extends Component {
 }
 
 SubjectPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -221,6 +187,12 @@ SubjectPage.propTypes = {
     error: GraphqlErrorShape,
   }),
   location: LocationShape,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default compose(withRouter, injectT, withTracker, withApollo)(
