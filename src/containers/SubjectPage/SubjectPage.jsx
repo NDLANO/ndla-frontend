@@ -117,7 +117,6 @@ class SubjectPage extends Component {
         : [];
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
-
     const breadcrumb = subject ? (
       <Breadcrumb
         items={toBreadcrumbItems(
@@ -157,7 +156,12 @@ class SubjectPage extends Component {
           />
         ) : (
           <SubjectPageOneColumn
-            subject={subject}
+            subjectId={subjectId}
+            subjectpage={subjectpage}
+            topics={topicsWithSubTopics}
+            breadcrumb={breadcrumb}
+            filters={filters}
+            activeFilters={activeFilters}
             handleFilterClick={this.handleFilterClick}
           />
         )}

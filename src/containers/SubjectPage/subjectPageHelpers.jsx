@@ -23,7 +23,7 @@ export const getSearchUrl = (subjectId, resourceType) => {
         ? resourceType.id
         : undefined,
     page: 1,
-    subjects: subjectId,
+    subjects: `urn:${subjectId}`,
   };
   return `${baseUrl}?${queryString.stringify(searchParams)}`;
 };
