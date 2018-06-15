@@ -19,6 +19,12 @@ export const toTopicMenu = (topic, topics) => {
   const subtopicsWithSubtopics = subtopics.map(child =>
     toTopicMenu(child, topics),
   );
-
-  return { ...topic, subtopics: subtopicsWithSubtopics };
+  return {
+    ...topic,
+    introduction:
+      topic.meta && topic.meta.metaDescription
+        ? topic.meta.metaDescription
+        : '',
+    subtopics: subtopicsWithSubtopics,
+  };
 };

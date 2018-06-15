@@ -15,7 +15,10 @@ describe('Subjects page', () => {
   });
 
   it('should include a list of valid topic links', () => {
-    cy.get('[data-cy=subject-list] li:first-child a').click();
+    cy
+      .get('[data-cy=subject-list] li:first-child a')
+      .first()
+      .click();
     cy.get('[data-cy="topic-list"] h1').contains(/\w+/);
 
     cy.get('[data-cy="topic-list"] a').each(el => {
@@ -28,10 +31,13 @@ describe('Subjects page', () => {
   });
 
   it('should have a valid breadcrumb, filter and language select', () => {
-    cy.get('[data-cy=subject-list] li:first-child a').click();
+    cy
+      .get('[data-cy=subject-list] li:first-child a')
+      .first()
+      .click();
 
     cy
-      .get('[data-cy="breadcrumb-section"] a')
+      .get('.c-breadcrumb a')
       .should('have.length', 1)
       .and('have.attr', 'href');
 
@@ -47,7 +53,10 @@ describe('Subjects page', () => {
 
   it('Should call graphql-api', () => {
     cy.route('POST', '**/graphql').as('graphqlApi');
-    cy.get('[data-cy=subject-list] li:first-child a').click();
+    cy
+      .get('[data-cy=subject-list] li:first-child a')
+      .first()
+      .click();
 
     cy.wait('@graphqlApi').then(data => {
       // Tmp fix for build. We are going to rewrite how we handle api requests.

@@ -25,6 +25,7 @@ const Route = ({
   initialProps,
   locale,
   background,
+  hideMasthead,
   ...rest
 }) => (
   <ReactRoute
@@ -32,7 +33,7 @@ const Route = ({
     render={props => (
       <Page background={background}>
         <Content>
-          <Masthead {...props} />
+          {!hideMasthead && <Masthead {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />
@@ -46,6 +47,7 @@ Route.propTypes = {
   background: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  hideMasthead: PropTypes.bool,
 };
 
 async function loadInitialProps(pathname, ctx) {
@@ -61,22 +63,6 @@ async function loadInitialProps(pathname, ctx) {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.location = null;
-    this.state = { data: props.initialProps, location: null };
-    this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
-  }
-
-  componentDidMount() {
-    if (
-      window.DATA.config.disableSSR ||
-      (module.hot && module.hot.status() === 'apply')
-    ) {
-      this.handleLoadInitialProps(this.props);
-    }
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.location === null) {
       return {
@@ -93,6 +79,26 @@ class App extends React.Component {
 
     // No state update necessary
     return null;
+  }
+
+  constructor(props) {
+    super(props);
+    this.location = null;
+    this.state = { data: props.initialProps, location: null };
+    this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
+  }
+
+  componentWillMount() {
+    this.location = null;
+  }
+
+  componentDidMount() {
+    if (
+      window.DATA.config.disableSSR ||
+      (module.hot && module.hot.status() === 'apply')
+    ) {
+      this.handleLoadInitialProps(this.props);
+    }
   }
 
   componentDidUpdate() {
@@ -138,6 +144,7 @@ class App extends React.Component {
             <Route
               key={`route_${route.path}`}
               exact={route.exact}
+              hideMasthead={route.hideMasthead}
               initialProps={this.state.data}
               locale={this.props.locale}
               component={route.component}

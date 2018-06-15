@@ -12,13 +12,16 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
+import { withApollo } from 'react-apollo';
 import {
   OneColumn,
-  SubjectHero,
-  ErrorMessage,
+  SubjectHeader,
   TopicIntroductionList,
-  FilterList,
+  ResourcesWrapper,
+  ResourcesTitle,
+  SubjectFilter,
   Breadcrumb,
+  SubjectContent,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
@@ -33,8 +36,15 @@ import { subjectQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
+import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
+import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
+import SubjectEditorChoices from './components/SubjectEditorChoices';
+import SubjectPageSidebar from './components/SubjectPageSidebar';
 
 const toTopic = subjectId => toTopicPartial(subjectId);
+
+export const getResources = field =>
+  field && field.resources ? field.resources : [];
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
@@ -88,87 +98,110 @@ class SubjectPage extends Component {
 
   render() {
     const { data, t, match, location } = this.props;
+
     if (!data || !data.subject) {
       return null;
     }
-    const hasFailed = !!data.error;
     const urlParams = queryString.parse(location.search || '');
     const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
     const { subject } = data;
-    const { filters: subjectFilters } = subject;
+    const { name: subjectName, filters: subjectFilters } = subject;
+
+    const subjectpage =
+      subject && subject.subjectpage ? subject.subjectpage : {};
+
+    const {
+      editorsChoices,
+      latestContent,
+      facebook,
+      twitter,
+      banner,
+      displayInTwoColumns,
+    } = subjectpage;
+
     const filters = subjectFilters.map(filter => ({
       ...filter,
       title: filter.name,
       value: filter.id,
     }));
+
     const { params: { subjectId } } = match;
 
     const topicsWithSubTopics =
       subject && subject.topics
         ? subject.topics
-            .filter(topic => !topic.parent || topic.parent === subject.id)
+            .filter(
+              topic => !topic || !topic.parent || topic.parent === subject.id,
+            )
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
 
+    const latestContentResources = getResources(latestContent);
     return (
-      <div>
+      <article>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
-        <SubjectHero>
-          <OneColumn cssModifier="narrow">
-            <div className="c-hero__content">
-              <section data-cy="breadcrumb-section">
-                {subject && (
-                  <Breadcrumb
-                    items={toBreadcrumbItems(
-                      t('breadcrumb.toFrontpage'),
-                      subject,
-                      undefined,
-                      undefined,
-                    )}
-                  />
-                )}
-              </section>
-            </div>
-          </OneColumn>
-        </SubjectHero>
-        <OneColumn>
-          <article className="c-article">
-            <section className="u-4/6@desktop u-push-1/6@desktop">
-              <FilterList
-                options={filters}
-                values={activeFilters}
-                onChange={this.handleFilterClick}
-              />
-              {hasFailed ? (
-                <ErrorMessage
-                  illustration={{
-                    url: '/oops.gif',
-                    altText: t('errorMessage.title'),
-                  }}
-                  messages={{
-                    title: t('errorMessage.title'),
-                    description: t('subjectPage.errorDescription'),
-                    back: t('errorMessage.back'),
-                    goToFrontPage: t('errorMessage.goToFrontPage'),
-                  }}
+        <SubjectHeader
+          heading={subjectName || ''}
+          images={[
+            {
+              url: banner ? banner.desktopUrl : '',
+              types: ['wide', 'desktop', 'tablet'],
+            },
+            { url: banner ? banner.mobileUrl : '', types: ['mobile'] },
+          ]}
+        />
+        <OneColumn noPadding>
+          <SubjectContent
+            twoColumns={displayInTwoColumns}
+            breadcrumb={
+              subject ? (
+                <Breadcrumb
+                  items={toBreadcrumbItems(
+                    t('breadcrumb.toFrontpage'),
+                    subject,
+                    undefined,
+                    undefined,
+                  )}
                 />
               ) : (
-                <div className="c-resources" data-cy="topic-list">
-                  <h1 className="c-resources__title">
-                    {t('subjectPage.tabs.topics')}
-                  </h1>
-                  <TopicIntroductionList
-                    toTopic={toTopic(subjectId)}
-                    topics={topicsWithSubTopics}
-                  />
-                </div>
-              )}
-            </section>
-          </article>
+                undefined
+              )
+            }>
+            <ResourcesWrapper
+              subjectPage
+              header={<ResourcesTitle>Emner</ResourcesTitle>}>
+              <div data-cy="topic-list">
+                <SubjectFilter
+                  label={t('subjectPage.subjectFilter.label')}
+                  options={filters}
+                  values={activeFilters}
+                  onChange={this.handleFilterClick}
+                />
+                <TopicIntroductionList
+                  toTopic={toTopic(subjectId)}
+                  topics={topicsWithSubTopics}
+                  twoColumns={displayInTwoColumns}
+                />
+              </div>
+            </ResourcesWrapper>
+            <SubjectPageSidebar
+              subjectpage={subjectpage}
+              subjectId={subject.id}
+            />
+          </SubjectContent>
         </OneColumn>
-      </div>
+        <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
+
+        {latestContent && (
+          <SubjectPageSecondaryContent
+            subjectName={subjectName}
+            latestContentResources={latestContentResources}
+          />
+        )}
+        <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
+      </article>
     );
   }
 }
@@ -190,4 +223,6 @@ SubjectPage.propTypes = {
   location: LocationShape,
 };
 
-export default compose(withRouter, injectT, withTracker)(SubjectPage);
+export default compose(withRouter, injectT, withTracker, withApollo)(
+  SubjectPage,
+);

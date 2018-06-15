@@ -67,6 +67,17 @@ export const resourceInfoFragment = gql`
   }
 `;
 
+export const metaInfoFragment = gql`
+  fragment MetaInfo on Meta {
+    id
+    title
+    introduction
+    metaDescription
+    metaImage
+    lastUpdated
+  }
+`;
+
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
 
@@ -128,8 +139,24 @@ export const articleInfoFragment = gql`
   }
 `;
 
+export const subjectPageArticlesInfo = gql`
+  ${resourceInfoFragment}
+  ${metaInfoFragment}
+  fragment SubjectPageArticlesInfo on SubjectPageArticles {
+    resources {
+      ...ResourceInfo
+      meta {
+        ...MetaInfo
+      }
+    }
+  }
+`;
+
 export const subjectQuery = gql`
   ${topicInfoFragment}
+  ${subjectPageArticlesInfo}
+  ${resourceInfoFragment}
+  ${metaInfoFragment}
   query subjectQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
@@ -142,6 +169,48 @@ export const subjectQuery = gql`
         id
         name
       }
+      subjectpage {
+        id
+        topical {
+          resource {
+            ...ResourceInfo
+            meta {
+              ...MetaInfo
+            }
+          }
+        }
+        banner {
+          desktopUrl
+          mobileUrl
+        }
+        facebook
+        twitter
+        displayInTwoColumns
+        about {
+          title
+          description
+          visualElement {
+            type
+            url
+            alt
+          }
+        }
+        goTo {
+          resourceTypes {
+            id
+            name
+          }
+        }
+        mostRead {
+          ...SubjectPageArticlesInfo
+        }
+        latestContent {
+          ...SubjectPageArticlesInfo
+        }
+        editorsChoices {
+          ...SubjectPageArticlesInfo
+        }
+      }
     }
   }
 `;
@@ -152,6 +221,25 @@ export const subjectsQuery = gql`
   query subjectsQuery {
     subjects {
       ...SubjectInfo
+    }
+  }
+`;
+
+export const frontpageQuery = gql`
+  ${resourceInfoFragment}
+  ${subjectInfoFragment}
+
+  query frontpageQuery {
+    frontpage {
+      topical {
+        ...ResourceInfo
+      }
+      categories {
+        name
+        subjects {
+          ...SubjectInfo
+        }
+      }
     }
   }
 `;
