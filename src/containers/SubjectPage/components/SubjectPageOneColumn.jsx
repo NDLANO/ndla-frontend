@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
 import { withApollo } from 'react-apollo';
 import {
   OneColumn,
@@ -18,67 +17,33 @@ import {
   ResourcesWrapper,
   ResourcesTitle,
   SubjectFilter,
-  Breadcrumb,
   SubjectSidebarWrapper,
   SubjectContent,
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import { GraphQLSubjectShape } from '../../../graphqlShapes';
-import { LocationShape } from '../../../shapes';
-import { toBreadcrumbItems } from '../../../routeHelpers';
-import { toTopicMenu } from '../../../util/topicsHelper';
+import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
+import { TopicShape } from '../../../shapes';
 import SubjectPageSidebar from './SubjectPageSidebar';
 import { toTopic } from '../subjectPageHelpers';
 import SubjectPageInformation from './SubjectPageInformation';
 import SubjectEditorChoices from './SubjectEditorChoices';
 
 const SubjectPageOneColumn = props => {
-  const { subject, t, match, location, handleFilterClick } = props;
-
-  if (!subject) {
-    return null;
-  }
-
-  const urlParams = queryString.parse(location.search || '');
-  const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
-  const { filters: subjectFilters } = subject;
-
-  const subjectpage = subject && subject.subjectpage ? subject.subjectpage : {};
-
-  const filters = subjectFilters.map(filter => ({
-    ...filter,
-    title: filter.name,
-    value: filter.id,
-  }));
-
-  const { params: { subjectId } } = match;
+  const {
+    subjectpage,
+    t,
+    handleFilterClick,
+    filters,
+    topics,
+    breadcrumb,
+    subjectId,
+    activeFilters,
+  } = props;
   const { editorsChoices } = subjectpage;
-  const topicsWithSubTopics =
-    subject && subject.topics
-      ? subject.topics
-          .filter(
-            topic => !topic || !topic.parent || topic.parent === subject.id,
-          )
-          .map(topic => toTopicMenu(topic, subject.topics))
-      : [];
 
   return (
     <OneColumn noPadding>
-      <SubjectContent
-        breadcrumb={
-          subject ? (
-            <Breadcrumb
-              items={toBreadcrumbItems(
-                t('breadcrumb.toFrontpage'),
-                subject,
-                undefined,
-                undefined,
-              )}
-            />
-          ) : (
-            undefined
-          )
-        }>
+      <SubjectContent breadcrumb={breadcrumb}>
         <ResourcesWrapper
           subjectPage
           header={<ResourcesTitle>Emner</ResourcesTitle>}>
@@ -91,15 +56,12 @@ const SubjectPageOneColumn = props => {
             />
             <TopicIntroductionList
               toTopic={toTopic(subjectId)}
-              topics={topicsWithSubTopics}
+              topics={topics}
             />
           </div>
         </ResourcesWrapper>
         <SubjectSidebarWrapper>
-          <SubjectPageSidebar
-            subjectpage={subjectpage}
-            subjectId={subject.id}
-          />
+          <SubjectPageSidebar subjectpage={subjectpage} subjectId={subjectId} />
           <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
           <SubjectPageInformation subjectpage={subjectpage} />
         </SubjectSidebarWrapper>
@@ -109,18 +71,18 @@ const SubjectPageOneColumn = props => {
 };
 
 SubjectPageOneColumn.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  subject: GraphQLSubjectShape,
-  location: LocationShape,
   handleFilterClick: PropTypes.func.isRequired,
+  subjectpage: GraphQLSubjectPageShape,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ),
+  topics: PropTypes.arrayOf(TopicShape),
+  subjectId: PropTypes.string.isRequired,
+  breadcrumb: PropTypes.node,
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default compose(withRouter, injectT, withApollo)(SubjectPageOneColumn);
