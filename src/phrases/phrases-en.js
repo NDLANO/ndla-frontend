@@ -236,6 +236,7 @@ const phrases = {
     download: 'Download',
     creditType: {
       originator: 'Originator',
+      authorDesc: 'This article is made by several originators',
       photographer: 'Photographer',
       artist: 'Artist',
       editorial: 'Editorial',

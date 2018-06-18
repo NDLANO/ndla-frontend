@@ -63,6 +63,7 @@ const config = {
   gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
   zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
+  showAllFrontpageSubjects: true,
 };
 
 export function getUniversalConfig() {

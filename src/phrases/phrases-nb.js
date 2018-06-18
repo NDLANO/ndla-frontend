@@ -17,6 +17,13 @@ const phrases = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Siden finnes ikke${titleTemplate}`,
   },
+  newsLetter: {
+    heading: 'Nyhetsbrev',
+    description:
+      'Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.',
+    mainLinkName: 'Meld deg på',
+    iconLinkName: 'Meld deg på nyhetsbrev',
+  },
   askNDLA: 'Spør NDLA',
   articlePage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av ressursen.',
@@ -85,6 +92,29 @@ const phrases = {
     tabs: {
       topics: 'Emner',
     },
+    subjectShortcuts: {
+      heading: 'Gå direkte til',
+      showMore: 'Vis flere',
+      showLess: 'Vis færre',
+    },
+    mostRead: {
+      heading: 'Mest lest',
+    },
+    editorsChoices: {
+      heading: 'Litt forskjellig fra faget',
+      unknown: 'Ukjent',
+    },
+    subjectArchive: {
+      heading: 'Aktuelt',
+      archive: 'Arkiv',
+      close: 'Lukk',
+    },
+    subjectFilter: {
+      label: 'Filter',
+    },
+    newContent: {
+      heading: 'Nytt innhold',
+    },
   },
   subjectsPage: {
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
@@ -99,8 +129,41 @@ const phrases = {
     topics: 'Emner',
   },
   welcomePage: {
-    subjects: 'Fag',
-    search: 'Gå til søk',
+    search: 'Søk',
+    highlighted: 'Aktuelt',
+    heading: {
+      heading: 'Nasjonal digital læringsarena',
+      searchFieldPlaceholder: 'Søk etter f.eks emner, lærestoff, nøkkelord...',
+      messages: {
+        searchFieldTitle: 'Søk',
+        menuButton: 'Meny',
+      },
+      links: {
+        aboutNDLA: 'Om NDLA',
+        changeLanguage: 'Skift språk',
+      },
+    },
+    socialMedia: {
+      heading: 'Følg oss',
+      description:
+        'NDLA har mange Facebook og Twitter kontoer. Finn den som passer for deg og følg oss!',
+      mainLink: {
+        name: 'Følg oss',
+      },
+    },
+    aboutNDLA: {
+      heading: 'Om NDLA',
+      description:
+        'NDLAs visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.',
+      mainLink: {
+        name: 'Mer om Ndla',
+      },
+    },
+    category: {
+      fellesfag: 'Fellesfag',
+      yrkesfag: 'Yrkesfag',
+      all: 'Alle fag',
+    },
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
     beta: {
       info:
@@ -235,6 +298,7 @@ const phrases = {
     },
     creditType: {
       originator: 'Opphavsmann',
+      authorDesc: 'Denne artikkelen er laget av flere opphavsmenn',
       photographer: 'Fotograf',
       artist: 'Kunstner',
       editorial: 'Redaksjonelt',

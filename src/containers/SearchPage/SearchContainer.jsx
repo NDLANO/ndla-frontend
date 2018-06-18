@@ -21,7 +21,7 @@ import {
   FilterShape,
   LocationShape,
 } from '../../shapes';
-import { GraphqlResourceTypeShape } from '../../graphqlShapes';
+import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
 import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
@@ -103,7 +103,7 @@ class SearchContainer extends Component {
         levels: searchObject.levels || [],
         'resource-types': searchObject['resource-types'] || undefined,
         'context-types': searchObject['context-types'] || undefined,
-        contextFilters: searchObject['context-filters'] || [],
+        contextFilters: searchObject.contextFilters || [],
       },
     };
   }
@@ -343,7 +343,7 @@ SearchContainer.propTypes = {
   }),
   locale: string.isRequired,
   data: shape({
-    resourceTypes: arrayOf(GraphqlResourceTypeShape),
+    resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
 };
 
