@@ -66,4 +66,8 @@ FrontpageSubjects.propTypes = {
   subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
 };
 
+FrontpageSubjects.defaultProps = {
+  categories: [],
+};
+
 export default injectT(FrontpageSubjects);

@@ -70,10 +70,12 @@ export class WelcomePage extends Component {
 
   render() {
     const { t, data } = this.props;
-    if (!data || !data.frontpage) {
+    if (!data) {
       return null;
     }
-    const { frontpage: { categories, topical }, subjects } = data;
+    const frontpage = data && data.frontpage ? data.frontpage : {};
+    const { subjects } = data;
+    const { categories, topical } = frontpage;
     const { expanded, query } = this.state;
     const headerLinks = [
       {
