@@ -292,7 +292,7 @@ const phrases = {
     unkown: 'Ukjent',
   },
   breadcrumb: {
-    toFrontpage: 'Til forsiden',
+    toFrontpage: 'Til framsida',
   },
 };
 

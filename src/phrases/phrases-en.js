@@ -295,7 +295,7 @@ const phrases = {
     unkown: 'Unkown',
   },
   breadcrumb: {
-    toFrontpage: 'Til forsiden',
+    toFrontpage: 'To the frontpage',
   },
 };
 
