@@ -9,49 +9,13 @@ import {
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../shapes';
 import {
-  toTopic,
   toSubject,
-  toSubjects,
   toBreadcrumbItems,
 } from '../../routeHelpers';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import { getSelectedTopic } from './MastheadContainer';
 import { getFiltersFromUrl } from '../../util/filterHelper';
-
-function toTopicWithSubjectIdBound(subjectId) {
-  return toTopic.bind(undefined, subjectId);
-}
-
-function mapTopicResourcesToTopic(
-  topics,
-  selectedTopicId,
-  topicResourcesByType,
-) {
-  return topics.map(topic => {
-    if (topic.id === selectedTopicId) {
-      const contentTypeResults = topicResourcesByType.map(type => ({
-        resources: type.resources
-          .map(resource => ({
-            ...resource,
-            path: toSubjects() + resource.path,
-          }))
-          .filter(resource => !resource.additional),
-        title: type.name,
-      }));
-      return { ...topic, contentTypeResults };
-    } else if (topic.subtopics && topic.subtopics.length > 0) {
-      return {
-        ...topic,
-        subtopics: mapTopicResourcesToTopic(
-          topic.subtopics,
-          selectedTopicId,
-          topicResourcesByType,
-        ),
-      };
-    }
-    return topic;
-  });
-}
+import { mapTopicResourcesToTopic, toTopicWithSubjectIdBound } from './mastheadHelpers';
 
 const MenuView = ({
   t,
