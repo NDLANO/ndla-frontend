@@ -12,6 +12,9 @@ script:
   - yarn test-ci
   - yarn build
 
+-after_success:
+  - travis_wait yarn ndla-scripts now-travis --npm
+
 notifications:
   slack:
     on_success: change
