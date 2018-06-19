@@ -33,7 +33,7 @@ import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 
 export function getSelectedTopic(topics) {
   return [...topics] // prevent reverse mutation.
@@ -49,7 +49,6 @@ class MastheadContainer extends React.PureComponent {
       query: '',
       searchFieldFilters: [],
       searchIsOpen: false,
-      expandedTopicIds: [],
       data: {},
     };
   }
@@ -59,14 +58,16 @@ class MastheadContainer extends React.PureComponent {
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
 
     if (subjectId) {
-      const data = await this.getData(subjectId, topicId, resourceId, location);
-      const expandedTopicIds = data.topicPath
-        ? data.topicPath.map(topic => topic.id)
-        : [];
+      const activeFilters = getFiltersFromUrlAsArray(location);
+      const data = await this.getData(
+        subjectId,
+        topicId,
+        resourceId,
+        activeFilters,
+      );
 
       this.setState({
         data,
-        expandedTopicIds,
         searchFieldFilters: data.subject
           ? [{ title: data.subject.name, value: data.subject.id }]
           : [],
@@ -82,41 +83,19 @@ class MastheadContainer extends React.PureComponent {
     ) {
       const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
       if (subjectId) {
+        const activeFilters = getFiltersFromUrlAsArray(location);
         const data = await this.getData(
           subjectId,
           topicId,
           resourceId,
-          location,
+          activeFilters,
         );
         this.setState({
           data,
-          expandedTopicIds: data.topicPath.map(topic => topic.id),
         });
       }
     }
   }
-
-  onNavigate = async (...expandedTopicIds) => {
-    const { location } = this.props;
-    const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
-    this.setState(previusState => ({
-      expandedTopicIds,
-      data: {
-        ...previusState.data,
-        topicResourcesByType: [],
-      },
-    }));
-    const selectedTopicId = getSelectedTopic(expandedTopicIds);
-    if (selectedTopicId) {
-      const data = await this.getData(
-        subjectId,
-        selectedTopicId,
-        resourceId,
-        location,
-      );
-      this.setState({ data });
-    }
-  };
 
   onFilterRemove = () => {
     this.setState({ searchFieldFilters: [] });
@@ -141,8 +120,20 @@ class MastheadContainer extends React.PureComponent {
     });
   };
 
-  getData = async (subjectId, topicId, resourceId, location) => {
-    const filterIds = getFiltersFromUrl(location);
+  onDataFetch = async (subjectId, topicId, resourceId, filters = []) => {
+    this.setState(prevState => ({
+      data: {
+        ...prevState.data,
+        topicResourcesByType: [],
+      },
+    }));
+    const data = await this.getData(subjectId, topicId, resourceId, filters);
+    this.setState({ data });
+  };
+
+  getData = async (subjectId, topicId, resourceId, activeFilters = []) => {
+    const filterIds = activeFilters.join(',');
+
     try {
       const queries = [];
       if (subjectId) {
@@ -227,25 +218,10 @@ class MastheadContainer extends React.PureComponent {
     groupSearch(`?${queryString.stringify(searchParams)}`);
   };
 
-  filterClick = newValues => {
-    const { history } = this.props;
-    const searchString = `?${queryString.stringify({
-      filters: newValues.join(','),
-    })}`;
-    history.push(
-      newValues.length > 0
-        ? {
-            search: searchString,
-          }
-        : {},
-    );
-  };
-
   render() {
     const { t, results, location } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
-      expandedTopicIds,
       query,
       searchFieldFilters,
       searchIsOpen,
@@ -258,8 +234,7 @@ class MastheadContainer extends React.PureComponent {
         title: t(`contentTypes.${contentType}`),
       };
     });
-    const urlParams = queryString.parse(location.search || '');
-    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+
     return (
       <Masthead
         infoContent={
@@ -275,19 +250,16 @@ class MastheadContainer extends React.PureComponent {
               subject={subject}
               t={t}
               topicPath={topicPath || []}
-              filterClick={this.filterClick}
               toggleMenu={isOpen => this.setState({ isOpen })}
-              onNavigate={this.onNavigate}
               onOpenSearch={() => {
                 this.setState({
                   isOpen: false,
                   searchIsOpen: true,
                 });
               }}
+              onDataFetch={this.onDataFetch}
               filters={filters}
-              activeFilters={activeFilters}
               isOpen={this.state.isOpen}
-              expandedTopicIds={expandedTopicIds}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
             />

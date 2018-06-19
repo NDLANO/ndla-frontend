@@ -1,7 +1,4 @@
-import {
-  toTopic,
-  toSubjects,
-} from '../../routeHelpers';
+import { toTopic, toSubjects } from '../../routeHelpers';
 
 export function toTopicWithSubjectIdBound(subjectId) {
   return toTopic.bind(undefined, subjectId);
