@@ -11,12 +11,18 @@ import PropTypes from 'prop-types';
 import defined from 'defined';
 import { injectT } from 'ndla-i18n';
 import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
-
+import { withRouter } from 'react-router-dom';
 import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 import { toBreadcrumbItems } from '../../../routeHelpers';
-import { ResourceTypeShape, SubjectShape, TopicShape } from '../../../shapes';
+import {
+  ResourceTypeShape,
+  SubjectShape,
+  TopicShape,
+  LocationShape,
+} from '../../../shapes';
+import { getFiltersFromUrl } from '../../../util/filterHelper';
 
-const ArticleHero = ({ resource, subject, topicPath, t }) => {
+const ArticleHero = ({ resource, subject, topicPath, location, t }) => {
   const resourceTypeMetaData = getContentTypeFromResourceTypes(
     defined(resource.resourceTypes, []),
   );
@@ -32,6 +38,7 @@ const ArticleHero = ({ resource, subject, topicPath, t }) => {
                   subject,
                   topicPath,
                   resource,
+                  getFiltersFromUrl(location),
                 )}
               />
             ) : null}
@@ -48,5 +55,6 @@ ArticleHero.propTypes = {
   }).isRequired,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
+  location: LocationShape,
 };
-export default injectT(ArticleHero);
+export default withRouter(injectT(ArticleHero));

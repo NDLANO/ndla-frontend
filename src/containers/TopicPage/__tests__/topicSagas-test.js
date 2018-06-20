@@ -15,7 +15,7 @@ import { topics, articles } from './mockTopics';
 test('resourceSagas watchFetchTopicsWithIntroductions', () => {
   const req1 = nock('http://ndla-api')
     .get(
-      '/taxonomy/v1/subjects/urn:subject:1/topics/?recursive=true&language=en',
+      '/taxonomy/v1/subjects/urn:subject:1/topics/?recursive=true&language=en&filter=urn:filter:1',
     )
     .reply(200, topics);
 
@@ -29,6 +29,7 @@ test('resourceSagas watchFetchTopicsWithIntroductions', () => {
       actions.fetchTopicsWithIntroductions({
         subjectId: 'urn:subject:1',
         topicId: 'urn:topic:1',
+        filter: 'urn:filter:1',
       }),
     )
     .silentRun(500)
@@ -50,6 +51,7 @@ test('topicSagas watchFetchTopicsWithIntroductions when topics are in state', ()
       actions.fetchTopicsWithIntroductions({
         subjectId: 'urn:subject:1',
         topicId: 'urn:topic:1',
+        filter: '',
       }),
     )
     .silentRun(500)

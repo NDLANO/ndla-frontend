@@ -121,7 +121,7 @@ Object {
       "CALL": Object {
         "args": Array [
           "urn:subject:1",
-          undefined,
+          "urn:filter:1",
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopicsWithIntroductions",
@@ -145,6 +145,7 @@ Object {
       "CALL": Object {
         "args": Array [
           "urn:subject:1",
+          "urn:filter:1",
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
@@ -169,6 +170,7 @@ Object {
         "args": Array [
           "urn:subject:1",
           "en",
+          "urn:filter:1",
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
@@ -394,6 +396,7 @@ Object {
         "args": Array [
           "urn:subject:1",
           "en",
+          "",
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopics",
@@ -511,7 +514,7 @@ Object {
       "CALL": Object {
         "args": Array [
           "urn:subject:1",
-          undefined,
+          "",
         ],
         "context": null,
         "fn": "@@redux-saga-test-plan/json/function/fetchTopicsWithIntroductions",

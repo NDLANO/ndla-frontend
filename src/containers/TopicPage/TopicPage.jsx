@@ -32,6 +32,7 @@ import {
   ArticleShape,
   TopicShape,
   ResourceTypeShape,
+  LocationShape,
 } from '../../shapes';
 
 import { GraphqlErrorShape } from '../../graphqlShapes';
@@ -47,6 +48,7 @@ import Resources from '../Resources/Resources';
 import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
 import { topicResourcesQuery, resourceTypesQuery } from '../../queries';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -64,14 +66,16 @@ class TopicPage extends Component {
       fetchTopicsWithIntroductions,
       fetchSubjects,
       client,
+      location,
     } = ctx;
     const { subjectId, topicId } = getUrnIdsFromProps(ctx);
+    const filterIds = getFiltersFromUrl(location);
     fetchTopicArticle({ subjectId, topicId });
-    fetchTopicsWithIntroductions({ subjectId });
+    fetchTopicsWithIntroductions({ subjectId, filter: filterIds });
     fetchSubjects();
     try {
       return runQueries(client, [
-        { query: topicResourcesQuery, variables: { topicId } },
+        { query: topicResourcesQuery, variables: { topicId, filterIds } },
         { query: resourceTypesQuery },
       ]);
     } catch (e) {
@@ -106,16 +110,22 @@ class TopicPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { fetchTopicArticle, fetchTopicsWithIntroductions } = this.props;
+    const {
+      fetchTopicArticle,
+      fetchTopicsWithIntroductions,
+      location,
+    } = this.props;
     const { subjectId, topicId } = getUrnIdsFromProps(this.props);
     const { topicId: nextTopicId } = getUrnIdsFromProps(nextProps);
-
     if (nextTopicId !== topicId) {
       fetchTopicArticle({
         subjectId,
         topicId: nextTopicId,
       });
-      fetchTopicsWithIntroductions({ subjectId });
+      fetchTopicsWithIntroductions({
+        subjectId,
+        filter: getFiltersFromUrl(location),
+      });
     }
   }
 
@@ -131,6 +141,7 @@ class TopicPage extends Component {
       subject,
       loading,
       data,
+      location,
     } = this.props;
 
     const { subjectId } = getUrnIdsFromProps(this.props);
@@ -173,6 +184,8 @@ class TopicPage extends Component {
                       t('breadcrumb.toFrontpage'),
                       subject,
                       topicPath,
+                      undefined,
+                      getFiltersFromUrl(location),
                     )}
                   />
                 ) : null}
@@ -243,6 +256,7 @@ TopicPage.propTypes = {
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   loading: PropTypes.bool.isRequired,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

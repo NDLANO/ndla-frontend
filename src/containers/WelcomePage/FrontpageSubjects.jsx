@@ -39,7 +39,6 @@ const getCategories = (subjects = [], categories = []) =>
 
 const FrontpageSubjects = ({ categories, subjects, expanded, onExpand, t }) => {
   const frontpageCategories = getCategories(subjects, categories);
-
   return (
     <FrontpageSubjectsWrapper>
       <div data-cy="subject-list">
