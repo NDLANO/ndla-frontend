@@ -150,7 +150,7 @@ class ArticlePage extends Component {
       );
     }
 
-    const article = transformArticle(resource.article);
+    const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
 
     return (
