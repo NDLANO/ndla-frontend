@@ -64,6 +64,7 @@ async function loadInitialProps(pathname, ctx) {
 
 class App extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(prevState);
     if (prevState.location === null) {
       return {
         location: nextProps.location,
