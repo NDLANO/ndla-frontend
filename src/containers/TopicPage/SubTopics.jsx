@@ -15,25 +15,34 @@ import {
   ResourcesTitle,
   TopicIntroductionList,
 } from 'ndla-ui';
+import { withRouter } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
 import { getSubtopicsWithIntroduction } from './topic';
-import { TopicShape } from '../../shapes';
+import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
-const toTopic = (subjectId, topicPath) => {
+const toTopic = (subjectId, topicPath, filters) => {
   const topicIds = topicPath.map(topic => topic.id);
-  return toTopicPartial(subjectId, ...topicIds);
+  return toTopicPartial(subjectId, filters, ...topicIds);
 };
 
-export const TopicResources = ({ subtopics, subjectId, topicPath, t }) => {
+export const TopicResources = ({
+  subtopics,
+  subjectId,
+  topicPath,
+  location,
+  t,
+}) => {
   if (subtopics.length === 0) {
     return null;
   }
+
   return (
     <ResourcesWrapper>
       <ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>
       <TopicIntroductionList
-        toTopic={toTopic(subjectId, topicPath)}
+        toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
         topics={subtopics}
       />
     </ResourcesWrapper>
@@ -44,6 +53,7 @@ TopicResources.propTypes = {
   subjectId: PropTypes.string.isRequired,
   topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
+  location: LocationShape,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -53,4 +63,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(connect(mapStateToProps), injectT)(TopicResources);
+export default compose(withRouter, connect(mapStateToProps), injectT)(
+  TopicResources,
+);

@@ -56,7 +56,7 @@ const SubjectPageTwoColumn = props => {
               onChange={handleFilterClick}
             />
             <TopicIntroductionList
-              toTopic={toTopic(subjectId)}
+              toTopic={toTopic(subjectId, activeFilters)}
               topics={topics}
               twoColumns
             />

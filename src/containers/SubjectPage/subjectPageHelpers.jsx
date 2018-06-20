@@ -9,7 +9,8 @@
 import queryString from 'query-string';
 import { toTopicPartial } from '../../routeHelpers';
 
-export const toTopic = subjectId => toTopicPartial(subjectId);
+export const toTopic = (subjectId, filters) =>
+  toTopicPartial(subjectId, filters);
 
 export const getResources = field =>
   field && field.resources ? field.resources : [];

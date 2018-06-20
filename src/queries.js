@@ -268,12 +268,12 @@ export const resourceTypesQuery = gql`
 
 export const topicResourcesQuery = gql`
   ${resourceInfoFragment}
-  query topicResourcesQuery($topicId: String!) {
+  query topicResourcesQuery($topicId: String!, $filterIds: String) {
     topic(id: $topicId) {
-      coreResources {
+      coreResources(filterIds: $filterIds) {
         ...ResourceInfo
       }
-      supplementaryResources {
+      supplementaryResources(filterIds: $filterIds) {
         ...ResourceInfo
       }
     }

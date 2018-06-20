@@ -29,17 +29,20 @@ import SubjectPageTwoColumn from './components/SubjectPageTwoColumn';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getResources } from './subjectPageHelpers';
 import { toTopicMenu } from '../../util/topicsHelper';
+import {
+  getFiltersFromUrl,
+  getFiltersFromUrlAsArray,
+} from '../../util/filterHelper';
 
 class SubjectPage extends Component {
   static async getInitialProps(ctx) {
     const { client, location } = ctx;
     const { subjectId } = getUrnIdsFromProps(ctx);
-    const urlParams = queryString.parse(location.search || '');
     try {
       return runQueries(client, [
         {
           query: subjectQuery,
-          variables: { subjectId, filterIds: urlParams.filters || '' },
+          variables: { subjectId, filterIds: getFiltersFromUrl(location) },
         },
       ]);
     } catch (error) {
@@ -86,6 +89,7 @@ class SubjectPage extends Component {
     if (!data || !data.subject) {
       return null;
     }
+    const activeFilters = getFiltersFromUrlAsArray(location);
     const { subject } = data;
     const { name: subjectName, filters: subjectFilters } = subject;
 
@@ -115,8 +119,7 @@ class SubjectPage extends Component {
             )
             .map(topic => toTopicMenu(topic, subject.topics))
         : [];
-    const urlParams = queryString.parse(location.search || '');
-    const activeFilters = urlParams.filters ? urlParams.filters.split(',') : [];
+
     const breadcrumb = subject ? (
       <Breadcrumb
         items={toBreadcrumbItems(
