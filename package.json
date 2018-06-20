@@ -18,7 +18,7 @@
     "start-cypress-server": "cross-env NDLA_ENVIRONMENT=test node build/server",
     "start-cypress-server-local": "cross-env NDLA_ENVIRONMENT=prod razzle start",
     "now-build": "npm run build",
-    "now-start": "cross-env NODE_ENV=production NOW=true node build/server",
+    "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "pretest": "npm run lint",
     "prettier": "node prettier.js write",
     "cypress:open": "cypress open"
