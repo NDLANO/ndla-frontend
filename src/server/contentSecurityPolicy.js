@@ -138,6 +138,8 @@ export default {
       'new.livestream.com',
       'livestream.com',
       'channel9.msdn.com',
+      'tomknudsen.no',
+      'www.tomknudsen.no',
     ],
     styleSrc: [
       "'self'",
