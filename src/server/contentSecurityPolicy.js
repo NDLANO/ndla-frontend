@@ -134,6 +134,10 @@ export default {
       '*.vg.no/',
       '*.facebook.com',
       '*.twitter.com',
+      'e.issuu.com',
+      'new.livestream.com',
+      'livestream.com',
+      'channel9.msdn.com',
     ],
     styleSrc: [
       "'self'",
