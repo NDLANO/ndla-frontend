@@ -1,30 +1,18 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { bool, shape, func, string, arrayOf, object } from 'prop-types';
-import {
-  ClickToggle,
-  TopicMenu,
-  DisplayOnPageYOffset,
-  BreadcrumbBlock,
-} from 'ndla-ui';
+import { ClickToggle, DisplayOnPageYOffset, BreadcrumbBlock } from 'ndla-ui';
+import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
-import { TopicShape, ResourceShape, LocationShape } from '../../shapes';
-import {
-  toSubject,
-  toBreadcrumbItems,
-  getUrnIdsFromProps,
-} from '../../routeHelpers';
-import { resourceToLinkProps } from '../Resources/resourceHelpers';
-import { getSelectedTopic } from './MastheadContainer';
+import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
+import { toBreadcrumbItems, getUrnIdsFromProps } from '../../../routeHelpers';
+import { getSelectedTopic } from '../MastheadContainer';
 import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
-} from '../../util/filterHelper';
-import {
-  mapTopicResourcesToTopic,
-  toTopicWithSubjectIdBound,
-} from './mastheadHelpers';
+} from '../../../util/filterHelper';
+import MastheadTopics from './MastheadTopics';
 
-class MenuView extends React.Component {
+class MastheadMenu extends Component {
   constructor() {
     super();
     this.state = {
@@ -102,19 +90,11 @@ class MenuView extends React.Component {
       location,
     } = this.props;
 
+    if (!subject) {
+      return null;
+    }
+
     const { activeFilters, expandedTopicIds } = this.state;
-
-    const [
-      expandedTopicId,
-      expandedSubtopicId,
-      expandedSubtopicLevel2Id,
-    ] = expandedTopicIds;
-
-    const topicsWithContentTypes = mapTopicResourcesToTopic(
-      subject.topics,
-      getSelectedTopic(expandedTopicIds),
-      topicResourcesByType,
-    );
 
     const breadcrumbBlockItems = toBreadcrumbItems(
       t('breadcrumb.toFrontpage'),
@@ -125,59 +105,25 @@ class MenuView extends React.Component {
     );
 
     return (
-      <React.Fragment>
+      <Fragment>
         <ClickToggle
           title={t('masthead.menu.title')}
           openTitle={t('masthead.menu.close')}
           className="c-topic-menu-container"
           isOpen={isOpen}
           onToggle={toggleMenu}
-          buttonClassName="c-btn c-button--outline c-topic-menu-toggle-button">
+          buttonClassName="c-button c-button--outline c-topic-menu-toggle-button">
           {onClose => (
-            <TopicMenu
-              close={onClose}
-              isBeta
-              toSubject={() => toSubject(subject.id)}
-              subjectTitle={subject.name}
-              toTopic={toTopicWithSubjectIdBound(subject.id)}
-              topics={topicsWithContentTypes}
-              withSearchAndFilter
-              messages={{
-                goTo: t('masthead.menu.goTo'),
-                subjectOverview: t('masthead.menu.subjectOverview'),
-                search: t('masthead.menu.search'),
-                subjectPage: t('masthead.menu.subjectPage'),
-                learningResourcesHeading: t(
-                  'masthead.menu.learningResourcesHeading',
-                ),
-                back: t('masthead.menu.back'),
-                closeButton: t('masthead.menu.close'),
-                contentTypeResultsShowMore: t(
-                  'masthead.menu.contentTypeResultsShowMore',
-                ),
-                contentTypeResultsShowLess: t(
-                  'masthead.menu.contentTypeResultsShowLess',
-                ),
-                contentTypeResultsNoHit: t(
-                  'masthead.menu.contentTypeResultsNoHit',
-                ),
-                compentenceGoalsToggleButtonOpen: '',
-                compentenceGoalsToggleButtonClose: '',
-                compentenceGoalsNarrowOpenButton: '',
-                compentenceGoalsNarrowBackButton: '',
-              }}
-              filterOptions={filters}
+            <MastheadTopics
+              onClose={onClose}
+              activeFilters={activeFilters}
+              expandedTopicIds={expandedTopicIds}
+              topicResourcesByType={topicResourcesByType}
+              onOpenSearch={onOpenSearch}
+              subject={subject}
+              filters={filters}
               onFilterClick={this.onFilterClick}
-              filterValues={activeFilters}
-              onOpenSearch={() => onOpenSearch()}
               onNavigate={this.onNavigate}
-              expandedTopicId={expandedTopicId}
-              expandedSubtopicId={expandedSubtopicId}
-              expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-              resourceToLinkProps={resourceToLinkProps}
-              searchPageUrl={
-                subject ? `/search/?subjects=${subject.id}` : '/search'
-              }
             />
           )}
         </ClickToggle>
@@ -190,12 +136,12 @@ class MenuView extends React.Component {
             }
           />
         </DisplayOnPageYOffset>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
 
-MenuView.propTypes = {
+MastheadMenu.propTypes = {
   isOpen: bool.isRequired,
   toggleMenu: func.isRequired,
   subject: shape({
@@ -212,4 +158,4 @@ MenuView.propTypes = {
   onDataFetch: func.isRequired,
 };
 
-export default withRouter(MenuView);
+export default injectT(withRouter(MastheadMenu));

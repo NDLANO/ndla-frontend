@@ -11,18 +11,13 @@ import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, Logo } from 'ndla-ui';
 import Link from 'react-router-dom/Link';
 import { injectT } from 'ndla-i18n';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
-import queryString from 'query-string';
 import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
-import { getGroupResults } from '../SearchPage/searchSelectors';
-import * as searchActions from '../SearchPage/searchActions';
-import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
-import SearchButtonView from './SearchButtonView';
-import MenuView from './MenuView';
+import MastheadSearch from './components/MastheadSearch';
+import MastheadMenu from './components/MastheadMenu';
 import {
   topicResourcesQuery,
   resourceTypesQuery,
@@ -46,8 +41,6 @@ class MastheadContainer extends React.PureComponent {
     super(props);
     this.state = {
       isOpen: false,
-      query: '',
-      searchFieldFilters: [],
       searchIsOpen: false,
       data: {},
     };
@@ -68,9 +61,6 @@ class MastheadContainer extends React.PureComponent {
 
       this.setState({
         data,
-        searchFieldFilters: data.subject
-          ? [{ title: data.subject.name, value: data.subject.id }]
-          : [],
       });
     }
   }
@@ -97,28 +87,9 @@ class MastheadContainer extends React.PureComponent {
     }
   }
 
-  onFilterRemove = () => {
-    this.setState({ searchFieldFilters: [] });
-  };
 
-  onQueryChange = query => {
-    this.setState({ query }, this.executeSearch(query));
-  };
 
-  onSearch = evt => {
-    evt.preventDefault();
 
-    const { history } = this.props;
-    const { query, data: { subject } } = this.state;
-    this.executeSearch(query);
-    history.push({
-      pathname: '/search',
-      search: `?${queryString.stringify({
-        query: query.length > 0 ? query : undefined,
-        subjects: subject ? subject.id : undefined,
-      })}`,
-    });
-  };
 
   onDataFetch = async (subjectId, topicId, resourceId, filters = []) => {
     this.setState(prevState => ({
@@ -202,38 +173,14 @@ class MastheadContainer extends React.PureComponent {
     }
   };
 
-  executeSearch = query => {
-    const { groupSearch } = this.props;
-    const { searchFieldFilters } = this.state;
 
-    const searchParams = {
-      query,
-      subjects:
-        searchFieldFilters.length > 0
-          ? searchFieldFilters.map(filter => filter.value).join(',')
-          : undefined,
-      'resource-types':
-        'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities',
-    };
-    groupSearch(`?${queryString.stringify(searchParams)}`);
-  };
 
   render() {
-    const { t, results, location } = this.props;
+    const { t } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
-      query,
-      searchFieldFilters,
       searchIsOpen,
     } = this.state;
-
-    const resultsMapped = results.map(result => {
-      const { contentType } = contentTypeMapping[result.resourceType];
-      return {
-        ...result,
-        title: t(`contentTypes.${contentType}`),
-      };
-    });
 
     return (
       <Masthead
@@ -245,44 +192,34 @@ class MastheadContainer extends React.PureComponent {
         }
         fixed>
         <MastheadItem left>
-          {subject ? (
-            <MenuView
-              subject={subject}
-              t={t}
-              topicPath={topicPath || []}
-              toggleMenu={isOpen => this.setState({ isOpen })}
-              onOpenSearch={() => {
-                this.setState({
-                  isOpen: false,
-                  searchIsOpen: true,
-                });
-              }}
-              onDataFetch={this.onDataFetch}
-              filters={filters}
-              isOpen={this.state.isOpen}
-              resource={resource}
-              topicResourcesByType={topicResourcesByType || []}
-            />
-          ) : null}
+          <MastheadMenu
+            subject={subject}
+            topicPath={topicPath || []}
+            toggleMenu={isOpen => this.setState({ isOpen })}
+            onOpenSearch={() => {
+              this.setState({
+                isOpen: false,
+                searchIsOpen: true,
+              });
+            }}
+            onDataFetch={this.onDataFetch}
+            filters={filters}
+            isOpen={this.state.isOpen}
+            resource={resource}
+            topicResourcesByType={topicResourcesByType || []}
+          />
         </MastheadItem>
         <MastheadItem right>
-          {!location.pathname.includes('search') && (
-            <SearchButtonView
+            <MastheadSearch
               searchIsOpen={searchIsOpen}
               openToggle={isOpen => {
                 this.setState({
                   searchIsOpen: isOpen,
                 });
               }}
-              onSearch={this.onSearch}
-              onChange={this.onQueryChange}
               subject={subject}
-              onFilterRemove={this.onFilterRemove}
-              query={query}
-              filters={searchFieldFilters}
-              results={resultsMapped}
             />
-          )}
+
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
@@ -299,23 +236,12 @@ MastheadContainer.propTypes = {
   }).isRequired,
   location: LocationShape,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
-  results: PropTypes.arrayOf(PropTypes.object),
-  groupSearch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const mapDispatchToProps = {
-  groupSearch: searchActions.groupSearch,
-};
-
-const mapStateToProps = state => ({
-  results: getGroupResults(state),
-});
-
 export default compose(
   withApollo,
   injectT,
-  connect(mapStateToProps, mapDispatchToProps),
 )(MastheadContainer);
