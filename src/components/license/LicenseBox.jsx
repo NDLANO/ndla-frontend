@@ -15,6 +15,7 @@ import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import { ArticleShape } from '../../shapes';
+import formatDate from '../../util/formatDate';
 
 function buildLicenseTabList(article, locale, t) {
   const images = article.metaData.images || [];
@@ -37,7 +38,7 @@ function buildLicenseTabList(article, locale, t) {
         texts={[
           {
             copyright: article.copyright,
-            created: article.created,
+            updated: formatDate(article.updated, locale),
           },
         ]}
         locale={locale}
