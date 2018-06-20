@@ -87,10 +87,6 @@ class MastheadContainer extends React.PureComponent {
     }
   }
 
-
-
-
-
   onDataFetch = async (subjectId, topicId, resourceId, filters = []) => {
     this.setState(prevState => ({
       data: {
@@ -173,8 +169,6 @@ class MastheadContainer extends React.PureComponent {
     }
   };
 
-
-
   render() {
     const { t } = this.props;
     const {
@@ -192,33 +186,35 @@ class MastheadContainer extends React.PureComponent {
         }
         fixed>
         <MastheadItem left>
-          <MastheadMenu
-            subject={subject}
-            topicPath={topicPath || []}
-            toggleMenu={isOpen => this.setState({ isOpen })}
-            onOpenSearch={() => {
-              this.setState({
-                isOpen: false,
-                searchIsOpen: true,
-              });
-            }}
-            onDataFetch={this.onDataFetch}
-            filters={filters}
-            isOpen={this.state.isOpen}
-            resource={resource}
-            topicResourcesByType={topicResourcesByType || []}
-          />
-        </MastheadItem>
-        <MastheadItem right>
-            <MastheadSearch
-              searchIsOpen={searchIsOpen}
-              openToggle={isOpen => {
+          {subject && (
+            <MastheadMenu
+              subject={subject}
+              topicPath={topicPath || []}
+              toggleMenu={isOpen => this.setState({ isOpen })}
+              onOpenSearch={() => {
                 this.setState({
-                  searchIsOpen: isOpen,
+                  isOpen: false,
+                  searchIsOpen: true,
                 });
               }}
-              subject={subject}
+              onDataFetch={this.onDataFetch}
+              filters={filters}
+              isOpen={this.state.isOpen}
+              resource={resource}
+              topicResourcesByType={topicResourcesByType || []}
             />
+          )}
+        </MastheadItem>
+        <MastheadItem right>
+          <MastheadSearch
+            searchIsOpen={searchIsOpen}
+            openToggle={isOpen => {
+              this.setState({
+                searchIsOpen: isOpen,
+              });
+            }}
+            subject={subject}
+          />
 
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
@@ -241,7 +237,4 @@ MastheadContainer.propTypes = {
   }).isRequired,
 };
 
-export default compose(
-  withApollo,
-  injectT,
-)(MastheadContainer);
+export default compose(withApollo, injectT)(MastheadContainer);

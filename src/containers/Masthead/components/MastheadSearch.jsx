@@ -83,7 +83,7 @@ class MastheadSearch extends Component {
       return null;
     }
 
-    const { query, searchFieldFilters } = this.state
+    const { query, searchFieldFilters } = this.state;
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
       subjects: subject ? subject.id : undefined,
@@ -141,7 +141,7 @@ class MastheadSearch extends Component {
         )}
       </ToggleSearchButton>
     );
-  };
+  }
 }
 
 MastheadSearch.propTypes = {

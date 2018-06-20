@@ -13,45 +13,62 @@ import {
 import MastheadTopics from './MastheadTopics';
 
 class MastheadMenu extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.location === null) {
+      return {
+        location: nextProps.location,
+      };
+    }
+    const { location, topicPath } = nextProps;
+    const navigated = location !== prevState.location;
+
+    if (navigated) {
+      const activeFilters = getFiltersFromUrlAsArray(location);
+      return {
+        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
+        activeFilters,
+        location,
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
+
   constructor() {
     super();
     this.state = {
       activeFilters: [],
       expandedTopicIds: [],
+      location: null,
     };
   }
 
-  async componentDidMount() {
-    const { location, topicPath, subject } = this.props;
+  componentDidMount() {
+    const { location, topicPath } = this.props;
 
-    if (subject && subject.id) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
-      const expandedTopicIds = topicPath
-        ? topicPath.map(topic => topic.id)
-        : [];
+    const activeFilters = getFiltersFromUrlAsArray(location);
+    const expandedTopicIds = topicPath ? topicPath.map(topic => topic.id) : [];
 
-      this.setState({
-        expandedTopicIds,
-        activeFilters,
-      });
-    }
+    this.setState({
+      expandedTopicIds,
+      activeFilters,
+    });
   }
 
-  async componentWillReceiveProps(nextProps) {
-    const { location, subject, topicPath } = nextProps;
+  /*  async componentWillReceiveProps(nextProps) {
+    const { location, topicPath } = nextProps;
     if (
       location.pathname !== this.props.location.pathname ||
       location.search !== this.props.location.search
     ) {
-      if (subject && subject.id) {
         const activeFilters = getFiltersFromUrlAsArray(location);
         this.setState({
           expandedTopicIds: topicPath.map(topic => topic.id),
           activeFilters,
         });
-      }
     }
-  }
+  } */
 
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
@@ -90,12 +107,7 @@ class MastheadMenu extends Component {
       location,
     } = this.props;
 
-    if (!subject) {
-      return null;
-    }
-
     const { activeFilters, expandedTopicIds } = this.state;
-
     const breadcrumbBlockItems = toBreadcrumbItems(
       t('breadcrumb.toFrontpage'),
       subject,
@@ -150,7 +162,7 @@ MastheadMenu.propTypes = {
     topics: arrayOf(object),
   }).isRequired,
   resource: ResourceShape,
-  filters: arrayOf(object).isRequired,
+  filters: arrayOf(object),
   topicResourcesByType: arrayOf(TopicShape).isRequired,
   topicPath: arrayOf(TopicShape).isRequired,
   onOpenSearch: func.isRequired,
