@@ -1,0 +1,6 @@
+{
+  "env": {
+    "NDLA_FRONTEND_CLIENT_ID": "@ndla_frontend_client_id",
+    "NDLA_FRONTEND_CLIENT_SECRET": "@ndla_frontend_client_secret"
+  }
+}
