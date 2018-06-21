@@ -30,17 +30,11 @@ import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
 import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 
-export function getSelectedTopic(topics) {
-  return [...topics] // prevent reverse mutation.
-    .reverse()
-    .find(topicId => topicId !== undefined && topicId !== null);
-}
-
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      menuIsOpen: false,
       searchIsOpen: false,
       data: {},
     };
@@ -174,6 +168,7 @@ class MastheadContainer extends React.PureComponent {
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
       searchIsOpen,
+      menuIsOpen,
     } = this.state;
 
     return (
@@ -190,16 +185,16 @@ class MastheadContainer extends React.PureComponent {
             <MastheadMenu
               subject={subject}
               topicPath={topicPath || []}
-              toggleMenu={isOpen => this.setState({ isOpen })}
+              toggleMenu={isOpen => this.setState({ menuIsOpen: isOpen })}
               onOpenSearch={() => {
                 this.setState({
-                  isOpen: false,
+                  menuIsOpen: false,
                   searchIsOpen: true,
                 });
               }}
               onDataFetch={this.onDataFetch}
               filters={filters}
-              isOpen={this.state.isOpen}
+              menuIsOpen={menuIsOpen}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
             />

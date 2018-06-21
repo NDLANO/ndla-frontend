@@ -5,7 +5,7 @@ import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../../routeHelpers';
-import { getSelectedTopic } from '../MastheadContainer';
+import { getSelectedTopic } from '../mastheadHelpers';
 import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
@@ -56,20 +56,6 @@ class MastheadMenu extends Component {
     });
   }
 
-  /*  async componentWillReceiveProps(nextProps) {
-    const { location, topicPath } = nextProps;
-    if (
-      location.pathname !== this.props.location.pathname ||
-      location.search !== this.props.location.search
-    ) {
-        const activeFilters = getFiltersFromUrlAsArray(location);
-        this.setState({
-          expandedTopicIds: topicPath.map(topic => topic.id),
-          activeFilters,
-        });
-    }
-  } */
-
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
@@ -96,7 +82,7 @@ class MastheadMenu extends Component {
   render() {
     const {
       t,
-      isOpen,
+      menuIsOpen,
       toggleMenu,
       subject,
       filters,
@@ -122,7 +108,7 @@ class MastheadMenu extends Component {
           title={t('masthead.menu.title')}
           openTitle={t('masthead.menu.close')}
           className="c-topic-menu-container"
-          isOpen={isOpen}
+          isOpen={menuIsOpen}
           onToggle={toggleMenu}
           buttonClassName="c-button c-button--outline c-topic-menu-toggle-button">
           {onClose => (
@@ -154,7 +140,7 @@ class MastheadMenu extends Component {
 }
 
 MastheadMenu.propTypes = {
-  isOpen: bool.isRequired,
+  menuIsOpen: bool.isRequired,
   toggleMenu: func.isRequired,
   subject: shape({
     id: string,

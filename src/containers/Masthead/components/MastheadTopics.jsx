@@ -4,10 +4,10 @@ import { TopicMenu } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { toSubject } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
-import { getSelectedTopic } from '../MastheadContainer';
 import {
   mapTopicResourcesToTopic,
   toTopicWithSubjectIdBound,
+  getSelectedTopic,
 } from '../mastheadHelpers';
 import { TopicShape } from '../../../shapes';
 
@@ -35,14 +35,19 @@ const MastheadTopics = props => {
     subject.topics,
     getSelectedTopic(expandedTopicIds),
     topicResourcesByType,
+    activeFilters.join(','),
   );
+
+  const resourceToLinkPropsWithFilters = (resource, subjectTopicPath) =>
+    resourceToLinkProps(resource, subjectTopicPath, activeFilters.join(','));
+
   return (
     <TopicMenu
       close={onClose}
       isBeta
       toSubject={() => toSubject(subject.id)}
       subjectTitle={subject.name}
-      toTopic={toTopicWithSubjectIdBound(subject.id)}
+      toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
       topics={topicsWithContentTypes}
       withSearchAndFilter
       messages={{
@@ -73,7 +78,7 @@ const MastheadTopics = props => {
       expandedTopicId={expandedTopicId}
       expandedSubtopicId={expandedSubtopicId}
       expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-      resourceToLinkProps={resourceToLinkProps}
+      resourceToLinkProps={resourceToLinkPropsWithFilters}
       searchPageUrl={subject ? `/search/?subjects=${subject.id}` : '/search'}
     />
   );
