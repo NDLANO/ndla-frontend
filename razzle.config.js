@@ -39,7 +39,6 @@ module.exports = {
           }),
           new webpack.optimize.ModuleConcatenationPlugin(),
         );
-        // appConfig.devtool = 'source-map';
       }
       appConfig.performance = {
         hints: false,
