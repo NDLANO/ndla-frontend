@@ -39,11 +39,13 @@ module.exports = {
           }),
           new webpack.optimize.ModuleConcatenationPlugin(),
         );
-        appConfig.devtool = 'source-map';
       }
       appConfig.performance = {
         hints: false,
       };
+    }
+    if (!dev) {
+      appConfig.devtool = 'source-map';
     }
 
     return appConfig;

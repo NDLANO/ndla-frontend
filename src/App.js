@@ -63,6 +63,13 @@ async function loadInitialProps(pathname, ctx) {
 }
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.location = null;
+    this.state = { data: props.initialProps, location: null };
+    this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.location === null) {
       return {
@@ -79,17 +86,6 @@ class App extends React.Component {
 
     // No state update necessary
     return null;
-  }
-
-  constructor(props) {
-    super(props);
-    this.location = null;
-    this.state = { data: props.initialProps, location: null };
-    this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
-  }
-
-  componentWillMount() {
-    this.location = null;
   }
 
   componentDidMount() {
