@@ -50,11 +50,12 @@ export function toTopic(subjectId, filters, ...topicIds) {
     return toSubject(urnFreeSubjectId);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
-  const filterQuery =
+  const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
-  return `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join(
+  const t = `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join(
     '/',
-  )}${filterQuery}`;
+  )}${filterParam}`;
+  return t;
 }
 
 export const toTopicPartial = (
