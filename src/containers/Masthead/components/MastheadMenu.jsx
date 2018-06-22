@@ -59,8 +59,25 @@ class MastheadMenu extends Component {
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
+    const selectedTopicId = getSelectedTopic(this.state.expandedTopicIds);
+    console.log(selectedTopicId);
     this.setState({ activeFilters });
-    onDataFetch(subjectId, topicId, resourceId, activeFilters);
+    onDataFetch(
+      subjectId,
+      selectedTopicId || topicId,
+      resourceId,
+      activeFilters,
+    );
+  };
+
+  onToggle = isOpen => {
+    const { toggleMenu, location } = this.props;
+    const activeFilters = getFiltersFromUrlAsArray(location);
+    if (!isOpen) {
+      this.setState({ activeFilters }, () => toggleMenu(isOpen));
+    } else {
+      toggleMenu(isOpen);
+    }
   };
 
   onNavigate = async (...expandedTopicIds) => {
@@ -83,7 +100,6 @@ class MastheadMenu extends Component {
     const {
       t,
       menuIsOpen,
-      toggleMenu,
       subject,
       filters,
       topicResourcesByType,
@@ -109,7 +125,7 @@ class MastheadMenu extends Component {
           openTitle={t('masthead.menu.close')}
           className="c-topic-menu-container"
           isOpen={menuIsOpen}
-          onToggle={toggleMenu}
+          onToggle={this.onToggle}
           buttonClassName="c-button c-button--outline c-topic-menu-toggle-button">
           {onClose => (
             <MastheadTopics
