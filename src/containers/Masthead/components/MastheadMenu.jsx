@@ -60,7 +60,6 @@ class MastheadMenu extends Component {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
     const selectedTopicId = getSelectedTopic(this.state.expandedTopicIds);
-    console.log(selectedTopicId);
     this.setState({ activeFilters });
     onDataFetch(
       subjectId,
@@ -68,6 +67,12 @@ class MastheadMenu extends Component {
       resourceId,
       activeFilters,
     );
+  };
+
+  onOpenSearch = () => {
+    const { onOpenSearch, location } = this.props;
+    const activeFilters = getFiltersFromUrlAsArray(location);
+    this.setState({ activeFilters }, onOpenSearch);
   };
 
   onToggle = isOpen => {
@@ -104,7 +109,6 @@ class MastheadMenu extends Component {
       filters,
       topicResourcesByType,
       topicPath,
-      onOpenSearch,
       resource,
       location,
     } = this.props;
@@ -133,7 +137,7 @@ class MastheadMenu extends Component {
               activeFilters={activeFilters}
               expandedTopicIds={expandedTopicIds}
               topicResourcesByType={topicResourcesByType}
-              onOpenSearch={onOpenSearch}
+              onOpenSearch={this.onOpenSearch}
               subject={subject}
               filters={filters}
               onFilterClick={this.onFilterClick}
