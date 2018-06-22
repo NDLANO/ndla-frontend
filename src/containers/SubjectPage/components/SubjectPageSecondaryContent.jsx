@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   OneColumn,
   SubjectFlexWrapper,
@@ -22,11 +23,13 @@ import { EmailOutline } from 'ndla-icons/common';
 import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
+import { getLocale } from '../../Locale/localeSelectors';
 
 const SubjectPageSecondaryContent = ({
   subjectName,
   latestContentResources,
   t,
+  locale,
 }) => (
   <SubjectSecondaryContent>
     <OneColumn noPadding>
@@ -40,7 +43,7 @@ const SubjectPageSecondaryContent = ({
                 url: toSubjects() + content.path,
                 topicName: subjectName,
                 formattedDate: content.meta
-                  ? formatDate(content.meta.lastUpdated)
+                  ? formatDate(content.meta.lastUpdated, locale)
                   : '',
               }))}
             />
@@ -71,6 +74,11 @@ const SubjectPageSecondaryContent = ({
 SubjectPageSecondaryContent.propTypes = {
   latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),
   subjectName: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
-export default injectT(SubjectPageSecondaryContent);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default connect(mapStateToProps)(injectT(SubjectPageSecondaryContent));
