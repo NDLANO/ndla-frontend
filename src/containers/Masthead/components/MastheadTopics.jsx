@@ -36,16 +36,7 @@ const MastheadTopics = props => {
     getSelectedTopic(expandedTopicIds),
     topicResourcesByType,
     activeFilters.join(','),
-  ).sort((topicA, topicB) => {
-    const nameA = topicA.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = topicB.name.toUpperCase(); // ignore upper and lower
-    if (nameA > nameB) {
-      return 1;
-    } else if (nameA < nameB) {
-      return -1;
-    }
-    return 0;
-  });
+  );
 
   const resourceToLinkPropsWithFilters = (resource, subjectTopicPath) =>
     resourceToLinkProps(resource, subjectTopicPath, activeFilters.join(','));
