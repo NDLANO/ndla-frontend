@@ -10,6 +10,12 @@ import {
   SearchResult,
   SearchResultList,
   ContentTypeBadge,
+  SubjectMaterialBadge,
+  TasksAndActivitiesBadge,
+  SubjectBadge,
+  ExternalLearningResourcesBadge,
+  SourceMaterialBadge,
+  LearningPathBadge,
   Image,
 } from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
@@ -19,10 +25,22 @@ import { ArticleResultShape, LocationShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
 
+const contentTypeIcons = {
+  subject: <SubjectBadge size="x-small" background />,
+  'topic-article': <SubjectBadge size="x-small" background />,
+  'learning-path': <LearningPathBadge size="x-small" background />,
+  'tasks-and-activities': <TasksAndActivitiesBadge size="x-small" background />,
+  'external-learning-resources': (
+    <ExternalLearningResourcesBadge size="x-small" backgrounde />
+  ),
+  'source-material': <SourceMaterialBadge size="x-small" background />,
+  'subject-material': <SubjectMaterialBadge size="x-small" background />,
+};
+
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
     ...result,
-    contentTypeIcon: (
+    contentTypeIcon: contentTypeIcons[result.contentType] || (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
     contentTypeLabel: t(`contentTypes.${result.contentType}`),
