@@ -38,10 +38,12 @@ import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 
-const getTopicPathFromProps = props => {
-  const { data: { subject } } = props;
-  const { topicId } = getUrnIdsFromProps(props);
-  return getTopicPath(subject.id, topicId, subject.topics);
+const transformData = data => {
+  const { subject, topic } = data;
+
+  const topicPath =
+    subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
+  return { ...data, topicPath };
 };
 
 class ArticlePage extends Component {
@@ -50,7 +52,7 @@ class ArticlePage extends Component {
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
     const filterIds = getFiltersFromUrl(location);
     try {
-      return runQueries(client, [
+      const response = await runQueries(client, [
         {
           query: subjectTopicsQuery,
           variables: { subjectId },
@@ -67,6 +69,11 @@ class ArticlePage extends Component {
           query: resourceTypesQuery,
         },
       ]);
+
+      return {
+        ...response,
+        data: transformData(response.data),
+      };
     } catch (error) {
       handleError(error);
       return null;
@@ -80,26 +87,16 @@ class ArticlePage extends Component {
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { data, loading } = currentProps;
-    if (
-      !data ||
-      !data.resource ||
-      !data.subject ||
-      !data.resource.article ||
-      loading
-    ) {
+    const { loading } = currentProps;
+    if (loading) {
       return;
     }
-    const topicPath = getTopicPathFromProps(currentProps);
-    if (data.resource && topicPath && topicPath.length > 0 && data.subject) {
-      trackPageView(currentProps);
-    }
+    trackPageView(currentProps);
   }
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
-    const { data: { resource: { article }, subject } } = props;
-    const topicPath = getTopicPathFromProps(props);
+    const { data: { resource: { article }, subject, topicPath } } = props;
     return getAllDimensions(
       { article, subject, topicPath },
       articleProps.label,
@@ -121,12 +118,11 @@ class ArticlePage extends Component {
 
   render() {
     const { data, locale, errors, loading } = this.props;
-    if (!data || !data.subject || loading) {
+    if (loading) {
       return null;
     }
 
-    const { resource, topic, resourceTypes, subject } = data;
-    const topicPath = getTopicPathFromProps(this.props);
+    const { resource, topic, resourceTypes, subject, topicPath } = data;
 
     if (resource === null || resource.article === null) {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};

@@ -54,10 +54,11 @@ const getTitle = (article, topic) => {
   return '';
 };
 
-const proccessData = (subjectId, topicId, data) => {
-  const { subject } = data;
+const transformData = data => {
+  const { subject, topic } = data;
 
-  const topicPath = getTopicPath(subject.id, topicId, subject.topics);
+  const topicPath =
+    subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   return { ...data, topicPath };
 };
 
@@ -78,7 +79,7 @@ class TopicPage extends Component {
       ]);
       return {
         ...response,
-        data: proccessData(subjectId, topicId, response.data),
+        data: transformData(response.data),
       };
     } catch (e) {
       handleError(e);
@@ -93,22 +94,11 @@ class TopicPage extends Component {
     )}${t('htmlTitles.titleTemplate')}`;
   }
 
-  static willTrackPageView(trackPageView, currentProps) {
-    const { data, loading } = currentProps;
-    if (loading) {
+  static willTrackPageView(trackPageView, props) {
+    if (props.loading) {
       return;
     }
-
-    const { subject, topicPath, topic } = data;
-    if (
-      topic &&
-      topic.article &&
-      topicPath &&
-      topicPath.length > 0 &&
-      subject
-    ) {
-      trackPageView(currentProps);
-    }
+    trackPageView(props);
   }
 
   static getDimensions(props) {
@@ -136,7 +126,7 @@ class TopicPage extends Component {
     } = data;
 
     const hasArticleError =
-      errors.find(e => e.path.includes('article')) !== undefined;
+      errors && errors.find(e => e.path.includes('article')) !== undefined;
     const scripts = getArticleScripts(article);
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
