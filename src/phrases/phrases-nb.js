@@ -121,8 +121,6 @@ const phrases = {
     chooseSubject: 'Velg fag',
   },
   topicPage: {
-    topicErrorDescription:
-      'Beklager, en feil oppsto under lasting av emneinnholdet.',
     articleErrorDescription:
       'Beklager, en feil oppsto under lasting av emnebeskrivelsen.',
     topic: 'EMNE',

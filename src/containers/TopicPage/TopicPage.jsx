@@ -21,6 +21,7 @@ import {
   TopicShape,
   ResourceTypeShape,
   LocationShape,
+  ResourceShape,
 } from '../../shapes';
 
 import { GraphqlErrorShape } from '../../graphqlShapes';
@@ -28,7 +29,7 @@ import { GraphqlErrorShape } from '../../graphqlShapes';
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
-// import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
+import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -119,7 +120,7 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { locale, t, loading, data, location } = this.props;
+    const { locale, t, loading, data, location, errors } = this.props;
 
     const { subjectId } = getUrnIdsFromProps(this.props);
 
@@ -133,6 +134,9 @@ class TopicPage extends Component {
       resourceTypes,
       topic: { article, subtopics, supplementaryResources, coreResources },
     } = data;
+
+    const hasArticleError =
+      errors.find(e => e.path.includes('article')) !== undefined;
     const scripts = getArticleScripts(article);
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -176,13 +180,7 @@ class TopicPage extends Component {
             </div>
           </OneColumn>
         </SubjectHero>
-        {/* {(fetchTopicsStatus === 'error' ||
-          fetchTopicArticleStatus === 'error') && (
-          <TopicPageErrorMessage
-            t={t}
-            fetchTopicsFailed={fetchTopicsStatus === 'error'}
-          />
-        )} */}
+        {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
             article={article}
@@ -221,11 +219,11 @@ TopicPage.propTypes = {
     topic: PropTypes.shape({
       article: ArticleShape,
       subtopics: PropTypes.arrayOf(TopicShape),
-      coreResources: PropTypes.arrayOf(ResourceTypeShape),
-      supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
+      coreResources: PropTypes.arrayOf(ResourceShape),
+      supplementaryResources: PropTypes.arrayOf(ResourceShape),
     }),
     topicPath: PropTypes.arrayOf(TopicShape),
-    resourceTypes: ResourceTypeShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   loading: PropTypes.bool.isRequired,
