@@ -6,11 +6,10 @@
  *
  */
 
-import { take, call, put, select, takeEvery } from 'redux-saga/effects';
+import { take, call, put, select } from 'redux-saga/effects';
 import { actions, filterHasFetched } from './filter';
 import * as api from './filterApi';
 import { applicationError } from '../../modules/error';
-import { fetchTopicsFiltered } from '../TopicPage/topicSagas';
 
 export function* fetchSubjectFilters(id) {
   try {
@@ -39,10 +38,6 @@ export function* watchFetchFilters() {
   }
 }
 
-export function* watchFetchFilteredTopics() {
-  yield takeEvery(actions.fetchFilteredTopics, fetchTopicsFiltered);
-}
-
 export function* watchFetchSubjectFilters() {
   while (true) {
     const { payload } = yield take(actions.fetchSubjectFilters);
@@ -60,9 +55,4 @@ export function* watchSetActive() {
   }
 }
 
-export default [
-  watchFetchFilters,
-  watchFetchSubjectFilters,
-  watchSetActive,
-  watchFetchFilteredTopics,
-];
+export default [watchFetchFilters, watchFetchSubjectFilters, watchSetActive];

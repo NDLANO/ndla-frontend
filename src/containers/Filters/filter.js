@@ -16,7 +16,6 @@ export const fetchFilteredTopics = createAction('FETCH_FILTERED_TOPICS');
 export const actions = {
   ...fetchSubjectFiltersActions,
   ...fetchFiltersActions,
-  fetchFilteredTopics,
   setActive: createAction('SET_ACTIVE'),
 };
 
