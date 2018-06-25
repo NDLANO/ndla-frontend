@@ -28,7 +28,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
-  subjectQuery,
+  subjectTopicsQuery,
   resourceTypesQuery,
   topicResourcesQuery,
   resourceQuery,
@@ -52,8 +52,8 @@ class ArticlePage extends Component {
     try {
       return runQueries(client, [
         {
-          query: subjectQuery,
-          variables: { subjectId, filterIds },
+          query: subjectTopicsQuery,
+          variables: { subjectId },
         },
         {
           query: topicResourcesQuery,

@@ -152,12 +152,30 @@ export const subjectPageArticlesInfo = gql`
   }
 `;
 
-export const subjectQuery = gql`
+export const subjectTopicsQuery = gql`
+  ${topicInfoFragment}
+  query subjectTopicsQuery($subjectId: String!, $filterIds: String) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      filters {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const subjectPageQuery = gql`
   ${topicInfoFragment}
   ${subjectPageArticlesInfo}
   ${resourceInfoFragment}
   ${metaInfoFragment}
-  query subjectQuery($subjectId: String!, $filterIds: String) {
+  query subjectPageQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
       name
@@ -295,6 +313,29 @@ export const resourceQuery = gql`
       resourceTypes {
         id
         name
+      }
+    }
+  }
+`;
+
+export const topicQuery = gql`
+  ${topicInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+  query topicQuery($topicId: String!, $filterIds: String) {
+    topic(id: $topicId) {
+      ...TopicInfo
+      article {
+        ...ArticleInfo
+      }
+      subtopics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      coreResources(filterIds: $filterIds) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds) {
+        ...ResourceInfo
       }
     }
   }

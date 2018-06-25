@@ -22,7 +22,7 @@ import {
   topicResourcesQuery,
   resourceTypesQuery,
   resourceQuery,
-  subjectQuery,
+  subjectTopicsQuery,
 } from '../../queries';
 import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
@@ -100,7 +100,7 @@ class MastheadContainer extends React.PureComponent {
       if (subjectId) {
         queries.push({ query: resourceTypesQuery });
         queries.push({
-          query: subjectQuery,
+          query: subjectTopicsQuery,
           variables: { subjectId, filterIds },
         });
       }
