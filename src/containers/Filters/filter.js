@@ -6,23 +6,18 @@
  *
  */
 
-import { handleActions, createAction } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import { createSelector } from 'reselect';
 import createFetchActions from '../../util/createFetchActions';
 
-export const fetchSubjectFiltersActions = createFetchActions('SUBJECT_FILTERS');
 export const fetchFiltersActions = createFetchActions('FILTERS');
-export const fetchFilteredTopics = createAction('FETCH_FILTERED_TOPICS');
 export const actions = {
-  ...fetchSubjectFiltersActions,
   ...fetchFiltersActions,
-  setActive: createAction('SET_ACTIVE'),
 };
 
 export const initialState = {
   loadingFilters: false,
   all: {},
-  active: {},
   hasFailed: false,
 };
 
@@ -80,23 +75,11 @@ export default handleActions(
         },
       }),
     },
-    [actions.setActive]: {
-      next: (state, { payload: { newValues, subjectId } }) => ({
-        ...state,
-        active: {
-          ...state.active,
-          [subjectId]: newValues,
-        },
-      }),
-    },
   },
   initialState,
 );
 
 const getState = state => state.filters;
-
-export const getActiveFilter = subjectId =>
-  createSelector([getState], state => state.active[subjectId]);
 
 const getFilterFromField = (filters, field) =>
   filters.all[field]

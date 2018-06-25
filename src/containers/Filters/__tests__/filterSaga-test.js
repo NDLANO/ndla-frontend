@@ -22,17 +22,6 @@ const filters = [
   },
 ];
 
-test('filters for subject are fetched', () => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects/urn:subject:1/filters')
-    .reply(200, filters);
-
-  return expectSaga(sagas.watchFetchSubjectFilters)
-    .put(actions.fetchSubjectFiltersSuccess({ id: 'urn:subject:1', filters }))
-    .dispatch(actions.fetchSubjectFilters('urn:subject:1'))
-    .run({ silenceTimeout: true });
-});
-
 test('filters are fetched', () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/filters')
