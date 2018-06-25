@@ -84,7 +84,30 @@ const phrases = {
   subjectPage: {
     errorDescription: 'Orsak, ein feil oppstod under lasting av emnene.',
     tabs: {
-      topics: 'Emner',
+      topics: 'Emne',
+    },
+    subjectShortcuts: {
+      heading: 'Gå direkte til',
+      showMore: 'Vis fleire',
+      showLess: 'Vis færre',
+    },
+    mostRead: {
+      heading: 'Mest lese',
+    },
+    editorsChoices: {
+      heading: 'Litt forskjellig frå faget',
+      unknown: 'Ukjend',
+    },
+    subjectArchive: {
+      heading: 'Aktuelt',
+      archive: 'Arkiv',
+      close: 'Lukk',
+    },
+    subjectFilter: {
+      label: 'Filter',
+    },
+    newContent: {
+      heading: 'Nytt innhald',
     },
   },
   subjectsPage: {
@@ -100,8 +123,41 @@ const phrases = {
     topics: 'Emner',
   },
   welcomePage: {
-    subjects: 'Fag',
-    search: 'Gå til søk',
+    search: 'Søk',
+    highlighted: 'Aktuelt',
+    heading: {
+      heading: 'Nasjonal digital læringsarena',
+      searchFieldPlaceholder: 'Søk etter f.eks emne, lærestoff, nykelord...',
+      messages: {
+        searchFieldTitle: 'Søk',
+        menuButton: 'Meny',
+      },
+      links: {
+        aboutNDLA: 'Om NDLA',
+        changeLanguage: 'Skift språk',
+      },
+    },
+    socialMedia: {
+      heading: 'Følg oss',
+      description:
+        'NDLA har mange Facebook og Twitter kontoar. Finn den som passar for deg og følg oss!',
+      mainLink: {
+        name: 'Følg oss',
+      },
+    },
+    aboutNDLA: {
+      heading: 'Om NDLA',
+      description:
+        'NDLAs visjon er å lage gode, opne digitale læremiddel for alle fag i videregående opplæring og støtte opp om elevar og lærarar i aktivt og deltakende læringsarbeid.',
+      mainLink: {
+        name: 'Meir om Ndla',
+      },
+    },
+    category: {
+      fellesfag: 'Fellesfag',
+      yrkesfag: 'Yrkesfag',
+      all: 'Alle fag',
+    },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
     beta: {
       info:
