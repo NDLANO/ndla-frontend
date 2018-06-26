@@ -84,6 +84,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                   viewBox="0 0 48 48"
                   width="1em"
                 >
+                  <title>
+                    User
+                  </title>
                   <g>
                     <path
                       d="M24 24c4.42 0 8-3.59 8-8 0-4.42-3.58-8-8-8s-8 3.58-8 8c0 4.41 3.58 8 8 8zm0 4c-5.33 0-16 2.67-16 8v4h32v-4c0-5.33-10.67-8-16-8z"
@@ -178,6 +181,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                   viewBox="0 0 48 48"
                   width="1em"
                 >
+                  <title>
+                    Time
+                  </title>
                   <g>
                     <path
                       d="M23.99 4C12.94 4 4 12.95 4 24s8.94 20 19.99 20C35.04 44 44 35.05 44 24S35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16zm1-26h-3v12l10.49 6.3L34 29.84l-9-5.34z"
@@ -291,6 +297,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                       viewBox="0 0 78 77"
                                       width="1em"
                                     >
+                                      <title>
+                                        Document
+                                      </title>
                                       <g>
                                         <circle
                                           cx="38.5"
@@ -397,6 +406,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                               viewBox="5.5 -3.5 64 64"
                                               width="1em"
                                             >
+                                              <title>
+                                                Cc
+                                              </title>
                                               <g>
                                                 <circle
                                                   cx="37.785"
@@ -435,6 +447,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                               viewBox="5.5 -3.5 64 64"
                                               width="1em"
                                             >
+                                              <title>
+                                                By
+                                              </title>
                                               <g>
                                                 <circle
                                                   cx="37.637"
@@ -475,6 +490,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                                               viewBox="5.5 -3.5 64 64"
                                               width="1em"
                                             >
+                                              <title>
+                                                Sa
+                                              </title>
                                               <g>
                                                 <circle
                                                   cx="36.944"
