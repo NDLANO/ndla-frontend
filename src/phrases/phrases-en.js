@@ -81,10 +81,34 @@ const phrases = {
       noValuesButtonText: 'Pick subject',
     },
   },
+
   subjectPage: {
     errorDescription: 'Sorry, an error occurd while loading the topics.',
     tabs: {
       topics: 'Topics',
+    },
+    subjectShortcuts: {
+      heading: 'Go directly to',
+      showMore: 'Show more',
+      showLess: 'Show less',
+    },
+    mostRead: {
+      heading: 'Most read',
+    },
+    editorsChoices: {
+      heading: 'Editor choices from the subject',
+      unknown: 'Uknown',
+    },
+    subjectArchive: {
+      heading: 'Current',
+      archive: 'Archive',
+      close: 'Close',
+    },
+    subjectFilter: {
+      label: 'Filter',
+    },
+    newContent: {
+      heading: 'New content',
     },
   },
   subjectsPage: {
@@ -98,8 +122,42 @@ const phrases = {
     topics: 'Topics',
   },
   welcomePage: {
-    subjects: 'Subjects',
     search: 'Search',
+    highlighted: 'Highlighted',
+    heading: {
+      heading: 'The Norwegian Digital Learning Arena',
+      searchFieldPlaceholder:
+        'Search for topics, learning materials, keywords ...',
+      messages: {
+        searchFieldTitle: 'Search',
+        menuButton: 'Menu',
+      },
+      links: {
+        aboutNDLA: 'About NDLA',
+        changeLanguage: 'Change language',
+      },
+    },
+    socialMedia: {
+      heading: 'Follow us',
+      description:
+        'NDLA has many Facebook and Twitter accounts. Find the one that suits you and follow us!',
+      mainLink: {
+        name: 'Follow us',
+      },
+    },
+    aboutNDLA: {
+      heading: 'About NDLA',
+      description:
+        'NDLAs vision is to create good, open digital learning resources for all subjects in upper secondary education and support students and teachers in active and participatory learning work.',
+      mainLink: {
+        name: 'More about NDLA',
+      },
+    },
+    category: {
+      fellesfag: 'Common',
+      yrkesfag: 'Vocational',
+      all: 'All subjects',
+    },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
     beta: {
       info:

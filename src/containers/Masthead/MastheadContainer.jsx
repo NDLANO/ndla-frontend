@@ -92,6 +92,13 @@ class MastheadContainer extends React.PureComponent {
     this.setState({ data });
   };
 
+  onOpenSearch = () => {
+    this.setState({
+      menuIsOpen: false,
+      searchIsOpen: true,
+    });
+  };
+
   getData = async (subjectId, topicId, resourceId, activeFilters = []) => {
     const filterIds = activeFilters.join(',');
 
@@ -163,6 +170,10 @@ class MastheadContainer extends React.PureComponent {
     }
   };
 
+  toggleField = (field, isOpen) => {
+    this.setState({ [field]: isOpen });
+  };
+
   render() {
     const { t } = this.props;
     const {
@@ -185,13 +196,8 @@ class MastheadContainer extends React.PureComponent {
             <MastheadMenu
               subject={subject}
               topicPath={topicPath || []}
-              toggleMenu={isOpen => this.setState({ menuIsOpen: isOpen })}
-              onOpenSearch={() => {
-                this.setState({
-                  menuIsOpen: false,
-                  searchIsOpen: true,
-                });
-              }}
+              toggleMenu={isOpen => this.toggleField('menuIsOpen', isOpen)}
+              onOpenSearch={this.onOpenSearch}
               onDataFetch={this.onDataFetch}
               filters={filters}
               menuIsOpen={menuIsOpen}
@@ -204,15 +210,10 @@ class MastheadContainer extends React.PureComponent {
           {subject && (
             <MastheadSearch
               searchIsOpen={searchIsOpen}
-              openToggle={isOpen => {
-                this.setState({
-                  searchIsOpen: isOpen,
-                });
-              }}
+              openToggle={isOpen => this.toggleField('searchIsOpen', isOpen)}
               subject={subject}
             />
           )}
-
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>

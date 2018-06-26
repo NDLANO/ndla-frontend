@@ -18,11 +18,12 @@ import { converSearchStringToObject } from '../searchHelpers';
 import { ArticleResultShape, LocationShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
+import { contentTypeIcons } from '../../../constants';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
     ...result,
-    contentTypeIcon: (
+    contentTypeIcon: contentTypeIcons[result.contentType] || (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
     contentTypeLabel: t(`contentTypes.${result.contentType}`),

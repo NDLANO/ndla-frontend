@@ -15,7 +15,6 @@ function getAssets() {
 
 export function getArticleScripts(article) {
   const assets = getAssets();
-
   const scripts = article
     ? article.requiredLibraries.map(lib => ({
         src: lib.url,

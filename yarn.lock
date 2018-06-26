@@ -6347,9 +6347,9 @@ ndla-i18n@^0.2.1:
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.4.tgz#9b958622f3b66df7c437cc2b1f772fabdd20141a"
+ndla-icons@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.3.6.tgz#a9c0b13e993cdc2a8b098c34a9e4a85847232a61"
 
 ndla-licenses@^0.2.0:
   version "0.2.0"
@@ -6379,9 +6379,9 @@ ndla-tracker@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.1.0.tgz#3cb7595f8b0d7104ee25948115bd7c33c2b375b6"
 
-ndla-ui@^0.12.19:
-  version "0.12.19"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.19.tgz#b4f69aede7479f651999182022d2b5de57554e5d"
+ndla-ui@^0.12.20:
+  version "0.12.20"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.12.20.tgz#dbdecaaadaf8bcfdb576a7cc6b1051b9b8693309"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"

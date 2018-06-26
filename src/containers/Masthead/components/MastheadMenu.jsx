@@ -59,8 +59,30 @@ class MastheadMenu extends Component {
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
+    const selectedTopicId = getSelectedTopic(this.state.expandedTopicIds);
     this.setState({ activeFilters });
-    onDataFetch(subjectId, topicId, resourceId, activeFilters);
+    onDataFetch(
+      subjectId,
+      selectedTopicId || topicId,
+      resourceId,
+      activeFilters,
+    );
+  };
+
+  onOpenSearch = () => {
+    const { onOpenSearch, location } = this.props;
+    const activeFilters = getFiltersFromUrlAsArray(location);
+    this.setState({ activeFilters }, onOpenSearch);
+  };
+
+  onToggle = isOpen => {
+    const { toggleMenu, location } = this.props;
+    const activeFilters = getFiltersFromUrlAsArray(location);
+    if (!isOpen) {
+      this.setState({ activeFilters }, () => toggleMenu(isOpen));
+    } else {
+      toggleMenu(isOpen);
+    }
   };
 
   onNavigate = async (...expandedTopicIds) => {
@@ -83,12 +105,10 @@ class MastheadMenu extends Component {
     const {
       t,
       menuIsOpen,
-      toggleMenu,
       subject,
       filters,
       topicResourcesByType,
       topicPath,
-      onOpenSearch,
       resource,
       location,
     } = this.props;
@@ -109,7 +129,7 @@ class MastheadMenu extends Component {
           openTitle={t('masthead.menu.close')}
           className="c-topic-menu-container"
           isOpen={menuIsOpen}
-          onToggle={toggleMenu}
+          onToggle={this.onToggle}
           buttonClassName="c-button c-button--outline c-topic-menu-toggle-button">
           {onClose => (
             <MastheadTopics
@@ -117,7 +137,7 @@ class MastheadMenu extends Component {
               activeFilters={activeFilters}
               expandedTopicIds={expandedTopicIds}
               topicResourcesByType={topicResourcesByType}
-              onOpenSearch={onOpenSearch}
+              onOpenSearch={this.onOpenSearch}
               subject={subject}
               filters={filters}
               onFilterClick={this.onFilterClick}

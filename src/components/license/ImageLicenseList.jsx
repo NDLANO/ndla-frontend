@@ -20,6 +20,7 @@ import {
 } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
+import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
@@ -30,6 +31,14 @@ const ImageShape = PropTypes.shape({
   altText: PropTypes.string.isRequired,
   copyright: CopyrightObjectShape.isRequired,
 });
+
+export const downloadUrl = imageSrc => {
+  const urlObject = queryString.parseUrl(imageSrc);
+  return `${urlObject.url}?${queryString.stringify({
+    ...urlObject.query,
+    download: true,
+  })}`;
+};
 
 const ImageLicenseInfo = ({ image, locale, t }) => {
   const items = getGroupedContributorDescriptionList(image.copyright, locale);
@@ -71,7 +80,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
               hasCopiedTitle={t('hasCopiedTitle')}
             />
             <a
-              href={image.src}
+              href={downloadUrl(image.src)}
               className="c-button c-button--outline c-licenseToggle__button"
               download>
               {t('download')}
