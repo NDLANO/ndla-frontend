@@ -362,9 +362,9 @@ SearchContainer.defaultProps = {
       name: 'learning-path',
     },
     {
-      value: 'urn:resourcetype:externalResource',
+      value: 'urn:resourcetype:tasksAndActivities',
       type: 'resource-types',
-      name: 'external-learning-resources',
+      name: 'tasks-and-activities',
     },
   ],
   filters: [],
