@@ -181,7 +181,6 @@ class MastheadContainer extends React.PureComponent {
       searchIsOpen,
       menuIsOpen,
     } = this.state;
-    console.log(subject);
     return (
       <Masthead
         infoContent={
