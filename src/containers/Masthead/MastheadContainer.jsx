@@ -170,7 +170,7 @@ class MastheadContainer extends React.PureComponent {
       searchIsOpen,
       menuIsOpen,
     } = this.state;
-
+    console.log(subject);
     return (
       <Masthead
         infoContent={
@@ -201,15 +201,17 @@ class MastheadContainer extends React.PureComponent {
           )}
         </MastheadItem>
         <MastheadItem right>
-          <MastheadSearch
-            searchIsOpen={searchIsOpen}
-            openToggle={isOpen => {
-              this.setState({
-                searchIsOpen: isOpen,
-              });
-            }}
-            subject={subject}
-          />
+          {subject && (
+            <MastheadSearch
+              searchIsOpen={searchIsOpen}
+              openToggle={isOpen => {
+                this.setState({
+                  searchIsOpen: isOpen,
+                });
+              }}
+              subject={subject}
+            />
+          )}
 
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
