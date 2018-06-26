@@ -14,13 +14,6 @@ import Helmet from 'react-helmet';
 import { OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withTracker } from 'ndla-tracker';
-import {
-  addCloseDialogClickListeners,
-  addShowDialogClickListeners,
-  removeShowDialogClickListeners,
-  initTableScript,
-  removeTableEventListeners,
-} from 'ndla-article-scripts';
 import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
@@ -115,9 +108,6 @@ class ArticlePage extends Component {
   }
 
   componentDidMount() {
-    initTableScript();
-    addCloseDialogClickListeners();
-    addShowDialogClickListeners();
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
@@ -127,10 +117,6 @@ class ArticlePage extends Component {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
-  }
-  componentWillUnmount() {
-    removeTableEventListeners();
-    removeShowDialogClickListeners();
   }
 
   render() {
