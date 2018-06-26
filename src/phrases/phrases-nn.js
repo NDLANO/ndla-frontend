@@ -115,8 +115,6 @@ const phrases = {
     chooseSubject: 'Vel fag',
   },
   topicPage: {
-    topicErrorDescription:
-      'Orsak, ein feil oppstod under lasting av emneinnhaldet.',
     articleErrorDescription:
       'Orsak, ein feil oppstod under lasting av emneskildringa.',
     topic: 'EMNE',

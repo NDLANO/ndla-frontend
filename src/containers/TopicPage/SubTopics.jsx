@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   ResourcesWrapper,
@@ -17,7 +16,6 @@ import {
 } from 'ndla-ui';
 import { withRouter } from 'react-router-dom';
 import { injectT } from 'ndla-i18n';
-import { getSubtopicsWithIntroduction } from './topic';
 import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
@@ -43,7 +41,10 @@ export const TopicResources = ({
       <ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>
       <TopicIntroductionList
         toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
-        topics={subtopics}
+        topics={subtopics.map(topic => ({
+          ...topic,
+          introduction: topic.meta.metaDescription,
+        }))}
       />
     </ResourcesWrapper>
   );
@@ -56,13 +57,4 @@ TopicResources.propTypes = {
   location: LocationShape,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { subjectId, topic: { id: topicId } } = ownProps;
-  return {
-    subtopics: getSubtopicsWithIntroduction(subjectId, topicId)(state),
-  };
-};
-
-export default compose(withRouter, connect(mapStateToProps), injectT)(
-  TopicResources,
-);
+export default compose(withRouter, injectT)(TopicResources);

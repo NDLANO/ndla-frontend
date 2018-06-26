@@ -13,24 +13,16 @@ import { contentTypeMapping } from '../../../util/getContentTypeFromResourceType
 import { LocationShape } from '../../../shapes';
 
 class MastheadSearch extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       query: '',
-      searchFieldFilters: [],
+      subject: props.subject,
     };
-  }
-  async componentDidMount() {
-    const { subject } = this.props;
-    this.setState({
-      searchFieldFilters: subject
-        ? [{ title: subject.name, value: subject.id }]
-        : [],
-    });
   }
 
   onFilterRemove = () => {
-    this.setState({ searchFieldFilters: [] });
+    this.setState({ subject: undefined });
   };
 
   onQueryChange = evt => {
@@ -42,7 +34,7 @@ class MastheadSearch extends Component {
     evt.preventDefault();
 
     const { history } = this.props;
-    const { query, data: { subject } } = this.state;
+    const { query, subject } = this.state;
     this.executeSearch(query);
     history.push({
       pathname: '/search',
@@ -55,14 +47,11 @@ class MastheadSearch extends Component {
 
   executeSearch = query => {
     const { groupSearch } = this.props;
-    const { searchFieldFilters } = this.state;
+    const { subject } = this.state;
 
     const searchParams = {
       query,
-      subjects:
-        searchFieldFilters.length > 0
-          ? searchFieldFilters.map(filter => filter.value).join(',')
-          : undefined,
+      subjects: subject ? subject.id : undefined,
       'resource-types':
         'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities',
     };
@@ -70,20 +59,13 @@ class MastheadSearch extends Component {
   };
 
   render() {
-    const {
-      searchIsOpen,
-      openToggle,
-      subject,
-      results,
-      location,
-      t,
-    } = this.props;
+    const { searchIsOpen, openToggle, results, location, t } = this.props;
 
     if (location.pathname.includes('search')) {
       return null;
     }
 
-    const { query, searchFieldFilters } = this.state;
+    const { query, subject } = this.state;
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
       subjects: subject ? subject.id : undefined,
@@ -110,7 +92,9 @@ class MastheadSearch extends Component {
               onChange={this.onQueryChange}
               onSearch={this.onSearch}
               resourceToLinkProps={res => searchResultToLinkProps(res, results)}
-              filters={searchFieldFilters}
+              filters={
+                subject ? [{ title: subject.name, value: subject.id }] : []
+              }
               onFilterRemove={this.onFilterRemove}
               messages={{
                 contentTypeResultShowMoreLabel: t(
@@ -150,7 +134,7 @@ MastheadSearch.propTypes = {
   subject: shape({
     id: string,
     name: string,
-  }),
+  }).isRequired,
   results: arrayOf(object),
   groupSearch: func.isRequired,
   history: shape({

@@ -19,7 +19,7 @@ import { withTracker } from 'ndla-tracker';
 import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
-import { subjectQuery } from '../../queries';
+import { subjectPageQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
@@ -41,7 +41,7 @@ class SubjectPage extends Component {
     try {
       return runQueries(client, [
         {
-          query: subjectQuery,
+          query: subjectPageQuery,
           variables: { subjectId, filterIds: getFiltersFromUrl(location) },
         },
       ]);

@@ -22,7 +22,7 @@ import {
   topicResourcesQuery,
   resourceTypesQuery,
   resourceQuery,
-  subjectQuery,
+  subjectTopicsQuery,
 } from '../../queries';
 import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
@@ -107,7 +107,7 @@ class MastheadContainer extends React.PureComponent {
       if (subjectId) {
         queries.push({ query: resourceTypesQuery });
         queries.push({
-          query: subjectQuery,
+          query: subjectTopicsQuery,
           variables: { subjectId, filterIds },
         });
       }
@@ -181,7 +181,6 @@ class MastheadContainer extends React.PureComponent {
       searchIsOpen,
       menuIsOpen,
     } = this.state;
-
     return (
       <Masthead
         infoContent={
@@ -207,12 +206,13 @@ class MastheadContainer extends React.PureComponent {
           )}
         </MastheadItem>
         <MastheadItem right>
-          <MastheadSearch
-            searchIsOpen={searchIsOpen}
-            openToggle={isOpen => this.toggleField('searchIsOpen', isOpen)}
-            subject={subject}
-          />
-
+          {subject && (
+            <MastheadSearch
+              searchIsOpen={searchIsOpen}
+              openToggle={isOpen => this.toggleField('searchIsOpen', isOpen)}
+              subject={subject}
+            />
+          )}
           <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
