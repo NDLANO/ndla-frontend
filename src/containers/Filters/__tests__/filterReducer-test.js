@@ -6,59 +6,10 @@
  *
  */
 
-import reducer, { initialState, actions } from '../filter';
-
-const filters = [
-  {
-    id: 'test1',
-    name: 'test1',
-  },
-  {
-    id: 'test2',
-    name: 'test2',
-  },
-];
-
-const subjectId = 'urn:subject:1';
-const filterId = 'test:abcd';
-const newValues = [filterId];
+import reducer, { initialState } from '../filter';
 
 test('reducer initalState', () => {
   const nextState = reducer(undefined, { type: '' });
 
   expect(nextState).toEqual(initialState);
-});
-
-test('handle fetched filter, set active', () => {
-  const nextState = reducer(initialState, {
-    type: actions.fetchSubjectFiltersSuccess,
-    payload: { id: subjectId, filters },
-  });
-
-  expect(nextState).toEqual({
-    all: { [subjectId]: filters },
-    loadingFilters: false,
-    active: {},
-    hasFailed: false,
-  });
-
-  const nextNextState = reducer(nextState, {
-    type: actions.setActive,
-    payload: { newValues, filterId, subjectId },
-  });
-
-  expect(nextNextState).toEqual({
-    ...nextState,
-    active: { [subjectId]: newValues },
-  });
-
-  const nextNextNextState = reducer(nextNextState, {
-    type: actions.setActive,
-    payload: { newValues: [], filterId, subjectId },
-  });
-
-  expect(nextNextNextState).toEqual({
-    ...nextNextState,
-    active: { [subjectId]: [] },
-  });
 });

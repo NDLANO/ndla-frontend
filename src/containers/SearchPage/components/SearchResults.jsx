@@ -16,13 +16,14 @@ import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
 import { converSearchStringToObject } from '../searchHelpers';
 import { ArticleResultShape, LocationShape } from '../../../shapes';
-import { GraphqlResourceTypeShape } from '../../../graphqlShapes';
+import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
+import { contentTypeIcons } from '../../../constants';
 
 const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => ({
     ...result,
-    contentTypeIcon: (
+    contentTypeIcon: contentTypeIcons[result.contentType] || (
       <ContentTypeBadge type={result.contentType} size="x-small" />
     ),
     contentTypeLabel: t(`contentTypes.${result.contentType}`),
@@ -102,7 +103,7 @@ SearchResults.propTypes = {
       type: string,
     }),
   ),
-  resourceTypes: arrayOf(GraphqlResourceTypeShape),
+  resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onTabChange: func,
   results: arrayOf(ArticleResultShape).isRequired,
   resultMetadata: shape({

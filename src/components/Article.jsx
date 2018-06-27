@@ -9,11 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Article as UIArticle,
-  ContentTypeBadge,
-  ToggleLicenseBox,
-} from 'ndla-ui';
+import { Article as UIArticle, ContentTypeBadge } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
@@ -39,21 +35,14 @@ const Article = ({
     <UIArticle
       article={article}
       icon={icon}
-      licenseBox={
-        <ToggleLicenseBox
-          article={article}
-          locale={locale}
-          dialogLabelledBy="license-heading"
-          openTitle={t('openLicenseBox')}
-          closeTitle={t('closeLicenseBox')}>
-          <LicenseBox article={article} locale={locale} />
-        </ToggleLicenseBox>
-      }
+      licenseBox={<LicenseBox article={article} locale={locale} />}
       messages={{
-        lastUpdated: t('lastUpdated'),
-        edition: t('edition'),
-        publisher: t('publisher'),
+        lastUpdated: t('article.lastUpdated'),
+        edition: t('article.edition'),
+        publisher: t('article.publisher'),
         label,
+        authorLabel: t('license.creditType.originator'),
+        authorDescription: t('license.creditType.authorDesc'),
       }}
       {...rest}>
       {children}
@@ -78,4 +67,4 @@ Article.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(Article, 'article.');
+export default injectT(Article);

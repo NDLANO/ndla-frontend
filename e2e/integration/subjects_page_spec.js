@@ -34,7 +34,7 @@ describe('Subjects page', () => {
 
   it('should have a valid breadcrumb, filter and language select', () => {
     cy
-      .get('[data-cy="breadcrumb-section"] a')
+      .get('.c-breadcrumb a')
       .should('have.length', 1)
       .and('have.attr', 'href');
 

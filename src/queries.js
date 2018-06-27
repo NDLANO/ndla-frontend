@@ -67,6 +67,17 @@ export const resourceInfoFragment = gql`
   }
 `;
 
+export const metaInfoFragment = gql`
+  fragment MetaInfo on Meta {
+    id
+    title
+    introduction
+    metaDescription
+    metaImage
+    lastUpdated
+  }
+`;
+
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
 
@@ -128,9 +139,22 @@ export const articleInfoFragment = gql`
   }
 `;
 
-export const subjectQuery = gql`
+export const subjectPageArticlesInfo = gql`
+  ${resourceInfoFragment}
+  ${metaInfoFragment}
+  fragment SubjectPageArticlesInfo on SubjectPageArticles {
+    resources {
+      ...ResourceInfo
+      meta {
+        ...MetaInfo
+      }
+    }
+  }
+`;
+
+export const subjectTopicsQuery = gql`
   ${topicInfoFragment}
-  query subjectQuery($subjectId: String!, $filterIds: String) {
+  query subjectTopicsQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
       name
@@ -146,12 +170,94 @@ export const subjectQuery = gql`
   }
 `;
 
+export const subjectPageQuery = gql`
+  ${topicInfoFragment}
+  ${subjectPageArticlesInfo}
+  ${resourceInfoFragment}
+  ${metaInfoFragment}
+  query subjectPageQuery($subjectId: String!, $filterIds: String) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      filters {
+        id
+        name
+      }
+      subjectpage {
+        id
+        topical {
+          resource {
+            ...ResourceInfo
+            meta {
+              ...MetaInfo
+            }
+          }
+        }
+        banner {
+          desktopUrl
+          mobileUrl
+        }
+        facebook
+        twitter
+        displayInTwoColumns
+        about {
+          title
+          description
+          visualElement {
+            type
+            url
+            alt
+          }
+        }
+        goTo {
+          resourceTypes {
+            id
+            name
+          }
+        }
+        mostRead {
+          ...SubjectPageArticlesInfo
+        }
+        latestContent {
+          ...SubjectPageArticlesInfo
+        }
+        editorsChoices {
+          ...SubjectPageArticlesInfo
+        }
+      }
+    }
+  }
+`;
+
 export const subjectsQuery = gql`
   ${subjectInfoFragment}
 
   query subjectsQuery {
     subjects {
       ...SubjectInfo
+    }
+  }
+`;
+
+export const frontpageQuery = gql`
+  ${resourceInfoFragment}
+  ${subjectInfoFragment}
+
+  query frontpageQuery {
+    frontpage {
+      topical {
+        ...ResourceInfo
+      }
+      categories {
+        name
+        subjects {
+          ...SubjectInfo
+        }
+      }
     }
   }
 `;
@@ -180,12 +286,13 @@ export const resourceTypesQuery = gql`
 
 export const topicResourcesQuery = gql`
   ${resourceInfoFragment}
-  query topicResourcesQuery($topicId: String!) {
+  query topicResourcesQuery($topicId: String!, $filterIds: String) {
     topic(id: $topicId) {
-      coreResources {
+      id
+      coreResources(filterIds: $filterIds) {
         ...ResourceInfo
       }
-      supplementaryResources {
+      supplementaryResources(filterIds: $filterIds) {
         ...ResourceInfo
       }
     }
@@ -207,6 +314,29 @@ export const resourceQuery = gql`
       resourceTypes {
         id
         name
+      }
+    }
+  }
+`;
+
+export const topicQuery = gql`
+  ${topicInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+  query topicQuery($topicId: String!, $filterIds: String) {
+    topic(id: $topicId) {
+      ...TopicInfo
+      article {
+        ...ArticleInfo
+      }
+      subtopics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      coreResources(filterIds: $filterIds) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds) {
+        ...ResourceInfo
       }
     }
   }

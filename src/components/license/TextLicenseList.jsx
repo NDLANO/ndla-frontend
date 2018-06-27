@@ -30,10 +30,9 @@ const TextShape = PropTypes.shape({
 
 const TextLicenseInfo = ({ text, locale, t }) => {
   const items = getGroupedContributorDescriptionList(text.copyright, locale);
-
   items.push({
     label: t('text.published'),
-    description: text.created,
+    description: text.updated,
     metaType: metaTypes.other,
   });
 

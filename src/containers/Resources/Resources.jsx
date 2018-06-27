@@ -16,6 +16,7 @@ import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResour
 import { ResourceTypeShape, ResourceShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 
 function getSubjectTopicPath(params) {
   const topicPath = params.topicPath ? `${params.topicPath}/` : '';
@@ -28,10 +29,15 @@ const Resources = ({
   resourceTypes,
   supplementaryResources,
   coreResources,
+  location,
 }) => {
   const subjectTopicPath = getSubjectTopicPath(params);
   const resourceToLinkProps = resource =>
-    resourceToLinkPropsHelper(resource, subjectTopicPath);
+    resourceToLinkPropsHelper(
+      resource,
+      subjectTopicPath,
+      getFiltersFromUrl(location),
+    );
   if (
     resourceTypes === null ||
     (coreResources === null && supplementaryResources === null)
