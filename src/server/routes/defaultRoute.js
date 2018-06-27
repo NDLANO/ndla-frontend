@@ -80,7 +80,7 @@ const disableSSR = req => {
 export async function defaultRoute(req) {
   const paths = req.path.split('/');
   global.assets = assets;
-  let initialProps = {};
+  let initialProps = { loading: true };
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
 
