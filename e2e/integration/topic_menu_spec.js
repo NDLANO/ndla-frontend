@@ -16,7 +16,10 @@ describe('Topic menu', () => {
     cy.apiwait('@frontpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
-    cy.get('[data-cy="subject-list"] li a:contains("Medieuttrykk")').click();
+    cy
+      .get('[data-cy="subject-list"] li a:contains("Medieuttrykk")')
+      .first()
+      .click();
     cy.apiwait('@subjectpageGraphQL');
 
     cy
