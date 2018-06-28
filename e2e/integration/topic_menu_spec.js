@@ -6,30 +6,29 @@
  *
  */
 
+import { visitOptions } from '../support';
+
 describe('Topic menu', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.server();
+    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
+    cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@frontpageGraphQL');
 
+    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy
-      .get('[data-cy=subject-list] li:first-child a')
+      .get('[data-cy="subject-list"] li a:contains("Medieuttrykk")')
       .first()
       .click();
+    cy.apiwait('@subjectpageGraphQL');
+
     cy
       .get('.c-topic-menu-container button')
       .contains('Meny')
       .click();
   });
 
-  it('contains everything', () => {
+  it('Menu is displayed', () => {
     cy.get('a').contains('Fagoversikt');
-
-    cy.get('.c-topic-menu__content input[type="checkbox"]').each(el => {
-      cy.wrap(el).click();
-      expect(el.attr('id')).to.equal(el.siblings().attr('for'));
-    });
-
-    cy.get('.c-topic-menu__content li > button').each(el => {
-      cy.wrap(el).click();
-    });
   });
 });

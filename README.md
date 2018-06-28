@@ -21,12 +21,12 @@ What's in the box?
 
 ### Dependencies
 
-All dependencies are defined in `package.json` and are managed with npm/yarn. To
+All dependencies are defined in `package.json` and are managed with yarn. To
 initially install all dependencies and when the list dependency has changed,
-run `yarn install`.
+run `yarn`.
 
 ```
-$ yarn install
+$ yarn
 ```
 
 ### Start development server
@@ -47,9 +47,29 @@ Test framework: Jest with enzyme.
 $ yarn test
 ```
 
+### e2e tests
+
+[Cypress](https://www.cypress.io/) is used for end to end testing.
+
+```
+$ yarn e2e
+```
+
+To circumvent api call flakiness all request are mocked when the tests are run on ci. Use the following command to record new mocks when api-calls change:
+
+```
+$ yarn e2e-record-fixtures
+```
+
+To run the e2e tests with recorded/mocked api-calls run
+
+```
+$ yarn e2e-use-fixtures
+```
+
 ### Code style
 
-[Prettier] is used for automatic code formatting.
+[Prettier](https://prettier.io/) is used for automatic code formatting.
 
 ```
 $ yarn prettier
@@ -57,16 +77,13 @@ $ yarn prettier
 
 ### Linting
 
-_tl;dr_: Use eslint! Rules: [Airbnb Styleguide]https://github.com/airbnb/javascript.
-
-Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
-Beside linting with globally installed eslint, eslint can be invoked with `npm`:
+Eslint is used for linting.
 
 ```
 $ yarn run lint
 ```
 
-Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb). If feeling brave, try `eslint --fix`.
+Rules are configured in `./eslintrc` and extends [esling-config-ndla](https://github.com/NDLANO/frontend-packages/tree/master/packages/eslint-config-ndla).
 
 #### Gql template linting
 
@@ -88,7 +105,22 @@ apollo-codegen introspect-schema http://localhost:4000/graphql-api/graphql --out
 
 ```
 # Create minified production ready build:
-$ yarn run build
+$ yarn build
+```
+
+```
+# Start a production build:
+$ yarn start-prod
+```
+
+```
+# Start a development server with server side rendering disabled:
+$ yarn start-without-ssr
+```
+
+```
+# Start a development sever which talks to a local graphql server running on [localhost:4000]:
+$ yarn start-with-local-graphql
 ```
 
 ```

@@ -91,6 +91,7 @@ class App extends React.Component {
   componentDidMount() {
     if (
       window.DATA.config.disableSSR ||
+      window.location.search.indexOf('disableSSR=true') > -1 ||
       (module.hot && module.hot.status() === 'apply')
     ) {
       this.handleLoadInitialProps(this.props);

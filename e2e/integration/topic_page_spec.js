@@ -11,42 +11,26 @@ import { visitOptions } from '../support';
 describe('Topic page', () => {
   beforeEach(() => {
     cy.server();
-    cy.visit('/', visitOptions);
-  });
 
-  it('contains everything', () => {
+    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
+    cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@frontpageGraphQL');
+
+    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy
-      .get('[data-cy="subject-list"] li:first-child a')
+      .get('[data-cy="subject-list"] li a:contains("Medieuttrykk")')
       .first()
       .click();
-    cy.get('[data-cy="topic-list"] li:first-child a').click();
+    cy.apiwait('@subjectpageGraphQL');
+
+    cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
+    cy.get('[data-cy="topic-list"] li a:contains("Idéskaping")').click();
+    cy.apiwait(['@topicpageGraphQL']);
+  });
+
+  it('contains article', () => {
     cy.get('article > section:first-child').within(() => {
       cy.get('h1').contains(/\w+/);
-      cy
-        .get('button')
-        .first()
-        .click();
-      cy.get('div[role="dialog"]').should('have.attr', 'aria-hidden', 'false');
-    });
-  });
-
-  it('send the needed server calls', () => {
-    cy.route('**/article-converter/**').as('articleApi');
-    cy.route('POST', '**/graphql').as('graphqlApi');
-
-    cy
-      .get('[data-cy=subject-list] li:first-child a')
-      .first()
-      .click();
-    cy
-      .get('[data-cy="topic-list"] li:first-child a')
-      .first()
-      .click();
-
-    cy.wait(['@articleApi', '@graphqlApi']).spread((article, graphql) => {
-      // Tmp fix for build. We are going to rewrite how we handle api requests.
-      // expect(article.response.body).to.be.an('object');
-      // expect(graphql.response.body).to.be.an('object');
     });
   });
 });

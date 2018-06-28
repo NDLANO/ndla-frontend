@@ -10,6 +10,6 @@ import './commands';
 
 export const visitOptions = {
   onBeforeLoad: win => {
-    win.fetch = null; //eslint-disable-line
+    win.fetch = null; // eslint-disable-line no-param-reassign
   },
 };

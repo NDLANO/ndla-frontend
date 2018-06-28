@@ -13,14 +13,18 @@ import { SubjectShape } from '../../shapes';
 import { subjectsQuery } from '../../queries';
 import config from '../../config';
 import { GraphqlErrorShape } from '../../graphqlShapes';
+import { runQueries } from '../../util/runQueries';
+import handleError from '../../util/handleError';
 
 export const injectSubjects = WrappedComponent => {
   class SubjectsContainer extends Component {
     static async getInitialProps(ctx) {
-      return ctx.client.query({
-        errorPolicy: 'all',
-        query: subjectsQuery,
-      });
+      try {
+        return runQueries(ctx.client, [{ query: subjectsQuery }]);
+      } catch (e) {
+        handleError(e);
+        return null;
+      }
     }
 
     render() {
