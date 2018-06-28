@@ -7,19 +7,16 @@
  */
 const fs = require('fs');
 const path = require('path');
-// const chalk = require('chalk');
-// const rimraf = require('rimraf');
 
 const fixturesDir = path.join(__dirname, '..', 'fixtures');
 
-module.exports = (on, config) => {
+module.exports = on => {
   on('task', {
-    writeFixtures: fixtures => {
-      return fixtures.map(fixture => {
+    writeFixtures: fixtures =>
+      fixtures.map(fixture => {
         const fileName = path.join(fixturesDir, `${fixture.name}.json`);
         fs.writeFileSync(fileName, fixture.json, 'utf-8');
         return fixture.json;
-      });
-    },
+      }),
   });
 };

@@ -38,7 +38,6 @@ import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
-  topicResourcesQuery,
   resourceTypesQuery,
   topicQuery,
   subjectTopicsQuery,
@@ -69,7 +68,6 @@ class TopicPage extends Component {
     const filterIds = getFiltersFromUrl(location);
     try {
       const response = await runQueries(client, [
-        { query: topicResourcesQuery, variables: { topicId, filterIds } },
         { query: topicQuery, variables: { topicId, filterIds } },
         {
           query: subjectTopicsQuery,
