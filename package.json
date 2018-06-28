@@ -17,7 +17,8 @@
     "e2e": "cypress open",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress open",
-    "e2e-ci": "concurrently -r -s last -k \"cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server\" \"cross-env CYPRESS_USE_FIXTURES=true cypress run --record\"",
+    "pree2e-ci": "cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &",
+    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "pretest": "npm run lint",
@@ -35,7 +36,6 @@
   },
   "devDependencies": {
     "chalk": "^2.3.0",
-    "concurrently": "^3.5.1",
     "cypress": "^3.0.1",
     "enzyme": "^3.2.0",
     "eslint": "^4.18.1",
