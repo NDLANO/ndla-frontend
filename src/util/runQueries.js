@@ -17,7 +17,6 @@ export async function runQueries(client, queries) {
   const results = await Promise.all(
     queries.map(async options =>
       client.query({
-        fetchPolicy: 'cache-first',
         errorPolicy: 'all',
         ...options,
       }),
