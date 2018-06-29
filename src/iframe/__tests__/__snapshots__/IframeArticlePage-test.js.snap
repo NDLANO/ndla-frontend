@@ -97,63 +97,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
               <span
                 className="c-article-byline__authors"
               >
-                <div
-                  onToggle={[Function]}
-                >
-                  <button
-                    className="c-button c-button--link c-article-byline__toggle-authors"
-                    disabled={false}
-                    onClick={[Function]}
-                    type="button"
-                  >
-                    Someone
-                  </button>
-                  <div>
-                    <div
-                      aria-hidden={true}
-                      aria-label={null}
-                      aria-labelledby="author-labelled-by_article-line-id"
-                      className="c-dialog"
-                      data-dialog-id="dialog-authors-article-line-id"
-                      role="dialog"
-                    >
-                      <div
-                        className="c-dialog__content"
-                      >
-                        <button
-                          className="c-dialog__close"
-                          onClick={[Function]}
-                        >
-                          lukk
-                        </button>
-                        <div
-                          className="c-article-author-popup__content"
-                        >
-                          <div
-                            className="c-article-author-popup__author-info"
-                          >
-                            <section>
-                              <h1
-                                id="author-labelled-by_article-line-id"
-                              >
-                                Someone
-                              </h1>
-                              <ul
-                                className="c-article-author-popup__ul-list"
-                              />
-                            </section>
-                          </div>
-                          <div
-                            className="c-article-author-popup__author-link-container"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        className="o-backdrop"
-                      />
-                    </div>
-                  </div>
-                </div>
+                Someone 
                 (
                 CC BY-SA
                 )
@@ -229,7 +173,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                         className="c-dialog__close"
                         onClick={[Function]}
                       >
-                        Lukk boks
+                        Lukk
                       </button>
                       <div>
                         <h1
