@@ -92,6 +92,7 @@ export const articleInfoFragment = gql`
     oldNdlaUrl
     requiredLibraries {
       name
+      url
       mediaType
     }
     metaData {
