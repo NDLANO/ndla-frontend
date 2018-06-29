@@ -185,8 +185,8 @@ class MastheadContainer extends React.PureComponent {
       <Masthead
         infoContent={
           <span>
-            {t(`masthead.menu.${subject ? 'betaInfo' : 'betaInfoFront'}`)}
-            {subject && <Link to="/">{t('masthead.menu.readMore')}</Link>}
+            {t(`masthead.menu.betaInfo`)}
+            <Link to="/">{t('masthead.menu.readMore')}</Link>
           </span>
         }
         fixed>
