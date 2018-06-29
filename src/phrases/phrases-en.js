@@ -17,6 +17,13 @@ const phrases = {
     searchPage: `Search${titleTemplate}`,
     notFound: `Page not found${titleTemplate}`,
   },
+  newsLetter: {
+    heading: 'Newsletter',
+    description:
+      'Get access to new learning material and what is current at the moment.',
+    mainLinkName: 'Sign up',
+    iconLinkName: 'Sign up for newsletters',
+  },
   askNDLA: 'Ask NDLA',
   articlePage: {
     errorDescription: 'Sorry, an error occurd while loading the resource.',
