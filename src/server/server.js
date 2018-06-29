@@ -8,6 +8,7 @@
 
 import 'isomorphic-unfetch';
 import express from 'express';
+import proxy from 'express-http-proxy';
 import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -21,6 +22,7 @@ import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
+import { forwardingApp } from './routes/forwardingApp';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
@@ -146,6 +148,10 @@ app.get('/oembed', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
 });
+
+app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
+
+app.get('/*', proxy('ndla.no'));
 
 app.get('/*', async (req, res) => handleRequest(req, res, defaultRoute));
 
