@@ -41,6 +41,8 @@ const Article = ({
         edition: t('article.edition'),
         publisher: t('article.publisher'),
         label,
+        useContent: t('article.useContent'),
+        closeLabel: t('article.closeLabel'),
         authorLabel: t('license.creditType.originator'),
         authorDescription: t('license.creditType.authorDesc'),
       }}

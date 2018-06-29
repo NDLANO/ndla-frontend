@@ -243,8 +243,8 @@ const phrases = {
     publisher: 'Publisher',
     created: 'Created',
     lastUpdated: 'Last updated',
-    closeLicenseBox: 'Close box',
-    openLicenseBox: 'Cite or use',
+    closeLabel: 'Close',
+    useContent: 'Cite or use',
   },
   subject: {
     associatedTopics: 'Associated topics',

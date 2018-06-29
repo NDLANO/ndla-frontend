@@ -247,8 +247,8 @@ const phrases = {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',
     publisher: 'Utgiver',
-    closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Bruk innhold',
+    useContent: 'Bruk innhold',
+    closeLabel: 'Lukk',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',

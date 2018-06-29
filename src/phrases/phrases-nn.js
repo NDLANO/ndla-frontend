@@ -238,8 +238,8 @@ const phrases = {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgåve',
     publisher: 'Utgjevar',
-    closeLicenseBox: 'Lukk boks',
-    openLicenseBox: 'Bruk innhald',
+    closeLabel: 'Lukk',
+    useContent: 'Bruk innhald',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',
