@@ -33,20 +33,14 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 app.disable('x-powered-by');
 
-app.use(compression());
-app.use(
+const ndlaMiddleware = [
+  compression(),
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
-);
-
-app.use(
   bodyParser.json({
     type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
-);
-
-app.use(
   helmet({
     hsts: {
       maxAge: 31536000,
@@ -61,18 +55,18 @@ app.use(
           }
         : undefined,
   }),
-);
+];
 
-app.get('/robots.txt', (req, res) => {
+app.get('/robots.txt', ndlaMiddleware, (req, res) => {
   res.type('text/plain');
   res.send('User-agent: *\nDisallow: /');
 });
 
-app.get('/health', (req, res) => {
+app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.post('/csp-report', (req, res) => {
+app.post('/csp-report', ndlaMiddleware, (req, res) => {
   const { body } = req;
   if (body && body['csp-report']) {
     const cspReport = body['csp-report'];
@@ -88,7 +82,7 @@ app.post('/csp-report', (req, res) => {
   }
 });
 
-app.get('/get_token', async (req, res) => {
+app.get('/get_token', ndlaMiddleware, async (req, res) => {
   try {
     const token = await getToken();
     res.json(token);
@@ -134,25 +128,36 @@ async function handleRequest(req, res, route) {
   }
 }
 
-app.get('/article-iframe/:lang/article/:articleId', async (req, res) => {
-  res.removeHeader('X-Frame-Options');
-  handleRequest(req, res, iframeArticleRoute);
-});
+const handleRequestDefaultRoute = async (req, res) =>
+  handleRequest(req, res, defaultRoute);
 
-app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) => {
-  res.removeHeader('X-Frame-Options');
-  handleRequest(req, res, iframeArticleRoute);
-});
+app.get(
+  '/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
 
-app.get('/oembed', async (req, res) => {
+app.get(
+  '/article-iframe/:lang/:resourceId/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
+
+app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
 });
 
+app.get('/', ndlaMiddleware, handleRequestDefaultRoute);
+
 app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
 
-app.get('/*', proxy('ndla.no'));
-
-app.get('/*', async (req, res) => handleRequest(req, res, defaultRoute));
+app.get('/*', proxy('https://ndla.no'));
 
 export default app;
