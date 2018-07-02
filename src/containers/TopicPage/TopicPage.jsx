@@ -43,6 +43,7 @@ import {
   subjectTopicsQuery,
 } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
+import { transformArticle } from '../../util/transformArticle';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -53,12 +54,17 @@ const getTitle = (article, topic) => {
   return '';
 };
 
-const transformData = data => {
+const transformData = (data, locale) => {
   const { subject, topic } = data;
+
+  const transformedTopic =
+    topic && topic.article
+      ? { ...topic, article: transformArticle(topic.article, locale) }
+      : topic;
 
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  return { ...data, topicPath };
+  return { ...data, topicPath, topic: transformedTopic };
 };
 
 class TopicPage extends Component {
@@ -77,7 +83,7 @@ class TopicPage extends Component {
       ]);
       return {
         ...response,
-        data: transformData(response.data),
+        data: transformData(response.data, ctx.locale),
       };
     } catch (e) {
       handleError(e);
@@ -126,6 +132,7 @@ class TopicPage extends Component {
     const hasArticleError =
       errors && errors.find(e => e.path.includes('article')) !== undefined;
     const scripts = getArticleScripts(article);
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
