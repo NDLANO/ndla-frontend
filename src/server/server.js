@@ -156,6 +156,10 @@ const ndlaRoutes = [
   '/subjects/*',
   '/search/*',
 
+  '/nb',
+  '/nb/subjects/*',
+  '/nb/search/*',
+
   '/nn',
   '/nn/subjects/*',
   '/nn/search/*',
@@ -165,6 +169,8 @@ const ndlaRoutes = [
   '/en/search/*',
 
   '/article/*',
+
+  '/static'
 ];
 
 ndlaRoutes.forEach(path =>
