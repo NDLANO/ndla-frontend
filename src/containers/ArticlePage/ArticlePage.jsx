@@ -186,6 +186,7 @@ class ArticlePage extends Component {
             {...getArticleProps(resource)}>
             {topic && (
               <Resources
+                title={article.title}
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}

@@ -28,6 +28,7 @@ import SubjectPageSidebar from './SubjectPageSidebar';
 import { toTopic } from '../subjectPageHelpers';
 import SubjectPageInformation from './SubjectPageInformation';
 import SubjectEditorChoices from './SubjectEditorChoices';
+import { topicIntroductionMessages } from '../../../util/topicsHelper';
 
 const SubjectPageTwoColumn = props => {
   const {
@@ -58,6 +59,8 @@ const SubjectPageTwoColumn = props => {
             <TopicIntroductionList
               toTopic={toTopic(subjectId, activeFilters)}
               topics={topics}
+              messages={topicIntroductionMessages(t)}
+              toggleAdditionalCores={() => {}}
               twoColumns
             />
           </div>

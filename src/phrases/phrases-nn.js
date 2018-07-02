@@ -230,9 +230,25 @@ const phrases = {
   },
   resource: {
     errorDescription: 'Orsak, ein feil oppstod under lasting av emneressursar.',
-    noCoreResourcesAvailable: 'Det er ikkje noko kjernestoff tilgjengeleg.',
-    activateAdditionalResources: 'Vis tilleggsstoff',
-    toggleFilterLabel: 'Tilleggsstoff',
+    noCoreResourcesAvailableUnspecific:
+      'Det er ikkje noko kjernestoff tilgjengeleg.',
+    noCoreResourcesAvailable:
+      'Det er ikkje noko kjernestoff tilgjengeleg for {name}.',
+    toggleFilterLabel: 'Tilleggsressursar',
+    activateAdditionalResources: 'Vis tilleggsressursar',
+    label: 'Læringsressursar',
+    shortcutButtonText: 'Lærestoff',
+    tooltipCoreTopic: 'Kjernestoff er fagstoff som er på pensum',
+    tooltipAdditionalTopic: 'Tilleggsstoff er fagstoff som ikkje er på pensum',
+    additionalTooltip: 'Tilleggsstoff er ikkje på pensum',
+    dialogTooltip: 'Kva er kjernestoff og tilleggsstoff?',
+    dialogHeading: 'Kjernestoff og tilleggsstoff',
+    dialogText1:
+      'Når du lærar deg kjernestoffet skaffar du deg den kompetansen som beskrives i læreplanen for faget.',
+    dialogText2:
+      'Tilleggstoff er innhald i faget som du kan velje i tillegg til kjernestoffet. Gjennom tilleggsstoffet kan du fordjupe deg i et emne eller tilnærma deg emnet på en anna måte.',
+    showLess: 'Vis mindre',
+    showMore: 'Vis mer',
   },
   article: {
     lastUpdated: 'Sist oppdatert',

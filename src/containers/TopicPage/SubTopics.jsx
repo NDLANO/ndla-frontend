@@ -19,6 +19,7 @@ import { injectT } from 'ndla-i18n';
 import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
+import { topicIntroductionMessages } from '../../util/topicsHelper';
 
 const toTopic = (subjectId, topicPath, filters) => {
   const topicIds = topicPath.map(topic => topic.id);
@@ -43,8 +44,10 @@ export const TopicResources = ({
         toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
         topics={subtopics.map(topic => ({
           ...topic,
-          introduction: topic.meta.metaDescription,
+          introduction: topic.meta ? topic.meta.metaDescription : '',
         }))}
+        messages={topicIntroductionMessages(t)}
+        toggleAdditionalCores={() => {}}
       />
     </ResourcesWrapper>
   );

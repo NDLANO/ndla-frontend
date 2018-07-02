@@ -182,9 +182,10 @@ class TopicPage extends Component {
                 topicPath={topicPath}
               />
               <Resources
+                title={article.title}
                 resourceTypes={resourceTypes}
-                supplementaryResources={supplementaryResources}
                 coreResources={coreResources}
+                supplementaryResources={supplementaryResources}
               />
             </Fragment>
           </Article>

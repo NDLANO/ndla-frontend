@@ -28,3 +28,11 @@ export const toTopicMenu = (topic, topics) => {
     subtopics: subtopicsWithSubtopics,
   };
 };
+
+export const topicIntroductionMessages = t => ({
+  noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
+  noContentBoxButtonText: t('resource.activateAdditionalResources'),
+  shortcutButtonText: t('resource.shortcutButtonText'),
+  coreTooltip: t('resource.tooltipCoreTopic'),
+  additionalTooltip: t('resource.tooltipAdditionalTopic'),
+});
