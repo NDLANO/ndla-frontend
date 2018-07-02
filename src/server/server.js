@@ -128,9 +128,6 @@ async function handleRequest(req, res, route) {
   }
 }
 
-const handleRequestDefaultRoute = async (req, res) =>
-  handleRequest(req, res, defaultRoute);
-
 app.get(
   '/article-iframe/:lang/article/:articleId',
   ndlaMiddleware,
@@ -154,9 +151,31 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/', ndlaMiddleware, handleRequestDefaultRoute);
+const ndlaRoutes = [
+  '/',
+  '/subjects/*',
+  '/search/*',
+
+  '/nn',
+  '/nn/subjects/*',
+  '/nn/search/*',
+
+  '/en',
+  '/en/subjects/*',
+  '/en/search/*',
+
+  '/article/*',
+];
+
+ndlaRoutes.forEach(path =>
+  app.get(path, ndlaMiddleware, async (req, res) =>
+    handleRequest(req, res, defaultRoute),
+  ),
+);
 
 app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/nn/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/en/node/*', async (req, res, next) => forwardingApp(req, res, next));
 
 app.get('/*', proxy('https://ndla.no'));
 
