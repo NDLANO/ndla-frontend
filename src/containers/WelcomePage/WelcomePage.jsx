@@ -69,7 +69,7 @@ export class WelcomePage extends Component {
   };
 
   render() {
-    const { t, data } = this.props;
+    const { t, data, locale } = this.props;
     if (!data) {
       return null;
     }
@@ -93,6 +93,7 @@ export class WelcomePage extends Component {
       menuButton: t('welcomePage.heading.messages.menuButton'),
     };
 
+    console.log(locale);
     return (
       <Fragment>
         <FrontpageHeader
@@ -108,6 +109,7 @@ export class WelcomePage extends Component {
         />
         <main>
           <FrontpageSubjects
+            locale={locale}
             expanded={expanded}
             subjects={subjects}
             categories={categories}
@@ -133,6 +135,7 @@ WelcomePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
   data: PropTypes.shape({
     frontpage: GraphQLFrontpageShape,
   }),

@@ -154,6 +154,7 @@ const phrases = {
     category: {
       fellesfag: 'Fellesfag',
       yrkesfag: 'Yrkesfag',
+      studiespesialiserende: 'Studiespesialiserende',
       all: 'Alle fag',
     },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
