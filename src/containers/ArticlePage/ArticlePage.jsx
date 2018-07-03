@@ -137,6 +137,7 @@ class ArticlePage extends Component {
             }>
             {topic && (
               <Resources
+                title={resource.name}
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
