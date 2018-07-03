@@ -75,7 +75,9 @@ const FrontpageSubjects = ({
           key={category.name}
           id={category.name}
           expanded={expanded === category.name}
-          onExpand={onExpand}
+          onExpand={shouldExpand =>
+            shouldExpand ? onExpand(category.name) : onExpand(undefined)
+          }
           heading={t(`welcomePage.category.${category.name}`)}
           subjects={category.subjects}
         />

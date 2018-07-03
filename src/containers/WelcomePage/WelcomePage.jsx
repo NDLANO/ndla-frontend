@@ -79,12 +79,8 @@ export class WelcomePage extends Component {
     const { expanded, query } = this.state;
     const headerLinks = [
       {
-        href: 'https://om.ndla.no',
+        to: 'https://om.ndla.no',
         text: t('welcomePage.heading.links.aboutNDLA'),
-      },
-      {
-        href: '#language-select',
-        text: t('welcomePage.heading.links.changeLanguage'),
       },
     ];
 
@@ -93,7 +89,6 @@ export class WelcomePage extends Component {
       menuButton: t('welcomePage.heading.messages.menuButton'),
     };
 
-    console.log(locale);
     return (
       <Fragment>
         <FrontpageHeader
