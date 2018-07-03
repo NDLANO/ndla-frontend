@@ -15,6 +15,7 @@ export async function forwardingApp(req, resp, next) {
   storeAccessToken(token.access_token);
 
   const requestUrl = req.hostname + req.originalUrl;
-  const newPath = await taxonomyLookup(requestUrl).catch(next);
-  resp.redirect(301, '/subjects' + newPath.path);
+  await taxonomyLookup(requestUrl)
+    .then(newPath => resp.redirect(301, `/subjects${newPath.path}`))
+    .catch(() => next());
 }

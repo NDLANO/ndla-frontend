@@ -151,6 +151,16 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
+app.get('/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
+app.get('/nb/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
+app.get('/nn/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
+app.get('/en/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
+
+app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/nb/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/nn/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/en/node/*', async (req, res, next) => forwardingApp(req, res, next));
+
 const ndlaRoutes = [
   '/',
   '/subjects/*',
@@ -170,7 +180,7 @@ const ndlaRoutes = [
 
   '/article/*',
 
-  '/static'
+  '/static',
 ];
 
 ndlaRoutes.forEach(path =>
@@ -178,10 +188,6 @@ ndlaRoutes.forEach(path =>
     handleRequest(req, res, defaultRoute),
   ),
 );
-
-app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
-app.get('/nn/node/*', async (req, res, next) => forwardingApp(req, res, next));
-app.get('/en/node/*', async (req, res, next) => forwardingApp(req, res, next));
 
 app.get('/*', proxy('https://ndla.no'));
 
