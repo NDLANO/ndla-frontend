@@ -39,7 +39,7 @@ export const getLearningPathIdFromResource = resource => {
 export const resourceToLinkProps = (resource, subjectTopicPath, filters) => {
   if (isLearningPathResource(resource)) {
     return {
-      href: `${
+      to: `${
         config.learningPathDomain
       }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`,
       target: '_blank',
