@@ -27,6 +27,7 @@ import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import errorLogger from '../util/logger';
+import config from '../config';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -151,10 +152,10 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
-app.get('/nb/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
-app.get('/nn/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
-app.get('/en/search/apachesolr_search(/*)?', proxy('https://ndla.no'));
+app.get('/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
 app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
 app.get('/nb/node/*', async (req, res, next) => forwardingApp(req, res, next));
@@ -163,24 +164,24 @@ app.get('/en/node/*', async (req, res, next) => forwardingApp(req, res, next));
 
 const ndlaRoutes = [
   '/',
-  '/subjects/*',
-  '/search/*',
+  '/subjects(/*)?',
+  '/search(/*)?',
 
   '/nb',
-  '/nb/subjects/*',
-  '/nb/search/*',
+  '/nb/subjects(/*)?',
+  '/nb/search(/*)?',
 
   '/nn',
-  '/nn/subjects/*',
-  '/nn/search/*',
+  '/nn/subjects(/*)?',
+  '/nn/search(/*)?',
 
   '/en',
-  '/en/subjects/*',
-  '/en/search/*',
+  '/en/subjects(/*)?',
+  '/en/search(/*)?',
 
-  '/article/*',
+  '/article(/*)?',
 
-  '/static',
+  '/static/*',
 ];
 
 ndlaRoutes.forEach(path =>
@@ -189,6 +190,6 @@ ndlaRoutes.forEach(path =>
   ),
 );
 
-app.get('/*', proxy('https://ndla.no'));
+app.get('/*', proxy(config.oldNdlaProxyUrl));
 
 export default app;

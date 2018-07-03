@@ -18,7 +18,8 @@ export async function forwardingApp(req, resp, next) {
   const languagePrefix =
     pathParts.length > 0 && pathParts[0] !== 'node' ? `/${pathParts[0]}` : '';
 
-  const requestUrl = req.hostname + req.originalUrl;
+  const requestUrl = `ndla.no${req.originalUrl}`;
+
   await taxonomyLookup(requestUrl)
     .then(newPath =>
       resp.redirect(301, `${languagePrefix}/subjects${newPath.path}`),
