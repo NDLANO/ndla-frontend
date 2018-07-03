@@ -103,13 +103,15 @@ export class WelcomePage extends Component {
           links={headerLinks}
         />
         <main>
-          <FrontpageSubjects
-            locale={locale}
-            expanded={expanded}
-            subjects={subjects}
-            categories={categories}
-            onExpand={this.onExpand}
-          />
+          <div data-testid="category-list">
+            <FrontpageSubjects
+              locale={locale}
+              expanded={expanded}
+              subjects={subjects}
+              categories={categories}
+              onExpand={this.onExpand}
+            />
+          </div>
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
