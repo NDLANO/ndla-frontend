@@ -123,7 +123,7 @@ class ArticlePage extends Component {
     }
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
-    const resourceTitle = topicPath.pop().name;
+    const topicTitle = topicPath.pop().name || '';
 
     if (resource === null || resource.article === null) {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
@@ -138,7 +138,7 @@ class ArticlePage extends Component {
             }>
             {topic && (
               <Resources
-                title={resourceTitle}
+                title={topicTitle}
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
@@ -188,7 +188,7 @@ class ArticlePage extends Component {
             {...getArticleProps(resource)}>
             {topic && (
               <Resources
-                title={resourceTitle}
+                title={topicTitle}
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
