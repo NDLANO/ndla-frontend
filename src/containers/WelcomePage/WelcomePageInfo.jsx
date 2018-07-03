@@ -19,7 +19,7 @@ const WelcomePageInfo = ({ t }) => (
       description={t('newsLetter.description')}
       mainLink={{
         name: t('newsLetter.mainLinkName'),
-        href: 'http://om.ndla.no/nyhetsbrev/',
+        to: 'http://om.ndla.no/nyhetsbrev/',
       }}
       iconLinks={[
         {
@@ -33,17 +33,17 @@ const WelcomePageInfo = ({ t }) => (
       description={t('welcomePage.socialMedia.description')}
       mainLink={{
         name: t('welcomePage.socialMedia.mainLink.name'),
-        href: 'https://www.facebook.com/ndla.no/',
+        to: 'https://www.facebook.com/ndla.no/',
       }}
       iconLinks={[
         {
           name: 'Facebook',
-          href: 'https://www.facebook.com/ndla.no/',
+          to: 'https://www.facebook.com/ndla.no/',
           icon: <Facebook />,
         },
         {
           name: 'Twitter',
-          href: 'https://twitter.com/ndla_no',
+          to: 'https://twitter.com/ndla_no',
           icon: <Twitter />,
         },
       ]}
@@ -53,7 +53,7 @@ const WelcomePageInfo = ({ t }) => (
       description={t('welcomePage.aboutNDLA.description')}
       mainLink={{
         name: t('welcomePage.aboutNDLA.mainLink.name'),
-        href: 'https://om.ndla.no/',
+        to: 'https://om.ndla.no/',
       }}
     />
   </FrontpageInfo>

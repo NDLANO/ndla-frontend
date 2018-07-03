@@ -4,9 +4,7 @@ import config from '../../config';
 export const searchResultToLinkProps = result => {
   if (result.resourceType === 'urn:resourcetype:learningPath') {
     return {
-      href: `${config.learningPathDomain}/learningpaths/${
-        result.id
-      }/first-step`,
+      to: `${config.learningPathDomain}/learningpaths/${result.id}/first-step`,
       target: '_blank',
       rel: 'noopener noreferrer',
     };
