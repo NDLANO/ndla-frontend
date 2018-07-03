@@ -154,6 +154,7 @@ Resources.propTypes = {
   supplementaryResources: PropTypes.arrayOf(ResourceShape),
   match: PropTypes.shape({
     params: PropTypes.shape({
+      topicId: PropTypes.string,
       topicPath: PropTypes.string,
       subjectId: PropTypes.string,
     }),
