@@ -79,6 +79,7 @@ const phrases = {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} hits in Ndla',
       narrowScreenFilterHeading: '{totalCount} hits on «{query}»',
+      dropdownBtnLabel: 'More content types',
     },
     searchFilterMessages: {
       backButton: 'Back to filter',

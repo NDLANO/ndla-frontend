@@ -72,6 +72,7 @@ const phrases = {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} treff i Ndla',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
+      dropdownBtnLabel: 'Flerie innhaldstypar',
     },
     searchFilterMessages: {
       backButton: 'Tilbake til filter',

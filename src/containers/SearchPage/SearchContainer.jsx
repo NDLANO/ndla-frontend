@@ -268,6 +268,7 @@ class SearchContainer extends Component {
       resultHeading: t('searchPage.searchPageMessages.resultHeading', {
         totalCount: resultMetadata.totalCount,
       }),
+      dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',

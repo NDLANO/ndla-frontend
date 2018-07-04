@@ -58,6 +58,7 @@ const SearchResults = ({
         subHeading: t('searchPage.searchResultMessages.subHeading', {
           totalCount: resultMetadata.totalCount,
         }),
+        dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       }}
       searchString={searchObject.query || ''}
       tabOptions={enabledTabs.map(tab => ({
