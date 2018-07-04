@@ -172,7 +172,7 @@ app.get('/en/node/*', async (req, res, next) =>
 );
 
 app.get(
-  '*/',
+  '/*',
   (req, res, next) => {
     const paths = req.path.split('/');
     const basename = isValidLocale(paths[1]) ? paths[1] : '';
