@@ -46,8 +46,8 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 Object {
-  "href": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
   "rel": "noopener noreferrer",
   "target": "_blank",
+  "to": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
 }
 `;

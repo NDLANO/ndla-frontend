@@ -126,7 +126,13 @@ class TopicPage extends Component {
       subject,
       topicPath,
       resourceTypes,
-      topic: { article, subtopics, supplementaryResources, coreResources },
+      topic: {
+        name: topicTitle,
+        article,
+        subtopics,
+        supplementaryResources,
+        coreResources,
+      },
     } = data;
 
     const hasArticleError =
@@ -189,9 +195,10 @@ class TopicPage extends Component {
                 topicPath={topicPath}
               />
               <Resources
+                title={topicTitle || ''}
                 resourceTypes={resourceTypes}
-                supplementaryResources={supplementaryResources}
                 coreResources={coreResources}
+                supplementaryResources={supplementaryResources}
               />
             </Fragment>
           </Article>

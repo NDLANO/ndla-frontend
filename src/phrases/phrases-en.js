@@ -193,9 +193,24 @@ const phrases = {
   resource: {
     errorDescription:
       'Sorry, an error occurd while loading the topic resources.',
-    noCoreResourcesAvailable: 'There is no core content available.',
+    noCoreResourcesAvailableUnspecific: 'There is no core content available.',
+    noCoreResourcesAvailable: 'There is no core content available for {name}.',
     activateAdditionalResources: 'Show additional content',
     toggleFilterLabel: 'Additional content',
+    label: 'Learning content',
+    shortcutButtonText: 'Learning material',
+    tooltipCoreTopic: 'Core content is a subject that is on the curriculum',
+    tooltipAdditionalTopic:
+      'Additional content is a subject that is not on the curriculum',
+    additionalTooltip: 'Additional content is not on the curriculum',
+    dialogTooltip: 'What is core content and additional content?',
+    dialogHeading: 'Core content and additional content',
+    dialogText1:
+      'As you learn the core content, you acquire the skills described in the curriculum for the subject.',
+    dialogText2:
+      'Additional content is content in the subject that you can choose in addition to the core material. Through the additional subject, you can immerse yourself in a topic or approach yourself in a different way.',
+    showLess: 'Show less',
+    showMore: 'Show more',
   },
   article: {
     author: 'Author',
