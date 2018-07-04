@@ -81,7 +81,7 @@ class ArticlePage extends Component {
   }
 
   static getDocumentTitle({ t, data: { resource: { article }, subject } }) {
-    return `${subject ? subject.name : ''} - ${article.title}${t(
+    return `${subject ? subject.name : ''} - ${article ? article.title : ''}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
@@ -123,7 +123,8 @@ class ArticlePage extends Component {
     }
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
-    const topicTitle = topicPath.pop().name || '';
+    const topicTitle =
+      topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
 
     if (resource === null || resource.article === null) {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
