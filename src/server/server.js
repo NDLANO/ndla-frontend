@@ -22,7 +22,7 @@ import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
-import { forwardingApp } from './routes/forwardingApp';
+import { forwardingRoute } from './routes/forwardingRoute';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
@@ -157,10 +157,16 @@ app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
-app.get('/node/*', async (req, res, next) => forwardingApp(req, res, next));
-app.get('/nb/node/*', async (req, res, next) => forwardingApp(req, res, next));
-app.get('/nn/node/*', async (req, res, next) => forwardingApp(req, res, next));
-app.get('/en/node/*', async (req, res, next) => forwardingApp(req, res, next));
+app.get('/node/*', async (req, res, next) => forwardingRoute(req, res, next));
+app.get('/nb/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+app.get('/nn/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+app.get('/en/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
 
 const ndlaRoutes = [
   '/',
