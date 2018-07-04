@@ -64,6 +64,10 @@ const config = {
   zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
+  oldNdlaProxyUrl: getEnvironmentVariabel(
+    'OLD_NDLA_PROXY_URL',
+    'https://ndla.no',
+  ),
 };
 
 export function getUniversalConfig() {

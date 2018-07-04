@@ -8,6 +8,7 @@
 
 import 'isomorphic-unfetch';
 import express from 'express';
+import proxy from 'express-http-proxy';
 import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -21,30 +22,26 @@ import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
+import { forwardingRoute } from './routes/forwardingRoute';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import errorLogger from '../util/logger';
+import config from '../config';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 app.disable('x-powered-by');
 
-app.use(compression());
-app.use(
+const ndlaMiddleware = [
+  compression(),
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
-);
-
-app.use(
   bodyParser.json({
     type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
-);
-
-app.use(
   helmet({
     hsts: {
       maxAge: 31536000,
@@ -59,18 +56,18 @@ app.use(
           }
         : undefined,
   }),
-);
+];
 
-app.get('/robots.txt', (req, res) => {
+app.get('/robots.txt', ndlaMiddleware, (req, res) => {
   res.type('text/plain');
   res.send('User-agent: *\nDisallow: /');
 });
 
-app.get('/health', (req, res) => {
+app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.post('/csp-report', (req, res) => {
+app.post('/csp-report', ndlaMiddleware, (req, res) => {
   const { body } = req;
   if (body && body['csp-report']) {
     const cspReport = body['csp-report'];
@@ -86,7 +83,7 @@ app.post('/csp-report', (req, res) => {
   }
 });
 
-app.get('/get_token', async (req, res) => {
+app.get('/get_token', ndlaMiddleware, async (req, res) => {
   try {
     const token = await getToken();
     res.json(token);
@@ -132,21 +129,73 @@ async function handleRequest(req, res, route) {
   }
 }
 
-app.get('/article-iframe/:lang/article/:articleId', async (req, res) => {
-  res.removeHeader('X-Frame-Options');
-  handleRequest(req, res, iframeArticleRoute);
-});
+app.get(
+  '/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
 
-app.get('/article-iframe/:lang/:resourceId/:articleId', async (req, res) => {
-  res.removeHeader('X-Frame-Options');
-  handleRequest(req, res, iframeArticleRoute);
-});
+app.get(
+  '/article-iframe/:lang/:resourceId/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
 
-app.get('/oembed', async (req, res) => {
+app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/*', async (req, res) => handleRequest(req, res, defaultRoute));
+app.get('/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+
+app.get('/node/*', async (req, res, next) => forwardingRoute(req, res, next));
+app.get('/nb/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+app.get('/nn/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+app.get('/en/node/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+
+const ndlaRoutes = [
+  '/',
+  '/subjects(/*)?',
+  '/search(/*)?',
+
+  '/nb',
+  '/nb/subjects(/*)?',
+  '/nb/search(/*)?',
+
+  '/nn',
+  '/nn/subjects(/*)?',
+  '/nn/search(/*)?',
+
+  '/en',
+  '/en/subjects(/*)?',
+  '/en/search(/*)?',
+
+  '/article(/*)?',
+
+  '/static/*',
+];
+
+ndlaRoutes.forEach(path =>
+  app.get(path, ndlaMiddleware, async (req, res) =>
+    handleRequest(req, res, defaultRoute),
+  ),
+);
+
+app.get('/*', proxy(config.oldNdlaProxyUrl));
 
 export default app;
