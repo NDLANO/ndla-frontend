@@ -34,6 +34,6 @@ export async function forwardingRoute(req, resp, next) {
     const newPath = await taxonomyLookup(requestUrl);
     resp.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
   } catch (e) {
-    next(e);
+    next();
   }
 }
