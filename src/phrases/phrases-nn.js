@@ -210,6 +210,7 @@ const phrases = {
     publisher: 'Utgjevar',
     closeLabel: 'Lukk',
     useContent: 'Bruk innhald',
+    additionalLabel: 'Tilleggsstoff',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',

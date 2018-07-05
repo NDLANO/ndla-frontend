@@ -221,6 +221,7 @@ const phrases = {
     lastUpdated: 'Last updated',
     closeLabel: 'Close',
     useContent: 'Cite or use',
+    additionalLabel: 'Additional content',
   },
   subject: {
     associatedTopics: 'Associated topics',
