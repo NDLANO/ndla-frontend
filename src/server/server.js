@@ -171,6 +171,7 @@ app.get('/en/node/*', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
+app.get('/static/*', ndlaMiddleware);
 app.get(
   '/*',
   (req, res, next) => {
