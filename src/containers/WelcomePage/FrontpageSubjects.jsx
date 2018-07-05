@@ -19,19 +19,15 @@ import {
 import config from '../../config';
 import { NODE_CATEGORIES } from '../../constants';
 
-const getCategories = (subjects = [], categories = [], locale) => {
-  if (config.isNdlaProdEnvironment) {
-    return [
-      {
-        name: 'all',
-        subjects: subjects.map(subject => ({
-          text: subject.name,
-          url: toSubject(subject.id),
-        })),
-      },
-    ];
-  }
+const getAllImportSubjectsCategory = (subjects = []) => ({
+  name: 'imported',
+  subjects: subjects.map(subject => ({
+    text: subject.name,
+    url: toSubject(subject.id),
+  })),
+});
 
+const getCategories = (categories = [], locale) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
   return categories.map(category => {
@@ -67,10 +63,14 @@ const FrontpageSubjects = ({
   onExpand,
   t,
 }) => {
-  const frontpageCategories = getCategories(subjects, categories, locale);
+  const frontpageCategories = getCategories(categories, locale);
+  const allCategories = config.isNdlaProdEnvironment
+    ? frontpageCategories
+    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+
   return (
     <FrontpageSubjectsWrapper>
-      {frontpageCategories.map(category => (
+      {allCategories.map(category => (
         <FrontpageSubjectsSection
           key={category.name}
           id={category.name}
