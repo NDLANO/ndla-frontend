@@ -19,7 +19,6 @@ describe('Front page', () => {
   it('should have a list of valid links on front page', () => {
     cy.get('[data-testid="category-list"]  a').each(el => {
       cy.wrap(el).should('have.attr', 'href');
-      // .and('include', /\/subjects\/.*|https:\/\/ndla\.no\/.*/);
       cy.wrap(el).contains(/\w+/);
     });
   });
