@@ -216,6 +216,7 @@ const phrases = {
     publisher: 'Utgiver',
     useContent: 'Bruk innhold',
     closeLabel: 'Lukk',
+    additionalLabel: 'Tilleggsstoff',
   },
   subject: {
     associatedTopics: 'Tilhørende emner',

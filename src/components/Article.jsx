@@ -43,6 +43,7 @@ const Article = ({
         label,
         useContent: t('article.useContent'),
         closeLabel: t('article.closeLabel'),
+        additionalLabel: t('article.additionalLabel'),
         authorLabel: t('license.creditType.originator'),
         authorDescription: t('license.creditType.authorDesc'),
       }}

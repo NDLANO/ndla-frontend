@@ -186,7 +186,7 @@ class ArticlePage extends Component {
           <Article
             article={article}
             locale={locale}
-            {...getArticleProps(resource)}>
+            {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
                 title={topicTitle}
