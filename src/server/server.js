@@ -178,7 +178,7 @@ app.get(
     const paths = req.path.split('/');
     const basename = isValidLocale(paths[1]) ? paths[1] : '';
     const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
-    const route = appRoutes.find(r => matchPath(path, r));
+    const route = appRoutes.find(r => matchPath(path, r)); // match with routes  used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else {
