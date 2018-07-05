@@ -192,9 +192,22 @@ const phrases = {
   resource: {
     errorDescription:
       'Beklager, men en feil oppsto under lasting av emneressurser.',
-    noCoreResourcesAvailable: 'Det er ikke noe kjernestoff tilgjengelig.',
+    noCoreResourcesAvailableUnspecific:
+      'Det er ikke noe kjernestoff tilgjengelig.',
+    noCoreResourcesAvailable: 'Det er ikke noe kjernestoff for {name}.',
     activateAdditionalResources: 'Vis tilleggsstoff',
-    toggleFilterLabel: 'Tilleggsstoff',
+    toggleFilterLabel: 'Tilleggsressurser',
+    label: 'Læringsressurser',
+    shortcutButtonText: 'Lærestoff',
+    tooltipCoreTopic: 'Kjernestoff er fagstoff som er på pensum',
+    tooltipAdditionalTopic: 'Tilleggsstoff er fagstoff som ikke er på pensum',
+    additionalTooltip: 'Tilleggsstoff er ikke på pensum',
+    dialogTooltip: 'Hva er kjernestoff og tilleggsstoff?',
+    dialogHeading: 'Kjernestoff og tilleggsstoff',
+    dialogText1:
+      'Når du lærer deg kjernestoffet skaffer du deg den kompetansen som beskrives i læreplanen for faget.',
+    dialogText2:
+      'Tilleggstoff er innhold i faget som du kan velge i tillegg til kjernestoffet. Gjennom tilleggsstoffet kan du fordype deg i et emne eller tilnærme deg emnet på en annen måte.',
     showLess: 'Vis mindre',
     showMore: 'Vis mer',
   },
