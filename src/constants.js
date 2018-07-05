@@ -39,7 +39,7 @@ export const contentTypeIcons = {
   'subject-material': <SubjectMaterialBadge size="x-small" background />,
 };
 
-export const NODE_CATEGORIES = {
+export const OLD_CATEGORIES_WITH_SUBJECTS = {
   fellesfag: [
     { nodeId: '42', lang: 'en', name: 'Engelsk' },
     { nodeId: '52253', name: 'Historie Vg2 og Vg3' },

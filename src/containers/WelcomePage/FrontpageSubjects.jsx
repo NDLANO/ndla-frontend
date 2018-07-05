@@ -17,9 +17,9 @@ import {
   GraphQLSimpleSubjectShape,
 } from '../../graphqlShapes';
 import config from '../../config';
-import { NODE_CATEGORIES } from '../../constants';
+import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
 
-const getAllImportSubjectsCategory = (subjects = []) => ({
+export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
   subjects: subjects.map(subject => ({
     text: subject.name,
@@ -27,16 +27,25 @@ const getAllImportSubjectsCategory = (subjects = []) => ({
   })),
 });
 
-const getCategories = (categories = [], locale) => {
+const sortByName = arr =>
+  arr.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+export const getCategoriesWithAllSubjects = (
+  categoriesFromApi = [],
+  locale,
+) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
-  return categories.map(category => {
+  return categoriesFromApi.map(category => {
     const newSubjects = category.subjects.map(categorySubject => ({
       ...categorySubject,
       text: categorySubject.name,
       url: toSubject(categorySubject.id),
     }));
-    const oldSubjects = NODE_CATEGORIES[category.name]
+    const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
       .map(subject => ({
         ...subject,
         id: subject.nodeId,
@@ -51,7 +60,10 @@ const getCategories = (categories = [], locale) => {
             oldSubject.name.startsWith(newSubject.name),
           ) === undefined,
       );
-    return { ...category, subjects: [...oldSubjects, ...newSubjects] };
+    return {
+      ...category,
+      subjects: sortByName([...oldSubjects, ...newSubjects]),
+    };
   });
 };
 
@@ -63,7 +75,7 @@ const FrontpageSubjects = ({
   onExpand,
   t,
 }) => {
-  const frontpageCategories = getCategories(categories, locale);
+  const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
   const allCategories = config.isNdlaProdEnvironment
     ? frontpageCategories
     : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
