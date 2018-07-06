@@ -10,7 +10,7 @@
 import LRUCache from 'lru-cache';
 
 const ssrCache = new LRUCache({
-  max: 200, // megabytes?
+  max: 200,
   maxAge: 1000 * 60 * 10, // 10 minutes
 });
 
