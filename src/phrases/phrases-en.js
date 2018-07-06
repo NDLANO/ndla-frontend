@@ -163,7 +163,8 @@ const phrases = {
     category: {
       fellesfag: 'Common',
       yrkesfag: 'Vocational',
-      all: 'All subjects',
+      studiespesialiserende: 'Specialization',
+      imported: 'Imported subjects',
     },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },

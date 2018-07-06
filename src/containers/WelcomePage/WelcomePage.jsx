@@ -69,7 +69,7 @@ export class WelcomePage extends Component {
   };
 
   render() {
-    const { t, data } = this.props;
+    const { t, data, locale } = this.props;
     if (!data) {
       return null;
     }
@@ -81,10 +81,6 @@ export class WelcomePage extends Component {
       {
         to: 'https://om.ndla.no',
         text: t('welcomePage.heading.links.aboutNDLA'),
-      },
-      {
-        to: '#language-select',
-        text: t('welcomePage.heading.links.changeLanguage'),
       },
     ];
 
@@ -107,12 +103,15 @@ export class WelcomePage extends Component {
           links={headerLinks}
         />
         <main>
-          <FrontpageSubjects
-            expanded={expanded}
-            subjects={subjects}
-            categories={categories}
-            onExpand={this.onExpand}
-          />
+          <div data-testid="category-list">
+            <FrontpageSubjects
+              locale={locale}
+              expanded={expanded}
+              subjects={subjects}
+              categories={categories}
+              onExpand={this.onExpand}
+            />
+          </div>
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
@@ -133,6 +132,7 @@ WelcomePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
   data: PropTypes.shape({
     frontpage: GraphQLFrontpageShape,
   }),

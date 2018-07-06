@@ -26,7 +26,7 @@ const SelectLocale = ({ locale, location: { pathname, search }, id }) => {
       onChange={evt => {
         handleChange(evt.target.value);
       }}
-      data-cy="language-select"
+      data-testid="language-select"
       // autoComplete="off" is need to make the selected attribute work in firefox
       autoComplete="off"
       value={locale}
