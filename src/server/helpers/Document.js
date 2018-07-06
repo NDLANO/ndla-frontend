@@ -19,7 +19,6 @@ const Document = ({
   className,
   assets,
   data,
-  locale,
   useZendesk,
   userAgentString,
 }) => {
@@ -86,7 +85,7 @@ const Document = ({
           />
         ))}
         {helmet.script.toComponent()}
-        <Zendesk useZendesk={useZendesk} locale={locale} />
+        <Zendesk useZendesk={useZendesk} locale={htmlAttrs.lang} />
 
         <script
           dangerouslySetInnerHTML={{
