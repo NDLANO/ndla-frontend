@@ -49,7 +49,7 @@ async function loadGetInitialProps(Component, ctx) {
   return props;
 }
 
-const renderPage = (initialProps, initialState, Page, apolloState) => {
+const renderPage = (Page, initialProps, initialState, apolloState) => {
   resetIdCounter();
   const html = config.disableSSR ? '' : renderToString(Page);
   const helmet = Helmet.renderStatic();
@@ -77,16 +77,13 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-export async function defaultRoute(req) {
-  const paths = req.path.split('/');
+async function render(req) {
   global.assets = assets;
   let initialProps = { loading: true };
+  const paths = req.path.split('/');
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
-
-  const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers['user-agent'];
-  const className = getConditionalClassnames(userAgentString);
+  const { abbreviation: locale, messages } = getLocaleObject(basename);
 
   const store = configureStore({ locale });
   const client = createApolloClient(locale);
@@ -122,35 +119,49 @@ export async function defaultRoute(req) {
     </Provider>
   );
 
-  if (context.url) {
-    return {
-      status: MOVED_PERMANENTLY,
-      data: {
-        Location: context.url,
-      },
-    };
-  }
-
-  const status = defined(context.status, OK);
   const apolloState = client.extract();
   const { html, ...docProps } = renderPage(
+    Page,
     initialProps,
     store.getState(),
-    Page,
     apolloState,
   );
+
+  return {
+    html,
+    docProps,
+    context,
+  };
+}
+
+export async function defaultRoute(req) {
+  const userAgentString = req.headers['user-agent'];
+  const className = getConditionalClassnames(userAgentString);
+
+  const rendered = await render(req);
+
   const doc = renderToStaticMarkup(
     <Document
       className={className}
       userAgentString={userAgentString}
-      {...docProps}
-      locale={locale}
+      {...rendered.docProps}
       useZendesk
     />,
   );
 
+  if (rendered.context.url) {
+    return {
+      status: MOVED_PERMANENTLY,
+      data: {
+        Location: rendered.context.url,
+      },
+    };
+  }
+
+  const status = defined(rendered.context.status, OK);
+
   return {
     status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    data: `<!doctype html>${doc.replace('REPLACE_ME', rendered.html)}`,
   };
 }
