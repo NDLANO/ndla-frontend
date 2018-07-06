@@ -17,17 +17,14 @@ describe('Front page', () => {
   });
 
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-cy="subject-list"] a').each(el => {
-      cy
-        .wrap(el)
-        .should('have.attr', 'href')
-        .and('include', '/subjects/');
+    cy.get('[data-testid="category-list"]  a').each(el => {
+      cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
   });
 
   it('should have a functioning change language box', () => {
-    cy.get('[data-cy=language-select]').select(['nn']);
+    cy.get('[data-testid=language-select]').select(['nn']);
     cy.url().should('include', '/nn/');
     cy.wait(500); // wait for page to reload
   });

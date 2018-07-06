@@ -18,13 +18,13 @@ describe('Topic page', () => {
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy
-      .get('[data-cy="subject-list"] li a:contains("Medieuttrykk")')
+      .get('a:contains("Medieuttrykk")')
       .first()
       .click();
     cy.apiwait('@subjectpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
-    cy.get('[data-cy="topic-list"] li a:contains("Idéskaping")').click();
+    cy.get('[data-testid="topic-list"] li a:contains("Idéskaping")').click();
     cy.apiwait(['@topicpageGraphQL']);
   });
 

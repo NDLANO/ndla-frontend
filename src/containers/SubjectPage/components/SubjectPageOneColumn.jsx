@@ -48,7 +48,7 @@ const SubjectPageOneColumn = props => {
         <ResourcesWrapper
           subjectPage
           header={<ResourcesTitle>Emner</ResourcesTitle>}>
-          <div data-cy="topic-list">
+          <div data-testid="topic-list">
             <SubjectFilter
               label={t('subjectPage.subjectFilter.label')}
               options={filters}
