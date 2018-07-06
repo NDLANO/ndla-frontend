@@ -8,7 +8,7 @@
 
 import { getCategoriesWithAllSubjects } from '../FrontpageSubjects';
 
-const catgoriesFromApi = [
+const categoriesFromApi = [
   {
     name: 'fellesfag',
     subjects: [],
@@ -50,26 +50,26 @@ const vocationalSubjects = [
 ];
 
 test('getCategoriesWithAllSubjects with all old node subjects (nb locale)', () => {
-  const categories = getCategoriesWithAllSubjects(catgoriesFromApi, 'nb');
+  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'nb');
 
   expect(categories).toMatchSnapshot();
 });
 
 test('getCategoriesWithAllSubjects with all old node subjects (nn locale)', () => {
-  const categories = getCategoriesWithAllSubjects(catgoriesFromApi, 'nn');
+  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'nn');
 
   expect(categories).toMatchSnapshot();
 });
 
 test('getCategoriesWithAllSubjects with all old node subjects (en locale)', () => {
-  const categories = getCategoriesWithAllSubjects(catgoriesFromApi, 'en');
+  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'en');
 
   expect(categories).toMatchSnapshot();
 });
 
 test('getCategoriesWithAllSubjects with some specialization subjects replaced', () => {
   const specializationCategory = {
-    ...catgoriesFromApi[2],
+    ...categoriesFromApi[2],
     subjects: specializationSubjects,
   };
   const categories = getCategoriesWithAllSubjects(
@@ -82,7 +82,7 @@ test('getCategoriesWithAllSubjects with some specialization subjects replaced', 
 
 test('getCategoriesWithAllSubjects with a vocational subjects replaced', () => {
   const vocationalCategory = {
-    ...catgoriesFromApi[1],
+    ...categoriesFromApi[1],
     subjects: vocationalSubjects,
   };
   const categories = getCategoriesWithAllSubjects([vocationalCategory], 'nb');
