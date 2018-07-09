@@ -31,6 +31,7 @@ import errorLogger from '../util/logger';
 import config from '../config';
 import { isValidLocale } from '../i18n';
 import { routes as appRoutes } from '../routes';
+import { renderAndCache } from './cache';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -115,13 +116,26 @@ function sendResponse(res, data, status = OK) {
   }
 }
 
-async function handleRequest(req, res, route) {
+async function handleRequest(req, res, route, enableCache = false) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      const { data, status } = await route(req);
-      sendResponse(res, data, status);
+      let response;
+      let data;
+      let status;
+
+      if (enableCache) {
+        ({ res: response, data, status } = await renderAndCache(
+          req,
+          res,
+          route,
+        ));
+      } else {
+        ({ data, status } = await route(req));
+      }
+
+      sendResponse(response, data, status);
     } catch (e) {
       handleError(e);
       sendInternalServerError(res);
@@ -187,7 +201,7 @@ app.get(
   },
   ndlaMiddleware,
   (req, res) => {
-    handleRequest(req, res, defaultRoute);
+    handleRequest(req, res, defaultRoute, true);
   },
 );
 
