@@ -14,7 +14,7 @@ const ssrCache = new LRUCache({
   maxAge: 1000 * 60 * 10, // 10 minutes
 });
 
-const isDev = false; // ( process.env.NODE_ENV !== 'production';
+const isDev = process.env.NODE_ENV !== 'production';
 
 /**
  *  Determine if the page is something we want to cache
@@ -44,15 +44,13 @@ export async function renderAndCache(req, res, route) {
     return { res, data, status };
   }
 
-  // Skip the cache if something is wrong
-  if (res.statusCode !== 200) {
-    ({ data, status } = await route(req));
-    return { res, data, status };
-  }
-
   if (canUseCache) {
     // Cache the rendered result
     ({ data, status } = await route(req));
+
+    // Skip the cache if something is wrong
+    if (status !== 200) return { res, data, status };
+
     ssrCache.set(cacheKey, { data, status });
     res.setHeader('x-cache', 'MISS');
     return { res, data, status };
