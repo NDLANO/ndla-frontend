@@ -165,19 +165,9 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
-app.get('/node/*', async (req, res, next) => forwardingRoute(req, res, next));
-app.get('/nb/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/nn/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/en/node/*', async (req, res, next) =>
+app.get('/:lang?/node/*', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
