@@ -20,7 +20,7 @@ const taxonomyLookup = url => {
   return fetchWithAccessToken(k).then(resolveJsonOrRejectWithError);
 };
 
-export async function forwardingRoute(req, resp, next) {
+export async function forwardingRoute(req, res, next) {
   const token = await getToken();
   storeAccessToken(token.access_token);
 
@@ -32,7 +32,7 @@ export async function forwardingRoute(req, resp, next) {
 
   try {
     const newPath = await taxonomyLookup(requestUrl);
-    resp.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
+    res.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
   } catch (e) {
     next();
   }
