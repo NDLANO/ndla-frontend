@@ -23,15 +23,13 @@ const taxonomyLookup = url => {
 export async function forwardingRoute(req, res, next) {
   const token = await getToken();
   storeAccessToken(token.access_token);
+  const { nodeId, lang } = req.params;
 
-  const pathParts = req.originalUrl.substring(1).split('/');
-  const languagePrefix =
-    pathParts.length > 0 && pathParts[0] !== 'node' ? `/${pathParts[0]}` : '';
-
-  const requestUrl = `ndla.no${req.originalUrl}`;
+  const lookupUrl = `ndla.no/node/${nodeId}`;
 
   try {
-    const newPath = await taxonomyLookup(requestUrl);
+    const newPath = await taxonomyLookup(lookupUrl);
+    const languagePrefix = lang ? `/${lang}` : '';
     res.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
   } catch (e) {
     next();
