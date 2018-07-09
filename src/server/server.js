@@ -18,6 +18,7 @@ import {
   MOVED_PERMANENTLY,
   NOT_ACCEPTABLE,
 } from 'http-status';
+import matchPath from 'react-router-dom/matchPath';
 import { getToken } from './helpers/auth';
 import { defaultRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
@@ -28,6 +29,9 @@ import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import errorLogger from '../util/logger';
 import config from '../config';
+import { isValidLocale } from '../i18n';
+import { routes as appRoutes } from '../routes';
+import { renderAndCache } from './cache';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -112,13 +116,26 @@ function sendResponse(res, data, status = OK) {
   }
 }
 
-async function handleRequest(req, res, route) {
+async function handleRequest(req, res, route, enableCache = false) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      const { data, status } = await route(req);
-      sendResponse(res, data, status);
+      let response;
+      let data;
+      let status;
+
+      if (enableCache) {
+        ({ res: response, data, status } = await renderAndCache(
+          req,
+          res,
+          route,
+        ));
+      } else {
+        ({ data, status } = await route(req));
+      }
+
+      sendResponse(response, data, status);
     } catch (e) {
       handleError(e);
       sendInternalServerError(res);
@@ -168,32 +185,25 @@ app.get('/en/node/*', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
-const ndlaRoutes = [
-  '/',
-  '/subjects(/*)?',
-  '/search(/*)?',
-
-  '/nb',
-  '/nb/subjects(/*)?',
-  '/nb/search(/*)?',
-
-  '/nn',
-  '/nn/subjects(/*)?',
-  '/nn/search(/*)?',
-
-  '/en',
-  '/en/subjects(/*)?',
-  '/en/search(/*)?',
-
-  '/article(/*)?',
-
-  '/static/*',
-];
-
-ndlaRoutes.forEach(path =>
-  app.get(path, ndlaMiddleware, async (req, res) =>
-    handleRequest(req, res, defaultRoute),
-  ),
+app.get('/static/*', ndlaMiddleware);
+app.get('/favicon.ico', ndlaMiddleware);
+app.get(
+  '/*',
+  (req, res, next) => {
+    const paths = req.path.split('/');
+    const basename = isValidLocale(paths[1]) ? paths[1] : '';
+    const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
+    const route = appRoutes.find(r => matchPath(path, r)); // match with routes  used in frontend
+    if (!route) {
+      next('route'); // skip to next route (i.e. proxy)
+    } else {
+      next();
+    }
+  },
+  ndlaMiddleware,
+  (req, res) => {
+    handleRequest(req, res, defaultRoute, true);
+  },
 );
 
 app.get('/*', proxy(config.oldNdlaProxyUrl));

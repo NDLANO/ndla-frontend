@@ -164,7 +164,8 @@ const phrases = {
     category: {
       fellesfag: 'Common',
       yrkesfag: 'Vocational',
-      all: 'All subjects',
+      studiespesialiserende: 'Specialization',
+      imported: 'Imported subjects',
     },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
@@ -222,6 +223,7 @@ const phrases = {
     lastUpdated: 'Last updated',
     closeLabel: 'Close',
     useContent: 'Cite or use',
+    additionalLabel: 'Additional content',
   },
   subject: {
     associatedTopics: 'Associated topics',
