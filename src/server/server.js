@@ -121,21 +121,17 @@ async function handleRequest(req, res, route, enableCache = false) {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      let response;
-      let data;
-      let status;
-
       if (enableCache) {
-        ({ res: response, data, status } = await renderAndCache(
+        const { res: response, data, status } = await renderAndCache(
           req,
           res,
           route,
-        ));
+        );
+        sendResponse(response, data, status);
       } else {
-        ({ data, status } = await route(req));
+        const { data, status } = await route(req);
+        sendResponse(res, data, status);
       }
-
-      sendResponse(response, data, status);
     } catch (e) {
       handleError(e);
       sendInternalServerError(res);
