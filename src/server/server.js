@@ -193,5 +193,6 @@ app.get(
 );
 
 app.get('/*', proxy(config.oldNdlaProxyUrl));
+app.post('/*', proxy(config.oldNdlaProxyUrl));
 
 export default app;
