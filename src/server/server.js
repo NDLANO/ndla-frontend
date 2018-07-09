@@ -172,6 +172,7 @@ app.get('/en/node/*', async (req, res, next) =>
 );
 
 app.get('/static/*', ndlaMiddleware);
+app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
   (req, res, next) => {
