@@ -14,21 +14,39 @@ import {
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
 
-const taxonomyLookup = url => {
+async function findNBNodeId(nodeId, lang) {
+  // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
+  if (lang !== 'nn') {
+    return nodeId;
+  }
+
+  const baseUrl = apiResourceUrl('/article-api/v2/articles');
+  const response = await fetchWithAccessToken(
+    `${baseUrl}/external_ids/${nodeId}`,
+  );
+  const data = await resolveJsonOrRejectWithError(response);
+
+  // The nodeId for language nb is the first item in externalIds array.
+  return data.externalIds[0];
+}
+
+async function taxonomyLookup(url) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/mapping');
-  const k = `${baseUrl}?url=${url}`;
-  return fetchWithAccessToken(k).then(resolveJsonOrRejectWithError);
-};
+  const response = await fetchWithAccessToken(`${baseUrl}?url=${url}`);
+  return resolveJsonOrRejectWithError(response);
+}
 
 export async function forwardingRoute(req, res, next) {
   const token = await getToken();
   storeAccessToken(token.access_token);
-  const { nodeId, lang } = req.params;
-
-  const lookupUrl = `ndla.no/node/${nodeId}`;
+  const { lang } = req.params;
 
   try {
+    const nodeId = await findNBNodeId(req.params.nodeId, lang); // taxonomy lookup does'nt handle nn
+
+    const lookupUrl = `ndla.no/node/${nodeId}`;
     const newPath = await taxonomyLookup(lookupUrl);
+
     const languagePrefix = lang ? `/${lang}` : '';
     res.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
   } catch (e) {

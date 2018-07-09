@@ -10,16 +10,16 @@ import nock from 'nock';
 import sinon from 'sinon';
 import { forwardingRoute } from '../forwardingRoute';
 
-function prepareNock(status) {
+function prepareNock(status, nodeId = '1337') {
   if (status === 200) {
     return nock('http://ndla-api')
-      .get('/taxonomy/v1/url/mapping?url=ndla.no/node/1337')
+      .get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`)
       .reply(200, {
         path: '/subject:3/topic:1:55212/topic:1:175218/resource:1:72007',
       });
   }
   return nock('http://ndla-api')
-    .get('/taxonomy/v1/url/mapping?url=ndla.no/node/1337')
+    .get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`)
     .reply(404);
 }
 
@@ -83,7 +83,13 @@ test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
-  prepareNock(200);
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/external_ids/1337')
+    .reply(200, {
+      articleId: 2602,
+      externalIds: ['1339', '1337'],
+    });
+  prepareNock(200, '1339');
 
   const next = sinon.spy();
   const redirect = sinon.spy();
