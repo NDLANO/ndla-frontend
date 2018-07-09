@@ -4,7 +4,7 @@
   "description": "NDLA Frontend",
   "scripts": {
     "build": "razzle build",
-    "postbuild": "cp build/assets.json build/public/assets.json",
+    "postbuild": "cp build/assets.json build/public/static/assets.json",
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=2",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
