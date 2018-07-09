@@ -14,7 +14,7 @@ export const TopicPageErrorMessage = ({ t }) => (
     <div className="c-article">
       <ErrorMessage
         illustration={{
-          url: '/oops.gif',
+          url: '/static/opps.gif',
           altText: t('errorMessage.title'),
         }}
         messages={{

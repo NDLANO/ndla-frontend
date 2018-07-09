@@ -35,7 +35,7 @@ const NotFound = ({ t }) => (
     <OneColumn cssModifier="clear">
       <ErrorMessage
         illustration={{
-          url: '/not-exist.gif',
+          url: '/static/not-exist.gif',
           altText: t('errorMessage.title'),
         }}
         messages={{

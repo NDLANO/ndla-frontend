@@ -16,7 +16,10 @@ const ArticleErrorMessage = ({ status, children, t }) => (
     <article className="c-article">
       <ErrorMessage
         illustration={{
-          url: status === 'error404' ? '/not-exist.gif' : '/oops.gif',
+          url:
+            status === 'error404'
+              ? '/static/not-exist.gif'
+              : '/static/opps.gif',
           altText: t('errorMessage.title'),
         }}
         messages={{
