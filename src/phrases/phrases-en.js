@@ -297,7 +297,8 @@ const phrases = {
   errorMessage: {
     title: 'Oops, something went wrong',
     description: 'Sorry, an error occurd.',
-    back: 'Back',
+    linksTitle: 'Get started:',
+    back: 'Go back',
     goToFrontPage: 'Go to frontpage',
   },
   footer: {
