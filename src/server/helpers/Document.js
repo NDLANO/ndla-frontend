@@ -119,7 +119,6 @@ Document.propTypes = {
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
   useZendesk: PropTypes.bool,
 };
 
