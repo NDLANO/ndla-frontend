@@ -55,7 +55,7 @@ test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
   expect(
     redirect.calledWith(
       301,
-      `/nb/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      `/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);

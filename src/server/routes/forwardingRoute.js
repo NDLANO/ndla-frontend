@@ -47,7 +47,7 @@ export async function forwardingRoute(req, res, next) {
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const newPath = await taxonomyLookup(lookupUrl);
 
-    const languagePrefix = lang ? `/${lang}` : '';
+    const languagePrefix = lang && lang !== 'nb' ? `/${lang}` : ''; // send urls with nb to root/default lang
     res.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
   } catch (e) {
     next();
