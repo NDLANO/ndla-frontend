@@ -306,6 +306,7 @@ const phrases = {
     'tasks-and-activities': 'Oppgåver og aktivitetar',
     'external-learning-resources': 'Ekstern læringsressurs',
     'source-material': 'Kjeldemateriale',
+    'assessment-resources': 'Vurderingsressurs',
   },
   languages: {
     nb: 'Bokmål',

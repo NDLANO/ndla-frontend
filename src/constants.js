@@ -27,6 +27,15 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
   'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 
+export const allResourceTypes = [
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+];
+
 export const contentTypeIcons = {
   subject: <SubjectBadge size="x-small" background />,
   'topic-article': <SubjectBadge size="x-small" background />,

@@ -43,6 +43,8 @@ import {
 import { runQueries } from '../../util/runQueries';
 import { resourceTypesWithSubTypesQuery } from '../../queries';
 import handleError from '../../util/handleError';
+import { allResourceTypes } from '../../constants';
+import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 
 class SearchContainer extends Component {
   static getInitialProps = ctx => {
@@ -352,21 +354,11 @@ SearchContainer.defaultProps = {
   enabledTabs: [
     { value: 'all', name: 'all' },
     { value: 'topic-article', type: 'context-types', name: 'subject' },
-    {
-      value: 'urn:resourcetype:subjectMaterial',
+    ...allResourceTypes.map(resourceType => ({
+      value: resourceType,
       type: 'resource-types',
-      name: 'subject-material',
-    },
-    {
-      value: 'urn:resourcetype:learningPath',
-      type: 'resource-types',
-      name: 'learning-path',
-    },
-    {
-      value: 'urn:resourcetype:tasksAndActivities',
-      type: 'resource-types',
-      name: 'tasks-and-activities',
-    },
+      name: contentTypeMapping[resourceType].contentType,
+    })),
   ],
   filters: [],
   subjects: [],
