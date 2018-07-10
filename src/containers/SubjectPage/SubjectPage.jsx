@@ -22,6 +22,7 @@ import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { subjectPageQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
 import SubjectPageOneColumn from './components/SubjectPageOneColumn';
@@ -84,10 +85,20 @@ class SubjectPage extends Component {
   };
 
   render() {
-    const { data, match: { params: { subjectId } }, location, t } = this.props;
+    const {
+      data,
+      loading,
+      match: { params: { subjectId } },
+      location,
+      t,
+    } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     if (!data || !data.subject) {
-      return null;
+      return <DefaultErrorMessage />;
     }
     const activeFilters = getFiltersFromUrlAsArray(location);
     const { subject } = data;
@@ -189,6 +200,7 @@ SubjectPage.propTypes = {
     subject: GraphQLSubjectShape,
     error: GraphqlErrorShape,
   }),
+  loading: PropTypes.bool.isRequired,
   location: LocationShape,
   match: PropTypes.shape({
     params: PropTypes.shape({

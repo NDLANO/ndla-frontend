@@ -18,6 +18,7 @@ import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -34,7 +35,6 @@ import {
   resourceQuery,
 } from '../../queries';
 import Resources from '../Resources/Resources';
-import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 
@@ -51,33 +51,28 @@ class ArticlePage extends Component {
     const { client, location } = ctx;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
     const filterIds = getFiltersFromUrl(location);
-    try {
-      const response = await runQueries(client, [
-        {
-          query: subjectTopicsQuery,
-          variables: { subjectId },
-        },
-        {
-          query: topicResourcesQuery,
-          variables: { topicId, filterIds },
-        },
-        {
-          query: resourceQuery,
-          variables: { resourceId },
-        },
-        {
-          query: resourceTypesQuery,
-        },
-      ]);
+    const response = await runQueries(client, [
+      {
+        query: subjectTopicsQuery,
+        variables: { subjectId },
+      },
+      {
+        query: topicResourcesQuery,
+        variables: { topicId, filterIds },
+      },
+      {
+        query: resourceQuery,
+        variables: { resourceId },
+      },
+      {
+        query: resourceTypesQuery,
+      },
+    ]);
 
-      return {
-        ...response,
-        data: transformData(response.data),
-      };
-    } catch (error) {
-      handleError(error);
-      return null;
-    }
+    return {
+      ...response,
+      data: transformData(response.data),
+    };
   }
 
   static getDocumentTitle({ t, data: { resource: { article }, subject } }) {
@@ -87,8 +82,8 @@ class ArticlePage extends Component {
   }
 
   static willTrackPageView(trackPageView, currentProps) {
-    const { loading } = currentProps;
-    if (loading) {
+    const { loading, data } = currentProps;
+    if (loading || !data) {
       return;
     }
     trackPageView(currentProps);
@@ -120,6 +115,10 @@ class ArticlePage extends Component {
     const { data, locale, errors, loading } = this.props;
     if (loading) {
       return null;
+    }
+
+    if (!data) {
+      return <DefaultErrorMessage />;
     }
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;

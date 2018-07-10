@@ -16,27 +16,22 @@ import { injectT } from 'ndla-i18n';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
-import handleError from '../../util/handleError';
 import WelcomePageInfo from './WelcomePageInfo';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
 import FrontpageHighlights from './FrontpageHighlights';
 
 export class WelcomePage extends Component {
   static async getInitialProps(ctx) {
     const { client } = ctx;
-    try {
-      return runQueries(client, [
-        {
-          query: frontpageQuery,
-        },
-        {
-          query: subjectsQuery,
-        },
-      ]);
-    } catch (error) {
-      handleError(error);
-      return null;
-    }
+    return runQueries(client, [
+      {
+        query: frontpageQuery,
+      },
+      {
+        query: subjectsQuery,
+      },
+    ]);
   }
 
   constructor() {
@@ -69,12 +64,16 @@ export class WelcomePage extends Component {
   };
 
   render() {
-    const { t, data, locale } = this.props;
-    if (!data) {
+    const { t, data, loading, locale } = this.props;
+    if (loading) {
       return null;
     }
-    const frontpage = data && data.frontpage ? data.frontpage : {};
-    const { subjects } = data;
+
+    if (!data) {
+      return <DefaultErrorMessage />;
+    }
+
+    const { subjects, frontpage = {} } = data;
     const { categories, topical } = frontpage;
     const { expanded, query } = this.state;
     const headerLinks = [
@@ -133,6 +132,7 @@ WelcomePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     frontpage: GraphQLFrontpageShape,
   }),
