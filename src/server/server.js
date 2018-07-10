@@ -63,8 +63,13 @@ const ndlaMiddleware = [
 ];
 
 app.get('/robots.txt', ndlaMiddleware, (req, res) => {
-  res.type('text/plain');
-  res.send('User-agent: *\nDisallow: /');
+  // Using ndla.no robots.txt
+  if (req.hostname === 'ndla.no') {
+    res.sendFile('robots.txt', { root: './src/server/' });
+  } else {
+    res.type('text/plain');
+    res.send('User-agent: *\nDisallow: /');
+  }
 });
 
 app.get('/health', ndlaMiddleware, (req, res) => {
