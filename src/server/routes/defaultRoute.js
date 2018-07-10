@@ -14,7 +14,6 @@ import { matchPath } from 'react-router-dom';
 import defined from 'defined';
 import IntlProvider from 'ndla-i18n';
 import url from 'url';
-import { getComponentName } from 'ndla-util';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
@@ -27,7 +26,7 @@ import routes, { routes as serverRoutes } from '../../routes';
 import configureStore from '../../configureStore';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
-
+import handleError from '../../util/handleError';
 import { getLocaleObject, isValidLocale } from '../../i18n';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
@@ -38,15 +37,15 @@ const getAssets = () => ({
 });
 
 async function loadGetInitialProps(Component, ctx) {
-  if (!Component.getInitialProps) return {};
+  if (!Component.getInitialProps) return { loading: false };
 
-  const props = await Component.getInitialProps(ctx);
-  if (!props && (!ctx.res || !ctx.res.finished)) {
-    const compName = getComponentName(Component);
-    const message = `"${compName}.getInitialProps()" should resolve to an object. But found "${props}" instead.`;
-    throw new Error(message);
+  try {
+    const initialProps = await Component.getInitialProps(ctx);
+    return { ...initialProps, loading: false };
+  } catch (e) {
+    handleError(e);
+    return { loading: false };
   }
-  return props;
 }
 
 const renderPage = (Page, initialProps, initialState, apolloState) => {

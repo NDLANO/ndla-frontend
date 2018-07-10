@@ -25,8 +25,6 @@ export async function runQueries(client, queries) {
 
   const mergedResults = results.reduce(
     (obj, result) => ({
-      ...obj,
-      ...result,
       errors: mergeError(obj, result),
       data: { ...obj.data, ...result.data },
     }),

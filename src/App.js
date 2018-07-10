@@ -66,7 +66,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.location = null;
-    this.state = { data: props.initialProps, location: null };
+    this.state = {
+      data: props.initialProps,
+      location: null,
+    };
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
@@ -115,20 +118,20 @@ class App extends React.Component {
     }
 
     this.location = props.location;
+    let data = [];
     try {
-      const data = await loadInitialProps(props.location.pathname, {
+      data = await loadInitialProps(props.location.pathname, {
         locale: props.locale,
         location: props.location,
         history: props.history,
         client: props.client,
       });
-
-      // Only update state if on the same route
-      if (props.location === this.location) {
-        this.setState({ data: data[0] });
-      }
     } catch (e) {
       handleError(e);
+    }
+    // Only update state if on the same route
+    if (props.location === this.location) {
+      this.setState({ data: { ...data[0], loading: false } });
     }
   }
 
