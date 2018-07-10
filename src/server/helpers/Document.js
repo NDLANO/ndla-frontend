@@ -54,7 +54,7 @@ const Document = ({
         {assets.css && <link rel="stylesheet" href={assets.css} />}
         <link
           rel="shortcut icon"
-          href="/ndla-favicon.png"
+          href="/static/ndla-favicon.png"
           type="image/x-icon"
         />
       </head>

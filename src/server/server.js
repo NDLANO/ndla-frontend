@@ -31,6 +31,7 @@ import errorLogger from '../util/logger';
 import config from '../config';
 import { isValidLocale } from '../i18n';
 import { routes as appRoutes } from '../routes';
+import { renderAndCache } from './cache';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -62,8 +63,13 @@ const ndlaMiddleware = [
 ];
 
 app.get('/robots.txt', ndlaMiddleware, (req, res) => {
-  res.type('text/plain');
-  res.send('User-agent: *\nDisallow: /');
+  // Using ndla.no robots.txt
+  if (req.hostname === 'ndla.no') {
+    res.sendFile('robots.txt', { root: './src/server/' });
+  } else {
+    res.type('text/plain');
+    res.send('User-agent: *\nDisallow: /');
+  }
 });
 
 app.get('/health', ndlaMiddleware, (req, res) => {
@@ -115,13 +121,22 @@ function sendResponse(res, data, status = OK) {
   }
 }
 
-async function handleRequest(req, res, route) {
+async function handleRequest(req, res, route, enableCache = false) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      const { data, status } = await route(req);
-      sendResponse(res, data, status);
+      if (enableCache) {
+        const { res: response, data, status } = await renderAndCache(
+          req,
+          res,
+          route,
+        );
+        sendResponse(response, data, status);
+      } else {
+        const { data, status } = await route(req);
+        sendResponse(res, data, status);
+      }
     } catch (e) {
       handleError(e);
       sendInternalServerError(res);
@@ -155,23 +170,14 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
-app.get('/node/*', async (req, res, next) => forwardingRoute(req, res, next));
-app.get('/nb/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/nn/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/en/node/*', async (req, res, next) =>
+app.get('/:lang?/node/:nodeId', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
 app.get('/static/*', ndlaMiddleware);
+app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
   (req, res, next) => {
@@ -187,10 +193,11 @@ app.get(
   },
   ndlaMiddleware,
   (req, res) => {
-    handleRequest(req, res, defaultRoute);
+    handleRequest(req, res, defaultRoute, true);
   },
 );
 
 app.get('/*', proxy(config.oldNdlaProxyUrl));
+app.post('/*', proxy(config.oldNdlaProxyUrl));
 
 export default app;

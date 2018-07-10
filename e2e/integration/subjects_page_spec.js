@@ -17,16 +17,16 @@ describe('Subjects page', () => {
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy
-      .get('[data-cy="subject-list"] li a:contains("Medieuttrykk")')
+      .get('a:contains("Medieuttrykk")')
       .first()
       .click();
     cy.apiwait('@subjectpageGraphQL');
   });
 
   it('should include a list of valid topic links', () => {
-    cy.get('[data-cy="topic-list"] h1').contains(/\w+/);
+    cy.get('[data-testid="topic-list"] h1').contains(/\w+/);
 
-    cy.get('[data-cy="topic-list"] a').each(el => {
+    cy.get('[data-testid="topic-list"] a').each(el => {
       cy
         .wrap(el)
         .should('have.attr', 'href')
