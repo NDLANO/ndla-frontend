@@ -126,21 +126,17 @@ async function handleRequest(req, res, route, enableCache = false) {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      let response;
-      let data;
-      let status;
-
       if (enableCache) {
-        ({ res: response, data, status } = await renderAndCache(
+        const { res: response, data, status } = await renderAndCache(
           req,
           res,
           route,
-        ));
+        );
+        sendResponse(response, data, status);
       } else {
-        ({ data, status } = await route(req));
+        const { data, status } = await route(req);
+        sendResponse(res, data, status);
       }
-
-      sendResponse(response, data, status);
     } catch (e) {
       handleError(e);
       sendInternalServerError(res);
@@ -174,19 +170,9 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get('/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nb/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/nn/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-app.get('/en/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
+app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
-app.get('/node/*', async (req, res, next) => forwardingRoute(req, res, next));
-app.get('/nb/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/nn/node/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-app.get('/en/node/*', async (req, res, next) =>
+app.get('/:lang?/node/:nodeId', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
@@ -212,5 +198,6 @@ app.get(
 );
 
 app.get('/*', proxy(config.oldNdlaProxyUrl));
+app.post('/*', proxy(config.oldNdlaProxyUrl));
 
 export default app;
