@@ -34,19 +34,25 @@ const getUrl = (subject, result) => {
   return `/subjects${subject.path}`;
 };
 
-const taxonomyData = result => ({
-  breadcrumb: result.contexts[0].breadcrumbs,
-  contentType: getContentType(result.contexts[0]),
-  contentTypes: result.contexts.map(context => getContentType(context)),
-  subjects:
-    result.contexts > 1
-      ? result.contexts.map(subject => ({
-          url: getUrl(subject, result),
-          title: subject.subject,
-          contentType: getContentType(subject),
-        }))
-      : undefined,
-});
+const taxonomyData = result => {
+  let taxonomyResult = {};
+  if (result.contexts.length > 0) {
+    taxonomyResult = {
+      breadcrumb: result.contexts[0].breadcrumbs,
+      contentType: getContentType(result.contexts[0]),
+      contentTypes: result.contexts.map(context => getContentType(context)),
+      subjects:
+        result.contexts > 1
+          ? result.contexts.map(subject => ({
+              url: getUrl(subject, result),
+              title: subject.subject,
+              contentType: getContentType(subject),
+            }))
+          : undefined,
+    };
+  }
+  return taxonomyResult;
+};
 
 const getSearchFromState = state => state.search;
 

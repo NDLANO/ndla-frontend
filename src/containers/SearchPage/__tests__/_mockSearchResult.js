@@ -16,12 +16,16 @@ export default {
       contexts: [],
       ingress: '',
       title: 'Mediene dekker mange behov',
+      url: undefined,
+      urls: [],
     },
     {
       id: '116',
       contexts: [],
       ingress: '',
       title: 'Medieerfaringer og medieopplevelser',
+      url: undefined,
+      urls: [],
     },
   ],
 };
@@ -35,11 +39,15 @@ export const searchNotTranslated = {
       id: '121',
       contexts: [],
       title: { title: 'Mediene dekker mange behov', language: 'nb' },
+      url: undefined,
+      urls: [],
     },
     {
       id: '116',
       contexts: [],
       title: { title: 'Medieerfaringer og medieopplevelser', language: 'nb' },
+      url: undefined,
+      urls: [],
     },
   ],
 };
