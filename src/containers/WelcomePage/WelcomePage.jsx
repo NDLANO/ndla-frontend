@@ -73,8 +73,9 @@ export class WelcomePage extends Component {
       return <DefaultErrorMessage />;
     }
 
-    const { subjects, frontpage = {} } = data;
-    const { categories, topical } = frontpage;
+    const { subjects } = data;
+    const frontpage = data && data.frontpage ? data.frontpage : {};
+    const { categories = [], topical } = frontpage;
     const { expanded, query } = this.state;
     const headerLinks = [
       {
