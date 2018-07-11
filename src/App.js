@@ -19,6 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ZendeskButton from './components/ZendeskButton';
+import ErrorPage from './containers/ErrorPage/ErrorPage';
 
 const Route = ({
   component: Component,
@@ -67,6 +68,7 @@ class App extends React.Component {
     super(props);
     this.location = null;
     this.state = {
+      hasError: false,
       data: props.initialProps,
       location: null,
     };
@@ -107,6 +109,14 @@ class App extends React.Component {
     }
   }
 
+  componentDidCatch(error, info) {
+    if (process.env.NODE_ENV === 'production') {
+      // React prints all errors that occurred during rendering to the console in development
+      handleError(error, info);
+    }
+    this.setState({ hasError: true });
+  }
+
   componentWillUnmount() {
     this.location = null;
   }
@@ -136,6 +146,10 @@ class App extends React.Component {
   }
 
   render() {
+    if (this.state.hasError) {
+      return <ErrorPage locale={this.props.locale} />;
+    }
+
     return (
       <Switch>
         {routes
