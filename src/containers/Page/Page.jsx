@@ -24,7 +24,7 @@ const Page = props => {
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       {children}
-      <Footer t={t} />
+      <Footer t={t} locale={locale} />
     </PageContainer>
   );
 };
