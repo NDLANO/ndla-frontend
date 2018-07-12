@@ -34,7 +34,7 @@ export function renderPage(Page, assets, data = {}) {
   };
 }
 
-export async function renderHtml(req, rendered) {
+export async function renderHtml(req, html, context, props) {
   const userAgentString = req.headers['user-agent'];
   const className = getConditionalClassnames(userAgentString);
 
@@ -42,24 +42,24 @@ export async function renderHtml(req, rendered) {
     <Document
       className={className}
       userAgentString={userAgentString}
-      {...rendered.docProps}
       useZendesk
+      {...props}
     />,
   );
 
-  if (rendered.context.url) {
+  if (context.url) {
     return {
       status: MOVED_PERMANENTLY,
       data: {
-        Location: rendered.context.url,
+        Location: context.url,
       },
     };
   }
 
-  const status = defined(rendered.context.status, OK);
+  const status = defined(context.status, OK);
 
   return {
     status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', rendered.html)}`,
+    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
   };
 }

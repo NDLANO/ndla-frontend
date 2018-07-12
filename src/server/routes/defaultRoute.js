@@ -111,6 +111,6 @@ async function doRender(req) {
 }
 
 export async function defaultRoute(req) {
-  const rendered = await doRender(req);
-  return renderHtml(req, rendered);
+  const { html, context, docProps } = await doRender(req);
+  return renderHtml(req, html, context, docProps);
 }

@@ -123,7 +123,7 @@ class ArticlePage extends Component {
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
-      topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
+      topicPath.safj.length > 0 ? topicPath[topicPath.length - 1].name : '';
 
     if (resource === null || resource.article === null) {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
