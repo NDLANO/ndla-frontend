@@ -22,7 +22,9 @@ module.exports = {
           appConfig.entry.client[1],
           './src/iframe',
         ];
+        appConfig.entry.injectCss = ['./src/style/index.css'];
       } else {
+        appConfig.entry.injectCss = [];
         appConfig.entry.embed = ['./src/iframe'];
       }
 

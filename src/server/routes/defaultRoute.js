@@ -15,7 +15,7 @@ import defined from 'defined';
 import IntlProvider from 'ndla-i18n';
 import url from 'url';
 import { resetIdCounter } from 'ndla-tabs';
-import { OK, MOVED_PERMANENTLY } from 'http-status';
+import { OK, MOVED_PERMANENTLY, INTERNAL_SERVER_ERROR } from 'http-status';
 import Helmet from 'react-helmet';
 import { ApolloProvider } from 'react-apollo';
 
@@ -28,6 +28,7 @@ import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleObject, isValidLocale } from '../../i18n';
+import ErrorPage from '../../containers/ErrorPage';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -48,9 +49,9 @@ async function loadGetInitialProps(Component, ctx) {
   }
 }
 
-const renderPage = (Page, initialProps, initialState, apolloState) => {
+const renderPage = (Page, data = {}) => {
   resetIdCounter();
-  const html = config.disableSSR ? '' : renderToString(Page);
+  const html = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,
@@ -58,11 +59,9 @@ const renderPage = (Page, initialProps, initialState, apolloState) => {
     assets: getAssets(),
     // Following is serialized to window.DATA
     data: {
-      initialProps,
-      initialState,
-      apolloState,
+      ...data,
       config,
-      assets,
+      assets: getAssets(),
       accessToken: global.access_token,
     },
   };
@@ -77,7 +76,7 @@ const disableSSR = req => {
 };
 
 async function render(req) {
-  global.assets = assets;
+  global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
   const paths = req.path.split('/');
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
@@ -119,12 +118,11 @@ async function render(req) {
   );
 
   const apolloState = client.extract();
-  const { html, ...docProps } = renderPage(
-    Page,
+  const { html, ...docProps } = renderPage(Page, {
     initialProps,
-    store.getState(),
+    initialState: store.getState(),
     apolloState,
-  );
+  });
 
   return {
     html,
@@ -133,11 +131,39 @@ async function render(req) {
   };
 }
 
-export async function defaultRoute(req) {
+async function renderError(req, status = INTERNAL_SERVER_ERROR) {
+  const paths = req.path.split('/');
+  const locale = isValidLocale(paths[1]) ? paths[1] : '';
+  const { abbreviation, messages } = getLocaleObject(locale);
+
+  const context = { status };
+  const Page = (
+    <IntlProvider locale={abbreviation} messages={messages}>
+      <ErrorPage local={abbreviation} />
+    </IntlProvider>
+  );
+
+  const { html, helmet, data } = renderPage(Page);
+
+  return {
+    html,
+    docProps: {
+      assets: {
+        css: assets.client.css ? assets.client.css : undefined,
+        js: [assets.injectCss.js], // Error page is a static page, only use js to inject css under development
+      },
+      data,
+      helmet,
+    },
+    context,
+  };
+}
+
+async function doRender(req, renderFn) {
   const userAgentString = req.headers['user-agent'];
   const className = getConditionalClassnames(userAgentString);
 
-  const rendered = await render(req);
+  const rendered = await renderFn(req);
 
   const doc = renderToStaticMarkup(
     <Document
@@ -163,4 +189,12 @@ export async function defaultRoute(req) {
     status,
     data: `<!doctype html>${doc.replace('REPLACE_ME', rendered.html)}`,
   };
+}
+
+export async function defaultRoute(req) {
+  return doRender(req, render);
+}
+
+export async function errorRoute(req) {
+  return doRender(req, renderError);
 }

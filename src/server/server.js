@@ -20,7 +20,7 @@ import {
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
 import { getToken } from './helpers/auth';
-import { defaultRoute } from './routes/defaultRoute';
+import { defaultRoute, errorRoute } from './routes/defaultRoute';
 import { oembedArticleRoute } from './routes/oembedArticleRoute';
 import { iframeArticleRoute } from './routes/iframeArticleRoute';
 import { forwardingRoute } from './routes/forwardingRoute';
@@ -102,11 +102,12 @@ app.get('/get_token', ndlaMiddleware, async (req, res) => {
   }
 });
 
-function sendInternalServerError(res) {
+async function sendInternalServerError(req, res) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
-    res.status(INTERNAL_SERVER_ERROR).send('Internal server error');
+    const { data } = await errorRoute(req);
+    res.status(INTERNAL_SERVER_ERROR).send(data);
   }
 }
 
@@ -139,11 +140,11 @@ async function handleRequest(req, res, route, enableCache = false) {
       }
     } catch (e) {
       handleError(e);
-      sendInternalServerError(res);
+      await sendInternalServerError(req, res);
     }
   } catch (e) {
     handleError(e);
-    sendInternalServerError(res);
+    await sendInternalServerError(req, res);
   }
 }
 
