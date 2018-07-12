@@ -29,9 +29,9 @@ import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import errorLogger from '../util/logger';
 import config from '../config';
-import { isValidLocale } from '../i18n';
 import { routes as appRoutes } from '../routes';
 import { renderAndCache } from './cache';
+import { getLocaleInfoFromPath } from '../i18n';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -182,9 +182,7 @@ app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
   (req, res, next) => {
-    const paths = req.path.split('/');
-    const basename = isValidLocale(paths[1]) ? paths[1] : '';
-    const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
+    const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = appRoutes.find(r => matchPath(path, r)); // match with routes  used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)

@@ -27,8 +27,8 @@ import configureStore from '../../configureStore';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
-import { getLocaleObject, isValidLocale } from '../../i18n';
 import ErrorPage from '../../containers/ErrorPage';
+import { getLocaleInfoFromPath } from '../../i18n';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -78,17 +78,19 @@ const disableSSR = req => {
 async function render(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
-  const paths = req.path.split('/');
-  const basename = isValidLocale(paths[1]) ? paths[1] : '';
-  const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
-  const { abbreviation: locale, messages } = getLocaleObject(basename);
+  const {
+    abbreviation: locale,
+    messages,
+    basepath,
+    basename,
+  } = getLocaleInfoFromPath(req.path);
 
   const store = configureStore({ locale });
   const client = createApolloClient(locale);
 
   if (!disableSSR(req)) {
-    const route = serverRoutes.find(r => matchPath(path, r));
-    const match = matchPath(path, route);
+    const route = serverRoutes.find(r => matchPath(basepath, r));
+    const match = matchPath(basepath, route);
     initialProps = await loadGetInitialProps(route.component, {
       isServer: true,
       locale,
@@ -132,9 +134,7 @@ async function render(req) {
 }
 
 async function renderError(req, status = INTERNAL_SERVER_ERROR) {
-  const paths = req.path.split('/');
-  const locale = isValidLocale(paths[1]) ? paths[1] : '';
-  const { abbreviation, messages } = getLocaleObject(locale);
+  const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
 
   const context = { status };
   const Page = (
