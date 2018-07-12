@@ -48,7 +48,7 @@ const SearchResults = ({
         value: tab.value,
         title: tab.name,
       }))}
-      onTabChange={tab => onTabChange(tab)}
+      onTabChange={tab => onTabChange(tab, enabledTabs)}
       currentTab={enabledTab || 'all'}>
       <SearchContextFilters
         filterState={filterState}

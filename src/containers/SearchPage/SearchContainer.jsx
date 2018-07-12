@@ -92,16 +92,8 @@ class SearchContainer extends Component {
 
   constructor(props) {
     super();
-    const { location, data, t } = props;
+    const { location } = props;
     const searchObject = converSearchStringToObject(location);
-    const enabledResourceTypes =
-      data &&
-      data.resourceTypes &&
-      sortResourceTypes(data.resourceTypes).map(resourceType => ({
-        value: resourceType.id,
-        type: 'resource-types',
-        name: resourceType.name,
-      }));
 
     this.state = {
       searchParams: {
@@ -114,15 +106,6 @@ class SearchContainer extends Component {
         'context-types': searchObject['context-types'] || undefined,
         contextFilters: searchObject.contextFilters || [],
       },
-      enabledTabs: [
-        { value: 'all', name: t('contentTypes.all') },
-        {
-          value: 'topic-article',
-          type: 'context-types',
-          name: t('contentTypes.subject'),
-        },
-        ...enabledResourceTypes,
-      ],
     };
   }
 
@@ -189,8 +172,7 @@ class SearchContainer extends Component {
     );
   };
 
-  updateTab = value => {
-    const { enabledTabs } = this.state;
+  updateTab = (value, enabledTabs) => {
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
       !enabledTab || enabledTab.value === 'all'
@@ -247,7 +229,6 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const { enabledTabs } = this.state;
     const {
       t,
       subjects,
@@ -270,6 +251,22 @@ class SearchContainer extends Component {
             };
           })
         : [];
+
+    const enabledTabs = [
+      { value: 'all', name: t('contentTypes.all') },
+      {
+        value: 'topic-article',
+        type: 'context-types',
+        name: t('contentTypes.subject'),
+      },
+      ...(data &&
+        data.resourceTypes &&
+        sortResourceTypes(data.resourceTypes).map(resourceType => ({
+          value: resourceType.id,
+          type: 'resource-types',
+          name: resourceType.name,
+        }))),
+    ];
 
     const searchFilters = (
       <SearchFilters
