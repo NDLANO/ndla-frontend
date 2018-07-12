@@ -151,6 +151,8 @@ async function handleRequest(req, res, route, enableCache = false) {
   }
 }
 
+app.get('/static/*', ndlaMiddleware);
+
 app.get(
   '/article-iframe/:lang/article/:articleId',
   ndlaMiddleware,
@@ -180,7 +182,6 @@ app.get('/:lang?/node/:nodeId', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
-app.get('/static/*', ndlaMiddleware);
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',

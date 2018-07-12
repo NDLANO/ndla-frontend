@@ -9,8 +9,7 @@
 import React from 'react';
 import defined from 'defined';
 import Helmet from 'react-helmet';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { resetIdCounter } from 'ndla-tabs';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { OK, INTERNAL_SERVER_ERROR } from 'http-status';
 
 import { getHtmlLang, getLocaleObject } from '../../i18n';
@@ -20,6 +19,7 @@ import { fetchResourceTypesForResource } from '../../containers/Resources/resour
 import IframeArticlePage from '../../iframe/IframeArticlePage';
 import config from '../../config';
 import handleError from '../../util/handleError';
+import { renderPage } from '../helpers/render';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -35,23 +35,12 @@ const getAssets = () => ({
   js: [assets.embed.js],
 });
 
-const renderPage = initialProps => {
-  resetIdCounter();
-  const html = config.disableSSR
-    ? ''
-    : renderToString(<IframeArticlePage {...initialProps} />);
-  const helmet = Helmet.renderStatic();
-  return {
-    html,
-    helmet,
-    assets: getAssets(),
-    data: {
-      assets,
-      initialProps,
-      config,
-    },
-  };
-};
+function doRenderPage(initialProps) {
+  const Page = config.disableSSR ? '' : <IframeArticlePage {...initialProps} />;
+  return renderPage(Page, getAssets(), {
+    initialProps,
+  });
+}
 
 export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
@@ -62,11 +51,12 @@ export async function iframeArticleRoute(req) {
   try {
     const article = await fetchArticle(articleId, lang);
     const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
-    const { html, ...docProps } = renderPage({
+    const { html, ...docProps } = doRenderPage({
       resource: { article, resourceTypes },
       locale,
       status: 'success',
     });
+
     const doc = renderToStaticMarkup(
       <Document userAgentString={userAgentString} {...docProps} />,
     );
@@ -80,10 +70,11 @@ export async function iframeArticleRoute(req) {
       // skip log in unittests
       handleError(error);
     }
-    const { html, ...docProps } = renderPage({
+    const { html, ...docProps } = doRenderPage({
       locale,
       status: 'error',
     });
+
     const doc = renderToStaticMarkup(
       <Document userAgentString={userAgentString} {...docProps} />,
     );

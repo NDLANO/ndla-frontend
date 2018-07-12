@@ -15,6 +15,12 @@ import { renderHtml, renderPage } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
+const getAssets = () => ({
+  css: assets.client.css ? assets.client.css : undefined,
+  // Error page is a static page, only use js to inject css under development
+  js: assets.injectCss ? [assets.injectCss.js] : [],
+});
+
 async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
 
@@ -25,18 +31,11 @@ async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
     </IntlProvider>
   );
 
-  const { html, helmet, data } = renderPage(Page);
+  const { html, ...docProps } = renderPage(Page, getAssets());
 
   return {
     html,
-    docProps: {
-      assets: {
-        css: assets.client.css ? assets.client.css : undefined,
-        js: assets.injectCss ? [assets.injectCss.js] : [], // Error page is a static page, only use js to inject css under development
-      },
-      data,
-      helmet,
-    },
+    docProps,
     context,
   };
 }

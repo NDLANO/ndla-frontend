@@ -25,6 +25,11 @@ import { renderHtml, renderPage } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
+const getAssets = () => ({
+  css: assets.client.css ? assets.client.css : undefined,
+  js: [assets.client.js],
+});
+
 async function loadGetInitialProps(Component, ctx) {
   if (!Component.getInitialProps) return { loading: false };
 
@@ -74,7 +79,7 @@ async function doRender(req) {
   }
 
   const context = {};
-  const Page = (
+  const Page = !disableSSR(req) ? (
     <Provider store={store}>
       <ApolloProvider client={client}>
         <IntlProvider locale={locale} messages={messages}>
@@ -87,10 +92,12 @@ async function doRender(req) {
         </IntlProvider>
       </ApolloProvider>
     </Provider>
+  ) : (
+    ''
   );
 
   const apolloState = client.extract();
-  const { html, ...docProps } = renderPage(Page, {
+  const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
     initialState: store.getState(),
     apolloState,

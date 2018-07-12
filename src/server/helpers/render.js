@@ -16,26 +16,19 @@ import getConditionalClassnames from '../helpers/getConditionalClassnames';
 import Document from '../helpers/Document';
 import config from '../../config';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
-
-const getAssets = () => ({
-  css: assets.client.css ? assets.client.css : undefined,
-  js: [assets.client.js],
-});
-
-export function renderPage(Page, data = {}) {
+export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
   const html = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,
     helmet,
-    assets: getAssets(),
+    assets,
     // Following is serialized to window.DATA
     data: {
       ...data,
       config,
-      assets: getAssets(),
+      assets,
       accessToken: global.access_token,
     },
   };
