@@ -7,21 +7,15 @@
  */
 
 import React from 'react';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import defined from 'defined';
 import IntlProvider from 'ndla-i18n';
 import url from 'url';
-import { resetIdCounter } from 'ndla-tabs';
-import { OK, MOVED_PERMANENTLY, INTERNAL_SERVER_ERROR } from 'http-status';
-import Helmet from 'react-helmet';
+import { INTERNAL_SERVER_ERROR } from 'http-status';
 import { ApolloProvider } from 'react-apollo';
 
 import queryString from 'query-string';
-import getConditionalClassnames from '../helpers/getConditionalClassnames';
-import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../routes';
 import configureStore from '../../configureStore';
 import config from '../../config';
@@ -29,13 +23,9 @@ import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import ErrorPage from '../../containers/ErrorPage';
 import { getLocaleInfoFromPath } from '../../i18n';
+import { renderHtml, renderPage } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
-
-const getAssets = () => ({
-  css: assets.client.css ? assets.client.css : undefined,
-  js: [assets.client.js],
-});
 
 async function loadGetInitialProps(Component, ctx) {
   if (!Component.getInitialProps) return { loading: false };
@@ -49,24 +39,6 @@ async function loadGetInitialProps(Component, ctx) {
   }
 }
 
-const renderPage = (Page, data = {}) => {
-  resetIdCounter();
-  const html = renderToString(Page);
-  const helmet = Helmet.renderStatic();
-  return {
-    html,
-    helmet,
-    assets: getAssets(),
-    // Following is serialized to window.DATA
-    data: {
-      ...data,
-      config,
-      assets: getAssets(),
-      accessToken: global.access_token,
-    },
-  };
-};
-
 const disableSSR = req => {
   const urlParts = url.parse(req.url, true);
   if (config.disableSSR) {
@@ -75,7 +47,7 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-async function render(req) {
+async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
   const {
@@ -133,7 +105,7 @@ async function render(req) {
   };
 }
 
-async function renderError(req, status = INTERNAL_SERVER_ERROR) {
+async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
 
   const context = { status };
@@ -159,42 +131,12 @@ async function renderError(req, status = INTERNAL_SERVER_ERROR) {
   };
 }
 
-async function doRender(req, renderFn) {
-  const userAgentString = req.headers['user-agent'];
-  const className = getConditionalClassnames(userAgentString);
-
-  const rendered = await renderFn(req);
-
-  const doc = renderToStaticMarkup(
-    <Document
-      className={className}
-      userAgentString={userAgentString}
-      {...rendered.docProps}
-      useZendesk
-    />,
-  );
-
-  if (rendered.context.url) {
-    return {
-      status: MOVED_PERMANENTLY,
-      data: {
-        Location: rendered.context.url,
-      },
-    };
-  }
-
-  const status = defined(rendered.context.status, OK);
-
-  return {
-    status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', rendered.html)}`,
-  };
-}
-
 export async function defaultRoute(req) {
-  return doRender(req, render);
+  const rendered = await doRender(req);
+  return renderHtml(req, rendered);
 }
 
 export async function errorRoute(req) {
-  return doRender(req, renderError);
+  const rendered = await doRenderError(req);
+  return renderHtml(req, rendered);
 }
