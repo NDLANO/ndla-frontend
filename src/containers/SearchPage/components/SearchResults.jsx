@@ -82,7 +82,7 @@ const SearchResults = ({
       searchString={searchObject.query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
-        title: t(`contentTypes.${tab.name}`),
+        title: tab.name,
       }))}
       onTabChange={tab => onTabChange(tab)}
       currentTab={enabledTab || 'all'}>

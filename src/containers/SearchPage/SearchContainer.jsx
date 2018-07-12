@@ -43,8 +43,7 @@ import {
 import { runQueries } from '../../util/runQueries';
 import { resourceTypesWithSubTypesQuery } from '../../queries';
 import handleError from '../../util/handleError';
-import { allResourceTypes } from '../../constants';
-import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
+import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   static getInitialProps = ctx => {
@@ -93,8 +92,16 @@ class SearchContainer extends Component {
 
   constructor(props) {
     super();
-    const { location } = props;
+    const { location, data, t } = props;
     const searchObject = converSearchStringToObject(location);
+    const enabledResourceTypes =
+      data &&
+      data.resourceTypes &&
+      sortResourceTypes(data.resourceTypes).map(resourceType => ({
+        value: resourceType.id,
+        type: 'resource-types',
+        name: resourceType.name,
+      }));
 
     this.state = {
       searchParams: {
@@ -107,6 +114,15 @@ class SearchContainer extends Component {
         'context-types': searchObject['context-types'] || undefined,
         contextFilters: searchObject.contextFilters || [],
       },
+      enabledTabs: [
+        { value: 'all', name: t('contentTypes.all') },
+        {
+          value: 'topic-article',
+          type: 'context-types',
+          name: t('contentTypes.subject'),
+        },
+        ...enabledResourceTypes,
+      ],
     };
   }
 
@@ -174,7 +190,7 @@ class SearchContainer extends Component {
   };
 
   updateTab = value => {
-    const { enabledTabs } = this.props;
+    const { enabledTabs } = this.state;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
       !enabledTab || enabledTab.value === 'all'
@@ -231,9 +247,9 @@ class SearchContainer extends Component {
   };
 
   render() {
+    const { enabledTabs } = this.state;
     const {
       t,
-      enabledTabs,
       subjects,
       resultMetadata,
       filters,
@@ -274,7 +290,10 @@ class SearchContainer extends Component {
       closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
-        { totalCount: resultMetadata.totalCount, query: this.state.query },
+        {
+          totalCount: resultMetadata.totalCount,
+          query: this.state.searchParams.query,
+        },
       ),
       searchFieldTitle: t('searchPage.search'),
     };
@@ -351,15 +370,6 @@ SearchContainer.propTypes = {
 };
 
 SearchContainer.defaultProps = {
-  enabledTabs: [
-    { value: 'all', name: 'all' },
-    { value: 'topic-article', type: 'context-types', name: 'subject' },
-    ...allResourceTypes.map(resourceType => ({
-      value: resourceType,
-      type: 'resource-types',
-      name: contentTypeMapping[resourceType].contentType,
-    })),
-  ],
   filters: [],
   subjects: [],
 };
