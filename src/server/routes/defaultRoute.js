@@ -150,7 +150,7 @@ async function renderError(req, status = INTERNAL_SERVER_ERROR) {
     docProps: {
       assets: {
         css: assets.client.css ? assets.client.css : undefined,
-        js: [assets.injectCss.js], // Error page is a static page, only use js to inject css under development
+        js: assets.injectCss ? [assets.injectCss.js] : [], // Error page is a static page, only use js to inject css under development
       },
       data,
       helmet,
