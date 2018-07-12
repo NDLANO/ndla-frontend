@@ -6,52 +6,16 @@
  */
 
 import React from 'react';
-import {
-  SearchResult,
-  SearchResultList,
-  ContentTypeBadge,
-  Image,
-} from 'ndla-ui';
+import { SearchResult, SearchResultList } from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { converSearchStringToObject } from '../searchHelpers';
+import {
+  converSearchStringToObject,
+  resultsWithContentTypeBadgeAndImage,
+} from '../searchHelpers';
 import { ArticleResultShape, LocationShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
-import { contentTypeIcons } from '../../../constants';
-
-const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
-  results.map(result => {
-    /* There are multiple items that are both subjects and resources
-    We filter out for the correct context (subject) */
-    let contentType;
-    let url;
-    if (type && type === 'topic-article') {
-      [contentType] = result.contentTypes.filter(
-        contentTypeItem => contentTypeItem === 'subject',
-      );
-      [url] = result.urls
-        .filter(urlItem => urlItem.contentType === 'subject')
-        .map(item => item.url);
-    } else {
-      [contentType] = result.contentTypes;
-      [url] = result.urls.map(item => item.url);
-    }
-
-    return {
-      ...result,
-      url: url || result.url,
-      contentTypeIcon: contentTypeIcons[contentType] || (
-        <ContentTypeBadge type={contentType} size="x-small" />
-      ),
-      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : '',
-      image: result.metaImage ? (
-        <Image src={result.metaImage} alt={result.title} />
-      ) : (
-        undefined
-      ),
-    };
-  });
 
 const SearchResults = ({
   results,

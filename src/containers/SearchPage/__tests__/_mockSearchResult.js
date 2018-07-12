@@ -51,3 +51,55 @@ export const searchNotTranslated = {
     },
   ],
 };
+
+export const searchSubjectResultsWithSubjectMaterial = {
+  totalCount: 273,
+  page: 1,
+  pageSize: 10,
+  results: [
+    {
+      id: '121',
+      contexts: [],
+      contentType: 'subject-material',
+      contentTypes: ['subject-material', 'subject'],
+      title: 'Analyse av medieuttrykk',
+      metaImage: 'https://ndla.no/image-api/raw/id/18',
+      url:
+        '/subjects/subject:14/topic:1:103867/topic:1:185606/resource:1:106142',
+      urls: [
+        {
+          url:
+            '/subjects/subject:14/topic:1:103867/topic:1:185606/resource:1:106142',
+          contentType: 'subject-material',
+        },
+        {
+          url: '/subjects/subject:1/topic:1:186479/topic:1:106142',
+          contentType: 'subject',
+        },
+      ],
+    },
+    {
+      id: '121',
+      contexts: [],
+      contentType: 'learning-path',
+      contentTypes: ['learning-path'],
+      title: 'Fortelleteknikk i digitale medier',
+      metaImage: 'https://ndla.no/image-api/raw/id/17',
+      url: {
+        href: 'https://ndla.no/learningpaths/10/first-step',
+        rel: 'noopener noreferrer',
+        target: '_blank',
+      },
+      urls: [
+        {
+          url: {
+            href: 'https://ndla.no/learningpaths/10/first-step',
+            rel: 'noopener noreferrer',
+            target: '_blank',
+          },
+          contentType: 'learning-path',
+        },
+      ],
+    },
+  ],
+};

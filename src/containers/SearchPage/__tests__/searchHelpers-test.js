@@ -2,7 +2,9 @@ import {
   searchResultToLinkProps,
   converSearchStringToObject,
   convertSearchParam,
+  resultsWithContentTypeBadgeAndImage,
 } from '../searchHelpers';
+import { searchSubjectResultsWithSubjectMaterial } from './_mockSearchResult';
 
 test('searchHelpers searchResultToLinkProps learningpath', () => {
   const result = {
@@ -55,4 +57,16 @@ test('searchHelpers convertSearchParam', () => {
   expect(convertSearchParam([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toBe(
     '1,2,3,4,5,6,7,8,9,10',
   );
+});
+
+test('searchHelpers resultsWithContentTypeBadgeAndImage for subjects', () => {
+  expect(
+    resultsWithContentTypeBadgeAndImage(
+      searchSubjectResultsWithSubjectMaterial.results,
+      () => {
+        'injected';
+      },
+      'topic-article',
+    ),
+  ).toMatchSnapshot();
 });
