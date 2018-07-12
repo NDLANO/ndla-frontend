@@ -12,7 +12,6 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import IntlProvider from 'ndla-i18n';
 import url from 'url';
-import { INTERNAL_SERVER_ERROR } from 'http-status';
 import { ApolloProvider } from 'react-apollo';
 
 import queryString from 'query-string';
@@ -21,7 +20,6 @@ import configureStore from '../../configureStore';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
-import ErrorPage from '../../containers/ErrorPage';
 import { getLocaleInfoFromPath } from '../../i18n';
 import { renderHtml, renderPage } from '../helpers/render';
 
@@ -105,38 +103,7 @@ async function doRender(req) {
   };
 }
 
-async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
-  const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
-
-  const context = { status };
-  const Page = (
-    <IntlProvider locale={abbreviation} messages={messages}>
-      <ErrorPage local={abbreviation} />
-    </IntlProvider>
-  );
-
-  const { html, helmet, data } = renderPage(Page);
-
-  return {
-    html,
-    docProps: {
-      assets: {
-        css: assets.client.css ? assets.client.css : undefined,
-        js: assets.injectCss ? [assets.injectCss.js] : [], // Error page is a static page, only use js to inject css under development
-      },
-      data,
-      helmet,
-    },
-    context,
-  };
-}
-
 export async function defaultRoute(req) {
   const rendered = await doRender(req);
-  return renderHtml(req, rendered);
-}
-
-export async function errorRoute(req) {
-  const rendered = await doRenderError(req);
   return renderHtml(req, rendered);
 }

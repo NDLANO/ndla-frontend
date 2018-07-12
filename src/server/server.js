@@ -20,10 +20,13 @@ import {
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
 import { getToken } from './helpers/auth';
-import { defaultRoute, errorRoute } from './routes/defaultRoute';
-import { oembedArticleRoute } from './routes/oembedArticleRoute';
-import { iframeArticleRoute } from './routes/iframeArticleRoute';
-import { forwardingRoute } from './routes/forwardingRoute';
+import {
+  defaultRoute,
+  errorRoute,
+  oembedArticleRoute,
+  iframeArticleRoute,
+  forwardingRoute,
+} from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
