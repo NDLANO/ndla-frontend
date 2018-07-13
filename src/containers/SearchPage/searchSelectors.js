@@ -36,22 +36,19 @@ const getUrl = (subject, result) => {
 
 const taxonomyData = result => {
   let taxonomyResult = {};
-
   if (result.contexts.length > 0) {
     taxonomyResult = {
       breadcrumb: result.contexts[0].breadcrumbs,
-      subjects: undefined,
       contentType: getContentType(result.contexts[0]),
-    };
-  }
-  if (result.contexts.length > 1) {
-    taxonomyResult = {
-      ...taxonomyResult,
-      subjects: result.contexts.map(subject => ({
-        url: getUrl(subject, result),
-        title: subject.subject,
-        contentType: getContentType(subject),
-      })),
+      contentTypes: result.contexts.map(context => getContentType(context)),
+      subjects:
+        result.contexts > 1
+          ? result.contexts.map(subject => ({
+              url: getUrl(subject, result),
+              title: subject.subject,
+              contentType: getContentType(subject),
+            }))
+          : undefined,
     };
   }
   return taxonomyResult;
@@ -66,6 +63,10 @@ export const getResults = createSelector([getSearchFromState], search =>
       result.contexts.length > 0
         ? getUrl(result.contexts[0], result)
         : result.url,
+    urls: result.contexts.map(context => ({
+      url: getUrl(context, result),
+      contentType: getContentType(context),
+    })),
     title: convertFieldWithFallback(result, 'title', ''),
     ingress: convertFieldWithFallback(result, 'metaDescription', ''),
     ...taxonomyData(result),

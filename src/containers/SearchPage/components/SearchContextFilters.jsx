@@ -24,17 +24,14 @@ const SearchContextFilters = ({
 
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
+    enabledTab === 'topic-article' ||
     !enabledTab ||
     results.length === 0
   ) {
     return null;
   }
-  const resourceTypeId =
-    enabledTab === 'topic-article'
-      ? 'urn:resourcetype:subjectMaterial'
-      : enabledTab;
   const resourceType = resourceTypes
-    ? resourceTypes.find(type => type.id === resourceTypeId)
+    ? resourceTypes.find(type => type.id === enabledTab)
     : {};
   const subtypes = resourceType ? resourceType.subtypes : [];
   return (

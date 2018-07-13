@@ -1,5 +1,8 @@
+import React from 'react';
 import queryString from 'query-string';
+import { ContentTypeBadge, Image } from 'ndla-ui';
 import config from '../../config';
+import { contentTypeIcons } from '../../constants';
 
 export const searchResultToLinkProps = result => {
   if (result.resourceType === 'urn:resourcetype:learningPath') {
@@ -44,3 +47,40 @@ export const convertSearchParam = value => {
   }
   return value.length > 0 ? value : undefined;
 };
+
+export const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
+  results.map(result => {
+    /* There are multiple items that are both subjects and resources
+    We filter out for the correct context (subject) */
+    let [contentType] = result.contentTypes;
+    let [url] = result.urls.map(item => item.url);
+    if (type && type === 'topic-article') {
+      [contentType] = result.contentTypes.filter(
+        contentTypeItem => contentTypeItem === 'subject',
+      );
+      [url] = result.urls
+        .filter(urlItem => urlItem.contentType === 'subject')
+        .map(item => item.url);
+    }
+
+    return {
+      ...result,
+      contentType: contentType || result.contentType,
+      url: url || result.url,
+      contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
+        <ContentTypeBadge
+          type={contentType || result.contentType}
+          size="x-small"
+        />
+      ),
+      contentTypeLabel:
+        contentType || result.contentType
+          ? t(`contentTypes.${contentType || result.contentType}`)
+          : '',
+      image: result.metaImage ? (
+        <Image src={result.metaImage} alt={result.title} />
+      ) : (
+        undefined
+      ),
+    };
+  });

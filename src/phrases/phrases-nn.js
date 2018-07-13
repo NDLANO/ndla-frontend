@@ -72,6 +72,7 @@ const phrases = {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} treff i Ndla',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
+      dropdownBtnLabel: 'Flerie innhaldstypar',
     },
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
@@ -305,6 +306,7 @@ const phrases = {
     'tasks-and-activities': 'Oppgåver og aktivitetar',
     'external-learning-resources': 'Ekstern læringsressurs',
     'source-material': 'Kjeldemateriale',
+    'assessment-resources': 'Vurderingsressurs',
   },
   languages: {
     nb: 'Bokmål',

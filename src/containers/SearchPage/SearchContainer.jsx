@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape } from 'prop-types';
+import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import { SearchPage, OneColumn, Pager } from 'ndla-ui';
 import queryString from 'query-string';
@@ -43,6 +43,7 @@ import {
 import { runQueries } from '../../util/runQueries';
 import { resourceTypesWithSubTypesQuery } from '../../queries';
 import handleError from '../../util/handleError';
+import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   static getInitialProps = ctx => {
@@ -171,8 +172,7 @@ class SearchContainer extends Component {
     );
   };
 
-  updateTab = value => {
-    const { enabledTabs } = this.props;
+  updateTab = (value, enabledTabs) => {
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
       !enabledTab || enabledTab.value === 'all'
@@ -231,14 +231,18 @@ class SearchContainer extends Component {
   render() {
     const {
       t,
-      enabledTabs,
       subjects,
       resultMetadata,
       filters,
       results,
       location,
+      loading,
       data,
     } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     const { searchParams } = this.state;
     const activeSubjectsMapped =
@@ -252,6 +256,25 @@ class SearchContainer extends Component {
             };
           })
         : [];
+
+    const resourceTypeTabs =
+      data && data.resourceTypes
+        ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
+            value: resourceType.id,
+            type: 'resource-types',
+            name: resourceType.name,
+          }))
+        : [];
+
+    const enabledTabs = [
+      { value: 'all', name: t('contentTypes.all') },
+      {
+        value: 'topic-article',
+        type: 'context-types',
+        name: t('contentTypes.subject'),
+      },
+      ...resourceTypeTabs,
+    ];
 
     const searchFilters = (
       <SearchFilters
@@ -268,10 +291,14 @@ class SearchContainer extends Component {
       resultHeading: t('searchPage.searchPageMessages.resultHeading', {
         totalCount: resultMetadata.totalCount,
       }),
+      dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
-        { totalCount: resultMetadata.totalCount, query: this.state.query },
+        {
+          totalCount: resultMetadata.totalCount,
+          query: this.state.searchParams.query,
+        },
       ),
       searchFieldTitle: t('searchPage.search'),
     };
@@ -342,31 +369,13 @@ SearchContainer.propTypes = {
     }),
   }),
   locale: string.isRequired,
+  loading: PropTypes.bool.isRequired,
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
 };
 
 SearchContainer.defaultProps = {
-  enabledTabs: [
-    { value: 'all', name: 'all' },
-    { value: 'topic-article', type: 'context-types', name: 'subject' },
-    {
-      value: 'urn:resourcetype:subjectMaterial',
-      type: 'resource-types',
-      name: 'subject-material',
-    },
-    {
-      value: 'urn:resourcetype:learningPath',
-      type: 'resource-types',
-      name: 'learning-path',
-    },
-    {
-      value: 'urn:resourcetype:tasksAndActivities',
-      type: 'resource-types',
-      name: 'tasks-and-activities',
-    },
-  ],
   filters: [],
   subjects: [],
 };

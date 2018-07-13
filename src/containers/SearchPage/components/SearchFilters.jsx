@@ -40,7 +40,7 @@ const SearchFilters = ({
   );
 
   const allContentTypes = enabledTabs.map(tab => ({
-    title: t(`contentTypes.${tab.name}`),
+    title: tab.name,
     value: tab.value,
   }));
 

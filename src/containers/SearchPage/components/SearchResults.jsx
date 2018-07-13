@@ -6,33 +6,16 @@
  */
 
 import React from 'react';
-import {
-  SearchResult,
-  SearchResultList,
-  ContentTypeBadge,
-  Image,
-} from 'ndla-ui';
+import { SearchResult, SearchResultList } from 'ndla-ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { converSearchStringToObject } from '../searchHelpers';
+import {
+  converSearchStringToObject,
+  resultsWithContentTypeBadgeAndImage,
+} from '../searchHelpers';
 import { ArticleResultShape, LocationShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
-import { contentTypeIcons } from '../../../constants';
-
-const resultsWithContentTypeBadgeAndImage = (results, t) =>
-  results.map(result => ({
-    ...result,
-    contentTypeIcon: contentTypeIcons[result.contentType] || (
-      <ContentTypeBadge type={result.contentType} size="x-small" />
-    ),
-    contentTypeLabel: t(`contentTypes.${result.contentType}`),
-    image: result.metaImage ? (
-      <Image src={result.metaImage} alt={result.title} />
-    ) : (
-      undefined
-    ),
-  }));
 
 const SearchResults = ({
   results,
@@ -58,13 +41,14 @@ const SearchResults = ({
         subHeading: t('searchPage.searchResultMessages.subHeading', {
           totalCount: resultMetadata.totalCount,
         }),
+        dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       }}
       searchString={searchObject.query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
-        title: t(`contentTypes.${tab.name}`),
+        title: tab.name,
       }))}
-      onTabChange={tab => onTabChange(tab)}
+      onTabChange={tab => onTabChange(tab, enabledTabs)}
       currentTab={enabledTab || 'all'}>
       <SearchContextFilters
         filterState={filterState}
@@ -82,7 +66,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadgeAndImage(results, t)}
+        results={resultsWithContentTypeBadgeAndImage(results, t, enabledTab)}
       />
     </SearchResult>
   );
