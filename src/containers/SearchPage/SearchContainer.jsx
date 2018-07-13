@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape } from 'prop-types';
+import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import { SearchPage, OneColumn, Pager } from 'ndla-ui';
 import queryString from 'query-string';
@@ -236,8 +236,13 @@ class SearchContainer extends Component {
       filters,
       results,
       location,
+      loading,
       data,
     } = this.props;
+
+    if (loading) {
+      return null;
+    }
 
     const { searchParams } = this.state;
     const activeSubjectsMapped =
@@ -252,6 +257,15 @@ class SearchContainer extends Component {
           })
         : [];
 
+    const resourceTypeTabs =
+      data && data.resourceTypes
+        ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
+            value: resourceType.id,
+            type: 'resource-types',
+            name: resourceType.name,
+          }))
+        : [];
+
     const enabledTabs = [
       { value: 'all', name: t('contentTypes.all') },
       {
@@ -259,13 +273,7 @@ class SearchContainer extends Component {
         type: 'context-types',
         name: t('contentTypes.subject'),
       },
-      ...(data &&
-        data.resourceTypes &&
-        sortResourceTypes(data.resourceTypes).map(resourceType => ({
-          value: resourceType.id,
-          type: 'resource-types',
-          name: resourceType.name,
-        }))),
+      ...resourceTypeTabs,
     ];
 
     const searchFilters = (
@@ -361,6 +369,7 @@ SearchContainer.propTypes = {
     }),
   }),
   locale: string.isRequired,
+  loading: PropTypes.bool.isRequired,
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
