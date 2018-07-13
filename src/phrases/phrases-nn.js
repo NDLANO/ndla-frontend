@@ -17,6 +17,13 @@ const phrases = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Sida finst ikkje${titleTemplate}`,
   },
+  newsLetter: {
+    heading: 'Nyheitsbrev',
+    description:
+      'Få tilgang til det som er nytt for undervisninga og aktuelt for tidspunktet.',
+    mainLinkName: 'Meld deg på',
+    iconLinkName: 'Meld deg på nyheitsbrev',
+  },
   askNDLA: 'Spør NDLA',
   articlePage: {
     errorDescription: 'Orsak, ein feil oppstod under lasting av ressursen.',
