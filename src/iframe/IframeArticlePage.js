@@ -29,7 +29,7 @@ const Error = injectT(({ t }) => (
   <OneColumn cssModifier="clear">
     <ErrorMessage
       illustration={{
-        url: '/static/opps.gif',
+        url: '/static/oops.gif',
         altText: t('errorMessage.title'),
       }}
       messages={{

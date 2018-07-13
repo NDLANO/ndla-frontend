@@ -8,13 +8,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { PageContainer } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 
 import Footer from './components/Footer';
-import { getLocale } from '../Locale/localeSelectors';
 
 const Page = props => {
   const { children, background, locale, t } = props;
@@ -26,7 +24,7 @@ const Page = props => {
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       {children}
-      <Footer t={t} />
+      <Footer t={t} locale={locale} />
     </PageContainer>
   );
 };
@@ -34,15 +32,10 @@ const Page = props => {
 Page.propTypes = {
   locale: PropTypes.string.isRequired,
   background: PropTypes.bool,
-  dispatch: PropTypes.func.isRequired,
 };
 
 Page.defaultProps = {
   background: true,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(injectT(Page));
+export default injectT(Page);

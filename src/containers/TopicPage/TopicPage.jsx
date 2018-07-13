@@ -30,11 +30,11 @@ import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Resources from '../Resources/Resources';
-import handleError from '../../util/handleError';
 import { runQueries } from '../../util/runQueries';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
@@ -72,23 +72,19 @@ class TopicPage extends Component {
     const { client, location } = ctx;
     const { subjectId, topicId } = getUrnIdsFromProps(ctx);
     const filterIds = getFiltersFromUrl(location);
-    try {
-      const response = await runQueries(client, [
-        { query: topicQuery, variables: { topicId, filterIds } },
-        {
-          query: subjectTopicsQuery,
-          variables: { subjectId, filterIds },
-        },
-        { query: resourceTypesQuery },
-      ]);
-      return {
-        ...response,
-        data: transformData(response.data, ctx.locale),
-      };
-    } catch (e) {
-      handleError(e);
-      return null;
-    }
+
+    const response = await runQueries(client, [
+      { query: topicQuery, variables: { topicId, filterIds } },
+      {
+        query: subjectTopicsQuery,
+        variables: { subjectId, filterIds },
+      },
+      { query: resourceTypesQuery },
+    ]);
+    return {
+      ...response,
+      data: transformData(response.data, ctx.locale),
+    };
   }
 
   static getDocumentTitle({ t, data: { topic, subject } }) {
@@ -99,7 +95,7 @@ class TopicPage extends Component {
   }
 
   static willTrackPageView(trackPageView, props) {
-    if (props.loading) {
+    if (props.loading || !props.data) {
       return;
     }
     trackPageView(props);
@@ -118,8 +114,12 @@ class TopicPage extends Component {
 
     const { subjectId } = getUrnIdsFromProps(this.props);
 
-    if (loading || !data) {
+    if (loading) {
       return null;
+    }
+
+    if (!data) {
+      return <DefaultErrorMessage />;
     }
 
     const {

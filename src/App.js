@@ -19,6 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ZendeskButton from './components/ZendeskButton';
+import ErrorPage from './containers/ErrorPage/ErrorPage';
 
 const Route = ({
   component: Component,
@@ -31,7 +32,7 @@ const Route = ({
   <ReactRoute
     {...rest}
     render={props => (
-      <Page background={background}>
+      <Page background={background} locale={locale}>
         <Content>
           {!hideMasthead && <Masthead {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
@@ -66,7 +67,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.location = null;
-    this.state = { data: props.initialProps, location: null };
+    this.state = {
+      hasError: false,
+      data: props.initialProps,
+      location: null,
+    };
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
@@ -79,6 +84,7 @@ class App extends React.Component {
     const navigated = nextProps.location !== prevState.location;
     if (navigated) {
       return {
+        hasError: false,
         data: { ...prevState.data, loading: true },
         location: nextProps.location,
       };
@@ -104,6 +110,14 @@ class App extends React.Component {
     }
   }
 
+  componentDidCatch(error, info) {
+    if (process.env.NODE_ENV === 'production') {
+      // React prints all errors that occurred during rendering to the console in development
+      handleError(error, info);
+    }
+    this.setState({ hasError: true });
+  }
+
   componentWillUnmount() {
     this.location = null;
   }
@@ -115,24 +129,28 @@ class App extends React.Component {
     }
 
     this.location = props.location;
+    let data = [];
     try {
-      const data = await loadInitialProps(props.location.pathname, {
+      data = await loadInitialProps(props.location.pathname, {
         locale: props.locale,
         location: props.location,
         history: props.history,
         client: props.client,
       });
-
-      // Only update state if on the same route
-      if (props.location === this.location) {
-        this.setState({ data: data[0] });
-      }
     } catch (e) {
       handleError(e);
+    }
+    // Only update state if on the same route
+    if (props.location === this.location) {
+      this.setState({ data: { ...data[0], loading: false } });
     }
   }
 
   render() {
+    if (this.state.hasError) {
+      return <ErrorPage locale={this.props.locale} />;
+    }
+
     return (
       <Switch>
         {routes

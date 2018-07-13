@@ -7,28 +7,21 @@
  */
 
 import React from 'react';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import defined from 'defined';
 import IntlProvider from 'ndla-i18n';
 import url from 'url';
-import { getComponentName } from 'ndla-util';
-import { resetIdCounter } from 'ndla-tabs';
-import { OK, MOVED_PERMANENTLY } from 'http-status';
-import Helmet from 'react-helmet';
 import { ApolloProvider } from 'react-apollo';
 
 import queryString from 'query-string';
-import getConditionalClassnames from '../helpers/getConditionalClassnames';
-import Document from '../helpers/Document';
 import routes, { routes as serverRoutes } from '../../routes';
 import configureStore from '../../configureStore';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
-
-import { getLocaleObject, isValidLocale } from '../../i18n';
+import handleError from '../../util/handleError';
+import { getLocaleInfoFromPath } from '../../i18n';
+import { renderHtml, renderPage } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -38,36 +31,16 @@ const getAssets = () => ({
 });
 
 async function loadGetInitialProps(Component, ctx) {
-  if (!Component.getInitialProps) return {};
+  if (!Component.getInitialProps) return { loading: false };
 
-  const props = await Component.getInitialProps(ctx);
-  if (!props && (!ctx.res || !ctx.res.finished)) {
-    const compName = getComponentName(Component);
-    const message = `"${compName}.getInitialProps()" should resolve to an object. But found "${props}" instead.`;
-    throw new Error(message);
+  try {
+    const initialProps = await Component.getInitialProps(ctx);
+    return { ...initialProps, loading: false };
+  } catch (e) {
+    handleError(e);
+    return { loading: false };
   }
-  return props;
 }
-
-const renderPage = (initialProps, initialState, Page, apolloState) => {
-  resetIdCounter();
-  const html = config.disableSSR ? '' : renderToString(Page);
-  const helmet = Helmet.renderStatic();
-  return {
-    html,
-    helmet,
-    assets: getAssets(),
-    // Following is serialized to window.DATA
-    data: {
-      initialProps,
-      initialState,
-      apolloState,
-      config,
-      assets,
-      accessToken: global.access_token,
-    },
-  };
-};
 
 const disableSSR = req => {
   const urlParts = url.parse(req.url, true);
@@ -77,23 +50,22 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-export async function defaultRoute(req) {
-  const paths = req.path.split('/');
-  global.assets = assets;
+async function doRender(req) {
+  global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
-  const basename = isValidLocale(paths[1]) ? paths[1] : '';
-  const path = basename ? req.path.replace(`/${basename}`, '') : req.path;
-
-  const { abbreviation: locale, messages } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers['user-agent'];
-  const className = getConditionalClassnames(userAgentString);
+  const {
+    abbreviation: locale,
+    messages,
+    basepath,
+    basename,
+  } = getLocaleInfoFromPath(req.path);
 
   const store = configureStore({ locale });
   const client = createApolloClient(locale);
 
   if (!disableSSR(req)) {
-    const route = serverRoutes.find(r => matchPath(path, r));
-    const match = matchPath(path, route);
+    const route = serverRoutes.find(r => matchPath(basepath, r));
+    const match = matchPath(basepath, route);
     initialProps = await loadGetInitialProps(route.component, {
       isServer: true,
       locale,
@@ -107,7 +79,7 @@ export async function defaultRoute(req) {
   }
 
   const context = {};
-  const Page = (
+  const Page = !disableSSR(req) ? (
     <Provider store={store}>
       <ApolloProvider client={client}>
         <IntlProvider locale={locale} messages={messages}>
@@ -120,37 +92,25 @@ export async function defaultRoute(req) {
         </IntlProvider>
       </ApolloProvider>
     </Provider>
+  ) : (
+    ''
   );
 
-  if (context.url) {
-    return {
-      status: MOVED_PERMANENTLY,
-      data: {
-        Location: context.url,
-      },
-    };
-  }
-
-  const status = defined(context.status, OK);
   const apolloState = client.extract();
-  const { html, ...docProps } = renderPage(
+  const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
-    store.getState(),
-    Page,
+    initialState: store.getState(),
     apolloState,
-  );
-  const doc = renderToStaticMarkup(
-    <Document
-      className={className}
-      userAgentString={userAgentString}
-      {...docProps}
-      locale={locale}
-      useZendesk
-    />,
-  );
+  });
 
   return {
-    status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    html,
+    docProps,
+    context,
   };
+}
+
+export async function defaultRoute(req) {
+  const { html, context, docProps } = await doRender(req);
+  return renderHtml(req, html, context, docProps);
 }

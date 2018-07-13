@@ -13,7 +13,7 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
       <img
         alt="Ops, noe gikk galt"
         className="c-error-message__illustration"
-        src="/static/opps.gif"
+        src="/static/oops.gif"
       />
       <h1>
         Ops, noe gikk galt

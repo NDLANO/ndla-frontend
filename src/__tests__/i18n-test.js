@@ -6,7 +6,12 @@
  *
  */
 
-import { getLocaleObject, isValidLocale, formatNestedMessages } from '../i18n';
+import {
+  getLocaleObject,
+  isValidLocale,
+  formatNestedMessages,
+  getLocaleInfoFromPath,
+} from '../i18n';
 
 test('i18n getLocaleObject()', () => {
   expect(getLocaleObject('en').abbreviation).toBe('en');
@@ -46,4 +51,18 @@ test('i18n formatNestedMessages()', () => {
   expect(messages.helloworld).toBe('Hello world');
   expect(messages['test.Me']).toBe('Test Me');
   expect(messages['welcome.to.my.unittest']).toBe('Welcome to my unittest');
+});
+
+test('i18n getLocaleInfoFromPath', () => {
+  expect(getLocaleInfoFromPath('/nb/subjects/').basepath).toBe('/subjects/');
+  expect(getLocaleInfoFromPath('/nb/subjects/').basename).toBe('nb');
+
+  expect(getLocaleInfoFromPath('/nn/subjects/').basepath).toBe('/subjects/');
+  expect(getLocaleInfoFromPath('/nn/subjects/').basename).toBe('nn');
+
+  expect(getLocaleInfoFromPath('/en/subjects/').basepath).toBe('/subjects/');
+  expect(getLocaleInfoFromPath('/en/subjects/').basename).toBe('en');
+
+  expect(getLocaleInfoFromPath('/subjects/').basepath).toBe('/subjects/');
+  expect(getLocaleInfoFromPath('/subjects/').basename).toBe('');
 });

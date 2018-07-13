@@ -17,18 +17,17 @@ import ErrorReporter from 'ndla-error-reporter';
 import IntlProvider from 'ndla-i18n';
 import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from 'ndla-tracker';
-import { getLocaleObject, isValidLocale } from './i18n';
+import { getLocaleInfoFromPath } from './i18n';
 import { storeAccessToken, createApolloClient } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 import './style/index.css';
 
 const { DATA: { initialState, initialProps, config, accessToken } } = window;
-const localeString = initialState.locale;
-const locale = getLocaleObject(localeString);
+const { abbreviation, messages, basename } = getLocaleInfoFromPath(
+  window.location.pathname,
+);
 
-const paths = window.location.pathname.split('/');
-const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
 const browserHistory = basename ? createHistory({ basename }) : createHistory();
 
 storeAccessToken(accessToken);
@@ -57,15 +56,15 @@ configureTracker({
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(locale.abbreviation);
+const client = createApolloClient(abbreviation);
 
 const renderApp = () => {
   renderOrHydrate(
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+        <IntlProvider locale={abbreviation} messages={messages}>
           <Router history={browserHistory}>
-            {routes(initialProps, locale.abbreviation)}
+            {routes(initialProps, abbreviation)}
           </Router>
         </IntlProvider>
       </ApolloProvider>

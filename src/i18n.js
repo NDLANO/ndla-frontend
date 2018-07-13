@@ -70,3 +70,14 @@ export const getHtmlLang = localeAbbreviation => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
   return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
 };
+
+export function getLocaleInfoFromPath(path) {
+  const paths = path.split('/');
+  const basename = isValidLocale(paths[1]) ? paths[1] : '';
+  const basepath = basename ? path.replace(`/${basename}`, '') : path;
+  return {
+    basepath,
+    basename,
+    ...getLocaleObject(basename),
+  };
+}

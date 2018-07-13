@@ -11,12 +11,12 @@ import ErrorReporter from 'ndla-error-reporter';
 const log =
   process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;
 
-export default error => {
+export default (error, info) => {
   if (
     process.env.NODE_ENV === 'production' &&
     process.env.BUILD_TARGET === 'client'
   ) {
-    ErrorReporter.getInstance().captureError(error);
+    ErrorReporter.getInstance().captureError(error, info);
   } else if (
     process.env.NODE_ENV === 'production' &&
     process.env.BUILD_TARGET === 'server'

@@ -287,6 +287,7 @@ const phrases = {
   errorMessage: {
     title: 'Ops, noko gjekk gale',
     description: 'Orsak, ein feil oppstod.',
+    linksTitle: 'Kjem igang:',
     back: 'Tilbake',
     goToFrontPage: 'Gå til forsida',
   },
