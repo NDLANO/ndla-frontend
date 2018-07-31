@@ -55,7 +55,7 @@ const SubjectPageSecondaryContent = ({
               description={t('newsLetter.description')}
               mainLink={{
                 name: t('newsLetter.mainLinkName'),
-                to: 'http://om.ndla.no/nyhetsbrev/',
+                href: 'https://om.ndla.no/nyhetsbrev/',
               }}
               iconLinks={[
                 {
