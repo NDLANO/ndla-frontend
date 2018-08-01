@@ -8,7 +8,7 @@
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4 --ci",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
-    "lint": "yarn run lint-prettier && eslint --cache --cache --cache-location '.eslintcache/' --ext .js --ext .jsx src",
+    "lint": "yarn run lint-prettier && eslint --cache --cache-location '.eslintcache/' --ext .js --ext .jsx src",
     "lint-prettier": "node prettier.js lint",
     "start": "razzle start",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
