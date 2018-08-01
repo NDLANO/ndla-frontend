@@ -3,9 +3,8 @@ const spawn = require('child_process').spawnSync;
 const chalk = require('chalk');
 
 function runCommand(cmd, args, cwd = __dirname) {
-  const displayArgs = args.length > 25
-    ? `${args.slice(0, 25)}...`
-    : args.join(' ');
+  const displayArgs =
+    args.length > 25 ? `${args.slice(0, 25)}...` : args.join(' ');
   console.log(chalk.dim(`$ cwd ${cwd}\n$ ${cmd} ${displayArgs}\n`)); // eslint-disable-line
   const result = spawn(cmd, args, {
     cwd,
@@ -26,9 +25,7 @@ const prettier = isWindows ? 'prettier.cmd' : 'prettier';
 const prettierCmd = path.resolve(__dirname, `node_modules/.bin/${prettier}`);
 
 const options = {
-  'jsx-bracket-same-line': 'true',
-  'single-quote': 'true',
-  'trailing-comma': 'all',
+  config: './.prettierrc.js',
 };
 
 // prettier-ignore
