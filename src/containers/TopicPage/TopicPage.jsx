@@ -236,6 +236,8 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(connectSSR(mapStateToProps), injectT, withTracker)(
-  TopicPage,
-);
+export default compose(
+  connectSSR(mapStateToProps),
+  injectT,
+  withTracker,
+)(TopicPage);

@@ -23,7 +23,9 @@ import configureStore from './configureStore';
 import routes from './routes';
 import './style/index.css';
 
-const { DATA: { initialState, initialProps, config, accessToken } } = window;
+const {
+  DATA: { initialState, initialProps, config, accessToken },
+} = window;
 const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
 );

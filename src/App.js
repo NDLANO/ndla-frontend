@@ -153,20 +153,18 @@ class App extends React.Component {
 
     return (
       <Switch>
-        {routes
-          .filter(route => route !== undefined)
-          .map(route => (
-            <Route
-              key={`route_${route.path}`}
-              exact={route.exact}
-              hideMasthead={route.hideMasthead}
-              initialProps={this.state.data}
-              locale={this.props.locale}
-              component={route.component}
-              background={route.background}
-              path={route.path}
-            />
-          ))}
+        {routes.filter(route => route !== undefined).map(route => (
+          <Route
+            key={`route_${route.path}`}
+            exact={route.exact}
+            hideMasthead={route.hideMasthead}
+            initialProps={this.state.data}
+            locale={this.props.locale}
+            component={route.component}
+            background={route.background}
+            path={route.path}
+          />
+        ))}
       </Switch>
     );
   }

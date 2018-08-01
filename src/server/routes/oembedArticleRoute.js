@@ -69,10 +69,14 @@ export async function oembedArticleRoute(req) {
     };
   }
 
-  const { params: { resourceId, lang = 'nb' } } = match;
+  const {
+    params: { resourceId, lang = 'nb' },
+  } = match;
   try {
     if (!resourceId) {
-      const { params: { articleId } } = match;
+      const {
+        params: { articleId },
+      } = match;
       const article = await fetchArticle(articleId, lang);
       return getOembedObject(
         req,

@@ -88,7 +88,9 @@ class SubjectPage extends Component {
     const {
       data,
       loading,
-      match: { params: { subjectId } },
+      match: {
+        params: { subjectId },
+      },
       location,
       t,
     } = this.props;
@@ -210,6 +212,9 @@ SubjectPage.propTypes = {
   }).isRequired,
 };
 
-export default compose(withRouter, injectT, withTracker, withApollo)(
-  SubjectPage,
-);
+export default compose(
+  withRouter,
+  injectT,
+  withTracker,
+  withApollo,
+)(SubjectPage);

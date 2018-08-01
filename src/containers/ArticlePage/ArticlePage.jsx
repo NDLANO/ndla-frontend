@@ -75,7 +75,13 @@ class ArticlePage extends Component {
     };
   }
 
-  static getDocumentTitle({ t, data: { resource: { article }, subject } }) {
+  static getDocumentTitle({
+    t,
+    data: {
+      resource: { article },
+      subject,
+    },
+  }) {
     return `${subject ? subject.name : ''} - ${article ? article.title : ''}${t(
       'htmlTitles.titleTemplate',
     )}`;
@@ -91,7 +97,13 @@ class ArticlePage extends Component {
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
-    const { data: { resource: { article }, subject, topicPath } } = props;
+    const {
+      data: {
+        resource: { article },
+        subject,
+        topicPath,
+      },
+    } = props;
     return getAllDimensions(
       { article, subject, topicPath },
       articleProps.label,
@@ -230,6 +242,8 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(connect(mapStateToProps), injectT, withTracker)(
-  ArticlePage,
-);
+export default compose(
+  connect(mapStateToProps),
+  injectT,
+  withTracker,
+)(ArticlePage);

@@ -13,7 +13,9 @@ export function toSearch() {
 const removeUrn = string => string.replace('urn:', '');
 
 export function getUrnIdsFromProps(props) {
-  const { match: { params } } = props;
+  const {
+    match: { params },
+  } = props;
   return {
     subjectId: params.subjectId ? `urn:${params.subjectId}` : undefined,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,

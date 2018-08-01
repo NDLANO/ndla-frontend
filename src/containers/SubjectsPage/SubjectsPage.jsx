@@ -48,4 +48,7 @@ SubjectsPage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
 };
 
-export default compose(injectT, injectSubjects)(SubjectsPage);
+export default compose(
+  injectT,
+  injectSubjects,
+)(SubjectsPage);

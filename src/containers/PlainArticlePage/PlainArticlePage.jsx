@@ -28,7 +28,10 @@ const getTitle = article => (article ? article.title : '');
 
 class PlainArticlePage extends Component {
   static async getInitialProps(ctx) {
-    const { match: { params }, locale } = ctx;
+    const {
+      match: { params },
+      locale,
+    } = ctx;
     const { articleId } = params;
 
     try {
@@ -128,4 +131,7 @@ PlainArticlePage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(injectT, withTracker)(PlainArticlePage);
+export default compose(
+  injectT,
+  withTracker,
+)(PlainArticlePage);
