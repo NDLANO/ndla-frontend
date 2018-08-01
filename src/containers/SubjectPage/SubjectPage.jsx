@@ -36,6 +36,24 @@ import {
 } from '../../util/filterHelper';
 
 class SubjectPage extends Component {
+  static willTrackPageView(trackPageView, currentProps) {
+    const { data } = currentProps;
+    if (
+      data &&
+      data.subject &&
+      data.subject.topics &&
+      data.subject.topics.length > 0
+    ) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDocumentTitle({ t, data }) {
+    return `${data && data.subject ? data.subject.name : ''} ${t(
+      'htmlTitles.titleTemplate',
+    )}`;
+  }
+
   static async getInitialProps(ctx) {
     const { client, location } = ctx;
     const { subjectId } = getUrnIdsFromProps(ctx);
@@ -49,24 +67,6 @@ class SubjectPage extends Component {
     } catch (error) {
       handleError(error);
       return null;
-    }
-  }
-
-  static getDocumentTitle({ t, data }) {
-    return `${data && data.subject ? data.subject.name : ''} ${t(
-      'htmlTitles.titleTemplate',
-    )}`;
-  }
-
-  static willTrackPageView(trackPageView, currentProps) {
-    const { data } = currentProps;
-    if (
-      data &&
-      data.subject &&
-      data.subject.topics &&
-      data.subject.topics.length > 0
-    ) {
-      trackPageView(currentProps);
     }
   }
 

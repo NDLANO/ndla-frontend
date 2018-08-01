@@ -15,7 +15,8 @@ import config from '../../config';
 const getContentType = resource => {
   if (resource.resourceTypes.length > 0) {
     return getContentTypeFromResourceTypes(resource.resourceTypes).contentType;
-  } else if (resource.learningResourceType === 'topic-article') {
+  }
+  if (resource.learningResourceType === 'topic-article') {
     return constants.contentTypes.SUBJECT;
   }
   return constants.contentTypes.SUBJECT_MATERIAL;

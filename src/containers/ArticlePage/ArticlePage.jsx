@@ -47,6 +47,54 @@ const transformData = data => {
 };
 
 class ArticlePage extends Component {
+  static willTrackPageView(trackPageView, currentProps) {
+    const { loading, data } = currentProps;
+    if (loading || !data) {
+      return;
+    }
+    trackPageView(currentProps);
+  }
+
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  static getDimensions(props) {
+    const articleProps = getArticleProps(props.data.resource);
+    const {
+      data: {
+        resource: { article },
+        subject,
+        topicPath,
+      },
+    } = props;
+    return getAllDimensions(
+      { article, subject, topicPath },
+      articleProps.label,
+      true,
+    );
+  }
+
+  static getDocumentTitle({
+    t,
+    data: {
+      resource: { article },
+      subject,
+    },
+  }) {
+    return `${subject ? subject.name : ''} - ${article ? article.title : ''}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
+  }
+
   static async getInitialProps(ctx) {
     const { client, location } = ctx;
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
@@ -73,54 +121,6 @@ class ArticlePage extends Component {
       ...response,
       data: transformData(response.data),
     };
-  }
-
-  static getDocumentTitle({
-    t,
-    data: {
-      resource: { article },
-      subject,
-    },
-  }) {
-    return `${subject ? subject.name : ''} - ${article ? article.title : ''}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
-  }
-
-  static willTrackPageView(trackPageView, currentProps) {
-    const { loading, data } = currentProps;
-    if (loading || !data) {
-      return;
-    }
-    trackPageView(currentProps);
-  }
-
-  static getDimensions(props) {
-    const articleProps = getArticleProps(props.data.resource);
-    const {
-      data: {
-        resource: { article },
-        subject,
-        topicPath,
-      },
-    } = props;
-    return getAllDimensions(
-      { article, subject, topicPath },
-      articleProps.label,
-      true,
-    );
-  }
-
-  componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
   }
 
   render() {

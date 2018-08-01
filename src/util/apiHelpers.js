@@ -89,7 +89,8 @@ export const getAccessToken = () => {
 const getAccessTokenExpiresAt = () => {
   if (__CLIENT__) {
     return JSON.parse(localStorage.getItem('access_token_expires_at'));
-  } else if (__SERVER__) {
+  }
+  if (__SERVER__) {
     return global.access_token;
   }
   return 0;

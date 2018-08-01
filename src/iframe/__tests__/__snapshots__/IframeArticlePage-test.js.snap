@@ -172,6 +172,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                       <button
                         className="c-dialog__close"
                         onClick={[Function]}
+                        type="button"
                       >
                         Lukk
                       </button>

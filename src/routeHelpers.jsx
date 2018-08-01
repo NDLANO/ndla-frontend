@@ -36,7 +36,8 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
     return `${toSubjects()}${subjectTopicPath}/${removeUrn(
       resource.id,
     )}${filterParams}`;
-  } else if (resource) {
+  }
+  if (resource) {
     return `${toSubjects()}${resource.path}/${filterParams}`;
   }
   return `/article/${articleId}${filterParams}`;

@@ -45,7 +45,8 @@ export const resourceToLinkProps = (resource, subjectTopicPath, filters) => {
       target: '_blank',
       rel: 'noopener noreferrer',
     };
-  } else if (isArticleResource(resource)) {
+  }
+  if (isArticleResource(resource)) {
     return {
       to: toArticle(
         getArticleIdFromResource(resource),

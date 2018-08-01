@@ -27,6 +27,33 @@ import { getAllDimensions } from '../../util/trackingUtil';
 const getTitle = article => (article ? article.title : '');
 
 class PlainArticlePage extends Component {
+  static willTrackPageView(trackPageView, currentProps) {
+    const { article } = currentProps;
+    if (article && article.id) {
+      trackPageView(currentProps);
+    }
+  }
+
+  componentDidMount() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  static getDimensions(props) {
+    return getAllDimensions(props, undefined, true);
+  }
+
+  static getDocumentTitle({ t, article }) {
+    return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
+  }
+
   static async getInitialProps(ctx) {
     const {
       match: { params },
@@ -41,32 +68,6 @@ class PlainArticlePage extends Component {
       const status =
         error.json && error.json.status === 404 ? 'error404' : 'error';
       return { status };
-    }
-  }
-  static getDocumentTitle({ t, article }) {
-    return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
-  }
-
-  static willTrackPageView(trackPageView, currentProps) {
-    const { article } = currentProps;
-    if (article && article.id) {
-      trackPageView(currentProps);
-    }
-  }
-
-  static getDimensions(props) {
-    return getAllDimensions(props, undefined, true);
-  }
-
-  componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
   }
 
