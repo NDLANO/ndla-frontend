@@ -48,7 +48,7 @@ export class WelcomePage extends Component {
   }
 
   componentDidMount() {
-    this.setState({acceptedBeta: localStorage.getItem('acceptedBeta')})
+    this.setState({ acceptedBeta: localStorage.getItem('acceptedBeta') });
   }
 
   onExpand = expanded => {
@@ -105,14 +105,16 @@ export class WelcomePage extends Component {
     return (
       <Fragment>
         {!this.state.acceptedBeta && (
-          <BetaNotification 
-          messages={{
-            heading: t('welcomePage.betaMessages.heading'), 
-            text: t('welcomePage.betaMessages.text'), 
-            readmoreText: t('welcomePage.betaMessages.readmoreText'), 
-            readmoreLink: t('welcomePage.betaMessages.readmoreLink'), 
-            buttonText: t('welcomePage.betaMessages.buttonText')}} 
-            onAccept={this.onAccept} />
+          <BetaNotification
+            messages={{
+              heading: t('welcomePage.betaMessages.heading'),
+              text: t('welcomePage.betaMessages.text'),
+              readmoreText: t('welcomePage.betaMessages.readmoreText'),
+              readmoreLink: t('welcomePage.betaMessages.readmoreLink'),
+              buttonText: t('welcomePage.betaMessages.buttonText'),
+            }}
+            onAccept={this.onAccept}
+          />
         )}
         <FrontpageHeader
           heading={t('welcomePage.heading.heading')}
