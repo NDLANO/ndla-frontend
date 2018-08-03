@@ -24,7 +24,8 @@ function isCacheable(req) {
   if (isDev) {
     return false;
     // Do not bother caching search.
-  } else if (req.path.startsWith('/search')) {
+  }
+  if (req.path.startsWith('/search')) {
     return false;
   }
 

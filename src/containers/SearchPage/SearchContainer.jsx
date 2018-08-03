@@ -46,50 +46,6 @@ import handleError from '../../util/handleError';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
-  static getInitialProps = ctx => {
-    const {
-      subjects,
-      fetchSubjects,
-      location,
-      fetchFilters,
-      filters,
-      search,
-      client,
-    } = ctx;
-
-    if (!subjects || subjects.length === 0) {
-      fetchSubjects();
-    }
-    if (!filters || filters.length === 0) {
-      fetchFilters();
-    }
-
-    const searchObject = location ? converSearchStringToObject(location) : {};
-
-    const searchParams = {
-      ...queryString.parse(location.search),
-      'context-types': !searchObject.contextFilters
-        ? searchObject['context-types']
-        : undefined,
-      'resource-types':
-        searchObject.contextFilters || searchObject['resource-types'],
-      contextFilters: undefined,
-    };
-
-    search({ searchString: `?${queryString.stringify(searchParams)}` });
-
-    try {
-      return runQueries(client, [
-        {
-          query: resourceTypesWithSubTypesQuery,
-        },
-      ]);
-    } catch (error) {
-      handleError(error);
-      return null;
-    }
-  };
-
   constructor(props) {
     super();
     const { location } = props;
@@ -162,6 +118,51 @@ class SearchContainer extends Component {
       this.updateSearchLocation,
     );
   };
+
+  static getInitialProps = ctx => {
+    const {
+      subjects,
+      fetchSubjects,
+      location,
+      fetchFilters,
+      filters,
+      search,
+      client,
+    } = ctx;
+
+    if (!subjects || subjects.length === 0) {
+      fetchSubjects();
+    }
+    if (!filters || filters.length === 0) {
+      fetchFilters();
+    }
+
+    const searchObject = location ? converSearchStringToObject(location) : {};
+
+    const searchParams = {
+      ...queryString.parse(location.search),
+      'context-types': !searchObject.contextFilters
+        ? searchObject['context-types']
+        : undefined,
+      'resource-types':
+        searchObject.contextFilters || searchObject['resource-types'],
+      contextFilters: undefined,
+    };
+
+    search({ searchString: `?${queryString.stringify(searchParams)}` });
+
+    try {
+      return runQueries(client, [
+        {
+          query: resourceTypesWithSubTypesQuery,
+        },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
+  };
+
   updateFilter = searchParam => {
     const page = searchParam.page || 1;
     this.setState(

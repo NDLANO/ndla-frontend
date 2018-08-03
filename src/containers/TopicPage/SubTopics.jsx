@@ -60,4 +60,7 @@ TopicResources.propTypes = {
   location: LocationShape,
 };
 
-export default compose(withRouter, injectT)(TopicResources);
+export default compose(
+  withRouter,
+  injectT,
+)(TopicResources);

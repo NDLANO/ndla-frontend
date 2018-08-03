@@ -17,7 +17,10 @@ const SubjectTopical = ({ topical, t }) => {
     return null;
   }
   const {
-    resource: { meta: { metaImage, title, metaDescription }, path },
+    resource: {
+      meta: { metaImage, title, metaDescription },
+      path,
+    },
   } = topical;
 
   return (

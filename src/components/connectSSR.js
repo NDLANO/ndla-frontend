@@ -51,7 +51,10 @@ export const connectSSR = (
     return props;
   };
 
-  return connect(mapStateToProps, mapDispatchToProps)(component);
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(component);
 };
 
 export default connectSSR;

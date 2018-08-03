@@ -75,6 +75,26 @@ class App extends React.Component {
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
+  componentDidMount() {
+    if (
+      window.DATA.config.disableSSR ||
+      window.location.search.indexOf('disableSSR=true') > -1 ||
+      (module.hot && module.hot.status() === 'apply')
+    ) {
+      this.handleLoadInitialProps(this.props);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.state.data || this.state.data.loading === true) {
+      this.handleLoadInitialProps(this.props);
+    }
+  }
+
+  componentWillUnmount() {
+    this.location = null;
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.location === null) {
       return {
@@ -94,32 +114,12 @@ class App extends React.Component {
     return null;
   }
 
-  componentDidMount() {
-    if (
-      window.DATA.config.disableSSR ||
-      window.location.search.indexOf('disableSSR=true') > -1 ||
-      (module.hot && module.hot.status() === 'apply')
-    ) {
-      this.handleLoadInitialProps(this.props);
-    }
-  }
-
-  componentDidUpdate() {
-    if (!this.state.data || this.state.data.loading === true) {
-      this.handleLoadInitialProps(this.props);
-    }
-  }
-
   componentDidCatch(error, info) {
     if (process.env.NODE_ENV === 'production') {
       // React prints all errors that occurred during rendering to the console in development
       handleError(error, info);
     }
     this.setState({ hasError: true });
-  }
-
-  componentWillUnmount() {
-    this.location = null;
   }
 
   async handleLoadInitialProps(props) {
@@ -153,20 +153,18 @@ class App extends React.Component {
 
     return (
       <Switch>
-        {routes
-          .filter(route => route !== undefined)
-          .map(route => (
-            <Route
-              key={`route_${route.path}`}
-              exact={route.exact}
-              hideMasthead={route.hideMasthead}
-              initialProps={this.state.data}
-              locale={this.props.locale}
-              component={route.component}
-              background={route.background}
-              path={route.path}
-            />
-          ))}
+        {routes.filter(route => route !== undefined).map(route => (
+          <Route
+            key={`route_${route.path}`}
+            exact={route.exact}
+            hideMasthead={route.hideMasthead}
+            initialProps={this.state.data}
+            locale={this.props.locale}
+            component={route.component}
+            background={route.background}
+            path={route.path}
+          />
+        ))}
       </Switch>
     );
   }

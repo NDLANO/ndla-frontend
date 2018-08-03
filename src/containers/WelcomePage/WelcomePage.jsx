@@ -22,18 +22,6 @@ import FrontpageSubjects from './FrontpageSubjects';
 import FrontpageHighlights from './FrontpageHighlights';
 
 export class WelcomePage extends Component {
-  static async getInitialProps(ctx) {
-    const { client } = ctx;
-    return runQueries(client, [
-      {
-        query: frontpageQuery,
-      },
-      {
-        query: subjectsQuery,
-      },
-    ]);
-  }
-
   constructor() {
     super();
     this.state = {
@@ -62,6 +50,18 @@ export class WelcomePage extends Component {
       }),
     });
   };
+
+  static async getInitialProps(ctx) {
+    const { client } = ctx;
+    return runQueries(client, [
+      {
+        query: frontpageQuery,
+      },
+      {
+        query: subjectsQuery,
+      },
+    ]);
+  }
 
   render() {
     const { t, data, loading, locale } = this.props;

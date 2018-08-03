@@ -35,7 +35,9 @@ export function* groupSearch(searchString) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: { searchString } } = yield take(constants.SEARCH);
+    const {
+      payload: { searchString },
+    } = yield take(constants.SEARCH);
     yield call(search, searchString);
   }
 }

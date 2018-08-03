@@ -27,32 +27,11 @@ import { getAllDimensions } from '../../util/trackingUtil';
 const getTitle = article => (article ? article.title : '');
 
 class PlainArticlePage extends Component {
-  static async getInitialProps(ctx) {
-    const { match: { params }, locale } = ctx;
-    const { articleId } = params;
-
-    try {
-      const article = await fetchArticle(articleId, locale);
-      return { article, status: 'success' };
-    } catch (error) {
-      const status =
-        error.json && error.json.status === 404 ? 'error404' : 'error';
-      return { status };
-    }
-  }
-  static getDocumentTitle({ t, article }) {
-    return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
-  }
-
   static willTrackPageView(trackPageView, currentProps) {
     const { article } = currentProps;
     if (article && article.id) {
       trackPageView(currentProps);
     }
-  }
-
-  static getDimensions(props) {
-    return getAllDimensions(props, undefined, true);
   }
 
   componentDidMount() {
@@ -64,6 +43,31 @@ class PlainArticlePage extends Component {
   componentDidUpdate() {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  }
+
+  static getDimensions(props) {
+    return getAllDimensions(props, undefined, true);
+  }
+
+  static getDocumentTitle({ t, article }) {
+    return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
+  }
+
+  static async getInitialProps(ctx) {
+    const {
+      match: { params },
+      locale,
+    } = ctx;
+    const { articleId } = params;
+
+    try {
+      const article = await fetchArticle(articleId, locale);
+      return { article, status: 'success' };
+    } catch (error) {
+      const status =
+        error.json && error.json.status === 404 ? 'error404' : 'error';
+      return { status };
     }
   }
 
@@ -128,4 +132,7 @@ PlainArticlePage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(injectT, withTracker)(PlainArticlePage);
+export default compose(
+  injectT,
+  withTracker,
+)(PlainArticlePage);

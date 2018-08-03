@@ -48,7 +48,8 @@ import { transformArticle } from '../../util/transformArticle';
 const getTitle = (article, topic) => {
   if (article) {
     return article.title;
-  } else if (topic) {
+  }
+  if (topic) {
     return topic.name;
   }
   return '';
@@ -68,6 +69,20 @@ const transformData = (data, locale) => {
 };
 
 class TopicPage extends Component {
+  static willTrackPageView(trackPageView, props) {
+    if (props.loading || !props.data) {
+      return;
+    }
+    trackPageView(props);
+  }
+
+  static getDocumentTitle({ t, data: { topic, subject } }) {
+    return `${subject ? subject.name : ''} - ${getTitle(
+      topic.article,
+      topic,
+    )}${t('htmlTitles.titleTemplate')}`;
+  }
+
   static async getInitialProps(ctx) {
     const { client, location } = ctx;
     const { subjectId, topicId } = getUrnIdsFromProps(ctx);
@@ -85,20 +100,6 @@ class TopicPage extends Component {
       ...response,
       data: transformData(response.data, ctx.locale),
     };
-  }
-
-  static getDocumentTitle({ t, data: { topic, subject } }) {
-    return `${subject ? subject.name : ''} - ${getTitle(
-      topic.article,
-      topic,
-    )}${t('htmlTitles.titleTemplate')}`;
-  }
-
-  static willTrackPageView(trackPageView, props) {
-    if (props.loading || !props.data) {
-      return;
-    }
-    trackPageView(props);
   }
 
   static getDimensions(props) {
@@ -236,6 +237,8 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(connectSSR(mapStateToProps), injectT, withTracker)(
-  TopicPage,
-);
+export default compose(
+  connectSSR(mapStateToProps),
+  injectT,
+  withTracker,
+)(TopicPage);

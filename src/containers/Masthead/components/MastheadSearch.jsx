@@ -154,5 +154,8 @@ const mapStateToProps = state => ({
 export default compose(
   injectT,
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(MastheadSearch);

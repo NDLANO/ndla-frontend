@@ -162,4 +162,7 @@ Resources.propTypes = {
   location: PropTypes.shape({ search: PropTypes.string.isRequired }),
 };
 
-export default compose(withRouter, injectT)(Resources);
+export default compose(
+  withRouter,
+  injectT,
+)(Resources);
