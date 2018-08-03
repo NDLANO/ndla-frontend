@@ -60,6 +60,11 @@ export class WelcomePage extends Component {
     });
   };
 
+  onAccept = () => {
+    localStorage.setItem('acceptedBeta', true);
+    this.setState({ acceptedBeta: true });
+  };
+
   static async getInitialProps(ctx) {
     const { client } = ctx;
     return runQueries(client, [
@@ -71,11 +76,6 @@ export class WelcomePage extends Component {
       },
     ]);
   }
-
-  onAccept = () => {
-    localStorage.setItem('acceptedBeta', true);
-    this.setState({ acceptedBeta: true });
-  };
 
   render() {
     const { t, data, loading, locale } = this.props;
