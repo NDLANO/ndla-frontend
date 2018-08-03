@@ -16,8 +16,7 @@ describe('Subjects page', () => {
     cy.apiwait('@frontpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
-    cy
-      .get('a:contains("Medieuttrykk")')
+    cy.get('a:contains("Medieuttrykk")')
       .first()
       .click();
     cy.apiwait('@subjectpageGraphQL');
@@ -27,8 +26,7 @@ describe('Subjects page', () => {
     cy.get('[data-testid="topic-list"] h1').contains(/\w+/);
 
     cy.get('[data-testid="topic-list"] a').each(el => {
-      cy
-        .wrap(el)
+      cy.wrap(el)
         .should('have.attr', 'href')
         .and('include', '/topic');
       cy.wrap(el).contains(/\w+/);
@@ -36,8 +34,7 @@ describe('Subjects page', () => {
   });
 
   it('should have a valid breadcrumb, filter and language select', () => {
-    cy
-      .get('.c-breadcrumb a')
+    cy.get('.c-breadcrumb a')
       .should('have.length', 1)
       .and('have.attr', 'href');
 

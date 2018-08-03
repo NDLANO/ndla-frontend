@@ -88,4 +88,8 @@ SubjectPageOneColumn.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default compose(withRouter, injectT, withApollo)(SubjectPageOneColumn);
+export default compose(
+  withRouter,
+  injectT,
+  withApollo,
+)(SubjectPageOneColumn);

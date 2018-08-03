@@ -234,4 +234,7 @@ MastheadContainer.propTypes = {
   }).isRequired,
 };
 
-export default compose(withApollo, injectT)(MastheadContainer);
+export default compose(
+  withApollo,
+  injectT,
+)(MastheadContainer);

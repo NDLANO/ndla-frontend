@@ -11,7 +11,8 @@ export const searchResultToLinkProps = result => {
       target: '_blank',
       rel: 'noopener noreferrer',
     };
-  } else if (result.paths && result.paths.length > 0) {
+  }
+  if (result.paths && result.paths.length > 0) {
     return {
       to: result.paths[0],
     };
@@ -40,9 +41,11 @@ export const converSearchStringToObject = location => {
 export const convertSearchParam = value => {
   if (!value) {
     return undefined;
-  } else if (Array.isArray(value)) {
+  }
+  if (Array.isArray(value)) {
     return value.length > 0 ? value.join(',') : undefined;
-  } else if (Number.isInteger(value)) {
+  }
+  if (Number.isInteger(value)) {
     return value;
   }
   return value.length > 0 ? value : undefined;

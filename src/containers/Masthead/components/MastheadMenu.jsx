@@ -13,28 +13,6 @@ import {
 import MastheadTopics from './MastheadTopics';
 
 class MastheadMenu extends Component {
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.location === null) {
-      return {
-        location: nextProps.location,
-      };
-    }
-    const { location, topicPath } = nextProps;
-    const navigated = location !== prevState.location;
-
-    if (navigated) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
-      return {
-        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
-        activeFilters,
-        location,
-      };
-    }
-
-    // No state update necessary
-    return null;
-  }
-
   constructor() {
     super();
     this.state = {
@@ -100,6 +78,28 @@ class MastheadMenu extends Component {
       );
     }
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.location === null) {
+      return {
+        location: nextProps.location,
+      };
+    }
+    const { location, topicPath } = nextProps;
+    const navigated = location !== prevState.location;
+
+    if (navigated) {
+      const activeFilters = getFiltersFromUrlAsArray(location);
+      return {
+        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
+        activeFilters,
+        location,
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
 
   render() {
     const {

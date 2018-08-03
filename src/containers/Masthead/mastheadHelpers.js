@@ -32,7 +32,8 @@ export function mapTopicResourcesToTopic(
         title: type.name,
       }));
       return { ...topic, contentTypeResults };
-    } else if (topic.subtopics && topic.subtopics.length > 0) {
+    }
+    if (topic.subtopics && topic.subtopics.length > 0) {
       return {
         ...topic,
         subtopics: mapTopicResourcesToTopic(

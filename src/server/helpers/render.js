@@ -12,8 +12,8 @@ import defined from 'defined';
 import { resetIdCounter } from 'ndla-tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
-import getConditionalClassnames from '../helpers/getConditionalClassnames';
-import Document from '../helpers/Document';
+import getConditionalClassnames from './getConditionalClassnames';
+import Document from './Document';
 import config from '../../config';
 
 export function renderPage(Page, assets, data = {}) {

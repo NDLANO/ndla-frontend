@@ -101,4 +101,8 @@ SubjectPageTwoColumn.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default compose(withRouter, injectT, withApollo)(SubjectPageTwoColumn);
+export default compose(
+  withRouter,
+  injectT,
+  withApollo,
+)(SubjectPageTwoColumn);

@@ -7,7 +7,7 @@
  */
 
 import { take } from 'redux-saga/effects';
-import { actions } from './';
+import { actions } from '.';
 import handleError from '../../util/handleError';
 
 export function* watchApplicationError() {

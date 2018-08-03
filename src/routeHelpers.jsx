@@ -13,7 +13,9 @@ export function toSearch() {
 const removeUrn = string => string.replace('urn:', '');
 
 export function getUrnIdsFromProps(props) {
-  const { match: { params } } = props;
+  const {
+    match: { params },
+  } = props;
   return {
     subjectId: params.subjectId ? `urn:${params.subjectId}` : undefined,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
@@ -34,7 +36,8 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
     return `${toSubjects()}${subjectTopicPath}/${removeUrn(
       resource.id,
     )}${filterParams}`;
-  } else if (resource) {
+  }
+  if (resource) {
     return `${toSubjects()}${resource.path}/${filterParams}`;
   }
   return `/article/${articleId}${filterParams}`;
