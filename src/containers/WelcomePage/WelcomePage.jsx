@@ -32,11 +32,13 @@ export class WelcomePage extends Component {
     this.state = {
       expanded: null,
       query: '',
+      acceptedBeta: true,
     };
   }
 
   componentDidMount() {
     this.setState({ acceptedBeta: localStorage.getItem('acceptedBeta') });
+    console.log(localStorage.getItem('acceptedBeta'));
   }
 
   onExpand = expanded => {
