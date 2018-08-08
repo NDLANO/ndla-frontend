@@ -20,6 +20,7 @@ const connectSrc = (() => {
     'https://*.hotjar.com:*',
     'https://www.google-analytics.com',
     'https://*.zendesk.com',
+    'https://ekr.zdassets.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -91,6 +92,7 @@ const scriptSrc = (() => {
     'https://*.hotjar.com',
     'cdnjs.cloudflare.com',
     'https://*.zendesk.com',
+    'https://static.zdassets.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
