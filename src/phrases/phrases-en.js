@@ -168,6 +168,17 @@ const phrases = {
       imported: 'Imported subjects',
     },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
+    betaMessages: {
+      heading: 'Hi!',
+      text: `You have entered our new webpages. We are trying out
+      a new solution on selected subjects and will ensure that everything
+      works as it should before school starts. If you experience any issues
+      we appriciate if you send us a message. Contact us on the "ask NDLA" 
+      at the bottom left on the pages.`,
+      readmoreText: 'Read more at om.ndla.no',
+      readmoreLink: 'http://www.om.ndla.no',
+      buttonText: 'Ok, now I know',
+    },
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
