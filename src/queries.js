@@ -73,14 +73,16 @@ export const metaInfoFragment = gql`
     title
     introduction
     metaDescription
-    metaImage
+    metaImage {
+      url
+      alt
+    }
     lastUpdated
   }
 `;
 
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
-
   fragment ArticleInfo on Article {
     id
     title

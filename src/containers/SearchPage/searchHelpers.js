@@ -81,7 +81,7 @@ export const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
           ? t(`contentTypes.${contentType || result.contentType}`)
           : '',
       image: result.metaImage ? (
-        <Image src={result.metaImage} alt={result.title} />
+        <Image src={result.metaImage.url} alt={result.metaImage.alt} />
       ) : (
         undefined
       ),

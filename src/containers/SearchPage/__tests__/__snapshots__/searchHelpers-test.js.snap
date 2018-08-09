@@ -48,10 +48,13 @@ Array [
     "contexts": Array [],
     "id": "121",
     "image": <Image
-      alt="Analyse av medieuttrykk"
+      alt="bilde alt"
       src="https://ndla.no/image-api/raw/id/18"
     />,
-    "metaImage": "https://ndla.no/image-api/raw/id/18",
+    "metaImage": Object {
+      "alt": "bilde alt",
+      "url": "https://ndla.no/image-api/raw/id/18",
+    },
     "title": "Analyse av medieuttrykk",
     "url": "/subjects/subject:1/topic:1:186479/topic:1:106142",
     "urls": Array [
@@ -78,10 +81,13 @@ Array [
     "contexts": Array [],
     "id": "121",
     "image": <Image
-      alt="Fortelleteknikk i digitale medier"
+      alt="bilde alt"
       src="https://ndla.no/image-api/raw/id/17"
     />,
-    "metaImage": "https://ndla.no/image-api/raw/id/17",
+    "metaImage": Object {
+      "alt": "bilde alt",
+      "url": "https://ndla.no/image-api/raw/id/17",
+    },
     "title": "Fortelleteknikk i digitale medier",
     "url": Object {
       "href": "https://ndla.no/learningpaths/10/first-step",

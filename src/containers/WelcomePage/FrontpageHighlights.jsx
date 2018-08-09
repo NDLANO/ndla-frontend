@@ -22,7 +22,7 @@ const getMetaInformation = meta => {
   }
   return {
     text: meta.metaDescription,
-    image: meta.metaImage,
+    image: meta.metaImage ? meta.metaImage.url : '',
   };
 };
 
