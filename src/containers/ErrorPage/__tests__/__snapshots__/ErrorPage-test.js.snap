@@ -145,6 +145,14 @@ exports[`ErrorPage renderers correctly 1`] = `
       </article>
     </div>
   </div>
+  <button
+    className="c-button c-button--outline c-zendesk__button"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Spør NDLA
+  </button>
   <footer
     className="footer"
   >
