@@ -11,10 +11,16 @@ import { injectT } from 'ndla-i18n';
 import { Button } from 'ndla-ui';
 import config from '../config';
 
-const zendeskHost =
-  process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config.zendeskHost
-    : window.DATA.config.zendeskHost;
+const zendeskHost = (() => {
+  if (process.env.BUILD_TARGET === 'server') {
+    return config.zendeskHost;
+  }
+  if (process.env.NODE_ENV === 'unittest') {
+    return 'https://example.com';
+  }
+  return window.DATA.config.zendeskHost;
+})();
+
 const ZendeskButton = ({ t }) =>
   zendeskHost ? (
     <Button
