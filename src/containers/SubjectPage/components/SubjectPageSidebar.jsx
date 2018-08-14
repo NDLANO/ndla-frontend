@@ -18,41 +18,42 @@ import SubjectPageFlexChild from './SubjectPageFlexChild';
 export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
   const { mostRead, goTo, displayInTwoColumns } = subjectpage;
   const mostReadResources = getResources(mostRead);
-
   return [
-    goTo && (
-      <SubjectPageFlexChild
-        key="subjectpage_shortcuts"
-        displayInTwoColumns={displayInTwoColumns}>
-        <SubjectShortcuts
-          messages={{
-            heading: t('subjectPage.subjectShortcuts.heading'),
-            showMore: t('subjectPage.subjectShortcuts.showMore'),
-            showLess: t('subjectPage.subjectShortcuts.showLess'),
-          }}
-          links={
-            goTo.resourceTypes &&
-            goTo.resourceTypes.map(type => ({
-              text: type.name,
-              url: getSearchUrl(subjectId, type),
-            }))
-          }
-        />
-      </SubjectPageFlexChild>
-    ),
-    mostRead && (
-      <SubjectPageFlexChild
-        key="subjectpage_mostread"
-        displayInTwoColumns={displayInTwoColumns}>
-        <SubjectLinks
-          heading={t('subjectPage.mostRead.heading')}
-          links={mostReadResources.map(resource => ({
-            text: resource.name,
-            url: toSubjects() + resource.path,
-          }))}
-        />
-      </SubjectPageFlexChild>
-    ),
+    goTo &&
+      goTo.resourceTypes.length > 0 && (
+        <SubjectPageFlexChild
+          key="subjectpage_shortcuts"
+          displayInTwoColumns={displayInTwoColumns}>
+          <SubjectShortcuts
+            messages={{
+              heading: t('subjectPage.subjectShortcuts.heading'),
+              showMore: t('subjectPage.subjectShortcuts.showMore'),
+              showLess: t('subjectPage.subjectShortcuts.showLess'),
+            }}
+            links={
+              goTo.resourceTypes &&
+              goTo.resourceTypes.map(type => ({
+                text: type.name,
+                url: getSearchUrl(subjectId, type),
+              }))
+            }
+          />
+        </SubjectPageFlexChild>
+      ),
+    mostRead &&
+      mostReadResources.length > 0 && (
+        <SubjectPageFlexChild
+          key="subjectpage_mostread"
+          displayInTwoColumns={displayInTwoColumns}>
+          <SubjectLinks
+            heading={t('subjectPage.mostRead.heading')}
+            links={mostReadResources.map(resource => ({
+              text: resource.name,
+              url: toSubjects() + resource.path,
+            }))}
+          />
+        </SubjectPageFlexChild>
+      ),
   ];
 };
 SubjectPageSidebar.propTypes = {
