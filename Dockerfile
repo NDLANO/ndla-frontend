@@ -8,7 +8,7 @@ COPY yarn.lock package.json $APP_PATH/
 
 # Run yarn before src copy to enable better layer caching
 WORKDIR $APP_PATH
-RUN yarn
+RUN yarn --production
 
 # Copy necessary source files for server and client build
 COPY .babelrc razzle.config.js postcss.config.js $APP_PATH/
