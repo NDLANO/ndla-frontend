@@ -154,7 +154,6 @@ export const subjectPageArticlesInfo = gql`
 `;
 
 export const subjectTopicsQuery = gql`
-  ${topicInfoFragment}
   query subjectTopicsQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
@@ -169,13 +168,10 @@ export const subjectTopicsQuery = gql`
       }
     }
   }
+  ${topicInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
-  ${topicInfoFragment}
-  ${subjectPageArticlesInfo}
-  ${resourceInfoFragment}
-  ${metaInfoFragment}
   query subjectPageQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
       id
@@ -232,22 +228,22 @@ export const subjectPageQuery = gql`
       }
     }
   }
+  ${topicInfoFragment}
+  ${subjectPageArticlesInfo}
+  ${resourceInfoFragment}
+  ${metaInfoFragment}
 `;
 
 export const subjectsQuery = gql`
-  ${subjectInfoFragment}
-
   query subjectsQuery {
     subjects {
       ...SubjectInfo
     }
   }
+  ${subjectInfoFragment}
 `;
 
 export const frontpageQuery = gql`
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
-
   query frontpageQuery {
     frontpage {
       topical {
@@ -261,6 +257,8 @@ export const frontpageQuery = gql`
       }
     }
   }
+  ${resourceInfoFragment}
+  ${subjectInfoFragment}
 `;
 
 export const resourceTypesWithSubTypesQuery = gql`
@@ -286,7 +284,6 @@ export const resourceTypesQuery = gql`
 `;
 
 export const topicResourcesQuery = gql`
-  ${resourceInfoFragment}
   query topicResourcesQuery($topicId: String!, $filterIds: String) {
     topic(id: $topicId) {
       id
@@ -298,11 +295,10 @@ export const topicResourcesQuery = gql`
       }
     }
   }
+  ${resourceInfoFragment}
 `;
 
 export const resourceQuery = gql`
-  ${articleInfoFragment}
-
   query resourceQuery($resourceId: String!) {
     resource(id: $resourceId) {
       id
@@ -318,12 +314,10 @@ export const resourceQuery = gql`
       }
     }
   }
+  ${articleInfoFragment}
 `;
 
 export const topicQuery = gql`
-  ${topicInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
   query topicQuery($topicId: String!, $filterIds: String) {
     topic(id: $topicId) {
       ...TopicInfo
@@ -341,4 +335,7 @@ export const topicQuery = gql`
       }
     }
   }
+  ${topicInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
 `;
