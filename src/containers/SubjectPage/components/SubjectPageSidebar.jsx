@@ -18,6 +18,7 @@ import SubjectPageFlexChild from './SubjectPageFlexChild';
 export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
   const { mostRead, goTo, displayInTwoColumns } = subjectpage;
   const mostReadResources = getResources(mostRead);
+
   return [
     goTo &&
       goTo.resourceTypes.length > 0 && (
