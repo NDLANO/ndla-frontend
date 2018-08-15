@@ -19,7 +19,7 @@ const ArticleErrorMessage = ({ status, children, t }) => (
           url:
             status === 'error404'
               ? '/static/not-exist.gif'
-              : '/static/opps.gif',
+              : '/static/oops.gif',
           altText: t('errorMessage.title'),
         }}
         messages={{
