@@ -19,8 +19,7 @@ const phrases = {
   },
   newsLetter: {
     heading: 'Nyhetsbrev',
-    description:
-      'Hold deg oppdatert. Abonnér på siste nytt fra NDLA.',
+    description: 'Hold deg oppdatert. Abonnér på siste nytt fra NDLA.',
     mainLinkName: 'Meld deg på',
     iconLinkName: 'Meld deg på nyhetsbrev',
   },
