@@ -20,7 +20,7 @@ const phrases = {
   newsLetter: {
     heading: 'Newsletter',
     description:
-      'Get access to new learning material and what is current at the moment.',
+      'Keep yourself updated. Subscribe to the latest news from NDLA.',
     mainLinkName: 'Sign up',
     iconLinkName: 'Sign up for newsletters',
   },
@@ -173,7 +173,7 @@ const phrases = {
       text: `You have entered our new webpages. We are trying out
       a new solution on selected subjects and will ensure that everything
       works as it should before school starts. If you experience any issues
-      we appriciate if you send us a message. Contact us on the "ask NDLA" 
+      we appriciate if you send us a message. Contact us on the "ask NDLA"
       at the bottom left on the pages.`,
       readmoreText: 'Read more at om.ndla.no',
       readmoreLink: 'http://www.om.ndla.no',
