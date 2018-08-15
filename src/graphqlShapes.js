@@ -39,7 +39,11 @@ export const GraphQLResourceShape = PropTypes.shape({
     introduction: PropTypes.string,
     lastUpdated: PropTypes.string,
     metaDescription: PropTypes.string,
-    metaImage: PropTypes.string,
+    metaImage: PropTypes.shape({
+      url: PropTypes.string,
+      alt: PropTypes.string,
+      language: PropTypes.string,
+    }),
     title: PropTypes.string,
   }),
 });

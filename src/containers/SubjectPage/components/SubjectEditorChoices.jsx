@@ -41,7 +41,10 @@ const SubjectEditorChoices = ({
   const editorsChoicesResources = getResources(editorsChoices).map(
     resource => ({
       title: resource.name,
-      image: resource.meta ? resource.meta.metaImage : '',
+      image:
+        resource.meta && resource.meta.metaImage
+          ? resource.meta.metaImage.url
+          : '',
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',

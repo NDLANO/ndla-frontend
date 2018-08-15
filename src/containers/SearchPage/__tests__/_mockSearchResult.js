@@ -63,7 +63,10 @@ export const searchSubjectResultsWithSubjectMaterial = {
       contentType: 'subject-material',
       contentTypes: ['subject-material', 'subject'],
       title: 'Analyse av medieuttrykk',
-      metaImage: 'https://ndla.no/image-api/raw/id/18',
+      metaImage: {
+        url: 'https://ndla.no/image-api/raw/id/18',
+        alt: 'bilde alt',
+      },
       url:
         '/subjects/subject:14/topic:1:103867/topic:1:185606/resource:1:106142',
       urls: [
@@ -84,7 +87,10 @@ export const searchSubjectResultsWithSubjectMaterial = {
       contentType: 'learning-path',
       contentTypes: ['learning-path'],
       title: 'Fortelleteknikk i digitale medier',
-      metaImage: 'https://ndla.no/image-api/raw/id/17',
+      metaImage: {
+        url: 'https://ndla.no/image-api/raw/id/17',
+        alt: 'bilde alt',
+      },
       url: {
         href: 'https://ndla.no/learningpaths/10/first-step',
         rel: 'noopener noreferrer',

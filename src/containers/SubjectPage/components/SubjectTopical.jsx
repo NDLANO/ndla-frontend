@@ -29,7 +29,10 @@ const SubjectTopical = ({ topical, displayInTwoColumns, t }) => {
     <SubjectPageFlexChild displayInTwoColumns={displayInTwoColumns}>
       <SubjectArchive
         featuringArticle={{
-          media: metaImage ? <Image alt={title} src={metaImage} /> : null,
+          media:
+            metaImage && metaImage.url ? (
+              <Image alt={metaImage.alt} src={metaImage.url} />
+            ) : null,
           heading: title,
           description: metaDescription,
           url: toSubjects() + path,

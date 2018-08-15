@@ -16,7 +16,6 @@ import app from './server/server';
 import redirectApp from './server/redirect';
 
 const server = http.createServer(app);
-
 let currentApp = app;
 
 server.listen(config.port, error => {
