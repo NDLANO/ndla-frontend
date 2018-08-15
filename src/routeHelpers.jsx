@@ -6,6 +6,8 @@
  *
  */
 
+import config from './config';
+
 export function toSearch() {
   return '/search';
 }
@@ -30,6 +32,9 @@ export function toSubjects() {
   return `/subjects`;
 }
 
+export function toLearningPath(id) {
+  return `${config.learningPathDomain}/learningpaths/${id}/first-step`;
+}
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (subjectTopicPath) {

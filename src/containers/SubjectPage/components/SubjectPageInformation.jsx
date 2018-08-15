@@ -10,21 +10,20 @@ import React from 'react';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import SubjectTopical from './SubjectTopical';
 import SubjectPageAbout from './SubjectPageAbout';
-import SubjectPageFlexChild from './SubjectPageFlexChild';
 
 export const SubjectPageInformation = ({
   subjectpage: { topical, about, displayInTwoColumns },
 }) => [
-  <SubjectPageFlexChild
+  <SubjectTopical
     key="subjectpage_information_topical"
-    displayInTwoColumns={displayInTwoColumns}>
-    <SubjectTopical topical={topical} />
-  </SubjectPageFlexChild>,
-  <SubjectPageFlexChild
+    displayInTwoColumns={displayInTwoColumns}
+    topical={topical}
+  />,
+  <SubjectPageAbout
     key="subjectpage_information_about"
-    displayInTwoColumns={displayInTwoColumns}>
-    <SubjectPageAbout about={about} />
-  </SubjectPageFlexChild>,
+    displayInTwoColumns={displayInTwoColumns}
+    about={about}
+  />,
 ];
 
 SubjectPageInformation.propTypes = {

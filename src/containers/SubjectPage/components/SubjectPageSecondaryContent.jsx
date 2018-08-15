@@ -35,19 +35,22 @@ const SubjectPageSecondaryContent = ({
     <OneColumn noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          <SubjectFlexChild>
-            <SubjectNewContent
-              heading={t('subjectPage.newContent.heading')}
-              content={latestContentResources.map(content => ({
-                name: content.name,
-                url: toSubjects() + content.path,
-                topicName: subjectName,
-                formattedDate: content.meta
-                  ? formatDate(content.meta.lastUpdated, locale)
-                  : '',
-              }))}
-            />
-          </SubjectFlexChild>
+          {latestContentResources &&
+            latestContentResources.length > 0 && (
+              <SubjectFlexChild>
+                <SubjectNewContent
+                  heading={t('subjectPage.newContent.heading')}
+                  content={latestContentResources.map(content => ({
+                    name: content.name,
+                    url: toSubjects() + content.path,
+                    topicName: subjectName,
+                    formattedDate: content.meta
+                      ? formatDate(content.meta.lastUpdated, locale)
+                      : '',
+                  }))}
+                />
+              </SubjectFlexChild>
+            )}
           <SubjectFlexChild>
             <InfoWidget
               center
