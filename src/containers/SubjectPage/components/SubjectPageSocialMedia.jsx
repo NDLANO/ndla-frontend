@@ -32,9 +32,7 @@ export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
           )}
           {facebook && (
             <SubjectSocialSection title="Facebook">
-              <EmbeddedFacebook
-                href={`https://www.facebook.com/${facebook}`}
-              />
+              <EmbeddedFacebook href={`https://www.facebook.com/${facebook}`} />
             </SubjectSocialSection>
           )}
         </SubjectSocialContent>

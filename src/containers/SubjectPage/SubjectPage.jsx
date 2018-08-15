@@ -116,7 +116,7 @@ class SubjectPage extends Component {
       banner,
       editorsChoices,
       displayInTwoColumns,
-    } = subjectpage; 
+    } = subjectpage;
 
     const latestContentResources = getResources(latestContent);
     const filters = subjectFilters.map(filter => ({

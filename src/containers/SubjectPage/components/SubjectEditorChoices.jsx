@@ -12,7 +12,21 @@ import { SubjectCarousel } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
 import { getResources } from '../subjectPageHelpers';
-import { toSubjects } from '../../../routeHelpers';
+import { toSubjects, toLearningPath } from '../../../routeHelpers';
+
+const getResourceTypeName = (resource, t) => {
+  if (resource.id.startsWith('urn:topic')) {
+    return t('contentTypes.topic-article');
+  }
+  if (
+    !resource ||
+    !resource.resourceTypes ||
+    resource.resourceTypes.length === 0
+  ) {
+    return t('subjectPage.editorsChoices.unknown');
+  }
+  return resource.resourceTypes[0].name;
+};
 
 const SubjectEditorChoices = ({
   editorsChoices,
@@ -28,13 +42,12 @@ const SubjectEditorChoices = ({
     resource => ({
       title: resource.name,
       image: resource.meta ? resource.meta.metaImage : '',
-      type:
-        resource.resourceTypes && resource.resourceTypes.length > 1
-          ? resource.resourceTypes[0].name
-          : t('subjectPage.editorsChoices.unknown'),
+      type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      linkTo: toSubjects() + resource.path,
+      linkTo: resource.contentUri.startsWith('urn:learningpath')
+        ? toLearningPath(resource.meta.id)
+        : toSubjects() + resource.path,
     }),
   );
 
