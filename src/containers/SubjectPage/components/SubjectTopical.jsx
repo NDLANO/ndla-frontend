@@ -26,7 +26,11 @@ const SubjectTopical = ({ topical, t }) => {
   return (
     <SubjectArchive
       featuringArticle={{
-        media: <Image alt={title} src={metaImage} />,
+        media: metaImage ? (
+          <Image alt={metaImage.alt} src={metaImage.url} />
+        ) : (
+          <Image alt="" src="" />
+        ),
         heading: title,
         description: metaDescription,
         url: toSubjects() + path,

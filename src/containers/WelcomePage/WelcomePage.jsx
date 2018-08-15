@@ -38,7 +38,6 @@ export class WelcomePage extends Component {
 
   componentDidMount() {
     this.setState({ acceptedBeta: localStorage.getItem('acceptedBeta') });
-    console.log(localStorage.getItem('acceptedBeta'));
   }
 
   onExpand = expanded => {
