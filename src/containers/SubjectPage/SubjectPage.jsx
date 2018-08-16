@@ -87,17 +87,12 @@ class SubjectPage extends Component {
   render() {
     const {
       data,
-      loading,
       match: {
         params: { subjectId },
       },
       location,
       t,
     } = this.props;
-
-    if (loading) {
-      return null;
-    }
 
     if (!data || !data.subject) {
       return <DefaultErrorMessage />;
@@ -202,7 +197,6 @@ SubjectPage.propTypes = {
     subject: GraphQLSubjectShape,
     error: GraphqlErrorShape,
   }),
-  loading: PropTypes.bool.isRequired,
   location: LocationShape,
   match: PropTypes.shape({
     params: PropTypes.shape({
