@@ -87,12 +87,17 @@ class SubjectPage extends Component {
   render() {
     const {
       data,
+      loading,
       match: {
         params: { subjectId },
       },
       location,
       t,
     } = this.props;
+
+    if (loading && (!data || !data.subject)) {
+      return null;
+    }
 
     if (!data || !data.subject) {
       return <DefaultErrorMessage />;
@@ -204,6 +209,7 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
