@@ -19,8 +19,7 @@ const phrases = {
   },
   newsLetter: {
     heading: 'Nyhetsbrev',
-    description:
-      'Få tilgang til det som er nytt for undervisningen og aktuelt for tidspunktet.',
+    description: 'Hold deg oppdatert. Abonnér på siste nytt fra NDLA.',
     mainLinkName: 'Meld deg på',
     iconLinkName: 'Meld deg på nyhetsbrev',
   },
@@ -145,7 +144,7 @@ const phrases = {
     socialMedia: {
       heading: 'Følg oss',
       description:
-        'NDLA har mange Facebook og Twitter kontoer. Finn den som passer for deg og følg oss!',
+        'NDLA har mange Facebook og Twitterkontoer. Finn den som passer for deg og følg oss!',
       mainLink: {
         name: 'Følg oss',
       },
