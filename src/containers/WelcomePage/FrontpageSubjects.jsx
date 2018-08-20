@@ -51,8 +51,8 @@ export const getCategoriesWithAllSubjects = (
         id: subject.nodeId,
         text: subject.name,
         url: subject.lang
-          ? `https://ndla.no/${subject.lang}/node/${subject.nodeId}`
-          : `https://ndla.no/${lang}/node/${subject.nodeId}`,
+          ? `/${subject.lang}/node/${subject.nodeId}`
+          : `/${lang}/node/${subject.nodeId}`,
       }))
       .filter(
         oldSubject =>
