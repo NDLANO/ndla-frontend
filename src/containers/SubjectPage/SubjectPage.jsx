@@ -95,7 +95,7 @@ class SubjectPage extends Component {
       t,
     } = this.props;
 
-    if (loading) {
+    if (loading && (!data || !data.subject)) {
       return null;
     }
 
@@ -202,7 +202,6 @@ SubjectPage.propTypes = {
     subject: GraphQLSubjectShape,
     error: GraphqlErrorShape,
   }),
-  loading: PropTypes.bool.isRequired,
   location: LocationShape,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -210,6 +209,7 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default compose(
