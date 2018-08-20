@@ -39,7 +39,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
       className="c-article c-article--clean c-article--iframe"
     >
       <section
-        className="u-4/6@desktop u-push-1/6@desktop"
+        className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
       >
         <div
           className="c-article__header"
@@ -532,7 +532,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
         </div>
       </section>
       <section
-        className="u-4/6@desktop u-push-1/6@desktop"
+        className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
       >
         <div
           dangerouslySetInnerHTML={
@@ -543,10 +543,10 @@ exports[`IframeArticlePage renderers correctly 1`] = `
         />
       </section>
       <section
-        className="u-4/6@desktop u-push-1/6@desktop"
+        className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
       />
       <section
-        className="u-10/12@desktop u-push-1/12@desktop"
+        className="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
       >
         <a
           className="article-old-ndla-link"
