@@ -182,7 +182,6 @@ const phrases = {
       contentTypeResultsShowMore: 'Vis mer',
       contentTypeResultsShowLess: 'Vis mindre',
       contentTypeResultsNoHit: 'Ingen treff',
-      readMore: 'Les mer om nye NDLA.no',
     },
   },
   logo: {
