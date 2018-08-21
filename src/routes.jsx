@@ -28,7 +28,7 @@ export const routes = [
     hideMasthead: true,
     exact: true,
     component: WelcomePage,
-    background: false,
+    background: true,
   },
   {
     path: articlePath,
@@ -53,7 +53,7 @@ export const routes = [
   {
     path: '/subjects/:subjectId',
     component: SubjectPage,
-    background: true,
+    background: false,
   },
   {
     path: '/subjects',
