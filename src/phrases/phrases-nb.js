@@ -194,8 +194,6 @@ const phrases = {
       contentTypeResultsShowMore: 'Vis mer',
       contentTypeResultsShowLess: 'Vis mindre',
       contentTypeResultsNoHit: 'Ingen treff',
-      betaInfo: 'Du tester nå de nye nettsidene. ',
-      readMore: 'Les mer om nye NDLA.no',
     },
   },
   logo: {

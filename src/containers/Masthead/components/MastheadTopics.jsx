@@ -44,7 +44,6 @@ const MastheadTopics = props => {
   return (
     <TopicMenu
       close={onClose}
-      isBeta
       toSubject={() => toSubject(subject.id)}
       subjectTitle={subject.name}
       toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
