@@ -20,7 +20,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           className="c-masthead__right"
         >
           <h1
-            className="c-logo"
+            className="c-logo c-logo--beta"
           >
             <a
               aria-label="Nasjonal digital læringsarena"
@@ -53,6 +53,56 @@ exports[`ErrorPage renderers correctly 1`] = `
                 />
               </svg>
                
+              <svg
+                className="c-logo__beta"
+                height="14px"
+                version="1.1"
+                viewBox="0 0 42 14"
+                width="42px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>
+                  Beta
+                </title>
+                <defs />
+                <g
+                  fill="none"
+                  fillRule="evenodd"
+                  id="ny-beta-fagoversikt"
+                  stroke="none"
+                  strokeWidth="1"
+                  transform="translate(-1392.000000, -26.000000)"
+                >
+                  <g
+                    id="Group-2"
+                    transform="translate(1392.000000, 25.000000)"
+                  >
+                    <rect
+                      fill="#20588F"
+                      height="14"
+                      id="Rectangle"
+                      rx="2"
+                      width="42"
+                      x="0"
+                      y="1"
+                    />
+                    <text
+                      fill="#FFFFFF"
+                      fontFamily="SourceSansPro-Black, Source Sans Pro"
+                      fontSize="12"
+                      fontWeight="700"
+                      id="BETA"
+                    >
+                      <tspan
+                        x="7.344"
+                        y="12"
+                      >
+                        BETA
+                      </tspan>
+                    </text>
+                  </g>
+                </g>
+              </svg>
             </a>
           </h1>
         </div>

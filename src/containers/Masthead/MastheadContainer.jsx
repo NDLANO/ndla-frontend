@@ -203,7 +203,7 @@ class MastheadContainer extends React.PureComponent {
               subject={subject}
             />
           )}
-          <Logo to="/" label="Nasjonal digital læringsarena" />
+          <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
     );
