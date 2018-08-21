@@ -18,7 +18,7 @@ const ErrorPage = ({ locale }) => (
     <Content>
       <Masthead fixed>
         <MastheadItem right>
-          <Logo isBeta to="/" label="Nasjonal digital læringsarena" />
+          <Logo to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
       <DefaultErrorMessage />
