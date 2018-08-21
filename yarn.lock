@@ -6688,9 +6688,9 @@ ndla-scripts@^0.6.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.0.tgz#a867d4570f7db54f013a28adea9001339515385e"
+ndla-tabs@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.1.tgz#0d40b4a6873f66545a9e028cfb900c61b55d195b"
   dependencies:
     lodash "^4.17.5"
 
@@ -6698,9 +6698,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.13.7:
-  version "0.13.7"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.13.7.tgz#ab69b89f4ca141e16cf716cb51f3ab0713996e4f"
+ndla-ui@^0.13.8:
+  version "0.13.8"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.13.8.tgz#edeb3e561f003b1012e831c1f79e06bdc6a50a21"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
