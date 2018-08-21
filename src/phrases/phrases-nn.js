@@ -183,10 +183,6 @@ const phrases = {
       contentTypeResultsShowMore: 'Vis mer',
       contentTypeResultsShowLess: 'Vis mindre',
       contentTypeResultsNoHit: 'Ingen treff',
-<<<<<<< HEAD
-      readMore: 'Les mer om nye NDLA.no',
-=======
->>>>>>> master
     },
   },
   logo: {

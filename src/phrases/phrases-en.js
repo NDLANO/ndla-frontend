@@ -185,10 +185,6 @@ const phrases = {
       contentTypeResultsShowMore: 'Show more',
       contentTypeResultsShowLess: 'Show Less',
       contentTypeResultsNoHit: 'No hits',
-<<<<<<< HEAD
-      readMore: 'Les mer om nye NDLA.no',
-=======
->>>>>>> master
     },
   },
   logo: {
