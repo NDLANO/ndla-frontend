@@ -9,8 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Masthead, MastheadItem, Logo } from 'ndla-ui';
-import Link from 'react-router-dom/Link';
-import { injectT } from 'ndla-i18n';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -175,21 +173,13 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { t } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
       searchIsOpen,
       menuIsOpen,
     } = this.state;
     return (
-      <Masthead
-        infoContent={
-          <span>
-            {t(`masthead.menu.betaInfo`)}
-            <Link to="/">{t('masthead.menu.readMore')}</Link>
-          </span>
-        }
-        fixed>
+      <Masthead fixed>
         <MastheadItem left>
           {subject && (
             <MastheadMenu
@@ -234,7 +224,4 @@ MastheadContainer.propTypes = {
   }).isRequired,
 };
 
-export default compose(
-  withApollo,
-  injectT,
-)(MastheadContainer);
+export default compose(withApollo)(MastheadContainer);
