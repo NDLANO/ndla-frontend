@@ -6643,9 +6643,9 @@ ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
 
-ndla-article-scripts@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.4.0.tgz#41cff3aac0c50e558a266c1d4a5fa2a26e476c0c"
+ndla-article-scripts@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/ndla-article-scripts/-/ndla-article-scripts-0.4.4.tgz#15116fc9fec016336e3127db3d7b76770a47f290"
   dependencies:
     focus-trap "^2.4.3"
     jump.js "^1.0.2"
@@ -6698,9 +6698,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.13.8:
-  version "0.13.8"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.13.8.tgz#edeb3e561f003b1012e831c1f79e06bdc6a50a21"
+ndla-ui@^0.13.9:
+  version "0.13.9"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.13.9.tgz#6c58c4eb3493523a48e0fa3e7dba330fff17b731"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -6714,9 +6714,9 @@ ndla-ui@^0.13.8:
     react-syntax-highlighter "^8.0.1"
     react-transition-group "^2.2.1"
 
-ndla-util@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.1.tgz#3d30b09ee5c89ad9f0da1709378d9be1d5a839ea"
+ndla-util@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.5.tgz#3e233b3fb88ca41a0a95032664dcc540a61b4018"
   dependencies:
     defined "1.0.0"
 
