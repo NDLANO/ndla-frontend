@@ -19,8 +19,7 @@ const phrases = {
   },
   newsLetter: {
     heading: 'Newsletter',
-    description:
-      'Keep yourself updated. Subscribe to the latest news from NDLA.',
+    description: 'Stay updated! Subscribe to the latest news from NDLA.',
     mainLinkName: 'Sign up',
     iconLinkName: 'Sign up for newsletters',
   },
@@ -101,7 +100,7 @@ const phrases = {
       showLess: 'Show less',
     },
     mostRead: {
-      heading: 'Most read',
+      heading: 'Most used',
     },
     editorsChoices: {
       heading: 'Editor choices from the subject',
@@ -148,7 +147,7 @@ const phrases = {
     socialMedia: {
       heading: 'Follow us',
       description:
-        'NDLA has many Facebook and Twitter accounts. Find the one that suits you and follow us!',
+        'NDLA has several Facebook- and Twitter accounts. Find the one that suits you, and follow us!',
       mainLink: {
         name: 'Follow us',
       },
@@ -188,7 +187,7 @@ const phrases = {
       close: 'Close',
       goTo: 'Go to',
       search: 'Search',
-      subjectOverview: 'Subject overview',
+      subjectOverview: 'All subjects',
       title: 'Menu',
       subjectPage: 'Subject front page',
       learningResourcesHeading: 'Educational Resources',

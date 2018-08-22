@@ -27,6 +27,6 @@ describe('Topic menu', () => {
   });
 
   it('Menu is displayed', () => {
-    cy.get('a').contains('Fagoversikt');
+    cy.get('a').contains('Alle fag');
   });
 });
