@@ -19,8 +19,7 @@ const phrases = {
   },
   newsLetter: {
     heading: 'Newsletter',
-    description:
-      'Stay updated! Subscribe to the latest news from NDLA.',
+    description: 'Stay updated! Subscribe to the latest news from NDLA.',
     mainLinkName: 'Sign up',
     iconLinkName: 'Sign up for newsletters',
   },
