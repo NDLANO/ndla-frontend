@@ -10,10 +10,9 @@
 
 import http from 'http';
 
-import config, { getEnvironmentVariabel } from './config';
+import config from './config';
 
 import app from './server/server';
-import redirectApp from './server/redirect';
 
 const server = http.createServer(app);
 let currentApp = app;
@@ -35,16 +34,5 @@ if (module.hot) {
     const newApp = require('./server/server').default;
     server.on('request', newApp);
     currentApp = newApp;
-  });
-}
-
-if (
-  getEnvironmentVariabel('NOW') !== 'true' &&
-  process.env.NODE_ENV === 'production'
-) {
-  const redirectServer = http.createServer(redirectApp);
-  // If port is 79 the request has been dispatched with http protocol from ELB. Redirecting to https.
-  redirectServer.listen(config.redirectPort, () => {
-    console.log(`Listening for redirects on ${config.redirectPort}`);
   });
 }
