@@ -99,7 +99,7 @@ const phrases = {
       showLess: 'Vis færre',
     },
     mostRead: {
-      heading: 'Mest lese',
+      heading: 'Mest brukt',
     },
     editorsChoices: {
       heading: 'Litt forskjellig frå faget',

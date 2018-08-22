@@ -98,7 +98,7 @@ const phrases = {
       showLess: 'Vis færre',
     },
     mostRead: {
-      heading: 'Mest lest',
+      heading: 'Mest brukt',
     },
     editorsChoices: {
       heading: 'Litt forskjellig fra faget',

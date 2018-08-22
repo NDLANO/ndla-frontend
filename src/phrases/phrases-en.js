@@ -100,7 +100,7 @@ const phrases = {
       showLess: 'Show less',
     },
     mostRead: {
-      heading: 'Most read',
+      heading: 'Most used',
     },
     editorsChoices: {
       heading: 'Editor choices from the subject',
