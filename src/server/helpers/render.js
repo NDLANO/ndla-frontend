@@ -29,7 +29,6 @@ export function renderPage(Page, assets, data = {}) {
       ...data,
       config,
       assets,
-      accessToken: global.access_token,
     },
   };
 }
