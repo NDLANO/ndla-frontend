@@ -123,7 +123,11 @@ export const getOrFetchAccessToken = async () => {
   const accessToken = getAccessToken();
   const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
 
-  if (__CLIENT__ && new Date().getTime() > expiresAt) {
+  if (
+    __CLIENT__ &&
+    new Date().getTime() > expiresAt &&
+    window.e2eFixtures === undefined
+  ) {
     const response = await fetchAccessToken();
     setAccessTokenInLocalStorage(response.access_token);
     return response.access_token;
