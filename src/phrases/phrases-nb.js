@@ -144,7 +144,7 @@ const phrases = {
     socialMedia: {
       heading: 'Følg oss',
       description:
-        'NDLA har mange Facebook og Twitterkontoer. Finn den som passer for deg og følg oss!',
+        'NDLA har mange Facebook- og Twitterkontoer. Finn den som passer for deg, og følg oss!',
       mainLink: {
         name: 'Følg oss',
       },
@@ -186,7 +186,7 @@ const phrases = {
       close: 'Lukk',
       goTo: 'Gå til',
       search: 'Søk',
-      subjectOverview: 'Fagoversikt',
+      subjectOverview: 'Alle fag',
       title: 'Meny',
       subjectPage: 'Fagforside',
       learningResourcesHeading: 'Læringsressurser',
@@ -209,9 +209,9 @@ const phrases = {
     toggleFilterLabel: 'Tilleggsressurser',
     label: 'Læringsressurser',
     shortcutButtonText: 'Lærestoff',
-    tooltipCoreTopic: 'Kjernestoff er fagstoff som er på pensum',
-    tooltipAdditionalTopic: 'Tilleggsstoff er fagstoff som ikke er på pensum',
-    additionalTooltip: 'Tilleggsstoff er ikke på pensum',
+    tooltipCoreTopic: 'Kjernestoff',
+    tooltipAdditionalTopic: 'Tilleggsstoff',
+    additionalTooltip: 'Tilleggsstoff',
     dialogTooltip: 'Hva er kjernestoff og tilleggsstoff?',
     dialogHeading: 'Kjernestoff og tilleggsstoff',
     dialogText1:
