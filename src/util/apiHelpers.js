@@ -119,15 +119,18 @@ export const fetchWithAccessToken = (url, options = {}) => {
   });
 };
 
-export const getOrFetchAccessToken = () => {
+export const getOrFetchAccessToken = async () => {
   const accessToken = getAccessToken();
   const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
 
-  if (__CLIENT__ && new Date().getTime() > expiresAt) {
-    return fetchAccessToken().then(res => {
-      setAccessTokenInLocalStorage(res.access_token);
-      return res.access_token;
-    });
+  if (
+    __CLIENT__ &&
+    new Date().getTime() > expiresAt &&
+    window.e2eFixtures === undefined
+  ) {
+    const response = await fetchAccessToken();
+    setAccessTokenInLocalStorage(response.access_token);
+    return response.access_token;
   }
 
   return accessToken;
@@ -141,6 +144,10 @@ const uri = (() => {
 })();
 
 export const createApolloClient = (language = 'nb') => {
+  if (__CLIENT__) {
+    getOrFetchAccessToken(); // prefetch token on client creation
+  }
+
   const authLink = setContext(async (_, { headers }) => {
     const accessToken = await getOrFetchAccessToken();
     return {

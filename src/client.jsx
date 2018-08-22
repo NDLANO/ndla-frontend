@@ -18,13 +18,13 @@ import IntlProvider from 'ndla-i18n';
 import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from 'ndla-tracker';
 import { getLocaleInfoFromPath } from './i18n';
-import { storeAccessToken, createApolloClient } from './util/apiHelpers';
+import { createApolloClient } from './util/apiHelpers';
 import configureStore from './configureStore';
 import routes from './routes';
 import './style/index.css';
 
 const {
-  DATA: { initialState, initialProps, config, accessToken },
+  DATA: { initialState, initialProps, config },
 } = window;
 const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
@@ -32,7 +32,6 @@ const { abbreviation, messages, basename } = getLocaleInfoFromPath(
 
 const browserHistory = basename ? createHistory({ basename }) : createHistory();
 
-storeAccessToken(accessToken);
 const store = configureStore(initialState);
 
 const {
