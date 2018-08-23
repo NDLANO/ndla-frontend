@@ -322,7 +322,12 @@ export const resourceQuery = gql`
 export const topicQuery = gql`
   query topicQuery($topicId: String!, $filterIds: String) {
     topic(id: $topicId) {
-      ...TopicInfo
+      id
+      name
+      path
+      meta {
+        metaDescription
+      }
       article {
         ...ArticleInfo
       }
@@ -337,7 +342,6 @@ export const topicQuery = gql`
       }
     }
   }
-  ${topicInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
