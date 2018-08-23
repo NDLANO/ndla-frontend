@@ -344,4 +344,5 @@ export const topicQuery = gql`
   }
   ${articleInfoFragment}
   ${resourceInfoFragment}
+  ${topicInfoFragment}
 `;
