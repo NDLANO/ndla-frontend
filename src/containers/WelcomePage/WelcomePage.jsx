@@ -11,12 +11,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
 import { compose } from 'redux';
-import {
-  FrontpageHeader,
-  FrontpageSearchSection,
-  OneColumn,
-  BetaNotification,
-} from 'ndla-ui';
+import { FrontpageHeader, FrontpageSearchSection, OneColumn } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
@@ -32,12 +27,7 @@ export class WelcomePage extends Component {
     this.state = {
       expanded: null,
       query: '',
-      acceptedBeta: true,
     };
-  }
-
-  componentDidMount() {
-    this.setState({ acceptedBeta: localStorage.getItem('acceptedBeta') });
   }
 
   onExpand = expanded => {
@@ -59,11 +49,6 @@ export class WelcomePage extends Component {
         page: 1,
       }),
     });
-  };
-
-  onAccept = () => {
-    localStorage.setItem('acceptedBeta', true);
-    this.setState({ acceptedBeta: true });
   };
 
   static async getInitialProps(ctx) {
@@ -105,18 +90,6 @@ export class WelcomePage extends Component {
     };
     return (
       <Fragment>
-        {!this.state.acceptedBeta && (
-          <BetaNotification
-            messages={{
-              heading: t('welcomePage.betaMessages.heading'),
-              text: t('welcomePage.betaMessages.text'),
-              readmoreText: t('welcomePage.betaMessages.readmoreText'),
-              readmoreLink: t('welcomePage.betaMessages.readmoreLink'),
-              buttonText: t('welcomePage.betaMessages.buttonText'),
-            }}
-            onAccept={this.onAccept}
-          />
-        )}
         <FrontpageHeader
           heading={t('welcomePage.heading.heading')}
           searchFieldValue={query}
