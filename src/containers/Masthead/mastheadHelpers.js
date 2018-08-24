@@ -6,7 +6,7 @@
  *
  */
 
-import { toTopic, toSubjects } from '../../routeHelpers';
+import { toTopic } from '../../routeHelpers';
 
 export function toTopicWithSubjectIdBound(subjectId, filters) {
   return toTopic.bind(undefined, subjectId, filters);
@@ -26,7 +26,7 @@ export function mapTopicResourcesToTopic(
         resources: type.resources
           .map(resource => ({
             ...resource,
-            path: toSubjects() + resource.path + filterParam,
+            path: resource.path + filterParam,
           }))
           .filter(resource => !resource.additional),
         title: type.name,
