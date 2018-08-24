@@ -168,7 +168,7 @@ const phrases = {
     film: {
       header: 'NDLA film',
       text:
-        'NDLA film er ei teneste i samarbeid med Norgesfilm. Denne tenesta lar deg sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan òg sjå undervisningsfilm og filmklipp. Velkomen inn i filmen si verd!',
+        'NDLA film er ei teneste i samarbeid med Norgesfilm. I denne tenesta kan du sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan også sjå undervisningsfilm og filmklipp. Velkomen inn i filmverda!',
       linkLabel: 'Gå til NDLA film',
     },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
@@ -271,7 +271,7 @@ const phrases = {
     },
     creditType: {
       originator: 'Opphavsmann',
-      authorDesc: 'Denne artikkelen er laget av flere opphavsmenn',
+      authorDesc: 'Denne artikkelen er laget av fleire opphavsmenn',
       photographer: 'Fotograf',
       artist: 'Kunstnar',
       editorial: 'Redaksjonelt',
