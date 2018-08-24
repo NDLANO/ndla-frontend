@@ -43,7 +43,7 @@ const phrases = {
       contentTypes: 'Innhaldstypar',
       levels: 'Nivå',
       'language-filter': 'Språk',
-      noFilter: 'Ingen filter valgt',
+      noFilter: 'Ingen filter valde',
       subjects: 'Fag',
     },
     showLabel: {
@@ -168,7 +168,7 @@ const phrases = {
     film: {
       header: 'NDLA film',
       text:
-        'NDLA film er ei teneste i samarbeid med Norgesfilm. I denne tenesta kan du sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan også sjå undervisningsfilm og filmklipp. Velkomen inn i filmverda!',
+        'NDLA film er ei teneste i samarbeid med Norgesfilm. Denne tenesta lar deg sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan òg sjå undervisningsfilm og filmklipp. Velkomen inn i filmen si verd!',
       linkLabel: 'Gå til NDLA film',
     },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',

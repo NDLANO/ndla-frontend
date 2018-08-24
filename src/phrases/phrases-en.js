@@ -84,7 +84,7 @@ const phrases = {
     searchFilterMessages: {
       backButton: 'Back to filter',
       filterLabel: 'Chose subjects',
-      confirmButton: 'Update filter',
+      confirmButton: 'Refresh filter',
       hasValuesButtonText: 'More subjects',
       noValuesButtonText: 'Pick subject',
     },
