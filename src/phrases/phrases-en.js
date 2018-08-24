@@ -166,6 +166,12 @@ const phrases = {
       studiespesialiserende: 'Specialization',
       imported: 'Imported subjects',
     },
+    film: {
+      header: 'NDLA film',
+      text:
+        'NDLA film is a service in collaboration with Norgesfilm. This service allows you to watch a range of feature films, short films, documentaries and series. You can also watch educational films and movie clips. Welcome to the movie world!',
+      linkLabel: 'Go to NDLA film',
+    },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
   meta: {

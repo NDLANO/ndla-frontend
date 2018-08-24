@@ -164,6 +164,12 @@ const phrases = {
       studiespesialiserende: 'Studiespesialiserende',
       imported: 'Spoltefag',
     },
+    film: {
+      header: 'NDLA film',
+      text:
+        'NDLA film er en tjeneste i samarbeid med Norgesfilm. Denne tjenesten lar deg se en rekke spillefilmer, kortfilmer, dokumentarer og serier. Du kan også se undervisningsfilm og filmklipp. Velkommen inn i filmens verden!',
+      linkLabel: 'Gå til NDLA film',
+    },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
   },
   meta: {
