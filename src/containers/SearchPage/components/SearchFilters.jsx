@@ -65,7 +65,7 @@ const SearchFilters = ({
           allSubjects.find(subject => subject.value === subjectId),
         )}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
-        values={filterState.subjects}>
+        values={filterState.subjects || []}>
         <SearchPopoverFilter
           messages={{
             backButton: t('searchPage.searchFilterMessages.backButton'),

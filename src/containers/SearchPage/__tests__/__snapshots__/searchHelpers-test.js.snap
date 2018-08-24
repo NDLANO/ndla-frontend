@@ -110,7 +110,7 @@ Array [
 
 exports[`searchHelpers searchResultToLinkProps article 1`] = `
 Object {
-  "to": "/urn:lp:300",
+  "to": "/subjects/urn:lp:300",
 }
 `;
 

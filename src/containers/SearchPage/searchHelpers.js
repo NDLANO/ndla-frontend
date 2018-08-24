@@ -3,6 +3,7 @@ import queryString from 'query-string';
 import { ContentTypeBadge, Image } from 'ndla-ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
+import { toSubjects } from '../../routeHelpers';
 
 export const searchResultToLinkProps = result => {
   if (result.resourceType === 'urn:resourcetype:learningPath') {
@@ -14,7 +15,7 @@ export const searchResultToLinkProps = result => {
   }
   if (result.paths && result.paths.length > 0) {
     return {
-      to: result.paths[0],
+      to: toSubjects() + result.paths[0],
     };
   }
   return { to: '/404' };
