@@ -43,6 +43,7 @@ const phrases = {
       contentTypes: 'Innhaldstypar',
       levels: 'Nivå',
       'language-filter': 'Språk',
+      noFilter: 'Ingen filter valgt',
       subjects: 'Fag',
     },
     showLabel: {
@@ -78,13 +79,13 @@ const phrases = {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} treff i Ndla',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
-      dropdownBtnLabel: 'Flerie innhaldstypar',
+      dropdownBtnLabel: 'Fleire innhaldstypar',
     },
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
       filterLabel: 'Vel fag',
-      confirmButton: 'Bruk fag',
-      hasValuesButtonText: 'Byt fag',
+      confirmButton: 'Oppdater filter',
+      hasValuesButtonText: 'Fleire fag',
       noValuesButtonText: 'Vel fag',
     },
   },
@@ -163,6 +164,12 @@ const phrases = {
       yrkesfag: 'Yrkesfag',
       studiespesialiserende: 'Studiespesialiserende',
       imported: 'Spoltefag',
+    },
+    film: {
+      header: 'NDLA film',
+      text:
+        'NDLA film er ei teneste i samarbeid med Norgesfilm. I denne tenesta kan du sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan også sjå undervisningsfilm og filmklipp. Velkomen inn i filmverda!',
+      linkLabel: 'Gå til NDLA film',
     },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',
   },
@@ -264,7 +271,7 @@ const phrases = {
     },
     creditType: {
       originator: 'Opphavsmann',
-      authorDesc: 'Denne artikkelen er laget av flere opphavsmenn',
+      authorDesc: 'Denne artikkelen er laget av fleire opphavsmenn',
       photographer: 'Fotograf',
       artist: 'Kunstnar',
       editorial: 'Redaksjonelt',
