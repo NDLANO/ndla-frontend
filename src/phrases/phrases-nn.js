@@ -43,6 +43,7 @@ const phrases = {
       contentTypes: 'Innhaldstypar',
       levels: 'Nivå',
       'language-filter': 'Språk',
+      noFilter: 'Ingen filter valgt',
       subjects: 'Fag',
     },
     showLabel: {
@@ -78,13 +79,13 @@ const phrases = {
       filterHeading: 'Filter',
       resultHeading: '{totalCount} treff i Ndla',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
-      dropdownBtnLabel: 'Flerie innhaldstypar',
+      dropdownBtnLabel: 'Fleire innhaldstypar',
     },
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
       filterLabel: 'Vel fag',
-      confirmButton: 'Bruk fag',
-      hasValuesButtonText: 'Byt fag',
+      confirmButton: 'Oppdater filter',
+      hasValuesButtonText: 'Fleire fag',
       noValuesButtonText: 'Vel fag',
     },
   },
@@ -167,7 +168,7 @@ const phrases = {
     film: {
       header: 'NDLA film',
       text:
-        'NDLA film er en tjeneste i samarbeid med Norgesfilm. Denne tjenesten lar deg se en rekke spillefilmer, kortfilmer, dokumentarer og serier. Du kan også se undervisningsfilm og filmklipp. Velkommen inn i filmens verden!',
+        'NDLA film er ei teneste i samarbeid med Norgesfilm. Denne tenesta lar deg sjå ei rekkje spelefilmar, kortfilmar, dokumentarar og seriar. Du kan òg sjå undervisningsfilm og filmklipp. Velkomen inn i filmen si verd!',
       linkLabel: 'Gå til NDLA film',
     },
     errorDescription: 'Orsak, ein feil oppstod under lasting av faga.',

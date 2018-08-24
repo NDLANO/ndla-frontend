@@ -43,6 +43,7 @@ const phrases = {
       levels: 'Nivå',
       'language-filter': 'Språk',
       subjects: 'Fag',
+      noFilter: 'Ingen filter valgt',
     },
     showLabel: {
       contentTypes: 'Flere innholdstyper',
@@ -82,8 +83,8 @@ const phrases = {
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
       filterLabel: 'Velg fag',
-      confirmButton: 'Bruk fag',
-      hasValuesButtonText: 'Bytt fag',
+      confirmButton: 'Oppdater filter',
+      hasValuesButtonText: 'Flere fag',
       noValuesButtonText: 'Velg fag',
     },
   },

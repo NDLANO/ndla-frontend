@@ -50,6 +50,7 @@ const phrases = {
       levels: 'More levels',
       'language-filter': 'More languages',
       subjects: 'Change subject',
+      noFilter: 'No filter choosen',
     },
     hideLabel: {
       contentTypes: 'Hide content types',
@@ -83,8 +84,8 @@ const phrases = {
     searchFilterMessages: {
       backButton: 'Back to filter',
       filterLabel: 'Chose subjects',
-      confirmButton: 'Use subject',
-      hasValuesButtonText: 'Change subject',
+      confirmButton: 'Update filter',
+      hasValuesButtonText: 'More subjects',
       noValuesButtonText: 'Pick subject',
     },
   },
