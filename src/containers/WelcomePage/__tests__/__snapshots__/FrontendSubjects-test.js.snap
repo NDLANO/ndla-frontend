@@ -199,6 +199,14 @@ Array [
         "url": "/nb/node/116784",
       },
       Object {
+        "beta": true,
+        "id": "185100",
+        "name": "Religion og etikk",
+        "nodeId": "185100",
+        "text": "Religion og etikk",
+        "url": "/nb/node/185100",
+      },
+      Object {
         "id": "36",
         "name": "Samfunnsfag",
         "nodeId": "36",
@@ -457,6 +465,14 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+      },
+      Object {
+        "beta": true,
+        "id": "185103",
+        "name": "Sosiologi og sosialantropologi",
+        "nodeId": "185103",
+        "text": "Sosiologi og sosialantropologi",
+        "url": "/nb/node/185103",
       },
       Object {
         "id": "137416",
@@ -547,6 +563,14 @@ Array [
         "url": "/nb/node/116784",
       },
       Object {
+        "beta": true,
+        "id": "185100",
+        "name": "Religion og etikk",
+        "nodeId": "185100",
+        "text": "Religion og etikk",
+        "url": "/nb/node/185100",
+      },
+      Object {
         "id": "36",
         "name": "Samfunnsfag",
         "nodeId": "36",
@@ -807,6 +831,14 @@ Array [
         "url": "/en/node/71082",
       },
       Object {
+        "beta": true,
+        "id": "185103",
+        "name": "Sosiologi og sosialantropologi",
+        "nodeId": "185103",
+        "text": "Sosiologi og sosialantropologi",
+        "url": "/nb/node/185103",
+      },
+      Object {
         "id": "137416",
         "name": "Tysk 1",
         "nodeId": "137416",
@@ -893,6 +925,14 @@ Array [
         "nodeId": "116784",
         "text": "Norsk YF og SF",
         "url": "/nn/node/116784",
+      },
+      Object {
+        "beta": true,
+        "id": "185100",
+        "name": "Religion og etikk",
+        "nodeId": "185100",
+        "text": "Religion og etikk",
+        "url": "/nn/node/185100",
       },
       Object {
         "id": "36",
@@ -1155,6 +1195,14 @@ Array [
         "url": "/en/node/71082",
       },
       Object {
+        "beta": true,
+        "id": "185103",
+        "name": "Sosiologi og sosialantropologi",
+        "nodeId": "185103",
+        "text": "Sosiologi og sosialantropologi",
+        "url": "/nn/node/185103",
+      },
+      Object {
         "id": "137416",
         "name": "Tysk 1",
         "nodeId": "137416",
@@ -1285,6 +1333,14 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+      },
+      Object {
+        "beta": true,
+        "id": "185103",
+        "name": "Sosiologi og sosialantropologi",
+        "nodeId": "185103",
+        "text": "Sosiologi og sosialantropologi",
+        "url": "/nb/node/185103",
       },
       Object {
         "id": "137416",

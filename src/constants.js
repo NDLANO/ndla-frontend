@@ -98,7 +98,7 @@ export const OLD_CATEGORIES_WITH_SUBJECTS = {
       name: 'Medieuttrykk og mediesamfunnet',
     },
     { nodeId: '71082', lang: 'en', name: 'Samfunnsfaglig engelsk' },
-    { nodeId: '185103', name: 'Sosiologi og sosialantropologi' },
+    { nodeId: '185103', beta: true, name: 'Sosiologi og sosialantropologi' },
     { nodeId: '137416', name: 'Tysk 1' },
     { nodeId: '138655', name: 'Tysk 2' },
   ],
