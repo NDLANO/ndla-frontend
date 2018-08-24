@@ -103,6 +103,7 @@ class App extends React.Component {
     }
     const navigated = nextProps.location !== prevState.location;
     if (navigated) {
+      window.scrollTo(0, 0);
       return {
         hasError: false,
         data: { ...prevState.data, loading: true },

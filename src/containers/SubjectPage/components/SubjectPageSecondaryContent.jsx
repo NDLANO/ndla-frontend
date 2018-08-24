@@ -43,6 +43,7 @@ const SubjectPageSecondaryContent = ({
                   content={latestContentResources.map(content => ({
                     name: content.name,
                     url:
+                      content.contentUri &&
                       content.contentUri.startsWith('urn:learningpath') &&
                       content.meta
                         ? toLearningPath(content.meta.id)

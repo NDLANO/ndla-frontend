@@ -60,9 +60,12 @@ const SearchFilters = ({
     <Fragment>
       <SearchFilter
         label={t('searchPage.label.subjects')}
-        options={allSubjects.filter((_, i) => i < 2)}
+        noFilterSelectedLabel={t('searchPage.label.noFilter')}
+        options={filterState.subjects.map(subjectId =>
+          allSubjects.find(subject => subject.value === subjectId),
+        )}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
-        values={filterState.subjects}>
+        values={filterState.subjects || []}>
         <SearchPopoverFilter
           messages={{
             backButton: t('searchPage.searchFilterMessages.backButton'),

@@ -12,7 +12,7 @@ import { Footer } from 'ndla-ui';
 import SelectLocale from '../../Locale/SelectLocale';
 
 const FooterWrapper = ({ t, locale }) => (
-  <Footer>
+  <Footer lang={locale}>
     <form className="footer_form">
       <label className="footer_label footer--bold" htmlFor="language-select">
         {t('footer.selectLanguage')}

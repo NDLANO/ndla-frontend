@@ -11,7 +11,12 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
 import { compose } from 'redux';
-import { FrontpageHeader, FrontpageSearchSection, OneColumn } from 'ndla-ui';
+import {
+  FrontpageHeader,
+  FrontpageFilm,
+  FrontpageSearchSection,
+  OneColumn,
+} from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
@@ -120,6 +125,15 @@ export class WelcomePage extends Component {
               onSearch={this.onSearch}
             />
             <FrontpageHighlights topical={topical} />
+            <FrontpageFilm
+              imageUrl="/static/film_illustrasjon.png"
+              url="https://ndla.no/nb/film"
+              messages={{
+                header: t('welcomePage.film.header'),
+                linkLabel: t('welcomePage.film.linkLabel'),
+                text: t('welcomePage.film.text'),
+              }}
+            />
             <WelcomePageInfo />
           </OneColumn>
         </main>

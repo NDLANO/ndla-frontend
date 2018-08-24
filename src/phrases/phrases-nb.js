@@ -43,6 +43,7 @@ const phrases = {
       levels: 'Nivå',
       'language-filter': 'Språk',
       subjects: 'Fag',
+      noFilter: 'Ingen filter valgt',
     },
     showLabel: {
       contentTypes: 'Flere innholdstyper',
@@ -82,8 +83,8 @@ const phrases = {
     searchFilterMessages: {
       backButton: 'Tilbake til filter',
       filterLabel: 'Velg fag',
-      confirmButton: 'Bruk fag',
-      hasValuesButtonText: 'Bytt fag',
+      confirmButton: 'Oppdater filter',
+      hasValuesButtonText: 'Flere fag',
       noValuesButtonText: 'Velg fag',
     },
   },
@@ -164,6 +165,12 @@ const phrases = {
       imported: 'Spoltefag',
     },
     errorDescription: 'Beklager, en feil oppsto under lasting av fagene.',
+    film: {
+      header: 'NDLA film',
+      text:
+        'NDLA film er en tjeneste i samarbeid med Norgesfilm. Denne tjenesten lar deg se en rekke spillefilmer, kortfilmer, dokumentarer og serier. Du kan også se undervisningsfilm og filmklipp. Velkommen inn i filmens verden!',
+      linkLabel: 'Gå til NDLA film',
+    },
   },
   meta: {
     description:

@@ -50,6 +50,7 @@ const phrases = {
       levels: 'More levels',
       'language-filter': 'More languages',
       subjects: 'Change subject',
+      noFilter: 'No filter choosen',
     },
     hideLabel: {
       contentTypes: 'Hide content types',
@@ -83,8 +84,8 @@ const phrases = {
     searchFilterMessages: {
       backButton: 'Back to filter',
       filterLabel: 'Chose subjects',
-      confirmButton: 'Use subject',
-      hasValuesButtonText: 'Change subject',
+      confirmButton: 'Refresh filter',
+      hasValuesButtonText: 'More subjects',
       noValuesButtonText: 'Pick subject',
     },
   },
@@ -165,6 +166,12 @@ const phrases = {
       yrkesfag: 'Vocational',
       studiespesialiserende: 'Specialization',
       imported: 'Imported subjects',
+    },
+    film: {
+      header: 'NDLA film',
+      text:
+        'NDLA film is a service in collaboration with Norgesfilm. This service allows you to watch a range of feature films, short films, documentaries and series. You can also watch educational films and movie clips. Welcome to the world of cinema!',
+      linkLabel: 'Go to NDLA film',
     },
     errorDescription: 'Sorry, an error occurd while loading the subjects.',
   },
