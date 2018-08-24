@@ -22,7 +22,7 @@ import { injectT } from 'ndla-i18n';
 import { EmailOutline } from 'ndla-icons/common';
 import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
-import { toSubjects } from '../../../routeHelpers';
+import { toSubjects, toLearningPath } from '../../../routeHelpers';
 import { getLocale } from '../../Locale/localeSelectors';
 
 const SubjectPageSecondaryContent = ({
@@ -42,7 +42,11 @@ const SubjectPageSecondaryContent = ({
                   heading={t('subjectPage.newContent.heading')}
                   content={latestContentResources.map(content => ({
                     name: content.name,
-                    url: toSubjects() + content.path,
+                    url:
+                      content.contentUri.startsWith('urn:learningpath') &&
+                      content.meta
+                        ? toLearningPath(content.meta.id)
+                        : toSubjects() + content.path,
                     topicName: subjectName,
                     formattedDate: content.meta
                       ? formatDate(content.meta.lastUpdated, locale)
