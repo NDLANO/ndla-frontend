@@ -66,7 +66,7 @@ const config = {
   showAllFrontpageSubjects: true,
   oldNdlaProxyUrl: getEnvironmentVariabel(
     'OLD_NDLA_PROXY_URL',
-    'https://ndla.no',
+    'https://2018.ndla.no',
   ),
 };
 
