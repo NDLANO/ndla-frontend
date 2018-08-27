@@ -47,6 +47,17 @@ const learningPathDomain = () => {
   }
 };
 
+const gaTrackingId = () => {
+  switch (ndlaEnvironment) {
+    case 'local':
+      return '';
+    case 'prod':
+      return 'UA-9036010-1';
+    default:
+      return 'UA-9036010-31';
+  }
+};
+
 const config = {
   componentName: 'ndla-frontend',
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
@@ -60,7 +71,7 @@ const config = {
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
+  gaTrackingId: gaTrackingId(),
   zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
