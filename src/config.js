@@ -30,7 +30,7 @@ const ndlaFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'prod':
-      return 'https://beta.ndla.no';
+      return 'https://ndla.no';
     default:
       return `https://ndla-frontend.${ndlaEnvironment}.api.ndla.no`;
   }
@@ -41,9 +41,20 @@ const learningPathDomain = () => {
     case 'local':
       return 'http://localhost:30007';
     case 'prod':
-      return 'https://beta.sti.ndla.no';
+      return 'https://stier.ndla.no';
     default:
       return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
+  }
+};
+
+const gaTrackingId = () => {
+  switch (ndlaEnvironment) {
+    case 'local':
+      return '';
+    case 'prod':
+      return 'UA-9036010-1';
+    default:
+      return 'UA-9036010-31';
   }
 };
 
@@ -60,13 +71,13 @@ const config = {
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('NDLA_FRONTEND_GA_TRACKING_ID'),
+  gaTrackingId: gaTrackingId(),
   zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
   oldNdlaProxyUrl: getEnvironmentVariabel(
     'OLD_NDLA_PROXY_URL',
-    'https://ndla.no',
+    'https://2018.ndla.no',
   ),
 };
 
