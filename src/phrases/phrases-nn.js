@@ -67,7 +67,7 @@ const phrases = {
     },
     searchResultMessages: {
       searchStringLabel: 'Du søkte på:',
-      subHeading: '{totalCount} treff i Ndla',
+      subHeading: '{totalCount} treff i NDLA',
     },
     searchResultListMessages: {
       subjectsLabel: 'Opne i fag:',
@@ -77,7 +77,7 @@ const phrases = {
     },
     searchPageMessages: {
       filterHeading: 'Filter',
-      resultHeading: '{totalCount} treff i Ndla',
+      resultHeading: '{totalCount} treff i NDLA',
       narrowScreenFilterHeading: '{totalCount} treff på «{query}»',
       dropdownBtnLabel: 'Fleire innhaldstypar',
     },
@@ -156,7 +156,7 @@ const phrases = {
       description:
         'NDLAs visjon er å lage gode, opne digitale læremiddel for alle fag i videregående opplæring og støtte opp om elevar og lærarar i aktivt og deltakende læringsarbeid.',
       mainLink: {
-        name: 'Meir om Ndla',
+        name: 'Meir om NDLA',
       },
     },
     category: {
