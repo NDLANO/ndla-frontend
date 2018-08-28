@@ -12,7 +12,7 @@ export const getEnvironmentVariabel = (key, fallback = undefined) => {
   return variabel || fallback;
 };
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'dev');
 
 const apiDomain = () => {
   switch (ndlaEnvironment) {
