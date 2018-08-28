@@ -28,7 +28,7 @@ const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-lin
 const getAssets = () => ({
   css: assets.client.css ? assets.client.css : undefined,
   js: [assets.client.js],
-  mathJaxConfig: { js: '../../mathjax/config.js' },
+  mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
 async function loadGetInitialProps(Component, ctx) {
