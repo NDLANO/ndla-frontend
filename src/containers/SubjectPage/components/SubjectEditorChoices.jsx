@@ -51,6 +51,9 @@ const SubjectEditorChoices = ({
       linkTo: resource.contentUri.startsWith('urn:learningpath')
         ? toLearningPath(resource.meta.id)
         : toSubjects() + resource.path,
+      linkToTarget: resource.contentUri.startsWith('urn:learningpath')
+        ? '_blank'
+        : undefined,
     }),
   );
 

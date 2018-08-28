@@ -58,6 +58,7 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
                 return {
                   text: resource.name,
                   url: toLearningPath(resource.meta.id),
+                  target: '_blank',
                 };
               }
               return {

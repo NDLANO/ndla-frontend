@@ -25,6 +25,11 @@ import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toSubjects, toLearningPath } from '../../../routeHelpers';
 import { getLocale } from '../../Locale/localeSelectors';
 
+const isLearningpath = content =>
+  content.contentUri &&
+  content.contentUri.startsWith('urn:learningpath') &&
+  content.meta;
+
 const SubjectPageSecondaryContent = ({
   subjectName,
   latestContentResources,
@@ -42,12 +47,10 @@ const SubjectPageSecondaryContent = ({
                   heading={t('subjectPage.newContent.heading')}
                   content={latestContentResources.map(content => ({
                     name: content.name,
-                    url:
-                      content.contentUri &&
-                      content.contentUri.startsWith('urn:learningpath') &&
-                      content.meta
-                        ? toLearningPath(content.meta.id)
-                        : toSubjects() + content.path,
+                    url: isLearningpath(content)
+                      ? toLearningPath(content.meta.id)
+                      : toSubjects() + content.path,
+                    urlTarget: isLearningpath(content) ? '_blank' : undefined,
                     topicName: subjectName,
                     formattedDate: content.meta
                       ? formatDate(content.meta.lastUpdated, locale)
@@ -78,7 +81,6 @@ const SubjectPageSecondaryContent = ({
     </OneColumn>
   </SubjectSecondaryContent>
 );
-
 SubjectPageSecondaryContent.propTypes = {
   latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),
   subjectName: PropTypes.string.isRequired,
