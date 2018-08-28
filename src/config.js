@@ -18,6 +18,8 @@ const apiDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://api-gateway.ndla-local';
+    case 'dev':
+      return 'https://test.api.ndla.no';
     case 'prod':
       return 'https://api.ndla.no';
     default:
@@ -29,6 +31,8 @@ const ndlaFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30017';
+    case 'dev':
+      return 'https://ndla-frontend.test.api.ndla.no';
     case 'prod':
       return 'https://ndla.no';
     default:
@@ -40,6 +44,8 @@ const learningPathDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30007';
+    case 'dev':
+      return 'https://learningpath-frontend.test.api.ndla.no';
     case 'prod':
       return 'https://stier.ndla.no';
     default:
@@ -50,6 +56,8 @@ const learningPathDomain = () => {
 const gaTrackingId = () => {
   switch (ndlaEnvironment) {
     case 'local':
+      return '';
+    case 'dev':
       return '';
     case 'prod':
       return 'UA-9036010-1';
