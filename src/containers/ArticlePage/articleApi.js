@@ -21,10 +21,10 @@ const converterBaseUrl = (() => {
 
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const fetchArticle = (id, locale) =>
-  fetchWithAccessToken(`${converterBaseUrl}/${locale}/${id}`).then(
-    resolveJsonOrRejectWithError,
-  );
+export const fetchArticle = (id, locale, isOembedRequest = false) =>
+  fetchWithAccessToken(
+    `${converterBaseUrl}/${locale}/${id}?oembed=${isOembedRequest}`,
+  ).then(resolveJsonOrRejectWithError);
 
 export const fetchArticles = ids =>
   fetchWithAccessToken(`${baseUrl}?ids=${ids.join(',')}`).then(
