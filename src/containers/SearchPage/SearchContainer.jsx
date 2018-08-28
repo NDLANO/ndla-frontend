@@ -248,14 +248,18 @@ class SearchContainer extends Component {
     const { searchParams } = this.state;
     const activeSubjectsMapped =
       subjects && subjects.length > 0
-        ? searchParams.subjects.map(it => {
-            const subject = subjects.find(s => s.id === it) || {};
-            return {
-              value: subject.id,
-              title: subject.name,
-              filterName: subject.name,
-            };
-          })
+        ? searchParams.subjects
+            .map(it => {
+              const subject = subjects.find(s => s.id === it);
+              return subject
+                ? {
+                    value: subject.id,
+                    title: subject.name,
+                    filterName: subject.name,
+                  }
+                : undefined;
+            })
+            .filter(subject => !!subject)
         : [];
 
     const resourceTypeTabs =

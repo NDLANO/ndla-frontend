@@ -61,9 +61,11 @@ const SearchFilters = ({
       <SearchFilter
         label={t('searchPage.label.subjects')}
         noFilterSelectedLabel={t('searchPage.label.noFilter')}
-        options={filterState.subjects.map(subjectId =>
-          allSubjects.find(subject => subject.value === subjectId),
-        )}
+        options={filterState.subjects
+          .map(subjectId =>
+            allSubjects.find(subject => subject.value === subjectId),
+          )
+          .filter(subject => !!subject)}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
         values={filterState.subjects || []}>
         <SearchPopoverFilter
