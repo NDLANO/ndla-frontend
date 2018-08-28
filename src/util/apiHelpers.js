@@ -103,16 +103,16 @@ const fetchWithHeaders = (url, options, headers) =>
 
 export const fetchWithAccessToken = (url, options = {}) => {
   const accessToken = getAccessToken();
-  // const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
+  const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
 
-  // if (__CLIENT__ && new Date().getTime() > expiresAt) {
-  //   return fetchAccessToken().then(res => {
-  //     storeAccessToken(res.access_token);
-  //     return fetchWithHeaders(url, options, {
-  //       Authorization: `Bearer ${res.access_token}`,
-  //     });
-  //   });
-  // }
+  if (__CLIENT__ && new Date().getTime() > expiresAt) {
+    return fetchAccessToken().then(res => {
+      storeAccessToken(res.access_token);
+      return fetchWithHeaders(url, options, {
+        Authorization: `Bearer ${res.access_token}`,
+      });
+    });
+  }
 
   return fetchWithHeaders(url, options, {
     Authorization: `Bearer ${accessToken}`,
