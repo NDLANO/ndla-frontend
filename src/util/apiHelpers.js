@@ -60,13 +60,6 @@ export function resolveJsonOrRejectWithError(res) {
       .catch(reject);
   });
 }
-export const setAccessTokenInLocalStorage = accessToken => {
-  localStorage.setItem('access_token', accessToken);
-  localStorage.setItem(
-    'access_token_expires_at',
-    expiresIn(accessToken) * 1000 + new Date().getTime(),
-  );
-};
 
 export const storeAccessToken = accessToken => {
   const expiresAt = expiresIn(accessToken) * 1000 + new Date().getTime();
@@ -99,41 +92,31 @@ const getAccessTokenExpiresAt = () => {
 export const fetchAccessToken = () =>
   fetch('/get_token').then(resolveJsonOrRejectWithError);
 
+const fetchWithHeaders = (url, options, headers) =>
+  fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      ...headers,
+    },
+  });
+
 export const fetchWithAccessToken = (url, options = {}) => {
   const accessToken = getAccessToken();
   const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
 
   if (__CLIENT__ && new Date().getTime() > expiresAt) {
     return fetchAccessToken().then(res => {
-      setAccessTokenInLocalStorage(res.access_token);
-      return fetch(url, {
-        ...options,
-        headers: { Authorization: `Bearer ${res.access_token}` },
+      storeAccessToken(res.access_token);
+      return fetchWithHeaders(url, options, {
+        Authorization: `Bearer ${res.access_token}`,
       });
     });
   }
 
-  return fetch(url, {
-    ...options,
-    headers: { Authorization: `Bearer ${accessToken}` },
+  return fetchWithHeaders(url, options, {
+    Authorization: `Bearer ${accessToken}`,
   });
-};
-
-export const getOrFetchAccessToken = async () => {
-  const accessToken = getAccessToken();
-  const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
-
-  if (
-    __CLIENT__ &&
-    new Date().getTime() > expiresAt &&
-    window.e2eFixtures === undefined
-  ) {
-    const response = await fetchAccessToken();
-    setAccessTokenInLocalStorage(response.access_token);
-    return response.access_token;
-  }
-
-  return accessToken;
 };
 
 const uri = (() => {
@@ -144,20 +127,12 @@ const uri = (() => {
 })();
 
 export const createApolloClient = (language = 'nb') => {
-  if (__CLIENT__) {
-    getOrFetchAccessToken(); // prefetch token on client creation
-  }
-
-  const authLink = setContext(async (_, { headers }) => {
-    const accessToken = await getOrFetchAccessToken();
-    return {
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${accessToken}`,
-        'Accept-Language': language,
-      },
-    };
-  });
+  const headersLink = setContext(async (_, { headers }) => ({
+    headers: {
+      ...headers,
+      'Accept-Language': language,
+    },
+  }));
 
   const cache = __CLIENT__
     ? new InMemoryCache().restore(window.DATA.apolloState)
@@ -166,17 +141,21 @@ export const createApolloClient = (language = 'nb') => {
   const client = new ApolloClient({
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors)
+        if (graphQLErrors) {
           graphQLErrors.map(({ message, locations, path }) =>
             handleError(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
             ),
           );
-        if (networkError) handleError(`[Network error]: ${networkError}`);
+        }
+        if (networkError) {
+          handleError(`[Network error]: ${networkError}`);
+        }
       }),
-      authLink,
+      headersLink,
       new BatchHttpLink({
         uri,
+        fetch: fetchWithAccessToken,
       }),
     ]),
     cache,
