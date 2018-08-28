@@ -67,7 +67,7 @@ const phrases = {
     },
     searchResultMessages: {
       searchStringLabel: 'You searched on:',
-      subHeading: '{totalCount} hits in Ndla',
+      subHeading: '{totalCount} hits in NDLA',
     },
     searchResultListMessages: {
       subjectsLabel: 'Open in subject:',
@@ -77,7 +77,7 @@ const phrases = {
     },
     searchPageMessages: {
       filterHeading: 'Filter',
-      resultHeading: '{totalCount} hits in Ndla',
+      resultHeading: '{totalCount} hits in NDLA',
       narrowScreenFilterHeading: '{totalCount} hits on «{query}»',
       dropdownBtnLabel: 'More content types',
     },
