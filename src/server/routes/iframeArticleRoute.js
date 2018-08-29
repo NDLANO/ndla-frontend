@@ -22,7 +22,11 @@ import { renderPage, renderHtml } from '../helpers/render';
 const assets =
   process.env.NODE_ENV !== 'unittest'
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
-    : { client: { css: 'mock.css' }, embed: { js: 'mock.js' } };
+    : {
+        client: { css: 'mock.css' },
+        embed: { js: 'mock.js' },
+        mathJaxConfig: { js: 'mock.js' },
+      };
 
 if (process.env.NODE_ENV === 'unittest') {
   Helmet.canUseDOM = false;
@@ -31,6 +35,7 @@ if (process.env.NODE_ENV === 'unittest') {
 const getAssets = () => ({
   css: assets.client.css,
   js: [assets.embed.js],
+  mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
 function doRenderPage(initialProps) {
