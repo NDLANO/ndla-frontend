@@ -28,6 +28,7 @@ jest.mock('../../../iframe/IframeArticlePage', () =>
 test('iframeArticleRoute 200 OK', async () => {
   nock('http://ndla-api')
     .get('/article-converter/json/nb/26050')
+    .query({ oembed: true })
     .reply(200, {
       id: 123,
       title: 'unit test',
@@ -43,6 +44,9 @@ test('iframeArticleRoute 200 OK', async () => {
       articleId: '26050',
       resourceId: 'urn:resource:123',
     },
+    query: {
+      oembed: true,
+    },
     headers: {
       'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
     },
@@ -54,6 +58,7 @@ test('iframeArticleRoute 200 OK', async () => {
 test('iframeArticleRoute 500 Internal server error', async () => {
   nock('http://ndla-api')
     .get('/article-converter/json/nb/26050')
+    .query({ oembed: true })
     .replyWithError('something awful happened');
 
   const response = await iframeArticleRoute({
@@ -61,6 +66,9 @@ test('iframeArticleRoute 500 Internal server error', async () => {
       lang: 'nb',
       articleId: '26050',
       resourceId: '123',
+    },
+    query: {
+      oembed: true,
     },
     headers: {
       'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
