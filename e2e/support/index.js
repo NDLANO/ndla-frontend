@@ -11,7 +11,5 @@ import './commands';
 export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; // eslint-disable-line no-param-reassign
-    // Fix this hack later!
-    win.e2eFixtures = !!Cypress.env('USE_FIXTURES'); // eslint-disable-line no-param-reassign
   },
 };
