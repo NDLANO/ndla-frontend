@@ -1,57 +1,31 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import nb from './phrases/phrases-nb';
-import nn from './phrases/phrases-nn';
-import en from './phrases/phrases-en';
-
-function* entries(obj) {
-  // eslint-disable-next-line
-  for (const key of Object.keys(obj)) {
-    yield [key, obj[key]];
-  }
-}
-
-export const formatNestedMessages = (
-  phrases,
-  formattedMessages = {},
-  prefix = '',
-) => {
-  const messages = formattedMessages;
-
-  // eslint-disable-next-line
-  for (const [key, value] of entries(phrases)) {
-    if ({}.hasOwnProperty.call(phrases, key)) {
-      const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
-      if (typeof value === 'object') {
-        formatNestedMessages(value, formattedMessages, keyWithPrefix);
-      } else {
-        messages[keyWithPrefix] = value;
-      }
-    }
-  }
-  return messages;
-};
+import { formatNestedMessages } from 'ndla-i18n';
+import { messagesNB, messagesEN, messagesNN } from 'ndla-ui';
+import additionalMessagesNB from './messages/messagesNB';
+import additionalMessagesNN from './messages/messagesNN';
+import additionalMessagesEN from './messages/messagesEN';
 
 const NB = {
   name: 'Bokmål',
   abbreviation: 'nb',
-  messages: formatNestedMessages(nb),
+  messages: formatNestedMessages({ ...messagesNB, ...additionalMessagesNB }),
 };
 const NN = {
   name: 'Nynorsk',
   abbreviation: 'nn',
-  messages: formatNestedMessages(nn),
+  messages: formatNestedMessages({ ...messagesNN, ...additionalMessagesNN }),
 };
 const EN = {
   name: 'English',
   abbreviation: 'en',
-  messages: formatNestedMessages(en),
+  messages: formatNestedMessages({ ...messagesEN, ...additionalMessagesEN }),
 };
 
 export const appLocales = [NB, NN, EN];
