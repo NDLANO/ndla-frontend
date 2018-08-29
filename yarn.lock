@@ -3968,11 +3968,24 @@ flux-standard-action@^2.0.3:
   dependencies:
     lodash "^4.0.0"
 
+focus-trap-react@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap-react/-/focus-trap-react-4.0.0.tgz#bdc3ed9638bbc80623d9363e8063aa2a8e8a79c6"
+  dependencies:
+    focus-trap "^3.0.0"
+
 focus-trap@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-2.4.3.tgz#95edc23e77829b7772cb2486d61fd6371ce112f9"
   dependencies:
     tabbable "^1.0.3"
+
+focus-trap@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-3.0.0.tgz#4d2ee044ae66bf7eb6ebc6c93bd7a1039481d7dc"
+  dependencies:
+    tabbable "^3.1.0"
+    xtend "^4.0.1"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -6599,9 +6612,9 @@ ndla-scripts@^0.6.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.1.tgz#0d40b4a6873f66545a9e028cfb900c61b55d195b"
+ndla-tabs@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.2.tgz#5422ce1fd407485e574d72d73fe700e5f364673c"
   dependencies:
     lodash "^4.17.5"
 
@@ -6609,12 +6622,13 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.14.1.tgz#16d411349ffa78f608c386059d36e33d5fef64cd"
+ndla-ui@^0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.14.2.tgz#7a301316623ac13e36683af53c919103b0730b7a"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
+    focus-trap-react "^4.0.0"
     jump.js "^1.0.2"
     lodash "^4.17.5"
     react-bem-helper "1.4.1"
@@ -9673,6 +9687,10 @@ symbol-tree@^3.2.2:
 tabbable@^1.0.3:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-1.1.2.tgz#b171680aea6e0a3e9281ff23532e2e5de11c0d94"
+
+tabbable@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-3.1.1.tgz#db7512f28a9a1ed16e4275bd190131be9d5ad8e9"
 
 table@4.0.2:
   version "4.0.2"
