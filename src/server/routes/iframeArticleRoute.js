@@ -43,7 +43,7 @@ function doRenderPage(initialProps) {
 
 export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
-  const removeRelatedContent = defined(req.query.oembed, false);
+  const removeRelatedContent = defined(req.query.removeRelatedContent, false);
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
 
