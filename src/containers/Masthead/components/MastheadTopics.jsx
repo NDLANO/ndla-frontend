@@ -64,10 +64,10 @@ const MastheadTopics = props => {
           'masthead.menu.contentTypeResultsShowLess',
         ),
         contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
-        compentenceGoalsToggleButtonOpen: '',
-        compentenceGoalsToggleButtonClose: '',
-        compentenceGoalsNarrowOpenButton: '',
-        compentenceGoalsNarrowBackButton: '',
+        competenceGoalsToggleButtonOpen: '',
+        competenceGoalsToggleButtonClose: '',
+        competenceGoalsNarrowOpenButton: '',
+        competenceGoalsNarrowBackButton: '',
       }}
       filterOptions={filters}
       onFilterClick={onFilterClick}
