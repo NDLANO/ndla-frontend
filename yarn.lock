@@ -6622,9 +6622,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.14.2:
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.14.2.tgz#7a301316623ac13e36683af53c919103b0730b7a"
+ndla-ui@^0.14.3:
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.14.3.tgz#b9762b307f922d5077c314e73f35383b0e10376a"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -6638,9 +6638,9 @@ ndla-ui@^0.14.2:
     react-slick "^0.19.0"
     react-transition-group "^2.2.1"
 
-ndla-util@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.5.tgz#3e233b3fb88ca41a0a95032664dcc540a61b4018"
+ndla-util@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.6.tgz#cbad3a8f74d73c9bd550fa9a280999a9091c2157"
   dependencies:
     defined "1.0.0"
 
