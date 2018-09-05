@@ -40,7 +40,7 @@ const SubjectEditorChoices = ({
   }
 
   const editorsChoicesResources = getResources(editorsChoices)
-    .filter(unfilteredResource => hasContentUri(unfilteredResource))
+    .filter(hasContentUri)
     .map(resource => ({
       title: resource.name,
       image:
