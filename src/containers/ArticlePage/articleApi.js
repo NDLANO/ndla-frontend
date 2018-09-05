@@ -23,7 +23,7 @@ const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, locale, removeRelatedContent = false) =>
   fetchWithAccessToken(
-    `${converterBaseUrl}/${locale}/${id}?oembed=${removeRelatedContent}`,
+    `${converterBaseUrl}/${locale}/${id}?removeRelatedContent=${removeRelatedContent}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchArticles = ids =>
