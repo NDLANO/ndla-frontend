@@ -54,6 +54,10 @@ const learningPathDomain = () => {
 };
 
 const gaTrackingId = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    return '';
+  }
+
   switch (ndlaEnvironment) {
     case 'local':
       return '';
