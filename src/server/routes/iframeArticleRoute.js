@@ -48,11 +48,12 @@ function doRenderPage(initialProps) {
 
 export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
+  const removeRelatedContent = defined(req.query.removeRelatedContent, false);
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
 
   try {
-    const article = await fetchArticle(articleId, lang);
+    const article = await fetchArticle(articleId, lang, removeRelatedContent);
     const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
     const { html, docProps } = doRenderPage({
       resource: { article, resourceTypes },
