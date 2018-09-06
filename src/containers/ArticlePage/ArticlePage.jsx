@@ -38,10 +38,9 @@ import Resources from '../Resources/Resources';
 import { runQueries } from '../../util/runQueries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import {
-  URN_LEARTNING_PATH,
-  getLearningPathIdFromResource,
+  isLearningPathResource,
+  getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
-import config from '../../config';
 import { RedirectExternal, Status } from '../../components';
 
 const transformData = data => {
@@ -143,17 +142,11 @@ class ArticlePage extends Component {
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
 
-    if (
-      resource !== null &&
-      resource.contentUri &&
-      resource.contentUri.startsWith(URN_LEARTNING_PATH)
-    ) {
-      const id = getLearningPathIdFromResource(resource);
+    if (isLearningPathResource(resource)) {
+      const url = getLearningPathUrlFromResource(resource);
       return (
         <Status code={307}>
-          <RedirectExternal
-            to={`${config.learningPathDomain}/learningpaths/${id}/first-step`}
-          />
+          <RedirectExternal to={url} />
         </Status>
       );
     }
