@@ -47,6 +47,8 @@ module.exports = {
     }
     if (!dev) {
       appConfig.devtool = 'source-map';
+    } else {
+      appConfig.devtool = 'eval-source-map';
     }
 
     return appConfig;
