@@ -12,7 +12,8 @@ import { toArticle } from '../../routeHelpers';
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 
-const hasContentUri = resource => (resource && resource.contentUri) || false;
+export const hasContentUri = resource =>
+  (resource && resource.contentUri) || false;
 
 export const isLearningPathResource = resource =>
   hasContentUri(resource) && resource.contentUri.startsWith(URN_LEARTNING_PATH);
