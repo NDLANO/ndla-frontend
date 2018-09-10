@@ -56,7 +56,7 @@ const SubjectEditorChoices = ({
   if (editorsChoicesResources.length === 0) {
     return null;
   }
-  console.log(editorsChoicesResources[0].toLinkProps())
+
   return (
     <SubjectCarousel
       title={t('subjectPage.editorsChoices.heading')}

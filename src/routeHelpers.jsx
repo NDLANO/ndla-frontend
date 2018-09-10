@@ -98,7 +98,6 @@ export function toBreadcrumbItems(
 }
 
 export function toLinkProps(linkObject) {
-  console.log("yolo")
   const isLearningpath =
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
