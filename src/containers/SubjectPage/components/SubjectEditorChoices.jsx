@@ -13,6 +13,7 @@ import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
 import { getResources } from '../subjectPageHelpers';
 import { toSubjects, toLearningPath } from '../../../routeHelpers';
+import { hasContentUri } from '../../Resources/resourceHelpers';
 
 const getResourceTypeName = (resource, t) => {
   if (resource.id.startsWith('urn:topic')) {
@@ -38,8 +39,9 @@ const SubjectEditorChoices = ({
     return null;
   }
 
-  const editorsChoicesResources = getResources(editorsChoices).map(
-    resource => ({
+  const editorsChoicesResources = getResources(editorsChoices)
+    .filter(hasContentUri)
+    .map(resource => ({
       title: resource.name,
       image:
         resource.meta && resource.meta.metaImage
@@ -54,8 +56,7 @@ const SubjectEditorChoices = ({
       linkToTarget: resource.contentUri.startsWith('urn:learningpath')
         ? '_blank'
         : undefined,
-    }),
-  );
+    }));
 
   if (editorsChoicesResources.length === 0) {
     return null;

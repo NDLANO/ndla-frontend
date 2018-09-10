@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  getLocaleObject,
-  isValidLocale,
-  formatNestedMessages,
-  getLocaleInfoFromPath,
-} from '../i18n';
+import { getLocaleObject, isValidLocale, getLocaleInfoFromPath } from '../i18n';
 
 test('i18n getLocaleObject()', () => {
   expect(getLocaleObject('en').abbreviation).toBe('en');
@@ -31,26 +26,6 @@ test('i18n isValidLocale()', () => {
   expect(isValidLocale('en')).toBe(true);
   expect(isValidLocale('aa')).toBe(false);
   expect(isValidLocale('ub')).toBe(false);
-});
-
-test('i18n formatNestedMessages()', () => {
-  const messages = formatNestedMessages({
-    helloworld: 'Hello world',
-    test: {
-      Me: 'Test Me',
-    },
-    welcome: {
-      to: {
-        my: {
-          unittest: 'Welcome to my unittest',
-        },
-      },
-    },
-  });
-
-  expect(messages.helloworld).toBe('Hello world');
-  expect(messages['test.Me']).toBe('Test Me');
-  expect(messages['welcome.to.my.unittest']).toBe('Welcome to my unittest');
 });
 
 test('i18n getLocaleInfoFromPath', () => {
