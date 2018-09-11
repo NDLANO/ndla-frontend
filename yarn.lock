@@ -6612,9 +6612,9 @@ ndla-scripts@^0.6.0:
     octonode "^0.9.2"
     url-regex "^4.1.1"
 
-ndla-tabs@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.2.tgz#5422ce1fd407485e574d72d73fe700e5f364673c"
+ndla-tabs@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.3.tgz#8225f70a24ee8c9781f9529baf82f91de9e84038"
   dependencies:
     lodash "^4.17.5"
 
@@ -6622,9 +6622,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.14.3.tgz#b9762b307f922d5077c314e73f35383b0e10376a"
+ndla-ui@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.15.0.tgz#512988dd194e39707921c6551f5b9229d0a99695"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -6638,9 +6638,9 @@ ndla-ui@^0.14.3:
     react-slick "^0.19.0"
     react-transition-group "^2.2.1"
 
-ndla-util@^0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.6.tgz#cbad3a8f74d73c9bd550fa9a280999a9091c2157"
+ndla-util@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.7.tgz#af53bc16ad007e054fa77c703b8417fee1c78b31"
   dependencies:
     defined "1.0.0"
 
