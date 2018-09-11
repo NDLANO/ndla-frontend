@@ -32,8 +32,6 @@ class MastheadContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      menuIsOpen: false,
-      searchIsOpen: false,
       data: {},
     };
   }
@@ -90,13 +88,6 @@ class MastheadContainer extends React.PureComponent {
     this.setState({ data });
   };
 
-  onOpenSearch = () => {
-    this.setState({
-      menuIsOpen: false,
-      searchIsOpen: true,
-    });
-  };
-
   getData = async (subjectId, topicId, resourceId, activeFilters = []) => {
     const filterIds = activeFilters.join(',');
 
@@ -124,11 +115,15 @@ class MastheadContainer extends React.PureComponent {
 
       const { data } = await runQueries(this.props.client, queries);
       const { resourceTypes, topic, subject } = data;
+      const supplementaryResources =
+        topic && topic.supplementaryResources
+          ? topic.supplementaryResources
+          : [];
       const coreResources =
         topic && topic.coreResources ? topic.coreResources : [];
       const topicResourcesByType = getResourceGroups(
         resourceTypes,
-        [],
+        supplementaryResources,
         coreResources,
       );
       const topicPath =
@@ -168,41 +163,31 @@ class MastheadContainer extends React.PureComponent {
     }
   };
 
-  toggleField = (field, isOpen) => {
-    this.setState({ [field]: isOpen });
-  };
-
   render() {
+    const { infoContent } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
-      searchIsOpen,
-      menuIsOpen,
     } = this.state;
+
     return (
-      <Masthead fixed>
+      <Masthead fixed infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
             <MastheadMenu
               subject={subject}
+              searchFieldComponent={
+                subject && <MastheadSearch subject={subject} />
+              }
               topicPath={topicPath || []}
-              toggleMenu={isOpen => this.toggleField('menuIsOpen', isOpen)}
-              onOpenSearch={this.onOpenSearch}
               onDataFetch={this.onDataFetch}
               filters={filters}
-              menuIsOpen={menuIsOpen}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
             />
           )}
         </MastheadItem>
         <MastheadItem right>
-          {subject && (
-            <MastheadSearch
-              searchIsOpen={searchIsOpen}
-              openToggle={isOpen => this.toggleField('searchIsOpen', isOpen)}
-              subject={subject}
-            />
-          )}
+          {subject && <MastheadSearch subject={subject} />}
           <Logo to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
       </Masthead>
@@ -222,6 +207,7 @@ MastheadContainer.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  infoContent: PropTypes.node,
 };
 
 export default compose(withApollo)(MastheadContainer);

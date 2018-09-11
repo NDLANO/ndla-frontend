@@ -7,6 +7,7 @@
  */
 
 import { toTopic } from '../../routeHelpers';
+import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 
 export function toTopicWithSubjectIdBound(subjectId, filters) {
   return toTopic.bind(undefined, subjectId, filters);
@@ -17,18 +18,23 @@ export function mapTopicResourcesToTopic(
   selectedTopicId,
   topicResourcesByType,
   filters = '',
+  expandedSubTopics = [],
 ) {
   const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
+
   return topics.map(topic => {
-    if (topic.id === selectedTopicId) {
+    if (
+      (expandedSubTopics.length === 0 && topic.id === selectedTopicId) ||
+      expandedSubTopics.includes(topic.id)
+    ) {
       const contentTypeResults = topicResourcesByType.map(type => ({
-        resources: type.resources
-          .map(resource => ({
-            ...resource,
-            path: resource.path + filterParam,
-          }))
-          .filter(resource => !resource.additional),
+        contentType: contentTypeMapping[type.id].contentType,
+        resources: type.resources.map(resource => ({
+          ...resource,
+          path: resource.path + filterParam,
+          additional: resource.additional,
+        })),
         title: type.name,
       }));
       return { ...topic, contentTypeResults };
@@ -41,6 +47,7 @@ export function mapTopicResourcesToTopic(
           selectedTopicId,
           topicResourcesByType,
           filters,
+          expandedSubTopics,
         ),
       };
     }

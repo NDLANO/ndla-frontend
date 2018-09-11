@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { bool, shape, func, string, arrayOf, object } from 'prop-types';
-import { ClickToggle, DisplayOnPageYOffset, BreadcrumbBlock } from 'ndla-ui';
+import { node, shape, func, string, arrayOf, object } from 'prop-types';
+import { DisplayOnPageYOffset, BreadcrumbBlock } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
@@ -11,13 +11,15 @@ import {
   getFiltersFromUrlAsArray,
 } from '../../../util/filterHelper';
 import MastheadTopics from './MastheadTopics';
+import MastheadMenuModal from './MastheadMenuModal';
 
 class MastheadMenu extends Component {
   constructor() {
     super();
     this.state = {
       activeFilters: [],
-      expandedTopicIds: [],
+      expandedTopicId: null,
+      expandedSubtopicsId: [],
       location: null,
     };
   }
@@ -26,10 +28,11 @@ class MastheadMenu extends Component {
     const { location, topicPath } = this.props;
 
     const activeFilters = getFiltersFromUrlAsArray(location);
-    const expandedTopicIds = topicPath ? topicPath.map(topic => topic.id) : [];
+    const topicIds = topicPath ? topicPath.map(topic => topic.id) : null;
 
     this.setState({
-      expandedTopicIds,
+      expandedTopicId: topicIds[0] || null,
+      expandedSubtopicsId: topicIds.slice(1) || [],
       activeFilters,
     });
   }
@@ -37,7 +40,8 @@ class MastheadMenu extends Component {
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
-    const selectedTopicId = getSelectedTopic(this.state.expandedTopicIds);
+
+    const selectedTopicId = this.state.expandedTopicId;
     this.setState({ activeFilters });
     onDataFetch(
       subjectId,
@@ -47,27 +51,28 @@ class MastheadMenu extends Component {
     );
   };
 
-  onOpenSearch = () => {
-    const { onOpenSearch, location } = this.props;
-    const activeFilters = getFiltersFromUrlAsArray(location);
-    this.setState({ activeFilters }, onOpenSearch);
-  };
-
-  onToggle = isOpen => {
-    const { toggleMenu, location } = this.props;
-    const activeFilters = getFiltersFromUrlAsArray(location);
-    if (!isOpen) {
-      this.setState({ activeFilters }, () => toggleMenu(isOpen));
-    } else {
-      toggleMenu(isOpen);
-    }
-  };
-
-  onNavigate = async (...expandedTopicIds) => {
+  onNavigate = async (expandedTopicId, subtopicId, currentIndex) => {
     const { onDataFetch } = this.props;
+    let { expandedSubtopicsId } = this.state;
 
-    this.setState({ expandedTopicIds });
-    const selectedTopicId = getSelectedTopic(expandedTopicIds);
+    if (expandedSubtopicsId.length > currentIndex) {
+      expandedSubtopicsId = expandedSubtopicsId.slice(0, currentIndex);
+    }
+    if (subtopicId) {
+      expandedSubtopicsId.push(subtopicId);
+    } else {
+      expandedSubtopicsId.pop();
+    }
+    this.setState({
+      expandedTopicId,
+      expandedSubtopicsId,
+    });
+
+    const selectedTopicId = getSelectedTopic([
+      expandedTopicId,
+      ...expandedSubtopicsId,
+    ]);
+
     if (selectedTopicId) {
       const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
       onDataFetch(
@@ -90,8 +95,10 @@ class MastheadMenu extends Component {
 
     if (navigated) {
       const activeFilters = getFiltersFromUrlAsArray(location);
+      const topicIds = topicPath ? topicPath.map(topic => topic.id) : null;
       return {
-        expandedTopicIds: topicPath ? topicPath.map(topic => topic.id) : [],
+        expandedTopicId: topicIds[0] || null,
+        expandedSubtopicsId: topicIds.slice(1) || [],
         activeFilters,
         location,
       };
@@ -104,16 +111,16 @@ class MastheadMenu extends Component {
   render() {
     const {
       t,
-      menuIsOpen,
       subject,
       filters,
       topicResourcesByType,
+      searchFieldComponent,
       topicPath,
       resource,
       location,
     } = this.props;
 
-    const { activeFilters, expandedTopicIds } = this.state;
+    const { activeFilters, expandedTopicId, expandedSubtopicsId } = this.state;
     const breadcrumbBlockItems = toBreadcrumbItems(
       t('breadcrumb.toFrontpage'),
       subject,
@@ -124,27 +131,22 @@ class MastheadMenu extends Component {
 
     return (
       <Fragment>
-        <ClickToggle
-          title={t('masthead.menu.title')}
-          openTitle={t('masthead.menu.close')}
-          className="c-topic-menu-container"
-          isOpen={menuIsOpen}
-          onToggle={this.onToggle}
-          buttonClassName="c-button c-button--outline c-topic-menu-toggle-button">
+        <MastheadMenuModal onMenuExit={this.onMenuExit}>
           {onClose => (
             <MastheadTopics
               onClose={onClose}
+              searchFieldComponent={searchFieldComponent}
               activeFilters={activeFilters}
-              expandedTopicIds={expandedTopicIds}
+              expandedTopicId={expandedTopicId}
+              expandedSubtopicsId={expandedSubtopicsId}
               topicResourcesByType={topicResourcesByType}
-              onOpenSearch={this.onOpenSearch}
               subject={subject}
               filters={filters}
               onFilterClick={this.onFilterClick}
               onNavigate={this.onNavigate}
             />
           )}
-        </ClickToggle>
+        </MastheadMenuModal>
         <DisplayOnPageYOffset yOffsetMin={150}>
           <BreadcrumbBlock
             items={
@@ -160,8 +162,6 @@ class MastheadMenu extends Component {
 }
 
 MastheadMenu.propTypes = {
-  menuIsOpen: bool.isRequired,
-  toggleMenu: func.isRequired,
   subject: shape({
     id: string,
     name: string,
@@ -171,9 +171,9 @@ MastheadMenu.propTypes = {
   filters: arrayOf(object),
   topicResourcesByType: arrayOf(TopicShape).isRequired,
   topicPath: arrayOf(TopicShape).isRequired,
-  onOpenSearch: func.isRequired,
   location: LocationShape,
   onDataFetch: func.isRequired,
+  searchFieldComponent: node.isRequired,
 };
 
 export default injectT(withRouter(MastheadMenu));

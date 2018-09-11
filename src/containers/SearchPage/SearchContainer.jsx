@@ -316,11 +316,9 @@ class SearchContainer extends Component {
           searchString={searchParams.query || ''}
           onSearchFieldChange={e => this.updateQuery(e.target.value)}
           onSearch={this.onQuerySubmit}
-          searchFieldPlaceholder={t('searchPage.searchFieldPlaceholder')}
           onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
           searchFieldFilters={activeSubjectsMapped}
           activeFilters={activeSubjectsMapped}
-          onActiveFilterRemove={() => {}}
           messages={searchPageMessages}
           resourceToLinkProps={resourceToLinkProps}
           filters={searchFilters}>
