@@ -10,12 +10,20 @@ import nock from 'nock';
 import sinon from 'sinon';
 import { forwardingRoute } from '../forwardingRoute';
 
-function prepareNock(status, nodeId = '1337') {
+function prepareNock(status, nodeId = '1337', contentUri = 'urn:article:233') {
   if (status === 200) {
-    return nock('http://ndla-api')
+    nock('http://ndla-api')
       .get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`)
       .reply(200, {
         path: '/subject:3/topic:1:55212/topic:1:175218/resource:1:72007',
+      });
+
+    return nock('http://ndla-api')
+      .get(
+        `/taxonomy/v1/url/resolve?path=/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      )
+      .reply(200, {
+        contentUri,
       });
   }
   return nock('http://ndla-api')
@@ -104,6 +112,52 @@ test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
     redirect.calledWith(
       301,
       `/nn/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+    ),
+  ).toBe(true);
+  expect(next.notCalled).toBe(true);
+});
+
+test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async () => {
+  prepareNock(200, '1337', 'urn:learningpath:122');
+
+  const next = sinon.spy();
+  const redirect = sinon.spy();
+
+  await forwardingRoute(
+    { params: { lang: 'nb', nodeId: '1337' } },
+    { redirect },
+    next,
+  );
+
+  expect(
+    redirect.calledWith(
+      301,
+      `https://learningpath-frontend.test.api.ndla.no/learningpaths/122/first-step`,
+    ),
+  ).toBe(true);
+  expect(next.notCalled).toBe(true);
+});
+
+test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async () => {
+  nock('http://ndla-api')
+    .get('/article-api/v2/articles/external_ids/1337')
+    .reply(404);
+
+  prepareNock(200, '1337', 'urn:learningpath:122');
+
+  const next = sinon.spy();
+  const redirect = sinon.spy();
+
+  await forwardingRoute(
+    { params: { lang: 'nn', nodeId: '1337' } },
+    { redirect },
+    next,
+  );
+
+  expect(
+    redirect.calledWith(
+      301,
+      `https://learningpath-frontend.test.api.ndla.no/nn/learningpaths/122/first-step`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);

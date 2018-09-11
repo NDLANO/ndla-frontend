@@ -28,6 +28,7 @@ test('resourceHelpers/isLearningPathResource ', () => {
   );
   testHelper(helper.isLearningPathResource, {}, false);
   testHelper(helper.isLearningPathResource, undefined, false);
+  testHelper(helper.isLearningPathResource, null, false);
 });
 
 test('resourceHelpers/isArticleResource ', () => {

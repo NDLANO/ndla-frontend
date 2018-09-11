@@ -10,7 +10,7 @@
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "lint": "yarn run lint-prettier && eslint --cache --cache-location '.eslintcache/' --ext .js --ext .jsx src",
     "lint-prettier": "node prettier.js lint",
-    "start": "razzle start",
+    "start": "razzle start --inspect --inspect-port 9230",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true razzle start",
     "start-with-local-graphql-and-article-converter": "cross-env LOCAL_GRAPHQL_API=true RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",

@@ -7,27 +7,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
-import Route from 'react-router-dom/Route';
 import { HelmetWithTracker } from 'ndla-tracker';
-
-const Status = ({ code, children }) => (
-  <Route
-    render={({ staticContext }) => {
-      const context = staticContext;
-      if (staticContext) {
-        context.status = code;
-      }
-      return children;
-    }}
-  />
-);
-
-Status.propTypes = {
-  code: PropTypes.number.isRequired,
-};
+import { Status } from '../../components';
 
 const NotFound = ({ t }) => (
   <Status code={404}>

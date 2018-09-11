@@ -37,6 +37,11 @@ import {
 import Resources from '../Resources/Resources';
 import { runQueries } from '../../util/runQueries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
+import {
+  isLearningPathResource,
+  getLearningPathUrlFromResource,
+} from '../Resources/resourceHelpers';
+import { RedirectExternal, Status } from '../../components';
 
 const transformData = data => {
   const { subject, topic } = data;
@@ -136,6 +141,15 @@ class ArticlePage extends Component {
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
+
+    if (isLearningPathResource(resource)) {
+      const url = getLearningPathUrlFromResource(resource);
+      return (
+        <Status code={307}>
+          <RedirectExternal to={url} />
+        </Status>
+      );
+    }
 
     if (resource === null || resource.article === null) {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
