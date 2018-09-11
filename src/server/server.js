@@ -17,6 +17,7 @@ import {
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
   NOT_ACCEPTABLE,
+  TEMPORARY_REDIRECT,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
 import { getToken } from './helpers/auth';
@@ -115,7 +116,7 @@ async function sendInternalServerError(req, res) {
 }
 
 function sendResponse(res, data, status = OK) {
-  if (status === MOVED_PERMANENTLY) {
+  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
     res.writeHead(status, data);
     res.end();
   } else if (res.getHeader('Content-Type') === 'application/json') {
@@ -191,7 +192,7 @@ app.get(
   '/*',
   (req, res, next) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = appRoutes.find(r => matchPath(path, r)); // match with routes  used in frontend
+    const route = appRoutes.find(r => matchPath(path, r)); // match with routes used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else {

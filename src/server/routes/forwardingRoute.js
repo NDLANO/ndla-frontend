@@ -13,6 +13,10 @@ import {
   apiResourceUrl,
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
+import {
+  isLearningPathResource,
+  getLearningPathUrlFromResource,
+} from '../../containers/Resources/resourceHelpers';
 
 async function findNBNodeId(nodeId, lang) {
   // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
@@ -24,15 +28,27 @@ async function findNBNodeId(nodeId, lang) {
   const response = await fetchWithAccessToken(
     `${baseUrl}/external_ids/${nodeId}`,
   );
+
+  // The nodeId my be a learningpath (return nodeId)
+  if (response.status === 404) {
+    return nodeId;
+  }
+
   const data = await resolveJsonOrRejectWithError(response);
 
   // The nodeId for language nb is the first item in externalIds array.
   return data.externalIds[0];
 }
 
-async function taxonomyLookup(url) {
+async function lookup(url) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/mapping');
   const response = await fetchWithAccessToken(`${baseUrl}?url=${url}`);
+  return resolveJsonOrRejectWithError(response);
+}
+
+async function resolve(path) {
+  const baseUrl = apiResourceUrl('/taxonomy/v1/url/resolve');
+  const response = await fetchWithAccessToken(`${baseUrl}?path=${path}`);
   return resolveJsonOrRejectWithError(response);
 }
 
@@ -45,10 +61,18 @@ export async function forwardingRoute(req, res, next) {
     const nodeId = await findNBNodeId(req.params.nodeId, lang); // taxonomy lookup does'nt handle nn
 
     const lookupUrl = `ndla.no/node/${nodeId}`;
-    const newPath = await taxonomyLookup(lookupUrl);
+    const data = await lookup(lookupUrl);
+    const resource = await resolve(data.path);
 
     const languagePrefix = lang && lang !== 'nb' ? `/${lang}` : ''; // send urls with nb to root/default lang
-    res.redirect(301, `${languagePrefix}/subjects${newPath.path}`);
+    if (isLearningPathResource(resource)) {
+      res.redirect(
+        301,
+        getLearningPathUrlFromResource(resource, languagePrefix),
+      );
+    } else {
+      res.redirect(301, `${languagePrefix}/subjects${data.path}`);
+    }
   } catch (e) {
     next();
   }
