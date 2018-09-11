@@ -182,6 +182,10 @@ app.get('/:lang?/node/:nodeId', async (req, res, next) =>
   forwardingRoute(req, res, next),
 );
 
+app.get('/:lang?/node/:nodeId/*', async (req, res, next) =>
+  forwardingRoute(req, res, next),
+);
+
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
