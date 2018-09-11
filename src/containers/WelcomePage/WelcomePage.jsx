@@ -7,6 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
+import { HelmetWithTracker } from 'ndla-tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
@@ -95,6 +96,7 @@ export class WelcomePage extends Component {
     };
     return (
       <Fragment>
+        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <FrontpageHeader
           heading={t('welcomePage.heading.heading')}
           searchFieldValue={query}
