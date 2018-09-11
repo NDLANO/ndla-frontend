@@ -7,7 +7,10 @@ const MastheadMenuModal = ({ children, onMenuExit, t }) => (
   <Modal
     size="fullscreen"
     activateButton={
-      <Button outline className="c-topic-menu-toggle-button">
+      <Button
+        outline
+        data-testid="masthead-menu-button"
+        className="c-topic-menu-toggle-button">
         {t('masthead.menu.title')}
       </Button>
     }

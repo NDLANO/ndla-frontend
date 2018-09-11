@@ -24,7 +24,7 @@ describe('Front page', () => {
   });
 
   it('should have a functioning change language box', () => {
-    cy.get('[data-testid=language-select]').select(['nn']);
+    cy.get('[data-testid=language-select]').select(['nn'], { force: true });
     cy.url().should('include', '/nn/');
     cy.wait(500); // wait for page to reload
   });
