@@ -21,7 +21,7 @@ describe('Topic menu', () => {
       .click();
     cy.apiwait('@subjectpageGraphQL');
 
-    cy.get('.c-topic-menu-container button')
+    cy.get('.c-button c-button--outline c-topic-menu-toggle-button')
       .contains('Meny')
       .click();
   });
