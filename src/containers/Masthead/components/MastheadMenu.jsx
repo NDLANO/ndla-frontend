@@ -41,7 +41,11 @@ class MastheadMenu extends Component {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
 
-    const selectedTopicId = this.state.expandedTopicId;
+    const selectedTopicId = getSelectedTopic([
+      this.state.expandedTopicId,
+      ...this.state.expandedSubtopicsId,
+    ]);
+
     this.setState({ activeFilters });
     onDataFetch(
       subjectId,
