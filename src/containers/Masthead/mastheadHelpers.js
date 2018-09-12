@@ -17,12 +17,8 @@ export function mapTopicResourcesToTopic(
   topics,
   selectedTopicId,
   topicResourcesByType,
-  filters = '',
   expandedSubTopics = [],
 ) {
-  const filterParam =
-    filters && filters.length > 0 ? `?filters=${filters}` : '';
-
   return topics.map(topic => {
     if (
       (expandedSubTopics.length === 0 && topic.id === selectedTopicId) ||
@@ -32,7 +28,7 @@ export function mapTopicResourcesToTopic(
         contentType: contentTypeMapping[type.id].contentType,
         resources: type.resources.map(resource => ({
           ...resource,
-          path: resource.path + filterParam,
+          path: resource.path,
           additional: resource.additional,
         })),
         title: type.name,
@@ -46,7 +42,6 @@ export function mapTopicResourcesToTopic(
           topic.subtopics,
           selectedTopicId,
           topicResourcesByType,
-          filters,
           expandedSubTopics,
         ),
       };

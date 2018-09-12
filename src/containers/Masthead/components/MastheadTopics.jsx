@@ -27,7 +27,6 @@ const MastheadTopics = props => {
     subject.topics,
     expandedTopicId,
     topicResourcesByType,
-    activeFilters.join(','),
     expandedSubtopicsId,
   );
 
