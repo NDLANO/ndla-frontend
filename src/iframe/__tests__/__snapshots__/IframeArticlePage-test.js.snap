@@ -98,9 +98,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
                 className="c-article-byline__authors"
               >
                 Someone 
-                (
-                CC BY-SA
-                )
+              </span>
+              <span>
+                 (CC BY-SA)
               </span>
             </span>
             <span
@@ -146,11 +146,9 @@ exports[`IframeArticlePage renderers correctly 1`] = `
             <span
               className="c-article-byline__flex"
             >
-              <div
-                onToggle={null}
-              >
+              <div>
                 <button
-                  className="c-button c-button--link c-article-byline__toggle-use-article"
+                  className="c-button c-button--link"
                   disabled={false}
                   onClick={[Function]}
                   type="button"

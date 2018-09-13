@@ -1,13 +1,11 @@
 import React from 'react';
-import { shape, func, string, arrayOf, object } from 'prop-types';
+import { node, shape, func, string, arrayOf, object } from 'prop-types';
 import { TopicMenu } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
 import { toSubject } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import {
   mapTopicResourcesToTopic,
   toTopicWithSubjectIdBound,
-  getSelectedTopic,
 } from '../mastheadHelpers';
 import { TopicShape } from '../../../shapes';
 
@@ -15,27 +13,21 @@ const MastheadTopics = props => {
   const {
     onClose,
     subject,
-    t,
     activeFilters,
     filters,
-    onOpenSearch,
-    expandedTopicIds,
+    expandedTopicId,
+    expandedSubtopicsId,
     topicResourcesByType,
     onFilterClick,
     onNavigate,
+    searchFieldComponent,
   } = props;
-
-  const [
-    expandedTopicId,
-    expandedSubtopicId,
-    expandedSubtopicLevel2Id,
-  ] = expandedTopicIds;
 
   const topicsWithContentTypes = mapTopicResourcesToTopic(
     subject.topics,
-    getSelectedTopic(expandedTopicIds),
+    expandedTopicId,
     topicResourcesByType,
-    activeFilters.join(','),
+    expandedSubtopicsId,
   );
 
   const resourceToLinkPropsWithFilters = (resource, subjectTopicPath) =>
@@ -44,41 +36,29 @@ const MastheadTopics = props => {
   return (
     <TopicMenu
       close={onClose}
-      toSubject={() => toSubject(subject.id)}
-      subjectTitle={subject.name}
-      toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
+      searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes}
-      withSearchAndFilter
+      toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
+      toSubject={() => toSubject(subject.id)}
+      defaultCount={12}
       messages={{
-        goTo: t('masthead.menu.goTo'),
-        subjectOverview: t('masthead.menu.subjectOverview'),
-        search: t('masthead.menu.search'),
-        subjectPage: t('masthead.menu.subjectPage'),
-        learningResourcesHeading: t('masthead.menu.learningResourcesHeading'),
-        back: t('masthead.menu.back'),
-        closeButton: t('masthead.menu.close'),
-        contentTypeResultsShowMore: t(
-          'masthead.menu.contentTypeResultsShowMore',
-        ),
-        contentTypeResultsShowLess: t(
-          'masthead.menu.contentTypeResultsShowLess',
-        ),
-        contentTypeResultsNoHit: t('masthead.menu.contentTypeResultsNoHit'),
-        competenceGoalsToggleButtonOpen: '',
-        competenceGoalsToggleButtonClose: '',
-        competenceGoalsNarrowOpenButton: '',
-        competenceGoalsNarrowBackButton: '',
+        subjectPage: 'masthead.menu.subjectPage',
+        learningResourcesHeading: 'masthead.menu.learningResourcesHeading',
+        back: 'masthead.menu.back',
+        goTo: 'masthead.menu.goTo',
+        contentTypeResultsShowMore: 'masthead.menu.contentTypeResultsShowMore',
+        contentTypeResultsShowLess: 'masthead.menu.contentTypeResultsShowLess',
+        contentTypeResultsNoHit: 'masthead.menu.contentTypeResultsNoHit',
       }}
+      additionalTooltipLabel=""
       filterOptions={filters}
       onFilterClick={onFilterClick}
+      subjectTitle={subject.name}
+      resourceToLinkProps={resourceToLinkPropsWithFilters}
       filterValues={activeFilters}
-      onOpenSearch={() => onOpenSearch()}
       onNavigate={onNavigate}
       expandedTopicId={expandedTopicId}
-      expandedSubtopicId={expandedSubtopicId}
-      expandedSubtopicLevel2Id={expandedSubtopicLevel2Id}
-      resourceToLinkProps={resourceToLinkPropsWithFilters}
-      searchPageUrl={subject ? `/search/?subjects=${subject.id}` : '/search'}
+      expandedSubtopicsId={expandedSubtopicsId}
     />
   );
 };
@@ -91,12 +71,13 @@ MastheadTopics.propTypes = {
   }).isRequired,
   topicResourcesByType: arrayOf(TopicShape).isRequired,
   activeFilters: arrayOf(string).isRequired,
-  expandedTopicIds: arrayOf(string).isRequired,
+  expandedTopicId: string.isRequired,
+  expandedSubtopicsId: arrayOf(string).isRequired,
   filters: arrayOf(object).isRequired,
-  onOpenSearch: func.isRequired,
   onClose: func.isRequired,
   onFilterClick: func.isRequired,
   onNavigate: func.isRequired,
+  searchFieldComponent: node.isRequired,
 };
 
-export default injectT(MastheadTopics);
+export default MastheadTopics;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { bool, func, arrayOf, object, shape, string } from 'prop-types';
-import { ToggleSearchButton, SearchOverlay, SearchField } from 'ndla-ui';
+import { func, arrayOf, object, shape, string } from 'prop-types';
+import { SearchField } from 'ndla-ui';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { getGroupResults } from '../../SearchPage/searchSelectors';
 import * as searchActions from '../../SearchPage/searchActions';
 import { contentTypeMapping } from '../../../util/getContentTypeFromResourceTypes';
 import { LocationShape } from '../../../shapes';
+import MastheadSearchModal from './MastheadSearchModal';
 
 class MastheadSearch extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class MastheadSearch extends Component {
       query: '',
       subject: props.subject,
     };
+    this.searchFieldRef = React.createRef();
   }
 
   onFilterRemove = () => {
@@ -28,6 +30,10 @@ class MastheadSearch extends Component {
   onQueryChange = evt => {
     const query = evt.target.value;
     this.setState({ query }, this.executeSearch(query));
+  };
+
+  onClearQuery = () => {
+    this.setState({ query: '' }, this.executeSearch(''));
   };
 
   onSearch = evt => {
@@ -59,7 +65,7 @@ class MastheadSearch extends Component {
   };
 
   render() {
-    const { searchIsOpen, openToggle, results, location, t } = this.props;
+    const { results, location, t } = this.props;
 
     if (location.pathname.includes('search')) {
       return null;
@@ -80,57 +86,33 @@ class MastheadSearch extends Component {
     });
 
     return (
-      <ToggleSearchButton
-        isOpen={searchIsOpen}
-        onToggle={openToggle}
-        messages={{ buttonText: t('searchPage.search') }}>
-        {(onClose, isOpen) => (
-          <SearchOverlay close={onClose} isOpen={isOpen}>
-            <SearchField
-              placeholder={t('searchPage.searchFieldPlaceholder')}
-              value={query}
-              onChange={this.onQueryChange}
-              onSearch={this.onSearch}
-              resourceToLinkProps={res => searchResultToLinkProps(res, results)}
-              filters={
-                subject ? [{ title: subject.name, value: subject.id }] : []
-              }
-              onFilterRemove={this.onFilterRemove}
-              messages={{
-                contentTypeResultShowMoreLabel: t(
-                  'searchPage.searchField.contentTypeResultShowMoreLabel',
-                ),
-                contentTypeResultShowLessLabel: t(
-                  'searchPage.searchField.contentTypeResultShowLessLabel',
-                ),
-                allResultButtonText: t(
-                  'searchPage.searchField.allResultButtonText',
-                ),
-                searchFieldTitle: t('searchPage.search'),
-                searchResultHeading: t(
-                  'searchPage.searchField.searchResultHeading',
-                ),
-                contentTypeResultNoHit: t(
-                  'searchPage.searchField.contentTypeResultNoHit',
-                ),
-              }}
-              allResultUrl={
-                searchString && searchString.length > 0
-                  ? `/search?${searchString}`
-                  : '/search'
-              }
-              searchResult={resultsMapped}
-            />
-          </SearchOverlay>
-        )}
-      </ToggleSearchButton>
+      <MastheadSearchModal
+        onSearchExit={this.onClearQuery}
+        searchFieldRef={this.searchFieldRef}>
+        <SearchField
+          placeholder={t('searchPage.searchFieldPlaceholder')}
+          value={query}
+          onChange={this.onQueryChange}
+          onSearch={this.onSearch}
+          filters={subject ? [{ title: subject.name, value: subject.id }] : []}
+          onFilterRemove={this.onFilterRemove}
+          messages={{
+            searchFieldTitle: t('searchPage.search'),
+          }}
+          allResultUrl={
+            searchString && searchString.length > 0
+              ? `/search?${searchString}`
+              : '/search'
+          }
+          searchResult={resultsMapped}
+          resourceToLinkProps={res => searchResultToLinkProps(res, results)}
+        />
+      </MastheadSearchModal>
     );
   }
 }
 
 MastheadSearch.propTypes = {
-  searchIsOpen: bool.isRequired,
-  openToggle: func.isRequired,
   subject: shape({
     id: string,
     name: string,

@@ -48,7 +48,7 @@ export async function renderHtml(req, html, context, props) {
 
   if (context.url) {
     return {
-      status: MOVED_PERMANENTLY,
+      status: context.status || MOVED_PERMANENTLY,
       data: {
         Location: context.url,
       },
