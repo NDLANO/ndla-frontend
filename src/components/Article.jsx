@@ -37,15 +37,7 @@ const Article = ({
       icon={icon}
       licenseBox={<LicenseBox article={article} locale={locale} />}
       messages={{
-        lastUpdated: t('article.lastUpdated'),
-        edition: t('article.edition'),
-        publisher: t('article.publisher'),
         label,
-        useContent: t('article.useContent'),
-        closeLabel: t('article.closeLabel'),
-        additionalLabel: t('article.additionalLabel'),
-        authorLabel: t('license.creditType.originator'),
-        authorDescription: t('license.creditType.authorDesc'),
       }}
       {...rest}>
       {children}

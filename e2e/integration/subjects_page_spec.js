@@ -17,8 +17,8 @@ describe('Subjects page', () => {
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('a:contains("Medieuttrykk")')
-      .first()
-      .click();
+      .last()
+      .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
   });
 

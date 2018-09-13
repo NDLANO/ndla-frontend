@@ -17,13 +17,11 @@ describe('Topic menu', () => {
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('a:contains("Medieuttrykk")')
-      .first()
-      .click();
+      .last()
+      .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
 
-    cy.get('.c-topic-menu-container button')
-      .contains('Meny')
-      .click();
+    cy.get('[data-testid=masthead-menu-button]').click();
   });
 
   it('Menu is displayed', () => {
