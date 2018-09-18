@@ -31,14 +31,9 @@ export class WelcomePage extends Component {
   constructor() {
     super();
     this.state = {
-      expanded: null,
       query: '',
     };
   }
-
-  onExpand = expanded => {
-    this.setState({ expanded });
-  };
 
   onSearchFieldChange = evt => {
     evt.preventDefault();
@@ -79,10 +74,10 @@ export class WelcomePage extends Component {
       return <DefaultErrorMessage />;
     }
 
-    const { subjects } = data;
+    const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
     const { categories = [], topical } = frontpage;
-    const { expanded, query } = this.state;
+    const { query } = this.state;
     const headerLinks = [
       {
         to: 'https://om.ndla.no',
@@ -94,6 +89,15 @@ export class WelcomePage extends Component {
       searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
       menuButton: t('welcomePage.heading.messages.menuButton'),
     };
+
+    const frontPageSubjects = subjects.length > 0 && (
+      <FrontpageSubjects
+        subjects={subjects}
+        categories={categories}
+        locale={locale}
+      />
+    );
+
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
@@ -102,6 +106,7 @@ export class WelcomePage extends Component {
           searchFieldValue={query}
           onSearch={this.onSearch}
           onSearchFieldChange={this.onSearchFieldChange}
+          menuSubject={frontPageSubjects}
           searchFieldPlaceholder={t(
             'welcomePage.heading.searchFieldPlaceholder',
           )}
@@ -110,15 +115,7 @@ export class WelcomePage extends Component {
         />
 
         <main>
-          <div data-testid="category-list">
-            <FrontpageSubjects
-              locale={locale}
-              expanded={expanded}
-              subjects={subjects}
-              categories={categories}
-              onExpand={this.onExpand}
-            />
-          </div>
+          <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}

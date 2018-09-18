@@ -9,8 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FrontpageSubjectsSection, FrontpageSubjectsWrapper } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { FrontpageSubjects as FrontpageSubjectsSection } from 'ndla-ui';
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -20,11 +19,14 @@ import config from '../../config';
 import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
-  name: 'imported',
-  subjects: subjects.map(subject => ({
-    text: subject.name,
-    url: toSubject(subject.id),
-  })),
+  imported: {
+    name: 'imported',
+    subjects: subjects.map(subject => ({
+      text: subject.name,
+      url: toSubject(subject.id),
+      yearInfo: subject.yearInfo,
+    })),
+  },
 });
 
 const sortByName = arr =>
@@ -44,6 +46,7 @@ export const getCategoriesWithAllSubjects = (
       ...categorySubject,
       text: categorySubject.name,
       url: toSubject(categorySubject.id),
+      yearInfo: categorySubject.yearInfo,
     }));
     const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
       .map(subject => ({
@@ -53,6 +56,7 @@ export const getCategoriesWithAllSubjects = (
         url: subject.lang
           ? `/${subject.lang}/node/${subject.nodeId}`
           : `/${lang}/node/${subject.nodeId}`,
+        yearInfo: subject.yearInfo,
       }))
       .filter(
         oldSubject =>
@@ -61,47 +65,35 @@ export const getCategoriesWithAllSubjects = (
           ) === undefined,
       );
     return {
-      ...category,
-      subjects: sortByName([...oldSubjects, ...newSubjects]),
+      [category.name]: {
+        ...category,
+        subjects: sortByName([...oldSubjects, ...newSubjects]),
+      },
     };
   });
 };
 
-const FrontpageSubjects = ({
-  categories,
-  subjects,
-  expanded,
-  locale,
-  onExpand,
-  t,
-}) => {
-  const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
-  const allCategories = config.isNdlaProdEnvironment
-    ? frontpageCategories
-    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+const FrontpageSubjects = ({ categories, subjects, locale }) => {
+  const frontpageCategories = getCategoriesWithAllSubjects(
+    categories,
+    locale,
+  ).reduce((obj, item) => {
+    obj[Object.keys(item)] = item[Object.keys(item)]; // eslint-disable-line no-param-reassign
+    return obj;
+  });
 
-  return (
-    <FrontpageSubjectsWrapper>
-      {allCategories.map(category => (
-        <FrontpageSubjectsSection
-          key={category.name}
-          id={category.name}
-          expanded={expanded === category.name}
-          onExpand={shouldExpand =>
-            shouldExpand ? onExpand(category.name) : onExpand(undefined)
-          }
-          heading={t(`welcomePage.category.${category.name}`)}
-          subjects={category.subjects}
-        />
-      ))}
-    </FrontpageSubjectsWrapper>
-  );
+  const allSubjects = config.isNdlaProdEnvironment
+    ? { ...frontpageCategories }
+    : {
+        ...frontpageCategories,
+        ...getAllImportSubjectsCategory(subjects),
+      };
+
+  return <FrontpageSubjectsSection subjects={allSubjects} />;
 };
 
 FrontpageSubjects.propTypes = {
-  expanded: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  onExpand: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(GraphQLFrontpageCategoryShape),
   subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
 };
@@ -110,4 +102,4 @@ FrontpageSubjects.defaultProps = {
   categories: [],
 };
 
-export default injectT(FrontpageSubjects);
+export default FrontpageSubjects;
