@@ -55,7 +55,11 @@ export const SubjectPageAbout = ({ about, displayInTwoColumns }) => {
 };
 SubjectPageAbout.propTypes = {
   about: GraphQLSubjectPageAboutShape,
-  displayInTwoColumns: PropTypes.bool.isRequired,
+  displayInTwoColumns: PropTypes.bool,
+};
+
+SubjectPageAbout.defaultProps = {
+  displayInTwoColumns: false,
 };
 
 export default SubjectPageAbout;

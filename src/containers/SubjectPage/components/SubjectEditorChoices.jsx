@@ -12,7 +12,7 @@ import { SubjectCarousel } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
 import { getResources } from '../subjectPageHelpers';
-import { toSubjects, toLearningPath } from '../../../routeHelpers';
+import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
 
 const getResourceTypeName = (resource, t) => {
@@ -50,9 +50,7 @@ const SubjectEditorChoices = ({
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      linkTo: resource.contentUri.startsWith('urn:learningpath')
-        ? toLearningPath(resource.meta.id)
-        : toSubjects() + resource.path,
+      toLinkProps: () => toLinkProps(resource),
     }));
 
   if (editorsChoicesResources.length === 0) {
