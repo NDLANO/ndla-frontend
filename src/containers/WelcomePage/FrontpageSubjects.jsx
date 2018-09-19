@@ -77,10 +77,13 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
   const frontpageCategories = getCategoriesWithAllSubjects(
     categories,
     locale,
-  ).reduce((obj, item) => ({
-    ...obj,
-    [obj[Object.keys(item)]]: item[Object.keys(item)],
-  }));
+  ).reduce(
+    (obj, category) => ({
+      ...obj,
+      [category[Object.keys(category)].name]: category[Object.keys(category)],
+    }),
+    {},
+  );
 
   const allSubjects = config.isNdlaProdEnvironment
     ? { ...frontpageCategories }
