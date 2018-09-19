@@ -77,10 +77,10 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
   const frontpageCategories = getCategoriesWithAllSubjects(
     categories,
     locale,
-  ).reduce((obj, item) => {
-    obj[Object.keys(item)] = item[Object.keys(item)]; // eslint-disable-line no-param-reassign
-    return obj;
-  });
+  ).reduce((obj, item) => ({
+    ...obj,
+    [obj[Object.keys(item)]]: item[Object.keys(item)],
+  }));
 
   const allSubjects = config.isNdlaProdEnvironment
     ? { ...frontpageCategories }
