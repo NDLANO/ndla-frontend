@@ -50,7 +50,11 @@ const SubjectTopical = ({ topical, displayInTwoColumns, t }) => {
 
 SubjectTopical.propTypes = {
   topical: GraphQLSubjectPageTopicalShape,
-  displayInTwoColumns: PropTypes.bool.isRequired,
+  displayInTwoColumns: PropTypes.bool,
+};
+
+SubjectTopical.defaultProps = {
+  displayInTwoColumns: false,
 };
 
 export default injectT(SubjectTopical);
