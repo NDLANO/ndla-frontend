@@ -1,4 +1,5 @@
 /**
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -9,8 +10,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FrontpageSubjectsSection, FrontpageSubjectsWrapper } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { FrontpageSubjects as FrontpageSubjectsSection } from 'ndla-ui';
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -20,11 +20,14 @@ import config from '../../config';
 import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
-  name: 'imported',
-  subjects: subjects.map(subject => ({
-    text: subject.name,
-    url: toSubject(subject.id),
-  })),
+  imported: {
+    name: 'imported',
+    subjects: subjects.map(subject => ({
+      text: subject.name,
+      url: toSubject(subject.id),
+      yearInfo: subject.yearInfo,
+    })),
+  },
 });
 
 const sortByName = arr =>
@@ -39,69 +42,71 @@ export const getCategoriesWithAllSubjects = (
 ) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
-  return categoriesFromApi.map(category => {
-    const newSubjects = category.subjects.map(categorySubject => ({
-      ...categorySubject,
-      text: categorySubject.name,
-      url: toSubject(categorySubject.id),
-    }));
-    const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
-      .map(subject => ({
-        ...subject,
-        id: subject.nodeId,
-        text: subject.name,
-        url: subject.lang
-          ? `/${subject.lang}/node/${subject.nodeId}`
-          : `/${lang}/node/${subject.nodeId}`,
-      }))
-      .filter(
-        oldSubject =>
-          newSubjects.find(newSubject =>
-            oldSubject.name.startsWith(newSubject.name),
-          ) === undefined,
-      );
-    return {
-      ...category,
-      subjects: sortByName([...oldSubjects, ...newSubjects]),
-    };
-  });
-};
-
-const FrontpageSubjects = ({
-  categories,
-  subjects,
-  expanded,
-  locale,
-  onExpand,
-  t,
-}) => {
-  const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
-  const allCategories = config.isNdlaProdEnvironment
-    ? frontpageCategories
-    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
-
   return (
-    <FrontpageSubjectsWrapper>
-      {allCategories.map(category => (
-        <FrontpageSubjectsSection
-          key={category.name}
-          id={category.name}
-          expanded={expanded === category.name}
-          onExpand={shouldExpand =>
-            shouldExpand ? onExpand(category.name) : onExpand(undefined)
-          }
-          heading={t(`welcomePage.category.${category.name}`)}
-          subjects={category.subjects}
-        />
-      ))}
-    </FrontpageSubjectsWrapper>
+    categoriesFromApi
+      .map(category => {
+        const newSubjects = category.subjects.map(categorySubject => ({
+          ...categorySubject,
+          text: categorySubject.name,
+          url: toSubject(categorySubject.id),
+          yearInfo: categorySubject.yearInfo,
+        }));
+        const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
+          .map(subject => ({
+            ...subject,
+            id: subject.nodeId,
+            text: subject.name,
+            url: subject.lang
+              ? `/${subject.lang}/node/${subject.nodeId}`
+              : `/${lang}/node/${subject.nodeId}`,
+            yearInfo: subject.yearInfo,
+          }))
+          .filter(
+            oldSubject =>
+              newSubjects.find(newSubject =>
+                oldSubject.name.startsWith(newSubject.name),
+              ) === undefined,
+          );
+        return {
+          [category.name]: {
+            ...category,
+            subjects: sortByName([...oldSubjects, ...newSubjects]),
+          },
+        };
+      })
+      /*
+  * NOTE: This reducer is needed in order to fit with the updated object
+  * structure in ndla-ui.
+  *
+  * Transform an array of categories to an object with list of categories.
+  *
+  * */
+      .reduce(
+        (obj, category) => ({
+          ...obj,
+          [category[Object.keys(category)].name]:
+            category[Object.keys(category)],
+        }),
+        {},
+      )
   );
 };
 
+const FrontpageSubjects = ({ categories, subjects, locale }) => {
+  const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
+
+  const allSubjects = config.isNdlaProdEnvironment
+    ? { ...frontpageCategories }
+    : {
+        ...frontpageCategories,
+        ...getAllImportSubjectsCategory(subjects),
+      };
+
+  return <FrontpageSubjectsSection subjects={allSubjects} />;
+};
+
 FrontpageSubjects.propTypes = {
-  expanded: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  onExpand: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(GraphQLFrontpageCategoryShape),
   subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
 };
@@ -110,4 +115,4 @@ FrontpageSubjects.defaultProps = {
   categories: [],
 };
 
-export default injectT(FrontpageSubjects);
+export default FrontpageSubjects;

@@ -169,19 +169,17 @@ exports[`ErrorPage renderers correctly 1`] = `
     >
       Nettstedet er utarbeidet av NDLA med åpen kildekode.
     </p>
-    <span
-      onToggle={null}
-    >
+    <div>
       <button
-        className="c-button c-button--link undefined"
+        className="c-button c-button--link"
         disabled={false}
         onClick={[Function]}
         type="button"
       >
-        Informasjonskapsler og personvern
+        Personvernserklæring
       </button>
       <div />
-    </span>
+    </div>
   </footer>
 </div>
 `;

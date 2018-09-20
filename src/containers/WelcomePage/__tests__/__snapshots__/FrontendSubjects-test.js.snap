@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getCategoriesWithAllSubjects with a vocational subjects replaced 1`] = `
-Array [
-  Object {
+Object {
+  "yrkesfag": Object {
     "name": "yrkesfag",
     "subjects": Array [
       Object {
@@ -11,6 +11,7 @@ Array [
         "nodeId": "51",
         "text": "Barne- og ungdomsarbeiderfag Vg2",
         "url": "/nb/node/51",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137414",
@@ -18,6 +19,7 @@ Array [
         "nodeId": "137414",
         "text": "Brønnteknikk",
         "url": "/nb/node/137414",
+        "yearInfo": undefined,
       },
       Object {
         "id": "127013",
@@ -25,6 +27,7 @@ Array [
         "nodeId": "127013",
         "text": "Bygg- og anleggsteknikk Vg1",
         "url": "/nb/node/127013",
+        "yearInfo": undefined,
       },
       Object {
         "id": "44",
@@ -32,6 +35,7 @@ Array [
         "nodeId": "44",
         "text": "Design og håndverk Vg1",
         "url": "/nb/node/44",
+        "yearInfo": undefined,
       },
       Object {
         "id": "43",
@@ -39,6 +43,7 @@ Array [
         "nodeId": "43",
         "text": "Elektrofag Vg1",
         "url": "/nb/node/43",
+        "yearInfo": undefined,
       },
       Object {
         "id": "8",
@@ -46,6 +51,7 @@ Array [
         "nodeId": "8",
         "text": "Helse- og oppvekstfag Vg1",
         "url": "/nb/node/8",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52",
@@ -53,6 +59,7 @@ Array [
         "nodeId": "52",
         "text": "Helsearbeiderfag Vg2",
         "url": "/nb/node/52",
+        "yearInfo": undefined,
       },
       Object {
         "id": "102783",
@@ -60,6 +67,7 @@ Array [
         "nodeId": "102783",
         "text": "IKT-servicefag Vg2",
         "url": "/nb/node/102783",
+        "yearInfo": undefined,
       },
       Object {
         "id": "86643",
@@ -67,6 +75,7 @@ Array [
         "nodeId": "86643",
         "text": "Kokk- og servitørfag Vg2",
         "url": "/nb/node/86643",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137415",
@@ -74,6 +83,7 @@ Array [
         "nodeId": "137415",
         "text": "Naturbruk Vg1",
         "url": "/nb/node/137415",
+        "yearInfo": undefined,
       },
       Object {
         "id": "102780",
@@ -81,6 +91,7 @@ Array [
         "nodeId": "102780",
         "text": "Reiseliv Vg2",
         "url": "/nb/node/102780",
+        "yearInfo": undefined,
       },
       Object {
         "id": "37",
@@ -88,6 +99,7 @@ Array [
         "nodeId": "37",
         "text": "Restaurant- og matfag Vg1",
         "url": "/nb/node/37",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2600",
@@ -95,6 +107,7 @@ Array [
         "nodeId": "2600",
         "text": "Romteknologi Vg3",
         "url": "/nb/node/2600",
+        "yearInfo": undefined,
       },
       Object {
         "id": "102781",
@@ -102,6 +115,7 @@ Array [
         "nodeId": "102781",
         "text": "Salg, service og sikkerhet Vg2",
         "url": "/nb/node/102781",
+        "yearInfo": undefined,
       },
       Object {
         "id": "urn:subject:12",
@@ -109,6 +123,7 @@ Array [
         "path": "/subject:12",
         "text": "Service og samferdsel Vg1",
         "url": "/subjects/subject:12",
+        "yearInfo": undefined,
       },
       Object {
         "id": "35",
@@ -116,6 +131,7 @@ Array [
         "nodeId": "35",
         "text": "Teknikk og industriell produksjon Vg1",
         "url": "/nb/node/35",
+        "yearInfo": undefined,
       },
       Object {
         "id": "102782",
@@ -123,15 +139,16 @@ Array [
         "nodeId": "102782",
         "text": "Transport og logistikk Vg2",
         "url": "/nb/node/102782",
+        "yearInfo": undefined,
       },
     ],
   },
-]
+}
 `;
 
 exports[`getCategoriesWithAllSubjects with all old node subjects (en locale) 1`] = `
-Array [
-  Object {
+Object {
+  "fellesfag": Object {
     "name": "fellesfag",
     "subjects": Array [
       Object {
@@ -141,6 +158,7 @@ Array [
         "nodeId": "42",
         "text": "Engelsk",
         "url": "/en/node/42",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52253",
@@ -148,6 +166,7 @@ Array [
         "nodeId": "52253",
         "text": "Historie Vg2 og Vg3",
         "url": "/nb/node/52253",
+        "yearInfo": undefined,
       },
       Object {
         "id": "46",
@@ -155,6 +174,7 @@ Array [
         "nodeId": "46",
         "text": "Kroppsøving",
         "url": "/nb/node/46",
+        "yearInfo": undefined,
       },
       Object {
         "id": "55",
@@ -162,6 +182,7 @@ Array [
         "nodeId": "55",
         "text": "Matematikk Vg1P",
         "url": "/nb/node/55",
+        "yearInfo": undefined,
       },
       Object {
         "id": "54",
@@ -169,6 +190,7 @@ Array [
         "nodeId": "54",
         "text": "Matematikk Vg1T",
         "url": "/nb/node/54",
+        "yearInfo": undefined,
       },
       Object {
         "id": "53",
@@ -176,6 +198,7 @@ Array [
         "nodeId": "53",
         "text": "Matematikk Vg2P",
         "url": "/nb/node/53",
+        "yearInfo": undefined,
       },
       Object {
         "id": "7",
@@ -183,6 +206,7 @@ Array [
         "nodeId": "7",
         "text": "Naturfag",
         "url": "/nb/node/7",
+        "yearInfo": undefined,
       },
       Object {
         "id": "27",
@@ -190,6 +214,7 @@ Array [
         "nodeId": "27",
         "text": "Norsk Vg2 og Vg3 SF",
         "url": "/nb/node/27",
+        "yearInfo": undefined,
       },
       Object {
         "id": "116784",
@@ -197,6 +222,7 @@ Array [
         "nodeId": "116784",
         "text": "Norsk YF og SF",
         "url": "/nb/node/116784",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -205,6 +231,7 @@ Array [
         "nodeId": "185100",
         "text": "Religion og etikk",
         "url": "/nb/node/185100",
+        "yearInfo": undefined,
       },
       Object {
         "id": "36",
@@ -212,6 +239,7 @@ Array [
         "nodeId": "36",
         "text": "Samfunnsfag",
         "url": "/nb/node/36",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -220,134 +248,11 @@ Array [
         "nodeId": "126960",
         "text": "Sørsamisk som førstespråk",
         "url": "/nb/node/126960",
+        "yearInfo": undefined,
       },
     ],
   },
-  Object {
-    "name": "yrkesfag",
-    "subjects": Array [
-      Object {
-        "id": "51",
-        "name": "Barne- og ungdomsarbeiderfag Vg2",
-        "nodeId": "51",
-        "text": "Barne- og ungdomsarbeiderfag Vg2",
-        "url": "/nb/node/51",
-      },
-      Object {
-        "id": "137414",
-        "name": "Brønnteknikk",
-        "nodeId": "137414",
-        "text": "Brønnteknikk",
-        "url": "/nb/node/137414",
-      },
-      Object {
-        "id": "127013",
-        "name": "Bygg- og anleggsteknikk Vg1",
-        "nodeId": "127013",
-        "text": "Bygg- og anleggsteknikk Vg1",
-        "url": "/nb/node/127013",
-      },
-      Object {
-        "id": "44",
-        "name": "Design og håndverk Vg1",
-        "nodeId": "44",
-        "text": "Design og håndverk Vg1",
-        "url": "/nb/node/44",
-      },
-      Object {
-        "id": "43",
-        "name": "Elektrofag Vg1",
-        "nodeId": "43",
-        "text": "Elektrofag Vg1",
-        "url": "/nb/node/43",
-      },
-      Object {
-        "id": "8",
-        "name": "Helse- og oppvekstfag Vg1",
-        "nodeId": "8",
-        "text": "Helse- og oppvekstfag Vg1",
-        "url": "/nb/node/8",
-      },
-      Object {
-        "id": "52",
-        "name": "Helsearbeiderfag Vg2",
-        "nodeId": "52",
-        "text": "Helsearbeiderfag Vg2",
-        "url": "/nb/node/52",
-      },
-      Object {
-        "id": "102783",
-        "name": "IKT-servicefag Vg2",
-        "nodeId": "102783",
-        "text": "IKT-servicefag Vg2",
-        "url": "/nb/node/102783",
-      },
-      Object {
-        "id": "86643",
-        "name": "Kokk- og servitørfag Vg2",
-        "nodeId": "86643",
-        "text": "Kokk- og servitørfag Vg2",
-        "url": "/nb/node/86643",
-      },
-      Object {
-        "id": "137415",
-        "name": "Naturbruk Vg1",
-        "nodeId": "137415",
-        "text": "Naturbruk Vg1",
-        "url": "/nb/node/137415",
-      },
-      Object {
-        "id": "102780",
-        "name": "Reiseliv Vg2",
-        "nodeId": "102780",
-        "text": "Reiseliv Vg2",
-        "url": "/nb/node/102780",
-      },
-      Object {
-        "id": "37",
-        "name": "Restaurant- og matfag Vg1",
-        "nodeId": "37",
-        "text": "Restaurant- og matfag Vg1",
-        "url": "/nb/node/37",
-      },
-      Object {
-        "id": "2600",
-        "name": "Romteknologi Vg3",
-        "nodeId": "2600",
-        "text": "Romteknologi Vg3",
-        "url": "/nb/node/2600",
-      },
-      Object {
-        "id": "102781",
-        "name": "Salg, service og sikkerhet Vg2",
-        "nodeId": "102781",
-        "text": "Salg, service og sikkerhet Vg2",
-        "url": "/nb/node/102781",
-      },
-      Object {
-        "id": "52291",
-        "name": "Service og samferdsel Vg1",
-        "nodeId": "52291",
-        "text": "Service og samferdsel Vg1",
-        "url": "/nb/node/52291",
-      },
-      Object {
-        "id": "35",
-        "name": "Teknikk og industriell produksjon Vg1",
-        "nodeId": "35",
-        "text": "Teknikk og industriell produksjon Vg1",
-        "url": "/nb/node/35",
-      },
-      Object {
-        "id": "102782",
-        "name": "Transport og logistikk Vg2",
-        "nodeId": "102782",
-        "text": "Transport og logistikk Vg2",
-        "url": "/nb/node/102782",
-      },
-    ],
-  },
-  Object {
+  "studiespesialiserende": Object {
     "name": "studiespesialiserende",
     "subjects": Array [
       Object {
@@ -356,6 +261,7 @@ Array [
         "nodeId": "52234",
         "text": "Biologi 1",
         "url": "/nb/node/52234",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71085",
@@ -364,6 +270,7 @@ Array [
         "nodeId": "71085",
         "text": "Engelskspråklig litteratur og kultur",
         "url": "/en/node/71085",
+        "yearInfo": undefined,
       },
       Object {
         "id": "56850",
@@ -372,6 +279,7 @@ Array [
         "nodeId": "56850",
         "text": "Internasjonal engelsk",
         "url": "/en/node/56850",
+        "yearInfo": undefined,
       },
       Object {
         "id": "127756",
@@ -379,6 +287,7 @@ Array [
         "nodeId": "127756",
         "text": "Kinesisk 1",
         "url": "/nb/node/127756",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138654",
@@ -386,6 +295,7 @@ Array [
         "nodeId": "138654",
         "text": "Kinesisk 2",
         "url": "/nb/node/138654",
+        "yearInfo": undefined,
       },
       Object {
         "id": "6118",
@@ -393,6 +303,7 @@ Array [
         "nodeId": "6118",
         "text": "Kommunikasjon og kultur 1",
         "url": "/nb/node/6118",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2602",
@@ -400,6 +311,7 @@ Array [
         "nodeId": "2602",
         "text": "Kommunikasjon og kultur 2",
         "url": "/nb/node/2602",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2603",
@@ -407,6 +319,7 @@ Array [
         "nodeId": "2603",
         "text": "Kommunikasjon og kultur 3",
         "url": "/nb/node/2603",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52293",
@@ -414,6 +327,7 @@ Array [
         "nodeId": "52293",
         "text": "Markedsføring og ledelse 1",
         "url": "/nb/node/52293",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57933",
@@ -421,6 +335,7 @@ Array [
         "nodeId": "57933",
         "text": "Matematikk R1",
         "url": "/nb/node/57933",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98361",
@@ -428,6 +343,7 @@ Array [
         "nodeId": "98361",
         "text": "Matematikk R2",
         "url": "/nb/node/98361",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57934",
@@ -435,6 +351,7 @@ Array [
         "nodeId": "57934",
         "text": "Matematikk S1",
         "url": "/nb/node/57934",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98366",
@@ -442,6 +359,7 @@ Array [
         "nodeId": "98366",
         "text": "Matematikk S2",
         "url": "/nb/node/98366",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52222",
@@ -449,6 +367,7 @@ Array [
         "nodeId": "52222",
         "text": "Medie- og informasjonskunnskap 1 og 2",
         "url": "/nb/node/52222",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -457,6 +376,7 @@ Array [
         "nodeId": "156500",
         "text": "Medieuttrykk og mediesamfunnet",
         "url": "/nb/node/156500",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71082",
@@ -465,6 +385,7 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -473,6 +394,7 @@ Array [
         "nodeId": "185103",
         "text": "Sosiologi og sosialantropologi",
         "url": "/nb/node/185103",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137416",
@@ -480,6 +402,7 @@ Array [
         "nodeId": "137416",
         "text": "Tysk 1",
         "url": "/nb/node/137416",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138655",
@@ -487,15 +410,157 @@ Array [
         "nodeId": "138655",
         "text": "Tysk 2",
         "url": "/nb/node/138655",
+        "yearInfo": undefined,
       },
     ],
   },
-]
+  "yrkesfag": Object {
+    "name": "yrkesfag",
+    "subjects": Array [
+      Object {
+        "id": "51",
+        "name": "Barne- og ungdomsarbeiderfag Vg2",
+        "nodeId": "51",
+        "text": "Barne- og ungdomsarbeiderfag Vg2",
+        "url": "/nb/node/51",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137414",
+        "name": "Brønnteknikk",
+        "nodeId": "137414",
+        "text": "Brønnteknikk",
+        "url": "/nb/node/137414",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "127013",
+        "name": "Bygg- og anleggsteknikk Vg1",
+        "nodeId": "127013",
+        "text": "Bygg- og anleggsteknikk Vg1",
+        "url": "/nb/node/127013",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "44",
+        "name": "Design og håndverk Vg1",
+        "nodeId": "44",
+        "text": "Design og håndverk Vg1",
+        "url": "/nb/node/44",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "43",
+        "name": "Elektrofag Vg1",
+        "nodeId": "43",
+        "text": "Elektrofag Vg1",
+        "url": "/nb/node/43",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "8",
+        "name": "Helse- og oppvekstfag Vg1",
+        "nodeId": "8",
+        "text": "Helse- og oppvekstfag Vg1",
+        "url": "/nb/node/8",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52",
+        "name": "Helsearbeiderfag Vg2",
+        "nodeId": "52",
+        "text": "Helsearbeiderfag Vg2",
+        "url": "/nb/node/52",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102783",
+        "name": "IKT-servicefag Vg2",
+        "nodeId": "102783",
+        "text": "IKT-servicefag Vg2",
+        "url": "/nb/node/102783",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "86643",
+        "name": "Kokk- og servitørfag Vg2",
+        "nodeId": "86643",
+        "text": "Kokk- og servitørfag Vg2",
+        "url": "/nb/node/86643",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137415",
+        "name": "Naturbruk Vg1",
+        "nodeId": "137415",
+        "text": "Naturbruk Vg1",
+        "url": "/nb/node/137415",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102780",
+        "name": "Reiseliv Vg2",
+        "nodeId": "102780",
+        "text": "Reiseliv Vg2",
+        "url": "/nb/node/102780",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "37",
+        "name": "Restaurant- og matfag Vg1",
+        "nodeId": "37",
+        "text": "Restaurant- og matfag Vg1",
+        "url": "/nb/node/37",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "2600",
+        "name": "Romteknologi Vg3",
+        "nodeId": "2600",
+        "text": "Romteknologi Vg3",
+        "url": "/nb/node/2600",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102781",
+        "name": "Salg, service og sikkerhet Vg2",
+        "nodeId": "102781",
+        "text": "Salg, service og sikkerhet Vg2",
+        "url": "/nb/node/102781",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52291",
+        "name": "Service og samferdsel Vg1",
+        "nodeId": "52291",
+        "text": "Service og samferdsel Vg1",
+        "url": "/nb/node/52291",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "35",
+        "name": "Teknikk og industriell produksjon Vg1",
+        "nodeId": "35",
+        "text": "Teknikk og industriell produksjon Vg1",
+        "url": "/nb/node/35",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102782",
+        "name": "Transport og logistikk Vg2",
+        "nodeId": "102782",
+        "text": "Transport og logistikk Vg2",
+        "url": "/nb/node/102782",
+        "yearInfo": undefined,
+      },
+    ],
+  },
+}
 `;
 
 exports[`getCategoriesWithAllSubjects with all old node subjects (nb locale) 1`] = `
-Array [
-  Object {
+Object {
+  "fellesfag": Object {
     "name": "fellesfag",
     "subjects": Array [
       Object {
@@ -505,6 +570,7 @@ Array [
         "nodeId": "42",
         "text": "Engelsk",
         "url": "/en/node/42",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52253",
@@ -512,6 +578,7 @@ Array [
         "nodeId": "52253",
         "text": "Historie Vg2 og Vg3",
         "url": "/nb/node/52253",
+        "yearInfo": undefined,
       },
       Object {
         "id": "46",
@@ -519,6 +586,7 @@ Array [
         "nodeId": "46",
         "text": "Kroppsøving",
         "url": "/nb/node/46",
+        "yearInfo": undefined,
       },
       Object {
         "id": "55",
@@ -526,6 +594,7 @@ Array [
         "nodeId": "55",
         "text": "Matematikk Vg1P",
         "url": "/nb/node/55",
+        "yearInfo": undefined,
       },
       Object {
         "id": "54",
@@ -533,6 +602,7 @@ Array [
         "nodeId": "54",
         "text": "Matematikk Vg1T",
         "url": "/nb/node/54",
+        "yearInfo": undefined,
       },
       Object {
         "id": "53",
@@ -540,6 +610,7 @@ Array [
         "nodeId": "53",
         "text": "Matematikk Vg2P",
         "url": "/nb/node/53",
+        "yearInfo": undefined,
       },
       Object {
         "id": "7",
@@ -547,6 +618,7 @@ Array [
         "nodeId": "7",
         "text": "Naturfag",
         "url": "/nb/node/7",
+        "yearInfo": undefined,
       },
       Object {
         "id": "27",
@@ -554,6 +626,7 @@ Array [
         "nodeId": "27",
         "text": "Norsk Vg2 og Vg3 SF",
         "url": "/nb/node/27",
+        "yearInfo": undefined,
       },
       Object {
         "id": "116784",
@@ -561,6 +634,7 @@ Array [
         "nodeId": "116784",
         "text": "Norsk YF og SF",
         "url": "/nb/node/116784",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -569,6 +643,7 @@ Array [
         "nodeId": "185100",
         "text": "Religion og etikk",
         "url": "/nb/node/185100",
+        "yearInfo": undefined,
       },
       Object {
         "id": "36",
@@ -576,6 +651,7 @@ Array [
         "nodeId": "36",
         "text": "Samfunnsfag",
         "url": "/nb/node/36",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -584,134 +660,11 @@ Array [
         "nodeId": "126960",
         "text": "Sørsamisk som førstespråk",
         "url": "/nb/node/126960",
+        "yearInfo": undefined,
       },
     ],
   },
-  Object {
-    "name": "yrkesfag",
-    "subjects": Array [
-      Object {
-        "id": "51",
-        "name": "Barne- og ungdomsarbeiderfag Vg2",
-        "nodeId": "51",
-        "text": "Barne- og ungdomsarbeiderfag Vg2",
-        "url": "/nb/node/51",
-      },
-      Object {
-        "id": "137414",
-        "name": "Brønnteknikk",
-        "nodeId": "137414",
-        "text": "Brønnteknikk",
-        "url": "/nb/node/137414",
-      },
-      Object {
-        "id": "127013",
-        "name": "Bygg- og anleggsteknikk Vg1",
-        "nodeId": "127013",
-        "text": "Bygg- og anleggsteknikk Vg1",
-        "url": "/nb/node/127013",
-      },
-      Object {
-        "id": "44",
-        "name": "Design og håndverk Vg1",
-        "nodeId": "44",
-        "text": "Design og håndverk Vg1",
-        "url": "/nb/node/44",
-      },
-      Object {
-        "id": "43",
-        "name": "Elektrofag Vg1",
-        "nodeId": "43",
-        "text": "Elektrofag Vg1",
-        "url": "/nb/node/43",
-      },
-      Object {
-        "id": "8",
-        "name": "Helse- og oppvekstfag Vg1",
-        "nodeId": "8",
-        "text": "Helse- og oppvekstfag Vg1",
-        "url": "/nb/node/8",
-      },
-      Object {
-        "id": "52",
-        "name": "Helsearbeiderfag Vg2",
-        "nodeId": "52",
-        "text": "Helsearbeiderfag Vg2",
-        "url": "/nb/node/52",
-      },
-      Object {
-        "id": "102783",
-        "name": "IKT-servicefag Vg2",
-        "nodeId": "102783",
-        "text": "IKT-servicefag Vg2",
-        "url": "/nb/node/102783",
-      },
-      Object {
-        "id": "86643",
-        "name": "Kokk- og servitørfag Vg2",
-        "nodeId": "86643",
-        "text": "Kokk- og servitørfag Vg2",
-        "url": "/nb/node/86643",
-      },
-      Object {
-        "id": "137415",
-        "name": "Naturbruk Vg1",
-        "nodeId": "137415",
-        "text": "Naturbruk Vg1",
-        "url": "/nb/node/137415",
-      },
-      Object {
-        "id": "102780",
-        "name": "Reiseliv Vg2",
-        "nodeId": "102780",
-        "text": "Reiseliv Vg2",
-        "url": "/nb/node/102780",
-      },
-      Object {
-        "id": "37",
-        "name": "Restaurant- og matfag Vg1",
-        "nodeId": "37",
-        "text": "Restaurant- og matfag Vg1",
-        "url": "/nb/node/37",
-      },
-      Object {
-        "id": "2600",
-        "name": "Romteknologi Vg3",
-        "nodeId": "2600",
-        "text": "Romteknologi Vg3",
-        "url": "/nb/node/2600",
-      },
-      Object {
-        "id": "102781",
-        "name": "Salg, service og sikkerhet Vg2",
-        "nodeId": "102781",
-        "text": "Salg, service og sikkerhet Vg2",
-        "url": "/nb/node/102781",
-      },
-      Object {
-        "id": "52291",
-        "name": "Service og samferdsel Vg1",
-        "nodeId": "52291",
-        "text": "Service og samferdsel Vg1",
-        "url": "/nb/node/52291",
-      },
-      Object {
-        "id": "35",
-        "name": "Teknikk og industriell produksjon Vg1",
-        "nodeId": "35",
-        "text": "Teknikk og industriell produksjon Vg1",
-        "url": "/nb/node/35",
-      },
-      Object {
-        "id": "102782",
-        "name": "Transport og logistikk Vg2",
-        "nodeId": "102782",
-        "text": "Transport og logistikk Vg2",
-        "url": "/nb/node/102782",
-      },
-    ],
-  },
-  Object {
+  "studiespesialiserende": Object {
     "name": "studiespesialiserende",
     "subjects": Array [
       Object {
@@ -720,6 +673,7 @@ Array [
         "nodeId": "52234",
         "text": "Biologi 1",
         "url": "/nb/node/52234",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71085",
@@ -728,6 +682,7 @@ Array [
         "nodeId": "71085",
         "text": "Engelskspråklig litteratur og kultur",
         "url": "/en/node/71085",
+        "yearInfo": undefined,
       },
       Object {
         "id": "56850",
@@ -736,6 +691,7 @@ Array [
         "nodeId": "56850",
         "text": "Internasjonal engelsk",
         "url": "/en/node/56850",
+        "yearInfo": undefined,
       },
       Object {
         "id": "127756",
@@ -743,6 +699,7 @@ Array [
         "nodeId": "127756",
         "text": "Kinesisk 1",
         "url": "/nb/node/127756",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138654",
@@ -750,6 +707,7 @@ Array [
         "nodeId": "138654",
         "text": "Kinesisk 2",
         "url": "/nb/node/138654",
+        "yearInfo": undefined,
       },
       Object {
         "id": "6118",
@@ -757,6 +715,7 @@ Array [
         "nodeId": "6118",
         "text": "Kommunikasjon og kultur 1",
         "url": "/nb/node/6118",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2602",
@@ -764,6 +723,7 @@ Array [
         "nodeId": "2602",
         "text": "Kommunikasjon og kultur 2",
         "url": "/nb/node/2602",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2603",
@@ -771,6 +731,7 @@ Array [
         "nodeId": "2603",
         "text": "Kommunikasjon og kultur 3",
         "url": "/nb/node/2603",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52293",
@@ -778,6 +739,7 @@ Array [
         "nodeId": "52293",
         "text": "Markedsføring og ledelse 1",
         "url": "/nb/node/52293",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57933",
@@ -785,6 +747,7 @@ Array [
         "nodeId": "57933",
         "text": "Matematikk R1",
         "url": "/nb/node/57933",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98361",
@@ -792,6 +755,7 @@ Array [
         "nodeId": "98361",
         "text": "Matematikk R2",
         "url": "/nb/node/98361",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57934",
@@ -799,6 +763,7 @@ Array [
         "nodeId": "57934",
         "text": "Matematikk S1",
         "url": "/nb/node/57934",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98366",
@@ -806,6 +771,7 @@ Array [
         "nodeId": "98366",
         "text": "Matematikk S2",
         "url": "/nb/node/98366",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52222",
@@ -813,6 +779,7 @@ Array [
         "nodeId": "52222",
         "text": "Medie- og informasjonskunnskap 1 og 2",
         "url": "/nb/node/52222",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -821,6 +788,7 @@ Array [
         "nodeId": "156500",
         "text": "Medieuttrykk og mediesamfunnet",
         "url": "/nb/node/156500",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71082",
@@ -829,6 +797,7 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -837,6 +806,7 @@ Array [
         "nodeId": "185103",
         "text": "Sosiologi og sosialantropologi",
         "url": "/nb/node/185103",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137416",
@@ -844,6 +814,7 @@ Array [
         "nodeId": "137416",
         "text": "Tysk 1",
         "url": "/nb/node/137416",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138655",
@@ -851,15 +822,157 @@ Array [
         "nodeId": "138655",
         "text": "Tysk 2",
         "url": "/nb/node/138655",
+        "yearInfo": undefined,
       },
     ],
   },
-]
+  "yrkesfag": Object {
+    "name": "yrkesfag",
+    "subjects": Array [
+      Object {
+        "id": "51",
+        "name": "Barne- og ungdomsarbeiderfag Vg2",
+        "nodeId": "51",
+        "text": "Barne- og ungdomsarbeiderfag Vg2",
+        "url": "/nb/node/51",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137414",
+        "name": "Brønnteknikk",
+        "nodeId": "137414",
+        "text": "Brønnteknikk",
+        "url": "/nb/node/137414",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "127013",
+        "name": "Bygg- og anleggsteknikk Vg1",
+        "nodeId": "127013",
+        "text": "Bygg- og anleggsteknikk Vg1",
+        "url": "/nb/node/127013",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "44",
+        "name": "Design og håndverk Vg1",
+        "nodeId": "44",
+        "text": "Design og håndverk Vg1",
+        "url": "/nb/node/44",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "43",
+        "name": "Elektrofag Vg1",
+        "nodeId": "43",
+        "text": "Elektrofag Vg1",
+        "url": "/nb/node/43",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "8",
+        "name": "Helse- og oppvekstfag Vg1",
+        "nodeId": "8",
+        "text": "Helse- og oppvekstfag Vg1",
+        "url": "/nb/node/8",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52",
+        "name": "Helsearbeiderfag Vg2",
+        "nodeId": "52",
+        "text": "Helsearbeiderfag Vg2",
+        "url": "/nb/node/52",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102783",
+        "name": "IKT-servicefag Vg2",
+        "nodeId": "102783",
+        "text": "IKT-servicefag Vg2",
+        "url": "/nb/node/102783",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "86643",
+        "name": "Kokk- og servitørfag Vg2",
+        "nodeId": "86643",
+        "text": "Kokk- og servitørfag Vg2",
+        "url": "/nb/node/86643",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137415",
+        "name": "Naturbruk Vg1",
+        "nodeId": "137415",
+        "text": "Naturbruk Vg1",
+        "url": "/nb/node/137415",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102780",
+        "name": "Reiseliv Vg2",
+        "nodeId": "102780",
+        "text": "Reiseliv Vg2",
+        "url": "/nb/node/102780",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "37",
+        "name": "Restaurant- og matfag Vg1",
+        "nodeId": "37",
+        "text": "Restaurant- og matfag Vg1",
+        "url": "/nb/node/37",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "2600",
+        "name": "Romteknologi Vg3",
+        "nodeId": "2600",
+        "text": "Romteknologi Vg3",
+        "url": "/nb/node/2600",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102781",
+        "name": "Salg, service og sikkerhet Vg2",
+        "nodeId": "102781",
+        "text": "Salg, service og sikkerhet Vg2",
+        "url": "/nb/node/102781",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52291",
+        "name": "Service og samferdsel Vg1",
+        "nodeId": "52291",
+        "text": "Service og samferdsel Vg1",
+        "url": "/nb/node/52291",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "35",
+        "name": "Teknikk og industriell produksjon Vg1",
+        "nodeId": "35",
+        "text": "Teknikk og industriell produksjon Vg1",
+        "url": "/nb/node/35",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102782",
+        "name": "Transport og logistikk Vg2",
+        "nodeId": "102782",
+        "text": "Transport og logistikk Vg2",
+        "url": "/nb/node/102782",
+        "yearInfo": undefined,
+      },
+    ],
+  },
+}
 `;
 
 exports[`getCategoriesWithAllSubjects with all old node subjects (nn locale) 1`] = `
-Array [
-  Object {
+Object {
+  "fellesfag": Object {
     "name": "fellesfag",
     "subjects": Array [
       Object {
@@ -869,6 +982,7 @@ Array [
         "nodeId": "42",
         "text": "Engelsk",
         "url": "/en/node/42",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52253",
@@ -876,6 +990,7 @@ Array [
         "nodeId": "52253",
         "text": "Historie Vg2 og Vg3",
         "url": "/nn/node/52253",
+        "yearInfo": undefined,
       },
       Object {
         "id": "46",
@@ -883,6 +998,7 @@ Array [
         "nodeId": "46",
         "text": "Kroppsøving",
         "url": "/nn/node/46",
+        "yearInfo": undefined,
       },
       Object {
         "id": "55",
@@ -890,6 +1006,7 @@ Array [
         "nodeId": "55",
         "text": "Matematikk Vg1P",
         "url": "/nn/node/55",
+        "yearInfo": undefined,
       },
       Object {
         "id": "54",
@@ -897,6 +1014,7 @@ Array [
         "nodeId": "54",
         "text": "Matematikk Vg1T",
         "url": "/nn/node/54",
+        "yearInfo": undefined,
       },
       Object {
         "id": "53",
@@ -904,6 +1022,7 @@ Array [
         "nodeId": "53",
         "text": "Matematikk Vg2P",
         "url": "/nn/node/53",
+        "yearInfo": undefined,
       },
       Object {
         "id": "7",
@@ -911,6 +1030,7 @@ Array [
         "nodeId": "7",
         "text": "Naturfag",
         "url": "/nn/node/7",
+        "yearInfo": undefined,
       },
       Object {
         "id": "27",
@@ -918,6 +1038,7 @@ Array [
         "nodeId": "27",
         "text": "Norsk Vg2 og Vg3 SF",
         "url": "/nn/node/27",
+        "yearInfo": undefined,
       },
       Object {
         "id": "116784",
@@ -925,6 +1046,7 @@ Array [
         "nodeId": "116784",
         "text": "Norsk YF og SF",
         "url": "/nn/node/116784",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -933,6 +1055,7 @@ Array [
         "nodeId": "185100",
         "text": "Religion og etikk",
         "url": "/nn/node/185100",
+        "yearInfo": undefined,
       },
       Object {
         "id": "36",
@@ -940,6 +1063,7 @@ Array [
         "nodeId": "36",
         "text": "Samfunnsfag",
         "url": "/nn/node/36",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -948,134 +1072,11 @@ Array [
         "nodeId": "126960",
         "text": "Sørsamisk som førstespråk",
         "url": "/nn/node/126960",
+        "yearInfo": undefined,
       },
     ],
   },
-  Object {
-    "name": "yrkesfag",
-    "subjects": Array [
-      Object {
-        "id": "51",
-        "name": "Barne- og ungdomsarbeiderfag Vg2",
-        "nodeId": "51",
-        "text": "Barne- og ungdomsarbeiderfag Vg2",
-        "url": "/nn/node/51",
-      },
-      Object {
-        "id": "137414",
-        "name": "Brønnteknikk",
-        "nodeId": "137414",
-        "text": "Brønnteknikk",
-        "url": "/nn/node/137414",
-      },
-      Object {
-        "id": "127013",
-        "name": "Bygg- og anleggsteknikk Vg1",
-        "nodeId": "127013",
-        "text": "Bygg- og anleggsteknikk Vg1",
-        "url": "/nn/node/127013",
-      },
-      Object {
-        "id": "44",
-        "name": "Design og håndverk Vg1",
-        "nodeId": "44",
-        "text": "Design og håndverk Vg1",
-        "url": "/nn/node/44",
-      },
-      Object {
-        "id": "43",
-        "name": "Elektrofag Vg1",
-        "nodeId": "43",
-        "text": "Elektrofag Vg1",
-        "url": "/nn/node/43",
-      },
-      Object {
-        "id": "8",
-        "name": "Helse- og oppvekstfag Vg1",
-        "nodeId": "8",
-        "text": "Helse- og oppvekstfag Vg1",
-        "url": "/nn/node/8",
-      },
-      Object {
-        "id": "52",
-        "name": "Helsearbeiderfag Vg2",
-        "nodeId": "52",
-        "text": "Helsearbeiderfag Vg2",
-        "url": "/nn/node/52",
-      },
-      Object {
-        "id": "102783",
-        "name": "IKT-servicefag Vg2",
-        "nodeId": "102783",
-        "text": "IKT-servicefag Vg2",
-        "url": "/nn/node/102783",
-      },
-      Object {
-        "id": "86643",
-        "name": "Kokk- og servitørfag Vg2",
-        "nodeId": "86643",
-        "text": "Kokk- og servitørfag Vg2",
-        "url": "/nn/node/86643",
-      },
-      Object {
-        "id": "137415",
-        "name": "Naturbruk Vg1",
-        "nodeId": "137415",
-        "text": "Naturbruk Vg1",
-        "url": "/nn/node/137415",
-      },
-      Object {
-        "id": "102780",
-        "name": "Reiseliv Vg2",
-        "nodeId": "102780",
-        "text": "Reiseliv Vg2",
-        "url": "/nn/node/102780",
-      },
-      Object {
-        "id": "37",
-        "name": "Restaurant- og matfag Vg1",
-        "nodeId": "37",
-        "text": "Restaurant- og matfag Vg1",
-        "url": "/nn/node/37",
-      },
-      Object {
-        "id": "2600",
-        "name": "Romteknologi Vg3",
-        "nodeId": "2600",
-        "text": "Romteknologi Vg3",
-        "url": "/nn/node/2600",
-      },
-      Object {
-        "id": "102781",
-        "name": "Salg, service og sikkerhet Vg2",
-        "nodeId": "102781",
-        "text": "Salg, service og sikkerhet Vg2",
-        "url": "/nn/node/102781",
-      },
-      Object {
-        "id": "52291",
-        "name": "Service og samferdsel Vg1",
-        "nodeId": "52291",
-        "text": "Service og samferdsel Vg1",
-        "url": "/nn/node/52291",
-      },
-      Object {
-        "id": "35",
-        "name": "Teknikk og industriell produksjon Vg1",
-        "nodeId": "35",
-        "text": "Teknikk og industriell produksjon Vg1",
-        "url": "/nn/node/35",
-      },
-      Object {
-        "id": "102782",
-        "name": "Transport og logistikk Vg2",
-        "nodeId": "102782",
-        "text": "Transport og logistikk Vg2",
-        "url": "/nn/node/102782",
-      },
-    ],
-  },
-  Object {
+  "studiespesialiserende": Object {
     "name": "studiespesialiserende",
     "subjects": Array [
       Object {
@@ -1084,6 +1085,7 @@ Array [
         "nodeId": "52234",
         "text": "Biologi 1",
         "url": "/nn/node/52234",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71085",
@@ -1092,6 +1094,7 @@ Array [
         "nodeId": "71085",
         "text": "Engelskspråklig litteratur og kultur",
         "url": "/en/node/71085",
+        "yearInfo": undefined,
       },
       Object {
         "id": "56850",
@@ -1100,6 +1103,7 @@ Array [
         "nodeId": "56850",
         "text": "Internasjonal engelsk",
         "url": "/en/node/56850",
+        "yearInfo": undefined,
       },
       Object {
         "id": "127756",
@@ -1107,6 +1111,7 @@ Array [
         "nodeId": "127756",
         "text": "Kinesisk 1",
         "url": "/nn/node/127756",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138654",
@@ -1114,6 +1119,7 @@ Array [
         "nodeId": "138654",
         "text": "Kinesisk 2",
         "url": "/nn/node/138654",
+        "yearInfo": undefined,
       },
       Object {
         "id": "6118",
@@ -1121,6 +1127,7 @@ Array [
         "nodeId": "6118",
         "text": "Kommunikasjon og kultur 1",
         "url": "/nn/node/6118",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2602",
@@ -1128,6 +1135,7 @@ Array [
         "nodeId": "2602",
         "text": "Kommunikasjon og kultur 2",
         "url": "/nn/node/2602",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2603",
@@ -1135,6 +1143,7 @@ Array [
         "nodeId": "2603",
         "text": "Kommunikasjon og kultur 3",
         "url": "/nn/node/2603",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52293",
@@ -1142,6 +1151,7 @@ Array [
         "nodeId": "52293",
         "text": "Markedsføring og ledelse 1",
         "url": "/nn/node/52293",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57933",
@@ -1149,6 +1159,7 @@ Array [
         "nodeId": "57933",
         "text": "Matematikk R1",
         "url": "/nn/node/57933",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98361",
@@ -1156,6 +1167,7 @@ Array [
         "nodeId": "98361",
         "text": "Matematikk R2",
         "url": "/nn/node/98361",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57934",
@@ -1163,6 +1175,7 @@ Array [
         "nodeId": "57934",
         "text": "Matematikk S1",
         "url": "/nn/node/57934",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98366",
@@ -1170,6 +1183,7 @@ Array [
         "nodeId": "98366",
         "text": "Matematikk S2",
         "url": "/nn/node/98366",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52222",
@@ -1177,6 +1191,7 @@ Array [
         "nodeId": "52222",
         "text": "Medie- og informasjonskunnskap 1 og 2",
         "url": "/nn/node/52222",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -1185,6 +1200,7 @@ Array [
         "nodeId": "156500",
         "text": "Medieuttrykk og mediesamfunnet",
         "url": "/nn/node/156500",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71082",
@@ -1193,6 +1209,7 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -1201,6 +1218,7 @@ Array [
         "nodeId": "185103",
         "text": "Sosiologi og sosialantropologi",
         "url": "/nn/node/185103",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137416",
@@ -1208,6 +1226,7 @@ Array [
         "nodeId": "137416",
         "text": "Tysk 1",
         "url": "/nn/node/137416",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138655",
@@ -1215,15 +1234,157 @@ Array [
         "nodeId": "138655",
         "text": "Tysk 2",
         "url": "/nn/node/138655",
+        "yearInfo": undefined,
       },
     ],
   },
-]
+  "yrkesfag": Object {
+    "name": "yrkesfag",
+    "subjects": Array [
+      Object {
+        "id": "51",
+        "name": "Barne- og ungdomsarbeiderfag Vg2",
+        "nodeId": "51",
+        "text": "Barne- og ungdomsarbeiderfag Vg2",
+        "url": "/nn/node/51",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137414",
+        "name": "Brønnteknikk",
+        "nodeId": "137414",
+        "text": "Brønnteknikk",
+        "url": "/nn/node/137414",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "127013",
+        "name": "Bygg- og anleggsteknikk Vg1",
+        "nodeId": "127013",
+        "text": "Bygg- og anleggsteknikk Vg1",
+        "url": "/nn/node/127013",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "44",
+        "name": "Design og håndverk Vg1",
+        "nodeId": "44",
+        "text": "Design og håndverk Vg1",
+        "url": "/nn/node/44",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "43",
+        "name": "Elektrofag Vg1",
+        "nodeId": "43",
+        "text": "Elektrofag Vg1",
+        "url": "/nn/node/43",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "8",
+        "name": "Helse- og oppvekstfag Vg1",
+        "nodeId": "8",
+        "text": "Helse- og oppvekstfag Vg1",
+        "url": "/nn/node/8",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52",
+        "name": "Helsearbeiderfag Vg2",
+        "nodeId": "52",
+        "text": "Helsearbeiderfag Vg2",
+        "url": "/nn/node/52",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102783",
+        "name": "IKT-servicefag Vg2",
+        "nodeId": "102783",
+        "text": "IKT-servicefag Vg2",
+        "url": "/nn/node/102783",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "86643",
+        "name": "Kokk- og servitørfag Vg2",
+        "nodeId": "86643",
+        "text": "Kokk- og servitørfag Vg2",
+        "url": "/nn/node/86643",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "137415",
+        "name": "Naturbruk Vg1",
+        "nodeId": "137415",
+        "text": "Naturbruk Vg1",
+        "url": "/nn/node/137415",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102780",
+        "name": "Reiseliv Vg2",
+        "nodeId": "102780",
+        "text": "Reiseliv Vg2",
+        "url": "/nn/node/102780",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "37",
+        "name": "Restaurant- og matfag Vg1",
+        "nodeId": "37",
+        "text": "Restaurant- og matfag Vg1",
+        "url": "/nn/node/37",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "2600",
+        "name": "Romteknologi Vg3",
+        "nodeId": "2600",
+        "text": "Romteknologi Vg3",
+        "url": "/nn/node/2600",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102781",
+        "name": "Salg, service og sikkerhet Vg2",
+        "nodeId": "102781",
+        "text": "Salg, service og sikkerhet Vg2",
+        "url": "/nn/node/102781",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "52291",
+        "name": "Service og samferdsel Vg1",
+        "nodeId": "52291",
+        "text": "Service og samferdsel Vg1",
+        "url": "/nn/node/52291",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "35",
+        "name": "Teknikk og industriell produksjon Vg1",
+        "nodeId": "35",
+        "text": "Teknikk og industriell produksjon Vg1",
+        "url": "/nn/node/35",
+        "yearInfo": undefined,
+      },
+      Object {
+        "id": "102782",
+        "name": "Transport og logistikk Vg2",
+        "nodeId": "102782",
+        "text": "Transport og logistikk Vg2",
+        "url": "/nn/node/102782",
+        "yearInfo": undefined,
+      },
+    ],
+  },
+}
 `;
 
 exports[`getCategoriesWithAllSubjects with some specialization subjects replaced 1`] = `
-Array [
-  Object {
+Object {
+  "studiespesialiserende": Object {
     "name": "studiespesialiserende",
     "subjects": Array [
       Object {
@@ -1232,6 +1393,7 @@ Array [
         "nodeId": "52234",
         "text": "Biologi 1",
         "url": "/nb/node/52234",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71085",
@@ -1240,6 +1402,7 @@ Array [
         "nodeId": "71085",
         "text": "Engelskspråklig litteratur og kultur",
         "url": "/en/node/71085",
+        "yearInfo": undefined,
       },
       Object {
         "id": "56850",
@@ -1248,6 +1411,7 @@ Array [
         "nodeId": "56850",
         "text": "Internasjonal engelsk",
         "url": "/en/node/56850",
+        "yearInfo": undefined,
       },
       Object {
         "id": "urn:subject:2",
@@ -1255,6 +1419,7 @@ Array [
         "path": "/subject:2",
         "text": "Kinesisk",
         "url": "/subjects/subject:2",
+        "yearInfo": undefined,
       },
       Object {
         "id": "6118",
@@ -1262,6 +1427,7 @@ Array [
         "nodeId": "6118",
         "text": "Kommunikasjon og kultur 1",
         "url": "/nb/node/6118",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2602",
@@ -1269,6 +1435,7 @@ Array [
         "nodeId": "2602",
         "text": "Kommunikasjon og kultur 2",
         "url": "/nb/node/2602",
+        "yearInfo": undefined,
       },
       Object {
         "id": "2603",
@@ -1276,6 +1443,7 @@ Array [
         "nodeId": "2603",
         "text": "Kommunikasjon og kultur 3",
         "url": "/nb/node/2603",
+        "yearInfo": undefined,
       },
       Object {
         "id": "urn:subject:7",
@@ -1283,6 +1451,7 @@ Array [
         "path": "/subject:7",
         "text": "Markedsføring og ledelse 1",
         "url": "/subjects/subject:7",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57933",
@@ -1290,6 +1459,7 @@ Array [
         "nodeId": "57933",
         "text": "Matematikk R1",
         "url": "/nb/node/57933",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98361",
@@ -1297,6 +1467,7 @@ Array [
         "nodeId": "98361",
         "text": "Matematikk R2",
         "url": "/nb/node/98361",
+        "yearInfo": undefined,
       },
       Object {
         "id": "57934",
@@ -1304,6 +1475,7 @@ Array [
         "nodeId": "57934",
         "text": "Matematikk S1",
         "url": "/nb/node/57934",
+        "yearInfo": undefined,
       },
       Object {
         "id": "98366",
@@ -1311,6 +1483,7 @@ Array [
         "nodeId": "98366",
         "text": "Matematikk S2",
         "url": "/nb/node/98366",
+        "yearInfo": undefined,
       },
       Object {
         "id": "52222",
@@ -1318,6 +1491,7 @@ Array [
         "nodeId": "52222",
         "text": "Medie- og informasjonskunnskap 1 og 2",
         "url": "/nb/node/52222",
+        "yearInfo": undefined,
       },
       Object {
         "id": "urn:subject:1",
@@ -1325,6 +1499,7 @@ Array [
         "path": "/subject:1",
         "text": "Medieuttrykk og mediesamfunnet",
         "url": "/subjects/subject:1",
+        "yearInfo": undefined,
       },
       Object {
         "id": "71082",
@@ -1333,6 +1508,7 @@ Array [
         "nodeId": "71082",
         "text": "Samfunnsfaglig engelsk",
         "url": "/en/node/71082",
+        "yearInfo": undefined,
       },
       Object {
         "beta": true,
@@ -1341,6 +1517,7 @@ Array [
         "nodeId": "185103",
         "text": "Sosiologi og sosialantropologi",
         "url": "/nb/node/185103",
+        "yearInfo": undefined,
       },
       Object {
         "id": "137416",
@@ -1348,6 +1525,7 @@ Array [
         "nodeId": "137416",
         "text": "Tysk 1",
         "url": "/nb/node/137416",
+        "yearInfo": undefined,
       },
       Object {
         "id": "138655",
@@ -1355,8 +1533,9 @@ Array [
         "nodeId": "138655",
         "text": "Tysk 2",
         "url": "/nb/node/138655",
+        "yearInfo": undefined,
       },
     ],
   },
-]
+}
 `;
