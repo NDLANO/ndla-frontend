@@ -255,6 +255,10 @@ export const frontpageQuery = gql`
         name
         subjects {
           ...SubjectInfo
+          frontpageFilters {
+            id
+            name
+          }
         }
       }
     }
