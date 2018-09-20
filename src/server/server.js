@@ -179,13 +179,22 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 
 app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
 
-app.get('/:lang?/node/:nodeId', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
-
-app.get('/:lang?/node/:nodeId/*', async (req, res, next) =>
-  forwardingRoute(req, res, next),
-);
+/** Handle different paths to a node in old ndla. */
+[
+  'node',
+  'printpdf',
+  'easyreader',
+  'contentbrowser/node',
+  'print',
+  'aktualitet',
+].forEach(path => {
+  app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) =>
+    forwardingRoute(req, res, next),
+  );
+  app.get(`/:lang?/${path}/:nodeId/*`, async (req, res, next) =>
+    forwardingRoute(req, res, next),
+  );
+});
 
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
