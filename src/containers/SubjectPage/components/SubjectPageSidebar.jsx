@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { SubjectLinks, SubjectShortcuts } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
-import { toSubjects, toLearningPath } from '../../../routeHelpers';
+import { toLinkProps } from '../../../routeHelpers';
 import { getResources, getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
@@ -48,23 +48,11 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
           displayInTwoColumns={displayInTwoColumns}>
           <SubjectLinks
             heading={t('subjectPage.mostRead.heading')}
-            links={mostReadResources.map(resource => {
-              if (
-                resource.contentUri &&
-                resource.contentUri.startsWith('urn:learningpath') &&
-                resource.meta &&
-                resource.meta.id
-              ) {
-                return {
-                  text: resource.name,
-                  url: toLearningPath(resource.meta.id),
-                };
-              }
-              return {
-                text: resource.name,
-                url: toSubjects() + resource.path,
-              };
-            })}
+            links={mostReadResources.map(resource => ({
+              text: resource.name,
+              url: toLinkProps(resource).to,
+              toLinkProps: () => toLinkProps(resource),
+            }))}
           />
         </SubjectPageFlexChild>
       ),

@@ -96,3 +96,17 @@ export function toBreadcrumbItems(
     ...resourceLink,
   ];
 }
+
+export function toLinkProps(linkObject) {
+  const isLearningpath =
+    linkObject.contentUri &&
+    linkObject.contentUri.startsWith('urn:learningpath') &&
+    linkObject.meta;
+  return {
+    to: isLearningpath
+      ? toLearningPath(linkObject.meta.id)
+      : toSubjects() + linkObject.path,
+    target: isLearningpath ? '_blank' : undefined,
+    rel: isLearningpath ? 'noreferrer noopener' : undefined,
+  };
+}
