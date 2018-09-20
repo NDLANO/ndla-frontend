@@ -14,7 +14,7 @@ import { injectT } from 'ndla-i18n';
 
 import Footer from './components/Footer';
 
-const Page = props => {
+export const Page = props => {
   const { children, background, locale, t } = props;
   return (
     <PageContainer backgroundWide={background}>
