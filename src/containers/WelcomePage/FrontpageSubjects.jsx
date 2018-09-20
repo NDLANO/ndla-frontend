@@ -36,6 +36,21 @@ const sortByName = arr =>
     if (a.name > b.name) return 1;
     return 0;
   });
+
+function flattenSubjectsFrontpageFilters(subjects) {
+  return subjects.reduce((acc, subject) => {
+    if (subject.frontpageFilters && subject.frontpageFilters.length > 0) {
+      const subjectFilters = subject.frontpageFilters.map(filter => ({
+        ...subject,
+        name: filter.name,
+        id: `${subject.id}?filters=${filter.id}`,
+      }));
+      return [...acc, ...subjectFilters];
+    }
+    return [...acc, subject];
+  }, []);
+}
+
 export const getCategoriesWithAllSubjects = (
   categoriesFromApi = [],
   locale,
@@ -45,12 +60,14 @@ export const getCategoriesWithAllSubjects = (
   return (
     categoriesFromApi
       .map(category => {
-        const newSubjects = category.subjects.map(categorySubject => ({
+        const flattened = flattenSubjectsFrontpageFilters(category.subjects);
+        const newSubjects = flattened.map(categorySubject => ({
           ...categorySubject,
           text: categorySubject.name,
           url: toSubject(categorySubject.id),
           yearInfo: categorySubject.yearInfo,
         }));
+
         const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
           .map(subject => ({
             ...subject,
