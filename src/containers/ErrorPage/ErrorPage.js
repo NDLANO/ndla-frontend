@@ -16,7 +16,7 @@ import ZendeskButton from '../../components/ZendeskButton';
 const ErrorPage = ({ locale }) => (
   <Page locale={locale}>
     <Content>
-      <Masthead fixed>
+      <Masthead showLoaderWhenNeeded={false} fixed>
         <MastheadItem right>
           <Logo to="/" label="Nasjonal digital læringsarena" />
         </MastheadItem>
