@@ -3,4 +3,5 @@ module.exports = {
   setupFiles: ['./src/__tests__/_initTestEnv.js'],
   setupTestFrameworkScriptFile: './src/__tests__/jest.setup.js',
   testURL: 'http://localhost/', // Needed until fixed: https://github.com/jsdom/jsdom/issues/2304
+  testEnvironment: 'node',
 };
