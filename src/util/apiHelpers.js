@@ -20,14 +20,14 @@ import handleError from './handleError';
 const __SERVER__ = process.env.BUILD_TARGET === 'server'; //eslint-disable-line
 const __CLIENT__ = process.env.BUILD_TARGET === 'client'; //eslint-disable-line
 
-const NDLA_API_URL = __SERVER__
-  ? config.ndlaApiUrl
-  : window.DATA.config.ndlaApiUrl;
-
 const apiBaseUrl = (() => {
   if (process.env.NODE_ENV === 'unittest') {
     return 'http://ndla-api';
   }
+
+  const NDLA_API_URL = __SERVER__
+    ? config.ndlaApiUrl
+    : window.DATA.config.ndlaApiUrl;
 
   return NDLA_API_URL;
 })();

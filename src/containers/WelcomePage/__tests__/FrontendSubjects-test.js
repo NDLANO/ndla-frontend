@@ -32,6 +32,10 @@ const specializationSubjects = [
   {
     id: 'urn:subject:2',
     name: 'Kinesisk',
+    frontpageFilters: [
+      { name: 'Kinesisk 1', id: 'urn:filter:1337' },
+      { name: 'Kinesisk 2', id: 'urn:filter:42' },
+    ],
     path: '/subject:2',
   },
   {

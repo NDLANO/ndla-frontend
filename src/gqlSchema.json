@@ -1865,6 +1865,22 @@
               "deprecationReason": null
             },
             {
+              "name": "frontpageFilters",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SubjectFilter",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "subjectpage",
               "description": "",
               "args": [],
@@ -2456,7 +2472,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "FrontpageSubjects",
+                  "name": "Category",
                   "ofType": null
                 }
               },
@@ -2471,7 +2487,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "FrontpageSubjects",
+          "name": "Category",
           "description": "",
           "fields": [
             {
@@ -3429,17 +3445,6 @@
           ]
         }
       ]
-    }
-  },
-  "extensions": {
-    "tracing": {
-      "version": 1,
-      "startTime": "2018-08-09T08:40:05.491Z",
-      "endTime": "2018-08-09T08:40:05.527Z",
-      "duration": 35808301,
-      "execution": {
-        "resolvers": []
-      }
     }
   }
 }

@@ -86,8 +86,9 @@ Disallow: /*/resourcemap
 Disallow: /*/kontakt
 Disallow: /*/node/*/edit
 Disallow: /*/audio/
+Disallow: /*/printpdf/
 
-# Added by Knowit
+# ndla-frontend paths
 Disallow: /health/
 Disallow: /oembed/
 Disallow: /article-iframe/
