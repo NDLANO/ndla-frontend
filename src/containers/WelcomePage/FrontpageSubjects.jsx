@@ -20,14 +20,12 @@ import config from '../../config';
 import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
-  imported: {
-    name: 'imported',
-    subjects: subjects.map(subject => ({
-      text: subject.name,
-      url: toSubject(subject.id),
-      yearInfo: subject.yearInfo,
-    })),
-  },
+  name: 'imported',
+  subjects: subjects.map(subject => ({
+    text: subject.name,
+    url: toSubject(subject.id),
+    yearInfo: subject.yearInfo,
+  })),
 });
 
 const sortByName = arr =>
@@ -57,69 +55,46 @@ export const getCategoriesWithAllSubjects = (
 ) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
-  return (
-    categoriesFromApi
-      .map(category => {
-        const flattened = flattenSubjectsFrontpageFilters(category.subjects);
-        const newSubjects = flattened.map(categorySubject => ({
-          ...categorySubject,
-          text: categorySubject.name,
-          url: toSubject(categorySubject.id),
-          yearInfo: categorySubject.yearInfo,
-        }));
+  return categoriesFromApi.map(category => {
+    const flattened = flattenSubjectsFrontpageFilters(category.subjects);
+    const newSubjects = flattened.map(categorySubject => ({
+      ...categorySubject,
+      text: categorySubject.name,
+      url: toSubject(categorySubject.id),
+      yearInfo: categorySubject.yearInfo,
+    }));
 
-        const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
-          .map(subject => ({
-            ...subject,
-            id: subject.nodeId,
-            text: subject.name,
-            url: subject.lang
-              ? `/${subject.lang}/node/${subject.nodeId}`
-              : `/${lang}/node/${subject.nodeId}`,
-            yearInfo: subject.yearInfo,
-          }))
-          .filter(
-            oldSubject =>
-              newSubjects.find(newSubject =>
-                oldSubject.name.startsWith(newSubject.name),
-              ) === undefined,
-          );
-        return {
-          [category.name]: {
-            ...category,
-            subjects: sortByName([...oldSubjects, ...newSubjects]),
-          },
-        };
-      })
-      /*
-  * NOTE: This reducer is needed in order to fit with the updated object
-  * structure in ndla-ui.
-  *
-  * Transform an array of categories to an object with list of categories.
-  *
-  * */
-      .reduce(
-        (obj, category) => ({
-          ...obj,
-          [category[Object.keys(category)].name]:
-            category[Object.keys(category)],
-        }),
-        {},
-      )
-  );
+    const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
+      .map(subject => ({
+        ...subject,
+        id: subject.nodeId,
+        text: subject.name,
+        url: subject.lang
+          ? `/${subject.lang}/node/${subject.nodeId}`
+          : `/${lang}/node/${subject.nodeId}`,
+        yearInfo: subject.yearInfo,
+      }))
+      .filter(
+        oldSubject =>
+          newSubjects.find(newSubject =>
+            oldSubject.name.startsWith(newSubject.name),
+          ) === undefined,
+      );
+    return {
+      ...category,
+      subjects: sortByName([...oldSubjects, ...newSubjects]),
+    };
+  });
 };
 
 const FrontpageSubjects = ({ categories, subjects, locale }) => {
   const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
 
   const allSubjects = config.isNdlaProdEnvironment
-    ? { ...frontpageCategories }
-    : {
-        ...frontpageCategories,
-        ...getAllImportSubjectsCategory(subjects),
-      };
+    ? frontpageCategories
+    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
-  return <FrontpageSubjectsSection subjects={allSubjects} />;
+  return <FrontpageSubjectsSection categories={allSubjects} />;
 };
 
 FrontpageSubjects.propTypes = {

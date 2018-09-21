@@ -6622,9 +6622,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.16.2.tgz#b2fe2ca15c4b4bebf2301e28832cca5151128dd7"
+ndla-ui@^0.16.3:
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.16.3.tgz#5c3747cd16d470b46565b60ad916b5857ad5e805"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"

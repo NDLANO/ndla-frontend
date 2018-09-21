@@ -97,7 +97,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
               <span
                 className="c-article-byline__authors"
               >
-                Someone 
+                Someone
               </span>
               <span>
                  (CC BY-SA)
