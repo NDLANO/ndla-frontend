@@ -35,12 +35,23 @@ const getUrl = (subject, result) => {
   return `/subjects${subject.path}`;
 };
 
-const taxonomyData = result => {
+const selectContext = (contexts, filters) => {
+  if (contexts.length === 0) return undefined;
+  if (filters.length > 0) {
+    const foundContext = contexts.filter(context =>
+      context.path.includes(filters[0].replace('urn:', '')),
+    );
+    if (foundContext.length > 0) return foundContext[0];
+  }
+  return contexts[0];
+};
+
+const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
-  if (result.contexts.length > 0) {
+  if (selectedContext) {
     taxonomyResult = {
-      breadcrumb: result.contexts[0].breadcrumbs,
-      contentType: getContentType(result.contexts[0]),
+      breadcrumb: selectedContext.breadcrumbs,
+      contentType: getContentType(selectedContext),
       contentTypes: result.contexts.map(context => getContentType(context)),
       subjects:
         result.contexts > 1
@@ -57,22 +68,23 @@ const taxonomyData = result => {
 
 const getSearchFromState = state => state.search;
 
-export const getResults = createSelector([getSearchFromState], search =>
-  search.results.map(result => ({
-    ...result,
-    url:
-      result.contexts.length > 0
-        ? getUrl(result.contexts[0], result)
-        : result.url,
-    urls: result.contexts.map(context => ({
-      url: getUrl(context, result),
-      contentType: getContentType(context),
-    })),
-    title: convertFieldWithFallback(result, 'title', ''),
-    ingress: convertFieldWithFallback(result, 'metaDescription', ''),
-    ...taxonomyData(result),
-  })),
-);
+export const getResults = subjectFilters =>
+  createSelector([getSearchFromState], search =>
+    search.results.map(result => {
+      const selectedContext = selectContext(result.contexts, subjectFilters);
+      return {
+        ...result,
+        url: selectedContext ? getUrl(selectedContext, result) : result.url,
+        urls: result.contexts.map(context => ({
+          url: getUrl(context, result),
+          contentType: getContentType(context),
+        })),
+        title: convertFieldWithFallback(result, 'title', ''),
+        ingress: convertFieldWithFallback(result, 'metaDescription', ''),
+        ...taxonomyData(result, selectedContext),
+      };
+    }),
+  );
 
 export const getResultsMetadata = createSelector(
   [getSearchFromState],
