@@ -22,6 +22,32 @@ const getContentType = resource => {
   return constants.contentTypes.SUBJECT_MATERIAL;
 };
 
+const getRelevance = resource => {
+  if (resource.filters.length > 0) {
+    return (
+      // Consider getting from constants
+      resource.filters[0].relevance === 'Tilleggsstoff' ||
+      resource.filters[0].relevance === 'Supplementary'
+    );
+  }
+  return false;
+};
+
+const getResourceType = resource => {
+  if (resource.resourceTypes.length > 0) {
+    if (resource.resourceTypes.length > 1) {
+      return resource.resourceTypes[1].name;
+    }
+    // Avoid showing name for single types
+    if (
+      resource.resourceTypes[0].id !== 'urn:resourcetype:learningPath' &&
+      resource.resourceTypes[0].id !== 'urn:resourcetype:subjectMaterial'
+    )
+      return resource.resourceTypes[0].name;
+  }
+  return null;
+};
+
 const getUrl = (subject, result) => {
   if (subject.learningResourceType === 'learningpath') {
     return {
@@ -50,6 +76,8 @@ const taxonomyData = result => {
               contentType: getContentType(subject),
             }))
           : undefined,
+      additional: getRelevance(result.contexts[0]),
+      type: getResourceType(result.contexts[0]),
     };
   }
   return taxonomyResult;
