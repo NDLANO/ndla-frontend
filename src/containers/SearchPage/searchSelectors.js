@@ -87,8 +87,8 @@ const taxonomyData = (result, selectedContext) => {
               contentType: getContentType(subject),
             }))
           : undefined,
-      additional: getRelevance(result.contexts[0]),
-      type: getResourceType(result.contexts[0]),
+      additional: getRelevance(selectedContext),
+      type: getResourceType(selectedContext),
     };
   }
   return taxonomyResult;
