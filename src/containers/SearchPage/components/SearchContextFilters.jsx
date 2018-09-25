@@ -9,11 +9,9 @@ import React from 'react';
 import { SearchFilter } from 'ndla-ui';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { injectT } from 'ndla-i18n';
-import { ArticleResultShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
-  results,
   filterState,
   onUpdateContextFilters,
   resourceTypes,
@@ -25,8 +23,7 @@ const SearchContextFilters = ({
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||
-    !enabledTab ||
-    results.length === 0
+    !enabledTab
   ) {
     return null;
   }
@@ -34,6 +31,7 @@ const SearchContextFilters = ({
     ? resourceTypes.find(type => type.id === enabledTab)
     : {};
   const subtypes = resourceType ? resourceType.subtypes : [];
+
   return (
     <SearchFilter
       contextFilter
@@ -56,7 +54,6 @@ SearchContextFilters.propTypes = {
     levels: arrayOf(string),
     contextFilters: arrayOf(string),
   }),
-  results: arrayOf(ArticleResultShape).isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onUpdateContextFilters: func,
 };

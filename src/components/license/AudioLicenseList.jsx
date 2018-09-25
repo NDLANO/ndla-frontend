@@ -17,7 +17,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from 'ndla-ui';
-import { Audio } from 'ndla-icons/common';
+import { AudioDocument } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import { getGroupedContributorDescriptionList } from 'ndla-licenses';
 import CopyTextButton from './CopyTextButton';
@@ -35,7 +35,7 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Audio className="c-medialist__icon" />
+        <AudioDocument className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
         title={t('audio.rules')}

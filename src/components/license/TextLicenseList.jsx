@@ -18,7 +18,7 @@ import {
   MediaListItemMeta,
 } from 'ndla-ui';
 import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
-import { Document } from 'ndla-icons/common';
+import { FileDocumentOutline } from 'ndla-icons/common';
 import { injectT } from 'ndla-i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
@@ -39,7 +39,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Document className="c-medialist__icon" />
+        <FileDocumentOutline className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license.license}
