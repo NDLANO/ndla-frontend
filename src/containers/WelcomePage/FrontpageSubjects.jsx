@@ -94,7 +94,16 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
     ? frontpageCategories
     : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
-  return <FrontpageSubjectsSection categories={allSubjects} />;
+  return (
+    <FrontpageSubjectsSection
+      linkToAbout={
+        <a rel="noopener noreferrer" target="_blank" href="https://om.ndla.no">
+          om.ndla.no
+        </a>
+      }
+      categories={allSubjects}
+    />
+  );
 };
 
 FrontpageSubjects.propTypes = {
