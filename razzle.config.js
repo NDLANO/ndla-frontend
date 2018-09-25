@@ -7,7 +7,10 @@ module.exports = {
     const appConfig = config;
 
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
+      // console.log(rule);
+      // rule.test = /\.(sa|sc|c)ss/;
       rule.use.push({ loader: 'postcss-loader' });
+      rule.use.push({ loader: 'sass-loader' });
     });
 
     appConfig.module.rules.shift(); // remove eslint-loader
