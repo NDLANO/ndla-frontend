@@ -11,7 +11,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       className="c-masthead__placeholder"
     />
     <div
-      className="c-masthead c-masthead--fixed c-masthead--showLoaderWhenNeeded"
+      className="c-masthead c-masthead--fixed"
     >
       <div
         className="u-1/1 c-masthead__content"
