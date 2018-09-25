@@ -15,7 +15,7 @@ test('searchSelectors getResults', () => {
     locale: 'nb',
   };
 
-  expect(getResults(state)).toEqual(search.results);
+  expect(getResults([])(state)).toEqual(search.results);
 });
 
 test('searchSelectors getLastPage', () => {
