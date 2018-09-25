@@ -137,10 +137,10 @@ class SearchContainer extends Component {
       fetchFilters();
     }
 
-    const searchObject = location ? converSearchStringToObject(location) : {};
+    const searchObject = converSearchStringToObject(location);
 
     const searchParams = {
-      ...queryString.parse(location.search),
+      ...searchObject,
       'context-types': !searchObject.contextFilters
         ? searchObject['context-types']
         : undefined,
@@ -207,6 +207,7 @@ class SearchContainer extends Component {
     Object.keys(this.state.searchParams).forEach(key => {
       stateSearchParams[key] = convertSearchParam(this.state.searchParams[key]);
     });
+
     const searchParams = {
       ...queryString.parse(location.search),
       ...stateSearchParams,
@@ -393,7 +394,7 @@ const mapStateToProps = (state, ownProps) => {
   const { location } = ownProps;
   const searchObject = converSearchStringToObject(location);
   return {
-    results: getResults(state),
+    results: getResults(searchObject.subjects)(state),
     resultMetadata: getResultsMetadata(state),
     subjects: getSubjects(state),
     locale: getLocale(state),
