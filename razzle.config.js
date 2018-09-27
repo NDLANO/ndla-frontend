@@ -8,6 +8,7 @@ module.exports = {
 
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
+      rule.use.push({ loader: 'sass-loader' });
     });
 
     appConfig.module.rules.shift(); // remove eslint-loader

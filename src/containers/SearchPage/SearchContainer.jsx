@@ -8,7 +8,8 @@
 import React, { Component } from 'react';
 import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
-import { SearchPage, OneColumn, Pager } from 'ndla-ui';
+import Pager from 'ndla-pager';
+import { SearchPage, OneColumn } from 'ndla-ui';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from 'ndla-tracker';

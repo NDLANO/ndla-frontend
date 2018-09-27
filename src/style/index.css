@@ -6,12 +6,11 @@
  *
  */
 
-@import '../../node_modules/normalize-css/normalize.css';
-@import 'vars.css';
-@import '../../node_modules/ndla-ui/lib/main.css';
-@import 'forms.css';
-@import 'search.css';
-@import 'alert.css';
+@import '~ndla-core/scss/core';
+@import '~ndla-icons/scss/icons';
+@import '~ndla-ui/src/main';
+@import '~ndla-tabs/scss/tabs';
+@import '~ndla-pager/scss/pager';
 
 .article-old-ndla-link:any-link {
   &:any-link {
