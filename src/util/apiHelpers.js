@@ -92,7 +92,9 @@ const getAccessTokenExpiresAt = () => {
 export const fetchAccessToken = () =>
   fetch('/get_token', {
     headers: {
-      'Cache-control': 'no-cache, no-store, must-revalidate',
+      'Cache-control': 'no-cache, no-store',
+      Pragma: 'no-cache',
+      Expires: 0,
     },
   }).then(resolveJsonOrRejectWithError);
 
