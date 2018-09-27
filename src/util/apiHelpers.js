@@ -90,7 +90,11 @@ const getAccessTokenExpiresAt = () => {
 };
 
 export const fetchAccessToken = () =>
-  fetch('/get_token').then(resolveJsonOrRejectWithError);
+  fetch('/get_token', {
+    headers: {
+      'Cache-control': 'no-cache, no-store, must-revalidate',
+    },
+  }).then(resolveJsonOrRejectWithError);
 
 const fetchWithHeaders = (url, options, headers) =>
   fetch(url, {
