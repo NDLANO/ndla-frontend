@@ -1,4 +1,4 @@
 {
   "presets": ["razzle/babel"],
-  "plugins": []
+  "plugins": ["graphql-tag"]
 }
