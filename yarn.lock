@@ -7008,13 +7008,13 @@ ndla-article-scripts@^0.4.6:
     jump.js "^1.0.2"
     lodash "^4.17.5"
 
-ndla-button@^0.0.2-2:
-  version "0.0.2-2"
-  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.2-2.tgz#98a5f899dbaafc75b4bd0f850fd535fd785f9989"
+ndla-button@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.2.tgz#c9d6deba93e1ceffeea04847f2cc03c4682ba8ac"
 
-ndla-core@^0.2.0-3:
-  version "0.2.0-3"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.2.0-3.tgz#8a67636c8f0b0320fb1ebc9e0ead781b06ad3351"
+ndla-core@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.2.0.tgz#54b0c0a536eb6187508322bff39010229f398dac"
   dependencies:
     inuitcss "6.0.0-beta.4"
     polished "^2.2.0"
@@ -7045,9 +7045,9 @@ ndla-licenses@^0.2.2:
   dependencies:
     defined "1.0.0"
 
-ndla-pager@^0.2.0-1:
-  version "0.2.0-1"
-  resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.0-1.tgz#1778ed8d8a836d45739d25ad70de2cdc54b0e746"
+ndla-pager@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.0.tgz#70d64bcc93433951c35077a70b95f1a49797c629"
 
 ndla-scripts@^0.6.1:
   version "0.6.1"
@@ -7071,9 +7071,9 @@ ndla-tracker@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.0.tgz#7096a5ff4115fda31936dd14059d137df58cca2b"
 
-ndla-ui@^0.17.1-1:
-  version "0.17.1-1"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.1-1.tgz#df7e290c3e19b14dbd30861e480b12ee39bed45b"
+ndla-ui@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.1.tgz#6b7a9766b2ba5d2d30c54f00c5ab4ae5485a2b6c"
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
