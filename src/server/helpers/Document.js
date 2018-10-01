@@ -18,6 +18,7 @@ const Document = ({
   helmet,
   className,
   assets,
+  css,
   data,
   useZendesk,
   userAgentString,
@@ -43,6 +44,7 @@ const Document = ({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
         />
+        {css && <style dangerouslySetInnerHTML={{ __html: css }} />}
         {config.gaTrackingId && (
           <script async src="https://www.google-analytics.com/analytics.js" />
         )}
@@ -114,6 +116,7 @@ Document.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   userAgentString: PropTypes.string.isRequired,
   className: PropTypes.string,
+  css: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,

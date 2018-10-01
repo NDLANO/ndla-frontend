@@ -63,6 +63,7 @@
     "date-fns": "^1.29.0",
     "defined": "1.0.0",
     "emotion": "^9.2.12",
+    "emotion-server": "^9.2.12",
     "express": "^4.16.3",
     "express-http-proxy": "^1.2.0",
     "graphql": "^0.13.2",
