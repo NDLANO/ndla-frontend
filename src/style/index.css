@@ -8,9 +8,9 @@
 
 @import '~ndla-core/scss/core';
 @import '~ndla-icons/scss/icons';
+@import '~ndla-button/scss/button';
 @import '~ndla-ui/src/main';
 @import '~ndla-tabs/scss/tabs';
-@import '~ndla-pager/scss/pager';
 
 .article-old-ndla-link:any-link {
   &:any-link {

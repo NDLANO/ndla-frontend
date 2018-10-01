@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { injectT } from 'ndla-i18n';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 import config from '../config';
 
 const zendeskHost = (() => {
