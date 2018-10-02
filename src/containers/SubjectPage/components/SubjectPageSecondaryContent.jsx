@@ -24,9 +24,10 @@ import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { getLocale } from '../../Locale/localeSelectors';
+import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 
 const SubjectPageSecondaryContent = ({
-  subjectName,
+  // subjectName,
   latestContentResources,
   t,
   locale,
@@ -44,7 +45,10 @@ const SubjectPageSecondaryContent = ({
                     name: content.name,
                     url: toLinkProps(content).to,
                     toLinkProps: () => toLinkProps(content),
-                    topicName: subjectName,
+                    topicName: [], // Todo fix breadcrumb
+                    contentType: getContentTypeFromResourceTypes(
+                      content.resourceTypes,
+                    ).contentType,
                     formattedDate: content.meta
                       ? formatDate(content.meta.lastUpdated, locale)
                       : '',
@@ -76,7 +80,7 @@ const SubjectPageSecondaryContent = ({
 );
 SubjectPageSecondaryContent.propTypes = {
   latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),
-  subjectName: PropTypes.string.isRequired,
+  // subjectName: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
