@@ -22,7 +22,10 @@ const getAssets = () => ({
 });
 
 async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
-  const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
+  const { abbreviation, messages } = getLocaleInfoFromPath(
+    req.path,
+    req.headers['accept-language'],
+  );
 
   const context = { status };
   const Page = (

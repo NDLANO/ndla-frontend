@@ -59,7 +59,7 @@ async function doRender(req) {
     messages,
     basepath,
     basename,
-  } = getLocaleInfoFromPath(req.path);
+  } = getLocaleInfoFromPath(req.path, req.headers['accept-language']);
 
   const store = configureStore({ locale });
   const client = createApolloClient(locale);

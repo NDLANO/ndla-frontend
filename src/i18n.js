@@ -45,13 +45,21 @@ export const getHtmlLang = localeAbbreviation => {
   return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
 };
 
-export function getLocaleInfoFromPath(path) {
+const getClientLanguage = acceptLanguage => {
+  const languages = acceptLanguage.split(',');
+  return languages[0].slice(0, 2);
+};
+
+export function getLocaleInfoFromPath(path, acceptLanguage = '') {
+  const abbreviation = getClientLanguage(acceptLanguage);
+
   const paths = path.split('/');
   const basename = isValidLocale(paths[1]) ? paths[1] : '';
   const basepath = basename ? path.replace(`/${basename}`, '') : path;
+
   return {
     basepath,
     basename,
-    ...getLocaleObject(basename),
+    ...getLocaleObject(abbreviation || basename),
   };
 }

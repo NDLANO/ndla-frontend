@@ -200,7 +200,10 @@ app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
   (req, res, next) => {
-    const { basepath: path } = getLocaleInfoFromPath(req.path);
+    const { basepath: path } = getLocaleInfoFromPath(
+      req.path,
+      req.headers['accept-language'],
+    );
     const route = appRoutes.find(r => matchPath(path, r)); // match with routes used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)

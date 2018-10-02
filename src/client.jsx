@@ -26,9 +26,9 @@ import './style/index.css';
 const {
   DATA: { initialState, initialProps, config },
 } = window;
-const { abbreviation, messages, basename } = getLocaleInfoFromPath(
-  window.location.pathname,
-);
+const { messages, basename } = getLocaleInfoFromPath(window.location.pathname);
+
+const abbreviation = initialState.locale;
 
 const browserHistory = basename ? createHistory({ basename }) : createHistory();
 
