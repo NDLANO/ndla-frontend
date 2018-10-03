@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { copyTextToClipboard } from 'ndla-util';
-import { Button } from 'ndla-ui';
+import Button from 'ndla-button';
 
 class CopyTextButton extends Component {
   constructor(props) {
