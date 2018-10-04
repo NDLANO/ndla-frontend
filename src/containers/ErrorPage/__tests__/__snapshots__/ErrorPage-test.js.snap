@@ -62,31 +62,28 @@ exports[`ErrorPage renderers correctly 1`] = `
       className="o-wrapper o-wrapper--clear undefined"
     >
       <article
-        className="c-error-message"
+        className="css-7ifh8p e1h45nf50"
       >
         <img
           alt="Ops, noe gikk galt"
-          className="c-error-message__illustration"
+          className="css-156n74x e1h45nf51"
           src="/static/oops.gif"
         />
         <h1>
           Ops, noe gikk galt
         </h1>
         <p
-          className="c-error-message__description"
+          className="css-1x3wxmt e1h45nf52"
         >
           Beklager, en feil oppsto.
         </p>
-        <h2
-          className="c-error-message__link-heading"
-        >
+        <h2>
           Kom igang:
         </h2>
         <div
-          className="c-error-message__link-wrapper"
+          className="css-v57cu9"
         >
           <a
-            className="c-error-message__front-link"
             href="/"
           >
             Gå til forsiden
