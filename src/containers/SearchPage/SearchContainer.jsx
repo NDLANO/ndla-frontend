@@ -142,11 +142,14 @@ class SearchContainer extends Component {
 
     const searchParams = {
       ...searchObject,
-      'context-types': !searchObject.contextFilters
-        ? searchObject['context-types']
-        : undefined,
+      'context-types':
+        !searchObject.contextFilters.length > 0
+          ? searchObject['context-types']
+          : undefined,
       'resource-types':
-        searchObject.contextFilters || searchObject['resource-types'],
+        searchObject.contextFilters.length > 0
+          ? searchObject.contextFilters
+          : searchObject['resource-types'],
       contextFilters: undefined,
     };
 
