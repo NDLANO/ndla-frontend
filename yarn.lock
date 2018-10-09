@@ -698,14 +698,14 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-apollo-cache-inmemory@^1.2.10:
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.2.10.tgz#362d6c36cfd815a309b966f71e5d2b6c770c7989"
-  integrity sha512-eBusPFVtYIuo+PIfJdAwUCQ4cs7AJ4mB7sTdXxNQCXToYw8mzE6EfHnV37kdVfBXSaa82BzE2rb/YUq/duuamw==
+apollo-cache-inmemory@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.3.5.tgz#7628ee598271cfffa611e15a7ce67652a84b07b0"
+  integrity sha512-CD4Dl9vcCp7N05KUqR3rNDj2WJ1DQNNfeyBUIo5T6XTiUhfBQp5x+CL7S+ezy5mPp+xo4TnwFzLFh/vy2LdDog==
   dependencies:
     apollo-cache "^1.1.17"
     apollo-utilities "^1.0.21"
-    graphql-anywhere "^4.1.19"
+    optimism "^0.6.6"
 
 apollo-cache@1.1.17, apollo-cache@^1.1.17:
   version "1.1.17"
@@ -3493,6 +3493,13 @@ debug@^4.0.1:
   dependencies:
     ms "^2.1.1"
 
+debug@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.0.tgz#373687bffa678b38b1cd91f861b63850035ddc87"
+  integrity sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg==
+  dependencies:
+    ms "^2.1.1"
+
 debug@~0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
@@ -5420,13 +5427,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
   integrity sha1-Dovf5NHduIVNZOBOp8AOKgJuVlg=
 
-graphql-anywhere@^4.1.19:
-  version "4.1.19"
-  resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-4.1.19.tgz#5f6ca3b58218e5449f4798e3c6d942fcd2fef082"
-  integrity sha512-mQlvbECzYPBcgBC9JsdM4v+DSvNmcIP+8Vwr+ij3gktbaLSE0Iza30mztuz40Jlf7ooMs+0emBZucNjLzqz7tA==
-  dependencies:
-    apollo-utilities "^1.0.21"
-
 graphql-config@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/graphql-config/-/graphql-config-2.0.1.tgz#d34a9bdf1d7360af7b01db9b20260a342ddc7390"
@@ -5912,6 +5912,11 @@ ignore@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
+
+immutable-tuple@^0.4.4:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/immutable-tuple/-/immutable-tuple-0.4.8.tgz#f60b65b863d34be39d307d1bbf4a450e1ac3048a"
+  integrity sha512-1m29EVSrF+LJJAyVo1v12NsIalVKjyi4HNQVQDBx+LNCIuRXnfeMCHuLao5CyN1m3Sn0T63U5JEkmPArPCipQA==
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -8172,10 +8177,10 @@ ndla-button@^0.0.3:
   resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
   integrity sha512-57L3gS/ztnmFsRgj+tfuK3Jbf2WTM5pt+oqQF/QqYqdkUtwDkXIUDyzzqaD2YnbLkkVsGngdIrzmtt395gSGpg==
 
-ndla-core@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.2.1.tgz#58d08a67f9e31a067cff6933c61a3e556da06052"
-  integrity sha512-y0kOvRXO0BhYBo1uOdJkrhsKjr4yn97bqkeEO8d0/dNS4q00nrZHDta2wG1RVQyqZiy2t2uEn1iXYXTROQ7Lnw==
+ndla-core@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.0.tgz#b24df43a94bd9bd00aee1c4519b14b41db32263d"
+  integrity sha512-5f1+ZKGzUuYTI2fE2BAVLZnk4OKvd0Z4z4JcyCIZ4Ocz7JCBP6q3jifCHQZNj/WzBd+ySMdn676Y2ic+cVnccw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -8241,10 +8246,10 @@ ndla-tracker@^0.2.1:
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.1.tgz#79ee17629ef8f18e8f4b87a9e0f170beafc5dd32"
   integrity sha512-bLbwkIkAp4mK30l5+onQEm3sRS7HzAtNGQPadGd1CH2ygegaNq6KjVBiijoBuFrkvA6VBIigL+mbpMNA/4qOLA==
 
-ndla-ui@^0.17.2:
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.2.tgz#32a5e7bf999678b191134cab92d78027a28fb1d4"
-  integrity sha512-wwdnJZbg9w1OX1+BjdPRVAC5K4zwUK9YwUyQ2eZnxRIGdnBdtXBpb6JIF3gtE7ZAQ5hGq+kHI0LuQMPmyfVi8Q==
+ndla-ui@^0.17.5:
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.5.tgz#7fb7acfa7a2a86e740543c800009e17ba10bd253"
+  integrity sha512-erDafD+4P9bWvh21xZOy00XwCwnoW2jvvsZU/tepFYdryvKFI6Xsz7mKhj1SnyQuQmw3BYoHk3fXANpwKBkkiw==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -8306,13 +8311,13 @@ nocache@2.0.0:
   resolved "https://registry.yarnpkg.com/nocache/-/nocache-2.0.0.tgz#202b48021a0c4cbde2df80de15a17443c8b43980"
   integrity sha1-ICtIAhoMTL3i34DeFaF0Q8i0OYA=
 
-nock@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-10.0.0.tgz#bcbd2c003961baffcae2ecd28e074574233d3869"
-  integrity sha512-hE0O9Uhrg7uOpAqnA6ZfnvCS/TZy0HJgMslJ829E7ZuRytcS86/LllupHDD6Tl8fFKQ24kWe1ikX3MCrKkwaaQ==
+nock@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-10.0.1.tgz#71eeb580c2995878e582b3e32420daead9eb44f7"
+  integrity sha512-M0aL9IDbUFURmokoXqejZQybZk8EtlYjUBjaoICVbW62uOlyPRsnEsceyOlUik4spCOt50ptwM4BTPt20ITtcQ==
   dependencies:
     chai "^4.1.2"
-    debug "^3.1.0"
+    debug "^4.1.0"
     deep-equal "^1.0.0"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.5"
@@ -8741,6 +8746,13 @@ opn@^5.1.0:
   integrity sha512-bYJHo/LOmoTd+pfiYhfZDnf9zekVJrY+cnS2a5F2x+w5ppvTqObojTP7WiFG+kVZs9Inw+qQ/lw7TroWwhdd2g==
   dependencies:
     is-wsl "^1.1.0"
+
+optimism@^0.6.6:
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.6.6.tgz#5415b2d6a2f8b3745aedb9f97fdf4e52467ecd84"
+  integrity sha512-1Y6LY7pYbXP5y6yeXYfXhxJi9hsxYAZWpt7bBp4seAwfcYtaN7tq9wot/pdrhyI809/K4gDm3BcZcEkmwGevjg==
+  dependencies:
+    immutable-tuple "^0.4.4"
 
 optimist@^0.6.1:
   version "0.6.1"
