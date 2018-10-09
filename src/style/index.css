@@ -11,6 +11,7 @@
 @import '~ndla-button/scss/button';
 @import '~ndla-ui/src/main';
 @import '~ndla-tabs/scss/tabs';
+@import '~ndla-core/scss/utilities';
 
 .article-old-ndla-link:any-link {
   &:any-link {
