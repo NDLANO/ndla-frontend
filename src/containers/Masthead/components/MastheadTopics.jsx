@@ -36,6 +36,7 @@ const MastheadTopics = props => {
   return (
     <TopicMenu
       close={onClose}
+      toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes}
       toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
@@ -71,7 +72,7 @@ MastheadTopics.propTypes = {
   }).isRequired,
   topicResourcesByType: arrayOf(TopicShape).isRequired,
   activeFilters: arrayOf(string).isRequired,
-  expandedTopicId: string.isRequired,
+  expandedTopicId: string,
   expandedSubtopicsId: arrayOf(string).isRequired,
   filters: arrayOf(object).isRequired,
   onClose: func.isRequired,

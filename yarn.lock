@@ -8177,10 +8177,10 @@ ndla-button@^0.0.3:
   resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
   integrity sha512-57L3gS/ztnmFsRgj+tfuK3Jbf2WTM5pt+oqQF/QqYqdkUtwDkXIUDyzzqaD2YnbLkkVsGngdIrzmtt395gSGpg==
 
-ndla-core@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.0.tgz#b24df43a94bd9bd00aee1c4519b14b41db32263d"
-  integrity sha512-5f1+ZKGzUuYTI2fE2BAVLZnk4OKvd0Z4z4JcyCIZ4Ocz7JCBP6q3jifCHQZNj/WzBd+ySMdn676Y2ic+cVnccw==
+ndla-core@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.1.tgz#484c0602910c9c3233154dfd55636aa2ae326b76"
+  integrity sha512-n6D0MEpX33XxApw5Fj72oFd4qQsRnwPtgnrwhXdB0EksgWSl5txgo0Awg+GwsMxw4laX67FuAGAlQj2SxuP5dQ==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -8216,6 +8216,11 @@ ndla-licenses@^0.3.0:
   dependencies:
     defined "1.0.0"
 
+ndla-modal@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ndla-modal/-/ndla-modal-0.1.1.tgz#436f34e00bea1053b49286de925c750cb3553024"
+  integrity sha512-6ul6X6B6B1P5RL3AifY5SGzDeTej07lkc7T6ENztPQZ+EY9xBFmRtRTg205AamDQBIinzgREZ/U/TtE3uuqh3Q==
+
 ndla-pager@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.1.tgz#155e9528d2bfaca0ddfdc180d18bc615aae15e29"
@@ -8246,10 +8251,10 @@ ndla-tracker@^0.2.1:
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.1.tgz#79ee17629ef8f18e8f4b87a9e0f170beafc5dd32"
   integrity sha512-bLbwkIkAp4mK30l5+onQEm3sRS7HzAtNGQPadGd1CH2ygegaNq6KjVBiijoBuFrkvA6VBIigL+mbpMNA/4qOLA==
 
-ndla-ui@^0.17.5:
-  version "0.17.5"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.5.tgz#7fb7acfa7a2a86e740543c800009e17ba10bd253"
-  integrity sha512-erDafD+4P9bWvh21xZOy00XwCwnoW2jvvsZU/tepFYdryvKFI6Xsz7mKhj1SnyQuQmw3BYoHk3fXANpwKBkkiw==
+ndla-ui@^0.17.6:
+  version "0.17.6"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.6.tgz#c42f714fd520a09127fefb24a8c42deb90de6f8f"
+  integrity sha512-FF98utAyKO8auWBlXlUwsIDJGlQJ8517XBxNw9LnIYDyaM/jzXMRNxY6wBvAhdCTeOrGJiMFbmFDjhR3dW7LaA==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
@@ -8263,10 +8268,10 @@ ndla-ui@^0.17.5:
     react-slick "^0.19.0"
     react-transition-group "^2.2.1"
 
-ndla-util@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.8.tgz#7ff0c0748ab09ca192cdf6ef36c11203b929af3a"
-  integrity sha512-9H9s50rUU+bxg6PxX+rrqxoJPQGw4BduTh3tz3yqsP39JXtztlmwYQBU8SyUluif7pm4+oYPaAvZTYhJzvb6tQ==
+ndla-util@^0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/ndla-util/-/ndla-util-0.2.9.tgz#81d81c9b3720ba8ce0fde64ba9179dea24fe4cea"
+  integrity sha512-82vtLS2nvJVXx2idTpq57CL/x7eiOfzXlTyD/IPzuo8AAv2CJeXyKIWG1nRMJqTXIowzYkkCotQUys+FS9YApQ==
   dependencies:
     defined "1.0.0"
     pdfmake "^0.1.38"
