@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'ndla-ui';
+import Modal from 'ndla-modal';
 import Button from 'ndla-button';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from 'ndla-i18n';
