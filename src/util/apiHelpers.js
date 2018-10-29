@@ -7,6 +7,7 @@
  */
 
 import defined from 'defined';
+import storage from 'local-storage-fallback';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
@@ -64,8 +65,8 @@ export function resolveJsonOrRejectWithError(res) {
 export const storeAccessToken = accessToken => {
   const expiresAt = expiresIn(accessToken) * 1000 + new Date().getTime();
   if (__CLIENT__) {
-    localStorage.setItem('access_token', accessToken);
-    localStorage.setItem('access_token_expires_at', expiresAt);
+    storage.setItem('access_token', accessToken);
+    storage.setItem('access_token_expires_at', expiresAt);
   } else {
     global.access_token = accessToken;
     global.access_token_expires_at = expiresAt;
@@ -74,14 +75,14 @@ export const storeAccessToken = accessToken => {
 
 export const getAccessToken = () => {
   if (__CLIENT__) {
-    return localStorage.getItem('access_token');
+    return storage.getItem('access_token');
   }
   return global.access_token;
 };
 
 const getAccessTokenExpiresAt = () => {
   if (__CLIENT__) {
-    return JSON.parse(localStorage.getItem('access_token_expires_at'));
+    return JSON.parse(storage.getItem('access_token_expires_at'));
   }
   if (__SERVER__) {
     return global.access_token;
