@@ -13,23 +13,20 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import { withApollo } from 'react-apollo';
-import { SubjectHeader, Breadcrumb } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { SubjectHeader } from 'ndla-ui';
 import { withTracker } from 'ndla-tracker';
 import { GraphQLSubjectShape, GraphqlErrorShape } from '../../graphqlShapes';
 import { LocationShape } from '../../shapes';
-import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 import { subjectPageQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
-import SubjectPageOneColumn from './components/SubjectPageOneColumn';
-import SubjectPageTwoColumn from './components/SubjectPageTwoColumn';
+import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getResources } from './subjectPageHelpers';
-import { toTopicMenu } from '../../util/topicsHelper';
 import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
@@ -92,7 +89,6 @@ class SubjectPage extends Component {
         params: { subjectId },
       },
       location,
-      t,
     } = this.props;
 
     if (loading && (!data || !data.subject)) {
@@ -104,7 +100,7 @@ class SubjectPage extends Component {
     }
     const activeFilters = getFiltersFromUrlAsArray(location);
     const { subject } = data;
-    const { name: subjectName, filters: subjectFilters } = subject;
+    const { name: subjectName } = subject;
 
     const subjectpage =
       subject && subject.subjectpage ? subject.subjectpage : {};
@@ -115,36 +111,10 @@ class SubjectPage extends Component {
       twitter,
       banner,
       editorsChoices,
-      displayInTwoColumns,
+      layout,
     } = subjectpage;
-
     const latestContentResources = getResources(latestContent);
-    const filters = subjectFilters.map(filter => ({
-      ...filter,
-      title: filter.name,
-      value: filter.id,
-    }));
-    const topicsWithSubTopics =
-      subject && subject.topics
-        ? subject.topics
-            .filter(
-              topic => !topic || !topic.parent || topic.parent === subject.id,
-            )
-            .map(topic => toTopicMenu(topic, subject.topics))
-        : [];
-
-    const breadcrumb = subject ? (
-      <Breadcrumb
-        items={toBreadcrumbItems(
-          t('breadcrumb.toFrontpage'),
-          subject,
-          undefined,
-          undefined,
-        )}
-      />
-    ) : (
-      undefined
-    );
+    
     return (
       <article>
         <Helmet>
@@ -160,27 +130,13 @@ class SubjectPage extends Component {
             { url: banner ? banner.mobileUrl : '', types: ['mobile'] },
           ]}
         />
-        {displayInTwoColumns ? (
-          <SubjectPageTwoColumn
-            subjectId={subjectId}
-            subjectpage={subjectpage}
-            topics={topicsWithSubTopics}
-            breadcrumb={breadcrumb}
-            filters={filters}
-            activeFilters={activeFilters}
-            handleFilterClick={this.handleFilterClick}
-          />
-        ) : (
-          <SubjectPageOneColumn
-            subjectId={subjectId}
-            subjectpage={subjectpage}
-            topics={topicsWithSubTopics}
-            breadcrumb={breadcrumb}
-            filters={filters}
-            activeFilters={activeFilters}
-            handleFilterClick={this.handleFilterClick}
-          />
-        )}
+        <SubjectPageContent
+          layout={layout}
+          subjectId={subjectId}
+          subjectpage={subjectpage}
+          activeFilters={activeFilters}
+          handleFilterClick={this.handleFilterClick}
+        />
         <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
         {latestContent && (
           <SubjectPageSecondaryContent
@@ -214,7 +170,6 @@ SubjectPage.propTypes = {
 
 export default compose(
   withRouter,
-  injectT,
   withTracker,
   withApollo,
 )(SubjectPage);
