@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { SubjectFlexChild } from 'ndla-ui';
 
 export const SubjectPageFlexChild = ({ children, twoColumns }) =>
-  twoColumns ? (
-    <SubjectFlexChild>{children}</SubjectFlexChild>
-  ) : (
-    children
-  );
+  twoColumns ? <SubjectFlexChild>{children}</SubjectFlexChild> : children;
 
 SubjectPageFlexChild.propTypes = {
   twoColumns: PropTypes.bool,

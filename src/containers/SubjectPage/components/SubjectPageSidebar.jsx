@@ -15,7 +15,12 @@ import { toLinkProps } from '../../../routeHelpers';
 import { getResources, getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-export const SubjectPageSidebar = ({ subjectId, subjectpage, twoColumns, t }) => {
+export const SubjectPageSidebar = ({
+  subjectId,
+  subjectpage,
+  twoColumns,
+  t,
+}) => {
   const { mostRead, goTo } = subjectpage;
   const mostReadResources = getResources(mostRead);
 
