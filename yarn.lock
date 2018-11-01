@@ -8184,54 +8184,54 @@ ndla-button@^0.0.3:
   resolved "https://registry.yarnpkg.com/ndla-button/-/ndla-button-0.0.3.tgz#e92918d12a314c514e88082d17156cc71dc01c2d"
   integrity sha512-57L3gS/ztnmFsRgj+tfuK3Jbf2WTM5pt+oqQF/QqYqdkUtwDkXIUDyzzqaD2YnbLkkVsGngdIrzmtt395gSGpg==
 
-ndla-core@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.1.tgz#484c0602910c9c3233154dfd55636aa2ae326b76"
-  integrity sha512-n6D0MEpX33XxApw5Fj72oFd4qQsRnwPtgnrwhXdB0EksgWSl5txgo0Awg+GwsMxw4laX67FuAGAlQj2SxuP5dQ==
+ndla-core@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/ndla-core/-/ndla-core-0.3.7.tgz#020ac822d938dc2512a1d5b75c3dfd0a6f500706"
+  integrity sha512-sf9Z0QpA86KmH6QDs8nZ3GF4TiKQp8+qqV990J7jtiU6UAK96wuJqGYXxQEFrrIjq6PsKfrccpK6EhqeYV0QCA==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
-ndla-error-reporter@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.3.0.tgz#96d190ebd589820e34e33dd5e37dd6d7ab105584"
-  integrity sha1-ltGQ69WJgg404z3V433W16sQVYQ=
+ndla-error-reporter@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ndla-error-reporter/-/ndla-error-reporter-0.3.2.tgz#875b9f904ff2fa41c2d04b8a637580f383135aa5"
+  integrity sha512-w8hPMq5b0qMS5hvrhOvZHSgRoFi1OxgvgZtnuY0nJd//UKiSEaauq2uD9OY643U5dbzyoYaykLJEEaCaJWzZ2A==
   dependencies:
     raven-js "^3.22.3"
 
-ndla-i18n@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.3.1.tgz#650594774ae297e72515e5bba4bc0c5908e3a96a"
-  integrity sha512-s8V5FQtf6lhV81t+FkXd/pnap9FMJYZ+fczCMcSfyFZh+yofEfUJTMeaDvhjlxhRz3lc49nR8fbbY4KACBjICw==
+ndla-i18n@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ndla-i18n/-/ndla-i18n-0.3.3.tgz#cf628417c17624b14c47fc77e3d6a4bb2cdf92c6"
+  integrity sha512-du5yMZ1SN47G/nCpCW/ULqAWcr7NX1VEobkinvMZGb9Q5jKPgu+Rju8HiVc/Mx6DsS5vn+tdhu2lfKfUy2L/sA==
   dependencies:
     hoist-non-react-statics "^2.5.0"
     intl-format-cache "^2.1.0"
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-ndla-icons@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.4.1.tgz#d979cf16c1f7a034ab55e413bcbd16557d203a62"
-  integrity sha512-jCVi1epTU7T8+qymZ24M0CSP/wq2VNAmgmf3XgdwtuzCj5QqssxIDGotBChM95JB9ebbmjP6p7Pw7vkZsL8v/w==
+ndla-icons@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/ndla-icons/-/ndla-icons-0.4.7.tgz#2e462187d34a8aa61907f809c30b84d7ef6c2359"
+  integrity sha512-BZnnMQcophfDnXCU2nqO5hehDOup4k79sU/vEj1Y6YzA6VIp/KmQ5ZjLoMQo8ydFB7GCopk+02ERgOzwQQGG4Q==
 
-ndla-licenses@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.3.0.tgz#c668cb82292579ea78cff120f70b0f52840a2b1e"
-  integrity sha512-hAPIU4BsF2EBmez2wnEht4No7qDpLNJH4TpF/7qZJcpQj/Kt/UUg8Djhif6YMX3L6QJBdqXuzG51NcW34+MYMQ==
+ndla-licenses@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ndla-licenses/-/ndla-licenses-0.3.1.tgz#f9885c5a0fa4def10cd92cf4dc6cd07fb2345e8d"
+  integrity sha512-s6hb4d1I22i+yo2vYxasYspOMX54MrWHDSFC0Zu3digPqj0iYSnsPXlouC2aHTJhP7I9X4WmP2zxBUVl9E/1YQ==
   dependencies:
     defined "1.0.0"
 
-ndla-modal@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ndla-modal/-/ndla-modal-0.1.1.tgz#436f34e00bea1053b49286de925c750cb3553024"
-  integrity sha512-6ul6X6B6B1P5RL3AifY5SGzDeTej07lkc7T6ENztPQZ+EY9xBFmRtRTg205AamDQBIinzgREZ/U/TtE3uuqh3Q==
+ndla-modal@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-modal/-/ndla-modal-0.1.4.tgz#c850a8bfc17faf5308c2dbb319cd778e6b9ae835"
+  integrity sha512-bs9ckyVt6nfGf0HZ03VKBDbUxn8a3Ry7s66PefHyRdBL177sRR5193BQrMA9XqreldP9+TsISWSxJ+aRjKnwVQ==
 
-ndla-pager@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.1.tgz#155e9528d2bfaca0ddfdc180d18bc615aae15e29"
-  integrity sha512-BDzyk7yWfLXfqfN7FVg+iHbQA2JgHRBV3xEYEchuW6gADWOoseFttA4oe4vlai9MRjSpjes+Po7rusN9K/8ADA==
+ndla-pager@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/ndla-pager/-/ndla-pager-0.2.2.tgz#37cfbef04e3266aca98c9e6deee1cdb12f1dc5ca"
+  integrity sha512-hKQ2eqPnpUO3WYe5BbO1XgbcRlMh+p4VouY/0YgJQQWpdbBc7fSIfVNqr7qs59qbA919AcMBvP+36MF5R/GY4A==
 
 ndla-scripts@^0.6.1:
   version "0.6.1"
@@ -8258,10 +8258,10 @@ ndla-tracker@^0.2.1:
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.1.tgz#79ee17629ef8f18e8f4b87a9e0f170beafc5dd32"
   integrity sha512-bLbwkIkAp4mK30l5+onQEm3sRS7HzAtNGQPadGd1CH2ygegaNq6KjVBiijoBuFrkvA6VBIigL+mbpMNA/4qOLA==
 
-ndla-ui@^0.17.6:
-  version "0.17.7"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.7.tgz#ec1b33388e4b57af1c7729527ca87a6bf2ba8081"
-  integrity sha512-XyAmCqIkLpkkG4EqBpAJWxWMlDlQI+jA88qhTng0s64c6ULrxMTl0AYVOa9LiP06nbDgBS5aLWNgZ2QQ3SsHZQ==
+ndla-ui@^0.17.11:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.11.tgz#d85cebf47a710ec26f62bd3d9107efe3c318e24e"
+  integrity sha512-9uznSNgdUkcA0LMbid1zubFt0o0j35F9VkQghA3+UdXer5KplX7jn/Md7WUErZvBWrDWLTkqMCmPkrxFDZjxZQ==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
