@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
-import {
-  OneColumn,
-  SubjectSidebarWrapper,
-  SubjectContent,
-} from 'ndla-ui';
+import { OneColumn, SubjectSidebarWrapper, SubjectContent } from 'ndla-ui';
 import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
 import { TopicShape } from '../../../../shapes';
 import SubjectPageSidebar from '../SubjectPageSidebar';
@@ -23,7 +19,7 @@ import SubjectPageInformation from '../SubjectPageInformation';
 import SubjectEditorChoices from '../SubjectEditorChoices';
 import SubjectPageTopics from '../SubjectPageTopics';
 
-const SubjectPageOneColumn = props => {
+const SubjectPageSingle = props => {
   const {
     subjectpage,
     handleFilterClick,
@@ -55,7 +51,7 @@ const SubjectPageOneColumn = props => {
   );
 };
 
-SubjectPageOneColumn.propTypes = {
+SubjectPageSingle.propTypes = {
   handleFilterClick: PropTypes.func.isRequired,
   subjectpage: GraphQLSubjectPageShape,
   filters: PropTypes.arrayOf(
@@ -73,4 +69,4 @@ SubjectPageOneColumn.propTypes = {
 export default compose(
   withRouter,
   withApollo,
-)(SubjectPageOneColumn);
+)(SubjectPageSingle);

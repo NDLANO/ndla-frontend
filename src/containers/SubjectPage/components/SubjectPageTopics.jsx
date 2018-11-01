@@ -32,26 +32,26 @@ const SubjectPageTopics = props => {
   } = props;
 
   return (
-      <ResourcesWrapper
+    <ResourcesWrapper
       subjectPage
       header={<ResourcesTitle>Emner</ResourcesTitle>}>
       <div data-testid="topic-list">
         <SubjectFilter
-            label={t('subjectPage.subjectFilter.label')}
-            options={filters}
-            values={activeFilters}
-            onChange={handleFilterClick}
-          />
-          <TopicIntroductionList
-            toTopic={toTopic(subjectId, activeFilters)}
-            topics={topics}
-            messages={topicIntroductionMessages(t)}
-            toggleAdditionalCores={() => {}}
-            twoColumns={twoColumns}
-            subjectPage={subjectPage}
-          />
-        </div>
-      </ResourcesWrapper>
+          label={t('subjectPage.subjectFilter.label')}
+          options={filters}
+          values={activeFilters}
+          onChange={handleFilterClick}
+        />
+        <TopicIntroductionList
+          toTopic={toTopic(subjectId, activeFilters)}
+          topics={topics}
+          messages={topicIntroductionMessages(t)}
+          toggleAdditionalCores={() => {}}
+          twoColumns={twoColumns}
+          subjectPage={subjectPage}
+        />
+      </div>
+    </ResourcesWrapper>
   );
 };
 
@@ -73,6 +73,6 @@ SubjectPageTopics.propTypes = {
 SubjectPageTopics.defaultProps = {
   twoColumns: false,
   subjectPage: false,
-}
+};
 
 export default injectT(SubjectPageTopics);

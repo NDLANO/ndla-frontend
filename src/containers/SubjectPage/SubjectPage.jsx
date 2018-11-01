@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { injectT } from 'ndla-i18n';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import { withApollo } from 'react-apollo';
@@ -114,7 +115,7 @@ class SubjectPage extends Component {
       layout,
     } = subjectpage;
     const latestContentResources = getResources(latestContent);
-    
+
     return (
       <article>
         <Helmet>
@@ -134,6 +135,7 @@ class SubjectPage extends Component {
           layout={layout}
           subjectId={subjectId}
           subjectpage={subjectpage}
+          subject={subject}
           activeFilters={activeFilters}
           handleFilterClick={this.handleFilterClick}
         />
@@ -170,6 +172,7 @@ SubjectPage.propTypes = {
 
 export default compose(
   withRouter,
+  injectT,
   withTracker,
   withApollo,
 )(SubjectPage);

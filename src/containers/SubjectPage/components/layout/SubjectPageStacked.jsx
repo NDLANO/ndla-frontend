@@ -34,7 +34,6 @@ export const classes = new BEMHelper({
 });
 
 class SubjectPageStacked extends React.PureComponent {
-
   constructor() {
     super();
     this.getSortedTopics = this.getSortedTopics.bind(this);
@@ -44,7 +43,9 @@ class SubjectPageStacked extends React.PureComponent {
     const { filters, topics } = this.props;
     return filters
       .map(value => ({
-        topics: topics.filter(topic => topic.filters.map(filter => filter.name).includes(value.name)),
+        topics: topics.filter(topic =>
+          topic.filters.map(filter => filter.name).includes(value.name),
+        ),
         key: value.id,
         heading: value.name,
       }))
@@ -68,21 +69,21 @@ class SubjectPageStacked extends React.PureComponent {
       <OneColumn noPadding key="subjectpage_content">
         <SubjectContent twoColumns breadcrumb={breadcrumb}>
           <ResourcesWrapper
-          subjectPage
-          header={<ResourcesTitle>Emner</ResourcesTitle>}>
-          <div data-testid="topic-list">
-            <SubjectFilter
+            subjectPage
+            header={<ResourcesTitle>Emner</ResourcesTitle>}>
+            <div data-testid="topic-list">
+              <SubjectFilter
                 label={t('subjectPage.subjectFilter.label')}
                 options={filters}
                 values={activeFilters}
                 onChange={handleFilterClick}
               />
-              {sortedTopics.map(filteredTopics => (
-                <div {...classes()} key={filteredTopics.key}>
-                  <h1>{filteredTopics.heading}</h1>
+              {sortedTopics.map(filterTopics => (
+                <div {...classes()} key={filterTopics.key}>
+                  <h1 {...classes('heading')}>{filterTopics.heading}</h1>
                   <TopicIntroductionList
                     toTopic={toTopic(subjectId, activeFilters)}
-                    topics={filteredTopics.topics.sort(
+                    topics={filterTopics.topics.sort(
                       (a, b) =>
                         a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
                     )}
@@ -91,7 +92,7 @@ class SubjectPageStacked extends React.PureComponent {
                     subjectPage
                     toggleAdditionalCores={() => {}}
                   />
-              </div>
+                </div>
               ))}
             </div>
           </ResourcesWrapper>
@@ -102,7 +103,10 @@ class SubjectPageStacked extends React.PureComponent {
                 subjectId={subjectId}
               />
             </SubjectFlexWrapper>
-            <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+            <SubjectEditorChoices
+              narrowScreen
+              editorsChoices={editorsChoices}
+            />
           </SubjectChildContent>
         </SubjectContent>
       </OneColumn>,
@@ -115,7 +119,7 @@ class SubjectPageStacked extends React.PureComponent {
       </OneColumn>,
     ];
   }
-};
+}
 
 SubjectPageStacked.propTypes = {
   handleFilterClick: PropTypes.func.isRequired,
