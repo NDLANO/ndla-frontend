@@ -52,6 +52,7 @@ const SubjectPageTwoColumn = props => {
             <SubjectPageSidebar
               subjectpage={subjectpage}
               subjectId={subjectId}
+              twoColumns
             />
           </SubjectFlexWrapper>
           <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
@@ -61,7 +62,7 @@ const SubjectPageTwoColumn = props => {
     <OneColumn key="subjectpage_information" noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          <SubjectPageInformation subjectpage={subjectpage} />
+          <SubjectPageInformation subjectpage={subjectpage} twoColumns />
         </SubjectFlexWrapper>
       </SubjectChildContent>
     </OneColumn>,

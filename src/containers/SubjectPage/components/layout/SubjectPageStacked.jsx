@@ -113,7 +113,7 @@ class SubjectPageStacked extends React.PureComponent {
       <OneColumn key="subjectpage_information" noPadding>
         <SubjectChildContent>
           <SubjectFlexWrapper>
-            <SubjectPageInformation subjectpage={subjectpage} />
+            <SubjectPageInformation subjectpage={subjectpage} twoColumns/>
           </SubjectFlexWrapper>
         </SubjectChildContent>
       </OneColumn>,

@@ -2132,6 +2132,18 @@
                 "name": "Boolean",
                 "ofType": null
               },
+              "isDeprecated": true,
+              "deprecationReason": "Use layout field."
+            },
+            {
+              "name": "layout",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
               "isDeprecated": false,
               "deprecationReason": null
             },

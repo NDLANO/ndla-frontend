@@ -7,31 +7,35 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import SubjectTopical from './SubjectTopical';
 import SubjectPageAbout from './SubjectPageAbout';
 
 export const SubjectPageInformation = ({
-  subjectpage: { topical, about, displayInTwoColumns },
+  subjectpage: { topical, about },
+  twoColumns,
 }) => [
   <SubjectTopical
     key="subjectpage_information_topical"
-    displayInTwoColumns={displayInTwoColumns}
+    twoColumns={twoColumns}
     topical={topical}
   />,
   <SubjectPageAbout
     key="subjectpage_information_about"
-    displayInTwoColumns={displayInTwoColumns}
+    twoColumns={twoColumns}
     about={about}
   />,
 ];
 
 SubjectPageInformation.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
+  twoColumns: PropTypes.bool,
 };
 
 SubjectPageInformation.defaultProps = {
   subjectpage: {},
+  twoColumns: false,
 };
 
 export default SubjectPageInformation;
