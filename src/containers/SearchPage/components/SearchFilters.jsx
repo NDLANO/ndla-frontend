@@ -46,14 +46,14 @@ const SearchFilters = ({
 
   const searchFilters = [
     { name: 'levels', visibleCount: 3, options: allFilters },
-    { name: 'language-filter', visibleCount: 3, options: languages },
+    { name: 'languageFilter', visibleCount: 3, options: languages },
   ];
 
   const enabledTab =
     enabledTabs.find(
       tab =>
-        filterState['resource-types'] === tab.value ||
-        filterState['context-types'] === tab.value,
+        filterState.resourceTypes === tab.value ||
+        filterState.contextTypes === tab.value,
     ) || enabledTabs[0];
 
   return (
@@ -119,9 +119,9 @@ const SearchFilters = ({
 SearchFilters.propTypes = {
   subjects: arrayOf(SubjectShape),
   filterState: shape({
-    'resource-types': string,
+    resourceTypes: string,
     subjects: arrayOf(string),
-    'language-filter': arrayOf(string),
+    languageFilter: arrayOf(string),
     levels: arrayOf(string),
   }),
   filters: arrayOf(FilterShape),

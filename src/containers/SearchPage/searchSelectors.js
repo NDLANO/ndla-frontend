@@ -114,18 +114,6 @@ export const getResults = subjectFilters =>
     }),
   );
 
-export const getResultsMetadata = createSelector(
-  [getSearchFromState],
-  search => ({
-    pageSize: search.pageSize || 0,
-    totalCount: search.totalCount || 0,
-    lastPage: Math.ceil(search.totalCount / search.pageSize),
-    totalCountLearningPaths: search.totalCountLearningPaths || 0,
-    totalCountSubjectMaterial: search.totalCountSubjectMaterial || 0,
-    totalCountTasks: search.totalCountTasks || 0,
-  }),
-);
-
 export const getGroupResults = createSelector([getSearchFromState], search =>
   search.groupResult.map(result => ({
     ...result,

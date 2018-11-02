@@ -17,8 +17,7 @@ const SearchContextFilters = ({
   resourceTypes,
   t,
 }) => {
-  const enabledTab =
-    filterState['resource-types'] || filterState['context-types'];
+  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
 
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
@@ -48,9 +47,9 @@ const SearchContextFilters = ({
 
 SearchContextFilters.propTypes = {
   filterState: shape({
-    'resource-types': string,
+    resourceTypes: string,
     subjects: arrayOf(string),
-    'language-filter': arrayOf(string),
+    languageFilter: arrayOf(string),
     levels: arrayOf(string),
     contextFilters: arrayOf(string),
   }),
