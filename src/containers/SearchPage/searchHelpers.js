@@ -59,7 +59,7 @@ const selectContext = (contexts, filters) => {
   if (contexts.length === 0) return undefined;
   if (filters.length > 0) {
     const foundContext = contexts.filter(context =>
-      context.path.includes(filters[0].replace('urn:', '')),
+      filters.some(filter => context.path.includes(filter.replace('urn:', ''))),
     );
     if (foundContext.length > 0) return foundContext[0];
   }
@@ -138,6 +138,7 @@ export const convertSearchParam = value => {
 export const convertResult = (results, subjectFilters) =>
   results.map(result => {
     const selectedContext = selectContext(result.contexts, subjectFilters);
+
     return {
       ...result,
       url: selectedContext ? getUrl(selectedContext, result) : result.url,

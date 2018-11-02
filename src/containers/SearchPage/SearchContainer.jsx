@@ -17,12 +17,7 @@ import { injectT } from 'ndla-i18n';
 import { Query } from 'react-apollo';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
-import {
-  SubjectShape,
-  ArticleResultShape,
-  FilterShape,
-  LocationShape,
-} from '../../shapes';
+import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
 import {
   getSubjects,
@@ -293,7 +288,7 @@ class SearchContainer extends Component {
                       searchObject.page ? parseInt(searchObject.page, 10) : 1
                     }
                     lastPage={resultMetadata.lastPage}
-                    query={query}
+                    query={searchObject}
                     pathname=""
                     onClick={this.updateFilter}
                     pageItemComponentClass="button"
@@ -313,8 +308,6 @@ SearchContainer.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
-  results: arrayOf(ArticleResultShape).isRequired,
-  search: func.isRequired,
   enabledTabs: arrayOf(
     shape({
       name: string,
