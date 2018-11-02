@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   OneColumn,
@@ -36,10 +36,10 @@ export const classes = new BEMHelper({
 class SubjectPageStacked extends React.PureComponent {
   constructor() {
     super();
-    this.getSortedTopics = this.getSortedTopics.bind(this);
+    this.getFilteredTopics = this.getFilteredTopics.bind(this);
   }
 
-  getSortedTopics() {
+  getFilteredTopics() {
     const { filters, topics } = this.props;
     return filters
       .map(value => ({
@@ -63,61 +63,61 @@ class SubjectPageStacked extends React.PureComponent {
       t,
     } = this.props;
     const { editorsChoices } = subjectpage;
-    const sortedTopics = this.getSortedTopics();
-    // TODO: FIX TRANSLATION
-    return [
-      <OneColumn noPadding key="subjectpage_content">
-        <SubjectContent twoColumns breadcrumb={breadcrumb}>
-          <ResourcesWrapper
-            subjectPage
-            header={<ResourcesTitle>Emner</ResourcesTitle>}>
-            <div data-testid="topic-list">
-              <SubjectFilter
-                label={t('subjectPage.subjectFilter.label')}
-                options={filters}
-                values={activeFilters}
-                onChange={handleFilterClick}
+    const filtredTopics = this.getFilteredTopics();
+
+    return (
+      <Fragment>
+        <OneColumn noPadding>
+          <SubjectContent twoColumns breadcrumb={breadcrumb}>
+            <ResourcesWrapper
+              subjectPage
+              header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
+              <div data-testid="topic-list">
+                <SubjectFilter
+                  label={t('subjectPage.subjectFilter.label')}
+                  options={filters}
+                  values={activeFilters}
+                  onChange={handleFilterClick}
+                />
+                {filtredTopics.map(filterTopics => (
+                  <div {...classes()} key={filterTopics.key}>
+                    <h1 {...classes('heading')}>{filterTopics.heading}</h1>
+                    <TopicIntroductionList
+                      toTopic={toTopic(subjectId, activeFilters)}
+                      topics={filterTopics.topics}
+                      messages={topicIntroductionMessages(t)}
+                      twoColumns
+                      subjectPage
+                      toggleAdditionalCores={() => {}}
+                    />
+                  </div>
+                ))}
+              </div>
+            </ResourcesWrapper>
+            <SubjectChildContent>
+              <SubjectFlexWrapper>
+                <SubjectPageSidebar
+                  subjectpage={subjectpage}
+                  subjectId={subjectId}
+                  twoColumns
+                />
+              </SubjectFlexWrapper>
+              <SubjectEditorChoices
+                narrowScreen
+                editorsChoices={editorsChoices}
               />
-              {sortedTopics.map(filterTopics => (
-                <div {...classes()} key={filterTopics.key}>
-                  <h1 {...classes('heading')}>{filterTopics.heading}</h1>
-                  <TopicIntroductionList
-                    toTopic={toTopic(subjectId, activeFilters)}
-                    topics={filterTopics.topics.sort(
-                      (a, b) =>
-                        a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1,
-                    )}
-                    messages={topicIntroductionMessages(t)}
-                    twoColumns
-                    subjectPage
-                    toggleAdditionalCores={() => {}}
-                  />
-                </div>
-              ))}
-            </div>
-          </ResourcesWrapper>
+            </SubjectChildContent>
+          </SubjectContent>
+        </OneColumn>
+        <OneColumn noPadding>
           <SubjectChildContent>
             <SubjectFlexWrapper>
-              <SubjectPageSidebar
-                subjectpage={subjectpage}
-                subjectId={subjectId}
-              />
+              <SubjectPageInformation subjectpage={subjectpage} twoColumns />
             </SubjectFlexWrapper>
-            <SubjectEditorChoices
-              narrowScreen
-              editorsChoices={editorsChoices}
-            />
           </SubjectChildContent>
-        </SubjectContent>
-      </OneColumn>,
-      <OneColumn key="subjectpage_information" noPadding>
-        <SubjectChildContent>
-          <SubjectFlexWrapper>
-            <SubjectPageInformation subjectpage={subjectpage} twoColumns />
-          </SubjectFlexWrapper>
-        </SubjectChildContent>
-      </OneColumn>,
-    ];
+        </OneColumn>
+      </Fragment>
+    );
   }
 }
 

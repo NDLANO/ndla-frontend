@@ -34,7 +34,7 @@ const SubjectPageTopics = props => {
   return (
     <ResourcesWrapper
       subjectPage
-      header={<ResourcesTitle>Emner</ResourcesTitle>}>
+      header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
       <div data-testid="topic-list">
         <SubjectFilter
           label={t('subjectPage.subjectFilter.label')}

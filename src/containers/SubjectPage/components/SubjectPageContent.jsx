@@ -19,49 +19,45 @@ import { TopicShape } from '../../../shapes';
 import SubjectPageSingle from './layout/SubjectPageSingle';
 import SubjectPageDouble from './layout/SubjectPageDouble';
 import SubjectPageStacked from './layout/SubjectPageStacked';
-import { toTopicMenu } from '../../../util/topicsHelper';
 
-const SubjectBreadCrumb = injectT(
-  ({ t, subject }) =>
-    subject ? (
-      <Breadcrumb
-        items={toBreadcrumbItems(
-          t('breadcrumb.toFrontpage'),
-          subject,
-          undefined,
-          undefined,
-        )}
-      />
-    ) : null,
-);
+const SubjectBreadCrumb = injectT(({ t, subject }) => (
+  <Breadcrumb
+    items={toBreadcrumbItems(
+      t('breadcrumb.toFrontpage'),
+      subject,
+      undefined,
+      undefined,
+    )}
+  />
+));
 
 SubjectBreadCrumb.propTypes = {
   subject: GraphQLSubjectShape,
 };
 
 const SubjectPageContent = ({ layout, subject, ...rest }) => {
-  const breadcrumb = <SubjectBreadCrumb subject={subject} />;
-  const topics =
-    subject && subject.topics
-      ? subject.topics
-          .filter(
-            topic => !topic || !topic.parent || topic.parent === subject.id,
-          )
-          .map(topic => toTopicMenu(topic, subject.topics))
-      : [];
-  const filters =
-    subject && subject.filters
-      ? subject.filters.map(filter => ({
+  if (!subject) {
+    return null;
+  }
+  const { filters, topics } = subject;
+  const defaultProps = {
+    topics: topics
+      ? topics.map(topic => ({
+          ...topic,
+          introduction:
+            topic.meta && topic.meta.metaDescription
+              ? topic.meta.metaDescription
+              : '',
+        }))
+      : [],
+    breadcrumb: <SubjectBreadCrumb subject={subject} />,
+    filters: filters
+      ? filters.map(filter => ({
           ...filter,
           title: filter.name,
           value: filter.id,
         }))
-      : [];
-
-  const defaultProps = {
-    topics,
-    breadcrumb,
-    filters,
+      : [],
   };
 
   switch (layout) {
