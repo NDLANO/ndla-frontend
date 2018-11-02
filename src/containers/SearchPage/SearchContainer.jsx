@@ -229,7 +229,7 @@ class SearchContainer extends Component {
         onContentTypeChange={this.onTabChange}
       />
     );
-    const searchPageMessages = {
+    const searchPageMessages = totalCount => ({
       filterHeading: t('searchPage.searchPageMessages.filterHeading'),
 
       dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
@@ -237,12 +237,12 @@ class SearchContainer extends Component {
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
         {
-          totalCount: 1,
+          totalCount,
           query,
         },
       ),
       searchFieldTitle: t('searchPage.search'),
-    };
+    });
     return (
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
@@ -267,7 +267,7 @@ class SearchContainer extends Component {
                 onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
                 searchFieldFilters={activeSubjectsMapped}
                 activeFilters={activeSubjectsMapped}
-                messages={searchPageMessages}
+                messages={searchPageMessages(resultMetadata.totalCount)}
                 resourceToLinkProps={resourceToLinkProps}
                 filters={searchFilters}>
                 <SearchResults
