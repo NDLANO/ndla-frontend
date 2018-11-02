@@ -50,34 +50,21 @@ import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   constructor(props) {
-    super();
-    const { location } = props;
-    const searchObject = converSearchStringToObject(location);
-
+    super(props);
+    const searchObject = converSearchStringToObject(props.location);
     this.state = {
-      searchParams: {
-        page: searchObject.page || 1,
-        query: searchObject.query || '',
-        subjects: searchObject.subjects || [],
-        languageFilter: searchObject.languageFilter || [],
-        levels: searchObject.levels || [],
-        resourceTypes: searchObject.resourceTypes || undefined,
-        contextTypes: searchObject.contextTypes || undefined,
-        contextFilters: searchObject.contextFilters || [],
-      },
+      query: searchObject.query || '',
     };
   }
 
   onQuerySubmit = evt => {
     evt.preventDefault();
-    this.updateFilter({ query: this.state.searchParams.query });
+    this.updateFilter({ query: this.state.query });
   };
 
-  onFilterChange = (newValues, value, type) => {
-    if (
-      type === 'subjects' &&
-      newValues.length < this.state.searchParams.subjects.length
-    ) {
+  onFilterChange = (newValues, value, type, location) => {
+    const { subjects } = converSearchStringToObject(location);
+    if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
     } else {
       this.updateFilter({ [type]: newValues });
@@ -85,41 +72,32 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subject) => {
-    const { filters } = this.props;
-    const { levels } = this.state.searchParams;
+    const { filters, location } = this.props;
+    const { levels } = converSearchStringToObject(location);
     const removedFilters = filters
       .filter(level => level.subjectId === subject)
       .map(level => level.name);
 
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          ...subjectsSearchParam,
-          levels: levels.filter(level => !removedFilters.includes(level)),
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      ...subjectsSearchParam,
+      levels: levels.filter(level => !removedFilters.includes(level)),
+    });
   };
 
   onSearchFieldFilterRemove = removedSubject => {
-    const subjects = this.state.searchParams.subjects.filter(
+    const { subjects: subjectsInUrl } = converSearchStringToObject(
+      this.props.location,
+    );
+    const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
     this.onRemoveSubject({ subjects }, removedSubject);
   };
 
   onUpdateContextFilters = values => {
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          contextFilters: values,
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      contextFilters: values,
+    });
   };
 
   static getInitialProps = ctx => {
@@ -146,12 +124,11 @@ class SearchContainer extends Component {
 
   updateFilter = searchParam => {
     const page = searchParam.page || 1;
-    this.setState(
-      prevState => ({
-        searchParams: { ...prevState.searchParams, ...searchParam, page },
-      }),
-      this.updateSearchLocation,
-    );
+
+    this.updateSearchLocation({
+      ...searchParam,
+      page,
+    });
   };
 
   updateTab = (value, enabledTabs) => {
@@ -161,32 +138,24 @@ class SearchContainer extends Component {
         ? {}
         : { [enabledTab.type]: enabledTab.value };
 
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          contextTypes: undefined,
-          resourceTypes: undefined,
-          contextFilters: [],
-          ...searchParams,
-          page: 1,
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      contextTypes: undefined,
+      resourceTypes: undefined,
+      contextFilters: [],
+      ...searchParams,
+      page: 1,
+    });
   };
 
   updateQuery = query => {
-    this.setState(prevState => ({
-      searchParams: { ...prevState.searchParams, query, page: 1 },
-    }));
+    this.setState({ query });
   };
 
-  updateSearchLocation = () => {
+  updateSearchLocation = searchParams => {
     const { location, history } = this.props;
     const stateSearchParams = {};
-    Object.keys(this.state.searchParams).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(this.state.searchParams[key]);
+    Object.keys(searchParams).forEach(key => {
+      stateSearchParams[key] = convertSearchParam(searchParams[key]);
     });
 
     history.push({
@@ -200,7 +169,7 @@ class SearchContainer extends Component {
 
   render() {
     const { t, subjects, filters, location, data } = this.props;
-    const { searchParams } = this.state;
+    const { query } = this.state;
 
     const searchObject = converSearchStringToObject(location);
 
@@ -274,7 +243,7 @@ class SearchContainer extends Component {
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
         {
           totalCount: 1,
-          query: this.state.searchParams.query,
+          query,
         },
       ),
       searchFieldTitle: t('searchPage.search'),
@@ -284,7 +253,7 @@ class SearchContainer extends Component {
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <SearchPage
           closeUrl="/#"
-          searchString={searchParams.query || ''}
+          searchString={query || ''}
           onSearchFieldChange={e => this.updateQuery(e.target.value)}
           onSearch={this.onQuerySubmit}
           onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
@@ -324,7 +293,7 @@ class SearchContainer extends Component {
                       searchObject.page ? parseInt(searchObject.page, 10) : 1
                     }
                     lastPage={resultMetadata.lastPage}
-                    query={this.state.searchParam}
+                    query={query}
                     pathname=""
                     onClick={this.updateFilter}
                     pageItemComponentClass="button"
