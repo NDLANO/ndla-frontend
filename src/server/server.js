@@ -34,7 +34,7 @@ import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 
 const app = express();
-const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
+const allowedBodyContentTypes = ['application/json'];
 
 app.disable('x-powered-by');
 
