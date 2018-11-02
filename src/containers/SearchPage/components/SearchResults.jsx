@@ -16,7 +16,7 @@ import SearchContextFilters from './SearchContextFilters';
 
 const SearchResults = ({
   results,
-  resultMetadata: { totalCount },
+  resultMetadata,
   filterState,
   enabledTabs,
   onTabChange,
@@ -26,7 +26,7 @@ const SearchResults = ({
   t,
 }) => {
   const enabledTab = filterState.resourceTypes || filterState.contextTypes;
-
+  const { totalCount = '' } = resultMetadata || {};
   return (
     <SearchResult
       messages={{
@@ -64,7 +64,9 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadgeAndImage(results, t, enabledTab)}
+        results={
+          results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
+        }
       />
     </SearchResult>
   );
@@ -87,7 +89,7 @@ SearchResults.propTypes = {
   ),
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onTabChange: func,
-  results: arrayOf(ArticleResultShape).isRequired,
+  results: arrayOf(ArticleResultShape),
   resultMetadata: shape({
     totalCount: number,
   }),

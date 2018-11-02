@@ -263,7 +263,19 @@ class SearchContainer extends Component {
             variables={searchParamsToGraphQL}
             ssr={false}>
             {({ loading, error, data: searchData }) => {
-              if (loading) return null;
+              if (loading)
+                return (
+                  <SearchResults
+                    resourceTypes={
+                      data && data.resourceTypes ? data.resourceTypes : []
+                    }
+                    filterState={searchObject}
+                    enabledTabs={enabledTabs}
+                    onTabChange={this.updateTab}
+                    query={searchObject.query}
+                    onUpdateContextFilters={this.onUpdateContextFilters}
+                  />
+                );
               if (error) return `Error: ${error.message}`;
               const {
                 search: { results },
