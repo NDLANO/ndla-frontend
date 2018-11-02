@@ -20,8 +20,8 @@ import {
   SubjectChildContent,
   SubjectFlexWrapper,
   SubjectContent,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { TopicShape } from '../../../shapes';
 import SubjectPageSidebar from './SubjectPageSidebar';

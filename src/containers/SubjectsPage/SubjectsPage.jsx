@@ -9,9 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { HelmetWithTracker } from 'ndla-tracker';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { SubjectLinkList } from '../../components';
 import { injectSubjects } from '../SubjectPage/subjectHOCs';
 import { SubjectShape } from '../../shapes';

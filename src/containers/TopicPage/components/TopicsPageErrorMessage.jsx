@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 
 export const TopicPageErrorMessage = ({ t }) => (
   <OneColumn>

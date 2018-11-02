@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { HelmetWithTracker } from 'ndla-tracker';
+import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
@@ -17,8 +17,8 @@ import {
   FrontpageFilm,
   FrontpageSearchSection,
   OneColumn,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';

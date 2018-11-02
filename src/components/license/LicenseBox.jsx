@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tabs from 'ndla-tabs';
-import { injectT } from 'ndla-i18n';
+import Tabs from '@ndla/tabs';
+import { injectT } from '@ndla/i18n';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';

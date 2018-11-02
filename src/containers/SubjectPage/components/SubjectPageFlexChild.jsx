@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SubjectFlexChild } from 'ndla-ui';
+import { SubjectFlexChild } from '@ndla/ui';
 
 export const SubjectPageFlexChild = ({ children, displayInTwoColumns }) =>
   displayInTwoColumns ? (

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ErrorReporter from 'ndla-error-reporter';
+import ErrorReporter from '@ndla/error-reporter';
 import IframeArticlePage from './IframeArticlePage';
 
 const { config, initialProps } = window.DATA;

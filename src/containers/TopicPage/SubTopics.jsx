@@ -13,9 +13,9 @@ import {
   ResourcesWrapper,
   ResourcesTitle,
   TopicIntroductionList,
-} from 'ndla-ui';
+} from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
