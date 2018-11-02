@@ -102,6 +102,7 @@ export class WelcomePage extends Component {
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <FrontpageHeader
+          locale={locale}
           heading={t('welcomePage.heading.heading')}
           searchFieldValue={query}
           onSearch={this.onSearch}

@@ -8258,10 +8258,10 @@ ndla-tracker@^0.2.1:
   resolved "https://registry.yarnpkg.com/ndla-tracker/-/ndla-tracker-0.2.1.tgz#79ee17629ef8f18e8f4b87a9e0f170beafc5dd32"
   integrity sha512-bLbwkIkAp4mK30l5+onQEm3sRS7HzAtNGQPadGd1CH2ygegaNq6KjVBiijoBuFrkvA6VBIigL+mbpMNA/4qOLA==
 
-ndla-ui@^0.17.11:
-  version "0.17.11"
-  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.11.tgz#d85cebf47a710ec26f62bd3d9107efe3c318e24e"
-  integrity sha512-9uznSNgdUkcA0LMbid1zubFt0o0j35F9VkQghA3+UdXer5KplX7jn/Md7WUErZvBWrDWLTkqMCmPkrxFDZjxZQ==
+ndla-ui@^0.17.12:
+  version "0.17.12"
+  resolved "https://registry.yarnpkg.com/ndla-ui/-/ndla-ui-0.17.12.tgz#a2f9c4d4d6a48bcb212d908f0e14cb02a4e39c2c"
+  integrity sha512-+gF66Qgdvv6MwS3+9k6k7eZvqilzLFcx/sl4Qk/7m65bw6gusI24ReF2bHmcO01tthHGmowXZMdzUeyarrjiFw==
   dependencies:
     classnames "2.2.5"
     focus-trap "^2.4.3"
