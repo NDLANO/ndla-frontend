@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import Pager from 'ndla-pager';
@@ -246,55 +246,46 @@ class SearchContainer extends Component {
     return (
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
-        <SearchPage
-          closeUrl="/#"
-          searchString={query || ''}
-          onSearchFieldChange={e => this.updateQuery(e.target.value)}
-          onSearch={this.onQuerySubmit}
-          onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
-          searchFieldFilters={activeSubjectsMapped}
-          activeFilters={activeSubjectsMapped}
-          messages={searchPageMessages}
-          resourceToLinkProps={resourceToLinkProps}
-          filters={searchFilters}>
-          <Query
-            asyncMode
-            query={searchQuery}
-            variables={searchParamsToGraphQL}
-            ssr={false}>
-            {({ loading, error, data: searchData }) => {
-              if (loading)
-                return (
-                  <SearchResults
-                    resourceTypes={
-                      data && data.resourceTypes ? data.resourceTypes : []
-                    }
-                    filterState={searchObject}
-                    enabledTabs={enabledTabs}
-                    onTabChange={this.updateTab}
-                    query={searchObject.query}
-                    onUpdateContextFilters={this.onUpdateContextFilters}
-                  />
-                );
-              if (error) return `Error: ${error.message}`;
-              const {
-                search: { results },
-              } = searchData;
-              const resultMetadata = getResultMetadata(searchData.search);
-              return (
-                <Fragment>
-                  <SearchResults
-                    results={convertResult(results, searchObject.subjects)}
-                    resourceTypes={
-                      data && data.resourceTypes ? data.resourceTypes : []
-                    }
-                    resultMetadata={resultMetadata}
-                    filterState={searchObject}
-                    enabledTabs={enabledTabs}
-                    onTabChange={this.updateTab}
-                    query={searchObject.query}
-                    onUpdateContextFilters={this.onUpdateContextFilters}
-                  />
+        <Query
+          asyncMode
+          query={searchQuery}
+          variables={searchParamsToGraphQL}
+          ssr={false}>
+          {({ error, data: searchData }) => {
+            if (error) {
+              handleError(error);
+              return `Error: ${error.message}`;
+            }
+            const { search } = searchData || {};
+            const resultMetadata = search ? getResultMetadata(search) : {};
+            return (
+              <SearchPage
+                closeUrl="/#"
+                searchString={query || ''}
+                onSearchFieldChange={e => this.updateQuery(e.target.value)}
+                onSearch={this.onQuerySubmit}
+                onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
+                searchFieldFilters={activeSubjectsMapped}
+                activeFilters={activeSubjectsMapped}
+                messages={searchPageMessages}
+                resourceToLinkProps={resourceToLinkProps}
+                filters={searchFilters}>
+                <SearchResults
+                  results={
+                    search &&
+                    convertResult(search.results, searchObject.subjects)
+                  }
+                  resourceTypes={
+                    data && data.resourceTypes ? data.resourceTypes : []
+                  }
+                  resultMetadata={resultMetadata}
+                  filterState={searchObject}
+                  enabledTabs={enabledTabs}
+                  onTabChange={this.updateTab}
+                  query={searchObject.query}
+                  onUpdateContextFilters={this.onUpdateContextFilters}
+                />
+                {search && (
                   <Pager
                     page={
                       searchObject.page ? parseInt(searchObject.page, 10) : 1
@@ -305,11 +296,11 @@ class SearchContainer extends Component {
                     onClick={this.updateFilter}
                     pageItemComponentClass="button"
                   />
-                </Fragment>
-              );
-            }}
-          </Query>
-        </SearchPage>
+                )}
+              </SearchPage>
+            );
+          }}
+        </Query>
       </OneColumn>
     );
   }
