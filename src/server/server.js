@@ -15,7 +15,6 @@ import {
   OK,
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
-  NOT_ACCEPTABLE,
   TEMPORARY_REDIRECT,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
@@ -28,8 +27,8 @@ import {
   forwardingRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
+import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import errorLogger from '../util/logger';
 import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
@@ -51,6 +50,7 @@ const ndlaMiddleware = [
       maxAge: 31536000,
       includeSubDomains: true,
     },
+    contentSecurityPolicy,
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
@@ -73,22 +73,6 @@ app.get('/robots.txt', ndlaMiddleware, (req, res) => {
 
 app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
-});
-
-app.post('/csp-report', ndlaMiddleware, (req, res) => {
-  const { body } = req;
-  if (body && body['csp-report']) {
-    const cspReport = body['csp-report'];
-    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${
-      cspReport['violated-directive']
-    }`;
-    errorLogger.error(errorMessage, cspReport);
-    res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
-  } else {
-    res
-      .status(NOT_ACCEPTABLE)
-      .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
-  }
 });
 
 app.get('/get_token', ndlaMiddleware, async (req, res) => {
