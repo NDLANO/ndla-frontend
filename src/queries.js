@@ -164,6 +164,8 @@ export const subjectTopicsQuery = gql`
       topics(all: true, filterIds: $filterIds) {
         id
         name
+        parent
+        path
       }
       filters {
         id
