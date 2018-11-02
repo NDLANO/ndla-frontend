@@ -10,7 +10,6 @@ import 'isomorphic-unfetch';
 import express from 'express';
 import proxy from 'express-http-proxy';
 import helmet from 'helmet';
-import compression from 'compression';
 import bodyParser from 'body-parser';
 import {
   OK,
@@ -29,12 +28,10 @@ import {
   forwardingRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
-import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import errorLogger from '../util/logger';
 import config from '../config';
 import { routes as appRoutes } from '../routes';
-import { renderAndCache } from './cache';
 import { getLocaleInfoFromPath } from '../i18n';
 
 const app = express();
@@ -43,7 +40,6 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 app.disable('x-powered-by');
 
 const ndlaMiddleware = [
-  compression(),
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
@@ -55,7 +51,6 @@ const ndlaMiddleware = [
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy,
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
@@ -126,22 +121,13 @@ function sendResponse(res, data, status = OK) {
   }
 }
 
-async function handleRequest(req, res, route, enableCache = false) {
+async function handleRequest(req, res, route) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      if (enableCache) {
-        const { res: response, data, status } = await renderAndCache(
-          req,
-          res,
-          route,
-        );
-        sendResponse(response, data, status);
-      } else {
-        const { data, status } = await route(req);
-        sendResponse(res, data, status);
-      }
+      const { data, status } = await route(req);
+      sendResponse(res, data, status);
     } catch (e) {
       handleError(e);
       await sendInternalServerError(req, res);
@@ -210,7 +196,7 @@ app.get(
   },
   ndlaMiddleware,
   (req, res) => {
-    handleRequest(req, res, defaultRoute, true);
+    handleRequest(req, res, defaultRoute);
   },
 );
 
