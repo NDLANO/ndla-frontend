@@ -20,6 +20,17 @@ export function mapTopicResourcesToTopic(
   expandedSubTopics = [],
 ) {
   return topics.map(topic => {
+    if (topic.subtopics && topic.subtopics.length > 0) {
+      return {
+        ...topic,
+        subtopics: mapTopicResourcesToTopic(
+          topic.subtopics,
+          selectedTopicId,
+          topicResourcesByType,
+          expandedSubTopics,
+        ),
+      };
+    }
     if (
       (expandedSubTopics.length === 0 && topic.id === selectedTopicId) ||
       expandedSubTopics.includes(topic.id)
@@ -34,17 +45,6 @@ export function mapTopicResourcesToTopic(
         title: type.name,
       }));
       return { ...topic, contentTypeResults };
-    }
-    if (topic.subtopics && topic.subtopics.length > 0) {
-      return {
-        ...topic,
-        subtopics: mapTopicResourcesToTopic(
-          topic.subtopics,
-          selectedTopicId,
-          topicResourcesByType,
-          expandedSubTopics,
-        ),
-      };
     }
     return topic;
   });
