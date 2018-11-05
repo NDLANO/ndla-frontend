@@ -57,7 +57,8 @@ class SearchContainer extends Component {
     this.updateFilter({ query: this.state.query });
   };
 
-  onFilterChange = (newValues, value, type, location) => {
+  onFilterChange = (newValues, value, type) => {
+    const { location } = this.props;
     const { subjects } = converSearchStringToObject(location);
     if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
@@ -119,7 +120,6 @@ class SearchContainer extends Component {
 
   updateFilter = searchParam => {
     const page = searchParam.page || 1;
-
     this.updateSearchLocation({
       ...searchParam,
       page,
@@ -224,6 +224,7 @@ class SearchContainer extends Component {
         onChange={this.onFilterChange}
         filterState={searchObject}
         subjects={subjects}
+        activeSubjects={activeSubjectsMapped}
         filters={filters}
         enabledTabs={enabledTabs}
         onContentTypeChange={this.onTabChange}

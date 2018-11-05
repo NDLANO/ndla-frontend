@@ -9,13 +9,13 @@ import React, { Fragment } from 'react';
 import { injectT } from 'ndla-i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from 'ndla-ui';
-import groupBy from '../../../util/groupBy';
 import { FilterShape, SubjectShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
 
 const SearchFilters = ({
   subjects,
   filters,
+  activeSubjects,
   filterState,
   onChange,
   onContentTypeChange,
@@ -32,21 +32,18 @@ const SearchFilters = ({
     value: language,
   }));
 
-  const allFilters = Object.keys(groupBy(filters || [], 'name')).map(
-    filter => ({
-      title: filter,
-      value: filter,
-    }),
-  );
-
   const allContentTypes = enabledTabs.map(tab => ({
     title: tab.name,
     value: tab.value,
   }));
 
-  const searchFilters = [
-    { name: 'levels', visibleCount: 3, options: allFilters },
-    { name: 'languageFilter', visibleCount: 3, options: languages },
+  const subjectFilters = [
+    ...activeSubjects.map(subject => ({
+      name: subject.filterName,
+      options: filters
+        .filter(filter => filter.subjectId === subject.value)
+        .map(filter => ({ title: filter.title, value: filter.title })),
+    })),
   ];
 
   const enabledTab =
@@ -61,11 +58,7 @@ const SearchFilters = ({
       <SearchFilter
         label={t('searchPage.label.subjects')}
         noFilterSelectedLabel={t('searchPage.label.noFilter')}
-        options={filterState.subjects
-          .map(subjectId =>
-            allSubjects.find(subject => subject.value === subjectId),
-          )
-          .filter(subject => !!subject)}
+        options={activeSubjects}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
         values={filterState.subjects || []}>
         <SearchPopoverFilter
@@ -98,26 +91,42 @@ const SearchFilters = ({
         values={[enabledTab.value]}
         onChange={(newValues, tab) => onContentTypeChange(tab)}
       />
-      {searchFilters.map(searchFilter => (
+      {subjectFilters.map(searchFilter => (
         <SearchFilter
           key={`filter_${searchFilter.name}`}
-          label={t(`searchPage.label.${searchFilter.name}`)}
-          defaultVisibleCount={searchFilter.visibleCount || 3}
-          showLabel={t(`searchPage.showLabel.${searchFilter.name}`)}
-          hideLabel={t(`searchPage.hideLabel.${searchFilter.name}`)}
+          label={searchFilter.name}
+          defaultVisibleCount={5}
+          showLabel={t(`searchPage.showLabel.levels`)}
+          hideLabel={t(`searchPage.hideLabel.levels`)}
           options={searchFilter.options}
-          values={filterState[searchFilter.name] || []}
-          onChange={(newValues, value) =>
-            onChange(newValues, value, searchFilter.name)
-          }
+          values={filterState.levels || []}
+          onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
+      <SearchFilter
+        label={t(`searchPage.label.languageFilter`)}
+        defaultVisibleCount={2}
+        showLabel={t(`searchPage.showLabel.languageFilter`)}
+        hideLabel={t(`searchPage.hideLabel.languageFilter`)}
+        options={languages}
+        values={filterState.languageFilter || []}
+        onChange={(newValues, value) =>
+          onChange(newValues, value, 'languageFilter')
+        }
+      />
     </Fragment>
   );
 };
 
 SearchFilters.propTypes = {
   subjects: arrayOf(SubjectShape),
+  activeSubjects: arrayOf(
+    shape({
+      title: string,
+      filterName: string,
+      value: string,
+    }),
+  ),
   filterState: shape({
     resourceTypes: string,
     subjects: arrayOf(string),
