@@ -34,7 +34,7 @@ const Route = ({
     render={props => (
       <Page background={background} locale={locale}>
         <Content>
-          {!hideMasthead && <Masthead {...props} />}
+          {!hideMasthead && <Masthead locale={locale} {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />
