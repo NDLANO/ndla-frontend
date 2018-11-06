@@ -62,18 +62,18 @@ exports[`ErrorPage renderers correctly 1`] = `
       className="o-wrapper o-wrapper--clear undefined"
     >
       <article
-        className="css-7ifh8p ejt90w30"
+        className="css-7ifh8p e1h45nf50"
       >
         <img
           alt="Ops, noe gikk galt"
-          className="css-156n74x ejt90w31"
+          className="css-156n74x e1h45nf51"
           src="/static/oops.gif"
         />
         <h1>
           Ops, noe gikk galt
         </h1>
         <p
-          className="css-1x3wxmt ejt90w32"
+          className="css-1x3wxmt e1h45nf52"
         >
           Beklager, en feil oppsto.
         </p>
