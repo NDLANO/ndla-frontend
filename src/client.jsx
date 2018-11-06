@@ -58,6 +58,7 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
+window.hasHydrated = false;
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
@@ -74,6 +75,10 @@ const renderApp = () => {
       </ApolloProvider>
     </Provider>,
     document.getElementById('root'),
+    () => {
+      // See: /src/util/transformArticle.js for info on why this is needed.
+      window.hasHydrated = true;
+    },
   );
 };
 
