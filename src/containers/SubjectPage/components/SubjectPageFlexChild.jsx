@@ -10,19 +10,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SubjectFlexChild } from '@ndla/ui';
 
-export const SubjectPageFlexChild = ({ children, displayInTwoColumns }) =>
-  displayInTwoColumns ? (
-    <SubjectFlexChild>{children}</SubjectFlexChild>
-  ) : (
-    children
-  );
+export const SubjectPageFlexChild = ({ children, twoColumns }) =>
+  twoColumns ? <SubjectFlexChild>{children}</SubjectFlexChild> : children;
 
 SubjectPageFlexChild.propTypes = {
-  displayInTwoColumns: PropTypes.bool,
+  twoColumns: PropTypes.bool,
 };
 
 SubjectPageFlexChild.defaultProps = {
-  displayInTwoColumns: false,
+  twoColumns: false,
 };
 
 export default SubjectPageFlexChild;

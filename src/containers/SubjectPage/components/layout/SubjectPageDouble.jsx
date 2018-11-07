@@ -13,27 +13,20 @@ import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 import {
   OneColumn,
-  TopicIntroductionList,
-  ResourcesWrapper,
-  ResourcesTitle,
-  SubjectFilter,
   SubjectChildContent,
   SubjectFlexWrapper,
   SubjectContent,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
-import { TopicShape } from '../../../shapes';
-import SubjectPageSidebar from './SubjectPageSidebar';
-import { toTopic } from '../subjectPageHelpers';
-import SubjectPageInformation from './SubjectPageInformation';
-import SubjectEditorChoices from './SubjectEditorChoices';
-import { topicIntroductionMessages } from '../../../util/topicsHelper';
+import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
+import { TopicShape } from '../../../../shapes';
+import SubjectPageSidebar from '../SubjectPageSidebar';
+import SubjectPageInformation from '../SubjectPageInformation';
+import SubjectEditorChoices from '../SubjectEditorChoices';
+import SubjectPageTopics from '../SubjectPageTopics';
 
 const SubjectPageTwoColumn = props => {
   const {
     subjectpage,
-    t,
     handleFilterClick,
     filters,
     topics,
@@ -46,30 +39,20 @@ const SubjectPageTwoColumn = props => {
   return [
     <OneColumn noPadding key="subjectpage_content">
       <SubjectContent twoColumns breadcrumb={breadcrumb}>
-        <ResourcesWrapper
-          subjectPage
-          header={<ResourcesTitle>Emner</ResourcesTitle>}>
-          <div data-testid="topic-list">
-            <SubjectFilter
-              label={t('subjectPage.subjectFilter.label')}
-              options={filters}
-              values={activeFilters}
-              onChange={handleFilterClick}
-            />
-            <TopicIntroductionList
-              toTopic={toTopic(subjectId, activeFilters)}
-              topics={topics}
-              messages={topicIntroductionMessages(t)}
-              toggleAdditionalCores={() => {}}
-              twoColumns
-            />
-          </div>
-        </ResourcesWrapper>
+        <SubjectPageTopics
+          handleFilterClick={handleFilterClick}
+          filters={filters}
+          topics={topics}
+          subjectId={subjectId}
+          activeFilters={activeFilters}
+          twoColumns
+        />
         <SubjectChildContent>
           <SubjectFlexWrapper>
             <SubjectPageSidebar
               subjectpage={subjectpage}
               subjectId={subjectId}
+              twoColumns
             />
           </SubjectFlexWrapper>
           <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
@@ -79,7 +62,7 @@ const SubjectPageTwoColumn = props => {
     <OneColumn key="subjectpage_information" noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          <SubjectPageInformation subjectpage={subjectpage} />
+          <SubjectPageInformation subjectpage={subjectpage} twoColumns />
         </SubjectFlexWrapper>
       </SubjectChildContent>
     </OneColumn>,
@@ -103,6 +86,5 @@ SubjectPageTwoColumn.propTypes = {
 
 export default compose(
   withRouter,
-  injectT,
   withApollo,
 )(SubjectPageTwoColumn);

@@ -15,8 +15,13 @@ import { toLinkProps } from '../../../routeHelpers';
 import { getResources, getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
-  const { mostRead, goTo, displayInTwoColumns } = subjectpage;
+export const SubjectPageSidebar = ({
+  subjectId,
+  subjectpage,
+  twoColumns,
+  t,
+}) => {
+  const { mostRead, goTo } = subjectpage;
   const mostReadResources = getResources(mostRead);
 
   return [
@@ -24,7 +29,7 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
       goTo.resourceTypes.length > 0 && (
         <SubjectPageFlexChild
           key="subjectpage_shortcuts"
-          displayInTwoColumns={displayInTwoColumns}>
+          twoColumns={twoColumns}>
           <SubjectShortcuts
             messages={{
               heading: t('subjectPage.subjectShortcuts.heading'),
@@ -45,7 +50,7 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
       mostReadResources.length > 0 && (
         <SubjectPageFlexChild
           key="subjectpage_mostread"
-          displayInTwoColumns={displayInTwoColumns}>
+          twoColumns={twoColumns}>
           <SubjectLinks
             heading={t('subjectPage.mostRead.heading')}
             links={mostReadResources.map(resource => ({
@@ -61,10 +66,12 @@ export const SubjectPageSidebar = ({ subjectId, subjectpage, t }) => {
 SubjectPageSidebar.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
   subjectId: PropTypes.string.isRequired,
+  twoColumns: PropTypes.bool,
 };
 
 SubjectPageSidebar.defaultProps = {
   subjectpage: {},
+  twoColumns: false,
 };
 
 export default injectT(SubjectPageSidebar);

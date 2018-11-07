@@ -11,28 +11,17 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
-import {
-  OneColumn,
-  TopicIntroductionList,
-  ResourcesWrapper,
-  ResourcesTitle,
-  SubjectFilter,
-  SubjectSidebarWrapper,
-  SubjectContent,
-} from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
-import { TopicShape } from '../../../shapes';
-import SubjectPageSidebar from './SubjectPageSidebar';
-import { toTopic } from '../subjectPageHelpers';
-import SubjectPageInformation from './SubjectPageInformation';
-import SubjectEditorChoices from './SubjectEditorChoices';
-import { topicIntroductionMessages } from '../../../util/topicsHelper';
+import { OneColumn, SubjectSidebarWrapper, SubjectContent } from '@ndla/ui';
+import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
+import { TopicShape } from '../../../../shapes';
+import SubjectPageSidebar from '../SubjectPageSidebar';
+import SubjectPageInformation from '../SubjectPageInformation';
+import SubjectEditorChoices from '../SubjectEditorChoices';
+import SubjectPageTopics from '../SubjectPageTopics';
 
-const SubjectPageOneColumn = props => {
+const SubjectPageSingle = props => {
   const {
     subjectpage,
-    t,
     handleFilterClick,
     filters,
     topics,
@@ -45,24 +34,13 @@ const SubjectPageOneColumn = props => {
   return (
     <OneColumn noPadding>
       <SubjectContent breadcrumb={breadcrumb}>
-        <ResourcesWrapper
-          subjectPage
-          header={<ResourcesTitle>Emner</ResourcesTitle>}>
-          <div data-testid="topic-list">
-            <SubjectFilter
-              label={t('subjectPage.subjectFilter.label')}
-              options={filters}
-              values={activeFilters}
-              onChange={handleFilterClick}
-            />
-            <TopicIntroductionList
-              toTopic={toTopic(subjectId, activeFilters)}
-              topics={topics}
-              messages={topicIntroductionMessages(t)}
-              toggleAdditionalCores={() => {}}
-            />
-          </div>
-        </ResourcesWrapper>
+        <SubjectPageTopics
+          handleFilterClick={handleFilterClick}
+          filters={filters}
+          topics={topics}
+          subjectId={subjectId}
+          activeFilters={activeFilters}
+        />
         <SubjectSidebarWrapper>
           <SubjectPageSidebar subjectpage={subjectpage} subjectId={subjectId} />
           <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
@@ -73,7 +51,7 @@ const SubjectPageOneColumn = props => {
   );
 };
 
-SubjectPageOneColumn.propTypes = {
+SubjectPageSingle.propTypes = {
   handleFilterClick: PropTypes.func.isRequired,
   subjectpage: GraphQLSubjectPageShape,
   filters: PropTypes.arrayOf(
@@ -90,6 +68,5 @@ SubjectPageOneColumn.propTypes = {
 
 export default compose(
   withRouter,
-  injectT,
   withApollo,
-)(SubjectPageOneColumn);
+)(SubjectPageSingle);

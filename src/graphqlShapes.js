@@ -29,10 +29,10 @@ export const GraphQLResourceTypeShape = PropTypes.shape({
 });
 
 export const GraphQLResourceShape = PropTypes.shape({
-  contentUri: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
+  contentUri: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  path: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
   meta: PropTypes.shape({
     id: PropTypes.number,
@@ -94,7 +94,7 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   }),
   facebook: PropTypes.string,
   twitter: PropTypes.string,
-  displayInTwoColumns: PropTypes.bool,
+  layout: PropTypes.string,
   about: GraphQLSubjectPageAboutShape,
   goTo: PropTypes.shape({
     resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),

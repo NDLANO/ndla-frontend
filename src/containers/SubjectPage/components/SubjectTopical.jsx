@@ -14,7 +14,7 @@ import { GraphQLSubjectPageTopicalShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-const SubjectTopical = ({ topical, displayInTwoColumns, t }) => {
+const SubjectTopical = ({ topical, twoColumns, t }) => {
   if (!topical || !topical.resource || !topical.resource.meta) {
     return null;
   }
@@ -26,7 +26,7 @@ const SubjectTopical = ({ topical, displayInTwoColumns, t }) => {
   } = topical;
 
   return (
-    <SubjectPageFlexChild displayInTwoColumns={displayInTwoColumns}>
+    <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectArchive
         featuringArticle={{
           media:
@@ -50,11 +50,11 @@ const SubjectTopical = ({ topical, displayInTwoColumns, t }) => {
 
 SubjectTopical.propTypes = {
   topical: GraphQLSubjectPageTopicalShape,
-  displayInTwoColumns: PropTypes.bool,
+  twoColumns: PropTypes.bool,
 };
 
 SubjectTopical.defaultProps = {
-  displayInTwoColumns: false,
+  twoColumns: false,
 };
 
 export default injectT(SubjectTopical);
