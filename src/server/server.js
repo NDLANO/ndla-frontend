@@ -62,7 +62,7 @@ const ndlaMiddleware = [
             action: 'allow-from',
             domain: '*://localhost',
           }
-        : undefined,
+        : { action: 'sameorigin' },
   }),
 ];
 
