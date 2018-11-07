@@ -57,7 +57,7 @@ const ndlaMiddleware = [
             action: 'allow-from',
             domain: '*://localhost',
           }
-        : undefined,
+        : { action: 'allow-from', domain: '*://sti.ndla.no' },
   }),
 ];
 
