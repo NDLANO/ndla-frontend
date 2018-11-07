@@ -10,13 +10,11 @@ import 'isomorphic-unfetch';
 import express from 'express';
 import proxy from 'express-http-proxy';
 import helmet from 'helmet';
-import compression from 'compression';
 import bodyParser from 'body-parser';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
-  NOT_ACCEPTABLE,
   TEMPORARY_REDIRECT,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
@@ -31,19 +29,16 @@ import {
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import errorLogger from '../util/logger';
 import config from '../config';
 import { routes as appRoutes } from '../routes';
-import { renderAndCache } from './cache';
 import { getLocaleInfoFromPath } from '../i18n';
 
 const app = express();
-const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
+const allowedBodyContentTypes = ['application/json'];
 
 app.disable('x-powered-by');
 
 const ndlaMiddleware = [
-  compression(),
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
@@ -62,7 +57,7 @@ const ndlaMiddleware = [
             action: 'allow-from',
             domain: '*://localhost',
           }
-        : undefined,
+        : { action: 'allow-from', domain: '*://sti.ndla.no' },
   }),
 ];
 
@@ -78,22 +73,6 @@ app.get('/robots.txt', ndlaMiddleware, (req, res) => {
 
 app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
-});
-
-app.post('/csp-report', ndlaMiddleware, (req, res) => {
-  const { body } = req;
-  if (body && body['csp-report']) {
-    const cspReport = body['csp-report'];
-    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${
-      cspReport['violated-directive']
-    }`;
-    errorLogger.error(errorMessage, cspReport);
-    res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
-  } else {
-    res
-      .status(NOT_ACCEPTABLE)
-      .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
-  }
 });
 
 app.get('/get_token', ndlaMiddleware, async (req, res) => {
@@ -126,22 +105,13 @@ function sendResponse(res, data, status = OK) {
   }
 }
 
-async function handleRequest(req, res, route, enableCache = false) {
+async function handleRequest(req, res, route) {
   try {
     const token = await getToken();
     storeAccessToken(token.access_token);
     try {
-      if (enableCache) {
-        const { res: response, data, status } = await renderAndCache(
-          req,
-          res,
-          route,
-        );
-        sendResponse(response, data, status);
-      } else {
-        const { data, status } = await route(req);
-        sendResponse(res, data, status);
-      }
+      const { data, status } = await route(req);
+      sendResponse(res, data, status);
     } catch (e) {
       handleError(e);
       await sendInternalServerError(req, res);
@@ -210,7 +180,7 @@ app.get(
   },
   ndlaMiddleware,
   (req, res) => {
-    handleRequest(req, res, defaultRoute, true);
+    handleRequest(req, res, defaultRoute);
   },
 );
 

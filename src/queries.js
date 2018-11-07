@@ -226,7 +226,10 @@ export const subjectTopicsQuery = gql`
       name
       path
       topics(all: true, filterIds: $filterIds) {
-        ...TopicInfo
+        id
+        name
+        parent
+        path
       }
       filters {
         id
@@ -234,7 +237,6 @@ export const subjectTopicsQuery = gql`
       }
     }
   }
-  ${topicInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
@@ -243,7 +245,7 @@ export const subjectPageQuery = gql`
       id
       name
       path
-      topics(all: true, filterIds: $filterIds) {
+      topics(filterIds: $filterIds) {
         ...TopicInfo
       }
       filters {
