@@ -9,9 +9,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorReporter from '@ndla/error-reporter';
+import { hydrate } from 'emotion';
 import IframeArticlePage from './IframeArticlePage';
 
-const { config, initialProps } = window.DATA;
+const { config, initialProps, ids } = window.DATA;
+
+hydrate(ids);
 
 const {
   disableSSR,
