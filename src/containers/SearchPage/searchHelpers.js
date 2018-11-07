@@ -1,6 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
-import { ContentTypeBadge, Image } from 'ndla-ui';
+import { ContentTypeBadge, Image } from '@ndla/ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
 import { toSubjects } from '../../routeHelpers';

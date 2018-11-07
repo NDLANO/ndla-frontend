@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SubjectLinks, SubjectShortcuts } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { getResources, getSearchUrl } from '../subjectPageHelpers';

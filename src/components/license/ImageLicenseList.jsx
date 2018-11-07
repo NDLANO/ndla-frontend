@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uuid } from 'ndla-util';
+import { uuid } from '@ndla/util';
 import {
   Image,
   MediaList,
@@ -17,9 +17,12 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
-import { metaTypes, getGroupedContributorDescriptionList } from 'ndla-licenses';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';

@@ -10,7 +10,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import IntlProvider from 'ndla-i18n';
+import IntlProvider from '@ndla/i18n';
 import url from 'url';
 import { ApolloProvider } from 'react-apollo';
 

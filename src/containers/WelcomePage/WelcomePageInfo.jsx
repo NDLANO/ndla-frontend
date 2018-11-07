@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 
-import { InfoWidget, FrontpageInfo } from 'ndla-ui';
-import { EmailOutline, Facebook, Twitter } from 'ndla-icons/common';
+import { InfoWidget, FrontpageInfo } from '@ndla/ui';
+import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
 
 const WelcomePageInfo = ({ t }) => (
   <FrontpageInfo>

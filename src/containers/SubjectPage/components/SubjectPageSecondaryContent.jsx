@@ -17,9 +17,9 @@ import {
   SubjectNewContent,
   InfoWidget,
   SubjectSecondaryContent,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
-import { EmailOutline } from 'ndla-icons/common';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import { EmailOutline } from '@ndla/icons/common';
 import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
