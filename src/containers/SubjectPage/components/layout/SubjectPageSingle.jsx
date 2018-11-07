@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
-import { OneColumn, SubjectSidebarWrapper, SubjectContent } from 'ndla-ui';
+import { OneColumn, SubjectSidebarWrapper, SubjectContent } from '@ndla/ui';
 import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
 import { TopicShape } from '../../../../shapes';
 import SubjectPageSidebar from '../SubjectPageSidebar';

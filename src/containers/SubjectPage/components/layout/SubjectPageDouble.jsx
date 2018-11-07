@@ -16,7 +16,7 @@ import {
   SubjectChildContent,
   SubjectFlexWrapper,
   SubjectContent,
-} from 'ndla-ui';
+} from '@ndla/ui';
 import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
 import { TopicShape } from '../../../../shapes';
 import SubjectPageSidebar from '../SubjectPageSidebar';

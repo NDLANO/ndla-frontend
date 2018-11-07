@@ -14,7 +14,7 @@ import {
   ExternalLearningResourcesBadge,
   SourceMaterialBadge,
   LearningPathBadge,
-} from 'ndla-ui';
+} from '@ndla/ui';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL =

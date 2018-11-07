@@ -13,8 +13,8 @@ import {
   ResourcesWrapper,
   ResourcesTitle,
   SubjectFilter,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { TopicShape } from '../../../shapes';
 import { toTopic } from '../subjectPageHelpers';
 import { topicIntroductionMessages } from '../../../util/topicsHelper';

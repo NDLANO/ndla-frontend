@@ -9,8 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Article as UIArticle, ContentTypeBadge } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import LicenseBox from './license/LicenseBox';
 import { ArticleShape } from '../shapes';
 import config from '../config';

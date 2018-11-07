@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FrontpageHighlighted, ContentCard } from 'ndla-ui';
-import { breakpoints } from 'ndla-util';
-import { injectT } from 'ndla-i18n';
+import { FrontpageHighlighted, ContentCard } from '@ndla/ui';
+import { breakpoints } from '@ndla/util';
+import { injectT } from '@ndla/i18n';
 import config from '../../config';
 
 const getMetaInformation = meta => {

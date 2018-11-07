@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SubjectAbout, Image } from 'ndla-ui';
+import { SubjectAbout, Image } from '@ndla/ui';
 import { GraphQLSubjectPageAboutShape } from '../../../graphqlShapes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 

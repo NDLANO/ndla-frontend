@@ -17,9 +17,9 @@ import {
   ResourcesWrapper,
   ResourcesTitle,
   SubjectFilter,
-} from 'ndla-ui';
+} from '@ndla/ui';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
 import { TopicShape } from '../../../../shapes';
 import SubjectPageSidebar from '../SubjectPageSidebar';

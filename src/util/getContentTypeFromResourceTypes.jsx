@@ -6,7 +6,7 @@
  *
  */
 
-import { constants } from 'ndla-ui';
+import { constants } from '@ndla/ui';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,

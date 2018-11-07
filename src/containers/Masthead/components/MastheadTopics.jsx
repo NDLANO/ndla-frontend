@@ -1,6 +1,6 @@
 import React from 'react';
 import { node, shape, func, string, arrayOf, object } from 'prop-types';
-import { TopicMenu } from 'ndla-ui';
+import { TopicMenu } from '@ndla/ui';
 import { toSubject } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import {

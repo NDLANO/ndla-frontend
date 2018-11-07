@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import { Breadcrumb } from 'ndla-ui';
+import { injectT } from '@ndla/i18n';
+import { Breadcrumb } from '@ndla/ui';
 import { toBreadcrumbItems } from '../../../routeHelpers';
 import {
   GraphQLSubjectPageShape,
