@@ -2130,21 +2130,7 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
-              },
-              "isDeprecated": true,
-              "deprecationReason": "Use layout field."
-            },
-            {
-              "name": "layout",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3206,18 +3192,6 @@
           },
           {
             "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "resourceType",
             "description": "",
             "args": [],
             "type": {
