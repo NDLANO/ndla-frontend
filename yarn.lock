@@ -284,10 +284,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.0.tgz#f4d2b3bb78a4b18a5d2e7365cfa5c02aecfb402c"
   integrity sha512-CrV7BkNVphJX//OtalF2q9T5yF4bannOjcz4BoNy5rRfXzEKbposrcavnpZDVmaSd8tUR1hRqQgz//fohJ+EbA==
 
-"@ndla/ui@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.0.tgz#b12fc2fa635bc67c1d924977c5353b7b4ce491e3"
-  integrity sha512-EiRmTVipiGOOVC+39XnFSdHXI0Nvt9/fFjqXYiWerYWvoO6heNQDRBVW4NRm3CviecJJmacxTQaW1Pl+kCqQJw==
+"@ndla/ui@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.1.tgz#8fa0f05f2aa217db9fbaeedd5541bca09180b6d6"
+  integrity sha512-hmYWt4Y4iNfTdb1gyrg2vDG5nSFx4VUuKY2luGviJZYrvL+eMfBFHQrY6IxLQs+2vSbu/eyx6XXKtGCK0S6z2Q==
   dependencies:
     "@ndla/core" "^0.4.0"
     classnames "2.2.5"
