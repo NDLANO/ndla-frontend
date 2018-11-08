@@ -16,9 +16,10 @@ export const getArticleProps = (resource, topic) => {
     ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
     : undefined;
 
-  const additional = topic
-    ? topic.supplementaryResources.some(item => item.id === resource.id)
-    : false;
+  const additional =
+    topic && topic.supplementaryResources
+      ? topic.supplementaryResources.some(item => item.id === resource.id)
+      : false;
 
   const label = hasResourceTypes ? resource.resourceTypes[0].name : '';
   return { contentType, label, additional };

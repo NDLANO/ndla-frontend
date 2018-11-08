@@ -11,13 +11,11 @@ import { combineReducers } from 'redux';
 import locale from './containers/Locale/localeReducer';
 import subjects from './containers/SubjectPage/subjects';
 import filters from './containers/Filters/filter';
-import search from './containers/SearchPage/searchReducer';
 import errors from './modules/error';
 
 const rootReducers = combineReducers({
   errors,
   locale,
-  search,
   subjects,
   filters,
 });
