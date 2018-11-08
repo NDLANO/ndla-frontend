@@ -38,6 +38,10 @@ const helse = {
 const kinesisk = {
   id: 'urn:subject:2',
   name: 'Kinesisk',
+  frontpageFilters: [
+    { name: 'Kinesisk 1', id: 'urn:filter:1337' },
+    { name: 'Kinesisk 2', id: 'urn:filter:42' },
+  ],
 };
 
 const engelsk = {
@@ -73,7 +77,18 @@ test('that getCategoriesWithAllSubjects only returns allowed subjects', () => {
   expect(hasSubjectId(categories, historie.id)).toBe(true);
   expect(hasSubjectId(categories, samfunnsfag.id)).toBe(true);
   expect(hasSubjectId(categories, service.id)).toBe(true);
-  expect(hasSubjectId(categories, kinesisk.id)).toBe(true);
+  expect(
+    hasSubjectId(
+      categories,
+      `${kinesisk.id}?filters=${kinesisk.frontpageFilters[0].id}`,
+    ),
+  ).toBe(true);
+  expect(
+    hasSubjectId(
+      categories,
+      `${kinesisk.id}?filters=${kinesisk.frontpageFilters[1].id}`,
+    ),
+  ).toBe(true);
 
   expect(hasSubjectId(categories, helse.id)).toBe(false);
   expect(hasSubjectId(categories, matematikk.id)).toBe(false);
