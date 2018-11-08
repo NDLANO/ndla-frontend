@@ -103,3 +103,14 @@ export const OLD_CATEGORIES_WITH_SUBJECTS = {
     { nodeId: '138655', name: 'Tysk 2' },
   ],
 };
+
+export const ALLOWED_SUBJECTS = [
+  'urn:subject:3',
+  'urn:subject:6',
+  'urn:subject:12',
+  'urn:subject:22',
+  'urn:subject:2',
+  'urn:subject:7',
+  'urn:subject:8',
+  'urn:subject:9',
+];

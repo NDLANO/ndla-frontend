@@ -17,7 +17,10 @@ import {
   GraphQLSimpleSubjectShape,
 } from '../../graphqlShapes';
 import config from '../../config';
-import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
+import {
+  OLD_CATEGORIES_WITH_SUBJECTS,
+  ALLOWED_SUBJECTS,
+} from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -49,6 +52,13 @@ function flattenSubjectsFrontpageFilters(subjects) {
   }, []);
 }
 
+function allowedSubjectsInProd(subject) {
+  if (config.isNdlaProdEnvironment) {
+    return ALLOWED_SUBJECTS.includes(subject.id);
+  }
+  return true;
+}
+
 export const getCategoriesWithAllSubjects = (
   categoriesFromApi = [],
   locale,
@@ -57,12 +67,14 @@ export const getCategoriesWithAllSubjects = (
   const lang = locale === 'en' ? 'nb' : locale;
   return categoriesFromApi.map(category => {
     const flattened = flattenSubjectsFrontpageFilters(category.subjects);
-    const newSubjects = flattened.map(categorySubject => ({
-      ...categorySubject,
-      text: categorySubject.name,
-      url: toSubject(categorySubject.id),
-      yearInfo: categorySubject.yearInfo,
-    }));
+    const newSubjects = flattened
+      .filter(allowedSubjectsInProd)
+      .map(categorySubject => ({
+        ...categorySubject,
+        text: categorySubject.name,
+        url: toSubject(categorySubject.id),
+        yearInfo: categorySubject.yearInfo,
+      }));
 
     const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
       .map(subject => ({
