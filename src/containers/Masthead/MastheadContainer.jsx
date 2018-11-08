@@ -165,11 +165,12 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent, locale } = this.props;
+    const { infoContent, locale, location } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
 
+    const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead showLoaderWhenNeeded={false} fixed infoContent={infoContent}>
         <MastheadItem left>
@@ -177,7 +178,7 @@ class MastheadContainer extends React.PureComponent {
             <MastheadMenu
               subject={subject}
               searchFieldComponent={
-                subject && <MastheadSearch subject={subject} />
+                showSearch && <MastheadSearch subject={subject} />
               }
               topicPath={topicPath || []}
               onDataFetch={this.onDataFetch}
@@ -188,7 +189,7 @@ class MastheadContainer extends React.PureComponent {
           )}
         </MastheadItem>
         <MastheadItem right>
-          {subject && <MastheadSearch subject={subject} />}
+          {showSearch && <MastheadSearch subject={subject} />}
           <Trans>
             {({ t }) => (
               <Logo

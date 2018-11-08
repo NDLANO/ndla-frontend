@@ -114,21 +114,6 @@ export const getResults = subjectFilters =>
     }),
   );
 
-export const getGroupResults = createSelector([getSearchFromState], search =>
-  search.groupResult.map(result => ({
-    ...result,
-    resources: result.results.map(contentTypeResult => ({
-      ...contentTypeResult,
-      path:
-        contentTypeResult.paths && contentTypeResult.paths.length > 0
-          ? `/subjects${contentTypeResult.paths[0]}`
-          : contentTypeResult.url,
-      name: convertFieldWithFallback(contentTypeResult, 'title', ''),
-      resourceType: result.resourceType,
-    })),
-  })),
-);
-
 export const getSearching = createSelector(
   [getSearchFromState],
   search => search.searching,
