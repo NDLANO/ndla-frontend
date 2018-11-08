@@ -95,7 +95,7 @@ export const searchResultToLinkProps = result => {
       rel: 'noopener noreferrer',
     };
   }
-  return { to: result.path };
+  return { to: result.path || '/404' };
 };
 
 const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
