@@ -7,7 +7,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { constants } from 'ndla-ui';
+import { constants } from '@ndla/ui';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import config from '../../config';

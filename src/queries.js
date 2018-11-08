@@ -121,6 +121,9 @@ export const topicInfoFragment = gql`
     id
     name
     parent
+    filters {
+      name
+    }
     path
     meta {
       metaDescription
@@ -286,7 +289,7 @@ export const subjectPageQuery = gql`
         }
         facebook
         twitter
-        displayInTwoColumns
+        layout
         about {
           title
           description

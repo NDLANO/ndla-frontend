@@ -9,7 +9,7 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
-import IntlProvider from 'ndla-i18n';
+import IntlProvider from '@ndla/i18n';
 import ErrorPage from '../ErrorPage';
 import { getLocaleObject } from '../../../i18n';
 

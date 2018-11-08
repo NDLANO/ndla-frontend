@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SubjectAbout, Image } from 'ndla-ui';
+import { SubjectAbout, Image } from '@ndla/ui';
 import { GraphQLSubjectPageAboutShape } from '../../../graphqlShapes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
@@ -39,12 +39,12 @@ AboutMedia.propTypes = {
   }),
 };
 
-export const SubjectPageAbout = ({ about, displayInTwoColumns }) => {
+export const SubjectPageAbout = ({ about, twoColumns }) => {
   if (!about) {
     return null;
   }
   return (
-    <SubjectPageFlexChild displayInTwoColumns={displayInTwoColumns}>
+    <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectAbout
         media={<AboutMedia visualElement={about.visualElement} />}
         heading={about.title}
@@ -55,11 +55,11 @@ export const SubjectPageAbout = ({ about, displayInTwoColumns }) => {
 };
 SubjectPageAbout.propTypes = {
   about: GraphQLSubjectPageAboutShape,
-  displayInTwoColumns: PropTypes.bool,
+  twoColumns: PropTypes.bool,
 };
 
 SubjectPageAbout.defaultProps = {
-  displayInTwoColumns: false,
+  twoColumns: false,
 };
 
 export default SubjectPageAbout;

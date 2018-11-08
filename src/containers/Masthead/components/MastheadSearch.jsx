@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { func, arrayOf, object, shape, string } from 'prop-types';
-import { SearchField } from 'ndla-ui';
+import { SearchField } from '@ndla/ui';
 import queryString from 'query-string';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentTypeFromResourceTypes';

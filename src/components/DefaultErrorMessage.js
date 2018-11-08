@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 
 export const DefaultErrorMessage = injectT(({ t }) => (
   <OneColumn cssModifier="clear">

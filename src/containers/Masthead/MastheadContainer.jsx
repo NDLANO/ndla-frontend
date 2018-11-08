@@ -8,10 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
-import { Trans } from 'ndla-i18n';
+import { Trans } from '@ndla/i18n';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';

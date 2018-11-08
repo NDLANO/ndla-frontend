@@ -12,7 +12,7 @@ import {
   forEachElement,
   findAncestorByClass,
   getElementOffset,
-} from 'ndla-article-scripts';
+} from '@ndla/article-scripts';
 
 /**
  * Since iframes often have a height higher then the viewport, some of

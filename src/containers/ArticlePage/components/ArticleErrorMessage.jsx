@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { injectT } from '@ndla/i18n';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 
 const ArticleErrorMessage = ({ status, children, t }) => (
   <OneColumn>

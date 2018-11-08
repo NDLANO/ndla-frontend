@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { node, shape, func, string, arrayOf, object } from 'prop-types';
-import { DisplayOnPageYOffset, BreadcrumbBlock } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { DisplayOnPageYOffset, BreadcrumbBlock } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../../routeHelpers';

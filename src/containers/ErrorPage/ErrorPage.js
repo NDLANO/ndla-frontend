@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Content, Masthead, MastheadItem, Logo } from 'ndla-ui';
-import { Trans } from 'ndla-i18n';
+import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
+import { Trans } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
 import ZendeskButton from '../../components/ZendeskButton';

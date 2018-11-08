@@ -8,13 +8,13 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'ndla-modal';
-import Button from 'ndla-button';
+import Modal from '@ndla/modal';
+import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 
-import { Search } from 'ndla-icons/common';
-import { Cross } from 'ndla-icons/action';
+import { Search } from '@ndla/icons/common';
+import { Cross } from '@ndla/icons/action';
 
 const classes = BEMHelper({
   prefix: 'c-',

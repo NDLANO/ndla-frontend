@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'ndla-modal';
-import Button from 'ndla-button';
-import { injectT } from 'ndla-i18n';
+import Modal from '@ndla/modal';
+import Button from '@ndla/button';
+import { injectT } from '@ndla/i18n';
 
 const MastheadMenuModal = ({ children, onMenuExit, t }) => (
   <Modal

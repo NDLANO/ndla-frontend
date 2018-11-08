@@ -10,7 +10,7 @@ import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import defined from 'defined';
-import { resetIdCounter } from 'ndla-tabs';
+import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
 import getConditionalClassnames from './getConditionalClassnames';
