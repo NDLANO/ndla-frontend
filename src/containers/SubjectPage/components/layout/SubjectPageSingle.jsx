@@ -32,7 +32,7 @@ const SubjectPageSingle = props => {
   const { editorsChoices } = subjectpage;
 
   return (
-    <OneColumn noPadding>
+    <OneColumn>
       <SubjectContent breadcrumb={breadcrumb}>
         <SubjectPageTopics
           handleFilterClick={handleFilterClick}

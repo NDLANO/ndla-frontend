@@ -6,12 +6,12 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import {
   ResourcesWrapper,
-  ResourcesTitle,
+  ResourcesTopicTitle,
   TopicIntroductionList,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
@@ -26,32 +26,75 @@ const toTopic = (subjectId, topicPath, filters) => {
   return toTopicPartial(subjectId, filters, ...topicIds);
 };
 
-export const TopicResources = ({
-  subtopics,
-  subjectId,
-  topicPath,
-  location,
-  t,
-}) => {
-  if (subtopics.length === 0) {
-    return null;
+class TopicResources extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAdditionalCores: false,
+      showAdditionalDialog: false,
+    };
+    this.toggleAdditionalCores = this.toggleAdditionalCores.bind(this);
+    this.toggleAdditionalDialog = this.toggleAdditionalDialog.bind(this);
   }
 
-  return (
-    <ResourcesWrapper>
-      <ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>
-      <TopicIntroductionList
-        toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
-        topics={subtopics.map(topic => ({
-          ...topic,
-          introduction: topic.meta ? topic.meta.metaDescription : '',
-        }))}
-        messages={topicIntroductionMessages(t)}
-        toggleAdditionalCores={() => {}}
-      />
-    </ResourcesWrapper>
-  );
-};
+  toggleAdditionalCores() {
+    this.setState(prevState => ({
+      showAdditionalCores: !prevState.showAdditionalCores,
+    }));
+  }
+
+  toggleAdditionalDialog() {
+    this.setState(prevState => ({
+      showAdditionalDialog: !prevState.showAdditionalDialog,
+    }));
+  }
+
+  render() {
+    const { subtopics, subjectId, topicPath, location, t } = this.props;
+    const { showAdditionalCores, showAdditionalDialog } = this.state;
+
+    if (subtopics.length === 0) {
+      return null;
+    }
+
+    return (
+      <ResourcesWrapper
+        header={
+          <ResourcesTopicTitle
+            messages={{
+              label: t('topicPage.topic'),
+              additionalFilterLabel: t('resource.activateAdditionalResources'),
+              dialogTooltip: t('resource.dialogTooltip'),
+              dialogHeading: t('resource.dialogHeading'),
+              dialogTexts: [
+                t('resource.dialogText1'),
+                t('resource.dialogText2'),
+              ],
+            }}
+            explainationIconLabelledBy="subject-header-id"
+            title="Medieproduksjon"
+            hasAdditionalResources={
+              subtopics.some(topic => topic.additional) || true
+            }
+            toggleAdditionalResources={this.toggleAdditionalCores}
+            showAdditionalResources={showAdditionalCores}
+            toggleAdditionalDialog={this.toggleAdditionalDialog}
+            showAdditionalDialog={showAdditionalDialog}
+          />
+        }>
+        <TopicIntroductionList
+          toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
+          topics={subtopics.map(topic => ({
+            ...topic,
+            introduction: topic.meta ? topic.meta.metaDescription : '',
+          }))}
+          messages={topicIntroductionMessages(t)}
+          toggleAdditionalCores={() => {}}
+        />
+      </ResourcesWrapper>
+    );
+  }
+}
 
 TopicResources.propTypes = {
   subjectId: PropTypes.string.isRequired,
