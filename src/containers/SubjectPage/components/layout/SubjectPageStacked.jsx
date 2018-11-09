@@ -67,7 +67,7 @@ class SubjectPageStacked extends React.PureComponent {
 
     return (
       <Fragment>
-        <OneColumn noPadding>
+        <OneColumn>
           <SubjectContent twoColumns breadcrumb={breadcrumb}>
             <ResourcesWrapper
               subjectPage

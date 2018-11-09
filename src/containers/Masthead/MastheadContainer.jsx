@@ -171,7 +171,10 @@ class MastheadContainer extends React.PureComponent {
     } = this.state;
 
     return (
-      <Masthead showLoaderWhenNeeded={false} fixed infoContent={infoContent}>
+      <Masthead
+        showLoaderWhenNeeded={topicPath && topicPath.length > 0}
+        fixed
+        infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
             <MastheadMenu

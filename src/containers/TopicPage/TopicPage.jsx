@@ -191,6 +191,7 @@ class TopicPage extends Component {
             contentType={constants.contentTypes.SUBJECT}>
             <Fragment>
               <SubTopics
+                topicTitle={topicTitle}
                 subjectId={subjectId}
                 subtopics={subtopics}
                 topicPath={topicPath}
