@@ -73,16 +73,17 @@ class TopicResources extends Component {
             messages={{
               label: t('topicPage.topics'),
               additionalFilterLabel: t('resource.activateAdditionalResources'),
-              dialogTooltip: t('resource.dialogTooltip'),
+              /* dialogTooltip: t('resource.dialogTooltip'),
               dialogHeading: t('resource.dialogHeading'),
               dialogTexts: [
                 t('resource.dialogText1'),
                 t('resource.dialogText2'),
               ],
+              */
             }}
             explainationIconLabelledBy="subject-header-id"
             title={topicTitle}
-            hasAdditionalResources={subtopics.some(topic => topic.additional)}
+            hasAdditionalResources={false} // subtopics.some(topic => topic.additional)
             toggleAdditionalResources={this.toggleAdditionalCores}
             showAdditionalResources={showAdditionalCores}
             toggleAdditionalDialog={this.toggleAdditionalDialog}
