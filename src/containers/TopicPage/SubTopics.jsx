@@ -50,19 +50,28 @@ class TopicResources extends Component {
   }
 
   render() {
-    const { subtopics, subjectId, topicPath, location, t } = this.props;
+    const {
+      topicTitle,
+      subtopics,
+      subjectId,
+      topicPath,
+      location,
+      t,
+    } = this.props;
     const { showAdditionalCores, showAdditionalDialog } = this.state;
 
     if (subtopics.length === 0) {
       return null;
     }
 
+    console.log(subtopics);
+
     return (
       <ResourcesWrapper
         header={
           <ResourcesTopicTitle
             messages={{
-              label: t('topicPage.topic'),
+              label: t('topicPage.topics'),
               additionalFilterLabel: t('resource.activateAdditionalResources'),
               dialogTooltip: t('resource.dialogTooltip'),
               dialogHeading: t('resource.dialogHeading'),
@@ -72,10 +81,8 @@ class TopicResources extends Component {
               ],
             }}
             explainationIconLabelledBy="subject-header-id"
-            title="Medieproduksjon"
-            hasAdditionalResources={
-              subtopics.some(topic => topic.additional) || true
-            }
+            title={topicTitle}
+            hasAdditionalResources={subtopics.some(topic => topic.additional)}
             toggleAdditionalResources={this.toggleAdditionalCores}
             showAdditionalResources={showAdditionalCores}
             toggleAdditionalDialog={this.toggleAdditionalDialog}
@@ -97,6 +104,7 @@ class TopicResources extends Component {
 }
 
 TopicResources.propTypes = {
+  topicTitle: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
   topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
