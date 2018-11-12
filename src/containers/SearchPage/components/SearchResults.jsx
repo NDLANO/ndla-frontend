@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import { SearchResult, SearchResultList } from 'ndla-ui';
+import { SearchResult, SearchResultList } from '@ndla/ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
 import { ArticleResultShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';

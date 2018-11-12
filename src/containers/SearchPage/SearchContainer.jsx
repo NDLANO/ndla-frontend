@@ -8,13 +8,13 @@
 import React, { Component } from 'react';
 import { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
-import Pager from 'ndla-pager';
-import { SearchPage, OneColumn } from 'ndla-ui';
+import Pager from '@ndla/pager';
+import { SearchPage, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
-import { HelmetWithTracker } from 'ndla-tracker';
-import { injectT } from 'ndla-i18n';
 import { Query } from 'react-apollo';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { injectT } from '@ndla/i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
 import { SubjectShape, FilterShape, LocationShape } from '../../shapes';

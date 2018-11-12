@@ -6,8 +6,8 @@
  *
  */
 
-import { formatNestedMessages } from 'ndla-i18n';
-import { messagesNB, messagesEN, messagesNN } from 'ndla-ui';
+import { formatNestedMessages } from '@ndla/i18n';
+import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import additionalMessagesNB from './messages/messagesNB';
 import additionalMessagesNN from './messages/messagesNN';
 import additionalMessagesEN from './messages/messagesEN';

@@ -186,6 +186,5 @@ export default {
       'brightcove.com',
     ],
     connectSrc,
-    reportUri: '/csp-report',
   },
 };

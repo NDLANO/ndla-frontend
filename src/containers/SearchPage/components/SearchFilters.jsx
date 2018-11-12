@@ -6,9 +6,9 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
-import { SearchFilter, SearchPopoverFilter } from 'ndla-ui';
+import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
 import groupBy from '../../../util/groupBy';
 import { FilterShape, SubjectShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';

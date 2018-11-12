@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import { SearchFilter } from 'ndla-ui';
+import { SearchFilter } from '@ndla/ui';
 import { func, arrayOf, shape, string } from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({

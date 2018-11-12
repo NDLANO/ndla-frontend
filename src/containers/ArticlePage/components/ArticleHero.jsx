@@ -9,8 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import defined from 'defined';
-import { injectT } from 'ndla-i18n';
-import { Hero, OneColumn, Breadcrumb } from 'ndla-ui';
+import { injectT } from '@ndla/i18n';
+import { Hero, OneColumn, Breadcrumb } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
 import { toBreadcrumbItems } from '../../../routeHelpers';

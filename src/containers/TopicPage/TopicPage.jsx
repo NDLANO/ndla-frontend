@@ -9,10 +9,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { SubjectHero, OneColumn, Breadcrumb, constants } from 'ndla-ui';
+import { SubjectHero, OneColumn, Breadcrumb, constants } from '@ndla/ui';
 import Helmet from 'react-helmet';
-import { injectT } from 'ndla-i18n';
-import { withTracker } from 'ndla-tracker';
+import { injectT } from '@ndla/i18n';
+import { withTracker } from '@ndla/tracker';
 import connectSSR from '../../components/connectSSR';
 import SubTopics from './SubTopics';
 import {
@@ -191,6 +191,7 @@ class TopicPage extends Component {
             contentType={constants.contentTypes.SUBJECT}>
             <Fragment>
               <SubTopics
+                topicTitle={topicTitle}
                 subjectId={subjectId}
                 subtopics={subtopics}
                 topicPath={topicPath}

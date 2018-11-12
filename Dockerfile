@@ -1,4 +1,4 @@
-FROM node:8.11-alpine
+FROM node:10-alpine
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend

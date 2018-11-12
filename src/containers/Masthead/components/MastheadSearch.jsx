@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { func, arrayOf, object, shape, string } from 'prop-types';
-import { SearchField } from 'ndla-ui';
+import { SearchField } from '@ndla/ui';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { getGroupResults } from '../../SearchPage/searchSelectors';
 import * as searchActions from '../../SearchPage/searchActions';
