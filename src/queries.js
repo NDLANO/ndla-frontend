@@ -15,6 +15,70 @@ const contributorInfoFragment = gql`
   }
 `;
 
+export const searchQuery = gql`
+  query Search(
+    $query: String
+    $page: String
+    $pageSize: String
+    $contextTypes: String
+    $language: String
+    $ids: String
+    $resourceTypes: String
+    $levels: String
+    $sort: String
+    $fallback: Boolean
+    $subjects: String
+    $languageFilter: String
+  ) {
+    search(
+      query: $query
+      page: $page
+      pageSize: $pageSize
+      contextTypes: $contextTypes
+      language: $language
+      ids: $ids
+      resourceTypes: $resourceTypes
+      levels: $levels
+      sort: $sort
+      fallback: $fallback
+      subjects: $subjects
+      languageFilter: $languageFilter
+    ) {
+      language
+      page
+      pageSize
+      results {
+        id
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+        title
+        contexts {
+          breadcrumbs
+          filters {
+            name
+            relevance
+          }
+          id
+          language
+          learningResourceType
+          path
+          resourceTypes {
+            id
+            name
+            language
+          }
+          subject
+        }
+        supportedLanguages
+      }
+      totalCount
+    }
+  }
+`;
+
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {

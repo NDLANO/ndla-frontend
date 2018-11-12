@@ -4,20 +4,20 @@
 
 ## Requirements
 
-* Node.JS ~8.10
-* npm ~3.9
-* yarn ~1.6
-* Docker (optional)
+- Node.JS ~8.10
+- npm ~3.9
+- yarn ~1.6
+- Docker (optional)
 
 ## Getting started
 
 What's in the box?
 
-* React
-* Redux
-* GraphQL
-* Express
-* Webpack + Babel (ES6) via Razzle
+- React
+- Redux
+- GraphQL
+- Express
+- Webpack + Babel (ES6) via Razzle
 
 ### Dependencies
 
@@ -92,13 +92,13 @@ The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graph
 To update the schema you need to install [apollo-codegen](https://github.com/apollographql/apollo-codegen).
 
 ```
-yarn global add apollo-codegen
+yarn global add apollo
 ```
 
 Make sure you have an running instance of the GraphQL enpoint with your latest changes
 
 ```
-apollo-codegen introspect-schema http://localhost:4000/graphql-api/graphql --output src/gqlSchema.json
+apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json
 ```
 
 ## Other scripts

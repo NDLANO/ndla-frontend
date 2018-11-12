@@ -6,24 +6,19 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
+import { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import Pager from '@ndla/pager';
 import { SearchPage, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
+import { Query } from 'react-apollo';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import connectSSR from '../../components/connectSSR';
 import * as actions from './searchActions';
-import {
-  SubjectShape,
-  ArticleResultShape,
-  FilterShape,
-  LocationShape,
-} from '../../shapes';
+import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
-import { getResults, getResultsMetadata } from './searchSelectors';
 import {
   getSubjects,
   actions as subjectActions,
@@ -40,42 +35,31 @@ import SearchResults from './components/SearchResults';
 import {
   converSearchStringToObject,
   convertSearchParam,
+  convertResult,
+  getResultMetadata,
 } from './searchHelpers';
 import { runQueries } from '../../util/runQueries';
-import { resourceTypesWithSubTypesQuery } from '../../queries';
+import { searchQuery, resourceTypesWithSubTypesQuery } from '../../queries';
 import handleError from '../../util/handleError';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   constructor(props) {
-    super();
-    const { location } = props;
-    const searchObject = converSearchStringToObject(location);
-
+    super(props);
+    const searchObject = converSearchStringToObject(props.location);
     this.state = {
-      searchParams: {
-        page: searchObject.page || 1,
-        query: searchObject.query || '',
-        subjects: searchObject.subjects || [],
-        'language-filter': searchObject['language-filter'] || [],
-        levels: searchObject.levels || [],
-        'resource-types': searchObject['resource-types'] || undefined,
-        'context-types': searchObject['context-types'] || undefined,
-        contextFilters: searchObject.contextFilters || [],
-      },
+      query: searchObject.query || '',
     };
   }
 
   onQuerySubmit = evt => {
     evt.preventDefault();
-    this.updateFilter({ query: this.state.searchParams.query });
+    this.updateFilter({ query: this.state.query });
   };
 
-  onFilterChange = (newValues, value, type) => {
-    if (
-      type === 'subjects' &&
-      newValues.length < this.state.searchParams.subjects.length
-    ) {
+  onFilterChange = (newValues, value, type, location) => {
+    const { subjects } = converSearchStringToObject(location);
+    if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
     } else {
       this.updateFilter({ [type]: newValues });
@@ -83,53 +67,36 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subject) => {
-    const { filters } = this.props;
-    const { levels } = this.state.searchParams;
+    const { filters, location } = this.props;
+    const { levels } = converSearchStringToObject(location);
     const removedFilters = filters
       .filter(level => level.subjectId === subject)
       .map(level => level.name);
 
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          ...subjectsSearchParam,
-          levels: levels.filter(level => !removedFilters.includes(level)),
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      ...subjectsSearchParam,
+      levels: levels.filter(level => !removedFilters.includes(level)),
+    });
   };
 
   onSearchFieldFilterRemove = removedSubject => {
-    const subjects = this.state.searchParams.subjects.filter(
+    const { subjects: subjectsInUrl } = converSearchStringToObject(
+      this.props.location,
+    );
+    const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
     this.onRemoveSubject({ subjects }, removedSubject);
   };
 
   onUpdateContextFilters = values => {
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          contextFilters: values,
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      contextFilters: values,
+    });
   };
 
   static getInitialProps = ctx => {
-    const {
-      subjects,
-      fetchSubjects,
-      location,
-      fetchFilters,
-      filters,
-      search,
-      client,
-    } = ctx;
+    const { subjects, fetchSubjects, fetchFilters, filters, client } = ctx;
 
     if (!subjects || subjects.length === 0) {
       fetchSubjects();
@@ -137,23 +104,6 @@ class SearchContainer extends Component {
     if (!filters || filters.length === 0) {
       fetchFilters();
     }
-
-    const searchObject = converSearchStringToObject(location);
-
-    const searchParams = {
-      ...searchObject,
-      'context-types':
-        !searchObject.contextFilters.length > 0
-          ? searchObject['context-types']
-          : undefined,
-      'resource-types':
-        searchObject.contextFilters.length > 0
-          ? searchObject.contextFilters
-          : searchObject['resource-types'],
-      contextFilters: undefined,
-    };
-
-    search({ searchString: `?${queryString.stringify(searchParams)}` });
 
     try {
       return runQueries(client, [
@@ -169,12 +119,11 @@ class SearchContainer extends Component {
 
   updateFilter = searchParam => {
     const page = searchParam.page || 1;
-    this.setState(
-      prevState => ({
-        searchParams: { ...prevState.searchParams, ...searchParam, page },
-      }),
-      this.updateSearchLocation,
-    );
+
+    this.updateSearchLocation({
+      ...searchParam,
+      page,
+    });
   };
 
   updateTab = (value, enabledTabs) => {
@@ -184,47 +133,26 @@ class SearchContainer extends Component {
         ? {}
         : { [enabledTab.type]: enabledTab.value };
 
-    this.setState(
-      prevState => ({
-        searchParams: {
-          ...prevState.searchParams,
-          'context-types': undefined,
-          'resource-types': undefined,
-          contextFilters: [],
-          ...searchParams,
-          page: 1,
-        },
-      }),
-      this.updateSearchLocation,
-    );
+    this.updateSearchLocation({
+      contextTypes: undefined,
+      resourceTypes: undefined,
+      contextFilters: [],
+      ...searchParams,
+      page: 1,
+    });
   };
 
   updateQuery = query => {
-    this.setState(prevState => ({
-      searchParams: { ...prevState.searchParams, query, page: 1 },
-    }));
+    this.setState({ query });
   };
 
-  updateSearchLocation = () => {
-    const { location, history, search } = this.props;
+  updateSearchLocation = searchParams => {
+    const { location, history } = this.props;
     const stateSearchParams = {};
-    Object.keys(this.state.searchParams).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(this.state.searchParams[key]);
+    Object.keys(searchParams).forEach(key => {
+      stateSearchParams[key] = convertSearchParam(searchParams[key]);
     });
 
-    const searchParams = {
-      ...queryString.parse(location.search),
-      ...stateSearchParams,
-      'context-types': !stateSearchParams.contextFilters
-        ? stateSearchParams['context-types']
-        : undefined,
-      'resource-types':
-        stateSearchParams.contextFilters || stateSearchParams['resource-types'],
-      contextFilters: undefined,
-    };
-
-    const searchString = `?${queryString.stringify(searchParams)}`;
-    search({ searchString });
     history.push({
       pathname: '/search',
       search: queryString.stringify({
@@ -235,25 +163,30 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const {
-      t,
-      subjects,
-      resultMetadata,
-      filters,
-      results,
-      location,
-      loading,
-      data,
-    } = this.props;
+    const { t, subjects, filters, location, data } = this.props;
+    const { query } = this.state;
 
-    if (loading) {
-      return null;
-    }
+    const searchObject = converSearchStringToObject(location);
 
-    const { searchParams } = this.state;
+    const stateSearchParams = {};
+    Object.keys(searchObject).forEach(key => {
+      stateSearchParams[key] = convertSearchParam(searchObject[key]);
+    });
+
+    const searchParamsToGraphQL = {
+      ...queryString.parse(location.search),
+      ...stateSearchParams,
+      contextTypes: !stateSearchParams.contextFilters
+        ? stateSearchParams.contextTypes
+        : undefined,
+      resourceTypes:
+        stateSearchParams.contextFilters || stateSearchParams.resourceTypes,
+      contextFilters: undefined,
+    };
+
     const activeSubjectsMapped =
       subjects && subjects.length > 0
-        ? searchParams.subjects
+        ? searchObject.subjects
             .map(it => {
               const subject = subjects.find(s => s.id === it);
               return subject
@@ -271,7 +204,7 @@ class SearchContainer extends Component {
       data && data.resourceTypes
         ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
             value: resourceType.id,
-            type: 'resource-types',
+            type: 'resourceTypes',
             name: resourceType.name,
           }))
         : [];
@@ -280,7 +213,7 @@ class SearchContainer extends Component {
       { value: 'all', name: t('contentTypes.all') },
       {
         value: 'topic-article',
-        type: 'context-types',
+        type: 'contextTypes',
         name: t('contentTypes.subject'),
       },
       ...resourceTypeTabs,
@@ -289,63 +222,85 @@ class SearchContainer extends Component {
     const searchFilters = (
       <SearchFilters
         onChange={this.onFilterChange}
-        filterState={searchParams}
+        filterState={searchObject}
         subjects={subjects}
         filters={filters}
         enabledTabs={enabledTabs}
         onContentTypeChange={this.onTabChange}
       />
     );
-    const searchPageMessages = {
+    const searchPageMessages = totalCount => ({
       filterHeading: t('searchPage.searchPageMessages.filterHeading'),
-      resultHeading: t('searchPage.searchPageMessages.resultHeading', {
-        totalCount: resultMetadata.totalCount,
-      }),
+
       dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
         'searchPage.searchPageMessages.narrowScreenFilterHeading',
         {
-          totalCount: resultMetadata.totalCount,
-          query: this.state.searchParams.query,
+          totalCount,
+          query,
         },
       ),
       searchFieldTitle: t('searchPage.search'),
-    };
-
+    });
     return (
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
-        <SearchPage
-          closeUrl="/#"
-          searchString={searchParams.query || ''}
-          onSearchFieldChange={e => this.updateQuery(e.target.value)}
-          onSearch={this.onQuerySubmit}
-          onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
-          searchFieldFilters={activeSubjectsMapped}
-          activeFilters={activeSubjectsMapped}
-          messages={searchPageMessages}
-          resourceToLinkProps={resourceToLinkProps}
-          filters={searchFilters}>
-          <SearchResults
-            results={results}
-            resourceTypes={data && data.resourceTypes ? data.resourceTypes : []}
-            resultMetadata={resultMetadata}
-            filterState={searchParams}
-            enabledTabs={enabledTabs}
-            onTabChange={this.updateTab}
-            location={location}
-            onUpdateContextFilters={this.onUpdateContextFilters}
-          />
-          <Pager
-            page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
-            lastPage={resultMetadata.lastPage}
-            query={this.state.searchParam}
-            pathname=""
-            onClick={this.updateFilter}
-            pageItemComponentClass="button"
-          />
-        </SearchPage>
+        <Query
+          asyncMode
+          query={searchQuery}
+          variables={searchParamsToGraphQL}
+          ssr={false}>
+          {({ error, data: searchData }) => {
+            if (error) {
+              handleError(error);
+              return `Error: ${error.message}`;
+            }
+            const { search } = searchData || {};
+            const resultMetadata = search ? getResultMetadata(search) : {};
+            return (
+              <SearchPage
+                closeUrl="/#"
+                searchString={query || ''}
+                onSearchFieldChange={e => this.updateQuery(e.target.value)}
+                onSearch={this.onQuerySubmit}
+                onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
+                searchFieldFilters={activeSubjectsMapped}
+                activeFilters={activeSubjectsMapped}
+                messages={searchPageMessages(resultMetadata.totalCount)}
+                resourceToLinkProps={resourceToLinkProps}
+                filters={searchFilters}>
+                <SearchResults
+                  results={
+                    search &&
+                    convertResult(search.results, searchObject.subjects)
+                  }
+                  resourceTypes={
+                    data && data.resourceTypes ? data.resourceTypes : []
+                  }
+                  resultMetadata={resultMetadata}
+                  filterState={searchObject}
+                  enabledTabs={enabledTabs}
+                  onTabChange={this.updateTab}
+                  query={searchObject.query}
+                  onUpdateContextFilters={this.onUpdateContextFilters}
+                />
+                {search && (
+                  <Pager
+                    page={
+                      searchObject.page ? parseInt(searchObject.page, 10) : 1
+                    }
+                    lastPage={resultMetadata.lastPage}
+                    query={searchObject}
+                    pathname=""
+                    onClick={this.updateFilter}
+                    pageItemComponentClass="button"
+                  />
+                )}
+              </SearchPage>
+            );
+          }}
+        </Query>
       </OneColumn>
     );
   }
@@ -356,8 +311,6 @@ SearchContainer.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
-  results: arrayOf(ArticleResultShape).isRequired,
-  search: func.isRequired,
   enabledTabs: arrayOf(
     shape({
       name: string,
@@ -377,7 +330,6 @@ SearchContainer.propTypes = {
     }),
   }),
   locale: string.isRequired,
-  loading: PropTypes.bool.isRequired,
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
@@ -398,8 +350,6 @@ const mapStateToProps = (state, ownProps) => {
   const { location } = ownProps;
   const searchObject = converSearchStringToObject(location);
   return {
-    results: getResults(searchObject.subjects)(state),
-    resultMetadata: getResultsMetadata(state),
     subjects: getSubjects(state),
     locale: getLocale(state),
     filters:

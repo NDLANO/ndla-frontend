@@ -9,11 +9,8 @@ import React from 'react';
 import { SearchResult, SearchResultList } from '@ndla/ui';
 import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  converSearchStringToObject,
-  resultsWithContentTypeBadgeAndImage,
-} from '../searchHelpers';
-import { ArticleResultShape, LocationShape } from '../../../shapes';
+import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
+import { ArticleResultShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
 
@@ -23,15 +20,13 @@ const SearchResults = ({
   filterState,
   enabledTabs,
   onTabChange,
-  location,
+  query,
   onUpdateContextFilters,
   resourceTypes,
   t,
 }) => {
-  const enabledTab =
-    filterState['resource-types'] || filterState['context-types'];
-
-  const searchObject = converSearchStringToObject(location);
+  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
+  const { totalCount = '' } = resultMetadata || {};
   return (
     <SearchResult
       messages={{
@@ -39,11 +34,14 @@ const SearchResults = ({
           'searchPage.searchResultMessages.searchStringLabel',
         ),
         subHeading: t('searchPage.searchResultMessages.subHeading', {
-          totalCount: resultMetadata.totalCount,
+          totalCount,
+        }),
+        resultHeading: t('searchPage.searchPageMessages.resultHeading', {
+          totalCount,
         }),
         dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       }}
-      searchString={searchObject.query || ''}
+      searchString={query || ''}
       tabOptions={enabledTabs.map(tab => ({
         value: tab.value,
         title: tab.name,
@@ -66,7 +64,9 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={resultsWithContentTypeBadgeAndImage(results, t, enabledTab)}
+        results={
+          results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
+        }
       />
     </SearchResult>
   );
@@ -74,12 +74,12 @@ const SearchResults = ({
 
 SearchResults.propTypes = {
   filterState: shape({
-    'resource-types': string,
+    resourceTypes: string,
     subjects: arrayOf(string),
-    'language-filter': arrayOf(string),
+    languageFilter: arrayOf(string),
     levels: arrayOf(string),
   }),
-  location: LocationShape,
+  query: string,
   enabledTabs: arrayOf(
     shape({
       name: string,
@@ -89,7 +89,7 @@ SearchResults.propTypes = {
   ),
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onTabChange: func,
-  results: arrayOf(ArticleResultShape).isRequired,
+  results: arrayOf(ArticleResultShape),
   resultMetadata: shape({
     totalCount: number,
   }),
