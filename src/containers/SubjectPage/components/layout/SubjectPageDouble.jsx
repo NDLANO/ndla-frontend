@@ -37,7 +37,7 @@ const SubjectPageTwoColumn = props => {
   const { editorsChoices } = subjectpage;
 
   return [
-    <OneColumn noPadding key="subjectpage_content">
+    <OneColumn key="subjectpage_content">
       <SubjectContent twoColumns breadcrumb={breadcrumb}>
         <SubjectPageTopics
           handleFilterClick={handleFilterClick}

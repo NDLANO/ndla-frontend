@@ -63,6 +63,10 @@ class Resources extends Component {
       location,
     } = this.props;
 
+    if (coreResources.length === 0 && supplementaryResources.length === 0) {
+      return null;
+    }
+
     const subjectTopicPath = getSubjectTopicPath(params);
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(
