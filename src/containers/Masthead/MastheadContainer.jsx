@@ -8,9 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
+import { Trans } from '@ndla/i18n';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
@@ -164,13 +165,16 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent } = this.props;
+    const { infoContent, locale } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
 
     return (
-      <Masthead showLoaderWhenNeeded={false} fixed infoContent={infoContent}>
+      <Masthead
+        showLoaderWhenNeeded={topicPath && topicPath.length > 0}
+        fixed
+        infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
             <MastheadMenu
@@ -188,7 +192,16 @@ class MastheadContainer extends React.PureComponent {
         </MastheadItem>
         <MastheadItem right>
           {subject && <MastheadSearch subject={subject} />}
-          <Logo to="/" label="Nasjonal digital læringsarena" />
+          <Trans>
+            {({ t }) => (
+              <Logo
+                to="/"
+                locale={locale}
+                label={t('logo.altText')}
+                // label="Nasjonal digital læringsarena"
+              />
+            )}
+          </Trans>
         </MastheadItem>
       </Masthead>
     );
@@ -207,6 +220,7 @@ MastheadContainer.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
   infoContent: PropTypes.node,
 };
 

@@ -8,14 +8,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from 'ndla-i18n';
+import { injectT } from '@ndla/i18n';
 import { compose } from 'react-apollo';
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
   ResourceGroup,
   ContentTypeBadge,
-} from 'ndla-ui';
+} from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
 import { ResourceTypeShape, ResourceShape } from '../../shapes';
@@ -62,6 +62,10 @@ class Resources extends Component {
       coreResources,
       location,
     } = this.props;
+
+    if (coreResources.length === 0 && supplementaryResources.length === 0) {
+      return null;
+    }
 
     const subjectTopicPath = getSubjectTopicPath(params);
     const resourceToLinkProps = resource =>

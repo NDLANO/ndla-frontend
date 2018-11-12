@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getComponentName } from 'ndla-util';
+import { getComponentName } from '@ndla/util';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

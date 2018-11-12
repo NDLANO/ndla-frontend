@@ -12,7 +12,7 @@ import Switch from 'react-router-dom/Switch';
 import ReactRoute from 'react-router-dom/Route';
 import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
-import { Content } from 'ndla-ui';
+import { Content } from '@ndla/ui';
 import { withApollo } from 'react-apollo';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
@@ -34,7 +34,7 @@ const Route = ({
     render={props => (
       <Page background={background} locale={locale}>
         <Content>
-          {!hideMasthead && <Masthead {...props} />}
+          {!hideMasthead && <Masthead locale={locale} {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
         <ZendeskButton />

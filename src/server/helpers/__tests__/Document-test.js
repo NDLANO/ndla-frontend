@@ -9,7 +9,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Helmet from 'react-helmet';
-import { PageContainer } from 'ndla-ui';
+import { PageContainer } from '@ndla/ui';
 import Document from '../Document';
 
 test('Document renderers correctly', () => {

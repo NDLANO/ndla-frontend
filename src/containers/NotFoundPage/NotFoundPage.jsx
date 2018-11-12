@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { OneColumn, ErrorMessage } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
-import { HelmetWithTracker } from 'ndla-tracker';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { Status } from '../../components';
 
 const NotFound = ({ t }) => (

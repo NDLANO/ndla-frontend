@@ -9,8 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { PageContainer } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+import { PageContainer } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 
 import Footer from './components/Footer';
 

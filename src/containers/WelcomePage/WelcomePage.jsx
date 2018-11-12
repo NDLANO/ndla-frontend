@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { HelmetWithTracker } from 'ndla-tracker';
+import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
@@ -17,8 +17,8 @@ import {
   FrontpageFilm,
   FrontpageSearchSection,
   OneColumn,
-} from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
@@ -102,6 +102,7 @@ export class WelcomePage extends Component {
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <FrontpageHeader
+          locale={locale}
           heading={t('welcomePage.heading.heading')}
           searchFieldValue={query}
           onSearch={this.onSearch}
@@ -125,7 +126,7 @@ export class WelcomePage extends Component {
             />
             <FrontpageHighlights topical={topical} />
             <FrontpageFilm
-              imageUrl="/static/film_illustrasjon.png"
+              imageUrl="/static/film_illustrasjon.svg"
               url="https://ndla.no/nb/film"
               messages={{
                 header: t('welcomePage.film.header'),

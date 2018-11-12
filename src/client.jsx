@@ -13,10 +13,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Router from 'react-router-dom/Router';
 import createHistory from 'history/createBrowserHistory';
-import ErrorReporter from 'ndla-error-reporter';
-import IntlProvider from 'ndla-i18n';
+import ErrorReporter from '@ndla/error-reporter';
+import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
-import { configureTracker } from 'ndla-tracker';
+import { configureTracker } from '@ndla/tracker';
 import { hydrate } from 'emotion';
 import { getLocaleInfoFromPath } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
@@ -58,6 +58,7 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
+window.hasHydrated = false;
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
@@ -74,6 +75,10 @@ const renderApp = () => {
       </ApolloProvider>
     </Provider>,
     document.getElementById('root'),
+    () => {
+      // See: /src/util/transformArticle.js for info on why this is needed.
+      window.hasHydrated = true;
+    },
   );
 };
 

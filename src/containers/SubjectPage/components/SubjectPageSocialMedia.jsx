@@ -15,7 +15,7 @@ import {
   SubjectSocialContent,
   EmbeddedFacebook,
   EmbeddedTwitter,
-} from 'ndla-ui';
+} from '@ndla/ui';
 
 export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
   if (!twitter && !facebook) {

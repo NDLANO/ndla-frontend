@@ -6,7 +6,7 @@
  *
  */
 
-import ErrorReporter from 'ndla-error-reporter';
+import ErrorReporter from '@ndla/error-reporter';
 
 const log =
   process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;

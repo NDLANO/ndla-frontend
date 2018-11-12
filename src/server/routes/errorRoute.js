@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import IntlProvider from 'ndla-i18n';
+import IntlProvider from '@ndla/i18n';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
 import ErrorPage from '../../containers/ErrorPage';
 import { getLocaleInfoFromPath } from '../../i18n';
