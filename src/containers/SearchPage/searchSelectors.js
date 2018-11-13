@@ -7,20 +7,9 @@
  */
 
 import { createSelector } from 'reselect';
-import { constants } from '@ndla/ui';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import getContentTypeFromResourceTypes from '../../util/getContentType';
+import { getContentType } from '../../util/getContentType';
 import config from '../../config';
-
-const getContentType = resource => {
-  if (resource.resourceTypes.length > 0) {
-    return getContentTypeFromResourceTypes(resource.resourceTypes).contentType;
-  }
-  if (resource.learningResourceType === 'topic-article') {
-    return constants.contentTypes.SUBJECT;
-  }
-  return constants.contentTypes.SUBJECT_MATERIAL;
-};
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {

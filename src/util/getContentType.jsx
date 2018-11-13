@@ -36,7 +36,7 @@ export const contentTypeMapping = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
-export function getContentTypeFromResourceTypes(resourceTypes = []) {
+function getContentTypeFromResourceTypes(resourceTypes = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
     return { contentType: contentTypeMapping[resourceType.id] };
@@ -51,5 +51,3 @@ export function getContentType(resourceOrTopic) {
   return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
     .contentType;
 }
-
-export default getContentTypeFromResourceTypes;
