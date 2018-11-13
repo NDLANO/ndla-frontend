@@ -108,7 +108,7 @@ class PlainArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        {article && <ArticleHero resource={article} />}
+        {article && <ArticleHero resource={{}} />}
         <OneColumn>
           <Article article={article} locale={locale} {...getArticleProps()} />
         </OneColumn>
