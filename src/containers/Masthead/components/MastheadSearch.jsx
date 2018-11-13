@@ -9,7 +9,7 @@ import { injectT } from '@ndla/i18n';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { getGroupResults } from '../../SearchPage/searchSelectors';
 import * as searchActions from '../../SearchPage/searchActions';
-import { contentTypeMapping } from '../../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../../util/getContentType';
 import { LocationShape } from '../../../shapes';
 import MastheadSearchModal from './MastheadSearchModal';
 
@@ -78,7 +78,7 @@ class MastheadSearch extends Component {
     });
 
     const resultsMapped = results.map(result => {
-      const { contentType } = contentTypeMapping[result.resourceType];
+      const contentType = contentTypeMapping[result.resourceType];
       return {
         ...result,
         title: t(`contentTypes.${contentType}`),
