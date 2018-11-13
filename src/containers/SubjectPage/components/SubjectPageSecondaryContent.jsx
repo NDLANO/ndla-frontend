@@ -24,7 +24,7 @@ import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { getLocale } from '../../Locale/localeSelectors';
-import getContentTypeFromResourceTypes from '../../../util/getContentTypeFromResourceTypes';
+import { getContentType } from '../../../util/getContentTypeFromResourceTypes';
 
 const SubjectPageSecondaryContent = ({
   // subjectName,
@@ -41,16 +41,14 @@ const SubjectPageSecondaryContent = ({
               <SubjectFlexChild>
                 <SubjectNewContent
                   heading={t('subjectPage.newContent.heading')}
-                  content={latestContentResources.map(content => ({
-                    name: content.name,
-                    url: toLinkProps(content).to,
-                    toLinkProps: () => toLinkProps(content),
+                  content={latestContentResources.map(resource => ({
+                    name: resource.name,
+                    url: toLinkProps(resource).to,
+                    toLinkProps: () => toLinkProps(resource),
                     topicName: [], // Todo fix breadcrumb
-                    contentType: getContentTypeFromResourceTypes(
-                      content.resourceTypes,
-                    ).contentType,
-                    formattedDate: content.meta
-                      ? formatDate(content.meta.lastUpdated, locale)
+                    contentType: getContentType(resource),
+                    formattedDate: resource.meta
+                      ? formatDate(resource.meta.lastUpdated, locale)
                       : '',
                   }))}
                 />

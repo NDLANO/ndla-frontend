@@ -43,10 +43,21 @@ export const contentTypeMapping = {
   },
 };
 
-export default resourceTypes => {
+// TODO: migrate away from this function and only use getContentType.
+export function getContentTypeFromResourceTypes(resourceTypes = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
     return contentTypeMapping[resourceType.id];
   }
   return contentTypeMapping.default;
-};
+}
+
+export function getContentType(resourceOrTopic) {
+  if (resourceOrTopic.id.startsWith('urn:topic')) {
+    return contentTypes.SUBJECT;
+  }
+  return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
+    .contentType;
+}
+
+export default getContentTypeFromResourceTypes;
