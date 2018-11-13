@@ -6,7 +6,7 @@
  *
  */
 
-import { getContentType } from './getContentTypeFromResourceTypes';
+import { getContentType } from './getContentType';
 
 export const getArticleProps = (resource, topic) => {
   const hasResourceTypes =

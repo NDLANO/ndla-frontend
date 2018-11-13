@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Hero, OneColumn, Breadcrumb } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { getContentType } from '../../../util/getContentTypeFromResourceTypes';
+import { getContentType } from '../../../util/getContentType';
 import { toBreadcrumbItems } from '../../../routeHelpers';
 import {
   ResourceTypeShape,

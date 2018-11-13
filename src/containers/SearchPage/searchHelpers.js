@@ -4,7 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
 import { toSubjects } from '../../routeHelpers';
-import { getContentType } from '../../util/getContentTypeFromResourceTypes';
+import { getContentType } from '../../util/getContentType';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {

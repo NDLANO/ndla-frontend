@@ -17,7 +17,7 @@ import {
   ContentTypeBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';

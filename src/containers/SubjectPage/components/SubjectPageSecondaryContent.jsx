@@ -24,7 +24,7 @@ import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { getLocale } from '../../Locale/localeSelectors';
-import { getContentType } from '../../../util/getContentTypeFromResourceTypes';
+import { getContentType } from '../../../util/getContentType';
 
 const SubjectPageSecondaryContent = ({
   // subjectName,

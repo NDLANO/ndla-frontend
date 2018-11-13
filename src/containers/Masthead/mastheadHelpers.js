@@ -7,7 +7,7 @@
  */
 
 import { toTopic } from '../../routeHelpers';
-import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../util/getContentType';
 
 export function toTopicWithSubjectIdBound(subjectId, filters) {
   return toTopic.bind(undefined, subjectId, filters);
