@@ -78,7 +78,7 @@ class MastheadSearch extends Component {
     });
 
     const resultsMapped = results.map(result => {
-      const { contentType } = contentTypeMapping[result.resourceType];
+      const contentType = contentTypeMapping[result.resourceType];
       return {
         ...result,
         title: t(`contentTypes.${contentType}`),

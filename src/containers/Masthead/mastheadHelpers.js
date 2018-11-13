@@ -36,7 +36,7 @@ export function mapTopicResourcesToTopic(
       expandedSubTopics.includes(topic.id)
     ) {
       const contentTypeResults = topicResourcesByType.map(type => ({
-        contentType: contentTypeMapping[type.id].contentType,
+        contentType: contentTypeMapping[type.id],
         resources: type.resources.map(resource => ({
           ...resource,
           path: resource.path,

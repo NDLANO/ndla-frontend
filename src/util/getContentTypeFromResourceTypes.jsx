@@ -20,36 +20,28 @@ import {
 const { contentTypes } = constants;
 
 export const contentTypeMapping = {
-  [RESOURCE_TYPE_LEARNING_PATH]: {
-    contentType: contentTypes.LEARNING_PATH,
-  },
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: {
-    contentType: contentTypes.TASKS_AND_ACTIVITIES,
-  },
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: {
-    contentType: contentTypes.ASSESSMENT_RESOURCES,
-  },
-  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: {
-    contentType: contentTypes.EXTERNAL_LEARNING_RESOURCES,
-  },
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: {
-    contentType: contentTypes.SOURCE_MATERIAL,
-  },
-  default: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
+  [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
+
+  [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,
+
+  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: contentTypes.TASKS_AND_ACTIVITIES,
+
+  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: contentTypes.ASSESSMENT_RESOURCES,
+
+  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]:
+    contentTypes.EXTERNAL_LEARNING_RESOURCES,
+
+  [RESOURCE_TYPE_SOURCE_MATERIAL]: contentTypes.SOURCE_MATERIAL,
+
+  default: contentTypes.SUBJECT_MATERIAL,
 };
 
-// TODO: migrate away from this function and only use getContentType.
 export function getContentTypeFromResourceTypes(resourceTypes = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
-    return contentTypeMapping[resourceType.id];
+    return { contentType: contentTypeMapping[resourceType.id] };
   }
-  return contentTypeMapping.default;
+  return { contentType: contentTypeMapping.default };
 }
 
 export function getContentType(resourceOrTopic) {

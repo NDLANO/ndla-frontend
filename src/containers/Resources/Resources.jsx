@@ -17,7 +17,7 @@ import {
   ContentTypeBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import getContentTypeFromResourceTypes from '../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
 import { ResourceTypeShape, ResourceShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
@@ -97,7 +97,7 @@ class Resources extends Component {
 
     const resourceGroupsWithMetaData = resourceGroups.map(type => ({
       ...type,
-      contentType: getContentTypeFromResourceTypes([type]).contentType,
+      contentType: contentTypeMapping[type.id],
       noContentLabel: t('resource.noCoreResourcesAvailable', {
         name: type.name.toLowerCase(),
       }),
