@@ -142,6 +142,13 @@ export default {
       'channel9.msdn.com',
       'tomknudsen.no',
       'www.tomknudsen.no',
+      'geogebra.org',
+      'www.geogebra.org',
+      'ggbm.at',
+      'miljoatlas.miljodirektoratet.no',
+      'www.miljostatus.no',
+      'miljostatus.no',
+      'phet.colorado.edu',
     ],
     styleSrc: [
       "'self'",
