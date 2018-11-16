@@ -90,7 +90,7 @@ test('that getCategoriesWithAllSubjects only returns allowed subjects', () => {
     ),
   ).toBe(true);
   expect(hasSubjectId(categories, helse.id)).toBe(true);
+  expect(hasSubjectId(categories, engelsk.id)).toBe(true);
 
   expect(hasSubjectId(categories, matematikk.id)).toBe(false);
-  expect(hasSubjectId(categories, engelsk.id)).toBe(false);
 });
