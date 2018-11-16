@@ -24,9 +24,8 @@ import config from '../../config';
 const allowedSubjects = (() => ALLOWED_SUBJECTS.map(removeUrn))();
 
 function isAllowedSubject(path) {
-  const found = allowedSubjects.find(subjectId =>
-    path.startsWith(`/${subjectId}`),
-  );
+  const paths = path.split('/');
+  const found = allowedSubjects.find(subjectId => paths[1] === subjectId);
   return found !== undefined;
 }
 
