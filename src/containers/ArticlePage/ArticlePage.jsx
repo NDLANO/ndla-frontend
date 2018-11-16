@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -42,6 +42,7 @@ import {
   getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
+import CompetenceGoalsDialog from '../../components/CompetanceGoalsDialog';
 
 const transformData = data => {
   const { subject, topic } = data;
@@ -211,6 +212,7 @@ class ArticlePage extends Component {
           <Article
             article={article}
             locale={locale}
+            competenceGoals={<CompetenceGoalsDialog />}
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
