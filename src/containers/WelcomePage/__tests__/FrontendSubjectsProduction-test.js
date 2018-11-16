@@ -89,8 +89,8 @@ test('that getCategoriesWithAllSubjects only returns allowed subjects', () => {
       `${kinesisk.id}?filters=${kinesisk.frontpageFilters[1].id}`,
     ),
   ).toBe(true);
+  expect(hasSubjectId(categories, helse.id)).toBe(true);
 
-  expect(hasSubjectId(categories, helse.id)).toBe(false);
   expect(hasSubjectId(categories, matematikk.id)).toBe(false);
   expect(hasSubjectId(categories, engelsk.id)).toBe(false);
 });
