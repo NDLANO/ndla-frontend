@@ -91,6 +91,7 @@ The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graph
 
 To update the schema you need to install [apollo-codegen](https://github.com/apollographql/apollo-codegen).
 
+
 ```
 yarn global add apollo
 ```

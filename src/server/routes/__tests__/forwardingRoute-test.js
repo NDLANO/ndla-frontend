@@ -197,8 +197,20 @@ test('forwardingRoute call next if mapping fails', async () => {
   expect(next.calledOnce).toBe(true);
 });
 
-test('forwardingRoute call next if subject is not in allowed list', async () => {
+test('forwardingRoute call next if subject is not in allowed list 1', async () => {
   prepareNock(200, undefined, undefined, 'subject:4');
+
+  const next = sinon.spy();
+  const redirect = sinon.spy();
+
+  await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
+
+  expect(redirect.notCalled).toBe(true);
+  expect(next.calledOnce).toBe(true);
+});
+
+test('forwardingRoute call next if subject is not in allowed list 2', async () => {
+  prepareNock(200, undefined, undefined, 'subject:27');
 
   const next = sinon.spy();
   const redirect = sinon.spy();
