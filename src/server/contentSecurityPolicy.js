@@ -145,6 +145,8 @@ export default {
       'geogebra.org',
       'www.geogebra.org',
       'ggbm.at',
+      'www.imdb.com',
+      'imdb.com',
       'miljoatlas.miljodirektoratet.no',
       'www.miljostatus.no',
       'miljostatus.no',
