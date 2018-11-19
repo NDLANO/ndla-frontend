@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
+import { ApolloProvider } from 'react-apollo';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -19,6 +20,8 @@ import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
+import ResourceCompetenceGoals from '../containers/ArticlePage/components/ResourceCompetenceGoals';
+import { createApolloClient } from '../util/apiHelpers';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -64,6 +67,7 @@ const Success = ({ resource, locale }) => {
       <FixDialogPosition />
       <Article
         article={article}
+        competenceGoals={<ResourceCompetenceGoals article={article} />}
         locale={locale}
         modifier="clean iframe"
         {...getArticleProps(resource)}
@@ -84,15 +88,22 @@ const IframeArticlePage = ({
   status,
   locale: { abbreviation: locale, messages },
   resource,
-}) => (
-  <IntlProvider locale={locale} messages={messages}>
-    <PageContainer>
-      <Helmet htmlAttributes={{ lang: locale }} />
-      {status === 'success' && <Success locale={locale} resource={resource} />}
-      {status === 'error' && <Error />}
-    </PageContainer>
-  </IntlProvider>
-);
+}) => {
+  const client = createApolloClient(locale);
+  return (
+    <ApolloProvider client={client}>
+      <IntlProvider locale={locale} messages={messages}>
+        <PageContainer>
+          <Helmet htmlAttributes={{ lang: locale }} />
+          {status === 'success' && (
+            <Success locale={locale} resource={resource} />
+          )}
+          {status === 'error' && <Error />}
+        </PageContainer>
+      </IntlProvider>
+    </ApolloProvider>
+  );
+};
 
 IframeArticlePage.propTypes = {
   locale: PropTypes.shape({

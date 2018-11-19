@@ -33,6 +33,10 @@ function groupByCurriculums(competenceGoals) {
 }
 
 const ResourceCompetenceGoals = ({ article }) => {
+  if (!article.oldNdlaUrl) {
+    return null;
+  }
+
   const nodeId = article.oldNdlaUrl.split('/').pop();
   return (
     <Query

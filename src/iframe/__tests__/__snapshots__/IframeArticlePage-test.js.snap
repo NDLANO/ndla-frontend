@@ -45,7 +45,7 @@ exports[`IframeArticlePage renderers correctly 1`] = `
           className="c-article__header"
         >
           <div
-            className="c-article__title"
+            className="c-article__title c-article__title--with-competence-goals"
           >
             <h1>
               Politiske skillelinjer
