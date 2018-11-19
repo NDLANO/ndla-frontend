@@ -42,7 +42,6 @@ import {
   getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
-import ResourceCompetenceGoals from './components/ResourceCompetenceGoals';
 
 const transformData = data => {
   const { subject, topic } = data;
@@ -212,7 +211,6 @@ class ArticlePage extends Component {
           <Article
             article={article}
             locale={locale}
-            competenceGoals={<ResourceCompetenceGoals article={article} />}
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources

@@ -7,10 +7,10 @@
 
 import React from 'react';
 import { Query } from 'react-apollo';
-import { competenceGoalsQuery } from '../../../queries';
-import handleError from '../../../util/handleError';
-import CompetenceGoalsDialog from '../../../components/CompetenceGoalsDialog';
-import { ArticleShape } from '../../../shapes';
+import { competenceGoalsQuery } from '../../queries';
+import handleError from '../../util/handleError';
+import CompetenceGoalsDialog from './CompetenceGoalsDialog';
+import { ArticleShape } from '../../shapes';
 
 function groupByCurriculums(competenceGoals) {
   const curriculumsObject = competenceGoals.reduce((acc, goal) => {
@@ -32,7 +32,7 @@ function groupByCurriculums(competenceGoals) {
   return Object.keys(curriculumsObject).map(key => curriculumsObject[key]);
 }
 
-const ResourceCompetenceGoals = ({ article }) => {
+const CompetenceGoals = ({ article }) => {
   if (!article.oldNdlaUrl) {
     return null;
   }
@@ -61,8 +61,8 @@ const ResourceCompetenceGoals = ({ article }) => {
   );
 };
 
-ResourceCompetenceGoals.propTypes = {
+CompetenceGoals.propTypes = {
   article: ArticleShape,
 };
 
-export default ResourceCompetenceGoals;
+export default CompetenceGoals;

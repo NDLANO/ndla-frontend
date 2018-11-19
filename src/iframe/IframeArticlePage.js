@@ -20,7 +20,6 @@ import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import ResourceCompetenceGoals from '../containers/ArticlePage/components/ResourceCompetenceGoals';
 import { createApolloClient } from '../util/apiHelpers';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -67,7 +66,6 @@ const Success = ({ resource, locale }) => {
       <FixDialogPosition />
       <Article
         article={article}
-        competenceGoals={<ResourceCompetenceGoals article={article} />}
         locale={locale}
         modifier="clean iframe"
         {...getArticleProps(resource)}

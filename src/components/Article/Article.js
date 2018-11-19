@@ -11,9 +11,10 @@ import PropTypes from 'prop-types';
 
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import LicenseBox from './license/LicenseBox';
-import { ArticleShape } from '../shapes';
-import config from '../config';
+import LicenseBox from '../license/LicenseBox';
+import { ArticleShape } from '../../shapes';
+import config from '../../config';
+import CompetenceGoals from './CompetenceGoals';
 
 const Article = ({
   article,
@@ -39,6 +40,7 @@ const Article = ({
       messages={{
         label,
       }}
+      competenceGoals={<CompetenceGoals article={article} />}
       {...rest}>
       {children}
       {!config.isNdlaProdEnvironment && (
