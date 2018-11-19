@@ -60,6 +60,7 @@ class SubjectPageStacked extends React.PureComponent {
       breadcrumb,
       subjectId,
       activeFilters,
+      locale,
       t,
     } = this.props;
     const { editorsChoices } = subjectpage;
@@ -99,11 +100,13 @@ class SubjectPageStacked extends React.PureComponent {
                 <SubjectPageSidebar
                   subjectpage={subjectpage}
                   subjectId={subjectId}
+                  locale={locale}
                   twoColumns
                 />
               </SubjectFlexWrapper>
               <SubjectEditorChoices
                 narrowScreen
+                locale={locale}
                 editorsChoices={editorsChoices}
               />
             </SubjectChildContent>
@@ -134,6 +137,7 @@ SubjectPageStacked.propTypes = {
   breadcrumb: PropTypes.node,
   subjectId: PropTypes.string.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(SubjectPageStacked);

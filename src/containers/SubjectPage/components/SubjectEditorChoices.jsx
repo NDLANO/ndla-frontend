@@ -33,6 +33,7 @@ const SubjectEditorChoices = ({
   editorsChoices,
   narrowScreen,
   wideScreen,
+  locale,
   t,
 }) => {
   if (!editorsChoices) {
@@ -50,7 +51,7 @@ const SubjectEditorChoices = ({
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      toLinkProps: () => toLinkProps(resource),
+      toLinkProps: () => toLinkProps(resource, locale),
     }));
 
   if (editorsChoicesResources.length === 0) {
@@ -71,6 +72,7 @@ SubjectEditorChoices.propTypes = {
   editorsChoices: GraphQLSubjectPageResourcesShape,
   narrowScreen: PropTypes.bool,
   wideScreen: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
 };
 
 SubjectEditorChoices.defaultProps = {

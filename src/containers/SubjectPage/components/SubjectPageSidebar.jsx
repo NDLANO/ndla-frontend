@@ -19,6 +19,7 @@ export const SubjectPageSidebar = ({
   subjectId,
   subjectpage,
   twoColumns,
+  locale,
   t,
 }) => {
   const { mostRead, goTo } = subjectpage;
@@ -55,8 +56,8 @@ export const SubjectPageSidebar = ({
             heading={t('subjectPage.mostRead.heading')}
             links={mostReadResources.map(resource => ({
               text: resource.name,
-              url: toLinkProps(resource).to,
-              toLinkProps: () => toLinkProps(resource),
+              url: toLinkProps(resource, locale).to,
+              toLinkProps: () => toLinkProps(resource, locale),
             }))}
           />
         </SubjectPageFlexChild>
@@ -67,6 +68,7 @@ SubjectPageSidebar.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
   subjectId: PropTypes.string.isRequired,
   twoColumns: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
 };
 
 SubjectPageSidebar.defaultProps = {
