@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
+import { CompetenceGoalList, CompetenceGoalListHeading } from '@ndla/ui';
 import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
-import CompetenceGoalsDialog from './CompetenceGoalsDialog';
 import { ArticleShape } from '../../shapes';
 
 function groupByCurriculums(competenceGoals) {
@@ -55,7 +55,14 @@ const CompetenceGoals = ({ article }) => {
         }
 
         const curriculums = groupByCurriculums(data.competenceGoals);
-        return <CompetenceGoalsDialog curriculums={curriculums} />;
+        return curriculums.map(curriculum => (
+          <Fragment key={curriculum.id}>
+            <CompetenceGoalListHeading>
+              {curriculum.name}:
+            </CompetenceGoalListHeading>
+            <CompetenceGoalList goals={curriculum.goals} />
+          </Fragment>
+        ));
       }}
     </Query>
   );
