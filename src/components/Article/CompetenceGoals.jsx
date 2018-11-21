@@ -15,7 +15,7 @@ import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
 import { ArticleShape } from '../../shapes';
 
-function groupByCurriculums(competenceGoals) {
+export function groupByCurriculums(competenceGoals) {
   const curriculumsObject = competenceGoals.reduce((acc, goal) => {
     const curriculum = acc[goal.curriculum.id] || {
       id: goal.curriculum.id,
