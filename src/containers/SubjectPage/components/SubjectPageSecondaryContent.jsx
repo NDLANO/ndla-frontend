@@ -43,8 +43,8 @@ const SubjectPageSecondaryContent = ({
                   heading={t('subjectPage.newContent.heading')}
                   content={latestContentResources.map(resource => ({
                     name: resource.name,
-                    url: toLinkProps(resource).to,
-                    toLinkProps: () => toLinkProps(resource),
+                    url: toLinkProps(resource, locale).to,
+                    toLinkProps: () => toLinkProps(resource, locale),
                     topicName: [], // Todo fix breadcrumb
                     contentType: getContentType(resource),
                     formattedDate: resource.meta
