@@ -215,17 +215,17 @@
     jump.js "^1.0.2"
     lodash "^4.17.5"
 
-"@ndla/button@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.1.1.tgz#440f8af0f3671c513701eaf0ffdf2eea27f4fc94"
-  integrity sha512-/fkm1+KaaVtSWw3t2rtx1bWMtdzakeJUjpGTrYUFxn2QBxHcRM1LNLKNTs3kwkhiGcMKHe+yPwb6wauvFNHGJA==
+"@ndla/button@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.1.2.tgz#2de246655c98e5945fa26a074d332bbb7d3f9efe"
+  integrity sha512-G34FCDAzoNkFPbxXdGUx3ezCqBMIG7i7FIGWHmxV7B55tUuZPswM9Kc/Y+zaT8aqxv2nztEzndfi95RcNaSZ+A==
   dependencies:
-    "@ndla/core" "^0.4.1"
+    "@ndla/core" "^0.4.2"
 
-"@ndla/core@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.1.tgz#27290114c5cf9c40e9c71f96f90a76fdc6ed5923"
-  integrity sha512-qaT6tPyAX+mV4Oq5F3rVe2PNZLm7pL0MxNuV+ZOt+mBUTzcgk8XR1Zd2DDOrXBjgamvfTk6ul29Sw+d3nYIzQQ==
+"@ndla/core@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.2.tgz#3ac9e311cfe9b54d35de99c8c5738ec2e08a04c2"
+  integrity sha512-50SH+ffjLLRMU57TnQiMIcZx08uJxbJez0oXxa27E4bLQMuIFbHmpll6VilzsNFlHQH/I8E03hyie7I6xZmsHw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -262,28 +262,28 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/modal@^0.2.1":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.2.tgz#d9f5f766d0a63e03ad664af0385ea3b002fd3735"
-  integrity sha512-NFmn+kwZArDgFEn6O2EzygvAXkKVC/nXrG4cnvJ6iKqKQpYpn4P5MW5ej7UD9QiIP18J9dLZob1z7sOELmeA+A==
+"@ndla/modal@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.3.tgz#7b8fd5dfb4017612815ab2b8a1f613cdb79d0377"
+  integrity sha512-HIPi0UX3Jybp8jKe042URuPXnkHJMGB08bg8sG6VMAscTSCnisX7sKBgyZAocwkdMNvsbWx/PUuw4HDra0xQzQ==
   dependencies:
-    "@ndla/button" "^0.1.1"
-    "@ndla/core" "^0.4.1"
+    "@ndla/button" "^0.1.2"
+    "@ndla/core" "^0.4.2"
     "@ndla/util" "^0.3.1"
 
-"@ndla/pager@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.3.1.tgz#25bece6abfb91f97df7598293634aec7368cfb06"
-  integrity sha512-jfFcrVmkKpB5hOGQ9Gol3DCnJ794+80K4UXb9mQRDlKVbcWkEudQ1pHqCSX998qHmBHoiO2GCGztiLaERkfroA==
+"@ndla/pager@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.3.2.tgz#cd5575372a4b8bd47b825b5d1eb33b49077116a2"
+  integrity sha512-zXSD4ElzV3IOUGHFXUWOF8Dep1REq7Z6VqxJs2qm9++XW8JtAKSQf2No/LX15o33V2hHpy+Csy7kCYkSom1icg==
   dependencies:
-    "@ndla/core" "^0.4.1"
+    "@ndla/core" "^0.4.2"
 
-"@ndla/tabs@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.1.tgz#649e9f2932f5fa60446312db04651f4acc0f7b54"
-  integrity sha512-2LBsBQGYd/dw0FLekcIixbU9kew8T+vVhLBBa63EL6u/6mrF6VDelJBYSFF74P27Yl9J3Xxopk78eIY1LfUYNQ==
+"@ndla/tabs@^0.9.2":
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.2.tgz#2732b520d5c45bacfc280b85de1b3809b6e244d4"
+  integrity sha512-3jhOAySOb6e9DoLUxPxXck9LLsPbjF5C346dgDwvetnGSMGFx2yNidTJJsQBzX/3//xxapg3d5kVIQbdhX9Ozw==
   dependencies:
-    "@ndla/core" "^0.4.1"
+    "@ndla/core" "^0.4.2"
     lodash "^4.17.11"
 
 "@ndla/tracker@^0.3.1":
@@ -291,12 +291,12 @@
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
   integrity sha512-xi+wax/CzNPugUBIzq+nfHHOKkgbuNDAoQWlj56Laku1xyFlXCLjshI1uD/ckVxi44a0jDmp+t3Jf5N8A6zmcw==
 
-"@ndla/ui@^0.18.5":
-  version "0.18.6"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.6.tgz#c03bde34c7e9f6b7fb561f31dbe0fd4db2b7f1ab"
-  integrity sha512-EvSZluoRUa4x7y0uMBUFpZJJemoUzg9AoOmwnfDweDLv7miL3Q8cD+ZdRqyMwcFWDlRukS3f/k2/arLDHzczEg==
+"@ndla/ui@^0.18.7":
+  version "0.18.7"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.7.tgz#401bfe5a274fdc92224e22cb08654bb6b2aa59b6"
+  integrity sha512-Ez8035eEco4McX5Nua++GR2m/C1S2aqknwoLS1qcGhD2LtQylzvV2mcyQvMtAgAdVM7+bg4KptTR/dIbiIvajQ==
   dependencies:
-    "@ndla/core" "^0.4.1"
+    "@ndla/core" "^0.4.2"
     classnames "2.2.6"
     focus-trap "^3.0.0"
     focus-trap-react "^4.0.0"
@@ -10135,6 +10135,11 @@ react-is@^16.5.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
   integrity sha512-hSl7E6l25GTjNEZATqZIuWOgSnpXb3kD0DVCujmg46K5zLxsbiKaaT6VO9slkSBDPZfYs30lwfJwbOFOnoEnKQ==
+
+react-is@^16.6.3:
+  version "16.6.3"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.3.tgz#d2d7462fcfcbe6ec0da56ad69047e47e56e7eac0"
+  integrity sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"

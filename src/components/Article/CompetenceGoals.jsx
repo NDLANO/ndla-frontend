@@ -6,7 +6,13 @@
  */
 
 import React, { Fragment } from 'react';
+import { Query } from 'react-apollo';
+import PropTypes from 'prop-types';
 import { CompetenceGoalList, CompetenceGoalListHeading } from '@ndla/ui';
+import { isValidElementType } from 'react-is';
+
+import { competenceGoalsQuery } from '../../queries';
+import handleError from '../../util/handleError';
 import { ArticleShape } from '../../shapes';
 
 function groupByCurriculums(competenceGoals) {
@@ -29,18 +35,57 @@ function groupByCurriculums(competenceGoals) {
   return Object.keys(curriculumsObject).map(key => curriculumsObject[key]);
 }
 
-const CompetenceGoals = ({ data }) => {
-  const curriculums = groupByCurriculums(data.competenceGoals);
-  return curriculums.map(curriculum => (
-    <Fragment key={curriculum.id}>
-      <CompetenceGoalListHeading>{curriculum.name}:</CompetenceGoalListHeading>
-      <CompetenceGoalList goals={curriculum.goals} />
-    </Fragment>
-  ));
+const CompetenceGoals = ({
+  article,
+  wrapperComponent: Component,
+  wrapperComponentProps,
+}) => {
+  const nodeId = article.oldNdlaUrl.split('/').pop();
+  return (
+    <Query
+      asyncMode
+      query={competenceGoalsQuery}
+      variables={{ nodeId }}
+      ssr={false}>
+      {({ error, data, loading }) => {
+        if (error) {
+          handleError(error);
+          return null;
+        }
+
+        if (loading) {
+          return null;
+        }
+
+        const curriculums = groupByCurriculums(data.competenceGoals);
+        return (
+          <Component {...wrapperComponentProps}>
+            {curriculums.map(curriculum => (
+              <Fragment key={curriculum.id}>
+                <CompetenceGoalListHeading>
+                  {curriculum.name}:
+                </CompetenceGoalListHeading>
+                <CompetenceGoalList goals={curriculum.goals} />
+              </Fragment>
+            ))}
+          </Component>
+        );
+      }}
+    </Query>
+  );
 };
 
 CompetenceGoals.propTypes = {
   article: ArticleShape,
+  wrapperComponent: (props, propName) => {
+    if (props[propName] && !isValidElementType(props[propName])) {
+      return new Error(
+        `Invalid prop 'component' supplied to 'CompetenceGoals': the prop is not a valid React component`,
+      );
+    }
+    return null;
+  },
+  wrapperComponentProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CompetenceGoals;
