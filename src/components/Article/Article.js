@@ -16,8 +16,26 @@ import { ArticleShape } from '../../shapes';
 import config from '../../config';
 import CompetenceGoals from './CompetenceGoals';
 
+function renderCompetenceGoals(article, isTopicArticle) {
+  // Don't show competence goals for topics or articles without nodeid
+  if (isTopicArticle || !article.oldNdlaUrl) {
+    // Return null to make sure UIArticle component does not render dialog buttons
+    return null;
+  }
+
+  // eslint-disable-next-line react/prop-types
+  return ({ Dialog, dialogProps }) => (
+    <CompetenceGoals
+      article={article}
+      wrapperComponent={Dialog}
+      wrapperComponentProps={dialogProps}
+    />
+  );
+}
+
 const Article = ({
   article,
+  isTopicArticle,
   children,
   contentType,
   label,
@@ -41,18 +59,7 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={
-        article.oldNdlaUrl
-          ? // eslint-disable-next-line react/prop-types
-            ({ Dialog, dialogProps }) => (
-              <CompetenceGoals
-                article={article}
-                wrapperComponent={Dialog}
-                wrapperComponentProps={dialogProps}
-              />
-            )
-          : null
-      }
+      competenceGoals={renderCompetenceGoals(article, isTopicArticle)}
       {...rest}>
       {children}
       {!config.isNdlaProdEnvironment && (
@@ -72,8 +79,13 @@ Article.propTypes = {
   article: ArticleShape,
   children: PropTypes.node,
   contentType: PropTypes.string,
+  isTopicArticle: PropTypes.bool,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+};
+
+Article.defaultProps = {
+  isTopicArticle: false,
 };
 
 export default injectT(Article);
