@@ -10,12 +10,30 @@ import nock from 'nock';
 import sinon from 'sinon';
 import { forwardingRoute } from '../forwardingRoute';
 
-function prepareNock(status, nodeId = '1337', contentUri = 'urn:article:233') {
+jest.mock('../../../config', () => ({
+  isNdlaProdEnvironment: true,
+  learningPathDomain: 'https://learningpath-frontend.test.api.ndla.no',
+  getEnvironmentVariabel: () => {},
+}));
+
+jest.mock('../../helpers/auth', () => ({
+  getToken: () => ({
+    access_token:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MjUxNjIzOTAyMn0.GDAENto_SoW_24VDYo2-8fvqQNTh48s-fHEaGda_jK0',
+  }),
+}));
+
+function prepareNock(
+  status,
+  nodeId = '1337',
+  contentUri = 'urn:article:233',
+  subjectId = 'subject:3',
+) {
   if (status === 200) {
     nock('http://ndla-api')
       .get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`)
       .reply(200, {
-        path: '/subject:3/topic:1:55212/topic:1:175218/resource:1:72007',
+        path: `/${subjectId}/topic:1:55212/topic:1:175218/resource:1:72007`,
       });
 
     return nock('http://ndla-api')
@@ -174,6 +192,30 @@ test('forwardingRoute call next if mapping fails', async () => {
     { redirect },
     next,
   );
+
+  expect(redirect.notCalled).toBe(true);
+  expect(next.calledOnce).toBe(true);
+});
+
+test('forwardingRoute call next if subject is not in allowed list 1', async () => {
+  prepareNock(200, undefined, undefined, 'subject:4');
+
+  const next = sinon.spy();
+  const redirect = sinon.spy();
+
+  await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
+
+  expect(redirect.notCalled).toBe(true);
+  expect(next.calledOnce).toBe(true);
+});
+
+test('forwardingRoute call next if subject is not in allowed list 2', async () => {
+  prepareNock(200, undefined, undefined, 'subject:27');
+
+  const next = sinon.spy();
+  const redirect = sinon.spy();
+
+  await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
 
   expect(redirect.notCalled).toBe(true);
   expect(next.calledOnce).toBe(true);

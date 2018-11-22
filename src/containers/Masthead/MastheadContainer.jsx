@@ -189,8 +189,6 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
-    console.log(breadcrumbBlockItems);
-
     const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead

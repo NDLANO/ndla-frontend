@@ -17,6 +17,17 @@ import {
   isLearningPathResource,
   getLearningPathUrlFromResource,
 } from '../../containers/Resources/resourceHelpers';
+import { ALLOWED_SUBJECTS } from '../../constants';
+import { removeUrn } from '../../routeHelpers';
+import config from '../../config';
+
+const allowedSubjects = (() => ALLOWED_SUBJECTS.map(removeUrn))();
+
+function isAllowedSubject(path) {
+  const paths = path.split('/');
+  const found = allowedSubjects.find(subjectId => paths[1] === subjectId);
+  return found !== undefined;
+}
 
 async function findNBNodeId(nodeId, lang) {
   // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
@@ -62,6 +73,11 @@ export async function forwardingRoute(req, res, next) {
 
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const data = await lookup(lookupUrl);
+
+    if (!isAllowedSubject(data.path) && config.isNdlaProdEnvironment) {
+      throw new Error('Not allowed subject. Proxy to old ndla.');
+    }
+
     const resource = await resolve(data.path);
 
     const languagePrefix = lang && lang !== 'nb' ? `/${lang}` : ''; // send urls with nb to root/default lang

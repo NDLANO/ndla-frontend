@@ -17,7 +17,10 @@ import {
   GraphQLSimpleSubjectShape,
 } from '../../graphqlShapes';
 import config from '../../config';
-import { OLD_CATEGORIES_WITH_SUBJECTS } from '../../constants';
+import {
+  OLD_CATEGORIES_WITH_SUBJECTS,
+  ALLOWED_SUBJECTS,
+} from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -49,6 +52,13 @@ function flattenSubjectsFrontpageFilters(subjects) {
   }, []);
 }
 
+function allowedSubjectsInProd(subject) {
+  if (config.isNdlaProdEnvironment) {
+    return ALLOWED_SUBJECTS.includes(subject.id);
+  }
+  return true;
+}
+
 export const getCategoriesWithAllSubjects = (
   categoriesFromApi = [],
   locale,
@@ -56,7 +66,8 @@ export const getCategoriesWithAllSubjects = (
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
   return categoriesFromApi.map(category => {
-    const flattened = flattenSubjectsFrontpageFilters(category.subjects);
+    const allowedSubjects = category.subjects.filter(allowedSubjectsInProd);
+    const flattened = flattenSubjectsFrontpageFilters(allowedSubjects);
     const newSubjects = flattened.map(categorySubject => ({
       ...categorySubject,
       text: categorySubject.name,

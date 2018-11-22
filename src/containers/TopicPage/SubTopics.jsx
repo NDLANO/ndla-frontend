@@ -64,8 +64,6 @@ class TopicResources extends Component {
       return null;
     }
 
-    console.log(subtopics);
-
     return (
       <ResourcesWrapper
         header={

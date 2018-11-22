@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
-import { contentTypeMapping } from '../../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../../util/getContentType';
 import MastheadSearchModal from './MastheadSearchModal';
 
 class MastheadSearch extends Component {
@@ -50,7 +50,7 @@ class MastheadSearch extends Component {
   mapResults = (results = []) =>
     this.state.query.length > 1
       ? results.map(result => {
-          const { contentType } = contentTypeMapping[result.resourceType];
+          const contentType = contentTypeMapping[result.resourceType];
           return {
             ...result,
             contentType,

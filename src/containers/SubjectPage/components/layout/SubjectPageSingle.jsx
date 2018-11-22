@@ -28,6 +28,7 @@ const SubjectPageSingle = props => {
     breadcrumb,
     subjectId,
     activeFilters,
+    locale,
   } = props;
   const { editorsChoices } = subjectpage;
 
@@ -42,8 +43,16 @@ const SubjectPageSingle = props => {
           activeFilters={activeFilters}
         />
         <SubjectSidebarWrapper>
-          <SubjectPageSidebar subjectpage={subjectpage} subjectId={subjectId} />
-          <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+          <SubjectPageSidebar
+            subjectpage={subjectpage}
+            subjectId={subjectId}
+            locale={locale}
+          />
+          <SubjectEditorChoices
+            narrowScreen
+            editorsChoices={editorsChoices}
+            locale={locale}
+          />
           <SubjectPageInformation subjectpage={subjectpage} />
         </SubjectSidebarWrapper>
       </SubjectContent>
@@ -64,6 +73,7 @@ SubjectPageSingle.propTypes = {
   subjectId: PropTypes.string.isRequired,
   breadcrumb: PropTypes.node,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
+  locale: PropTypes.string.isRequired,
 };
 
 export default compose(

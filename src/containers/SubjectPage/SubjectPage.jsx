@@ -90,6 +90,7 @@ class SubjectPage extends Component {
         params: { subjectId },
       },
       location,
+      locale,
     } = this.props;
 
     if (loading && (!data || !data.subject)) {
@@ -115,7 +116,6 @@ class SubjectPage extends Component {
       layout,
     } = subjectpage;
     const latestContentResources = getResources(latestContent);
-
     return (
       <article>
         <Helmet>
@@ -133,13 +133,18 @@ class SubjectPage extends Component {
         />
         <SubjectPageContent
           layout={layout}
+          locale={locale}
           subjectId={subjectId}
           subjectpage={subjectpage}
           subject={subject}
           activeFilters={activeFilters}
           handleFilterClick={this.handleFilterClick}
         />
-        <SubjectEditorChoices wideScreen editorsChoices={editorsChoices} />
+        <SubjectEditorChoices
+          wideScreen
+          editorsChoices={editorsChoices}
+          locale={locale}
+        />
         {latestContent && (
           <SubjectPageSecondaryContent
             subjectName={subjectName}
@@ -167,6 +172,7 @@ SubjectPage.propTypes = {
       topicId: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 

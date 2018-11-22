@@ -12,7 +12,7 @@ export function toSearch() {
   return '/search';
 }
 
-const removeUrn = string => string.replace('urn:', '');
+export const removeUrn = string => string.replace('urn:', '');
 
 export function getUrnIdsFromProps(props) {
   const {
@@ -32,8 +32,10 @@ export function toSubjects() {
   return `/subjects`;
 }
 
-export function toLearningPath(id) {
-  return `${config.learningPathDomain}/learningpaths/${id}/first-step`;
+export function toLearningPath(id, locale = 'nb') {
+  return `${
+    config.learningPathDomain
+  }/${locale}/learningpaths/${id}/first-step`;
 }
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
@@ -97,14 +99,14 @@ export function toBreadcrumbItems(
   ];
 }
 
-export function toLinkProps(linkObject) {
+export function toLinkProps(linkObject, locale) {
   const isLearningpath =
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
     linkObject.meta;
   return {
     to: isLearningpath
-      ? toLearningPath(linkObject.meta.id)
+      ? toLearningPath(linkObject.meta.id, locale)
       : toSubjects() + linkObject.path,
     target: isLearningpath ? '_blank' : undefined,
     rel: isLearningpath ? 'noreferrer noopener' : undefined,

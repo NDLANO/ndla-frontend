@@ -7,7 +7,7 @@
  */
 
 import { toTopic } from '../../routeHelpers';
-import { contentTypeMapping } from '../../util/getContentTypeFromResourceTypes';
+import { contentTypeMapping } from '../../util/getContentType';
 
 export function toTopicWithSubjectIdBound(subjectId, filters) {
   return toTopic.bind(undefined, subjectId, filters);
@@ -36,7 +36,7 @@ export function mapTopicResourcesToTopic(
       expandedSubTopics.includes(topic.id)
     ) {
       const contentTypeResults = topicResourcesByType.map(type => ({
-        contentType: contentTypeMapping[type.id].contentType,
+        contentType: contentTypeMapping[type.id],
         resources: type.resources.map(resource => ({
           ...resource,
           path: resource.path,
