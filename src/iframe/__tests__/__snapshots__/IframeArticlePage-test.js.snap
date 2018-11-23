@@ -8,18 +8,18 @@ exports[`IframeArticlePage displays error message on status === error 1`] = `
     className="o-wrapper o-wrapper--clear undefined"
   >
     <article
-      className="css-7ifh8p e1h45nf50"
+      className="css-7ifh8p eoxglug0"
     >
       <img
         alt="Ops, noe gikk galt"
-        className="css-156n74x e1h45nf51"
+        className="css-156n74x eoxglug1"
         src="/static/oops.gif"
       />
       <h1>
         Ops, noe gikk galt
       </h1>
       <p
-        className="css-1x3wxmt e1h45nf52"
+        className="css-1x3wxmt eoxglug2"
       >
         Beklager, en feil oppsto.
       </p>
@@ -44,6 +44,14 @@ exports[`IframeArticlePage renderers correctly 1`] = `
         <div
           className="c-article__header"
         >
+          <button
+            className="c-button c-button--lighter c-article__competence-goals-button c-article__competence-goals-button--wide"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Vis kompetansemål
+          </button>
           <div
             className="c-article__title"
           >
@@ -159,6 +167,14 @@ exports[`IframeArticlePage renderers correctly 1`] = `
               </div>
             </span>
           </div>
+          <button
+            className="c-button c-button--lighter c-article__competence-goals-button c-article__competence-goals-button--narrow"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Vis kompetansemål
+          </button>
         </div>
       </section>
       <section

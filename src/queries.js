@@ -438,3 +438,16 @@ export const topicQuery = gql`
   ${resourceInfoFragment}
   ${topicInfoFragment}
 `;
+
+export const competenceGoalsQuery = gql`
+  query competenceGoalsQuery($nodeId: String!) {
+    competenceGoals(nodeId: $nodeId) {
+      id
+      name
+      curriculum {
+        id
+        name
+      }
+    }
+  }
+`;

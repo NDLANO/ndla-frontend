@@ -185,6 +185,7 @@ class TopicPage extends Component {
         {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
+            isTopicArticle
             article={article}
             locale={locale}
             label={t('topicPage.topic')}
