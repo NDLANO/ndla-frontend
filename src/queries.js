@@ -79,6 +79,25 @@ export const searchQuery = gql`
   }
 `;
 
+export const groupSearchQuery = gql`
+  query GroupSearch($resourceTypes: String, $subjects: String, $query: String) {
+    groupSearch(
+      resourceTypes: $resourceTypes
+      subjects: $subjects
+      query: $query
+    ) {
+      resources {
+        id
+        path
+        name
+      }
+      resourceType
+      totalCount
+      language
+    }
+  }
+`;
+
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {

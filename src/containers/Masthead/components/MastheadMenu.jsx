@@ -1,15 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { node, shape, func, string, arrayOf, object } from 'prop-types';
-import { DisplayOnPageYOffset, BreadcrumbBlock } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
-import { toBreadcrumbItems, getUrnIdsFromProps } from '../../../routeHelpers';
+import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
-import {
-  getFiltersFromUrl,
-  getFiltersFromUrlAsArray,
-} from '../../../util/filterHelper';
+import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
 
@@ -114,24 +109,13 @@ class MastheadMenu extends Component {
 
   render() {
     const {
-      t,
       subject,
       filters,
       topicResourcesByType,
       searchFieldComponent,
-      topicPath,
-      resource,
-      location,
     } = this.props;
 
     const { activeFilters, expandedTopicId, expandedSubtopicsId } = this.state;
-    const breadcrumbBlockItems = toBreadcrumbItems(
-      t('breadcrumb.toFrontpage'),
-      subject,
-      topicPath,
-      resource,
-      getFiltersFromUrl(location),
-    );
 
     return (
       <Fragment>
@@ -151,15 +135,6 @@ class MastheadMenu extends Component {
             />
           )}
         </MastheadMenuModal>
-        <DisplayOnPageYOffset yOffsetMin={150}>
-          <BreadcrumbBlock
-            items={
-              breadcrumbBlockItems.length > 1
-                ? breadcrumbBlockItems.slice(1)
-                : []
-            }
-          />
-        </DisplayOnPageYOffset>
       </Fragment>
     );
   }
@@ -180,4 +155,4 @@ MastheadMenu.propTypes = {
   searchFieldComponent: node.isRequired,
 };
 
-export default injectT(withRouter(MastheadMenu));
+export default withRouter(MastheadMenu);

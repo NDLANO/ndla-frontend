@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
-import { toSubjects } from '../../routeHelpers';
 import { getContentType } from '../../util/getContentType';
 
 const getRelevance = resource => {
@@ -86,12 +85,7 @@ export const searchResultToLinkProps = result => {
       rel: 'noopener noreferrer',
     };
   }
-  if (result.paths && result.paths.length > 0) {
-    return {
-      to: toSubjects() + result.paths[0],
-    };
-  }
-  return { to: '/404' };
+  return { to: result.path || '/404' };
 };
 
 const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
