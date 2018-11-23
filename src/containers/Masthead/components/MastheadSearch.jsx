@@ -9,6 +9,11 @@ import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentType';
 import MastheadSearchModal from './MastheadSearchModal';
+import {
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../constants';
 
 class MastheadSearch extends Component {
   constructor(props) {
@@ -53,6 +58,10 @@ class MastheadSearch extends Component {
           const contentType = contentTypeMapping[result.resourceType];
           return {
             ...result,
+            resources: result.resources.map(resource => ({
+              ...resource,
+              resourceType: result.resourceType, // TODO: return resourceType from grahql-api
+            })),
             contentType,
             title: this.props.t(`contentTypes.${contentType}`),
           };
@@ -71,8 +80,11 @@ class MastheadSearch extends Component {
     const searchParams = {
       query,
       subjects: subject ? subject.id : undefined,
-      resourceTypes:
-        'urn:resourcetype:learningPath,urn:resourcetype:subjectMaterial,urn:resourcetype:tasksAndActivities',
+      resourceTypes: [
+        RESOURCE_TYPE_LEARNING_PATH,
+        RESOURCE_TYPE_SUBJECT_MATERIAL,
+        RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+      ].join(),
     };
 
     return (

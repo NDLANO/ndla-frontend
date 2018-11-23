@@ -87,6 +87,7 @@ export const groupSearchQuery = gql`
       query: $query
     ) {
       resources {
+        id
         path
         name
       }
