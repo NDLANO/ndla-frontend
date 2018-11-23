@@ -32,6 +32,7 @@ const SubjectPageTwoColumn = props => {
     topics,
     breadcrumb,
     subjectId,
+    locale,
     activeFilters,
   } = props;
   const { editorsChoices } = subjectpage;
@@ -52,10 +53,15 @@ const SubjectPageTwoColumn = props => {
             <SubjectPageSidebar
               subjectpage={subjectpage}
               subjectId={subjectId}
+              locale={locale}
               twoColumns
             />
           </SubjectFlexWrapper>
-          <SubjectEditorChoices narrowScreen editorsChoices={editorsChoices} />
+          <SubjectEditorChoices
+            narrowScreen
+            editorsChoices={editorsChoices}
+            locale={locale}
+          />
         </SubjectChildContent>
       </SubjectContent>
     </OneColumn>,
@@ -82,6 +88,7 @@ SubjectPageTwoColumn.propTypes = {
   breadcrumb: PropTypes.node,
   subjectId: PropTypes.string.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
+  locale: PropTypes.string.isRequired,
 };
 
 export default compose(

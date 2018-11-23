@@ -12,11 +12,10 @@ import Pager from '@ndla/pager';
 import { SearchPage, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
-import { Query } from 'react-apollo';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
+import { Query } from 'react-apollo';
 import connectSSR from '../../components/connectSSR';
-import * as actions from './searchActions';
 import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
 import {
@@ -232,7 +231,6 @@ class SearchContainer extends Component {
     );
     const searchPageMessages = totalCount => ({
       filterHeading: t('searchPage.searchPageMessages.filterHeading'),
-
       dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
       closeButton: t('searchPage.close'),
       narrowScreenFilterHeading: t(
@@ -342,7 +340,6 @@ SearchContainer.defaultProps = {
 };
 
 const mapDispatchToProps = {
-  search: actions.search,
   fetchSubjects: subjectActions.fetchSubjects,
   fetchFilters: filterActions.fetchFilters,
 };

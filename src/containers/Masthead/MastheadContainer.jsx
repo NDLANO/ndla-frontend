@@ -8,11 +8,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Masthead, MastheadItem, Logo } from '@ndla/ui';
+import {
+  Masthead,
+  MastheadItem,
+  Logo,
+  DisplayOnPageYOffset,
+  BreadcrumbBlock,
+} from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
-import { Trans } from '@ndla/i18n';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
@@ -27,7 +33,10 @@ import { getResourceGroups } from '../Resources/getResourceGroups';
 import { runQueries } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { toTopicMenu } from '../../util/topicsHelper';
-import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getFiltersFromUrlAsArray,
+} from '../../util/filterHelper';
 
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
@@ -165,11 +174,22 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent, locale } = this.props;
+    const { infoContent, locale, location, t } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
 
+    const breadcrumbBlockItems = subject
+      ? toBreadcrumbItems(
+          t('breadcrumb.toFrontpage'),
+          subject,
+          topicPath,
+          resource,
+          getFiltersFromUrl(location),
+        )
+      : [];
+
+    const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead
         showLoaderWhenNeeded={topicPath && topicPath.length > 0}
@@ -180,7 +200,7 @@ class MastheadContainer extends React.PureComponent {
             <MastheadMenu
               subject={subject}
               searchFieldComponent={
-                subject && <MastheadSearch subject={subject} />
+                showSearch && <MastheadSearch subject={subject} />
               }
               topicPath={topicPath || []}
               onDataFetch={this.onDataFetch}
@@ -189,19 +209,25 @@ class MastheadContainer extends React.PureComponent {
               topicResourcesByType={topicResourcesByType || []}
             />
           )}
+          <DisplayOnPageYOffset yOffsetMin={150}>
+            <BreadcrumbBlock
+              items={
+                breadcrumbBlockItems.length > 1
+                  ? breadcrumbBlockItems.slice(1)
+                  : []
+              }
+            />
+          </DisplayOnPageYOffset>
         </MastheadItem>
         <MastheadItem right>
-          {subject && <MastheadSearch subject={subject} />}
-          <Trans>
-            {({ t }) => (
-              <Logo
-                to="/"
-                locale={locale}
-                label={t('logo.altText')}
-                // label="Nasjonal digital læringsarena"
-              />
-            )}
-          </Trans>
+          {showSearch && <MastheadSearch subject={subject} />}
+
+          <Logo
+            to="/"
+            locale={locale}
+            label={t('logo.altText')}
+            // label="Nasjonal digital læringsarena"
+          />
         </MastheadItem>
       </Masthead>
     );
@@ -224,4 +250,7 @@ MastheadContainer.propTypes = {
   infoContent: PropTypes.node,
 };
 
-export default compose(withApollo)(MastheadContainer);
+export default compose(
+  withApollo,
+  injectT,
+)(MastheadContainer);
