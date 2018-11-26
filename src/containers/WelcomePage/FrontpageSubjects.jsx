@@ -52,13 +52,6 @@ function flattenSubjectsFrontpageFilters(subjects) {
   }, []);
 }
 
-function allowedSubjectsInProd(subject) {
-  if (config.isNdlaProdEnvironment) {
-    return ALLOWED_SUBJECTS.includes(subject.id);
-  }
-  return true;
-}
-
 export const getCategoriesWithAllSubjects = (
   categoriesFromApi = [],
   locale,
@@ -66,7 +59,9 @@ export const getCategoriesWithAllSubjects = (
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
   return categoriesFromApi.map(category => {
-    const allowedSubjects = category.subjects.filter(allowedSubjectsInProd);
+    const allowedSubjects = category.subjects.filter(subject =>
+      ALLOWED_SUBJECTS.includes(subject.id),
+    );
     const flattened = flattenSubjectsFrontpageFilters(allowedSubjects);
     const newSubjects = flattened.map(categorySubject => ({
       ...categorySubject,
