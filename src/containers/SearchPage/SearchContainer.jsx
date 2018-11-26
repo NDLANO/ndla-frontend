@@ -249,6 +249,7 @@ class SearchContainer extends Component {
           asyncMode
           query={searchQuery}
           variables={searchParamsToGraphQL}
+          fetchPolicy="no-cache"
           ssr={false}>
           {({ error, data: searchData }) => {
             if (error) {

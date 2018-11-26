@@ -91,7 +91,11 @@ class MastheadSearch extends Component {
       <MastheadSearchModal
         onSearchExit={this.onClearQuery}
         searchFieldRef={this.searchFieldRef}>
-        <Query variables={searchParams} ssr={false} query={groupSearchQuery}>
+        <Query
+          fetchPolicy="no-cache"
+          variables={searchParams}
+          ssr={false}
+          query={groupSearchQuery}>
           {({ data, error }) =>
             error || (
               <SearchField
