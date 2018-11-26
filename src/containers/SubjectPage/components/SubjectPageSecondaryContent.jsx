@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   OneColumn,
   SubjectFlexWrapper,
@@ -23,7 +22,6 @@ import { EmailOutline } from '@ndla/icons/common';
 import formatDate from '../../../util/formatDate';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
-import { getLocale } from '../../Locale/localeSelectors';
 import { getContentType } from '../../../util/getContentType';
 
 const SubjectPageSecondaryContent = ({
@@ -82,8 +80,4 @@ SubjectPageSecondaryContent.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(injectT(SubjectPageSecondaryContent));
+export default injectT(SubjectPageSecondaryContent);

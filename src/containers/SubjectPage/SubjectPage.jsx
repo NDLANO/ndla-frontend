@@ -147,6 +147,7 @@ class SubjectPage extends Component {
         />
         {latestContent && (
           <SubjectPageSecondaryContent
+            locale={locale}
             subjectName={subjectName}
             latestContentResources={latestContentResources}
           />
