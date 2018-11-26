@@ -1522,11 +1522,12 @@ Array [
         "yearInfo": undefined,
       },
       Object {
-        "id": "urn:subject:1",
+        "beta": true,
+        "id": "156500",
         "name": "Medieuttrykk og mediesamfunnet",
-        "path": "/subject:1",
+        "nodeId": "156500",
         "text": "Medieuttrykk og mediesamfunnet",
-        "url": "/subjects/subject:1",
+        "url": "/nb/node/156500",
         "yearInfo": undefined,
       },
       Object {

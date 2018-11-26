@@ -19,7 +19,6 @@ import {
 } from '../../containers/Resources/resourceHelpers';
 import { ALLOWED_SUBJECTS } from '../../constants';
 import { removeUrn } from '../../routeHelpers';
-import config from '../../config';
 
 const allowedSubjects = (() => ALLOWED_SUBJECTS.map(removeUrn))();
 
@@ -74,7 +73,7 @@ export async function forwardingRoute(req, res, next) {
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const data = await lookup(lookupUrl);
 
-    if (!isAllowedSubject(data.path) && config.isNdlaProdEnvironment) {
+    if (!isAllowedSubject(data.path)) {
       throw new Error('Not allowed subject. Proxy to old ndla.');
     }
 
