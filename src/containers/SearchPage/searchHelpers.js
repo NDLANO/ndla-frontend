@@ -139,21 +139,25 @@ export const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
   results.map(result => {
     /* There are multiple items that are both subjects and resources
     We filter out for the correct context (subject) */
-    let [contentType] = result.contentTypes;
-    let [url] = result.urls.map(item => item.url);
-    if (type && type === 'topic-article') {
-      [contentType] = result.contentTypes.filter(
+    let { contentType, url } = result;
+    if (type && type === 'topic-article' && contentType !== 'subject') {
+      const maybeContentType = result.contentTypes.filter(
         contentTypeItem => contentTypeItem === 'subject',
-      );
-      [url] = result.urls
+      )[0];
+      const maybeUrl = result.urls
         .filter(urlItem => urlItem.contentType === 'subject')
-        .map(item => item.url);
+        .map(item => item.url)[0];
+
+      if (maybeContentType && maybeUrl) {
+        contentType = maybeContentType;
+        url = maybeUrl;
+      }
     }
 
     return {
       ...result,
-      contentType: contentType || result.contentType,
-      url: url || result.url,
+      contentType,
+      url,
       contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
         <ContentTypeBadge
           type={contentType || result.contentType}
