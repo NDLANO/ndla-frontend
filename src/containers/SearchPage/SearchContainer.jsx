@@ -235,6 +235,7 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
+    const enabledTab = searchObject.resourceTypes || searchObject.contextTypes;
     return (
       <OneColumn cssModifier="clear-desktop" wide>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
@@ -266,7 +267,11 @@ class SearchContainer extends Component {
                 <SearchResults
                   results={
                     search &&
-                    convertResult(search.results, searchObject.subjects)
+                    convertResult(
+                      search.results,
+                      searchObject.subjects,
+                      enabledTab,
+                    )
                   }
                   resourceTypes={
                     data && data.resourceTypes ? data.resourceTypes : []
