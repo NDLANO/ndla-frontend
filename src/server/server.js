@@ -25,6 +25,7 @@ import {
   oembedArticleRoute,
   iframeArticleRoute,
   forwardingRoute,
+  ltiRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
@@ -145,6 +146,15 @@ app.get(
 app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
+});
+
+app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
+  res.setHeader('Content-Type', 'application/xml');
+  res.sendFile('ltiConfig.xml', { root: './src/server/' });
+});
+
+app.get('/lti', ndlaMiddleware, async (req, res) => {
+  handleRequest(req, res, ltiRoute);
 });
 
 app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));

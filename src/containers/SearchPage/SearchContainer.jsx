@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape } from 'prop-types';
+import { func, number, string, arrayOf, shape, bool } from 'prop-types';
 import { compose } from 'redux';
 import Pager from '@ndla/pager';
 import { SearchPage, OneColumn } from '@ndla/ui';
@@ -146,19 +146,22 @@ class SearchContainer extends Component {
   };
 
   updateSearchLocation = searchParams => {
-    const { location, history } = this.props;
-    const stateSearchParams = {};
-    Object.keys(searchParams).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(searchParams[key]);
-    });
+    const { saveInUrl } = this.props;
+    if (saveInUrl) {
+      const { history, location } = this.props;
+      const stateSearchParams = {};
+      Object.keys(searchParams).forEach(key => {
+        stateSearchParams[key] = convertSearchParam(searchParams[key]);
+      });
 
-    history.push({
-      pathname: '/search',
-      search: queryString.stringify({
-        ...queryString.parse(location.search),
-        ...stateSearchParams,
-      }),
-    });
+      history.push({
+        pathname: '/search',
+        search: queryString.stringify({
+          ...queryString.parse(location.search),
+          ...stateSearchParams,
+        }),
+      });
+    }
   };
 
   render() {
@@ -333,10 +336,12 @@ SearchContainer.propTypes = {
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
+  saveInUrl: bool,
 };
 
 SearchContainer.defaultProps = {
   filters: [],
+  saveInUrl: true,
   subjects: [],
 };
 
