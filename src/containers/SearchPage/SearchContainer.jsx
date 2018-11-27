@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape } from 'prop-types';
+import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
 import { compose } from 'redux';
 import Pager from '@ndla/pager';
 import { SearchPage, OneColumn } from '@ndla/ui';
@@ -151,7 +151,10 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const { t, location, data } = this.props;
+    const { t, location, data, loading } = this.props;
+    if (loading) {
+      return null;
+    }
     const { subjects } = data;
     const { query } = this.state;
 
@@ -322,6 +325,7 @@ SearchContainer.propTypes = {
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
+  loading: PropTypes.bool.isRequired,
 };
 
 SearchContainer.defaultProps = {
