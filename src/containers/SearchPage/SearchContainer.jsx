@@ -15,20 +15,9 @@ import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
-import connectSSR from '../../components/connectSSR';
 import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
-import {
-  getSubjects,
-  actions as subjectActions,
-} from '../SubjectPage/subjects';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
-import {
-  getFilters,
-  getMultipeSubjectFilters,
-  actions as filterActions,
-} from '../Filters/filter';
-import { getLocale } from '../Locale/localeSelectors';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
 import {
@@ -38,7 +27,11 @@ import {
   getResultMetadata,
 } from './searchHelpers';
 import { runQueries } from '../../util/runQueries';
-import { searchQuery, resourceTypesWithSubTypesQuery } from '../../queries';
+import {
+  searchQuery,
+  resourceTypesWithSubTypesQuery,
+  subjectsWithFiltersQuery,
+} from '../../queries';
 import handleError from '../../util/handleError';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 
@@ -66,12 +59,14 @@ class SearchContainer extends Component {
     }
   };
 
-  onRemoveSubject = (subjectsSearchParam, subject) => {
-    const { filters, location } = this.props;
+  onRemoveSubject = (subjectsSearchParam, subjectId) => {
+    const { location, data } = this.props;
     const { levels } = converSearchStringToObject(location);
-    const removedFilters = filters
-      .filter(level => level.subjectId === subject)
-      .map(level => level.name);
+    const subject = data.subjects.find(s => s.id === subjectId);
+
+    const removedFilters = subject.filters
+      ? subject.filters.map(level => level.name)
+      : [];
 
     this.updateSearchLocation({
       ...subjectsSearchParam,
@@ -96,20 +91,14 @@ class SearchContainer extends Component {
   };
 
   static getInitialProps = ctx => {
-    const { subjects, fetchSubjects, fetchFilters, filters, client } = ctx;
-
-    if (!subjects || subjects.length === 0) {
-      fetchSubjects();
-    }
-    if (!filters || filters.length === 0) {
-      fetchFilters();
-    }
+    const { client } = ctx;
 
     try {
       return runQueries(client, [
         {
           query: resourceTypesWithSubTypesQuery,
         },
+        { query: subjectsWithFiltersQuery },
       ]);
     } catch (error) {
       handleError(error);
@@ -165,7 +154,8 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const { t, subjects, filters, location, data } = this.props;
+    const { t, location, data } = this.props;
+    const { subjects } = data;
     const { query } = this.state;
 
     const searchObject = converSearchStringToObject(location);
@@ -193,6 +183,7 @@ class SearchContainer extends Component {
               const subject = subjects.find(s => s.id === it);
               return subject
                 ? {
+                    ...subject,
                     value: subject.id,
                     title: subject.name,
                     filterName: subject.name,
@@ -227,7 +218,6 @@ class SearchContainer extends Component {
         filterState={searchObject}
         subjects={subjects}
         activeSubjects={activeSubjectsMapped}
-        filters={filters}
         enabledTabs={enabledTabs}
         onContentTypeChange={this.onTabChange}
       />
@@ -332,7 +322,6 @@ SearchContainer.propTypes = {
       subjectId: string,
     }),
   }),
-  locale: string.isRequired,
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
@@ -345,26 +334,7 @@ SearchContainer.defaultProps = {
   subjects: [],
 };
 
-const mapDispatchToProps = {
-  fetchSubjects: subjectActions.fetchSubjects,
-  fetchFilters: filterActions.fetchFilters,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  const { location } = ownProps;
-  const searchObject = converSearchStringToObject(location);
-  return {
-    subjects: getSubjects(state),
-    locale: getLocale(state),
-    filters:
-      searchObject.subjects.length > 0
-        ? getMultipeSubjectFilters(searchObject.subjects)(state)
-        : getFilters('filters')(state),
-  };
-};
-
 export default compose(
   withRouter,
   injectT,
-  connectSSR(mapStateToProps, mapDispatchToProps),
 )(SearchContainer);
