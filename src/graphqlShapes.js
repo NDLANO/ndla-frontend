@@ -95,6 +95,7 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   facebook: PropTypes.string,
   twitter: PropTypes.string,
   layout: PropTypes.string,
+  metaDescription: PropTypes.string,
   about: GraphQLSubjectPageAboutShape,
   goTo: PropTypes.shape({
     resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),

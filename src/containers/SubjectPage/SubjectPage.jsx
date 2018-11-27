@@ -120,6 +120,13 @@ class SubjectPage extends Component {
       <article>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
+          {subject.subjectpage &&
+            subject.subjectpage.metaDescription && (
+              <meta
+                name="description"
+                content={subject.subjectpage.metaDescription}
+              />
+            )}
         </Helmet>
         <SubjectHeader
           heading={subjectName || ''}

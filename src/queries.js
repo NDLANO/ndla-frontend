@@ -300,6 +300,7 @@ export const subjectPageQuery = gql`
             alt
           }
         }
+        metaDescription
         goTo {
           resourceTypes {
             id
