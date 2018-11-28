@@ -13,7 +13,6 @@ import { SubjectHero, OneColumn, Breadcrumb, constants } from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import connectSSR from '../../components/connectSSR';
 import SubTopics from './SubTopics';
 import {
   SubjectShape,
@@ -28,7 +27,6 @@ import { GraphqlErrorShape } from '../../graphqlShapes';
 
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
-import { getLocale } from '../Locale/localeSelectors';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -235,12 +233,7 @@ TopicPage.propTypes = {
   location: LocationShape,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
 export default compose(
-  connectSSR(mapStateToProps),
   injectT,
   withTracker,
 )(TopicPage);

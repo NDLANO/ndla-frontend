@@ -44,15 +44,20 @@ const getUrl = (subject, result) => {
   return `/subjects${subject.path}`;
 };
 
-const selectContext = (contexts, filters) => {
-  if (contexts.length === 0) return undefined;
+export const selectContext = (contexts, filters, enabledTab) => {
+  const filteredContext =
+    enabledTab === 'topic-article'
+      ? contexts.filter(context => context.id.startsWith('urn:topic'))
+      : contexts;
+
+  if (filteredContext.length === 0) return undefined;
   if (filters.length > 0) {
-    const foundContext = contexts.filter(context =>
+    const foundContext = filteredContext.filter(context =>
       filters.some(filter => context.path.includes(filter.replace('urn:', ''))),
     );
     if (foundContext.length > 0) return foundContext[0];
   }
-  return contexts[0];
+  return filteredContext[0];
 };
 
 const taxonomyData = (result, selectedContext) => {
@@ -119,9 +124,13 @@ export const convertSearchParam = value => {
   return value.length > 0 ? value : undefined;
 };
 
-export const convertResult = (results, subjectFilters) =>
+export const convertResult = (results, subjectFilters, enabledTab) =>
   results.map(result => {
-    const selectedContext = selectContext(result.contexts, subjectFilters);
+    const selectedContext = selectContext(
+      result.contexts,
+      subjectFilters,
+      enabledTab,
+    );
 
     return {
       ...result,
@@ -135,25 +144,13 @@ export const convertResult = (results, subjectFilters) =>
     };
   });
 
-export const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
+export const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => {
-    /* There are multiple items that are both subjects and resources
-    We filter out for the correct context (subject) */
-    let [contentType] = result.contentTypes;
-    let [url] = result.urls.map(item => item.url);
-    if (type && type === 'topic-article') {
-      [contentType] = result.contentTypes.filter(
-        contentTypeItem => contentTypeItem === 'subject',
-      );
-      [url] = result.urls
-        .filter(urlItem => urlItem.contentType === 'subject')
-        .map(item => item.url);
-    }
+    const { contentType } = result;
 
     return {
       ...result,
-      contentType: contentType || result.contentType,
-      url: url || result.url,
+      contentType,
       contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
         <ContentTypeBadge
           type={contentType || result.contentType}

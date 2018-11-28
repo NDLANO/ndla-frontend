@@ -13,6 +13,7 @@ import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
   filterState,
+  // enabledTab,
   onUpdateContextFilters,
   resourceTypes,
   t,

@@ -14,7 +14,6 @@ import supportedLanguages from '../../../util/supportedLanguages';
 
 const SearchFilters = ({
   subjects,
-  filters,
   activeSubjects,
   filterState,
   onChange,
@@ -40,9 +39,10 @@ const SearchFilters = ({
   const subjectFilters = [
     ...activeSubjects.map(subject => ({
       name: subject.filterName,
-      options: filters
-        .filter(filter => filter.subjectId === subject.value)
-        .map(filter => ({ title: filter.title, value: filter.title })),
+      options: subject.filters.map(filter => ({
+        title: filter.name,
+        value: filter.name,
+      })),
     })),
   ];
 

@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
@@ -16,7 +15,6 @@ import { ApolloProvider } from 'react-apollo';
 
 import queryString from 'query-string';
 import routes, { routes as serverRoutes } from '../../routes';
-import configureStore from '../../configureStore';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
@@ -61,7 +59,6 @@ async function doRender(req) {
     basename,
   } = getLocaleInfoFromPath(req.path);
 
-  const store = configureStore({ locale });
   const client = createApolloClient(locale);
 
   if (!disableSSR(req)) {
@@ -70,7 +67,6 @@ async function doRender(req) {
     initialProps = await loadGetInitialProps(route.component, {
       isServer: true,
       locale,
-      store,
       match,
       client,
       location: {
@@ -81,18 +77,13 @@ async function doRender(req) {
 
   const context = {};
   const Page = !disableSSR(req) ? (
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-        <IntlProvider locale={locale} messages={messages}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes(initialProps, locale)}
-          </StaticRouter>
-        </IntlProvider>
-      </ApolloProvider>
-    </Provider>
+    <ApolloProvider client={client}>
+      <IntlProvider locale={locale} messages={messages}>
+        <StaticRouter basename={basename} location={req.url} context={context}>
+          {routes(initialProps, locale)}
+        </StaticRouter>
+      </IntlProvider>
+    </ApolloProvider>
   ) : (
     ''
   );
@@ -100,7 +91,6 @@ async function doRender(req) {
   const apolloState = client.extract();
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
-    initialState: store.getState(),
     apolloState,
   });
 
