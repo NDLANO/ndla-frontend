@@ -44,7 +44,7 @@ const getUrl = (subject, result) => {
   return `/subjects${subject.path}`;
 };
 
-const selectContext = (contexts, filters, enabledTab) => {
+export const selectContext = (contexts, filters, enabledTab) => {
   const filteredContext =
     enabledTab === 'topic-article'
       ? contexts.filter(context => context.id.startsWith('urn:topic'))
