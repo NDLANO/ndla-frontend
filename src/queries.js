@@ -334,6 +334,19 @@ export const subjectsQuery = gql`
   ${subjectInfoFragment}
 `;
 
+export const subjectsWithFiltersQuery = gql`
+  query subjectsQuery {
+    subjects {
+      ...SubjectInfo
+      filters {
+        id
+        name
+      }
+    }
+  }
+  ${subjectInfoFragment}
+`;
+
 export const frontpageQuery = gql`
   query frontpageQuery {
     frontpage {

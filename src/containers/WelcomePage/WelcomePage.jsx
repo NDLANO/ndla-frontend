@@ -11,7 +11,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
-import { compose } from 'redux';
 import {
   FrontpageHeader,
   FrontpageFilm,
@@ -153,4 +152,4 @@ WelcomePage.propTypes = {
   }),
 };
 
-export default compose(injectT)(WelcomePage);
+export default injectT(WelcomePage);
