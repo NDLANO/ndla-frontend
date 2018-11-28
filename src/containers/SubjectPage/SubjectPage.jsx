@@ -97,6 +97,8 @@ class SubjectPage extends Component {
       return null;
     }
 
+    console.log('subject page', data);
+
     if (!data || !data.subject) {
       return <DefaultErrorMessage />;
     }
