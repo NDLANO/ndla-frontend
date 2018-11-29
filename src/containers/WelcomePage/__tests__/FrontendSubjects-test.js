@@ -47,49 +47,46 @@ const specializationSubjects = [
   },
 ];
 
-const vocationalSubjects = [
-  {
-    id: 'urn:subject:12',
-    name: 'Service og samferdsel Vg1',
-    path: '/subject:12',
-    frontpageFilters: [],
-  },
-];
+function findSubjectByName(categories, name) {
+  const allSubjects = categories.reduce(
+    (acc, category) => [...acc, ...category.subjects],
+    [],
+  );
+  return allSubjects.find(subject => subject.name === name);
+}
 
-test('mapHardCodedCategories all old node subjects (nb locale)', () => {
+test('mapHardCodedCategories without frontpageFilters from api (nb locale)', () => {
   const categories = mapHardCodedCategories(categoriesFromApi, 'nb');
 
   expect(categories).toMatchSnapshot();
 });
 
-test('mapHardCodedCategories with all old node subjects (nn locale)', () => {
+test('mapHardCodedCategories with nn locale', () => {
   const categories = mapHardCodedCategories(categoriesFromApi, 'nn');
 
-  expect(categories).toMatchSnapshot();
+  const norsk = findSubjectByName(categories, 'Norsk Vg2 og Vg3 SF');
+
+  expect(norsk.url).toBe('/nn/node/27');
 });
 
-test('mapHardCodedCategories with all old node subjects (en locale)', () => {
+test('mapHardCodedCategories with en locale', () => {
   const categories = mapHardCodedCategories(categoriesFromApi, 'en');
 
-  expect(categories).toMatchSnapshot();
+  const norsk = findSubjectByName(categories, 'Norsk Vg2 og Vg3 SF');
+
+  expect(norsk.url).toBe('/nb/node/27');
 });
 
-test('mapHardCodedCategories with some specialization subjects replaced', () => {
+test('mapHardCodedCategories with frontpageFilters from api', () => {
   const specializationCategory = {
     ...categoriesFromApi[2],
     subjects: specializationSubjects,
   };
   const categories = mapHardCodedCategories([specializationCategory], 'nb');
 
-  expect(categories).toMatchSnapshot();
-});
+  const kinesisk1 = findSubjectByName(categories, 'Kinesisk 1');
+  expect(kinesisk1.url).toBe('/subjects/subject:2?filters=urn:filter:1337');
 
-test('mapHardCodedCategories with a vocational subjects replaced', () => {
-  const vocationalCategory = {
-    ...categoriesFromApi[1],
-    subjects: vocationalSubjects,
-  };
-  const categories = mapHardCodedCategories([vocationalCategory], 'nb');
-
-  expect(categories).toMatchSnapshot();
+  const kinesisk2 = findSubjectByName(categories, 'Kinesisk 2');
+  expect(kinesisk2.url).toBe('/subjects/subject:2?filters=urn:filter:42');
 });

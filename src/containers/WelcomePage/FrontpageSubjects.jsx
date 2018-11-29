@@ -17,10 +17,7 @@ import {
   GraphQLSimpleSubjectShape,
 } from '../../graphqlShapes';
 import config from '../../config';
-import {
-  FRONTPAGE_CATEGORIES,
-  // ALLOWED_SUBJECTS,
-} from '../../constants';
+import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -69,6 +66,17 @@ function findCategoryByName(categoriesFromApi, name) {
   return [];
 }
 
+function isAllowed(subjectId) {
+  return ALLOWED_SUBJECTS.includes(subjectId);
+}
+
+function isAllowedNewSubject(subject) {
+  if (subject.id && isAllowed(subject.id)) {
+    return true;
+  }
+  return false;
+}
+
 export const mapHardCodedCategories = (categoriesFromApi = [], locale) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
@@ -80,10 +88,10 @@ export const mapHardCodedCategories = (categoriesFromApi = [], locale) => {
       category.name,
     );
 
-    const newSubjects = category.subjects.filter(subject => subject.id);
-    const oldSubjects = category.subjects.filter(
-      subject => !subject.id && subject.nodeId,
-    );
+    const newSubjects = category.subjects.filter(isAllowedNewSubject);
+    const oldSubjects = category.subjects
+      .filter(subject => !isAllowedNewSubject(subject))
+      .filter(subject => subject.nodeId); // N.B. remove new subjects which are not allowed
 
     const mappedNewSubjects = newSubjects.map(subject => ({
       ...subject,
