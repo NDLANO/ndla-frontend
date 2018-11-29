@@ -6,7 +6,7 @@
  *
  */
 
-import { getCategoriesWithAllSubjects } from '../FrontpageSubjects';
+import { mapHardCodedCategories } from '../FrontpageSubjects';
 
 const categoriesFromApi = [
   {
@@ -28,6 +28,7 @@ const specializationSubjects = [
     id: 'urn:subject:7',
     name: 'Markedsføring og ledelse 1',
     path: '/subject:7',
+    frontpageFilters: [],
   },
   {
     id: 'urn:subject:2',
@@ -42,6 +43,7 @@ const specializationSubjects = [
     id: 'urn:subject:1',
     name: 'Medieuttrykk og mediesamfunnet',
     path: '/subject:1',
+    frontpageFilters: [],
   },
 ];
 
@@ -50,46 +52,44 @@ const vocationalSubjects = [
     id: 'urn:subject:12',
     name: 'Service og samferdsel Vg1',
     path: '/subject:12',
+    frontpageFilters: [],
   },
 ];
 
-test('getCategoriesWithAllSubjects with all old node subjects (nb locale)', () => {
-  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'nb');
+test('mapHardCodedCategories all old node subjects (nb locale)', () => {
+  const categories = mapHardCodedCategories(categoriesFromApi, 'nb');
 
   expect(categories).toMatchSnapshot();
 });
 
-test('getCategoriesWithAllSubjects with all old node subjects (nn locale)', () => {
-  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'nn');
+test('mapHardCodedCategories with all old node subjects (nn locale)', () => {
+  const categories = mapHardCodedCategories(categoriesFromApi, 'nn');
 
   expect(categories).toMatchSnapshot();
 });
 
-test('getCategoriesWithAllSubjects with all old node subjects (en locale)', () => {
-  const categories = getCategoriesWithAllSubjects(categoriesFromApi, 'en');
+test('mapHardCodedCategories with all old node subjects (en locale)', () => {
+  const categories = mapHardCodedCategories(categoriesFromApi, 'en');
 
   expect(categories).toMatchSnapshot();
 });
 
-test('getCategoriesWithAllSubjects with some specialization subjects replaced', () => {
+test('mapHardCodedCategories with some specialization subjects replaced', () => {
   const specializationCategory = {
     ...categoriesFromApi[2],
     subjects: specializationSubjects,
   };
-  const categories = getCategoriesWithAllSubjects(
-    [specializationCategory],
-    'nb',
-  );
+  const categories = mapHardCodedCategories([specializationCategory], 'nb');
 
   expect(categories).toMatchSnapshot();
 });
 
-test('getCategoriesWithAllSubjects with a vocational subjects replaced', () => {
+test('mapHardCodedCategories with a vocational subjects replaced', () => {
   const vocationalCategory = {
     ...categoriesFromApi[1],
     subjects: vocationalSubjects,
   };
-  const categories = getCategoriesWithAllSubjects([vocationalCategory], 'nb');
+  const categories = mapHardCodedCategories([vocationalCategory], 'nb');
 
   expect(categories).toMatchSnapshot();
 });
