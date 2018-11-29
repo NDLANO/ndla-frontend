@@ -7,7 +7,7 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { FrontpageSubjects as FrontpageSubjectsSection } from '@ndla/ui';
@@ -66,18 +66,25 @@ function findCategoryByName(categoriesFromApi, name) {
   return [];
 }
 
-function isAllowed(subjectId) {
+function isAllowed(subjectId, preview) {
+  if (preview) {
+    return true;
+  }
   return ALLOWED_SUBJECTS.includes(subjectId);
 }
 
-function isAllowedNewSubject(subject) {
-  if (subject.id && isAllowed(subject.id)) {
+function isAllowedNewSubject(subject, preview) {
+  if (subject.id && isAllowed(subject.id, preview)) {
     return true;
   }
   return false;
 }
 
-export const mapHardCodedCategories = (categoriesFromApi = [], locale) => {
+export const mapHardCodedCategories = (
+  categoriesFromApi = [],
+  locale,
+  preview = false,
+) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
   const hardCodedCategories = FRONTPAGE_CATEGORIES.categories;
@@ -88,9 +95,11 @@ export const mapHardCodedCategories = (categoriesFromApi = [], locale) => {
       category.name,
     );
 
-    const newSubjects = category.subjects.filter(isAllowedNewSubject);
+    const newSubjects = category.subjects.filter(subject =>
+      isAllowedNewSubject(subject, preview),
+    );
     const oldSubjects = category.subjects
-      .filter(subject => !isAllowedNewSubject(subject))
+      .filter(subject => !isAllowedNewSubject(subject, preview))
       .filter(subject => subject.nodeId); // N.B. remove new subjects which are not allowed
 
     const mappedNewSubjects = newSubjects.map(subject => ({
@@ -118,24 +127,48 @@ export const mapHardCodedCategories = (categoriesFromApi = [], locale) => {
   });
 };
 
-const FrontpageSubjects = ({ categories, subjects, locale }) => {
-  const frontpageCategories = mapHardCodedCategories(categories, locale);
+class FrontpageSubjects extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { preview: false };
+  }
 
-  const allSubjects = config.isNdlaProdEnvironment
-    ? frontpageCategories
-    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+  componentDidMount() {
+    if (
+      document.location.search &&
+      document.location.search.includes('preview')
+    ) {
+      this.setState({ preview: true });
+    }
+  }
 
-  return (
-    <FrontpageSubjectsSection
-      linkToAbout={
-        <a rel="noopener noreferrer" target="_blank" href="https://om.ndla.no">
-          om.ndla.no
-        </a>
-      }
-      categories={allSubjects}
-    />
-  );
-};
+  render() {
+    const { categories, subjects, locale } = this.props;
+    const frontpageCategories = mapHardCodedCategories(
+      categories,
+      locale,
+      this.state.preview,
+    );
+
+    const allSubjects = config.isNdlaProdEnvironment
+      ? frontpageCategories
+      : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+
+    return (
+      <FrontpageSubjectsSection
+        linkToAbout={
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://om.ndla.no">
+            om.ndla.no
+          </a>
+        }
+        categories={allSubjects}
+      />
+    );
+  }
+}
 
 FrontpageSubjects.propTypes = {
   locale: PropTypes.string.isRequired,
