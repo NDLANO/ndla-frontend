@@ -61,25 +61,27 @@ const SearchFilters = ({
         options={activeSubjects}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
         values={filterState.subjects || []}>
-        <SearchPopoverFilter
-          messages={{
-            backButton: t('searchPage.searchFilterMessages.backButton'),
-            filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-            closeButton: t('searchPage.close'),
-            confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
-            hasValuesButtonText: t(
-              'searchPage.searchFilterMessages.hasValuesButtonText',
-            ),
-            noValuesButtonText: t(
-              'searchPage.searchFilterMessages.noValuesButtonText',
-            ),
-          }}
-          options={allSubjects}
-          values={filterState.subjects}
-          onChange={(newValues, value) =>
-            onChange(newValues, value, 'subjects')
-          }
-        />
+        {filterState.subjects && (
+          <SearchPopoverFilter
+            messages={{
+              backButton: t('searchPage.searchFilterMessages.backButton'),
+              filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
+              closeButton: t('searchPage.close'),
+              confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
+              hasValuesButtonText: t(
+                'searchPage.searchFilterMessages.hasValuesButtonText',
+              ),
+              noValuesButtonText: t(
+                'searchPage.searchFilterMessages.noValuesButtonText',
+              ),
+            }}
+            options={allSubjects}
+            values={filterState.subjects}
+            onChange={(newValues, value) =>
+              onChange(newValues, value, 'subjects')
+            }
+          />
+        )}
       </SearchFilter>
       <SearchFilter
         label={t(`searchPage.label.contentTypes`)}

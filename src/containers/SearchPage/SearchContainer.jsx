@@ -6,22 +6,17 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape, bool } from 'prop-types';
-import { compose } from 'redux';
+import { func, number, string, arrayOf, shape, bool, object } from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage, OneColumn } from '@ndla/ui';
-import queryString from 'query-string';
-import { withRouter } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
-import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
+import { SubjectShape, FilterShape } from '../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
 import {
-  converSearchStringToObject,
   convertSearchParam,
   convertResult,
   getResultMetadata,
@@ -38,7 +33,7 @@ import { sortResourceTypes } from '../Resources/getResourceGroups';
 class SearchContainer extends Component {
   constructor(props) {
     super(props);
-    const searchObject = converSearchStringToObject(props.location);
+    const { searchObject } = props;
     this.state = {
       query: searchObject.query || '',
     };
@@ -50,8 +45,8 @@ class SearchContainer extends Component {
   };
 
   onFilterChange = (newValues, value, type) => {
-    const { location } = this.props;
-    const { subjects } = converSearchStringToObject(location);
+    const { searchObject } = this.props;
+    const { subjects } = searchObject;
     if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
     } else {
@@ -60,24 +55,23 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { location, data } = this.props;
-    const { levels } = converSearchStringToObject(location);
+    const { searchObject, data, updateSearchLocation } = this.props;
+    const { levels } = searchObject;
     const subject = data.subjects.find(s => s.id === subjectId);
 
     const removedFilters = subject.filters
       ? subject.filters.map(level => level.name)
       : [];
 
-    this.updateSearchLocation({
+    updateSearchLocation({
       ...subjectsSearchParam,
       levels: levels.filter(level => !removedFilters.includes(level)),
     });
   };
 
   onSearchFieldFilterRemove = removedSubject => {
-    const { subjects: subjectsInUrl } = converSearchStringToObject(
-      this.props.location,
-    );
+    const { searchObject } = this.props;
+    const { subjects: subjectsInUrl } = searchObject;
     const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
@@ -85,7 +79,8 @@ class SearchContainer extends Component {
   };
 
   onUpdateContextFilters = values => {
-    this.updateSearchLocation({
+    const { updateSearchLocation } = this.props;
+    updateSearchLocation({
       contextFilters: values,
     });
   };
@@ -107,21 +102,23 @@ class SearchContainer extends Component {
   };
 
   updateFilter = searchParam => {
+    const { updateSearchLocation } = this.props;
     const page = searchParam.page || 1;
-    this.updateSearchLocation({
+    updateSearchLocation({
       ...searchParam,
       page,
     });
   };
 
   updateTab = (value, enabledTabs) => {
+    const { updateSearchLocation } = this.props;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
       !enabledTab || enabledTab.value === 'all'
         ? {}
         : { [enabledTab.type]: enabledTab.value };
 
-    this.updateSearchLocation({
+    updateSearchLocation({
       contextTypes: undefined,
       resourceTypes: undefined,
       contextFilters: [],
@@ -134,39 +131,18 @@ class SearchContainer extends Component {
     this.setState({ query });
   };
 
-  updateSearchLocation = searchParams => {
-    const { saveInUrl } = this.props;
-    if (saveInUrl) {
-      const { history, location } = this.props;
-      const stateSearchParams = {};
-      Object.keys(searchParams).forEach(key => {
-        stateSearchParams[key] = convertSearchParam(searchParams[key]);
-      });
-
-      history.push({
-        pathname: '/search',
-        search: queryString.stringify({
-          ...queryString.parse(location.search),
-          ...stateSearchParams,
-        }),
-      });
-    }
-  };
-
   render() {
-    const { t, location, data } = this.props;
+    const { t, searchObject, data, locationSearchParams } = this.props;
     const { subjects } = data;
     const { query } = this.state;
-
-    const searchObject = converSearchStringToObject(location);
-
+    console.log(data);
     const stateSearchParams = {};
     Object.keys(searchObject).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchObject[key]);
     });
 
     const searchParamsToGraphQL = {
-      ...queryString.parse(location.search),
+      ...locationSearchParams,
       ...stateSearchParams,
       contextTypes: !stateSearchParams.contextFilters
         ? stateSearchParams.contextTypes
@@ -175,6 +151,8 @@ class SearchContainer extends Component {
         stateSearchParams.contextFilters || stateSearchParams.resourceTypes,
       contextFilters: undefined,
     };
+
+    console.log('searchParamsToGraphQL', searchParamsToGraphQL);
 
     const activeSubjectsMapped =
       subjects && subjects.length > 0
@@ -235,9 +213,9 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
+
     return (
       <OneColumn cssModifier="clear-desktop" wide>
-        <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <Query
           asyncMode
           query={searchQuery}
@@ -251,6 +229,7 @@ class SearchContainer extends Component {
             }
             const { search } = searchData || {};
             const resultMetadata = search ? getResultMetadata(search) : {};
+            console.log(searchData);
             return (
               <SearchPage
                 closeUrl="/#"
@@ -300,10 +279,6 @@ class SearchContainer extends Component {
 }
 
 SearchContainer.propTypes = {
-  location: LocationShape,
-  history: shape({
-    push: func.isRequired,
-  }).isRequired,
   enabledTabs: arrayOf(
     shape({
       name: string,
@@ -317,24 +292,23 @@ SearchContainer.propTypes = {
     lastPage: number,
   }),
   filters: arrayOf(FilterShape),
-  match: shape({
-    params: shape({
-      subjectId: string,
-    }),
-  }),
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
   saveInUrl: bool,
+  locationSearchParams: object,
+  searchObject: object,
+  updateSearchLocation: func,
 };
 
 SearchContainer.defaultProps = {
   filters: [],
   saveInUrl: true,
   subjects: [],
+  locationSearchParams: {},
+  searchObject: {},
+  data: {},
+  updateSearchLocation: () => {},
 };
 
-export default compose(
-  withRouter,
-  injectT,
-)(SearchContainer);
+export default injectT(SearchContainer);

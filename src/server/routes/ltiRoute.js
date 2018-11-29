@@ -6,14 +6,12 @@
  *
  */
 
-import React from 'react';
 import defined from 'defined';
 import Helmet from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
-import LtiProvider from '../../lti/LtiProvider';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -30,12 +28,12 @@ if (process.env.NODE_ENV === 'unittest') {
 
 const getAssets = () => ({
   css: assets.client.css,
-  js: [assets.embed.js],
+  js: [assets.ltiEmbed.js],
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
 function doRenderPage(initialProps) {
-  const Page =  <LtiProvider {...initialProps} />;
+  const Page = '';
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
@@ -45,6 +43,7 @@ function doRenderPage(initialProps) {
 export async function ltiRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
+  console.log(locale);
   try {
     const { html, docProps } = doRenderPage({
       locale,
