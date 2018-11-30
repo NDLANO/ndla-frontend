@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { SearchResult, SearchResultList } from '@ndla/ui';
-import { func, arrayOf, shape, string, number } from 'prop-types';
+import { func, arrayOf, shape, string, number, node } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
 import { ArticleResultShape } from '../../../shapes';
@@ -23,10 +23,12 @@ const SearchResults = ({
   query,
   onUpdateContextFilters,
   resourceTypes,
+  customResultList,
   t,
 }) => {
   const enabledTab = filterState.resourceTypes || filterState.contextTypes;
   const { totalCount = '' } = resultMetadata || {};
+  console.log('hey', enabledTab);
   return (
     <SearchResult
       messages={{
@@ -54,20 +56,27 @@ const SearchResults = ({
         onUpdateContextFilters={onUpdateContextFilters}
         results={results}
       />
-      <SearchResultList
-        messages={{
-          subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
-          noResultHeading: t(
-            'searchPage.searchResultListMessages.noResultHeading',
-          ),
-          noResultDescription: t(
-            'searchPage.searchResultListMessages.noResultDescription',
-          ),
-        }}
-        results={
-          results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
-        }
-      />
+      {customResultList ? (
+        customResultList()
+      ) : (
+        <SearchResultList
+          messages={{
+            subjectsLabel: t(
+              'searchPage.searchResultListMessages.subjectsLabel',
+            ),
+            noResultHeading: t(
+              'searchPage.searchResultListMessages.noResultHeading',
+            ),
+            noResultDescription: t(
+              'searchPage.searchResultListMessages.noResultDescription',
+            ),
+          }}
+          results={
+            results &&
+            resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
+          }
+        />
+      )}
     </SearchResult>
   );
 };
@@ -94,6 +103,7 @@ SearchResults.propTypes = {
     totalCount: number,
   }),
   onUpdateContextFilters: func,
+  customResultList: func,
 };
 
 export default injectT(SearchResults);

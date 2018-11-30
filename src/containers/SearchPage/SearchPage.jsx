@@ -9,6 +9,7 @@ import React, { Component, Fragment } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { compose } from 'redux';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
@@ -45,12 +46,15 @@ class SearchPage extends Component {
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
-        <SearchContainer
-          searchObject={searchObject}
-          locationSearchParams={locationSearchParams}
-          updateSearchLocation={this.updateSearchLocation}
-          {...rest}
-        />
+        <OneColumn cssModifier="clear-desktop" wide>
+          <SearchContainer
+            searchObject={searchObject}
+            includeLearningPaths
+            locationSearchParams={locationSearchParams}
+            updateSearchLocation={this.updateSearchLocation}
+            {...rest}
+          />
+        </OneColumn>
       </Fragment>
     );
   }

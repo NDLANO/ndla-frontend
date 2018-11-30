@@ -53,6 +53,7 @@ const SearchFilters = ({
         filterState.contextTypes === tab.value,
     ) || enabledTabs[0];
 
+  console.log(enabledTab);
   return (
     <Fragment>
       <SearchFilter

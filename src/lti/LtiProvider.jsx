@@ -6,15 +6,15 @@
  *
  */
 
-import React from "react";
-
-import PropTypes from "prop-types";
-import Helmet from "react-helmet";
-import { PageContainer } from "@ndla/ui";
-import { withApollo } from "react-apollo";
-import { ArticleShape, ResourceTypeShape } from "../shapes";
-import SearchContainer from "../containers/SearchPage/SearchContainer";
-import ErrorPage from "../containers/ErrorPage/ErrorPage";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
+import { PageContainer } from '@ndla/ui';
+import { withApollo } from 'react-apollo';
+import { ArticleShape, ResourceTypeShape } from '../shapes';
+import SearchContainer from '../containers/SearchPage/SearchContainer';
+import ErrorPage from '../containers/ErrorPage/ErrorPage';
+import handleError from '../util/handleError';
 
 class LtiProvider extends React.Component {
   constructor(props) {
@@ -25,15 +25,17 @@ class LtiProvider extends React.Component {
       data: {
         loading: true,
         resourceTypes: [],
-        subjects: []
+        subjects: [],
       },
       location: null,
       searchObject: {
         contextFilters: [],
         languageFilter: [],
+        resourceTypes: '',
         levels: [],
-        subjects: []
-      }
+        subjects: [],
+        page: '1',
+      },
     };
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
     this.onSearchObjectChange = this.onSearchObjectChange.bind(this);
@@ -43,11 +45,12 @@ class LtiProvider extends React.Component {
     this.handleLoadInitialProps(this.props);
   }
 
-  /*componentDidUpdate() {
-    if (!this.state.data || this.state.data.loading === true) {
+  componentDidUpdate() {
+    const { data } = this.state;
+    if (!data || data.loading === true) {
       this.handleLoadInitialProps(this.props);
     }
-  }*/
+  }
 
   componentWillUnmount() {
     this.location = null;
@@ -55,14 +58,20 @@ class LtiProvider extends React.Component {
 
   onSearchObjectChange(updatedFields) {
     this.setState(prevState => ({
-      searchObject: { ...prevState.searchObject, ...updatedFields }
+      searchObject: {
+        ...prevState.searchObject,
+        ...updatedFields,
+        page: updatedFields.page
+          ? updatedFields.page.toString()
+          : prevState.searchObject.page,
+      },
     }));
   }
 
-  /*static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.location === null) {
       return {
-        location: window.location
+        location: window.location,
       };
     }
     const navigated = window.location !== prevState.location;
@@ -71,20 +80,19 @@ class LtiProvider extends React.Component {
       return {
         hasError: false,
         data: { ...prevState.data, loading: true },
-        location: window.location
+        location: window.location,
       };
     }
 
     // No state update necessary
     return null;
-  }*/
+  }
 
   componentDidCatch(error, info) {
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === 'production') {
       // React prints all errors that occurred during rendering to the console in development
-      //handleError(error, info);
+      handleError(error, info);
     }
-    console.log(window.location);
     this.setState({ hasError: true });
   }
 
@@ -95,45 +103,55 @@ class LtiProvider extends React.Component {
     }
 
     this.location = window.location;
+    const { client } = props;
     let data = [];
-    console.log("DATA1", data);
     try {
       data = await SearchContainer.getInitialProps({
-        client: this.props.client
+        client,
       });
-      console.log("DATA2", data);
     } catch (e) {
-      //handleError(e);
+      handleError(e);
     }
-    console.log(window.location === this.location, this.location);
+
     // Only update state if on the same route
     if (window.location === this.location) {
+      const filtredResourceTypes = data.data.resourceTypes.filter(
+        type => type.id !== 'urn:resourcetype:learningPath',
+      );
       this.setState(prevState => ({
-        data: { ...prevState.data, ...data.data, loading: false }
+        searchObject: {
+          ...prevState.searchObject,
+        },
+        data: {
+          ...prevState.data,
+          ...data.data,
+          resourceTypes: filtredResourceTypes,
+          loading: false,
+        },
       }));
     }
   }
 
   render() {
     const {
-      locale: { abbreviation: locale }
+      locale: { abbreviation: locale },
     } = this.props;
-    const { hasError, searchObject } = this.state;
+    const { hasError, searchObject, data } = this.state;
     if (hasError) {
       return <ErrorPage locale={locale} />;
     }
-    console.log(this.props, "<-props    state->", this.state);
+    console.log('STATE', this.state);
     return (
-      <PageContainer>
+      <div>
         <Helmet htmlAttributes={{ lang: locale }} />
-        {!this.state.data.loading && (
+        {!data.loading && (
           <SearchContainer
-            data={this.state.data}
+            data={data}
             searchObject={searchObject}
             updateSearchLocation={this.onSearchObjectChange}
           />
         )}
-      </PageContainer>
+      </div>
     );
   }
 }
@@ -141,13 +159,13 @@ class LtiProvider extends React.Component {
 LtiProvider.propTypes = {
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired
+    messages: PropTypes.object.isRequired,
   }).isRequired,
   resource: PropTypes.shape({
     article: ArticleShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape)
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
-  status: PropTypes.oneOf(["success", "error"])
+  status: PropTypes.oneOf(['success', 'error']),
 };
 
 export default withApollo(LtiProvider);
