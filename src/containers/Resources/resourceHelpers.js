@@ -37,18 +37,21 @@ export const getLearningPathIdFromResource = resource => {
   return undefined;
 };
 
-export function getLearningPathUrlFromResource(resource, languagePrefix = '') {
-  return `${
-    config.learningPathDomain
-  }${languagePrefix}/learningpaths/${getLearningPathIdFromResource(
-    resource,
-  )}/first-step`;
+export function getLearningPathUrlFromResource(resource, languagePrefix) {
+  return `${config.learningPathDomain}${
+    languagePrefix ? `/${languagePrefix}` : ''
+  }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`;
 }
 
-export const resourceToLinkProps = (resource, subjectTopicPath, filters) => {
+export const resourceToLinkProps = (
+  resource,
+  subjectTopicPath,
+  filters,
+  language,
+) => {
   if (isLearningPathResource(resource)) {
     return {
-      to: getLearningPathUrlFromResource(resource),
+      to: getLearningPathUrlFromResource(resource, language),
       target: '_blank',
       rel: 'noopener noreferrer',
     };

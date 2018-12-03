@@ -220,7 +220,7 @@ class MastheadContainer extends React.PureComponent {
           </DisplayOnPageYOffset>
         </MastheadItem>
         <MastheadItem right>
-          {showSearch && <MastheadSearch subject={subject} />}
+          {showSearch && <MastheadSearch subject={subject} locale={locale} />}
 
           <Logo
             to="/"

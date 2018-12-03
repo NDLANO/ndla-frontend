@@ -69,7 +69,7 @@ class MastheadSearch extends Component {
       : [];
 
   render() {
-    const { t } = this.props;
+    const { t, locale } = this.props;
     const { query, subject } = this.state;
 
     const searchString = queryString.stringify({
@@ -116,7 +116,9 @@ class MastheadSearch extends Component {
                     : '/search'
                 }
                 searchResult={this.mapResults(data.groupSearch)}
-                resourceToLinkProps={searchResultToLinkProps}
+                resourceToLinkProps={res =>
+                  searchResultToLinkProps(res, locale)
+                }
               />
             )
           }
@@ -135,6 +137,7 @@ MastheadSearch.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
+  locale: string,
 };
 
 export default injectT(withRouter(MastheadSearch));
