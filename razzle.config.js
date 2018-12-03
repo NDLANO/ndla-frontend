@@ -46,6 +46,11 @@ module.exports = {
         hints: false,
       };
     }
+
+    if (target === 'node' && !dev) {
+      appConfig.externals = [];
+    }
+
     if (!dev) {
       appConfig.devtool = 'source-map';
     } else {
