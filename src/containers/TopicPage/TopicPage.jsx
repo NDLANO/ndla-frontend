@@ -200,7 +200,6 @@ class TopicPage extends Component {
                 resourceTypes={resourceTypes}
                 coreResources={coreResources}
                 supplementaryResources={supplementaryResources}
-                locale={locale}
               />
             </Fragment>
           </Article>

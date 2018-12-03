@@ -31,26 +31,17 @@ const getResourceType = resource => {
   return null;
 };
 
-const createLearningPathUrl = (id, language) => ({
-  href: `${config.learningPathDomain}${
-    language ? `/${language}` : ''
-  }/learningpaths/${id}/first-step`,
-  target: '_blank',
-  rel: 'noopener noreferrer',
-});
-
-const getUrl = (subject, result, language) => {
+const getUrl = (subject, result) => {
   if (subject.learningResourceType === 'learningpath') {
-    return createLearningPathUrl(result.id, language);
+    return {
+      href: `${config.learningPathDomain}/learningpaths/${
+        result.id
+      }/first-step`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    };
   }
   return `/subjects${subject.path}`;
-};
-
-export const searchResultToLinkProps = (result, language) => {
-  if (result.resourceType === 'urn:resourcetype:learningPath') {
-    return createLearningPathUrl(result.id, language);
-  }
-  return { to: result.path || '/404' };
 };
 
 export const selectContext = (contexts, filters, enabledTab) => {
@@ -91,6 +82,17 @@ const taxonomyData = (result, selectedContext) => {
   return taxonomyResult;
 };
 
+export const searchResultToLinkProps = result => {
+  if (result.resourceType === 'urn:resourcetype:learningPath') {
+    return {
+      to: `${config.learningPathDomain}/learningpaths/${result.id}/first-step`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    };
+  }
+  return { to: result.path || '/404' };
+};
+
 const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
 
 export const converSearchStringToObject = location => {
@@ -122,7 +124,7 @@ export const convertSearchParam = value => {
   return value.length > 0 ? value : undefined;
 };
 
-export const convertResult = (results, subjectFilters, enabledTab, language) =>
+export const convertResult = (results, subjectFilters, enabledTab) =>
   results.map(result => {
     const selectedContext = selectContext(
       result.contexts,
@@ -132,9 +134,7 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
 
     return {
       ...result,
-      url: selectedContext
-        ? getUrl(selectedContext, result, language)
-        : result.url,
+      url: selectedContext ? getUrl(selectedContext, result) : result.url,
       urls: result.contexts.map(context => ({
         url: getUrl(context, result),
         contentType: getContentType(context),

@@ -79,17 +79,14 @@ export async function forwardingRoute(req, res, next) {
 
     const resource = await resolve(data.path);
 
-    const languagePrefix = lang && lang !== 'nb' ? lang : ''; // send urls with nb to root/default lang
+    const languagePrefix = lang && lang !== 'nb' ? `/${lang}` : ''; // send urls with nb to root/default lang
     if (isLearningPathResource(resource)) {
       res.redirect(
         301,
         getLearningPathUrlFromResource(resource, languagePrefix),
       );
     } else {
-      res.redirect(
-        301,
-        `${languagePrefix ? `/${languagePrefix}` : ''}/subjects${data.path}`,
-      );
+      res.redirect(301, `${languagePrefix}/subjects${data.path}`);
     }
   } catch (e) {
     next();

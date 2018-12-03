@@ -61,7 +61,6 @@ class Resources extends Component {
       supplementaryResources,
       coreResources,
       location,
-      locale,
     } = this.props;
 
     if (coreResources.length === 0 && supplementaryResources.length === 0) {
@@ -69,15 +68,12 @@ class Resources extends Component {
     }
 
     const subjectTopicPath = getSubjectTopicPath(params);
-
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(
         resource,
         subjectTopicPath,
         getFiltersFromUrl(location),
-        locale,
       );
-
     if (
       resourceTypes === null ||
       (coreResources === null && supplementaryResources === null)
@@ -168,7 +164,6 @@ Resources.propTypes = {
     }),
   }),
   location: PropTypes.shape({ search: PropTypes.string.isRequired }),
-  locale: PropTypes.string,
 };
 
 export default compose(
