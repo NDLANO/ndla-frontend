@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { SearchResult, SearchResultList } from '@ndla/ui';
-import { func, arrayOf, shape, string, number, node } from 'prop-types';
+import { func, arrayOf, shape, string, number } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
 import { ArticleResultShape } from '../../../shapes';
@@ -57,7 +57,7 @@ const SearchResults = ({
         results={results}
       />
       {customResultList ? (
-        customResultList()
+        customResultList(results, enabledTab)
       ) : (
         <SearchResultList
           messages={{

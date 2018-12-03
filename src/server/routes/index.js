@@ -12,3 +12,4 @@ export { iframeArticleRoute } from './iframeArticleRoute';
 export { oembedArticleRoute } from './oembedArticleRoute';
 export { forwardingRoute } from './forwardingRoute';
 export { ltiRoute } from './ltiRoute';
+export { ltiPostRoute } from './ltiPostRoute';

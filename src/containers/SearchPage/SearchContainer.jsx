@@ -146,7 +146,13 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const { t, searchObject, data, locationSearchParams } = this.props;
+    const {
+      t,
+      searchObject,
+      data,
+      locationSearchParams,
+      customResultList,
+    } = this.props;
     const { subjects } = data;
     const { query } = this.state;
     console.log(data);
@@ -266,6 +272,7 @@ class SearchContainer extends Component {
                 onTabChange={this.updateTab}
                 query={searchObject.query}
                 onUpdateContextFilters={this.onUpdateContextFilters}
+                customResultList={customResultList}
               />
               {search && (
                 <Pager
@@ -307,6 +314,7 @@ SearchContainer.propTypes = {
   searchObject: object,
   updateSearchLocation: func,
   includeLearningPaths: bool,
+  customResultList: func,
 };
 
 SearchContainer.defaultProps = {

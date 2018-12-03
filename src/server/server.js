@@ -26,6 +26,7 @@ import {
   iframeArticleRoute,
   forwardingRoute,
   ltiRoute,
+  ltiPostRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
@@ -151,6 +152,10 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/xml');
   res.sendFile('ltiConfig.xml', { root: './src/server/' });
+});
+
+app.post('/lti', ndlaMiddleware, async (req, res) => {
+  handleRequest(req, res, ltiPostRoute);
 });
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {
