@@ -119,7 +119,9 @@ export const GraphqlResourceTypeWithsubtypesShape = PropTypes.shape({
 
 export const GraphqlErrorShape = PropTypes.shape({
   message: PropTypes.string.isRequired,
-  path: PropTypes.arrayOf(PropTypes.string),
+  path: PropTypes.arrayOf(
+    PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  ),
   status: PropTypes.number,
   json: PropTypes.object,
 });
