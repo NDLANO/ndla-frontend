@@ -49,7 +49,8 @@ module.exports = {
 
     if (target === 'node' && !dev) {
       appConfig.externals = [];
-      appConfig.module.noParse = [/dtrace-provider.js$/, /serializer.js$/];
+      appConfig.module.noParse = [/dtrace-provider.js$/];
+      appConfig.stats = { warningsFilter: /^(?!CriticalDependenciesWarning$)/ };
     }
 
     if (!dev) {
