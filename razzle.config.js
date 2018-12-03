@@ -49,6 +49,11 @@ module.exports = {
 
     if (target === 'node' && !dev) {
       appConfig.externals = [];
+      appConfig.module.noParse = [
+        /dtrace-provider$/,
+        /safe-json-stringify$/,
+        /mv/,
+      ];
     }
 
     if (!dev) {
