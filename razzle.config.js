@@ -49,7 +49,7 @@ module.exports = {
 
     if (target === 'node' && !dev) {
       appConfig.externals = [];
-      appConfig.module.noParse = [/dtrace.js$/, /serializer.js$/];
+      appConfig.module.noParse = [/dtrace-provider.js$/, /serializer.js$/];
     }
 
     if (!dev) {
