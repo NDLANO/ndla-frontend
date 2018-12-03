@@ -4,6 +4,7 @@ import { SearchField } from '@ndla/ui';
 import queryString from 'query-string';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 import { injectT } from '@ndla/i18n';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
@@ -15,11 +16,14 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
 
+const debounceCall = debounce(fun => fun(), 250);
+
 class MastheadSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
       query: '',
+      delayedSearchQuery: '',
       subject: props.subject,
     };
     this.searchFieldRef = React.createRef();
@@ -32,6 +36,7 @@ class MastheadSearch extends Component {
   onQueryChange = evt => {
     const query = evt.target.value;
     this.setState({ query });
+    debounceCall(() => this.setState({ delayedSearchQuery: query }));
   };
 
   onClearQuery = () => {
@@ -69,16 +74,15 @@ class MastheadSearch extends Component {
       : [];
 
   render() {
+    const { query, delayedSearchQuery, subject } = this.state;
     const { t } = this.props;
-    const { query, subject } = this.state;
-
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
       subjects: subject ? subject.id : undefined,
     });
 
     const searchParams = {
-      query,
+      query: delayedSearchQuery,
       subjects: subject ? subject.id : undefined,
       resourceTypes: [
         RESOURCE_TYPE_LEARNING_PATH,
