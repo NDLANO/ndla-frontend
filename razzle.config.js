@@ -49,8 +49,11 @@ module.exports = {
 
     if (target === 'node' && !dev) {
       appConfig.externals = [];
-      appConfig.module.noParse = [/dtrace-provider.js$/];
-      appConfig.stats = { warningsFilter: /^(?!CriticalDependenciesWarning$)/ };
+      appConfig.module.noParse = [
+        /dtrace-provider.js$/,
+        /iconv-loader.js$/,
+        /express\/lib\/view.js$/,
+      ];
     }
 
     if (!dev) {
