@@ -2,11 +2,6 @@ const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-// const ci =
-//   process.env.CI &&
-//   (typeof process.env.CI !== 'string' ||
-//     process.env.CI.toLowerCase() !== 'false');
-process.env.CI = false;
 module.exports = {
   modify(config, { target, dev }) {
     const appConfig = config;
@@ -53,7 +48,12 @@ module.exports = {
     }
 
     if (target === 'node' && !dev) {
+      // This change bundles node_modules into server.js. The result is smaller Docker images.
+      // It triggers a couple of «Critical dependency: the request of a dependency is an
+      // expression warning» which we can safely ignore.
       appConfig.externals = [];
+      // Razzle/CRA breaks the build on webpack warnings. Disable CI env to circumvent the check.
+      process.env.CI = false;
     }
 
     if (!dev) {
