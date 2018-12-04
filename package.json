@@ -31,6 +31,7 @@
     "npm": ">=5.0.0"
   },
   "devDependencies": {
+    "@ndla/scripts": "^0.7.3",
     "chalk": "^2.4.1",
     "cypress": "3.1.0",
     "eslint": "^5.6.1",
@@ -53,7 +54,6 @@
     "@ndla/licenses": "^0.4.1",
     "@ndla/modal": "^0.2.4",
     "@ndla/pager": "^0.3.3",
-    "@ndla/scripts": "^0.7.3",
     "@ndla/tabs": "^0.9.3",
     "@ndla/tracker": "^0.3.1",
     "@ndla/ui": "^0.18.9",
