@@ -2,6 +2,11 @@ const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+// const ci =
+//   process.env.CI &&
+//   (typeof process.env.CI !== 'string' ||
+//     process.env.CI.toLowerCase() !== 'false');
+process.env.CI = false;
 module.exports = {
   modify(config, { target, dev }) {
     const appConfig = config;
@@ -49,11 +54,6 @@ module.exports = {
 
     if (target === 'node' && !dev) {
       appConfig.externals = [];
-      appConfig.module.noParse = [
-        /dtrace-provider.js$/,
-        /iconv-loader.js$/,
-        /express\/lib\/view.js$/,
-      ];
     }
 
     if (!dev) {
