@@ -151,7 +151,7 @@ class SearchContainer extends Component {
   };
 
   render() {
-    const { t, location, data, loading } = this.props;
+    const { t, location, data, loading, locale } = this.props;
     if (loading) {
       return null;
     }
@@ -271,6 +271,7 @@ class SearchContainer extends Component {
                       search.results,
                       searchObject.subjects,
                       enabledTab,
+                      locale,
                     )
                   }
                   resourceTypes={
@@ -331,6 +332,7 @@ SearchContainer.propTypes = {
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
   loading: PropTypes.bool.isRequired,
+  locale: PropTypes.string,
 };
 
 SearchContainer.defaultProps = {

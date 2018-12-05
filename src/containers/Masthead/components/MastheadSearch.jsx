@@ -75,7 +75,8 @@ class MastheadSearch extends Component {
 
   render() {
     const { query, delayedSearchQuery, subject } = this.state;
-    const { t } = this.props;
+    const { t, locale } = this.props;
+
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
       subjects: subject ? subject.id : undefined,
@@ -120,7 +121,9 @@ class MastheadSearch extends Component {
                     : '/search'
                 }
                 searchResult={this.mapResults(data.groupSearch)}
-                resourceToLinkProps={searchResultToLinkProps}
+                resourceToLinkProps={res =>
+                  searchResultToLinkProps(res, locale)
+                }
               />
             )
           }
@@ -139,6 +142,7 @@ MastheadSearch.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
+  locale: string,
 };
 
 export default injectT(withRouter(MastheadSearch));
