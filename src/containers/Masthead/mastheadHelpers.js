@@ -13,6 +13,25 @@ export function toTopicWithSubjectIdBound(subjectId, filters) {
   return toTopic.bind(undefined, subjectId, filters);
 }
 
+function getContentTypeResults(
+  topicId,
+  selectedTopicIds,
+  topicResourcesByType,
+) {
+  if (!selectedTopicIds.includes(topicId)) {
+    return null;
+  }
+  return topicResourcesByType.map(type => ({
+    contentType: contentTypeMapping[type.id],
+    resources: type.resources.map(resource => ({
+      ...resource,
+      path: resource.path,
+      additional: resource.additional,
+    })),
+    title: type.name,
+  }));
+}
+
 export function mapTopicResourcesToTopic(
   topics,
   selectedTopicId,
@@ -20,33 +39,27 @@ export function mapTopicResourcesToTopic(
   expandedSubTopics = [],
 ) {
   return topics.map(topic => {
-    if (topic.subtopics && topic.subtopics.length > 0) {
-      return {
-        ...topic,
-        subtopics: mapTopicResourcesToTopic(
-          topic.subtopics,
-          selectedTopicId,
-          topicResourcesByType,
-          expandedSubTopics,
-        ),
-      };
-    }
-    if (
-      (expandedSubTopics.length === 0 && topic.id === selectedTopicId) ||
-      expandedSubTopics.includes(topic.id)
-    ) {
-      const contentTypeResults = topicResourcesByType.map(type => ({
-        contentType: contentTypeMapping[type.id],
-        resources: type.resources.map(resource => ({
-          ...resource,
-          path: resource.path,
-          additional: resource.additional,
-        })),
-        title: type.name,
-      }));
-      return { ...topic, contentTypeResults };
-    }
-    return topic;
+    const subtopics =
+      topic.subtopics && topic.subtopics.length > 0
+        ? mapTopicResourcesToTopic(
+            topic.subtopics,
+            selectedTopicId,
+            topicResourcesByType,
+            expandedSubTopics,
+          )
+        : [];
+
+    const contentTypeResults = getContentTypeResults(
+      topic.id,
+      [selectedTopicId, ...expandedSubTopics],
+      topicResourcesByType,
+    );
+
+    return {
+      ...topic,
+      contentTypeResults,
+      subtopics,
+    };
   });
 }
 
