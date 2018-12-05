@@ -7,7 +7,7 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { FrontpageSubjects as FrontpageSubjectsSection } from '@ndla/ui';
@@ -17,10 +17,7 @@ import {
   GraphQLSimpleSubjectShape,
 } from '../../graphqlShapes';
 import config from '../../config';
-import {
-  OLD_CATEGORIES_WITH_SUBJECTS,
-  ALLOWED_SUBJECTS,
-} from '../../constants';
+import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -38,79 +35,140 @@ const sortByName = arr =>
     return 0;
   });
 
-function flattenSubjectsFrontpageFilters(subjects) {
-  return subjects.reduce((acc, subject) => {
-    if (subject.frontpageFilters && subject.frontpageFilters.length > 0) {
-      const subjectFilters = subject.frontpageFilters.map(filter => ({
-        ...subject,
-        name: filter.name,
-        id: `${subject.id}?filters=${filter.id}`,
-      }));
-      return [...acc, ...subjectFilters];
-    }
-    return [...acc, subject];
-  }, []);
+function findMatchingFrontpageFilter(subjectsFromApi, subject) {
+  const subjectFromApi = subjectsFromApi.find(s => s.id === subject.id);
+  if (
+    subjectFromApi &&
+    subjectFromApi.frontpageFilters &&
+    subjectFromApi.frontpageFilters.length > 0
+  ) {
+    const found = subjectFromApi.frontpageFilters.find(filter =>
+      subject.name.includes(filter.name),
+    );
+    return found;
+  }
+  return undefined;
 }
 
-export const getCategoriesWithAllSubjects = (
+function createSubjectFilterUrl(subject, filter) {
+  const baseUrl = toSubject(subject.id);
+  if (filter) {
+    return `${baseUrl}?filters=${filter.id}`;
+  }
+  return baseUrl;
+}
+
+function findCategoryByName(categoriesFromApi, name) {
+  const found = categoriesFromApi.find(category => category.name === name);
+  if (found) {
+    return found.subjects;
+  }
+  return [];
+}
+
+function isAllowed(subjectId, preview) {
+  if (preview) {
+    return true;
+  }
+  return ALLOWED_SUBJECTS.includes(subjectId);
+}
+
+function isAllowedNewSubject(subject, preview) {
+  if (subject.id && isAllowed(subject.id, preview)) {
+    return true;
+  }
+  return false;
+}
+
+export const mapHardCodedCategories = (
   categoriesFromApi = [],
   locale,
+  preview = false,
 ) => {
   // en is only valid for english nodes in old system
   const lang = locale === 'en' ? 'nb' : locale;
-  return categoriesFromApi.map(category => {
-    const allowedSubjects = category.subjects.filter(subject =>
-      ALLOWED_SUBJECTS.includes(subject.id),
+  const hardCodedCategories = FRONTPAGE_CATEGORIES.categories;
+
+  return hardCodedCategories.map(category => {
+    const subjectsFromApi = findCategoryByName(
+      categoriesFromApi,
+      category.name,
     );
-    const flattened = flattenSubjectsFrontpageFilters(allowedSubjects);
-    const newSubjects = flattened.map(categorySubject => ({
-      ...categorySubject,
-      text: categorySubject.name,
-      url: toSubject(categorySubject.id),
-      yearInfo: categorySubject.yearInfo,
+
+    const newSubjects = category.subjects.filter(subject =>
+      isAllowedNewSubject(subject, preview),
+    );
+    const oldSubjects = category.subjects
+      .filter(subject => !isAllowedNewSubject(subject, preview))
+      .filter(subject => subject.nodeId); // N.B. remove new subjects which are not allowed
+
+    const mappedNewSubjects = newSubjects.map(subject => ({
+      ...subject,
+      text: subject.name,
+      url: createSubjectFilterUrl(
+        subject,
+        findMatchingFrontpageFilter(subjectsFromApi, subject),
+      ),
     }));
 
-    const oldSubjects = OLD_CATEGORIES_WITH_SUBJECTS[category.name]
-      .map(subject => ({
-        ...subject,
-        id: subject.nodeId,
-        text: subject.name,
-        url: subject.lang
-          ? `/${subject.lang}/node/${subject.nodeId}`
-          : `/${lang}/node/${subject.nodeId}`,
-        yearInfo: subject.yearInfo,
-      }))
-      .filter(
-        oldSubject =>
-          newSubjects.find(newSubject =>
-            oldSubject.name.startsWith(newSubject.name),
-          ) === undefined,
-      );
+    const mappedOldSubjects = oldSubjects.map(subject => ({
+      ...subject,
+      id: subject.nodeId,
+      text: subject.name,
+      url: subject.lang
+        ? `/${subject.lang}/node/${subject.nodeId}`
+        : `/${lang}/node/${subject.nodeId}`,
+    }));
+
     return {
       ...category,
-      subjects: sortByName([...oldSubjects, ...newSubjects]),
+      subjects: sortByName([...mappedOldSubjects, ...mappedNewSubjects]),
     };
   });
 };
 
-const FrontpageSubjects = ({ categories, subjects, locale }) => {
-  const frontpageCategories = getCategoriesWithAllSubjects(categories, locale);
+class FrontpageSubjects extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { preview: false };
+  }
 
-  const allSubjects = config.isNdlaProdEnvironment
-    ? frontpageCategories
-    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+  componentDidMount() {
+    if (
+      document.location.search &&
+      document.location.search.includes('preview')
+    ) {
+      this.setState({ preview: true });
+    }
+  }
 
-  return (
-    <FrontpageSubjectsSection
-      linkToAbout={
-        <a rel="noopener noreferrer" target="_blank" href="https://om.ndla.no">
-          om.ndla.no
-        </a>
-      }
-      categories={allSubjects}
-    />
-  );
-};
+  render() {
+    const { categories, subjects, locale } = this.props;
+    const frontpageCategories = mapHardCodedCategories(
+      categories,
+      locale,
+      this.state.preview,
+    );
+
+    const allSubjects = config.isNdlaProdEnvironment
+      ? frontpageCategories
+      : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+
+    return (
+      <FrontpageSubjectsSection
+        linkToAbout={
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://om.ndla.no">
+            om.ndla.no
+          </a>
+        }
+        categories={allSubjects}
+      />
+    );
+  }
+}
 
 FrontpageSubjects.propTypes = {
   locale: PropTypes.string.isRequired,
