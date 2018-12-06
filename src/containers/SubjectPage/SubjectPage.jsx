@@ -47,7 +47,7 @@ class SubjectPage extends Component {
   }
 
   static getDocumentTitle({ t, data }) {
-    return `${data && data.subject ? data.subject.name : ''} ${t(
+    return `${data && data.subject ? data.subject.name : ''}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
