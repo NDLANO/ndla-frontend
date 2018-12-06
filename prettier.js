@@ -44,7 +44,7 @@ try {
     console.log( // eslint-disable-line
       `${chalk.red(`\nThis project uses prettier to format all JavaScript code.\n`) +
         chalk.dim(`Please run `) +
-        chalk.reset('yarn prettier') +
+        chalk.reset('yarn format') +
         chalk.dim(` and add changes to files listed above to your commit.`)
        }\n`
     );
