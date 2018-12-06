@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { ChevronRight, Additional } from '@ndla/icons/common';
 import { Tooltip, SafeLink } from '@ndla/ui';
-import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
+import LtiEmbed from './LtiEmbed';
 
 const searchResultItemClasses = BEMHelper('c-search-result-item');
 
@@ -31,7 +31,7 @@ const LtiSearchResultItem = ({
   item,
   subjectsLabel,
   additionalContentToolip,
-  onEmbedArticle,
+  ltiData,
 }) => (
   <li key={item.id} {...searchResultItemClasses()}>
     <article>
@@ -66,7 +66,7 @@ const LtiSearchResultItem = ({
               <Additional className="c-icon--20" />
             </span>
           ))}
-        <Button onClick={() => onEmbedArticle(item)}>Embed</Button>
+        <LtiEmbed ltiData={ltiData} item={item} />
       </header>
       {item.breadcrumb &&
         item.breadcrumb.length > 0 && (
@@ -118,10 +118,9 @@ LtiSearchResultItem.propTypes = {
   item: searchResultItemShape.isRequired,
   additionalContentToolip: PropTypes.string.isRequired,
   subjectsLabel: PropTypes.string.isRequired,
-  onEmbedArticle: PropTypes.func.isRequired,
 };
 
-const LtiSearchResultList = ({ results, onEmbedArticle, t }) => {
+const LtiSearchResultList = ({ results, ltiData, t }) => {
   if (!results) return <article className="c-search-result-list__empty" />;
   return results.length === 0 ? (
     <article className="c-search-result-list__empty">
@@ -135,8 +134,8 @@ const LtiSearchResultList = ({ results, onEmbedArticle, t }) => {
           key={`search_result_item_${
             typeof item.url === 'object' ? item.url.href : item.url
           }`}
-          onEmbedArticle={onEmbedArticle}
           item={item}
+          ltiData={ltiData}
           additionalContentToolip={t('resource.tooltipAdditionalTopic')}
           subjectsLabel={t('searchPage.searchResultListMessages.subjectsLabel')}
         />
@@ -147,7 +146,6 @@ const LtiSearchResultList = ({ results, onEmbedArticle, t }) => {
 
 LtiSearchResultList.propTypes = {
   results: PropTypes.arrayOf(searchResultItemShape),
-  onEmbedArticle: PropTypes.func.isRequired,
 };
 
 export default injectT(LtiSearchResultList);

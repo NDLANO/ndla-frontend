@@ -9,13 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { PageContainer } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withApollo } from 'react-apollo';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import { resultsWithContentTypeBadgeAndImage } from '../containers/SearchPage/searchHelpers';
-
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import LtiSearchResultList from './LtiSearchResultList';
@@ -44,7 +42,6 @@ class LtiProvider extends React.Component {
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
     this.onSearchObjectChange = this.onSearchObjectChange.bind(this);
     this.getResultComponent = this.getResultComponent.bind(this);
-    this.onEmbedArticle = this.onEmbedArticle.bind(this);
   }
 
   componentDidMount() {
@@ -60,10 +57,6 @@ class LtiProvider extends React.Component {
 
   componentWillUnmount() {
     this.location = null;
-  }
-
-  onEmbedArticle(article) {
-    console.log(article);
   }
 
   onSearchObjectChange(updatedFields) {
@@ -99,7 +92,7 @@ class LtiProvider extends React.Component {
   }
 
   getResultComponent(results, enabledTab) {
-    const { t } = this.props;
+    const { t, ltiData } = this.props;
     return (
       <LtiSearchResultList
         messages={{
@@ -111,7 +104,7 @@ class LtiProvider extends React.Component {
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        onEmbedArticle={this.onEmbedArticle}
+        ltiData={ltiData}
         results={
           results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
         }
@@ -171,7 +164,7 @@ class LtiProvider extends React.Component {
     if (hasError) {
       return <ErrorPage locale={locale} />;
     }
-    console.log('STATE', this.state);
+    console.log('STATE', this.state, 'PROPS ->', this.props);
     return (
       <div>
         <Helmet htmlAttributes={{ lang: locale }} />

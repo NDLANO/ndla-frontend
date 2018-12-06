@@ -8,10 +8,19 @@
 
 import defined from 'defined';
 import Helmet from 'react-helmet';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { INTERNAL_SERVER_ERROR, BAD_REQUEST, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
+
+const bodyFields = {
+  lti_message_type: { required: true, value: 'basic-lti-launch-request' },
+  lti_version: { required: true, value: 'LTI-1p0' },
+  launch_presentation_return_url: { required: false },
+  launch_presentation_document_target: { required: false },
+  launch_presentation_height: { required: false },
+  launch_presentation_width: { required: false },
+};
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -40,7 +49,53 @@ function doRenderPage(initialProps) {
   return { html, docProps: { ...docProps, useZendesk: false } };
 }
 
+export function parseAndValidateParameters(body) {
+  let validBody = true;
+  const errorMessages = [];
+  Object.keys(bodyFields).forEach(key => {
+    const bodyValue = body[key];
+    if (bodyFields[key].required && !bodyValue) {
+      validBody = false;
+      errorMessages.push({ field: key, message: 'Missing required field' });
+      return;
+    }
+    if (bodyFields[key].value && bodyFields[key].value !== bodyValue) {
+      errorMessages.push({
+        field: key,
+        message: `Value should be ${bodyFields[key].value}`,
+      });
+      validBody = false;
+    }
+  });
+  return validBody
+    ? {
+        valid: true,
+        ltiData: {
+          ...body,
+        },
+      }
+    : { valid: false, messages: errorMessages };
+}
+
 export async function ltiRoute(req) {
+  const isPostRequest = req.method === 'POST';
+  const validParameters = isPostRequest
+    ? parseAndValidateParameters(req.body)
+    : {};
+
+  if (isPostRequest) {
+    if (!validParameters.valid) {
+      return {
+        status: BAD_REQUEST,
+        data: `Bad request. ${validParameters.messages
+          .map(
+            message => `Field ${message.field} with error: ${message.message}.`,
+          )
+          .join(', ')}`,
+      };
+    }
+  }
+
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
   console.log(locale);
@@ -48,6 +103,7 @@ export async function ltiRoute(req) {
     const { html, docProps } = doRenderPage({
       locale,
       status: 'success',
+      ltiData: validParameters.ltiData,
     });
 
     return renderHtml(req, html, { status: OK }, docProps);

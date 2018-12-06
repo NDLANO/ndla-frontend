@@ -26,7 +26,7 @@ import {
   iframeArticleRoute,
   forwardingRoute,
   ltiRoute,
-  ltiPostRoute,
+  ltiEmbedRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
@@ -34,9 +34,13 @@ import handleError from '../util/handleError';
 import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
+import ltiConfig from './ltiConfig';
 
 const app = express();
-const allowedBodyContentTypes = ['application/json'];
+const allowedBodyContentTypes = [
+  'application/json',
+  'application/x-www-form-urlencoded',
+];
 
 app.disable('x-powered-by');
 
@@ -44,6 +48,7 @@ const ndlaMiddleware = [
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
+  bodyParser.urlencoded(),
   bodyParser.json({
     type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
@@ -52,7 +57,7 @@ const ndlaMiddleware = [
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy,
+    //contentSecurityPolicy,
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
@@ -115,10 +120,12 @@ async function handleRequest(req, res, route) {
       const { data, status } = await route(req);
       sendResponse(res, data, status);
     } catch (e) {
+      console.log('err1', e);
       handleError(e);
       await sendInternalServerError(req, res);
     }
   } catch (e) {
+    console.log('err2', e);
     handleError(e);
     await sendInternalServerError(req, res);
   }
@@ -128,6 +135,15 @@ app.get('/static/*', ndlaMiddleware);
 
 app.get(
   '/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
+
+app.post(
+  '/lti/article-iframe/:lang/article/:articleId',
   ndlaMiddleware,
   async (req, res) => {
     res.removeHeader('X-Frame-Options');
@@ -151,11 +167,25 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/xml');
-  res.sendFile('ltiConfig.xml', { root: './src/server/' });
+  res.send(ltiConfig());
+  // res.sendFile('ltiConfig.xml', { root: './src/server/' });
 });
 
+app.post('/lti/embed', ndlaMiddleware, async (req, res) => {
+  handleRequest(req, res, ltiEmbedRoute);
+});
+
+app.post(
+  '/lti/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  async (req, res) => {
+    res.removeHeader('X-Frame-Options');
+    handleRequest(req, res, iframeArticleRoute);
+  },
+);
+
 app.post('/lti', ndlaMiddleware, async (req, res) => {
-  handleRequest(req, res, ltiPostRoute);
+  handleRequest(req, res, ltiRoute);
 });
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {

@@ -72,6 +72,7 @@ const gaTrackingId = () => {
 
 const config = {
   componentName: 'ndla-frontend',
+  ndlaEnvironment,
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
