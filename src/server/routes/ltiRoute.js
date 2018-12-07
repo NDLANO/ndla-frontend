@@ -98,7 +98,7 @@ export async function ltiRoute(req) {
 
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
-  console.log(locale);
+
   try {
     const { html, docProps } = doRenderPage({
       locale,

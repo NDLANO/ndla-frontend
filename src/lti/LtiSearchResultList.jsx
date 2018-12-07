@@ -9,7 +9,7 @@ import LtiEmbed from './LtiEmbed';
 
 const searchResultItemClasses = BEMHelper('c-search-result-item');
 
-const searchResultItemShape = PropTypes.shape({
+export const searchResultItemShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   url: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
@@ -118,6 +118,10 @@ LtiSearchResultItem.propTypes = {
   item: searchResultItemShape.isRequired,
   additionalContentToolip: PropTypes.string.isRequired,
   subjectsLabel: PropTypes.string.isRequired,
+  ltiData: PropTypes.shape({
+    launch_presentation_return_url: PropTypes.string,
+    launch_presentation_document_target: PropTypes.string,
+  }),
 };
 
 const LtiSearchResultList = ({ results, ltiData, t }) => {
@@ -146,6 +150,10 @@ const LtiSearchResultList = ({ results, ltiData, t }) => {
 
 LtiSearchResultList.propTypes = {
   results: PropTypes.arrayOf(searchResultItemShape),
+  ltiData: PropTypes.shape({
+    launch_presentation_return_url: PropTypes.string,
+    launch_presentation_document_target: PropTypes.string,
+  }),
 };
 
 export default injectT(LtiSearchResultList);

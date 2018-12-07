@@ -3,14 +3,12 @@ import config from '../config';
 const ltiConfig = () => {
   const launchUrl =
     config.ndlaEnvironment === 'dev'
-      ? 'http://localhost:3000'
+      ? 'http://host.docker.internal:3000'
       : config.ndlaFrontendDomain;
 
   const domainXML =
     config.ndlaEnvironment === 'dev'
-      ? `<lticm:property name="domain">${
-          config.ndlaFrontendDomain
-        }</lticm:property>`
+      ? `<lticm:property name="domain">host.docker.internal</lticm:property>`
       : '';
   return `<?xml version="1.0" encoding="UTF-8"?>
 <cartridge_basiclti_link

@@ -161,10 +161,11 @@ class LtiProvider extends React.Component {
       locale: { abbreviation: locale },
     } = this.props;
     const { hasError, searchObject, data } = this.state;
+
     if (hasError) {
       return <ErrorPage locale={locale} />;
     }
-    console.log('STATE', this.state, 'PROPS ->', this.props);
+
     return (
       <div>
         <Helmet htmlAttributes={{ lang: locale }} />
@@ -191,6 +192,10 @@ LtiProvider.propTypes = {
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   status: PropTypes.oneOf(['success', 'error']),
+  ltiData: PropTypes.shape({
+    launch_presentation_return_url: PropTypes.string,
+    launch_presentation_document_target: PropTypes.string,
+  }),
 };
 
 export default injectT(withApollo(LtiProvider));

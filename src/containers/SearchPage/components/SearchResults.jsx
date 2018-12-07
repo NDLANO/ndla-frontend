@@ -28,7 +28,6 @@ const SearchResults = ({
 }) => {
   const enabledTab = filterState.resourceTypes || filterState.contextTypes;
   const { totalCount = '' } = resultMetadata || {};
-  console.log('hey', enabledTab);
   return (
     <SearchResult
       messages={{

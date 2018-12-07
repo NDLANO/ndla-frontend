@@ -7,7 +7,6 @@
  */
 
 import 'isomorphic-unfetch';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorReporter from '@ndla/error-reporter';
@@ -22,10 +21,9 @@ import '../style/index.css';
 const {
   DATA: { initialProps, config, ids },
 } = window;
-const { abbreviation, messages, basename } = getLocaleInfoFromPath(
+const { abbreviation, messages } = getLocaleInfoFromPath(
   window.location.pathname,
 );
-console.log(window.DATA);
 hydrate(ids);
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;

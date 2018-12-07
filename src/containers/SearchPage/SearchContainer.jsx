@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, Fragment } from 'react';
-import { func, number, string, arrayOf, shape, bool, object } from 'prop-types';
+import React, { Component } from 'react';
+import { func, number, string, arrayOf, shape, bool } from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -155,7 +155,6 @@ class SearchContainer extends Component {
     } = this.props;
     const { subjects } = data;
     const { query } = this.state;
-    console.log(data);
     const stateSearchParams = {};
     Object.keys(searchObject).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchObject[key]);
@@ -170,8 +169,6 @@ class SearchContainer extends Component {
       resourceTypes: this.getResourceTypes(stateSearchParams),
       contextFilters: undefined,
     };
-
-    console.log('searchParamsToGraphQL', searchParamsToGraphQL);
 
     const activeSubjectsMapped =
       subjects && subjects.length > 0
@@ -310,8 +307,21 @@ SearchContainer.propTypes = {
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
   saveInUrl: bool,
-  locationSearchParams: object,
-  searchObject: object,
+  locationSearchParams: shape({
+    languageFilter: string,
+    contextTypes: string,
+    page: string,
+    resourceTypes: string,
+    subject: string,
+  }),
+  searchObject: shape({
+    contextFilters: arrayOf(string),
+    languageFilter: arrayOf(string),
+    levels: arrayOf(string),
+    page: string,
+    resourceTypes: string,
+    subjects: arrayOf(string),
+  }),
   updateSearchLocation: func,
   includeLearningPaths: bool,
   customResultList: func,
