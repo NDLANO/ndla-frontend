@@ -207,6 +207,7 @@ class MastheadContainer extends React.PureComponent {
               filters={filters}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
+              locale={locale}
             />
           )}
           <DisplayOnPageYOffset yOffsetMin={150}>
