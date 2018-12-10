@@ -77,7 +77,7 @@ const taxonomyData = (result, selectedContext) => {
       contentType: getContentType(selectedContext),
       contentTypes: result.contexts.map(context => getContentType(context)),
       subjects:
-        result.contexts > 1
+        result.contexts.length > 1
           ? result.contexts.map(subject => ({
               url: getUrl(subject, result),
               title: subject.subject,
