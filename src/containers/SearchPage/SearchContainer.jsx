@@ -284,13 +284,14 @@ class SearchContainer extends Component {
               filters={searchFilters}>
               <SearchResults
                 results={
-                  isReadyToShow &&
-                  convertResult(
-                    search.results,
-                    searchObject.subjects,
-                    enabledTab,
-                    locale,
-                  )
+                  isReadyToShow
+                    ? convertResult(
+                        search.results,
+                        searchObject.subjects,
+                        enabledTab,
+                        locale,
+                      )
+                    : []
                 }
                 resourceTypes={
                   data && data.resourceTypes ? data.resourceTypes : []

@@ -172,7 +172,7 @@ class LtiProvider extends React.Component {
         <Helmet htmlAttributes={{ lang: locale }} />
         <SearchContainer
           data={data}
-          locale="nb"
+          locale={locale}
           loading={data ? data.loading : false}
           searchObject={searchObject}
           updateSearchLocation={this.onSearchObjectChange}

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
+import styled from 'react-emotion';
 import { ChevronRight, Additional } from '@ndla/icons/common';
 import { Tooltip, SafeLink } from '@ndla/ui';
 import { uuid } from '@ndla/util';
@@ -8,6 +9,11 @@ import { injectT } from '@ndla/i18n';
 import LtiEmbed from './LtiEmbed';
 
 const searchResultItemClasses = BEMHelper('c-search-result-item');
+
+const HeaderWrapper = styled('div')`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export const searchResultItemShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -35,39 +41,41 @@ const LtiSearchResultItem = ({
 }) => (
   <li key={item.id} {...searchResultItemClasses()}>
     <article>
-      <header {...searchResultItemClasses('header')}>
-        <h1>
-          {item.url.href ? (
-            <a {...item.url}>{item.title}</a>
-          ) : (
-            <SafeLink to={item.url}>{item.title}</SafeLink>
-          )}
-        </h1>
+      <HeaderWrapper>
+        <header {...searchResultItemClasses('header')}>
+          <h1>
+            {item.url.href ? (
+              <a {...item.url}>{item.title}</a>
+            ) : (
+              <SafeLink to={item.url}>{item.title}</SafeLink>
+            )}
+          </h1>
 
-        <div {...searchResultItemClasses('content-type-wrapper')}>
-          {item.contentTypeIcon}
-          <span {...searchResultItemClasses('content-type-label')}>
-            {item.contentTypeLabel}
-          </span>
-        </div>
-        {item.type && (
-          <div {...searchResultItemClasses('pills')}>{item.type}</div>
-        )}
-        {item.additional &&
-          (additionalContentToolip ? (
-            <Tooltip
-              id={`search-additional-tooltip-${item.id}`}
-              tooltip={additionalContentToolip}
-              {...searchResultItemClasses('additional')}>
-              <Additional className="c-icon--20" />
-            </Tooltip>
-          ) : (
-            <span {...searchResultItemClasses('additional')}>
-              <Additional className="c-icon--20" />
+          <div {...searchResultItemClasses('content-type-wrapper')}>
+            {item.contentTypeIcon}
+            <span {...searchResultItemClasses('content-type-label')}>
+              {item.contentTypeLabel}
             </span>
-          ))}
+          </div>
+          {item.type && (
+            <div {...searchResultItemClasses('pills')}>{item.type}</div>
+          )}
+          {item.additional &&
+            (additionalContentToolip ? (
+              <Tooltip
+                id={`search-additional-tooltip-${item.id}`}
+                tooltip={additionalContentToolip}
+                {...searchResultItemClasses('additional')}>
+                <Additional className="c-icon--20" />
+              </Tooltip>
+            ) : (
+              <span {...searchResultItemClasses('additional')}>
+                <Additional className="c-icon--20" />
+              </span>
+            ))}
+        </header>
         <LtiEmbed ltiData={ltiData} item={item} />
-      </header>
+      </HeaderWrapper>
       {item.breadcrumb &&
         item.breadcrumb.length > 0 && (
           <div {...searchResultItemClasses('breadcrumb')}>

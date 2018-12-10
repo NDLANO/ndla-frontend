@@ -1,7 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
+
+const MarginLeftParagraph = styled('p')`
+  margin-left: 26px;
+`;
 
 const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
   if (!isOpen) {
@@ -11,19 +16,20 @@ const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
     <Modal
       controllable
       isOpen={isOpen}
-      size="small"
+      size="medium"
+      width="20vw"
       backgroundColor="white"
       onClose={onClose}>
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
-            <ModalCloseButton title={t('modal.close')} onClick={onCloseModal} />
+            <ModalCloseButton
+              title={t('modal.closeModal')}
+              onClick={onCloseModal}
+            />
           </ModalHeader>
           <ModalBody>
-            <p>
-              Det fungerte ikke å sette inn innholdet automatisk. Du kan kopiere
-              kildekoden under i ditt innhold.
-            </p>
+            <MarginLeftParagraph>{t('lti.notSupported')}</MarginLeftParagraph>
             <pre>
               <code>{code}</code>
             </pre>

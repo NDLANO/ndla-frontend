@@ -56,7 +56,7 @@
     "@ndla/pager": "^0.3.3",
     "@ndla/tabs": "^0.9.3",
     "@ndla/tracker": "^0.3.1",
-    "@ndla/ui": "^0.18.10",
+    "@ndla/ui": "^0.18.11",
     "@ndla/util": "^0.3.1",
     "apollo-cache-inmemory": "^1.3.5",
     "apollo-client": "^2.4.2",
