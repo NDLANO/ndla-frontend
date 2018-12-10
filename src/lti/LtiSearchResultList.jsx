@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import styled from 'react-emotion';
 import { ChevronRight, Additional } from '@ndla/icons/common';
-import { Tooltip, SafeLink } from '@ndla/ui';
+import { Tooltip } from '@ndla/ui';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
 import LtiEmbed from './LtiEmbed';
@@ -47,7 +47,9 @@ const LtiSearchResultItem = ({
             {item.url.href ? (
               <a {...item.url}>{item.title}</a>
             ) : (
-              <SafeLink to={item.url}>{item.title}</SafeLink>
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                {item.title}
+              </a>
             )}
           </h1>
 
@@ -111,7 +113,12 @@ const LtiSearchResultItem = ({
                   {subject.url.href ? (
                     <a {...subject.url}>{subject.title}</a>
                   ) : (
-                    <SafeLink to={subject.url}>{subject.title}</SafeLink>
+                    <a
+                      href={subject.url}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {subject.title}
+                    </a>
                   )}
                 </li>
               ))}

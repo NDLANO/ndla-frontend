@@ -17,6 +17,7 @@ import { resultsWithContentTypeBadgeAndImage } from '../containers/SearchPage/se
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import LtiSearchResultList from './LtiSearchResultList';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
 
 class LtiProvider extends React.Component {
   constructor(props) {
@@ -141,8 +142,9 @@ class LtiProvider extends React.Component {
     // Only update state if on the same route
     if (window.location === this.location) {
       const filtredResourceTypes = data.data.resourceTypes.filter(
-        type => type.id !== 'urn:resourcetype:learningPath',
+        type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
       );
+      window.scrollTo(0, 0);
       this.setState(prevState => ({
         searchObject: {
           ...prevState.searchObject,

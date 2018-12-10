@@ -74,8 +74,17 @@ class LtiEmbed extends Component {
   }
 
   async showEmbedCode(item) {
-    const oembed = await fetchArticleOembed(item.url);
-    this.setState({ isOpen: true, embedCode: oembed.html });
+    if (item.url.href) {
+      this.setState({
+        isOpen: true,
+        embedCode: `<iframe src="${
+          item.url.href
+        }" frameborder="0" allowFullscreen=""/>`,
+      });
+    } else {
+      const oembed = await fetchArticleOembed(item.url);
+      this.setState({ isOpen: true, embedCode: oembed.html });
+    }
   }
 
   hideEmbedCode() {
@@ -120,7 +129,6 @@ LtiEmbed.propTypes = {
     launch_presentation_document_target: PropTypes.string,
   }),
   item: searchResultItemShape,
-  showEmbedCode: PropTypes.func.isRequired,
 };
 
 export default injectT(LtiEmbed);
