@@ -166,6 +166,7 @@ class ArticlePage extends Component {
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
+                locale={locale}
               />
             )}
           </ArticleErrorMessage>
@@ -216,6 +217,7 @@ class ArticlePage extends Component {
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
+                locale={locale}
               />
             )}
           </Article>

@@ -47,7 +47,7 @@ class SubjectPage extends Component {
   }
 
   static getDocumentTitle({ t, data }) {
-    return `${data && data.subject ? data.subject.name : ''} ${t(
+    return `${data && data.subject ? data.subject.name : ''}${t(
       'htmlTitles.titleTemplate',
     )}`;
   }
@@ -120,6 +120,13 @@ class SubjectPage extends Component {
       <article>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
+          {subject.subjectpage &&
+            subject.subjectpage.metaDescription && (
+              <meta
+                name="description"
+                content={subject.subjectpage.metaDescription}
+              />
+            )}
         </Helmet>
         <SubjectHeader
           heading={subjectName || ''}

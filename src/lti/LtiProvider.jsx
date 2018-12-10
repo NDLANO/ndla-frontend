@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
@@ -34,6 +34,7 @@ class LtiProvider extends React.Component {
         contextFilters: [],
         languageFilter: [],
         resourceTypes: '',
+        contextTypes: '',
         levels: [],
         subjects: [],
         page: '1',
@@ -167,17 +168,17 @@ class LtiProvider extends React.Component {
     }
 
     return (
-      <div>
+      <Fragment>
         <Helmet htmlAttributes={{ lang: locale }} />
-        {!data.loading && (
-          <SearchContainer
-            data={data}
-            searchObject={searchObject}
-            updateSearchLocation={this.onSearchObjectChange}
-            customResultList={this.getResultComponent}
-          />
-        )}
-      </div>
+        <SearchContainer
+          data={data}
+          locale="nb"
+          loading={data ? data.loading : false}
+          searchObject={searchObject}
+          updateSearchLocation={this.onSearchObjectChange}
+          customResultList={this.getResultComponent}
+        />
+      </Fragment>
     );
   }
 }

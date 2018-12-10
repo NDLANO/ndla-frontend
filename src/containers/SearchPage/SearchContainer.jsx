@@ -6,7 +6,14 @@
  */
 
 import React, { Component } from 'react';
-import { func, number, string, arrayOf, shape, bool } from 'prop-types';
+import PropTypes, {
+  func,
+  number,
+  string,
+  arrayOf,
+  shape,
+  bool,
+} from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -72,6 +79,7 @@ class SearchContainer extends Component {
   onSearchFieldFilterRemove = removedSubject => {
     const { searchObject } = this.props;
     const { subjects: subjectsInUrl } = searchObject;
+
     const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
@@ -103,16 +111,28 @@ class SearchContainer extends Component {
 
   getResourceTypes = stateSearchParams => {
     const { includeLearningPaths, data } = this.props;
-    if (stateSearchParams.contextFilters) {
-      return stateSearchParams.contextFilters;
+    if (stateSearchParams.contextTypes) {
+      return {
+        contextTypes: stateSearchParams.contextTypes,
+        resourceTypes: undefined,
+        contextFilters: undefined,
+      };
     }
     if (stateSearchParams.resourceTypes) {
-      return stateSearchParams.resourceTypes;
+      return {
+        contextTypes: undefined,
+        resourceTypes: stateSearchParams.resourceTypes,
+      };
     }
-
     return !includeLearningPaths && data
-      ? data.resourceTypes.map(type => type.id).join(',')
-      : undefined;
+      ? {
+          resourceTypes: data.resourceTypes.map(type => type.id).join(','),
+          contextTypes: undefined,
+        }
+      : {
+          contextTypes: undefined,
+          resourceTypes: undefined,
+        };
   };
 
   updateFilter = searchParam => {
@@ -148,13 +168,19 @@ class SearchContainer extends Component {
   render() {
     const {
       t,
-      searchObject,
-      data,
       locationSearchParams,
+      data,
+      loading,
+      locale,
+      searchObject,
       customResultList,
     } = this.props;
+    if (loading) {
+      return null;
+    }
     const { subjects } = data;
     const { query } = this.state;
+
     const stateSearchParams = {};
     Object.keys(searchObject).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchObject[key]);
@@ -163,11 +189,7 @@ class SearchContainer extends Component {
     const searchParamsToGraphQL = {
       ...locationSearchParams,
       ...stateSearchParams,
-      contextTypes: !stateSearchParams.contextFilters
-        ? stateSearchParams.contextTypes
-        : undefined,
-      resourceTypes: this.getResourceTypes(stateSearchParams),
-      contextFilters: undefined,
+      ...this.getResourceTypes(stateSearchParams),
     };
 
     const activeSubjectsMapped =
@@ -229,7 +251,7 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
-
+    const enabledTab = searchObject.resourceTypes || searchObject.contextTypes;
     return (
       <Query
         asyncMode
@@ -237,13 +259,17 @@ class SearchContainer extends Component {
         variables={searchParamsToGraphQL}
         fetchPolicy="no-cache"
         ssr={false}>
-        {({ error, data: searchData }) => {
+        {queryResult => {
+          const { error, data: searchData } = queryResult;
           if (error) {
             handleError(error);
             return `Error: ${error.message}`;
           }
           const { search } = searchData || {};
           const resultMetadata = search ? getResultMetadata(search) : {};
+
+          const isReadyToShow = queryResult && !queryResult.loading && search;
+
           return (
             <SearchPage
               closeUrl="/#"
@@ -258,7 +284,13 @@ class SearchContainer extends Component {
               filters={searchFilters}>
               <SearchResults
                 results={
-                  search && convertResult(search.results, searchObject.subjects)
+                  isReadyToShow &&
+                  convertResult(
+                    search.results,
+                    searchObject.subjects,
+                    enabledTab,
+                    locale,
+                  )
                 }
                 resourceTypes={
                   data && data.resourceTypes ? data.resourceTypes : []
@@ -271,7 +303,7 @@ class SearchContainer extends Component {
                 onUpdateContextFilters={this.onUpdateContextFilters}
                 customResultList={customResultList}
               />
-              {search && (
+              {isReadyToShow && (
                 <Pager
                   page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
                   lastPage={resultMetadata.lastPage}
@@ -303,10 +335,16 @@ SearchContainer.propTypes = {
     lastPage: number,
   }),
   filters: arrayOf(FilterShape),
+  match: shape({
+    params: shape({
+      subjectId: string,
+    }),
+  }),
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   }),
-  saveInUrl: bool,
+  loading: PropTypes.bool.isRequired,
+  locale: PropTypes.string,
   locationSearchParams: shape({
     languageFilter: string,
     contextTypes: string,
@@ -329,7 +367,6 @@ SearchContainer.propTypes = {
 
 SearchContainer.defaultProps = {
   filters: [],
-  saveInUrl: true,
   subjects: [],
   locationSearchParams: {},
   searchObject: {},

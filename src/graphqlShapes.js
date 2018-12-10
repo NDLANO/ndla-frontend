@@ -95,6 +95,7 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   facebook: PropTypes.string,
   twitter: PropTypes.string,
   layout: PropTypes.string,
+  metaDescription: PropTypes.string,
   about: GraphQLSubjectPageAboutShape,
   goTo: PropTypes.shape({
     resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),
@@ -118,7 +119,9 @@ export const GraphqlResourceTypeWithsubtypesShape = PropTypes.shape({
 
 export const GraphqlErrorShape = PropTypes.shape({
   message: PropTypes.string.isRequired,
-  path: PropTypes.arrayOf(PropTypes.string),
+  path: PropTypes.arrayOf(
+    PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  ),
   status: PropTypes.number,
   json: PropTypes.object,
 });

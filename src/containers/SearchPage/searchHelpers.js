@@ -31,28 +31,42 @@ const getResourceType = resource => {
   return null;
 };
 
-const getUrl = (subject, result) => {
+const createLearningPathUrl = (id, language) => ({
+  href: `${config.learningPathDomain}${
+    language ? `/${language}` : ''
+  }/learningpaths/${id}/first-step`,
+  target: '_blank',
+  rel: 'noopener noreferrer',
+});
+
+const getUrl = (subject, result, language) => {
   if (subject.learningResourceType === 'learningpath') {
-    return {
-      href: `${config.learningPathDomain}/learningpaths/${
-        result.id
-      }/first-step`,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    };
+    return createLearningPathUrl(result.id, language);
   }
   return `/subjects${subject.path}`;
 };
 
-const selectContext = (contexts, filters) => {
-  if (contexts.length === 0) return undefined;
+export const searchResultToLinkProps = (result, language) => {
+  if (result.resourceType === 'urn:resourcetype:learningPath') {
+    return createLearningPathUrl(result.id, language);
+  }
+  return { to: result.path || '/404' };
+};
+
+export const selectContext = (contexts, filters, enabledTab) => {
+  const filteredContext =
+    enabledTab === 'topic-article'
+      ? contexts.filter(context => context.id.startsWith('urn:topic'))
+      : contexts;
+
+  if (filteredContext.length === 0) return undefined;
   if (filters.length > 0) {
-    const foundContext = contexts.filter(context =>
+    const foundContext = filteredContext.filter(context =>
       filters.some(filter => context.path.includes(filter.replace('urn:', ''))),
     );
     if (foundContext.length > 0) return foundContext[0];
   }
-  return contexts[0];
+  return filteredContext[0];
 };
 
 const taxonomyData = (result, selectedContext) => {
@@ -75,17 +89,6 @@ const taxonomyData = (result, selectedContext) => {
     };
   }
   return taxonomyResult;
-};
-
-export const searchResultToLinkProps = result => {
-  if (result.resourceType === 'urn:resourcetype:learningPath') {
-    return {
-      to: `${config.learningPathDomain}/learningpaths/${result.id}/first-step`,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    };
-  }
-  return { to: result.path || '/404' };
 };
 
 const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
@@ -119,13 +122,19 @@ export const convertSearchParam = value => {
   return value.length > 0 ? value : undefined;
 };
 
-export const convertResult = (results, subjectFilters) =>
+export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {
-    const selectedContext = selectContext(result.contexts, subjectFilters);
+    const selectedContext = selectContext(
+      result.contexts,
+      subjectFilters,
+      enabledTab,
+    );
 
     return {
       ...result,
-      url: selectedContext ? getUrl(selectedContext, result) : result.url,
+      url: selectedContext
+        ? getUrl(selectedContext, result, language)
+        : result.url,
       urls: result.contexts.map(context => ({
         url: getUrl(context, result),
         contentType: getContentType(context),
@@ -135,29 +144,13 @@ export const convertResult = (results, subjectFilters) =>
     };
   });
 
-export const resultsWithContentTypeBadgeAndImage = (results, t, type) =>
+export const resultsWithContentTypeBadgeAndImage = (results, t) =>
   results.map(result => {
-    /* There are multiple items that are both subjects and resources
-    We filter out for the correct context (subject) */
-    let { contentType, url } = result;
-    if (type && type === 'topic-article' && contentType !== 'subject') {
-      const maybeContentType = result.contentTypes.filter(
-        contentTypeItem => contentTypeItem === 'subject',
-      )[0];
-      const maybeUrl = result.urls
-        .filter(urlItem => urlItem.contentType === 'subject')
-        .map(item => item.url)[0];
-
-      if (maybeContentType && maybeUrl) {
-        contentType = maybeContentType;
-        url = maybeUrl;
-      }
-    }
+    const { contentType } = result;
 
     return {
       ...result,
       contentType,
-      url,
       contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
         <ContentTypeBadge
           type={contentType || result.contentType}

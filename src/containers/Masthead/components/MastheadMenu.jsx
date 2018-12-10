@@ -112,6 +112,7 @@ class MastheadMenu extends Component {
       subject,
       filters,
       topicResourcesByType,
+      locale,
       searchFieldComponent,
     } = this.props;
 
@@ -130,6 +131,7 @@ class MastheadMenu extends Component {
               topicResourcesByType={topicResourcesByType}
               subject={subject}
               filters={filters}
+              locale={locale}
               onFilterClick={this.onFilterClick}
               onNavigate={this.onNavigate}
             />
@@ -146,6 +148,7 @@ MastheadMenu.propTypes = {
     name: string,
     topics: arrayOf(object),
   }).isRequired,
+  locale: string.isRequired,
   resource: ResourceShape,
   filters: arrayOf(object),
   topicResourcesByType: arrayOf(TopicShape).isRequired,
