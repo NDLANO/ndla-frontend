@@ -131,32 +131,21 @@ async function handleRequest(req, res, route) {
 
 app.get('/static/*', ndlaMiddleware);
 
-app.get(
-  '/article-iframe/:lang/article/:articleId',
-  ndlaMiddleware,
-  async (req, res) => {
+/** Handle different article iframe paths with different methods */
+[
+  { path: '/article-iframe/:lang/article/:articleId', method: app.get },
+  { path: '/article-iframe/:lang/:resourceId/:articleId', method: app.get },
+  { path: '/lti/article-iframe/:lang/article/:articleId', method: app.post },
+  {
+    path: '/lti/article-iframe/:lang/:resourceId/:articleId',
+    method: app.post,
+  },
+].forEach(path => {
+  path.method(path, ndlaMiddleware, async (req, res) => {
     res.removeHeader('X-Frame-Options');
     handleRequest(req, res, iframeArticleRoute);
-  },
-);
-
-app.post(
-  '/lti/article-iframe/:lang/article/:articleId',
-  ndlaMiddleware,
-  async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  },
-);
-
-app.get(
-  '/article-iframe/:lang/:resourceId/:articleId',
-  ndlaMiddleware,
-  async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  },
-);
+  });
+});
 
 app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -167,15 +156,6 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
 });
-
-app.post(
-  '/lti/article-iframe/:lang/article/:articleId',
-  ndlaMiddleware,
-  async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  },
-);
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, ltiRoute);

@@ -8,9 +8,8 @@
 
 import defined from 'defined';
 import Helmet from 'react-helmet';
-import { INTERNAL_SERVER_ERROR, BAD_REQUEST, OK } from 'http-status';
+import { BAD_REQUEST, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
-import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
 
 const bodyFields = {
@@ -27,7 +26,7 @@ const assets =
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : {
         client: { css: 'mock.css' },
-        embed: { js: 'mock.js' },
+        ltiEmbed: { js: 'mock.js' },
         mathJaxConfig: { js: 'mock.js' },
       };
 
@@ -77,12 +76,12 @@ export function parseAndValidateParameters(body) {
     : { valid: false, messages: errorMessages };
 }
 
-export async function ltiRoute(req) {
+export function ltiRoute(req) {
   const isPostRequest = req.method === 'POST';
   const validParameters = isPostRequest
     ? parseAndValidateParameters(req.body)
     : {};
-
+  console.log(isPostRequest);
   if (isPostRequest) {
     if (!validParameters.valid) {
       return {
@@ -99,25 +98,10 @@ export async function ltiRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const locale = getLocaleObject(lang);
 
-  try {
-    const { html, docProps } = doRenderPage({
-      locale,
-      status: 'success',
-      ltiData: validParameters.ltiData,
-    });
+  const { html, docProps } = doRenderPage({
+    locale,
+    ltiData: validParameters.ltiData,
+  });
 
-    return renderHtml(req, html, { status: OK }, docProps);
-  } catch (error) {
-    if (process.env.NODE_ENV !== 'unittest') {
-      // skip log in unittests
-      handleError(error);
-    }
-    const { html, docProps } = doRenderPage({
-      locale,
-      status: 'error',
-    });
-
-    const status = error.status || INTERNAL_SERVER_ERROR;
-    return renderHtml(req, html, { status }, docProps);
-  }
+  return renderHtml(req, html, { status: OK }, docProps);
 }

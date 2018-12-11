@@ -177,7 +177,7 @@ class LtiProvider extends React.Component {
           locale={locale}
           loading={data ? data.loading : false}
           searchObject={searchObject}
-          updateSearchLocation={this.onSearchObjectChange}
+          handleSearchParamsChange={this.onSearchObjectChange}
           customResultList={this.getResultComponent}
         />
       </Fragment>

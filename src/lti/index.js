@@ -12,23 +12,19 @@ import ReactDOM from 'react-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
-import { hydrate } from 'emotion';
 import { getLocaleInfoFromPath } from '../i18n';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
 
 const {
-  DATA: { initialProps, config, ids },
+  DATA: { initialProps, config },
 } = window;
 const { abbreviation, messages } = getLocaleInfoFromPath(
   window.location.pathname,
 );
-hydrate(ids);
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-const disableSSR = true;
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
@@ -37,12 +33,10 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
-
 const client = createApolloClient(abbreviation);
 
 const renderApp = () => {
-  renderOrHydrate(
+  ReactDOM.render(
     <ApolloProvider client={client}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <LtiProvider {...initialProps} />

@@ -51,7 +51,7 @@ class SearchPage extends Component {
             searchObject={searchObject}
             includeLearningPaths
             locationSearchParams={locationSearchParams}
-            updateSearchLocation={this.updateSearchLocation}
+            handleSearchParamsChange={this.updateSearchLocation}
             {...rest}
           />
         </OneColumn>

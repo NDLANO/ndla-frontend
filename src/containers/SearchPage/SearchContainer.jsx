@@ -87,8 +87,8 @@ class SearchContainer extends Component {
   };
 
   onUpdateContextFilters = values => {
-    const { updateSearchLocation } = this.props;
-    updateSearchLocation({
+    const { handleSearchParamsChange } = this.props;
+    handleSearchParamsChange({
       contextFilters: values,
     });
   };
@@ -136,23 +136,23 @@ class SearchContainer extends Component {
   };
 
   updateFilter = searchParam => {
-    const { updateSearchLocation } = this.props;
+    const { handleSearchParamsChange } = this.props;
     const page = searchParam.page || 1;
-    updateSearchLocation({
+    handleSearchParamsChange({
       ...searchParam,
       page,
     });
   };
 
   updateTab = (value, enabledTabs) => {
-    const { updateSearchLocation } = this.props;
+    const { handleSearchParamsChange } = this.props;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
       !enabledTab || enabledTab.value === 'all'
         ? {}
         : { [enabledTab.type]: enabledTab.value };
 
-    updateSearchLocation({
+    handleSearchParamsChange({
       contextTypes: undefined,
       resourceTypes: undefined,
       contextFilters: [],
@@ -361,7 +361,7 @@ SearchContainer.propTypes = {
     resourceTypes: string,
     subjects: arrayOf(string),
   }),
-  updateSearchLocation: func,
+  handleSearchParamsChange: func,
   includeLearningPaths: bool,
   customResultList: func,
 };
@@ -372,7 +372,7 @@ SearchContainer.defaultProps = {
   locationSearchParams: {},
   searchObject: {},
   data: {},
-  updateSearchLocation: () => {},
+  handleSearchParamsChange: () => {},
   includeLearningPaths: false,
 };
 
