@@ -47,6 +47,19 @@ const MarginRight = css`
   margin-right: 13px;
 `;
 
+const getReturnType = ltiData => {
+  if (ltiData.ext_content_return_types === 'lti_launch_url') {
+    return 'lti_launch_url';
+  }
+  if (
+    ltiData.ext_content_return_types.includes('iframe') ||
+    ltiData.ext_content_return_types.includes('oembed')
+  ) {
+    return 'iframe';
+  }
+  return 'lti_launch_url';
+};
+
 const getQuery = (ltiData, item) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
@@ -57,10 +70,7 @@ const getQuery = (ltiData, item) => {
       item.id
     }?removeRelatedContent=true`,
     title: item.title,
-    return_type:
-      ltiData.ext_content_return_types === 'lti_launch_url'
-        ? 'lti_launch_url'
-        : 'iframe',
+    return_type: getReturnType(ltiData),
     width: ltiData.launch_presentation_width,
     height: ltiData.launch_presentation_height,
   };
