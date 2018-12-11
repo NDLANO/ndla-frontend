@@ -131,21 +131,31 @@ async function handleRequest(req, res, route) {
 
 app.get('/static/*', ndlaMiddleware);
 
-/** Handle different article iframe paths with different methods */
-[
-  { path: '/article-iframe/:lang/article/:articleId', method: app.get },
-  { path: '/article-iframe/:lang/:resourceId/:articleId', method: app.get },
-  { path: '/lti/article-iframe/:lang/article/:articleId', method: app.post },
-  {
-    path: '/lti/article-iframe/:lang/:resourceId/:articleId',
-    method: app.post,
-  },
-].forEach(path => {
-  path.method(path, ndlaMiddleware, async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  });
-});
+const iframArticleCallback = async (req, res) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeArticleRoute);
+};
+
+app.get(
+  '/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
+);
+app.get(
+  '/article-iframe/:lang/:resourceId/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
+);
+app.post(
+  '/lti/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
+);
+app.post(
+  '/lti/article-iframe/:lang/:resourceId/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
+);
 
 app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');

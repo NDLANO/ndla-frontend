@@ -62,7 +62,7 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { searchObject, data, updateSearchLocation } = this.props;
+    const { searchObject, data, handleSearchParamsChange } = this.props;
     const { levels } = searchObject;
     const subject = data.subjects.find(s => s.id === subjectId);
 
@@ -70,7 +70,7 @@ class SearchContainer extends Component {
       ? subject.filters.map(level => level.name)
       : [];
 
-    updateSearchLocation({
+    handleSearchParamsChange({
       ...subjectsSearchParam,
       levels: levels.filter(level => !removedFilters.includes(level)),
     });
