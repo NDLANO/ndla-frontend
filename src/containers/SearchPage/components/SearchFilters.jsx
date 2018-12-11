@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
+import { Core, Additional } from '@ndla/icons/common';
 import { FilterShape, SubjectShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
 
@@ -30,6 +31,11 @@ const SearchFilters = ({
     title: t(`languages.${language}`),
     value: language,
   }));
+
+  const relevances = [
+    { value: 'urn:relevance:core', title: 'Kjernestoff' },
+    { value: 'urn:relevance:supplementary', title: 'Tilleggsstoff' },
+  ];
 
   const allContentTypes = enabledTabs.map(tab => ({
     title: tab.name,
@@ -103,6 +109,18 @@ const SearchFilters = ({
           onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
+      <SearchFilter
+        label={t('searchPage.label.content')}
+        options={relevances.map(({ title, value }) => ({
+          title,
+          value,
+          icon: value === 'urn:relevance:core' ? Additional : Core,
+        }))}
+        values={filterState.relevance}
+        onChange={(newValues, value) => {
+          onChange(newValues, value, 'relevance');
+        }}
+      />
       <SearchFilter
         label={t(`searchPage.label.languageFilter`)}
         defaultVisibleCount={2}

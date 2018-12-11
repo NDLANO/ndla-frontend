@@ -29,6 +29,7 @@ export const searchQuery = gql`
     $fallback: Boolean
     $subjects: String
     $languageFilter: String
+    $relevance: String
   ) {
     search(
       query: $query
@@ -43,6 +44,7 @@ export const searchQuery = gql`
       fallback: $fallback
       subjects: $subjects
       languageFilter: $languageFilter
+      relevance: $relevance
     ) {
       language
       page
