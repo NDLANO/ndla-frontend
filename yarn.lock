@@ -256,8 +256,8 @@
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
 "@ndla/ui@^0.18.11":
-  version "0.18.11"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.11.tgz#3ac2d9275d340bd8f1dc9a4b6c25910bb80d69aa"
+  version "0.18.12"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.18.12.tgz#6c748b6d67bf0508059843e669a488f985eb810c"
   dependencies:
     "@ndla/core" "^0.4.3"
     classnames "2.2.6"
