@@ -57,12 +57,17 @@ const getQuery = (ltiData, item) => {
       item.id
     }?removeRelatedContent=true`,
     title: item.title,
-    text: item.title,
-    return_type: 'lti_launch_url',
+    return_type:
+      ltiData.ext_content_return_types === 'lti_launch_url'
+        ? 'lti_launch_url'
+        : 'iframe',
+    width: ltiData.launch_presentation_width,
+    height: ltiData.launch_presentation_height,
   };
-  return `${ltiData.launch_presentation_return_url}?${queryString.stringify(
-    query,
-  )}`;
+  return `${ltiData.launch_presentation_return_url}?${queryString.stringify({
+    ...query,
+    text: query.return_type === 'lti_launch_url' ? item.title : undefined,
+  })}`;
 };
 
 class LtiEmbed extends Component {
@@ -127,6 +132,9 @@ LtiEmbed.propTypes = {
   ltiData: PropTypes.shape({
     launch_presentation_return_url: PropTypes.string,
     launch_presentation_document_target: PropTypes.string,
+    launch_presentation_width: PropTypes.string,
+    launch_presentation_height: PropTypes.string,
+    ext_content_return_types: PropTypes.string,
   }),
   item: searchResultItemShape,
 };

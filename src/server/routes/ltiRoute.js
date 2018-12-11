@@ -81,7 +81,6 @@ export function ltiRoute(req) {
   const validParameters = isPostRequest
     ? parseAndValidateParameters(req.body)
     : {};
-  console.log(isPostRequest);
   if (isPostRequest) {
     if (!validParameters.valid) {
       return {
