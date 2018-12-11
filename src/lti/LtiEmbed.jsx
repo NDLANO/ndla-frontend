@@ -53,7 +53,7 @@ const getQuery = (ltiData, item) => {
       ? 'http://host.docker.internal:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/lti/article-iframe/nb/article/${
+    url: `${baseUrl}/article-iframe/nb/article/${
       item.id
     }?removeRelatedContent=true`,
     title: item.title,
