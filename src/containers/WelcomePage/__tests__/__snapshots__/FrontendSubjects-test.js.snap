@@ -147,11 +147,11 @@ Array [
         "url": "/subjects/subject:4",
       },
       Object {
-        "id": "102783",
+        "id": "urn:subject:25",
         "name": "IKT-servicefag Vg2",
         "nodeId": "102783",
         "text": "IKT-servicefag Vg2",
-        "url": "/nb/node/102783",
+        "url": "/subjects/subject:25",
       },
       Object {
         "id": "86643",
@@ -229,12 +229,12 @@ Array [
         "url": "/nb/node/52234",
       },
       Object {
-        "id": "71085",
+        "id": "urn:subject:17",
         "lang": "en",
         "name": "Engelskspråklig litteratur og kultur",
         "nodeId": "71085",
         "text": "Engelskspråklig litteratur og kultur",
-        "url": "/en/node/71085",
+        "url": "/subjects/subject:17",
       },
       Object {
         "id": "urn:subject:27",
@@ -322,11 +322,11 @@ Array [
       },
       Object {
         "beta": true,
-        "id": "156500",
+        "id": "urn:subject:1",
         "name": "Medieuttrykk og mediesamfunnet",
         "nodeId": "156500",
         "text": "Medieuttrykk og mediesamfunnet",
-        "url": "/nb/node/156500",
+        "url": "/subjects/subject:1",
       },
       Object {
         "id": "urn:subject:23",
