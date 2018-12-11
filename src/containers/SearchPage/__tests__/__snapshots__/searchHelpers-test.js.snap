@@ -15,6 +15,7 @@ Object {
   ],
   "page": "3",
   "query": "test",
+  "relevance": Array [],
   "subjects": Array [
     "urn:test:3",
     "urn:test:1",
@@ -28,6 +29,7 @@ Object {
   "contextFilters": Array [],
   "languageFilter": Array [],
   "levels": Array [],
+  "relevance": Array [],
   "subjects": Array [],
 }
 `;
