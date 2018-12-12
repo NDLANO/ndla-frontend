@@ -24,6 +24,7 @@ const SearchResults = ({
   onUpdateContextFilters,
   resourceTypes,
   customResultList,
+  allTabValue,
   t,
 }) => {
   const enabledTab = filterState.resourceTypes || filterState.contextTypes;
@@ -48,8 +49,9 @@ const SearchResults = ({
         title: tab.name,
       }))}
       onTabChange={tab => onTabChange(tab, enabledTabs)}
-      currentTab={enabledTab || 'all'}>
+      currentTab={enabledTab || allTabValue}>
       <SearchContextFilters
+        allTabValue={allTabValue}
         filterState={filterState}
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
@@ -97,6 +99,7 @@ SearchResults.propTypes = {
   resultMetadata: shape({
     totalCount: number,
   }),
+  allTabValue: string.isRequired,
   onUpdateContextFilters: func,
   customResultList: func,
 };

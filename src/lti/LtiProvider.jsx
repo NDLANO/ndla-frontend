@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
-import { withApollo } from 'react-apollo';
+import { withApollo, Query } from 'react-apollo';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import { resultsWithContentTypeBadgeAndImage } from '../containers/SearchPage/searchHelpers';
@@ -18,6 +18,11 @@ import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import LtiSearchResultList from './LtiSearchResultList';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
+import {
+  resourceTypesWithSubTypesQuery,
+  subjectsWithFiltersQuery,
+} from '../queries';
+import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
 
 class LtiProvider extends React.Component {
   constructor(props) {
@@ -25,40 +30,20 @@ class LtiProvider extends React.Component {
     this.location = null;
     this.state = {
       hasError: false,
-      data: {
-        loading: true,
-        resourceTypes: [],
-        subjects: [],
-      },
-      location: null,
       searchObject: {
         contextFilters: [],
         languageFilter: [],
-        resourceTypes: '',
-        contextTypes: '',
+        resourceTypes: undefined,
+        contextTypes: undefined,
         levels: [],
         subjects: [],
         page: '1',
       },
     };
-    this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
     this.onSearchObjectChange = this.onSearchObjectChange.bind(this);
     this.getResultComponent = this.getResultComponent.bind(this);
-  }
-
-  componentDidMount() {
-    this.handleLoadInitialProps(this.props);
-  }
-
-  componentDidUpdate() {
-    const { data } = this.state;
-    if (!data || data.loading === true) {
-      this.handleLoadInitialProps(this.props);
-    }
-  }
-
-  componentWillUnmount() {
-    this.location = null;
+    this.getSearchObject = this.getSearchObject.bind(this);
+    this.getEnabledTabs = this.getEnabledTabs.bind(this);
   }
 
   onSearchObjectChange(updatedFields) {
@@ -71,26 +56,6 @@ class LtiProvider extends React.Component {
           : prevState.searchObject.page,
       },
     }));
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.location === null) {
-      return {
-        location: window.location,
-      };
-    }
-    const navigated = window.location !== prevState.location;
-    if (navigated) {
-      window.scrollTo(0, 0);
-      return {
-        hasError: false,
-        data: { ...prevState.data, loading: true },
-        location: window.location,
-      };
-    }
-
-    // No state update necessary
-    return null;
   }
 
   getResultComponent(results, enabledTab) {
@@ -114,6 +79,46 @@ class LtiProvider extends React.Component {
     );
   }
 
+  getSearchObject(filtredResourceTypes) {
+    const { searchObject } = this.state;
+    const { contextTypes, resourceTypes } = searchObject;
+    let searchObjectResourceTypes = filtredResourceTypes.map(type => type.id);
+    if (contextTypes) {
+      searchObjectResourceTypes = undefined;
+    } else if (resourceTypes && resourceTypes.length !== 0) {
+      searchObjectResourceTypes = resourceTypes;
+    }
+
+    return {
+      ...searchObject,
+      resourceTypes: searchObjectResourceTypes,
+    };
+  }
+
+  getEnabledTabs(resourceTypes = []) {
+    const { t } = this.props;
+    const resourceTypeTabs = sortResourceTypes(resourceTypes).map(
+      resourceType => ({
+        value: resourceType.id,
+        type: 'resourceTypes',
+        name: resourceType.name,
+      }),
+    );
+
+    return [
+      {
+        value: resourceTypes.map(type => type.id).join(','),
+        name: t('contentTypes.all'),
+      },
+      {
+        value: 'topic-article',
+        type: 'contextTypes',
+        name: t('contentTypes.subject'),
+      },
+      ...resourceTypeTabs,
+    ];
+  }
+
   componentDidCatch(error, info) {
     if (process.env.NODE_ENV === 'production') {
       // React prints all errors that occurred during rendering to the console in development
@@ -122,48 +127,11 @@ class LtiProvider extends React.Component {
     this.setState({ hasError: true });
   }
 
-  async handleLoadInitialProps(props) {
-    if (window.location === this.location) {
-      // Data for this location is already loading
-      return;
-    }
-
-    this.location = window.location;
-    const { client } = props;
-    let data = [];
-    try {
-      data = await SearchContainer.getInitialProps({
-        client,
-      });
-    } catch (e) {
-      handleError(e);
-    }
-
-    // Only update state if on the same route
-    if (window.location === this.location) {
-      const filtredResourceTypes = data.data.resourceTypes.filter(
-        type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
-      );
-      window.scrollTo(0, 0);
-      this.setState(prevState => ({
-        searchObject: {
-          ...prevState.searchObject,
-        },
-        data: {
-          ...prevState.data,
-          ...data.data,
-          resourceTypes: filtredResourceTypes,
-          loading: false,
-        },
-      }));
-    }
-  }
-
   render() {
     const {
       locale: { abbreviation: locale },
     } = this.props;
-    const { hasError, searchObject, data } = this.state;
+    const { hasError } = this.state;
 
     if (hasError) {
       return <ErrorPage locale={locale} />;
@@ -172,14 +140,67 @@ class LtiProvider extends React.Component {
     return (
       <Fragment>
         <Helmet htmlAttributes={{ lang: locale }} />
-        <SearchContainer
-          data={data}
-          locale={locale}
-          loading={data ? data.loading : false}
-          searchObject={searchObject}
-          handleSearchParamsChange={this.onSearchObjectChange}
-          customResultList={this.getResultComponent}
-        />
+        <Query
+          asyncMode
+          query={resourceTypesWithSubTypesQuery}
+          fetchPolicy="no-cache"
+          ssr={false}>
+          {resourceTypesResult => {
+            const {
+              error: resourceTypesError,
+              data: resourceTypesData,
+            } = resourceTypesResult;
+            if (resourceTypesError) {
+              handleError(resourceTypesError);
+              return <ErrorPage locale={locale} />;
+            }
+            return (
+              <Query
+                asyncMode
+                query={subjectsWithFiltersQuery}
+                fetchPolicy="no-cache"
+                ssr={false}>
+                {subjectsResult => {
+                  const {
+                    error: subjectsError,
+                    data: subjectsData,
+                  } = subjectsResult;
+                  if (subjectsError) {
+                    handleError(subjectsError);
+                    return <ErrorPage locale={locale} />;
+                  }
+
+                  const loading =
+                    subjectsResult.loading || resourceTypesResult.loading;
+
+                  const filtredResourceTypes = resourceTypesData.resourceTypes
+                    ? resourceTypesData.resourceTypes.filter(
+                        type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
+                      )
+                    : [];
+
+                  return (
+                    <SearchContainer
+                      data={{
+                        resourceTypes: filtredResourceTypes,
+                        subjects: subjectsData.subjects,
+                      }}
+                      locale={locale}
+                      loading={loading || false}
+                      searchObject={this.getSearchObject(filtredResourceTypes)}
+                      enabledTabs={this.getEnabledTabs(filtredResourceTypes)}
+                      allTabValue={filtredResourceTypes
+                        .map(type => type.id)
+                        .join(',')}
+                      handleSearchParamsChange={this.onSearchObjectChange}
+                      customResultList={this.getResultComponent}
+                    />
+                  );
+                }}
+              </Query>
+            );
+          }}
+        </Query>
       </Fragment>
     );
   }

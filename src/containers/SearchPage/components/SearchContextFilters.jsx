@@ -16,6 +16,7 @@ const SearchContextFilters = ({
   // enabledTab,
   onUpdateContextFilters,
   resourceTypes,
+  allTabValue,
   t,
 }) => {
   const enabledTab = filterState.resourceTypes || filterState.contextTypes;
@@ -23,6 +24,7 @@ const SearchContextFilters = ({
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||
+    enabledTab === allTabValue ||
     !enabledTab
   ) {
     return null;
@@ -54,6 +56,7 @@ SearchContextFilters.propTypes = {
     levels: arrayOf(string),
     contextFilters: arrayOf(string),
   }),
+  allTabValue: string.isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onUpdateContextFilters: func,
 };

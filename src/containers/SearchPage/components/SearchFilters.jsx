@@ -49,7 +49,8 @@ const SearchFilters = ({
   const enabledTab =
     enabledTabs.find(
       tab =>
-        filterState.resourceTypes === tab.value ||
+        (filterState.resourceTypes &&
+          filterState.resourceTypes.join(',') === tab.value) ||
         filterState.contextTypes === tab.value,
     ) || enabledTabs[0];
 
@@ -130,7 +131,7 @@ SearchFilters.propTypes = {
     }),
   ),
   filterState: shape({
-    resourceTypes: string,
+    resourceTypes: arrayOf(string),
     subjects: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),

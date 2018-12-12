@@ -6,22 +6,46 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { func, number, string, shape } from 'prop-types';
+import { func, number, string, shape, arrayOf } from 'prop-types';
 import { compose } from 'redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
+import { runQueries } from '../../util/runQueries';
+import {
+  resourceTypesWithSubTypesQuery,
+  subjectsWithFiltersQuery,
+} from '../../queries';
 import { LocationShape } from '../../shapes';
 import SearchContainer from './SearchContainer';
 import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
+import handleError from '../../util/handleError';
+import { sortResourceTypes } from '../Resources/getResourceGroups';
+import {
+  GraphqlResourceTypeWithsubtypesShape,
+  GraphQLSubjectShape,
+} from '../../graphqlShapes';
 
 class SearchPage extends Component {
-  static getInitialProps = ctx => SearchContainer.getInitialProps(ctx);
+  static getInitialProps = ctx => {
+    const { client } = ctx;
+    try {
+      return runQueries(client, [
+        {
+          query: resourceTypesWithSubTypesQuery,
+        },
+        { query: subjectsWithFiltersQuery },
+      ]);
+    } catch (error) {
+      handleError(error);
+      return null;
+    }
+  };
 
   updateSearchLocation = searchParams => {
     const { history, location } = this.props;
@@ -40,18 +64,36 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { location, t, ...rest } = this.props;
+    const { location, t, data, ...rest } = this.props;
     const searchObject = converSearchStringToObject(location);
-    const locationSearchParams = queryString.parse(location.search);
+    const resourceTypeTabs =
+      data && data.resourceTypes
+        ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
+            value: resourceType.id,
+            type: 'resourceTypes',
+            name: resourceType.name,
+          }))
+        : [];
+
+    const enabledTabs = [
+      { value: 'all', name: t('contentTypes.all') },
+      {
+        value: 'topic-article',
+        type: 'contextTypes',
+        name: t('contentTypes.subject'),
+      },
+      ...resourceTypeTabs,
+    ];
+
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <OneColumn cssModifier="clear-desktop" wide>
           <SearchContainer
             searchObject={searchObject}
-            includeLearningPaths
-            locationSearchParams={locationSearchParams}
             handleSearchParamsChange={this.updateSearchLocation}
+            data={data}
+            enabledTabs={enabledTabs}
             {...rest}
           />
         </OneColumn>
@@ -68,6 +110,10 @@ SearchPage.propTypes = {
   resultMetadata: shape({
     totalCount: number,
     lastPage: number,
+  }),
+  data: shape({
+    resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
+    subjects: arrayOf(GraphQLSubjectShape),
   }),
   match: shape({
     params: shape({

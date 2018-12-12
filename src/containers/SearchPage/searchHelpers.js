@@ -91,7 +91,14 @@ const taxonomyData = (result, selectedContext) => {
   return taxonomyResult;
 };
 
-const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
+const arrayFields = [
+  'languageFilter',
+  'levels',
+  'subjects',
+  'contextFilters',
+  'contextTypes',
+  'resourceTypes',
+];
 
 export const converSearchStringToObject = location => {
   const searchLocation = queryString.parse(location ? location.search : '');

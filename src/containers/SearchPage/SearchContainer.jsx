@@ -6,20 +6,16 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes, {
-  func,
-  number,
-  string,
-  arrayOf,
-  shape,
-  bool,
-} from 'prop-types';
+import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import { SubjectShape, FilterShape } from '../../shapes';
-import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
+import {
+  GraphqlResourceTypeWithsubtypesShape,
+  GraphQLSubjectShape,
+} from '../../graphqlShapes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
@@ -28,14 +24,8 @@ import {
   convertResult,
   getResultMetadata,
 } from './searchHelpers';
-import { runQueries } from '../../util/runQueries';
-import {
-  searchQuery,
-  resourceTypesWithSubTypesQuery,
-  subjectsWithFiltersQuery,
-} from '../../queries';
+import { searchQuery } from '../../queries';
 import handleError from '../../util/handleError';
-import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   constructor(props) {
@@ -93,48 +83,6 @@ class SearchContainer extends Component {
     });
   };
 
-  static getInitialProps = ctx => {
-    const { client } = ctx;
-
-    try {
-      return runQueries(client, [
-        {
-          query: resourceTypesWithSubTypesQuery,
-        },
-        { query: subjectsWithFiltersQuery },
-      ]);
-    } catch (error) {
-      handleError(error);
-      return null;
-    }
-  };
-
-  getResourceTypes = stateSearchParams => {
-    const { includeLearningPaths, data } = this.props;
-    if (stateSearchParams.contextTypes) {
-      return {
-        contextTypes: stateSearchParams.contextTypes,
-        resourceTypes: undefined,
-        contextFilters: undefined,
-      };
-    }
-    if (stateSearchParams.resourceTypes) {
-      return {
-        contextTypes: undefined,
-        resourceTypes: stateSearchParams.resourceTypes,
-      };
-    }
-    return !includeLearningPaths && data
-      ? {
-          resourceTypes: data.resourceTypes.map(type => type.id).join(','),
-          contextTypes: undefined,
-        }
-      : {
-          contextTypes: undefined,
-          resourceTypes: undefined,
-        };
-  };
-
   updateFilter = searchParam => {
     const { handleSearchParamsChange } = this.props;
     const page = searchParam.page || 1;
@@ -145,10 +93,10 @@ class SearchContainer extends Component {
   };
 
   updateTab = (value, enabledTabs) => {
-    const { handleSearchParamsChange } = this.props;
+    const { handleSearchParamsChange, allTabValue } = this.props;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const searchParams =
-      !enabledTab || enabledTab.value === 'all'
+      !enabledTab || enabledTab.value === allTabValue
         ? {}
         : { [enabledTab.type]: enabledTab.value };
 
@@ -168,12 +116,13 @@ class SearchContainer extends Component {
   render() {
     const {
       t,
-      locationSearchParams,
       data,
       loading,
       locale,
       searchObject,
       customResultList,
+      enabledTabs,
+      allTabValue,
     } = this.props;
     if (loading) {
       return null;
@@ -185,12 +134,6 @@ class SearchContainer extends Component {
     Object.keys(searchObject).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchObject[key]);
     });
-
-    const searchParamsToGraphQL = {
-      ...locationSearchParams,
-      ...stateSearchParams,
-      ...this.getResourceTypes(stateSearchParams),
-    };
 
     const activeSubjectsMapped =
       subjects && subjects.length > 0
@@ -208,25 +151,6 @@ class SearchContainer extends Component {
             })
             .filter(subject => !!subject)
         : [];
-
-    const resourceTypeTabs =
-      data && data.resourceTypes
-        ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
-            value: resourceType.id,
-            type: 'resourceTypes',
-            name: resourceType.name,
-          }))
-        : [];
-
-    const enabledTabs = [
-      { value: 'all', name: t('contentTypes.all') },
-      {
-        value: 'topic-article',
-        type: 'contextTypes',
-        name: t('contentTypes.subject'),
-      },
-      ...resourceTypeTabs,
-    ];
 
     const searchFilters = (
       <SearchFilters
@@ -251,12 +175,13 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
-    const enabledTab = searchObject.resourceTypes || searchObject.contextTypes;
+    const enabledTab =
+      stateSearchParams.resourceTypes || stateSearchParams.contextTypes;
     return (
       <Query
         asyncMode
         query={searchQuery}
-        variables={searchParamsToGraphQL}
+        variables={stateSearchParams}
         fetchPolicy="no-cache"
         ssr={false}>
         {queryResult => {
@@ -297,8 +222,9 @@ class SearchContainer extends Component {
                   data && data.resourceTypes ? data.resourceTypes : []
                 }
                 resultMetadata={resultMetadata}
-                filterState={searchObject}
+                filterState={stateSearchParams}
                 enabledTabs={enabledTabs}
+                allTabValue={allTabValue}
                 onTabChange={this.updateTab}
                 query={searchObject.query}
                 onUpdateContextFilters={this.onUpdateContextFilters}
@@ -323,13 +249,6 @@ class SearchContainer extends Component {
 }
 
 SearchContainer.propTypes = {
-  enabledTabs: arrayOf(
-    shape({
-      name: string,
-      value: string,
-      type: string,
-    }),
-  ),
   subjects: arrayOf(SubjectShape),
   resultMetadata: shape({
     totalCount: number,
@@ -343,37 +262,37 @@ SearchContainer.propTypes = {
   }),
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
+    subjects: arrayOf(GraphQLSubjectShape),
   }),
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string,
-  locationSearchParams: shape({
-    languageFilter: string,
-    contextTypes: string,
-    page: string,
-    resourceTypes: string,
-    subject: string,
-  }),
   searchObject: shape({
     contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
     page: string,
-    resourceTypes: string,
+    resourceTypes: arrayOf(string),
     subjects: arrayOf(string),
   }),
   handleSearchParamsChange: func,
-  includeLearningPaths: bool,
   customResultList: func,
+  enabledTabs: arrayOf(
+    shape({
+      name: string,
+      value: string,
+      type: string,
+    }),
+  ),
+  allTabValue: string,
 };
 
 SearchContainer.defaultProps = {
   filters: [],
   subjects: [],
-  locationSearchParams: {},
   searchObject: {},
   data: {},
   handleSearchParamsChange: () => {},
-  includeLearningPaths: false,
+  allTabValue: 'all',
 };
 
 export default injectT(SearchContainer);
