@@ -43,7 +43,9 @@ const SearchContextFilters = ({
         title: subType.name,
         value: subType.id,
       }))}
-      values={filterState.contextFilters}
+      values={
+        filterState.contextFilters ? filterState.contextFilters.split(',') : []
+      }
     />
   );
 };
@@ -54,7 +56,7 @@ SearchContextFilters.propTypes = {
     subjects: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
-    contextFilters: arrayOf(string),
+    contextFilters: string,
   }),
   allTabValue: string.isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),

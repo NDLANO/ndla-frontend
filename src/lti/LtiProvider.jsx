@@ -215,7 +215,6 @@ LtiProvider.propTypes = {
     article: ArticleShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
-  status: PropTypes.oneOf(['success', 'error']),
   ltiData: PropTypes.shape({
     launch_presentation_return_url: PropTypes.string,
     launch_presentation_document_target: PropTypes.string,
