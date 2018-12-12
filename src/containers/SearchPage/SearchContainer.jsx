@@ -194,7 +194,14 @@ class SearchContainer extends Component {
           const resultMetadata = search ? getResultMetadata(search) : {};
 
           const isReadyToShow = queryResult && !queryResult.loading && search;
-
+          const searchResults = isReadyToShow
+            ? convertResult(
+                search.results,
+                searchObject.subjects,
+                enabledTab,
+                locale,
+              )
+            : [];
           return (
             <SearchPage
               closeUrl="/#"
@@ -208,16 +215,7 @@ class SearchContainer extends Component {
               resourceToLinkProps={resourceToLinkProps}
               filters={searchFilters}>
               <SearchResults
-                results={
-                  isReadyToShow
-                    ? convertResult(
-                        search.results,
-                        searchObject.subjects,
-                        enabledTab,
-                        locale,
-                      )
-                    : []
-                }
+                results={searchResults}
                 resourceTypes={
                   data && data.resourceTypes ? data.resourceTypes : []
                 }

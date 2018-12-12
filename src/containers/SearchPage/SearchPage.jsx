@@ -31,6 +31,8 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 
+const ALL_TAB_VALUE = 'all';
+
 class SearchPage extends Component {
   static getInitialProps = ctx => {
     const { client } = ctx;
@@ -76,7 +78,7 @@ class SearchPage extends Component {
         : [];
 
     const enabledTabs = [
-      { value: 'all', name: t('contentTypes.all') },
+      { value: ALL_TAB_VALUE, name: t('contentTypes.all') },
       {
         value: 'topic-article',
         type: 'contextTypes',
@@ -94,6 +96,7 @@ class SearchPage extends Component {
             handleSearchParamsChange={this.updateSearchLocation}
             data={data}
             enabledTabs={enabledTabs}
+            allTabValue={ALL_TAB_VALUE}
             {...rest}
           />
         </OneColumn>
