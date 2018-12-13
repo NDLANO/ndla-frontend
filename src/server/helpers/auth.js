@@ -13,11 +13,11 @@ const url = `https://${getUniversalConfig().auth0Hostname}/oauth/token`;
 
 const ndlaFrontendClientId = getEnvironmentVariabel(
   'NDLA_FRONTEND_CLIENT_ID',
-  'IxLzDBlvwmHBUMfLaGfJshD6Kahb362L',
+  'XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n',
 );
 const ndlaFrontendClientSecret = getEnvironmentVariabel(
   'NDLA_FRONTEND_CLIENT_SECRET',
-  'w9P-niyBUZK9fadBt5yNkG-7KMBULm59HB8GnJJPgwvT_gwlG98nfvdik2sVW9d_',
+  'YDNh0ppJnSKdq_yzVQIrUGtvdPkieprruBFwY7Sq5HReaiADfvXKOnm41wfrq8X9',
 );
 
 export async function getToken() {
