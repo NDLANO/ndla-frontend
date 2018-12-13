@@ -18,6 +18,7 @@ const MastheadTopics = props => {
     expandedTopicId,
     expandedSubtopicsId,
     topicResourcesByType,
+    locale,
     onFilterClick,
     onNavigate,
     searchFieldComponent,
@@ -31,7 +32,12 @@ const MastheadTopics = props => {
   );
 
   const resourceToLinkPropsWithFilters = (resource, subjectTopicPath) =>
-    resourceToLinkProps(resource, subjectTopicPath, activeFilters.join(','));
+    resourceToLinkProps(
+      resource,
+      subjectTopicPath,
+      activeFilters.join(','),
+      locale,
+    );
 
   return (
     <TopicMenu
@@ -75,6 +81,7 @@ MastheadTopics.propTypes = {
   expandedTopicId: string,
   expandedSubtopicsId: arrayOf(string).isRequired,
   filters: arrayOf(object).isRequired,
+  locale: string.isRequired,
   onClose: func.isRequired,
   onFilterClick: func.isRequired,
   onNavigate: func.isRequired,
