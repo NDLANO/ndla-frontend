@@ -71,14 +71,15 @@ export const selectContext = (contexts, filters, enabledTab) => {
 
 const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
+  const { contexts = [] } = result;
   if (selectedContext) {
     taxonomyResult = {
       breadcrumb: selectedContext.breadcrumbs,
       contentType: getContentType(selectedContext),
-      contentTypes: result.contexts.map(context => getContentType(context)),
+      contentTypes: contexts.map(context => getContentType(context)),
       subjects:
-        result.contexts.length > 1
-          ? result.contexts.map(subject => ({
+        contexts.length > 1
+          ? contexts.map(subject => ({
               url: getUrl(subject, result),
               title: subject.subject,
               contentType: getContentType(subject),
