@@ -15,7 +15,6 @@ import queryString from 'query-string';
 import config from '../config';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../containers/ArticlePage/articleApi';
-import { searchResultItemShape } from './LtiSearchResultList';
 
 const StyledLinkAsButton = styled('a')`
   display: inline-block;
@@ -140,6 +139,24 @@ class LtiEmbed extends Component {
 }
 
 LtiEmbed.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    breadcrumb: PropTypes.arrayOf(PropTypes.string),
+    subjects: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        url: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+          .isRequired,
+      }),
+    ),
+    additional: PropTypes.bool,
+    image: PropTypes.node,
+    ingress: PropTypes.string.isRequired,
+    contentTypeIcon: PropTypes.node.isRequired,
+    contentTypeLabel: PropTypes.string.isRequired,
+  }),
   ltiData: PropTypes.shape({
     launch_presentation_return_url: PropTypes.string,
     launch_presentation_document_target: PropTypes.string,
