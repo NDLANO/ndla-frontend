@@ -19,6 +19,7 @@ const SearchFilters = ({
   onChange,
   onContentTypeChange,
   enabledTabs,
+  enabledTab,
   t,
 }) => {
   const allSubjects = subjects.map(subject => ({
@@ -45,14 +46,6 @@ const SearchFilters = ({
       })),
     })),
   ];
-
-  const enabledTab =
-    enabledTabs.find(
-      tab =>
-        (filterState.resourceTypes &&
-          filterState.resourceTypes.join(',') === tab.value) ||
-        filterState.contextTypes === tab.value,
-    ) || enabledTabs[0];
 
   return (
     <Fragment>
@@ -131,10 +124,12 @@ SearchFilters.propTypes = {
     }),
   ),
   filterState: shape({
-    resourceTypes: arrayOf(string),
-    subjects: arrayOf(string),
+    contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
+    page: string,
+    resourceTypes: arrayOf(string),
+    subjects: arrayOf(string),
   }),
   filters: arrayOf(FilterShape),
   onChange: func,
@@ -146,6 +141,7 @@ SearchFilters.propTypes = {
       type: string,
     }),
   ),
+  enabledTab: string.isRequired,
 };
 
 export default injectT(SearchFilters);

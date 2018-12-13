@@ -13,14 +13,12 @@ import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
   filterState,
-  // enabledTab,
   onUpdateContextFilters,
   resourceTypes,
   allTabValue,
+  enabledTab,
   t,
 }) => {
-  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
-
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||
@@ -43,21 +41,21 @@ const SearchContextFilters = ({
         title: subType.name,
         value: subType.id,
       }))}
-      values={
-        filterState.contextFilters ? filterState.contextFilters.split(',') : []
-      }
+      values={filterState.contextFilters}
     />
   );
 };
 
 SearchContextFilters.propTypes = {
   filterState: shape({
-    resourceTypes: string,
-    subjects: arrayOf(string),
+    contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
-    contextFilters: string,
+    page: string,
+    resourceTypes: arrayOf(string),
+    subjects: arrayOf(string),
   }),
+  enabledTab: string.isRequired,
   allTabValue: string.isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onUpdateContextFilters: func,

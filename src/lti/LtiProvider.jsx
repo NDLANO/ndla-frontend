@@ -88,7 +88,10 @@ class LtiProvider extends React.Component {
     } else if (resourceTypes && resourceTypes.length !== 0) {
       searchObjectResourceTypes = resourceTypes;
     }
-
+    console.log({
+      ...searchObject,
+      resourceTypes: searchObjectResourceTypes,
+    });
     return {
       ...searchObject,
       resourceTypes: searchObjectResourceTypes,

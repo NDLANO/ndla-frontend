@@ -19,6 +19,7 @@ const SearchResults = ({
   resultMetadata,
   filterState,
   enabledTabs,
+  enabledTab,
   onTabChange,
   query,
   onUpdateContextFilters,
@@ -27,7 +28,6 @@ const SearchResults = ({
   allTabValue,
   t,
 }) => {
-  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
   const { totalCount = '' } = resultMetadata || {};
   return (
     <SearchResult
@@ -52,6 +52,7 @@ const SearchResults = ({
       currentTab={enabledTab || allTabValue}>
       <SearchContextFilters
         allTabValue={allTabValue}
+        enabledTab={enabledTab}
         filterState={filterState}
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
@@ -80,10 +81,12 @@ const SearchResults = ({
 
 SearchResults.propTypes = {
   filterState: shape({
-    resourceTypes: string,
-    subjects: arrayOf(string),
+    contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
+    page: string,
+    resourceTypes: arrayOf(string),
+    subjects: arrayOf(string),
   }),
   query: string,
   enabledTabs: arrayOf(
@@ -102,6 +105,7 @@ SearchResults.propTypes = {
   allTabValue: string.isRequired,
   onUpdateContextFilters: func,
   customResultList: func,
+  enabledTab: string.isRequired,
 };
 
 export default injectT(SearchResults);

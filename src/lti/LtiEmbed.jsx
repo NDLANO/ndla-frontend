@@ -97,6 +97,7 @@ class LtiEmbed extends Component {
         }" frameborder="0" allowFullscreen=""/>`,
       });
     } else {
+      console.log(item);
       const oembed = await fetchArticleOembed(item.url);
       this.setState({ isOpen: true, embedCode: oembed.html });
     }
@@ -146,7 +147,6 @@ LtiEmbed.propTypes = {
     launch_presentation_height: PropTypes.string,
     ext_content_return_types: PropTypes.string,
   }),
-  item: searchResultItemShape,
 };
 
 export default injectT(LtiEmbed);

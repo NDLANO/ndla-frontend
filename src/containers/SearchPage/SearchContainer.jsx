@@ -98,8 +98,7 @@ class SearchContainer extends Component {
     const searchParams =
       !enabledTab || enabledTab.value === allTabValue
         ? {}
-        : { [enabledTab.type]: enabledTab.value };
-
+        : { [enabledTab.type]: [enabledTab.value] };
     handleSearchParamsChange({
       contextTypes: undefined,
       resourceTypes: undefined,
@@ -134,6 +133,8 @@ class SearchContainer extends Component {
     Object.keys(searchObject).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchObject[key]);
     });
+    const enabledTab =
+      stateSearchParams.resourceTypes || stateSearchParams.contextTypes;
 
     const activeSubjectsMapped =
       subjects && subjects.length > 0
@@ -157,6 +158,7 @@ class SearchContainer extends Component {
         onChange={this.onFilterChange}
         filterState={searchObject}
         subjects={subjects}
+        enabledTab={enabledTab}
         activeSubjects={activeSubjectsMapped}
         enabledTabs={enabledTabs}
         onContentTypeChange={this.onTabChange}
@@ -175,8 +177,7 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
-    const enabledTab =
-      stateSearchParams.resourceTypes || stateSearchParams.contextTypes;
+    console.log('ehe', enabledTab);
     return (
       <Query
         asyncMode
@@ -202,6 +203,7 @@ class SearchContainer extends Component {
                 locale,
               )
             : [];
+          console.log('EH', searchObject);
           return (
             <SearchPage
               closeUrl="/#"
@@ -219,8 +221,9 @@ class SearchContainer extends Component {
                 resourceTypes={
                   data && data.resourceTypes ? data.resourceTypes : []
                 }
+                enabledTab={enabledTab}
                 resultMetadata={resultMetadata}
-                filterState={stateSearchParams}
+                filterState={searchObject}
                 enabledTabs={enabledTabs}
                 allTabValue={allTabValue}
                 onTabChange={this.updateTab}
