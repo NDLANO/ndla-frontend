@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,12 +9,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { getLocale } from '../Locale/localeSelectors';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
@@ -168,6 +166,7 @@ class ArticlePage extends Component {
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
+                locale={locale}
               />
             )}
           </ArticleErrorMessage>
@@ -218,6 +217,7 @@ class ArticlePage extends Component {
                 resourceTypes={resourceTypes}
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
+                locale={locale}
               />
             )}
           </Article>
@@ -252,12 +252,7 @@ ArticlePage.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
 export default compose(
-  connect(mapStateToProps),
   injectT,
   withTracker,
 )(ArticlePage);

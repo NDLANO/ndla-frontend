@@ -52,7 +52,6 @@ const SearchResults = ({
         filterState={filterState}
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
-        results={results}
       />
       <SearchResultList
         messages={{
@@ -64,9 +63,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={
-          results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
-        }
+        results={results && resultsWithContentTypeBadgeAndImage(results, t)}
       />
     </SearchResult>
   );

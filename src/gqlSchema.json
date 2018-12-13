@@ -2464,16 +2464,16 @@
             "deprecationReason": null
           },
           {
-            "name": "displayInTwoColumns",
+            "name": "metaDescription",
             "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Boolean",
+              "name": "String",
               "ofType": null
             },
-            "isDeprecated": true,
-            "deprecationReason": "Use layout field."
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "layout",

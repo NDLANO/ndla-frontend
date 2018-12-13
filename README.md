@@ -14,7 +14,6 @@
 What's in the box?
 
 - React
-- Redux
 - GraphQL
 - Express
 - Webpack + Babel (ES6) via Razzle
@@ -90,7 +89,6 @@ Rules are configured in `./eslintrc` and extends [esling-config-ndla](https://gi
 The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graphql) is used to check the queries against the GraphQL schema.
 
 To update the schema you need to install [apollo-codegen](https://github.com/apollographql/apollo-codegen).
-
 
 ```
 yarn global add apollo

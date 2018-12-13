@@ -19,7 +19,6 @@ import {
 } from '../../containers/Resources/resourceHelpers';
 import { ALLOWED_SUBJECTS } from '../../constants';
 import { removeUrn } from '../../routeHelpers';
-import config from '../../config';
 
 const allowedSubjects = (() => ALLOWED_SUBJECTS.map(removeUrn))();
 
@@ -74,20 +73,23 @@ export async function forwardingRoute(req, res, next) {
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const data = await lookup(lookupUrl);
 
-    if (!isAllowedSubject(data.path) && config.isNdlaProdEnvironment) {
+    if (!isAllowedSubject(data.path)) {
       throw new Error('Not allowed subject. Proxy to old ndla.');
     }
 
     const resource = await resolve(data.path);
 
-    const languagePrefix = lang && lang !== 'nb' ? `/${lang}` : ''; // send urls with nb to root/default lang
+    const languagePrefix = lang && lang !== 'nb' ? lang : ''; // send urls with nb to root/default lang
     if (isLearningPathResource(resource)) {
       res.redirect(
         301,
         getLearningPathUrlFromResource(resource, languagePrefix),
       );
     } else {
-      res.redirect(301, `${languagePrefix}/subjects${data.path}`);
+      res.redirect(
+        301,
+        `${languagePrefix ? `/${languagePrefix}` : ''}/subjects${data.path}`,
+      );
     }
   } catch (e) {
     next();

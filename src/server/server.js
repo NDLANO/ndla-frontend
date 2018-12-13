@@ -6,7 +6,7 @@
  *
  */
 
-import 'isomorphic-unfetch';
+import fetch from 'node-fetch';
 import express from 'express';
 import proxy from 'express-http-proxy';
 import helmet from 'helmet';
@@ -33,6 +33,7 @@ import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 
+global.fetch = fetch;
 const app = express();
 const allowedBodyContentTypes = ['application/json'];
 

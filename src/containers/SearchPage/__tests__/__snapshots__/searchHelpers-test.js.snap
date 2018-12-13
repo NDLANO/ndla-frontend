@@ -32,82 +32,6 @@ Object {
 }
 `;
 
-exports[`searchHelpers resultsWithContentTypeBadgeAndImage for subjects 1`] = `
-Array [
-  Object {
-    "contentType": "subject",
-    "contentTypeIcon": <SubjectBadge
-      background={true}
-      size="x-small"
-    />,
-    "contentTypeLabel": undefined,
-    "contentTypes": Array [
-      "subject-material",
-      "subject",
-    ],
-    "contexts": Array [],
-    "id": "121",
-    "image": <Image
-      alt="bilde alt"
-      src="https://ndla.no/image-api/raw/id/18"
-    />,
-    "metaImage": Object {
-      "alt": "bilde alt",
-      "url": "https://ndla.no/image-api/raw/id/18",
-    },
-    "title": "Analyse av medieuttrykk",
-    "url": "/subjects/subject:1/topic:1:186479/topic:1:106142",
-    "urls": Array [
-      Object {
-        "contentType": "subject-material",
-        "url": "/subjects/subject:14/topic:1:103867/topic:1:185606/resource:1:106142",
-      },
-      Object {
-        "contentType": "subject",
-        "url": "/subjects/subject:1/topic:1:186479/topic:1:106142",
-      },
-    ],
-  },
-  Object {
-    "contentType": "learning-path",
-    "contentTypeIcon": <LearningPathBadge
-      background={true}
-      size="x-small"
-    />,
-    "contentTypeLabel": undefined,
-    "contentTypes": Array [
-      "learning-path",
-    ],
-    "contexts": Array [],
-    "id": "121",
-    "image": <Image
-      alt="bilde alt"
-      src="https://ndla.no/image-api/raw/id/17"
-    />,
-    "metaImage": Object {
-      "alt": "bilde alt",
-      "url": "https://ndla.no/image-api/raw/id/17",
-    },
-    "title": "Fortelleteknikk i digitale medier",
-    "url": Object {
-      "href": "https://ndla.no/learningpaths/10/first-step",
-      "rel": "noopener noreferrer",
-      "target": "_blank",
-    },
-    "urls": Array [
-      Object {
-        "contentType": "learning-path",
-        "url": Object {
-          "href": "https://ndla.no/learningpaths/10/first-step",
-          "rel": "noopener noreferrer",
-          "target": "_blank",
-        },
-      },
-    ],
-  },
-]
-`;
-
 exports[`searchHelpers searchResultToLinkProps article 1`] = `
 Object {
   "to": "/article/300",
@@ -122,8 +46,8 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 Object {
+  "href": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
   "rel": "noopener noreferrer",
   "target": "_blank",
-  "to": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
 }
 `;

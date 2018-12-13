@@ -7,7 +7,6 @@
  */
 
 import 'isomorphic-unfetch';
-import { expectSaga } from 'redux-saga-test-plan';
 import './raf-polyfill';
 
 /* eslint-disable */
@@ -31,4 +30,3 @@ jest.mock('../style/index.css', () => {});
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
   : 250;
-expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;

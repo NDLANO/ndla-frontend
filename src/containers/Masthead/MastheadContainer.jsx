@@ -207,6 +207,7 @@ class MastheadContainer extends React.PureComponent {
               filters={filters}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
+              locale={locale}
             />
           )}
           <DisplayOnPageYOffset yOffsetMin={150}>
@@ -220,7 +221,7 @@ class MastheadContainer extends React.PureComponent {
           </DisplayOnPageYOffset>
         </MastheadItem>
         <MastheadItem right>
-          {showSearch && <MastheadSearch subject={subject} />}
+          {showSearch && <MastheadSearch subject={subject} locale={locale} />}
 
           <Logo
             to="/"

@@ -300,6 +300,7 @@ export const subjectPageQuery = gql`
             alt
           }
         }
+        metaDescription
         goTo {
           resourceTypes {
             id
@@ -328,6 +329,19 @@ export const subjectsQuery = gql`
   query subjectsQuery {
     subjects {
       ...SubjectInfo
+    }
+  }
+  ${subjectInfoFragment}
+`;
+
+export const subjectsWithFiltersQuery = gql`
+  query subjectsQuery {
+    subjects {
+      ...SubjectInfo
+      filters {
+        id
+        name
+      }
     }
   }
   ${subjectInfoFragment}
@@ -437,4 +451,17 @@ export const topicQuery = gql`
   ${articleInfoFragment}
   ${resourceInfoFragment}
   ${topicInfoFragment}
+`;
+
+export const competenceGoalsQuery = gql`
+  query competenceGoalsQuery($nodeId: String!) {
+    competenceGoals(nodeId: $nodeId) {
+      id
+      name
+      curriculum {
+        id
+        name
+      }
+    }
+  }
 `;
