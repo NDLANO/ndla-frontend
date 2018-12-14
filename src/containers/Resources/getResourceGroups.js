@@ -20,14 +20,16 @@ export const sortOrder = {
 export const groupeResourcesByResourceTypes = (
   resourceTypes,
   supplementaryResources,
-  coreResouces,
+  coreResources,
 ) => {
   const resources = [
-    ...coreResouces,
-    ...supplementaryResources.map(resource => ({
-      ...resource,
-      additional: true,
-    })),
+    ...coreResources,
+    ...supplementaryResources
+      .map(resource => ({
+        ...resource,
+        additional: true,
+      }))
+      .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
   ];
   return resources.reduce((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes.map(type => {
