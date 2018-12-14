@@ -8,6 +8,10 @@ const MarginLeftParagraph = styled('p')`
   margin-left: 26px;
 `;
 
+const CodeWithBreakWord = styled('code')`
+  word-break: break-word;
+`;
+
 const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
   if (!isOpen) {
     return null;
@@ -31,7 +35,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
           <ModalBody>
             <MarginLeftParagraph>{t('lti.notSupported')}</MarginLeftParagraph>
             <pre>
-              <code>{code}</code>
+              <CodeWithBreakWord>{code}</CodeWithBreakWord>
             </pre>
           </ModalBody>
         </Fragment>
