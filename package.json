@@ -32,13 +32,13 @@
     "npm": ">=5.0.0"
   },
   "devDependencies": {
+    "@ndla/scripts": "^0.7.3",
     "chalk": "^2.4.1",
     "cypress": "3.1.0",
     "eslint": "^5.9.0",
     "eslint-config-ndla": "^1.0.0",
     "eslint-plugin-graphql": "^2.1.1",
     "flux-standard-action": "^2.0.3",
-    "ndla-scripts": "^0.6.1",
     "nock": "^10.0.1",
     "prettier": "^1.14.3",
     "react-test-renderer": "^16.5.2",
