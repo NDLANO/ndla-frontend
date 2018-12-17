@@ -210,7 +210,7 @@ class MastheadContainer extends React.PureComponent {
               locale={locale}
             />
           )}
-          <DisplayOnPageYOffset yOffsetMin={150}>
+          {/* <DisplayOnPageYOffset yOffsetMin={150}>
             <BreadcrumbBlock
               items={
                 breadcrumbBlockItems.length > 1
@@ -218,7 +218,7 @@ class MastheadContainer extends React.PureComponent {
                   : []
               }
             />
-          </DisplayOnPageYOffset>
+          </DisplayOnPageYOffset>*/}
         </MastheadItem>
         <MastheadItem right>
           {showSearch && <MastheadSearch subject={subject} locale={locale} />}

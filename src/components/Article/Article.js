@@ -55,6 +55,7 @@ const Article = ({
     <UIArticle
       article={article}
       icon={icon}
+      locale={locale}
       licenseBox={<LicenseBox article={article} locale={locale} />}
       messages={{
         label,

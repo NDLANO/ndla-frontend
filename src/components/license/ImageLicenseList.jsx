@@ -61,7 +61,6 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
       metaType: metaTypes.other,
     });
   }
-
   return (
     <MediaListItem>
       <MediaListItemImage>
