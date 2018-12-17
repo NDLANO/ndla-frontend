@@ -11,6 +11,7 @@ import {
   apiResourceUrl,
   fetchWithAccessToken,
 } from '../../util/apiHelpers';
+import { RELEVANCE_CORE } from '../../constants';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -22,7 +23,7 @@ export const fetchResourceTypesForResource = (resourceId, locale) =>
 export const fetchTopicResources = (
   topicId,
   locale,
-  relevance = 'urn:relevance:core',
+  relevance = RELEVANCE_CORE,
 ) =>
   fetchWithAccessToken(
     `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,

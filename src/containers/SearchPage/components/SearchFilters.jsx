@@ -12,6 +12,7 @@ import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
 import { Core, Additional } from '@ndla/icons/common';
 import { FilterShape, SubjectShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
+import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 
 const SearchFilters = ({
   subjects,
@@ -33,8 +34,8 @@ const SearchFilters = ({
   }));
 
   const relevances = [
-    { value: 'urn:relevance:core', title: 'Kjernestoff' },
-    { value: 'urn:relevance:supplementary', title: 'Tilleggsstoff' },
+    { value: RELEVANCE_CORE, title: 'Kjernestoff' },
+    { value: RELEVANCE_SUPPLEMENTARY, title: 'Tilleggsstoff' },
   ];
 
   const allContentTypes = enabledTabs.map(tab => ({
@@ -114,7 +115,7 @@ const SearchFilters = ({
         options={relevances.map(({ title, value }) => ({
           title,
           value,
-          icon: value === 'urn:relevance:core' ? Additional : Core,
+          icon: value === RELEVANCE_CORE ? Additional : Core,
         }))}
         values={filterState.relevance}
         onChange={(newValues, value) => {
