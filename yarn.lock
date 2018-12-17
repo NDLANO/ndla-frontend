@@ -375,10 +375,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
   integrity sha512-xi+wax/CzNPugUBIzq+nfHHOKkgbuNDAoQWlj56Laku1xyFlXCLjshI1uD/ckVxi44a0jDmp+t3Jf5N8A6zmcw==
 
-"@ndla/ui@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.0.tgz#d49addac20acb2e715f255d4f3cbc8b7c87f9710"
-  integrity sha512-Q0LZm+J1prWRMdfxmeJRZDVa/4i6eJHGCRmcryCaqFmRsWE/QjexR6SIXpMXEl4WQ0l2zgFhceNzDKFqlO7Znw==
+"@ndla/ui@^0.19.1":
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.1.tgz#868326cd092a0e6a129456a965bbca36995856f3"
+  integrity sha512-Fbrjfy/30rNFc5IeNO1sDEVHCJ31vBK4DBWahrLs7CFho5GGNYlNUTMk+WeSGKpRqWf/yyubrUqmwG9djNRm0w==
   dependencies:
     "@ndla/button" "^0.2.0"
     "@ndla/core" "^0.4.4"
@@ -479,6 +479,11 @@
   version "0.12.6"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"
   integrity sha512-wXAVyLfkG1UMkKOdMijVWFky39+OD/41KftzqfX1Oejd0Gm6dOIKjCihSVECg6X7PHjftxXmfOKA/d1H79ZfvQ==
+
+"@types/jest@^23.0.2":
+  version "23.3.10"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.10.tgz#4897974cc317bf99d4fe6af1efa15957fa9c94de"
+  integrity sha512-DC8xTuW/6TYgvEg3HEXS7cu9OijFqprVDXXiOcdOKZCU/5PJNLZU37VVvmZHdtMiGOa8wAA/We+JzbdxFzQTRQ==
 
 "@types/jquery@*":
   version "3.3.1"
@@ -3459,6 +3464,16 @@ css-unit-converter@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/css-unit-converter/-/css-unit-converter-1.1.1.tgz#d9b9281adcfd8ced935bdbaba83786897f64e996"
   integrity sha1-2bkoGtz9jO2TW9urqDeGiX9k6ZY=
+
+css@^2.2.1:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
+  integrity sha512-oUnjmWpy0niI3x/mPL8dVEI1l7MnG3+HHyRPHf+YFSbK+svOhXpmSOcDURUh2aOCgl2grzrOPt1nHLuCVFULLw==
+  dependencies:
+    inherits "^2.0.3"
+    source-map "^0.6.1"
+    source-map-resolve "^0.5.2"
+    urix "^0.1.0"
 
 cssesc@^0.1.0:
   version "0.1.0"
@@ -6740,6 +6755,15 @@ jest-each@^23.6.0:
   dependencies:
     chalk "^2.0.1"
     pretty-format "^23.6.0"
+
+jest-emotion@9:
+  version "9.2.11"
+  resolved "https://registry.yarnpkg.com/jest-emotion/-/jest-emotion-9.2.11.tgz#de1e5974f1a6e636fa87c631dd58f988ed8311f9"
+  integrity sha512-+u7I9lQg14LIW0g4i6D5ez+AUJks1K1P76e38hfbnv0uPph2z5yjN150BSsMQxHuoZZB1fKZmtEdrRPIqlUkGg==
+  dependencies:
+    "@types/jest" "^23.0.2"
+    chalk "^2.4.1"
+    css "^2.2.1"
 
 jest-environment-jsdom@^23.4.0:
   version "23.4.0"
@@ -11283,7 +11307,7 @@ source-list-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
   integrity sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==
 
-source-map-resolve@^0.5.0:
+source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/source-map-resolve/-/source-map-resolve-0.5.2.tgz#72e2cc34095543e43b2c62b2c4c10d4a9054f259"
   integrity sha512-MjqsvNwyz1s0k81Goz/9vRBe9SZdB09Bdw+/zYyO+3CuPk6fouTaxscHkgtE8jKvf01kVfl8riHzERQ/kefaSA==

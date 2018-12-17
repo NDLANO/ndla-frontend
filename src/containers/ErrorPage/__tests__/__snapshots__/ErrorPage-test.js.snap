@@ -1,6 +1,204 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ErrorPage renderers correctly 1`] = `
+.emotion-4 {
+  margin-top: 6.5px;
+}
+
+.emotion-5 {
+  text-align: center;
+}
+
+.emotion-5 a {
+  color: #20588f;
+}
+
+.emotion-5 h1 {
+  margin-top: 0;
+}
+
+.emotion-0 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-0 {
+    margin-top: 52px;
+  }
+}
+
+.emotion-2 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-2 {
+    margin-bottom: 52px;
+  }
+}
+
+.emotion-7 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  color: #20588f;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.emotion-7:hover,
+.emotion-7:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-7:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-7[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-7:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-7:hover,
+.emotion-7:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-7:disabled {
+  border: 2px solid transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-9 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  font-size: inherit;
+  line-height: inherit;
+  color: #20588f;
+  box-shadow: inset 0 -1px;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-9:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-9[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-9:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-9:hover,
+.emotion-9:active,
+.emotion-9:disabled,
+.emotion-9:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-9:focus {
+  outline-width: medium;
+}
+
+.emotion-9:hover {
+  box-shadow: none;
+}
+
+.emotion-9:focus {
+  box-shadow: none;
+}
+
 <div
   className="o-container o-container--backgroundWide"
 >
@@ -61,18 +259,18 @@ exports[`ErrorPage renderers correctly 1`] = `
       className="o-wrapper o-wrapper--clear undefined"
     >
       <article
-        className="css-7ifh8p eoxglug0"
+        className="emotion-5 emotion-6"
       >
         <img
           alt="Ops, noe gikk galt"
-          className="css-156n74x eoxglug1"
+          className="emotion-0 emotion-1"
           src="/static/oops.gif"
         />
         <h1>
           Ops, noe gikk galt
         </h1>
         <p
-          className="css-1x3wxmt eoxglug2"
+          className="emotion-2 emotion-3"
         >
           Beklager, en feil oppsto.
         </p>
@@ -80,7 +278,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           Kom igang:
         </h2>
         <div
-          className="css-v57cu9"
+          className="emotion-4"
         >
           <a
             href="/"
@@ -92,7 +290,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
   </div>
   <button
-    className="c-button c-button--outline c-zendesk__button"
+    className="c-zendesk__button emotion-7 emotion-8"
     disabled={false}
     onClick={[Function]}
     type="button"
@@ -167,7 +365,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </p>
     <div>
       <button
-        className="c-button c-button--link"
+        className="emotion-9 emotion-8"
         disabled={false}
         onClick={[Function]}
         type="button"
