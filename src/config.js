@@ -70,6 +70,17 @@ const gaTrackingId = () => {
   }
 };
 
+const getAuth0Hostname = () => {
+  switch (ndlaEnvironment) {
+    case 'prod':
+      return 'ndla.eu.auth0.com';
+    case 'staging':
+      return 'ndla-staging.eu.auth0.com';
+    default:
+      return 'ndla-test.eu.auth0.com';
+  }
+};
+
 const logglyApiKey = () => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
@@ -99,6 +110,7 @@ const config = {
     'OLD_NDLA_PROXY_URL',
     'https://2018.ndla.no',
   ),
+  auth0Hostname: getAuth0Hostname(),
 };
 
 export function getUniversalConfig() {
