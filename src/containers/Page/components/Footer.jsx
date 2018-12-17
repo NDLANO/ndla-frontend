@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Footer } from '@ndla/ui';
 import SelectLocale from '../../Locale/SelectLocale';
 
-const FooterWrapper = ({ t, locale }) => (
+const FooterWrapper = ({ t, children, locale }) => (
   <Footer lang={locale}>
     <form className="footer_form">
       <label className="footer_label footer--bold" htmlFor="language-select">
@@ -35,11 +35,13 @@ const FooterWrapper = ({ t, locale }) => (
       />
     </Footer.Text>
     <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
+    {children}
   </Footer>
 );
 
 FooterWrapper.propTypes = {
   locale: PropTypes.string.isRequired,
+  children: PropTypes.node,
   t: PropTypes.func.isRequired,
 };
 

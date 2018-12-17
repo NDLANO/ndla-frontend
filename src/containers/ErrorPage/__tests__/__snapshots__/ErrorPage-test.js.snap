@@ -60,6 +60,9 @@ exports[`ErrorPage renderers correctly 1`] = `
   border: 2px solid #20588f;
   font-weight: 700;
   box-shadow: none;
+  border-radius: 2px;
+  background-color: white;
+  float: right;
 }
 
 .emotion-7:hover,
@@ -108,6 +111,15 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-transform: translateY(0) translateX(0);
   -ms-transform: translateY(0) translateX(0);
   transform: translateY(0) translateX(0);
+}
+
+@media (min-width:61.3125em) {
+  .emotion-7 {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    padding: 0.4rem 0.6rem;
+  }
 }
 
 .emotion-9 {
@@ -289,14 +301,6 @@ exports[`ErrorPage renderers correctly 1`] = `
       </article>
     </div>
   </div>
-  <button
-    className="c-zendesk__button emotion-7 emotion-8"
-    disabled={false}
-    onClick={[Function]}
-    type="button"
-  >
-    Spør NDLA
-  </button>
   <footer
     className="footer"
   >
@@ -363,6 +367,14 @@ exports[`ErrorPage renderers correctly 1`] = `
     >
       Nettstedet er utarbeidet av NDLA med åpen kildekode.
     </p>
+    <button
+      className="emotion-7 emotion-8"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      Spør NDLA
+    </button>
     <div>
       <button
         className="emotion-9 emotion-8"

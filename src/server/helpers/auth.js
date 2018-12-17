@@ -9,7 +9,7 @@
 import handleError from '../../util/handleError';
 import { getEnvironmentVariabel } from '../../config';
 
-const url = `https://ndla.eu.auth0.com/oauth/token`;
+const url = `https://ndla-test.eu.auth0.com/oauth/token`;
 
 const ndlaFrontendClientId = getEnvironmentVariabel(
   'NDLA_FRONTEND_CLIENT_ID',

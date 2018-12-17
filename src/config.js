@@ -84,7 +84,7 @@ const config = {
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
-  zendeskHost: getEnvironmentVariabel('NDLA_ZENDESK_HOST'),
+  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
   oldNdlaProxyUrl: getEnvironmentVariabel(
