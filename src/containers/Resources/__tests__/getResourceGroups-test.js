@@ -36,3 +36,20 @@ test('resources types sort order', () => {
 
   expect(types).toMatchSnapshot();
 });
+
+test('filter out duplicates', () => {
+  const dupe = resourceData2[0];
+  const groups = getResourceGroups(resourceTypes, resourceData2, [
+    ...resourceData1,
+    dupe,
+  ]);
+  const type = groups.find(
+    group => group.id === 'urn:resourcetype:subjectMaterial',
+  );
+  expect(
+    type.resources.reduce(
+      (acc, resource) => (resource.id === dupe.id ? [...acc, dupe] : acc),
+      [],
+    ).length,
+  ).toBe(1);
+});
