@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, arrayOf, object, shape, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { SearchField } from '@ndla/ui';
 import queryString from 'query-string';
 import { Query } from 'react-apollo';
@@ -74,8 +74,13 @@ class MastheadSearch extends Component {
       : [];
 
   render() {
-    const { query, delayedSearchQuery, subject } = this.state;
-    const { t, locale } = this.props;
+    const {
+      query,
+      delayedSearchQuery,
+
+      subject,
+    } = this.state;
+    const { t, hideOnNarrowScreen, locale } = this.props;
 
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
@@ -95,6 +100,7 @@ class MastheadSearch extends Component {
     return (
       <MastheadSearchModal
         onSearchExit={this.onClearQuery}
+        hideOnNarrowScreen={hideOnNarrowScreen}
         searchFieldRef={this.searchFieldRef}>
         <Query
           fetchPolicy="no-cache"
@@ -134,15 +140,20 @@ class MastheadSearch extends Component {
 }
 
 MastheadSearch.propTypes = {
-  subject: shape({
-    id: string,
-    name: string,
+  subject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
-  results: arrayOf(object),
-  history: shape({
-    push: func.isRequired,
+  results: PropTypes.arrayOf(PropTypes.object),
+  hideOnNarrowScreen: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: string,
+  locale: PropTypes.string,
+};
+
+MastheadSearch.defaultProps = {
+  hideOnNarrowScreen: false,
 };
 
 export default injectT(withRouter(MastheadSearch));
