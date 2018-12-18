@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import styled, { css } from 'react-emotion';
 import queryString from 'query-string';
 import config from '../config';
+import { LtiDataShape } from '../shapes';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../containers/ArticlePage/articleApi';
 
@@ -42,10 +43,6 @@ const StyledLinkAsButton = styled('a')`
   }
 `;
 
-const MarginRight = css`
-  margin-right: 13px;
-`;
-
 const getReturnType = ltiData => {
   if (ltiData.ext_content_return_types === 'lti_launch_url') {
     return 'lti_launch_url';
@@ -62,7 +59,7 @@ const getReturnType = ltiData => {
 const getQuery = (ltiData, item) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
-      ? 'http://host.docker.internal:3000'
+      ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
     url: `${baseUrl}/article-iframe/nb/article/${
@@ -122,16 +119,14 @@ class LtiEmbed extends Component {
     const { isOpen, embedCode } = this.state;
     return (
       <Fragment>
+        <Button onClick={() => this.showEmbedCode(item)}>
+          {t('lti.embed')}
+        </Button>
         <LtiEmbedCode
           isOpen={isOpen}
           code={embedCode}
           onClose={this.hideEmbedCode}
         />
-        <Button
-          className={MarginRight}
-          onClick={() => this.showEmbedCode(item)}>
-          {t('lti.embed')}
-        </Button>
       </Fragment>
     );
   }
@@ -156,13 +151,7 @@ LtiEmbed.propTypes = {
     contentTypeIcon: PropTypes.node.isRequired,
     contentTypeLabel: PropTypes.string.isRequired,
   }),
-  ltiData: PropTypes.shape({
-    launch_presentation_return_url: PropTypes.string,
-    launch_presentation_document_target: PropTypes.string,
-    launch_presentation_width: PropTypes.string,
-    launch_presentation_height: PropTypes.string,
-    ext_content_return_types: PropTypes.string,
-  }),
+  ltiData: LtiDataShape,
 };
 
 export default injectT(LtiEmbed);

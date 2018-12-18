@@ -7,8 +7,9 @@
 
 import React from 'react';
 import { SearchFilter } from '@ndla/ui';
-import { func, arrayOf, shape, string } from 'prop-types';
+import { func, arrayOf, string } from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { SearchParamsShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
@@ -47,14 +48,7 @@ const SearchContextFilters = ({
 };
 
 SearchContextFilters.propTypes = {
-  searchParams: shape({
-    contextFilters: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-    page: string,
-    resourceTypes: arrayOf(string),
-    subjects: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   enabledTab: string.isRequired,
   allTabValue: string.isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),

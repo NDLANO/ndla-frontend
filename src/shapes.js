@@ -103,3 +103,20 @@ export const LocationShape = PropTypes.shape({
   search: PropTypes.string,
   pathname: PropTypes.string.isRequired,
 }).isRequired;
+
+export const LtiDataShape = PropTypes.shape({
+  launch_presentation_return_url: PropTypes.string,
+  launch_presentation_document_target: PropTypes.string,
+  launch_presentation_width: PropTypes.string,
+  launch_presentation_height: PropTypes.string,
+  ext_content_return_types: PropTypes.string,
+});
+
+export const SearchParamsShape = PropTypes.shape({
+  contextFilters: PropTypes.arrayOf(PropTypes.string),
+  languageFilter: PropTypes.arrayOf(PropTypes.string),
+  levels: PropTypes.arrayOf(PropTypes.string),
+  page: PropTypes.string,
+  resourceTypes: PropTypes.arrayOf(PropTypes.string),
+  subjects: PropTypes.arrayOf(PropTypes.string),
+});

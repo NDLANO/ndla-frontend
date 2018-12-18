@@ -13,16 +13,15 @@ import { injectT } from '@ndla/i18n';
 import { withApollo, Query } from 'react-apollo';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
-import { resultsWithContentTypeBadgeAndImage } from '../containers/SearchPage/searchHelpers';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
-import LtiSearchResultList from './LtiSearchResultList';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
 import {
   resourceTypesWithSubTypesQuery,
   subjectsWithFiltersQuery,
 } from '../queries';
 import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
+import { LtiDataShape } from '../shapes';
 
 class LtiProvider extends React.Component {
   constructor(props) {
@@ -30,7 +29,7 @@ class LtiProvider extends React.Component {
     this.location = null;
     this.state = {
       hasError: false,
-      searchObject: {
+      searchParams: {
         contextFilters: [],
         languageFilter: [],
         resourceTypes: undefined,
@@ -40,58 +39,36 @@ class LtiProvider extends React.Component {
         page: '1',
       },
     };
-    this.onSearchObjectChange = this.onSearchObjectChange.bind(this);
-    this.getResultComponent = this.getResultComponent.bind(this);
-    this.getSearchObject = this.getSearchObject.bind(this);
+    this.onSearchParamsChange = this.onSearchParamsChange.bind(this);
+    this.getSearchParams = this.getSearchParams.bind(this);
     this.getEnabledTabs = this.getEnabledTabs.bind(this);
   }
 
-  onSearchObjectChange(updatedFields) {
+  onSearchParamsChange(updatedFields) {
     this.setState(prevState => ({
-      searchObject: {
-        ...prevState.searchObject,
+      searchParams: {
+        ...prevState.searchParams,
         ...updatedFields,
         page: updatedFields.page
           ? updatedFields.page.toString()
-          : prevState.searchObject.page,
+          : prevState.searchParams.page,
       },
     }));
   }
 
-  getResultComponent(results, enabledTab) {
-    const { t, ltiData } = this.props;
-    return (
-      <LtiSearchResultList
-        messages={{
-          subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
-          noResultHeading: t(
-            'searchPage.searchResultListMessages.noResultHeading',
-          ),
-          noResultDescription: t(
-            'searchPage.searchResultListMessages.noResultDescription',
-          ),
-        }}
-        ltiData={ltiData}
-        results={
-          results && resultsWithContentTypeBadgeAndImage(results, t, enabledTab)
-        }
-      />
-    );
-  }
-
-  getSearchObject(filtredResourceTypes) {
-    const { searchObject } = this.state;
-    const { contextTypes, resourceTypes } = searchObject;
-    let searchObjectResourceTypes = filtredResourceTypes.map(type => type.id);
+  getSearchParams(filtredResourceTypes) {
+    const { searchParams } = this.state;
+    const { contextTypes, resourceTypes } = searchParams;
+    let searchParamsResourceTypes = filtredResourceTypes.map(type => type.id);
     if (contextTypes) {
-      searchObjectResourceTypes = undefined;
+      searchParamsResourceTypes = undefined;
     } else if (resourceTypes && resourceTypes.length !== 0) {
-      searchObjectResourceTypes = resourceTypes;
+      searchParamsResourceTypes = resourceTypes;
     }
 
     return {
-      ...searchObject,
-      resourceTypes: searchObjectResourceTypes,
+      ...searchParams,
+      resourceTypes: searchParamsResourceTypes,
     };
   }
 
@@ -130,6 +107,7 @@ class LtiProvider extends React.Component {
   render() {
     const {
       locale: { abbreviation: locale },
+      ltiData,
     } = this.props;
     const { hasError } = this.state;
 
@@ -172,7 +150,9 @@ class LtiProvider extends React.Component {
 
                   const loading =
                     subjectsResult.loading || resourceTypesResult.loading;
-
+                  if (loading) {
+                    return null;
+                  }
                   const filtredResourceTypes = resourceTypesData.resourceTypes
                     ? resourceTypesData.resourceTypes.filter(
                         type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
@@ -186,14 +166,14 @@ class LtiProvider extends React.Component {
                         subjects: subjectsData.subjects,
                       }}
                       locale={locale}
-                      loading={loading || false}
-                      searchObject={this.getSearchObject(filtredResourceTypes)}
+                      searchParams={this.getSearchParams(filtredResourceTypes)}
                       enabledTabs={this.getEnabledTabs(filtredResourceTypes)}
                       allTabValue={filtredResourceTypes
                         .map(type => type.id)
                         .join(',')}
-                      handleSearchParamsChange={this.onSearchObjectChange}
-                      customResultList={this.getResultComponent}
+                      handleSearchParamsChange={this.onSearchParamsChange}
+                      ltiData={ltiData}
+                      includeEmbedButton
                     />
                   );
                 }}
@@ -215,10 +195,7 @@ LtiProvider.propTypes = {
     article: ArticleShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
-  ltiData: PropTypes.shape({
-    launch_presentation_return_url: PropTypes.string,
-    launch_presentation_document_target: PropTypes.string,
-  }),
+  ltiData: LtiDataShape,
 };
 
 export default injectT(withApollo(LtiProvider));

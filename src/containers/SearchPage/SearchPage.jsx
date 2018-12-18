@@ -6,7 +6,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { func, number, string, shape, arrayOf } from 'prop-types';
+import { func, number, string, shape, arrayOf, bool } from 'prop-types';
 import { compose } from 'redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
@@ -66,7 +66,10 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { location, t, data, ...rest } = this.props;
+    const { location, t, data, loading, ...rest } = this.props;
+    if (loading) {
+      return null;
+    }
     const searchParams = converSearchStringToObject(location);
     const resourceTypeTabs =
       data && data.resourceTypes
@@ -123,6 +126,7 @@ SearchPage.propTypes = {
       subjectId: string,
     }),
   }),
+  loading: bool.isRequired,
 };
 
 export default compose(

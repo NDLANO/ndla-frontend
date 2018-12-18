@@ -9,7 +9,7 @@ import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
-import { FilterShape, SubjectShape } from '../../../shapes';
+import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
 
 const SearchFilters = ({
@@ -84,7 +84,7 @@ const SearchFilters = ({
         showLabel={t(`searchPage.showLabel.contentTypes`)}
         hideLabel={t(`searchPage.hideLabel.contentTypes`)}
         options={allContentTypes}
-        values={[enabledTab.value]}
+        values={[enabledTab ? enabledTab.value : 'all']}
         onChange={(newValues, tab) => onContentTypeChange(tab)}
       />
       {subjectFilters.map(searchFilter => (
@@ -123,14 +123,7 @@ SearchFilters.propTypes = {
       value: string,
     }),
   ),
-  searchParams: shape({
-    contextFilters: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-    page: string,
-    resourceTypes: arrayOf(string),
-    subjects: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   filters: arrayOf(FilterShape),
   onChange: func,
   onContentTypeChange: func,

@@ -6,12 +6,24 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
+import PropTypes, {
+  func,
+  number,
+  string,
+  arrayOf,
+  shape,
+  bool,
+} from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
-import { SubjectShape, FilterShape } from '../../shapes';
+import {
+  SubjectShape,
+  FilterShape,
+  LtiDataShape,
+  SearchParamsShape,
+} from '../../shapes';
 import {
   GraphqlResourceTypeWithsubtypesShape,
   GraphQLSubjectShape,
@@ -83,6 +95,17 @@ class SearchContainer extends Component {
     });
   };
 
+  getEnabledTab = stateSearchParams => {
+    const { allTabValue } = this.props;
+    if (stateSearchParams.resourceTypes) {
+      return stateSearchParams.resourceTypes;
+    }
+    if (stateSearchParams.contextTypes) {
+      return stateSearchParams.contextTypes;
+    }
+    return allTabValue;
+  };
+
   updateFilter = searchParam => {
     const { handleSearchParamsChange } = this.props;
     const page = searchParam.page || 1;
@@ -116,16 +139,13 @@ class SearchContainer extends Component {
     const {
       t,
       data,
-      loading,
       locale,
       searchParams,
-      customResultList,
+      includeEmbedButton,
+      ltiData,
       enabledTabs,
       allTabValue,
     } = this.props;
-    if (loading) {
-      return null;
-    }
     const { subjects } = data;
     const { query } = this.state;
 
@@ -133,9 +153,7 @@ class SearchContainer extends Component {
     Object.keys(searchParams).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchParams[key]);
     });
-    const enabledTab =
-      stateSearchParams.resourceTypes || stateSearchParams.contextTypes;
-
+    const enabledTab = this.getEnabledTab(stateSearchParams);
     const activeSubjectsMapped =
       subjects && subjects.length > 0
         ? searchParams.subjects
@@ -228,7 +246,8 @@ class SearchContainer extends Component {
                 onTabChange={this.updateTab}
                 query={searchParams.query}
                 onUpdateContextFilters={this.onUpdateContextFilters}
-                customResultList={customResultList}
+                includeEmbedButton={includeEmbedButton}
+                ltiData={ltiData}
               />
               {isReadyToShow && (
                 <Pager
@@ -264,18 +283,11 @@ SearchContainer.propTypes = {
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
     subjects: arrayOf(GraphQLSubjectShape),
   }),
-  loading: PropTypes.bool.isRequired,
   locale: PropTypes.string,
-  searchParams: shape({
-    contextFilters: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-    page: string,
-    resourceTypes: arrayOf(string),
-    subjects: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   handleSearchParamsChange: func,
-  customResultList: func,
+  includeEmbedButton: bool,
+  ltiData: LtiDataShape,
   enabledTabs: arrayOf(
     shape({
       name: string,

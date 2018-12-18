@@ -6,13 +6,18 @@
  */
 
 import React from 'react';
-import { SearchResult, SearchResultList } from '@ndla/ui';
-import { func, arrayOf, shape, string, number } from 'prop-types';
+import { SearchResult, SearchResultList, SearchResultItem } from '@ndla/ui';
+import { func, arrayOf, shape, string, number, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
-import { ArticleResultShape } from '../../../shapes';
+import {
+  ArticleResultShape,
+  LtiDataShape,
+  SearchParamsShape,
+} from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
+import LtiEmbed from '../../../lti/LtiEmbed';
 
 const SearchResults = ({
   results,
@@ -24,11 +29,14 @@ const SearchResults = ({
   query,
   onUpdateContextFilters,
   resourceTypes,
-  customResultList,
+  includeEmbedButton,
+  ltiData,
   allTabValue,
   t,
 }) => {
   const { totalCount = '' } = resultMetadata || {};
+  const transformedResults =
+    results && resultsWithContentTypeBadgeAndImage(results, t);
   return (
     <SearchResult
       messages={{
@@ -57,37 +65,39 @@ const SearchResults = ({
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
       />
-      {customResultList ? (
-        customResultList(results, enabledTab)
-      ) : (
-        <SearchResultList
-          messages={{
-            subjectsLabel: t(
+      <SearchResultList
+        messages={{
+          subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
+          noResultHeading: t(
+            'searchPage.searchResultListMessages.noResultHeading',
+          ),
+          noResultDescription: t(
+            'searchPage.searchResultListMessages.noResultDescription',
+          ),
+        }}
+        results={transformedResults}>
+        {transformedResults.map(item => (
+          <SearchResultItem
+            key={`search_result_item_${
+              typeof item.url === 'object' ? item.url.href : item.url
+            }`}
+            item={item}
+            additionalContentToolip={t('resource.tooltipAdditionalTopic')}
+            subjectsLabel={t(
               'searchPage.searchResultListMessages.subjectsLabel',
-            ),
-            noResultHeading: t(
-              'searchPage.searchResultListMessages.noResultHeading',
-            ),
-            noResultDescription: t(
-              'searchPage.searchResultListMessages.noResultDescription',
-            ),
-          }}
-          results={results && resultsWithContentTypeBadgeAndImage(results, t)}
-        />
-      )}
+            )}>
+            {includeEmbedButton ? (
+              <LtiEmbed ltiData={ltiData} item={item} />
+            ) : null}
+          </SearchResultItem>
+        ))}
+      </SearchResultList>
     </SearchResult>
   );
 };
 
 SearchResults.propTypes = {
-  searchParams: shape({
-    contextFilters: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-    page: string,
-    resourceTypes: arrayOf(string),
-    subjects: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   query: string,
   enabledTabs: arrayOf(
     shape({
@@ -104,7 +114,8 @@ SearchResults.propTypes = {
   }),
   allTabValue: string.isRequired,
   onUpdateContextFilters: func,
-  customResultList: func,
+  includeEmbedButton: bool,
+  ltiData: LtiDataShape,
   enabledTab: string.isRequired,
 };
 

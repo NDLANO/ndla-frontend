@@ -21,7 +21,6 @@ const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
       controllable
       isOpen={isOpen}
       size="medium"
-      width="20vw"
       backgroundColor="white"
       onClose={onClose}>
       {onCloseModal => (
