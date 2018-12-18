@@ -30,9 +30,9 @@ import handleError from '../../util/handleError';
 class SearchContainer extends Component {
   constructor(props) {
     super(props);
-    const { searchObject } = props;
+    const { searchParams } = props;
     this.state = {
-      query: searchObject.query || '',
+      query: searchParams.query || '',
     };
   }
 
@@ -42,8 +42,8 @@ class SearchContainer extends Component {
   };
 
   onFilterChange = (newValues, value, type) => {
-    const { searchObject } = this.props;
-    const { subjects } = searchObject;
+    const { searchParams } = this.props;
+    const { subjects } = searchParams;
     if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
     } else {
@@ -52,8 +52,8 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { searchObject, data, handleSearchParamsChange } = this.props;
-    const { levels } = searchObject;
+    const { searchParams, data, handleSearchParamsChange } = this.props;
+    const { levels } = searchParams;
     const subject = data.subjects.find(s => s.id === subjectId);
 
     const removedFilters = subject.filters
@@ -67,8 +67,8 @@ class SearchContainer extends Component {
   };
 
   onSearchFieldFilterRemove = removedSubject => {
-    const { searchObject } = this.props;
-    const { subjects: subjectsInUrl } = searchObject;
+    const { searchParams } = this.props;
+    const { subjects: subjectsInUrl } = searchParams;
 
     const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
@@ -95,7 +95,7 @@ class SearchContainer extends Component {
   updateTab = (value, enabledTabs) => {
     const { handleSearchParamsChange, allTabValue } = this.props;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
-    const searchParams =
+    const newParams =
       !enabledTab || enabledTab.value === allTabValue
         ? {}
         : { [enabledTab.type]: [enabledTab.value] };
@@ -103,7 +103,7 @@ class SearchContainer extends Component {
       contextTypes: undefined,
       resourceTypes: undefined,
       contextFilters: [],
-      ...searchParams,
+      ...newParams,
       page: 1,
     });
   };
@@ -118,7 +118,7 @@ class SearchContainer extends Component {
       data,
       loading,
       locale,
-      searchObject,
+      searchParams,
       customResultList,
       enabledTabs,
       allTabValue,
@@ -130,15 +130,15 @@ class SearchContainer extends Component {
     const { query } = this.state;
 
     const stateSearchParams = {};
-    Object.keys(searchObject).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(searchObject[key]);
+    Object.keys(searchParams).forEach(key => {
+      stateSearchParams[key] = convertSearchParam(searchParams[key]);
     });
     const enabledTab =
       stateSearchParams.resourceTypes || stateSearchParams.contextTypes;
 
     const activeSubjectsMapped =
       subjects && subjects.length > 0
-        ? searchObject.subjects
+        ? searchParams.subjects
             .map(it => {
               const subject = subjects.find(s => s.id === it);
               return subject
@@ -156,7 +156,7 @@ class SearchContainer extends Component {
     const searchFilters = (
       <SearchFilters
         onChange={this.onFilterChange}
-        filterState={searchObject}
+        searchParams={searchParams}
         subjects={subjects}
         enabledTab={enabledTab}
         activeSubjects={activeSubjectsMapped}
@@ -177,7 +177,6 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
-    console.log('ehe', enabledTab);
     return (
       <Query
         asyncMode
@@ -198,12 +197,12 @@ class SearchContainer extends Component {
           const searchResults = isReadyToShow
             ? convertResult(
                 search.results,
-                searchObject.subjects,
+                searchParams.subjects,
                 enabledTab,
                 locale,
               )
             : [];
-          console.log('EH', searchObject);
+
           return (
             <SearchPage
               closeUrl="/#"
@@ -223,19 +222,19 @@ class SearchContainer extends Component {
                 }
                 enabledTab={enabledTab}
                 resultMetadata={resultMetadata}
-                filterState={searchObject}
+                searchParams={searchParams}
                 enabledTabs={enabledTabs}
                 allTabValue={allTabValue}
                 onTabChange={this.updateTab}
-                query={searchObject.query}
+                query={searchParams.query}
                 onUpdateContextFilters={this.onUpdateContextFilters}
                 customResultList={customResultList}
               />
               {isReadyToShow && (
                 <Pager
-                  page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
+                  page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
                   lastPage={resultMetadata.lastPage}
-                  query={searchObject}
+                  query={searchParams}
                   pathname=""
                   onClick={this.updateFilter}
                   pageItemComponentClass="button"
@@ -267,7 +266,7 @@ SearchContainer.propTypes = {
   }),
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string,
-  searchObject: shape({
+  searchParams: shape({
     contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
@@ -290,7 +289,7 @@ SearchContainer.propTypes = {
 SearchContainer.defaultProps = {
   filters: [],
   subjects: [],
-  searchObject: {},
+  searchParams: {},
   data: {},
   handleSearchParamsChange: () => {},
   allTabValue: 'all',

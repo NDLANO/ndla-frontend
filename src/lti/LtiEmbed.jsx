@@ -96,7 +96,6 @@ class LtiEmbed extends Component {
         }" frameborder="0" allowFullscreen=""/>`,
       });
     } else {
-      console.log(item);
       const oembed = await fetchArticleOembed(item.url);
       this.setState({ isOpen: true, embedCode: oembed.html });
     }

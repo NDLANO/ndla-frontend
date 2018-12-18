@@ -67,7 +67,7 @@ class SearchPage extends Component {
 
   render() {
     const { location, t, data, ...rest } = this.props;
-    const searchObject = converSearchStringToObject(location);
+    const searchParams = converSearchStringToObject(location);
     const resourceTypeTabs =
       data && data.resourceTypes
         ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
@@ -92,7 +92,7 @@ class SearchPage extends Component {
         <HelmetWithTracker title={t('htmlTitles.searchPage')} />
         <OneColumn cssModifier="clear-desktop" wide>
           <SearchContainer
-            searchObject={searchObject}
+            searchParams={searchParams}
             handleSearchParamsChange={this.updateSearchLocation}
             data={data}
             enabledTabs={enabledTabs}

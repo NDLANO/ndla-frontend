@@ -17,7 +17,7 @@ import SearchContextFilters from './SearchContextFilters';
 const SearchResults = ({
   results,
   resultMetadata,
-  filterState,
+  searchParams,
   enabledTabs,
   enabledTab,
   onTabChange,
@@ -53,7 +53,7 @@ const SearchResults = ({
       <SearchContextFilters
         allTabValue={allTabValue}
         enabledTab={enabledTab}
-        filterState={filterState}
+        searchParams={searchParams}
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
       />
@@ -80,7 +80,7 @@ const SearchResults = ({
 };
 
 SearchResults.propTypes = {
-  filterState: shape({
+  searchParams: shape({
     contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),

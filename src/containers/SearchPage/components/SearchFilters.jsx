@@ -15,7 +15,7 @@ import supportedLanguages from '../../../util/supportedLanguages';
 const SearchFilters = ({
   subjects,
   activeSubjects,
-  filterState,
+  searchParams,
   onChange,
   onContentTypeChange,
   enabledTabs,
@@ -54,8 +54,8 @@ const SearchFilters = ({
         noFilterSelectedLabel={t('searchPage.label.noFilter')}
         options={activeSubjects}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
-        values={filterState.subjects || []}>
-        {filterState.subjects && (
+        values={searchParams.subjects || []}>
+        {searchParams.subjects && (
           <SearchPopoverFilter
             messages={{
               backButton: t('searchPage.searchFilterMessages.backButton'),
@@ -70,7 +70,7 @@ const SearchFilters = ({
               ),
             }}
             options={allSubjects}
-            values={filterState.subjects}
+            values={searchParams.subjects}
             onChange={(newValues, value) =>
               onChange(newValues, value, 'subjects')
             }
@@ -95,7 +95,7 @@ const SearchFilters = ({
           showLabel={t(`searchPage.showLabel.levels`)}
           hideLabel={t(`searchPage.hideLabel.levels`)}
           options={searchFilter.options}
-          values={filterState.levels || []}
+          values={searchParams.levels || []}
           onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
@@ -105,7 +105,7 @@ const SearchFilters = ({
         showLabel={t(`searchPage.showLabel.languageFilter`)}
         hideLabel={t(`searchPage.hideLabel.languageFilter`)}
         options={languages}
-        values={filterState.languageFilter || []}
+        values={searchParams.languageFilter || []}
         onChange={(newValues, value) =>
           onChange(newValues, value, 'languageFilter')
         }
@@ -123,7 +123,7 @@ SearchFilters.propTypes = {
       value: string,
     }),
   ),
-  filterState: shape({
+  searchParams: shape({
     contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),

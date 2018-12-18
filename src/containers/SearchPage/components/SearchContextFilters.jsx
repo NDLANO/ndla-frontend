@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
-  filterState,
+  searchParams,
   onUpdateContextFilters,
   resourceTypes,
   allTabValue,
@@ -41,13 +41,13 @@ const SearchContextFilters = ({
         title: subType.name,
         value: subType.id,
       }))}
-      values={filterState.contextFilters}
+      values={searchParams.contextFilters}
     />
   );
 };
 
 SearchContextFilters.propTypes = {
-  filterState: shape({
+  searchParams: shape({
     contextFilters: arrayOf(string),
     languageFilter: arrayOf(string),
     levels: arrayOf(string),
