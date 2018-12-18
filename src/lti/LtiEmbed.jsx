@@ -10,7 +10,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import styled, { css } from 'react-emotion';
+import styled from 'react-emotion';
 import queryString from 'query-string';
 import config from '../config';
 import { LtiDataShape } from '../shapes';
