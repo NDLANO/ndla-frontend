@@ -416,10 +416,10 @@
     defined "1.0.0"
     pdfmake "^0.1.38"
 
-"@ndla/zendesk@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.1.1.tgz#e6c1acaec9103c022ad13edc52afe606f29a2dca"
-  integrity sha512-oaRmdkNiNDfocc06/TSluQNmi2oQxXs7ns6A8lreUurNyg6TrBxTlxomxA9DpYxMpXiLBiNayqrNKTs4N4nQcw==
+"@ndla/zendesk@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.1.2.tgz#64250c636d88c40b1da9ca147460ead24e4e03f3"
+  integrity sha512-M+jVXXBqDx95cZPfcenj5b597zJZILOvHoFN/ukOYuGQyk8/dJSGtwKDE3RpnBu3nAdRfmpJe7DmFzwmbUAqlA==
   dependencies:
     "@ndla/core" "^0.4.4"
 
