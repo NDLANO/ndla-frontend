@@ -8,7 +8,6 @@
 
 @import '~@ndla/core/scss/core';
 @import '~@ndla/icons/scss/icons';
-@import '~@ndla/button/scss/button';
 @import '~@ndla/ui/src/main';
 @import '~@ndla/tabs/scss/tabs';
 @import '~@ndla/core/scss/utilities';
@@ -37,17 +36,4 @@
   & .mjx-chtml {
     padding: 0;
   }
-}
-
-.c-zendesk__button {
-  position: fixed;
-  left: 2rem;
-  bottom: 2rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 2px;
-  background-color: white;
-}
-
-.zEWidget-launcher {
-  display: none;
 }

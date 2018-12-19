@@ -4,4 +4,5 @@ module.exports = {
   setupTestFrameworkScriptFile: './src/__tests__/jest.setup.js',
   testURL: 'http://localhost/', // Needed until fixed: https://github.com/jsdom/jsdom/issues/2304
   testEnvironment: 'node',
+  snapshotSerializers: ['jest-emotion/serializer'],
 };
