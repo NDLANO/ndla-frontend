@@ -48,7 +48,7 @@ const ndlaMiddleware = [
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
-  bodyParser.urlencoded(),
+  bodyParser.urlencoded({ extended: true }),
   bodyParser.json({
     type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
