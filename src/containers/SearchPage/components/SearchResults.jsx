@@ -17,7 +17,6 @@ import {
 } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
-import LtiEmbed from '../../../lti/LtiEmbed';
 
 const SearchResults = ({
   results,
@@ -35,8 +34,6 @@ const SearchResults = ({
   t,
 }) => {
   const { totalCount = '' } = resultMetadata || {};
-  const transformedResults =
-    results && resultsWithContentTypeBadgeAndImage(results, t);
   return (
     <SearchResult
       messages={{
@@ -75,23 +72,16 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={transformedResults}>
-        {transformedResults.map(item => (
-          <SearchResultItem
-            key={`search_result_item_${
-              typeof item.url === 'object' ? item.url.href : item.url
-            }`}
-            item={item}
-            additionalContentToolip={t('resource.tooltipAdditionalTopic')}
-            subjectsLabel={t(
-              'searchPage.searchResultListMessages.subjectsLabel',
-            )}>
-            {includeEmbedButton ? (
-              <LtiEmbed ltiData={ltiData} item={item} />
-            ) : null}
-          </SearchResultItem>
-        ))}
-      </SearchResultList>
+        results={
+          results &&
+          resultsWithContentTypeBadgeAndImage(
+            results,
+            t,
+            includeEmbedButton,
+            ltiData,
+          )
+        }
+      />
     </SearchResult>
   );
 };
