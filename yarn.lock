@@ -256,14 +256,12 @@
 "@ndla/button@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.0.tgz#8d99a5f8073d9852b33de7f1724e3e0dfd82fc6e"
-  integrity sha512-WT+PAlATZpVuIEYX/tPSXBvOHh4IZcmqo7m9K+h26rBlcXn3LTnxxM6g7Md/YonVTAjtMr3/Exgnr+EB7OqpFg==
   dependencies:
     "@ndla/core" "^0.4.4"
 
 "@ndla/core@^0.4.4":
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.4.tgz#2113de68023b5e14fca8b8f37ecdb910477129f7"
-  integrity sha512-vPT5yYR34Vqj5i92FsiE3SiP6RuPw5F10scYHvqybCobyzGe6MbEnziq6Zv7EohzrNjIiuC+I4m/iCKR6Q9Wnw==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -289,7 +287,6 @@
 "@ndla/icons@^0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.2.tgz#d8776523b2f74193f64babcff1985f14868e3a9d"
-  integrity sha512-PeP0ZhRzzbkXjDLa2s8enMxKZ5zRMCdyj+Kc1CPhr4hvRfbY/KDpr6v6UzF+pcVA+VdHOV0wHUnvK9s/Af5zkg==
 
 "@ndla/licenses@^0.4.1":
   version "0.4.1"
@@ -300,7 +297,6 @@
 "@ndla/modal@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.5.tgz#d3be6a2e9b61160e6385adfbf354baf7fa1be80a"
-  integrity sha512-NwGkrnCxvNvXVtDWUWW9+KH4dBpQLgWiNmOhydw2nFgtyVxlZlkNOHxmGZ/EVR1NmbMfXSWe8cKd9hKcinTvAQ==
   dependencies:
     "@ndla/button" "^0.2.0"
     "@ndla/core" "^0.4.4"
@@ -309,7 +305,6 @@
 "@ndla/pager@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.3.4.tgz#ca86b268b070367cbe4009f064abdc5d9bbc66c0"
-  integrity sha512-nEezg/yP1llH7cr2eZYEhrkgnj/WVWP3vRjbQIG9cT9gPgCiKqyaLTVIUB16/7wi0QgxnVRkky/svpIYYj7MaA==
   dependencies:
     "@ndla/core" "^0.4.4"
 
@@ -327,7 +322,6 @@
 "@ndla/tabs@^0.9.4":
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.4.tgz#c195671e04fa366b732205ba3e43434aded2353e"
-  integrity sha512-8Q4eM+dP9LCAo5Bxse8a68kCeCneeFlSzNCNmE1X+gHAQZmPV8eOLuDBb2XZtJ3RbHLQVDw/d8Fs7b6/78sQ5g==
   dependencies:
     "@ndla/core" "^0.4.4"
     lodash "^4.17.11"
@@ -336,10 +330,9 @@
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
-"@ndla/ui@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.1.tgz#868326cd092a0e6a129456a965bbca36995856f3"
-  integrity sha512-Fbrjfy/30rNFc5IeNO1sDEVHCJ31vBK4DBWahrLs7CFho5GGNYlNUTMk+WeSGKpRqWf/yyubrUqmwG9djNRm0w==
+"@ndla/ui@^0.19.2":
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.2.tgz#f0230119bbb395bd3d74d8e437202e761adaad7e"
   dependencies:
     "@ndla/button" "^0.2.0"
     "@ndla/core" "^0.4.4"
@@ -378,7 +371,6 @@
 "@ndla/zendesk@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.1.2.tgz#64250c636d88c40b1da9ca147460ead24e4e03f3"
-  integrity sha512-M+jVXXBqDx95cZPfcenj5b597zJZILOvHoFN/ukOYuGQyk8/dJSGtwKDE3RpnBu3nAdRfmpJe7DmFzwmbUAqlA==
   dependencies:
     "@ndla/core" "^0.4.4"
 
@@ -438,7 +430,6 @@
 "@types/jest@^23.0.2":
   version "23.3.10"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.10.tgz#4897974cc317bf99d4fe6af1efa15957fa9c94de"
-  integrity sha512-DC8xTuW/6TYgvEg3HEXS7cu9OijFqprVDXXiOcdOKZCU/5PJNLZU37VVvmZHdtMiGOa8wAA/We+JzbdxFzQTRQ==
 
 "@types/jquery@*":
   version "3.3.1"
@@ -3029,7 +3020,6 @@ css-unit-converter@^1.1.1:
 css@^2.2.1:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
-  integrity sha512-oUnjmWpy0niI3x/mPL8dVEI1l7MnG3+HHyRPHf+YFSbK+svOhXpmSOcDURUh2aOCgl2grzrOPt1nHLuCVFULLw==
   dependencies:
     inherits "^2.0.3"
     source-map "^0.6.1"
@@ -5893,7 +5883,6 @@ jest-each@^23.6.0:
 jest-emotion@9:
   version "9.2.11"
   resolved "https://registry.yarnpkg.com/jest-emotion/-/jest-emotion-9.2.11.tgz#de1e5974f1a6e636fa87c631dd58f988ed8311f9"
-  integrity sha512-+u7I9lQg14LIW0g4i6D5ez+AUJks1K1P76e38hfbnv0uPph2z5yjN150BSsMQxHuoZZB1fKZmtEdrRPIqlUkGg==
   dependencies:
     "@types/jest" "^23.0.2"
     chalk "^2.4.1"
@@ -8972,7 +8961,6 @@ react-test-renderer@^16.5.2:
 react-transition-group@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.5.1.tgz#67fbd8d30ebb1c57a149d554dbb82eabefa61f0d"
-  integrity sha512-8x/CxUL9SjYFmUdzsBPTgtKeCxt7QArjNSte0wwiLtF/Ix/o1nWNJooNy5o9XbHIKS31pz7J5VF2l41TwlvbHQ==
   dependencies:
     dom-helpers "^3.3.1"
     loose-envify "^1.4.0"

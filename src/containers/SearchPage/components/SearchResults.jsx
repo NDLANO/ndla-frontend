@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { SearchResult, SearchResultList, SearchResultItem } from '@ndla/ui';
+import { SearchResult, SearchResultList } from '@ndla/ui';
 import { func, arrayOf, shape, string, number, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
