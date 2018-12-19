@@ -43,7 +43,7 @@ function doRenderPage(initialProps) {
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
-  return { html, docProps: { ...docProps, useZendesk: false } };
+  return { html, docProps };
 }
 
 export async function iframeArticleRoute(req) {

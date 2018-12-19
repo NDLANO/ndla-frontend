@@ -18,7 +18,6 @@ import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
-import ZendeskButton from './components/ZendeskButton';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 
 const Route = ({
@@ -37,7 +36,6 @@ const Route = ({
           {!hideMasthead && <Masthead locale={locale} {...props} />}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
-        <ZendeskButton />
       </Page>
     )}
   />

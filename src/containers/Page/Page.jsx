@@ -11,7 +11,9 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import ZendeskButton from '@ndla/zendesk';
 
+import config from '../../config';
 import Footer from './components/Footer';
 
 export const Page = props => {
@@ -24,7 +26,13 @@ export const Page = props => {
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       {children}
-      <Footer t={t} locale={locale} />
+      <Footer t={t} locale={locale}>
+        {config.zendeskWidgetKey && (
+          <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        )}
+      </Footer>
     </PageContainer>
   );
 };

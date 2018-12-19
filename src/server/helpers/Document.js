@@ -12,7 +12,6 @@ import serialize from 'serialize-javascript';
 import useragent from 'useragent';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
-import Zendesk from './Zendesk';
 
 const Document = ({
   helmet,
@@ -20,7 +19,6 @@ const Document = ({
   assets,
   css,
   data,
-  useZendesk,
   userAgentString,
 }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
@@ -86,7 +84,6 @@ const Document = ({
           />
         ))}
         {helmet.script.toComponent()}
-        <Zendesk useZendesk={useZendesk} locale={htmlAttrs.lang} />
 
         <script
           dangerouslySetInnerHTML={{
@@ -121,7 +118,6 @@ Document.propTypes = {
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
   }).isRequired,
-  useZendesk: PropTypes.bool,
 };
 
 export default Document;

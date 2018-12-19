@@ -4,8 +4,6 @@ FROM node:10-alpine as builder
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
 
-RUN npm install pm2 -g
-
 # Copy necessary files for installing dependencies
 COPY yarn.lock package.json $APP_PATH/
 
