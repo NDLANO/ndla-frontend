@@ -1,5 +1,5 @@
 const { modifyRule } = require('razzle-config-utils');
-const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -59,7 +59,7 @@ module.exports = {
     if (!dev) {
       appConfig.devtool = 'source-map';
     } else {
-      appConfig.devtool = 'eval-source-map';
+      appConfig.devtool = 'cheap-module-source-map';
     }
 
     return appConfig;

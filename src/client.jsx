@@ -11,12 +11,12 @@ import 'isomorphic-unfetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router from 'react-router-dom/Router';
-import createHistory from 'history/createBrowserHistory';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from '@ndla/tracker';
 import { hydrate } from 'emotion';
+import { createHistory } from './history';
 import { getLocaleInfoFromPath } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
 import routes from './routes';
@@ -31,7 +31,7 @@ const { abbreviation, messages, basename } = getLocaleInfoFromPath(
 
 hydrate(ids);
 
-const browserHistory = basename ? createHistory({ basename }) : createHistory();
+const browserHistory = createHistory(basename);
 
 const {
   disableSSR,
@@ -58,27 +58,21 @@ const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
 
-const renderApp = () => {
-  renderOrHydrate(
-    <ApolloProvider client={client}>
-      <IntlProvider locale={abbreviation} messages={messages}>
-        <Router history={browserHistory}>
-          {routes(initialProps, abbreviation)}
-        </Router>
-      </IntlProvider>
-    </ApolloProvider>,
-    document.getElementById('root'),
-    () => {
-      // See: /src/util/transformArticle.js for info on why this is needed.
-      window.hasHydrated = true;
-    },
-  );
-};
-
-renderApp();
+renderOrHydrate(
+  <ApolloProvider client={client}>
+    <IntlProvider locale={abbreviation} messages={messages}>
+      <Router history={browserHistory}>
+        {routes(initialProps, abbreviation)}
+      </Router>
+    </IntlProvider>
+  </ApolloProvider>,
+  document.getElementById('root'),
+  () => {
+    // See: /src/util/transformArticle.js for info on why this is needed.
+    window.hasHydrated = true;
+  },
+);
 
 if (module.hot) {
-  module.hot.accept('./routes', () => {
-    renderApp();
-  });
+  module.hot.accept();
 }

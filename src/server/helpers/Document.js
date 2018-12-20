@@ -25,7 +25,6 @@ const Document = ({
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
-    // eslint-disable-next-line jsx-a11y/html-has-lang
     <html className={className} {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
