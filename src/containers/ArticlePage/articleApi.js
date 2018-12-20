@@ -30,3 +30,6 @@ export const fetchArticles = ids =>
   fetchWithAccessToken(`${baseUrl}?ids=${ids.join(',')}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchArticleOembed = url =>
+  fetchWithAccessToken(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);

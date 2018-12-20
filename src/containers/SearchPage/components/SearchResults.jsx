@@ -7,25 +7,32 @@
 
 import React from 'react';
 import { SearchResult, SearchResultList } from '@ndla/ui';
-import { func, arrayOf, shape, string, number } from 'prop-types';
+import { func, arrayOf, shape, string, number, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
-import { ArticleResultShape } from '../../../shapes';
+import {
+  ArticleResultShape,
+  LtiDataShape,
+  SearchParamsShape,
+} from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 import SearchContextFilters from './SearchContextFilters';
 
 const SearchResults = ({
   results,
   resultMetadata,
-  filterState,
+  searchParams,
   enabledTabs,
+  enabledTab,
   onTabChange,
   query,
   onUpdateContextFilters,
   resourceTypes,
+  includeEmbedButton,
+  ltiData,
+  allTabValue,
   t,
 }) => {
-  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
   const { totalCount = '' } = resultMetadata || {};
   return (
     <SearchResult
@@ -47,9 +54,11 @@ const SearchResults = ({
         title: tab.name,
       }))}
       onTabChange={tab => onTabChange(tab, enabledTabs)}
-      currentTab={enabledTab || 'all'}>
+      currentTab={enabledTab || allTabValue}>
       <SearchContextFilters
-        filterState={filterState}
+        allTabValue={allTabValue}
+        enabledTab={enabledTab}
+        searchParams={searchParams}
         resourceTypes={resourceTypes}
         onUpdateContextFilters={onUpdateContextFilters}
       />
@@ -63,19 +72,22 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
-        results={results && resultsWithContentTypeBadgeAndImage(results, t)}
+        results={
+          results &&
+          resultsWithContentTypeBadgeAndImage(
+            results,
+            t,
+            includeEmbedButton,
+            ltiData,
+          )
+        }
       />
     </SearchResult>
   );
 };
 
 SearchResults.propTypes = {
-  filterState: shape({
-    resourceTypes: string,
-    subjects: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   query: string,
   enabledTabs: arrayOf(
     shape({
@@ -90,7 +102,11 @@ SearchResults.propTypes = {
   resultMetadata: shape({
     totalCount: number,
   }),
+  allTabValue: string.isRequired,
   onUpdateContextFilters: func,
+  includeEmbedButton: bool,
+  ltiData: LtiDataShape,
+  enabledTab: string.isRequired,
 };
 
 export default injectT(SearchResults);

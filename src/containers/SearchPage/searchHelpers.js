@@ -4,6 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
+import LtiEmbed from '../../lti/LtiEmbed';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -91,7 +92,14 @@ const taxonomyData = (result, selectedContext) => {
   return taxonomyResult;
 };
 
-const arrayFields = ['languageFilter', 'levels', 'subjects', 'contextFilters'];
+const arrayFields = [
+  'languageFilter',
+  'levels',
+  'subjects',
+  'contextFilters',
+  'contextTypes',
+  'resourceTypes',
+];
 
 export const converSearchStringToObject = location => {
   const searchLocation = queryString.parse(location ? location.search : '');
@@ -144,7 +152,12 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
     };
   });
 
-export const resultsWithContentTypeBadgeAndImage = (results, t) =>
+export const resultsWithContentTypeBadgeAndImage = (
+  results,
+  t,
+  includeEmbedButton,
+  ltiData,
+) =>
   results.map(result => {
     const { contentType } = result;
 
@@ -156,6 +169,11 @@ export const resultsWithContentTypeBadgeAndImage = (results, t) =>
           type={contentType || result.contentType}
           size="x-small"
         />
+      ),
+      children: includeEmbedButton ? (
+        <LtiEmbed ltiData={ltiData} item={result} />
+      ) : (
+        undefined
       ),
       contentTypeLabel:
         contentType || result.contentType

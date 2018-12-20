@@ -7,22 +7,23 @@
 
 import React from 'react';
 import { SearchFilter } from '@ndla/ui';
-import { func, arrayOf, shape, string } from 'prop-types';
+import { func, arrayOf, string } from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { SearchParamsShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const SearchContextFilters = ({
-  filterState,
-  // enabledTab,
+  searchParams,
   onUpdateContextFilters,
   resourceTypes,
+  allTabValue,
+  enabledTab,
   t,
 }) => {
-  const enabledTab = filterState.resourceTypes || filterState.contextTypes;
-
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||
+    enabledTab === allTabValue ||
     !enabledTab
   ) {
     return null;
@@ -41,19 +42,15 @@ const SearchContextFilters = ({
         title: subType.name,
         value: subType.id,
       }))}
-      values={filterState.contextFilters}
+      values={searchParams.contextFilters}
     />
   );
 };
 
 SearchContextFilters.propTypes = {
-  filterState: shape({
-    resourceTypes: string,
-    subjects: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-    contextFilters: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
+  enabledTab: string.isRequired,
+  allTabValue: string.isRequired,
   resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
   onUpdateContextFilters: func,
 };

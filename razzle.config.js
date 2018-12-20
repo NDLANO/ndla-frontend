@@ -23,9 +23,15 @@ module.exports = {
           appConfig.entry.client[1],
           './src/iframe',
         ];
+        appConfig.entry.ltiEmbed = [
+          appConfig.entry.client[0],
+          appConfig.entry.client[1],
+          './src/lti',
+        ];
         appConfig.entry.injectCss = ['./src/style/index.css'];
       } else {
         appConfig.entry.embed = ['./src/iframe'];
+        appConfig.entry.ltiEmbed = ['./src/lti'];
       }
 
       appConfig.entry.mathJaxConfig = dev

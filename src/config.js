@@ -81,13 +81,21 @@ const getAuth0Hostname = () => {
   }
 };
 
+const logglyApiKey = () => {
+  if (process.env.NODE_ENV === 'unittest') {
+    return '';
+  }
+  return getEnvironmentVariabel('LOGGLY_API_KEY');
+};
+
 const config = {
   componentName: 'ndla-frontend',
+  ndlaEnvironment,
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
-  logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
+  logglyApiKey: logglyApiKey(),
   disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
