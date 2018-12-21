@@ -30,13 +30,15 @@ const Document = ({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {useragent.parse(userAgentString).family === 'IE' && (
-          <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"
-            defer
-            async
-          />
-        )}
+        {useragent.parse(userAgentString).family === 'IE' &&
+          assets.polyfill && (
+            <script
+              type="text/javascript"
+              defer
+              src={assets.polyfill.js}
+              crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
+            />
+          )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"

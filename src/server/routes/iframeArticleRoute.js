@@ -35,6 +35,7 @@ if (process.env.NODE_ENV === 'unittest') {
 const getAssets = () => ({
   css: assets.client.css,
   js: [assets.embed.js],
+  polyfill: assets.polyfill.js,
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 

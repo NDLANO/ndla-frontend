@@ -1,8 +1,14 @@
 const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const addEntry = require('./razzle-add-entry-plugin');
 
 module.exports = {
+  plugins: [
+    addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
+    addEntry({ entry: './src/iframe', name: 'embed' }),
+    addEntry({ entry: './src/mathjax/config', name: 'mathJaxConfig' }),
+  ],
   modify(config, { target, dev }) {
     const appConfig = config;
 
@@ -17,20 +23,13 @@ module.exports = {
         ? 'static/js/[name].js'
         : 'static/js/[name].[hash:8].js';
 
-      if (dev) {
-        appConfig.entry.embed = [
-          appConfig.entry.client[0],
-          appConfig.entry.client[1],
-          './src/iframe',
-        ];
-        appConfig.entry.injectCss = ['./src/style/index.css'];
-      } else {
-        appConfig.entry.embed = ['./src/iframe'];
-      }
+      appConfig.entry.client = appConfig.entry.client.filter(entry => {
+        return !entry.endsWith('polyfills.js'); // we provide our own polyfill
+      });
 
-      appConfig.entry.mathJaxConfig = dev
-        ? [appConfig.entry.client[1], './src/mathjax/config.js']
-        : ['./src/mathjax/config.js'];
+      if (dev) {
+        appConfig.entry.injectCss = ['./src/style/index.css'];
+      }
 
       if (!dev) {
         appConfig.plugins.push(
@@ -48,6 +47,7 @@ module.exports = {
     }
 
     if (target === 'node' && !dev) {
+      appConfig.node.Buffer = false;
       // This change bundles node_modules into server.js. The result is smaller Docker images.
       // It triggers a couple of «Critical dependency: the request of a dependency is an
       // expression warning» which we can safely ignore.
