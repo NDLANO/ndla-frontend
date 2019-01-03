@@ -11,3 +11,4 @@ export { defaultRoute } from './defaultRoute';
 export { iframeArticleRoute } from './iframeArticleRoute';
 export { oembedArticleRoute } from './oembedArticleRoute';
 export { forwardingRoute } from './forwardingRoute';
+export { ltiRoute } from './ltiRoute';

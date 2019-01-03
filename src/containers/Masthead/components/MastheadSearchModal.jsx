@@ -12,22 +12,22 @@ import Modal from '@ndla/modal';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
+import { ToggleSearchButton } from '@ndla/ui';
 
-import { Search } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-
-const classes = BEMHelper({
-  prefix: 'c-',
-  name: 'toggle-search-button',
-  outputIsString: true,
-});
 
 const searchFieldClasses = BEMHelper({
   prefix: 'c-',
   name: 'search-field',
 });
 
-const MastheadSearchModal = ({ onSearchExit, children, searchFieldRef, t }) => (
+const MastheadSearchModal = ({
+  onSearchExit,
+  children,
+  hideOnNarrowScreen,
+  searchFieldRef,
+  t,
+}) => (
   <Modal
     backgroundColor="grey"
     animation="slide-down"
@@ -39,14 +39,9 @@ const MastheadSearchModal = ({ onSearchExit, children, searchFieldRef, t }) => (
     onClose={onSearchExit}
     className="c-search-field__overlay-content"
     activateButton={
-      <button
-        type="button"
-        className="c-button c-toggle-search-button__button c-toggle-search-button__button--wide">
-        <span className={classes('button-text')}>
-          {t('masthead.menu.search')}
-        </span>
-        <Search />
-      </button>
+      <ToggleSearchButton hideOnNarrowScreen={hideOnNarrowScreen}>
+        {t('masthead.menu.search')}
+      </ToggleSearchButton>
     }>
     {onClose => (
       <Fragment>
@@ -66,6 +61,7 @@ const MastheadSearchModal = ({ onSearchExit, children, searchFieldRef, t }) => (
 
 MastheadSearchModal.propTypes = {
   onSearchExit: PropTypes.func.isRequired,
+  hideOnNarrowScreen: PropTypes.bool.isRequired,
   searchFieldRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 };
 

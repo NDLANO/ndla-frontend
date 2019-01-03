@@ -23,10 +23,13 @@ RUN yarn run build
 ### Run stage
 FROM node:10-alpine
 
+RUN apk add py2-pip jq && pip install awscli
+COPY run-ndla-frontend.sh /
+
 RUN npm install pm2 -g
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["pm2-runtime", "-i", "max", "build/server.js", "|", "bunyan"]
+CMD ["/run-ndla-frontend.sh", "pm2-runtime -i max build/server.js '|' bunyan"]

@@ -13,6 +13,10 @@ import IntlProvider from '@ndla/i18n';
 import ErrorPage from '../ErrorPage';
 import { getLocaleObject } from '../../../i18n';
 
+jest.mock('../../../config', () => ({
+  zendeskWidgetKey: '123',
+}));
+
 test('ErrorPage renderers correctly', () => {
   const locale = getLocaleObject('nb');
   const component = renderer.create(

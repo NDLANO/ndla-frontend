@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
+import { TopicMenuButton } from '@ndla/ui';
 
 const MastheadMenuModal = ({ children, onMenuExit, t }) => (
   <Modal
     size="fullscreen"
     activateButton={
-      <Button
-        outline
-        data-testid="masthead-menu-button"
-        className="c-topic-menu-toggle-button">
+      <TopicMenuButton data-testid="masthead-menu-button">
         {t('masthead.menu.title')}
-      </Button>
+      </TopicMenuButton>
     }
     animation="subtle"
     animationDuration={150}

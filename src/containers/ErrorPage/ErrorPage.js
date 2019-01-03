@@ -12,7 +12,6 @@ import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { Trans } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
-import ZendeskButton from '../../components/ZendeskButton';
 
 const ErrorPage = ({ locale }) => (
   <Page locale={locale}>
@@ -28,7 +27,6 @@ const ErrorPage = ({ locale }) => (
       </Masthead>
       <DefaultErrorMessage />
     </Content>
-    <ZendeskButton />
   </Page>
 );
 
