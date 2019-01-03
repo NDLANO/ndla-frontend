@@ -330,9 +330,9 @@
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
-"@ndla/ui@^0.19.2":
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.2.tgz#f0230119bbb395bd3d74d8e437202e761adaad7e"
+"@ndla/ui@^0.19.3":
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.3.tgz#c9fbd5ed145d3a03cb16bfea8560fe0aa4121406"
   dependencies:
     "@ndla/button" "^0.2.0"
     "@ndla/core" "^0.4.4"
