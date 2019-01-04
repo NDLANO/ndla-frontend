@@ -25,8 +25,8 @@ const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-lin
 
 const getAssets = () => ({
   css: assets.client.css ? assets.client.css : undefined,
-  polyfill: assets.polyfill.js,
-  js: [assets.client.js],
+  polyfill: { src: assets.polyfill.js },
+  js: [{ src: assets.client.js }],
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 

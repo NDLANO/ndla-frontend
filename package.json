@@ -56,7 +56,7 @@
     "@ndla/licenses": "^0.4.1",
     "@ndla/modal": "^0.2.5",
     "@ndla/pager": "^0.3.4",
-    "@ndla/polyfill": "^0.0.0",
+    "@ndla/polyfill": "^0.0.1",
     "@ndla/tabs": "^0.9.4",
     "@ndla/tracker": "^0.3.1",
     "@ndla/ui": "^0.19.1",
@@ -116,15 +116,12 @@
     "react-router-dom": "^4.3.1",
     "react-tabs": "^2.3.0",
     "redux": "^4.0.0",
-    "request": "^2.88.0",
     "reselect": "^4.0.0",
     "sass-loader": "^7.1.0",
     "serialize-javascript": "^1.5.0",
     "source-map-support": "^0.5.9",
-    "useragent": "^2.3.0",
     "warning": "^4.0.2",
-    "webpack-bundle-analyzer": "^3.0.2",
-    "yamlparser": "^0.0.2"
+    "webpack-bundle-analyzer": "^3.0.2"
   },
   "repository": {
     "type": "git",

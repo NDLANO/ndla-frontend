@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
-import useragent from 'useragent';
+import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
@@ -30,15 +30,6 @@ const Document = ({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {useragent.parse(userAgentString).family === 'IE' &&
-          assets.polyfill && (
-            <script
-              type="text/javascript"
-              defer
-              src={assets.polyfill.js}
-              crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
-            />
-          )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
@@ -75,15 +66,7 @@ const Document = ({
             __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
-        {assets.js.map(js => (
-          <script
-            key={js}
-            type="text/javascript"
-            src={js}
-            defer
-            crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
-          />
-        ))}
+        <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
         {helmet.script.toComponent()}
 
         <script
