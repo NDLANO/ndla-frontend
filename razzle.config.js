@@ -23,10 +23,6 @@ module.exports = {
         ? 'static/js/[name].js'
         : 'static/js/[name].[hash:8].js';
 
-      appConfig.entry.client = appConfig.entry.client.filter(entry => {
-        return !entry.endsWith('polyfills.js'); // we provide our own polyfill
-      });
-
       if (dev) {
         appConfig.entry.injectCss = ['./src/style/index.css'];
       }

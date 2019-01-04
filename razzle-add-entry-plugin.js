@@ -5,7 +5,7 @@ module.exports = options => (config, env, webpack) => {
   if (target === 'web') {
     if (dev) {
       appConfig.entry[options.name] = [
-        appConfig.entry.client[1], // hot reloading
+        appConfig.entry.client[0], // hot reloading
         options.entry,
       ];
     } else {

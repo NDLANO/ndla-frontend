@@ -102,7 +102,7 @@
     "postcss-reporter": "^6.0.0",
     "prop-types": "^15.6.2",
     "query-string": "5",
-    "razzle": "3.0.0-alpha.0",
+    "razzle": "^3.0.0-alpha.1",
     "razzle-config-utils": "^0.1.0",
     "react": "^16.6.3",
     "react-apollo": "^2.2.4",
