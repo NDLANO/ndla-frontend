@@ -13,19 +13,12 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({
-  helmet,
-  className,
-  assets,
-  css,
-  data,
-  userAgentString,
-}) => {
+const Document = ({ helmet, assets, css, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
-    <html className={className} {...htmlAttrs}>
+    <html {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
@@ -68,7 +61,6 @@ const Document = ({
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
         {helmet.script.toComponent()}
-
         <script
           dangerouslySetInnerHTML={{
             __html: `window.twttr = (function (d, s, id) {
@@ -77,6 +69,7 @@ const Document = ({
             if (d.getElementById(id)) return t;
             js = d.createElement(s);
             js.id = id;
+            js.async = true;
             js.src = "https://platform.twitter.com/widgets.js";
             fjs.parentNode.insertBefore(js, fjs);
             t._e = [];
@@ -95,8 +88,6 @@ const Document = ({
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  userAgentString: PropTypes.string.isRequired,
-  className: PropTypes.string,
   css: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,
