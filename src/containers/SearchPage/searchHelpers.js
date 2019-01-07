@@ -102,8 +102,6 @@ const arrayFields = [
   'contextTypes',
   'contextFilters',
 ];
-  
-  
 
 export const converSearchStringToObject = location => {
   const searchLocation = queryString.parse(location ? location.search : '');
