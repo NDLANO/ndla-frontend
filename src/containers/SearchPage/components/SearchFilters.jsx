@@ -10,17 +10,18 @@ import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
 import { Core, Additional } from '@ndla/icons/common';
-import { FilterShape, SubjectShape } from '../../../shapes';
+import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
 import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 
 const SearchFilters = ({
   subjects,
   activeSubjects,
-  filterState,
+  searchParams,
   onChange,
   onContentTypeChange,
   enabledTabs,
+  enabledTab,
   t,
 }) => {
   const allSubjects = subjects.map(subject => ({
@@ -53,13 +54,6 @@ const SearchFilters = ({
     })),
   ];
 
-  const enabledTab =
-    enabledTabs.find(
-      tab =>
-        filterState.resourceTypes === tab.value ||
-        filterState.contextTypes === tab.value,
-    ) || enabledTabs[0];
-
   return (
     <Fragment>
       <SearchFilter
@@ -67,26 +61,28 @@ const SearchFilters = ({
         noFilterSelectedLabel={t('searchPage.label.noFilter')}
         options={activeSubjects}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
-        values={filterState.subjects || []}>
-        <SearchPopoverFilter
-          messages={{
-            backButton: t('searchPage.searchFilterMessages.backButton'),
-            filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-            closeButton: t('searchPage.close'),
-            confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
-            hasValuesButtonText: t(
-              'searchPage.searchFilterMessages.hasValuesButtonText',
-            ),
-            noValuesButtonText: t(
-              'searchPage.searchFilterMessages.noValuesButtonText',
-            ),
-          }}
-          options={allSubjects}
-          values={filterState.subjects}
-          onChange={(newValues, value) =>
-            onChange(newValues, value, 'subjects')
-          }
-        />
+        values={searchParams.subjects || []}>
+        {searchParams.subjects && (
+          <SearchPopoverFilter
+            messages={{
+              backButton: t('searchPage.searchFilterMessages.backButton'),
+              filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
+              closeButton: t('searchPage.close'),
+              confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
+              hasValuesButtonText: t(
+                'searchPage.searchFilterMessages.hasValuesButtonText',
+              ),
+              noValuesButtonText: t(
+                'searchPage.searchFilterMessages.noValuesButtonText',
+              ),
+            }}
+            options={allSubjects}
+            values={searchParams.subjects}
+            onChange={(newValues, value) =>
+              onChange(newValues, value, 'subjects')
+            }
+          />
+        )}
       </SearchFilter>
       <SearchFilter
         label={t(`searchPage.label.contentTypes`)}
@@ -95,7 +91,7 @@ const SearchFilters = ({
         showLabel={t(`searchPage.showLabel.contentTypes`)}
         hideLabel={t(`searchPage.hideLabel.contentTypes`)}
         options={allContentTypes}
-        values={[enabledTab.value]}
+        values={[enabledTab ? enabledTab.value : 'all']}
         onChange={(newValues, tab) => onContentTypeChange(tab)}
       />
       {subjectFilters.map(searchFilter => (
@@ -106,7 +102,7 @@ const SearchFilters = ({
           showLabel={t(`searchPage.showLabel.levels`)}
           hideLabel={t(`searchPage.hideLabel.levels`)}
           options={searchFilter.options}
-          values={filterState.levels || []}
+          values={searchParams.levels || []}
           onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
@@ -117,7 +113,7 @@ const SearchFilters = ({
           value,
           icon: value === RELEVANCE_CORE ? Additional : Core,
         }))}
-        values={filterState.relevance}
+        values={searchParams.relevance}
         onChange={(newValues, value) => {
           onChange(newValues, value, 'relevance');
         }}
@@ -128,7 +124,7 @@ const SearchFilters = ({
         showLabel={t(`searchPage.showLabel.languageFilter`)}
         hideLabel={t(`searchPage.hideLabel.languageFilter`)}
         options={languages}
-        values={filterState.languageFilter || []}
+        values={searchParams.languageFilter || []}
         onChange={(newValues, value) =>
           onChange(newValues, value, 'languageFilter')
         }
@@ -146,12 +142,7 @@ SearchFilters.propTypes = {
       value: string,
     }),
   ),
-  filterState: shape({
-    resourceTypes: string,
-    subjects: arrayOf(string),
-    languageFilter: arrayOf(string),
-    levels: arrayOf(string),
-  }),
+  searchParams: SearchParamsShape,
   filters: arrayOf(FilterShape),
   onChange: func,
   onContentTypeChange: func,
@@ -162,6 +153,7 @@ SearchFilters.propTypes = {
       type: string,
     }),
   ),
+  enabledTab: string.isRequired,
 };
 
 export default injectT(SearchFilters);

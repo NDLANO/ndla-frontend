@@ -16,8 +16,7 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 
 script:
-  - yarn lint
-  - yarn test-ci
+  - yarn check-all
   - yarn build
   - yarn e2e-ci
 

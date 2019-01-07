@@ -25,6 +25,7 @@ import {
   oembedArticleRoute,
   iframeArticleRoute,
   forwardingRoute,
+  ltiRoute,
 } from './routes';
 import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
@@ -32,10 +33,14 @@ import handleError from '../util/handleError';
 import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
+import ltiConfig from './ltiConfig';
 
 global.fetch = fetch;
 const app = express();
-const allowedBodyContentTypes = ['application/json'];
+const allowedBodyContentTypes = [
+  'application/json',
+  'application/x-www-form-urlencoded',
+];
 
 app.disable('x-powered-by');
 
@@ -43,6 +48,7 @@ const ndlaMiddleware = [
   express.static(process.env.RAZZLE_PUBLIC_DIR, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
+  bodyParser.urlencoded({ extended: true }),
   bodyParser.json({
     type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
   }),
@@ -125,27 +131,48 @@ async function handleRequest(req, res, route) {
 
 app.get('/static/*', ndlaMiddleware);
 
+const iframArticleCallback = async (req, res) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeArticleRoute);
+};
+
 app.get(
   '/article-iframe/:lang/article/:articleId',
   ndlaMiddleware,
-  async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  },
+  iframArticleCallback,
 );
-
 app.get(
   '/article-iframe/:lang/:resourceId/:articleId',
   ndlaMiddleware,
-  async (req, res) => {
-    res.removeHeader('X-Frame-Options');
-    handleRequest(req, res, iframeArticleRoute);
-  },
+  iframArticleCallback,
+);
+app.post(
+  '/article-iframe/:lang/article/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
+);
+app.post(
+  '/article-iframe/:lang/:resourceId/:articleId',
+  ndlaMiddleware,
+  iframArticleCallback,
 );
 
 app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
+});
+
+app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
+  res.setHeader('Content-Type', 'application/xml');
+  res.send(ltiConfig());
+});
+
+app.post('/lti', ndlaMiddleware, async (req, res) => {
+  handleRequest(req, res, ltiRoute);
+});
+
+app.get('/lti', ndlaMiddleware, async (req, res) => {
+  handleRequest(req, res, ltiRoute);
 });
 
 app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));

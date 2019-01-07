@@ -6,41 +6,45 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes, { func, number, string, arrayOf, shape } from 'prop-types';
-import { compose } from 'redux';
+import PropTypes, {
+  func,
+  number,
+  string,
+  arrayOf,
+  shape,
+  bool,
+} from 'prop-types';
 import Pager from '@ndla/pager';
-import { SearchPage, OneColumn } from '@ndla/ui';
-import queryString from 'query-string';
-import { withRouter } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
-import { SubjectShape, FilterShape, LocationShape } from '../../shapes';
-import { GraphqlResourceTypeWithsubtypesShape } from '../../graphqlShapes';
+import {
+  SubjectShape,
+  FilterShape,
+  LtiDataShape,
+  SearchParamsShape,
+} from '../../shapes';
+import {
+  GraphqlResourceTypeWithsubtypesShape,
+  GraphQLSubjectShape,
+} from '../../graphqlShapes';
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
 import {
-  converSearchStringToObject,
   convertSearchParam,
   convertResult,
   getResultMetadata,
 } from './searchHelpers';
-import { runQueries } from '../../util/runQueries';
-import {
-  searchQuery,
-  resourceTypesWithSubTypesQuery,
-  subjectsWithFiltersQuery,
-} from '../../queries';
+import { searchQuery } from '../../queries';
 import handleError from '../../util/handleError';
-import { sortResourceTypes } from '../Resources/getResourceGroups';
 
 class SearchContainer extends Component {
   constructor(props) {
     super(props);
-    const searchObject = converSearchStringToObject(props.location);
+    const { searchParams } = props;
     this.state = {
-      query: searchObject.query || '',
+      query: searchParams.query || '',
     };
   }
 
@@ -50,8 +54,8 @@ class SearchContainer extends Component {
   };
 
   onFilterChange = (newValues, value, type) => {
-    const { location } = this.props;
-    const { subjects } = converSearchStringToObject(location);
+    const { searchParams } = this.props;
+    const { subjects } = searchParams;
     if (type === 'subjects' && newValues.length < subjects.length) {
       this.onRemoveSubject({ subjects: newValues }, value);
     } else {
@@ -60,24 +64,24 @@ class SearchContainer extends Component {
   };
 
   onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { location, data } = this.props;
-    const { levels } = converSearchStringToObject(location);
+    const { searchParams, data, handleSearchParamsChange } = this.props;
+    const { levels } = searchParams;
     const subject = data.subjects.find(s => s.id === subjectId);
 
     const removedFilters = subject.filters
       ? subject.filters.map(level => level.name)
       : [];
 
-    this.updateSearchLocation({
+    handleSearchParamsChange({
       ...subjectsSearchParam,
       levels: levels.filter(level => !removedFilters.includes(level)),
     });
   };
 
   onSearchFieldFilterRemove = removedSubject => {
-    const { subjects: subjectsInUrl } = converSearchStringToObject(
-      this.props.location,
-    );
+    const { searchParams } = this.props;
+    const { subjects: subjectsInUrl } = searchParams;
+
     const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
@@ -85,47 +89,44 @@ class SearchContainer extends Component {
   };
 
   onUpdateContextFilters = values => {
-    this.updateSearchLocation({
+    const { handleSearchParamsChange } = this.props;
+    handleSearchParamsChange({
       contextFilters: values,
     });
   };
 
-  static getInitialProps = ctx => {
-    const { client } = ctx;
-
-    try {
-      return runQueries(client, [
-        {
-          query: resourceTypesWithSubTypesQuery,
-        },
-        { query: subjectsWithFiltersQuery },
-      ]);
-    } catch (error) {
-      handleError(error);
-      return null;
+  getEnabledTab = stateSearchParams => {
+    const { allTabValue } = this.props;
+    if (stateSearchParams.resourceTypes) {
+      return stateSearchParams.resourceTypes;
     }
+    if (stateSearchParams.contextTypes) {
+      return stateSearchParams.contextTypes;
+    }
+    return allTabValue;
   };
 
   updateFilter = searchParam => {
+    const { handleSearchParamsChange } = this.props;
     const page = searchParam.page || 1;
-    this.updateSearchLocation({
+    handleSearchParamsChange({
       ...searchParam,
       page,
     });
   };
 
   updateTab = (value, enabledTabs) => {
+    const { handleSearchParamsChange, allTabValue } = this.props;
     const enabledTab = enabledTabs.find(tab => value === tab.value);
-    const searchParams =
-      !enabledTab || enabledTab.value === 'all'
+    const newParams =
+      !enabledTab || enabledTab.value === allTabValue
         ? {}
-        : { [enabledTab.type]: enabledTab.value };
-
-    this.updateSearchLocation({
+        : { [enabledTab.type]: [enabledTab.value] };
+    handleSearchParamsChange({
       contextTypes: undefined,
       resourceTypes: undefined,
       contextFilters: [],
-      ...searchParams,
+      ...newParams,
       page: 1,
     });
   };
@@ -134,51 +135,28 @@ class SearchContainer extends Component {
     this.setState({ query });
   };
 
-  updateSearchLocation = searchParams => {
-    const { location, history } = this.props;
+  render() {
+    const {
+      t,
+      data,
+      locale,
+      searchParams,
+      includeEmbedButton,
+      ltiData,
+      enabledTabs,
+      allTabValue,
+    } = this.props;
+    const { subjects } = data;
+    const { query } = this.state;
+
     const stateSearchParams = {};
     Object.keys(searchParams).forEach(key => {
       stateSearchParams[key] = convertSearchParam(searchParams[key]);
     });
-
-    history.push({
-      pathname: '/search',
-      search: queryString.stringify({
-        ...queryString.parse(location.search),
-        ...stateSearchParams,
-      }),
-    });
-  };
-
-  render() {
-    const { t, location, data, loading, locale } = this.props;
-    if (loading) {
-      return null;
-    }
-    const { subjects } = data;
-    const { query } = this.state;
-
-    const searchObject = converSearchStringToObject(location);
-
-    const stateSearchParams = {};
-    Object.keys(searchObject).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(searchObject[key]);
-    });
-
-    const searchParamsToGraphQL = {
-      ...queryString.parse(location.search),
-      ...stateSearchParams,
-      contextTypes: !stateSearchParams.contextFilters
-        ? stateSearchParams.contextTypes
-        : undefined,
-      resourceTypes:
-        stateSearchParams.contextFilters || stateSearchParams.resourceTypes,
-      contextFilters: undefined,
-    };
-
+    const enabledTab = this.getEnabledTab(stateSearchParams);
     const activeSubjectsMapped =
       subjects && subjects.length > 0
-        ? searchObject.subjects
+        ? searchParams.subjects
             .map(it => {
               const subject = subjects.find(s => s.id === it);
               return subject
@@ -193,30 +171,12 @@ class SearchContainer extends Component {
             .filter(subject => !!subject)
         : [];
 
-    const resourceTypeTabs =
-      data && data.resourceTypes
-        ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
-            value: resourceType.id,
-            type: 'resourceTypes',
-            name: resourceType.name,
-          }))
-        : [];
-
-    const enabledTabs = [
-      { value: 'all', name: t('contentTypes.all') },
-      {
-        value: 'topic-article',
-        type: 'contextTypes',
-        name: t('contentTypes.subject'),
-      },
-      ...resourceTypeTabs,
-    ];
-
     const searchFilters = (
       <SearchFilters
         onChange={this.onFilterChange}
-        filterState={searchObject}
+        searchParams={searchParams}
         subjects={subjects}
+        enabledTab={enabledTab}
         activeSubjects={activeSubjectsMapped}
         enabledTabs={enabledTabs}
         onContentTypeChange={this.onTabChange}
@@ -236,89 +196,80 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
-    const enabledTab = searchObject.resourceTypes || searchObject.contextTypes;
 
     return (
-      <OneColumn cssModifier="clear-desktop" wide>
-        <HelmetWithTracker title={t('htmlTitles.searchPage')} />
-        <Query
-          asyncMode
-          query={searchQuery}
-          variables={searchParamsToGraphQL}
-          fetchPolicy="no-cache"
-          ssr={false}>
-          {({ error, data: searchData }) => {
-            if (error) {
-              handleError(error);
-              return `Error: ${error.message}`;
-            }
-            const { search } = searchData || {};
-            const resultMetadata = search ? getResultMetadata(search) : {};
-            return (
-              <SearchPage
-                closeUrl="/#"
-                searchString={query || ''}
-                onSearchFieldChange={e => this.updateQuery(e.target.value)}
-                onSearch={this.onQuerySubmit}
-                onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
-                searchFieldFilters={activeSubjectsMapped}
-                activeFilters={activeSubjectsMapped}
-                messages={searchPageMessages(resultMetadata.totalCount)}
-                resourceToLinkProps={resourceToLinkProps}
-                filters={searchFilters}>
-                <SearchResults
-                  results={
-                    search &&
-                    convertResult(
-                      search.results,
-                      searchObject.subjects,
-                      enabledTab,
-                      locale,
-                    )
-                  }
-                  resourceTypes={
-                    data && data.resourceTypes ? data.resourceTypes : []
-                  }
-                  resultMetadata={resultMetadata}
-                  filterState={searchObject}
-                  enabledTabs={enabledTabs}
-                  onTabChange={this.updateTab}
-                  query={searchObject.query}
-                  onUpdateContextFilters={this.onUpdateContextFilters}
+      <Query
+        asyncMode
+        query={searchQuery}
+        variables={stateSearchParams}
+        fetchPolicy="no-cache"
+        ssr={false}>
+        {queryResult => {
+          const { error, data: searchData } = queryResult;
+          if (error) {
+            handleError(error);
+            return `Error: ${error.message}`;
+          }
+          const { search } = searchData || {};
+          const resultMetadata = search ? getResultMetadata(search) : {};
+
+          const isReadyToShow = queryResult && !queryResult.loading && search;
+          const searchResults = isReadyToShow
+            ? convertResult(
+                search.results,
+                searchParams.subjects,
+                enabledTab,
+                locale,
+              )
+            : [];
+
+          return (
+            <SearchPage
+              closeUrl="/#"
+              searchString={query || ''}
+              onSearchFieldChange={e => this.updateQuery(e.target.value)}
+              onSearch={this.onQuerySubmit}
+              onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
+              searchFieldFilters={activeSubjectsMapped}
+              activeFilters={activeSubjectsMapped}
+              messages={searchPageMessages(resultMetadata.totalCount)}
+              resourceToLinkProps={resourceToLinkProps}
+              filters={searchFilters}>
+              <SearchResults
+                results={searchResults}
+                resourceTypes={
+                  data && data.resourceTypes ? data.resourceTypes : []
+                }
+                enabledTab={enabledTab}
+                resultMetadata={resultMetadata}
+                searchParams={searchParams}
+                enabledTabs={enabledTabs}
+                allTabValue={allTabValue}
+                onTabChange={this.updateTab}
+                query={searchParams.query}
+                onUpdateContextFilters={this.onUpdateContextFilters}
+                includeEmbedButton={includeEmbedButton}
+                ltiData={ltiData}
+              />
+              {isReadyToShow && (
+                <Pager
+                  page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
+                  lastPage={resultMetadata.lastPage}
+                  query={searchParams}
+                  pathname=""
+                  onClick={this.updateFilter}
+                  pageItemComponentClass="button"
                 />
-                {search && (
-                  <Pager
-                    page={
-                      searchObject.page ? parseInt(searchObject.page, 10) : 1
-                    }
-                    lastPage={resultMetadata.lastPage}
-                    query={searchObject}
-                    pathname=""
-                    onClick={this.updateFilter}
-                    pageItemComponentClass="button"
-                  />
-                )}
-              </SearchPage>
-            );
-          }}
-        </Query>
-      </OneColumn>
+              )}
+            </SearchPage>
+          );
+        }}
+      </Query>
     );
   }
 }
 
 SearchContainer.propTypes = {
-  location: LocationShape,
-  history: shape({
-    push: func.isRequired,
-  }).isRequired,
-  enabledTabs: arrayOf(
-    shape({
-      name: string,
-      value: string,
-      type: string,
-    }),
-  ),
   subjects: arrayOf(SubjectShape),
   resultMetadata: shape({
     totalCount: number,
@@ -332,17 +283,30 @@ SearchContainer.propTypes = {
   }),
   data: shape({
     resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
+    subjects: arrayOf(GraphQLSubjectShape),
   }),
-  loading: PropTypes.bool.isRequired,
   locale: PropTypes.string,
+  searchParams: SearchParamsShape,
+  handleSearchParamsChange: func,
+  includeEmbedButton: bool,
+  ltiData: LtiDataShape,
+  enabledTabs: arrayOf(
+    shape({
+      name: string,
+      value: string,
+      type: string,
+    }),
+  ),
+  allTabValue: string,
 };
 
 SearchContainer.defaultProps = {
   filters: [],
   subjects: [],
+  searchParams: {},
+  data: {},
+  handleSearchParamsChange: () => {},
+  allTabValue: 'all',
 };
 
-export default compose(
-  withRouter,
-  injectT,
-)(SearchContainer);
+export default injectT(SearchContainer);

@@ -1,12 +1,15 @@
-# NDLA Front-End
+# NDLA front-end
 
 [![Build Status](https://travis-ci.org/NDLANO/ndla-frontend.svg?branch=master)](https://travis-ci.org/NDLANO/ndla-frontend)
 
+The front-end code powering [https://ndla.no](https://ndla.no).
+
+Norwegian Digital Learning Arena (NDLA) (Norwegian: Nasjonal digital læringsarena) is a joint county enterprise offering [open digital learning assets](https://en.wikipedia.org/wiki/Digital_learning_assets) for upper secondary education. In addition to being a compilation of [open educational resources (OER)](https://en.wikipedia.org/wiki/Open_educational_resources), NDLA provides a range of other online tools for sharing and cooperation.
+
 ## Requirements
 
-- Node.JS ~8.10
-- npm ~3.9
-- yarn ~1.6
+- Node.JS ~10
+- yarn ~1.12
 - Docker (optional)
 
 ## Getting started
@@ -40,7 +43,7 @@ To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 ### Unit tests
 
-Test framework: Jest with enzyme.
+Test framework: [Jest](https://github.com/facebook/jest)
 
 ```
 $ yarn test
@@ -71,7 +74,11 @@ $ yarn e2e-use-fixtures
 [Prettier](https://prettier.io/) is used for automatic code formatting.
 
 ```
-$ yarn prettier
+$ yarn format
+```
+
+```
+$ yarn format-check
 ```
 
 ### Linting
@@ -79,7 +86,7 @@ $ yarn prettier
 Eslint is used for linting.
 
 ```
-$ yarn run lint
+$ yarn lint-es
 ```
 
 Rules are configured in `./eslintrc` and extends [esling-config-ndla](https://github.com/NDLANO/frontend-packages/tree/master/packages/eslint-config-ndla).
@@ -103,6 +110,11 @@ apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/
 ## Other scripts
 
 ```
+# GTG? Checks code formating, linting and runs unit tests:
+$ yarn check-all
+```
+
+```
 # Create minified production ready build:
 $ yarn build
 ```
@@ -120,6 +132,11 @@ $ yarn start-without-ssr
 ```
 # Start a development sever which talks to a local graphql server running on [localhost:4000]:
 $ yarn start-with-local-graphql
+```
+
+```
+# Do you TDD?
+$ yarn tdd
 ```
 
 ```

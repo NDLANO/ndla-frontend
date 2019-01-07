@@ -1,6 +1,8 @@
 {
+  "version": 1,
   "env": {
     "NDLA_FRONTEND_CLIENT_ID": "@ndla_frontend_client_id",
-    "NDLA_FRONTEND_CLIENT_SECRET": "@ndla_frontend_client_secret"
+    "NDLA_FRONTEND_CLIENT_SECRET": "@ndla_frontend_client_secret",
+    "NDLA_ZENDESK_WIDGET_KEY": "@ndla_zendesk_widget_key"
   }
 }

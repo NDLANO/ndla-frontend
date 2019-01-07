@@ -4,6 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import config from '../../config';
 import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
+import LtiEmbed from '../../lti/LtiEmbed';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -71,14 +72,15 @@ export const selectContext = (contexts, filters, enabledTab) => {
 
 const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
+  const { contexts = [] } = result;
   if (selectedContext) {
     taxonomyResult = {
       breadcrumb: selectedContext.breadcrumbs,
       contentType: getContentType(selectedContext),
-      contentTypes: result.contexts.map(context => getContentType(context)),
+      contentTypes: contexts.map(context => getContentType(context)),
       subjects:
-        result.contexts > 1
-          ? result.contexts.map(subject => ({
+        contexts.length > 1
+          ? contexts.map(subject => ({
               url: getUrl(subject, result),
               title: subject.subject,
               contentType: getContentType(subject),
@@ -96,8 +98,12 @@ const arrayFields = [
   'levels',
   'subjects',
   'relevance',
+  'resourceTypes',
+  'contextTypes',
   'contextFilters',
 ];
+  
+  
 
 export const converSearchStringToObject = location => {
   const searchLocation = queryString.parse(location ? location.search : '');
@@ -150,7 +156,12 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
     };
   });
 
-export const resultsWithContentTypeBadgeAndImage = (results, t) =>
+export const resultsWithContentTypeBadgeAndImage = (
+  results,
+  t,
+  includeEmbedButton,
+  ltiData,
+) =>
   results.map(result => {
     const { contentType } = result;
 
@@ -162,6 +173,11 @@ export const resultsWithContentTypeBadgeAndImage = (results, t) =>
           type={contentType || result.contentType}
           size="x-small"
         />
+      ),
+      children: includeEmbedButton ? (
+        <LtiEmbed ltiData={ltiData} item={result} />
+      ) : (
+        undefined
       ),
       contentTypeLabel:
         contentType || result.contentType
