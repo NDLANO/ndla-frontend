@@ -35,8 +35,14 @@ const SearchFilters = ({
   }));
 
   const relevances = [
-    { value: RELEVANCE_CORE, title: 'Kjernestoff' },
-    { value: RELEVANCE_SUPPLEMENTARY, title: 'Tilleggsstoff' },
+    {
+      value: RELEVANCE_CORE,
+      title: t('searchPage.searchFilterMessages.coreRelevance'),
+    },
+    {
+      value: RELEVANCE_SUPPLEMENTARY,
+      title: t('searchPage.searchFilterMessages.supplementaryRelevance'),
+    },
   ];
 
   const allContentTypes = enabledTabs.map(tab => ({
