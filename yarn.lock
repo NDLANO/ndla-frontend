@@ -259,7 +259,7 @@
   dependencies:
     "@ndla/core" "^0.4.4"
 
-"@ndla/core@^0.4.4":
+"@ndla/core@^0.4.3", "@ndla/core@^0.4.4":
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.4.tgz#2113de68023b5e14fca8b8f37ecdb910477129f7"
   dependencies:
@@ -319,20 +319,29 @@
     octonode "^0.9.4"
     url-regex "^4.1.1"
 
-"@ndla/tabs@^0.9.4":
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.4.tgz#c195671e04fa366b732205ba3e43434aded2353e"
+"@ndla/tabs@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.9.5.tgz#dc652589d600f29abf11dde5078ea862f23f4500"
+  integrity sha512-+/BmupmmWsTAYXxV9pe7eHIO+7PEfbLLuF0vta8C8pRZh/e3X28wmP3d5nKDFj+Iz7FU9ucTZLXvenKZzK3w+Q==
   dependencies:
     "@ndla/core" "^0.4.4"
     lodash "^4.17.11"
+
+"@ndla/tooltip@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.1.1.tgz#cca5ace82d6c1100c9dec5957d1dcf6cf626b5dc"
+  integrity sha512-MBj1JEmi85hwuQZfYwk/j/34DpBa091ENaWw5Nh4CDIodjlKCPW/X8dMaly+c/qRAI43u7kWFQEur/5HJILJ1A==
+  dependencies:
+    "@ndla/core" "^0.4.3"
 
 "@ndla/tracker@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
-"@ndla/ui@^0.19.3":
-  version "0.19.3"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.3.tgz#c9fbd5ed145d3a03cb16bfea8560fe0aa4121406"
+"@ndla/ui@^0.19.5":
+  version "0.19.5"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.5.tgz#b3fbf462f9c0a2078343eebcc6063b0c73723a77"
+  integrity sha512-D8oGGGUEFGJHWlISzGtzq/Nx3AlWoRPCFMMWjOhd/xSOslPU/SLWN9F2fVeomXdRFhRmyv7noDKJSSDP0gWkrQ==
   dependencies:
     "@ndla/button" "^0.2.0"
     "@ndla/core" "^0.4.4"
@@ -340,7 +349,8 @@
     "@ndla/icons" "^0.6.2"
     "@ndla/licenses" "^0.4.1"
     "@ndla/modal" "^0.2.5"
-    "@ndla/tabs" "^0.9.4"
+    "@ndla/tabs" "^0.9.5"
+    "@ndla/tooltip" "^0.1.1"
     "@ndla/util" "^0.3.1"
     classnames "2.2.6"
     focus-trap "^3.0.0"
@@ -348,7 +358,7 @@
     jump.js "^1.0.2"
     lodash "^4.17.5"
     react-bem-helper "1.4.1"
-    react-device-detect "^1.5.9"
+    react-device-detect "^1.6.1"
     react-facebook "^6.0.15"
     react-prop-types "0.4.0"
     react-slick "^0.23.2"
@@ -8818,9 +8828,10 @@ react-dev-utils@^4.0.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-device-detect@^1.5.9:
+react-device-detect@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.6.1.tgz#3730e74e25fd79be19ac99fc6a07e751255b9232"
+  integrity sha512-TTmKu3JK3W7gWrjnm4K1OS0v5CMtkFtG4pIrQvZ8mJu6xvqfmXnkMO5jkh3Tz2homaFYIaJ6Pzbx4E51mg5neA==
 
 "react-dom@^15 || ^16", react-dom@^16.6.3:
   version "16.6.3"
