@@ -112,18 +112,20 @@ const SearchFilters = ({
           onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
-      <SearchFilter
-        label={t('searchPage.label.content')}
-        options={relevances.map(({ title, value }) => ({
-          title,
-          value,
-          icon: value === RELEVANCE_CORE ? Additional : Core,
-        }))}
-        values={searchParams.relevance}
-        onChange={(newValues, value) => {
-          onChange(newValues, value, 'relevance');
-        }}
-      />
+      {subjectFilters.length > 0 && (
+        <SearchFilter
+          label={t('searchPage.label.content')}
+          options={relevances.map(({ title, value }) => ({
+            title,
+            value,
+            icon: value === RELEVANCE_CORE ? Core : Additional,
+          }))}
+          values={searchParams.relevance}
+          onChange={(newValues, value) => {
+            onChange(newValues, value, 'relevance');
+          }}
+        />
+      )}
       <SearchFilter
         label={t(`searchPage.label.languageFilter`)}
         defaultVisibleCount={2}
