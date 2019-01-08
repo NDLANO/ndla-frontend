@@ -9,8 +9,10 @@ import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
+import { Core, Additional } from '@ndla/icons/common';
 import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
+import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 
 const SearchFilters = ({
   subjects,
@@ -31,6 +33,17 @@ const SearchFilters = ({
     title: t(`languages.${language}`),
     value: language,
   }));
+
+  const relevances = [
+    {
+      value: RELEVANCE_CORE,
+      title: t('searchPage.searchFilterMessages.coreRelevance'),
+    },
+    {
+      value: RELEVANCE_SUPPLEMENTARY,
+      title: t('searchPage.searchFilterMessages.supplementaryRelevance'),
+    },
+  ];
 
   const allContentTypes = enabledTabs.map(tab => ({
     title: tab.name,
@@ -99,6 +112,20 @@ const SearchFilters = ({
           onChange={(newValues, value) => onChange(newValues, value, 'levels')}
         />
       ))}
+      {subjectFilters.length > 0 && (
+        <SearchFilter
+          label={t('searchPage.label.content')}
+          options={relevances.map(({ title, value }) => ({
+            title,
+            value,
+            icon: value === RELEVANCE_CORE ? Core : Additional,
+          }))}
+          values={searchParams.relevance}
+          onChange={(newValues, value) => {
+            onChange(newValues, value, 'relevance');
+          }}
+        />
+      )}
       <SearchFilter
         label={t(`searchPage.label.languageFilter`)}
         defaultVisibleCount={2}

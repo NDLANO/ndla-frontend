@@ -27,6 +27,9 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
   'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 
+export const RELEVANCE_CORE = 'urn:relevance:core';
+export const RELEVANCE_SUPPLEMENTARY = 'urn:relevance:supplementary';
+
 export const contentTypeIcons = {
   subject: <SubjectBadge size="x-small" background />,
   'topic-article': <SubjectBadge size="x-small" background />,

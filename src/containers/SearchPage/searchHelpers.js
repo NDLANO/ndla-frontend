@@ -97,9 +97,10 @@ const arrayFields = [
   'languageFilter',
   'levels',
   'subjects',
-  'contextFilters',
-  'contextTypes',
+  'relevance',
   'resourceTypes',
+  'contextTypes',
+  'contextFilters',
 ];
 
 export const converSearchStringToObject = location => {

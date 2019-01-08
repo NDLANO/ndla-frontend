@@ -271,6 +271,16 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
+"@ndla/core@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.5.tgz#435115293e29b5139de5c79c68d1259085c5f603"
+  integrity sha512-FqkiKH1Q+92GT46Exl0cgBVJjMIaZWU5BfllhmHcfpdxt6T03sbEMjSNjkXmakadNOCYSQPf0E/jRB0+fc0+AA==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.2.0"
+    sass-mq "^5.0.0"
+
 "@ndla/error-reporter@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.1.tgz#ded8bcb98e94e491f6be6cc667a11842b050656a"
@@ -333,6 +343,13 @@
   dependencies:
     "@ndla/core" "^0.4.5"
     lodash "^4.17.11"
+
+"@ndla/tooltip@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.1.2.tgz#5358fb6505dcdafa076fcc3c75b0eaacb611a3ec"
+  integrity sha512-YitlIpzmtCqK2m0S8KvVLCjOhGuoukfqdF9xtB2YJRUnFLeMuYqnO98Gox5tP8+KDZxcwwWRTABWL3c4rzHj3g==
+  dependencies:
+    "@ndla/core" "^0.4.5"
 
 "@ndla/tooltip@^0.1.2":
   version "0.1.2"

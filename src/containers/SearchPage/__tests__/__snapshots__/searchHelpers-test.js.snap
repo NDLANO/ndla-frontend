@@ -16,6 +16,7 @@ Object {
   ],
   "page": "3",
   "query": "test",
+  "relevance": Array [],
   "resourceTypes": Array [],
   "subjects": Array [
     "urn:test:3",
@@ -31,6 +32,7 @@ Object {
   "contextTypes": Array [],
   "languageFilter": Array [],
   "levels": Array [],
+  "relevance": Array [],
   "resourceTypes": Array [],
   "subjects": Array [],
 }

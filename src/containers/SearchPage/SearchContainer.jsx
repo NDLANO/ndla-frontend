@@ -182,6 +182,7 @@ class SearchContainer extends Component {
         onContentTypeChange={this.onTabChange}
       />
     );
+
     const searchPageMessages = totalCount => ({
       filterHeading: t('searchPage.searchPageMessages.filterHeading'),
       dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
@@ -195,6 +196,7 @@ class SearchContainer extends Component {
       ),
       searchFieldTitle: t('searchPage.search'),
     });
+
     return (
       <Query
         asyncMode
