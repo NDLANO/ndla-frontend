@@ -127,6 +127,12 @@ export const mapHardCodedCategories = (
   });
 };
 
+const LinkToAbout = () => (
+  <a rel="noopener noreferrer" target="_blank" href="https://om.ndla.no">
+    om.ndla.no
+  </a>
+);
+
 class FrontpageSubjects extends Component {
   constructor(props) {
     super(props);
@@ -156,14 +162,7 @@ class FrontpageSubjects extends Component {
 
     return (
       <FrontpageSubjectsSection
-        linkToAbout={
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://om.ndla.no">
-            om.ndla.no
-          </a>
-        }
+        linkToAbout={<LinkToAbout />}
         categories={allSubjects}
       />
     );
