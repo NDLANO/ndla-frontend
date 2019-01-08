@@ -35,7 +35,7 @@ test('ltiRoute 200 OK ', async () => {
     },
   });
 
-  expect(response).toMatchSnapshot();
+  expect(response.status).toBe(200);
 });
 
 test('ltiRoute 200 OK only required params', async () => {
@@ -60,7 +60,7 @@ test('ltiRoute 200 OK only required params', async () => {
     },
   });
 
-  expect(response).toMatchSnapshot();
+  expect(response.status).toBe(200);
 });
 
 test('ltiRoute 400 BAD REQUEST', async () => {
