@@ -43,7 +43,6 @@ const SubjectPageSecondaryContent = ({
                     name: resource.name,
                     url: toLinkProps(resource, locale).to,
                     toLinkProps: () => toLinkProps(resource, locale),
-                    topicName: [], // Todo fix breadcrumb
                     contentType: getContentType(resource),
                     formattedDate: resource.meta
                       ? formatDate(resource.meta.lastUpdated, locale)

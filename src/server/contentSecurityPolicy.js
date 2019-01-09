@@ -151,6 +151,9 @@ export default {
       'www.miljostatus.no',
       'miljostatus.no',
       'phet.colorado.edu',
+      'lab.concord.org',
+      'worldbank.org',
+      '*.worldbank.org',
     ],
     styleSrc: [
       "'self'",
