@@ -87,7 +87,7 @@ class TopicPage extends Component {
     const filterIds = getFiltersFromUrl(location);
 
     const response = await runQueries(client, [
-      { query: topicQuery, variables: { topicId, filterIds } },
+      { query: topicQuery, variables: { topicId, filterIds, subjectId } },
       {
         query: subjectTopicsQuery,
         variables: { subjectId, filterIds },

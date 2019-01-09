@@ -109,7 +109,7 @@ class ArticlePage extends Component {
       },
       {
         query: topicResourcesQuery,
-        variables: { topicId, filterIds },
+        variables: { topicId, filterIds, subjectId },
       },
       {
         query: resourceQuery,
