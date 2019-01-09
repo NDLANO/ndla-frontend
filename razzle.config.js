@@ -44,7 +44,6 @@ module.exports = {
     }
 
     if (target === 'node' && !dev) {
-      appConfig.node.Buffer = false;
       // This change bundles node_modules into server.js. The result is smaller Docker images.
       // It triggers a couple of «Critical dependency: the request of a dependency is an
       // expression warning» which we can safely ignore.
