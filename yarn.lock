@@ -1969,10 +1969,10 @@ babel-preset-jest@^23.2.0:
     babel-plugin-jest-hoist "^23.2.0"
     babel-plugin-syntax-object-rest-spread "^6.13.0"
 
-babel-preset-razzle@^3.0.0-alpha.1:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-3.0.0-alpha.1.tgz#1e22cae8e0fbc53b577cf52d2aff0255775a56c0"
-  integrity sha512-36CF2t499gyK6X5tUKeQ6NOYavRcPi0ykdB0kDu/lmb8POZBMMRleDS8qQ40UYJxxik11m7INPUeTon44oyCIg==
+babel-preset-razzle@^3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-3.0.0-alpha.2.tgz#80df84c6cfe0c057669f2695795e478a645c128d"
+  integrity sha512-WmDoJiRhgvM7cnTX8iIBRI52Ojn3jdetqfTtPtqEcHRn03JJkY89fytoyUnS4OmWc+LVPupKYWbgOWxj4oZWSA==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/plugin-proposal-class-properties" "^7.1.0"
@@ -8637,13 +8637,12 @@ postcss-modules-values@^1.3.0:
     icss-replace-symbols "^1.1.0"
     postcss "^6.0.1"
 
-postcss-nesting@^4.0.1, postcss-normalize-whitespace@^4.0.1:
-  name postcss-nesting
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-4.0.1.tgz#8fc2ce40cbfcfab7ee24e7b68fb6ebe84b641469"
-  integrity sha1-j8LOQMv8+rfuJOe2j7br6EtkFGk=
+postcss-nesting@^4.0.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-4.2.1.tgz#0483bce338b3f0828ced90ff530b29b98b00300d"
+  integrity sha512-IkyWXICwagCnlaviRexi7qOdwPw3+xVVjgFfGsxmztvRVaNxAlrypOIKqDE5mxY+BVxnId1rnUKBRQoNE2VDaA==
   dependencies:
-    postcss "^6.0.1"
+    postcss "^6.0.11"
 
 postcss-nesting@^7.0.0:
   version "7.0.0"
@@ -8722,6 +8721,14 @@ postcss-normalize-url@^4.0.1:
   dependencies:
     is-absolute-url "^2.0.0"
     normalize-url "^3.0.0"
+    postcss "^7.0.0"
+    postcss-value-parser "^3.0.0"
+
+postcss-normalize-whitespace@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-normalize-whitespace/-/postcss-normalize-whitespace-4.0.1.tgz#d14cb639b61238418ac8bc8d3b7bdd65fc86575e"
+  integrity sha512-U8MBODMB2L+nStzOk6VvWWjZgi5kQNShCyjRhMT3s+W9Jw93yIjOnrEkKYD3Ul7ChWbEcjDWmXq0qOL9MIAnAw==
+  dependencies:
     postcss "^7.0.0"
     postcss-value-parser "^3.0.0"
 
@@ -8956,7 +8963,7 @@ postcss-values-parser@^2.0.0:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss@^6.0, postcss@^6.0.23:
+postcss@^6.0, postcss@^6.0.11, postcss@^6.0.23:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   dependencies:
@@ -9279,10 +9286,10 @@ razzle-config-utils@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/razzle-config-utils/-/razzle-config-utils-0.1.0.tgz#cc91039dd94d7041b97f4b3381e0fdd3d44b56df"
 
-razzle-dev-utils@^3.0.0-alpha.1:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-3.0.0-alpha.1.tgz#8adb8a1224bf9618cfd3504451e037c2fa5a8571"
-  integrity sha512-+63+c2b+UiagfBtCcAd2JtepvW4KP+eTSaac9fEfpPGO9QyzwpYw3YBPidwzvPp29Vsq0ls4S9fEt91WQntgpA==
+razzle-dev-utils@^3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-3.0.0-alpha.2.tgz#f01885e7bc17be207c59fecbb81b27491810c925"
+  integrity sha512-FeWW+u8afhJAsxDIUx/YXrbwf+f4U1Qgq/3wUeqd1JVq8wuaxiEwvdx2lujDZv3T847lVhIHla4wLjRq73oDQw==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     chalk "2.4.1"
@@ -9291,10 +9298,10 @@ razzle-dev-utils@^3.0.0-alpha.1:
     sockjs-client "1.3.0"
     strip-ansi "5.0.0"
 
-razzle@^3.0.0-alpha.1:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.0.0-alpha.1.tgz#5a0e6b8d2f677d4ba4e00e16e705d4d490835c77"
-  integrity sha512-0FrtQ0w29EYnjxVFkFJknIMHuLH+B+JdNvH4rdgkso4pQ7LqlnmepicpY40MNKceTAKuEVbo6tZARzhOmlKC9g==
+razzle@3.0.0-alpha.2:
+  version "3.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.0.0-alpha.2.tgz#3443e4824ec0ca7f09720ce4a32663ef6e19aaec"
+  integrity sha512-VNuXrgsDo0HXoXkMv8p6V1F/ymYRFCwhWRTiBjeCVstuaqJ652W6DcLUiFSBEtuHFzN+shzGsSLMaBE0c/fClg==
   dependencies:
     "@babel/core" "7.1.2"
     assets-webpack-plugin "3.9.7"
@@ -9302,7 +9309,7 @@ razzle@^3.0.0-alpha.1:
     babel-eslint "10.0.1"
     babel-jest "23.6.0"
     babel-loader "8.0.4"
-    babel-preset-razzle "^3.0.0-alpha.1"
+    babel-preset-razzle "^3.0.0-alpha.2"
     chalk "2.4.1"
     css-loader "1.0.0"
     dotenv "6.0.0"
@@ -9325,7 +9332,7 @@ razzle@^3.0.0-alpha.1:
     postcss-safe-parser "4.0.1"
     promise "^8.0.2"
     raf "^3.4.0"
-    razzle-dev-utils "^3.0.0-alpha.1"
+    razzle-dev-utils "^3.0.0-alpha.2"
     react-dev-utils "^6.0.4"
     react-error-overlay "^5.0.4"
     source-map-support "^0.5.9"
