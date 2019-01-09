@@ -11,3 +11,4 @@ yarn-error.log
 /e2e/screenshots
 /htdocs/
 .vscode
+.env

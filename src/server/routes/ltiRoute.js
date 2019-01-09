@@ -26,7 +26,8 @@ const assets =
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : {
         client: { css: 'mock.css' },
-        ltiEmbed: { js: 'mock.js' },
+        lti: { js: 'mock.js' },
+        polyfill: { js: 'polyfill.js' },
         mathJaxConfig: { js: 'mock.js' },
       };
 
@@ -36,7 +37,8 @@ if (process.env.NODE_ENV === 'unittest') {
 
 const getAssets = () => ({
   css: assets.client.css,
-  js: [assets.ltiEmbed.js],
+  js: [{ src: assets.lti.js }],
+  polyfill: { src: assets.polyfill.js },
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 

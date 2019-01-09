@@ -7,7 +7,7 @@ module.exports = {
   plugins: [
     addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
     addEntry({ entry: './src/iframe', name: 'embed' }),
-    addEntry({ entry: './src/lti', name: 'embed' }),
+    addEntry({ entry: './src/lti', name: 'lti' }),
     addEntry({ entry: './src/mathjax/config', name: 'mathJaxConfig' }),
   ],
   modify(config, { target, dev }) {

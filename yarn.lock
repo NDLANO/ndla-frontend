@@ -928,6 +928,14 @@
   dependencies:
     "@ndla/core" "^0.4.5"
 
+"@ndla/polyfill@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-0.1.1.tgz#fa462c1e4e88238b55dc56bce644ad9893302bb9"
+  integrity sha512-70qB6THN8YyNAxBUKNbOGwKk5IV/kcMAm0iwwwP2Kw20ILPW6+3OEk96Nct6a2qVAuG6dnTSJJTm4K9RgD/lXA==
+  dependencies:
+    details-polyfill "^1.1.0"
+    react-app-polyfill "^0.1.3"
+
 "@ndla/scripts@^0.7.3":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.3.tgz#be750754b127751c55917ea6a1aed2355ed192d9"
@@ -1406,7 +1414,7 @@ apollo-cache@1.1.17:
   dependencies:
     apollo-utilities "^1.0.21"
 
-apollo-cache@^1.1.22:
+apollo-cache@^1.1.17:
   version "1.1.22"
   resolved "https://registry.yarnpkg.com/apollo-cache/-/apollo-cache-1.1.22.tgz#d4682ea6e8b2508a934f61c2fd9e36b4a65041d9"
   integrity sha512-8PoxhQLISj2oHwT7i/r4l+ly4y3RKZls+dtXzAewu3U77P9dNZKhYkRNAhx9iEfsrNoHgXBV8vMp64hb1uYh+g==
@@ -1936,7 +1944,7 @@ babel-plugin-syntax-jsx@^6.18.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
   integrity sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
 
-babel-plugin-syntax-object-rest-spread@^6.13.0:
+babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
   integrity sha1-/WU28rzhODb/o6VFjEkDpZe7O/U=
@@ -2963,13 +2971,13 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
 
+core-js@2.5.7, core-js@^2.4.0:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
 core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
-
-core-js@^2.4.0:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
 core-js@^2.4.1:
   version "2.4.1"
@@ -3566,6 +3574,11 @@ des.js@^1.0.0:
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
+
+details-polyfill@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/details-polyfill/-/details-polyfill-1.1.0.tgz#d6d71be0885560e7afca42688b03ff379fd80e56"
+  integrity sha512-YARtvrZ+FobZBMjfAyCxNZ5Cm5riB2tKMsdUQvTFnCvg3OeAkOGCoSxgDZT0uAXV+t5zgJYMGWd/ftVI6v8I0w==
 
 detect-indent@^4.0.0:
   version "4.0.0"
@@ -7577,7 +7590,7 @@ oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
 
-object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@4.1.1, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -7707,7 +7720,7 @@ opn@5.4.0, opn@^5.1.0:
   dependencies:
     is-wsl "^1.1.0"
 
-optimism@^0.6.8:
+optimism@^0.6.6:
   version "0.6.8"
   resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.6.8.tgz#0780b546da8cd0a72e5207e0c3706c990c8673a6"
   integrity sha512-bN5n1KCxSqwBDnmgDnzMtQTHdL+uea2HYFx1smvtE+w2AMl0Uy31g0aXnP/Nt85OINnMJPRpJyfRQLTCqn5Weg==
@@ -8625,6 +8638,7 @@ postcss-modules-values@^1.3.0:
     postcss "^6.0.1"
 
 postcss-nesting@^4.0.1, postcss-normalize-whitespace@^4.0.1:
+  name postcss-nesting
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-4.0.1.tgz#8fc2ce40cbfcfab7ee24e7b68fb6ebe84b641469"
   integrity sha1-j8LOQMv8+rfuJOe2j7br6EtkFGk=
@@ -9030,18 +9044,18 @@ promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
 
-promise@^7.1.1:
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
-  dependencies:
-    asap "~2.0.3"
-
-promise@^8.0.2:
+promise@8.0.2, promise@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/promise/-/promise-8.0.2.tgz#9dcd0672192c589477d56891271bdc27547ae9f0"
   integrity sha512-EIyzM39FpVOMbqgzEHhxdrEhtOSDOtjMZQ0M6iVfCE+kWNgCkAyOdnuCWqfmflylftfadU6FkiMgHZA2kUzwRw==
   dependencies:
     asap "~2.0.6"
+
+promise@^7.1.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+  dependencies:
+    asap "~2.0.3"
 
 prompts@^0.1.9:
   version "0.1.14"
@@ -9191,6 +9205,13 @@ quote-stream@^1.0.1, quote-stream@~1.0.2:
     minimist "^1.1.3"
     through2 "^2.0.0"
 
+raf@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
+  integrity sha512-pDP/NMRAXoTfrhCfyfSEwJAKLaxBU9eApMeBPB1TkDouZmvPerIClV8lTAd+uF8ZiTaVl69e1FCxQrAd/VTjGw==
+  dependencies:
+    performance-now "^2.1.0"
+
 raf@^3.4.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
@@ -9337,6 +9358,17 @@ react-apollo@^2.2.4:
     lodash.flowright "^3.5.0"
     lodash.isequal "^4.5.0"
     prop-types "^15.6.0"
+
+react-app-polyfill@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-0.1.3.tgz#e57bb50f3751dac0e6b3ac27673812c68c679a1d"
+  integrity sha512-Fl5Pic4F15G05qX7RmUqPZr1MtyFKJKSlRwMhel4kvDLrk/KcQ9QbpvyMTzv/0NN5957XFQ7r1BNHWi7qN59Pw==
+  dependencies:
+    core-js "2.5.7"
+    object-assign "4.1.1"
+    promise "8.0.2"
+    raf "3.4.0"
+    whatwg-fetch "3.0.0"
 
 react-bem-helper@1.4.1, react-bem-helper@^1.4.1:
   version "1.4.1"
@@ -11598,7 +11630,7 @@ whatwg-fetch@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
+whatwg-fetch@3.0.0, whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
 
