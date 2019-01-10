@@ -25,6 +25,7 @@ import {
 } from '@ndla/licenses';
 import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
+import AnchorButton from './AnchorButton';
 import { CopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
@@ -81,12 +82,12 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <a
+            <AnchorButton
               href={downloadUrl(image.src)}
-              className="c-button c-button--outline c-licenseToggle__button"
+              appearance="outline"
               download>
               {t('download')}
-            </a>
+            </AnchorButton>
           </div>
         </MediaListItemActions>
       </MediaListItemBody>

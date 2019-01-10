@@ -20,6 +20,7 @@ import {
 import { injectT } from '@ndla/i18n';
 import { getGroupedContributorDescriptionList } from '@ndla/licenses';
 import CopyTextButton from './CopyTextButton';
+import AnchorButton from './AnchorButton';
 import { CopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
@@ -52,12 +53,9 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <a
-              href={video.src}
-              className="c-button c-button--outline c-licenseToggle__button"
-              download>
+            <AnchorButton href={video.src} download appearance="outline">
               {t('download')}
-            </a>
+            </AnchorButton>
 
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${
