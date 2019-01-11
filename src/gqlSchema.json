@@ -2076,6 +2076,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "subjectId",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -2096,6 +2106,16 @@
             "args": [
               {
                 "name": "filterIds",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "subjectId",
                 "description": "",
                 "type": {
                   "kind": "SCALAR",

@@ -394,13 +394,17 @@ export const resourceTypesQuery = gql`
 `;
 
 export const topicResourcesQuery = gql`
-  query topicResourcesQuery($topicId: String!, $filterIds: String) {
+  query topicResourcesQuery(
+    $topicId: String!
+    $filterIds: String
+    $subjectId: String
+  ) {
     topic(id: $topicId) {
       id
-      coreResources(filterIds: $filterIds) {
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds) {
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
     }
@@ -428,7 +432,7 @@ export const resourceQuery = gql`
 `;
 
 export const topicQuery = gql`
-  query topicQuery($topicId: String!, $filterIds: String) {
+  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
     topic(id: $topicId) {
       id
       name
@@ -442,10 +446,10 @@ export const topicQuery = gql`
       subtopics(filterIds: $filterIds) {
         ...TopicInfo
       }
-      coreResources(filterIds: $filterIds) {
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds) {
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
     }

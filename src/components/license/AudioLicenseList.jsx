@@ -21,6 +21,7 @@ import { AudioDocument } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { getGroupedContributorDescriptionList } from '@ndla/licenses';
 import CopyTextButton from './CopyTextButton';
+import AnchorButton from './AnchorButton';
 import { NewCopyrightObjectShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
@@ -52,12 +53,9 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <a
-              href={audio.src}
-              className="c-button c-button--outline c-licenseToggle__button"
-              download>
+            <AnchorButton href={audio.src} download appearance="outline">
               {t('download')}
-            </a>
+            </AnchorButton>
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
