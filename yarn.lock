@@ -867,10 +867,10 @@
     jump.js "^1.0.2"
     lodash "^4.17.5"
 
-"@ndla/button@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.2.tgz#08e41d12f446aad11d87d8c4b9169fef83b72b35"
-  integrity sha512-jTMN2RGPMGF8hnOwRzMi4DhaLYVQiyYuchnf92+/V3sW4tyIpb+U3lgE7vUFJNYiIQxX6KNTJN/fK7Xf433f8A==
+"@ndla/button@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.2.3.tgz#1a0264c75bd7d7554fdc589f5ced2ca8a6b93626"
+  integrity sha512-Hm5LJMYU2NY0TmB+7B6kBmGv/MvsP/O2cte6w1g9hBDDiVM9sZaWX506bi1ld7UWJPxgjPeRJaVjnKGLzpfhZA==
   dependencies:
     "@ndla/core" "^0.4.5"
 
@@ -900,10 +900,10 @@
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.3.tgz#9026a4052349f3fb3b1499d05167fcaf828131c4"
-  integrity sha512-yXn9gBgpMEd08WjZ3qb5jDTj6sPt12867RLRAoae3MGPUNK+eQdhxC4dnk4i80W7yurCgmQfxkTgeONI6TjDQA==
+"@ndla/icons@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.4.tgz#cf058cbb1207d0fa327a342e18aa698264ad3f58"
+  integrity sha512-uU3iXNQC9MsVQzcFEbqMlWGTCXCNfwJhor7lgrEFdJ/405AX7m7YMumBuMFJRRo8JrSF9oefWz4Zt8cjl2+oWg==
 
 "@ndla/licenses@^0.4.3":
   version "0.4.3"
@@ -912,12 +912,12 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/modal@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.7.tgz#d8f865bc0f4160e6d2dc7a32ea36ff7a3e6d132b"
-  integrity sha512-j37RtnijmDANmP2I+n+gR3gugeb5ezo7iqQD1LjdpITehAL/zdGMhSkk2J7WaIhAYjSpitKm/oASjBzWCyPK1w==
+"@ndla/modal@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.2.8.tgz#c2847d42887d6d8e69a0f5b364a3c3c87b4c1d14"
+  integrity sha512-flUOaa5m/FzfVCGo1cv2iIwuHmhObkk06Xwk8YAzPr7R80d7C0us+xN9FHAPkYCgsIbh/sRBNR6e/vK9fClA6w==
   dependencies:
-    "@ndla/button" "^0.2.2"
+    "@ndla/button" "^0.2.3"
     "@ndla/core" "^0.4.5"
     "@ndla/util" "^0.3.1"
 
@@ -966,17 +966,17 @@
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
-"@ndla/ui@^0.19.8":
-  version "0.19.8"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.8.tgz#2cd3c1119c24f9c5712665136cd4b5b5d7b41681"
-  integrity sha512-fd/lU4HnloTTeRM9rPxokU1fR15zv+meguAWXN7E5k4v4ogA4Qt7vkR3/JsnEt8QLVQi15RyPZQFDLFnlbGcFA==
+"@ndla/ui@^0.19.10":
+  version "0.19.10"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.10.tgz#e2cb50baf49b7ca6fb9ab3a44869e06f9e677c53"
+  integrity sha512-mymSD2MhgB8RUt3bIB7RkAtHkUDgEjpjwXM70MeRTw4TyLKcpC/OtiVS7g7m3mTgQkc/B/t0WiQr1+o/aoNotw==
   dependencies:
-    "@ndla/button" "^0.2.2"
+    "@ndla/button" "^0.2.3"
     "@ndla/core" "^0.4.5"
     "@ndla/i18n" "^0.4.1"
-    "@ndla/icons" "^0.6.3"
+    "@ndla/icons" "^0.6.4"
     "@ndla/licenses" "^0.4.3"
-    "@ndla/modal" "^0.2.7"
+    "@ndla/modal" "^0.2.8"
     "@ndla/tabs" "^0.9.6"
     "@ndla/tooltip" "^0.1.2"
     "@ndla/util" "^0.3.1"

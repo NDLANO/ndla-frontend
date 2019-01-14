@@ -79,6 +79,8 @@ exports[`IframeArticlePage renderers correctly 1`] = `
   font-weight: 700;
   -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
   font-size: 12px;
   font-size: 0.6666666666666666rem;
   line-height: 15px;
@@ -154,6 +156,8 @@ exports[`IframeArticlePage renderers correctly 1`] = `
   font-weight: 700;
   -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
   -webkit-transition: background-color none;
   transition: background-color none;
   padding: 0;
@@ -243,6 +247,8 @@ exports[`IframeArticlePage renderers correctly 1`] = `
   font-weight: 700;
   -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
   font-size: 12px;
   font-size: 0.6666666666666666rem;
   line-height: 15px;
