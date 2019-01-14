@@ -928,10 +928,10 @@
   dependencies:
     "@ndla/core" "^0.4.5"
 
-"@ndla/polyfill@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-0.1.1.tgz#fa462c1e4e88238b55dc56bce644ad9893302bb9"
-  integrity sha512-70qB6THN8YyNAxBUKNbOGwKk5IV/kcMAm0iwwwP2Kw20ILPW6+3OEk96Nct6a2qVAuG6dnTSJJTm4K9RgD/lXA==
+"@ndla/polyfill@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-0.1.6.tgz#64cad3ad8323190372f7a8e0100a0541217cf497"
+  integrity sha512-eoeXC96OLSE57v2b8EmjxXXebQDTo+K610DkgP7jFYnfx3UWEXjPrEDmIApNMD0/vL7QvlGCTayH2hIgqfE62Q==
   dependencies:
     details-polyfill "^1.1.0"
     react-app-polyfill "^0.1.3"
