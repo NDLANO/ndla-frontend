@@ -9,35 +9,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
-import useragent from 'useragent';
+import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({
-  helmet,
-  className,
-  assets,
-  css,
-  data,
-  userAgentString,
-}) => {
+const Document = ({ helmet, assets, css, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
-    // eslint-disable-next-line jsx-a11y/html-has-lang
-    <html className={className} {...htmlAttrs}>
+    <html {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {useragent.parse(userAgentString).family === 'IE' && (
-          <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"
-            defer
-            async
-          />
-        )}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
@@ -74,17 +59,8 @@ const Document = ({
             __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
-        {assets.js.map(js => (
-          <script
-            key={js}
-            type="text/javascript"
-            src={js}
-            defer
-            crossOrigin={(process.env.NODE_ENV !== 'production').toString()}
-          />
-        ))}
+        <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
         {helmet.script.toComponent()}
-
         <script
           dangerouslySetInnerHTML={{
             __html: `window.twttr = (function (d, s, id) {
@@ -93,6 +69,7 @@ const Document = ({
             if (d.getElementById(id)) return t;
             js = d.createElement(s);
             js.id = id;
+            js.async = true;
             js.src = "https://platform.twitter.com/widgets.js";
             fjs.parentNode.insertBefore(js, fjs);
             t._e = [];
@@ -111,8 +88,6 @@ const Document = ({
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  userAgentString: PropTypes.string.isRequired,
-  className: PropTypes.string,
   css: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,

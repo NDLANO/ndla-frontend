@@ -13,7 +13,6 @@ import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import Helmet from 'react-helmet';
-import getConditionalClassnames from './getConditionalClassnames';
 import Document from './Document';
 import config from '../../config';
 
@@ -37,16 +36,7 @@ export function renderPage(Page, assets, data = {}) {
 }
 
 export async function renderHtml(req, html, context, props) {
-  const userAgentString = req.headers['user-agent'];
-  const className = getConditionalClassnames(userAgentString);
-
-  const doc = renderToStaticMarkup(
-    <Document
-      className={className}
-      userAgentString={userAgentString}
-      {...props}
-    />,
-  );
+  const doc = renderToStaticMarkup(<Document {...props} />);
 
   if (context.url) {
     return {

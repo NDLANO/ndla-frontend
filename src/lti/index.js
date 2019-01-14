@@ -35,18 +35,14 @@ window.errorReporter = ErrorReporter.getInstance({
 
 const client = createApolloClient(abbreviation);
 
-const renderApp = () => {
-  ReactDOM.render(
-    <ApolloProvider client={client}>
-      <IntlProvider locale={abbreviation} messages={messages}>
-        <LtiProvider {...initialProps} />
-      </IntlProvider>
-    </ApolloProvider>,
-    document.getElementById('root'),
-  );
-};
-
-renderApp();
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <IntlProvider locale={abbreviation} messages={messages}>
+      <LtiProvider {...initialProps} />
+    </IntlProvider>
+  </ApolloProvider>,
+  document.getElementById('root'),
+);
 
 if (module.hot) {
   module.hot.accept();

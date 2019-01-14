@@ -66,15 +66,40 @@ exports[`Document renderers correctly 1`] = `
       type="text/javascript"
     />
     <script
-      crossOrigin="true"
-      defer={true}
-      src="/client.js"
-      type="text/javascript"
-    />
-    <script
-      crossOrigin="true"
-      defer={true}
-      src="/vendor.js"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "
+  var feats = [];
+  ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number.prototype) || feats.push('Number.prototype.isInteger');('isNaN' in Number.prototype) || feats.push('Number.prototype.isNaN');
+
+  function cs(script, useHead, onLoad) {
+    var s = document.createElement('script');
+    s.src = script.src;
+    s.async = true;
+    s.crossorigin = 'anonymous';
+    if (onLoad) { s.onload = onLoad; }
+    if (useHead) {
+      document.head.appendChild(s);
+    } else {
+      document.body.appendChild(s);
+    }
+  }
+
+  function _polyfillComplete() {
+    var scripts = [{\\"src\\":\\"/client.js\\"},{\\"src\\":\\"/vendor.js\\"}];
+    for (var i = 0; i < scripts.length; i++) {
+      cs(scripts[i], false);
+    }
+  }
+
+  if (feats.length && {\\"src\\":\\"/polyfill.js\\"}) {
+    cs({\\"src\\":\\"/polyfill.js\\"}, true, _polyfillComplete);
+  } else {
+    _polyfillComplete();
+  }
+  ",
+        }
+      }
       type="text/javascript"
     />
     <script
@@ -86,6 +111,7 @@ exports[`Document renderers correctly 1`] = `
             if (d.getElementById(id)) return t;
             js = d.createElement(s);
             js.id = id;
+            js.async = true;
             js.src = \\"https://platform.twitter.com/widgets.js\\";
             fjs.parentNode.insertBefore(js, fjs);
             t._e = [];

@@ -1,8 +1,15 @@
 const { modifyRule } = require('razzle-config-utils');
-const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-dependencies
+const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const addEntry = require('./razzle-add-entry-plugin');
 
 module.exports = {
+  plugins: [
+    addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
+    addEntry({ entry: './src/iframe', name: 'embed' }),
+    addEntry({ entry: './src/lti', name: 'lti' }),
+    addEntry({ entry: './src/mathjax/config', name: 'mathJaxConfig' }),
+  ],
   modify(config, { target, dev }) {
     const appConfig = config;
 
@@ -18,25 +25,8 @@ module.exports = {
         : 'static/js/[name].[hash:8].js';
 
       if (dev) {
-        appConfig.entry.embed = [
-          appConfig.entry.client[0],
-          appConfig.entry.client[1],
-          './src/iframe',
-        ];
-        appConfig.entry.ltiEmbed = [
-          appConfig.entry.client[0],
-          appConfig.entry.client[1],
-          './src/lti',
-        ];
         appConfig.entry.injectCss = ['./src/style/index.css'];
-      } else {
-        appConfig.entry.embed = ['./src/iframe'];
-        appConfig.entry.ltiEmbed = ['./src/lti'];
       }
-
-      appConfig.entry.mathJaxConfig = dev
-        ? [appConfig.entry.client[1], './src/mathjax/config.js']
-        : ['./src/mathjax/config.js'];
 
       if (!dev) {
         appConfig.plugins.push(
@@ -65,7 +55,7 @@ module.exports = {
     if (!dev) {
       appConfig.devtool = 'source-map';
     } else {
-      appConfig.devtool = 'eval-source-map';
+      appConfig.devtool = 'cheap-module-source-map';
     }
 
     return appConfig;
