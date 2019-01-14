@@ -56,14 +56,9 @@ const getTitle = (article, topic) => {
 const transformData = (data, locale) => {
   const { subject, topic } = data;
 
-  const transformedTopic =
-    topic && topic.article
-      ? { ...topic, article: transformArticle(topic.article, locale) }
-      : topic;
-
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  return { ...data, topicPath, topic: transformedTopic };
+  return { ...data, topicPath, topic };
 };
 
 class TopicPage extends Component {
@@ -127,7 +122,7 @@ class TopicPage extends Component {
       resourceTypes,
       topic: {
         name: topicTitle,
-        article,
+        article: topicArticle,
         subtopics,
         supplementaryResources,
         coreResources,
@@ -136,6 +131,7 @@ class TopicPage extends Component {
 
     const hasArticleError =
       errors && errors.find(e => e.path.includes('article')) !== undefined;
+    const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
 
     return (
