@@ -966,10 +966,10 @@
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
 
-"@ndla/ui@^0.19.10":
-  version "0.19.10"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.10.tgz#e2cb50baf49b7ca6fb9ab3a44869e06f9e677c53"
-  integrity sha512-mymSD2MhgB8RUt3bIB7RkAtHkUDgEjpjwXM70MeRTw4TyLKcpC/OtiVS7g7m3mTgQkc/B/t0WiQr1+o/aoNotw==
+"@ndla/ui@^0.19.11":
+  version "0.19.11"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.19.11.tgz#ddd60ad4cf84d9cf9a3f08488662e8542a245359"
+  integrity sha512-cjXjfgEKgnNP7cvmbkDRK1bXyUEtsVglGQOtHOT66wBnpfLUJb0YGBXBIwf40GIDM05BZk4u283Xv6/it6o6qw==
   dependencies:
     "@ndla/button" "^0.2.3"
     "@ndla/core" "^0.4.5"
