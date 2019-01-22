@@ -36,12 +36,15 @@ const SubjectPageTopics = props => {
       subjectPage
       header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
       <div data-testid="topic-list">
-        <SubjectFilter
-          label={t('subjectPage.subjectFilter.label')}
-          options={filters}
-          values={activeFilters}
-          onChange={handleFilterClick}
-        />
+        {filters &&
+          filters.length > 1 && (
+            <SubjectFilter
+              label={t('subjectPage.subjectFilter.label')}
+              options={filters}
+              values={activeFilters}
+              onChange={handleFilterClick}
+            />
+          )}
         <TopicIntroductionList
           toTopic={toTopic(subjectId, activeFilters)}
           topics={topics}
