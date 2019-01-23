@@ -93,6 +93,7 @@ Disallow: /health/
 Disallow: /oembed/
 Disallow: /article-iframe/
 
+Allow: /sites/default/files/*.pdf
 Allow: /sites/default/files/images/*
 Allow: /sites/default/files/videos/converted/*
 Allow: /sites/default/files/imagecache/*
