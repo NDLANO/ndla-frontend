@@ -413,13 +413,17 @@ export const topicResourcesQuery = gql`
 `;
 
 export const resourceQuery = gql`
-  query resourceQuery($resourceId: String!) {
+  query resourceQuery(
+    $resourceId: String!
+    $filterIds: String
+    $subjectId: String
+  ) {
     resource(id: $resourceId) {
       id
       name
       path
       contentUri
-      article {
+      article(filterIds: $filterIds, subjectId: $subjectId) {
         ...ArticleInfo
       }
       resourceTypes {
