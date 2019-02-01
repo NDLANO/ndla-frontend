@@ -42,8 +42,11 @@ function findMatchingFrontpageFilter(subjectsFromApi, subject) {
     subjectFromApi.frontpageFilters &&
     subjectFromApi.frontpageFilters.length > 0
   ) {
-    const found = subjectFromApi.frontpageFilters.find(filter =>
-      subject.name.includes(filter.name),
+    const found = subjectFromApi.frontpageFilters.find(
+      filter =>
+        subject.shortname
+          ? subject.shortname.includes(filter.name)
+          : subject.name.includes(filter.name),
     );
     return found;
   }

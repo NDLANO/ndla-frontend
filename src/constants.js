@@ -131,16 +131,19 @@ export const FRONTPAGE_CATEGORIES = {
         {
           nodeId: '6118',
           name: 'Kommunikasjon og kultur 1',
+          shortname: 'KK1',
           id: 'urn:subject:18',
         },
         {
           nodeId: '2602',
           name: 'Kommunikasjon og kultur 2',
+          shortname: 'KK2',
           id: 'urn:subject:18',
         },
         {
           nodeId: '2603',
           name: 'Kommunikasjon og kultur 3',
+          shortname: 'KK3',
           id: 'urn:subject:18',
         },
         {
