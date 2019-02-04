@@ -175,11 +175,11 @@ Array [
         "url": "/nb/node/102780",
       },
       Object {
-        "id": "37",
+        "id": "urn:subject:37",
         "name": "Restaurant- og matfag Vg1",
         "nodeId": "37",
         "text": "Restaurant- og matfag Vg1",
-        "url": "/nb/node/37",
+        "url": "/subjects/subject:37",
       },
       Object {
         "id": "2600",
