@@ -22,7 +22,7 @@ function setup_environment {
     fi
 }
 
-if [ $NDLA_ENVIRONMENT != "local" ] && [ ! is_kubernetes ]; then
+if [ "$NDLA_ENVIRONMENT" != "local" ] && [ !is_kubernetes ]; then
     setup_environment
 fi
 
