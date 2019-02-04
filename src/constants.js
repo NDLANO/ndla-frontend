@@ -89,7 +89,7 @@ export const FRONTPAGE_CATEGORIES = {
         { nodeId: '102783', name: 'IKT-servicefag Vg2', id: 'urn:subject:25' },
         { nodeId: '86643', name: 'Kokk- og servitørfag Vg2' },
         { nodeId: '137415', name: 'Naturbruk Vg1', id: 'urn:subject:13' },
-        { nodeId: '102780', name: 'Reiseliv Vg2' },
+        { nodeId: '102780', name: 'Reiseliv Vg2', id: 'urn:subject:35' },
         {
           nodeId: '37',
           name: 'Restaurant- og matfag Vg1',
@@ -211,6 +211,7 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:11',
   'urn:subject:18',
   'urn:subject:13',
+  'urn:subject:35',
   // 'urn:subject:29',
   // 'urn:subject:30',
   // 'urn:subject:31',

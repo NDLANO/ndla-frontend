@@ -168,11 +168,11 @@ Array [
         "url": "/subjects/subject:13",
       },
       Object {
-        "id": "102780",
+        "id": "urn:subject:35",
         "name": "Reiseliv Vg2",
         "nodeId": "102780",
         "text": "Reiseliv Vg2",
-        "url": "/nb/node/102780",
+        "url": "/subjects/subject:35",
       },
       Object {
         "id": "urn:subject:37",
