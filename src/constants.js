@@ -90,7 +90,11 @@ export const FRONTPAGE_CATEGORIES = {
         { nodeId: '86643', name: 'Kokk- og servitørfag Vg2' },
         { nodeId: '137415', name: 'Naturbruk Vg1', id: 'urn:subject:13' },
         { nodeId: '102780', name: 'Reiseliv Vg2' },
-        { nodeId: '37', name: 'Restaurant- og matfag Vg1' },
+        {
+          nodeId: '37',
+          name: 'Restaurant- og matfag Vg1',
+          id: 'urn:subject:37',
+        },
         { nodeId: '2600', name: 'Romteknologi Vg3' },
         {
           nodeId: '102781',
