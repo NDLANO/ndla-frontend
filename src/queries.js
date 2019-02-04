@@ -116,6 +116,7 @@ const copyrightInfoFragment = gql`
     rightsholders {
       ...ContributorInfo
     }
+    origin
   }
 `;
 
