@@ -13,6 +13,7 @@ export const getEnvironmentVariabel = (key, fallback = undefined) => {
 };
 
 const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'dev');
+const ndlaEnvironmentHostname = ndlaEnvironment.replace('_', '-');
 
 const apiDomain = () => {
   switch (ndlaEnvironment) {
@@ -23,7 +24,7 @@ const apiDomain = () => {
     case 'prod':
       return 'https://api.ndla.no';
     default:
-      return `https://${ndlaEnvironment}.api.ndla.no`;
+      return `https://${ndlaEnvironmentHostname}.api.ndla.no`;
   }
 };
 
@@ -36,7 +37,7 @@ const ndlaFrontendDomain = () => {
     case 'prod':
       return 'https://ndla.no';
     default:
-      return `https://ndla-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://ndla-frontend.${ndlaEnvironmentHostname}.api.ndla.no`;
   }
 };
 
@@ -49,7 +50,7 @@ const learningPathDomain = () => {
     case 'prod':
       return 'https://stier.ndla.no';
     default:
-      return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://learningpath-frontend.${ndlaEnvironmentHostname}.api.ndla.no`;
   }
 };
 
