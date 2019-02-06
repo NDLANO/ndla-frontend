@@ -2,11 +2,8 @@
 
 APPLICATION_NAME="ndla-frontend"
 
-function is_kubernetes {
-    return [ -e "/var/run/secrets/kubernetes.io" ]
-}
-
 function setup_environment {
+    echo "Setting up environment..."
     secretsfile="/tmp/secrets"
     aws s3 --region eu-central-1 cp s3://$NDLA_ENVIRONMENT.secrets.ndla/$APPLICATION_NAME.secrets $secretsfile
 
@@ -22,7 +19,7 @@ function setup_environment {
     fi
 }
 
-if [ "$NDLA_ENVIRONMENT" != "local" ] && [ ! is_kubernetes ]; then
+if [ "$NDLA_ENVIRONMENT" != "local" ] && [ -z "$NDLA_IS_KUBERNETES" ]; then
     setup_environment
 fi
 
