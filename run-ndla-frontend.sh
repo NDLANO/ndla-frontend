@@ -3,7 +3,7 @@
 APPLICATION_NAME="ndla-frontend"
 
 function is_kubernetes {
-    [ -e "/var/run/secrets/kubernetes.io" ]
+    return [ -e "/var/run/secrets/kubernetes.io" ]
 }
 
 function setup_environment {
@@ -22,7 +22,7 @@ function setup_environment {
     fi
 }
 
-if [ "$NDLA_ENVIRONMENT" != "local" ] && [ !is_kubernetes ]; then
+if [ "$NDLA_ENVIRONMENT" != "local" ] && [ ! is_kubernetes ]; then
     setup_environment
 fi
 
