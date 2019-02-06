@@ -34,23 +34,22 @@ const SubjectPageSecondaryContent = ({
     <OneColumn noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          {latestContentResources &&
-            latestContentResources.length > 0 && (
-              <SubjectFlexChild>
-                <SubjectNewContent
-                  heading={t('subjectPage.newContent.heading')}
-                  content={latestContentResources.map(resource => ({
-                    name: resource.name,
-                    url: toLinkProps(resource, locale).to,
-                    toLinkProps: () => toLinkProps(resource, locale),
-                    contentType: getContentType(resource),
-                    formattedDate: resource.meta
-                      ? formatDate(resource.meta.lastUpdated, locale)
-                      : '',
-                  }))}
-                />
-              </SubjectFlexChild>
-            )}
+          {latestContentResources && latestContentResources.length > 0 && (
+            <SubjectFlexChild>
+              <SubjectNewContent
+                heading={t('subjectPage.newContent.heading')}
+                content={latestContentResources.map(resource => ({
+                  name: resource.name,
+                  url: toLinkProps(resource, locale).to,
+                  toLinkProps: () => toLinkProps(resource, locale),
+                  contentType: getContentType(resource),
+                  formattedDate: resource.meta
+                    ? formatDate(resource.meta.lastUpdated, locale)
+                    : '',
+                }))}
+              />
+            </SubjectFlexChild>
+          )}
           <SubjectFlexChild>
             <InfoWidget
               center
