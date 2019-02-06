@@ -185,6 +185,7 @@ export default {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       'https://*.hotjar.com',
+      'https://ndla.zendesk.com',
       '*.facebook.com',
       '*.twitter.com',
       '*.twimg.com',
