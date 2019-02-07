@@ -138,10 +138,9 @@ class TopicPage extends Component {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
-          {article &&
-            article.metaDescription && (
-              <meta name="description" content={article.metaDescription} />
-            )}
+          {article && article.metaDescription && (
+            <meta name="description" content={article.metaDescription} />
+          )}
 
           {scripts.map(script => (
             <script

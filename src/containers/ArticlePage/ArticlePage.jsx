@@ -181,10 +181,9 @@ class ArticlePage extends Component {
       <div>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
-          {article &&
-            article.metaDescription && (
-              <meta name="description" content={article.metaDescription} />
-            )}
+          {article && article.metaDescription && (
+            <meta name="description" content={article.metaDescription} />
+          )}
 
           {scripts.map(script => (
             <script
