@@ -24,6 +24,7 @@ export const searchQuery = gql`
     $language: String
     $ids: String
     $resourceTypes: String
+    $contextFilters: String
     $levels: String
     $sort: String
     $fallback: Boolean
@@ -39,6 +40,7 @@ export const searchQuery = gql`
       language: $language
       ids: $ids
       resourceTypes: $resourceTypes
+      contextFilters: $contextFilters
       levels: $levels
       sort: $sort
       fallback: $fallback

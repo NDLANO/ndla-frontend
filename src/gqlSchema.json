@@ -295,6 +295,16 @@
                 "defaultValue": null
               },
               {
+                "name": "contextFilters",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "levels",
                 "description": "",
                 "type": {
