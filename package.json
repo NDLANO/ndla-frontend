@@ -58,7 +58,7 @@
     "@ndla/pager": "^0.3.5",
     "@ndla/polyfill": "^0.1.6",
     "@ndla/tabs": "^0.9.6",
-    "@ndla/tracker": "^0.3.1",
+    "@ndla/tracker": "^0.3.2",
     "@ndla/ui": "^0.19.11",
     "@ndla/util": "^0.3.1",
     "@ndla/zendesk": "^0.1.3",
