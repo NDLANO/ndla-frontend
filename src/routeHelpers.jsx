@@ -74,10 +74,10 @@ export const toTopicPartial = (
   ...topicIds
 ) => topicId => toTopic(subjectId, filters, ...topicIds, topicId);
 
-export function toBreadcrumbItems(rootName, path, filters = '') {
+export function toBreadcrumbItems(rootName, paths, filters = '') {
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
 
-  const links = path
+  const links = paths
     .filter(path => path !== undefined)
     .reduce(
       (links, item) => [
