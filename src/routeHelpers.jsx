@@ -74,29 +74,30 @@ export const toTopicPartial = (
   ...topicIds
 ) => topicId => toTopic(subjectId, filters, ...topicIds, topicId);
 
-export function toBreadcrumbItems(
-  rootName,
-  subject,
-  topicPath = [],
-  resource,
-  filters = '',
-) {
+export function toBreadcrumbItems(rootName, path, filters = '') {
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
-  const topicLinks = topicPath.map(topic => ({
-    to: toSubjects() + topic.path + filterParam,
-    name: topic.name,
-  }));
 
-  const resourceLink = resource
-    ? [{ to: toSubjects() + resource.path + filterParam, name: resource.name }]
-    : [];
+  const links = path
+    .filter(path => path !== undefined)
+    .reduce(
+      (links, item) => [
+        ...links,
+        {
+          to:
+            (links.length ? links[links.length - 1].to : '') +
+            '/' +
+            removeUrn(item.id),
+          name: item.name,
+        },
+      ],
+      [],
+    )
+    .map(links => ({
+      ...links,
+      to: toSubjects() + links.to + filterParam,
+    }));
 
-  return [
-    { to: '/', name: rootName },
-    { to: toSubjects() + subject.path + filterParam, name: subject.name },
-    ...topicLinks,
-    ...resourceLink,
-  ];
+  return [{ to: '/', name: rootName }, ...links];
 }
 
 export function toLinkProps(linkObject, locale) {

@@ -22,12 +22,7 @@ import SubjectPageStacked from './layout/SubjectPageStacked';
 
 const SubjectBreadCrumb = injectT(({ t, subject }) => (
   <Breadcrumb
-    items={toBreadcrumbItems(
-      t('breadcrumb.toFrontpage'),
-      subject,
-      undefined,
-      undefined,
-    )}
+    items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [subject], undefined)}
   />
 ));
 

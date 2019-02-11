@@ -182,9 +182,7 @@ class MastheadContainer extends React.PureComponent {
     const breadcrumbBlockItems = subject
       ? toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
-          subject,
-          topicPath,
-          resource,
+          [subject, ...topicPath, resource],
           getFiltersFromUrl(location),
         )
       : [];
