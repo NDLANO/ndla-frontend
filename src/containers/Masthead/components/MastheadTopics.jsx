@@ -1,7 +1,7 @@
 import React from 'react';
 import { node, shape, func, string, arrayOf, object } from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
-import { toSubject } from '../../../routeHelpers';
+import { toSubject, removeUrn } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import {
   mapTopicResourcesToTopic,
@@ -31,13 +31,17 @@ const MastheadTopics = props => {
     expandedSubtopicsId,
   );
 
-  const resourceToLinkPropsWithFilters = (resource, subjectTopicPath) =>
-    resourceToLinkProps(
+  const resourceToLinkPropsWithFilters = resource => {
+    const subjectTopicPath = [subject.id, ...expandedSubtopicsId]
+      .map(removeUrn)
+      .join('/');
+    return resourceToLinkProps(
       resource,
-      subjectTopicPath,
+      '/' + subjectTopicPath,
       activeFilters.join(','),
       locale,
     );
+  };
 
   return (
     <TopicMenu
