@@ -18,7 +18,6 @@ import {
   TEMPORARY_REDIRECT,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
-import { getToken } from './helpers/auth';
 import {
   defaultRoute,
   errorRoute,
@@ -27,7 +26,6 @@ import {
   forwardingRoute,
   ltiRoute,
 } from './routes';
-import { storeAccessToken } from '../util/apiHelpers';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
 import config from '../config';
@@ -82,16 +80,6 @@ app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.get('/get_token', ndlaMiddleware, async (req, res) => {
-  try {
-    const token = await getToken();
-    res.json(token);
-  } catch (err) {
-    handleError(err);
-    res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
-  }
-});
-
 async function sendInternalServerError(req, res) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
@@ -114,15 +102,8 @@ function sendResponse(res, data, status = OK) {
 
 async function handleRequest(req, res, route) {
   try {
-    const token = await getToken();
-    storeAccessToken(token.access_token);
-    try {
-      const { data, status } = await route(req);
-      sendResponse(res, data, status);
-    } catch (e) {
-      handleError(e);
-      await sendInternalServerError(req, res);
-    }
+    const { data, status } = await route(req);
+    sendResponse(res, data, status);
   } catch (e) {
     handleError(e);
     await sendInternalServerError(req, res);

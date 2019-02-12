@@ -6,9 +6,10 @@
  *
  */
 
-import decode from 'jwt-decode';
-
-export function expiresIn(token) {
-  const decoded = decode(token);
-  return decoded.exp - decoded.iat - 60; // Add 60 second buffer
+// Make it easy to add common options (i.e. headers) later
+// by wrapping fetch
+function createFetch(...args) {
+  return fetch(...args);
 }
+
+export default createFetch;

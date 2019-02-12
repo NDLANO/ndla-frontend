@@ -7,7 +7,6 @@
  */
 
 import defined from 'defined';
-import storage from 'local-storage-fallback';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
@@ -15,8 +14,10 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import config from '../config';
-import { expiresIn } from './jwtHelper';
 import handleError from './handleError';
+import { default as createFetch } from './fetch';
+
+export const fetch = createFetch;
 
 const __SERVER__ = process.env.BUILD_TARGET === 'server'; //eslint-disable-line
 const __CLIENT__ = process.env.BUILD_TARGET === 'client'; //eslint-disable-line
@@ -62,70 +63,6 @@ export function resolveJsonOrRejectWithError(res) {
   });
 }
 
-export const storeAccessToken = accessToken => {
-  const expiresAt = expiresIn(accessToken) * 1000 + new Date().getTime();
-  if (__CLIENT__) {
-    storage.setItem('access_token', accessToken);
-    storage.setItem('access_token_expires_at', expiresAt);
-  } else {
-    global.access_token = accessToken;
-    global.access_token_expires_at = expiresAt;
-  }
-};
-
-export const getAccessToken = () => {
-  if (__CLIENT__) {
-    return storage.getItem('access_token');
-  }
-  return global.access_token;
-};
-
-const getAccessTokenExpiresAt = () => {
-  if (__CLIENT__) {
-    return JSON.parse(storage.getItem('access_token_expires_at'));
-  }
-  if (__SERVER__) {
-    return global.access_token;
-  }
-  return 0;
-};
-
-export const fetchAccessToken = () =>
-  fetch('/get_token', {
-    headers: {
-      'Cache-control': 'no-cache, no-store',
-      Pragma: 'no-cache',
-      Expires: 0,
-    },
-  }).then(resolveJsonOrRejectWithError);
-
-const fetchWithHeaders = (url, options, headers) =>
-  fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      ...headers,
-    },
-  });
-
-export const fetchWithAccessToken = (url, options = {}) => {
-  const accessToken = getAccessToken();
-  const expiresAt = accessToken ? getAccessTokenExpiresAt() : 0;
-
-  if (__CLIENT__ && new Date().getTime() > expiresAt) {
-    return fetchAccessToken().then(res => {
-      storeAccessToken(res.access_token);
-      return fetchWithHeaders(url, options, {
-        Authorization: `Bearer ${res.access_token}`,
-      });
-    });
-  }
-
-  return fetchWithHeaders(url, options, {
-    Authorization: `Bearer ${accessToken}`,
-  });
-};
-
 const uri = (() => {
   if (config.localGraphQLApi) {
     return 'http://localhost:4000/graphql-api/graphql';
@@ -157,8 +94,6 @@ export const createApolloClient = (language = 'nb') => {
         }
         if (networkError) {
           handleError(`[Network error]: ${networkError}`, {
-            accessToken: getAccessToken(),
-            expiresAt: getAccessTokenExpiresAt(),
             clientTime: new Date().getTime(),
           });
         }
@@ -166,7 +101,7 @@ export const createApolloClient = (language = 'nb') => {
       headersLink,
       new BatchHttpLink({
         uri,
-        fetch: fetchWithAccessToken,
+        fetch: createFetch,
       }),
     ]),
     cache,

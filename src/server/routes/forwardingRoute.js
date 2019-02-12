@@ -6,12 +6,10 @@
  *
  */
 
-import { getToken } from '../helpers/auth';
 import {
-  storeAccessToken,
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetch,
 } from '../../util/apiHelpers';
 import {
   isLearningPathResource,
@@ -35,9 +33,7 @@ async function findNBNodeId(nodeId, lang) {
   }
 
   const baseUrl = apiResourceUrl('/article-api/v2/articles');
-  const response = await fetchWithAccessToken(
-    `${baseUrl}/external_ids/${nodeId}`,
-  );
+  const response = await fetch(`${baseUrl}/external_ids/${nodeId}`);
 
   // The nodeId my be a learningpath (return nodeId)
   if (response.status === 404) {
@@ -52,19 +48,17 @@ async function findNBNodeId(nodeId, lang) {
 
 async function lookup(url) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/mapping');
-  const response = await fetchWithAccessToken(`${baseUrl}?url=${url}`);
+  const response = await fetch(`${baseUrl}?url=${url}`);
   return resolveJsonOrRejectWithError(response);
 }
 
 async function resolve(path) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/resolve');
-  const response = await fetchWithAccessToken(`${baseUrl}?path=${path}`);
+  const response = await fetch(`${baseUrl}?path=${path}`);
   return resolveJsonOrRejectWithError(response);
 }
 
 export async function forwardingRoute(req, res, next) {
-  const token = await getToken();
-  storeAccessToken(token.access_token);
   const { lang } = req.params;
 
   try {
