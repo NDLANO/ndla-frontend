@@ -16,7 +16,7 @@ Array [
   },
   Object {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subjects/subject:3/topic:1:179373/topic:1:170165",
+    "to": "/subjects/subject:9/topic:1:179373/topic:1:170165",
   },
 ]
 `;
@@ -37,7 +37,7 @@ Array [
   },
   Object {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subjects/subject:3/topic:1:179373/topic:1:170165",
+    "to": "/subjects/subject:9/topic:1:179373/topic:1:170165",
   },
   Object {
     "name": "Utforskeren",

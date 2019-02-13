@@ -23,11 +23,7 @@ function getContentTypeResults(
   }
   return topicResourcesByType.map(type => ({
     contentType: contentTypeMapping[type.id],
-    resources: type.resources.map(resource => ({
-      ...resource,
-      path: resource.path,
-      additional: resource.additional,
-    })),
+    resources: type.resources,
     title: type.name,
   }));
 }

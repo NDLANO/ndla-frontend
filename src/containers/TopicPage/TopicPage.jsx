@@ -164,9 +164,7 @@ class TopicPage extends Component {
                   <Breadcrumb
                     items={toBreadcrumbItems(
                       t('breadcrumb.toFrontpage'),
-                      subject,
-                      topicPath,
-                      undefined,
+                      [subject, ...topicPath],
                       getFiltersFromUrl(location),
                     )}
                   />
