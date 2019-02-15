@@ -6,12 +6,12 @@ Array [
     "name": "fellesfag",
     "subjects": Array [
       Object {
-        "id": "42",
+        "id": "urn:subject:39",
         "lang": "en",
         "name": "Engelsk",
         "nodeId": "42",
         "text": "Engelsk",
-        "url": "/en/node/42",
+        "url": "/subjects/subject:39",
       },
       Object {
         "id": "urn:subject:9",
@@ -98,11 +98,11 @@ Array [
     "name": "yrkesfag",
     "subjects": Array [
       Object {
-        "id": "51",
+        "id": "urn:subject:40",
         "name": "Barne- og ungdomsarbeiderfag Vg2",
         "nodeId": "51",
         "text": "Barne- og ungdomsarbeiderfag Vg2",
-        "url": "/nb/node/51",
+        "url": "/subjects/subject:40",
       },
       Object {
         "id": "urn:subject:6",
@@ -119,11 +119,11 @@ Array [
         "url": "/subjects/subject:11",
       },
       Object {
-        "id": "44",
+        "id": "urn:subject:38",
         "name": "Design og håndverk Vg1",
         "nodeId": "44",
         "text": "Design og håndverk Vg1",
-        "url": "/nb/node/44",
+        "url": "/subjects/subject:38",
       },
       Object {
         "id": "urn:subject:16",

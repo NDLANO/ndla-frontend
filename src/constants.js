@@ -47,7 +47,7 @@ export const FRONTPAGE_CATEGORIES = {
     {
       name: 'fellesfag',
       subjects: [
-        { nodeId: '42', lang: 'en', name: 'Engelsk' },
+        { nodeId: '42', lang: 'en', name: 'Engelsk', id: 'urn:subject:39' },
         {
           id: 'urn:subject:9',
           nodeId: '52253',
@@ -71,14 +71,18 @@ export const FRONTPAGE_CATEGORIES = {
     {
       name: 'yrkesfag',
       subjects: [
-        { nodeId: '51', name: 'Barne- og ungdomsarbeiderfag Vg2' },
+        {
+          nodeId: '51',
+          name: 'Barne- og ungdomsarbeiderfag Vg2',
+          id: 'urn:subject:40',
+        },
         { nodeId: '137414', name: 'Brønnteknikk', id: 'urn:subject:6' },
         {
           nodeId: '127013',
           name: 'Bygg- og anleggsteknikk Vg1',
           id: 'urn:subject:11',
         },
-        { nodeId: '44', name: 'Design og håndverk Vg1' },
+        { nodeId: '44', name: 'Design og håndverk Vg1', id: 'urn:subject:38' },
         { nodeId: '43', name: 'Elektrofag Vg1', id: 'urn:subject:16' },
         {
           nodeId: '8',
@@ -219,4 +223,7 @@ export const ALLOWED_SUBJECTS = [
   // 'urn:subject:33',
   // 'urn:subject:34',
   'urn:subject:25',
+  'urn:subject:38',
+  'urn:subject:39',
+  'urn:subject:40',
 ];
