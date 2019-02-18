@@ -17,10 +17,9 @@ import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import App from './App';
 
-export const articlePath =
+export const ARTICLE_PAGE_PATH =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
-
-export const simpleArticlePath = '/article/:articleId';
+export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 
 export const routes = [
@@ -32,12 +31,12 @@ export const routes = [
     background: true,
   },
   {
-    path: articlePath,
+    path: ARTICLE_PAGE_PATH,
     component: ArticlePage,
     background: true,
   },
   {
-    path: simpleArticlePath,
+    path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
     background: true,
   },
