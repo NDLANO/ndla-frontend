@@ -21,6 +21,7 @@ export const articlePath =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
 
 export const simpleArticlePath = '/article/:articleId';
+export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 
 export const routes = [
   {
@@ -51,7 +52,7 @@ export const routes = [
     background: true,
   },
   {
-    path: '/subjects/:subjectId',
+    path: SUBJECT_PAGE_PATH,
     component: SubjectPage,
     background: false,
   },

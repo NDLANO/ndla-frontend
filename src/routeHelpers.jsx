@@ -6,7 +6,9 @@
  *
  */
 
+import matchPath from 'react-router-dom/matchPath';
 import config from './config';
+import { SUBJECT_PAGE_PATH } from './routes';
 
 export function toSearch() {
   return '/search';
@@ -112,4 +114,12 @@ export function toLinkProps(linkObject, locale) {
     target: isLearningpath ? '_blank' : undefined,
     rel: isLearningpath ? 'noreferrer noopener' : undefined,
   };
+}
+
+export function isSubjectPagePath(pathname) {
+  const match = matchPath(pathname, SUBJECT_PAGE_PATH);
+  if (match) {
+    return match.isExact;
+  }
+  return false;
 }
