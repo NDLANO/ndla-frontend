@@ -8,8 +8,6 @@
 
 import './commands';
 
-export const visitOptions = {
-  onBeforeLoad: win => {
-    win.fetch = null; // eslint-disable-line no-param-reassign
-  },
-};
+Cypress.on('window:before:load', win => {
+  delete win.fetch;
+});
