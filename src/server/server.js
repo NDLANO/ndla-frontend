@@ -71,7 +71,7 @@ const ndlaMiddleware = [
 app.get('/robots.txt', ndlaMiddleware, (req, res) => {
   // Using ndla.no robots.txt
   if (req.hostname === 'ndla.no') {
-    res.sendFile('robots.txt', { root: './src/server/' });
+    res.sendFile('robots.txt', { root: './build/' });
   } else {
     res.type('text/plain');
     res.send('User-agent: *\nDisallow: /');
