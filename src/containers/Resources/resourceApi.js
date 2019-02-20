@@ -9,14 +9,14 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetch,
 } from '../../util/apiHelpers';
 import { RELEVANCE_CORE } from '../../constants';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 export const fetchResourceTypesForResource = (resourceId, locale) =>
-  fetchWithAccessToken(
+  fetch(
     `${baseUrl}/resources/${resourceId}/resource-types/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 
@@ -25,17 +25,17 @@ export const fetchTopicResources = (
   locale,
   relevance = RELEVANCE_CORE,
 ) =>
-  fetchWithAccessToken(
+  fetch(
     `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchResourceTypes = locale =>
-  fetchWithAccessToken(`${baseUrl}/resource-types/?language=${locale}`).then(
+  fetch(`${baseUrl}/resource-types/?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 
 export const fetchResource = async (resourceId, locale) => {
-  const response = await fetchWithAccessToken(
+  const response = await fetch(
     `${baseUrl}/resources/${resourceId}/?language=${locale}`,
   );
   return resolveJsonOrRejectWithError(response);

@@ -16,13 +16,6 @@ jest.mock('../../../config', () => ({
   getEnvironmentVariabel: () => {},
 }));
 
-jest.mock('../../helpers/auth', () => ({
-  getToken: () => ({
-    access_token:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MjUxNjIzOTAyMn0.GDAENto_SoW_24VDYo2-8fvqQNTh48s-fHEaGda_jK0',
-  }),
-}));
-
 function prepareNock(
   status,
   nodeId = '1337',

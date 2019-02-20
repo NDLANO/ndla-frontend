@@ -9,7 +9,7 @@
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
-  fetchWithAccessToken,
+  fetch,
 } from '../../util/apiHelpers';
 
 const converterBaseUrl = (() => {
@@ -22,14 +22,12 @@ const converterBaseUrl = (() => {
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
 export const fetchArticle = (id, locale, removeRelatedContent = false) =>
-  fetchWithAccessToken(
+  fetch(
     `${converterBaseUrl}/${locale}/${id}?removeRelatedContent=${removeRelatedContent}`,
   ).then(resolveJsonOrRejectWithError);
 
 export const fetchArticles = ids =>
-  fetchWithAccessToken(`${baseUrl}?ids=${ids.join(',')}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetch(`${baseUrl}?ids=${ids.join(',')}`).then(resolveJsonOrRejectWithError);
 
 export const fetchArticleOembed = url =>
-  fetchWithAccessToken(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);
+  fetch(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);
