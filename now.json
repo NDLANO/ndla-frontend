@@ -16,6 +16,11 @@
       "headers": { "cache-control": "s-maxage=86400" },
       "dest": "build/public/static/$1"
     },
+    {
+      "src": "/favicon.ico",
+      "headers": { "cache-control": "s-maxage=86400" },
+      "dest": "build/public/favicon.ico"
+    },
     { "src": "/(.*)", "dest": "/build/server.js" }
   ],
   "env": {
