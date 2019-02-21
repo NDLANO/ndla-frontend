@@ -42,7 +42,7 @@ function findMatchingFrontpageFilter(subjectsFromApi, subject) {
     subjectFromApi.frontpageFilters &&
     subjectFromApi.frontpageFilters.length > 0
   ) {
-    const found = subjectFromApi.frontpageFilters.find(filter =>
+    const found = subjectFromApi.frontpageFilters.filter(filter =>
       subject.shortname
         ? subject.shortname.includes(filter.name)
         : subject.name.includes(filter.name),
@@ -55,7 +55,8 @@ function findMatchingFrontpageFilter(subjectsFromApi, subject) {
 function createSubjectFilterUrl(subject, filter) {
   const baseUrl = toSubject(subject.id);
   if (filter) {
-    return `${baseUrl}?filters=${filter.id}`;
+    const filterIds = filter.map(f => f.id).join(',');
+    return `${baseUrl}?filters=${filterIds}`;
   }
   return baseUrl;
 }
