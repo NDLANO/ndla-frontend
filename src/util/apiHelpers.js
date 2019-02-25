@@ -8,7 +8,10 @@
 
 import defined from 'defined';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher,
+} from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
@@ -70,6 +73,21 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
+// See: https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: {
+    __schema: {
+      types: [
+        {
+          kind: 'INTERFACE',
+          name: 'TaxonomyEntity',
+          possibleTypes: [{ name: 'Resource' }, { name: 'Topic' }],
+        },
+      ],
+    },
+  },
+});
+
 export const createApolloClient = (language = 'nb') => {
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
@@ -79,8 +97,8 @@ export const createApolloClient = (language = 'nb') => {
   }));
 
   const cache = __CLIENT__
-    ? new InMemoryCache().restore(window.DATA.apolloState)
-    : new InMemoryCache();
+    ? new InMemoryCache({ fragmentMatcher }).restore(window.DATA.apolloState)
+    : new InMemoryCache({ fragmentMatcher });
 
   const client = new ApolloClient({
     link: ApolloLink.from([
