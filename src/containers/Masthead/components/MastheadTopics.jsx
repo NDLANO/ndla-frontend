@@ -32,7 +32,11 @@ const MastheadTopics = props => {
   );
 
   const resourceToLinkPropsWithFilters = resource => {
-    const subjectTopicPath = [subject.id, ...expandedSubtopicsId]
+    const subjectTopicPath = [
+      subject.id,
+      expandedTopicId,
+      ...expandedSubtopicsId,
+    ]
       .map(removeUrn)
       .join('/');
     return resourceToLinkProps(
