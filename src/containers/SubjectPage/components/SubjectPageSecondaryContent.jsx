@@ -24,21 +24,16 @@ import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { getContentType } from '../../../util/getContentType';
 
-const SubjectPageSecondaryContent = ({
-  // subjectName,
-  latestContentResources,
-  t,
-  locale,
-}) => (
+const SubjectPageSecondaryContent = ({ latestContent, t, locale }) => (
   <SubjectSecondaryContent>
     <OneColumn noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          {latestContentResources && latestContentResources.length > 0 && (
+          {latestContent.length > 0 && (
             <SubjectFlexChild>
               <SubjectNewContent
                 heading={t('subjectPage.newContent.heading')}
-                content={latestContentResources.map(resource => ({
+                content={latestContent.map(resource => ({
                   name: resource.name,
                   url: toLinkProps(resource, locale).to,
                   toLinkProps: () => toLinkProps(resource, locale),
@@ -73,8 +68,7 @@ const SubjectPageSecondaryContent = ({
   </SubjectSecondaryContent>
 );
 SubjectPageSecondaryContent.propTypes = {
-  latestContentResources: PropTypes.arrayOf(GraphQLResourceShape),
-  // subjectName: PropTypes.string.isRequired,
+  latestContent: PropTypes.arrayOf(GraphQLResourceShape),
   locale: PropTypes.string.isRequired,
 };
 

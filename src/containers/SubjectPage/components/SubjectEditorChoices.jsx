@@ -10,8 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SubjectCarousel } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { GraphQLSubjectPageResourcesShape } from '../../../graphqlShapes';
-import { getResources } from '../subjectPageHelpers';
+import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
 
@@ -40,7 +39,7 @@ const SubjectEditorChoices = ({
     return null;
   }
 
-  const editorsChoicesResources = getResources(editorsChoices)
+  const editorsChoicesResources = editorsChoices
     .filter(hasContentUri)
     .map(resource => ({
       title: resource.name,
@@ -69,7 +68,7 @@ const SubjectEditorChoices = ({
 };
 
 SubjectEditorChoices.propTypes = {
-  editorsChoices: GraphQLSubjectPageResourcesShape,
+  editorsChoices: PropTypes.arrayOf(GraphQLResourceShape),
   narrowScreen: PropTypes.bool,
   wideScreen: PropTypes.bool,
   locale: PropTypes.string.isRequired,

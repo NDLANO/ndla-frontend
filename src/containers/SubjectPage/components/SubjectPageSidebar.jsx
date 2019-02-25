@@ -12,7 +12,7 @@ import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
 import { toLinkProps } from '../../../routeHelpers';
-import { getResources, getSearchUrl } from '../subjectPageHelpers';
+import { getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
 export const SubjectPageSidebar = ({
@@ -23,10 +23,9 @@ export const SubjectPageSidebar = ({
   t,
 }) => {
   const { mostRead, goTo } = subjectpage;
-  const mostReadResources = getResources(mostRead);
 
   return [
-    goTo && goTo.resourceTypes.length > 0 && (
+    goTo.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_shortcuts" twoColumns={twoColumns}>
         <SubjectShortcuts
           messages={{
@@ -34,21 +33,18 @@ export const SubjectPageSidebar = ({
             showMore: t('subjectPage.subjectShortcuts.showMore'),
             showLess: t('subjectPage.subjectShortcuts.showLess'),
           }}
-          links={
-            goTo.resourceTypes &&
-            goTo.resourceTypes.map(type => ({
-              text: type.name,
-              url: getSearchUrl(subjectId, type),
-            }))
-          }
+          links={goTo.map(type => ({
+            text: type.name,
+            url: getSearchUrl(subjectId, type),
+          }))}
         />
       </SubjectPageFlexChild>
     ),
-    mostRead && mostReadResources.length > 0 && (
+    mostRead.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_mostread" twoColumns={twoColumns}>
         <SubjectLinks
           heading={t('subjectPage.mostRead.heading')}
-          links={mostReadResources.map(resource => ({
+          links={mostRead.map(resource => ({
             text: resource.name,
             url: toLinkProps(resource, locale).to,
             toLinkProps: () => toLinkProps(resource, locale),

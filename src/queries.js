@@ -233,14 +233,20 @@ export const articleInfoFragment = gql`
   }
 `;
 
-export const subjectPageArticlesInfo = gql`
-  ${resourceInfoFragment}
+export const taxonomyEntityInfo = gql`
   ${metaInfoFragment}
-  fragment SubjectPageArticlesInfo on SubjectPageArticles {
-    resources {
-      ...ResourceInfo
-      meta {
-        ...MetaInfo
+  fragment TaxonomyEntityInfo on TaxonomyEntity {
+    id
+    name
+    contentUri
+    path
+    meta {
+      ...MetaInfo
+    }
+    ... on Resource {
+      resourceTypes {
+        id
+        name
       }
     }
   }
@@ -281,13 +287,8 @@ export const subjectPageQuery = gql`
       }
       subjectpage {
         id
-        topical {
-          resource {
-            ...ResourceInfo
-            meta {
-              ...MetaInfo
-            }
-          }
+        topical(subjectId: $subjectId) {
+          ...TaxonomyEntityInfo
         }
         banner {
           desktopUrl
@@ -307,26 +308,23 @@ export const subjectPageQuery = gql`
         }
         metaDescription
         goTo {
-          resourceTypes {
-            id
-            name
-          }
+          id
+          name
         }
-        mostRead {
-          ...SubjectPageArticlesInfo
+        mostRead(subjectId: $subjectId) {
+          ...TaxonomyEntityInfo
         }
-        latestContent {
-          ...SubjectPageArticlesInfo
+        latestContent(subjectId: $subjectId) {
+          ...TaxonomyEntityInfo
         }
-        editorsChoices {
-          ...SubjectPageArticlesInfo
+        editorsChoices(subjectId: $subjectId) {
+          ...TaxonomyEntityInfo
         }
       }
     }
   }
   ${topicInfoFragment}
-  ${subjectPageArticlesInfo}
-  ${resourceInfoFragment}
+  ${taxonomyEntityInfo}
   ${metaInfoFragment}
 `;
 
