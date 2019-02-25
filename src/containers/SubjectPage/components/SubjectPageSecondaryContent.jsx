@@ -29,7 +29,7 @@ const SubjectPageSecondaryContent = ({ latestContent, t, locale }) => (
     <OneColumn noPadding>
       <SubjectChildContent>
         <SubjectFlexWrapper>
-          {latestContent.length > 0 && (
+          {latestContent && latestContent.length > 0 && (
             <SubjectFlexChild>
               <SubjectNewContent
                 heading={t('subjectPage.newContent.heading')}

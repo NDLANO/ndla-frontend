@@ -25,7 +25,7 @@ export const SubjectPageSidebar = ({
   const { mostRead, goTo } = subjectpage;
 
   return [
-    goTo.length > 0 && (
+    goTo && goTo.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_shortcuts" twoColumns={twoColumns}>
         <SubjectShortcuts
           messages={{
@@ -40,7 +40,7 @@ export const SubjectPageSidebar = ({
         />
       </SubjectPageFlexChild>
     ),
-    mostRead.length > 0 && (
+    mostRead && mostRead.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_mostread" twoColumns={twoColumns}>
         <SubjectLinks
           heading={t('subjectPage.mostRead.heading')}
