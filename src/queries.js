@@ -132,6 +132,7 @@ export const topicInfoFragment = gql`
     }
     path
     meta {
+      id
       metaDescription
     }
   }
@@ -325,7 +326,6 @@ export const subjectPageQuery = gql`
   }
   ${topicInfoFragment}
   ${taxonomyEntityInfo}
-  ${metaInfoFragment}
 `;
 
 export const subjectsQuery = gql`
@@ -443,6 +443,7 @@ export const topicQuery = gql`
       name
       path
       meta {
+        id
         metaDescription
       }
       article {
