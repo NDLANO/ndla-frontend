@@ -134,7 +134,7 @@ class TopicPage extends Component {
       errors && errors.find(e => e.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
-    console.log(article);
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>

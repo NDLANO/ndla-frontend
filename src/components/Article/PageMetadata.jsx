@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import config from '../../config';
 import { LocationShape, ImageShape } from '../../shapes';
 
+
 const MetadataPage = ({ title, metaData, description, locale, location }) => {
   const image =
     metaData && metaData.images && metaData.images.length > 0
@@ -16,24 +17,12 @@ const MetadataPage = ({ title, metaData, description, locale, location }) => {
     <Helmet>
       <meta name="twitter:card" content="summary" />
       <meta property="og:url" content={url} />
-      {title && (
-        <Fragment>
-          <meta property="og:title" content={title} />
-          <meta name="twitter:title" content={title} />
-        </Fragment>
-      )}
-      {description && (
-        <Fragment>
-          <meta property="og:description" content={description} />
-          <meta name="twitter:description" content={description} />
-        </Fragment>
-      )}
-      {image && (
-        <Fragment>
-          <meta property="og:image" content={image.src} />
-          <meta property="twitter:image" content={image.src} />
-        </Fragment>
-      )}
+      {title && <meta property="og:title" content={title} />}
+      {title && <meta name="twitter:title" content={title} />}
+      {description && <meta property="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
+      {image && <meta property="og:image" content={image.src} />}
+      {image && <meta property="twitter:image" content={image.src} />}
     </Helmet>
   );
 };
