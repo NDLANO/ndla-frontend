@@ -120,3 +120,10 @@ export const SearchParamsShape = PropTypes.shape({
   resourceTypes: PropTypes.arrayOf(PropTypes.string),
   subjects: PropTypes.arrayOf(PropTypes.string),
 });
+
+export const ImageShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  altText: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape.isRequired,
+});

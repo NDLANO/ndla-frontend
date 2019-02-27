@@ -26,15 +26,8 @@ import {
 import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { CopyrightObjectShape } from '../../shapes';
+import { ImageShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
-
-const ImageShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
-  altText: PropTypes.string.isRequired,
-  copyright: CopyrightObjectShape.isRequired,
-});
 
 export const downloadUrl = imageSrc => {
   const urlObject = queryString.parseUrl(imageSrc);
