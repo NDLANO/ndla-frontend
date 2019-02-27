@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -14,10 +14,26 @@ const MetadataPage = ({ title, metaData, description, locale, location }) => {
   const url = `${config.ndlaFrontendDomain}${basename}${location.pathname}`;
   return (
     <Helmet>
+      <meta name="twitter:card" content="summary" />
       <meta property="og:url" content={url} />
-      {title && <meta property="og:title" content={title} />}
-      {description && <meta property="og:description" content={description} />}
-      {image && <meta property="og:image" content={image.src} />}
+      {title && (
+        <Fragment>
+          <meta property="og:title" content={title} />
+          <meta name="twitter:title" content={title} />
+        </Fragment>
+      )}
+      {description && (
+        <Fragment>
+          <meta property="og:description" content={description} />
+          <meta name="twitter:description" content={description} />
+        </Fragment>
+      )}
+      {image && (
+        <Fragment>
+          <meta property="og:image" content={image.src} />
+          <meta property="twitter:image" content={image.src} />
+        </Fragment>
+      )}
     </Helmet>
   );
 };
