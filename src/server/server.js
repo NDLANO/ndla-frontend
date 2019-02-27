@@ -73,7 +73,9 @@ app.get('/robots.txt', ndlaMiddleware, (req, res) => {
     res.sendFile('robots.txt', { root: './build/' });
   } else {
     res.type('text/plain');
-    res.send('User-agent: Twitterbot\nDisallow: \n\nUser-agent: *\nDisallow: /');
+    res.send(
+      'User-agent: *\nDisallow: /',
+    );
   }
 });
 

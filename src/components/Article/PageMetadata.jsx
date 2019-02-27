@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import config from '../../config';
 import { LocationShape, ImageShape } from '../../shapes';
 
-
-const MetadataPage = ({ title, metaData, description, locale, location }) => {
+const PageMetadata = ({ title, metaData, description, locale, location }) => {
   const image =
     metaData && metaData.images && metaData.images.length > 0
       ? metaData.images[0]
@@ -24,15 +23,14 @@ const MetadataPage = ({ title, metaData, description, locale, location }) => {
   );
 };
 
-MetadataPage.propTypes = {
+PageMetadata.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   locale: PropTypes.string,
-  image: PropTypes.string,
   location: LocationShape,
   metaData: PropTypes.shape({
     images: PropTypes.arrayOf(ImageShape),
   }),
 };
 
-export default withRouter(MetadataPage);
+export default withRouter(PageMetadata);
