@@ -17,9 +17,9 @@ const MetadataPage = ({ title, metaData, description, locale, location }) => {
     <Helmet>
       <meta name="twitter:card" content="summary" />
       <meta property="og:url" content={url} />
-      {title && <meta name="twitter:title" content={title} />}
-      {description && <meta name="twitter:description" content={description} />}
-      {image && <meta property="twitter:image" content={image.src} />}
+      {title && <meta property="og:title" content={title} />}
+      {description && <meta property="og:description" content={description} />}
+      {image && <meta property="og:image" content={image.src} />}
     </Helmet>
   );
 };
