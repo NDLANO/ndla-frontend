@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, SubjectArchive } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { GraphQLSubjectPageTopicalShape } from '../../../graphqlShapes';
+import { GraphQLResourceShape } from '../../../graphqlShapes';
 import { toSubjects } from '../../../routeHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
@@ -49,7 +49,7 @@ const SubjectTopical = ({ topical, twoColumns, t }) => {
 };
 
 SubjectTopical.propTypes = {
-  topical: GraphQLSubjectPageTopicalShape,
+  topical: GraphQLResourceShape,
   twoColumns: PropTypes.bool,
 };
 

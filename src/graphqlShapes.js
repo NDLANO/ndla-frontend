@@ -48,15 +48,6 @@ export const GraphQLResourceShape = PropTypes.shape({
   }),
 });
 
-export const GraphQLSubjectPageResourcesShape = PropTypes.shape({
-  location: PropTypes.string,
-  resources: PropTypes.arrayOf(GraphQLResourceShape),
-});
-
-export const GraphQLSubjectPageTopicalShape = PropTypes.shape({
-  resource: GraphQLResourceShape,
-});
-
 export const GraphqlResourceTypeShape = PropTypes.shape({
   id: PropTypes.string,
   name: PropTypes.string,
@@ -82,10 +73,10 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   id: PropTypes.number,
   subjectListLocation: PropTypes.string,
   resources: PropTypes.arrayOf(GraphQLResourceShape),
-  editorsChoices: GraphQLSubjectPageResourcesShape,
-  latestContent: GraphQLSubjectPageResourcesShape,
-  mostRead: GraphQLSubjectPageResourcesShape,
-  topical: GraphQLSubjectPageTopicalShape,
+  editorsChoices: PropTypes.arrayOf(GraphQLResourceShape),
+  latestContent: PropTypes.arrayOf(GraphQLResourceShape),
+  mostRead: PropTypes.arrayOf(GraphQLResourceShape),
+  topical: GraphQLResourceShape,
   banner: PropTypes.shape({
     desktopUrl: PropTypes.string,
     desktopId: PropTypes.string,
@@ -97,9 +88,7 @@ export const GraphQLSubjectPageShape = PropTypes.shape({
   layout: PropTypes.string,
   metaDescription: PropTypes.string,
   about: GraphQLSubjectPageAboutShape,
-  goTo: PropTypes.shape({
-    resourceTypes: PropTypes.arrayOf(GraphqlResourceTypeShape),
-  }),
+  goTo: PropTypes.arrayOf(GraphqlResourceTypeShape),
 });
 
 export const GraphQLSubjectShape = PropTypes.shape({

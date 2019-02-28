@@ -27,7 +27,6 @@ import SubjectPageSecondaryContent from './components/SubjectPageSecondaryConten
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import { getResources } from './subjectPageHelpers';
 import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
@@ -115,7 +114,6 @@ class SubjectPage extends Component {
       editorsChoices,
       layout,
     } = subjectpage;
-    const latestContentResources = getResources(latestContent);
     return (
       <article>
         <Helmet>
@@ -155,7 +153,7 @@ class SubjectPage extends Component {
           <SubjectPageSecondaryContent
             locale={locale}
             subjectName={subjectName}
-            latestContentResources={latestContentResources}
+            latestContent={latestContent}
           />
         )}
         <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
