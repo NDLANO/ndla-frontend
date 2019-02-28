@@ -6,7 +6,7 @@
  *
  */
 
-import { toBreadcrumbItems } from '../routeHelpers';
+import { toBreadcrumbItems, isSubjectPagePath } from '../routeHelpers';
 
 const subject = {
   id: 'urn:subject:9',
@@ -44,4 +44,11 @@ test('breadcrumb items from from subject, topicpath and resouce', () => {
   expect(
     toBreadcrumbItems('Home', [subject, ...topics, resource]),
   ).toMatchSnapshot();
+});
+
+test('is pathname a subject page path', () => {
+  expect(isSubjectPagePath('/subjects/subject:1')).toBe(true);
+  expect(isSubjectPagePath('/subjects/subject:134')).toBe(true);
+  expect(isSubjectPagePath('/subjects/subject:1/')).toBe(true);
+  expect(isSubjectPagePath('/subjects/subject:1/topic:1:186460')).toBe(false);
 });

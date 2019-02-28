@@ -101,6 +101,10 @@ class Resources extends Component {
 
     const resourceGroupsWithMetaData = resourceGroups.map(type => ({
       ...type,
+      resources: type.resources.map(resource => ({
+        ...resource,
+        active: resource.id.endsWith(params.resourceId) ? true : false,
+      })),
       contentType: contentTypeMapping[type.id],
       noContentLabel: t('resource.noCoreResourcesAvailable', {
         name: type.name.toLowerCase(),

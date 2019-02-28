@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { node, shape, func, string, arrayOf, object } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
-import { getUrnIdsFromProps } from '../../../routeHelpers';
+import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
 import MastheadTopics from './MastheadTopics';
@@ -110,6 +110,7 @@ class MastheadMenu extends Component {
   render() {
     const {
       subject,
+      location,
       filters,
       topicResourcesByType,
       locale,
@@ -125,6 +126,7 @@ class MastheadMenu extends Component {
             <MastheadTopics
               onClose={onClose}
               searchFieldComponent={searchFieldComponent}
+              isOnSubjectFrontPage={isSubjectPagePath(location.pathname)}
               activeFilters={activeFilters}
               expandedTopicId={expandedTopicId}
               expandedSubtopicsId={expandedSubtopicsId}

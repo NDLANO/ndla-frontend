@@ -70,7 +70,7 @@ exports[`Document renderers correctly 1`] = `
         Object {
           "__html": "
   var feats = [];
-  ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number.prototype) || feats.push('Number.prototype.isInteger');('isNaN' in Number.prototype) || feats.push('Number.prototype.isNaN');
+  ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number) || feats.push('Number.isInteger');('isNaN' in Number) || feats.push('Number.isNaN');
 
   function cs(script, useHead, onLoad) {
     var s = document.createElement('script');

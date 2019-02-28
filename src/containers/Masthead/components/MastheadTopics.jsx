@@ -1,5 +1,5 @@
 import React from 'react';
-import { node, shape, func, string, arrayOf, object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
@@ -22,6 +22,7 @@ const MastheadTopics = props => {
     onFilterClick,
     onNavigate,
     searchFieldComponent,
+    isOnSubjectFrontPage,
   } = props;
 
   const topicsWithContentTypes = mapTopicResourcesToTopic(
@@ -55,6 +56,7 @@ const MastheadTopics = props => {
       topics={topicsWithContentTypes}
       toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
       toSubject={() => toSubject(subject.id)}
+      isOnSubjectFrontPage={isOnSubjectFrontPage}
       defaultCount={12}
       messages={{
         subjectPage: 'masthead.menu.subjectPage',
@@ -79,21 +81,22 @@ const MastheadTopics = props => {
 };
 
 MastheadTopics.propTypes = {
-  subject: shape({
-    id: string,
-    name: string,
-    topics: arrayOf(object),
+  subject: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    topics: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  topicResourcesByType: arrayOf(TopicShape).isRequired,
-  activeFilters: arrayOf(string).isRequired,
-  expandedTopicId: string,
-  expandedSubtopicsId: arrayOf(string).isRequired,
-  filters: arrayOf(object).isRequired,
-  locale: string.isRequired,
-  onClose: func.isRequired,
-  onFilterClick: func.isRequired,
-  onNavigate: func.isRequired,
-  searchFieldComponent: node.isRequired,
+  topicResourcesByType: PropTypes.arrayOf(TopicShape).isRequired,
+  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expandedTopicId: PropTypes.string,
+  expandedSubtopicsId: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  locale: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onFilterClick: PropTypes.func.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  searchFieldComponent: PropTypes.node.isRequired,
+  isOnSubjectFrontPage: PropTypes.bool,
 };
 
 export default MastheadTopics;
