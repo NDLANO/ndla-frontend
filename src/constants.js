@@ -238,3 +238,11 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:39',
   'urn:subject:40',
 ];
+
+export const ARTICLE_PAGE_PATH =
+  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
+export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
+export const SEARCH_PATH = '/search(.*)';
+export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
+export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
+export const SUBJECTS = '/subjects';
