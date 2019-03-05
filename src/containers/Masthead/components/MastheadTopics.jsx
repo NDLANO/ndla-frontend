@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
-import { toSubject, removeUrn } from '../../../routeHelpers';
+import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
-import {
-  mapTopicResourcesToTopic,
-  toTopicWithSubjectIdBound,
-} from '../mastheadHelpers';
+import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 import { TopicShape } from '../../../shapes';
+
+function toTopicWithBoundParams(subjectId, filters, ...expandedTopicIds) {
+  return topicId => {
+    const index = expandedTopicIds.indexOf(topicId);
+    const topicIds = expandedTopicIds.slice(0, index + 1);
+    return toTopic(subjectId, filters, ...topicIds);
+  };
+}
 
 const MastheadTopics = props => {
   const {
@@ -54,7 +59,12 @@ const MastheadTopics = props => {
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes}
-      toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
+      toTopic={toTopicWithBoundParams(
+        subject.id,
+        activeFilters.join(','),
+        expandedTopicId,
+        ...expandedSubtopicsId,
+      )}
       toSubject={() => toSubject(subject.id)}
       isOnSubjectFrontPage={isOnSubjectFrontPage}
       defaultCount={12}
