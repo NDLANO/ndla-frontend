@@ -42,7 +42,7 @@ import {
 } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
-import PageMetadata from '../../components/Article/PageMetadata';
+import TwitterMetadata from '../../components/TwitterMetadata';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -156,7 +156,7 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <PageMetadata
+        <TwitterMetadata
           description={article.metaDescription}
           metaData={article.metaData}
           title={article.title}
