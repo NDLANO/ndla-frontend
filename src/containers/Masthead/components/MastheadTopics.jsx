@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
-import { toSubject, removeUrn } from '../../../routeHelpers';
+import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
-import {
-  mapTopicResourcesToTopic,
-  toTopicWithSubjectIdBound,
-} from '../mastheadHelpers';
+import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 import { TopicShape } from '../../../shapes';
+
+export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
+  return topicId => {
+    // expandedTopics is an array like this: [mainTopic, subtopic, subsubtopic, etc]
+    // topicId is always either mainTopic, subtopic, subsubtopic, etc
+    // It implies that we can use expandedTopics to create a path of
+    // topic ids we can send to toTopic().
+    const index = expandedTopicIds.indexOf(topicId);
+    const topicIds = expandedTopicIds.slice(0, index + 1);
+    return toTopic(subjectId, filters, ...topicIds);
+  };
+}
 
 const MastheadTopics = props => {
   const {
@@ -25,6 +34,8 @@ const MastheadTopics = props => {
     isOnSubjectFrontPage,
   } = props;
 
+  const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
+
   const topicsWithContentTypes = mapTopicResourcesToTopic(
     subject.topics,
     expandedTopicId,
@@ -33,11 +44,7 @@ const MastheadTopics = props => {
   );
 
   const resourceToLinkPropsWithFilters = resource => {
-    const subjectTopicPath = [
-      subject.id,
-      expandedTopicId,
-      ...expandedSubtopicsId,
-    ]
+    const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
     return resourceToLinkProps(
@@ -54,7 +61,11 @@ const MastheadTopics = props => {
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes}
-      toTopic={toTopicWithSubjectIdBound(subject.id, activeFilters.join(','))}
+      toTopic={toTopicWithBoundParams(
+        subject.id,
+        activeFilters.join(','),
+        expandedTopicIds,
+      )}
       toSubject={() => toSubject(subject.id)}
       isOnSubjectFrontPage={isOnSubjectFrontPage}
       defaultCount={12}
