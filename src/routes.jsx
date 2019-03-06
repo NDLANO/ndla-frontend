@@ -16,11 +16,13 @@ import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import App from './App';
-
-export const ARTICLE_PAGE_PATH =
-  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
-export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
-export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
+import {
+  ARTICLE_PAGE_PATH,
+  PLAIN_ARTICLE_PAGE_PATH,
+  SUBJECT_PAGE_PATH,
+  SEARCH_PATH,
+  TOPIC_PATH,
+} from './constants';
 
 export const routes = [
   {
@@ -41,12 +43,12 @@ export const routes = [
     background: true,
   },
   {
-    path: '/search(.*)',
+    path: SEARCH_PATH,
     component: SearchPage,
     background: true,
   },
   {
-    path: '/subjects/:subjectId/:topicPath(.*)?/:topicId',
+    path: TOPIC_PATH,
     component: TopicPage,
     background: true,
   },

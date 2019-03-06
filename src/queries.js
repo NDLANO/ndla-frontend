@@ -449,9 +449,6 @@ export const topicQuery = gql`
       article {
         ...ArticleInfo
       }
-      subtopics(filterIds: $filterIds) {
-        ...TopicInfo
-      }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
@@ -462,7 +459,6 @@ export const topicQuery = gql`
   }
   ${articleInfoFragment}
   ${resourceInfoFragment}
-  ${topicInfoFragment}
 `;
 
 export const competenceGoalsQuery = gql`

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { SubjectHero, OneColumn, Breadcrumb, constants } from '@ndla/ui';
@@ -121,9 +121,9 @@ class TopicPage extends Component {
       topicPath,
       resourceTypes,
       topic: {
+        id: topicId,
         name: topicTitle,
         article: topicArticle,
-        subtopics,
         supplementaryResources,
         coreResources,
       },
@@ -133,6 +133,7 @@ class TopicPage extends Component {
       errors && errors.find(e => e.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
+    const subtopics = subject.topics.filter(topic => topic.parent === topicId);
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -181,7 +182,7 @@ class TopicPage extends Component {
             locale={locale}
             label={t('topicPage.topic')}
             contentType={constants.contentTypes.SUBJECT}>
-            <Fragment>
+            <>
               <SubTopics
                 topicTitle={topicTitle}
                 subjectId={subjectId}
@@ -195,7 +196,7 @@ class TopicPage extends Component {
                 supplementaryResources={supplementaryResources}
                 locale={locale}
               />
-            </Fragment>
+            </>
           </Article>
         </OneColumn>
       </div>

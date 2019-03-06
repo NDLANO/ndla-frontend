@@ -8,7 +8,7 @@
 
 import matchPath from 'react-router-dom/matchPath';
 import config from './config';
-import { SUBJECT_PAGE_PATH } from './routes';
+import { SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch() {
   return '/search';
