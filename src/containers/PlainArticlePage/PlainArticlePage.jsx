@@ -23,6 +23,7 @@ import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import TwitterMetadata from '../../components/TwitterMetadata';
 
 const getTitle = article => (article ? article.title : '');
 
@@ -107,6 +108,12 @@ class PlainArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
+        <TwitterMetadata
+          title={article.title}
+          description={article.metaDescription}
+          locale={locale}
+          metaData={article.metaData}
+        />
         {article && <ArticleHero resource={{}} />}
         <OneColumn>
           <Article article={article} locale={locale} {...getArticleProps()} />

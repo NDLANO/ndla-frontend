@@ -42,6 +42,7 @@ import {
 } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
+import TwitterMetadata from '../../components/TwitterMetadata';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -156,7 +157,12 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-
+        <TwitterMetadata
+          description={article.metaDescription}
+          metaData={article.metaData}
+          title={article.title}
+          locale={locale}
+        />
         <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">

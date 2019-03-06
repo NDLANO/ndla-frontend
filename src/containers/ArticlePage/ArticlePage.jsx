@@ -40,6 +40,7 @@ import {
   getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
+import TwitterMetadata from '../../components/TwitterMetadata';
 
 const transformData = data => {
   const { subject, topic } = data;
@@ -198,6 +199,12 @@ class ArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
+        <TwitterMetadata
+          title={article.title}
+          description={article.metaDescription}
+          locale={locale}
+          metaData={article.metaData}
+        />
         {resource && (
           <ArticleHero
             subject={subject}
