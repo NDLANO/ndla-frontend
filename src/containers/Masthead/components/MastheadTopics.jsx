@@ -6,8 +6,12 @@ import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 import { TopicShape } from '../../../shapes';
 
-function toTopicWithBoundParams(subjectId, filters, ...expandedTopicIds) {
+export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
   return topicId => {
+    // expandedTopics is an array like this: [mainTopic, subtopic, subsubtopic, etc]
+    // topicId is always either mainTopic, subtopic, subsubtopic, etc
+    // It implies that we can use expandedTopics to create a path of
+    // topic ids we can send to toTopic().
     const index = expandedTopicIds.indexOf(topicId);
     const topicIds = expandedTopicIds.slice(0, index + 1);
     return toTopic(subjectId, filters, ...topicIds);
@@ -30,6 +34,8 @@ const MastheadTopics = props => {
     isOnSubjectFrontPage,
   } = props;
 
+  const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
+
   const topicsWithContentTypes = mapTopicResourcesToTopic(
     subject.topics,
     expandedTopicId,
@@ -38,11 +44,7 @@ const MastheadTopics = props => {
   );
 
   const resourceToLinkPropsWithFilters = resource => {
-    const subjectTopicPath = [
-      subject.id,
-      expandedTopicId,
-      ...expandedSubtopicsId,
-    ]
+    const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
     return resourceToLinkProps(
@@ -62,8 +64,7 @@ const MastheadTopics = props => {
       toTopic={toTopicWithBoundParams(
         subject.id,
         activeFilters.join(','),
-        expandedTopicId,
-        ...expandedSubtopicsId,
+        expandedTopicIds,
       )}
       toSubject={() => toSubject(subject.id)}
       isOnSubjectFrontPage={isOnSubjectFrontPage}
