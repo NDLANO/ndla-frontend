@@ -88,11 +88,11 @@ Array [
       },
       Object {
         "beta": true,
-        "id": "126960",
+        "id": "urn:subject:15",
         "name": "Sørsamisk som førstespråk",
         "nodeId": "126960",
         "text": "Sørsamisk som førstespråk",
-        "url": "/nb/node/126960",
+        "url": "/subjects/subject:15",
       },
     ],
   },
