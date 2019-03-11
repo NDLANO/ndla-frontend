@@ -75,7 +75,12 @@ export const FRONTPAGE_CATEGORIES = {
         },
         { nodeId: '185100', beta: true, name: 'Religion og etikk' },
         { nodeId: '36', name: 'Samfunnsfag', id: 'urn:subject:3' },
-        { nodeId: '126960', beta: true, name: 'Sørsamisk som førstespråk', id: 'urn:subject:15' },
+        {
+          nodeId: '126960',
+          beta: true,
+          name: 'Sørsamisk som førstespråk',
+          id: 'urn:subject:15',
+        },
       ],
     },
     {
