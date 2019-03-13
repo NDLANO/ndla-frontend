@@ -17,18 +17,16 @@ import config from '../../config';
 
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
-  const { html, ids, css } = renderToString(Page);
+  const html = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,
-    css,
     helmet,
     assets,
     // Following is serialized to window.DATA
     data: {
       ...data,
       config,
-      ids,
       assets,
     },
   };
