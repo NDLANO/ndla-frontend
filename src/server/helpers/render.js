@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { extractCritical } from 'emotion-server';
 import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
@@ -18,7 +17,7 @@ import config from '../../config';
 
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
-  const { html, ids, css } = extractCritical(renderToString(Page));
+  const { html, ids, css } = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,

@@ -20,17 +20,13 @@ module.exports = {
     });
 
     appConfig.module.rules.shift(); // remove eslint-loader
+
     if (target === 'web') {
       appConfig.output.filename = dev
         ? 'static/js/[name].js'
         : 'static/js/[name].[hash:8].js';
 
       if (dev) {
-        // Resolve react to the version in node_modules. This fixes issues
-        // that arise if two instances of react is loaded. A common occurrence
-        // when using yarn link
-        appConfig.resolve.alias.react = path.resolve('./node_modules/react');
-
         appConfig.entry.injectCss = ['./src/style/index.css'];
       }
 
@@ -62,6 +58,10 @@ module.exports = {
       appConfig.devtool = 'source-map';
     } else {
       appConfig.devtool = 'cheap-module-source-map';
+      // Resolve react to the version in node_modules. This fixes issues
+      // that arise if two instances of react is loaded. A common occurrence
+      // when using yarn link
+      appConfig.resolve.alias.react = path.resolve('./node_modules/react');
     }
 
     return appConfig;
