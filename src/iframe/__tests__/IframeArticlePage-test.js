@@ -9,8 +9,11 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
+import serializer from 'jest-emotion';
 import IframeArticlePage from '../IframeArticlePage';
 import { getLocaleObject } from '../../i18n';
+
+expect.addSnapshotSerializer(serializer);
 
 test('IframeArticlePage renderers correctly', () => {
   const component = renderer.create(

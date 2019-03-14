@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ErrorPage renderers correctly 1`] = `
-.emotion-4 {
-  margin-top: 6.5px;
-}
-
 .emotion-5 {
   text-align: center;
 }
@@ -35,6 +31,10 @@ exports[`ErrorPage renderers correctly 1`] = `
   .emotion-2 {
     margin-bottom: 52px;
   }
+}
+
+.emotion-4 {
+  margin-top: 6.5px;
 }
 
 .emotion-7 {

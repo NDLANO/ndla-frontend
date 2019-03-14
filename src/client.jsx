@@ -13,7 +13,6 @@ import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from '@ndla/tracker';
-import { hydrate } from 'emotion';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
@@ -21,13 +20,11 @@ import routes from './routes';
 import './style/index.css';
 
 const {
-  DATA: { initialProps, config, ids },
+  DATA: { initialProps, config },
 } = window;
 const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
 );
-
-hydrate(ids);
 
 const browserHistory = createHistory(basename);
 
