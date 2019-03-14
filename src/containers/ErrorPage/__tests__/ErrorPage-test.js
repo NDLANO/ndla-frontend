@@ -9,9 +9,12 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
+import serializer from 'jest-emotion';
 import IntlProvider from '@ndla/i18n';
 import ErrorPage from '../ErrorPage';
 import { getLocaleObject } from '../../../i18n';
+
+expect.addSnapshotSerializer(serializer);
 
 jest.mock('../../../config', () => ({
   zendeskWidgetKey: '123',

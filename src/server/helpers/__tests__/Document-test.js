@@ -45,5 +45,6 @@ test('Document renderers correctly', () => {
 
   // Match snapshot for rendered Document. Should contain title, html lang,
   // and meta description from PageContainer > Helmet.
+  console.log(component.toJSON());
   expect(component.toJSON()).toMatchSnapshot();
 });

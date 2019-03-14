@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({ helmet, assets, css, data }) => {
+const Document = ({ helmet, assets, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -27,7 +27,6 @@ const Document = ({ helmet, assets, css, data }) => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
         />
-        {css && <style dangerouslySetInnerHTML={{ __html: css }} />}
         {config.gaTrackingId && (
           <script async src="https://www.google-analytics.com/analytics.js" />
         )}
@@ -88,7 +87,6 @@ const Document = ({ helmet, assets, css, data }) => {
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  css: PropTypes.string,
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
