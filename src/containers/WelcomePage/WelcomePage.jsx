@@ -126,7 +126,7 @@ export class WelcomePage extends Component {
             <FrontpageHighlights topical={topical} />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
-              url="https://ndla.no/nb/film"
+              url="/film"
               messages={{
                 header: t('welcomePage.film.header'),
                 linkLabel: t('welcomePage.film.linkLabel'),
