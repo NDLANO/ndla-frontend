@@ -134,6 +134,10 @@ export const topicInfoFragment = gql`
     meta {
       id
       metaDescription
+      metaImage {
+        url
+        alt
+      }
     }
   }
 `;
@@ -181,6 +185,10 @@ export const articleInfoFragment = gql`
     introduction
     content
     metaDescription
+    metaImage {
+      url
+      alt
+    }
     created
     updated
     oldNdlaUrl
@@ -264,6 +272,13 @@ export const subjectTopicsQuery = gql`
         name
         parent
         path
+        meta {
+          metaDescription
+          metaImage {
+            url
+            alt
+          }
+        }
       }
       filters {
         id
@@ -445,6 +460,10 @@ export const topicQuery = gql`
       meta {
         id
         metaDescription
+        metaImage {
+          url
+          alt
+        }
       }
       article {
         ...ArticleInfo

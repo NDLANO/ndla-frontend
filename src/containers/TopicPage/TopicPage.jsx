@@ -106,8 +106,10 @@ class TopicPage extends Component {
 
   render() {
     const { locale, t, loading, data, location, errors } = this.props;
-
     const { subjectId } = getUrnIdsFromProps(this.props);
+
+    console.log('subjectId', subjectId);
+    console.log('data', data);
 
     if (loading) {
       return null;
