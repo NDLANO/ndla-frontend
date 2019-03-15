@@ -1,28 +1,22 @@
 language: node_js
-
 node_js:
   - '10'
-
 cache:
   yarn: true
   directories:
-    - ~/.npm
-    - ~/.cache/Cypress/
-    - .eslintcache
+    - '~/.npm'
+    - '~/.cache/Cypress/'
+    - '.eslintcache'
     - node_modules
-
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH="$HOME/.yarn/bin:$PATH"
-
 script:
   - yarn check-all
   - yarn build
   - yarn e2e-ci
-
 after_success:
   - travis_wait yarn ndla-scripts now-travis
-
 notifications:
   slack:
     on_success: change
@@ -31,4 +25,4 @@ notifications:
       secure: aEE3FILmPONrxBuo67BMy/TJaBaHCvdf52RrK3UiNI9hpTZhPZBAXen2WX/4zMST8yoaVmI2n394Mb/hP2aQ+biFLHF+6135Pf6AvVObYWkSzp0y4XDWDL4TJgvAggNFxPp6n80d1IAzbw5xsM+n/DKn2JnDRaxCPhT5mz39qh1X/ZGn4FKmiObRZSQFYqP84HWYuKBxzrOVAIm6ZLi9OFpvXlMPo8ezLQGDle0S5DMO8P6pDlPEXelG1Wil5xy5cQzW3Vf4OBxpZSEatgOdASXR0GtBveGVUpFcqc7KS3BncsQGr+SqtlIRPYgBHdlwBTfYtXhK0Q8s1GIms3eGd+iy4JzTO/MqXh9E6ONjp/gYSiFP/2/ixZJwykfgSWBH3xyZGjpMZE9O/SxGEYj0aCmBxeKgXM0iqA/QUq73LE4MlOQS/UUtteSJ0nTP1kzyHHXrxU5CBab9ZPM4ZJuTYev7CH1s2l1fuCt1OUQ2OmuPZ1QbFuYMYmAaCP0njH/uZiC3mjKIMzrept89B1eyFRthWgmjPbtdvdMpEbXigqjAGlQnyGx1lV8jxQre0+4jfSy10+KZNqpv2+oNT1bogHuZv+cODEvTh1ClbVk2r8oKZQIcabDfrn+Islq8rTJTdEacbxNgsBhJiKryhonXSIEFpIDuX/4VmrABBoSJ2NQ=
 env:
   global:
-    secure: N4KBzAux31Cz5aqtYcUny4P4tD6Hr95T7a8SqAR6sz4PaktUcB6OxFO4jxWUFHeYuT8XWig+uV+ddrBkisz/jCSfea0DbECqPKMBJs+81m7kQe0wtlLlO30zP8guNh73iuMOTsm/rLdGo50nyL1tKt/upf6x+nhiZ19BHZGPE7TttPGZqWIi08S3ShcKmcoS4GJ2JEnbCQL3Czs++wlZhgmrUKHZkkNlwSqkF6QTxv949aUCcOG7ziRMl8/7uP602vQy0poqhaZwhBc34qCYqHVhDwjHW6ChpwXrWtqyqLtuhhVgZgH0OdTNNrUnDmr91uFW5OVLCxUW7SuO8ODrrG8rTJhS6buXyToGwtX8W8nYNY3vyjeFp+mHKjXj6Fq4zNW2hM8vCFUUQ/J4cHGellS1O0fv+qGP/mwZ/FLnhLUYOzV4wTKjeIqbye4rqDEtYI8qNCy3+lXuRnKDHWfabEeijhwzZO/CmIyWYfKOIhzuh053cvz92ee0zWSDMzbfvV/Lsco+E+QfVhNkrdgC0b6YRyB2ThFiM43Fxm9DMJrfuKRBtGhTjTTXoIv/2XTxtvENIHLHwk/VOIDX/GFZmVYCt3frA+Sbil1MSDnwLSPsVuCHQDYvC5tqTIGfJxpG0zYGhDIJcpqRmZ6iLaVweUBDKwnBS9Moao0IhN/lxe4=
+    - secure: FCGrrIJ6ENYXyWoCAJ3o+Zl9YzNPcz9DmxdKkYvD02NrD3fbA5gk4aXtVNuGiMU+w1AaIIhSEkz0gnSVkZlHVLL15oBY5/cBnstiao6nyno3OSsJDCtWu9kvphVG3QCeNftah6UhbEY6n+5l7hEJ68BY6QKCevvdXRvDDnbFs0WJ9ktle4FonYU2vuIlSo3a3oEjtLcIsCXNfX8mz8pNldnudNXLOPBvrD2yXWfs+4taaKZXcMBoY7MQ3W/308/qZuLaoKjWjiIl9vAGbPJbbVpevSKvYssXXohpfRr4syCkGnPZGFRli1NhDjz5rWZVh7rdZ5Fh4A4aB6DTsFiguGDUo9KLvpmy4mimKrp7zVZWlgnTW5ZmVSjlp5VzNeVbM+khB/3vsD9YuAjVnarvXmYl9QbhQ8lwUjdvAlTe//kE6Dawn4wJl2fTA04Wipg3Cj3uuyjc9Pjcv6010f8QMGmrz7rTuy5hMVQub8/nfo9Px7oJ2kLhhaVwZw3LRzYyBY26wGzNXvKt8j0N4Dbh2j7jnS+PA57acLeD1ti4LM02kRBqo+swkPlmI0TNalXXuvg5uwLiXb+q/IDdZ9VsmkYF7X04YzSfGDImCyHyA9oi4i1NxuM7JWG1adzPXnHQ+Yx3UJmUYR/pP5g0f7dtAb9+XrXf40X8SOUEJ7F0w6U=
