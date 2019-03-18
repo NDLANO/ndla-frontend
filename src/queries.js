@@ -264,6 +264,9 @@ export const subjectTopicsQuery = gql`
         name
         parent
         path
+        meta {
+          ...MetaInfo
+        }
       }
       filters {
         id
@@ -271,6 +274,7 @@ export const subjectTopicsQuery = gql`
       }
     }
   }
+  ${metaInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
