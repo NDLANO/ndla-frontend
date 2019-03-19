@@ -134,7 +134,9 @@ class TopicPage extends Component {
       errors && errors.find(e => e.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
-    const subtopics = subject.topics.filter(topic => topic.parent === topicId);
+    const subtopics = subject
+      ? subject.topics.filter(topic => topic.parent === topicId)
+      : [];
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>

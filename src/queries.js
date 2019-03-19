@@ -265,6 +265,7 @@ export const subjectTopicsQuery = gql`
         parent
         path
         meta {
+          id
           metaDescription
         }
       }
