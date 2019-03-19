@@ -157,12 +157,14 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <TwitterMetadata
-          description={article.metaDescription}
-          metaData={article.metaData}
-          title={article.title}
-          locale={locale}
-        />
+        {article && (
+          <TwitterMetadata
+            description={article.metaDescription}
+            metaData={article.metaData}
+            title={article.title}
+            locale={locale}
+          />
+        )}
         <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">

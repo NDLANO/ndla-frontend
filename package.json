@@ -21,7 +21,7 @@
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "e2e": "cypress open",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
-    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress open",
+    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
     "pree2e-ci": "cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &",
     "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record",
     "now-build": "npm run build",
