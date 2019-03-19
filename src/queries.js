@@ -265,7 +265,7 @@ export const subjectTopicsQuery = gql`
         parent
         path
         meta {
-          ...MetaInfo
+          metaDescription
         }
       }
       filters {
@@ -274,7 +274,6 @@ export const subjectTopicsQuery = gql`
       }
     }
   }
-  ${metaInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
