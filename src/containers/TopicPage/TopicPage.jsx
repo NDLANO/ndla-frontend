@@ -136,7 +136,9 @@ class TopicPage extends Component {
       errors && errors.find(e => e.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
-    const subtopics = subject.topics.filter(topic => topic.parent === topicId);
+    const subtopics = subject
+      ? subject.topics.filter(topic => topic.parent === topicId)
+      : [];
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -159,12 +161,14 @@ class TopicPage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <TwitterMetadata
-          description={article.metaDescription}
-          metaData={article.metaData}
-          title={article.title}
-          locale={locale}
-        />
+        {article && (
+          <TwitterMetadata
+            description={article.metaDescription}
+            metaData={article.metaData}
+            title={article.title}
+            locale={locale}
+          />
+        )}
         <SubjectHero>
           <OneColumn>
             <div className="c-hero__content">

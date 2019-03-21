@@ -273,11 +273,8 @@ export const subjectTopicsQuery = gql`
         parent
         path
         meta {
+          id
           metaDescription
-          metaImage {
-            url
-            alt
-          }
         }
       }
       filters {

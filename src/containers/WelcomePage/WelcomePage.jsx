@@ -24,7 +24,6 @@ import { runQueries } from '../../util/runQueries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
-import FrontpageHighlights from './FrontpageHighlights';
 
 export class WelcomePage extends Component {
   constructor() {
@@ -75,7 +74,7 @@ export class WelcomePage extends Component {
 
     const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
-    const { categories = [], topical } = frontpage;
+    const { categories = [] } = frontpage;
     const { query } = this.state;
     const headerLinks = [
       {
@@ -123,7 +122,6 @@ export class WelcomePage extends Component {
               onSearchFieldChange={this.onSearchFieldChange}
               onSearch={this.onSearch}
             />
-            <FrontpageHighlights topical={topical} />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
               url="/film"
