@@ -24,10 +24,12 @@ const SearchFilters = ({
   enabledTab,
   t,
 }) => {
-  const allSubjects = subjects.map(subject => ({
-    title: subject.name,
-    value: subject.id,
-  }));
+  const allSubjects = subjects
+    ? subjects.map(subject => ({
+        title: subject.name,
+        value: subject.id,
+      }))
+    : [];
 
   const languages = supportedLanguages.map(language => ({
     title: t(`languages.${language}`),
