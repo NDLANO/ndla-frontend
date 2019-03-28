@@ -977,10 +977,10 @@
   dependencies:
     "@ndla/core" "^0.6.1"
 
-"@ndla/polyfill@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-0.1.7.tgz#fcde61c86424383673eec14412cab560ed095ca2"
-  integrity sha512-voJsiBNKeSdd7frh9+/SHfo/pEGhYUz6fKDSVzm6ms2snntZj3BGUXbuXOTPvnNpX9/ezQZBPLY2/o5TI+qlVQ==
+"@ndla/polyfill@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-0.1.8.tgz#f6067fe8e5d25779097f5bea355a57809193adca"
+  integrity sha512-ZVtnGyVjzlX4RCpWlpSwWANvfgx5Whfvv74A0D8HJZXSX7dm3U4EgNngPbVnTwEXLuokpHF0Kiclo9+jpeqfbg==
   dependencies:
     details-polyfill "^1.1.0"
     react-app-polyfill "^0.2.1"
@@ -1020,10 +1020,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.22.5":
-  version "0.22.5"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.5.tgz#e3c4ee42db3b2fd956f26b13c9654fc07ca3d77f"
-  integrity sha512-9psg9UWv8fTtUgvBSQCgUaNkMyucsQ0koq+Vv6/1TEvZUe8HsZ1ByzOeaV002ZRadN8Qq3VSFVnZkm332PWRMg==
+"@ndla/ui@^0.22.6":
+  version "0.22.6"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.6.tgz#05a051009c2f26e45bd64c3fb3d878d925c69b4b"
+  integrity sha512-YBy72apEOuUKvYFz5bOVnR2BWjUhHKpM02Cf87nOq0v+lgIYg6//Y7mlKhIxLGIARP6FwpL/EO3zkb2s9cDxJg==
   dependencies:
     "@ndla/button" "^0.3.1"
     "@ndla/carousel" "^0.2.2"
