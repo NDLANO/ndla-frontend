@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import config from '../config';
 import { LocationShape, ImageShape } from '../shapes';
 
-const TwitterMetadata = ({
+const SocialMediaMetadata = ({
   title,
   metaData,
   description,
@@ -29,15 +29,29 @@ const TwitterMetadata = ({
   return (
     <Helmet>
       <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="@ndla_no" />
+      <meta name="twitter:creator" content="@ndla_no" />
       <meta property="og:url" content={url} />
-      {title && <meta property="og:title" content={title} />}
+      {title && <meta property="og:title" content={`${title} - NDLA`} />}
+      {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
       {image && <meta property="og:image" content={image.src} />}
+      {image && <meta name="twitter:image:src" content={image.src} />}
+      <meta property="og:site_name" content="ndla.no" />
+      <meta
+        property="article:publisher"
+        content="https://www.facebook.com/ndla.no"
+      />
+      <meta
+        property="article:author"
+        content="https://www.facebook.com/ndla.no"
+      />
     </Helmet>
   );
 };
 
-TwitterMetadata.propTypes = {
+SocialMediaMetadata.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   locale: PropTypes.string,
@@ -47,4 +61,4 @@ TwitterMetadata.propTypes = {
   }),
 };
 
-export default withRouter(TwitterMetadata);
+export default withRouter(SocialMediaMetadata);

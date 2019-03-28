@@ -42,7 +42,7 @@ import {
 } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
-import TwitterMetadata from '../../components/TwitterMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -160,7 +160,7 @@ class TopicPage extends Component {
           </script>
         </Helmet>
         {article && (
-          <TwitterMetadata
+          <SocialMediaMetadata
             description={article.metaDescription}
             metaData={article.metaData}
             title={article.title}
