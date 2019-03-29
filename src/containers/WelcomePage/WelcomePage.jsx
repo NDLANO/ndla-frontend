@@ -10,7 +10,6 @@ import React, { Component, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-
 import {
   FrontpageHeader,
   FrontpageFilm,
@@ -24,6 +23,8 @@ import { runQueries } from '../../util/runQueries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import config from '../../config';
 
 export class WelcomePage extends Component {
   constructor() {
@@ -99,6 +100,28 @@ export class WelcomePage extends Component {
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+        <SocialMediaMetadata
+          title={t('welcomePage.heading.heading')}
+          description={t('meta.description')}
+          locale={locale}
+          image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
+          <link
+            rel="alternate"
+            hreflang="en"
+            href={`${config.ndlaFrontendDomain}/en`}
+          />
+          <link
+            rel="alternate"
+            hreflang="nb"
+            href={`${config.ndlaFrontendDomain}/nb`}
+          />
+          <link
+            rel="alternate"
+            hreflang="nn"
+            href={`${config.ndlaFrontendDomain}/nn`}
+          />
+          <meta name="keywords" content={t('meta.keywords')} />
+        </SocialMediaMetadata>
         <FrontpageHeader
           locale={locale}
           heading={t('welcomePage.heading.heading')}

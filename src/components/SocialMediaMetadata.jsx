@@ -19,15 +19,18 @@ const SocialMediaMetadata = ({
   description,
   locale,
   location,
+  children,
 }) => {
-  const basename = locale === 'nb' ? '' : `/${locale}`;
-  const url = `${config.ndlaFrontendDomain}${basename}${location.pathname}`;
   return (
     <Helmet>
+      {children}
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
-      <meta property="og:url" content={url} />
+      <meta
+        property="og:url"
+        content={`${config.ndlaFrontendDomain}/${locale}${location.pathname}`}
+      />
       {title && <meta property="og:title" content={`${title} - NDLA`} />}
       {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
