@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import {
   Masthead,
   MastheadItem,
+  MastheadLanguageSelector,
   Logo,
   DisplayOnPageYOffset,
   BreadcrumbBlock,
@@ -18,6 +19,7 @@ import {
 import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
+import { appLocales } from '../../i18n';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
@@ -37,6 +39,20 @@ import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
+
+const getLocaleURL = (newLocale, locale) => {
+  const { pathname, search } = window.location;
+  console.log(pathname, search);
+  const basePath = pathname.startsWith(`/${locale}/`)
+    ? pathname.replace(`/${locale}/`, '/')
+    : pathname;
+  console.log(basePath);
+  const newPath =
+    newLocale === 'nb'
+      ? `${basePath}${search}`
+      : `/${newLocale}${basePath}${search}`;
+  return newPath;
+};
 
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
@@ -174,6 +190,13 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
+    const localeUrls = {};
+    appLocales.forEach(appLocale => {
+      localeUrls[appLocale.abbreviation] = getLocaleURL(
+        appLocale.abbreviation,
+        locale,
+      );
+    });
     const { infoContent, locale, location, t } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
@@ -187,6 +210,7 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
+    console.log(localeUrls);
     const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead
@@ -219,6 +243,10 @@ class MastheadContainer extends React.PureComponent {
           </DisplayOnPageYOffset>
         </MastheadItem>
         <MastheadItem right>
+          <MastheadLanguageSelector
+            urls={localeUrls}
+            currentLanguage={locale}
+          />
           {showSearch && (
             <MastheadSearch
               subject={subject}
