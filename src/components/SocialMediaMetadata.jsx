@@ -15,15 +15,11 @@ import { LocationShape, ImageShape } from '../shapes';
 
 const SocialMediaMetadata = ({
   title,
-  metaData,
+  image,
   description,
   locale,
   location,
 }) => {
-  const image =
-    metaData && metaData.images && metaData.images.length > 0
-      ? metaData.images[0]
-      : undefined;
   const basename = locale === 'nb' ? '' : `/${locale}`;
   const url = `${config.ndlaFrontendDomain}${basename}${location.pathname}`;
   return (
@@ -56,9 +52,7 @@ SocialMediaMetadata.propTypes = {
   description: PropTypes.string,
   locale: PropTypes.string,
   location: LocationShape,
-  metaData: PropTypes.shape({
-    images: PropTypes.arrayOf(ImageShape),
-  }),
+  image: ImageShape,
 };
 
 export default withRouter(SocialMediaMetadata);

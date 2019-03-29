@@ -87,6 +87,12 @@ class PlainArticlePage extends Component {
     const article = transformArticle(rawArticle, locale);
     const scripts = getArticleScripts(article);
 
+    const metaImage =
+      article.metaData &&
+      article.metaData.images &&
+      article.metaData.images.length > 0
+        ? article.metaData.images[0]
+        : undefined;
     return (
       <div>
         <Helmet>
@@ -112,7 +118,7 @@ class PlainArticlePage extends Component {
           title={article.title}
           description={article.metaDescription}
           locale={locale}
-          metaData={article.metaData}
+          image={metaImage}
         />
         {article && <ArticleHero resource={{}} />}
         <OneColumn>

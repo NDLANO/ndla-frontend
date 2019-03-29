@@ -178,6 +178,12 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
 
+    const metaImage =
+      article.metaData &&
+      article.metaData.images &&
+      article.metaData.images.length > 0
+        ? article.metaData.images[0]
+        : undefined;
     return (
       <div>
         <Helmet>
@@ -203,7 +209,7 @@ class ArticlePage extends Component {
           title={article.title}
           description={article.metaDescription}
           locale={locale}
-          metaData={article.metaData}
+          image={metaImage}
         />
         {resource && (
           <ArticleHero

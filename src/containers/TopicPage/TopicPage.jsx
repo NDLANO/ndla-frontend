@@ -138,6 +138,12 @@ class TopicPage extends Component {
       ? subject.topics.filter(topic => topic.parent === topicId)
       : [];
 
+    const metaImage =
+      article.metaData &&
+      article.metaData.images &&
+      article.metaData.images.length > 0
+        ? article.metaData.images[0]
+        : undefined;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
@@ -162,7 +168,7 @@ class TopicPage extends Component {
         {article && (
           <SocialMediaMetadata
             description={article.metaDescription}
-            metaData={article.metaData}
+            image={metaImage}
             title={article.title}
             locale={locale}
           />
