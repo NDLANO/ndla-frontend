@@ -192,10 +192,10 @@ class MastheadContainer extends React.PureComponent {
   render() {
     const localeUrls = {};
     appLocales.forEach(appLocale => {
-      localeUrls[appLocale.abbreviation] = getLocaleURL(
-        appLocale.abbreviation,
-        locale,
-      );
+      localeUrls[appLocale.abbreviation] = {
+        name: appLocale.name,
+        url: getLocaleURL(appLocale.abbreviation, locale),
+      };
     });
     const { infoContent, locale, location, t } = this.props;
     const {
@@ -210,7 +210,6 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
-    console.log(localeUrls);
     const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead
@@ -244,7 +243,7 @@ class MastheadContainer extends React.PureComponent {
         </MastheadItem>
         <MastheadItem right>
           <MastheadLanguageSelector
-            urls={localeUrls}
+            options={localeUrls}
             currentLanguage={locale}
           />
           {showSearch && (
