@@ -54,14 +54,14 @@ export const routes = [
     background: true,
   },
   {
-    path: SUBJECT_PAGE_PATH,
-    component: SubjectPage,
+    path: '/subjects/subject\\:20',
+    exact: true,
+    component: FilmFrontpage,
     background: false,
   },
   {
-    path: '/film',
-    exact: true,
-    component: FilmFrontpage,
+    path: SUBJECT_PAGE_PATH,
+    component: SubjectPage,
     background: false,
   },
   {

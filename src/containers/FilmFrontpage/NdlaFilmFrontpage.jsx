@@ -8,16 +8,22 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withApollo } from 'react-apollo';
 import FilmFrontpage from './FilmFrontpage';
-
+import { runQueries } from '../../util/runQueries';
 import {
-  mockAllMovies,
-  mockHighlightedMovies,
-  movieThemes,
-  mockMovieTopics,
-  mockMovieResourceTypes,
-} from './dummydata';
-import Poster from './images/filmposter-aboutNDLA.png';
+  subjectPageQuery,
+  filmFrontPageQuery,
+  searchQuery,
+} from '../../queries';
+import {
+  GraphQLFilmFrontpageShape,
+  GraphqlErrorShape,
+  GraphQLSubjectShape,
+} from '../../graphqlShapes';
+
+import handleError from '../../util/handleError';
 
 class NdlaFilmExample extends Component {
   constructor(props) {
@@ -30,38 +36,77 @@ class NdlaFilmExample extends Component {
     this.onSelectedMovieByType = this.onSelectedMovieByType.bind(this);
   }
 
-  onSelectedMovieByType(resourceId) {
-    // Simulate fetching movies..
-    clearInterval(this.simulateLoadingTimer);
-    this.setState(
+  static async getInitialProps(ctx) {
+    const { client } = ctx;
+    return runQueries(client, [
       {
-        fetchingMoviesByType: true,
+        query: filmFrontPageQuery,
       },
-      () => {
-        this.simulateLoadingTimer = setTimeout(() => {
-          this.setState({
-            fetchingMoviesByType: false,
-            moviesByType: mockAllMovies.filter(
-              movie => movie.movieTypes[resourceId],
-            ),
-          });
-        }, 500);
+      {
+        query: subjectPageQuery,
+        variables: { subjectId: 'urn:subject:20', filterIds: '' },
       },
-    );
+    ]);
   }
+
+  onSelectedMovieByType = async resourceId => {
+    this.setState({
+      fetchingMoviesByType: true,
+    });
+
+    this.setState({
+      fetchingMoviesByType: false,
+      moviesByType: await this.fetchMoviesByType(resourceId),
+    });
+  };
+
+  fetchMoviesByType = async resourceId => {
+    try {
+      const { data } = await runQueries(this.props.client, [
+        {
+          query: searchQuery,
+          variables: { subjects: 'urn:subject:20', resourceTypes: resourceId },
+        },
+      ]);
+      return data.search.results;
+    } catch (e) {
+      handleError(e);
+      return { error: true };
+    }
+  };
 
   render() {
     const { moviesByType, fetchingMoviesByType } = this.state;
+    const { filmfrontpage, subject } = this.props.data;
+
+    const movieResourceTypes = [
+      {
+        name: 'Dokumentar',
+        id: 'urn:resourcetype:documentary',
+      },
+      {
+        name: 'Spillefilmer',
+        id: 'urn:resourcetype:featureFilm',
+      },
+      {
+        name: 'Tv-serier',
+        id: 'urn:resourcetype:series',
+      },
+      {
+        name: 'Kortfilmer',
+        id: 'urn:resourcetype:shortFilm',
+      },
+    ];
 
     return (
       <FilmFrontpage
-        highlighted={mockHighlightedMovies}
-        themes={movieThemes}
+        highlighted={filmfrontpage ? filmfrontpage.slideShow : []}
+        themes={filmfrontpage.movieThemes}
         moviesByType={moviesByType}
-        topics={mockMovieTopics}
-        resourceTypes={mockMovieResourceTypes}
+        topics={subject ? subject.topics : []}
+        resourceTypes={movieResourceTypes}
         onSelectedMovieByType={this.onSelectedMovieByType}
-        aboutNDLAVideo={<img src={Poster} alt="example of video" />}
+        aboutNDLAVideo={<img src={''} alt="example of video" />}
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={
           <>
@@ -128,6 +173,12 @@ class NdlaFilmExample extends Component {
 
 NdlaFilmExample.propTypes = {
   editor: PropTypes.bool,
+  data: PropTypes.shape({
+    filmfrontpage: GraphQLFilmFrontpageShape,
+    subject: GraphQLSubjectShape,
+    error: GraphqlErrorShape,
+  }),
+  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
 
-export default NdlaFilmExample;
+export default compose(withApollo)(NdlaFilmExample);

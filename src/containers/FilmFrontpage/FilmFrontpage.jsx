@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import debounce from 'lodash/debounce';
 import { spacing } from '@ndla/core';
+import { uuid } from '@ndla/util';
+import { CarouselAutosize } from '@ndla/carousel';
 
 import { getCurrentBreakpoint, breakpoints } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
@@ -118,13 +120,7 @@ class FilmFrontpage extends Component {
       language,
       t,
     } = this.props;
-    const {
-      resourceTypeSelected,
-      columnWidth,
-      columnsPrSlide,
-      margin,
-      loadingPlaceholderHeight,
-    } = this.state;
+    const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
 
     const resourceTypeName =
       resourceTypeSelected &&
@@ -133,11 +129,7 @@ class FilmFrontpage extends Component {
       );
 
     return (
-      <div
-        css={css`
-          background: #091a2a;
-          padding-bottom: ${spacing.large};
-        `}>
+      <div>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
@@ -147,33 +139,77 @@ class FilmFrontpage extends Component {
           onChangeResourceType={this.onChangeResourceType}
         />
         <div id={ARIA_FILMCATEGORY_ID} ref={this.movieListRef}>
-          {resourceTypeSelected ? (
-            <MovieGrid
-              {...{
-                margin,
-                resourceTypeName,
-                fetchingMoviesByType,
-                moviesByType,
-                columnWidth,
-                resourceTypes,
-                loadingPlaceholderHeight,
-              }}
-            />
-          ) : (
-            themes.map(theme => (
-              <FilmMovieList
-                key={theme.name[language]}
-                name={theme.name[language]}
-                movies={theme.movies}
-                columnsPrSlide={columnsPrSlide}
-                columnWidth={columnWidth}
-                margin={margin}
-                slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-                slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
-                resourceTypes={resourceTypes}
-              />
-            ))
-          )}
+          <CarouselAutosize
+            breakpoints={[
+              {
+                until: 'mobile',
+                columnsPrSlide: 1,
+                distanceBetweenItems: spacing.spacingUnit / 2,
+                margin: spacing.spacingUnit,
+              },
+              {
+                until: 'mobileWide',
+                columnsPrSlide: 2,
+                distanceBetweenItems: spacing.spacingUnit / 2,
+                margin: spacing.spacingUnit,
+              },
+              {
+                until: 'tabletWide',
+                columnsPrSlide: 3,
+                distanceBetweenItems: spacing.spacingUnit / 2,
+                margin: spacing.spacingUnit,
+              },
+              {
+                until: 'desktop',
+                columnsPrSlide: 4,
+                distanceBetweenItems: spacing.spacingUnit,
+                margin: spacing.spacingUnit * 2,
+              },
+              {
+                until: 'wide',
+                columnsPrSlide: 4,
+                distanceBetweenItems: spacing.spacingUnit,
+                margin: spacing.spacingUnit * 2,
+              },
+              {
+                until: 'ultraWide',
+                columnsPrSlide: 4,
+                distanceBetweenItems: spacing.spacingUnit,
+                margin: spacing.spacingUnit * 3.5,
+              },
+              {
+                columnsPrSlide: 6,
+                distanceBetweenItems: spacing.spacingUnit,
+                margin: spacing.spacingUnit * 3.5,
+              },
+            ]}>
+            {autoSizedProps =>
+              resourceTypeSelected ? (
+                <MovieGrid
+                  autoSizedProps={autoSizedProps}
+                  {...{
+                    resourceTypeName,
+                    fetchingMoviesByType,
+                    moviesByType,
+                    resourceTypes,
+                    loadingPlaceholderHeight,
+                  }}
+                />
+              ) : (
+                themes.map(theme => (
+                  <FilmMovieList
+                    key={theme.name}
+                    name={theme.name.find(n => n.language === language).name}
+                    movies={theme.movies}
+                    autoSizedProps={autoSizedProps}
+                    slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
+                    slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+                    resourceTypes={resourceTypes}
+                  />
+                ))
+              )
+            }
+          </CarouselAutosize>
         </div>
         <AboutNdlaFilm
           aboutNDLAVideo={aboutNDLAVideo}
@@ -190,7 +226,10 @@ FilmFrontpage.propTypes = {
   highlighted: PropTypes.arrayOf(PropTypes.object),
   themes: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
+      name: PropTypes.shape({
+        name: PropTypes.string,
+        language: PropTypes.string,
+      }),
       movies: PropTypes.arrayOf(PropTypes.object),
     }),
   ),
@@ -204,13 +243,15 @@ FilmFrontpage.propTypes = {
   onSelectedMovieByType: PropTypes.func.isRequired,
   aboutNDLAVideo: PropTypes.node.isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
+  moreAboutNdlaFilm: PropTypes.any,
   t: PropTypes.func.isRequired,
+  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
 
 FilmFrontpage.defaultProps = {
   moviesByType: [],
-  highlighted: [],
   themes: [],
+  movieThemes: [],
   resourceTypes: [],
   topics: [],
 };

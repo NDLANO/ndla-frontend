@@ -12,21 +12,23 @@ import Helmet from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import ZendeskButton from '@ndla/zendesk';
+import { LocationShape } from '../../shapes';
 
 import config from '../../config';
 import Footer from './components/Footer';
 
 export const Page = props => {
-  const { children, background, locale, t } = props;
+  const { children, background, locale, t, location } = props;
+  const ndlaFilm = location ? location.pathname.includes('subject:20') : false;
   return (
-    <PageContainer backgroundWide={background}>
+    <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
       <Helmet
         htmlAttributes={{ lang: locale }}
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       {children}
-      <Footer t={t} locale={locale}>
+      <Footer t={t} locale={locale} inverted={ndlaFilm}>
         {config.zendeskWidgetKey && (
           <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
             {t('askNDLA')}
@@ -40,6 +42,7 @@ export const Page = props => {
 Page.propTypes = {
   locale: PropTypes.string.isRequired,
   background: PropTypes.bool,
+  location: LocationShape,
 };
 
 Page.defaultProps = {

@@ -53,6 +53,7 @@ export const searchQuery = gql`
       pageSize
       results {
         id
+        url
         metaDescription
         metaImage {
           url
@@ -485,6 +486,50 @@ export const competenceGoalsQuery = gql`
       curriculum {
         id
         name
+      }
+    }
+  }
+`;
+
+export const filmFrontPageQuery = gql`
+  query filmFrontPageQuery {
+    filmfrontpage {
+      name
+      about {
+        title
+        description
+        visualElement {
+          type
+          alt
+          url
+        }
+      }
+      movieThemes {
+        name {
+          name
+          language
+        }
+        movies {
+          id
+          title
+          metaImage {
+            alt
+            url
+          }
+          metaDescription
+          resourceTypes
+          url
+        }
+      }
+      slideShow {
+        id
+        title
+        metaImage {
+          alt
+          url
+        }
+        metaDescription
+        url
       }
     }
   }

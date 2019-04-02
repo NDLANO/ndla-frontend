@@ -31,7 +31,7 @@ const Route = ({
   <ReactRoute
     {...rest}
     render={props => (
-      <Page background={background} locale={locale}>
+      <Page background={background} locale={locale} {...props}>
         <Content>
           {!hideMasthead && <Masthead locale={locale} {...props} />}
           <Component {...props} locale={locale} {...initialProps} />

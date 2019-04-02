@@ -26,6 +26,7 @@ const MastheadSearchModal = ({
   children,
   hideOnNarrowScreen,
   searchFieldRef,
+  ndlaFilm,
   t,
 }) => (
   <Modal
@@ -39,7 +40,7 @@ const MastheadSearchModal = ({
     onClose={onSearchExit}
     className="c-search-field__overlay-content"
     activateButton={
-      <ToggleSearchButton hideOnNarrowScreen={hideOnNarrowScreen}>
+      <ToggleSearchButton ndlaFilm hideOnNarrowScreen={hideOnNarrowScreen}>
         {t('masthead.menu.search')}
       </ToggleSearchButton>
     }>
@@ -63,6 +64,7 @@ MastheadSearchModal.propTypes = {
   onSearchExit: PropTypes.func.isRequired,
   hideOnNarrowScreen: PropTypes.bool.isRequired,
   searchFieldRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  ndlaFilm: PropTypes.bool,
 };
 
 export default injectT(MastheadSearchModal);

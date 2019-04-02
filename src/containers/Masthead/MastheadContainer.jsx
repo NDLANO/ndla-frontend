@@ -187,11 +187,13 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
+    const ndlaFilm = location.pathname.includes('subject:20');
     const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead
         showLoaderWhenNeeded={topicPath && topicPath.length > 0}
         fixed
+        ndlaFilm={ndlaFilm}
         infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
@@ -223,6 +225,7 @@ class MastheadContainer extends React.PureComponent {
             <MastheadSearch
               subject={subject}
               locale={locale}
+              ndlaFilm={ndlaFilm}
               hideOnNarrowScreen
             />
           )}
@@ -231,6 +234,7 @@ class MastheadContainer extends React.PureComponent {
             to="/"
             locale={locale}
             label={t('logo.altText')}
+            cssModifier={ndlaFilm && 'white'}
             // label="Nasjonal digital læringsarena"
           />
         </MastheadItem>
