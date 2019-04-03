@@ -253,3 +253,4 @@ export const SEARCH_PATH = '/search(.*)';
 export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 export const SUBJECTS = '/subjects';
+export const FILM_PAGE_PATH = '/subjects/subject\\:20';

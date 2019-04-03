@@ -40,7 +40,9 @@ const MastheadSearchModal = ({
     onClose={onSearchExit}
     className="c-search-field__overlay-content"
     activateButton={
-      <ToggleSearchButton ndlaFilm hideOnNarrowScreen={hideOnNarrowScreen}>
+      <ToggleSearchButton
+        ndlaFilm={ndlaFilm}
+        hideOnNarrowScreen={hideOnNarrowScreen}>
         {t('masthead.menu.search')}
       </ToggleSearchButton>
     }>

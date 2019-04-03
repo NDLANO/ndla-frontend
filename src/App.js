@@ -26,14 +26,17 @@ const Route = ({
   locale,
   background,
   hideMasthead,
+  ndlaFilm,
   ...rest
 }) => (
   <ReactRoute
     {...rest}
     render={props => (
-      <Page background={background} locale={locale} {...props}>
+      <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
         <Content>
-          {!hideMasthead && <Masthead locale={locale} {...props} />}
+          {!hideMasthead && (
+            <Masthead locale={locale} ndlaFilm={ndlaFilm} {...props} />
+          )}
           <Component {...props} locale={locale} {...initialProps} />
         </Content>
       </Page>
@@ -47,6 +50,7 @@ Route.propTypes = {
   locale: PropTypes.string.isRequired,
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
+  ndlaFilm: PropTypes.bool,
 };
 
 async function loadInitialProps(pathname, ctx) {
@@ -135,6 +139,7 @@ class App extends React.Component {
         location: props.location,
         history: props.history,
         client: props.client,
+        ndlaFilm: props.ndlaFilm,
       });
     } catch (e) {
       handleError(e);
@@ -164,6 +169,7 @@ class App extends React.Component {
               component={route.component}
               background={route.background}
               path={route.path}
+              ndlaFilm={route.ndlaFilm}
             />
           ))}
       </Switch>

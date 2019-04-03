@@ -23,6 +23,7 @@ import {
   SUBJECT_PAGE_PATH,
   SEARCH_PATH,
   TOPIC_PATH,
+  FILM_PAGE_PATH,
 } from './constants';
 
 export const routes = [
@@ -54,10 +55,11 @@ export const routes = [
     background: true,
   },
   {
-    path: '/subjects/subject\\:20',
+    path: FILM_PAGE_PATH,
     exact: true,
     component: FilmFrontpage,
     background: false,
+    ndlaFilm: true,
   },
   {
     path: SUBJECT_PAGE_PATH,

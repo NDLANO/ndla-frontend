@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { node, shape, func, string, arrayOf, object } from 'prop-types';
+import { node, shape, func, string, arrayOf, object, bool } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
 import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
@@ -115,13 +115,14 @@ class MastheadMenu extends Component {
       topicResourcesByType,
       locale,
       searchFieldComponent,
+      ndlaFilm,
     } = this.props;
 
     const { activeFilters, expandedTopicId, expandedSubtopicsId } = this.state;
 
     return (
       <Fragment>
-        <MastheadMenuModal onMenuExit={this.onMenuExit}>
+        <MastheadMenuModal onMenuExit={this.onMenuExit} ndlaFilm={ndlaFilm}>
           {onClose => (
             <MastheadTopics
               onClose={onClose}
@@ -158,6 +159,7 @@ MastheadMenu.propTypes = {
   location: LocationShape,
   onDataFetch: func.isRequired,
   searchFieldComponent: node.isRequired,
+  ndlaFilm: bool,
 };
 
 export default withRouter(MastheadMenu);

@@ -12,14 +12,12 @@ import Helmet from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import ZendeskButton from '@ndla/zendesk';
-import { LocationShape } from '../../shapes';
 
 import config from '../../config';
 import Footer from './components/Footer';
 
 export const Page = props => {
-  const { children, background, locale, t, location } = props;
-  const ndlaFilm = location ? location.pathname.includes('subject:20') : false;
+  const { children, background, locale, t, ndlaFilm } = props;
   return (
     <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
       <Helmet
@@ -42,7 +40,7 @@ export const Page = props => {
 Page.propTypes = {
   locale: PropTypes.string.isRequired,
   background: PropTypes.bool,
-  location: LocationShape,
+  ndlaFilm: PropTypes.bool,
 };
 
 Page.defaultProps = {

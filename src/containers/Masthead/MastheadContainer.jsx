@@ -174,7 +174,7 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent, locale, location, t } = this.props;
+    const { infoContent, locale, location, t, ndlaFilm } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
@@ -187,7 +187,6 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
-    const ndlaFilm = location.pathname.includes('subject:20');
     const showSearch = subject && !location.pathname.includes('search');
     return (
       <Masthead
@@ -199,8 +198,11 @@ class MastheadContainer extends React.PureComponent {
           {subject && (
             <MastheadMenu
               subject={subject}
+              ndlaFilm={ndlaFilm}
               searchFieldComponent={
-                showSearch && <MastheadSearch subject={subject} />
+                showSearch && (
+                  <MastheadSearch subject={subject} ndlaFilm={ndlaFilm} />
+                )
               }
               topicPath={topicPath || []}
               onDataFetch={this.onDataFetch}
@@ -257,6 +259,7 @@ MastheadContainer.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   infoContent: PropTypes.node,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default compose(

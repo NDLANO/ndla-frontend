@@ -224,15 +224,7 @@ FilmFrontpage.propTypes = {
   fetchingMoviesByType: PropTypes.bool,
   moviesByType: PropTypes.arrayOf(PropTypes.object),
   highlighted: PropTypes.arrayOf(PropTypes.object),
-  themes: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.shape({
-        name: PropTypes.string,
-        language: PropTypes.string,
-      }),
-      movies: PropTypes.arrayOf(PropTypes.object),
-    }),
-  ),
+  themes: PropTypes.arrayOf(PropTypes.object),
   topics: PropTypes.arrayOf(PropTypes.object),
   resourceTypes: PropTypes.arrayOf(
     PropTypes.shape({
