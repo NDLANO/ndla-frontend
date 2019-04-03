@@ -60,15 +60,36 @@ class NdlaFilmExample extends Component {
     });
   };
 
+  transformMoviesByType(movie) {
+    const path = movie.contexts.find(
+      context => context.learningResourceType === 'topic-article',
+    ).path;
+
+    const resourceTypes = movie.contexts.flatMap(
+      context => context.resourceTypes,
+    );
+
+    return {
+      ...movie,
+      url: path,
+      resourceTypes: resourceTypes,
+    };
+  }
+
   fetchMoviesByType = async resourceId => {
     try {
       const { data } = await runQueries(this.props.client, [
         {
           query: searchQuery,
-          variables: { subjects: 'urn:subject:20', resourceTypes: resourceId },
+          variables: {
+            subjects: 'urn:subject:20',
+            resourceTypes: resourceId,
+            pageSize: '100',
+            contextTypes: 'topic-article',
+          },
         },
       ]);
-      return data.search.results;
+      return data.search.results.map(this.transformMoviesByType);
     } catch (e) {
       handleError(e);
       return { error: true };
