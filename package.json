@@ -6,7 +6,7 @@
     "build": "razzle build",
     "check-all": "yarn format-check && yarn lint-es && yarn test-ci",
     "postbuild": "cp build/assets.json build/public/static/assets.json",
-    "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
+    "test": "cross-env NDLA_ENVIRONMENT=test BABEL_ENV=test NODE_ENV=unittest jest",
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4 --ci",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "lint": "yarn format-check && yarn lint-es",
