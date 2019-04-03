@@ -130,7 +130,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Teknikk og industriell produksjon Vg1',
           id: 'urn:subject:28',
         },
-        { nodeId: '102782', name: 'Transport og logistikk Vg2' },
+        {
+          nodeId: '102782',
+          name: 'Transport og logistikk Vg2',
+          id: 'urn:subject:36',
+        },
       ],
     },
     {
@@ -244,6 +248,7 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:32',
   'urn:subject:33',
   'urn:subject:34',
+  'urn:subject:36',
 ];
 
 export const ARTICLE_PAGE_PATH =
