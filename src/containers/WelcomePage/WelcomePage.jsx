@@ -107,17 +107,17 @@ export class WelcomePage extends Component {
           image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
           <link
             rel="alternate"
-            hreflang="en"
+            hrefLang="en"
             href={`${config.ndlaFrontendDomain}/en`}
           />
           <link
             rel="alternate"
-            hreflang="nb"
+            hrefLang="nb"
             href={`${config.ndlaFrontendDomain}/nb`}
           />
           <link
             rel="alternate"
-            hreflang="nn"
+            hrefLang="nn"
             href={`${config.ndlaFrontendDomain}/nn`}
           />
           <meta name="keywords" content={t('meta.keywords')} />
