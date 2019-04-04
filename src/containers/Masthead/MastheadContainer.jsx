@@ -237,7 +237,6 @@ class MastheadContainer extends React.PureComponent {
             locale={locale}
             label={t('logo.altText')}
             cssModifier={ndlaFilm && 'white'}
-            // label="Nasjonal digital læringsarena"
           />
         </MastheadItem>
       </Masthead>

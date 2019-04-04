@@ -8,13 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
-import debounce from 'lodash/debounce';
-import { spacing } from '@ndla/core';
-import { uuid } from '@ndla/util';
+import { spacing, breakpoints } from '@ndla/core';
 import { CarouselAutosize } from '@ndla/carousel';
 
-import { getCurrentBreakpoint, breakpoints } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
 import {
   FilmSlideshow,
@@ -23,6 +19,11 @@ import {
   FilmMovieSearch,
   FilmMovieList,
 } from '@ndla/ui';
+import {
+  GraphQLTopicShape,
+  GraphQLArticleMetaShape,
+  GraphQLMovieThemeShape,
+} from '../../graphqlShapes';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -31,24 +32,9 @@ class FilmFrontpage extends Component {
     super(props);
     this.state = {
       resourceTypeSelected: null,
-      columnWidth: 260,
-      columnsPrSlide: 1,
-      margin: 26,
     };
     this.onChangeResourceType = this.onChangeResourceType.bind(this);
-    this.setScreenSize = this.setScreenSize.bind(this);
-    this.setScreenSizeDebounced = debounce(() => this.setScreenSize(false), 50);
     this.movieListRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.setScreenSize();
-    window.addEventListener('resize', this.setScreenSizeDebounced);
-  }
-
-  componentWillUnmount() {
-    this.setScreenSizeDebounced.cancel();
-    window.removeEventListener('resize', this.setScreenSizeDebounced);
   }
 
   onChangeResourceType(resourceTypeSelected) {
@@ -64,47 +50,6 @@ class FilmFrontpage extends Component {
       resourceTypeSelected,
       loadingPlaceholderHeight,
     });
-  }
-
-  setScreenSize() {
-    const screenWidth =
-      window.innerWidth || document.documentElement.clientWidth;
-
-    const currentBreakpoint = getCurrentBreakpoint();
-    let margin;
-    let itemSize;
-    if (screenWidth < 385) {
-      margin = 26;
-      itemSize = 130;
-    } else if (screenWidth < 450) {
-      margin = 26;
-      itemSize = 160;
-    } else if (currentBreakpoint === breakpoints.mobile) {
-      margin = 26;
-      itemSize = 200;
-    } else if (currentBreakpoint === breakpoints.tablet) {
-      margin = 52;
-      itemSize = 220;
-    } else if (currentBreakpoint === breakpoints.desktop) {
-      margin = 78;
-      itemSize = 240;
-    } else if (screenWidth < 1600) {
-      margin = 104;
-      itemSize = 260;
-    } else {
-      margin = 104;
-      itemSize = 300;
-    }
-
-    const columnsPrSlide = Math.floor((screenWidth - margin * 2) / itemSize);
-
-    /* eslint react/no-did-mount-set-state: 0 */
-    this.setState({
-      columnWidth: (screenWidth - margin * 2) / columnsPrSlide,
-      columnsPrSlide,
-      margin,
-    });
-    /* eslint react/no-did-mount-set-state: 1 */
   }
 
   render() {
@@ -187,19 +132,19 @@ class FilmFrontpage extends Component {
               resourceTypeSelected ? (
                 <MovieGrid
                   autoSizedProps={autoSizedProps}
-                  {...{
-                    resourceTypeName,
-                    fetchingMoviesByType,
-                    moviesByType,
-                    resourceTypes,
-                    loadingPlaceholderHeight,
-                  }}
+                  resourceTypeName={resourceTypeName}
+                  fetchingMoviesByType={fetchingMoviesByType}
+                  moviesByType={moviesByType}
+                  resourceTypes={resourceTypes}
+                  loadingPlaceholderHeight={loadingPlaceholderHeight}
                 />
               ) : (
                 themes.map(theme => (
                   <FilmMovieList
                     key={theme.name}
-                    name={theme.name.find(n => n.language === language).name}
+                    name={
+                      theme.name.find(name => name.language === language).name
+                    }
                     movies={theme.movies}
                     autoSizedProps={autoSizedProps}
                     slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
@@ -222,10 +167,10 @@ class FilmFrontpage extends Component {
 
 FilmFrontpage.propTypes = {
   fetchingMoviesByType: PropTypes.bool,
-  moviesByType: PropTypes.arrayOf(PropTypes.object),
-  highlighted: PropTypes.arrayOf(PropTypes.object),
-  themes: PropTypes.arrayOf(PropTypes.object),
-  topics: PropTypes.arrayOf(PropTypes.object),
+  moviesByType: PropTypes.arrayOf(GraphQLArticleMetaShape),
+  highlighted: PropTypes.arrayOf(GraphQLArticleMetaShape),
+  themes: PropTypes.arrayOf(GraphQLMovieThemeShape),
+  topics: PropTypes.arrayOf(GraphQLTopicShape),
   resourceTypes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

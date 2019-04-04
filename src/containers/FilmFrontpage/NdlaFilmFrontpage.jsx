@@ -25,14 +25,13 @@ import {
 
 import handleError from '../../util/handleError';
 
-class NdlaFilmExample extends Component {
+class NdlaFilm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       moviesByType: [],
       fetchingMoviesByType: false,
     };
-    this.simulateLoadingTimer = null;
     this.onSelectedMovieByType = this.onSelectedMovieByType.bind(this);
   }
 
@@ -90,8 +89,8 @@ class NdlaFilmExample extends Component {
         },
       ]);
       return data.search.results.map(this.transformMoviesByType);
-    } catch (e) {
-      handleError(e);
+    } catch (error) {
+      handleError(error);
       return { error: true };
     }
   };
@@ -192,7 +191,7 @@ class NdlaFilmExample extends Component {
   }
 }
 
-NdlaFilmExample.propTypes = {
+NdlaFilm.propTypes = {
   editor: PropTypes.bool,
   data: PropTypes.shape({
     filmfrontpage: GraphQLFilmFrontpageShape,
@@ -202,4 +201,4 @@ NdlaFilmExample.propTypes = {
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
 
-export default compose(withApollo)(NdlaFilmExample);
+export default compose(withApollo)(NdlaFilm);

@@ -18,15 +18,16 @@ export const removeUrn = string => string.replace('urn:', '');
 
 export function getUrnIdsFromProps(props) {
   const {
+    ndlaFilm,
     match: { params },
   } = props;
   const paramSubjectId = params.subjectId
     ? `urn:${params.subjectId}`
     : undefined;
-  const subjectId = props.ndlaFilm ? `urn:subject:20` : paramSubjectId;
+  const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
 
   return {
-    subjectId: subjectId,
+    subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
