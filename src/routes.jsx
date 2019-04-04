@@ -55,11 +55,10 @@ export const routes = [
     background: true,
   },
   {
-    path: FILM_PAGE_PATH,
+    path: FILM_PAGE_PATH.replace(':', '\\:'),
     exact: true,
     component: FilmFrontpage,
     background: false,
-    ndlaFilm: true,
   },
   {
     path: SUBJECT_PAGE_PATH,

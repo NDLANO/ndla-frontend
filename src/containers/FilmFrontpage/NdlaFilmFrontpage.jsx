@@ -122,7 +122,7 @@ class NdlaFilmExample extends Component {
     return (
       <FilmFrontpage
         highlighted={filmfrontpage ? filmfrontpage.slideShow : []}
-        themes={filmfrontpage.movieThemes}
+        themes={filmfrontpage ? filmfrontpage.movieThemes : []}
         moviesByType={moviesByType}
         topics={subject ? subject.topics : []}
         resourceTypes={movieResourceTypes}

@@ -14,11 +14,13 @@ import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from '@ndla/ui';
 import { withApollo } from 'react-apollo';
+import { parseToHsl } from 'polished';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
+import { FILM_PAGE_PATH } from './constants';
 
 const Route = ({
   component: Component,
@@ -37,7 +39,12 @@ const Route = ({
           {!hideMasthead && (
             <Masthead locale={locale} ndlaFilm={ndlaFilm} {...props} />
           )}
-          <Component {...props} locale={locale} {...initialProps} />
+          <Component
+            {...props}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            {...initialProps}
+          />
         </Content>
       </Page>
     )}
@@ -155,6 +162,8 @@ class App extends React.Component {
       return <ErrorPage locale={this.props.locale} />;
     }
 
+    const isNdlaFilm = this.props.location.pathname.includes(FILM_PAGE_PATH);
+
     return (
       <Switch>
         {routes
@@ -169,7 +178,7 @@ class App extends React.Component {
               component={route.component}
               background={route.background}
               path={route.path}
-              ndlaFilm={route.ndlaFilm}
+              ndlaFilm={isNdlaFilm}
             />
           ))}
       </Switch>
