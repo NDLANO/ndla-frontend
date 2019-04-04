@@ -9,7 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { SubjectHero, OneColumn, Breadcrumb, constants } from '@ndla/ui';
+import {
+  SubjectHero,
+  OneColumn,
+  Breadcrumb,
+  constants,
+  NdlaFilmHero,
+} from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -105,11 +111,8 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { locale, t, loading, data, location, errors } = this.props;
+    const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
-
-    console.log('subjectId', subjectId);
-    console.log('data', data);
 
     if (loading) {
       return null;
@@ -141,7 +144,7 @@ class TopicPage extends Component {
       : [];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article && article.metaDescription && (
@@ -169,23 +172,44 @@ class TopicPage extends Component {
             locale={locale}
           />
         )}
-        <SubjectHero>
-          <OneColumn>
-            <div className="c-hero__content">
-              <section>
-                {subject ? (
-                  <Breadcrumb
-                    items={toBreadcrumbItems(
-                      t('breadcrumb.toFrontpage'),
-                      [subject, ...topicPath],
-                      getFiltersFromUrl(location),
-                    )}
-                  />
-                ) : null}
-              </section>
-            </div>
-          </OneColumn>
-        </SubjectHero>
+
+        {ndlaFilm ? (
+          <NdlaFilmHero>
+            <OneColumn>
+              <div className="c-hero__content">
+                <section>
+                  {subject ? (
+                    <Breadcrumb
+                      items={toBreadcrumbItems(
+                        t('breadcrumb.toFrontpage'),
+                        [subject, ...topicPath],
+                        getFiltersFromUrl(location),
+                      )}
+                    />
+                  ) : null}
+                </section>
+              </div>
+            </OneColumn>
+          </NdlaFilmHero>
+        ) : (
+          <SubjectHero>
+            <OneColumn>
+              <div className="c-hero__content">
+                <section>
+                  {subject ? (
+                    <Breadcrumb
+                      items={toBreadcrumbItems(
+                        t('breadcrumb.toFrontpage'),
+                        [subject, ...topicPath],
+                        getFiltersFromUrl(location),
+                      )}
+                    />
+                  ) : null}
+                </section>
+              </div>
+            </OneColumn>
+          </SubjectHero>
+        )}
         {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
@@ -238,6 +262,7 @@ TopicPage.propTypes = {
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default compose(
