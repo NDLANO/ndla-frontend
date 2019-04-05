@@ -3290,7 +3290,7 @@
             "deprecationReason": null
           },
           {
-            "name": "url",
+            "name": "path",
             "description": "",
             "args": [],
             "type": {
@@ -4771,7 +4771,7 @@
             "deprecationReason": null
           },
           {
-            "name": "url",
+            "name": "path",
             "description": "",
             "args": [],
             "type": {

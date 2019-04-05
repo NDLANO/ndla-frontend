@@ -518,7 +518,7 @@ export const filmFrontPageQuery = gql`
           }
           metaDescription
           resourceTypes
-          url
+          path
         }
       }
       slideShow {
@@ -529,7 +529,7 @@ export const filmFrontPageQuery = gql`
           url
         }
         metaDescription
-        url
+        path
       }
     }
   }
