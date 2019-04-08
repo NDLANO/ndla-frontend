@@ -40,7 +40,7 @@ import {
   getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
-import TwitterMetadata from '../../components/TwitterMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const transformData = data => {
   const { subject, topic } = data;
@@ -178,6 +178,12 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
 
+    const metaImage =
+      article.metaData &&
+      article.metaData.images &&
+      article.metaData.images.length > 0
+        ? article.metaData.images[0]
+        : undefined;
     return (
       <div>
         <Helmet>
@@ -199,11 +205,11 @@ class ArticlePage extends Component {
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
         </Helmet>
-        <TwitterMetadata
+        <SocialMediaMetadata
           title={article.title}
           description={article.metaDescription}
           locale={locale}
-          metaData={article.metaData}
+          image={metaImage}
         />
         {resource && (
           <ArticleHero

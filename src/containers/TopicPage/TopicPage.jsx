@@ -42,7 +42,7 @@ import {
 } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
-import TwitterMetadata from '../../components/TwitterMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -138,6 +138,12 @@ class TopicPage extends Component {
       ? subject.topics.filter(topic => topic.parent === topicId)
       : [];
 
+    const metaImage =
+      article.metaData &&
+      article.metaData.images &&
+      article.metaData.images.length > 0
+        ? article.metaData.images[0]
+        : undefined;
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Helmet>
@@ -160,9 +166,9 @@ class TopicPage extends Component {
           </script>
         </Helmet>
         {article && (
-          <TwitterMetadata
+          <SocialMediaMetadata
             description={article.metaDescription}
-            metaData={article.metaData}
+            image={metaImage}
             title={article.title}
             locale={locale}
           />
