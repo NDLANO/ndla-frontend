@@ -491,6 +491,20 @@ export const competenceGoalsQuery = gql`
   }
 `;
 
+export const movieFragment = gql`
+  fragment MovieInfo on Movie {
+    id
+    title
+    metaImage {
+      alt
+      url
+    }
+    metaDescription
+    resourceTypes
+    path
+  }
+`;
+
 export const filmFrontPageQuery = gql`
   query filmFrontPageQuery {
     filmfrontpage {
@@ -510,27 +524,13 @@ export const filmFrontPageQuery = gql`
           language
         }
         movies {
-          id
-          title
-          metaImage {
-            alt
-            url
-          }
-          metaDescription
-          resourceTypes
-          path
+          ...MovieInfo
         }
       }
       slideShow {
-        id
-        title
-        metaImage {
-          alt
-          url
-        }
-        metaDescription
-        path
+        ...MovieInfo
       }
     }
   }
+  ${movieFragment}
 `;
