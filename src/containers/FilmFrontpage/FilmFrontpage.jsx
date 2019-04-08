@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { spacing, breakpoints } from '@ndla/core';
 import { CarouselAutosize } from '@ndla/carousel';
 
 import { injectT } from '@ndla/i18n';
@@ -84,50 +83,7 @@ class FilmFrontpage extends Component {
           onChangeResourceType={this.onChangeResourceType}
         />
         <div id={ARIA_FILMCATEGORY_ID} ref={this.movieListRef}>
-          <CarouselAutosize
-            breakpoints={[
-              {
-                until: 'mobile',
-                columnsPrSlide: 1,
-                distanceBetweenItems: spacing.spacingUnit / 2,
-                margin: spacing.spacingUnit,
-              },
-              {
-                until: 'mobileWide',
-                columnsPrSlide: 2,
-                distanceBetweenItems: spacing.spacingUnit / 2,
-                margin: spacing.spacingUnit,
-              },
-              {
-                until: 'tabletWide',
-                columnsPrSlide: 3,
-                distanceBetweenItems: spacing.spacingUnit / 2,
-                margin: spacing.spacingUnit,
-              },
-              {
-                until: 'desktop',
-                columnsPrSlide: 4,
-                distanceBetweenItems: spacing.spacingUnit,
-                margin: spacing.spacingUnit * 2,
-              },
-              {
-                until: 'wide',
-                columnsPrSlide: 4,
-                distanceBetweenItems: spacing.spacingUnit,
-                margin: spacing.spacingUnit * 2,
-              },
-              {
-                until: 'ultraWide',
-                columnsPrSlide: 4,
-                distanceBetweenItems: spacing.spacingUnit,
-                margin: spacing.spacingUnit * 3.5,
-              },
-              {
-                columnsPrSlide: 6,
-                distanceBetweenItems: spacing.spacingUnit,
-                margin: spacing.spacingUnit * 3.5,
-              },
-            ]}>
+          <CarouselAutosize ndlaFilm={true}>
             {autoSizedProps =>
               resourceTypeSelected ? (
                 <MovieGrid
