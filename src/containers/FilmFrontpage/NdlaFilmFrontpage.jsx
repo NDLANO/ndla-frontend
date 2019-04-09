@@ -98,9 +98,9 @@ class NdlaFilm extends Component {
 
   render() {
     const { moviesByType, fetchingMoviesByType } = this.state;
-    const { t } = this.props;
+    const { t, locale } = this.props;
     const { filmfrontpage, subject } = this.props.data;
-    const about = filmfrontpage.about.find(about => (about.language = 'nb'));
+    const about = filmfrontpage.about.find(about => (about.language = locale));
 
     const movieResourceTypes = [
       {
@@ -162,7 +162,7 @@ class NdlaFilm extends Component {
             </p>
           </>
         }
-        language="nb"
+        language={locale}
       />
     );
   }
@@ -176,6 +176,7 @@ NdlaFilm.propTypes = {
     error: GraphqlErrorShape,
   }),
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
+  locale: PropTypes.string,
 };
 
 export default compose(
