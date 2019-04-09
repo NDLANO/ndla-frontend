@@ -100,6 +100,7 @@ class NdlaFilm extends Component {
     const { moviesByType, fetchingMoviesByType } = this.state;
     const { t } = this.props;
     const { filmfrontpage, subject } = this.props.data;
+    const about = filmfrontpage.about.find(about => (about.language = 'nb'));
 
     const movieResourceTypes = [
       {
@@ -122,13 +123,18 @@ class NdlaFilm extends Component {
 
     return (
       <FilmFrontpage
-        highlighted={filmfrontpage ? filmfrontpage.slideShow : []}
-        themes={filmfrontpage ? filmfrontpage.movieThemes : []}
+        highlighted={filmfrontpage && filmfrontpage.slideShow}
+        themes={filmfrontpage && filmfrontpage.movieThemes}
         moviesByType={moviesByType}
-        topics={subject ? subject.topics : []}
+        topics={subject && subject.topics}
         resourceTypes={movieResourceTypes}
         onSelectedMovieByType={this.onSelectedMovieByType}
-        aboutNDLAVideo={<img src={''} alt="example of video" />}
+        aboutNDLAVideo={
+          <img
+            src={about && about.visualElement && about.visualElement.url}
+            alt={about && about.visualElement && about.visualElement.alt}
+          />
+        }
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={
           <>
