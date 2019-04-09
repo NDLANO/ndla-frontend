@@ -204,8 +204,7 @@ class SearchContainer extends Component {
         variables={stateSearchParams}
         fetchPolicy="no-cache"
         ssr={false}>
-        {queryResult => {
-          const { error, data: searchData } = queryResult;
+        {({ error, data: searchData, loading }) => {
           if (error) {
             handleError(error);
             return `Error: ${error.message}`;
@@ -213,7 +212,7 @@ class SearchContainer extends Component {
           const { search } = searchData || {};
           const resultMetadata = search ? getResultMetadata(search) : {};
 
-          const isReadyToShow = queryResult && !queryResult.loading && search;
+          const isReadyToShow = !loading && search;
           const searchResults = isReadyToShow
             ? convertResult(
                 search.results,
@@ -240,6 +239,7 @@ class SearchContainer extends Component {
                 resourceTypes={
                   data && data.resourceTypes ? data.resourceTypes : []
                 }
+                loading={loading}
                 enabledTab={enabledTab}
                 resultMetadata={resultMetadata}
                 searchParams={searchParams}

@@ -32,6 +32,7 @@ const SearchResults = ({
   ltiData,
   allTabValue,
   t,
+  loading,
 }) => {
   const { totalCount = '' } = resultMetadata || {};
   return (
@@ -72,6 +73,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
+        loading={loading}
         results={
           results &&
           resultsWithContentTypeBadgeAndImage(
