@@ -129,12 +129,7 @@ class NdlaFilm extends Component {
         topics={subject && subject.topics}
         resourceTypes={movieResourceTypes}
         onSelectedMovieByType={this.onSelectedMovieByType}
-        aboutNDLAVideo={
-          <img
-            src={about && about.visualElement && about.visualElement.url}
-            alt={about && about.visualElement && about.visualElement.alt}
-          />
-        }
+        aboutNDLAVideo={about}
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={
           <>

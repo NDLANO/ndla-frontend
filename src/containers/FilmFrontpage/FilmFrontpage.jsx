@@ -134,7 +134,16 @@ FilmFrontpage.propTypes = {
     }),
   ),
   onSelectedMovieByType: PropTypes.func.isRequired,
-  aboutNDLAVideo: PropTypes.node.isRequired,
+  aboutNDLAVideo: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    langugae: PropTypes.string,
+    visualElement: PropTypes.shape({
+      type: PropTypes.string,
+      url: PropTypes.string,
+      alt: PropTypes.string,
+    }),
+  }).isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   t: PropTypes.func.isRequired,
