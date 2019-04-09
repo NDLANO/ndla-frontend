@@ -500,7 +500,10 @@ export const movieFragment = gql`
       url
     }
     metaDescription
-    resourceTypes
+    resourceTypes {
+      id
+      name
+    }
     path
   }
 `;
