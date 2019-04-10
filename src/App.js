@@ -14,7 +14,6 @@ import matchPath from 'react-router-dom/matchPath';
 import withRouter from 'react-router-dom/withRouter';
 import { Content } from '@ndla/ui';
 import { withApollo } from 'react-apollo';
-import { parseToHsl } from 'polished';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
