@@ -114,7 +114,7 @@ class ArticlePage extends Component {
       },
       {
         query: resourceQuery,
-        variables: { resourceId, filterIds },
+        variables: { resourceId, filterIds, subjectId },
       },
       {
         query: resourceTypesQuery,
