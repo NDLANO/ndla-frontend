@@ -112,10 +112,12 @@ class FilmFrontpage extends Component {
             }
           </CarouselAutosize>
         </div>
-        <AboutNdlaFilm
-          aboutNDLAVideo={aboutNDLAVideo}
-          moreAboutNdlaFilm={moreAboutNdlaFilm}
-        />
+        {aboutNDLAVideo && (
+          <AboutNdlaFilm
+            aboutNDLAVideo={aboutNDLAVideo}
+            moreAboutNdlaFilm={moreAboutNdlaFilm}
+          />
+        )}
       </div>
     );
   }
