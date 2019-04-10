@@ -31,6 +31,7 @@ import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 class SubjectPage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
@@ -113,7 +114,10 @@ class SubjectPage extends Component {
       banner,
       editorsChoices,
       layout,
+      about,
+      metaDescription,
     } = subjectpage;
+
     return (
       <article>
         <Helmet>
@@ -125,6 +129,17 @@ class SubjectPage extends Component {
             />
           )}
         </Helmet>
+        <SocialMediaMetadata
+          title={about.title}
+          description={metaDescription}
+          locale={locale}
+          image={
+            about.visualElement && {
+              src: about.visualElement.url,
+              altText: about.visualElement.alt,
+            }
+          }
+        />
         <SubjectHeader
           heading={subjectName || ''}
           images={[

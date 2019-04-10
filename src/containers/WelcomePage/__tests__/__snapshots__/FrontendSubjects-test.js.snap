@@ -230,11 +230,11 @@ Array [
         "url": "/subjects/subject:28",
       },
       Object {
-        "id": "102782",
+        "id": "urn:subject:36",
         "name": "Transport og logistikk Vg2",
         "nodeId": "102782",
         "text": "Transport og logistikk Vg2",
-        "url": "/nb/node/102782",
+        "url": "/subjects/subject:36",
       },
     ],
   },
