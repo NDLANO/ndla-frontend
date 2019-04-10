@@ -207,6 +207,13 @@ export const articleInfoFragment = gql`
           ...CopyrightInfo
         }
       }
+      h5ps {
+        title
+        src
+        copyright {
+          ...CopyrightInfo
+        }
+      }
       audios {
         title
         src
