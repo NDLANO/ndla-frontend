@@ -82,7 +82,7 @@ class FilmFrontpage extends Component {
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={this.onChangeResourceType}
         />
-        <div id={ARIA_FILMCATEGORY_ID} ref={this.movieListRef}>
+        <div ref={this.movieListRef}>
           <CarouselAutosize ndlaFilm={true}>
             {autoSizedProps =>
               resourceTypeSelected ? (

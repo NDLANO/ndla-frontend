@@ -143,6 +143,8 @@ class TopicPage extends Component {
       ? subject.topics.filter(topic => topic.parent === topicId)
       : [];
 
+    const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
+
     return (
       <div>
         <Helmet>
@@ -172,44 +174,23 @@ class TopicPage extends Component {
             locale={locale}
           />
         )}
-
-        {ndlaFilm ? (
-          <NdlaFilmHero>
-            <OneColumn>
-              <div className="c-hero__content">
-                <section>
-                  {subject ? (
-                    <Breadcrumb
-                      items={toBreadcrumbItems(
-                        t('breadcrumb.toFrontpage'),
-                        [subject, ...topicPath],
-                        getFiltersFromUrl(location),
-                      )}
-                    />
-                  ) : null}
-                </section>
-              </div>
-            </OneColumn>
-          </NdlaFilmHero>
-        ) : (
-          <SubjectHero>
-            <OneColumn>
-              <div className="c-hero__content">
-                <section>
-                  {subject ? (
-                    <Breadcrumb
-                      items={toBreadcrumbItems(
-                        t('breadcrumb.toFrontpage'),
-                        [subject, ...topicPath],
-                        getFiltersFromUrl(location),
-                      )}
-                    />
-                  ) : null}
-                </section>
-              </div>
-            </OneColumn>
-          </SubjectHero>
-        )}
+        <Hero>
+          <OneColumn>
+            <div className="c-hero__content">
+              <section>
+                {subject ? (
+                  <Breadcrumb
+                    items={toBreadcrumbItems(
+                      t('breadcrumb.toFrontpage'),
+                      [subject, ...topicPath],
+                      getFiltersFromUrl(location),
+                    )}
+                  />
+                ) : null}
+              </section>
+            </div>
+          </OneColumn>
+        </Hero>
         {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
