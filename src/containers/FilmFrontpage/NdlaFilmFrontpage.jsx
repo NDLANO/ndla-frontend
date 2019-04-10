@@ -23,7 +23,7 @@ import {
   GraphqlErrorShape,
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
-
+import { movieResourceTypes } from './resourceTypes';
 import handleError from '../../util/handleError';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 
@@ -106,32 +106,16 @@ class NdlaFilm extends Component {
     const { filmfrontpage, subject } = this.props.data;
     const about = filmfrontpage.about.find(about => (about.language = locale));
 
-    const movieResourceTypes = [
-      {
-        name: t('filmfrontpage.resourcetype.documentary'),
-        id: 'urn:resourcetype:documentary',
-      },
-      {
-        name: t('filmfrontpage.resourcetype.featureFilm'),
-        id: 'urn:resourcetype:featureFilm',
-      },
-      {
-        name: t('filmfrontpage.resourcetype.series'),
-        id: 'urn:resourcetype:series',
-      },
-      {
-        name: t('filmfrontpage.resourcetype.shortFilm'),
-        id: 'urn:resourcetype:shortFilm',
-      },
-    ];
-
     return (
       <FilmFrontpage
         highlighted={filmfrontpage && filmfrontpage.slideShow}
         themes={filmfrontpage && filmfrontpage.movieThemes}
         moviesByType={moviesByType}
         topics={subject && subject.topics}
-        resourceTypes={movieResourceTypes}
+        resourceTypes={movieResourceTypes.map(resourceType => ({
+          ...resourceType,
+          name: t(resourceType.name),
+        }))}
         onSelectedMovieByType={this.onSelectedMovieByType}
         aboutNDLAVideo={about}
         fetchingMoviesByType={fetchingMoviesByType}
