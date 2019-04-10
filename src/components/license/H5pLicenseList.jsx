@@ -45,16 +45,16 @@ const H5pLicenseInfo = ({ text, locale, t }) => {
         <FileDocumentOutline className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        license={text.license.license}
+        license={text.copyright.license.license}
         title={t('text.rules')}
         resourceType="h5p"
-        resourceUrl={text.origin}
+        resourceUrl={text.src}
         locale={locale}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(text, t)}
+              stringToCopy={getCopyrightCopyString(text.copyright, t)}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
