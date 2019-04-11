@@ -24,7 +24,7 @@ import {
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import CopyTextButton from './CopyTextButton';
-import { CopyrightObjectShape } from '../../shapes';
+import { CopyrightObjectShape, H5pShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
@@ -63,7 +63,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
 
 H5pLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  h5p: TextShape,
+  h5p: H5pShape,
 };
 
 const H5pLicenseList = ({ h5ps, locale, t }) => (
