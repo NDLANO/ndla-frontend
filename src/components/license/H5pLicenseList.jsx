@@ -31,13 +31,8 @@ const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
 });
 
-const H5pLicenseInfo = ({ text, locale, t }) => {
-  const items = getGroupedContributorDescriptionList(text, locale);
-  // items.push({
-  //   label: t('text.published'),
-  //   description: text.license.description,
-  //   metaType: metaTypes.h5p,
-  // });
+const H5pLicenseInfo = ({ h5p, locale, t }) => {
+  const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
 
   return (
     <MediaListItem>
@@ -45,16 +40,16 @@ const H5pLicenseInfo = ({ text, locale, t }) => {
         <FileDocumentOutline className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        license={text.copyright.license.license}
+        license={h5p.copyright.license.license}
         title={t('text.rules')}
         resourceType="h5p"
-        resourceUrl={text.src}
+        resourceUrl={h5p.src}
         locale={locale}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(text.copyright, t)}
+              stringToCopy={getCopyrightCopyString(h5p.copyright, t)}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
@@ -68,16 +63,16 @@ const H5pLicenseInfo = ({ text, locale, t }) => {
 
 H5pLicenseInfo.propTypes = {
   locale: PropTypes.string.isRequired,
-  text: TextShape,
+  h5p: TextShape,
 };
 
-const H5pLicenseList = ({ texts, locale, t }) => (
+const H5pLicenseList = ({ h5ps, locale, t }) => (
   <div>
     <h2>{t('text.heading')}</h2>
     <p>{t('text.description')}</p>
     <MediaList>
-      {texts.map(text => (
-        <H5pLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
+      {h5ps.map(h5p => (
+        <H5pLicenseInfo h5p={h5p} key={uuid()} locale={locale} t={t} />
       ))}
     </MediaList>
   </div>
