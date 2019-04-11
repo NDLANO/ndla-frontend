@@ -127,3 +127,9 @@ export const ImageShape = PropTypes.shape({
   altText: PropTypes.string,
   copyright: CopyrightObjectShape,
 });
+
+export const H5pShape = PropTypes.shape({
+  title: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape,
+});
