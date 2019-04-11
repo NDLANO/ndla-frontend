@@ -17,7 +17,7 @@ const messages = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Sida finst ikkje${titleTemplate}`,
   },
-  h5p: 'H5P'
+  h5p: 'H5P',
 };
 
 export default messages;
