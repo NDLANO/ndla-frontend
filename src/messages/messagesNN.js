@@ -16,7 +16,7 @@ const messages = {
     subjectsPage: `Velg fag${titleTemplate}`,
     searchPage: `Søk${titleTemplate}`,
     notFound: `Sida finst ikkje${titleTemplate}`,
-  }
+  },
 };
 
 export default messages;
