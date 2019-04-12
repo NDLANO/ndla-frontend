@@ -41,7 +41,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={h5p.copyright.license.license}
-        title={t('text.rules')}
+        title={t('h5p.rules')}
         resourceType="h5p"
         resourceUrl={h5p.src}
         locale={locale}>
@@ -68,8 +68,8 @@ H5pLicenseInfo.propTypes = {
 
 const H5pLicenseList = ({ h5ps, locale, t }) => (
   <div>
-    <h2>{t('text.heading')}</h2>
-    <p>{t('text.description')}</p>
+    <h2>{t('h5p.heading')}</h2>
+    <p>{t('h5p.description')}</p>
     <MediaList>
       {h5ps.map(h5p => (
         <H5pLicenseInfo h5p={h5p} key={uuid()} locale={locale} t={t} />

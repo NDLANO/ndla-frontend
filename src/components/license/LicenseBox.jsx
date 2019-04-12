@@ -63,7 +63,7 @@ function buildLicenseTabList(article, locale, t) {
 
   if (h5ps.length) {
     tabs.push({
-      title: t('h5p'),
+      title: t('license.tabs.h5p'),
       content: <H5pLicenseList h5ps={h5ps} locale={locale} />,
     });
   }
