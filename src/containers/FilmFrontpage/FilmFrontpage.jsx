@@ -73,7 +73,7 @@ class FilmFrontpage extends Component {
       );
 
     return (
-      <div>
+      <>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
@@ -118,7 +118,7 @@ class FilmFrontpage extends Component {
             moreAboutNdlaFilm={moreAboutNdlaFilm}
           />
         )}
-      </div>
+      </>
     );
   }
 }

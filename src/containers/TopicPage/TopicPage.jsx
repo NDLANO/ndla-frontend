@@ -146,7 +146,7 @@ class TopicPage extends Component {
     const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
 
     return (
-      <div>
+      <>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article && article.metaDescription && (
@@ -216,7 +216,7 @@ class TopicPage extends Component {
             </>
           </Article>
         </OneColumn>
-      </div>
+      </>
     );
   }
 }
