@@ -51,6 +51,7 @@ test('IframeArticlePage renderers correctly', () => {
           requiredLibraries: [],
           title: 'Politiske skillelinjer',
           updated: '2018-01-09T18:43:48Z',
+          published: '2018-01-09T18:43:48Z',
         },
       }}
     />,
