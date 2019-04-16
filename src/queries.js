@@ -183,6 +183,7 @@ export const articleInfoFragment = gql`
     metaDescription
     created
     updated
+    published
     oldNdlaUrl
     requiredLibraries {
       name
@@ -404,7 +405,7 @@ export const topicResourcesQuery = gql`
     $filterIds: String
     $subjectId: String
   ) {
-    topic(id: $topicId) {
+    topic(id: $topicId, subjectId: $subjectId) {
       id
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
@@ -423,7 +424,7 @@ export const resourceQuery = gql`
     $filterIds: String
     $subjectId: String
   ) {
-    resource(id: $resourceId) {
+    resource(id: $resourceId, subjectId: $subjectId) {
       id
       name
       path
@@ -442,7 +443,7 @@ export const resourceQuery = gql`
 
 export const topicQuery = gql`
   query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
-    topic(id: $topicId) {
+    topic(id: $topicId, subjectId: $subjectId) {
       id
       name
       path
