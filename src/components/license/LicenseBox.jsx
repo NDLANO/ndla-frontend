@@ -14,12 +14,14 @@ import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
+import H5pLicenseList from './H5pLicenseList';
 import { ArticleShape } from '../../shapes';
 
 function buildLicenseTabList(article, locale, t) {
   const images = article.metaData.images || [];
   const audios = article.metaData.audios || [];
   const brightcove = article.metaData.brightcoves || [];
+  const h5ps = article.metaData.h5ps || [];
 
   const tabs = [];
 
@@ -56,6 +58,13 @@ function buildLicenseTabList(article, locale, t) {
     tabs.push({
       title: t('license.tabs.video'),
       content: <VideoLicenseList videos={brightcove} locale={locale} />,
+    });
+  }
+
+  if (h5ps.length) {
+    tabs.push({
+      title: t('license.tabs.h5p'),
+      content: <H5pLicenseList h5ps={h5ps} locale={locale} />,
     });
   }
 
