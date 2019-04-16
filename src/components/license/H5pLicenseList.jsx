@@ -33,7 +33,6 @@ const TextShape = PropTypes.shape({
 
 const H5pLicenseInfo = ({ h5p, locale, t }) => {
   const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
-
   return (
     <MediaListItem>
       <MediaListItemImage>
@@ -53,6 +52,14 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
+            />
+            <CopyTextButton
+              stringToCopy={`<iframe title="${h5p.src}" height="400" width="500" frameborder="0" src="${
+                h5p.src
+              }" allowfullscreen=""></iframe>`}
+              t={t}
+              copyTitle={t('embed')}
+              hasCopiedTitle={t('embedCopied')}
             />
           </div>
         </MediaListItemActions>
