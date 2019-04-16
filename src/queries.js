@@ -183,6 +183,7 @@ export const articleInfoFragment = gql`
     metaDescription
     created
     updated
+    published
     oldNdlaUrl
     requiredLibraries {
       name
