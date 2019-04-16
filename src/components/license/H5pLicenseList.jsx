@@ -36,7 +36,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <FileDocumentOutline className="c-medialist__icon" />
+        <a href={h5p.src} target="_blank" rel="noopener noreferrer"><FileDocumentOutline className="c-medialist__icon" /></a>
       </MediaListItemImage>
       <MediaListItemBody
         license={h5p.copyright.license.license}
