@@ -24,6 +24,7 @@ import { runQueries } from '../../util/runQueries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
+import { FILM_PAGE_PATH } from '../../constants';
 
 export class WelcomePage extends Component {
   constructor() {
@@ -124,7 +125,7 @@ export class WelcomePage extends Component {
             />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
-              url="/film"
+              url={FILM_PAGE_PATH}
               messages={{
                 header: t('welcomePage.film.header'),
                 linkLabel: t('welcomePage.film.linkLabel'),
