@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { FrontpageSubjects as FrontpageSubjectsSection } from '@ndla/ui';
+import { Context as StaticContext } from '@ndla/abtest';
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -164,10 +165,17 @@ class FrontpageSubjects extends Component {
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
     return (
-      <FrontpageSubjectsSection
-        linkToAbout={<LinkToAbout />}
-        categories={allSubjects}
-      />
+      <StaticContext.Consumer>
+        {(context) => {
+          console.log('frontpage context', context);
+          return (
+            <FrontpageSubjectsSection
+              linkToAbout={<LinkToAbout />}
+              categories={allSubjects}
+            />
+          );
+        }}
+      </StaticContext.Consumer>
     );
   }
 }

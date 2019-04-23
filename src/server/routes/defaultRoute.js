@@ -9,7 +9,12 @@
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import IntlProvider from '@ndla/i18n';
+import IntlProvider, { formatNestedMessages } from '@ndla/i18n';
+import { 
+  messagesVariantsNB,
+  messagesVariantsNN,
+  messagesVariantsEN,
+} from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from 'react-apollo';
 
@@ -20,6 +25,7 @@ import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
 import { renderHtml, renderPage } from '../helpers/render';
+import fetchExperiments from '../../util/getABTests';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -50,9 +56,25 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
+const messagesVariants = ({ messages, locale, variant }) => {
+  if (!variant) {
+    return messages;
+  } else if (locale === 'nb') {
+    return {...messages, ...formatNestedMessages(messagesVariantsNB[variant])}
+  } else if (locale === 'nn') {
+    return {...messages, ...formatNestedMessages(messagesVariantsNN[variant])}
+  } else if (locale === 'en') {
+    return {...messages, ...formatNestedMessages(messagesVariantsEN[variant])}
+  } else {
+    return messages;
+  }
+}
+
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
+  let abTestData;
+
   const {
     abbreviation: locale,
     messages,
@@ -65,29 +87,38 @@ async function doRender(req) {
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
     const match = matchPath(basepath, route);
-    initialProps = await loadGetInitialProps(route.component, {
-      isServer: true,
-      locale,
-      match,
-      client,
-      location: {
-        search: `?${queryString.stringify(req.query)}`,
-      },
-    });
+    [ abTestData, initialProps ] = await Promise.all([
+      await fetchExperiments(req),
+      await loadGetInitialProps(route.component, {
+        isServer: true,
+        locale,
+        match,
+        client,
+        location: {
+          search: `?${queryString.stringify(req.query)}`,
+        },
+      }),
+    ]);
+  } else {
+    abTestData = await fetchExperiments(req);
   }
 
+  initialProps.abTest = abTestData;
   const context = {};
-  const Page = !disableSSR(req) ? (
-    <ApolloProvider client={client}>
-      <IntlProvider locale={locale} messages={messages}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes(initialProps, locale)}
-        </StaticRouter>
-      </IntlProvider>
-    </ApolloProvider>
-  ) : (
-    ''
-  );
+  let Page;
+  if (!disableSSR(req)) {
+    Page = (
+      <ApolloProvider client={client}>
+        <IntlProvider locale={locale} messages={messagesVariants({ messages, locale, variant: '1' })}>
+          <StaticRouter basename={basename} location={req.url} context={context}>
+            {routes(initialProps, locale)}
+          </StaticRouter>
+        </IntlProvider>
+      </ApolloProvider>
+    );
+  } else {
+    Page = '';
+  }
 
   const apolloState = client.extract();
   const { html, ...docProps } = renderPage(Page, getAssets(), {
