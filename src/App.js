@@ -27,21 +27,19 @@ const Route = ({
   background,
   hideMasthead,
   ...rest
-}) => {
-  return (
-    <ReactRoute
-      {...rest}
-      render={props => (
-        <Page background={background} locale={locale}>
-          <Content>
-            {!hideMasthead && <Masthead locale={locale} {...props} />}
-            <Component {...props} locale={locale} {...initialProps} />
-          </Content>
-        </Page>
-      )}
-    />
-  );
-};
+}) => (
+  <ReactRoute
+    {...rest}
+    render={props => (
+      <Page background={background} locale={locale}>
+        <Content>
+          {!hideMasthead && <Masthead locale={locale} {...props} />}
+          <Component {...props} locale={locale} {...initialProps} />
+        </Content>
+      </Page>
+    )}
+  />
+);
 
 Route.propTypes = {
   component: PropTypes.func.isRequired,
@@ -83,7 +81,6 @@ class App extends React.Component {
     ) {
       this.handleLoadInitialProps(this.props);
     }
-    console.log('document.cookie WAS', document.cookie);
     document.cookie = JSON.stringify(this.props.initialProps.abTest);
   }
 
@@ -153,8 +150,6 @@ class App extends React.Component {
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} />;
     }
-
-    console.log(this.initialProps);
 
     return (
       <Switch>

@@ -11,7 +11,7 @@ const titleTemplate = ' - NDLA';
 const messages = {
   htmlTitles: {
     titleTemplate,
-    welcomePage: `111Forsiden${titleTemplate}`,
+    welcomePage: `Forsiden${titleTemplate}`,
     topicPage: 'Emne',
     subjectsPage: `Velg fag${titleTemplate}`,
     searchPage: `Søk${titleTemplate}`,

@@ -17,7 +17,6 @@ import { createHistory } from './history';
 import { getLocaleInfoFromPath } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
 import routes from './routes';
-
 import './style/index.css';
 
 const {
