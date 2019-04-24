@@ -40,8 +40,8 @@ import {
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
 
-const getLocaleURL = (newLocale, locale) => {
-  const { pathname, search } = window.location;
+const getLocaleURL = (newLocale, locale, location) => {
+  const { pathname, search } = location;
   const basePath = pathname.startsWith(`/${locale}/`)
     ? pathname.replace(`/${locale}/`, '/')
     : pathname;
@@ -57,7 +57,6 @@ class MastheadContainer extends React.PureComponent {
     super(props);
     this.state = {
       data: {},
-      localeUrls: {},
     };
   }
 
@@ -74,17 +73,8 @@ class MastheadContainer extends React.PureComponent {
         activeFilters,
       );
 
-      const localeUrls = {};
-      appLocales.forEach(appLocale => {
-        localeUrls[appLocale.abbreviation] = {
-          name: appLocale.name,
-          url: getLocaleURL(appLocale.abbreviation, locale),
-        };
-      });
-
       this.setState({
         data,
-        localeUrls,
       });
     }
   }
@@ -200,9 +190,16 @@ class MastheadContainer extends React.PureComponent {
   render() {
     const { infoContent, locale, location, t } = this.props;
     const {
-      localeUrls,
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
+
+    const localeUrls = {};
+    appLocales.forEach(appLocale => {
+      localeUrls[appLocale.abbreviation] = {
+        name: appLocale.name,
+        url: getLocaleURL(appLocale.abbreviation, locale, location),
+      };
+    });
 
     const breadcrumbBlockItems = subject
       ? toBreadcrumbItems(
