@@ -19,6 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
+import { NDLA_ABTEST_COOKIE_KEY } from './util/getABTests';
 
 const Route = ({
   component: Component,
@@ -81,7 +82,8 @@ class App extends React.Component {
     ) {
       this.handleLoadInitialProps(this.props);
     }
-    document.cookie = JSON.stringify(this.props.initialProps.abTest);
+    // Set cookies
+    document.cookie = `${NDLA_ABTEST_COOKIE_KEY}=${JSON.stringify(this.props.initialProps.abTest)};`;
   }
 
   componentDidUpdate() {

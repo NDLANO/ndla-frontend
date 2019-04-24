@@ -165,26 +165,27 @@ class FrontpageSubjects extends Component {
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
     return (
-      <StaticContext.Consumer>
-        {(experiments) => (
-          <FrontpageSubjectsSection
-            linkToAbout={(
-              <Experiment id="PNJbRd6nRBia3d2I0YIRXg" experiments={experiments}>
-                <Variant name='RØD KNAPP'>
-                  RED
-                </Variant>
-                <Variant name='GUL KNAPP'>
-                  GUL
-                </Variant>
-                <Variant name='' fallback>
-                  <LinkToAbout />
-                </Variant>
-              </Experiment>
-            )}
-            categories={allSubjects}
-          />
-        )}
-      </StaticContext.Consumer>
+      <div>
+        <FrontpageSubjectsSection
+          linkToAbout={<LinkToAbout />}
+          categories={[]}
+        />
+        <StaticContext.Consumer>
+          {(experiments) => (
+            <Experiment id="PNJbRd6nRBia3d2I0YIRXg" experiments={experiments}>
+              <Variant name="RED">
+                <p>RØD</p>
+              </Variant>
+              <Variant name="YELLOW">
+                <p>GUL</p>
+              </Variant>
+              <Variant name="" original>
+                <p>DEFAULT</p>
+              </Variant>
+            </Experiment>
+          )}
+        </StaticContext.Consumer>
+      </div>
     );
   }
 }
