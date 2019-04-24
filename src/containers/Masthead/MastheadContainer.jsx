@@ -42,11 +42,9 @@ import {
 
 const getLocaleURL = (newLocale, locale) => {
   const { pathname, search } = window.location;
-  console.log(pathname, search);
   const basePath = pathname.startsWith(`/${locale}/`)
     ? pathname.replace(`/${locale}/`, '/')
     : pathname;
-  console.log(basePath);
   const newPath =
     newLocale === 'nb'
       ? `${basePath}${search}`
@@ -59,6 +57,7 @@ class MastheadContainer extends React.PureComponent {
     super(props);
     this.state = {
       data: {},
+      localeUrls: {},
     };
   }
 
@@ -75,8 +74,17 @@ class MastheadContainer extends React.PureComponent {
         activeFilters,
       );
 
+      const localeUrls = {};
+      appLocales.forEach(appLocale => {
+        localeUrls[appLocale.abbreviation] = {
+          name: appLocale.name,
+          url: getLocaleURL(appLocale.abbreviation, locale),
+        };
+      });
+
       this.setState({
         data,
+        localeUrls,
       });
     }
   }
@@ -190,15 +198,9 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const localeUrls = {};
-    appLocales.forEach(appLocale => {
-      localeUrls[appLocale.abbreviation] = {
-        name: appLocale.name,
-        url: getLocaleURL(appLocale.abbreviation, locale),
-      };
-    });
     const { infoContent, locale, location, t } = this.props;
     const {
+      localeUrls,
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
 
