@@ -28,7 +28,6 @@ const Route = ({
   hideMasthead,
   ...rest
 }) => {
-  console.log('MyInitalProps', initialProps);
   return (
     <ReactRoute
       {...rest}

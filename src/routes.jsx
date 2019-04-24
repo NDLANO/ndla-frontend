@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Context as StaticContext, Experiment } from '@ndla/abtest';
+import { Context as StaticContext } from '@ndla/abtest';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
@@ -70,7 +70,6 @@ export const routes = [
 ];
 
 export default function(initialProps = {}, locale) {
-  console.log('ABTEST DATA', initialProps.abTest);
   return (
     <StaticContext.Provider value={initialProps.abTest}>
       <App initialProps={initialProps} locale={locale} />

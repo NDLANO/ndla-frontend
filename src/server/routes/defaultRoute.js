@@ -9,12 +9,7 @@
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import IntlProvider, { formatNestedMessages } from '@ndla/i18n';
-import { 
-  messagesVariantsNB,
-  messagesVariantsNN,
-  messagesVariantsEN,
-} from '@ndla/ui';
+import IntlProvider from '@ndla/i18n';
 import url from 'url';
 import { ApolloProvider } from 'react-apollo';
 
@@ -56,20 +51,6 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-const messagesVariants = ({ messages, locale, variant }) => {
-  if (!variant) {
-    return messages;
-  } else if (locale === 'nb') {
-    return {...messages, ...formatNestedMessages(messagesVariantsNB[variant])}
-  } else if (locale === 'nn') {
-    return {...messages, ...formatNestedMessages(messagesVariantsNN[variant])}
-  } else if (locale === 'en') {
-    return {...messages, ...formatNestedMessages(messagesVariantsEN[variant])}
-  } else {
-    return messages;
-  }
-}
-
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
@@ -109,7 +90,7 @@ async function doRender(req) {
   if (!disableSSR(req)) {
     Page = (
       <ApolloProvider client={client}>
-        <IntlProvider locale={locale} messages={messagesVariants({ messages, locale, variant: '1' })}>
+        <IntlProvider locale={locale} messages={messages}>
           <StaticRouter basename={basename} location={req.url} context={context}>
             {routes(initialProps, locale)}
           </StaticRouter>
