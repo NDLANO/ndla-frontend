@@ -129,7 +129,7 @@ class SubjectPage extends Component {
             />
           )}
         </Helmet>
-        <SocialMediaMetadata
+        {about && <SocialMediaMetadata
           title={about.title}
           description={metaDescription}
           locale={locale}
@@ -139,7 +139,7 @@ class SubjectPage extends Component {
               altText: about.visualElement.alt,
             }
           }
-        />
+        />}
         <SubjectHeader
           heading={subjectName || ''}
           images={[
