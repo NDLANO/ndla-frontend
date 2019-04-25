@@ -20,6 +20,7 @@ import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import { NDLA_ABTEST_COOKIE_KEY } from './util/getABTests';
+import { isValidCookie, deleteCookie, setCookie } from './util/cookieHandler';
 
 const Route = ({
   component: Component,
@@ -82,8 +83,11 @@ class App extends React.Component {
     ) {
       this.handleLoadInitialProps(this.props);
     }
-    // Set cookies
-    document.cookie = `${NDLA_ABTEST_COOKIE_KEY}=${JSON.stringify(this.props.initialProps.abTest)};`;
+    // Update/Set cookies
+    if (isValidCookie(NDLA_ABTEST_COOKIE_KEY, document.cookie)) {
+      deleteCookie(NDLA_ABTEST_COOKIE_KEY)
+    }
+    setCookie(NDLA_ABTEST_COOKIE_KEY, JSON.stringify(this.props.initialProps.abTest));
   }
 
   componentDidUpdate() {

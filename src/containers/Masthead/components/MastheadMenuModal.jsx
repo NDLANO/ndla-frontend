@@ -3,13 +3,31 @@ import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
+import { Context as StaticContext, Experiment, Variant } from '@ndla/abtest';
 
 const MastheadMenuModal = ({ children, onMenuExit, t }) => (
   <Modal
     size="fullscreen"
     activateButton={
       <TopicMenuButton data-testid="masthead-menu-button">
-        {t('masthead.menu.title')}
+        <StaticContext.Consumer>
+          {(experiments) => (
+            <Experiment id="PNJbRd6nRBia3d2I0YIRXg" experiments={experiments}>
+              <Variant name="titleVariantA">
+                {t('abTests.masthead.menu.titleVariantA')}
+              </Variant>
+              <Variant name="titleVariantB">
+                {t('abTests.masthead.menu.titleVariantB')}
+              </Variant>
+              <Variant name="titleVariantC">
+                {t('abTests.masthead.menu.titleVariantC')}
+              </Variant>
+              <Variant name="" original>
+                {t('masthead.menu.title')}
+              </Variant>
+            </Experiment>
+          )}
+        </StaticContext.Consumer>
       </TopicMenuButton>
     }
     animation="subtle"
