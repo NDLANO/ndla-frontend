@@ -8,43 +8,21 @@
 
 import { cleanupExperiments } from '@ndla/abtest';
 import { getCookie } from './cookieHandler';
+import { COLLECT_EXPERIMENTS } from '../constants';
 
 export const NDLA_ABTEST_COOKIE_KEY = 'NDLA_ABTEST';
 
 async function fetchExperimentsFromManagementAPI() {
-  return new Promise(resolve => setTimeout(resolve, 200)).then(() => (
-    [
-      {
-        id: 'PNJbRd6nRBia3d2I0YIRXg',
-        variations: [
-          {
-            name: '',
-            weight: 0.25
-          },
-          {
-            name: 'titleVariantA',
-            weight: 0.25
-          },
-          {
-            name: 'titleVariantB',
-            weight: 0.25
-          },
-          {
-            name: 'titleVariantC',
-            weight: 0.25
-          }
-        ]
-      }
-    ]
-  ))
+  const response = await fetch(COLLECT_EXPERIMENTS);
+  const data = await response.json();
+  return data;
 }
 
 async function fetchExperiments(req) {
   /*
-    FOR DEMO PURPOSES USE FAKE DATA FETCHING WITH GA MANAGEMENT LIST
+    FOR DEMO PURPOSES WE USE LOCALHOST 4000
   */
   const cookies = JSON.parse(getCookie(NDLA_ABTEST_COOKIE_KEY, req.headers.cookie));
-  console.log('cookies was', cookies);
   const results = await fetchExperimentsFromManagementAPI();
   const useExperiments = cleanupExperiments(results, cookies);
   return new Promise(resolve => setTimeout(resolve, 500)).then(() => (

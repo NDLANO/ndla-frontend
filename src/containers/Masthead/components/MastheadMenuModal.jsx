@@ -12,14 +12,14 @@ const MastheadMenuModal = ({ children, onMenuExit, t }) => (
       <TopicMenuButton data-testid="masthead-menu-button">
         <StaticContext.Consumer>
           {(experiments) => (
-            <Experiment id="PNJbRd6nRBia3d2I0YIRXg" experiments={experiments}>
-              <Variant name="titleVariantA">
+            <Experiment id="k6dQOFUmTvyEAoPoIzaKWw" experiments={experiments}>
+              <Variant name="Oversikt">
                 {t('abTests.masthead.menu.titleVariantA')}
               </Variant>
-              <Variant name="titleVariantB">
+              <Variant name="Innhold">
                 {t('abTests.masthead.menu.titleVariantB')}
               </Variant>
-              <Variant name="titleVariantC">
+              <Variant name="Fagoversikt">
                 {t('abTests.masthead.menu.titleVariantC')}
               </Variant>
               <Variant name="" original>
