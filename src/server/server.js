@@ -145,15 +145,18 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 });
 
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
+  res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
 });
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {
+  res.removeHeader('X-Frame-Options');
   handleRequest(req, res, ltiRoute);
 });
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {
+  res.removeHeader('X-Frame-Options');
   handleRequest(req, res, ltiRoute);
 });
 
