@@ -22,6 +22,5 @@ export const getTopicPath = (subjectId, topicId, topics) => {
   };
 
   const topicPath = toBreadcrumb(leaf);
-
   return topicPath;
 };

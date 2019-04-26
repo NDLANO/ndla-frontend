@@ -107,10 +107,9 @@ export function toBreadcrumbItems(rootName, paths, filters = '') {
   return [{ to: '/', name: rootName }, ...links];
 }
 
-
-export function fixEndSlash(link){
+export function fixEndSlash(link) {
   const pattern = new RegExp(/resource/gi);
-  if (link && !pattern.test(link) && !(/\/$/.test(link)) ) {
+  if (link && !pattern.test(link) && !/\/$/.test(link)) {
     link = `${link}/`;
   }
   return link;
