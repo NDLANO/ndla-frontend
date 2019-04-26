@@ -129,17 +129,19 @@ class SubjectPage extends Component {
             />
           )}
         </Helmet>
-        {about && <SocialMediaMetadata
-          title={about.title}
-          description={metaDescription}
-          locale={locale}
-          image={
-            about.visualElement && {
-              src: about.visualElement.url,
-              altText: about.visualElement.alt,
+        {about && (
+          <SocialMediaMetadata
+            title={about.title}
+            description={metaDescription}
+            locale={locale}
+            image={
+              about.visualElement && {
+                src: about.visualElement.url,
+                altText: about.visualElement.alt,
+              }
             }
-          }
-        />}
+          />
+        )}
         <SubjectHeader
           heading={subjectName || ''}
           images={[
