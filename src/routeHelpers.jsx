@@ -78,7 +78,7 @@ export const toTopicPartial = (
 
 export function toBreadcrumbItems(rootName, paths, filters = '') {
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
-
+  const pattern = new RegExp(/resource/gi);
   const links = paths
     .filter(path => path !== undefined)
     .reduce(
@@ -94,11 +94,17 @@ export function toBreadcrumbItems(rootName, paths, filters = '') {
       ],
       [],
     )
+    .map(link => {
+      // making sure we have the ending slash in breadCrumbs and it dosen't contain it allready
+      if (link.to && !pattern.test(link.to) && !(/\/$/.test(link.to)) ) {
+        link.to = `${link.to}/`;
+      }
+      return link;
+    })
     .map(links => ({
       ...links,
       to: toSubjects() + links.to + filterParam,
     }));
-
   return [{ to: '/', name: rootName }, ...links];
 }
 
