@@ -56,6 +56,7 @@ const scriptSrc = (() => {
     'https://www.googletagmanager.com',
     'https://www.google-analytics.com',
     'https://tagmanager.google.com',
+    'https://optimize.google.com',
     'https://www.youtube.com',
     'https://s.ytimg.com',
     'https://cdn.auth0.com',
@@ -94,7 +95,6 @@ const scriptSrc = (() => {
     'cdnjs.cloudflare.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
-    'https://optimize.google.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -113,6 +113,7 @@ export default {
       'vg.no',
       'https://www.tv2skole.no/',
       'https://www.scribd.com/',
+      'https://optimize.google.com',
       'https://www.youtube.com',
       'ndla.no',
       'https://*.ndlah5p.com',
@@ -161,6 +162,7 @@ export default {
       "'self'",
       "'unsafe-inline'",
       "'unsafe-eval'",
+      'https://optimize.google.com',
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
@@ -179,6 +181,7 @@ export default {
       "'self'",
       'https://*.ndla.no',
       'https://www.google-analytics.com',
+      'https://optimize.google.com',
       'https://stats.g.doubleclick.net',
       'http://metrics.brightcove.com',
       'https://httpsak-a.akamaihd.net',
