@@ -64,9 +64,10 @@ export function toTopic(subjectId, filters, ...topicIds) {
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
   const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
-  const t = `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join(
-    '/',
-  )}${filterParam}`;
+  const t =
+    fixEndSlash(
+      `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`,
+    ) + filterParam;
   return t;
 }
 
