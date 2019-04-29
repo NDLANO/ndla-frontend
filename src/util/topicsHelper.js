@@ -7,8 +7,8 @@
  */
 
 import defined from 'defined';
-
 import groupBy from './groupBy';
+import { fixEndSlash } from '../routeHelpers';
 
 export const groupedSubtopicsByParent = (topics = []) =>
   groupBy(topics.filter(topic => topic.parent), 'parent');
@@ -19,6 +19,9 @@ export const toTopicMenu = (topic, topics) => {
   const subtopicsWithSubtopics = subtopics.map(child =>
     toTopicMenu(child, topics),
   );
+  if (topic && topic.path) {
+    topic.path = fixEndSlash(topic.path);
+  }
   return {
     ...topic,
     introduction:

@@ -120,7 +120,6 @@ class ArticlePage extends Component {
         query: resourceTypesQuery,
       },
     ]);
-
     return {
       ...response,
       data: transformData(response.data),
