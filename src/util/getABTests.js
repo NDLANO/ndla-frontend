@@ -24,10 +24,8 @@ async function fetchExperiments(req) {
   */
   const cookies = JSON.parse(getCookie(NDLA_ABTEST_COOKIE_KEY, req.headers.cookie));
   const results = await fetchExperimentsFromManagementAPI();
-  const useExperiments = cleanupExperiments(results, cookies);
-  return new Promise(resolve => setTimeout(resolve, 500)).then(() => (
-    useExperiments
-  ));
+  const useExperiments = cleanupExperiments(results.experiments, null);
+  return { useExperiments, googleAccountId: results.googleAccountId };
 };
 
 export default fetchExperiments;

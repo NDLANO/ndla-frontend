@@ -54,7 +54,7 @@ const disableSSR = req => {
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
-  let abTestData;
+  let googleOptimizeExperiments;
 
   const {
     abbreviation: locale,
@@ -68,7 +68,7 @@ async function doRender(req) {
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
     const match = matchPath(basepath, route);
-    [ abTestData, initialProps ] = await Promise.all([
+    [ googleOptimizeExperiments, initialProps ] = await Promise.all([
       await fetchExperiments(req),
       await loadGetInitialProps(route.component, {
         isServer: true,
@@ -81,10 +81,10 @@ async function doRender(req) {
       }),
     ]);
   } else {
-    abTestData = await fetchExperiments(req);
+    googleOptimizeExperiments = await fetchExperiments(req);
   }
-
-  initialProps.abTest = abTestData;
+  initialProps.experiments = googleOptimizeExperiments.useExperiments;
+  initialProps.googleAccountId = googleOptimizeExperiments.googleAccountId;
   const context = {};
   let Page;
   if (!disableSSR(req)) {

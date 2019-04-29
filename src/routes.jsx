@@ -71,7 +71,10 @@ export const routes = [
 
 export default function(initialProps = {}, locale) {
   return (
-    <StaticContext.Provider value={initialProps.abTest}>
+    <StaticContext.Provider value={{
+      googleAccountId: initialProps.googleAccountId,
+      experiments: initialProps.experiments,
+    }}>
       <App initialProps={initialProps} locale={locale} />
     </StaticContext.Provider>
   );

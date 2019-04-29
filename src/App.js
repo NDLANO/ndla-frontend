@@ -87,7 +87,7 @@ class App extends React.Component {
     if (isValidCookie(NDLA_ABTEST_COOKIE_KEY, document.cookie)) {
       deleteCookie(NDLA_ABTEST_COOKIE_KEY)
     }
-    setCookie(NDLA_ABTEST_COOKIE_KEY, JSON.stringify(this.props.initialProps.abTest));
+    setCookie(NDLA_ABTEST_COOKIE_KEY, JSON.stringify(this.props.initialProps.experiments));
   }
 
   componentDidUpdate() {
