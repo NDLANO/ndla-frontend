@@ -31,7 +31,6 @@ const SubjectPageSingle = props => {
     locale,
   } = props;
   const { editorsChoices } = subjectpage;
-
   return (
     <OneColumn>
       <SubjectContent breadcrumb={breadcrumb}>
