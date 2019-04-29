@@ -19,6 +19,7 @@ import { TopicShape } from '../../../shapes';
 import SubjectPageSingle from './layout/SubjectPageSingle';
 import SubjectPageDouble from './layout/SubjectPageDouble';
 import SubjectPageStacked from './layout/SubjectPageStacked';
+import { fixEndSlash } from '../../../routeHelpers';
 
 const SubjectBreadCrumb = injectT(({ t, subject }) => (
   <Breadcrumb
@@ -37,13 +38,18 @@ const SubjectPageContent = ({ layout, subject, ...rest }) => {
   const { filters, topics } = subject;
   const defaultProps = {
     topics: topics
-      ? topics.map(topic => ({
-          ...topic,
-          introduction:
-            topic.meta && topic.meta.metaDescription
-              ? topic.meta.metaDescription
-              : '',
-        }))
+      ? topics.map(topic => {
+          if (topic && topic.path) {
+            topic.path = fixEndSlash(topic.path);
+          }
+          return {
+            ...topic,
+            introduction:
+              topic.meta && topic.meta.metaDescription
+                ? topic.meta.metaDescription
+                : '',
+          };
+        })
       : [],
     breadcrumb: <SubjectBreadCrumb subject={subject} />,
     filters: filters

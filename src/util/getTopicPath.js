@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 export const getTopicPath = (subjectId, topicId, topics) => {
   const leaf = topics.find(topic => topicId === topic.id);
   if (!leaf) {
@@ -22,6 +21,5 @@ export const getTopicPath = (subjectId, topicId, topics) => {
   };
 
   const topicPath = toBreadcrumb(leaf);
-
   return topicPath;
 };

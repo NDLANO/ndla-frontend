@@ -63,7 +63,6 @@ class TopicResources extends Component {
     if (subtopics.length === 0) {
       return null;
     }
-
     return (
       <ResourcesWrapper
         header={

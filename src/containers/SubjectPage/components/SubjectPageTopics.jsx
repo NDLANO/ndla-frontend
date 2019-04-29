@@ -30,7 +30,6 @@ const SubjectPageTopics = props => {
     twoColumns,
     subjectPage,
   } = props;
-
   return (
     <ResourcesWrapper
       subjectPage

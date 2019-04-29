@@ -64,9 +64,10 @@ export function toTopic(subjectId, filters, ...topicIds) {
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
   const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
-  const t = `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join(
-    '/',
-  )}${filterParam}`;
+  const t =
+    fixEndSlash(
+      `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`,
+    ) + filterParam;
   return t;
 }
 
@@ -78,7 +79,6 @@ export const toTopicPartial = (
 
 export function toBreadcrumbItems(rootName, paths, filters = '') {
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
-
   const links = paths
     .filter(path => path !== undefined)
     .reduce(
@@ -94,12 +94,26 @@ export function toBreadcrumbItems(rootName, paths, filters = '') {
       ],
       [],
     )
+    .map(link => {
+      // making sure we have the ending slash in breadCrumbs and it dosen't contain it allready
+      if (link.to) {
+        link.to = fixEndSlash(link.to);
+      }
+      return link;
+    })
     .map(links => ({
       ...links,
       to: toSubjects() + links.to + filterParam,
     }));
-
   return [{ to: '/', name: rootName }, ...links];
+}
+
+export function fixEndSlash(link) {
+  const pattern = new RegExp(/resource/gi);
+  if (link && !pattern.test(link) && !/\/$/.test(link)) {
+    link = `${link}/`;
+  }
+  return link;
 }
 
 export function toLinkProps(linkObject, locale) {
