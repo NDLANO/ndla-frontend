@@ -31,12 +31,24 @@ export class WelcomePage extends Component {
     super();
     this.state = {
       query: '',
+      inputHasFocus: false,
     };
   }
 
-  onSearchFieldChange = evt => {
-    evt.preventDefault();
-    this.setState({ query: evt.target.value });
+  onSearchInputFocus = () => {
+    this.setState({
+      inputHasFocus: true,
+    });
+  };
+
+  onSearchDeactiveFocusTrap = () => {
+    this.setState({
+      inputHasFocus: false,
+    });
+  };
+
+  onSearchFieldChange = value => {
+    this.setState({ query: value });
   };
 
   onSearch = evt => {
@@ -76,7 +88,7 @@ export class WelcomePage extends Component {
     const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
     const { categories = [] } = frontpage;
-    const { query } = this.state;
+    const { query, inputHasFocus } = this.state;
     const headerLinks = [
       {
         to: 'https://om.ndla.no',
@@ -96,6 +108,32 @@ export class WelcomePage extends Component {
         locale={locale}
       />
     );
+
+    const results = [
+      {
+        title: 'Fag:',
+        contentType: 'results-frontpage',
+        resources: [
+          {
+            path: '#f1',
+            boldName: 'Yrkesfag:',
+            name: 'Design og håndverk',
+            subName: 'Vg3',
+          },
+          {
+            path: '#f2',
+            boldName: 'Yrkesfag:',
+            name: 'Helsearbeiderfag',
+            subName: 'Vg1',
+          },
+          {
+            path: '#f2',
+            boldName: 'Fellesfag:',
+            name: 'Samfunnsfag',
+          },
+        ],
+      },
+    ];
 
     return (
       <Fragment>
@@ -135,18 +173,25 @@ export class WelcomePage extends Component {
           )}
           messages={headerMessages}
           links={headerLinks}
+          searchResult={query.length > 2 ? results : []}
+          onSearchInputFocus={this.onSearchInputFocus}
+          onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
+          inputHasFocus={inputHasFocus}
+          allResultUrl={`search?query=${query}`}
         />
 
         <main>
-          <div data-testid="category-list">{frontPageSubjects}</div>
+          {/* <div data-testid="category-list">{frontPageSubjects}</div> */}
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
               searchFieldValue={query}
               onSearchFieldChange={this.onSearchFieldChange}
               onSearch={this.onSearch}
+              hideSearch={false}
             />
-            <FrontpageFilm
+
+            {/* <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
               url="https://ndla.no/nb/film"
               messages={{
@@ -154,8 +199,8 @@ export class WelcomePage extends Component {
                 linkLabel: t('welcomePage.film.linkLabel'),
                 text: t('welcomePage.film.text'),
               }}
-            />
-            <WelcomePageInfo />
+            />*/}
+            {/* <WelcomePageInfo /> */}
           </OneColumn>
         </main>
       </Fragment>
