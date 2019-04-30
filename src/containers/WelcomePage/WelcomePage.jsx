@@ -47,8 +47,8 @@ export class WelcomePage extends Component {
     });
   };
 
-  onSearchFieldChange = value => {
-    this.setState({ query: value });
+  onSearchFieldChange = query => {
+    this.setState({ query });
   };
 
   onSearch = evt => {
