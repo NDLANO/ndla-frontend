@@ -123,6 +123,7 @@ export class WelcomePage extends Component {
           <meta name="keywords" content={t('meta.keywords')} />
         </SocialMediaMetadata>
         <FrontpageHeader
+          hideSearch={false}
           locale={locale}
           heading={t('welcomePage.heading.heading')}
           searchFieldValue={query}
