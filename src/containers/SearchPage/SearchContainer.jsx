@@ -227,7 +227,7 @@ class SearchContainer extends Component {
             <SearchPage
               closeUrl="/#"
               searchString={query || ''}
-              onSearchFieldChange={e => this.updateQuery(e.target.value)}
+              onSearchFieldChange={this.updateQuery}
               onSearch={this.onQuerySubmit}
               onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
               searchFieldFilters={activeSubjectsMapped}
