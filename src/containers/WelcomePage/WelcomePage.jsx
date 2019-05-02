@@ -253,17 +253,17 @@ function mapSearchToFrontPageStructure(data) {
         };
         if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_SUBJECT_MATERIAL &&
-          !subjects.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+          !subjects.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
         ) {
           subjects.resources.push(finalObj);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
-          !topics.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+          !topics.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
         ) {
           topics.resources.push(finalObj);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_TASKS_AND_ACTIVITIES &&
-          !resource.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+          !resource.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
         ) {
           resource.resources.push(finalObj);
         }
