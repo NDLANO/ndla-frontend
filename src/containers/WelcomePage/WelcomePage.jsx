@@ -17,6 +17,7 @@ import {
   OneColumn,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { Query } from 'react-apollo';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
@@ -25,7 +26,12 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
-
+import { frontPageSearchQuery } from '../../queries';
+import {
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../constants';
 export class WelcomePage extends Component {
   constructor() {
     super();
@@ -109,31 +115,14 @@ export class WelcomePage extends Component {
       />
     );
 
-    const results = [
-      {
-        title: 'Fag:',
-        contentType: 'results-frontpage',
-        resources: [
-          {
-            path: '#f1',
-            boldName: 'Yrkesfag:',
-            name: 'Design og håndverk',
-            subName: 'Vg3',
-          },
-          {
-            path: '#f2',
-            boldName: 'Yrkesfag:',
-            name: 'Helsearbeiderfag',
-            subName: 'Vg1',
-          },
-          {
-            path: '#f2',
-            boldName: 'Fellesfag:',
-            name: 'Samfunnsfag',
-          },
-        ],
-      },
-    ];
+    const searchParams = {
+      query,
+      resourceTypes: [
+        RESOURCE_TYPE_LEARNING_PATH,
+        RESOURCE_TYPE_SUBJECT_MATERIAL,
+        RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+      ].join(),
+    };
 
     return (
       <Fragment>
@@ -160,25 +149,37 @@ export class WelcomePage extends Component {
           />
           <meta name="keywords" content={t('meta.keywords')} />
         </SocialMediaMetadata>
-        <FrontpageHeader
-          hideSearch={false}
-          locale={locale}
-          heading={t('welcomePage.heading.heading')}
-          searchFieldValue={query}
-          onSearch={this.onSearch}
-          onSearchFieldChange={this.onSearchFieldChange}
-          menuSubject={frontPageSubjects}
-          searchFieldPlaceholder={t(
-            'welcomePage.heading.searchFieldPlaceholder',
-          )}
-          messages={headerMessages}
-          links={headerLinks}
-          searchResult={query.length > 2 ? results : []}
-          onSearchInputFocus={this.onSearchInputFocus}
-          onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
-          inputHasFocus={inputHasFocus}
-          allResultUrl={`search?query=${query}`}
-        />
+        <Query
+          fetchPolicy="no-cache"
+          variables={searchParams}
+          ssr={false}
+          query={frontPageSearchQuery}>
+          {({ data, error }) =>
+            error || (
+              <FrontpageHeader
+                locale={locale}
+                heading={t('welcomePage.heading.heading')}
+                menuSubject={frontPageSubjects}
+                messages={headerMessages}
+                links={headerLinks}
+                hideSearch={false}
+                searchFieldValue={query}
+                onSearch={this.onSearch}
+                onSearchFieldChange={this.onSearchFieldChange}
+                searchFieldPlaceholder={t(
+                  'welcomePage.heading.searchFieldPlaceholder',
+                )}
+                searchResult={
+                  query.length > 2 ? mapSearchToFrontPageStructure(data) : []
+                }
+                onSearchInputFocus={this.onSearchInputFocus}
+                onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
+                inputHasFocus={inputHasFocus}
+                allResultUrl={`search?query=${query}`}
+              />
+            )
+          }
+        </Query>
 
         <main>
           {/* <div data-testid="category-list">{frontPageSubjects}</div> */}
@@ -206,6 +207,81 @@ export class WelcomePage extends Component {
       </Fragment>
     );
   }
+}
+
+function mapSearchToFrontPageStructure(data) {
+  if (
+    !data ||
+    (data && !data.search) ||
+    (data && data.search && !data.search.results) ||
+    (data &&
+      data.search &&
+      data.search.results &&
+      data.search.results.length === 0)
+  ) {
+    return [];
+  }
+  const result = data.search.results;
+  // grouping
+  const subjects = {
+    title: 'Fag:', // TODO: translation
+    contentType: 'results-frontpage',
+    resources: [],
+  };
+  const topics = {
+    title: 'Emne:', // TODO: translation
+    contentType: 'results-frontpage',
+    resources: [],
+  };
+  const resource = {
+    title: 'Læringsressurser:', // TODO: translation
+    contentType: 'results-frontpage',
+    resources: [],
+  };
+  result.map(i => {
+    if (i && i.contexts && i.contexts.length) {
+      i.contexts.map(ctx => {
+        const finalObj = {
+          id: `${i.id}-${ctx.id}`,
+          path: ctx.path,
+          boldName: `${ctx.subject}:`,
+          name: i.title,
+          subName:
+            ctx.resourceTypes[0] && ctx.resourceTypes[0].name
+              ? ctx.resourceTypes[0].name
+              : '',
+        };
+        if (
+          ctx.resourceTypes[0].id === RESOURCE_TYPE_SUBJECT_MATERIAL &&
+          !subjects.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+        ) {
+          subjects.resources.push(finalObj);
+        } else if (
+          ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
+          !topics.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+        ) {
+          topics.resources.push(finalObj);
+        } else if (
+          ctx.resourceTypes[0].id === RESOURCE_TYPE_TASKS_AND_ACTIVITIES &&
+          !resource.resources.filter(obj => obj.path === finalObj.path).length // skip if we allread have it
+        ) {
+          resource.resources.push(finalObj);
+        }
+      });
+    }
+  });
+  const returnArray = [];
+  // add groups into return array if there are any resources
+  if (subjects.resources.length) {
+    returnArray.push(subjects);
+  }
+  if (topics.resources.length) {
+    returnArray.push(topics);
+  }
+  if (resource.resources.length) {
+    returnArray.push(resource);
+  }
+  return returnArray;
 }
 
 WelcomePage.propTypes = {
