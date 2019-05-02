@@ -170,7 +170,7 @@ export class WelcomePage extends Component {
                   'welcomePage.heading.searchFieldPlaceholder',
                 )}
                 searchResult={
-                  query.length > 2 ? mapSearchToFrontPageStructure(data) : []
+                  query.length > 2 ? mapSearchToFrontPageStructure(data, t) : []
                 }
                 onSearchInputFocus={this.onSearchInputFocus}
                 onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
@@ -208,7 +208,7 @@ export class WelcomePage extends Component {
   }
 }
 
-function mapSearchToFrontPageStructure(data) {
+function mapSearchToFrontPageStructure(data, t) {
   if (
     !data ||
     (data && !data.search) ||
@@ -223,17 +223,17 @@ function mapSearchToFrontPageStructure(data) {
   const result = data.search.results;
   // grouping
   const subjects = {
-    title: 'Fag:', // TODO: translation
+    title: `${t('contentTypes.subject-material')}:`,
     contentType: 'results-frontpage',
     resources: [],
   };
   const topics = {
-    title: 'Emner:', // TODO: translation
+    title: `${t('subjectPage.tabs.topics')}:`,
     contentType: 'results-frontpage',
     resources: [],
   };
   const resource = {
-    title: 'Læringsressurser:', // TODO: translation
+    title: `${t('resource.label')}:`,
     contentType: 'results-frontpage',
     resources: [],
   };
