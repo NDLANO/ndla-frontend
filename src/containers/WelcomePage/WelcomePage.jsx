@@ -229,7 +229,7 @@ function mapSearchToFrontPageStructure(data) {
     resources: [],
   };
   const topics = {
-    title: 'Emne:', // TODO: translation
+    title: 'Emner:', // TODO: translation
     contentType: 'results-frontpage',
     resources: [],
   };
