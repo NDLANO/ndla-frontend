@@ -266,8 +266,10 @@ function mapSearchToFrontPageStructure(data) {
         ) {
           resource.resources.push(finalObj);
         }
+        return false;
       });
     }
+    return false;
   });
   const returnArray = [];
   // add groups into return array if there are any resources
