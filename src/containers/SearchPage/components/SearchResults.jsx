@@ -109,6 +109,7 @@ SearchResults.propTypes = {
   includeEmbedButton: bool,
   ltiData: LtiDataShape,
   enabledTab: string.isRequired,
+  loading: bool,
 };
 
 export default injectT(SearchResults);
