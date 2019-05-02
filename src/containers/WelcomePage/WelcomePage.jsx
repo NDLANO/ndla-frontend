@@ -182,7 +182,7 @@ export class WelcomePage extends Component {
         </Query>
 
         <main>
-          {/* <div data-testid="category-list">{frontPageSubjects}</div> */}
+          <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
@@ -191,8 +191,7 @@ export class WelcomePage extends Component {
               onSearch={this.onSearch}
               hideSearch={false}
             />
-
-            {/* <FrontpageFilm
+            <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
               url="https://ndla.no/nb/film"
               messages={{
@@ -200,8 +199,8 @@ export class WelcomePage extends Component {
                 linkLabel: t('welcomePage.film.linkLabel'),
                 text: t('welcomePage.film.text'),
               }}
-            />*/}
-            {/* <WelcomePageInfo /> */}
+            />
+            <WelcomePageInfo />
           </OneColumn>
         </main>
       </Fragment>
