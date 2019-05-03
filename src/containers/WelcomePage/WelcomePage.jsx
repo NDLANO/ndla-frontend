@@ -240,6 +240,9 @@ function mapSearchToFrontPageStructure(data, t) {
   result.map(i => {
     if (i && i.contexts && i.contexts.length) {
       i.contexts.map(ctx => {
+        if (!ctx.id || !ctx.resourceTypes[0]) {
+          return false;
+        }
         const finalObj = {
           id: `${i.id}-${ctx.id}`,
           path: ctx.path,
