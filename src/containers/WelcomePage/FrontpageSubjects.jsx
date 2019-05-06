@@ -18,6 +18,7 @@ import {
 } from '../../graphqlShapes';
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
+import {fixEndSlash} from '../../routeHelpers';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -159,10 +160,20 @@ class FrontpageSubjects extends Component {
       this.state.preview,
     );
 
-    const allSubjects = config.isNdlaProdEnvironment
+    let allSubjects = config.isNdlaProdEnvironment
       ? frontpageCategories
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
-
+    allSubjects = allSubjects.map(i => {
+      if (i.subjects && i.subjects.length) {
+        i.subjects = i.subjects.map(subject => {
+          if (subject && subject.url) {
+            subject.url = fixEndSlash(subject.url);
+          }
+          return subject;
+        });
+      }
+      return i;
+    });
     return (
       <FrontpageSubjectsSection
         linkToAbout={<LinkToAbout />}
