@@ -19,6 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
+import { FILM_PAGE_PATH } from './constants';
 
 const Route = ({
   component: Component,
@@ -26,15 +27,23 @@ const Route = ({
   locale,
   background,
   hideMasthead,
+  ndlaFilm,
   ...rest
 }) => (
   <ReactRoute
     {...rest}
     render={props => (
-      <Page background={background} locale={locale}>
+      <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
         <Content>
-          {!hideMasthead && <Masthead locale={locale} {...props} />}
-          <Component {...props} locale={locale} {...initialProps} />
+          {!hideMasthead && (
+            <Masthead locale={locale} ndlaFilm={ndlaFilm} {...props} />
+          )}
+          <Component
+            {...props}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            {...initialProps}
+          />
         </Content>
       </Page>
     )}
@@ -47,6 +56,7 @@ Route.propTypes = {
   locale: PropTypes.string.isRequired,
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
+  ndlaFilm: PropTypes.bool,
 };
 
 async function loadInitialProps(pathname, ctx) {
@@ -135,6 +145,7 @@ class App extends React.Component {
         location: props.location,
         history: props.history,
         client: props.client,
+        ndlaFilm: props.ndlaFilm,
       });
     } catch (e) {
       handleError(e);
@@ -150,6 +161,8 @@ class App extends React.Component {
       return <ErrorPage locale={this.props.locale} />;
     }
 
+    const isNdlaFilm = this.props.location.pathname.includes(FILM_PAGE_PATH);
+
     return (
       <Switch>
         {routes
@@ -164,6 +177,7 @@ class App extends React.Component {
               component={route.component}
               background={route.background}
               path={route.path}
+              ndlaFilm={isNdlaFilm}
             />
           ))}
       </Switch>

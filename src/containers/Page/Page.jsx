@@ -17,16 +17,16 @@ import config from '../../config';
 import Footer from './components/Footer';
 
 export const Page = props => {
-  const { children, background, locale, t } = props;
+  const { children, background, locale, t, ndlaFilm } = props;
   return (
-    <PageContainer backgroundWide={background}>
+    <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
       <Helmet
         htmlAttributes={{ lang: locale }}
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       {children}
-      <Footer t={t} locale={locale}>
+      <Footer t={t} locale={locale} inverted={ndlaFilm}>
         {config.zendeskWidgetKey && (
           <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
             {t('askNDLA')}
@@ -40,6 +40,7 @@ export const Page = props => {
 Page.propTypes = {
   locale: PropTypes.string.isRequired,
   background: PropTypes.bool,
+  ndlaFilm: PropTypes.bool,
 };
 
 Page.defaultProps = {

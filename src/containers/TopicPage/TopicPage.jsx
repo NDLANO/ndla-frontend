@@ -9,7 +9,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { SubjectHero, OneColumn, Breadcrumb, constants } from '@ndla/ui';
+import {
+  SubjectHero,
+  OneColumn,
+  Breadcrumb,
+  constants,
+  NdlaFilmHero,
+} from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -105,7 +111,7 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { locale, t, loading, data, location, errors } = this.props;
+    const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
 
     if (loading) {
@@ -137,6 +143,8 @@ class TopicPage extends Component {
       ? subject.topics.filter(topic => topic.parent === topicId)
       : [];
 
+    const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
+
     const metaImage =
       article.metaData &&
       article.metaData.images &&
@@ -144,7 +152,7 @@ class TopicPage extends Component {
         ? article.metaData.images[0]
         : undefined;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article && article.metaDescription && (
@@ -172,7 +180,7 @@ class TopicPage extends Component {
             locale={locale}
           />
         )}
-        <SubjectHero>
+        <Hero>
           <OneColumn>
             <div className="c-hero__content">
               <section>
@@ -188,7 +196,7 @@ class TopicPage extends Component {
               </section>
             </div>
           </OneColumn>
-        </SubjectHero>
+        </Hero>
         {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
@@ -214,7 +222,7 @@ class TopicPage extends Component {
             </>
           </Article>
         </OneColumn>
-      </div>
+      </>
     );
   }
 }
@@ -241,6 +249,7 @@ TopicPage.propTypes = {
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default compose(

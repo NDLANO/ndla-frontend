@@ -74,13 +74,8 @@ class MastheadSearch extends Component {
       : [];
 
   render() {
-    const {
-      query,
-      delayedSearchQuery,
-
-      subject,
-    } = this.state;
-    const { t, hideOnNarrowScreen, locale } = this.props;
+    const { query, delayedSearchQuery, subject } = this.state;
+    const { t, hideOnNarrowScreen, locale, ndlaFilm } = this.props;
 
     const searchString = queryString.stringify({
       query: query && query.length > 0 ? query : undefined,
@@ -101,7 +96,8 @@ class MastheadSearch extends Component {
       <MastheadSearchModal
         onSearchExit={this.onClearQuery}
         hideOnNarrowScreen={hideOnNarrowScreen}
-        searchFieldRef={this.searchFieldRef}>
+        searchFieldRef={this.searchFieldRef}
+        ndlaFilm={ndlaFilm}>
         <Query
           fetchPolicy="no-cache"
           variables={searchParams}
@@ -150,6 +146,7 @@ MastheadSearch.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 MastheadSearch.defaultProps = {
