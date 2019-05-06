@@ -33,11 +33,11 @@ const ndlaFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'dev':
-      return 'https://ndla-frontend.test.api.ndla.no';
+      return 'https://www.test.api.ndla.no';
     case 'prod':
       return 'https://ndla.no';
     default:
-      return `https://ndla-frontend.${ndlaEnvironmentHostname}.api.ndla.no`;
+      return `https://www.${ndlaEnvironmentHostname}.api.ndla.no`;
   }
 };
 

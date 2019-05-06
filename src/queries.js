@@ -53,6 +53,7 @@ export const searchQuery = gql`
       pageSize
       results {
         id
+        url
         metaDescription
         metaImage {
           url
@@ -154,6 +155,10 @@ export const topicInfoFragment = gql`
     meta {
       id
       metaDescription
+      metaImage {
+        url
+        alt
+      }
     }
   }
 `;
@@ -201,6 +206,10 @@ export const articleInfoFragment = gql`
     introduction
     content
     metaDescription
+    metaImage {
+      url
+      alt
+    }
     created
     updated
     published
@@ -477,6 +486,10 @@ export const topicQuery = gql`
       meta {
         id
         metaDescription
+        metaImage {
+          url
+          alt
+        }
       }
       article {
         ...ArticleInfo
@@ -504,4 +517,51 @@ export const competenceGoalsQuery = gql`
       }
     }
   }
+`;
+
+export const movieFragment = gql`
+  fragment MovieInfo on Movie {
+    id
+    title
+    metaImage {
+      alt
+      url
+    }
+    metaDescription
+    resourceTypes {
+      id
+      name
+    }
+    path
+  }
+`;
+
+export const filmFrontPageQuery = gql`
+  query filmFrontPageQuery {
+    filmfrontpage {
+      name
+      about {
+        title
+        description
+        visualElement {
+          type
+          alt
+          url
+        }
+      }
+      movieThemes {
+        name {
+          name
+          language
+        }
+        movies {
+          ...MovieInfo
+        }
+      }
+      slideShow {
+        ...MovieInfo
+      }
+    }
+  }
+  ${movieFragment}
 `;

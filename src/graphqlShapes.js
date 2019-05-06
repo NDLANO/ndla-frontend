@@ -100,6 +100,30 @@ export const GraphQLSubjectShape = PropTypes.shape({
   subjectpage: GraphQLSubjectPageShape,
 });
 
+export const GraphQLArticleMetaShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  metaDescription: PropTypes.string,
+  metaImage: PropTypes.shape({
+    url: PropTypes.string,
+    alt: PropTypes.string,
+    language: PropTypes.string,
+  }),
+});
+
+export const GraphQLMovieThemeShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  movies: PropTypes.arrayOf(GraphQLArticleMetaShape),
+});
+
+export const GraphQLFilmFrontpageShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  about: GraphQLSubjectPageAboutShape,
+  movieThemes: PropTypes.arrayOf(GraphQLMovieThemeShape),
+  slideShow: PropTypes.arrayOf(GraphQLArticleMetaShape),
+});
+
 export const GraphqlResourceTypeWithsubtypesShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
