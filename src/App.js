@@ -88,6 +88,18 @@ class App extends React.Component {
       deleteCookie(NDLA_ABTEST_COOKIE_KEY)
     }
     setCookie(NDLA_ABTEST_COOKIE_KEY, JSON.stringify(this.props.initialProps.experiments));
+    console.log('apps initial props', this.props);
+    
+    // setting the store initial state
+    /* ADD HOOKS OR SOMETHING!?? */
+    const { experiments } = this.props.initialProps;
+    window.ABTestExperiments = (experimentId) => {
+      const experiment = experiments.find(experiment => experiment.id === experimentId);
+      return {
+        variant: experiment && experiment.variant,
+        googleAccountId: this.props.initialProps.googleAccountId
+      };
+    }
   }
 
   componentDidUpdate() {

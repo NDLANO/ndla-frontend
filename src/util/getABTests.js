@@ -24,7 +24,7 @@ async function fetchExperiments(req) {
   */
   const cookies = JSON.parse(getCookie(NDLA_ABTEST_COOKIE_KEY, req.headers.cookie));
   const results = await fetchExperimentsFromManagementAPI();
-  const useExperiments = cleanupExperiments(results.experiments, null);
+  const useExperiments = cleanupExperiments(results.experiments, cookies);
   return { useExperiments, googleAccountId: results.googleAccountId };
 };
 

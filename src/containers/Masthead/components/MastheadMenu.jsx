@@ -121,7 +121,7 @@ class MastheadMenu extends Component {
 
     return (
       <Fragment>
-        <MastheadMenuModal onMenuExit={this.onMenuExit}>
+        <MastheadMenuModal>
           {onClose => (
             <MastheadTopics
               onClose={onClose}

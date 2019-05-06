@@ -1,87 +1,116 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Modal from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
-import { Context as StaticContext, Experiment, Variant } from '@ndla/abtest';
+import { Context as StaticContext, Experiment, Variant, fetchVariantIndex } from '@ndla/abtest';
+import { Play, Time, Menu } from '@ndla/icons/common';
 
-const experimentId = 'gKKvagBlQ5SyhxWP4TqK0g';
-const experimentTrackerName = 'testingMenu';
+const experimentId = 'OtejUgVLRHmGTAGv7jbFyA';
 
-const MastheadMenuModal = ({ children, onMenuExit, t }) => {
-  console.log('onMenuExit', onMenuExit);
-  return (
-    <StaticContext.Consumer>
-      {({ googleAccountId, experiments }) => (
-        <Modal
-          size="fullscreen"
-          activateButton={
-            <TopicMenuButton data-testid="masthead-menu-button">
-              <Experiment
-                id={experimentId}
-                googleAccountId={googleAccountId}
-                experiments={experiments}
-                trackerName={experimentTrackerName}
-              >
-                <Variant variantIndex={0} original>
-                  {t('masthead.menu.title')}
-                </Variant>
-                <Variant variantIndex={1}>
-                  {t('abTests.masthead.menu.content')}
-                </Variant>
-                <Variant variantIndex={2}>
-                  {t('abTests.masthead.menu.overview')}
-                </Variant>
-                <Variant variantIndex={3}>
-                  {t('abTests.masthead.menu.subjectOverview')}
-                </Variant>
-              </Experiment>
-            </TopicMenuButton>
-          }
-          animation="subtle"
-          animationDuration={150}
-          backgroundColor="grey"
-          noBackdrop
-          onClose={() => {
-            // Log whenever the menu closes.
-            const experiment = experiments.find(experiment => experiment.id === experimentId);
-            console.log('hi!');
-            console.log('experiment', experiment);
-            if (experiment.variant && experiment.variant.index !== undefined) {
-              const tracker = window.ga.getByName(experimentTrackerName);
-              if (!tracker) {
-                window.ga('create', googleAccountId, 'auto', {
-                  name: experimentTrackerName,
-                });
-              }
-              // Set data
-              window.ga(() => {
-                window.ga(`${experimentTrackerName}.set`, {
-                  expId: experimentId,
-                  expVar: experiments.find(experiment => experiment.id === experimentId).variant.index,
-                });
-                // Send it
-                window.ga(`${experimentTrackerName}.send`, {
-                  hitType: 'pageview',
+class MastheadMenuModal extends Component {
+  componentDidMount() {
+    const { variant } = window.ABTestExperiments(experimentId);
+    console.log('variant', variant);
+    // Track open data.
+    console.log(window.ga);
+    window.ga('set', {
+      expId: experimentId,
+      expVar: variant.index,
+    });
+    window.ga('send', {
+      hitType: 'event',
+      eventCategory: 'Rendered variant',
+      eventAction: 'onRender',
+      fieldsObject: {
+        nonInteraction: true,
+      },
+      hitCallback: () => {
+        console.log('Registered open render.');
+      },
+    });
+  }
+  render() {
+    const { t, children } = this.props;
+    return (
+      <StaticContext.Consumer>
+        {({ googleAccountId, experiments }) => (
+          <Modal
+            size="fullscreen"
+            onOpen={() => {
+              console.log('onOpen');
+              const variantIndex = fetchVariantIndex({ id: experimentId, experiments });
+              if (variantIndex && variantIndex.index !== undefined) {
+                // Log to GA that we opened menu.
+                /*
+                const tracker = window.ga.getByName('menuTestOpen');
+                if (!tracker) {
+                  window.ga('create', googleAccountId, 'auto', {
+                    name: 'menuTestOpen',
+                  });
+                  window.ga('menuTestOpen.set', {
+                    expId: experimentId,
+                    expVar: experiments.find(experiment => experiment.id === experimentId).variant.index,
+                  });
+                }
+                */
+                // Send data
+                window.ga('send', {
+                  hitType: 'event',
                   eventCategory: 'User interactions',
-                  eventAction: 'closeMenu',
+                  eventAction: 'MenuButtonOpen',
                   hitCallback: () => {
-                    console.log('data was sendt to GA');
+                    console.log('Open menu to Optimize');
                   }
                 });
-              });
+              }
+            }}
+            activateButton={
+              <TopicMenuButton Icon={null} data-testid="masthead-menu-button">
+                <Experiment
+                  id={experimentId}
+                  googleAccountId={googleAccountId}
+                  experiments={experiments}
+                >
+                  <Variant variantIndex={0} original>
+                    <Menu /> {t('masthead.menu.title')}
+                  </Variant>
+                  <Variant variantIndex={1}>
+                    <Menu /> {t('abTests.masthead.menu.subjectOverview')}
+                  </Variant>
+                  <Variant variantIndex={2}>
+                    <Menu /> {t('abTests.masthead.menu.overview')}
+                  </Variant>
+                  <Variant variantIndex={3}>
+                    <Menu /> {t('abTests.masthead.menu.topics')}
+                  </Variant>
+                  <Variant variantIndex={4}>
+                    <Play /> {t('masthead.menu.title')}
+                  </Variant>
+                  <Variant variantIndex={5}>
+                    <Play /> {t('abTests.masthead.menu.subjectOverview')}
+                  </Variant>
+                  <Variant variantIndex={6}>
+                    <Play /> {t('abTests.masthead.menu.overview')}
+                  </Variant>
+                  <Variant variantIndex={7}>
+                    <Play /> {t('abTests.masthead.menu.topics')}
+                  </Variant>
+                </Experiment>
+              </TopicMenuButton>
             }
-            // onMenuExit();
-          }}>
-          {children}
-        </Modal>
-      )}
-    </StaticContext.Consumer>
-  );
+            animation="subtle"
+            animationDuration={150}
+            backgroundColor="grey"
+            noBackdrop
+          >
+            {children}
+          </Modal>
+        )}
+      </StaticContext.Consumer>
+    )
+  }
 };
 
-MastheadMenuModal.propTypes = {
-  onMenuExit: PropTypes.func,
-};
+MastheadMenuModal.contentType = StaticContext;
 
 export default injectT(MastheadMenuModal);
