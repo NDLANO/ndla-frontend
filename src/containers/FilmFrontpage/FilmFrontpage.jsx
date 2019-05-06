@@ -51,6 +51,18 @@ class FilmFrontpage extends Component {
     });
   }
 
+  findName = (themeNames, language) => {
+    const name = themeNames.filter(name => name.language === language);
+    const fallback = themeNames.filter(name => name.language === 'nb');
+    if (name.length > 0) {
+      return name.map(n => n.name);
+    } else if (fallback.length > 0) {
+      return fallback.map(n => n.name);
+    } else {
+      return '';
+    }
+  };
+
   render() {
     const {
       highlighted,
@@ -98,9 +110,7 @@ class FilmFrontpage extends Component {
                 themes.map(theme => (
                   <FilmMovieList
                     key={theme.name}
-                    name={
-                      theme.name.find(name => name.language === language).name
-                    }
+                    name={this.findName(theme.name, language)}
                     movies={theme.movies}
                     autoSizedProps={autoSizedProps}
                     slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}

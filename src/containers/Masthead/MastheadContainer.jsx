@@ -246,6 +246,7 @@ class MastheadContainer extends React.PureComponent {
         </MastheadItem>
         <MastheadItem right>
           <MastheadLanguageSelector
+            ndlaFilm={ndlaFilm}
             options={localeUrls}
             currentLanguage={locale}
           />
