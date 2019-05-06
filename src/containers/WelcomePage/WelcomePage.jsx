@@ -245,7 +245,7 @@ function mapSearchToFrontPageStructure(data, t) {
         }
         const finalObj = {
           id: `${i.id}-${ctx.id}`,
-          path: ctx.path,
+           path: `/subjects${ctx.path}`,
           boldName: `${ctx.subject}:`,
           name: i.title,
           subName:
