@@ -180,7 +180,6 @@ export class WelcomePage extends Component {
             )
           }
         </Query>
-
         <main>
           <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
@@ -245,7 +244,7 @@ function mapSearchToFrontPageStructure(data, t) {
         }
         const finalObj = {
           id: `${i.id}-${ctx.id}`,
-           path: `/subjects${ctx.path}`,
+          path: `/subjects${ctx.path}`,
           boldName: `${ctx.subject}:`,
           name: i.title,
           subName:
