@@ -34,7 +34,7 @@ class MastheadSearch extends Component {
   };
 
   onQueryChange = evt => {
-    const query = evt.target.value;
+    const query = evt;
     this.setState({ query });
     debounceCall(() => this.setState({ delayedSearchQuery: query }));
   };

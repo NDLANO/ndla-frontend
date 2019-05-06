@@ -122,8 +122,14 @@ export const SearchParamsShape = PropTypes.shape({
 });
 
 export const ImageShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   src: PropTypes.string.isRequired,
-  altText: PropTypes.string.isRequired,
-  copyright: CopyrightObjectShape.isRequired,
+  altText: PropTypes.string,
+  copyright: CopyrightObjectShape,
+});
+
+export const H5pShape = PropTypes.shape({
+  title: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  copyright: CopyrightObjectShape,
 });
