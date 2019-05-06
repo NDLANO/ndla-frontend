@@ -18,7 +18,7 @@ import {
 } from '../../graphqlShapes';
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
-import {fixEndSlash} from '../../routeHelpers';
+import { fixEndSlash } from '../../routeHelpers';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
