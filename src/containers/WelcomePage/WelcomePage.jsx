@@ -26,6 +26,7 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
+import handleError from '../../util/handleError';
 import { frontPageSearchQuery } from '../../queries';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -154,8 +155,12 @@ export class WelcomePage extends Component {
           variables={searchParams}
           ssr={false}
           query={frontPageSearchQuery}>
-          {({ data, error }) =>
-            error || (
+          {({ data, error }) => {
+            if (error) {
+              handleError(error);
+              return `Error: ${error.message}`;
+            }
+            return (
               <FrontpageHeader
                 locale={locale}
                 heading={t('welcomePage.heading.heading')}
@@ -177,8 +182,8 @@ export class WelcomePage extends Component {
                 inputHasFocus={inputHasFocus}
                 allResultUrl={`search?query=${query}`}
               />
-            )
-          }
+            );
+          }}
         </Query>
         <main>
           <div data-testid="category-list">{frontPageSubjects}</div>
