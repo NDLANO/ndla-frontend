@@ -103,7 +103,7 @@ export const groupSearchQuery = gql`
   }
 `;
 
-export const frontPageSearchQuery = gql`
+export const frontpageSearch = gql`
   query Search($resourceTypes: String, $query: String) {
     search(resourceTypes: $resourceTypes, query: $query) {
       results {
