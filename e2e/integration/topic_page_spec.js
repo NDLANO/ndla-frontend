@@ -11,10 +11,11 @@ import { visitOptions } from '../support';
 describe('Topic page', () => {
   beforeEach(() => {
     cy.server();
-
     cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
     cy.apiwait('@frontpageGraphQL');
+    cy.apiroute('POST', '**/graphql', 'frontpageSearchGraphQL');
+    cy.apiwait('@frontpageSearchGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('a:contains("Medieuttrykk")')
