@@ -21,12 +21,12 @@
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "e2e": "cypress open",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
-    "e2e-record-fixtures": "cross-env NDLA_ENVIRONMENT=test CYPRESS_RECORD_FIXTURES=true cypress run",
+    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
     "pree2e-ci": "cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &",
-    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run",
+    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "get-gql-schema-local" : "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json"
+    "get-gql-schema-local": "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json"
   },
   "engines": {
     "node": ">=8.0.0",
