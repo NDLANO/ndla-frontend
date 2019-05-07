@@ -155,7 +155,7 @@ export class WelcomePage extends Component {
     );
 
     const searchParams = {
-      query,
+      query: query.length > 2 ? query : null,
       resourceTypes: [
         RESOURCE_TYPE_LEARNING_PATH,
         RESOURCE_TYPE_SUBJECT_MATERIAL,
