@@ -163,16 +163,16 @@ class FrontpageSubjects extends Component {
     let allSubjects = config.isNdlaProdEnvironment
       ? frontpageCategories
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
-    allSubjects = allSubjects.map(i => {
-      if (i.subjects && i.subjects.length) {
-        i.subjects = i.subjects.map(subject => {
+    allSubjects = allSubjects.map(category => {
+      if (category.subjects && category.subjects.length) {
+        category.subjects = category.subjects.map(subject => {
           if (subject && subject.url) {
             subject.url = fixEndSlash(subject.url);
           }
           return subject;
         });
       }
-      return i;
+      return category;
     });
     return (
       <FrontpageSubjectsSection
