@@ -160,11 +160,12 @@ class FrontpageSubjects extends Component {
       this.state.preview,
     );
 
-    let allSubjects = config.isNdlaProdEnvironment
+    const allSubjects = config.isNdlaProdEnvironment
       ? frontpageCategories
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
-    allSubjects = allSubjects.map(category => {
-      if (category.subjects && category.subjects.length) {
+
+    const allSubjectsWithFIxedEndSlash = allSubjects.map(category => {
+      if (category.subjects && category.subjects.length !== 0) {
         category.subjects = category.subjects.map(subject => {
           if (subject && subject.url) {
             subject.url = fixEndSlash(subject.url);
@@ -177,7 +178,7 @@ class FrontpageSubjects extends Component {
     return (
       <FrontpageSubjectsSection
         linkToAbout={<LinkToAbout />}
-        categories={allSubjects}
+        categories={allSubjectsWithFIxedEndSlash}
       />
     );
   }

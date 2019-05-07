@@ -28,7 +28,7 @@ import { FILM_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import handleError from '../../util/handleError';
-import { frontPageSearchQuery } from '../../queries';
+import { frontpageSearch } from '../../queries';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -194,7 +194,7 @@ export class WelcomePage extends Component {
           fetchPolicy="no-cache"
           variables={searchParams}
           ssr={false}
-          query={frontPageSearchQuery}>
+          query={frontpageSearch}>
           {({ data, error }) => {
             if (error) {
               handleError(error);
@@ -284,17 +284,17 @@ function mapSearchToFrontPageStructure(data, t) {
     contentType: 'results-frontpage',
     resources: [],
   };
-  result.map(i => {
-    if (i && i.contexts && i.contexts.length) {
-      i.contexts.map(ctx => {
+  result.map(resultData => {
+    if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
+      resultData.contexts.map(ctx => {
         if (!ctx.id || !ctx.resourceTypes[0]) {
           return false;
         }
-        const finalObj = {
-          id: `${i.id}-${ctx.id}`,
+        const resultItem = {
+          id: `${resultData.id}-${ctx.id}`,
           path: `/subjects${ctx.path}`,
           boldName: `${ctx.subject}:`,
-          name: i.title,
+          name: resultData.title,
           subName:
             ctx.resourceTypes[0] && ctx.resourceTypes[0].name
               ? ctx.resourceTypes[0].name
@@ -302,19 +302,19 @@ function mapSearchToFrontPageStructure(data, t) {
         };
         if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_SUBJECT_MATERIAL &&
-          !subjects.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
+          !subjects.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
         ) {
-          subjects.resources.push(finalObj);
+          subjects.resources.push(resultItem);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
-          !topics.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
+          !topics.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
         ) {
-          topics.resources.push(finalObj);
+          topics.resources.push(resultItem);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_TASKS_AND_ACTIVITIES &&
-          !resource.resources.filter(obj => obj.path === finalObj.path).length // skip if we already have it
+          !resource.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
         ) {
-          resource.resources.push(finalObj);
+          resource.resources.push(resultItem);
         }
         return false;
       });
@@ -323,13 +323,13 @@ function mapSearchToFrontPageStructure(data, t) {
   });
   const returnArray = [];
   // add groups into return array if there are any resources
-  if (subjects.resources.length) {
+  if (subjects.resources.length !== 0) {
     returnArray.push(subjects);
   }
-  if (topics.resources.length) {
+  if (topics.resources.length !== 0) {
     returnArray.push(topics);
   }
-  if (resource.resources.length) {
+  if (resource.resources.length !== 0) {
     returnArray.push(resource);
   }
   return returnArray;
