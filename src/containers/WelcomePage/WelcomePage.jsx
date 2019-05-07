@@ -38,9 +38,9 @@ import {
 
 // making a list from subjects without id
 const topicsNotInNDLA = [];
-FRONTPAGE_CATEGORIES.categories.map(i => {
-  if (i && i.subjects) {
-    i.subjects.map(subject => {
+FRONTPAGE_CATEGORIES.categories.map(category => {
+  if (category && category.subjects) {
+    category.subjects.map(subject => {
       if (subject && !subject.id) {
         topicsNotInNDLA.push(subject.name);
       }
