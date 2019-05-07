@@ -33,7 +33,23 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
+  FRONTPAGE_CATEGORIES,
 } from '../../constants';
+
+// making a list from subjects without id
+const topicsNotInNDLA = [];
+FRONTPAGE_CATEGORIES.categories.map(i => {
+  if (i && i.subjects) {
+    i.subjects.map(subject => {
+      if (subject && !subject.id) {
+        topicsNotInNDLA.push(subject.name);
+      }
+      return false;
+    });
+  }
+  return false;
+});
+
 export class WelcomePage extends Component {
   constructor() {
     super();
@@ -83,6 +99,27 @@ export class WelcomePage extends Component {
     ]);
   }
 
+  renderInfoText() {
+    const { t } = this.props;
+    return (
+      <span>
+        {topicsNotInNDLA.map((topic, index) => {
+          const isLastTopic = index === topicsNotInNDLA.length - 1;
+          return (
+            <Fragment key={topic}>
+              {isLastTopic && `${t('welcomePage.topicsConjunction')} `}
+              <strong key={topic}>
+                {topic}
+                {index < topicsNotInNDLA.length - 2 && ','}{' '}
+              </strong>
+            </Fragment>
+          );
+        })}
+        {t('welcomePage.topicsNotAvailableFromSearch')}
+      </span>
+    );
+  }
+
   render() {
     const { t, data, loading, locale } = this.props;
     if (loading) {
@@ -125,6 +162,8 @@ export class WelcomePage extends Component {
         RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
       ].join(),
     };
+
+    const needInfoTextInSearchSuggestions = topicsNotInNDLA.length > 0;
 
     return (
       <Fragment>
@@ -177,6 +216,9 @@ export class WelcomePage extends Component {
                 )}
                 searchResult={
                   query.length > 2 ? mapSearchToFrontPageStructure(data, t) : []
+                }
+                infoText={
+                  needInfoTextInSearchSuggestions && this.renderInfoText()
                 }
                 onSearchInputFocus={this.onSearchInputFocus}
                 onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
