@@ -258,4 +258,4 @@ export const SEARCH_PATH = '/search(.*)';
 export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 export const SUBJECTS = '/subjects';
-export const COLLECT_EXPERIMENTS = 'http://localhost:4000';
+export const COLLECT_EXPERIMENTS = '/experiments';

@@ -5,26 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import { cleanupExperiments } from '@ndla/abtest';
 import { getCookie } from './cookieHandler';
 import { COLLECT_EXPERIMENTS } from '../constants';
 
 export const NDLA_ABTEST_COOKIE_KEY = 'NDLA_ABTEST';
 
-async function fetchExperimentsFromManagementAPI() {
-  const response = await fetch(COLLECT_EXPERIMENTS);
+const fetchExperimentsFromManagementAPI = async (req) => {
+  const url = `${req.protocol}://${req.get('host')}${COLLECT_EXPERIMENTS}` // Settes i config i stedet?
+
+  const response = await fetch(url)
   const data = await response.json();
   return data;
-}
+};
 
-async function fetchExperiments(req) {
-  /*
-    FOR DEMO PURPOSES WE USE LOCALHOST 4000
-  */
-  const cookies = JSON.parse(getCookie(NDLA_ABTEST_COOKIE_KEY, req.headers.cookie));
-  const results = await fetchExperimentsFromManagementAPI();
-  const useExperiments = cleanupExperiments(results.experiments, cookies);
+const fetchExperiments = async req => {
+  const cookies = JSON.parse(
+    getCookie(NDLA_ABTEST_COOKIE_KEY, req.headers.cookie),
+  );
+  const results = await fetchExperimentsFromManagementAPI(req);
+  const useExperiments = cleanupExperiments(results, cookies);
   return { useExperiments, googleAccountId: results.googleAccountId };
 };
 

@@ -71,6 +71,29 @@ const gaTrackingId = () => {
   }
 };
 
+const gaExperiments = () => {
+  switch (ndlaEnvironment) {
+    case 'local':
+      return {};
+    case 'dev':
+    // test IDs
+      return {
+        GOOGLE_ACCOUNT_ID: "74405776",
+        GOOGLE_WEB_PROPERTY_ID: "UA-74405776-4",
+        GOOGLE_PROFILE_ID: "140877480",
+      };
+    case 'prod':
+    //replace with correct IDs 
+      return {
+        GOOGLE_ACCOUNT_ID: "", 
+        GOOGLE_WEB_PROPERTY_ID: "",
+        GOOGLE_PROFILE_ID: "",
+      };
+    default:
+      return {};
+  } 
+}
+
 const logglyApiKey = () => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
@@ -93,6 +116,7 @@ const config = {
   learningPathDomain: learningPathDomain(),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
+  gaExperiments: gaExperiments(),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,

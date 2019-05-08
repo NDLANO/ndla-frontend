@@ -32,6 +32,7 @@ import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
+import { experimentsRoute } from './routes/experimentsRoute';
 
 global.fetch = fetch;
 const app = express();
@@ -155,6 +156,11 @@ app.post('/lti', ndlaMiddleware, async (req, res) => {
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, ltiRoute);
+});
+
+app.get('/experiments', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  handleRequest(req, res, experimentsRoute);
 });
 
 app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
