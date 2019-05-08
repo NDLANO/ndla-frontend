@@ -38,16 +38,14 @@ import {
 
 // making a list from subjects without id
 const topicsNotInNDLA = [];
-FRONTPAGE_CATEGORIES.categories.map(category => {
+FRONTPAGE_CATEGORIES.categories.forEach(category => {
   if (category && category.subjects) {
-    category.subjects.map(subject => {
+    category.subjects.forEach(subject => {
       if (subject && !subject.id) {
         topicsNotInNDLA.push(subject.name);
       }
-      return false;
     });
   }
-  return false;
 });
 
 export class WelcomePage extends Component {
