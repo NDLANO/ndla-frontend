@@ -164,17 +164,16 @@ class FrontpageSubjects extends Component {
       ? frontpageCategories
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
-    const allSubjectsWithFIxedEndSlash = allSubjects.map(category => {
-      if (category.subjects && category.subjects.length !== 0) {
-        category.subjects = category.subjects.map(subject => {
-          if (subject && subject.url) {
-            subject.url = fixEndSlash(subject.url);
-          }
-          return subject;
-        });
-      }
-      return category;
-    });
+    const allSubjectsWithFIxedEndSlash = allSubjects.map(category => ({
+      ...category,
+      subjects: category.subjects
+        ? category.subjects.map(subject => ({
+            ...subject,
+            url:
+              subject && subject.url ? fixEndSlash(subject.url) : subject.url,
+          }))
+        : [],
+    }));
     return (
       <FrontpageSubjectsSection
         linkToAbout={<LinkToAbout />}

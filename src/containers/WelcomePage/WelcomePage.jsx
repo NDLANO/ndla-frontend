@@ -284,9 +284,9 @@ function mapSearchToFrontPageStructure(data, t) {
     contentType: 'results-frontpage',
     resources: [],
   };
-  result.map(resultData => {
+  result.forEach(resultData => {
     if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
-      resultData.contexts.map(ctx => {
+      resultData.contexts.forEach(ctx => {
         if (!ctx.id || !ctx.resourceTypes[0]) {
           return false;
         }
@@ -302,24 +302,25 @@ function mapSearchToFrontPageStructure(data, t) {
         };
         if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_SUBJECT_MATERIAL &&
-          !subjects.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
+          subjects.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0 // skip if we already have it
         ) {
           subjects.resources.push(resultItem);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
-          !topics.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
+          topics.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0 // skip if we already have it
         ) {
           topics.resources.push(resultItem);
         } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_TASKS_AND_ACTIVITIES &&
-          !resource.resources.filter(obj => obj.path === resultItem.path).length // skip if we already have it
+          resource.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0 // skip if we already have it
         ) {
           resource.resources.push(resultItem);
         }
-        return false;
       });
     }
-    return false;
   });
   const returnArray = [];
   // add groups into return array if there are any resources
