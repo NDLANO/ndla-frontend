@@ -38,16 +38,17 @@ import {
 } from '../../constants';
 
 // making a list from subjects without id
-const topicsNotInNDLA = [];
-FRONTPAGE_CATEGORIES.categories.forEach(category => {
-  if (category && category.subjects) {
-    category.subjects.forEach(subject => {
-      if (subject && !subject.id) {
-        topicsNotInNDLA.push(subject.name);
-      }
-    });
-  }
-});
+const topicsNotInNDLA = FRONTPAGE_CATEGORIES.categories.reduce(
+  (accumulator, currentValue) =>
+    currentValue.subjects && currentValue.subjects.length > 0
+      ? accumulator.concat(
+          currentValue.subjects
+            .filter(subject => !subject.id)
+            .map(subject => subject.name),
+        )
+      : accumulator,
+  [],
+);
 const debounceCall = debounce(fun => fun(), 250);
 export class WelcomePage extends Component {
   constructor() {
