@@ -23,7 +23,7 @@ import { runQueries } from '../../util/runQueries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH } from '../../constants';
+import { FILM_PAGE_PATH, ALLOWED_FILM_ENVIRONMENTS } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
@@ -148,7 +148,11 @@ export class WelcomePage extends Component {
             />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
-              url={FILM_PAGE_PATH}
+              url={
+                ALLOWED_FILM_ENVIRONMENTS.includes(config.ndlaEnvironment)
+                  ? FILM_PAGE_PATH
+                  : 'https://ndla.no/nb/film'
+              }
               messages={{
                 header: t('welcomePage.film.header'),
                 linkLabel: t('welcomePage.film.linkLabel'),
