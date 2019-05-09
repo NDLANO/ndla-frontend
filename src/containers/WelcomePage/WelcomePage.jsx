@@ -18,6 +18,7 @@ import {
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
+import debounce from 'lodash.debounce';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
@@ -47,13 +48,14 @@ FRONTPAGE_CATEGORIES.categories.forEach(category => {
     });
   }
 });
-
+const debounceCall = debounce(fun => fun(), 250);
 export class WelcomePage extends Component {
   constructor() {
     super();
     this.state = {
       query: '',
       inputHasFocus: false,
+      delayedSearchQuery: '',
     };
   }
 
@@ -71,6 +73,7 @@ export class WelcomePage extends Component {
 
   onSearchFieldChange = query => {
     this.setState({ query });
+    debounceCall(() => this.setState({ delayedSearchQuery: query }));
   };
 
   onSearch = evt => {
@@ -131,7 +134,7 @@ export class WelcomePage extends Component {
     const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
     const { categories = [] } = frontpage;
-    const { query, inputHasFocus } = this.state;
+    const { query, inputHasFocus, delayedSearchQuery } = this.state;
     const headerLinks = [
       {
         to: 'https://om.ndla.no',
@@ -151,9 +154,8 @@ export class WelcomePage extends Component {
         locale={locale}
       />
     );
-
     const searchParams = {
-      query: query.length > 2 ? query : null,
+      query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
       resourceTypes: [
         RESOURCE_TYPE_LEARNING_PATH,
         RESOURCE_TYPE_SUBJECT_MATERIAL,
