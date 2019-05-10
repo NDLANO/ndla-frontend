@@ -76,8 +76,7 @@ export class WelcomePage extends Component {
     });
   };
 
-  static async getInitialProps(ctx) {
-    const { client } = ctx;
+  static async getInitialProps({ client }) {
     return runQueries(client, [
       {
         query: frontpageQuery,
@@ -243,8 +242,9 @@ export class WelcomePage extends Component {
 function mapSearchToFrontPageStructure(data, t, query, locale) {
   query = query.trim().toLowerCase();
   const localeString = locale ? `/${locale}` : '';
+  // figure out if there are match in fronpage categories
   const subjects = {
-    title: `Fag:`, // TODO: oversette
+    title: `Fag:`, // TODO: translate
     contentType: 'results-frontpage',
     resources: FRONTPAGE_CATEGORIES.categories.reduce((ac, cu) => {
       const foundInSubjects = cu.subjects.filter(subject =>
@@ -276,7 +276,6 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
     return [];
   }
   const result = data.search && data.search.results ? data.search.results : [];
-  // grouping
   const topics = {
     title: `${t('subjectPage.tabs.topics')}:`,
     contentType: 'results-frontpage',
@@ -287,6 +286,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
     contentType: 'results-frontpage',
     resources: [],
   };
+  // distribute and group the result in right section
   result.forEach(resultData => {
     if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
       resultData.contexts.forEach(ctx => {
@@ -300,7 +300,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
           name: resultData.title,
           subName:
             ctx.resourceTypes[0] && ctx.resourceTypes[0].name
-              ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: oversette
+              ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: translate
               : '',
         };
         if (
