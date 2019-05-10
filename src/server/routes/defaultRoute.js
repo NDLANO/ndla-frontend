@@ -83,8 +83,7 @@ async function doRender(req) {
   } else {
     googleOptimizeExperiments = await fetchExperiments(req);
   }
-  initialProps.experiments = googleOptimizeExperiments.useExperiments;
-  initialProps.googleAccountId = googleOptimizeExperiments.googleAccountId;
+  initialProps.experiments = googleOptimizeExperiments;
   const context = {};
   let Page;
   if (!disableSSR(req)) {

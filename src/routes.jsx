@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Context as StaticContext } from '@ndla/abtest';
+import { ExperimentsContext } from '@ndla/abtest';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
@@ -71,11 +71,10 @@ export const routes = [
 
 export default function(initialProps = {}, locale) {
   return (
-    <StaticContext.Provider value={{
-      googleAccountId: initialProps.googleAccountId,
+    <ExperimentsContext.Provider value={{
       experiments: initialProps.experiments,
     }}>
       <App initialProps={initialProps} locale={locale} />
-    </StaticContext.Provider>
+    </ExperimentsContext.Provider>
   );
 }
