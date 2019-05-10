@@ -3,7 +3,7 @@ import Modal from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
 import { ExperimentsContext, Experiment, Variant, isValidExperiment } from '@ndla/abtest';
-import { Play, Menu } from '@ndla/icons/common';
+import { Hamburger, Menu } from '@ndla/icons/common';
 
 const experimentId = 'OtejUgVLRHmGTAGv7jbFyA';
 
@@ -54,16 +54,16 @@ const MastheadMenuModal = ({t, children}) => (
                 <Menu /> {t('abTests.masthead.menu.topics')}
               </Variant>
               <Variant variantIndex={4}>
-                <Play /> {t('masthead.menu.title')}
+                <Hamburger /> {t('masthead.menu.title')}
               </Variant>
               <Variant variantIndex={5}>
-                <Play /> {t('abTests.masthead.menu.subjectOverview')}
+                <Hamburger /> {t('abTests.masthead.menu.subjectOverview')}
               </Variant>
               <Variant variantIndex={6}>
-                <Play /> {t('abTests.masthead.menu.overview')}
+                <Hamburger /> {t('abTests.masthead.menu.overview')}
               </Variant>
               <Variant variantIndex={7}>
-                <Play /> {t('abTests.masthead.menu.topics')}
+                <Hamburger /> {t('abTests.masthead.menu.topics')}
               </Variant>
             </Experiment>
           </TopicMenuButton>
