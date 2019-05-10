@@ -88,25 +88,21 @@ export class WelcomePage extends Component {
     ]);
   }
 
-  renderInfoText = t => {
-    return (
-      <span>
-        {topicsNotInNDLA.map((topic, index) => {
-          const isLastTopic = index === topicsNotInNDLA.length - 1;
-          return (
-            <Fragment key={topic}>
-              {isLastTopic && `${t('welcomePage.topicsConjunction')} `}
-              <strong key={topic}>
-                {topic}
-                {index < topicsNotInNDLA.length - 2 && ','}{' '}
-              </strong>
-            </Fragment>
-          );
-        })}
-        {t('welcomePage.topicsNotAvailableFromSearch')}
-      </span>
-    );
-  };
+  renderInfoText = t => (
+    <span>
+      {topicsNotInNDLA.map((topic, index) => (
+        <Fragment key={topic}>
+          {index === topicsNotInNDLA.length - 1 &&
+            `${t('welcomePage.topicsConjunction')} `}
+          <strong key={topic}>
+            {topic}
+            {index < topicsNotInNDLA.length - 2 && ','}{' '}
+          </strong>
+        </Fragment>
+      ))}
+      {t('welcomePage.topicsNotAvailableFromSearch')}
+    </span>
+  );
 
   render() {
     const { t, data, loading, locale } = this.props;
@@ -218,7 +214,7 @@ export class WelcomePage extends Component {
           }}
         </Query>
         <main>
-          {/* <div data-testid="category-list">{frontPageSubjects}</div> */}
+          <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
