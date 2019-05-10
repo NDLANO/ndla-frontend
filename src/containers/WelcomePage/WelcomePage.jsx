@@ -31,25 +31,12 @@ import config from '../../config';
 import handleError from '../../util/handleError';
 import { frontpageSearch } from '../../queries';
 import {
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
   FRONTPAGE_CATEGORIES,
 } from '../../constants';
+import { topicsNotInNDLA } from '../../util/topicsHelper';
 
-// making a list from subjects without id
-const topicsNotInNDLA = FRONTPAGE_CATEGORIES.categories.reduce(
-  (accumulator, currentValue) =>
-    currentValue.subjects && currentValue.subjects.length > 0
-      ? accumulator.concat(
-          currentValue.subjects
-            .filter(subject => !subject.id)
-            .map(subject => subject.name),
-        )
-      : accumulator,
-  [],
-);
-const debounceCall = debounce(fun => fun(), 250);
+const debounceCall = debounce(fn => fn(), 250);
 export class WelcomePage extends Component {
   constructor() {
     super();
@@ -101,8 +88,7 @@ export class WelcomePage extends Component {
     ]);
   }
 
-  renderInfoText() {
-    const { t } = this.props;
+  renderInfoText = t => {
     return (
       <span>
         {topicsNotInNDLA.map((topic, index) => {
@@ -120,7 +106,7 @@ export class WelcomePage extends Component {
         {t('welcomePage.topicsNotAvailableFromSearch')}
       </span>
     );
-  }
+  };
 
   render() {
     const { t, data, loading, locale } = this.props;
@@ -157,15 +143,12 @@ export class WelcomePage extends Component {
     );
     const searchParams = {
       query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
-      resourceTypes: [
-        RESOURCE_TYPE_LEARNING_PATH,
-        RESOURCE_TYPE_SUBJECT_MATERIAL,
-        RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-      ].join(),
     };
 
-    const needInfoTextInSearchSuggestions = topicsNotInNDLA.length > 0;
-
+    const infoText =
+      topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
+        ? this.renderInfoText(t)
+        : '';
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
@@ -216,11 +199,16 @@ export class WelcomePage extends Component {
                   'welcomePage.heading.searchFieldPlaceholder',
                 )}
                 searchResult={
-                  query.length > 2 ? mapSearchToFrontPageStructure(data, t) : []
+                  query.length > 2
+                    ? mapSearchToFrontPageStructure(
+                        data || [],
+                        t,
+                        query,
+                        locale,
+                      )
+                    : []
                 }
-                infoText={
-                  needInfoTextInSearchSuggestions && this.renderInfoText()
-                }
+                infoText={infoText}
                 onSearchInputFocus={this.onSearchInputFocus}
                 onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
                 inputHasFocus={inputHasFocus}
@@ -230,7 +218,7 @@ export class WelcomePage extends Component {
           }}
         </Query>
         <main>
-          <div data-testid="category-list">{frontPageSubjects}</div>
+          {/* <div data-testid="category-list">{frontPageSubjects}</div> */}
           <OneColumn>
             <FrontpageSearchSection
               heading={t('welcomePage.search')}
@@ -256,25 +244,42 @@ export class WelcomePage extends Component {
   }
 }
 
-function mapSearchToFrontPageStructure(data, t) {
+function mapSearchToFrontPageStructure(data, t, query, locale) {
+  query = query.trim().toLowerCase();
+  const localeString = locale ? `/${locale}` : '';
+  const subjects = {
+    title: `Fag:`, // TODO: oversette
+    contentType: 'results-frontpage',
+    resources: FRONTPAGE_CATEGORIES.categories.reduce((ac, cu) => {
+      const foundInSubjects = cu.subjects.filter(subject =>
+        subject.name.toLowerCase().includes(query),
+      );
+      return foundInSubjects.length > 0
+        ? foundInSubjects
+            .map(subject => ({
+              id: subject.id,
+              path: subject.id
+                ? `/subjects/${subject.id.replace('urn:', '')}/`
+                : `${localeString}/node/${subject.nodeId}/`,
+              boldName: `${cu.name}:`,
+              name: subject.name,
+            }))
+            .concat(ac)
+        : ac;
+    }, []),
+  };
+
   if (
-    !data ||
-    (data && !data.search) ||
-    (data && data.search && !data.search.results) ||
-    (data &&
-      data.search &&
-      data.search.results &&
-      data.search.results.length === 0)
+    subjects.resources.length === 0 &&
+    (!data.search ||
+      (data.search && !data.search.results) ||
+      (data.search && data.search.results && data.search.results.length === 0))
   ) {
     return [];
   }
-  const result = data.search.results;
+  const result =
+    data && data.search && data.search.results ? data.search.results : [];
   // grouping
-  const subjects = {
-    title: `${t('contentTypes.subject-material')}:`,
-    contentType: 'results-frontpage',
-    resources: [],
-  };
   const topics = {
     title: `${t('subjectPage.tabs.topics')}:`,
     contentType: 'results-frontpage',
@@ -298,23 +303,17 @@ function mapSearchToFrontPageStructure(data, t) {
           name: resultData.title,
           subName:
             ctx.resourceTypes[0] && ctx.resourceTypes[0].name
-              ? ctx.resourceTypes[0].name
+              ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: oversette
               : '',
         };
+        // TODO: sjekk contenxt-types istedenfor resource type
         if (
-          ctx.resourceTypes[0].id === RESOURCE_TYPE_SUBJECT_MATERIAL &&
-          subjects.resources.filter(obj => obj.path === resultItem.path)
-            .length === 0 // skip if we already have it
-        ) {
-          subjects.resources.push(resultItem);
-        } else if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
           topics.resources.filter(obj => obj.path === resultItem.path)
             .length === 0 // skip if we already have it
         ) {
           topics.resources.push(resultItem);
         } else if (
-          ctx.resourceTypes[0].id === RESOURCE_TYPE_TASKS_AND_ACTIVITIES &&
           resource.resources.filter(obj => obj.path === resultItem.path)
             .length === 0 // skip if we already have it
         ) {
