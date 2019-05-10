@@ -257,7 +257,9 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
               path: subject.id
                 ? `/subjects/${subject.id.replace('urn:', '')}/`
                 : `${localeString}/node/${subject.nodeId}/`,
-              boldName: `${cu.name}:`,
+              boldName: `${cu.name.charAt(0).toUpperCase()}${cu.name.slice(
+                1,
+              )}:`,
               name: subject.name,
             }))
             .concat(ac)
@@ -273,8 +275,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
   ) {
     return [];
   }
-  const result =
-    data && data.search && data.search.results ? data.search.results : [];
+  const result = data.search && data.search.results ? data.search.results : [];
   // grouping
   const topics = {
     title: `${t('subjectPage.tabs.topics')}:`,
@@ -302,7 +303,6 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
               ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: oversette
               : '',
         };
-        // TODO: sjekk contenxt-types istedenfor resource type
         if (
           ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
           topics.resources.filter(obj => obj.path === resultItem.path)
