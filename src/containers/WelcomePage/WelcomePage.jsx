@@ -61,7 +61,7 @@ export class WelcomePage extends Component {
 
   onSearchFieldChange = query => {
     this.setState({ query });
-    debounceCall(() => this.setState({ delayedSearchQuery: query }));
+    debounceCall(() => this.setState({ delayedSearchQuery: query.trim() }));
   };
 
   onSearch = evt => {
