@@ -902,10 +902,10 @@
   dependencies:
     "@ndla/core" "^0.6.5"
 
-"@ndla/carousel@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.2.tgz#3917db8ec96c0cde65328952e41b2cb558530ff2"
-  integrity sha512-N20lrOFMvoUi0dvEHvgFPmft+6374IiXmpe7FFOpCEifeGxsGgvtkihXO1WmFCFKSJjHEzOsOwc26GTTNJdMHQ==
+"@ndla/carousel@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.3.tgz#32cc7d05c7027a3ea3cc3795fca379ae8a8aaf42"
+  integrity sha512-MbBBskvZdegZpzKRJ5ei9iTFMqiG/p46UIIFkF9EoJa/1PfYHaf7l1XYiaF/Tx0vugIVH0nPuYeDR8GPdlI2vA==
   dependencies:
     "@ndla/core" "^0.6.5"
     react-swipeable "^5.0.1"
@@ -1020,13 +1020,13 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.22.14":
-  version "0.22.14"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.14.tgz#24df9f3fe68f8ad63ab2ce8fd22fd48013a24b34"
-  integrity sha512-2F6+2ZZYKK0v0NQ/WVMDdYMA7HxG4sABRv6EMJyDf+/kWcFStvG8Oojy/y00CvxILP2zRKtDMd+Vg6dMT55Ecg==
+"@ndla/ui@^0.22.15":
+  version "0.22.15"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.15.tgz#50fbf73d8b6f9ddbf7804f72fbd7f88ea7d087fd"
+  integrity sha512-Ug81s+gq9ZZu01ZcdJB4/jQku08UwTreK4rh7RIxCnt3zFpYlwOLw8xWGaMyzl218whN6o0O6fpc90tjz6nFcA==
   dependencies:
     "@ndla/button" "^0.3.5"
-    "@ndla/carousel" "^0.3.2"
+    "@ndla/carousel" "^0.3.3"
     "@ndla/core" "^0.6.5"
     "@ndla/hooks" "^0.1.1"
     "@ndla/i18n" "^0.4.2"

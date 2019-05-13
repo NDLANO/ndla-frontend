@@ -32,6 +32,7 @@ const SearchResults = ({
   ltiData,
   allTabValue,
   t,
+  loading,
 }) => {
   const { totalCount = '' } = resultMetadata || {};
   return (
@@ -72,6 +73,7 @@ const SearchResults = ({
             'searchPage.searchResultListMessages.noResultDescription',
           ),
         }}
+        loading={loading}
         results={
           results &&
           resultsWithContentTypeBadgeAndImage(
@@ -107,6 +109,7 @@ SearchResults.propTypes = {
   includeEmbedButton: bool,
   ltiData: LtiDataShape,
   enabledTab: string.isRequired,
+  loading: bool,
 };
 
 export default injectT(SearchResults);
