@@ -300,9 +300,16 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
               ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: translate
               : '',
         };
-        if (ctx.id.includes('topic')) {
+        if (
+          ctx.id.includes('topic') &&
+          topics.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0
+        ) {
           topics.resources.push(resultItem);
-        } else {
+        } else if (
+          resource.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0
+        ) {
           resource.resources.push(resultItem);
         }
       });
