@@ -30,10 +30,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { frontpageSearch } from '../../queries';
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  FRONTPAGE_CATEGORIES,
-} from '../../constants';
+import { FRONTPAGE_CATEGORIES } from '../../constants';
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 
 const debounceCall = debounce(fn => fn(), 250);
