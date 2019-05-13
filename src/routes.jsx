@@ -15,6 +15,7 @@ import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
 import App from './App';
 import {
   ARTICLE_PAGE_PATH,
@@ -22,6 +23,7 @@ import {
   SUBJECT_PAGE_PATH,
   SEARCH_PATH,
   TOPIC_PATH,
+  FILM_PAGE_PATH,
 } from './constants';
 
 export const routes = [
@@ -51,6 +53,12 @@ export const routes = [
     path: TOPIC_PATH,
     component: TopicPage,
     background: true,
+  },
+  {
+    path: FILM_PAGE_PATH.replace(':', '\\:'),
+    exact: true,
+    component: FilmFrontpage,
+    background: false,
   },
   {
     path: SUBJECT_PAGE_PATH,

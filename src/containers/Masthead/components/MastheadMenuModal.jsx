@@ -4,11 +4,11 @@ import Modal from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
 
-const MastheadMenuModal = ({ children, onMenuExit, t }) => (
+const MastheadMenuModal = ({ children, onMenuExit, t, ndlaFilm }) => (
   <Modal
     size="fullscreen"
     activateButton={
-      <TopicMenuButton data-testid="masthead-menu-button">
+      <TopicMenuButton data-testid="masthead-menu-button" ndlaFilm={ndlaFilm}>
         {t('masthead.menu.title')}
       </TopicMenuButton>
     }
@@ -23,6 +23,7 @@ const MastheadMenuModal = ({ children, onMenuExit, t }) => (
 
 MastheadMenuModal.propTypes = {
   onMenuExit: PropTypes.func,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default injectT(MastheadMenuModal);

@@ -188,7 +188,7 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent, locale, location, t } = this.props;
+    const { infoContent, locale, location, t, ndlaFilm } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
@@ -214,13 +214,17 @@ class MastheadContainer extends React.PureComponent {
       <Masthead
         showLoaderWhenNeeded={topicPath && topicPath.length > 0}
         fixed
+        ndlaFilm={ndlaFilm}
         infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
             <MastheadMenu
               subject={subject}
+              ndlaFilm={ndlaFilm}
               searchFieldComponent={
-                showSearch && <MastheadSearch subject={subject} />
+                showSearch && (
+                  <MastheadSearch subject={subject} ndlaFilm={ndlaFilm} />
+                )
               }
               topicPath={topicPath || []}
               onDataFetch={this.onDataFetch}
@@ -242,6 +246,7 @@ class MastheadContainer extends React.PureComponent {
         </MastheadItem>
         <MastheadItem right>
           <MastheadLanguageSelector
+            ndlaFilm={ndlaFilm}
             options={localeUrls}
             currentLanguage={locale}
           />
@@ -249,6 +254,7 @@ class MastheadContainer extends React.PureComponent {
             <MastheadSearch
               subject={subject}
               locale={locale}
+              ndlaFilm={ndlaFilm}
               hideOnNarrowScreen
             />
           )}
@@ -257,7 +263,7 @@ class MastheadContainer extends React.PureComponent {
             to="/"
             locale={locale}
             label={t('logo.altText')}
-            // label="Nasjonal digital læringsarena"
+            cssModifier={ndlaFilm && 'white'}
           />
         </MastheadItem>
       </Masthead>
@@ -279,6 +285,7 @@ MastheadContainer.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   infoContent: PropTypes.node,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default compose(

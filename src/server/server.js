@@ -32,6 +32,7 @@ import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
+import { FILM_PAGE_PATH, ALLOWED_FILM_ENVIRONMENTS } from '../constants';
 
 global.fetch = fetch;
 const app = express();
@@ -79,6 +80,14 @@ app.get('/robots.txt', ndlaMiddleware, (req, res) => {
 
 app.get('/health', ndlaMiddleware, (req, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.get('/film', ndlaMiddleware, (req, res, next) => {
+  if (ALLOWED_FILM_ENVIRONMENTS.includes(config.ndlaEnvironment)) {
+    res.redirect(FILM_PAGE_PATH);
+  } else {
+    next();
+  }
 });
 
 async function sendInternalServerError(req, res) {

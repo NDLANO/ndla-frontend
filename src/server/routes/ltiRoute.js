@@ -13,8 +13,11 @@ import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { renderPage, renderHtml } from '../helpers/render';
 
 const bodyFields = {
-  lti_message_type: { required: true, value: 'basic-lti-launch-request' },
-  lti_version: { required: true, value: 'LTI-1p0' },
+  lti_message_type: {
+    required: true,
+    value: ['basic-lti-launch-request', 'ToolProxyRegistrationRequest'],
+  },
+  lti_version: { required: true, value: ['LTI-1p0', 'LTI-2p0'] },
   launch_presentation_return_url: { required: false },
   launch_presentation_document_target: { required: false },
   launch_presentation_height: { required: false },
@@ -60,10 +63,10 @@ export function parseAndValidateParameters(body) {
       errorMessages.push({ field: key, message: 'Missing required field' });
       return;
     }
-    if (bodyFields[key].value && bodyFields[key].value !== bodyValue) {
+    if (bodyFields[key].value && !bodyFields[key].value.includes(bodyValue)) {
       errorMessages.push({
         field: key,
-        message: `Value should be ${bodyFields[key].value}`,
+        message: `Value should be one of ${bodyFields[key].value}`,
       });
       validBody = false;
     }
