@@ -290,7 +290,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
   result.forEach(resultData => {
     if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
       resultData.contexts.forEach(ctx => {
-        if (!ctx.id || !ctx.resourceTypes[0]) {
+        if (!ctx.id) {
           return false;
         }
         const resultItem = {
@@ -303,16 +303,9 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
               ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: translate
               : '',
         };
-        if (
-          ctx.resourceTypes[0].id === RESOURCE_TYPE_LEARNING_PATH &&
-          topics.resources.filter(obj => obj.path === resultItem.path)
-            .length === 0 // skip if we already have it
-        ) {
+        if (ctx.id.includes('topic')) {
           topics.resources.push(resultItem);
-        } else if (
-          resource.resources.filter(obj => obj.path === resultItem.path)
-            .length === 0 // skip if we already have it
-        ) {
+        } else {
           resource.resources.push(resultItem);
         }
       });
