@@ -103,6 +103,26 @@ export const groupSearchQuery = gql`
   }
 `;
 
+export const frontpageSearch = gql`
+  query Search($resourceTypes: String, $query: String) {
+    search(resourceTypes: $resourceTypes, query: $query) {
+      results {
+        id
+        title
+        contexts {
+          id
+          path
+          subject
+          resourceTypes {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {

@@ -17,6 +17,8 @@ import {
   OneColumn,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { Query } from 'react-apollo';
+import debounce from 'lodash.debounce';
 import { GraphQLFrontpageShape } from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
@@ -26,18 +28,37 @@ import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH, ALLOWED_FILM_ENVIRONMENTS } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
+import handleError from '../../util/handleError';
+import { frontpageSearch } from '../../queries';
+import { FRONTPAGE_CATEGORIES } from '../../constants';
+import { topicsNotInNDLA } from '../../util/topicsHelper';
 
+const debounceCall = debounce(fn => fn(), 250);
 export class WelcomePage extends Component {
   constructor() {
     super();
     this.state = {
       query: '',
+      inputHasFocus: false,
+      delayedSearchQuery: '',
     };
   }
 
-  onSearchFieldChange = evt => {
-    evt.preventDefault();
-    this.setState({ query: evt.target.value });
+  onSearchInputFocus = () => {
+    this.setState({
+      inputHasFocus: true,
+    });
+  };
+
+  onSearchDeactiveFocusTrap = () => {
+    this.setState({
+      inputHasFocus: false,
+    });
+  };
+
+  onSearchFieldChange = query => {
+    this.setState({ query });
+    debounceCall(() => this.setState({ delayedSearchQuery: query.trim() }));
   };
 
   onSearch = evt => {
@@ -52,8 +73,7 @@ export class WelcomePage extends Component {
     });
   };
 
-  static async getInitialProps(ctx) {
-    const { client } = ctx;
+  static async getInitialProps({ client }) {
     return runQueries(client, [
       {
         query: frontpageQuery,
@@ -63,6 +83,22 @@ export class WelcomePage extends Component {
       },
     ]);
   }
+
+  renderInfoText = t => (
+    <span>
+      {topicsNotInNDLA.map((topic, index) => (
+        <Fragment key={topic}>
+          {index === topicsNotInNDLA.length - 1 &&
+            `${t('welcomePage.topicsConjunction')} `}
+          <strong key={topic}>
+            {topic}
+            {index < topicsNotInNDLA.length - 2 && ','}{' '}
+          </strong>
+        </Fragment>
+      ))}
+      {t('welcomePage.topicsNotAvailableFromSearch')}
+    </span>
+  );
 
   render() {
     const { t, data, loading, locale } = this.props;
@@ -77,7 +113,7 @@ export class WelcomePage extends Component {
     const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
     const { categories = [] } = frontpage;
-    const { query } = this.state;
+    const { query, inputHasFocus, delayedSearchQuery } = this.state;
     const headerLinks = [
       {
         to: 'https://om.ndla.no',
@@ -97,7 +133,14 @@ export class WelcomePage extends Component {
         locale={locale}
       />
     );
+    const searchParams = {
+      query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
+    };
 
+    const infoText =
+      topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
+        ? this.renderInfoText(t)
+        : '';
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
@@ -123,20 +166,49 @@ export class WelcomePage extends Component {
           />
           <meta name="keywords" content={t('meta.keywords')} />
         </SocialMediaMetadata>
-        <FrontpageHeader
-          locale={locale}
-          heading={t('welcomePage.heading.heading')}
-          searchFieldValue={query}
-          onSearch={this.onSearch}
-          onSearchFieldChange={this.onSearchFieldChange}
-          menuSubject={frontPageSubjects}
-          searchFieldPlaceholder={t(
-            'welcomePage.heading.searchFieldPlaceholder',
-          )}
-          messages={headerMessages}
-          links={headerLinks}
-        />
-
+        <Query
+          fetchPolicy="no-cache"
+          variables={searchParams}
+          ssr={false}
+          query={frontpageSearch}>
+          {({ data, error }) => {
+            if (error) {
+              handleError(error);
+              return `Error: ${error.message}`;
+            }
+            return (
+              <FrontpageHeader
+                locale={locale}
+                heading={t('welcomePage.heading.heading')}
+                menuSubject={frontPageSubjects}
+                messages={headerMessages}
+                links={headerLinks}
+                hideSearch={false}
+                searchFieldValue={query}
+                onSearch={this.onSearch}
+                onSearchFieldChange={this.onSearchFieldChange}
+                searchFieldPlaceholder={t(
+                  'welcomePage.heading.searchFieldPlaceholder',
+                )}
+                searchResult={
+                  query.length > 2
+                    ? mapSearchToFrontPageStructure(
+                        data || [],
+                        t,
+                        query,
+                        locale,
+                      )
+                    : []
+                }
+                infoText={infoText}
+                onSearchInputFocus={this.onSearchInputFocus}
+                onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
+                inputHasFocus={inputHasFocus}
+                allResultUrl={`search?query=${query}`}
+              />
+            );
+          }}
+        </Query>
         <main>
           <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
@@ -145,6 +217,7 @@ export class WelcomePage extends Component {
               searchFieldValue={query}
               onSearchFieldChange={this.onSearchFieldChange}
               onSearch={this.onSearch}
+              hideSearch={false}
             />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
@@ -165,6 +238,99 @@ export class WelcomePage extends Component {
       </Fragment>
     );
   }
+}
+
+function mapSearchToFrontPageStructure(data, t, query, locale) {
+  query = query.trim().toLowerCase();
+  const localeString = locale ? `/${locale}` : '';
+  // figure out if there are match in fronpage categories
+  const subjects = {
+    title: `${t('htmlTitles.subject')}:`,
+    contentType: 'results-frontpage',
+    resources: FRONTPAGE_CATEGORIES.categories.reduce((ac, cu) => {
+      const foundInSubjects = cu.subjects.filter(subject =>
+        subject.name.toLowerCase().includes(query),
+      );
+      return foundInSubjects.length > 0
+        ? foundInSubjects
+            .map(subject => ({
+              id: subject.id,
+              path: subject.id
+                ? `/subjects/${subject.id.replace('urn:', '')}/`
+                : `${localeString}/node/${subject.nodeId}/`,
+              boldName: `${cu.name.charAt(0).toUpperCase()}${cu.name.slice(
+                1,
+              )}:`,
+              name: subject.name,
+            }))
+            .concat(ac)
+        : ac;
+    }, []),
+  };
+
+  if (
+    subjects.resources.length === 0 &&
+    (!data.search ||
+      (data.search && !data.search.results) ||
+      (data.search && data.search.results && data.search.results.length === 0))
+  ) {
+    return [];
+  }
+  const result = data.search && data.search.results ? data.search.results : [];
+  const topics = {
+    title: `${t('subjectPage.tabs.topics')}:`,
+    contentType: 'results-frontpage',
+    resources: [],
+  };
+  const resource = {
+    title: `${t('resource.label')}:`,
+    contentType: 'results-frontpage',
+    resources: [],
+  };
+  // distribute and group the result in right section
+  result.forEach(resultData => {
+    if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
+      resultData.contexts.forEach(ctx => {
+        if (!ctx.id) {
+          return false;
+        }
+        const resultItem = {
+          id: `${resultData.id}-${ctx.id}`,
+          path: `/subjects${ctx.path}`,
+          boldName: `${ctx.subject}:`,
+          name: resultData.title,
+          subName:
+            ctx.resourceTypes[0] && ctx.resourceTypes[0].name
+              ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: translate
+              : '',
+        };
+        if (
+          ctx.id.includes('topic') &&
+          topics.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0
+        ) {
+          topics.resources.push(resultItem);
+        } else if (
+          resource.resources.filter(obj => obj.path === resultItem.path)
+            .length === 0
+        ) {
+          resource.resources.push(resultItem);
+        }
+      });
+    }
+  });
+  const returnArray = [];
+  // add groups into return array if there are any resources
+  if (subjects.resources.length !== 0) {
+    returnArray.push(subjects);
+  }
+  if (topics.resources.length !== 0) {
+    returnArray.push(topics);
+  }
+  if (resource.resources.length !== 0) {
+    returnArray.push(resource);
+  }
+  return returnArray;
 }
 
 WelcomePage.propTypes = {
