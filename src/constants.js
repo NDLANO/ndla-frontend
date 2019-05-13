@@ -260,4 +260,4 @@ export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subjects/subject:20';
 
-export const ALLOWED_FILM_ENVIRONMENTS = ['dev', 'brukertest'];
+export const ALLOWED_FILM_ENVIRONMENTS = ['dev', 'brukertest', 'test'];

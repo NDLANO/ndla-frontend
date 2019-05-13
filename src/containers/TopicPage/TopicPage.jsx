@@ -180,7 +180,12 @@ class TopicPage extends Component {
             locale={locale}
           />
         )}
-        <Hero>
+        <Hero hasImage={article && article.metaImage && article.metaImage.url}>
+          {ndlaFilm && article && article.metaImage && article.metaImage.url && (
+            <div className="c-hero__background">
+              <img src={article.metaImage.url} alt={article.metaImage.alt} />
+            </div>
+          )}
           <OneColumn>
             <div className="c-hero__content">
               <section>
