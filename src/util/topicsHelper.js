@@ -8,12 +8,8 @@
 
 import defined from 'defined';
 import groupBy from './groupBy';
-import {
-  fixEndSlash
-} from '../routeHelpers';
-import {
-  FRONTPAGE_CATEGORIES,
-} from '../constants';
+import { fixEndSlash } from '../routeHelpers';
+import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const groupedSubtopicsByParent = (topics = []) =>
   groupBy(topics.filter(topic => topic.parent), 'parent');
@@ -29,8 +25,10 @@ export const toTopicMenu = (topic, topics) => {
   }
   return {
     ...topic,
-    introduction: topic.meta && topic.meta.metaDescription ?
-      topic.meta.metaDescription : '',
+    introduction:
+      topic.meta && topic.meta.metaDescription
+        ? topic.meta.metaDescription
+        : '',
     subtopics: subtopicsWithSubtopics,
   };
 };
@@ -43,15 +41,14 @@ export const topicIntroductionMessages = t => ({
   additionalTooltip: t('resource.tooltipAdditionalTopic'),
 });
 
-
 export const topicsNotInNDLA = FRONTPAGE_CATEGORIES.categories.reduce(
   (accumulator, currentValue) =>
-  currentValue.subjects && currentValue.subjects.length > 0 ?
-  accumulator.concat(
-    currentValue.subjects
-    .filter(subject => !subject.id)
-    .map(subject => subject.name),
-  ) :
-  accumulator,
+    currentValue.subjects && currentValue.subjects.length > 0
+      ? accumulator.concat(
+          currentValue.subjects
+            .filter(subject => !subject.id)
+            .map(subject => subject.name),
+        )
+      : accumulator,
   [],
 );
