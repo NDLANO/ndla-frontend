@@ -245,7 +245,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
   const localeString = locale ? `/${locale}` : '';
   // figure out if there are match in fronpage categories
   const subjects = {
-    title: `${t('htmlTitles.subject')}:`,
+    title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
     resources: FRONTPAGE_CATEGORIES.categories.reduce((ac, cu) => {
       const foundInSubjects = cu.subjects.filter(subject =>
