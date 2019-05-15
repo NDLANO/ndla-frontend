@@ -8,7 +8,7 @@
 import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
-import { SearchFilter, SearchPopoverFilter } from '@ndla/ui';
+import { SearchFilter, SearchPopoverFilter, SearchFilterList } from '@ndla/ui';
 import { Core, Additional } from '@ndla/icons/common';
 import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
 import supportedLanguages from '../../../util/supportedLanguages';
@@ -19,9 +19,6 @@ const SearchFilters = ({
   activeSubjects,
   searchParams,
   onChange,
-  onContentTypeChange,
-  enabledTabs,
-  enabledTab,
   t,
 }) => {
   const allSubjects = subjects
@@ -47,29 +44,79 @@ const SearchFilters = ({
     },
   ];
 
-  const allContentTypes = enabledTabs.map(tab => ({
-    title: tab.name,
-    value: tab.value,
-  }));
-
   const subjectFilters = [
     ...activeSubjects.map(subject => ({
       name: subject.filterName,
-      options: subject.filters.map(filter => ({
-        title: filter.name,
-        value: filter.name,
-      })),
+      options: subject.filters
+        ? subject.filters.map(filter => ({
+            title: filter.name,
+            value: filter.name,
+          }))
+        : [],
     })),
   ];
 
+  const searchFilterListOptions = activeSubjects.map(subject => ({
+    filterName: subject.filterName,
+    title: subject.title,
+    value: subject.value,
+    id: subject.id,
+    subjectFilters: subject.filters
+      ? subject.filters.map(filter => ({
+          title: filter.name,
+          value: filter.name,
+        }))
+      : [],
+  }));
+
+  const seachFilterListSubjectValues = {};
+
+  if (searchParams.levels && searchParams.levels.length > 0) {
+    searchFilterListOptions.forEach(subject => {
+      if (subject.subjectFilters.length > 0) {
+        subject.subjectFilters.forEach(filter => {
+          if (!seachFilterListSubjectValues[subject.id]) {
+            seachFilterListSubjectValues[subject.id] = [];
+          }
+          if (searchParams.levels && searchParams.levels.length > 0) {
+            searchParams.levels.forEach(level => {
+              if (level === filter.title) {
+                seachFilterListSubjectValues[subject.id].push(filter.value);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // remove and add new values in sub list
+  const changeSubjectValues = (subject, tab, value) => {
+    if (!searchParams.levels.includes(value)) {
+      onChange([...searchParams.levels, value], value, 'levels');
+    } else {
+      onChange(
+        searchParams.levels.filter(level => level !== value),
+        value,
+        'levels',
+      );
+    }
+  };
   return (
     <Fragment>
-      <SearchFilter
+      <SearchFilterList
         label={t('searchPage.label.subjects')}
+        options={searchFilterListOptions}
         noFilterSelectedLabel={t('searchPage.label.noFilter')}
-        options={activeSubjects}
         onChange={(newValues, value) => onChange(newValues, value, 'subjects')}
-        values={searchParams.subjects || []}>
+        values={searchParams.subjects || []}
+        subjectValues={seachFilterListSubjectValues}
+        onSubfilterChange={changeSubjectValues}>
+        {searchParams.subjects.length === 0 && (
+          <span className={'c-filter__no-filter-selected'}>
+            {t('searchPage.label.noFilter')}
+          </span>
+        )}
         {searchParams.subjects && (
           <SearchPopoverFilter
             messages={{
@@ -91,29 +138,7 @@ const SearchFilters = ({
             }
           />
         )}
-      </SearchFilter>
-      <SearchFilter
-        label={t(`searchPage.label.contentTypes`)}
-        narrowScreenOnly
-        defaultVisibleCount={3}
-        showLabel={t(`searchPage.showLabel.contentTypes`)}
-        hideLabel={t(`searchPage.hideLabel.contentTypes`)}
-        options={allContentTypes}
-        values={[enabledTab ? enabledTab.value : 'all']}
-        onChange={(newValues, tab) => onContentTypeChange(tab)}
-      />
-      {subjectFilters.map(searchFilter => (
-        <SearchFilter
-          key={`filter_${searchFilter.name}`}
-          label={searchFilter.name}
-          defaultVisibleCount={5}
-          showLabel={t(`searchPage.showLabel.levels`)}
-          hideLabel={t(`searchPage.hideLabel.levels`)}
-          options={searchFilter.options}
-          values={searchParams.levels || []}
-          onChange={(newValues, value) => onChange(newValues, value, 'levels')}
-        />
-      ))}
+      </SearchFilterList>
       {subjectFilters.length > 0 && (
         <SearchFilter
           label={t('searchPage.label.content')}
