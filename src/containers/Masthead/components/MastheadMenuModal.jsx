@@ -2,18 +2,24 @@ import React from 'react';
 import Modal from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
-import { ExperimentsContext, Experiment, Variant, isValidExperiment } from '@ndla/abtest';
+import {
+  ExperimentsContext,
+  Experiment,
+  Variant,
+  isValidExperiment,
+} from '@ndla/abtest';
 import { Hamburger, Menu } from '@ndla/icons/common';
 
 const experimentId = 'OtejUgVLRHmGTAGv7jbFyA';
 
-const MastheadMenuModal = ({t, children}) => (
+const MastheadMenuModal = ({ t, children }) => (
   <ExperimentsContext.Consumer>
     {({ experiments }) => (
       <Modal
         size="fullscreen"
         onOpen={() => {
-          if(isValidExperiment({ experiments, id: experimentId })) { // check if this experimentId exists in data from server
+          if (isValidExperiment({ experiments, id: experimentId })) {
+            // check if this experimentId exists in data from server
             // this event can be tracked by optimize to evaluate variant effectiveness
             window.ga('send', {
               hitType: 'event',
@@ -27,20 +33,20 @@ const MastheadMenuModal = ({t, children}) => (
             <Experiment
               id={experimentId}
               experiments={experiments}
-              onVariantMount={({expId, expVar, isActiveExperiment}) => {
-                if(isActiveExperiment) {
+              onVariantMount={({ expId, expVar, isActiveExperiment }) => {
+                if (isActiveExperiment) {
                   window.ga('set', { expId, expVar }); // Perhaps get GA from ndla/tracker?
-                  window.ga('send', { // report display of experiment variant to analytics/optimize
+                  window.ga('send', {
+                    // report display of experiment variant to analytics/optimize
                     hitType: 'event',
                     eventCategory: 'AB test',
                     eventAction: 'Display variant',
                     fieldsObject: {
                       nonInteraction: true,
-                    }
+                    },
                   });
-                }}
-              }
-            >
+                }
+              }}>
               <Variant variantIndex={0} original>
                 <Menu /> {t('masthead.menu.title')} orginal
               </Variant>
@@ -71,8 +77,7 @@ const MastheadMenuModal = ({t, children}) => (
         animation="subtle"
         animationDuration={150}
         backgroundColor="grey"
-        noBackdrop
-      >
+        noBackdrop>
         {children}
       </Modal>
     )}

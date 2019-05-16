@@ -71,9 +71,10 @@ export const routes = [
 
 export default function(initialProps = {}, locale) {
   return (
-    <ExperimentsContext.Provider value={{
-      experiments: initialProps.experiments,
-    }}>
+    <ExperimentsContext.Provider
+      value={{
+        experiments: initialProps.experiments,
+      }}>
       <App initialProps={initialProps} locale={locale} />
     </ExperimentsContext.Provider>
   );

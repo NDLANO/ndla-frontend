@@ -11,10 +11,10 @@ import { COLLECT_EXPERIMENTS } from '../constants';
 
 export const NDLA_ABTEST_COOKIE_KEY = 'NDLA_ABTEST';
 
-const fetchExperimentsFromManagementAPI = async (req) => {
-  const url = `${req.protocol}://${req.get('host')}${COLLECT_EXPERIMENTS}` // Settes i config i stedet?
+const fetchExperimentsFromManagementAPI = async req => {
+  const url = `${req.protocol}://${req.get('host')}${COLLECT_EXPERIMENTS}`; // Settes i config i stedet?
 
-  const response = await fetch(url)
+  const response = await fetch(url);
   const data = await response.json();
   return data;
 };

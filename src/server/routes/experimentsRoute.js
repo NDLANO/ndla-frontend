@@ -10,19 +10,19 @@ import { google } from 'googleapis';
 import serverConfig from '../../config';
 
 const config = serverConfig.gaExperiments;
- 
+
 const accountId = config.GOOGLE_ACCOUNT_ID;
 const webPropertyId = config.GOOGLE_WEB_PROPERTY_ID;
 const profileId = config.GOOGLE_PROFILE_ID;
 const scopes = ['https://www.googleapis.com/auth/analytics.readonly'];
 
 const analytics = google.analytics({
-  version: 'v3'
+  version: 'v3',
 });
 
 const getAuth = async () => {
   const auth = await google.auth.getClient({
-    scopes
+    scopes,
   });
 
   return auth;
@@ -35,8 +35,8 @@ const filterAndMapExperiments = experiments =>
       id,
       variations: variations.map(({ name, weight }) => ({
         name,
-        weight
-      }))
+        weight,
+      })),
     }));
 
 const getExperimentList = async () => {
@@ -45,7 +45,7 @@ const getExperimentList = async () => {
     accountId,
     webPropertyId,
     profileId,
-    auth
+    auth,
   });
 
   if (!(result.data && result.data.items)) {
@@ -55,10 +55,10 @@ const getExperimentList = async () => {
   return filterAndMapExperiments(result.data.items);
 };
 
-export const experimentsRoute = async (req) => {
+export const experimentsRoute = async req => {
   const experiments = await getExperimentList();
   return {
     data: experiments,
-    status: 200
-  }
-}
+    status: 200,
+  };
+};

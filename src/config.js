@@ -76,23 +76,23 @@ const gaExperiments = () => {
     case 'local':
       return {};
     case 'dev':
-    // test IDs
+      // test IDs
       return {
-        GOOGLE_ACCOUNT_ID: "74405776",
-        GOOGLE_WEB_PROPERTY_ID: "UA-74405776-4",
-        GOOGLE_PROFILE_ID: "140877480",
+        GOOGLE_ACCOUNT_ID: '74405776',
+        GOOGLE_WEB_PROPERTY_ID: 'UA-74405776-4',
+        GOOGLE_PROFILE_ID: '140877480',
       };
     case 'prod':
-    //replace with correct IDs 
+      //replace with correct IDs
       return {
-        GOOGLE_ACCOUNT_ID: "", 
-        GOOGLE_WEB_PROPERTY_ID: "",
-        GOOGLE_PROFILE_ID: "",
+        GOOGLE_ACCOUNT_ID: '',
+        GOOGLE_WEB_PROPERTY_ID: '',
+        GOOGLE_PROFILE_ID: '',
       };
     default:
       return {};
-  } 
-}
+  }
+};
 
 const logglyApiKey = () => {
   if (process.env.NODE_ENV === 'unittest') {

@@ -68,7 +68,7 @@ async function doRender(req) {
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
     const match = matchPath(basepath, route);
-    [ googleOptimizeExperiments, initialProps ] = await Promise.all([
+    [googleOptimizeExperiments, initialProps] = await Promise.all([
       await fetchExperiments(req),
       await loadGetInitialProps(route.component, {
         isServer: true,
@@ -90,7 +90,10 @@ async function doRender(req) {
     Page = (
       <ApolloProvider client={client}>
         <IntlProvider locale={locale} messages={messages}>
-          <StaticRouter basename={basename} location={req.url} context={context}>
+          <StaticRouter
+            basename={basename}
+            location={req.url}
+            context={context}>
             {routes(initialProps, locale)}
           </StaticRouter>
         </IntlProvider>
