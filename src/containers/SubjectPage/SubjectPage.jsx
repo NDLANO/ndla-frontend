@@ -91,6 +91,7 @@ class SubjectPage extends Component {
       },
       location,
       locale,
+      skipToContentId,
     } = this.props;
 
     if (loading && (!data || !data.subject)) {
@@ -153,6 +154,7 @@ class SubjectPage extends Component {
           ]}
         />
         <SubjectPageContent
+          id={skipToContentId}
           layout={layout}
           locale={locale}
           subjectId={subjectId}
@@ -196,6 +198,7 @@ SubjectPage.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(

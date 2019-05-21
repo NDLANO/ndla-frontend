@@ -28,6 +28,7 @@ const Route = ({
   background,
   hideMasthead,
   ndlaFilm,
+  skipToContent,
   ...rest
 }) => (
   <ReactRoute
@@ -36,12 +37,13 @@ const Route = ({
       <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
         <Content>
           {!hideMasthead && (
-            <Masthead locale={locale} ndlaFilm={ndlaFilm} {...props} />
+            <Masthead skipToContent={skipToContent} locale={locale} ndlaFilm={ndlaFilm} {...props} />
           )}
           <Component
             {...props}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            skipToContentId={skipToContent}
             {...initialProps}
           />
         </Content>
@@ -57,6 +59,7 @@ Route.propTypes = {
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
   ndlaFilm: PropTypes.bool,
+  skipToContent: PropTypes.string,
 };
 
 async function loadInitialProps(pathname, ctx) {

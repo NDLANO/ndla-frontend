@@ -127,8 +127,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, loading, ndlaFilm } = this.props;
-    console.log(this.props.ndlaFilm, ndlaFilm);
+    const { data, locale, errors, loading, ndlaFilm, skipToContentId } = this.props;
     if (loading) {
       return null;
     }
@@ -228,6 +227,7 @@ class ArticlePage extends Component {
         )}
         <OneColumn>
           <Article
+            id={skipToContentId}
             article={article}
             locale={locale}
             {...getArticleProps(resource, topic)}>
@@ -270,6 +270,7 @@ ArticlePage.propTypes = {
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(

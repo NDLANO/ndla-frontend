@@ -205,6 +205,7 @@ class TopicPage extends Component {
         {hasArticleError && <TopicPageErrorMessage t={t} />}
         <OneColumn>
           <Article
+            id={skipToContentId}
             isTopicArticle
             article={article}
             locale={locale}
@@ -255,6 +256,7 @@ TopicPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(
