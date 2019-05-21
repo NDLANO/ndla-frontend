@@ -889,18 +889,35 @@
   dependencies:
     "@ndla/core" "^0.6.5"
 
-"@ndla/carousel@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.3.tgz#32cc7d05c7027a3ea3cc3795fca379ae8a8aaf42"
-  integrity sha512-MbBBskvZdegZpzKRJ5ei9iTFMqiG/p46UIIFkF9EoJa/1PfYHaf7l1XYiaF/Tx0vugIVH0nPuYeDR8GPdlI2vA==
+"@ndla/button@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.6.tgz#1369c5d5c3b2bebb9a6b72c6a7e1bbcb382c0232"
+  integrity sha512-1iA/zJNq2zM8QnjvrtKoPwwQPr1/tKRobnVHs29aHmPV/eddQkIRF6LTReUKp+0FdS7cLVKg+NRx/vyeiZbmEA==
   dependencies:
-    "@ndla/core" "^0.6.5"
+    "@ndla/core" "^0.6.6"
+
+"@ndla/carousel@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.4.tgz#aaebafe381ef34366a81698bc375309de644fec1"
+  integrity sha512-e44uS/kn597o6TdIS+ivyGdoUFBXWBUf4FhU0qUtp6ObI5BEEExD/FtVKjKps18HaYlw7vatZnyGwzpqJycwAw==
+  dependencies:
+    "@ndla/core" "^0.6.6"
     react-swipeable "^5.0.1"
 
 "@ndla/core@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
   integrity sha512-Y3L8Tb/wJ+w7tvhWpRLOo7k3UttkJLj+/Y0uBYeGlv2U9P06KKBldLhK0P77z8Kri+ZEUTSpCQUmgtmvilyD9g==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.6.tgz#a7a4a1038cca67a5286c53f7f39d3f3101703ff7"
+  integrity sha512-uN4ofEvyKOSN+EZHKCul4zXCeiHWEEN0DSCEOrPWkcbR0pjTHv1t6LJulgEzI8Dr82oMYNvwai77+V5rwu5U4g==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -938,12 +955,26 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.11.tgz#fe12c1fe800409bcae9317ff31d575f1cd93e3cd"
   integrity sha512-UKKUKgHWqybk3BtrNNzmQMrr+Lb6Hm6V7APn2FeI++J2ieT1KlUBXp+UvTHimY2WkjGJP6+P8yqiYbim5m8oQA==
 
+"@ndla/icons@^0.6.12":
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
+  integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==
+
 "@ndla/licenses@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.5.tgz#ec2ee52403abe076e5a9f95631a5bc05943c19f2"
   integrity sha512-6LJ4aCad8uyk15sPyjI9saIIsSLNnx4EVeAVN3T+KO+nu8uLId1kNhnYXYrbCEf7mGbyTD8WhRJqwXnNi91wNA==
   dependencies:
     "@ndla/core" "^0.6.5"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
+"@ndla/licenses@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.6.tgz#60a1450d45bf00c2db8b75a61cd375d878462127"
+  integrity sha512-o0TRpxY7mfdEiBnAmYQsOWYIWFndtNgSj+6Lg9fLCDja3x8hvTHL1UrZtgYqZef78twf8JieRCfdVrpj9HbSmQ==
+  dependencies:
+    "@ndla/core" "^0.6.6"
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
@@ -954,6 +985,16 @@
   dependencies:
     "@ndla/button" "^0.3.5"
     "@ndla/core" "^0.6.5"
+    "@ndla/util" "^0.3.3"
+    focus-trap-react "^6.0.0"
+
+"@ndla/modal@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.7.tgz#f726e5b5674c5569233364fea4129a40242ab339"
+  integrity sha512-0m5AuIDM18e2YCHJbp/NNIoHrKtTDfvMiZvHwXNxzfF/HUdH9MSGKqe991WRQj/vfWVWt/oGgNPKDY0SmL9OaA==
+  dependencies:
+    "@ndla/button" "^0.3.6"
+    "@ndla/core" "^0.6.6"
     "@ndla/util" "^0.3.3"
     focus-trap-react "^6.0.0"
 
@@ -993,12 +1034,21 @@
     "@ndla/util" "^0.3.3"
     react-tabs "^3.0.0"
 
-"@ndla/tooltip@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.5.tgz#48e483aff9eac4591ccac4cc1b931d48f644088e"
-  integrity sha512-v6KunF5xKkR3URMZ+8+8XUWxovfSptSHFrBlRwoN9RrKrbeBwAKEkSp+NxbAr59vch9brMjFydjAEsRNur3qIg==
+"@ndla/tabs@^0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.6.tgz#31cc97379305a36c74e171af506f37fffc6b3f3d"
+  integrity sha512-8pd9NNR3rG30roW6rJQleYuI/RGTheijZ7Sejx8fcB5AL6leW4YJ103rBxXfD5EH1I1fV7O/Gtw4MrxpRZBQlg==
   dependencies:
-    "@ndla/core" "^0.6.5"
+    "@ndla/core" "^0.6.6"
+    "@ndla/util" "^0.3.3"
+    react-tabs "^3.0.0"
+
+"@ndla/tooltip@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.6.tgz#3e704bf133eebfff0965295e38d7f67b2db432d3"
+  integrity sha512-jlyxL6qos0Lh+Fg0kjJqFMveVr4JwKQnbxHKejhsTJvYktrO1w2YUdK4IupLC1hSCnXoAr61hiIbQ1ppV4WvjQ==
+  dependencies:
+    "@ndla/core" "^0.6.6"
 
 "@ndla/tracker@^0.4.0":
   version "0.4.0"
@@ -1007,21 +1057,21 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.22.15":
-  version "0.22.15"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.15.tgz#50fbf73d8b6f9ddbf7804f72fbd7f88ea7d087fd"
-  integrity sha512-Ug81s+gq9ZZu01ZcdJB4/jQku08UwTreK4rh7RIxCnt3zFpYlwOLw8xWGaMyzl218whN6o0O6fpc90tjz6nFcA==
+"@ndla/ui@^0.22.17":
+  version "0.22.17"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.17.tgz#3365fbef7d0a81ecb7ad8b6d61f181756e72d7a0"
+  integrity sha512-tPC0lHCYqKtl8Lk/LtAZNDBa2gEH6jWpmgjWyPNF25HuBpzQdSSEPOA967CMB59bI//vXKhDRGaaZTk0CijC1Q==
   dependencies:
-    "@ndla/button" "^0.3.5"
-    "@ndla/carousel" "^0.3.3"
-    "@ndla/core" "^0.6.5"
+    "@ndla/button" "^0.3.6"
+    "@ndla/carousel" "^0.3.4"
+    "@ndla/core" "^0.6.6"
     "@ndla/hooks" "^0.1.1"
     "@ndla/i18n" "^0.4.2"
-    "@ndla/icons" "^0.6.11"
-    "@ndla/licenses" "^0.6.5"
-    "@ndla/modal" "^0.3.6"
-    "@ndla/tabs" "^0.11.5"
-    "@ndla/tooltip" "^0.2.5"
+    "@ndla/icons" "^0.6.12"
+    "@ndla/licenses" "^0.6.6"
+    "@ndla/modal" "^0.3.7"
+    "@ndla/tabs" "^0.11.6"
+    "@ndla/tooltip" "^0.2.6"
     "@ndla/util" "^0.3.3"
     classnames "2.2.6"
     focus-trap "^4.0.2"
