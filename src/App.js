@@ -37,7 +37,12 @@ const Route = ({
       <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
         <Content>
           {!hideMasthead && (
-            <Masthead skipToContent={skipToContent} locale={locale} ndlaFilm={ndlaFilm} {...props} />
+            <Masthead
+              skipToContent={skipToContent}
+              locale={locale}
+              ndlaFilm={ndlaFilm}
+              {...props}
+            />
           )}
           <Component
             {...props}

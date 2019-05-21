@@ -111,7 +111,7 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
+    const { locale, t, loading, data, location, errors, ndlaFilm, skipToContentId } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
 
     if (loading) {

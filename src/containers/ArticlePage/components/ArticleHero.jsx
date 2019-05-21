@@ -23,13 +23,39 @@ import { getFiltersFromUrl } from '../../../util/filterHelper';
 
 const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
   if (ndlaFilm) {
-    return <NdlaFilmHero hasImage={metaImage && metaImage.url}>{children}</NdlaFilmHero>
+    return (
+      <NdlaFilmHero hasImage={metaImage && metaImage.url}>
+        {children}
+      </NdlaFilmHero>
+    );
   }
-  return <Hero contentType={getContentType(resource)}>{children}</Hero>
+  return <Hero contentType={getContentType(resource)}>{children}</Hero>;
+};
+
+WrapperComponent.propTypes = {
+  resource: PropTypes.shape({
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }).isRequired,
+  ndlaFilm: PropTypes.bool,
+  metaImage: PropTypes.shape({
+    url: PropTypes.string,
+    alt: PropTypes.string,
+  }),
 }
 
-const ArticleHero = ({ resource, metaImage, ndlaFilm, subject, topicPath, location, t }) => (
-  <WrapperComponent ndlaFilm={ndlaFilm} resource={resource} metaImage={metaImage}>
+const ArticleHero = ({
+  resource,
+  metaImage,
+  ndlaFilm,
+  subject,
+  topicPath,
+  location,
+  t,
+}) => (
+  <WrapperComponent
+    ndlaFilm={ndlaFilm}
+    resource={resource}
+    metaImage={metaImage}>
     {ndlaFilm && metaImage && metaImage.url && (
       <div className="c-hero__background">
         <img src={metaImage.url} alt={metaImage.alt} />

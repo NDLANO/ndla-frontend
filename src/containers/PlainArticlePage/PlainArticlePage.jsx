@@ -122,7 +122,12 @@ class PlainArticlePage extends Component {
         />
         {article && <ArticleHero resource={{}} />}
         <OneColumn>
-          <Article id={skipToContentId} article={article} locale={locale} {...getArticleProps()} />
+          <Article
+            id={skipToContentId}
+            article={article}
+            locale={locale}
+            {...getArticleProps()}
+          />
         </OneColumn>
       </div>
     );

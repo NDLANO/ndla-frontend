@@ -127,7 +127,14 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, loading, ndlaFilm, skipToContentId } = this.props;
+    const {
+      data,
+      locale,
+      errors,
+      loading,
+      ndlaFilm,
+      skipToContentId,
+    } = this.props;
     if (loading) {
       return null;
     }
@@ -270,6 +277,7 @@ ArticlePage.propTypes = {
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
 };
 
