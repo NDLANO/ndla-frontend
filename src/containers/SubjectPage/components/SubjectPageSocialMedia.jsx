@@ -13,7 +13,7 @@ import {
   SubjectChildContent,
   SubjectSocialSection,
   SubjectSocialContent,
-  EmbeddedFacebook,
+  EmbeddedFacebookPage,
   EmbeddedTwitter,
 } from '@ndla/ui';
 
@@ -32,7 +32,7 @@ export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
           )}
           {facebook && (
             <SubjectSocialSection title="Facebook">
-              <EmbeddedFacebook href={facebook} />
+              <EmbeddedFacebookPage href="https://facebook.com/ndla.no" />
             </SubjectSocialSection>
           )}
         </SubjectSocialContent>
