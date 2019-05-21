@@ -57,7 +57,10 @@ export class WelcomePage extends Component {
   };
 
   onSearchFieldChange = query => {
-    this.setState({ query });
+    this.setState(prevState => ({
+      query,
+      inputHasFocus: query.length > 0 || prevState.inputHasFocus,
+    }));
     debounceCall(() => this.setState({ delayedSearchQuery: query.trim() }));
   };
 

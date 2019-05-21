@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import BEMHelper from 'react-bem-helper';
 import { CarouselAutosize } from '@ndla/carousel';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
@@ -25,6 +26,7 @@ import {
 } from '../../graphqlShapes';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
+const classes = BEMHelper('c-frontpage-section');
 
 class FilmFrontpage extends Component {
   constructor(props) {
@@ -94,7 +96,7 @@ class FilmFrontpage extends Component {
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={this.onChangeResourceType}
         />
-        <div ref={this.movieListRef}>
+        <section {...classes()} ref={this.movieListRef}>
           <CarouselAutosize breakpoints={breakpoints}>
             {autoSizedProps =>
               resourceTypeSelected ? (
@@ -121,7 +123,7 @@ class FilmFrontpage extends Component {
               )
             }
           </CarouselAutosize>
-        </div>
+        </section>
         {aboutNDLAVideo && (
           <AboutNdlaFilm
             aboutNDLAVideo={aboutNDLAVideo}
