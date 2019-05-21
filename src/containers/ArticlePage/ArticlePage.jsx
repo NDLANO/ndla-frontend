@@ -127,7 +127,8 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, loading } = this.props;
+    const { data, locale, errors, loading, ndlaFilm } = this.props;
+    console.log(this.props.ndlaFilm, ndlaFilm);
     if (loading) {
       return null;
     }
@@ -153,7 +154,13 @@ class ArticlePage extends Component {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
       return (
         <div>
-          <ArticleHero subject={subject} topicPath={topicPath} resource={{}} />
+          <ArticleHero
+            ndlaFilm={ndlaFilm}
+            metaImage={resource.article.metaImage}
+            subject={subject}
+            topicPath={topicPath}
+            resource={resource}
+          />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
@@ -212,6 +219,8 @@ class ArticlePage extends Component {
         />
         {resource && (
           <ArticleHero
+            ndlaFilm={ndlaFilm}
+            metaImage={resource.article.metaImage}
             subject={subject}
             topicPath={topicPath}
             resource={resource}
