@@ -41,7 +41,7 @@ WrapperComponent.propTypes = {
     url: PropTypes.string,
     alt: PropTypes.string,
   }),
-}
+};
 
 const ArticleHero = ({
   resource,
