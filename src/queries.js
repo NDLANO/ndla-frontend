@@ -210,6 +210,7 @@ export const articleInfoFragment = gql`
       url
       alt
     }
+    supportedLanguages
     created
     updated
     published
