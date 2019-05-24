@@ -154,7 +154,7 @@ class SubjectPage extends Component {
           ]}
         />
         <SubjectPageContent
-          id={skipToContentId}
+          skipToContentId={skipToContentId}
           layout={layout}
           locale={locale}
           subjectId={subjectId}
@@ -198,7 +198,7 @@ SubjectPage.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  skipToContentId: PropTypes.string,
+  skipToContentId: PropTypes.string.isRequired,
 };
 
 export default compose(

@@ -24,7 +24,6 @@ import {
   SEARCH_PATH,
   TOPIC_PATH,
   FILM_PAGE_PATH,
-  SKIP_TO_CONTENT_ID,
 } from './constants';
 
 export const routes = [
@@ -39,13 +38,11 @@ export const routes = [
     path: ARTICLE_PAGE_PATH,
     component: ArticlePage,
     background: true,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
     background: true,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     path: SEARCH_PATH,
@@ -56,26 +53,22 @@ export const routes = [
     path: TOPIC_PATH,
     component: TopicPage,
     background: true,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
     exact: true,
     component: FilmFrontpage,
     background: false,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     path: SUBJECT_PAGE_PATH,
     component: SubjectPage,
     background: false,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     path: '/subjects',
     component: SubjectsPage,
     background: false,
-    skipToContent: SKIP_TO_CONTENT_ID,
   },
   {
     component: NotFoundPage,

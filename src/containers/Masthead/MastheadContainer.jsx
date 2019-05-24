@@ -188,7 +188,14 @@ class MastheadContainer extends React.PureComponent {
   };
 
   render() {
-    const { infoContent, locale, location, t, ndlaFilm } = this.props;
+    const {
+      infoContent,
+      locale,
+      location,
+      t,
+      ndlaFilm,
+      skipToMainContentId,
+    } = this.props;
     const {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
@@ -215,6 +222,7 @@ class MastheadContainer extends React.PureComponent {
         showLoaderWhenNeeded={topicPath && topicPath.length > 0}
         fixed
         ndlaFilm={ndlaFilm}
+        skipToMainContentId={skipToMainContentId}
         infoContent={infoContent}>
         <MastheadItem left>
           {subject && (
@@ -286,6 +294,7 @@ MastheadContainer.propTypes = {
   locale: PropTypes.string.isRequired,
   infoContent: PropTypes.node,
   ndlaFilm: PropTypes.bool,
+  skipToMainContentId: PropTypes.string.isRequired,
 };
 
 export default compose(

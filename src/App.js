@@ -19,7 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
-import { FILM_PAGE_PATH } from './constants';
+import { FILM_PAGE_PATH, SKIP_TO_CONTENT_ID } from './constants';
 
 const Route = ({
   component: Component,
@@ -38,7 +38,7 @@ const Route = ({
         <Content>
           {!hideMasthead && (
             <Masthead
-              skipToContent={skipToContent}
+              skipToMainContentId={SKIP_TO_CONTENT_ID}
               locale={locale}
               ndlaFilm={ndlaFilm}
               {...props}
@@ -48,7 +48,7 @@ const Route = ({
             {...props}
             locale={locale}
             ndlaFilm={ndlaFilm}
-            skipToContentId={skipToContent}
+            skipToContentId={SKIP_TO_CONTENT_ID}
             {...initialProps}
           />
         </Content>

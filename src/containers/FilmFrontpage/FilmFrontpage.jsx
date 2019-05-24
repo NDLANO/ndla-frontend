@@ -119,6 +119,7 @@ class FilmFrontpage extends Component {
                     slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
                     slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
                     resourceTypes={resourceTypes}
+                    resizeThumbnailImages
                   />
                 ))
               )

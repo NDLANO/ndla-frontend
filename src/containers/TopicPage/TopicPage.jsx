@@ -265,7 +265,7 @@ TopicPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
-  skipToContentId: PropTypes.string,
+  skipToContentId: PropTypes.string.isRequired,
 };
 
 export default compose(
