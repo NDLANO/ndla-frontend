@@ -151,6 +151,28 @@ class TopicPage extends Component {
       article.metaData.images.length > 0
         ? article.metaData.images[0]
         : undefined;
+    const allowedLanguages = ['en', 'nn', 'nb'];
+    const supportedLangs =
+      article.supportedLanguages && article.supportedLanguages.length > 0
+        ? article.supportedLanguages.filter(lang =>
+            allowedLanguages.includes(lang),
+          )
+        : [];
+
+    const isOriginalPage =
+      locale === 'nb' &&
+      document.location.pathname
+        .replace(location.pathname, '')
+        .replace('/', '')
+        .replace(locale, '') === '';
+    const pathFirstPart = `${document.location.protocol}//${
+      document.location.host
+    }`;
+    const alternateLinks = supportedLangs.map(lang => ({
+      lang,
+      url: `${pathFirstPart}/${lang}${location.pathname}`,
+    }));
+
     return (
       <>
         <Helmet>
@@ -158,6 +180,17 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
+
+          <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
+
+          {isOriginalPage &&
+            alternateLinks.map(alternateLink => (
+              <link
+                rel="alternate"
+                hreflang={alternateLink.lang}
+                href={alternateLink.url}
+              />
+            ))}
 
           {scripts.map(script => (
             <script
