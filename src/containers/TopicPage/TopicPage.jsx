@@ -49,6 +49,7 @@ import {
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { appLocales } from '../../i18n';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -151,7 +152,8 @@ class TopicPage extends Component {
       article.metaData.images.length > 0
         ? article.metaData.images[0]
         : undefined;
-    const allowedLanguages = ['en', 'nn', 'nb'];
+
+    const allowedLanguages = appLocales.map(lang => lang.abbreviation);
     const supportedLangs =
       article.supportedLanguages && article.supportedLanguages.length > 0
         ? article.supportedLanguages.filter(lang =>
