@@ -6,7 +6,7 @@
  *
  */
 
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
 export function createHistory(basename) {
   // avoid recreating history on HMR

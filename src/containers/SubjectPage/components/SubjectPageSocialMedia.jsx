@@ -17,10 +17,7 @@ import {
   EmbeddedTwitter,
 } from '@ndla/ui';
 
-export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
-  if (!twitter && !facebook) {
-    return null;
-  }
+export const SubjectPageSocialMedia = ({ twitter }) => {
   return (
     <OneColumn noPadding>
       <SubjectChildContent>
@@ -30,11 +27,11 @@ export const SubjectPageSocialMedia = ({ twitter, facebook }) => {
               <EmbeddedTwitter screenName={twitter} tweetLimit={1} />
             </SubjectSocialSection>
           )}
-          {facebook && (
+          {
             <SubjectSocialSection title="Facebook">
               <EmbeddedFacebookPage href={'https://facebook.com/ndla.no'} />
             </SubjectSocialSection>
-          )}
+          }
         </SubjectSocialContent>
       </SubjectChildContent>
     </OneColumn>

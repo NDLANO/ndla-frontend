@@ -8,8 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import createHistory from 'history/createBrowserHistory';
-
+import { createBrowserHistory as createHistory } from 'history';
 import { appLocales } from '../../i18n';
 
 const SelectLocale = ({ locale, id }) => {
