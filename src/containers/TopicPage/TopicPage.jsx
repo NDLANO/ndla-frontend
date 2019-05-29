@@ -182,9 +182,7 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-          <meta property="og:type" content="article" />
           <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
-
           {isOriginalPage &&
             alternateLinks.map(alternateLink => (
               <link
@@ -193,7 +191,6 @@ class TopicPage extends Component {
                 href={alternateLink.url}
               />
             ))}
-
           {scripts.map(script => (
             <script
               key={script.src}
@@ -202,7 +199,6 @@ class TopicPage extends Component {
               async={script.async}
             />
           ))}
-
           <script type="application/ld+json">
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
@@ -211,7 +207,7 @@ class TopicPage extends Component {
           <SocialMediaMetadata
             description={article.metaDescription}
             image={metaImage}
-            title={article.title}
+            title={`${subject && subject.name ? subject.name +  ' - ': ''}${article.title}`}
             locale={locale}
           />
         )}
