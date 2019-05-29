@@ -182,7 +182,7 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-
+          <meta property="og:type" content="article" />
           <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
 
           {isOriginalPage &&
