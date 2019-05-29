@@ -156,7 +156,9 @@ class TopicPage extends Component {
 
     const allowedLanguages = appLocales.map(lang => lang.abbreviation);
     const supportedLangs =
-      article.supportedLanguages && article.supportedLanguages.length > 0
+      article &&
+      article.supportedLanguages &&
+      article.supportedLanguages.length > 0
         ? article.supportedLanguages.filter(lang =>
             allowedLanguages.includes(lang),
           )
