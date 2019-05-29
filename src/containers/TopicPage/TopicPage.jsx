@@ -61,7 +61,7 @@ const getTitle = (article, topic) => {
   return '';
 };
 
-const transformData = (data, locale) => {
+const transformData = data => {
   const { subject, topic } = data;
 
   const topicPath =
@@ -99,7 +99,7 @@ class TopicPage extends Component {
     ]);
     return {
       ...response,
-      data: transformData(response.data, ctx.locale),
+      data: transformData(response.data),
     };
   }
 
