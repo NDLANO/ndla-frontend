@@ -204,7 +204,9 @@ class ArticlePage extends Component {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={`${subject && subject.name ? subject.name +  ' - ': ''}${article.title}`}
+          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
+            article.title
+          }`}
           description={article.metaDescription}
           locale={locale}
           image={metaImage}

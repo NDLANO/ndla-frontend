@@ -207,7 +207,9 @@ class TopicPage extends Component {
           <SocialMediaMetadata
             description={article.metaDescription}
             image={metaImage}
-            title={`${subject && subject.name ? subject.name +  ' - ': ''}${article.title}`}
+            title={`${subject && subject.name ? subject.name + ' - ' : ''}${
+              article.title
+            }`}
             locale={locale}
           />
         )}
