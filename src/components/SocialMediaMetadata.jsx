@@ -43,7 +43,7 @@ const SocialMediaMetadata = ({
       {!image || !image.src ? (
         <meta
           name="twitter:image:src"
-          content={'https://ndla.no/static/metalogo.png'}
+          content={'/static/metalogo.png'}
         />
       ) : (
         ''
@@ -51,7 +51,7 @@ const SocialMediaMetadata = ({
       {!image || !image.src ? (
         <meta
           property="og:image"
-          content={'https://ndla.no/static/metalogo.png'}
+          content={'/static/metalogo.png'}
         />
       ) : (
         ''
