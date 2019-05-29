@@ -147,6 +147,7 @@ class TopicPage extends Component {
     const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
 
     const metaImage =
+      article &&
       article.metaData &&
       article.metaData.images &&
       article.metaData.images.length > 0
@@ -163,6 +164,8 @@ class TopicPage extends Component {
 
     const isOriginalPage =
       locale === 'nb' &&
+      document &&
+      document.location &&
       document.location.pathname
         .replace(location.pathname, '')
         .replace('/', '')
