@@ -100,7 +100,6 @@ class PlainArticlePage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-
           {scripts.map(script => (
             <script
               key={script.src}

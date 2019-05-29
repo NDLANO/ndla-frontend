@@ -25,6 +25,9 @@ export const Page = props => {
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
+      <Helmet>
+        <meta property="fb:app_id" content="115263542481787" />
+      </Helmet>
       {children}
       <Footer t={t} locale={locale} inverted={ndlaFilm}>
         {config.zendeskWidgetKey && (

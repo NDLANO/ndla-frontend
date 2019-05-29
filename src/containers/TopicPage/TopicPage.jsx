@@ -61,7 +61,7 @@ const getTitle = (article, topic) => {
   return '';
 };
 
-const transformData = (data, locale) => {
+const transformData = data => {
   const { subject, topic } = data;
 
   const topicPath =
@@ -99,7 +99,7 @@ class TopicPage extends Component {
     ]);
     return {
       ...response,
-      data: transformData(response.data, ctx.locale),
+      data: transformData(response.data),
     };
   }
 
@@ -147,6 +147,7 @@ class TopicPage extends Component {
     const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
 
     const metaImage =
+      article &&
       article.metaData &&
       article.metaData.images &&
       article.metaData.images.length > 0
@@ -155,7 +156,9 @@ class TopicPage extends Component {
 
     const allowedLanguages = appLocales.map(lang => lang.abbreviation);
     const supportedLangs =
-      article.supportedLanguages && article.supportedLanguages.length > 0
+      article &&
+      article.supportedLanguages &&
+      article.supportedLanguages.length > 0
         ? article.supportedLanguages.filter(lang =>
             allowedLanguages.includes(lang),
           )
@@ -163,6 +166,8 @@ class TopicPage extends Component {
 
     const isOriginalPage =
       locale === 'nb' &&
+      document &&
+      document.location &&
       document.location.pathname
         .replace(location.pathname, '')
         .replace('/', '')
@@ -182,9 +187,7 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-
           <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
-
           {isOriginalPage &&
             alternateLinks.map(alternateLink => (
               <link
@@ -193,7 +196,6 @@ class TopicPage extends Component {
                 href={alternateLink.url}
               />
             ))}
-
           {scripts.map(script => (
             <script
               key={script.src}
@@ -202,7 +204,6 @@ class TopicPage extends Component {
               async={script.async}
             />
           ))}
-
           <script type="application/ld+json">
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
@@ -211,7 +212,9 @@ class TopicPage extends Component {
           <SocialMediaMetadata
             description={article.metaDescription}
             image={metaImage}
-            title={article.title}
+            title={`${subject && subject.name ? subject.name + ' - ' : ''}${
+              article.title
+            }`}
             locale={locale}
           />
         )}

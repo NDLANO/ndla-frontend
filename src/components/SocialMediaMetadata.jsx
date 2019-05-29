@@ -24,6 +24,7 @@ const SocialMediaMetadata = ({
   return (
     <Helmet>
       {children}
+      <meta property="og:type" content="article" />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
@@ -35,8 +36,20 @@ const SocialMediaMetadata = ({
       {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
       {description && <meta name="twitter:description" content={description} />}
-      {image && <meta property="og:image" content={image.src} />}
-      {image && <meta name="twitter:image:src" content={image.src} />}
+      {image && image.src && <meta property="og:image" content={image.src} />}
+      {image && image.src && (
+        <meta name="twitter:image:src" content={image.src} />
+      )}
+      {!image || !image.src ? (
+        <meta name="twitter:image:src" content={'/static/metalogo.png'} />
+      ) : (
+        ''
+      )}
+      {!image || !image.src ? (
+        <meta property="og:image" content={'/static/metalogo.png'} />
+      ) : (
+        ''
+      )}
       <meta property="og:site_name" content="ndla.no" />
       <meta
         property="article:publisher"
