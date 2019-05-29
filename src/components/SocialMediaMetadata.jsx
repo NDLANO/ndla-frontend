@@ -24,6 +24,7 @@ const SocialMediaMetadata = ({
   return (
     <Helmet>
       {children}
+      <meta property="og:type" content="article" />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
