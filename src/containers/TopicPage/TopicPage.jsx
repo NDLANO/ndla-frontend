@@ -111,7 +111,7 @@ class TopicPage extends Component {
     );
   }
 
-  getAlternativeLanguages = article => {
+  getAlternateLanguages = article => {
     const { basename, locale } = this.props;
     const defaultLocale = getHtmlLang();
     const isOriginalPage = locale === defaultLocale && basename === '';
@@ -182,12 +182,12 @@ class TopicPage extends Component {
             rel="canonical"
             href={`${config.ndlaFrontendDomain}${location.pathname}`}
           />
-          {this.getAlternativeLanguages(article).map(language => (
+          {this.getAlternateLanguages(article).map(alternateLanguage => (
             <link
-              key={language}
+              key={alternateLanguage}
               rel="alternate"
-              hrefLang={language}
-              href={`${config.ndlaFrontendDomain}/${language}${
+              hrefLang={alternateLanguage}
+              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${
                 location.pathname
               }`}
             />
