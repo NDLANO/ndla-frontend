@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import ReactRoute from 'react-router-dom/Route';
 import {
   SubjectHero,
   OneColumn,
@@ -166,14 +165,11 @@ class TopicPage extends Component {
         : [];
 
     const isOriginalPage = locale === 'nb';
-    const pathFirstPart = ReactRoute.host
-      ? `${ReactRoute.protocol}//${ReactRoute.host}`
-      : '';
+    const pathFirstPart = ''; // TODO: find out how to get the hostname
     const alternateLinks = supportedLangs.map(lang => ({
       lang,
       url: `${pathFirstPart}/${lang}${location.pathname}`,
     }));
-
     return (
       <>
         <Helmet>
