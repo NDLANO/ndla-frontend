@@ -6,10 +6,10 @@
  *
  */
 
-import React from 'react';
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { withTracker } from '@ndla/tracker';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
@@ -21,6 +21,7 @@ import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { createApolloClient } from '../util/apiHelpers';
+import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -42,17 +43,13 @@ const Error = injectT(({ t }) => (
   </OneColumn>
 ));
 
-const Success = ({ resource, locale }) => {
+const Success = ({ resource, locale, location }) => {
   const article = transformArticle(resource.article, locale);
   const scripts = getArticleScripts(article);
   return (
     <OneColumn>
       <Helmet>
         <title>{`NDLA | ${article.title}`}</title>
-        {article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
-
         {scripts.map(script => (
           <script
             key={script.src}
@@ -62,6 +59,13 @@ const Success = ({ resource, locale }) => {
           />
         ))}
       </Helmet>
+      <SocialMediaMetadata
+        title={article.title}
+        location={location}
+        image={article && article.image && { src: article.image.url }}
+        description={article.metaDescription}
+        locale={locale}
+      />
       <PostResizeMessage />
       <FixDialogPosition />
       <Article
@@ -80,28 +84,54 @@ Success.propTypes = {
     article: ArticleShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
-const IframeArticlePage = ({
-  status,
-  locale: { abbreviation: locale, messages },
-  resource,
-}) => {
-  const client = createApolloClient(locale);
-  return (
-    <ApolloProvider client={client}>
-      <IntlProvider locale={locale} messages={messages}>
-        <PageContainer>
-          <Helmet htmlAttributes={{ lang: locale }} />
-          {status === 'success' && (
-            <Success locale={locale} resource={resource} />
-          )}
-          {status === 'error' && <Error />}
-        </PageContainer>
-      </IntlProvider>
-    </ApolloProvider>
-  );
-};
+export class IframeArticlePage extends Component {
+  static willTrackPageView(trackPageView, currentProps) {
+    const { resource } = currentProps;
+    if (resource && resource.article && resource.article.id) {
+      trackPageView(currentProps);
+    }
+  }
+
+  static getDocumentTitle({ t, resource }) {
+    if (resource && resource.article && resource.article.id) {
+      return `NDLA | ${resource.article.title.title}`;
+    }
+    return '';
+  }
+
+  render() {
+    const {
+      status,
+      locale: { abbreviation: locale, messages },
+      resource,
+      location,
+    } = this.props;
+
+    return (
+      <ApolloProvider client={createApolloClient(locale)}>
+        <IntlProvider locale={locale} messages={messages}>
+          <PageContainer>
+            <Helmet htmlAttributes={{ lang: locale }} />
+            {status === 'success' ? (
+              <Success
+                locale={locale}
+                resource={resource}
+                location={location}
+              />
+            ) : (
+              <Error />
+            )}
+          </PageContainer>
+        </IntlProvider>
+      </ApolloProvider>
+    );
+  }
+}
 
 IframeArticlePage.propTypes = {
   locale: PropTypes.shape({
@@ -113,6 +143,9 @@ IframeArticlePage.propTypes = {
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   status: PropTypes.oneOf(['success', 'error']),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
-export default IframeArticlePage;
+export default withTracker(IframeArticlePage);
