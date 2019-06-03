@@ -182,8 +182,9 @@ class TopicPage extends Component {
             alternateLinks.map(alternateLink => (
               <link
                 rel="alternate"
-                hreflang={alternateLink.lang}
+                hrefLang={alternateLink.lang}
                 href={alternateLink.url}
+                key={alternateLink.lang}
               />
             ))}
           {scripts.map(script => (
