@@ -28,7 +28,7 @@ import {
   LocationShape,
   ResourceShape,
 } from '../../shapes';
-
+import config from '../../config';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
@@ -50,6 +50,7 @@ import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { appLocales } from '../../i18n';
+import { original } from 'immer';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -112,7 +113,16 @@ class TopicPage extends Component {
   }
 
   render() {
-    const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
+    const {
+      locale,
+      t,
+      loading,
+      data,
+      location,
+      errors,
+      ndlaFilm,
+      basename,
+    } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
 
     if (loading) {
@@ -164,21 +174,13 @@ class TopicPage extends Component {
           )
         : [];
 
-    const isOriginalPage =
-      locale === 'nb' &&
-      document &&
-      document.location &&
-      document.location.pathname
-        .replace(location.pathname, '')
-        .replace('/', '')
-        .replace(locale, '') === '';
-    const pathFirstPart = `${document.location.protocol}//${
-      document.location.host
-    }`;
-    const alternateLinks = supportedLangs.map(lang => ({
-      lang,
-      url: `${pathFirstPart}/${lang}${location.pathname}`,
-    }));
+    const isOriginalPage = locale === 'nb' && basename === '';
+    const alternateLinks = isOriginalPage
+      ? []
+      : supportedLangs.map(lang => ({
+          lang,
+          url: `${config.ndlaFrontendDomain}/${lang}${location.pathname}`,
+        }));
 
     return (
       <>
@@ -187,15 +189,18 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-          <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
-          {isOriginalPage &&
-            alternateLinks.map(alternateLink => (
-              <link
-                rel="alternate"
-                hreflang={alternateLink.lang}
-                href={alternateLink.url}
-              />
-            ))}
+          <link
+            rel="canonical"
+            href={`${config.ndlaFrontendDomain}${location.pathname}`}
+          />
+          {alternateLinks.map(alternateLink => (
+            <link
+              key={alternateLink.url}
+              rel="alternate"
+              hreflang={alternateLink.lang}
+              href={alternateLink.url}
+            />
+          ))}
           {scripts.map(script => (
             <script
               key={script.src}
@@ -270,6 +275,10 @@ class TopicPage extends Component {
   }
 }
 
+TopicPage.defaultProps = {
+  basename: '',
+};
+
 TopicPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -293,6 +302,7 @@ TopicPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
+  basename: PropTypes.string,
 };
 
 export default compose(

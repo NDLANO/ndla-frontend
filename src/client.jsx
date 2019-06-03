@@ -52,13 +52,16 @@ window.hasHydrated = false;
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
+const BasenameContext = React.createContext('basename');
 
 renderOrHydrate(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
-      <Router history={browserHistory}>
-        {routes(initialProps, abbreviation)}
-      </Router>
+      <BasenameContext.Provider value={basename}>
+        <Router history={browserHistory}>
+          {routes({ ...initialProps, basename }, abbreviation)}
+        </Router>
+      </BasenameContext.Provider>
     </IntlProvider>
   </ApolloProvider>,
   document.getElementById('root'),
