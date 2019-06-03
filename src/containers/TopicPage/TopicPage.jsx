@@ -49,8 +49,7 @@ import {
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { appLocales } from '../../i18n';
-import { original } from 'immer';
+import { getHtmlLang, appLocales } from '../../i18n';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -112,17 +111,26 @@ class TopicPage extends Component {
     );
   }
 
+  getAlternativeLanguages = article => {
+    const { basename, locale } = this.props;
+    const defaultLocale = getHtmlLang();
+    const isOriginalPage = locale === defaultLocale && basename === '';
+
+    if (
+      isOriginalPage ||
+      !article ||
+      !article.supportedLanguages ||
+      article.supportedLanguages.length === 0
+    ) {
+      return [];
+    }
+    return article.supportedLanguages.filter(
+      language => !!appLocales.find(locale => locale.abbreviation === language),
+    );
+  };
+
   render() {
-    const {
-      locale,
-      t,
-      loading,
-      data,
-      location,
-      errors,
-      ndlaFilm,
-      basename,
-    } = this.props;
+    const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
 
     if (loading) {
@@ -147,7 +155,7 @@ class TopicPage extends Component {
     } = data;
 
     const hasArticleError =
-      errors && errors.find(e => e.path.includes('article')) !== undefined;
+      errors && errors.find(err => err.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
     const subtopics = subject
@@ -163,25 +171,6 @@ class TopicPage extends Component {
       article.metaData.images.length > 0
         ? article.metaData.images[0]
         : undefined;
-
-    const allowedLanguages = appLocales.map(lang => lang.abbreviation);
-    const supportedLangs =
-      article &&
-      article.supportedLanguages &&
-      article.supportedLanguages.length > 0
-        ? article.supportedLanguages.filter(lang =>
-            allowedLanguages.includes(lang),
-          )
-        : [];
-
-    const isOriginalPage = locale === 'nb' && basename === '';
-    const alternateLinks = isOriginalPage
-      ? []
-      : supportedLangs.map(lang => ({
-          lang,
-          url: `${config.ndlaFrontendDomain}/${lang}${location.pathname}`,
-        }));
-
     return (
       <>
         <Helmet>
@@ -193,12 +182,14 @@ class TopicPage extends Component {
             rel="canonical"
             href={`${config.ndlaFrontendDomain}${location.pathname}`}
           />
-          {alternateLinks.map(alternateLink => (
+          {this.getAlternativeLanguages(article).map(language => (
             <link
-              key={alternateLink.url}
+              key={language}
               rel="alternate"
-              hreflang={alternateLink.lang}
-              href={alternateLink.url}
+              hrefLang={language}
+              href={`${config.ndlaFrontendDomain}/${language}${
+                location.pathname
+              }`}
             />
           ))}
           {scripts.map(script => (
