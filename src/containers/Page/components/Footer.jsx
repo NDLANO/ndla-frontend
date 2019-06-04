@@ -29,10 +29,6 @@ const FooterWrapper = ({ t, children, locale, inverted }) => (
         title={t('footer.footerEditiorInChief')}
         name="Sigurd Trageton"
       />
-      <Footer.Editor
-        title={t('footer.footerManagingEditor')}
-        name="Pål Frønsdal"
-      />
     </Footer.Text>
     <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
     {children}
