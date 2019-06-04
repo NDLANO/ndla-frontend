@@ -44,7 +44,7 @@ window.errorReporter = ErrorReporter.getInstance({
 
 configureTracker({
   listen: browserHistory.listen,
-  gaTrackingId: config.gaTrackingId,
+  gaTrackingId: window.location.host ? config.gaTrackingId : '',
   googleTagManagerId: config.googleTagManagerId,
 });
 
