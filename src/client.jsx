@@ -57,7 +57,7 @@ renderOrHydrate(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
       <Router history={browserHistory}>
-        {routes(initialProps, abbreviation)}
+        {routes({ ...initialProps, basename }, abbreviation)}
       </Router>
     </IntlProvider>
   </ApolloProvider>,

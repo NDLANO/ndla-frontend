@@ -81,7 +81,7 @@ async function doRender(req) {
     <ApolloProvider client={client}>
       <IntlProvider locale={locale} messages={messages}>
         <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes(initialProps, locale)}
+          {routes({ ...initialProps, basename }, locale)}
         </StaticRouter>
       </IntlProvider>
     </ApolloProvider>

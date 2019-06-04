@@ -28,7 +28,7 @@ import {
   LocationShape,
   ResourceShape,
 } from '../../shapes';
-
+import config from '../../config';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
@@ -49,7 +49,7 @@ import {
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { appLocales } from '../../i18n';
+import { getHtmlLang, appLocales } from '../../i18n';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -111,6 +111,24 @@ class TopicPage extends Component {
     );
   }
 
+  getAlternateLanguages = article => {
+    const { basename, locale } = this.props;
+    const defaultLocale = getHtmlLang();
+    const isOriginalPage = locale === defaultLocale && basename === '';
+
+    if (
+      isOriginalPage ||
+      !article ||
+      !article.supportedLanguages ||
+      article.supportedLanguages.length === 0
+    ) {
+      return [];
+    }
+    return article.supportedLanguages.filter(
+      language => !!appLocales.find(locale => locale.abbreviation === language),
+    );
+  };
+
   render() {
     const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
@@ -137,7 +155,7 @@ class TopicPage extends Component {
     } = data;
 
     const hasArticleError =
-      errors && errors.find(e => e.path.includes('article')) !== undefined;
+      errors && errors.find(err => err.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
     const subtopics = subject
@@ -153,23 +171,6 @@ class TopicPage extends Component {
       article.metaData.images.length > 0
         ? article.metaData.images[0]
         : undefined;
-
-    const allowedLanguages = appLocales.map(lang => lang.abbreviation);
-    const supportedLangs =
-      article &&
-      article.supportedLanguages &&
-      article.supportedLanguages.length > 0
-        ? article.supportedLanguages.filter(lang =>
-            allowedLanguages.includes(lang),
-          )
-        : [];
-
-    const isOriginalPage = locale === 'nb';
-    const pathFirstPart = ''; // TODO: find out how to get the hostname
-    const alternateLinks = supportedLangs.map(lang => ({
-      lang,
-      url: `${pathFirstPart}/${lang}${location.pathname}`,
-    }));
     return (
       <>
         <Helmet>
@@ -177,16 +178,20 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-          <link rel="canonical" href={`${pathFirstPart}${location.pathname}`} />
-          {isOriginalPage &&
-            alternateLinks.map(alternateLink => (
-              <link
-                rel="alternate"
-                hrefLang={alternateLink.lang}
-                href={alternateLink.url}
-                key={alternateLink.lang}
-              />
-            ))}
+          <link
+            rel="canonical"
+            href={`${config.ndlaFrontendDomain}${location.pathname}`}
+          />
+          {this.getAlternateLanguages(article).map(alternateLanguage => (
+            <link
+              key={alternateLanguage}
+              rel="alternate"
+              hrefLang={alternateLanguage}
+              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${
+                location.pathname
+              }`}
+            />
+          ))}
           {scripts.map(script => (
             <script
               key={script.src}
@@ -261,6 +266,10 @@ class TopicPage extends Component {
   }
 }
 
+TopicPage.defaultProps = {
+  basename: '',
+};
+
 TopicPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -284,6 +293,7 @@ TopicPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
+  basename: PropTypes.string,
 };
 
 export default compose(
