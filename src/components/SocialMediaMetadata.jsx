@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import config from '../config';
 import { LocationShape, ImageShape } from '../shapes';
 
-const SocialMediaMetadata = ({
+export const SocialMediaMetadata = ({
   title,
   image,
   description,
