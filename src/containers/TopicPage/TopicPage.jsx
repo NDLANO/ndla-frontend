@@ -28,9 +28,7 @@ import {
   LocationShape,
   ResourceShape,
 } from '../../shapes';
-import config from '../../config';
 import { GraphqlErrorShape } from '../../graphqlShapes';
-
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
@@ -49,7 +47,6 @@ import {
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { getHtmlLang, appLocales } from '../../i18n';
 
 const getTitle = (article, topic) => {
   if (article) {
@@ -111,24 +108,6 @@ class TopicPage extends Component {
     );
   }
 
-  getAlternateLanguages = article => {
-    const { basename, locale } = this.props;
-    const defaultLocale = getHtmlLang();
-    const isOriginalPage = locale === defaultLocale && basename === '';
-
-    if (
-      isOriginalPage ||
-      !article ||
-      !article.supportedLanguages ||
-      article.supportedLanguages.length === 0
-    ) {
-      return [];
-    }
-    return article.supportedLanguages.filter(
-      language => !!appLocales.find(locale => locale.abbreviation === language),
-    );
-  };
-
   render() {
     const { locale, t, loading, data, location, errors, ndlaFilm } = this.props;
     const { subjectId } = getUrnIdsFromProps(this.props);
@@ -178,20 +157,6 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-          <link
-            rel="canonical"
-            href={`${config.ndlaFrontendDomain}${location.pathname}`}
-          />
-          {this.getAlternateLanguages(article).map(alternateLanguage => (
-            <link
-              key={alternateLanguage}
-              rel="alternate"
-              hrefLang={alternateLanguage}
-              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${
-                location.pathname
-              }`}
-            />
-          ))}
           {scripts.map(script => (
             <script
               key={script.src}
@@ -211,6 +176,7 @@ class TopicPage extends Component {
             title={`${subject && subject.name ? subject.name + ' - ' : ''}${
               article.title
             }`}
+            article={article}
             locale={locale}
           />
         )}
