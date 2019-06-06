@@ -34,7 +34,6 @@ class NdlaFilm extends Component {
       moviesByType: [],
       fetchingMoviesByType: false,
     };
-    this.onSelectedMovieByType = this.onSelectedMovieByType.bind(this);
   }
 
   static async getInitialProps(ctx) {
@@ -75,7 +74,7 @@ class NdlaFilm extends Component {
 
     return {
       ...movie,
-      url: path,
+      path,
       resourceTypes: resourceTypes,
     };
   }
