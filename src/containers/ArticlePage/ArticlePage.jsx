@@ -207,6 +207,7 @@ class ArticlePage extends Component {
           title={`${subject && subject.name ? subject.name + ' - ' : ''}${
             article.title
           }`}
+          article={article}
           description={article.metaDescription}
           locale={locale}
           image={metaImage}

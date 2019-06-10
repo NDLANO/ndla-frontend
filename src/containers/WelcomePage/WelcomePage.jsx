@@ -149,21 +149,6 @@ export class WelcomePage extends Component {
           description={t('meta.description')}
           locale={locale}
           image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
-          <link
-            rel="alternate"
-            hrefLang="en"
-            href={`${config.ndlaFrontendDomain}/en`}
-          />
-          <link
-            rel="alternate"
-            hrefLang="nb"
-            href={`${config.ndlaFrontendDomain}/nb`}
-          />
-          <link
-            rel="alternate"
-            hrefLang="nn"
-            href={`${config.ndlaFrontendDomain}/nn`}
-          />
           <meta name="keywords" content={t('meta.keywords')} />
         </SocialMediaMetadata>
         <Query

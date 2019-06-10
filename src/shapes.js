@@ -16,6 +16,7 @@ export const ArticleShape = PropTypes.shape({
   }).isRequired,
   created: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string),
 });
 
 export const ArticleResultShape = PropTypes.shape({
