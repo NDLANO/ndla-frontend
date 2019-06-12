@@ -70,7 +70,7 @@ export const SocialMediaMetadata = ({
         <meta name="twitter:creator" content="@ndla_no" />
         <meta
           property="og:url"
-          content={`${config.ndlaFrontendDomain}/${locale}${location.pathname}`}
+          content={`${config.ndlaFrontendDomain}${location.pathname}`}
         />
         {title && <meta property="og:title" content={`${title} - NDLA`} />}
         {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
@@ -85,12 +85,12 @@ export const SocialMediaMetadata = ({
           <meta name="twitter:image:src" content={image.src} />
         )}
         {!image || !image.src ? (
-          <meta name="twitter:image:src" content={'/static/metalogo.png'} />
+          <meta name="twitter:image:src" content={'/static/metalogo.jpg'} />
         ) : (
           ''
         )}
         {!image || !image.src ? (
-          <meta property="og:image" content={'/static/metalogo.png'} />
+          <meta property="og:image" content={'/static/metalogo.jpg'} />
         ) : (
           ''
         )}
