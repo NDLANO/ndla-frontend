@@ -85,12 +85,18 @@ export const SocialMediaMetadata = ({
           <meta name="twitter:image:src" content={image.src} />
         )}
         {!image || !image.src ? (
-          <meta name="twitter:image:src" content={'/static/metalogo.jpg'} />
+          <meta
+            name="twitter:image:src"
+            content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
+          />
         ) : (
           ''
         )}
         {!image || !image.src ? (
-          <meta property="og:image" content={'/static/metalogo.jpg'} />
+          <meta
+            property="og:image"
+            content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
+          />
         ) : (
           ''
         )}
