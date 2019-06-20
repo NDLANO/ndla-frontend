@@ -91,11 +91,11 @@ Array [
       },
       Object {
         "beta": true,
-        "id": "185100",
+        "id": "urn:subject:44",
         "name": "Religion og etikk",
         "nodeId": "185100",
         "text": "Religion og etikk",
-        "url": "/nb/node/185100",
+        "url": "/subjects/subject:44",
       },
       Object {
         "id": "urn:subject:3",
@@ -174,11 +174,11 @@ Array [
         "url": "/subjects/subject:25",
       },
       Object {
-        "id": "86643",
+        "id": "urn:subject:41",
         "name": "Kokk- og servitørfag Vg2",
         "nodeId": "86643",
         "text": "Kokk- og servitørfag Vg2",
-        "url": "/nb/node/86643",
+        "url": "/subjects/subject:41",
       },
       Object {
         "id": "urn:subject:13",
@@ -200,13 +200,6 @@ Array [
         "nodeId": "37",
         "text": "Restaurant- og matfag Vg1",
         "url": "/subjects/subject:37",
-      },
-      Object {
-        "id": "2600",
-        "name": "Romteknologi Vg3",
-        "nodeId": "2600",
-        "text": "Romteknologi Vg3",
-        "url": "/nb/node/2600",
       },
       Object {
         "id": "urn:subject:22",
@@ -242,11 +235,11 @@ Array [
     "name": "studiespesialiserende",
     "subjects": Array [
       Object {
-        "id": "52234",
+        "id": "urn:subject:42",
         "name": "Biologi 1",
         "nodeId": "52234",
         "text": "Biologi 1",
-        "url": "/nb/node/52234",
+        "url": "/subjects/subject:42",
       },
       Object {
         "id": "urn:subject:17",
@@ -361,11 +354,11 @@ Array [
       },
       Object {
         "beta": true,
-        "id": "185103",
+        "id": "urn:subject:43",
         "name": "Sosiologi og sosialantropologi",
         "nodeId": "185103",
         "text": "Sosiologi og sosialantropologi",
-        "url": "/nb/node/185103",
+        "url": "/subjects/subject:43",
       },
       Object {
         "id": "urn:subject:8",
