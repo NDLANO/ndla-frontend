@@ -73,7 +73,12 @@ export const FRONTPAGE_CATEGORIES = {
           shortname: 'SF Vg1,PB Vg3,YF Vg1/Vg2',
           id: 'urn:subject:19',
         },
-        { nodeId: '185100', beta: true, name: 'Religion og etikk', id: 'urn:subject:44' },
+        {
+          nodeId: '185100',
+          beta: true,
+          name: 'Religion og etikk',
+          id: 'urn:subject:44',
+        },
         { nodeId: '36', name: 'Samfunnsfag', id: 'urn:subject:3' },
         {
           nodeId: '126960',
@@ -106,7 +111,11 @@ export const FRONTPAGE_CATEGORIES = {
         },
         { nodeId: '52', name: 'Helsearbeiderfag Vg2', id: 'urn:subject:4' },
         { nodeId: '102783', name: 'IKT-servicefag Vg2', id: 'urn:subject:25' },
-        { nodeId: '86643', name: 'Kokk- og servitørfag Vg2', id: 'urn:subject:41' },
+        {
+          nodeId: '86643',
+          name: 'Kokk- og servitørfag Vg2',
+          id: 'urn:subject:41',
+        },
         { nodeId: '137415', name: 'Naturbruk Vg1', id: 'urn:subject:13' },
         { nodeId: '102780', name: 'Reiseliv Vg2', id: 'urn:subject:35' },
         {
@@ -202,7 +211,7 @@ export const FRONTPAGE_CATEGORIES = {
           nodeId: '185103',
           beta: true,
           name: 'Sosiologi og sosialantropologi',
-          id: 'urn:subject:43'
+          id: 'urn:subject:43',
         },
         { nodeId: '137416', name: 'Tysk 1', id: 'urn:subject:8' },
         { nodeId: '138655', name: 'Tysk 2', id: 'urn:subject:8' },
