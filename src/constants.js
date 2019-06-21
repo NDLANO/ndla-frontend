@@ -238,6 +238,7 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:17',
   'urn:subject:18',
   'urn:subject:19',
+  'urn:subject:20',
   'urn:subject:21',
   'urn:subject:22',
   'urn:subject:23',
