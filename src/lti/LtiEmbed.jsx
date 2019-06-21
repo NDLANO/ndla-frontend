@@ -90,7 +90,7 @@ class LtiEmbed extends Component {
         isOpen: true,
         embedCode: `<iframe src="${
           item.url.href
-        }" frameborder="0" allowFullscreen=""/>`,
+        }" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
       });
     } else {
       const oembed = await fetchArticleOembed(item.url);
