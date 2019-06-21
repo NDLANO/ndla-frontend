@@ -42,7 +42,6 @@ exports[`Document renderers correctly 1`] = `
     />
   </head>
   <body>
-    <noscript>
     <script
       dangerouslySetInnerHTML={
         Object {
