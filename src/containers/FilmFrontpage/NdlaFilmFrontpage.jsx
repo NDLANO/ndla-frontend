@@ -63,19 +63,16 @@ class NdlaFilm extends Component {
   };
 
   transformMoviesByType(movie) {
-    const { path } =
-      movie.contexts.find(
-        context => context.learningResourceType === 'topic-article',
-      ) || {};
-
-    const resourceTypes = movie.contexts.flatMap(
-      context => context.resourceTypes,
+    const contexts = movie.contexts.filter(
+      context => context.learningResourceType === 'topic-article',
     );
+
+    const { path } = contexts.length > 0 ? contexts[0] : {};
 
     return {
       ...movie,
       path,
-      resourceTypes: resourceTypes,
+      resourceTypes: contexts.flatMap(context => context.resourceTypes),
     };
   }
 
