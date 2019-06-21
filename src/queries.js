@@ -66,7 +66,6 @@ export const searchQuery = gql`
             name
             relevance
           }
-          id
           language
           learningResourceType
           path
