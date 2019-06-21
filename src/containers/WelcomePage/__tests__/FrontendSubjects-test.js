@@ -64,17 +64,17 @@ test('mapHardCodedCategories without frontpageFilters from api (nb locale)', () 
 test('mapHardCodedCategories with nn locale', () => {
   const categories = mapHardCodedCategories(categoriesFromApi, 'nn');
 
-  const romteknologi = findSubjectByName(categories, 'Romteknologi Vg3');
+  const biologi = findSubjectByName(categories, 'Biologi 1');
 
-  expect(romteknologi.url).toBe('/nn/node/2600');
+  expect(biologi.url).toBe('/subjects/subject:42');
 });
 
 test('mapHardCodedCategories with en locale', () => {
   const categories = mapHardCodedCategories(categoriesFromApi, 'en');
 
-  const romteknologi = findSubjectByName(categories, 'Romteknologi Vg3');
+  const biologi = findSubjectByName(categories, 'Biologi 1');
 
-  expect(romteknologi.url).toBe('/nb/node/2600');
+  expect(biologi.url).toBe('/subjects/subject:42');
 });
 
 test('mapHardCodedCategories with frontpageFilters from api', () => {
