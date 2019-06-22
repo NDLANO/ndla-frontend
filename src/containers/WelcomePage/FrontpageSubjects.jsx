@@ -9,7 +9,8 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
+import styled from '@emotion/styled';
+import Button from '@ndla/button';
 import { FrontpageCircularSubjectsSection } from '@ndla/ui';
 import { toSubject } from '../../routeHelpers';
 import {
@@ -19,6 +20,20 @@ import {
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
 import { fixEndSlash } from '../../routeHelpers';
+
+const ImportedSubjectSection = styled.section`
+  max-width: 400px;
+  width: calc(100vw - 52px);
+  display: flex;
+  align-items: center;
+  margin: auto;
+  flex-direction: column;
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -139,6 +154,7 @@ const LinkToAbout = () => (
 
 const FrontpageSubjects = ({ categories, subjects, locale } ) => {
     const [preview, setPreview] = useState(false);
+    const [showImported, setShowImported] = useState(false);
     useEffect(() => {
       if (
         document.location.search &&
@@ -168,12 +184,33 @@ const FrontpageSubjects = ({ categories, subjects, locale } ) => {
           }))
         : [],
     }));
-
+    const imported = allSubjectsWithFIxedEndSlash.find(subject => subject.name === 'imported');
+    const allButImported = allSubjectsWithFIxedEndSlash.filter(subject => subject.name !== 'imported');
     return (
-      <FrontpageCircularSubjectsSection
-        linkToAbout={<LinkToAbout />}
-        categories={allSubjectsWithFIxedEndSlash}
-      />
+      <>
+        <FrontpageCircularSubjectsSection
+          linkToAbout={<LinkToAbout />}
+          categories={allButImported}
+        />
+        {imported && (
+          <ImportedSubjectSection>
+            <Button onClick={() => setShowImported(!showImported)}>
+              {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
+            </Button>
+            {showImported && (
+              <ul>
+                {imported.subjects.map(subject => (
+                  <li key={subject.url}>
+                    <a href={subject.url}>
+                      {subject.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </ImportedSubjectSection>
+        )}
+      </>
     );
 }
 
