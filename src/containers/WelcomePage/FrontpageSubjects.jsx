@@ -7,10 +7,10 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { FrontpageSubjects as FrontpageSubjectsSection } from '@ndla/ui';
+import { FrontpageCircularSubjectsSection } from '@ndla/ui';
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -137,27 +137,21 @@ const LinkToAbout = () => (
   </a>
 );
 
-class FrontpageSubjects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { preview: false };
-  }
+const FrontpageSubjects = ({ categories, subjects, locale } ) => {
+    const [preview, setPreview] = useState(false);
+    useEffect(() => {
+      if (
+        document.location.search &&
+        document.location.search.includes('preview')
+      ) {
+        setPreview(true);
+      }
+    });
 
-  componentDidMount() {
-    if (
-      document.location.search &&
-      document.location.search.includes('preview')
-    ) {
-      this.setState({ preview: true });
-    }
-  }
-
-  render() {
-    const { categories, subjects, locale } = this.props;
     const frontpageCategories = mapHardCodedCategories(
       categories,
       locale,
-      this.state.preview,
+      preview,
     );
 
     const allSubjects = config.isNdlaProdEnvironment
@@ -174,13 +168,13 @@ class FrontpageSubjects extends Component {
           }))
         : [],
     }));
+
     return (
-      <FrontpageSubjectsSection
+      <FrontpageCircularSubjectsSection
         linkToAbout={<LinkToAbout />}
         categories={allSubjectsWithFIxedEndSlash}
       />
     );
-  }
 }
 
 FrontpageSubjects.propTypes = {

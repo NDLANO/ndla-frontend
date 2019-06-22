@@ -6,14 +6,13 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import {
-  FrontpageHeader,
+  FrontpageHeaderNew,
   FrontpageFilm,
-  FrontpageSearchSection,
   OneColumn,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -34,57 +33,38 @@ import { FRONTPAGE_CATEGORIES } from '../../constants';
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 
 const debounceCall = debounce(fn => fn(), 250);
-export class WelcomePage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      query: '',
-      inputHasFocus: false,
-      delayedSearchQuery: '',
-    };
-  }
+const WelcomePage = ({
+  t, data, loading, locale, history,
+}) => {
+  const [query, setQuery] = useState('');
+  const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
+  const [inputHasFocus, setInputHasFocus] = useState(false);
 
-  onSearchInputFocus = () => {
-    this.setState({
-      inputHasFocus: true,
-    });
+  const onSearchInputFocus = () => {
+    setInputHasFocus(true);
   };
 
-  onSearchDeactiveFocusTrap = () => {
-    this.setState({
-      inputHasFocus: false,
-    });
+  const onSearchDeactiveFocusTrap = () => {
+    setInputHasFocus(false);
   };
 
-  onSearchFieldChange = query => {
-    this.setState({ query });
-    debounceCall(() => this.setState({ delayedSearchQuery: query.trim() }));
+  const onSearchFieldChange = query => {
+    setQuery(query);
+    debounceCall(() => setDelayedSearchQuery(query));
   };
 
-  onSearch = evt => {
+  const onSearch = evt => {
     evt.preventDefault();
-    const { history } = this.props;
     history.push({
       pathname: '/search',
       search: queryString.stringify({
-        query: this.state.query,
+        query,
         page: 1,
       }),
     });
   };
 
-  static async getInitialProps({ client }) {
-    return runQueries(client, [
-      {
-        query: frontpageQuery,
-      },
-      {
-        query: subjectsQuery,
-      },
-    ]);
-  }
-
-  renderInfoText = t => (
+  const renderInfoText = t => (
     <span>
       {topicsNotInNDLA.map((topic, index) => (
         <Fragment key={topic}>
@@ -100,8 +80,6 @@ export class WelcomePage extends Component {
     </span>
   );
 
-  render() {
-    const { t, data, loading, locale } = this.props;
     if (loading) {
       return null;
     }
@@ -113,7 +91,6 @@ export class WelcomePage extends Component {
     const { subjects = [] } = data;
     const frontpage = data && data.frontpage ? data.frontpage : {};
     const { categories = [] } = frontpage;
-    const { query, inputHasFocus, delayedSearchQuery } = this.state;
     const headerLinks = [
       {
         to: 'https://om.ndla.no',
@@ -139,7 +116,7 @@ export class WelcomePage extends Component {
 
     const infoText =
       topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
-        ? this.renderInfoText(t)
+        ? renderInfoText(t)
         : '';
     return (
       <Fragment>
@@ -162,7 +139,7 @@ export class WelcomePage extends Component {
               return `Error: ${error.message}`;
             }
             return (
-              <FrontpageHeader
+              <FrontpageHeaderNew
                 locale={locale}
                 heading={t('welcomePage.heading.heading')}
                 menuSubject={frontPageSubjects}
@@ -170,8 +147,8 @@ export class WelcomePage extends Component {
                 links={headerLinks}
                 hideSearch={false}
                 searchFieldValue={query}
-                onSearch={this.onSearch}
-                onSearchFieldChange={this.onSearchFieldChange}
+                onSearch={onSearch}
+                onSearchFieldChange={onSearchFieldChange}
                 searchFieldPlaceholder={t(
                   'welcomePage.heading.searchFieldPlaceholder',
                 )}
@@ -186,8 +163,8 @@ export class WelcomePage extends Component {
                     : []
                 }
                 infoText={infoText}
-                onSearchInputFocus={this.onSearchInputFocus}
-                onSearchDeactiveFocusTrap={this.onSearchDeactiveFocusTrap}
+                onSearchInputFocus={onSearchInputFocus}
+                onSearchDeactiveFocusTrap={onSearchDeactiveFocusTrap}
                 inputHasFocus={inputHasFocus}
                 allResultUrl={`search?query=${query}`}
               />
@@ -197,13 +174,6 @@ export class WelcomePage extends Component {
         <main>
           <div data-testid="category-list">{frontPageSubjects}</div>
           <OneColumn>
-            <FrontpageSearchSection
-              heading={t('welcomePage.search')}
-              searchFieldValue={query}
-              onSearchFieldChange={this.onSearchFieldChange}
-              onSearch={this.onSearch}
-              hideSearch={false}
-            />
             <FrontpageFilm
               imageUrl="/static/film_illustrasjon.svg"
               url={
@@ -224,7 +194,6 @@ export class WelcomePage extends Component {
         </main>
       </Fragment>
     );
-  }
 }
 
 function mapSearchToFrontPageStructure(data, t, query, locale) {
@@ -329,6 +298,17 @@ WelcomePage.propTypes = {
   data: PropTypes.shape({
     frontpage: GraphQLFrontpageShape,
   }),
+};
+
+WelcomePage.getInitialProps = async ({ client }) => {
+  return runQueries(client, [
+    {
+      query: frontpageQuery,
+    },
+    {
+      query: subjectsQuery,
+    },
+  ]);
 };
 
 export default injectT(WelcomePage);
