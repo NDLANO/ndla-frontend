@@ -152,67 +152,68 @@ const LinkToAbout = () => (
   </a>
 );
 
-const FrontpageSubjects = ({ categories, subjects, locale } ) => {
-    const [preview, setPreview] = useState(false);
-    const [showImported, setShowImported] = useState(false);
-    useEffect(() => {
-      if (
-        document.location.search &&
-        document.location.search.includes('preview')
-      ) {
-        setPreview(true);
-      }
-    });
+const FrontpageSubjects = ({ categories, subjects, locale }) => {
+  const [preview, setPreview] = useState(false);
+  const [showImported, setShowImported] = useState(false);
+  useEffect(() => {
+    if (
+      document.location.search &&
+      document.location.search.includes('preview')
+    ) {
+      setPreview(true);
+    }
+  });
 
-    const frontpageCategories = mapHardCodedCategories(
-      categories,
-      locale,
-      preview,
-    );
+  const frontpageCategories = mapHardCodedCategories(
+    categories,
+    locale,
+    preview,
+  );
 
-    const allSubjects = config.isNdlaProdEnvironment
-      ? frontpageCategories
-      : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+  const allSubjects = config.isNdlaProdEnvironment
+    ? frontpageCategories
+    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
-    const allSubjectsWithFIxedEndSlash = allSubjects.map(category => ({
-      ...category,
-      subjects: category.subjects
-        ? category.subjects.map(subject => ({
-            ...subject,
-            url:
-              subject && subject.url ? fixEndSlash(subject.url) : subject.url,
-          }))
-        : [],
-    }));
-    const imported = allSubjectsWithFIxedEndSlash.find(subject => subject.name === 'imported');
-    const allButImported = allSubjectsWithFIxedEndSlash.filter(subject => subject.name !== 'imported');
-    return (
-      <>
-        <FrontpageCircularSubjectsSection
-          linkToAbout={<LinkToAbout />}
-          categories={allButImported}
-        />
-        {imported && (
-          <ImportedSubjectSection>
-            <Button onClick={() => setShowImported(!showImported)}>
-              {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
-            </Button>
-            {showImported && (
-              <ul>
-                {imported.subjects.map(subject => (
-                  <li key={subject.url}>
-                    <a href={subject.url}>
-                      {subject.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </ImportedSubjectSection>
-        )}
-      </>
-    );
-}
+  const allSubjectsWithFIxedEndSlash = allSubjects.map(category => ({
+    ...category,
+    subjects: category.subjects
+      ? category.subjects.map(subject => ({
+          ...subject,
+          url: subject && subject.url ? fixEndSlash(subject.url) : subject.url,
+        }))
+      : [],
+  }));
+  const imported = allSubjectsWithFIxedEndSlash.find(
+    subject => subject.name === 'imported',
+  );
+  const allButImported = allSubjectsWithFIxedEndSlash.filter(
+    subject => subject.name !== 'imported',
+  );
+  return (
+    <>
+      <FrontpageCircularSubjectsSection
+        linkToAbout={<LinkToAbout />}
+        categories={allButImported}
+      />
+      {imported && (
+        <ImportedSubjectSection>
+          <Button onClick={() => setShowImported(!showImported)}>
+            {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
+          </Button>
+          {showImported && (
+            <ul>
+              {imported.subjects.map(subject => (
+                <li key={subject.url}>
+                  <a href={subject.url}>{subject.text}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </ImportedSubjectSection>
+      )}
+    </>
+  );
+};
 
 FrontpageSubjects.propTypes = {
   locale: PropTypes.string.isRequired,

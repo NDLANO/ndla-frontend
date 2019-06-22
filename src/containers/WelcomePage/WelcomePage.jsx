@@ -10,11 +10,7 @@ import React, { useState, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import {
-  FrontpageHeaderNew,
-  FrontpageFilm,
-  OneColumn,
-} from '@ndla/ui';
+import { FrontpageHeaderNew, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
@@ -33,9 +29,7 @@ import { FRONTPAGE_CATEGORIES } from '../../constants';
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 
 const debounceCall = debounce(fn => fn(), 250);
-const WelcomePage = ({
-  t, data, loading, locale, history,
-}) => {
+const WelcomePage = ({ t, data, loading, locale, history }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
@@ -80,121 +74,116 @@ const WelcomePage = ({
     </span>
   );
 
-    if (loading) {
-      return null;
-    }
+  if (loading) {
+    return null;
+  }
 
-    if (!data) {
-      return <DefaultErrorMessage />;
-    }
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
 
-    const { subjects = [] } = data;
-    const frontpage = data && data.frontpage ? data.frontpage : {};
-    const { categories = [] } = frontpage;
-    const headerLinks = [
-      {
-        to: 'https://om.ndla.no',
-        text: t('welcomePage.heading.links.aboutNDLA'),
-      },
-    ];
+  const { subjects = [] } = data;
+  const frontpage = data && data.frontpage ? data.frontpage : {};
+  const { categories = [] } = frontpage;
+  const headerLinks = [
+    {
+      to: 'https://om.ndla.no',
+      text: t('welcomePage.heading.links.aboutNDLA'),
+    },
+  ];
 
-    const headerMessages = {
-      searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
-      menuButton: t('welcomePage.heading.messages.menuButton'),
-    };
+  const headerMessages = {
+    searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
+    menuButton: t('welcomePage.heading.messages.menuButton'),
+  };
 
-    const frontPageSubjects = subjects.length > 0 && (
-      <FrontpageSubjects
-        subjects={subjects}
-        categories={categories}
+  const frontPageSubjects = subjects.length > 0 && (
+    <FrontpageSubjects
+      subjects={subjects}
+      categories={categories}
+      locale={locale}
+    />
+  );
+  const searchParams = {
+    query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
+  };
+
+  const infoText =
+    topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
+      ? renderInfoText(t)
+      : '';
+  return (
+    <Fragment>
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <SocialMediaMetadata
+        title={t('welcomePage.heading.heading')}
+        description={t('meta.description')}
         locale={locale}
-      />
-    );
-    const searchParams = {
-      query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
-    };
-
-    const infoText =
-      topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
-        ? renderInfoText(t)
-        : '';
-    return (
-      <Fragment>
-        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <SocialMediaMetadata
-          title={t('welcomePage.heading.heading')}
-          description={t('meta.description')}
-          locale={locale}
-          image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
-          <meta name="keywords" content={t('meta.keywords')} />
-        </SocialMediaMetadata>
-        <Query
-          fetchPolicy="no-cache"
-          variables={searchParams}
-          ssr={false}
-          query={frontpageSearch}>
-          {({ data, error }) => {
-            if (error) {
-              handleError(error);
-              return `Error: ${error.message}`;
-            }
-            return (
-              <FrontpageHeaderNew
-                locale={locale}
-                heading={t('welcomePage.heading.heading')}
-                menuSubject={frontPageSubjects}
-                messages={headerMessages}
-                links={headerLinks}
-                hideSearch={false}
-                searchFieldValue={query}
-                onSearch={onSearch}
-                onSearchFieldChange={onSearchFieldChange}
-                searchFieldPlaceholder={t(
-                  'welcomePage.heading.searchFieldPlaceholder',
-                )}
-                searchResult={
-                  query.length > 2
-                    ? mapSearchToFrontPageStructure(
-                        data || [],
-                        t,
-                        query,
-                        locale,
-                      )
-                    : []
-                }
-                infoText={infoText}
-                onSearchInputFocus={onSearchInputFocus}
-                onSearchDeactiveFocusTrap={onSearchDeactiveFocusTrap}
-                inputHasFocus={inputHasFocus}
-                allResultUrl={`search?query=${query}`}
-              />
-            );
-          }}
-        </Query>
-        <main>
-          <div data-testid="category-list">{frontPageSubjects}</div>
-          <OneColumn>
-            <FrontpageFilm
-              imageUrl="/static/film_illustrasjon.svg"
-              url={
-                ALLOWED_SUBJECTS.includes(
-                  FILM_PAGE_PATH.replace('/subjects/', 'urn:'),
-                )
-                  ? FILM_PAGE_PATH
-                  : 'https://ndla.no/nb/film'
+        image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
+        <meta name="keywords" content={t('meta.keywords')} />
+      </SocialMediaMetadata>
+      <Query
+        fetchPolicy="no-cache"
+        variables={searchParams}
+        ssr={false}
+        query={frontpageSearch}>
+        {({ data, error }) => {
+          if (error) {
+            handleError(error);
+            return `Error: ${error.message}`;
+          }
+          return (
+            <FrontpageHeaderNew
+              locale={locale}
+              heading={t('welcomePage.heading.heading')}
+              menuSubject={frontPageSubjects}
+              messages={headerMessages}
+              links={headerLinks}
+              hideSearch={false}
+              searchFieldValue={query}
+              onSearch={onSearch}
+              onSearchFieldChange={onSearchFieldChange}
+              searchFieldPlaceholder={t(
+                'welcomePage.heading.searchFieldPlaceholder',
+              )}
+              searchResult={
+                query.length > 2
+                  ? mapSearchToFrontPageStructure(data || [], t, query, locale)
+                  : []
               }
-              messages={{
-                header: t('welcomePage.film.header'),
-                linkLabel: t('welcomePage.film.linkLabel'),
-                text: t('welcomePage.film.text'),
-              }}
+              infoText={infoText}
+              onSearchInputFocus={onSearchInputFocus}
+              onSearchDeactiveFocusTrap={onSearchDeactiveFocusTrap}
+              inputHasFocus={inputHasFocus}
+              allResultUrl={`search?query=${query}`}
             />
-            <WelcomePageInfo />
-          </OneColumn>
-        </main>
-      </Fragment>
-    );
-}
+          );
+        }}
+      </Query>
+      <main>
+        <div data-testid="category-list">{frontPageSubjects}</div>
+        <OneColumn>
+          <FrontpageFilm
+            imageUrl="/static/film_illustrasjon.svg"
+            url={
+              ALLOWED_SUBJECTS.includes(
+                FILM_PAGE_PATH.replace('/subjects/', 'urn:'),
+              )
+                ? FILM_PAGE_PATH
+                : 'https://ndla.no/nb/film'
+            }
+            messages={{
+              header: t('welcomePage.film.header'),
+              linkLabel: t('welcomePage.film.linkLabel'),
+              text: t('welcomePage.film.text'),
+            }}
+          />
+          <WelcomePageInfo />
+        </OneColumn>
+      </main>
+    </Fragment>
+  );
+};
 
 function mapSearchToFrontPageStructure(data, t, query, locale) {
   query = query.trim().toLowerCase();
