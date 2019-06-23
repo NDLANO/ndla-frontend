@@ -64,7 +64,7 @@ const ArticleHero = ({
     <OneColumn>
       <div className="c-hero__content">
         <section>
-          {subject ? (
+          {subject && (
             <Breadcrumb
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
@@ -72,7 +72,7 @@ const ArticleHero = ({
                 getFiltersFromUrl(location),
               )}
             />
-          ) : null}
+          )}
         </section>
       </div>
     </OneColumn>
