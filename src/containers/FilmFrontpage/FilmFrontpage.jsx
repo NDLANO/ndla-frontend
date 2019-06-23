@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { css } from '@emotion/core';
 import { CarouselAutosize } from '@ndla/carousel';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
@@ -17,6 +18,7 @@ import {
   AboutNdlaFilm,
   FilmMovieSearch,
   FilmMovieList,
+  AllMoviesAlphabetically,
 } from '@ndla/ui';
 import {
   GraphQLTopicShape,
@@ -63,20 +65,57 @@ class FilmFrontpage extends Component {
     }
   };
 
-  render() {
+  renderMovieGrid({ resourceTypeName }) {
     const {
-      highlighted,
       themes,
       resourceTypes,
-      topics,
-      aboutNDLAVideo,
       moviesByType,
       fetchingMoviesByType,
-      moreAboutNdlaFilm,
       language,
       t,
     } = this.props;
     const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
+    return (
+      <CarouselAutosize breakpoints={breakpoints}>
+        {autoSizedProps =>
+          resourceTypeSelected ? (
+            <MovieGrid
+              autoSizedProps={autoSizedProps}
+              resourceTypeName={resourceTypeName}
+              fetchingMoviesByType={fetchingMoviesByType}
+              moviesByType={moviesByType}
+              resourceTypes={resourceTypes}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
+            />
+          ) : (
+            themes.map(theme => (
+              <FilmMovieList
+                key={theme.name}
+                name={this.findName(theme.name, language)}
+                movies={theme.movies}
+                autoSizedProps={autoSizedProps}
+                slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
+                slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+                resourceTypes={resourceTypes}
+              />
+            ))
+          )
+        }
+      </CarouselAutosize>
+    );
+  }
+
+  render() {
+    const {
+      highlighted,
+      resourceTypes,
+      topics,
+      aboutNDLAVideo,
+      moviesByType,
+      moreAboutNdlaFilm,
+      showingAll,
+    } = this.props;
+    const { resourceTypeSelected } = this.state;
 
     const resourceTypeName =
       resourceTypeSelected &&
@@ -94,33 +133,16 @@ class FilmFrontpage extends Component {
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={this.onChangeResourceType}
         />
-        <div ref={this.movieListRef}>
-          <CarouselAutosize breakpoints={breakpoints}>
-            {autoSizedProps =>
-              resourceTypeSelected ? (
-                <MovieGrid
-                  autoSizedProps={autoSizedProps}
-                  resourceTypeName={resourceTypeName}
-                  fetchingMoviesByType={fetchingMoviesByType}
-                  moviesByType={moviesByType}
-                  resourceTypes={resourceTypes}
-                  loadingPlaceholderHeight={loadingPlaceholderHeight}
-                />
-              ) : (
-                themes.map(theme => (
-                  <FilmMovieList
-                    key={theme.name}
-                    name={this.findName(theme.name, language)}
-                    movies={theme.movies}
-                    autoSizedProps={autoSizedProps}
-                    slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-                    slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
-                    resourceTypes={resourceTypes}
-                  />
-                ))
-              )
-            }
-          </CarouselAutosize>
+        <div
+          ref={this.movieListRef}
+          css={css`
+            margin: ${spacing.spacingUnit * 3}px 0 ${spacing.spacingUnit * 4}px;
+          `}>
+          {showingAll ? (
+            <AllMoviesAlphabetically movies={moviesByType} />
+          ) : (
+            this.renderMovieGrid({ resourceTypeName })
+          )}
         </div>
         {aboutNDLAVideo && (
           <AboutNdlaFilm
@@ -209,6 +231,7 @@ FilmFrontpage.propTypes = {
   }).isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
+  showingAll: PropTypes.boolean,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };

@@ -27,12 +27,18 @@ import { movieResourceTypes } from './resourceTypes';
 import handleError from '../../util/handleError';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 
+const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
+
+const sortAlphabetically = movies =>
+  movies.sort((a, b) => a.title.localeCompare(b.title));
+
 class NdlaFilm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       moviesByType: [],
       fetchingMoviesByType: false,
+      showingAll: false,
     };
   }
 
@@ -52,13 +58,14 @@ class NdlaFilm extends Component {
   onSelectedMovieByType = async resourceId => {
     this.setState({
       fetchingMoviesByType: true,
+      showingAll: resourceId === ALL_MOVIES_ID,
     });
 
     const moviesFetched = await this.fetchMoviesByType(resourceId);
 
     this.setState({
       fetchingMoviesByType: false,
-      moviesByType: moviesFetched,
+      moviesByType: sortAlphabetically(moviesFetched),
     });
   };
 
@@ -77,13 +84,18 @@ class NdlaFilm extends Component {
   }
 
   fetchMoviesByType = async resourceId => {
+    const useResourceType =
+      resourceId === ALL_MOVIES_ID
+        ? movieResourceTypes.map(resourceType => resourceType.id).toString()
+        : resourceId;
+
     try {
       const { data } = await runQueries(this.props.client, [
         {
           query: searchQuery,
           variables: {
             subjects: 'urn:subject:20',
-            resourceTypes: resourceId,
+            resourceTypes: useResourceType,
             pageSize: '100',
             contextTypes: 'topic-article',
           },
@@ -97,23 +109,31 @@ class NdlaFilm extends Component {
   };
 
   render() {
-    const { moviesByType, fetchingMoviesByType } = this.state;
+    const { moviesByType, fetchingMoviesByType, showingAll } = this.state;
     const { t, locale } = this.props;
     const { filmfrontpage, subject } = this.props.data;
     const about =
       filmfrontpage &&
       filmfrontpage.about.find(about => (about.language = locale));
+    const allResources = {
+      name: t('filmfrontpage.resourcetype.all'),
+      id: ALL_MOVIES_ID,
+    };
 
     return (
       <FilmFrontpage
+        showingAll={showingAll}
         highlighted={filmfrontpage && filmfrontpage.slideShow}
         themes={filmfrontpage && filmfrontpage.movieThemes}
         moviesByType={moviesByType}
         topics={subject && subject.topics}
-        resourceTypes={movieResourceTypes.map(resourceType => ({
-          ...resourceType,
-          name: t(resourceType.name),
-        }))}
+        resourceTypes={[
+          ...movieResourceTypes.map(resourceType => ({
+            ...resourceType,
+            name: t(resourceType.name),
+          })),
+          ...[allResources],
+        ]}
         onSelectedMovieByType={this.onSelectedMovieByType}
         aboutNDLAVideo={about}
         fetchingMoviesByType={fetchingMoviesByType}
