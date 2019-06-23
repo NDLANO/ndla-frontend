@@ -231,7 +231,7 @@ FilmFrontpage.propTypes = {
   }).isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
-  showingAll: PropTypes.boolean,
+  showingAll: PropTypes.bool,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
