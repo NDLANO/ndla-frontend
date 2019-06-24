@@ -16,7 +16,7 @@ import { runQueries } from '../../util/runQueries';
 import {
   subjectPageQuery,
   filmFrontPageQuery,
-  searchQuery,
+  searchFilmQuery,
 } from '../../queries';
 import {
   GraphQLFilmFrontpageShape,
@@ -80,7 +80,7 @@ class NdlaFilm extends Component {
     try {
       const { data } = await runQueries(this.props.client, [
         {
-          query: searchQuery,
+          query: searchFilmQuery,
           variables: {
             subjects: 'urn:subject:20',
             resourceTypes: resourceId,
