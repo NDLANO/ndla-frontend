@@ -55,9 +55,9 @@ class FilmFrontpage extends Component {
     const name = themeNames.filter(name => name.language === language);
     const fallback = themeNames.filter(name => name.language === 'nb');
     if (name.length > 0) {
-      return name.map(n => n.name);
+      return name.map(n => n.name)[0];
     } else if (fallback.length > 0) {
-      return fallback.map(n => n.name);
+      return fallback.map(n => n.name)[0];
     } else {
       return '';
     }
@@ -210,7 +210,7 @@ FilmFrontpage.propTypes = {
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   t: PropTypes.func.isRequired,
-  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
+  client: PropTypes.shape({ query: PropTypes.func.isRequired }),
 };
 
 FilmFrontpage.defaultProps = {

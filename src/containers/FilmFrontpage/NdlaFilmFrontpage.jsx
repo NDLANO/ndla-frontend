@@ -131,7 +131,7 @@ NdlaFilm.propTypes = {
     subject: GraphQLSubjectShape,
     error: GraphqlErrorShape,
   }),
-  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
+  client: PropTypes.shape({ query: PropTypes.func }),
   locale: PropTypes.string,
 };
 
