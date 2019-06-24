@@ -83,6 +83,20 @@ class NdlaFilm extends Component {
     };
   }
 
+  queryBatch = async (useResourceType, page, pageSize) =>
+    await runQueries(this.props.client, [
+      {
+        query: searchQuery,
+        variables: {
+          subjects: 'urn:subject:20',
+          resourceTypes: useResourceType,
+          pageSize: pageSize.toString(),
+          page: page.toString(),
+          contextTypes: 'topic-article',
+        },
+      },
+    ]);
+
   fetchMoviesByType = async resourceId => {
     const useResourceType =
       resourceId === ALL_MOVIES_ID
@@ -90,18 +104,31 @@ class NdlaFilm extends Component {
         : resourceId;
 
     try {
-      const { data } = await runQueries(this.props.client, [
-        {
-          query: searchQuery,
-          variables: {
-            subjects: 'urn:subject:20',
-            resourceTypes: useResourceType,
-            pageSize: '100',
-            contextTypes: 'topic-article',
-          },
-        },
-      ]);
-      return data.search.results.map(this.transformMoviesByType);
+      // 1. Search doesnt support large pageSize, use multiple searches to list all.
+      // 2. Search returns same movie multiple times (useResourceType === list of resourceTypes).
+      let needToFetchData = true;
+      let page = 0;
+      const pageSize = 100;
+      const results = [];
+      while (needToFetchData) {
+        const fetchedData = await this.queryBatch(
+          useResourceType,
+          page,
+          pageSize,
+        );
+        results.push(...fetchedData.data.search.results);
+        page += 1;
+        needToFetchData = page * pageSize < fetchedData.data.search.totalCount;
+      }
+      const transformedResults = results.map(this.transformMoviesByType);
+      const filterIds = {};
+      return transformedResults.filter(result => {
+        if (!filterIds[result.id]) {
+          filterIds[result.id] = true;
+          return true;
+        }
+        return false;
+      });
     } catch (error) {
       handleError(error);
       return { error: true };
