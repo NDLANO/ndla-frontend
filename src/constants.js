@@ -73,7 +73,12 @@ export const FRONTPAGE_CATEGORIES = {
           shortname: 'SF Vg1,PB Vg3,YF Vg1/Vg2',
           id: 'urn:subject:19',
         },
-        { nodeId: '185100', beta: true, name: 'Religion og etikk' },
+        {
+          nodeId: '185100',
+          beta: true,
+          name: 'Religion og etikk',
+          id: 'urn:subject:44',
+        },
         { nodeId: '36', name: 'Samfunnsfag', id: 'urn:subject:3' },
         {
           nodeId: '126960',
@@ -106,7 +111,11 @@ export const FRONTPAGE_CATEGORIES = {
         },
         { nodeId: '52', name: 'Helsearbeiderfag Vg2', id: 'urn:subject:4' },
         { nodeId: '102783', name: 'IKT-servicefag Vg2', id: 'urn:subject:25' },
-        { nodeId: '86643', name: 'Kokk- og servitørfag Vg2' },
+        {
+          nodeId: '86643',
+          name: 'Kokk- og servitørfag Vg2',
+          id: 'urn:subject:41',
+        },
         { nodeId: '137415', name: 'Naturbruk Vg1', id: 'urn:subject:13' },
         { nodeId: '102780', name: 'Reiseliv Vg2', id: 'urn:subject:35' },
         {
@@ -114,7 +123,6 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Restaurant- og matfag Vg1',
           id: 'urn:subject:37',
         },
-        { nodeId: '2600', name: 'Romteknologi Vg3' },
         {
           nodeId: '102781',
           name: 'Salg, service og sikkerhet Vg2',
@@ -140,12 +148,12 @@ export const FRONTPAGE_CATEGORIES = {
     {
       name: 'studiespesialiserende',
       subjects: [
-        { nodeId: '52234', name: 'Biologi 1' },
+        { nodeId: '52234', name: 'Biologi 1', id: 'urn:subject:42' },
         {
-          id: 'urn:subject:17',
           nodeId: '71085',
           lang: 'en',
           name: 'Engelskspråklig litteratur og kultur',
+          id: 'urn:subject:17',
         },
         {
           nodeId: '56850',
@@ -203,6 +211,7 @@ export const FRONTPAGE_CATEGORIES = {
           nodeId: '185103',
           beta: true,
           name: 'Sosiologi og sosialantropologi',
+          id: 'urn:subject:43',
         },
         { nodeId: '137416', name: 'Tysk 1', id: 'urn:subject:8' },
         { nodeId: '138655', name: 'Tysk 2', id: 'urn:subject:8' },
@@ -229,6 +238,7 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:17',
   'urn:subject:18',
   'urn:subject:19',
+  'urn:subject:20',
   'urn:subject:21',
   'urn:subject:22',
   'urn:subject:23',
@@ -249,6 +259,10 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:33',
   'urn:subject:34',
   'urn:subject:36',
+  'urn:subject:41',
+  'urn:subject:42',
+  'urn:subject:43',
+  'urn:subject:44',
 ];
 
 export const ARTICLE_PAGE_PATH =

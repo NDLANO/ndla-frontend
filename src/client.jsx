@@ -44,7 +44,7 @@ window.errorReporter = ErrorReporter.getInstance({
 
 configureTracker({
   listen: browserHistory.listen,
-  gaTrackingId: config.gaTrackingId,
+  gaTrackingId: window.location.host ? config.gaTrackingId : '',
   googleTagManagerId: config.googleTagManagerId,
 });
 
@@ -57,7 +57,7 @@ renderOrHydrate(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
       <Router history={browserHistory}>
-        {routes(initialProps, abbreviation)}
+        {routes({ ...initialProps, basename }, abbreviation)}
       </Router>
     </IntlProvider>
   </ApolloProvider>,

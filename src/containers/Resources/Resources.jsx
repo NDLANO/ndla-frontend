@@ -64,7 +64,11 @@ class Resources extends Component {
       locale,
     } = this.props;
 
-    if (coreResources.length === 0 && supplementaryResources.length === 0) {
+    if (
+      coreResources &&
+      coreResources.length === 0 &&
+      supplementaryResources.length === 0
+    ) {
       return null;
     }
 

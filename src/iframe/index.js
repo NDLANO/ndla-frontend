@@ -8,6 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
 import IframeArticlePage from './IframeArticlePage';
 
@@ -26,10 +27,15 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+configureTracker({
+  listen: () => {},
+  gaTrackingId: config.gaTrackingId,
+  googleTagManagerId: config.googleTagManagerId,
+});
 
+const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <IframeArticlePage {...initialProps} />,
+  <IframeArticlePage {...initialProps} location={document.location} />,
   document.getElementById('root'),
 );
 

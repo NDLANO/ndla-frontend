@@ -203,7 +203,6 @@ class ArticlePage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-
           {scripts.map(script => (
             <script
               key={script.src}
@@ -218,7 +217,10 @@ class ArticlePage extends Component {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={article.title}
+          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
+            article.title
+          }`}
+          article={article}
           description={article.metaDescription}
           locale={locale}
           image={metaImage}

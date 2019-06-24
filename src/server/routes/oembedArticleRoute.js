@@ -84,7 +84,7 @@ export async function oembedArticleRoute(req) {
       return getOembedObject(
         req,
         article.title,
-        `<iframe src="${
+        `<iframe aria-label="${article.title}" src="${
           config.ndlaFrontendDomain
         }/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
       );
@@ -96,7 +96,9 @@ export async function oembedArticleRoute(req) {
     return getOembedObject(
       req,
       resource.title,
-      `<iframe src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${
+      `<iframe aria-label="${resource.title}" src="${
+        config.ndlaFrontendDomain
+      }/article-iframe/${lang}/${
         resource.id
       }/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
     );

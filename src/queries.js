@@ -61,12 +61,81 @@ export const searchQuery = gql`
         }
         title
         contexts {
+          id
           breadcrumbs
           filters {
             name
             relevance
           }
-          id
+          language
+          learningResourceType
+          path
+          resourceTypes {
+            id
+            name
+            language
+          }
+          subject
+        }
+        supportedLanguages
+      }
+      totalCount
+    }
+  }
+`;
+
+// This is almost a duplicate of the one above, except it does not get the id of the context types. This is due to caching on that id, which gives wrong results. Should be fixed when we check our caching method.
+export const searchFilmQuery = gql`
+  query Search(
+    $query: String
+    $page: String
+    $pageSize: String
+    $contextTypes: String
+    $language: String
+    $ids: String
+    $resourceTypes: String
+    $contextFilters: String
+    $levels: String
+    $sort: String
+    $fallback: Boolean
+    $subjects: String
+    $languageFilter: String
+    $relevance: String
+  ) {
+    search(
+      query: $query
+      page: $page
+      pageSize: $pageSize
+      contextTypes: $contextTypes
+      language: $language
+      ids: $ids
+      resourceTypes: $resourceTypes
+      contextFilters: $contextFilters
+      levels: $levels
+      sort: $sort
+      fallback: $fallback
+      subjects: $subjects
+      languageFilter: $languageFilter
+      relevance: $relevance
+    ) {
+      language
+      page
+      pageSize
+      results {
+        id
+        url
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+        title
+        contexts {
+          breadcrumbs
+          filters {
+            name
+            relevance
+          }
           language
           learningResourceType
           path
@@ -210,6 +279,7 @@ export const articleInfoFragment = gql`
       url
       alt
     }
+    supportedLanguages
     created
     updated
     published

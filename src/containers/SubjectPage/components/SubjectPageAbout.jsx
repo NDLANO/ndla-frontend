@@ -17,6 +17,7 @@ const AboutMedia = ({ visualElement: { type, url, alt } }) => {
     case 'image':
       return <Image alt={alt} src={url} />;
     case 'video':
+    case 'brightcove':
       return (
         <iframe
           title="About subject video"

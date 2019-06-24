@@ -356,15 +356,6 @@ exports[`ErrorPage renderers correctly 1`] = `
           Sigurd Trageton
         </strong>
       </span>
-      <span
-        className="footer_editor"
-      >
-        Utgaveansvarlig: 
-         
-        <strong>
-          Pål Frønsdal
-        </strong>
-      </span>
     </p>
     <p
       className="footer_text"

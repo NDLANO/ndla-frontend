@@ -16,7 +16,7 @@ import { runQueries } from '../../util/runQueries';
 import {
   subjectPageQuery,
   filmFrontPageQuery,
-  searchQuery,
+  searchFilmQuery,
 } from '../../queries';
 import {
   GraphQLFilmFrontpageShape,
@@ -34,7 +34,6 @@ class NdlaFilm extends Component {
       moviesByType: [],
       fetchingMoviesByType: false,
     };
-    this.onSelectedMovieByType = this.onSelectedMovieByType.bind(this);
   }
 
   static async getInitialProps(ctx) {
@@ -64,19 +63,16 @@ class NdlaFilm extends Component {
   };
 
   transformMoviesByType(movie) {
-    const { path } =
-      movie.contexts.find(
-        context => context.learningResourceType === 'topic-article',
-      ) || {};
-
-    const resourceTypes = movie.contexts.flatMap(
-      context => context.resourceTypes,
+    const contexts = movie.contexts.filter(
+      context => context.learningResourceType === 'topic-article',
     );
+
+    const { path } = contexts.length > 0 ? contexts[0] : {};
 
     return {
       ...movie,
-      url: path,
-      resourceTypes: resourceTypes,
+      path,
+      resourceTypes: contexts.flatMap(context => context.resourceTypes),
     };
   }
 
@@ -84,7 +80,7 @@ class NdlaFilm extends Component {
     try {
       const { data } = await runQueries(this.props.client, [
         {
-          query: searchQuery,
+          query: searchFilmQuery,
           variables: {
             subjects: 'urn:subject:20',
             resourceTypes: resourceId,
@@ -105,10 +101,7 @@ class NdlaFilm extends Component {
     const {
       t,
       locale,
-      data: {
-        filmfrontpage,
-        subject,
-      },
+      data: { filmfrontpage, subject },
       skipToContentId,
     } = this.props;
     const about =

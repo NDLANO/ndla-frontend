@@ -56,7 +56,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
               hasCopiedTitle={t('hasCopiedTitle')}
             />
             <CopyTextButton
-              stringToCopy={`<iframe title="${
+              stringToCopy={`<iframe title="${h5p.src}" aria-label="${
                 h5p.src
               }" height="400" width="500" frameborder="0" src="${
                 h5p.src

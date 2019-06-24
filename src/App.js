@@ -21,6 +21,8 @@ import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import { FILM_PAGE_PATH, SKIP_TO_CONTENT_ID } from './constants';
 
+export const BasenameContext = React.createContext('');
+
 const Route = ({
   component: Component,
   initialProps,
@@ -168,27 +170,32 @@ class App extends React.Component {
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} />;
     }
-
-    const isNdlaFilm = this.props.location.pathname.includes(FILM_PAGE_PATH);
-
+    const {
+      initialProps: { basename },
+      location,
+      locale,
+    } = this.props;
+    const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <Switch>
-        {routes
-          .filter(route => route !== undefined)
-          .map(route => (
-            <Route
-              key={`route_${route.path}`}
-              exact={route.exact}
-              hideMasthead={route.hideMasthead}
-              initialProps={this.state.data}
-              locale={this.props.locale}
-              component={route.component}
-              background={route.background}
-              path={route.path}
-              ndlaFilm={isNdlaFilm}
-            />
-          ))}
-      </Switch>
+      <BasenameContext.Provider value={basename}>
+        <Switch>
+          {routes
+            .filter(route => route !== undefined)
+            .map(route => (
+              <Route
+                key={`route_${route.path}`}
+                exact={route.exact}
+                hideMasthead={route.hideMasthead}
+                initialProps={this.state.data}
+                locale={locale}
+                component={route.component}
+                background={route.background}
+                path={route.path}
+                ndlaFilm={isNdlaFilm}
+              />
+            ))}
+        </Switch>
+      </BasenameContext.Provider>
     );
   }
 }

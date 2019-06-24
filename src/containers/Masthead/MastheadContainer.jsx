@@ -266,12 +266,11 @@ class MastheadContainer extends React.PureComponent {
               hideOnNarrowScreen
             />
           )}
-
           <Logo
             to="/"
             locale={locale}
             label={t('logo.altText')}
-            cssModifier={ndlaFilm && 'white'}
+            cssModifier={ndlaFilm ? 'white' : ''}
           />
         </MastheadItem>
       </Masthead>

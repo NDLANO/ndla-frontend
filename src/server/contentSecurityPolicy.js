@@ -157,6 +157,8 @@ export default {
       'lab.concord.org',
       'worldbank.org',
       '*.worldbank.org',
+      'ted.com',
+      'embed.ted.com',
     ],
     styleSrc: [
       "'self'",

@@ -53,7 +53,7 @@ export async function iframeArticleRoute(req) {
   const removeRelatedContent = defined(req.query.removeRelatedContent, false);
   const locale = getLocaleObject(lang);
   const { articleId, resourceId } = req.params;
-
+  const location = { pathname: req.url };
   try {
     const article = await fetchArticle(articleId, lang, removeRelatedContent);
     const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
@@ -61,6 +61,7 @@ export async function iframeArticleRoute(req) {
       resource: { article, resourceTypes },
       locale,
       status: 'success',
+      location,
     });
 
     return renderHtml(req, html, { status: OK }, docProps);
@@ -71,6 +72,7 @@ export async function iframeArticleRoute(req) {
     }
     const { html, docProps } = doRenderPage({
       locale,
+      location,
       status: 'error',
     });
 

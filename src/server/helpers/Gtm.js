@@ -14,6 +14,7 @@ export const GoogleTagMangerNoScript = () => {
     return (
       <noscript>
         <iframe
+          aria-hidden="true"
           title="Google Tag Manager"
           src={`https://www.googletagmanager.com/ns.html?id=${
             config.googleTagManagerId

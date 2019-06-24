@@ -14,7 +14,7 @@ export function toSearch() {
   return '/search';
 }
 
-export const removeUrn = string => string.replace('urn:', '');
+export const removeUrn = string => (string ? string.replace('urn:', '') : '');
 
 export function getUrnIdsFromProps(props) {
   const {

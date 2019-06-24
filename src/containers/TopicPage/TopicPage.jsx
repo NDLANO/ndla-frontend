@@ -28,9 +28,7 @@ import {
   LocationShape,
   ResourceShape,
 } from '../../shapes';
-
 import { GraphqlErrorShape } from '../../graphqlShapes';
-
 import { toBreadcrumbItems, getUrnIdsFromProps } from '../../routeHelpers';
 import Article from '../../components/Article';
 import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
@@ -60,7 +58,7 @@ const getTitle = (article, topic) => {
   return '';
 };
 
-const transformData = (data, locale) => {
+const transformData = data => {
   const { subject, topic } = data;
 
   const topicPath =
@@ -98,7 +96,7 @@ class TopicPage extends Component {
     ]);
     return {
       ...response,
-      data: transformData(response.data, ctx.locale),
+      data: transformData(response.data),
     };
   }
 
@@ -145,7 +143,7 @@ class TopicPage extends Component {
     } = data;
 
     const hasArticleError =
-      errors && errors.find(e => e.path.includes('article')) !== undefined;
+      errors && errors.find(err => err.path.includes('article')) !== undefined;
     const article = transformArticle(topicArticle, locale);
     const scripts = getArticleScripts(article);
     const subtopics = subject
@@ -155,6 +153,7 @@ class TopicPage extends Component {
     const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
 
     const metaImage =
+      article &&
       article.metaData &&
       article.metaData.images &&
       article.metaData.images.length > 0
@@ -167,7 +166,6 @@ class TopicPage extends Component {
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
-
           {scripts.map(script => (
             <script
               key={script.src}
@@ -176,7 +174,6 @@ class TopicPage extends Component {
               async={script.async}
             />
           ))}
-
           <script type="application/ld+json">
             {JSON.stringify(getStructuredDataFromArticle(article))}
           </script>
@@ -185,7 +182,10 @@ class TopicPage extends Component {
           <SocialMediaMetadata
             description={article.metaDescription}
             image={metaImage}
-            title={article.title}
+            title={`${subject && subject.name ? subject.name + ' - ' : ''}${
+              article.title
+            }`}
+            article={article}
             locale={locale}
           />
         )}
@@ -242,6 +242,10 @@ class TopicPage extends Component {
   }
 }
 
+TopicPage.defaultProps = {
+  basename: '',
+};
+
 TopicPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -266,6 +270,7 @@ TopicPage.propTypes = {
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string.isRequired,
+  basename: PropTypes.string,
 };
 
 export default compose(
