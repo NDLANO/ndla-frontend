@@ -102,8 +102,15 @@ class NdlaFilm extends Component {
 
   render() {
     const { moviesByType, fetchingMoviesByType } = this.state;
-    const { t, locale } = this.props;
-    const { filmfrontpage, subject } = this.props.data;
+    const {
+      t,
+      locale,
+      data: {
+        filmfrontpage,
+        subject,
+      },
+      skipToContentId,
+    } = this.props;
     const about =
       filmfrontpage &&
       filmfrontpage.about.find(about => (about.language = locale));
@@ -123,6 +130,7 @@ class NdlaFilm extends Component {
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
         language={locale}
+        skipToContentId={skipToContentId}
       />
     );
   }

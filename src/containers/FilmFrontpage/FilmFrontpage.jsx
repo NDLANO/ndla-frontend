@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { CarouselAutosize } from '@ndla/carousel';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
@@ -26,7 +25,6 @@ import {
 } from '../../graphqlShapes';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
-const classes = BEMHelper('c-frontpage-section');
 
 class FilmFrontpage extends Component {
   constructor(props) {
@@ -87,6 +85,7 @@ class FilmFrontpage extends Component {
         resourceType => resourceType.id === resourceTypeSelected,
       );
 
+    console.log(skipToContentId);
     return (
       <div id={skipToContentId}>
         <FilmSlideshow slideshow={highlighted} />
@@ -97,7 +96,7 @@ class FilmFrontpage extends Component {
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={this.onChangeResourceType}
         />
-        <section {...classes()} ref={this.movieListRef}>
+        <div ref={this.movieListRef}>
           <CarouselAutosize breakpoints={breakpoints}>
             {autoSizedProps =>
               resourceTypeSelected ? (
@@ -119,13 +118,12 @@ class FilmFrontpage extends Component {
                     slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
                     slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
                     resourceTypes={resourceTypes}
-                    resizeThumbnailImages
                   />
                 ))
               )
             }
           </CarouselAutosize>
-        </section>
+        </div>
         {aboutNDLAVideo && (
           <AboutNdlaFilm
             aboutNDLAVideo={aboutNDLAVideo}
@@ -213,9 +211,9 @@ FilmFrontpage.propTypes = {
   }).isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
+  skipToContentId: PropTypes.string,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
-  skipToContentId: PropTypes.string,
 };
 
 FilmFrontpage.defaultProps = {
