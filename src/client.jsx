@@ -35,9 +35,9 @@ if (basename === '' && window.localStorage) {
     storedLang !== 'nb'
   ) {
     const { pathname, search } = window.location;
-    window.location.href= `/${storedLang}${pathname}${search}`;
+    window.location.href = `/${storedLang}${pathname}${search}`;
   }
-}else if(window.localStorage && isValidLocale(basename)){
+} else if (window.localStorage && isValidLocale(basename)) {
   window.localStorage.setItem('language', basename);
 }
 
