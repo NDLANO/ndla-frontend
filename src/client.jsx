@@ -35,9 +35,10 @@ if (basename === '' && window.localStorage) {
     storedLang !== 'nb'
   ) {
     const { pathname, search } = window.location;
-    createHistory().push(`/${storedLang}${pathname}${search}`); // Need create new history or else basename is included
-    window.location.reload();
+    window.location.href= `/${storedLang}${pathname}${search}`;
   }
+}else if(window.localStorage && isValidLocale(basename)){
+  window.localStorage.setItem('language', basename);
 }
 
 const browserHistory = createHistory(basename);
