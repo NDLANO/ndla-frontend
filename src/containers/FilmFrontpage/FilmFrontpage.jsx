@@ -85,7 +85,6 @@ class FilmFrontpage extends Component {
         resourceType => resourceType.id === resourceTypeSelected,
       );
 
-    console.log(skipToContentId);
     return (
       <div id={skipToContentId}>
         <FilmSlideshow slideshow={highlighted} />
