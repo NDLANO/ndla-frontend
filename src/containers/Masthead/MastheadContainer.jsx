@@ -199,6 +199,9 @@ class MastheadContainer extends React.PureComponent {
         name: appLocale.name,
         url: getLocaleURL(appLocale.abbreviation, locale, location),
       };
+      if(appLocale.abbreviation === 'nb'){
+        localeUrls[appLocale.abbreviation].url = `/nb${localeUrls[appLocale.abbreviation].url}`
+      }
     });
 
     const breadcrumbBlockItems = subject
