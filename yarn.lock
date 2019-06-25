@@ -8923,13 +8923,6 @@ postcss-focus-within@^3.0.0:
   dependencies:
     postcss "^7.0.2"
 
-postcss-focus@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-focus/-/postcss-focus-4.0.0.tgz#1c0d4d34a22aa63ccaa31f8da845f7180d203ed8"
-  integrity sha512-hSbpArQGnhj36JtqXTPy6CIvCmjmAS7rxyTgmCwNZY4kIcA6I3/nm3fI0D6OgUcsBMC0Wg2OOD9FRNbtzFILFA==
-  dependencies:
-    postcss "^7.0.2"
-
 postcss-font-family-system-ui@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/postcss-font-family-system-ui/-/postcss-font-family-system-ui-3.0.0.tgz#675fe7a9e029669f05f8dba2e44c2225ede80623"
