@@ -206,7 +206,7 @@ FilmFrontpage.propTypes = {
       url: PropTypes.string,
       alt: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   t: PropTypes.func.isRequired,
