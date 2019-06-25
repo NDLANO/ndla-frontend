@@ -14,7 +14,7 @@ import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
 import { configureTracker } from '@ndla/tracker';
 import { createHistory } from './history';
-import { getLocaleInfoFromPath } from './i18n';
+import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
 import routes from './routes';
 import './style/index.css';
@@ -25,6 +25,20 @@ const {
 const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
 );
+
+if (basename === '' && window.localStorage) {
+  const storedLang = window.localStorage.getItem('language');
+  if (
+    storedLang &&
+    storedLang !== '' &&
+    isValidLocale(storedLang) &&
+    storedLang !== 'nb'
+  ) {
+    const { pathname, search } = window.location;
+    createHistory().push(`/${storedLang}${pathname}${search}`); // Need create new history or else basename is included
+    window.location.reload();
+  }
+}
 
 const browserHistory = createHistory(basename);
 
