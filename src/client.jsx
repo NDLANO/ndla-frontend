@@ -12,6 +12,7 @@ import Router from 'react-router-dom/Router';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
+import { setCookie, getCookie } from '@ndla/util';
 import { configureTracker } from '@ndla/tracker';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
@@ -26,8 +27,8 @@ const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
 );
 
-if (basename === '' && window.localStorage) {
-  const storedLang = window.localStorage.getItem('language');
+if (basename === '') {
+  const storedLang = getCookie('language', document.cookie);
   if (
     storedLang &&
     storedLang !== '' &&
@@ -37,8 +38,8 @@ if (basename === '' && window.localStorage) {
     const { pathname, search } = window.location;
     window.location.href = `/${storedLang}${pathname}${search}`;
   }
-} else if (window.localStorage && isValidLocale(basename)) {
-  window.localStorage.setItem('language', basename);
+} else if (isValidLocale(basename)) {
+  setCookie('language', basename);
 }
 
 const browserHistory = createHistory(basename);
