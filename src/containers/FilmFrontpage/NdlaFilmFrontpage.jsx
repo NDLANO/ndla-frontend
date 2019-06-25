@@ -138,6 +138,7 @@ NdlaFilm.propTypes = {
   }),
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
   locale: PropTypes.string,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(
