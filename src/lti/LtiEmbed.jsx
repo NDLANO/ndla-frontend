@@ -44,6 +44,9 @@ const StyledLinkAsButton = styled('a')`
 `;
 
 const getReturnType = ltiData => {
+  if (!ltiData.ext_content_return_types) {
+    return 'lti_launch_url';
+  }
   if (ltiData.ext_content_return_types === 'lti_launch_url') {
     return 'lti_launch_url';
   }
