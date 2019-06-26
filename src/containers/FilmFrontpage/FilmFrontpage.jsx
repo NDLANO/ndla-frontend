@@ -73,6 +73,7 @@ class FilmFrontpage extends Component {
       moviesByType,
       fetchingMoviesByType,
       moreAboutNdlaFilm,
+      skipToContentId,
       language,
       t,
     } = this.props;
@@ -84,8 +85,9 @@ class FilmFrontpage extends Component {
         resourceType => resourceType.id === resourceTypeSelected,
       );
 
+    console.log(skipToContentId);
     return (
-      <>
+      <div id={skipToContentId}>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
@@ -128,7 +130,7 @@ class FilmFrontpage extends Component {
             moreAboutNdlaFilm={moreAboutNdlaFilm}
           />
         )}
-      </>
+      </div>
     );
   }
 }
@@ -209,6 +211,7 @@ FilmFrontpage.propTypes = {
   }).isRequired,
   language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
+  skipToContentId: PropTypes.string,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
