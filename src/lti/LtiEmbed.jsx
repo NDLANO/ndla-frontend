@@ -73,8 +73,14 @@ const getQuery = (ltiData, item) => {
     width: ltiData.launch_presentation_width,
     height: ltiData.launch_presentation_height,
   };
-  return `${ltiData.launch_presentation_return_url}?${queryString.stringify({
+  const returnUrlParams = queryString.parse(
+    ltiData.launch_presentation_return_url,
+  );
+  return `${
+    ltiData.launch_presentation_return_url.split('?')[0]
+  }?${queryString.stringify({
     ...query,
+    ...returnUrlParams,
     text: query.return_type === 'lti_launch_url' ? item.title : undefined,
   })}`;
 };
