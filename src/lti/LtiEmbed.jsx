@@ -72,15 +72,15 @@ const getQuery = (ltiData, item) => {
     return_type: getReturnType(ltiData),
     width: ltiData.launch_presentation_width,
     height: ltiData.launch_presentation_height,
+    accept_presentation_document_targets: 'iframe',
   };
   const returnUrlParams = queryString.parse(
     ltiData.launch_presentation_return_url,
   );
-  return `${
-    ltiData.launch_presentation_return_url.split('?')[0]
-  }?${queryString.stringify({
+  return `${ltiData.launch_presentation_return_url}${
+    returnUrlParams ? '&' : '?'
+  }${queryString.stringify({
     ...query,
-    ...returnUrlParams,
     text: query.return_type === 'lti_launch_url' ? item.title : undefined,
   })}`;
 };
