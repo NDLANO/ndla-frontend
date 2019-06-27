@@ -65,9 +65,7 @@ const getQuery = (ltiData, item) => {
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/article-iframe/nb/article/${
-      item.id
-    }?removeRelatedContent=true`,
+    url: `${baseUrl}/article-iframe/nb/article/${item.id}`,
     context_title: item.title,
     title: item.title,
     return_type: getReturnType(ltiData),
@@ -153,10 +151,12 @@ class LtiEmbed extends Component {
   postLtiData = () => {
     const { ltiData, item, t } = this.props;
 
-    fetch(ltiData.launch_presentation_return_url, {
+    /*fetch(ltiData.launch_presentation_return_url, {
       method: 'POST',
       body: JSON.stringify(getLtiPostData(ltiData, item)),
-    });
+    });*/
+
+    //location.href =
   };
 
   render() {
