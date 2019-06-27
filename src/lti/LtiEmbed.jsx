@@ -85,6 +85,34 @@ const getQuery = (ltiData, item) => {
   })}`;
 };
 
+const getLtiPostData = (ltiData, item) => {
+  const baseUrl =
+    config.ndlaEnvironment === 'dev'
+      ? 'http://localhost:3000'
+      : config.ndlaFrontendDomain;
+  return {
+    lti_message_type: 'ContentItemSelection',
+    url: `${baseUrl}/article-iframe/nb/article/${
+      item.id
+    }?removeRelatedContent=true`,
+    title: item.title,
+    return_type: getReturnType(ltiData),
+    width: ltiData.launch_presentation_width,
+    height: ltiData.launch_presentation_height,
+    context_id: ltiData.context_id,
+    launch_presentation_document_target: 'iframe',
+    lti_message_type: ltiData.lti_message_type,
+    lti_version: ltiData.lti_version,
+    oauth_callback: ltiData.oauth_callbackm,
+    oauth_consumer_key: ltiData.oauth_consumer_key,
+    oauth_nonce: ltiData.oauth_nonce,
+    oauth_signature: ltiData.oauth_signature,
+    oauth_signature_method: ltiData.oauth_signature_method,
+    oauth_timestamp: ltiData.oauth_timestamp,
+    oauth_version: ltiData.oauth_version,
+  };
+};
+
 class LtiEmbed extends Component {
   constructor() {
     super();
@@ -111,6 +139,15 @@ class LtiEmbed extends Component {
     this.setState({ isOpen: false, embedCode: '' });
   }
 
+  postLtiData = () => {
+    const { ltiData, item, t } = this.props;
+
+    fetch(ltiData.launch_presentation_return_url, {
+      method: 'POST',
+      body: JSON.stringify(getLtiPostData(ltiData, item)),
+    });
+  };
+
   render() {
     const { ltiData, item, t } = this.props;
     const isValidLTI =
@@ -119,11 +156,7 @@ class LtiEmbed extends Component {
       ltiData.launch_presentation_return_url;
 
     if (isValidLTI) {
-      return (
-        <StyledLinkAsButton href={getQuery(ltiData, item)}>
-          {t('lti.embed')}
-        </StyledLinkAsButton>
-      );
+      return <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>;
     }
     const { isOpen, embedCode } = this.state;
     return (
