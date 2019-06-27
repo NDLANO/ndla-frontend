@@ -65,7 +65,7 @@ const getQuery = (ltiData, item) => {
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/article-iframe/nb/article/${item.id}`,
+    url: encodeURIComponent(`${baseUrl}/article-iframe/nb/article/${item.id}`),
     context_title: item.title,
     title: item.title,
     return_type: getReturnType(ltiData),
