@@ -20,6 +20,7 @@ import {
   FilmMovieList,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
+import MovieThing from './MovieThing';
 import {
   GraphQLTopicShape,
   GraphQLArticleMetaShape,
@@ -53,58 +54,6 @@ class FilmFrontpage extends Component {
     });
   }
 
-  findName = (themeNames, language) => {
-    const name = themeNames.filter(name => name.language === language);
-    const fallback = themeNames.filter(name => name.language === 'nb');
-    if (name.length > 0) {
-      return name.map(n => n.name);
-    } else if (fallback.length > 0) {
-      return fallback.map(n => n.name);
-    } else {
-      return '';
-    }
-  };
-
-  renderMovieGrid({ resourceTypeName }) {
-    const {
-      themes,
-      resourceTypes,
-      moviesByType,
-      fetchingMoviesByType,
-      language,
-      t,
-    } = this.props;
-    const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
-    return (
-      <CarouselAutosize breakpoints={breakpoints}>
-        {autoSizedProps =>
-          resourceTypeSelected ? (
-            <MovieGrid
-              autoSizedProps={autoSizedProps}
-              resourceTypeName={resourceTypeName}
-              fetchingMoviesByType={fetchingMoviesByType}
-              moviesByType={moviesByType}
-              resourceTypes={resourceTypes}
-              loadingPlaceholderHeight={loadingPlaceholderHeight}
-            />
-          ) : (
-            themes.map(theme => (
-              <FilmMovieList
-                key={theme.name}
-                name={this.findName(theme.name, language)}
-                movies={theme.movies}
-                autoSizedProps={autoSizedProps}
-                slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-                slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
-                resourceTypes={resourceTypes}
-              />
-            ))
-          )
-        }
-      </CarouselAutosize>
-    );
-  }
-
   render() {
     const {
       highlighted,
@@ -114,8 +63,11 @@ class FilmFrontpage extends Component {
       moviesByType,
       moreAboutNdlaFilm,
       showingAll,
+      themes,
+      language,
+      fetchingMoviesByType,
     } = this.props;
-    const { resourceTypeSelected } = this.state;
+    const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
 
     const resourceTypeName =
       resourceTypeSelected &&
@@ -141,7 +93,16 @@ class FilmFrontpage extends Component {
           {showingAll ? (
             <AllMoviesAlphabetically movies={moviesByType} />
           ) : (
-            this.renderMovieGrid({ resourceTypeName })
+            <MovieThing
+              resourceTypeName={resourceTypeName}
+              moviesByType={moviesByType}
+              resourceTypes={resourceTypes}
+              themes={themes}
+              fetchingMoviesByType={fetchingMoviesByType}
+              language={language}
+              resourceTypeSelected={resourceTypeSelected}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
+            />
           )}
         </div>
         {aboutNDLAVideo && (
@@ -154,57 +115,6 @@ class FilmFrontpage extends Component {
     );
   }
 }
-
-const breakpoints = [
-  {
-    until: 'mobile',
-    columnsPrSlide: 1,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'mobileWide',
-    columnsPrSlide: 2,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'tabletWide',
-    columnsPrSlide: 3,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'desktop',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 2,
-    arrowOffset: 0,
-  },
-  {
-    until: 'wide',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 2,
-    arrowOffset: 0,
-  },
-  {
-    until: 'ultraWide',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 3.5,
-    arrowOffset: 0,
-  },
-  {
-    columnsPrSlide: 6,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 3.5,
-    arrowOffset: 0,
-  },
-];
 
 FilmFrontpage.propTypes = {
   fetchingMoviesByType: PropTypes.bool,
