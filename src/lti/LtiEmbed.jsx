@@ -104,20 +104,24 @@ const getLtiPostData = (ltiData, item) => {
   }?removeRelatedContent=true`;
   return {
     launch_presentation_return_url: ltiData.launch_presentation_return_url,
-    '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
-    '@graph': [
-      {
-        '@type': 'ContentItem',
-        url: iframeurl,
-        text: 'IMS logo for certified products',
-        title: 'The logo used to identify IMS certified products',
-        placementAdvice: {
-          displayWidth: 147,
-          displayHeight: 184,
-          presentationDocumentTarget: 'iframe',
+    lti_message_type: 'ContentItemSelection',
+    lti_version: 'LTI-1p0',
+    content_items: {
+      '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+      '@graph': [
+        {
+          '@type': 'ContentItem',
+          url: iframeurl,
+          mediaType: 'text/html',
+          title: item.title,
+          placementAdvice: {
+            displayWidth: 147,
+            displayHeight: 184,
+            presentationDocumentTarget: 'iframe',
+          },
         },
-      },
-    ],
+      ],
+    },
   };
 };
 
