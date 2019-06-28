@@ -33,6 +33,7 @@ import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
+import { STATUS_CODES } from 'http';
 
 global.fetch = fetch;
 const app = express();
@@ -157,6 +158,21 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
+});
+
+app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  console.log(req);
+  const body = req.body;
+  try {
+    await fetch(body.launch_presentation_return_url, {
+      method: 'POST',
+      body,
+    });
+    res.send(STATUS_CODES.OK);
+  } catch (err) {
+    res.send(STATUS_CODES.INTERNAL_SERVER_ERROR);
+  }
 });
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {

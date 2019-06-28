@@ -119,6 +119,7 @@ const getLtiPostData = (ltiData, item) => {
     oauth_signature_method: ltiData.oauth_signature_method,
     oauth_timestamp: ltiData.oauth_timestamp,
     oauth_version: ltiData.oauth_version,
+    launch_presentation_return_url: ltiData.launch_presentation_return_url,
   };
 };
 
@@ -147,14 +148,13 @@ class LtiEmbed extends Component {
   hideEmbedCode() {
     this.setState({ isOpen: false, embedCode: '' });
   }
-
   postLtiData = () => {
     const { ltiData, item, t } = this.props;
 
-    /*fetch(ltiData.launch_presentation_return_url, {
+    fetch('/lti/deeplinking', {
       method: 'POST',
       body: JSON.stringify(getLtiPostData(ltiData, item)),
-    });*/
+    });
 
     //location.href =
   };
