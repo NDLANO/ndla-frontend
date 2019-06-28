@@ -93,6 +93,36 @@ const getQuery = (ltiData, item) => {
     text: query.return_type === 'lti_launch_url' ? item.title : undefined,
   })}`;
 };
+export const createFormData = (ltiData, item) => {
+  const baseUrl =
+    config.ndlaEnvironment === 'dev'
+      ? 'http://localhost:3000'
+      : config.ndlaFrontendDomain;
+  const iframeurl = `${baseUrl}/article-iframe/nb/article/${
+    item.id
+  }?removeRelatedContent=true`;
+  const form = new FormData();
+  const contentItems = {
+    '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+    '@graph': [
+      {
+        '@type': 'ContentItem',
+        url: iframeurl,
+        mediaType: 'text/html',
+        title: item.title,
+        placementAdvice: {
+          displayWidth: 147,
+          displayHeight: 184,
+          presentationDocumentTarget: 'iframe',
+        },
+      },
+    ],
+  };
+  form.append('lti_message_type', 'ContentItemSelection');
+  form.append('lti_version', 'LTI-1p0');
+  form.append('content_items', contentItems);
+  return form;
+};
 
 const getLtiPostData = (ltiData, item) => {
   const baseUrl =
@@ -103,7 +133,6 @@ const getLtiPostData = (ltiData, item) => {
     item.id
   }?removeRelatedContent=true`;
   return {
-    launch_presentation_return_url: ltiData.launch_presentation_return_url,
     lti_message_type: 'ContentItemSelection',
     lti_version: 'LTI-1p0',
     content_items: {
@@ -151,12 +180,27 @@ class LtiEmbed extends Component {
     this.setState({ isOpen: false, embedCode: '' });
   }
   postLtiData = () => {
-    const { ltiData, item, t } = this.props;
+    const { ltiData, item } = this.props;
 
-    fetch('/lti/deeplinking', {
+    fetch(`/lti/deeplinking?launch_presentation_return_url=test`, {
       method: 'POST',
       body: JSON.stringify(getLtiPostData(ltiData, item)),
     });
+
+    //location.href =
+  };
+
+  postFormLtiData = () => {
+    const { ltiData, item } = this.props;
+    fetch(
+      `/lti/deeplinking?launch_presentation_return_url=${
+        ltiData.launch_presentation_return_url
+      }`,
+      {
+        method: 'POST',
+        body: createFormData(ltiData, item),
+      },
+    );
 
     //location.href =
   };
@@ -174,7 +218,8 @@ class LtiEmbed extends Component {
           <StyledLinkAsButton href={getQuery(ltiData, item)}>
             Embed link
           </StyledLinkAsButton>
-          <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>;
+          <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>
+          <Button onClick={this.postFormLtiData}>embed form</Button>
         </div>
       );
     }
