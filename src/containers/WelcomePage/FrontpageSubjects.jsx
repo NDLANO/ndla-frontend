@@ -177,7 +177,7 @@ class FrontpageSubjects extends Component {
     return (
       <FrontpageSubjectsSection
         linkToAbout={<LinkToAbout />}
-        categories={allSubjectsWithFIxedEndSlash}
+        categories={allSubjects}
       />
     );
   }
