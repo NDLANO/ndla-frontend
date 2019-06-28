@@ -165,13 +165,13 @@ app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
   console.log(req);
   const body = req.body;
   try {
-    await fetch(body.launch_presentation_return_url, {
+    const ltiRes = await fetch(body.launch_presentation_return_url, {
       method: 'POST',
       body,
     });
-    res.send(STATUS_CODES.OK);
+    res.send(ltiRes);
   } catch (err) {
-    res.send(STATUS_CODES.INTERNAL_SERVER_ERROR);
+    res.send(err);
   }
 });
 
