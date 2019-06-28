@@ -164,10 +164,13 @@ app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const query = req.query;
   try {
-    const ltiRes = await fetch(query.launch_presentation_return_url, {
-      method: 'POST',
-      body: req.body,
-    });
+    const ltiRes = await fetch(
+      decodeURIComponent(query.launch_presentation_return_url),
+      {
+        method: 'POST',
+        body: req.body,
+      },
+    );
     res.send(ltiRes);
   } catch (err) {
     res.send(err);

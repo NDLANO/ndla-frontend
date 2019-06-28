@@ -182,10 +182,15 @@ class LtiEmbed extends Component {
   postLtiData = () => {
     const { ltiData, item } = this.props;
 
-    fetch(`/lti/deeplinking?launch_presentation_return_url=test`, {
-      method: 'POST',
-      body: JSON.stringify(getLtiPostData(ltiData, item)),
-    });
+    fetch(
+      `/lti/deeplinking?launch_presentation_return_url=${encodeURIComponent(
+        ltiData.launch_presentation_return_url,
+      )}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(getLtiPostData(ltiData, item)),
+      },
+    );
 
     //location.href =
   };
@@ -193,9 +198,9 @@ class LtiEmbed extends Component {
   postFormLtiData = () => {
     const { ltiData, item } = this.props;
     fetch(
-      `/lti/deeplinking?launch_presentation_return_url=${
-        ltiData.launch_presentation_return_url
-      }`,
+      `/lti/deeplinking?launch_presentation_return_url=${encodeURIComponent(
+        ltiData.launch_presentation_return_url,
+      )}`,
       {
         method: 'POST',
         body: createFormData(ltiData, item),
