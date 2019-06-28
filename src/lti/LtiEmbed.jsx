@@ -120,7 +120,7 @@ export const createFormData = (ltiData, item) => {
   };
   form.append('lti_message_type', 'ContentItemSelection');
   form.append('lti_version', 'LTI-1p0');
-  form.append('content_items', contentItems);
+  form.append('content_items', JSON.stringify(contentItems));
   return form;
 };
 
