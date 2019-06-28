@@ -99,27 +99,25 @@ const getLtiPostData = (ltiData, item) => {
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
+  const iframeurl = `${baseUrl}/article-iframe/nb/article/${
+    item.id
+  }?removeRelatedContent=true`;
   return {
-    url: `${baseUrl}/article-iframe/nb/article/${
-      item.id
-    }?removeRelatedContent=true`,
-    context_title: item.title,
-    title: item.title,
-    return_type: getReturnType(ltiData),
-    width: ltiData.launch_presentation_width,
-    height: ltiData.launch_presentation_height,
-    context_id: ltiData.context_id,
-    launch_presentation_document_target: 'iframe',
-    lti_message_type: ltiData.lti_message_type,
-    lti_version: ltiData.lti_version,
-    oauth_callback: ltiData.oauth_callbackm,
-    oauth_consumer_key: ltiData.oauth_consumer_key,
-    oauth_nonce: ltiData.oauth_nonce,
-    oauth_signature: ltiData.oauth_signature,
-    oauth_signature_method: ltiData.oauth_signature_method,
-    oauth_timestamp: ltiData.oauth_timestamp,
-    oauth_version: ltiData.oauth_version,
     launch_presentation_return_url: ltiData.launch_presentation_return_url,
+    '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+    '@graph': [
+      {
+        '@type': 'ContentItem',
+        url: iframeurl,
+        text: 'IMS logo for certified products',
+        title: 'The logo used to identify IMS certified products',
+        placementAdvice: {
+          displayWidth: 147,
+          displayHeight: 184,
+          presentationDocumentTarget: 'iframe',
+        },
+      },
+    ],
   };
 };
 
