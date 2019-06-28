@@ -18,7 +18,6 @@ import {
 } from '../../graphqlShapes';
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
-import { fixEndSlash } from '../../routeHelpers';
 
 export const getAllImportSubjectsCategory = (subjects = []) => ({
   name: 'imported',
@@ -164,16 +163,6 @@ class FrontpageSubjects extends Component {
       ? frontpageCategories
       : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
 
-    const allSubjectsWithFIxedEndSlash = allSubjects.map(category => ({
-      ...category,
-      subjects: category.subjects
-        ? category.subjects.map(subject => ({
-            ...subject,
-            url:
-              subject && subject.url ? fixEndSlash(subject.url) : subject.url,
-          }))
-        : [],
-    }));
     return (
       <FrontpageSubjectsSection
         linkToAbout={<LinkToAbout />}
