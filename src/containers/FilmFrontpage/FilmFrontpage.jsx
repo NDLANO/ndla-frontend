@@ -93,6 +93,7 @@ class FilmFrontpage extends Component {
           {showingAll ? (
             <AllMoviesAlphabetically
               movies={sortAlphabetically(moviesByType, locale)}
+              locale={locale}
             />
           ) : (
             <MovieCategory
