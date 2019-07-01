@@ -17,7 +17,7 @@ import {
   GraphQLMovieThemeShape,
 } from '../../graphqlShapes';
 
-const MovieThing = ({
+const MovieCategory = ({
   resourceTypeName,
   themes,
   resourceTypes,
@@ -119,7 +119,7 @@ const breakpoints = [
   },
 ];
 
-MovieThing.propTypes = {
+MovieCategory.propTypes = {
   resourceTypeName: PropTypes.string,
   themes: PropTypes.arrayOf(GraphQLMovieThemeShape),
   resourceTypes: PropTypes.arrayOf(
@@ -135,4 +135,4 @@ MovieThing.propTypes = {
   loadingPlaceholderHeight: PropTypes.bool,
 };
 
-export default injectT(MovieThing);
+export default injectT(MovieCategory);

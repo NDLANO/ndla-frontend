@@ -29,9 +29,6 @@ import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
-const sortAlphabetically = movies =>
-  movies.sort((a, b) => a.title.localeCompare(b.title));
-
 class NdlaFilm extends Component {
   constructor(props) {
     super(props);
@@ -65,7 +62,7 @@ class NdlaFilm extends Component {
 
     this.setState({
       fetchingMoviesByType: false,
-      moviesByType: sortAlphabetically(moviesFetched),
+      moviesByType: moviesFetched,
     });
   };
 
@@ -83,7 +80,7 @@ class NdlaFilm extends Component {
     };
   }
 
-  queryBatch = async (useResourceType, page, pageSize) =>
+  searchMovies = async (useResourceType, page, pageSize) =>
     await runQueries(this.props.client, [
       {
         query: searchQuery,
@@ -98,37 +95,28 @@ class NdlaFilm extends Component {
     ]);
 
   fetchMoviesByType = async resourceId => {
-    const useResourceType =
+    const resourceTypes =
       resourceId === ALL_MOVIES_ID
         ? movieResourceTypes.map(resourceType => resourceType.id).toString()
         : resourceId;
 
     try {
-      // 1. Search doesnt support large pageSize, use multiple searches to list all.
-      // 2. Search returns same movie multiple times (useResourceType === list of resourceTypes).
+      // Search doesnt support large pageSize, use multiple searches to list all.
       let needToFetchData = true;
-      let page = 0;
+      let page = 1;
       const pageSize = 100;
       const results = [];
       while (needToFetchData) {
-        const fetchedData = await this.queryBatch(
-          useResourceType,
+        const fetchedData = await this.searchMovies(
+          resourceTypes,
           page,
           pageSize,
         );
         results.push(...fetchedData.data.search.results);
         page += 1;
-        needToFetchData = page * pageSize < fetchedData.data.search.totalCount;
+        needToFetchData = results.length < fetchedData.data.search.totalCount;
       }
-      const transformedResults = results.map(this.transformMoviesByType);
-      const filterIds = {};
-      return transformedResults.filter(result => {
-        if (!filterIds[result.id]) {
-          filterIds[result.id] = true;
-          return true;
-        }
-        return false;
-      });
+      return results.map(this.transformMoviesByType);
     } catch (error) {
       handleError(error);
       return { error: true };
@@ -165,7 +153,7 @@ class NdlaFilm extends Component {
         aboutNDLAVideo={about}
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
-        language={locale}
+        locale={locale}
       />
     );
   }

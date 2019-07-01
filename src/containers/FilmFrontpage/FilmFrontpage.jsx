@@ -9,18 +9,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
-import { CarouselAutosize } from '@ndla/carousel';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import {
   FilmSlideshow,
-  MovieGrid,
   AboutNdlaFilm,
   FilmMovieSearch,
-  FilmMovieList,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
-import MovieThing from './MovieThing';
+import MovieCategory from './MovieCategory';
 import {
   GraphQLTopicShape,
   GraphQLArticleMetaShape,
@@ -28,6 +25,9 @@ import {
 } from '../../graphqlShapes';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
+
+const sortAlphabetically = (movies, locale) =>
+  movies.sort((a, b) => a.title.localeCompare(b.title, locale));
 
 class FilmFrontpage extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class FilmFrontpage extends Component {
       moreAboutNdlaFilm,
       showingAll,
       themes,
-      language,
+      locale,
       fetchingMoviesByType,
     } = this.props;
     const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
@@ -91,15 +91,17 @@ class FilmFrontpage extends Component {
             margin: ${spacing.spacingUnit * 3}px 0 ${spacing.spacingUnit * 4}px;
           `}>
           {showingAll ? (
-            <AllMoviesAlphabetically movies={moviesByType} />
+            <AllMoviesAlphabetically
+              movies={sortAlphabetically(moviesByType, locale)}
+            />
           ) : (
-            <MovieThing
+            <MovieCategory
               resourceTypeName={resourceTypeName}
               moviesByType={moviesByType}
               resourceTypes={resourceTypes}
               themes={themes}
               fetchingMoviesByType={fetchingMoviesByType}
-              language={language}
+              language={locale}
               resourceTypeSelected={resourceTypeSelected}
               loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
@@ -132,14 +134,14 @@ FilmFrontpage.propTypes = {
   aboutNDLAVideo: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
-    langugae: PropTypes.string,
+    language: PropTypes.string,
     visualElement: PropTypes.shape({
       type: PropTypes.string,
       url: PropTypes.string,
       alt: PropTypes.string,
     }),
   }).isRequired,
-  language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
+  locale: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   showingAll: PropTypes.bool,
   t: PropTypes.func.isRequired,
