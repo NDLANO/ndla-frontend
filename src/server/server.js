@@ -155,6 +155,7 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 });
 
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
+  console.log(req);
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
@@ -163,10 +164,12 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
 app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const query = req.query;
+
   try {
     const ltiRes = await fetch(
       decodeURIComponent(query.launch_presentation_return_url),
       {
+        headers: req.headers,
         method: 'POST',
         body: req.body,
       },
@@ -179,11 +182,13 @@ app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
+  console.log('HEY');
   handleRequest(req, res, ltiRoute);
 });
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
+  console.log('HEY2');
   handleRequest(req, res, ltiRoute);
 });
 

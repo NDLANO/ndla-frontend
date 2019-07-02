@@ -59,6 +59,39 @@ const getReturnType = ltiData => {
   return 'lti_launch_url';
 };
 
+const getLtiPostData = (ltiData, item) => {
+  const baseUrl =
+    config.ndlaEnvironment === 'dev'
+      ? 'http://localhost:3000'
+      : config.ndlaFrontendDomain;
+  const iframeurl = `${baseUrl}/article-iframe/nb/article/${
+    item.id
+  }?removeRelatedContent=true`;
+  return {
+    ...ltiData,
+    lti_message_type: 'ContentItemSelection',
+    lti_version: 'LTI-1p0',
+    data: ltiData.data,
+    content_items: {
+      '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
+      '@graph': [
+        {
+          '@type': 'ContentItem',
+          url: iframeurl,
+          mediaType: 'application/vnd.ims.lti.v1.ltilink',
+          title: item.title,
+          '@id:': item.id,
+          placementAdvice: {
+            displayWidth: 147,
+            displayHeight: 184,
+            presentationDocumentTarget: 'iframe',
+          },
+        },
+      ],
+    },
+  };
+};
+
 const getQuery = (ltiData, item) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
@@ -94,64 +127,13 @@ const getQuery = (ltiData, item) => {
   })}`;
 };
 export const createFormData = (ltiData, item) => {
-  const baseUrl =
-    config.ndlaEnvironment === 'dev'
-      ? 'http://localhost:3000'
-      : config.ndlaFrontendDomain;
-  const iframeurl = `${baseUrl}/article-iframe/nb/article/${
-    item.id
-  }?removeRelatedContent=true`;
   const form = new FormData();
-  const contentItems = {
-    '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
-    '@graph': [
-      {
-        '@type': 'ContentItem',
-        url: iframeurl,
-        mediaType: 'text/html',
-        title: item.title,
-        placementAdvice: {
-          displayWidth: 147,
-          displayHeight: 184,
-          presentationDocumentTarget: 'iframe',
-        },
-      },
-    ],
-  };
-  form.append('lti_message_type', 'ContentItemSelection');
-  form.append('lti_version', 'LTI-1p0');
-  form.append('content_items', JSON.stringify(contentItems));
+  const deepLinkData = getLtiPostData(ltiData);
+  form.append('lti_message_type', deepLinkData.lti_message_type);
+  form.append('lti_version', deepLinkData.lti_version);
+  form.append('content_items', JSON.stringify(deepLinkData.content_items));
+  form.append('data', deepLinkData.data);
   return form;
-};
-
-const getLtiPostData = (ltiData, item) => {
-  const baseUrl =
-    config.ndlaEnvironment === 'dev'
-      ? 'http://localhost:3000'
-      : config.ndlaFrontendDomain;
-  const iframeurl = `${baseUrl}/article-iframe/nb/article/${
-    item.id
-  }?removeRelatedContent=true`;
-  return {
-    lti_message_type: 'ContentItemSelection',
-    lti_version: 'LTI-1p0',
-    content_items: {
-      '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
-      '@graph': [
-        {
-          '@type': 'ContentItem',
-          url: iframeurl,
-          mediaType: 'text/html',
-          title: item.title,
-          placementAdvice: {
-            displayWidth: 147,
-            displayHeight: 184,
-            presentationDocumentTarget: 'iframe',
-          },
-        },
-      ],
-    },
-  };
 };
 
 class LtiEmbed extends Component {
@@ -184,7 +166,7 @@ class LtiEmbed extends Component {
 
     fetch(
       `/lti/deeplinking?launch_presentation_return_url=${encodeURIComponent(
-        ltiData.launch_presentation_return_url,
+        ltiData.content_item_return_url,
       )}`,
       {
         method: 'POST',
@@ -199,7 +181,7 @@ class LtiEmbed extends Component {
     const { ltiData, item } = this.props;
     fetch(
       `/lti/deeplinking?launch_presentation_return_url=${encodeURIComponent(
-        ltiData.launch_presentation_return_url,
+        ltiData.content_item_return_url,
       )}`,
       {
         method: 'POST',
@@ -212,6 +194,7 @@ class LtiEmbed extends Component {
 
   render() {
     const { ltiData, item, t } = this.props;
+    console.log(ltiData);
     const isValidLTI =
       ltiData &&
       ltiData.launch_presentation_document_target === 'iframe' &&
@@ -223,17 +206,31 @@ class LtiEmbed extends Component {
           <StyledLinkAsButton href={getQuery(ltiData, item)}>
             Embed link
           </StyledLinkAsButton>
-          <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>
-          <Button onClick={this.postFormLtiData}>embed form</Button>
         </div>
       );
     }
     const { isOpen, embedCode } = this.state;
+    const postData = getLtiPostData(ltiData, item);
     return (
       <Fragment>
+        <form
+          method="post"
+          action={`/lti/deeplinking?launch_presentation_return_url=${encodeURIComponent(
+            ltiData.content_item_return_url,
+          )}`}>
+          {Object.keys(postData).map(key => {
+            return (
+              <input type="hidden" key={key} name={key} value={postData[key]} />
+            );
+          })}
+          <input type="submit" value="submit" />
+        </form>
+
         <Button onClick={() => this.showEmbedCode(item)}>
           {t('lti.embed')}
         </Button>
+        <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>
+        <Button onClick={this.postFormLtiData}>embed form</Button>
         <LtiEmbedCode
           isOpen={isOpen}
           code={embedCode}
