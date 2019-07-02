@@ -19,7 +19,10 @@ import {
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
-import { GraphQLFrontpageShape } from '../../graphqlShapes';
+import {
+  GraphQLFrontpageShape,
+  GraphQLSimpleSubjectShape,
+} from '../../graphqlShapes';
 import { frontpageQuery, subjectsQuery } from '../../queries';
 import { runQueries } from '../../util/runQueries';
 import WelcomePageInfo from './WelcomePageInfo';
@@ -328,6 +331,7 @@ WelcomePage.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     frontpage: GraphQLFrontpageShape,
+    subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
   }),
 };
 
