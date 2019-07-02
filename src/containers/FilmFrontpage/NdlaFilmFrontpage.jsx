@@ -83,7 +83,7 @@ class NdlaFilm extends Component {
   searchMovies = async (useResourceType, page, pageSize) =>
     await runQueries(this.props.client, [
       {
-          query: searchFilmQuery,
+        query: searchFilmQuery,
         variables: {
           subjects: 'urn:subject:20',
           resourceTypes: useResourceType,
