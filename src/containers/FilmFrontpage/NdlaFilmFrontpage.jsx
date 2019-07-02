@@ -16,7 +16,7 @@ import { runQueries } from '../../util/runQueries';
 import {
   subjectPageQuery,
   filmFrontPageQuery,
-  searchQuery,
+  searchFilmQuery,
 } from '../../queries';
 import {
   GraphQLFilmFrontpageShape,
@@ -83,7 +83,7 @@ class NdlaFilm extends Component {
   searchMovies = async (useResourceType, page, pageSize) =>
     await runQueries(this.props.client, [
       {
-        query: searchQuery,
+          query: searchFilmQuery,
         variables: {
           subjects: 'urn:subject:20',
           resourceTypes: useResourceType,
@@ -125,8 +125,12 @@ class NdlaFilm extends Component {
 
   render() {
     const { moviesByType, fetchingMoviesByType, showingAll } = this.state;
-    const { t, locale } = this.props;
-    const { filmfrontpage, subject } = this.props.data;
+    const {
+      t,
+      locale,
+      data: { filmfrontpage, subject },
+      skipToContentId,
+    } = this.props;
     const about =
       filmfrontpage &&
       filmfrontpage.about.find(about => (about.language = locale));
@@ -154,6 +158,7 @@ class NdlaFilm extends Component {
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
         locale={locale}
+        skipToContentId={skipToContentId}
       />
     );
   }
@@ -168,6 +173,7 @@ NdlaFilm.propTypes = {
   }),
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
   locale: PropTypes.string,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(

@@ -19,7 +19,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
-import { FILM_PAGE_PATH } from './constants';
+import { FILM_PAGE_PATH, SKIP_TO_CONTENT_ID } from './constants';
 
 export const BasenameContext = React.createContext('');
 
@@ -30,6 +30,7 @@ const Route = ({
   background,
   hideMasthead,
   ndlaFilm,
+  skipToContent,
   ...rest
 }) => (
   <ReactRoute
@@ -38,12 +39,18 @@ const Route = ({
       <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
         <Content>
           {!hideMasthead && (
-            <Masthead locale={locale} ndlaFilm={ndlaFilm} {...props} />
+            <Masthead
+              skipToMainContentId={SKIP_TO_CONTENT_ID}
+              locale={locale}
+              ndlaFilm={ndlaFilm}
+              {...props}
+            />
           )}
           <Component
             {...props}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            skipToContentId={SKIP_TO_CONTENT_ID}
             {...initialProps}
           />
         </Content>
@@ -59,6 +66,7 @@ Route.propTypes = {
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
   ndlaFilm: PropTypes.bool,
+  skipToContent: PropTypes.string,
 };
 
 async function loadInitialProps(pathname, ctx) {

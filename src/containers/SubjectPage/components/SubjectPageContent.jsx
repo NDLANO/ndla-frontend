@@ -31,7 +31,20 @@ SubjectBreadCrumb.propTypes = {
   subject: GraphQLSubjectShape,
 };
 
-const SubjectPageContent = ({ layout, subject, ...rest }) => {
+const WithSubjectPageComponent = layout => {
+  switch (layout) {
+    case 'single':
+      return SubjectPageSingle;
+    case 'double':
+      return SubjectPageDouble;
+    case 'stacked':
+      return SubjectPageStacked;
+    default:
+      return SubjectPageSingle;
+  }
+};
+
+const SubjectPageContent = ({ layout, subject, skipToContentId, ...rest }) => {
   if (!subject) {
     return null;
   }
@@ -61,16 +74,12 @@ const SubjectPageContent = ({ layout, subject, ...rest }) => {
       : [],
   };
 
-  switch (layout) {
-    case 'single':
-      return <SubjectPageSingle {...rest} {...defaultProps} />;
-    case 'double':
-      return <SubjectPageDouble {...rest} {...defaultProps} />;
-    case 'stacked':
-      return <SubjectPageStacked {...rest} {...defaultProps} />;
-    default:
-      return <SubjectPageSingle {...rest} {...defaultProps} />;
-  }
+  const SubjectPageComponent = WithSubjectPageComponent(layout);
+  return (
+    <div id={skipToContentId}>
+      <SubjectPageComponent {...rest} {...defaultProps} />
+    </div>
+  );
 };
 
 SubjectPageContent.propTypes = {
@@ -87,6 +96,7 @@ SubjectPageContent.propTypes = {
   subjectId: PropTypes.string.isRequired,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   layout: PropTypes.oneOf(['single', 'double', 'stacked']),
+  skipToContentId: PropTypes.string.isRequired,
 };
 
 export default injectT(SubjectPageContent);

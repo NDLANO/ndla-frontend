@@ -63,6 +63,7 @@ class FilmFrontpage extends Component {
       moviesByType,
       moreAboutNdlaFilm,
       showingAll,
+      skipToContentId,
       themes,
       locale,
       fetchingMoviesByType,
@@ -76,7 +77,7 @@ class FilmFrontpage extends Component {
       );
 
     return (
-      <>
+      <div id={skipToContentId}>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
@@ -114,7 +115,7 @@ class FilmFrontpage extends Component {
             moreAboutNdlaFilm={moreAboutNdlaFilm}
           />
         )}
-      </>
+      </div>
     );
   }
 }
@@ -145,6 +146,7 @@ FilmFrontpage.propTypes = {
   locale: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   showingAll: PropTypes.bool,
+  skipToContentId: PropTypes.string,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
