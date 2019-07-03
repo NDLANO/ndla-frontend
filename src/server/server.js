@@ -125,6 +125,7 @@ app.get('/static/*', ndlaMiddleware);
 
 const iframArticleCallback = async (req, res) => {
   res.removeHeader('X-Frame-Options');
+  console.log('lol');
   handleRequest(req, res, iframeArticleRoute);
 };
 
@@ -159,6 +160,11 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
+});
+
+app.post('/lti/deeplinking/redirect', ndlaMiddleware, async (req, res) => {
+  const query = req.query;
+  res.redirect(decodeURIComponent(query.launch_presentation_return_url), 307);
 });
 
 app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
