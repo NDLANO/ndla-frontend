@@ -18,6 +18,7 @@ import { LtiDataShape } from '../shapes';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../containers/ArticlePage/articleApi';
 import { getSign } from './oauth';
+import { resolveJsonOrRejectWithError } from '../util/apiHelpers';
 
 const StyledLinkAsButton = styled('a')`
   display: inline-block;
@@ -103,7 +104,7 @@ const getSignature = (url, postData) => {
   return signature;
 };
 
-const getLtiPostData = (ltiData, item = {}) => {
+const getLtiPostData = async (ltiData, item = {}) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
@@ -125,16 +126,18 @@ const getLtiPostData = (ltiData, item = {}) => {
       '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
       '@graph': [
         {
-          '@type': 'ContentItem',
+          '@type': 'LtiLinkItem',
           '@id:': item.id,
-          url: encodeURIComponent(iframeurl),
-          mediaType: 'text/html',
+          url: iframeurl,
+          mediaType: 'application/vnd.ims.lti.v1.ltilink',
           title: item.title,
+          text: 'test',
           placementAdvice: {
             presentationDocumentTarget: 'iframe',
             displayWidth: 1000,
             displayHeight: 2000,
           },
+          custom: { content_item_id: '5a5f1418-b553-4f3b-9e9a-ab9d015868eb' },
         },
       ],
     },
@@ -143,7 +146,17 @@ const getLtiPostData = (ltiData, item = {}) => {
     'getsginature',
     getSignature(ltiData.content_item_return_url, postData),
   );
-
+  const sig = await fetch(
+    `/lti/oauth?url=${encodeURIComponent(ltiData.content_item_return_url)}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        ...postData,
+        content_items: JSON.stringify(postData.content_items),
+      }),
+    },
+  ).then(resolveJsonOrRejectWithError);
+  console.log('sig', sig);
   console.log('getSign', getSign(ltiData.content_item_return_url, postData));
   return {
     ...postData,
@@ -415,3 +428,31 @@ LtiEmbed.propTypes = {
 };
 
 export default injectT(LtiEmbed);
+/*const d = [
+  {
+    mediaType: 'application/vnd.ims.lti.v1.ltilink',
+    '@type': 'LtiLinkItem',
+    lineItem: {
+      reportingMethod:
+        'http://purl.imsglobal.org/ctx/lis/v2p1/Result#totalScore',
+      '@type': 'LineItem',
+      label: 'Rating (evaluation)',
+      assignedActivity: { activityId: 'sdo4tgdr4' },
+      scoreConstraints: {
+        '@type': 'NumericLimits',
+        normalMaximum: 100,
+        totalMaximum: 100,
+      },
+    },
+    url: 'http://eval.ltiapps.net/rating/connect.php',
+    title: 'Rating (evaluation)',
+    text:
+      '<p><em>Rating</em> is a simple application developed as a way to demonstrate how to build an IMS LTI tool provider. The application allows teachers to create items which can be rated by students. A separate list of items is maintained for each link from which the tool is launched. If the link has the Outcomes service enabled, then the associated gradebook column will be populated with the proportion of the visible items which each student has rated.</p>',
+    icon: {
+      '@id': 'http://eval.ltiapps.net/rating/images/icon50.png',
+      height: 50,
+      width: 50,
+    },
+    custom: { content_item_id: '5a5f1418-b553-4f3b-9e9a-ab9d015868eb' },
+  },
+];*/

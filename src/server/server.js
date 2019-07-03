@@ -18,6 +18,7 @@ import {
   TEMPORARY_REDIRECT,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
+import oauthSignature from 'oauth-signature';
 import {
   defaultRoute,
   errorRoute,
@@ -33,7 +34,6 @@ import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
-import { STATUS_CODES } from 'http';
 
 global.fetch = fetch;
 const app = express();
@@ -115,8 +115,8 @@ async function handleRequest(req, res, route) {
   try {
     const { data, status } = await route(req);
     sendResponse(res, data, status);
-  } catch (e) {
-    handleError(e);
+  } catch (err) {
+    handleError(err);
     await sendInternalServerError(req, res);
   }
 }
@@ -125,7 +125,6 @@ app.get('/static/*', ndlaMiddleware);
 
 const iframArticleCallback = async (req, res) => {
   res.removeHeader('X-Frame-Options');
-  console.log('lol');
   handleRequest(req, res, iframeArticleRoute);
 };
 
@@ -160,6 +159,28 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
+});
+
+app.post('/lti/oauth', ndlaMiddleware, async (req, res) => {
+  const body = req.body;
+  const url = req.query.url;
+  const data = {
+    ...body,
+    content_items: JSON.stringify(body.content_items),
+  };
+  console.log(data);
+  const httpMethod = 'POST';
+  const consumerSecret = '';
+
+  const signature = oauthSignature.generate(
+    httpMethod,
+    url,
+    data,
+    consumerSecret,
+    '',
+    { encodeSignature: false },
+  );
+  res.send(signature);
 });
 
 app.post('/lti/deeplinking/redirect', ndlaMiddleware, async (req, res) => {
