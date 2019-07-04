@@ -4,6 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import config from '../config';
+
 const getLtiPostData = (ltiData, item = {}) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
@@ -42,12 +44,7 @@ const getLtiPostData = (ltiData, item = {}) => {
       ],
     },
   };
-  console.log(
-    'getsginature',
-    getSignature(ltiData.content_item_return_url, postData),
-  );
 
-  console.log('getSign', getSign(ltiData.content_item_return_url, postData));
   return {
     ...postData,
     oauth_signature: getSignature(ltiData.content_item_return_url, postData),

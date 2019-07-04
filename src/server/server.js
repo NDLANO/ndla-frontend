@@ -16,6 +16,7 @@ import {
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
   TEMPORARY_REDIRECT,
+  BAD_REQUEST,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
 import oauthSignature from 'oauth-signature';
@@ -29,7 +30,7 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import config from '../config';
+import config, { getEnvironmentVariabel } from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
@@ -163,59 +164,45 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
 
 app.post('/lti/oauth', ndlaMiddleware, async (req, res) => {
   const body = req.body;
-  const url = req.query.url;
+  if (!body) {
+    res.send(BAD_REQUEST);
+  }
   const data = {
-    ...body,
-    content_items: JSON.stringify(body.content_items),
+    oauth_callback: body.oauth_callback || '',
+    oauth_consumer_key: body.oauth_consumer_key || 'key',
+    oauth_nonce: body.oauth_nonce || '',
+    oauth_signature_method: body.oauth_signature_method || '',
+    oauth_timestamp: body.oauth_timestamp || '',
+    oauth_version: body.oauth_version || '',
+    data: body.data || '',
+    lti_message_type: 'ContentItemSelection',
+    lti_version: 'LTI-1p0',
+    content_items: body.content_items || '',
   };
-  console.log(data);
-  const httpMethod = 'POST';
-  const consumerSecret = '';
-
-  const signature = oauthSignature.generate(
-    httpMethod,
-    url,
+  const url = req.query.url;
+  const HTTPMethod = 'POST';
+  const consumerSecret = getEnvironmentVariabel(
+    'NDLA_LTI_OAUTH_SECRET_KEY',
+    '',
+  );
+  const oauth_signature = oauthSignature.generate(
+    HTTPMethod,
+    decodeURIComponent(url),
     data,
     consumerSecret,
     '',
     { encodeSignature: false },
   );
-  res.send(signature);
-});
-
-app.post('/lti/deeplinking/redirect', ndlaMiddleware, async (req, res) => {
-  const query = req.query;
-  res.redirect(decodeURIComponent(query.launch_presentation_return_url), 307);
-});
-
-app.post('/lti/deeplinking', ndlaMiddleware, async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  const query = req.query;
-
-  try {
-    const ltiRes = await fetch(
-      decodeURIComponent(query.launch_presentation_return_url),
-      {
-        headers: req.headers,
-        method: 'POST',
-        body: req.body,
-      },
-    );
-    res.send(ltiRes);
-  } catch (err) {
-    res.send(err);
-  }
+  res.send(JSON.stringify({ oauth_signature }));
 });
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
-  console.log('HEY');
   handleRequest(req, res, ltiRoute);
 });
 
 app.get('/lti', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
-  console.log('HEY2');
   handleRequest(req, res, ltiRoute);
 });
 

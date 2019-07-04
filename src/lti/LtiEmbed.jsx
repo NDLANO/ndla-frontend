@@ -84,15 +84,8 @@ const getSignature = (url, postData) => {
   };
   console.log(data);
   const httpMethod = 'POST',
-    consumerSecret = '',
-    // generates a RFC 3986 encoded, BASE64 encoded HMAC-SHA1 hash
-    encodedSignature = oauthSignature.generate(
-      httpMethod,
-      url,
-      data,
-      consumerSecret,
-    );
-  // generates a BASE64 encode HMAC-SHA1 hash
+    consumerSecret = '';
+  // generates a RFC 3986 encoded, BASE64 encoded HMAC-SHA1 hash
   const signature = oauthSignature.generate(
     httpMethod,
     url,
@@ -142,13 +135,14 @@ const getLtiPostData = async (ltiData, item = {}) => {
       ],
     },
   };
-  console.log(
-    'getsginature',
-    getSignature(ltiData.content_item_return_url, postData),
-  );
+
+  console.log('lelel', postData);
   const sig = await fetch(
     `/lti/oauth?url=${encodeURIComponent(ltiData.content_item_return_url)}`,
     {
+      headers: {
+        'Content-Type': 'application/json',
+      },
       method: 'POST',
       body: JSON.stringify({
         ...postData,
@@ -156,8 +150,13 @@ const getLtiPostData = async (ltiData, item = {}) => {
       }),
     },
   ).then(resolveJsonOrRejectWithError);
-  console.log('sig', sig);
-  console.log('getSign', getSign(ltiData.content_item_return_url, postData));
+  console.log(
+    'getsginature',
+    getSignature(ltiData.content_item_return_url, postData),
+    sig,
+  );
+  //console.log('sig', sig);
+  //console.log('getSign', getSign(ltiData.content_item_return_url, postData));
   return {
     ...postData,
     oauth_signature: getSignature(ltiData.content_item_return_url, postData),
@@ -197,22 +196,6 @@ const getQuery = (ltiData, item) => {
     ...query,
     text: query.return_type === 'lti_launch_url' ? item.title : undefined,
   })}`;
-};
-export const createFormData = ltiData => {
-  const form = new FormData();
-  const deepLinkData = getLtiPostData(ltiData);
-  form.append('lti_message_type', deepLinkData.lti_message_type);
-  form.append('lti_version', deepLinkData.lti_version);
-  form.append('content_items', JSON.stringify(deepLinkData.content_items));
-  form.append('data', deepLinkData.data);
-  form.append('oauth_callback', deepLinkData.oauth_callback);
-  form.append('oauth_consumer_key', deepLinkData.oauth_consumer_key);
-  form.append('oauth_nonce', deepLinkData.oauth_nonce);
-  form.append('oauth_signature', deepLinkData.oauth_signature);
-  form.append('oauth_signature_method', deepLinkData.oauth_signature_method);
-  form.append('oauth_timestamp', deepLinkData.oauth_signature_method);
-  form.append('oauth_version', deepLinkData.oauth_signature_method);
-  return form;
 };
 
 class LtiEmbed extends Component {
@@ -256,22 +239,6 @@ class LtiEmbed extends Component {
     //location.href =
   };
 
-  postFormLtiData = () => {
-    const { ltiData, item } = this.props;
-    console.log('HEYT');
-    fetch(
-      `/lti/deeplinking/redirect?launch_presentation_return_url=${encodeURIComponent(
-        ltiData.content_item_return_url,
-      )}`,
-      {
-        method: 'POST',
-        body: createFormData(ltiData, item),
-      },
-    );
-
-    //location.href =
-  };
-
   render() {
     const { ltiData, item, t } = this.props;
     console.log(ltiData);
@@ -284,7 +251,7 @@ class LtiEmbed extends Component {
       return (
         <div>
           <StyledLinkAsButton href={getQuery(ltiData, item)}>
-            Embed link
+            {t('lti.embed')}
           </StyledLinkAsButton>
         </div>
       );
@@ -324,7 +291,6 @@ class LtiEmbed extends Component {
         </Button>
 
         <Button onClick={this.postLtiData}>{t('lti.embed')}</Button>
-        <Button onClick={this.postFormLtiData}>embed form</Button>
         <LtiEmbedCode
           isOpen={isOpen}
           code={embedCode}
@@ -409,20 +375,6 @@ LtiEmbed.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    url: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    breadcrumb: PropTypes.arrayOf(PropTypes.string),
-    subjects: PropTypes.arrayOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        url: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-          .isRequired,
-      }),
-    ),
-    additional: PropTypes.bool,
-    image: PropTypes.node,
-    ingress: PropTypes.string.isRequired,
-    contentTypeIcon: PropTypes.node.isRequired,
-    contentTypeLabel: PropTypes.string.isRequired,
   }),
   ltiData: LtiDataShape,
 };
