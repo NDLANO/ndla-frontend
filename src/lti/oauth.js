@@ -43,11 +43,9 @@ export const getSign = (url, data) => {
 
   // had an extra '&' at the front
   paramsStr = paramsStr.substr(1);
-  console.log(paramsStr);
   const sigBaseStr = 'POST&' + url + '&' + paramsStr;
 
   // no access token but we still have to append '&' according to the instructions
-  console.log(sigBaseStr);
   const hashedBaseStr = crypto
     .createHmac('sha1', sharedSecret)
     .update(sigBaseStr)

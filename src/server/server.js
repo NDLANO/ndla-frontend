@@ -19,7 +19,6 @@ import {
   BAD_REQUEST,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
-import oauthSignature from 'oauth-signature';
 import {
   defaultRoute,
   errorRoute,
@@ -30,11 +29,12 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import config, { getEnvironmentVariabel } from '../config';
+import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
+import { generateOauthSignature } from './helpers/oauthHelper';
 
 global.fetch = fetch;
 const app = express();
@@ -156,43 +156,17 @@ app.get('/oembed', ndlaMiddleware, async (req, res) => {
 });
 
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
-  console.log(req);
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
 });
 
 app.post('/lti/oauth', ndlaMiddleware, async (req, res) => {
-  const body = req.body;
-  if (!body) {
+  const { body, query } = req;
+  if (!body || !query.url) {
     res.send(BAD_REQUEST);
   }
-  const data = {
-    oauth_callback: body.oauth_callback || '',
-    oauth_consumer_key: body.oauth_consumer_key || 'key',
-    oauth_nonce: body.oauth_nonce || '',
-    oauth_signature_method: body.oauth_signature_method || '',
-    oauth_timestamp: body.oauth_timestamp || '',
-    oauth_version: body.oauth_version || '',
-    data: body.data || '',
-    lti_message_type: 'ContentItemSelection',
-    lti_version: 'LTI-1p0',
-    content_items: body.content_items || '',
-  };
-  const url = req.query.url;
-  const HTTPMethod = 'POST';
-  const consumerSecret = getEnvironmentVariabel(
-    'NDLA_LTI_OAUTH_SECRET_KEY',
-    '',
-  );
-  const oauth_signature = oauthSignature.generate(
-    HTTPMethod,
-    decodeURIComponent(url),
-    data,
-    consumerSecret,
-    '',
-    { encodeSignature: false },
-  );
+  const oauth_signature = generateOauthSignature(query.url, body);
   res.send(JSON.stringify({ oauth_signature }));
 });
 

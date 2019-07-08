@@ -60,7 +60,6 @@ function doRenderPage(initialProps) {
 export function parseAndValidateParameters(body) {
   let validBody = true;
   const errorMessages = [];
-  console.log(bodyFields, body);
   Object.keys(bodyFields).forEach(key => {
     const bodyValue = body[key];
     if (bodyFields[key].required && !bodyValue) {
@@ -88,7 +87,6 @@ export function parseAndValidateParameters(body) {
 
 export function ltiRoute(req) {
   const isPostRequest = req.method === 'POST';
-  console.log('HEY!');
   const validParameters = isPostRequest
     ? parseAndValidateParameters(req.body)
     : {};

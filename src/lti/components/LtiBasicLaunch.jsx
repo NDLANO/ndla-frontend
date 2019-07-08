@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import queryString from 'query-string';
-import config from '../config';
-import { LtiDataShape } from '../shapes';
+import config from '../../config';
+import { LtiDataShape } from '../../shapes';
 
 const StyledLinkAsButton = styled('a')`
   display: inline-block;
@@ -89,11 +89,9 @@ const getQuery = (ltiData, item) => {
 };
 
 const LtiBasicLaunch = ({ ltiData, item, t }) => (
-  <div>
-    <StyledLinkAsButton href={getQuery(ltiData, item)}>
-      {t('lti.embed')}
-    </StyledLinkAsButton>
-  </div>
+  <StyledLinkAsButton href={getQuery(ltiData, item)}>
+    {t('lti.embed')}
+  </StyledLinkAsButton>
 );
 
 LtiBasicLaunch.propTypes = {
