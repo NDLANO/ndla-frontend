@@ -34,7 +34,7 @@ import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
-import { generateOauthSignature } from './helpers/oauthHelper';
+import { generateOauthData } from './helpers/oauthHelper';
 
 global.fetch = fetch;
 const app = express();
@@ -166,8 +166,7 @@ app.post('/lti/oauth', ndlaMiddleware, async (req, res) => {
   if (!body || !query.url) {
     res.send(BAD_REQUEST);
   }
-  const oauth_signature = generateOauthSignature(query.url, body);
-  res.send(JSON.stringify({ oauth_signature }));
+  res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {

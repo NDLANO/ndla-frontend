@@ -9,16 +9,19 @@
 import crypto from 'crypto';
 import { getEnvironmentVariabel } from '../../config';
 
-export const generateOauthSignature = (url, body) => {
+export const generateOauthData = (url, body) => {
   const consumerSecret = getEnvironmentVariabel(
     'NDLA_LTI_OAUTH_SECRET_KEY',
     '',
   );
+  const nonce = crypto.randomBytes(16).toString('base64');
+
+  const data = { ...body, oauth_nonce: nonce };
   const sortedBody = {};
-  Object.keys(body)
+  Object.keys(data)
     .sort()
     .forEach(function(key) {
-      sortedBody[key] = body[key] || '';
+      sortedBody[key] = data[key] || '';
     });
 
   const params = Object.keys(sortedBody)
@@ -33,5 +36,6 @@ export const generateOauthSignature = (url, body) => {
     .createHmac('SHA256', `${consumerSecret}&`) //& because there could be a token there, but it is not...
     .update(signatureBaseString)
     .digest('base64');
-  return hashedBaseString;
+
+  return { oauth_signature: hashedBaseString, oauth_nonce: nonce };
 };

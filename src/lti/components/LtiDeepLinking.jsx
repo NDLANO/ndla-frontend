@@ -12,7 +12,7 @@ import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import { LtiDataShape } from '../../shapes';
 
 const getSignature = async (contentItemReturnUrl, postData) => {
-  const signature = await fetch(
+  const oauthData = await fetch(
     `/lti/oauth?url=${encodeURIComponent(contentItemReturnUrl)}`,
     {
       headers: {
@@ -25,7 +25,7 @@ const getSignature = async (contentItemReturnUrl, postData) => {
       }),
     },
   ).then(resolveJsonOrRejectWithError);
-  return signature.oauth_signature;
+  return oauthData;
 };
 
 const getLtiPostData = async (ltiData, item = {}) => {
@@ -39,7 +39,6 @@ const getLtiPostData = async (ltiData, item = {}) => {
   const postData = {
     oauth_callback: ltiData.oauth_callback || '',
     oauth_consumer_key: ltiData.oauth_consumer_key || 'key',
-    oauth_nonce: ltiData.oauth_nonce || '',
     oauth_signature_method: ltiData.oauth_signature_method || '',
     oauth_timestamp: ltiData.oauth_timestamp || '',
     oauth_version: ltiData.oauth_version || '',
@@ -65,13 +64,14 @@ const getLtiPostData = async (ltiData, item = {}) => {
     },
   };
 
-  const oauth_signature = await getSignature(
+  const oauthData = await getSignature(
     ltiData.content_item_return_url,
     postData,
   );
   return {
     ...postData,
-    oauth_signature,
+    oauth_signature: oauthData.oauth_signature,
+    oauth_nonce: oauthData.oauth_nonce,
   };
 };
 

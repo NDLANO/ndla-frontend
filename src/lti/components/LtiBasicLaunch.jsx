@@ -54,7 +54,6 @@ const getReturnType = ltiData => {
   return 'lti_launch_url';
 };
 const getQuery = (ltiData, item) => {
-  console.log(ltiData);
   const baseUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
