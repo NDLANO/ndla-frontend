@@ -46,5 +46,6 @@ export const GoogleTagMangerScript = () => {
       />
     );
   }
+
   return null;
 };
