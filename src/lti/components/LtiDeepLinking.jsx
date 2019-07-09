@@ -3,7 +3,6 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -78,34 +77,53 @@ const getLtiPostData = async (ltiData, item = {}) => {
 
 const LtiDeepLinking = ({ ltiData, item, t }) => {
   const [postData, setPostData] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const formRef = React.createRef();
+
   useEffect(() => {
     updatePostData();
   }, [ltiData]);
+
+  useEffect(() => {
+    if (formRef && formRef.current) {
+      formRef.current.submit();
+    }
+  });
 
   const updatePostData = async () => {
     const data = await getLtiPostData(ltiData, item);
     setPostData(data);
   };
 
+  const submitForm = evt => {
+    evt.preventDefault();
+    setIsSubmitted(true);
+  };
+
   return (
-    <form
-      method="POST"
-      action={ltiData.content_item_return_url}
-      encType="application/x-www-form-urlencoded">
-      {Object.keys(postData).map(key => (
-        <input
-          type="hidden"
-          key={key}
-          name={key}
-          value={
-            postData[key] instanceof Object
-              ? JSON.stringify(postData[key])
-              : postData[key]
-          }
-        />
-      ))}
-      <Button type="submit">{t('lti.embed')}</Button>
-    </form>
+    <>
+      <Button onClick={submitForm}>{t('lti.embed')}</Button>
+      {isSubmitted && (
+        <form
+          method="POST"
+          ref={formRef}
+          action={ltiData.content_item_return_url}
+          encType="application/x-www-form-urlencoded">
+          {Object.keys(postData).map(key => (
+            <input
+              type="hidden"
+              key={key}
+              name={key}
+              value={
+                postData[key] instanceof Object
+                  ? JSON.stringify(postData[key])
+                  : postData[key]
+              }
+            />
+          ))}
+        </form>
+      )}
+    </>
   );
 };
 

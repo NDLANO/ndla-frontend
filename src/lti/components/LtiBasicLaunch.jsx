@@ -54,35 +54,21 @@ const getReturnType = ltiData => {
   return 'lti_launch_url';
 };
 const getQuery = (ltiData, item) => {
+  console.log(ltiData);
   const baseUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/article-iframe/nb/article/${item.id}`,
-    context_title: item.title,
+    url: `${baseUrl}/article-iframe/nb/article/${
+      item.id
+    }?removeRelatedContent=true`,
     title: item.title,
     return_type: getReturnType(ltiData),
     width: ltiData.launch_presentation_width,
     height: ltiData.launch_presentation_height,
-    context_id: ltiData.context_id,
-    launch_presentation_document_target: 'iframe',
-    lti_message_type: ltiData.lti_message_type,
-    lti_version: ltiData.lti_version,
-    oauth_callback: ltiData.oauth_callbackm,
-    oauth_consumer_key: ltiData.oauth_consumer_key,
-    oauth_nonce: ltiData.oauth_nonce,
-    oauth_signature: ltiData.oauth_signature,
-    oauth_signature_method: ltiData.oauth_signature_method,
-    oauth_timestamp: ltiData.oauth_timestamp,
-    oauth_version: ltiData.oauth_version,
   };
-  const returnUrlParams = queryString.parse(
-    ltiData.launch_presentation_return_url,
-  );
-  return `${ltiData.launch_presentation_return_url}${
-    returnUrlParams ? '&' : '?'
-  }${queryString.stringify({
+  return `${ltiData.launch_presentation_return_url}?${queryString.stringify({
     ...query,
     text: query.return_type === 'lti_launch_url' ? item.title : undefined,
   })}`;
