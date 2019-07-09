@@ -1,30 +1,37 @@
-import oauthSignature from 'oauth-signature';
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import crypto from 'crypto';
 import { getEnvironmentVariabel } from '../../config';
 
 export const generateOauthSignature = (url, body) => {
-  const data = {
-    oauth_callback: body.oauth_callback || '',
-    oauth_consumer_key: body.oauth_consumer_key || 'key',
-    oauth_nonce: body.oauth_nonce || '',
-    oauth_signature_method: body.oauth_signature_method || '',
-    oauth_timestamp: body.oauth_timestamp || '',
-    oauth_version: body.oauth_version || '',
-    data: body.data || '',
-    lti_message_type: 'ContentItemSelection',
-    lti_version: 'LTI-1p0',
-    content_items: body.content_items || '',
-  };
-  const HTTPMethod = 'POST';
   const consumerSecret = getEnvironmentVariabel(
     'NDLA_LTI_OAUTH_SECRET_KEY',
     '',
   );
-  return oauthSignature.generate(
-    HTTPMethod,
-    decodeURIComponent(url),
-    data,
-    consumerSecret,
-    '',
-    { encodeSignature: false },
-  );
+  const sortedBody = {};
+  Object.keys(body)
+    .sort()
+    .forEach(function(key) {
+      sortedBody[key] = body[key] || '';
+    });
+
+  const params = Object.keys(sortedBody)
+    .map(key => `${key}=${encodeURIComponent(sortedBody[key])}`)
+    .join('&');
+
+  const signatureBaseString = `POST&${encodeURIComponent(
+    url,
+  )}&${encodeURIComponent(params)}`;
+
+  const hashedBaseString = crypto
+    .createHmac('SHA256', `${consumerSecret}&`) //& because there could be a token there, but it is not...
+    .update(signatureBaseString)
+    .digest('base64');
+  return hashedBaseString;
 };
