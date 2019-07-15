@@ -247,6 +247,9 @@ TopicPage.propTypes = {
   data: PropTypes.shape({
     subject: SubjectShape,
     topic: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      parent: TopicShape,
       article: ArticleShape,
       subtopics: PropTypes.arrayOf(TopicShape),
       coreResources: PropTypes.arrayOf(ResourceShape),

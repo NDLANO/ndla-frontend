@@ -13,7 +13,12 @@ import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  ResourceTypeShape,
+  TopicShape,
+} from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -257,6 +262,7 @@ ArticlePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    topicPath: PropTypes.arrayOf(TopicShape),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),

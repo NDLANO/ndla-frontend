@@ -62,9 +62,7 @@ const getQuery = (ltiData, item) => {
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/article-iframe/nb/article/${
-      item.id
-    }?removeRelatedContent=true`,
+    url: `${baseUrl}/article-iframe/nb/article/${item.id}?removeRelatedContent=true`,
     title: item.title,
     return_type: getReturnType(ltiData),
     width: ltiData.launch_presentation_width,
@@ -88,9 +86,7 @@ class LtiEmbed extends Component {
     if (item.url.href) {
       this.setState({
         isOpen: true,
-        embedCode: `<iframe src="${
-          item.url.href
-        }" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
+        embedCode: `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
       });
     } else {
       const oembed = await fetchArticleOembed(item.url);

@@ -58,13 +58,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
             </AnchorButton>
 
             <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${
-                video.iframe.height
-              }" aria-label="${video.title}" width="${
-                video.iframe.width
-              }" frameborder="0" src="${
-                video.iframe.src
-              }" allowfullscreen=""></iframe>`}
+              stringToCopy={`<iframe title="${video.title}" height="${video.iframe.height}" aria-label="${video.title}" width="${video.iframe.width}" frameborder="0" src="${video.iframe.src}" allowfullscreen=""></iframe>`}
               t={t}
               copyTitle={t('embed')}
               hasCopiedTitle={t('embedCopied')}
