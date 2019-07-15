@@ -14,6 +14,7 @@ import { FrontpageHeaderNew, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
+import Spinner from '@ndla/ui/lib/Spinner';
 import {
   GraphQLFrontpageShape,
   GraphQLSimpleSubjectShape,
@@ -37,14 +38,6 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
 
-  const onSearchInputFocus = () => {
-    setInputHasFocus(true);
-  };
-
-  const onSearchDeactiveFocusTrap = () => {
-    setInputHasFocus(false);
-  };
-
   const onSearchFieldChange = query => {
     setQuery(query);
     debounceCall(() => setDelayedSearchQuery(query));
@@ -61,7 +54,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
     });
   };
 
-  const renderInfoText = t => (
+  const renderInfoText = () => (
     <span>
       {topicsNotInNDLA.map((topic, index) => (
         <Fragment key={topic}>
@@ -78,7 +71,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
   );
 
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (!data) {
@@ -113,7 +106,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
 
   const infoText =
     topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
-      ? renderInfoText(t)
+      ? renderInfoText()
       : '';
   return (
     <Fragment>
@@ -155,8 +148,8 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
                   : []
               }
               infoText={infoText}
-              onSearchInputFocus={onSearchInputFocus}
-              onSearchDeactiveFocusTrap={onSearchDeactiveFocusTrap}
+              onSearchInputFocus={() => setInputHasFocus(true)}
+              onSearchDeactiveFocusTrap={() => setInputHasFocus(false)}
               inputHasFocus={inputHasFocus}
               allResultUrl={`search?query=${query}`}
             />

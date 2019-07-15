@@ -21,7 +21,7 @@ import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
 import { fixEndSlash } from '../../routeHelpers';
 
-const ImportedSubjectSection = styled.section`
+const StyledImportedSubjectSection = styled.section`
   max-width: 400px;
   width: calc(100vw - 52px);
   display: flex;
@@ -189,6 +189,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
   const allButImported = allSubjectsWithFIxedEndSlash.filter(
     subject => subject.name !== 'imported',
   );
+
   return (
     <>
       <FrontpageCircularSubjectsSection
@@ -196,7 +197,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
         categories={allButImported}
       />
       {imported && (
-        <ImportedSubjectSection>
+        <StyledImportedSubjectSection>
           <Button onClick={() => setShowImported(!showImported)}>
             {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
           </Button>
@@ -209,7 +210,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
               ))}
             </ul>
           )}
-        </ImportedSubjectSection>
+        </StyledImportedSubjectSection>
       )}
     </>
   );
