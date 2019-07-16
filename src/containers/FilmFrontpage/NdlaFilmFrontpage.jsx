@@ -58,7 +58,12 @@ class NdlaFilm extends Component {
       showingAll: resourceId === ALL_MOVIES_ID,
     });
 
-    const moviesFetched = await this.fetchMoviesByType(resourceId);
+    const resourceTypes =
+      resourceId === ALL_MOVIES_ID
+        ? movieResourceTypes.map(resourceType => resourceType.id).toString()
+        : resourceId;
+
+    const moviesFetched = await this.fetchMoviesByType(resourceTypes);
 
     this.setState({
       fetchingMoviesByType: false,
@@ -94,33 +99,20 @@ class NdlaFilm extends Component {
       },
     ]);
 
-  fetchMoviesByType = async resourceId => {
-    const resourceTypes =
-      resourceId === ALL_MOVIES_ID
-        ? movieResourceTypes.map(resourceType => resourceType.id).toString()
-        : resourceId;
+  fetchMoviesByType = async resourceTypes => {
+    const pageSize = 100;
+    const firstPage = await this.searchMovies(resourceTypes, 1, pageSize);
+    const numberOfPages = Math.ceil(firstPage.totalCount / firstPage.pageSize);
 
-    try {
-      // Search doesnt support large pageSize, use multiple searches to list all.
-      let needToFetchData = true;
-      let page = 1;
-      const pageSize = 100;
-      const results = [];
-      while (needToFetchData) {
-        const fetchedData = await this.searchMovies(
-          resourceTypes,
-          page,
-          pageSize,
-        );
-        results.push(...fetchedData.data.search.results);
-        page += 1;
-        needToFetchData = results.length < fetchedData.data.search.totalCount;
+    const requests = [firstPage];
+    if (numberOfPages > 1) {
+      for (let i = 2; i <= numberOfPages; i += 1) {
+        requests.push(this.searchMovies(resourceTypes, i, pageSize));
       }
-      return results.map(this.transformMoviesByType);
-    } catch (error) {
-      handleError(error);
-      return { error: true };
     }
+    const results = await Promise.all(requests);
+    const movies = results.flatMap(result => result.data.search.results);
+    return movies.map(this.transformMoviesByType);
   };
 
   render() {
