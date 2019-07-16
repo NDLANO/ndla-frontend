@@ -24,7 +24,6 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { movieResourceTypes } from './resourceTypes';
-import handleError from '../../util/handleError';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
