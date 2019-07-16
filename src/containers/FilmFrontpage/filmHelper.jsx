@@ -2,14 +2,14 @@ import { spacing } from '@ndla/core';
 
 export const findName = (themeNames, language) => {
   const themeName = themeNames.find(name => name.language === language);
-  const fallback = themeNames.find(name => name.language === 'nb');
   if (themeName) {
     return themeName.name;
-  } else if (fallback) {
-    return fallback.name;
-  } else {
-    return '';
   }
+  const fallback = themeNames.find(name => name.language === 'nb');
+  if (fallback) {
+    return fallback.name;
+  }
+  return '';
 };
 
 export const breakpoints = [

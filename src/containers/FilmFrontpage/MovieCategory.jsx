@@ -16,6 +16,7 @@ import {
   GraphQLMovieThemeShape,
 } from '../../graphqlShapes';
 import { breakpoints, findName } from './filmHelper';
+import { SUPPORTED_LANGUAGES } from '../../constants';
 
 const MovieCategory = ({
   resourceTypeName,
@@ -67,7 +68,7 @@ MovieCategory.propTypes = {
   ),
   moviesByType: PropTypes.arrayOf(GraphQLArticleMetaShape),
   fetchingMoviesByType: PropTypes.bool,
-  language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
+  language: PropTypes.oneOf(SUPPORTED_LANGUAGES).isRequired,
   resourceTypeSelected: PropTypes.string,
   loadingPlaceholderHeight: PropTypes.bool,
 };

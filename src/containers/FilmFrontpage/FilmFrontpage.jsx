@@ -23,6 +23,7 @@ import {
   GraphQLArticleMetaShape,
   GraphQLMovieThemeShape,
 } from '../../graphqlShapes';
+import { SUPPORTED_LANGUAGES } from '../../constants';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -143,7 +144,7 @@ FilmFrontpage.propTypes = {
       alt: PropTypes.string,
     }),
   }).isRequired,
-  locale: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
+  locale: PropTypes.oneOf(SUPPORTED_LANGUAGES).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   showingAll: PropTypes.bool,
   skipToContentId: PropTypes.string,
