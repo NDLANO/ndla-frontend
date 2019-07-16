@@ -90,6 +90,7 @@ Document.propTypes = {
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
+    polyfill: PropTypes.shape({ src: PropTypes.string.isRequired }),
   }).isRequired,
 };
 

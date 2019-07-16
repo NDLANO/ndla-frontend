@@ -19,9 +19,7 @@ const LtiDefault = ({ item, t }) => {
   const showEmbedCode = async item => {
     if (item.url.href) {
       setEmbedCode(
-        `<iframe src="${
-          item.url.href
-        }" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
+        `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
       );
     } else {
       const oembed = await fetchArticleOembed(item.url);
@@ -47,6 +45,9 @@ LtiDefault.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
+    url: PropTypes.shape({
+      href: PropTypes.string,
+    }),
   }),
 };
 

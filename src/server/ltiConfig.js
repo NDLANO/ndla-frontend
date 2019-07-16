@@ -21,9 +21,7 @@ const ltiConfig = () => {
         <lticm:options name="editor_button">
             <lticm:property name="enabled">true</lticm:property>
         </lticm:options>
-        <lticm:property name="icon_url">${
-          config.ndlaFrontendDomain
-        }/static/ndla-favicon.png</lticm:property>
+        <lticm:property name="icon_url">${config.ndlaFrontendDomain}/static/ndla-favicon.png</lticm:property>
         <lticm:property name="privacy_level">public</lticm:property>
         <lticm:options name="resource_selection">
             <lticm:property name="enabled">true</lticm:property>

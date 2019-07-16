@@ -8,23 +8,27 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { CarouselAutosize } from '@ndla/carousel';
+import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import {
   FilmSlideshow,
-  MovieGrid,
   AboutNdlaFilm,
   FilmMovieSearch,
-  FilmMovieList,
+  AllMoviesAlphabetically,
 } from '@ndla/ui';
+import MovieCategory from './MovieCategory';
 import {
   GraphQLTopicShape,
   GraphQLArticleMetaShape,
   GraphQLMovieThemeShape,
 } from '../../graphqlShapes';
+import { SUPPORTED_LANGUAGES } from '../../constants';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
+
+const sortAlphabetically = (movies, locale) =>
+  movies.sort((a, b) => a.title.localeCompare(b.title, locale));
 
 class FilmFrontpage extends Component {
   constructor(props) {
@@ -51,31 +55,19 @@ class FilmFrontpage extends Component {
     });
   }
 
-  findName = (themeNames, language) => {
-    const name = themeNames.filter(name => name.language === language);
-    const fallback = themeNames.filter(name => name.language === 'nb');
-    if (name.length > 0) {
-      return name.map(n => n.name);
-    } else if (fallback.length > 0) {
-      return fallback.map(n => n.name);
-    } else {
-      return '';
-    }
-  };
-
   render() {
     const {
       highlighted,
-      themes,
       resourceTypes,
       topics,
       aboutNDLAVideo,
       moviesByType,
-      fetchingMoviesByType,
       moreAboutNdlaFilm,
+      showingAll,
       skipToContentId,
-      language,
-      t,
+      themes,
+      locale,
+      fetchingMoviesByType,
     } = this.props;
     const { resourceTypeSelected, loadingPlaceholderHeight } = this.state;
 
@@ -95,33 +87,28 @@ class FilmFrontpage extends Component {
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={this.onChangeResourceType}
         />
-        <div ref={this.movieListRef}>
-          <CarouselAutosize breakpoints={breakpoints}>
-            {autoSizedProps =>
-              resourceTypeSelected ? (
-                <MovieGrid
-                  autoSizedProps={autoSizedProps}
-                  resourceTypeName={resourceTypeName}
-                  fetchingMoviesByType={fetchingMoviesByType}
-                  moviesByType={moviesByType}
-                  resourceTypes={resourceTypes}
-                  loadingPlaceholderHeight={loadingPlaceholderHeight}
-                />
-              ) : (
-                themes.map(theme => (
-                  <FilmMovieList
-                    key={theme.name}
-                    name={this.findName(theme.name, language)}
-                    movies={theme.movies}
-                    autoSizedProps={autoSizedProps}
-                    slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-                    slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
-                    resourceTypes={resourceTypes}
-                  />
-                ))
-              )
-            }
-          </CarouselAutosize>
+        <div
+          ref={this.movieListRef}
+          css={css`
+            margin: ${spacing.spacingUnit * 3}px 0 ${spacing.spacingUnit * 4}px;
+          `}>
+          {showingAll ? (
+            <AllMoviesAlphabetically
+              movies={sortAlphabetically(moviesByType, locale)}
+              locale={locale}
+            />
+          ) : (
+            <MovieCategory
+              resourceTypeName={resourceTypeName}
+              moviesByType={moviesByType}
+              resourceTypes={resourceTypes}
+              themes={themes}
+              fetchingMoviesByType={fetchingMoviesByType}
+              language={locale}
+              resourceTypeSelected={resourceTypeSelected}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
+            />
+          )}
         </div>
         {aboutNDLAVideo && (
           <AboutNdlaFilm
@@ -133,57 +120,6 @@ class FilmFrontpage extends Component {
     );
   }
 }
-
-const breakpoints = [
-  {
-    until: 'mobile',
-    columnsPrSlide: 1,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'mobileWide',
-    columnsPrSlide: 2,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'tabletWide',
-    columnsPrSlide: 3,
-    distanceBetweenItems: spacing.spacingUnit / 2,
-    margin: spacing.spacingUnit,
-    arrowOffset: 13,
-  },
-  {
-    until: 'desktop',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 2,
-    arrowOffset: 0,
-  },
-  {
-    until: 'wide',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 2,
-    arrowOffset: 0,
-  },
-  {
-    until: 'ultraWide',
-    columnsPrSlide: 4,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 3.5,
-    arrowOffset: 0,
-  },
-  {
-    columnsPrSlide: 6,
-    distanceBetweenItems: spacing.spacingUnit,
-    margin: spacing.spacingUnit * 3.5,
-    arrowOffset: 0,
-  },
-];
 
 FilmFrontpage.propTypes = {
   fetchingMoviesByType: PropTypes.bool,
@@ -201,15 +137,16 @@ FilmFrontpage.propTypes = {
   aboutNDLAVideo: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
-    langugae: PropTypes.string,
+    language: PropTypes.string,
     visualElement: PropTypes.shape({
       type: PropTypes.string,
       url: PropTypes.string,
       alt: PropTypes.string,
     }),
   }).isRequired,
-  language: PropTypes.oneOf(['nb', 'nn', 'en']).isRequired,
+  locale: PropTypes.oneOf(SUPPORTED_LANGUAGES).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
+  showingAll: PropTypes.bool,
   skipToContentId: PropTypes.string,
   t: PropTypes.func.isRequired,
   client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,

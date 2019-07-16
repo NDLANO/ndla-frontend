@@ -24,8 +24,9 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { movieResourceTypes } from './resourceTypes';
-import handleError from '../../util/handleError';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
+
+const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
 class NdlaFilm extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class NdlaFilm extends Component {
     this.state = {
       moviesByType: [],
       fetchingMoviesByType: false,
+      showingAll: false,
     };
   }
 
@@ -52,9 +54,15 @@ class NdlaFilm extends Component {
   onSelectedMovieByType = async resourceId => {
     this.setState({
       fetchingMoviesByType: true,
+      showingAll: resourceId === ALL_MOVIES_ID,
     });
 
-    const moviesFetched = await this.fetchMoviesByType(resourceId);
+    const resourceTypes =
+      resourceId === ALL_MOVIES_ID
+        ? movieResourceTypes.map(resourceType => resourceType.id).toString()
+        : resourceId;
+
+    const moviesFetched = await this.fetchMoviesByType(resourceTypes);
 
     this.setState({
       fetchingMoviesByType: false,
@@ -76,28 +84,38 @@ class NdlaFilm extends Component {
     };
   }
 
-  fetchMoviesByType = async resourceId => {
-    try {
-      const { data } = await runQueries(this.props.client, [
-        {
-          query: searchFilmQuery,
-          variables: {
-            subjects: 'urn:subject:20',
-            resourceTypes: resourceId,
-            pageSize: '100',
-            contextTypes: 'topic-article',
-          },
+  searchMovies = async (useResourceType, page, pageSize) =>
+    await runQueries(this.props.client, [
+      {
+        query: searchFilmQuery,
+        variables: {
+          subjects: 'urn:subject:20',
+          resourceTypes: useResourceType,
+          pageSize: pageSize.toString(),
+          page: page.toString(),
+          contextTypes: 'topic-article',
         },
-      ]);
-      return data.search.results.map(this.transformMoviesByType);
-    } catch (error) {
-      handleError(error);
-      return { error: true };
+      },
+    ]);
+
+  fetchMoviesByType = async resourceTypes => {
+    const pageSize = 100;
+    const firstPage = await this.searchMovies(resourceTypes, 1, pageSize);
+    const numberOfPages = Math.ceil(firstPage.totalCount / firstPage.pageSize);
+
+    const requests = [firstPage];
+    if (numberOfPages > 1) {
+      for (let i = 2; i <= numberOfPages; i += 1) {
+        requests.push(this.searchMovies(resourceTypes, i, pageSize));
+      }
     }
+    const results = await Promise.all(requests);
+    const movies = results.flatMap(result => result.data.search.results);
+    return movies.map(this.transformMoviesByType);
   };
 
   render() {
-    const { moviesByType, fetchingMoviesByType } = this.state;
+    const { moviesByType, fetchingMoviesByType, showingAll } = this.state;
     const {
       t,
       locale,
@@ -107,22 +125,30 @@ class NdlaFilm extends Component {
     const about =
       filmfrontpage &&
       filmfrontpage.about.find(about => (about.language = locale));
+    const allResources = {
+      name: t('filmfrontpage.resourcetype.all'),
+      id: ALL_MOVIES_ID,
+    };
 
     return (
       <FilmFrontpage
+        showingAll={showingAll}
         highlighted={filmfrontpage && filmfrontpage.slideShow}
         themes={filmfrontpage && filmfrontpage.movieThemes}
         moviesByType={moviesByType}
         topics={subject && subject.topics}
-        resourceTypes={movieResourceTypes.map(resourceType => ({
-          ...resourceType,
-          name: t(resourceType.name),
-        }))}
+        resourceTypes={[
+          ...movieResourceTypes.map(resourceType => ({
+            ...resourceType,
+            name: t(resourceType.name),
+          })),
+          ...[allResources],
+        ]}
         onSelectedMovieByType={this.onSelectedMovieByType}
         aboutNDLAVideo={about}
         fetchingMoviesByType={fetchingMoviesByType}
         moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
-        language={locale}
+        locale={locale}
         skipToContentId={skipToContentId}
       />
     );
