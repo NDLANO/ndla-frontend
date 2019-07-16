@@ -16,6 +16,7 @@ import {
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
   TEMPORARY_REDIRECT,
+  BAD_REQUEST,
 } from 'http-status';
 import matchPath from 'react-router-dom/matchPath';
 import {
@@ -33,6 +34,7 @@ import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
+import { generateOauthData } from './helpers/oauthHelper';
 
 global.fetch = fetch;
 const app = express();
@@ -114,8 +116,8 @@ async function handleRequest(req, res, route) {
   try {
     const { data, status } = await route(req);
     sendResponse(res, data, status);
-  } catch (e) {
-    handleError(e);
+  } catch (err) {
+    handleError(err);
     await sendInternalServerError(req, res);
   }
 }
@@ -157,6 +159,14 @@ app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {
   res.removeHeader('X-Frame-Options');
   res.setHeader('Content-Type', 'application/xml');
   res.send(ltiConfig());
+});
+
+app.post('/lti/oauth', ndlaMiddleware, async (req, res) => {
+  const { body, query } = req;
+  if (!body || !query.url) {
+    res.send(BAD_REQUEST);
+  }
+  res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 
 app.post('/lti', ndlaMiddleware, async (req, res) => {

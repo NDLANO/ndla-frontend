@@ -15,7 +15,11 @@ import { renderPage, renderHtml } from '../helpers/render';
 const bodyFields = {
   lti_message_type: {
     required: true,
-    value: ['basic-lti-launch-request', 'ToolProxyRegistrationRequest'],
+    value: [
+      'basic-lti-launch-request',
+      'ToolProxyRegistrationRequest',
+      'ContentItemSelectionRequest',
+    ],
   },
   lti_version: { required: true, value: ['LTI-1p0', 'LTI-2p0'] },
   launch_presentation_return_url: { required: false },
