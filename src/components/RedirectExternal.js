@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 class RedirectExternal extends Component {
   constructor(props, context) {
     super(props, context);
-
+    console.log(this.context);
     const { staticContext } = this.context.router;
 
     if (this.isStatic()) {

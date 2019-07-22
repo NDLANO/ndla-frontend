@@ -1,7 +1,6 @@
 const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack');
 const path = require('path');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const addEntry = require('./razzle-add-entry-plugin');
 
 module.exports = {
@@ -32,11 +31,6 @@ module.exports = {
 
       if (!dev) {
         appConfig.plugins.push(
-          new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            openAnalyzer: false,
-            reportFilename: 'bundle-analyzer-report.html',
-          }),
           new webpack.optimize.ModuleConcatenationPlugin(),
         );
       }
