@@ -147,7 +147,7 @@ class ArticlePage extends Component {
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
 
-    if (true) {
+    if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
         <Status code={307}>
