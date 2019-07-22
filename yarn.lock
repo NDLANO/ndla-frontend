@@ -922,15 +922,15 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ndla/article-scripts@^0.5.5":
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.7.tgz#a51f7af37cfcd68d6209178b51f29a0bd0d347ff"
-  integrity sha512-KrXelVIo+9BcUzxkA/bGE9Db76/kCqnSGYcGFyybqF1xoryz4TF0SG4ysLI6wNyTiYLj7IaBzUspPVaLMHSIlQ==
+"@ndla/article-scripts@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.9.tgz#39cce53b2d7a03d9872c073654c05ab7ca4afe43"
+  integrity sha512-MycPoeWiceJC/3ffs69iuBSVsLp4W4pSPypZYnZwB2LZ1kG3SY6J+SqACyW92Xnz+pfUq12OXA0ewBoClmSo+Q==
   dependencies:
     "@ndla/util" "^0.3.4"
     focus-trap "^4.0.2"
     jump.js "^1.0.2"
-    lodash "^4.17.5"
+    lodash "^4.17.14"
 
 "@ndla/button@^0.3.10":
   version "0.3.10"
@@ -938,13 +938,6 @@
   integrity sha512-kU7PF1xd9vIJ7PUA0KHjLWz899jt+0sAcHK5+cu6BOZSugvCKEn6vywm5jZU8NoTHyIzO92RMzvgoVRm4rETYw==
   dependencies:
     "@ndla/core" "^0.6.10"
-
-"@ndla/button@^0.3.5":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.8.tgz#0f9a4035c2a29b82e1ab6babd3a84e390514d6a8"
-  integrity sha512-qvv3nq8G2SkFhheKaub78atun0231ypVYOcUytrY5D2H5bi5geRukfV4Ws5jslArhke/KLy5Q8SevUf0tWFTTA==
-  dependencies:
-    "@ndla/core" "^0.6.8"
 
 "@ndla/carousel@^0.3.8":
   version "0.3.8"
@@ -964,17 +957,7 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/core@^0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.8.tgz#d5fd64a8dbc2138540420f890bce8bafd8036540"
-  integrity sha512-YgtoN38Avc5q2ktSb/gz8qTyFCx80R/WJqpPlalaT1QeWH/+aGP7Terrh/IAJSLrsAcxfw1UxPDrBCUW0zWS5g==
-  dependencies:
-    facepaint "^1.2.1"
-    inuitcss "6.0.0-beta.4"
-    polished "^2.3.3"
-    sass-mq "^5.0.0"
-
-"@ndla/error-reporter@^0.4.3":
+"@ndla/error-reporter@^0.4.4":
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.4.tgz#a550004d8ee2566f258564ae74f35280955256ea"
   integrity sha512-qAlVBsDs+2Zw6YvqvehQHywW0PhtcnirtM4WJqQ9CUucH3vqlmn+jSaunPJHcALwd2AgD2vZGTbMlWL8AylkHw==
@@ -1024,12 +1007,12 @@
     "@ndla/util" "^0.3.4"
     focus-trap-react "^6.0.0"
 
-"@ndla/pager@^0.4.5":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.8.tgz#e42db28f4f8f8667739d48b163677f68cf231c5a"
-  integrity sha512-PpJOoQ0balMcm7+kJ2kUGdWqjXh9UAF1iCfohRrCioKsiBNfrDDRJ6u8ebXeTk8vsHTWaLOQRYnamZp7Xt33gQ==
+"@ndla/pager@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.10.tgz#3f1a6ea9526995c8b1ebd2fe65538b7296614688"
+  integrity sha512-e1cZQV+UIo8n/tJPxtabA3MquP5nSIrArBuTpEp85D4Tie0t5DcJ67ZInmeTID1rmQyYzRKyRBVPIWgYtJsLjw==
   dependencies:
-    "@ndla/core" "^0.6.8"
+    "@ndla/core" "^0.6.10"
 
 "@ndla/polyfill@^0.1.9":
   version "0.1.9"
@@ -1057,15 +1040,6 @@
   integrity sha512-4KFtYgZaDxDfwRoLiGCM/qu2d5BGKWG1x5RL+QPlMfJyOJ4hr5j5dSyLJ0asCA8o+QhD3zBADMLjklcZ9Zqtuw==
   dependencies:
     "@ndla/core" "^0.6.10"
-    "@ndla/util" "^0.3.4"
-    react-tabs "^3.0.0"
-
-"@ndla/tabs@^0.11.5":
-  version "0.11.9"
-  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.9.tgz#ecff9e1cb8706e1c35891357017e1cc38f34a23c"
-  integrity sha512-Ck09jopwUPDodkuwVBqIL3fGfK29hTw3keeTo6DdakawXNcOd7AT5taKuvfFWO7ov/4dpotd7n8xifDf+PyWyA==
-  dependencies:
-    "@ndla/core" "^0.6.8"
     "@ndla/util" "^0.3.4"
     react-tabs "^3.0.0"
 
@@ -1111,19 +1085,19 @@
     react-swipeable "^5.0.1"
     react-transition-group "^2.5.3"
 
-"@ndla/util@^0.3.3", "@ndla/util@^0.3.4":
+"@ndla/util@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.4.tgz#57546486a1114d34379a32a73c8f95ca61d5e6b4"
   integrity sha512-Xy5mU7cb/anUhVjH/VEJOg/T3wvXibKASIAF8zLXl4Rle/y5F7PytN6GxhJp1ul3V2tTfNhf0GUnxHwwBTzHSw==
   dependencies:
     defined "1.0.0"
 
-"@ndla/zendesk@^0.2.5":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.8.tgz#04b7b9408b047567d09e4a6e974805e66b19d040"
-  integrity sha512-fDzDJbO9mZKa8lMDneYhpdAvraFVqrennCA4KbiAixksR9Ss94grtiKWUTSWd/xGprxT1IIiplWtOA6qpwPH0g==
+"@ndla/zendesk@^0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.10.tgz#c38e4739e148658d765d165afc49183107dab462"
+  integrity sha512-p5c74UGsTTFshl7QPVB+2VQdKixQN41Gqi7Wmroub6LN1hhUF+xu4ySylZ3ksvYBHGQU0oWlVmCj3duoSvQrgg==
   dependencies:
-    "@ndla/core" "^0.6.8"
+    "@ndla/core" "^0.6.10"
 
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
