@@ -1085,7 +1085,7 @@
     react-swipeable "^5.0.1"
     react-transition-group "^2.5.3"
 
-"@ndla/util@^0.3.4", "@ndla/util@^0.3.5":
+"@ndla/util@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.4.tgz#57546486a1114d34379a32a73c8f95ca61d5e6b4"
   integrity sha512-Xy5mU7cb/anUhVjH/VEJOg/T3wvXibKASIAF8zLXl4Rle/y5F7PytN6GxhJp1ul3V2tTfNhf0GUnxHwwBTzHSw==
