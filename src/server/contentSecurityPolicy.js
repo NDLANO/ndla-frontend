@@ -22,6 +22,8 @@ const connectSrc = (() => {
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://optimize.google.com',
+    'https://ltiredirect.itslearning.com',
+    'https://platform.itslearning.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||

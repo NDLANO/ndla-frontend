@@ -173,6 +173,7 @@ Resources.propTypes = {
       topicId: PropTypes.string,
       topicPath: PropTypes.string,
       subjectId: PropTypes.string,
+      resourceId: PropTypes.string,
     }),
   }),
   location: PropTypes.shape({ search: PropTypes.string.isRequired }),

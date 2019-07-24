@@ -65,6 +65,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   border-radius: 2px;
   background-color: white;
   float: right;
+  z-index: 1;
 }
 
 .emotion-7:hover,
