@@ -132,7 +132,14 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, loading } = this.props;
+    const {
+      data,
+      locale,
+      errors,
+      loading,
+      ndlaFilm,
+      skipToContentId,
+    } = this.props;
     if (loading) {
       return null;
     }
@@ -158,7 +165,13 @@ class ArticlePage extends Component {
       const error = errors ? errors.find(e => e.path.includes('resource')) : {};
       return (
         <div>
-          <ArticleHero subject={subject} topicPath={topicPath} resource={{}} />
+          <ArticleHero
+            ndlaFilm={ndlaFilm}
+            metaImage={resource.article.metaImage}
+            subject={subject}
+            topicPath={topicPath}
+            resource={resource}
+          />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
@@ -219,6 +232,8 @@ class ArticlePage extends Component {
         />
         {resource && (
           <ArticleHero
+            ndlaFilm={ndlaFilm}
+            metaImage={resource.article.metaImage}
             subject={subject}
             topicPath={topicPath}
             resource={resource}
@@ -226,6 +241,7 @@ class ArticlePage extends Component {
         )}
         <OneColumn>
           <Article
+            id={skipToContentId}
             article={article}
             locale={locale}
             {...getArticleProps(resource, topic)}>
@@ -262,13 +278,15 @@ ArticlePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
-    topicPath: PropTypes.arrayOf(TopicShape),
+    topicPath: PropTypes.arrayOf(PropTypes.string),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  ndlaFilm: PropTypes.bool,
+  skipToContentId: PropTypes.string,
 };
 
 export default compose(

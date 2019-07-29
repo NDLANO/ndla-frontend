@@ -84,9 +84,7 @@ export async function oembedArticleRoute(req) {
       return getOembedObject(
         req,
         article.title,
-        `<iframe aria-label="${article.title}" src="${
-          config.ndlaFrontendDomain
-        }/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
       );
     }
 
@@ -96,11 +94,7 @@ export async function oembedArticleRoute(req) {
     return getOembedObject(
       req,
       resource.title,
-      `<iframe aria-label="${resource.title}" src="${
-        config.ndlaFrontendDomain
-      }/article-iframe/${lang}/${
-        resource.id
-      }/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+      `<iframe aria-label="${resource.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
     );
   } catch (error) {
     handleError(error);

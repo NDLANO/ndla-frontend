@@ -73,7 +73,7 @@ class PlainArticlePage extends Component {
   }
 
   render() {
-    const { article: rawArticle, status, locale } = this.props;
+    const { article: rawArticle, status, locale, skipToContentId } = this.props;
 
     if (status === 'error' || status === 'error404') {
       return (
@@ -122,7 +122,12 @@ class PlainArticlePage extends Component {
         />
         {article && <ArticleHero resource={{}} />}
         <OneColumn>
-          <Article article={article} locale={locale} {...getArticleProps()} />
+          <Article
+            id={skipToContentId}
+            article={article}
+            locale={locale}
+            {...getArticleProps()}
+          />
         </OneColumn>
       </div>
     );
@@ -138,6 +143,7 @@ PlainArticlePage.propTypes = {
   article: ArticleShape,
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  skipToContentId: PropTypes.string,
 };
 
 PlainArticlePage.defaultProps = {
