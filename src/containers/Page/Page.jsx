@@ -31,7 +31,10 @@ export const Page = props => {
       {children}
       <Footer t={t} locale={locale} inverted={ndlaFilm}>
         {config.zendeskWidgetKey && (
-          <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+          <ZendeskButton
+            style={{ backgroundColor: '#184673' }}
+            locale={locale}
+            widgetKey={config.zendeskWidgetKey}>
             {t('askNDLA')}
           </ZendeskButton>
         )}
