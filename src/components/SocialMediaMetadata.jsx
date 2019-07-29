@@ -57,7 +57,9 @@ export const SocialMediaMetadata = ({
               key={alternateLanguage}
               rel="alternate"
               hrefLang={alternateLanguage}
-              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`}
+              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${
+                location.pathname
+              }`}
             />
           ),
         )}

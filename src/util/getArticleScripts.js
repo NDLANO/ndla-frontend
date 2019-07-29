@@ -25,7 +25,9 @@ export function getArticleScripts(article) {
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
       async: true,
-      src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=${assets.mathJaxConfig.js}`,
+      src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=${
+        assets.mathJaxConfig.js
+      }`,
       type: 'text/javascript',
     });
   }
