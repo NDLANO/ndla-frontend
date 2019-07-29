@@ -19,7 +19,7 @@ describe('Front page', () => {
   it('should have a list of valid links on front page', () => {
     cy.get('[data-testid="category-list"]  button').each(button => {
       button.click();
-      cy.get('[class="css-149aaqp-StyledListItem e1e8xv7h6"] a').each(el => {
+      cy.get('[class*="StyledListItem"] a').each(el => {
         cy.wrap(el).should('have.attr', 'href');
         cy.wrap(el).contains(/\w+/);
       });
