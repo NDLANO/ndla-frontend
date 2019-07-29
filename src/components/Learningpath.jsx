@@ -13,9 +13,11 @@ import {
   LearningPathStickySibling,
 } from '@ndla/ui';
 import Resources from '../containers/Resources/Resources';
+import { toLocalLearningPath } from '../routeHelpers';
 
-const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
+const Learningpath = ({ learningpath, learningpathStep, t }) => {
   const {
+    id,
     learningsteps,
     duration,
     lastUpdated,
@@ -24,13 +26,15 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
   } = learningpath;
 
   const lastUpdatedDate = new Date(lastUpdated);
-  const stepId = learningsteps[currentLearningStepNumber].id;
-  const currentLearningStep = learningsteps[currentLearningStepNumber];
+  const stepId = learningpathStep.id;
+  const currentLearningStepNumber = learningsteps.find(
+    step => step.seqNo === learningpathStep.seqNo,
+  ).seqNo;
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
   }${lastUpdatedDate.getMonth()}.${lastUpdatedDate.getFullYear()}`;
   const isLastStep = currentLearningStepNumber === learningsteps.length - 1;
-
+  console.log(learningpathStep);
   return (
     <LearningPathWrapper>
       <div className="c-hero__content">
@@ -38,8 +42,10 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
       </div>
       <LearningPathContent>
         <LearningPathMenu
+          learningPathId={id}
           learningsteps={learningsteps}
           duration={duration}
+          toLearningPathUrl={toLocalLearningPath}
           lastUpdated={lastUpdatedString}
           copyright={copyright}
           stepId={stepId}
@@ -48,18 +54,16 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
           cookies={false}
           learningPathURL="https://stier.ndla.no"
         />
-        {currentLearningStep && (
+        {learningpathStep && (
           <div>
-            {currentLearningStep.showTitle && (
+            {learningpathStep.showTitle && (
               <LearningPathInformation
-                title={currentLearningStep.title.title}
-                description={
-                  currentLearningStep.description &&
-                  currentLearningStep.description.description
-                }
-                license={currentLearningStep.license}
+                title={learningpathStep.title}
+                description={learningpathStep.description}
+                license={learningpathStep.license}
               />
             )}
+
             {isLastStep && (
               <LearningPathLastStepNavigation
                 learningPathName={title.title}
@@ -75,9 +79,11 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
         {currentLearningStepNumber > 0 ? (
           <LearningPathStickySibling
             arrow="left"
+            pathId={learningpath.id}
+            stepId={learningsteps[currentLearningStepNumber - 1].id}
+            toLearningPathUrl={toLocalLearningPath}
             label={t('learningPath.previousArrow')}
-            to={learningsteps[currentLearningStepNumber - 1].metaUrl}
-            title={learningsteps[currentLearningStepNumber - 1].title.title}
+            title={learningsteps[currentLearningStepNumber - 1].title}
           />
         ) : (
           <div />
@@ -86,8 +92,10 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
           <LearningPathStickySibling
             arrow="right"
             label={t('learningPath.nextArrow')}
-            to={learningsteps[currentLearningStepNumber + 1].metaUrl}
-            title={learningsteps[currentLearningStepNumber + 1].title.title}
+            pathId={learningpath.id}
+            stepId={learningsteps[currentLearningStepNumber + 1].id}
+            toLearningPathUrl={toLocalLearningPath}
+            title={learningsteps[currentLearningStepNumber + 1].title}
           />
         )}
       </LearningPathSticky>
@@ -95,13 +103,9 @@ const Learningpath = ({ learningpath, currentLearningStepNumber, t }) => {
   );
 };
 
-Learningpath.defaultProps = {
-  currentLearningStepNumber: 0,
-};
-
 Learningpath.propTypes = {
-  learningpath: PropTypes.object,
-  currentLearningStepNumber: PropTypes.number,
+  learningpath: PropTypes.object, //TODO: fix,
+  learningpathStep: PropTypes.object,
 };
 
 export default injectT(Learningpath);

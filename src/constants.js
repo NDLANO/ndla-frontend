@@ -273,7 +273,9 @@ export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subjects/subject:20';
-export const LEARNINGPATH_PAGE_PATH = '/learningpath/:learningpathId';
+export const LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
+export const LEARNINGPATHSTEP_PAGE_PATH =
+  '/learningpaths/:learningpathId/steps/:stepId';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 

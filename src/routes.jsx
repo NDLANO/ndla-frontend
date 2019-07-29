@@ -26,6 +26,7 @@ import {
   TOPIC_PATH,
   FILM_PAGE_PATH,
   LEARNINGPATH_PAGE_PATH,
+  LEARNINGPATHSTEP_PAGE_PATH,
 } from './constants';
 
 export const routes = [
@@ -44,6 +45,11 @@ export const routes = [
   {
     path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
+    background: true,
+  },
+  {
+    path: LEARNINGPATHSTEP_PAGE_PATH,
+    component: LearningPathPage,
     background: true,
   },
   {

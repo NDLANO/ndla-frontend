@@ -14,5 +14,10 @@ import {
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const fetchLearningpath = (id, locale) =>
-  fetch(`${baseUrl}/${locale}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchLearningPath = (id, locale) =>
+  fetch(`${baseUrl}/${id}?locale=${locale}`).then(resolveJsonOrRejectWithError);
+
+export const fetchLearningPathStep = (pathId, stepId, locale) =>
+  fetch(`${baseUrl}/${pathId}/learningsteps/${stepId}?locale=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );

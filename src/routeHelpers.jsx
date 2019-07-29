@@ -43,6 +43,14 @@ export function toSubjects() {
 export function toLearningPath(id, locale = 'nb') {
   return `${config.learningPathDomain}/${locale}/learningpaths/${id}/first-step`;
 }
+
+export function toLocalLearningPath(pathId, stepId) {
+  if (pathId && stepId) {
+    return `/learningpaths/${pathId}/steps/${stepId}`;
+  }
+  return `/learningpaths/${pathId}`;
+}
+
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (subjectTopicPath) {

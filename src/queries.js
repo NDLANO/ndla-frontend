@@ -576,6 +576,44 @@ export const topicQuery = gql`
   ${resourceInfoFragment}
 `;
 
+export const learningPathStepQuery = gql`
+  query learningPathStepQuery($pathId: String!) {
+    learningpath(pathId: $pathId) {
+      id
+      title
+      description
+      duration
+      lastUpdated
+      copyright {
+        license {
+          license
+          url
+          description
+        }
+        contributors {
+          ...ContributorInfo
+        }
+      }
+      learningsteps {
+        id
+        title
+        description
+        article {
+          ...ArticleInfo
+        }
+        license {
+          license
+          url
+          description
+        }
+        showTitle
+      }
+    }
+  }
+  ${contributorInfoFragment}
+  ${articleInfoFragment}
+`;
+
 export const competenceGoalsQuery = gql`
   query competenceGoalsQuery($nodeId: String!) {
     competenceGoals(nodeId: $nodeId) {
