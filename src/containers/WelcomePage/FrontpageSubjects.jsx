@@ -35,14 +35,12 @@ const StyledImportedSubjectSection = styled.section`
   }
 `;
 
-export const getAllImportSubjectsCategory = (subjects = []) => ({
-  name: 'imported',
-  subjects: subjects.map(subject => ({
+export const getAllImportSubjectsCategory = (subjects = []) =>
+  subjects.map(subject => ({
     text: subject.name,
     url: toSubject(subject.id),
     yearInfo: subject.yearInfo,
-  })),
-});
+  }));
 
 const sortByName = arr =>
   arr.sort((a, b) => {
@@ -170,25 +168,22 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
     preview,
   );
 
-  const allSubjects = config.isNdlaProdEnvironment
-    ? frontpageCategories
-    : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+  const subjectsWithFixedEndSlash = subjectsToFix =>
+    subjectsToFix.map(category => ({
+      ...category,
+      subjects: category.subjects
+        ? category.subjects.map(subject => ({
+            ...subject,
+            url:
+              subject && subject.url ? fixEndSlash(subject.url) : subject.url,
+          }))
+        : [],
+    }));
 
-  const allSubjectsWithFIxedEndSlash = allSubjects.map(category => ({
-    ...category,
-    subjects: category.subjects
-      ? category.subjects.map(subject => ({
-          ...subject,
-          url: subject && subject.url ? fixEndSlash(subject.url) : subject.url,
-        }))
-      : [],
-  }));
-  const imported = allSubjectsWithFIxedEndSlash.find(
-    subject => subject.name === 'imported',
+  const imported = subjectsWithFixedEndSlash(
+    getAllImportSubjectsCategory(subjects),
   );
-  const allButImported = allSubjectsWithFIxedEndSlash.filter(
-    subject => subject.name !== 'imported',
-  );
+  const allButImported = subjectsWithFixedEndSlash(frontpageCategories);
 
   return (
     <>
@@ -203,7 +198,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
           </Button>
           {showImported && (
             <ul>
-              {imported.subjects.map(subject => (
+              {imported.map(subject => (
                 <li key={subject.url}>
                   <a href={subject.url}>{subject.text}</a>
                 </li>
