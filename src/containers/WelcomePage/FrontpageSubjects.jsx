@@ -191,7 +191,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
         linkToAbout={<LinkToAbout />}
         categories={allButImported}
       />
-      {imported && (
+      {!config.isNdlaProdEnvironment && (
         <StyledImportedSubjectSection>
           <Button onClick={() => setShowImported(!showImported)}>
             {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
