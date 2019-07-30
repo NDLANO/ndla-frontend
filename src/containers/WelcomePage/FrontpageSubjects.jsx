@@ -19,7 +19,6 @@ import {
 } from '../../graphqlShapes';
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
-import { fixEndSlash } from '../../routeHelpers';
 
 const StyledImportedSubjectSection = styled.section`
   max-width: 400px;
@@ -67,7 +66,7 @@ function findMatchingFrontpageFilter(subjectsFromApi, subject) {
 }
 
 function createSubjectFilterUrl(subject, filter) {
-  const baseUrl = toSubject(subject.id);
+  const baseUrl = `${toSubject(subject.id)}/`;
   if (filter) {
     const filterIds = filter.map(f => f.id).join(',');
     return `${baseUrl}?filters=${filterIds}`;
@@ -168,22 +167,8 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
     preview,
   );
 
-  const subjectsWithFixedEndSlash = subjectsToFix =>
-    subjectsToFix.map(category => ({
-      ...category,
-      subjects: category.subjects
-        ? category.subjects.map(subject => ({
-            ...subject,
-            url:
-              subject && subject.url ? fixEndSlash(subject.url) : subject.url,
-          }))
-        : [],
-    }));
-
-  const imported = subjectsWithFixedEndSlash(
-    getAllImportSubjectsCategory(subjects),
-  );
-  const allButImported = subjectsWithFixedEndSlash(frontpageCategories);
+  const imported = getAllImportSubjectsCategory(subjects);
+  const allButImported = frontpageCategories;
 
   return (
     <>
