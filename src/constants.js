@@ -273,9 +273,15 @@ export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subjects/subject:20';
-export const LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
-export const LEARNINGPATHSTEP_PAGE_PATH =
+export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
+export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
   '/learningpaths/:learningpathId/steps/:stepId';
+
+export const LEARNINGPATH_PAGE_PATH =
+  '/learningpaths/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
+
+export const LEARNINGPATHSTEP_PAGE_PATH =
+  '/learningpaths/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 

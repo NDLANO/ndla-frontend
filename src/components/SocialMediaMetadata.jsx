@@ -12,24 +12,29 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { BasenameContext } from '../App';
 import config from '../config';
-import { LocationShape, ImageShape, ArticleShape } from '../shapes';
+import {
+  LocationShape,
+  ImageShape,
+  ArticleShape,
+  LearningpathShape,
+} from '../shapes';
 import { getHtmlLang, appLocales } from '../i18n';
 
-export const getAlternateLanguages = (basename, locale, article) => {
+export const getAlternateLanguages = (basename, locale, trackableContent) => {
   const defaultLocale = getHtmlLang();
   const isBasenamePage = locale === defaultLocale && basename === '';
-  if (!article && isBasenamePage) {
+  if (!trackableContent && isBasenamePage) {
     return appLocales.map(appLocale => appLocale.abbreviation);
   }
   if (
-    (!article && !isBasenamePage) ||
+    (!trackableContent && !isBasenamePage) ||
     !isBasenamePage ||
-    !article.supportedLanguages ||
-    article.supportedLanguages.length === 0
+    !trackableContent.supportedLanguages ||
+    trackableContent.supportedLanguages.length === 0
   ) {
     return [];
   }
-  return article.supportedLanguages.filter(
+  return trackableContent.supportedLanguages.filter(
     language =>
       !!appLocales.find(appLocale => appLocale.abbreviation === language),
   );
@@ -40,7 +45,7 @@ export const SocialMediaMetadata = ({
   image,
   description,
   locale,
-  article,
+  trackableContent,
   location,
   children,
 }) => (
@@ -51,7 +56,7 @@ export const SocialMediaMetadata = ({
           rel="canonical"
           href={`${config.ndlaFrontendDomain}${location.pathname}`}
         />
-        {getAlternateLanguages(basename, locale, article).map(
+        {getAlternateLanguages(basename, locale, trackableContent).map(
           alternateLanguage => (
             <link
               key={alternateLanguage}
@@ -118,7 +123,7 @@ SocialMediaMetadata.propTypes = {
   locale: PropTypes.string,
   location: LocationShape,
   image: ImageShape,
-  article: ArticleShape,
+  trackableContent: PropTypes.oneOfType([ArticleShape, LearningpathShape]),
 };
 
 export default withRouter(SocialMediaMetadata);

@@ -531,19 +531,71 @@ export const resourceQuery = gql`
     $subjectId: String
   ) {
     resource(id: $resourceId, subjectId: $subjectId) {
-      id
-      name
-      path
-      contentUri
+      ...ResourceInfo
       article(filterIds: $filterIds, subjectId: $subjectId) {
         ...ArticleInfo
       }
-      resourceTypes {
-        id
-        name
+    }
+  }
+  ${resourceInfoFragment}
+  ${articleInfoFragment}
+`;
+
+const learningpathInfoFragment = gql`
+  fragment LearningpathInfo on Learningpath {
+    id
+    title
+    description
+    duration
+    lastUpdated
+    copyright {
+      license {
+        license
+        url
+        description
+      }
+      contributors {
+        ...ContributorInfo
+      }
+    }
+    learningsteps {
+      id
+      title
+      description
+      seqNo
+      article {
+        ...ArticleInfo
+      }
+      license {
+        license
+        url
+        description
+      }
+      showTitle
+    }
+  }
+  ${contributorInfoFragment}
+  ${articleInfoFragment}
+`;
+
+export const resourceWithLearningpathQuery = gql`
+  query resourceQuery(
+    $resourceId: String!
+    $filterIds: String
+    $subjectId: String
+  ) {
+    resource(id: $resourceId, subjectId: $subjectId) {
+      ...ResourceInfo
+      article(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ArticleInfo
+      }
+      learningpath {
+        ...LearningpathInfo
       }
     }
   }
+  ${learningpathInfoFragment}
+  ${resourceInfoFragment}
   ${articleInfoFragment}
 `;
 
@@ -579,39 +631,10 @@ export const topicQuery = gql`
 export const learningPathStepQuery = gql`
   query learningPathStepQuery($pathId: String!) {
     learningpath(pathId: $pathId) {
-      id
-      title
-      description
-      duration
-      lastUpdated
-      copyright {
-        license {
-          license
-          url
-          description
-        }
-        contributors {
-          ...ContributorInfo
-        }
-      }
-      learningsteps {
-        id
-        title
-        description
-        article {
-          ...ArticleInfo
-        }
-        license {
-          license
-          url
-          description
-        }
-        showTitle
-      }
+      ...LearningpathInfo
     }
   }
-  ${contributorInfoFragment}
-  ${articleInfoFragment}
+  ${learningpathInfoFragment}
 `;
 
 export const competenceGoalsQuery = gql`

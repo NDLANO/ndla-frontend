@@ -44,11 +44,19 @@ export function toLearningPath(id, locale = 'nb') {
   return `${config.learningPathDomain}/${locale}/learningpaths/${id}/first-step`;
 }
 
-export function toLocalLearningPath(pathId, stepId) {
+export function toLocalLearningPath(pathId, stepId, resource) {
+  if (resource) {
+    return stepId
+      ? `/learningpaths${resource.path}/${stepId}`
+      : `/learningpaths${resource.path}`;
+  }
   if (pathId && stepId) {
     return `/learningpaths/${pathId}/steps/${stepId}`;
   }
-  return `/learningpaths/${pathId}`;
+  if (pathId) {
+    return `/learningpaths/${pathId}`;
+  }
+  return '/learningpaths';
 }
 
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
@@ -135,10 +143,8 @@ export function toLinkProps(linkObject, locale) {
     linkObject.meta;
   return {
     to: isLearningpath
-      ? toLearningPath(linkObject.meta.id, locale)
+      ? toLocalLearningPath() + linkObject.path
       : toSubjects() + linkObject.path,
-    target: isLearningpath ? '_blank' : undefined,
-    rel: isLearningpath ? 'noreferrer noopener' : undefined,
   };
 }
 
