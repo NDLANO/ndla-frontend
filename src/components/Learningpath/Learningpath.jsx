@@ -31,6 +31,8 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
+import { compose } from 'react-apollo';
+import withRouter from 'react-router-dom/withRouter';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -44,6 +46,7 @@ const Learningpath = ({
   resourceTypes,
   skipToContentId,
   locale,
+  history,
   t,
 }) => {
   const {
@@ -79,9 +82,35 @@ const Learningpath = ({
       setCookie(cookieKey, JSON.stringify(updatedCookie));
     }
   };
+  const onKeyUpEvent = evt => {
+    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
+      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
+      const newSeqNo = learningpathStep.seqNo + directionValue;
+      console.log(newSeqNo);
+      const newLearningpathStep = learningsteps.find(
+        step => step.seqNo === newSeqNo,
+      );
+      if (newLearningpathStep) {
+        history.push(
+          toLocalLearningPath(
+            learningpath.id,
+            newLearningpathStep.id,
+            resource,
+          ),
+        );
+      }
+    }
+  };
 
+  useEffect(() => {}, []);
   useEffect(() => updateCookies(), [learningpathStep.id]);
-  useEffect(() => updateCookies(), []);
+  useEffect(() => {
+    window.addEventListener('keyup', onKeyUpEvent);
+    updateCookies();
+    return () => {
+      window.removeEventListener('keyup', onKeyUpEvent);
+    };
+  }, []);
 
   return (
     <LearningPathWrapper>
@@ -192,6 +221,12 @@ Learningpath.propTypes = {
   resource: ResourceShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default injectT(Learningpath);
+export default compose(
+  injectT,
+  withRouter,
+)(Learningpath);
