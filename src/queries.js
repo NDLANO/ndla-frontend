@@ -548,6 +548,7 @@ const learningpathInfoFragment = gql`
     description
     duration
     lastUpdated
+    supportedLanguages
     copyright {
       license {
         license

@@ -69,7 +69,15 @@ class LearningPathPage extends Component {
   }
 
   static getDimensions(props) {
-    return getAllDimensions(props, undefined, true);
+    const articleProps = getArticleProps(props.data.resource);
+    const {
+      data: { learningpath, learningpathStep, subject, topicPath },
+    } = props;
+    return getAllDimensions(
+      { subject, topicPath, learningpath, learningpathStep },
+      articleProps.label,
+      false,
+    );
   }
 
   static getDocumentTitle({ t, data }) {
@@ -157,7 +165,9 @@ class LearningPathPage extends Component {
           trackableContent={learningpath}
           description={learningpath.description}
           locale={locale}
-          image={learningpath.coverphoto ? learningpath.coverphoto.url : ''}
+          image={{
+            src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+          }}
         />
         <Learningpath
           skipToContentId={skipToContentId}

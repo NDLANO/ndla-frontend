@@ -220,7 +220,7 @@ class ArticlePage extends Component {
           title={`${subject && subject.name ? subject.name + ' - ' : ''}${
             article.title
           }`}
-          article={article}
+          trackableContent={article}
           description={article.metaDescription}
           locale={locale}
           image={metaImage}

@@ -32,6 +32,7 @@ const LastLearningpathStepInfo = ({
     topicPath && topic
       ? topicPath.find(path => path.id === topic.id)
       : undefined;
+  console.log(topic);
   return (
     <LearningPathLastStepNavigation
       learningPathName={title}
@@ -45,7 +46,12 @@ const LastLearningpathStepInfo = ({
         }
       }>
       {topic && resourceTypes && (
-        <Resources key="resources" resourceTypes={resourceTypes} {...topic} />
+        <Resources
+          key="resources"
+          resourceTypes={resourceTypes}
+          title={topic.title}
+          {...topic}
+        />
       )}
     </LearningPathLastStepNavigation>
   );

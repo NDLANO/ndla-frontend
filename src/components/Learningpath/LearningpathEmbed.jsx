@@ -31,14 +31,13 @@ const LearningpathEmbed = ({
   resource,
   topic,
 }) => {
-  console.log('fjjf', locale, skipToContentId);
   if (
     !learningpathStep ||
     (!learningpathStep.article && !learningpathStep.embedUrl)
   ) {
     return null;
   }
-  console.log('dkdk', learningpathStep);
+
   if (
     !learningpathStep.article &&
     learningpathStep.embedUrl &&

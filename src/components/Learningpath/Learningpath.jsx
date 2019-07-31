@@ -30,6 +30,7 @@ import {
   LearningpathStepShape,
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
+import config from '../../config';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -90,7 +91,7 @@ const Learningpath = ({
             <Breadcrumb
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
-                [subject, ...topicPath],
+                [subject, ...topicPath, { name: learningpath.title, url: '' }],
                 undefined,
               )}
             />
@@ -98,7 +99,7 @@ const Learningpath = ({
             <Breadcrumb
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
-                [{}],
+                [{ name: learningpath.title, url: '' }],
                 undefined,
               )}
             />
@@ -119,7 +120,7 @@ const Learningpath = ({
           currentIndex={learningpathStep.seqNo}
           name={title}
           cookies={useCookies}
-          learningPathURL="https://stier.ndla.no"
+          learningPathURL={config.learningPathDomain}
         />
         {learningpathStep && (
           <div>

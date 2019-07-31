@@ -18,7 +18,7 @@ import LearningPath from '../../components/Learningpath';
 import { runQueries } from '../../util/runQueries';
 import { learningPathStepQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-import { SocialMediaMetadata } from '../../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getTitle = learningpath => (learningpath ? learningpath.title : '');
 
@@ -48,9 +48,7 @@ class PlainLearningPathPage extends Component {
   }
 
   static getDocumentTitle({ t, data }) {
-    const {
-      resource: { learningpath },
-    } = data;
+    const { learningpath } = data;
     return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
   }
 
@@ -108,7 +106,9 @@ class PlainLearningPathPage extends Component {
           trackableContent={learningpath}
           description={learningpath.description}
           locale={locale}
-          image={learningpath.coverphoto ? learningpath.coverphoto.url : ''}
+          image={{
+            src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+          }}
         />
         <LearningPath
           id={skipToContentId}
