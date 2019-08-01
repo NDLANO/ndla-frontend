@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Router from 'react-router-dom/Router';
+import { Router } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';

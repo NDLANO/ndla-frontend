@@ -8,10 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-router-dom/Switch';
-import ReactRoute from 'react-router-dom/Route';
-import matchPath from 'react-router-dom/matchPath';
-import withRouter from 'react-router-dom/withRouter';
+import {
+  Route as ReactRoute,
+  matchPath,
+  withRouter,
+  Switch,
+} from 'react-router-dom';
 import { Content } from '@ndla/ui';
 import { withApollo } from 'react-apollo';
 import Page from './containers/Page/Page';
