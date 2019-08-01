@@ -168,13 +168,12 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
   );
 
   const imported = getAllImportSubjectsCategory(subjects);
-  const allButImported = frontpageCategories;
 
   return (
     <>
       <FrontpageCircularSubjectsSection
         linkToAbout={<LinkToAbout />}
-        categories={allButImported}
+        categories={frontpageCategories}
       />
       {!config.isNdlaProdEnvironment && (
         <StyledImportedSubjectSection>
