@@ -18,7 +18,11 @@ describe('Subjects page', () => {
     cy.apiwait('@frontpageSearchGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
-    cy.get('a:contains("Medieuttrykk")')
+    cy.get(
+      '[data-testid="category-list"]  button:contains("Studiespesialisering"):visible',
+    )
+      .click()
+      .get('a:contains("Medieuttrykk")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');

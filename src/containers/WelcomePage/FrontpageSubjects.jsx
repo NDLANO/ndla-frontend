@@ -7,10 +7,11 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-import { FrontpageSubjects as FrontpageSubjectsSection } from '@ndla/ui';
+import styled from '@emotion/styled';
+import Button from '@ndla/button';
+import { FrontpageCircularSubjectsSection } from '@ndla/ui';
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -19,14 +20,26 @@ import {
 import config from '../../config';
 import { FRONTPAGE_CATEGORIES, ALLOWED_SUBJECTS } from '../../constants';
 
-export const getAllImportSubjectsCategory = (subjects = []) => ({
-  name: 'imported',
-  subjects: subjects.map(subject => ({
+const StyledImportedSubjectSection = styled.section`
+  max-width: 400px;
+  width: calc(100vw - 52px);
+  display: flex;
+  align-items: center;
+  margin: auto;
+  flex-direction: column;
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+export const getAllImportSubjectsCategory = (subjects = []) =>
+  subjects.map(subject => ({
     text: subject.name,
     url: toSubject(subject.id),
     yearInfo: subject.yearInfo,
-  })),
-});
+  }));
 
 const sortByName = arr =>
   arr.sort((a, b) => {
@@ -53,7 +66,7 @@ function findMatchingFrontpageFilter(subjectsFromApi, subject) {
 }
 
 function createSubjectFilterUrl(subject, filter) {
-  const baseUrl = toSubject(subject.id);
+  const baseUrl = `${toSubject(subject.id)}/`;
   if (filter) {
     const filterIds = filter.map(f => f.id).join(',');
     return `${baseUrl}?filters=${filterIds}`;
@@ -136,41 +149,51 @@ const LinkToAbout = () => (
   </a>
 );
 
-class FrontpageSubjects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { preview: false };
-  }
-
-  componentDidMount() {
+const FrontpageSubjects = ({ categories, subjects, locale }) => {
+  const [preview, setPreview] = useState(false);
+  const [showImported, setShowImported] = useState(false);
+  useEffect(() => {
     if (
       document.location.search &&
       document.location.search.includes('preview')
     ) {
-      this.setState({ preview: true });
+      setPreview(true);
     }
-  }
+  });
 
-  render() {
-    const { categories, subjects, locale } = this.props;
-    const frontpageCategories = mapHardCodedCategories(
-      categories,
-      locale,
-      this.state.preview,
-    );
+  const frontpageCategories = mapHardCodedCategories(
+    categories,
+    locale,
+    preview,
+  );
 
-    const allSubjects = config.isNdlaProdEnvironment
-      ? frontpageCategories
-      : [...frontpageCategories, getAllImportSubjectsCategory(subjects)];
+  const imported = getAllImportSubjectsCategory(subjects);
 
-    return (
-      <FrontpageSubjectsSection
+  return (
+    <>
+      <FrontpageCircularSubjectsSection
         linkToAbout={<LinkToAbout />}
-        categories={allSubjects}
+        categories={frontpageCategories}
       />
-    );
-  }
-}
+      {!config.isNdlaProdEnvironment && (
+        <StyledImportedSubjectSection>
+          <Button onClick={() => setShowImported(!showImported)}>
+            {showImported ? 'Skjul spolte fag' : 'Vis spolte fag'}
+          </Button>
+          {showImported && (
+            <ul>
+              {imported.map(subject => (
+                <li key={subject.url}>
+                  <a href={subject.url}>{subject.text}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </StyledImportedSubjectSection>
+      )}
+    </>
+  );
+};
 
 FrontpageSubjects.propTypes = {
   locale: PropTypes.string.isRequired,

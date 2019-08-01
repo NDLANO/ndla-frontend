@@ -17,9 +17,12 @@ describe('Front page', () => {
   });
 
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-testid="category-list"]  a').each(el => {
-      cy.wrap(el).should('have.attr', 'href');
-      cy.wrap(el).contains(/\w+/);
+    cy.get('[data-testid="category-list"]  button').each(button => {
+      button.click();
+      cy.get('[class*="StyledListItem"] a').each(el => {
+        cy.wrap(el).should('have.attr', 'href');
+        cy.wrap(el).contains(/\w+/);
+      });
     });
   });
 
