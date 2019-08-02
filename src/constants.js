@@ -265,8 +265,8 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:44',
 ];
 
-export const ARTICLE_PAGE_PATH =
-  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
+export const RESOURCE_PAGE_PATH =
+  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SEARCH_PATH = '/search(.*)';
 export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
@@ -277,12 +277,5 @@ export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
 export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
   '/learningpaths/:learningpathId/steps/:stepId';
 
-export const LEARNINGPATH_PAGE_PATH =
-  '/learningpaths/:subjectId/:topicPath*/:topicId/resource\\::resourceId';
-
-export const LEARNINGPATHSTEP_PAGE_PATH =
-  '/learningpaths/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId';
-
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
-
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];

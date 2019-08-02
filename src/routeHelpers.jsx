@@ -39,15 +39,15 @@ export function toSubjects() {
   return `/subjects`;
 }
 
-export function toLearningpaths() {
+function toLearningpaths() {
   return '/learningpaths';
 }
 
 export function toLearningPath(pathId, stepId, resource) {
   if (resource) {
     return stepId
-      ? `${toLearningpaths()}${resource.path}/${stepId}`
-      : `${toLearningpaths()}${resource.path}`;
+      ? `${toSubjects()}${resource.path}/${stepId}`
+      : `${toSubjects()}${resource.path}`;
   }
   if (pathId && stepId) {
     return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
@@ -55,7 +55,7 @@ export function toLearningPath(pathId, stepId, resource) {
   if (pathId) {
     return `${toLearningpaths()}/${pathId}`;
   }
-  return toLearningpaths();
+  return toSubjects();
 }
 
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {

@@ -524,23 +524,6 @@ export const topicResourcesQuery = gql`
   ${resourceInfoFragment}
 `;
 
-export const resourceQuery = gql`
-  query resourceQuery(
-    $resourceId: String!
-    $filterIds: String
-    $subjectId: String
-  ) {
-    resource(id: $resourceId, subjectId: $subjectId) {
-      ...ResourceInfo
-      article(filterIds: $filterIds, subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-    }
-  }
-  ${resourceInfoFragment}
-  ${articleInfoFragment}
-`;
-
 const learningpathInfoFragment = gql`
   fragment LearningpathInfo on Learningpath {
     id
@@ -579,7 +562,7 @@ const learningpathInfoFragment = gql`
   ${articleInfoFragment}
 `;
 
-export const resourceWithLearningpathQuery = gql`
+export const resourceQuery = gql`
   query resourceQuery(
     $resourceId: String!
     $filterIds: String

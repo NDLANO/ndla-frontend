@@ -13,19 +13,10 @@ import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { ArticleShape } from '../../shapes';
-import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
-import { getTopicPath } from '../../util/getTopicPath';
-import { runQueries } from '../../util/runQueries';
-import {
-  subjectTopicsQuery,
-  resourceTypesQuery,
-  topicResourcesQuery,
-  resourceWithLearningpathQuery,
-} from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import {
   GraphQLResourceShape,
@@ -34,14 +25,6 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 
-const transformData = data => {
-  const { subject, topic } = data;
-
-  const topicPath =
-    subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  return { ...data, topicPath };
-};
-
 class LearningPathPage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
     const { loading, data } = currentProps;
@@ -49,18 +32,6 @@ class LearningPathPage extends Component {
       return;
     }
     trackPageView(currentProps);
-  }
-
-  componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
   }
 
   static getDimensions(props) {
@@ -85,47 +56,17 @@ class LearningPathPage extends Component {
     }${t('htmlTitles.titleTemplate')}`;
   }
 
-  static async getInitialProps(ctx) {
-    const { client } = ctx;
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
-    const response = await runQueries(client, [
-      {
-        query: subjectTopicsQuery,
-        variables: { subjectId },
-      },
-      {
-        query: topicResourcesQuery,
-        variables: { topicId, subjectId },
-      },
-      {
-        query: resourceWithLearningpathQuery,
-        variables: { resourceId, subjectId },
-      },
-      {
-        query: resourceTypesQuery,
-      },
-    ]);
-    return {
-      ...response,
-      data: transformData(response.data),
-    };
-  }
-
   render() {
     const {
       data,
       locale,
-      loading,
       skipToContentId,
       match: {
         params: { stepId },
       },
     } = this.props;
-    if (loading) {
-      return null;
-    }
+
     if (
-      !data ||
       !data.resource ||
       !data.resource.learningpath ||
       !data.topic ||

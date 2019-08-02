@@ -22,33 +22,15 @@ import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
-import { getTopicPath } from '../../util/getTopicPath';
-import {
-  subjectTopicsQuery,
-  resourceTypesQuery,
-  topicResourcesQuery,
-  resourceQuery,
-} from '../../queries';
 import Resources from '../Resources/Resources';
-import { runQueries } from '../../util/runQueries';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import {
   isLearningPathResource,
   getLearningPathUrlFromResource,
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-
-const transformData = data => {
-  const { subject, topic } = data;
-
-  const topicPath =
-    subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  return { ...data, topicPath };
-};
 
 class ArticlePage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
@@ -57,18 +39,6 @@ class ArticlePage extends Component {
       return;
     }
     trackPageView(currentProps);
-  }
-
-  componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
   }
 
   static getDimensions(props) {
@@ -99,49 +69,8 @@ class ArticlePage extends Component {
     )}`;
   }
 
-  static async getInitialProps(ctx) {
-    const { client, location } = ctx;
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
-    const filterIds = getFiltersFromUrl(location);
-    const response = await runQueries(client, [
-      {
-        query: subjectTopicsQuery,
-        variables: { subjectId },
-      },
-      {
-        query: topicResourcesQuery,
-        variables: { topicId, filterIds, subjectId },
-      },
-      {
-        query: resourceQuery,
-        variables: { resourceId, filterIds, subjectId },
-      },
-      {
-        query: resourceTypesQuery,
-      },
-    ]);
-    return {
-      ...response,
-      data: transformData(response.data),
-    };
-  }
-
   render() {
-    const {
-      data,
-      locale,
-      errors,
-      loading,
-      ndlaFilm,
-      skipToContentId,
-    } = this.props;
-    if (loading) {
-      return null;
-    }
-
-    if (!data) {
-      return <DefaultErrorMessage />;
-    }
+    const { data, locale, errors, ndlaFilm, skipToContentId } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =

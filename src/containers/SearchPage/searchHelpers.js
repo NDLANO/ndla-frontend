@@ -32,24 +32,10 @@ const getResourceType = resource => {
   return null;
 };
 
-const getUrl = (subject, result, language) => {
-  const isLearningpath = subject.learningResourceType === 'learningpath';
-  return isLearningpath
-    ? `${toLearningpaths()}${subject.path}`
-    : `${toSubjects()}${subject.path}`;
-};
+const getUrl = subject => `${toSubjects()}${subject.path}`;
 
-export const searchResultToLinkProps = (result, language) => {
-  if (!result.path) {
-    return { to: '/404' };
-  }
-  const isLearningpath =
-    result.resourceType === 'urn:resourcetype:learningPath';
-  const url = isLearningpath
-    ? toLearningpaths() + result.path
-    : toSubjects() + result.path;
-  return { to: url };
-};
+export const searchResultToLinkProps = result =>
+  result.path ? { to: toSubjects() + result.path } : { to: '/404' };
 
 export const selectContext = (contexts, filters, enabledTab) => {
   const filteredContext =
