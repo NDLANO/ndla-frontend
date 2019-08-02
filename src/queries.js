@@ -188,6 +188,7 @@ export const frontpageSearch = gql`
           }
         }
       }
+      totalCount
     }
   }
 `;
