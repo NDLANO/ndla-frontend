@@ -19,7 +19,9 @@ import {
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { toLocalLearningPath, toBreadcrumbItems } from '../../routeHelpers';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { toLearningPath, toBreadcrumbItems } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
   TopicShape,
@@ -31,8 +33,6 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
-import { compose } from 'react-apollo';
-import withRouter from 'react-router-dom/withRouter';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -92,11 +92,7 @@ const Learningpath = ({
       );
       if (newLearningpathStep) {
         history.push(
-          toLocalLearningPath(
-            learningpath.id,
-            newLearningpathStep.id,
-            resource,
-          ),
+          toLearningPath(learningpath.id, newLearningpathStep.id, resource),
         );
       }
     }
@@ -141,7 +137,7 @@ const Learningpath = ({
           learningsteps={learningsteps}
           duration={duration}
           toLearningPathUrl={(pathId, stepId) =>
-            toLocalLearningPath(pathId, stepId, resource)
+            toLearningPath(pathId, stepId, resource)
           }
           lastUpdated={lastUpdatedString}
           copyright={copyright}
@@ -186,7 +182,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo - 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLocalLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource)
             }
             label={t('learningPath.previousArrow')}
             title={learningsteps[learningpathStep.seqNo - 1].title}
@@ -201,7 +197,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo + 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLocalLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource)
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />

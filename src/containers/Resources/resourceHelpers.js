@@ -7,7 +7,7 @@
  */
 
 import config from '../../config';
-import { toArticle, toLocalLearningPath } from '../../routeHelpers';
+import { toArticle, toLearningPath } from '../../routeHelpers';
 
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
@@ -51,7 +51,7 @@ export const resourceToLinkProps = (
 ) => {
   if (isLearningPathResource(resource)) {
     return {
-      to: toLocalLearningPath(undefined, undefined, resource),
+      to: toLearningPath(undefined, undefined, resource),
     };
   }
   if (isArticleResource(resource)) {

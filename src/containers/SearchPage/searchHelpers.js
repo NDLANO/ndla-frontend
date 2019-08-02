@@ -1,10 +1,10 @@
 import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import config from '../../config';
 import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
+import { toSubjects, toLearningpaths } from '../../routeHelpers';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -32,26 +32,20 @@ const getResourceType = resource => {
   return null;
 };
 
-const createLearningPathUrl = (id, language) => ({
-  href: `${config.learningPathDomain}${
-    language ? `/${language}` : ''
-  }/learningpaths/${id}/first-step`,
-  target: '_blank',
-  rel: 'noopener noreferrer',
-});
-
 const getUrl = (subject, result, language) => {
-  if (subject.learningResourceType === 'learningpath') {
-    return createLearningPathUrl(result.id, language);
-  }
-  return `/subjects${subject.path}`;
+  const isLearningpath = subject.learningResourceType === 'learningpath';
+  return isLearningpath
+    ? `${toLearningpaths()}${subject.path}`
+    : `${toSubjects()}${subject.path}`;
 };
 
 export const searchResultToLinkProps = (result, language) => {
-  if (result.resourceType === 'urn:resourcetype:learningPath') {
-    return createLearningPathUrl(result.id, language);
-  }
-  return { to: result.path || '/404' };
+  const isLearningpath =
+    result.resourceType === 'urn:resourcetype:learningPath';
+  const url = isLearningpath
+    ? toLearningpaths() + result.path
+    : toSubjects() + result.path;
+  return { to: url || '/404' };
 };
 
 export const selectContext = (contexts, filters, enabledTab) => {

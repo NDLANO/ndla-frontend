@@ -7,7 +7,6 @@
  */
 
 import matchPath from 'react-router-dom/matchPath';
-import config from './config';
 import { SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch() {
@@ -40,23 +39,23 @@ export function toSubjects() {
   return `/subjects`;
 }
 
-export function toLearningPath(id, locale = 'nb') {
-  return `${config.learningPathDomain}/${locale}/learningpaths/${id}/first-step`;
+export function toLearningpaths() {
+  return '/learningpaths';
 }
 
-export function toLocalLearningPath(pathId, stepId, resource) {
+export function toLearningPath(pathId, stepId, resource) {
   if (resource) {
     return stepId
-      ? `/learningpaths${resource.path}/${stepId}`
-      : `/learningpaths${resource.path}`;
+      ? `${toLearningpaths()}${resource.path}/${stepId}`
+      : `${toLearningpaths()}${resource.path}`;
   }
   if (pathId && stepId) {
-    return `/learningpaths/${pathId}/steps/${stepId}`;
+    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
   }
   if (pathId) {
-    return `/learningpaths/${pathId}`;
+    return `${toLearningpaths()}/${pathId}`;
   }
-  return '/learningpaths';
+  return toLearningpaths();
 }
 
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
@@ -143,7 +142,7 @@ export function toLinkProps(linkObject, locale) {
     linkObject.meta;
   return {
     to: isLearningpath
-      ? toLocalLearningPath() + linkObject.path
+      ? toLearningPath() + linkObject.path
       : toSubjects() + linkObject.path,
   };
 }
