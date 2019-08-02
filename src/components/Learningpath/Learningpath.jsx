@@ -86,7 +86,6 @@ const Learningpath = ({
     if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
       const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
       const newSeqNo = learningpathStep.seqNo + directionValue;
-      console.log(newSeqNo);
       const newLearningpathStep = learningsteps.find(
         step => step.seqNo === newSeqNo,
       );

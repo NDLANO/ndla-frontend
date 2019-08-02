@@ -32,7 +32,7 @@ const LastLearningpathStepInfo = ({
     topicPath && topic
       ? topicPath.find(path => path.id === topic.id)
       : undefined;
-  console.log(topic);
+
   return (
     <LearningPathLastStepNavigation
       learningPathName={title}
