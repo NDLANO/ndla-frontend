@@ -16,8 +16,8 @@ import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
-import PlainLearningPathPage from './containers/PlainLearningPathPage/PlainLearningPathPage';
-import LearningPathPage from './containers/LearningPathPage/LearningPathPage';
+import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
+import LearningpathPage from './containers/LearningpathPage/LearningpathPage';
 
 import App from './App';
 import {
@@ -53,22 +53,22 @@ export const routes = [
   },
   {
     path: LEARNINGPATHSTEP_PAGE_PATH,
-    component: LearningPathPage,
+    component: LearningpathPage,
     background: true,
   },
   {
     path: LEARNINGPATH_PAGE_PATH,
-    component: LearningPathPage,
+    component: LearningpathPage,
     background: true,
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
-    component: PlainLearningPathPage,
+    component: PlainLearningpathPage,
     background: true,
   },
   {
     path: PLAIN_LEARNINGPATH_PAGE_PATH,
-    component: PlainLearningPathPage,
+    component: PlainLearningpathPage,
     background: true,
   },
   {
