@@ -6,7 +6,7 @@
  *
  */
 
-import matchPath from 'react-router-dom/matchPath';
+import { matchPath } from 'react-router-dom';
 import { SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch() {
