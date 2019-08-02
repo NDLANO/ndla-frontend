@@ -122,6 +122,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
         fetchPolicy="no-cache"
         variables={searchParams}
         ssr={false}
+        skip={delayedSearchQuery.length <= 2}
         query={frontpageSearch}>
         {({ data, error }) => {
           if (error) {
@@ -227,7 +228,7 @@ function mapSearchToFrontPageStructure(data, t, query, locale) {
     title: `${t('resource.label')}:`,
     contentType: 'results-frontpage',
     resources: [],
-    totalCount: data.search.totalCount,
+    totalCount: data.search && data.search.totalCount,
   };
   // distribute and group the result in right section
   result.forEach(resultData => {
