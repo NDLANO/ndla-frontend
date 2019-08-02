@@ -40,12 +40,15 @@ const getUrl = (subject, result, language) => {
 };
 
 export const searchResultToLinkProps = (result, language) => {
+  if (!result.path) {
+    return { to: '/404' };
+  }
   const isLearningpath =
     result.resourceType === 'urn:resourcetype:learningPath';
   const url = isLearningpath
     ? toLearningpaths() + result.path
     : toSubjects() + result.path;
-  return { to: url || '/404' };
+  return { to: url };
 };
 
 export const selectContext = (contexts, filters, enabledTab) => {

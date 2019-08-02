@@ -40,7 +40,7 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps article 1`] = `
 Object {
-  "to": "/article/300",
+  "to": "/subjects/article/300",
 }
 `;
 
@@ -52,8 +52,6 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 Object {
-  "href": "https://learningpath-frontend.test.api.ndla.no/learningpaths/500/first-step",
-  "rel": "noopener noreferrer",
-  "target": "_blank",
+  "to": "/learningpaths/learningpath/500",
 }
 `;
