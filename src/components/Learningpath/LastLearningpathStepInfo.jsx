@@ -27,11 +27,17 @@ const LastLearningpathStepInfo = ({
   if (!isLastStep) {
     return null;
   }
-
   const topicWithPath =
     topicPath && topic
       ? topicPath.find(path => path.id === topic.id)
       : undefined;
+
+  const showResources =
+    topic &&
+    resourceTypes &&
+    ((topic.coreResources && topic.coreResources.length > 0) ||
+      (topic.supplementaryResources &&
+        topic.supplementaryResources.length > 0));
 
   return (
     <LearningPathLastStepNavigation
@@ -45,7 +51,7 @@ const LastLearningpathStepInfo = ({
           name: topicWithPath.name,
         }
       }>
-      {topic && resourceTypes && (
+      {showResources && (
         <Resources
           key="resources"
           resourceTypes={resourceTypes}

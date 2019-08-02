@@ -52,6 +52,6 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 Object {
-  "to": "/learningpaths/learningpath/500",
+  "to": "/subjects/learningpath/500",
 }
 `;

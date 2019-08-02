@@ -97,7 +97,6 @@ const Learningpath = ({
     }
   };
 
-  useEffect(() => {}, []);
   useEffect(() => updateCookies(), [learningpathStep.id]);
   useEffect(() => {
     window.addEventListener('keyup', onKeyUpEvent);
