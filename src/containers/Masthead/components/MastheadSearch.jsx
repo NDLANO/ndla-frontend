@@ -140,7 +140,6 @@ MastheadSearch.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
-  results: PropTypes.arrayOf(PropTypes.object),
   hideOnNarrowScreen: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -524,6 +524,44 @@ export const topicResourcesQuery = gql`
   ${resourceInfoFragment}
 `;
 
+const learningpathInfoFragment = gql`
+  fragment LearningpathInfo on Learningpath {
+    id
+    title
+    description
+    duration
+    lastUpdated
+    supportedLanguages
+    copyright {
+      license {
+        license
+        url
+        description
+      }
+      contributors {
+        ...ContributorInfo
+      }
+    }
+    learningsteps {
+      id
+      title
+      description
+      seqNo
+      article {
+        ...ArticleInfo
+      }
+      license {
+        license
+        url
+        description
+      }
+      showTitle
+    }
+  }
+  ${contributorInfoFragment}
+  ${articleInfoFragment}
+`;
+
 export const resourceQuery = gql`
   query resourceQuery(
     $resourceId: String!
@@ -531,19 +569,17 @@ export const resourceQuery = gql`
     $subjectId: String
   ) {
     resource(id: $resourceId, subjectId: $subjectId) {
-      id
-      name
-      path
-      contentUri
+      ...ResourceInfo
       article(filterIds: $filterIds, subjectId: $subjectId) {
         ...ArticleInfo
       }
-      resourceTypes {
-        id
-        name
+      learningpath {
+        ...LearningpathInfo
       }
     }
   }
+  ${learningpathInfoFragment}
+  ${resourceInfoFragment}
   ${articleInfoFragment}
 `;
 
@@ -574,6 +610,15 @@ export const topicQuery = gql`
   }
   ${articleInfoFragment}
   ${resourceInfoFragment}
+`;
+
+export const learningPathStepQuery = gql`
+  query learningPathStepQuery($pathId: String!) {
+    learningpath(pathId: $pathId) {
+      ...LearningpathInfo
+    }
+  }
+  ${learningpathInfoFragment}
 `;
 
 export const competenceGoalsQuery = gql`
