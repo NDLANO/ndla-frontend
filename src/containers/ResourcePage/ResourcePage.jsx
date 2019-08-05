@@ -8,7 +8,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  ResourceTypeShape,
+  TopicShape,
+} from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -107,7 +112,7 @@ ResourcePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
-    topicPath: PropTypes.arrayOf(PropTypes.string),
+    topicPath: PropTypes.arrayOf(TopicShape),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
