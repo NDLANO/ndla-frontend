@@ -25,7 +25,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 
-class LearningPathPage extends Component {
+class LearningpathPage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
     const { loading, data } = currentProps;
     if (loading || !data) {
@@ -122,7 +122,7 @@ class LearningPathPage extends Component {
   }
 }
 
-LearningPathPage.propTypes = {
+LearningpathPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
@@ -146,11 +146,11 @@ LearningPathPage.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-LearningPathPage.defaultProps = {
+LearningpathPage.defaultProps = {
   status: 'initial',
 };
 
 export default compose(
   injectT,
   withTracker,
-)(LearningPathPage);
+)(LearningpathPage);

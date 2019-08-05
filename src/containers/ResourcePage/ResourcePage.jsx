@@ -27,7 +27,7 @@ import {
 import { runQueries } from '../../util/runQueries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
-import LearningPathPage from '../LearningpathPage/LearningPathPage';
+import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 
 const transformData = data => {
@@ -89,7 +89,7 @@ class ResourcePage extends Component {
     }
 
     if (isLearningPathResource(data.resource)) {
-      return <LearningPathPage {...this.props} />;
+      return <LearningpathPage {...this.props} />;
     }
     return <ArticlePage {...this.props} />;
   }
