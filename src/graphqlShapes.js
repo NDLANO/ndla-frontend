@@ -35,10 +35,17 @@ export const GraphQLLearningpathStepShape = PropTypes.shape({
   title: PropTypes.string,
   seqNo: PropTypes.number,
   description: PropTypes.string,
-  embedUrl: {
+  embedUrl: PropTypes.shape({
     embedType: PropTypes.string,
     url: PropTypes.string,
-  },
+  }),
+  oembed: PropTypes.shape({
+    type: PropTypes.string,
+    version: PropTypes.string,
+    height: PropTypes.number,
+    html: PropTypes.string,
+    width: PropTypes.number,
+  }),
   license: LicenseShape,
   metaUrl: PropTypes.string,
   revision: PropTypes.number,

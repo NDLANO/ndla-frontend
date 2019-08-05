@@ -547,6 +547,17 @@ const learningpathInfoFragment = gql`
       title
       description
       seqNo
+      oembed {
+        type
+        version
+        height
+        html
+        width
+      }
+      embedUrl {
+        url
+        embedType
+      }
       article {
         ...ArticleInfo
       }
