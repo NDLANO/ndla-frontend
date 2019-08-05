@@ -16,7 +16,6 @@ import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';

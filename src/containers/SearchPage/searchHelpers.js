@@ -4,7 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { toSubjects, toLearningpaths } from '../../routeHelpers';
+import { toSubjects } from '../../routeHelpers';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
