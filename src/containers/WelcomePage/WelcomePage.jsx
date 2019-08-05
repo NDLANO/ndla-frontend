@@ -32,7 +32,7 @@ import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import handleError from '../../util/handleError';
-import { frontpageSearch } from '../../queries';
+import { frontpageSearchQuery } from '../../queries';
 
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
@@ -125,7 +125,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
           }}
           ssr={false}
           skip={delayedSearchQuery.length <= 2}
-          query={frontpageSearch}>
+          query={frontpageSearchQuery}>
           {({ data, loading, error }) => {
             if (error) {
               handleError(error);
