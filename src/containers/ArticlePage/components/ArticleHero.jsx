@@ -68,7 +68,7 @@ const ArticleHero = ({
             <Breadcrumb
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
-                [subject, ...topicPath],
+                [subject, ...topicPath, resource],
                 getFiltersFromUrl(location),
               )}
             />

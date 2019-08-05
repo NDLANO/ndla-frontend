@@ -131,8 +131,6 @@ LearningpathPage.propTypes = {
       stepId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  learningPath: ArticleShape, // TODO: fix!,
-  learningPathStep: PropTypes.object,
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
