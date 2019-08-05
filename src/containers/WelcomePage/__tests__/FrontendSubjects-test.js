@@ -66,7 +66,7 @@ test('mapHardCodedCategories with nn locale', () => {
 
   const biologi = findSubjectByName(categories, 'Biologi 1');
 
-  expect(biologi.url).toBe('/subjects/subject:42');
+  expect(biologi.url).toBe('/subjects/subject:42/');
 });
 
 test('mapHardCodedCategories with en locale', () => {
@@ -74,7 +74,7 @@ test('mapHardCodedCategories with en locale', () => {
 
   const biologi = findSubjectByName(categories, 'Biologi 1');
 
-  expect(biologi.url).toBe('/subjects/subject:42');
+  expect(biologi.url).toBe('/subjects/subject:42/');
 });
 
 test('mapHardCodedCategories with frontpageFilters from api', () => {
@@ -85,8 +85,8 @@ test('mapHardCodedCategories with frontpageFilters from api', () => {
   const categories = mapHardCodedCategories([specializationCategory], 'nb');
 
   const kinesisk1 = findSubjectByName(categories, 'Kinesisk 1');
-  expect(kinesisk1.url).toBe('/subjects/subject:2?filters=urn:filter:1337');
+  expect(kinesisk1.url).toBe('/subjects/subject:2/?filters=urn:filter:1337');
 
   const kinesisk2 = findSubjectByName(categories, 'Kinesisk 2');
-  expect(kinesisk2.url).toBe('/subjects/subject:2?filters=urn:filter:42');
+  expect(kinesisk2.url).toBe('/subjects/subject:2/?filters=urn:filter:42');
 });

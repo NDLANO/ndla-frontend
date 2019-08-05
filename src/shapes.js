@@ -8,6 +8,24 @@
 
 import PropTypes from 'prop-types';
 
+export const LicenseShape = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+});
+
+export const LicenseMetaInfoShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
+export const CopyrightObjectShape = PropTypes.shape({
+  license: PropTypes.shape({ license: PropTypes.string.isRequired }),
+  authors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  creators: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  processors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+  rightsholders: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
+});
+
 export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
@@ -37,10 +55,51 @@ export const TopicShape = PropTypes.shape({
   subtopics: PropTypes.array,
 });
 
+export const LearningpathStepShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  seqNo: PropTypes.number,
+  description: PropTypes.string,
+  embedUrl: {
+    embedType: PropTypes.string,
+    url: PropTypes.string,
+  },
+  license: LicenseShape,
+  metaUrl: PropTypes.string,
+  revision: PropTypes.number,
+  status: PropTypes.string,
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  type: PropTypes.string,
+  article: ArticleShape,
+});
+
+export const LearningpathShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  copyright: CopyrightObjectShape,
+  duration: PropTypes.number,
+  canEdit: PropTypes.bool,
+  verificationStatus: PropTypes.string,
+  lastUpdated: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  isBasedOn: PropTypes.number,
+  learningsteps: PropTypes.arrayOf(LearningpathStepShape),
+  metaUrl: PropTypes.string,
+  revision: PropTypes.number,
+  status: PropTypes.string,
+  learningstepUrl: PropTypes.string,
+  coverphoto: PropTypes.shape({
+    url: PropTypes.string,
+    metaUrl: PropTypes.string,
+  }),
+});
+
 export const ResourceShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   contentUri: PropTypes.string,
+  learningpath: LearningpathShape,
   path: PropTypes.string.isRequired,
 });
 
@@ -48,11 +107,6 @@ export const ResourceTypeShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
-});
-
-export const LicenseShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
 });
 
 export const MessageShape = PropTypes.shape({
@@ -63,19 +117,6 @@ export const MessageShape = PropTypes.shape({
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
   }),
-});
-
-export const LicenseMetaInfoShape = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-});
-
-export const CopyrightObjectShape = PropTypes.shape({
-  license: PropTypes.shape({ license: PropTypes.string.isRequired }),
-  authors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
-  creators: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
-  processors: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
-  rightsholders: PropTypes.arrayOf(LicenseMetaInfoShape.isRequired),
 });
 
 export const NewCopyrightObjectShape = PropTypes.shape({

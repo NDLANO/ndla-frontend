@@ -7,6 +7,8 @@
  */
 
 import PropTypes from 'prop-types';
+import { ArticleShape, LicenseShape } from '@ndla/ui/lib/shapes';
+import { CopyrightObjectShape } from './shapes';
 
 export const GraphQLTopicShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -28,12 +30,53 @@ export const GraphQLResourceTypeShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
 });
 
+export const GraphQLLearningpathStepShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  seqNo: PropTypes.number,
+  description: PropTypes.string,
+  embedUrl: {
+    embedType: PropTypes.string,
+    url: PropTypes.string,
+  },
+  license: LicenseShape,
+  metaUrl: PropTypes.string,
+  revision: PropTypes.number,
+  status: PropTypes.string,
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  type: PropTypes.string,
+  article: ArticleShape,
+});
+
+export const GraphQLLearningpathShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  copyright: CopyrightObjectShape,
+  duration: PropTypes.number,
+  canEdit: PropTypes.bool,
+  verificationStatus: PropTypes.string,
+  lastUpdated: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  isBasedOn: PropTypes.number,
+  learningsteps: PropTypes.arrayOf(GraphQLLearningpathStepShape),
+  metaUrl: PropTypes.string,
+  revision: PropTypes.number,
+  status: PropTypes.string,
+  learningstepUrl: PropTypes.string,
+  coverphoto: PropTypes.shape({
+    url: PropTypes.string,
+    metaUrl: PropTypes.string,
+  }),
+});
+
 export const GraphQLResourceShape = PropTypes.shape({
   contentUri: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
   path: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
+  learningpath: GraphQLLearningpathShape,
   meta: PropTypes.shape({
     id: PropTypes.number,
     introduction: PropTypes.string,

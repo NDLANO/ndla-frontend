@@ -18,7 +18,7 @@ import {
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
 } from 'http-status';
-import matchPath from 'react-router-dom/matchPath';
+import { matchPath } from 'react-router-dom';
 import {
   defaultRoute,
   errorRoute,

@@ -6,8 +6,7 @@
  *
  */
 
-import matchPath from 'react-router-dom/matchPath';
-import config from './config';
+import { matchPath } from 'react-router-dom';
 import { SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch() {
@@ -40,9 +39,25 @@ export function toSubjects() {
   return `/subjects`;
 }
 
-export function toLearningPath(id, locale = 'nb') {
-  return `${config.learningPathDomain}/${locale}/learningpaths/${id}/first-step`;
+function toLearningpaths() {
+  return '/learningpaths';
 }
+
+export function toLearningPath(pathId, stepId, resource) {
+  if (resource) {
+    return stepId
+      ? `${toSubjects()}${resource.path}/${stepId}`
+      : `${toSubjects()}${resource.path}`;
+  }
+  if (pathId && stepId) {
+    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
+  }
+  if (pathId) {
+    return `${toLearningpaths()}/${pathId}`;
+  }
+  return toSubjects();
+}
+
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (subjectTopicPath) {
@@ -127,10 +142,8 @@ export function toLinkProps(linkObject, locale) {
     linkObject.meta;
   return {
     to: isLearningpath
-      ? toLearningPath(linkObject.meta.id, locale)
+      ? toLearningPath() + linkObject.path
       : toSubjects() + linkObject.path,
-    target: isLearningpath ? '_blank' : undefined,
-    rel: isLearningpath ? 'noreferrer noopener' : undefined,
   };
 }
 
