@@ -158,7 +158,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
       </Query>
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
-        <OneColumn>
+        <OneColumn wide>
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={
