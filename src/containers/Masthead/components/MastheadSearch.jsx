@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SearchField } from '@ndla/ui';
+import { SearchField, SearchResultSleeve } from '@ndla/ui';
 import queryString from 'query-string';
+import BEMHelper from 'react-bem-helper';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
@@ -15,6 +16,8 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
+
+const classes = new BEMHelper('c-search-field');
 
 const debounceCall = debounce(fun => fun(), 250);
 
@@ -91,6 +94,9 @@ class MastheadSearch extends Component {
         RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
       ].join(),
     };
+    const filters = subject ? [{ title: subject.name, value: subject.id }] : [];
+    const modifiers = ['absolute-position-sleeve'];
+    if (subject) modifiers.push('has-filter');
 
     return (
       <MastheadSearchModal
@@ -105,28 +111,35 @@ class MastheadSearch extends Component {
           query={groupSearchQuery}>
           {({ data, error }) =>
             error || (
-              <SearchField
-                placeholder={t('searchPage.searchFieldPlaceholder')}
-                value={query}
-                onChange={this.onQueryChange}
-                onSearch={this.onSearch}
-                filters={
-                  subject ? [{ title: subject.name, value: subject.id }] : []
-                }
-                onFilterRemove={this.onFilterRemove}
-                messages={{
-                  searchFieldTitle: t('searchPage.search'),
-                }}
-                allResultUrl={
-                  searchString && searchString.length > 0
-                    ? `/search?${searchString}`
-                    : '/search'
-                }
-                searchResult={this.mapResults(data.groupSearch)}
-                resourceToLinkProps={res =>
-                  searchResultToLinkProps(res, locale)
-                }
-              />
+              <form
+                action="/search/"
+                {...classes('', modifiers)}
+                onSubmit={this.onSearch}>
+                <SearchField
+                  placeholder={t('searchPage.searchFieldPlaceholder')}
+                  value={query}
+                  onChange={this.onQueryChange}
+                  filters={filters}
+                  onFilterRemove={this.onFilterRemove}
+                  messages={{
+                    searchFieldTitle: t('searchPage.search'),
+                  }}
+                />
+                {query.length > 2 && (
+                  <SearchResultSleeve
+                    result={this.mapResults(data.groupSearch)}
+                    searchString={query}
+                    allResultUrl={
+                      searchString && searchString.length > 0
+                        ? `/search?${searchString}`
+                        : '/search'
+                    }
+                    resourceToLinkProps={res =>
+                      searchResultToLinkProps(res, locale)
+                    }
+                  />
+                )}
+              </form>
             )
           }
         </Query>
