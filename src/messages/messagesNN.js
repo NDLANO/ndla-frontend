@@ -21,13 +21,17 @@ const messages = {
   ndlaFrontpage: {
     blog1: {
       title: 'Korleis lage gode grupper med elevar',
+      ariaImage: 'Elevar arbeider i grupper',
       linkText: 'Besøk vår Fagblogg',
       linkTextShort: 'Fagblogg',
+      license: 'CC BY-NC-SA 4.0 Opphav: Scanpix.no',
     },
     blog2: {
       title: 'Prosjektarbeid på tvers av fag',
+      ariaImage: 'Prosjektarbeid på tvers av fag',
       linkText: 'Besøk vår Fagblogg',
       linkTextShort: 'Fagblogg',
+      license: 'CC BY-NC-SA 4.0 Opphav: Scanpix.no',
     },
   },
 };

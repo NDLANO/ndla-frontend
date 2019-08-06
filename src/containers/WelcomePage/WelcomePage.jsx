@@ -185,28 +185,26 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
             <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
             <BlogPostWrapper>
               <BlogPost
-                image={
-                  {
-                    url: '/static/blogPosts/elev-samarbeid.jpg',
-                    alt: 'Alt-tekst eksempel til Blogg-bilde..',
-                  }
-                }
+                image={{
+                  url: '/static/blogPosts/elev-samarbeid.jpg',
+                  alt: t('ndlaFrontpage.blog1.ariaImage'),
+                }}
                 text={t('ndlaFrontpage.blog1.title')}
                 externalLink="https://blogg.ndla.no/2018/11/hvordan-lage-gode-grupper-med-elever/"
                 linkText={t('ndlaFrontpage.blog1.linkText')}
                 linkTextShort={t('ndlaFrontpage.blog1.linkTextShort')}
+                license={t('ndlaFrontpage.blog1.license')}
               />
               <BlogPost
-                image={
-                  {
-                    url: '/static/blogPosts/student-grupper.jpg',
-                    alt: 'Alt-tekst eksempel til Blogg-bilde..',
-                  }
-                }
+                image={{
+                  url: '/static/blogPosts/student-grupper.jpg',
+                  alt: t('ndlaFrontpage.blog2.ariaImage'),
+                }}
                 text={t('ndlaFrontpage.blog2.title')}
                 externalLink="https://blogg.ndla.no/2019/03/prosjektarbeid-pa-tvers-av-fag-kuben-vgs/"
                 linkText={t('ndlaFrontpage.blog2.linkText')}
                 linkTextShort={t('ndlaFrontpage.blog2.linkTextShort')}
+                license={t('ndlaFrontpage.blog2.license')}
               />
             </BlogPostWrapper>
           </section>

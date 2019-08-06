@@ -21,13 +21,17 @@ const messages = {
   ndlaFrontpage: {
     blog1: {
       title: 'Hvordan lage gode grupper med elever',
+      ariaImage: 'Elever arbeider i grupper',
       linkText: 'Besøk vår Fagblogg',
       linkTextShort: 'Fagblogg',
+      license: 'CC BY-NC-SA 4.0 Opphav: Scanpix.no',
     },
     blog2: {
       title: 'Prosjektarbeid på tvers av fag',
+      ariaImage: 'Prosjektarbeid på tvers av fag',
       linkText: 'Besøk vår Fagblogg',
       linkTextShort: 'Fagblogg',
+      license: 'CC BY-NC-SA 4.0 Opphav: Scanpix.no',
     },
   },
 };
