@@ -19,7 +19,6 @@ import {
 import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
-import { appLocales } from '../../i18n';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
