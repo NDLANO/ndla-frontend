@@ -117,7 +117,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
 
-      <FrontpageHeader links={headerLinks}>
+      <FrontpageHeader links={headerLinks} locale={locale}>
         <Query
           fetchPolicy="no-cache"
           variables={{
