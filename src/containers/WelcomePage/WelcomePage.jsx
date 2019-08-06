@@ -31,9 +31,11 @@ import handleError from '../../util/handleError';
 import { frontpageSearch } from '../../queries';
 import { FRONTPAGE_CATEGORIES } from '../../constants';
 import { topicsNotInNDLA } from '../../util/topicsHelper';
+import { getLocaleUrls } from '../../util/localeHelpers';
+import { LocationShape } from '../../shapes';
 
 const debounceCall = debounce(fn => fn(), 250);
-const WelcomePage = ({ t, data, loading, locale, history }) => {
+const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
@@ -138,6 +140,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
               hideSearch={false}
               searchFieldValue={query}
               onSearch={onSearch}
+              languageOptions={getLocaleUrls(locale, location)}
               onSearchFieldChange={onSearchFieldChange}
               searchFieldPlaceholder={t(
                 'welcomePage.heading.searchFieldPlaceholder',
@@ -278,6 +281,7 @@ WelcomePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  location: LocationShape,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({

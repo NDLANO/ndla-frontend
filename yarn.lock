@@ -1057,10 +1057,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.24.0":
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.24.0.tgz#7f089a085b1d24481e3f25cd9bf84f152568b012"
-  integrity sha512-pjCKXZSLnCQ1M/oPf+y3Wv2mfEJVkDBcfmrpXShCLj5MhrC7Z1FsZCtAkhIMG24EBAMmFN5PFbVVch1WJoA8mA==
+"@ndla/ui@^0.24.1":
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.24.1.tgz#839439292bfad1323020faf125c1ab3677df12fa"
+  integrity sha512-6O1ulLLyIvmWqARE1eTCyEaFnZ8bsdtMcqJOTQHf++G/KvZAM0wUxa+zp1X74iDMK0MBf9YH3AXZN/2Pzsl7fg==
   dependencies:
     "@ndla/button" "^0.3.12"
     "@ndla/carousel" "^0.3.10"
