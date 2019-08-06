@@ -36,6 +36,7 @@ import { frontpageSearchQuery } from '../../queries';
 
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
+import { toSearch } from '../../routeHelpers';
 
 const debounceCall = debounce(fn => fn(), 250);
 
@@ -48,7 +49,7 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
     debounceCall(() => setDelayedSearchQuery(query));
   };
 
-  const allResultsUrl = `search?query=${query}`;
+  const allResultsUrl = toSearch(`?query=${query}`);
 
   const onSearch = evt => {
     evt.preventDefault();

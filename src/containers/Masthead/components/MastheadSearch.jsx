@@ -16,6 +16,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
+import { toSearch } from '../../../routeHelpers';
 
 const classes = new BEMHelper('c-search-field');
 
@@ -96,7 +97,9 @@ class MastheadSearch extends Component {
     };
     const filters = subject ? [{ title: subject.name, value: subject.id }] : [];
     const modifiers = ['absolute-position-sleeve'];
-    if (subject) modifiers.push('has-filter');
+    if (subject) {
+      modifiers.push('has-filter');
+    }
 
     return (
       <MastheadSearchModal
@@ -129,11 +132,7 @@ class MastheadSearch extends Component {
                   <SearchResultSleeve
                     result={this.mapResults(data.groupSearch)}
                     searchString={query}
-                    allResultUrl={
-                      searchString && searchString.length > 0
-                        ? `/search?${searchString}`
-                        : '/search'
-                    }
+                    allResultUrl={toSearch(searchString)}
                     resourceToLinkProps={res =>
                       searchResultToLinkProps(res, locale)
                     }
