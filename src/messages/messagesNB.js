@@ -18,6 +18,18 @@ const messages = {
     notFound: `Siden finnes ikke${titleTemplate}`,
     subject: 'Fag',
   },
+  ndlaFrontpage: {
+    blog1: {
+      title: 'Hvordan lage gode grupper med elever',
+      linkText: 'Besøk vår Fagblogg',
+      linkTextShort: 'Fagblogg',
+    },
+    blog2: {
+      title: 'Prosjektarbeid på tvers av fag',
+      linkText: 'Besøk vår Fagblogg',
+      linkTextShort: 'Fagblogg',
+    },
+  },
 };
 
 export default messages;

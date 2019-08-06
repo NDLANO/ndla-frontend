@@ -10,7 +10,14 @@ import React, { useState, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { FrontpageHeaderNew, FrontpageFilm, OneColumn } from '@ndla/ui';
+import {
+  FrontpageHeaderNew,
+  FrontpageFilm,
+  BlogPostWrapper,
+  BlogPost,
+  SubjectSectionTitle,
+  OneColumn,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
@@ -174,6 +181,35 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
               text: t('welcomePage.film.text'),
             }}
           />
+          <section>
+            <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
+            <BlogPostWrapper>
+              <BlogPost
+                image={
+                  {
+                    url: '/static/blogPosts/elev-samarbeid.jpg',
+                    alt: 'Alt-tekst eksempel til Blogg-bilde..',
+                  }
+                }
+                text={t('ndlaFrontpage.blog1.title')}
+                externalLink="https://blogg.ndla.no/2018/11/hvordan-lage-gode-grupper-med-elever/"
+                linkText={t('ndlaFrontpage.blog1.linkText')}
+                linkTextShort={t('ndlaFrontpage.blog1.linkTextShort')}
+              />
+              <BlogPost
+                image={
+                  {
+                    url: '/static/blogPosts/student-grupper.jpg',
+                    alt: 'Alt-tekst eksempel til Blogg-bilde..',
+                  }
+                }
+                text={t('ndlaFrontpage.blog2.title')}
+                externalLink="https://blogg.ndla.no/2019/03/prosjektarbeid-pa-tvers-av-fag-kuben-vgs/"
+                linkText={t('ndlaFrontpage.blog2.linkText')}
+                linkTextShort={t('ndlaFrontpage.blog2.linkTextShort')}
+              />
+            </BlogPostWrapper>
+          </section>
           <WelcomePageInfo />
         </OneColumn>
       </main>
