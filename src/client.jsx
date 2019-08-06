@@ -27,18 +27,15 @@ const { abbreviation, messages, basename } = getLocaleInfoFromPath(
   window.location.pathname,
 );
 
-if (basename === '') {
-  const storedLang = getCookie('language', document.cookie);
-  if (
-    storedLang &&
-    storedLang !== '' &&
-    isValidLocale(storedLang) &&
-    storedLang !== 'nb'
-  ) {
-    const { pathname, search } = window.location;
-    window.location.href = `/${storedLang}${pathname}${search}`;
-  }
-} else if (isValidLocale(basename)) {
+const storedLanguage = getCookie('language', document.cookie);
+if (
+  basename === '' &&
+  isValidLocale(storedLanguage) &&
+  storedLanguage !== 'nb'
+) {
+  const { pathname, search } = window.location;
+  window.location.href = `/${storedLanguage}${pathname}${search}`;
+} else if (storedLanguage !== basename && isValidLocale(basename)) {
   setCookie('language', basename);
 }
 
