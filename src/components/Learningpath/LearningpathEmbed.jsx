@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
 import { LearningpathStepShape } from '../../shapes';
@@ -18,10 +19,15 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getArticleProps } from '../../util/getArticleProps';
 import { TopicShape, ResourceShape } from '../../shapes';
 
-const StyledIframe = styled.iframe`
-  padding-top: 1em;
-  border: 0 none;
-  max-width: 100%;
+const StyledIframeContainer = styled.div`
+  margin-bottom: ${spacing.normal};
+  & > iframe {
+    padding-top: 1em;
+    border: 0 none;
+    max-width: 100%;
+    width: ${p => p.oembedWidth}px;
+    height: ${p => p.oembedHeight}px;
+  }
 `;
 
 const LearningpathEmbed = ({
@@ -37,13 +43,21 @@ const LearningpathEmbed = ({
   ) {
     return null;
   }
-
+  const { embedUrl, oembed } = learningpathStep;
   if (
     !learningpathStep.article &&
-    learningpathStep.embedUrl &&
-    learningpathStep.embedUrl.embedType === 'oembed'
+    embedUrl &&
+    embedUrl.embedType === 'oembed' &&
+    oembed &&
+    oembed.html
   ) {
-    return <StyledIframe src={learningpathStep.embedUrl.url} />;
+    return (
+      <StyledIframeContainer
+        oembedWidth={oembed.width}
+        oembedHeight={oembed.height}
+        dangerouslySetInnerHTML={{ __html: oembed.html }}
+      />
+    );
   }
 
   const article = transformArticle(learningpathStep.article);
