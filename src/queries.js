@@ -180,8 +180,10 @@ export const frontpageSearchQuery = gql`
           id
           name
           path
-          boldName
-          subName
+          resourceTypes {
+            name
+          }
+          subject
         }
         totalCount
       }
@@ -190,8 +192,10 @@ export const frontpageSearchQuery = gql`
           id
           name
           path
-          boldName
-          subName
+          resourceTypes {
+            name
+          }
+          subject
         }
         totalCount
       }

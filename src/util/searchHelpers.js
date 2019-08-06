@@ -1,7 +1,7 @@
 import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const searchSubjects = (query, locale) =>
-  FRONTPAGE_CATEGORIES.categories.reduce((accumelated, category) => {
+  FRONTPAGE_CATEGORIES.categories.reduce((accumulated, category) => {
     const foundInSubjects = category.subjects.filter(subject =>
       subject.name.toLowerCase().includes(query),
     );
@@ -17,8 +17,8 @@ export const searchSubjects = (query, locale) =>
               .toUpperCase()}${category.name.slice(1)}:`,
             name: subject.name,
           }))
-          .concat(accumelated)
-      : accumelated;
+          .concat(accumulated)
+      : accumulated;
   }, []);
 
 export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
