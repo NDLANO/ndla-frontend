@@ -185,7 +185,7 @@ class TopicPage extends Component {
             title={`${subject && subject.name ? subject.name + ' - ' : ''}${
               article.title
             }`}
-            article={article}
+            trackableContent={article}
             locale={locale}
           />
         )}

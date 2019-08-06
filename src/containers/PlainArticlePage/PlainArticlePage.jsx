@@ -118,7 +118,7 @@ class PlainArticlePage extends Component {
           description={article.metaDescription}
           locale={locale}
           image={metaImage}
-          article={article}
+          trackableContent={article}
         />
         {article && <ArticleHero resource={{}} />}
         <OneColumn>

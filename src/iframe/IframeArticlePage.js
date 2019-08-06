@@ -65,7 +65,7 @@ const Success = ({ resource, locale, location }) => {
         image={article && article.image && { src: article.image.url }}
         description={article.metaDescription}
         locale={locale}
-        article={article}
+        trackableContent={article}
       />
       <PostResizeMessage />
       <FixDialogPosition />

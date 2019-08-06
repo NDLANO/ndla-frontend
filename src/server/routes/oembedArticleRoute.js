@@ -12,7 +12,7 @@ import parseUrl from 'parse-url';
 import { isValidLocale } from '../../i18n';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import { fetchResource } from '../../containers/Resources/resourceApi';
-import { ARTICLE_PAGE_PATH, PLAIN_ARTICLE_PAGE_PATH } from '../../constants';
+import { RESOURCE_PAGE_PATH, PLAIN_ARTICLE_PAGE_PATH } from '../../constants';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
@@ -26,7 +26,7 @@ export function matchUrl(pathname, isPlainArticle, lang = false) {
   }
   return matchPath(
     pathname,
-    lang ? `/:lang${ARTICLE_PAGE_PATH}` : ARTICLE_PAGE_PATH,
+    lang ? `/:lang${RESOURCE_PAGE_PATH}` : RESOURCE_PAGE_PATH,
   );
 }
 
