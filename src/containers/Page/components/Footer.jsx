@@ -9,10 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, FooterEditor } from '@ndla/ui';
+import ZendeskButton from '@ndla/zendesk';
+import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
+import config from '../../../config';
 
-const FooterWrapper = ({ location, locale }) => {
+const FooterWrapper = ({ location, locale, t }) => {
   const languageSelector = (
     <LanguageSelector
       center
@@ -38,6 +41,9 @@ const FooterWrapper = ({ location, locale }) => {
       <FooterText>
         Nettstedet er utarbeidet av NDLA med åpen kildekode.
       </FooterText>
+      <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+        {t('askNDLA')}
+      </ZendeskButton>
     </Footer>
   );
 };
@@ -47,4 +53,4 @@ FooterWrapper.propTypes = {
   location: LocationShape.isRequired,
 };
 
-export default FooterWrapper;
+export default injectT(FooterWrapper);
