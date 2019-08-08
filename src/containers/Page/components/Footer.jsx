@@ -36,11 +36,12 @@ const FooterWrapper = ({ location, locale, t }) => {
       }}
       languageSelector={languageSelector}>
       <FooterText>
-        <FooterEditor title="Ansvarlig redaktør:" name="Sigurd Trageton" />
+        <FooterEditor
+          title={t('footer.footerEditiorInChief')}
+          name="Sigurd Trageton"
+        />
       </FooterText>
-      <FooterText>
-        Nettstedet er utarbeidet av NDLA med åpen kildekode.
-      </FooterText>
+      <FooterText>{t('footer.footerInfo')}</FooterText>
       <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
         {t('askNDLA')}
       </ZendeskButton>
