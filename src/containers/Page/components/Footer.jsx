@@ -8,38 +8,43 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Footer } from '@ndla/ui';
-import SelectLocale from '../../Locale/SelectLocale';
+import { Footer, LanguageSelector, FooterText, FooterEditor } from '@ndla/ui';
+import { getLocaleUrls } from '../../../util/localeHelpers';
+import { LocationShape } from '../../../shapes';
 
-const FooterWrapper = ({ t, children, locale, inverted }) => (
-  <Footer lang={locale} inverted={inverted}>
-    <form className="footer_form">
-      <label className="footer_label footer--bold" htmlFor="language-select">
-        {t('footer.selectLanguage')}
-      </label>
-      <SelectLocale
-        id="language-select"
-        locale={locale}
-        className="footer_language-select"
-      />
-    </form>
-    <Footer.Ruler />
-    <Footer.Text>
-      <Footer.Editor
-        title={t('footer.footerEditiorInChief')}
-        name="Sigurd Trageton"
-      />
-    </Footer.Text>
-    <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
-    {children}
-  </Footer>
-);
+const FooterWrapper = ({ location, locale }) => {
+  const languageSelector = (
+    <LanguageSelector
+      center
+      outline
+      alwaysVisible
+      options={getLocaleUrls(locale, location)}
+      currentLanguage={locale}
+    />
+  );
+
+  return (
+    <Footer
+      lang={locale}
+      links={{
+        facebook: 'https://www.facebook.com/ndla.no',
+        twitter: 'https://twitter.com/ndla_no',
+        email: 'https://om.ndla.no/nyhetsbrev/',
+      }}
+      languageSelector={languageSelector}>
+      <FooterText>
+        <FooterEditor title="Ansvarlig redaktør:" name="Sigurd Trageton" />
+      </FooterText>
+      <FooterText>
+        Nettstedet er utarbeidet av NDLA med åpen kildekode.
+      </FooterText>
+    </Footer>
+  );
+};
 
 FooterWrapper.propTypes = {
-  inverted: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  children: PropTypes.node,
-  t: PropTypes.func.isRequired,
+  location: LocationShape.isRequired,
 };
 
 export default FooterWrapper;
