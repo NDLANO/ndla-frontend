@@ -15,12 +15,13 @@ import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
 
-const FooterWrapper = ({ location, locale, t }) => {
+const FooterWrapper = ({ location, locale, t, inverted }) => {
   const languageSelector = (
     <LanguageSelector
       center
       outline
       alwaysVisible
+      inverted={inverted}
       options={getLocaleUrls(locale, location)}
       currentLanguage={locale}
     />
@@ -40,11 +41,11 @@ const FooterWrapper = ({ location, locale, t }) => {
           title={t('footer.footerEditiorInChief')}
           name="Sigurd Trageton"
         />
+        <FooterText>{t('footer.footerInfo')}</FooterText>
+        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+          {t('askNDLA')}
+        </ZendeskButton>
       </FooterText>
-      <FooterText>{t('footer.footerInfo')}</FooterText>
-      <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
-        {t('askNDLA')}
-      </ZendeskButton>
     </Footer>
   );
 };
@@ -52,6 +53,7 @@ const FooterWrapper = ({ location, locale, t }) => {
 FooterWrapper.propTypes = {
   locale: PropTypes.string.isRequired,
   location: LocationShape.isRequired,
+  inverted: PropTypes.bool,
 };
 
 export default injectT(FooterWrapper);
