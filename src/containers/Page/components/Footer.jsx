@@ -41,7 +41,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
           title={t('footer.footerEditiorInChief')}
           name="Sigurd Trageton"
         />
-        <FooterText>{t('footer.footerInfo')}</FooterText>
+        {t('footer.footerInfo')}
         <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
           {t('askNDLA')}
         </ZendeskButton>
