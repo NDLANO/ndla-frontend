@@ -39,6 +39,7 @@ import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
+import BlogPosts from './BlogPosts';
 
 const debounceCall = debounce(fn => fn(), 250);
 const WelcomePage = ({ t, data, loading, locale, history, location }) => {
@@ -163,6 +164,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
         <OneColumn>
+          <BlogPosts />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={
