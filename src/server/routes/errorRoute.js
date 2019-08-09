@@ -27,7 +27,7 @@ async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   const context = { status };
   const Page = (
     <IntlProvider locale={abbreviation} messages={messages}>
-      <ErrorPage local={abbreviation} />
+      <ErrorPage locale={abbreviation} />
     </IntlProvider>
   );
 

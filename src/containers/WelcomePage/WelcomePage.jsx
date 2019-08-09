@@ -9,8 +9,12 @@
 import React, { useState, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
-import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
+import {
+  FrontpageHeader,
+  FrontpageFilm,
+  OneColumn,
+  FrontpageSearch,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
@@ -28,9 +32,11 @@ import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import handleError from '../../util/handleError';
-import { frontpageSearch } from '../../queries';
-import { FRONTPAGE_CATEGORIES } from '../../constants';
+import { frontpageSearchQuery } from '../../queries';
+
 import { topicsNotInNDLA } from '../../util/topicsHelper';
+import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
+import { toSearch } from '../../routeHelpers';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 
@@ -39,21 +45,16 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
-
   const onSearchFieldChange = query => {
     setQuery(query);
     debounceCall(() => setDelayedSearchQuery(query));
   };
 
+  const allResultsUrl = toSearch(`?query=${query}`);
+
   const onSearch = evt => {
     evt.preventDefault();
-    history.push({
-      pathname: '/search',
-      search: queryString.stringify({
-        query,
-        page: 1,
-      }),
-    });
+    history.push(allResultsUrl);
   };
 
   const renderInfoText = () => (
@@ -102,9 +103,6 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
       locale={locale}
     />
   );
-  const searchParams = {
-    query: delayedSearchQuery.length > 2 ? delayedSearchQuery : null,
-  };
 
   const infoText =
     topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
@@ -120,45 +118,48 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
         image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <Query
-        fetchPolicy="no-cache"
-        variables={searchParams}
-        ssr={false}
-        query={frontpageSearch}>
-        {({ data, error }) => {
-          if (error) {
-            handleError(error);
-            return `Error: ${error.message}`;
-          }
-          return (
-            <FrontpageHeader
-              locale={locale}
-              heading={t('welcomePage.heading.heading')}
-              menuSubject={frontPageSubjects}
-              messages={headerMessages}
-              links={headerLinks}
-              hideSearch={false}
-              searchFieldValue={query}
-              onSearch={onSearch}
-              languageOptions={getLocaleUrls(locale, location)}
-              onSearchFieldChange={onSearchFieldChange}
-              searchFieldPlaceholder={t(
-                'welcomePage.heading.searchFieldPlaceholder',
-              )}
-              searchResult={
-                query.length > 2
-                  ? mapSearchToFrontPageStructure(data || [], t, query, locale)
-                  : []
-              }
-              infoText={infoText}
-              onSearchInputFocus={() => setInputHasFocus(true)}
-              onSearchDeactiveFocusTrap={() => setInputHasFocus(false)}
-              inputHasFocus={inputHasFocus}
-              allResultUrl={`search?query=${query}`}
-            />
-          );
-        }}
-      </Query>
+
+      <FrontpageHeader
+        links={headerLinks}
+        locale={locale}
+        languageOptions={getLocaleUrls(locale, location)}>
+        <Query
+          fetchPolicy="no-cache"
+          variables={{
+            query: delayedSearchQuery,
+          }}
+          ssr={false}
+          skip={delayedSearchQuery.length <= 2}
+          query={frontpageSearchQuery}>
+          {({ data, loading, error }) => {
+            if (error) {
+              handleError(error);
+              return `Error: ${error.message}`;
+            }
+            return (
+              <FrontpageSearch
+                inputHasFocus={inputHasFocus}
+                onSearchDeactiveFocusTrap={() => setInputHasFocus(false)}
+                messages={headerMessages}
+                searchFieldValue={query}
+                onSearch={onSearch}
+                onSearchFieldChange={onSearchFieldChange}
+                searchFieldPlaceholder={t(
+                  'welcomePage.heading.searchFieldPlaceholder',
+                )}
+                searchResult={
+                  delayedSearchQuery.length > 2 &&
+                  mapSearchToFrontPageStructure(data, t, query, locale)
+                }
+                infoText={infoText}
+                onSearchInputFocus={() => setInputHasFocus(true)}
+                allResultUrl={allResultsUrl}
+                loading={loading}
+              />
+            );
+          }}
+        </Query>
+      </FrontpageHeader>
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
         <OneColumn>
@@ -183,99 +184,6 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
     </Fragment>
   );
 };
-
-function mapSearchToFrontPageStructure(data, t, query, locale) {
-  query = query.trim().toLowerCase();
-  const localeString = locale ? `/${locale}` : '';
-  // figure out if there are match in fronpage categories
-  const subjects = {
-    title: t('searchPage.label.subjects'),
-    contentType: 'results-frontpage',
-    resources: FRONTPAGE_CATEGORIES.categories.reduce((ac, cu) => {
-      const foundInSubjects = cu.subjects.filter(subject =>
-        subject.name.toLowerCase().includes(query),
-      );
-      return foundInSubjects.length > 0
-        ? foundInSubjects
-            .map(subject => ({
-              id: subject.id,
-              path: subject.id
-                ? `/subjects/${subject.id.replace('urn:', '')}/`
-                : `${localeString}/node/${subject.nodeId}/`,
-              boldName: `${cu.name.charAt(0).toUpperCase()}${cu.name.slice(
-                1,
-              )}:`,
-              name: subject.name,
-            }))
-            .concat(ac)
-        : ac;
-    }, []),
-  };
-
-  if (
-    subjects.resources.length === 0 &&
-    (!data.search ||
-      (data.search && !data.search.results) ||
-      (data.search && data.search.results && data.search.results.length === 0))
-  ) {
-    return [];
-  }
-  const result = data.search && data.search.results ? data.search.results : [];
-  const topics = {
-    title: `${t('subjectPage.tabs.topics')}:`,
-    contentType: 'results-frontpage',
-    resources: [],
-  };
-  const resource = {
-    title: `${t('resource.label')}:`,
-    contentType: 'results-frontpage',
-    resources: [],
-  };
-  // distribute and group the result in right section
-  result.forEach(resultData => {
-    if (resultData && resultData.contexts && resultData.contexts.length !== 0) {
-      resultData.contexts.forEach(ctx => {
-        if (!ctx.id) {
-          return false;
-        }
-        const resultItem = {
-          id: `${resultData.id}-${ctx.id}`,
-          path: `/subjects${ctx.path}`,
-          boldName: `${ctx.subject}:`,
-          name: resultData.title,
-          subName:
-            ctx.resourceTypes[0] && ctx.resourceTypes[0].name
-              ? ctx.resourceTypes.map(type => type.name).join(', ') // TODO: translate
-              : '',
-        };
-        if (
-          ctx.id.includes('topic') &&
-          topics.resources.filter(obj => obj.path === resultItem.path)
-            .length === 0
-        ) {
-          topics.resources.push(resultItem);
-        } else if (
-          resource.resources.filter(obj => obj.path === resultItem.path)
-            .length === 0
-        ) {
-          resource.resources.push(resultItem);
-        }
-      });
-    }
-  });
-  const returnArray = [];
-  // add groups into return array if there are any resources
-  if (subjects.resources.length !== 0) {
-    returnArray.push(subjects);
-  }
-  if (topics.resources.length !== 0) {
-    returnArray.push(topics);
-  }
-  if (resource.resources.length !== 0) {
-    returnArray.push(resource);
-  }
-  return returnArray;
-}
 
 WelcomePage.propTypes = {
   history: PropTypes.shape({

@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline } from '@ndla/icons';
+import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
 import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
@@ -23,8 +23,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
       outline
       alwaysVisible
       inverted={inverted}
-      options={''}
-      //options={getLocaleUrls(locale, location)}
+      options={getLocaleUrls(locale, location)}
       currentLanguage={locale}
     />
   );
