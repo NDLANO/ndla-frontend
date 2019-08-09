@@ -175,14 +175,14 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} />;
-    }
     const {
       initialProps: { basename },
       location,
       locale,
     } = this.props;
+    if (this.state.hasError) {
+      return <ErrorPage locale={this.props.locale} location={location} />;
+    }
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={basename}>
