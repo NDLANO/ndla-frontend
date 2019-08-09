@@ -19,7 +19,6 @@ import {
 import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
-import { appLocales } from '../../i18n';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
@@ -39,18 +38,7 @@ import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
-
-const getLocaleURL = (newLocale, locale, location) => {
-  const { pathname, search } = location;
-  const basePath = pathname.startsWith(`/${locale}/`)
-    ? pathname.replace(`/${locale}/`, '/')
-    : pathname;
-  const newPath =
-    newLocale === 'nb'
-      ? `${basePath}${search}`
-      : `/${newLocale}${basePath}${search}`;
-  return newPath;
-};
+import { getLocaleUrls } from '../../util/localeHelpers';
 
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
@@ -200,14 +188,6 @@ class MastheadContainer extends React.PureComponent {
       data: { subject, topicPath, filters, topicResourcesByType, resource },
     } = this.state;
 
-    const localeUrls = {};
-    appLocales.forEach(appLocale => {
-      localeUrls[appLocale.abbreviation] = {
-        name: appLocale.name,
-        url: getLocaleURL(appLocale.abbreviation, locale, location),
-      };
-    });
-
     const breadcrumbBlockItems = subject
       ? toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
@@ -255,7 +235,7 @@ class MastheadContainer extends React.PureComponent {
         <MastheadItem right>
           <MastheadLanguageSelector
             ndlaFilm={ndlaFilm}
-            options={localeUrls}
+            options={getLocaleUrls(locale, location)}
             currentLanguage={locale}
           />
           {showSearch && (

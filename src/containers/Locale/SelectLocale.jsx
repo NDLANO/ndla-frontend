@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { setCookie } from '@ndla/util';
 import { createBrowserHistory as createHistory } from 'history';
 import { appLocales } from '../../i18n';
 
@@ -21,6 +22,7 @@ const SelectLocale = ({ locale, id }) => {
       newLocale === 'nb'
         ? `${basePath}${search}`
         : `/${newLocale}${basePath}${search}`;
+    setCookie('language', newLocale);
     createHistory().push(newPath); // Need create new history or else basename is included
     window.location.reload();
   };

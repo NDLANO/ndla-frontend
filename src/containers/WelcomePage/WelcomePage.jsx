@@ -37,10 +37,11 @@ import { frontpageSearchQuery } from '../../queries';
 import { topicsNotInNDLA } from '../../util/topicsHelper';
 import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
+import { getLocaleUrls } from '../../util/localeHelpers';
+import { LocationShape } from '../../shapes';
 
 const debounceCall = debounce(fn => fn(), 250);
-
-const WelcomePage = ({ t, data, loading, locale, history }) => {
+const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
@@ -118,7 +119,10 @@ const WelcomePage = ({ t, data, loading, locale, history }) => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
 
-      <FrontpageHeader links={headerLinks} locale={locale}>
+      <FrontpageHeader
+        links={headerLinks}
+        locale={locale}
+        languageOptions={getLocaleUrls(locale, location)}>
         <Query
           fetchPolicy="no-cache"
           variables={{
@@ -185,6 +189,7 @@ WelcomePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  location: LocationShape,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
