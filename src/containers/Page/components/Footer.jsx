@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Footer, LanguageSelector, FooterText, FooterEditor } from '@ndla/ui';
+import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
@@ -37,7 +37,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
       }}
       languageSelector={languageSelector}>
       <FooterText>
-        <FooterEditor
+        <EditorName
           title={t('footer.footerEditiorInChief')}
           name="Sigurd Trageton"
         />
