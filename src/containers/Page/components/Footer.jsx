@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
+import { Facebook, Twitter, EmailOutline } from '@ndla/icons';
 import ZendeskButton from '@ndla/zendesk';
 import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
@@ -22,20 +23,32 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
       outline
       alwaysVisible
       inverted={inverted}
-      options={getLocaleUrls(locale, location)}
+      options={''}
+      //options={getLocaleUrls(locale, location)}
       currentLanguage={locale}
     />
   );
 
+  const links = [
+    {
+      to: 'https://www.facebook.com/ndla.no',
+      text: t('footer.socialMediaLinks.facebook'),
+      icon: <Facebook />,
+    },
+    {
+      to: 'https://twitter.com/ndla_no',
+      text: t('footer.socialMediaLinks.twitter'),
+      icon: <Twitter />,
+    },
+    {
+      to: 'https://om.ndla.no/nyhetsbrev/',
+      text: t('footer.socialMediaLinks.newsletter'),
+      icon: <EmailOutline />,
+    },
+  ];
+
   return (
-    <Footer
-      lang={locale}
-      links={{
-        facebook: 'https://www.facebook.com/ndla.no',
-        twitter: 'https://twitter.com/ndla_no',
-        email: 'https://om.ndla.no/nyhetsbrev/',
-      }}
-      languageSelector={languageSelector}>
+    <Footer lang={locale} links={links} languageSelector={languageSelector}>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}

@@ -10,7 +10,7 @@ import React, { useState, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { FrontpageHeaderNew, FrontpageFilm, OneColumn } from '@ndla/ui';
+import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { Query } from 'react-apollo';
 import debounce from 'lodash.debounce';
@@ -131,7 +131,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
             return `Error: ${error.message}`;
           }
           return (
-            <FrontpageHeaderNew
+            <FrontpageHeader
               locale={locale}
               heading={t('welcomePage.heading.heading')}
               menuSubject={frontPageSubjects}
