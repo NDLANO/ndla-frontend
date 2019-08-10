@@ -157,7 +157,6 @@ const Learningpath = ({
             <LearningpathEmbed
               skipToContentId={skipToContentId}
               locale={locale}
-              resource={resource}
               topic={topic}
               learningpathStep={learningpathStep}
             />
