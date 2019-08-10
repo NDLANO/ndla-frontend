@@ -71,13 +71,24 @@ export const LearningpathStepShape = PropTypes.shape({
     html: PropTypes.string,
     width: PropTypes.number,
   }),
+  resource: PropTypes.shape({
+    article: ArticleShape,
+    contentUri: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string,
+    resourceTypes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      }),
+    ),
+  }),
   license: LicenseShape,
   metaUrl: PropTypes.string,
   revision: PropTypes.number,
   status: PropTypes.string,
   supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string,
-  article: ArticleShape,
 });
 
 export const LearningpathShape = PropTypes.shape({

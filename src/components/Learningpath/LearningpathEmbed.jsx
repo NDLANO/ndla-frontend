@@ -17,7 +17,7 @@ import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import { TopicShape, ResourceShape } from '../../shapes';
+import { TopicShape } from '../../shapes';
 
 const StyledIframeContainer = styled.div`
   margin-bottom: ${spacing.normal};
