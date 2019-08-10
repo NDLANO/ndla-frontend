@@ -8,38 +8,65 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Footer } from '@ndla/ui';
-import SelectLocale from '../../Locale/SelectLocale';
+import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
+import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
+import ZendeskButton from '@ndla/zendesk';
+import { injectT } from '@ndla/i18n';
+import { getLocaleUrls } from '../../../util/localeHelpers';
+import { LocationShape } from '../../../shapes';
+import config from '../../../config';
 
-const FooterWrapper = ({ t, children, locale, inverted }) => (
-  <Footer lang={locale} inverted={inverted}>
-    <form className="footer_form">
-      <label className="footer_label footer--bold" htmlFor="language-select">
-        {t('footer.selectLanguage')}
-      </label>
-      <SelectLocale
-        id="language-select"
-        locale={locale}
-        className="footer_language-select"
-      />
-    </form>
-    <Footer.Ruler />
-    <Footer.Text>
-      <Footer.Editor
-        title={t('footer.footerEditiorInChief')}
-        name="Sigurd Trageton"
-      />
-    </Footer.Text>
-    <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
-    {children}
-  </Footer>
-);
+const FooterWrapper = ({ location, locale, t, inverted }) => {
+  const languageSelector = (
+    <LanguageSelector
+      center
+      outline
+      alwaysVisible
+      inverted={inverted}
+      options={getLocaleUrls(locale, location)}
+      currentLanguage={locale}
+    />
+  );
 
-FooterWrapper.propTypes = {
-  inverted: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
-  children: PropTypes.node,
-  t: PropTypes.func.isRequired,
+  const links = [
+    {
+      to: 'https://www.facebook.com/ndla.no',
+      text: t('footer.socialMediaLinks.facebook'),
+      icon: <Facebook />,
+    },
+    {
+      to: 'https://twitter.com/ndla_no',
+      text: t('footer.socialMediaLinks.twitter'),
+      icon: <Twitter />,
+    },
+    {
+      to: 'https://om.ndla.no/nyhetsbrev/',
+      text: t('footer.socialMediaLinks.newsletter'),
+      icon: <EmailOutline />,
+    },
+  ];
+
+  return (
+    <Footer lang={locale} links={links} languageSelector={languageSelector}>
+      <FooterText>
+        <EditorName
+          title={t('footer.footerEditiorInChief')}
+          name="Sigurd Trageton"
+        />
+        {t('footer.footerInfo')}
+        {console.log(config.zendeskWidgetKey)}
+        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+          {t('askNDLA')}
+        </ZendeskButton>
+      </FooterText>
+    </Footer>
+  );
 };
 
-export default FooterWrapper;
+FooterWrapper.propTypes = {
+  locale: PropTypes.string.isRequired,
+  location: LocationShape.isRequired,
+  inverted: PropTypes.bool,
+};
+
+export default injectT(FooterWrapper);

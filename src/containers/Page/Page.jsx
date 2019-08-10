@@ -15,35 +15,41 @@ import ZendeskButton from '@ndla/zendesk';
 
 import config from '../../config';
 import Footer from './components/Footer';
+import { LocationShape } from '../../shapes';
 
-export const Page = props => {
-  const { children, background, locale, t, ndlaFilm } = props;
-  return (
-    <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
-      <Helmet
-        htmlAttributes={{ lang: locale }}
-        title="NDLA"
-        meta={[{ name: 'description', content: t('meta.description') }]}
-      />
-      <Helmet>
-        <meta property="fb:app_id" content="115263542481787" />
-      </Helmet>
-      {children}
-      <Footer t={t} locale={locale} inverted={ndlaFilm}>
-        {config.zendeskWidgetKey && (
-          <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
-            {t('askNDLA')}
-          </ZendeskButton>
-        )}
-      </Footer>
-    </PageContainer>
-  );
-};
+export const Page = ({
+  children,
+  background,
+  locale,
+  t,
+  ndlaFilm,
+  location,
+}) => (
+  <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
+    <Helmet
+      htmlAttributes={{ lang: locale }}
+      title="NDLA"
+      meta={[{ name: 'description', content: t('meta.description') }]}
+    />
+    <Helmet>
+      <meta property="fb:app_id" content="115263542481787" />
+    </Helmet>
+    {children}
+    <Footer inverted={ndlaFilm} locale={locale} location={location}>
+      {config.zendeskWidgetKey && (
+        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+          {t('askNDLA')}
+        </ZendeskButton>
+      )}
+    </Footer>
+  </PageContainer>
+);
 
 Page.propTypes = {
   locale: PropTypes.string.isRequired,
   background: PropTypes.bool,
   ndlaFilm: PropTypes.bool,
+  location: LocationShape,
 };
 
 Page.defaultProps = {

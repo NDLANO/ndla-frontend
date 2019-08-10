@@ -12,9 +12,10 @@ import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { Trans } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
+import { LocationShape } from '../../shapes';
 
-const ErrorPage = ({ locale }) => (
-  <Page locale={locale}>
+const ErrorPage = ({ locale, location }) => (
+  <Page locale={locale} location={location}>
     <Content>
       <Masthead showLoaderWhenNeeded={false} fixed>
         <MastheadItem right>
@@ -32,6 +33,7 @@ const ErrorPage = ({ locale }) => (
 
 ErrorPage.propTypes = {
   locale: PropTypes.string.isRequired,
+  location: LocationShape,
 };
 
 export default ErrorPage;

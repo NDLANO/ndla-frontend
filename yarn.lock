@@ -1000,10 +1000,10 @@
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.14":
-  version "0.6.14"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.14.tgz#0c5308e3305868b167bf21212ca64a23c5293816"
-  integrity sha512-sui86farsb/v/aFcu989VqpUrj0aEl3AJo90RcwPzwq+/ltUd813AkopCKC+/lyOEy2chspqepdEkNebLfhLTw==
+"@ndla/icons@^0.6.16":
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.16.tgz#3623e89897b3d94136c944c12c4aaa79f44ded88"
+  integrity sha512-0wwsxwepKEaFoL/i0/5+QbcxPYbOb6E5kKMZ+MRCNiodYnVxne0+xpUlbdzhvSutBN+EX+R39jER6c8ADuvITQ==
 
 "@ndla/icons@^0.6.16":
   version "0.6.16"
@@ -1142,12 +1142,12 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/zendesk@^0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.12.tgz#162ecc4c48435b2b269e3911aaddc39ce83ffd00"
-  integrity sha512-VruRB9fiAUQLQm+DXCzfdOuGBOL7nFx/ZTly7pyTwQzQptaw/+IwtTNBT3L/8GgpQ2t90uYCR3We/Ay+pFJxlA==
+"@ndla/zendesk@^0.2.14":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.14.tgz#38085c2dbcc20199bfc54c49e91c8461485970c1"
+  integrity sha512-30bZxzu1/7pAGSg+L0uJpAm0syFGWTxU6KtwoxwvwYaT683yayZRwxCIi82G2j81faiypTn105zL6+cJsFYFcA==
   dependencies:
-    "@ndla/core" "^0.6.12"
+    "@ndla/core" "^0.6.14"
 
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"

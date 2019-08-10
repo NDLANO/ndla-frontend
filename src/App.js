@@ -33,12 +33,17 @@ const Route = ({
   hideMasthead,
   ndlaFilm,
   skipToContent,
+  location,
   ...rest
 }) => (
   <ReactRoute
     {...rest}
     render={props => (
-      <Page background={background} locale={locale} ndlaFilm={ndlaFilm}>
+      <Page
+        background={background}
+        locale={locale}
+        ndlaFilm={ndlaFilm}
+        location={location}>
         <Content>
           {!hideMasthead && (
             <Masthead
@@ -65,6 +70,7 @@ Route.propTypes = {
   component: PropTypes.func.isRequired,
   background: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
   ndlaFilm: PropTypes.bool,
@@ -169,14 +175,14 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} />;
-    }
     const {
       initialProps: { basename },
       location,
       locale,
     } = this.props;
+    if (this.state.hasError) {
+      return <ErrorPage locale={this.props.locale} location={location} />;
+    }
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={basename}>
@@ -185,6 +191,7 @@ class App extends React.Component {
             .filter(route => route !== undefined)
             .map(route => (
               <Route
+                location={location}
                 key={`route_${route.path}`}
                 exact={route.exact}
                 hideMasthead={route.hideMasthead}

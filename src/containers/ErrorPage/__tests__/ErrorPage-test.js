@@ -24,7 +24,7 @@ test('ErrorPage renderers correctly', () => {
   const locale = getLocaleObject('nb');
   const component = renderer.create(
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <ErrorPage locale="nb" />
+      <ErrorPage locale="nb" location={{ pathname: '/' }} />
     </IntlProvider>,
   );
 

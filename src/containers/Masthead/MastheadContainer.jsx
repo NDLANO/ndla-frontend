@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import {
   Masthead,
   MastheadItem,
-  MastheadLanguageSelector,
+  LanguageSelector,
   Logo,
   DisplayOnPageYOffset,
   BreadcrumbBlock,
@@ -233,8 +233,8 @@ class MastheadContainer extends React.PureComponent {
           </DisplayOnPageYOffset>
         </MastheadItem>
         <MastheadItem right>
-          <MastheadLanguageSelector
-            ndlaFilm={ndlaFilm}
+          <LanguageSelector
+            inverted={ndlaFilm}
             options={getLocaleUrls(locale, location)}
             currentLanguage={locale}
           />

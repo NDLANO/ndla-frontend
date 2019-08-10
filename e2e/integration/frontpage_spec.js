@@ -26,8 +26,12 @@ describe('Front page', () => {
     });
   });
 
-  it('should have a functioning change language box', () => {
-    cy.get('[data-testid=language-select]').select(['nn'], { force: true });
+  it.only('should have a functioning change language box', () => {
+    cy.get('button')
+      .contains('Bokmål')
+      .first()
+      .click();
+    cy.get('li > a[href="/nn/?disableSSR=true"]').click();
     cy.url().should('include', '/nn/');
     cy.wait(500); // wait for page to reload
   });
