@@ -9,8 +9,8 @@
 import { getLocaleObject, isValidLocale, getLocaleInfoFromPath } from '../i18n';
 
 test('i18n getLocaleObject()', () => {
-  expect(getLocaleObject('en').abbreviation).toBe('en');
-  expect(getLocaleObject('en').messages['footer.aboutNDLA']).toBe('About NDLA');
+  expect(getLocaleObject('nn').abbreviation).toBe('nn');
+  expect(getLocaleObject('nn').messages['footer.aboutNDLA']).toBe('Om NDLA');
 
   expect(getLocaleObject('nb').abbreviation).toBe('nb');
   expect(getLocaleObject('nb').messages['footer.aboutNDLA']).toBe('Om NDLA');
@@ -23,7 +23,7 @@ test('i18n getLocaleObject()', () => {
 test('i18n isValidLocale()', () => {
   expect(isValidLocale('nb')).toBe(true);
   expect(isValidLocale('nn')).toBe(true);
-  expect(isValidLocale('en')).toBe(true);
+  expect(isValidLocale('en')).toBe(false);
   expect(isValidLocale('aa')).toBe(false);
   expect(isValidLocale('ub')).toBe(false);
 });
@@ -34,9 +34,6 @@ test('i18n getLocaleInfoFromPath', () => {
 
   expect(getLocaleInfoFromPath('/nn/subjects/').basepath).toBe('/subjects/');
   expect(getLocaleInfoFromPath('/nn/subjects/').basename).toBe('nn');
-
-  expect(getLocaleInfoFromPath('/en/subjects/').basepath).toBe('/subjects/');
-  expect(getLocaleInfoFromPath('/en/subjects/').basename).toBe('en');
 
   expect(getLocaleInfoFromPath('/subjects/').basepath).toBe('/subjects/');
   expect(getLocaleInfoFromPath('/subjects/').basename).toBe('');
