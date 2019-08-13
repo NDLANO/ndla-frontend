@@ -163,8 +163,8 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
       </FrontpageHeader>
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
-        <OneColumn>
-          <BlogPosts />
+        <OneColumn wide>
+          <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={

@@ -10,31 +10,31 @@ import React from 'react';
 import { injectT } from '@ndla/i18n';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 
-const BlogPosts = ({ t }) => (
+const BlogPosts = ({ t, locale }) => (
   <section>
     <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
     <BlogPostWrapper>
       <BlogPost
-        text="Elever arbeider i grupper"
         image={{
           url: '/static/elev-samarbeid.jpg',
-          alt: 'Elever arbeider i grupper',
         }}
-        externalLink="https://blogg.ndla.no/2018/11/hvordan-lage-gode-grupper-med-elever/"
-        linkText="Besøk vår fagblogg"
-        linkTextShort="Fagblogg"
-        license="CC BY-NC-SA 4.0 Opphav: Scanpix.no"
+        text={t('blogPosts.blog1.text')}
+        externalLink={t('blogPosts.blog1.externalLink')}
+        linkText={t('blogPosts.blog1.linkText')}
+        license={t('blogPosts.blog1.license')}
+        licenseAuthor={t('blogPosts.blog1.licenseAuthor')}
+        locale={locale}
       />
       <BlogPost
-        text="Prosjektarbeid på tvers av fag"
         image={{
           url: '/static/student-grupper.jpg',
-          alt: 'Elever arbeider i grupper',
         }}
-        externalLink="https://blogg.ndla.no/2019/03/prosjektarbeid-pa-tvers-av-fag-kuben-vgs/"
-        linkText="Besøk vår fagblogg"
-        linkTextShort="Fagblogg"
-        license="CC BY-NC-SA 4.0 Opphav: Scanpix.no"
+        text={t('blogPosts.blog2.text')}
+        externalLink={t('blogPosts.blog2.externalLink')}
+        linkText={t('blogPosts.blog2.linkText')}
+        license={t('blogPosts.blog2.license')}
+        licenseAuthor={t('blogPosts.blog2.licenseAuthor')}
+        locale={locale}
       />
     </BlogPostWrapper>
   </section>
