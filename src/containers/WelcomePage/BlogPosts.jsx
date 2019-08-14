@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 
@@ -39,5 +40,10 @@ const BlogPosts = ({ t, locale }) => (
     </BlogPostWrapper>
   </section>
 );
+
+BlogPosts.propTypes = {
+  t: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+};
 
 export default injectT(BlogPosts);
