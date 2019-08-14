@@ -59,7 +59,7 @@
     "@ndla/licenses": "^0.6.15",
     "@ndla/modal": "^0.3.17",
     "@ndla/pager": "^0.4.15",
-    "@ndla/polyfill": "^0.1.9",
+    "@ndla/polyfill": "^0.1.10",
     "@ndla/tabs": "^0.11.13",
     "@ndla/tracker": "^0.4.0",
     "@ndla/ui": "^0.25.4",

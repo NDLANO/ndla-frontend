@@ -1077,7 +1077,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           Spør NDLA
         </button>
       </p>
-      <p
+      <div
         className="emotion-63 emotion-68"
       >
         <div>
@@ -1090,7 +1090,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           </button>
           <div />
         </div>
-      </p>
+      </div>
     </div>
   </footer>
 </div>
