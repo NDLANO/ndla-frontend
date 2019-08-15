@@ -1044,10 +1044,10 @@
     octonode "^0.9.4"
     url-regex "^4.1.1"
 
-"@ndla/switch@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-0.0.2.tgz#1ac220263b98a6606492419468862582f04422bd"
-  integrity sha512-EoHLA1g9lGSX/e2soGabh0JtaSrIx/AMfPIwd077trk2hKgm5JCYv+liln0xctWx8C/+80YNDk9zTyXHXIhG9g==
+"@ndla/switch@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-0.0.3.tgz#910fad5a308e5e3fb7a33fc589f2cfdf69eb8e58"
+  integrity sha512-a/pj9G2YOOdvZf1DtYexOUA/PhW6J4/F8aJnQ9ucHO9j6U3eKYAscqCyKenmbAaaEBJabiG4CmwDLMSr3ETTsw==
   dependencies:
     "@ndla/core" "^0.6.15"
 
@@ -1083,10 +1083,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.25.4":
-  version "0.25.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.4.tgz#bcb274741c95ff106f45762ed31489a187d48e7d"
-  integrity sha512-fuaKjd1odr+uSZ9dLWdeHKbz1Xa/dTq8U0wNWPnfMjePRwg9AzYb6OJ9SLOP4plpV5lG3ebofDPpw+/mFrrQrg==
+"@ndla/ui@^0.25.5":
+  version "0.25.5"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.5.tgz#4649a6f78426c3884db390465071e7efc71749bf"
+  integrity sha512-jPFD9mmDoWFdLQedNd6ea7kDV55Yp7YU4oT1Vp2mx6vVtESEswTmwUzS9BsSP+I+upRcRJQ0SrjzeLY5NxqXHA==
   dependencies:
     "@ndla/button" "^0.3.15"
     "@ndla/carousel" "^0.3.13"
@@ -1096,7 +1096,7 @@
     "@ndla/icons" "^0.6.16"
     "@ndla/licenses" "^0.6.15"
     "@ndla/modal" "^0.3.17"
-    "@ndla/switch" "^0.0.2"
+    "@ndla/switch" "^0.0.3"
     "@ndla/tabs" "^0.11.16"
     "@ndla/tooltip" "^0.2.15"
     "@ndla/util" "^0.3.5"
