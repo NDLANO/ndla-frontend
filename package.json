@@ -62,7 +62,7 @@
     "@ndla/polyfill": "^0.1.10",
     "@ndla/tabs": "^0.11.13",
     "@ndla/tracker": "^0.4.0",
-    "@ndla/ui": "^0.25.5",
+    "@ndla/ui": "^0.25.6",
     "@ndla/util": "^0.3.5",
     "@ndla/zendesk": "^0.2.15",
     "apollo-cache-inmemory": "^1.6.2",
