@@ -569,8 +569,11 @@ const learningpathInfoFragment = gql`
         url
         embedType
       }
-      article {
-        ...ArticleInfo
+      resource {
+        ...ResourceInfo
+        article {
+          ...ArticleInfo
+        }
       }
       license {
         license
@@ -580,6 +583,7 @@ const learningpathInfoFragment = gql`
       showTitle
     }
   }
+  ${resourceInfoFragment}
   ${contributorInfoFragment}
   ${articleInfoFragment}
 `;

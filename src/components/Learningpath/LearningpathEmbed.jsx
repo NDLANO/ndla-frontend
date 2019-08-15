@@ -17,7 +17,7 @@ import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import { TopicShape, ResourceShape } from '../../shapes';
+import { TopicShape } from '../../shapes';
 
 const StyledIframeContainer = styled.div`
   margin-bottom: ${spacing.normal};
@@ -34,7 +34,6 @@ const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
   locale,
-  resource,
   topic,
 }) => {
   if (
@@ -45,7 +44,7 @@ const LearningpathEmbed = ({
   }
   const { embedUrl, oembed } = learningpathStep;
   if (
-    !learningpathStep.article &&
+    !learningpathStep.resource &&
     embedUrl &&
     embedUrl.embedType === 'oembed' &&
     oembed &&
@@ -59,8 +58,8 @@ const LearningpathEmbed = ({
       />
     );
   }
-
-  const article = transformArticle(learningpathStep.article);
+  const learningpathStepResource = learningpathStep.resource;
+  const article = transformArticle(learningpathStepResource.article);
   const scripts = getArticleScripts(article);
   return (
     <>
@@ -85,7 +84,7 @@ const LearningpathEmbed = ({
         id={skipToContentId}
         article={article}
         locale={locale}
-        {...getArticleProps(resource, topic)}
+        {...getArticleProps(learningpathStepResource, topic)}
       />
     </>
   );
@@ -95,7 +94,6 @@ LearningpathEmbed.propTypes = {
   learningpathStep: LearningpathStepShape,
   topic: TopicShape,
   skipToContentId: PropTypes.string,
-  resource: ResourceShape,
   locale: PropTypes.string.isRequired,
 };
 export default LearningpathEmbed;

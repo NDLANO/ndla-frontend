@@ -74,7 +74,6 @@ class ArticlePage extends Component {
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
-
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (

@@ -2776,6 +2776,18 @@
             "deprecationReason": null
           },
           {
+            "name": "resource",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Resource",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "showTitle",
             "description": "",
             "args": [],

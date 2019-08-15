@@ -87,7 +87,6 @@ class ResourcePage extends Component {
     if (!data) {
       return <DefaultErrorMessage />;
     }
-
     if (isLearningPathResource(data.resource)) {
       return <LearningpathPage {...this.props} />;
     }
