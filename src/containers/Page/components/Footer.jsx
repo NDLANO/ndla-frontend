@@ -54,7 +54,6 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
           name="Sigurd Trageton"
         />
         {t('footer.footerInfo')}
-        {console.log(config.zendeskWidgetKey)}
         <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
           {t('askNDLA')}
         </ZendeskButton>
@@ -65,7 +64,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
 
 FooterWrapper.propTypes = {
   locale: PropTypes.string.isRequired,
-  location: LocationShape.isRequired,
+  location: LocationShape,
   inverted: PropTypes.bool,
 };
 
