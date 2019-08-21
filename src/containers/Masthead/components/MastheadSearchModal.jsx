@@ -25,7 +25,7 @@ const MastheadSearchModal = ({
   onSearchExit,
   children,
   hideOnNarrowScreen,
-  searchFieldRef,
+  inputRef,
   ndlaFilm,
   t,
 }) => (
@@ -35,7 +35,7 @@ const MastheadSearchModal = ({
     animationDuration={200}
     size="full-width"
     onOpen={() => {
-      searchFieldRef.current.getElementsByTagName('input')[0].focus();
+      inputRef.current.focus();
     }}
     onClose={onSearchExit}
     className="c-search-field__overlay-content"
@@ -49,7 +49,7 @@ const MastheadSearchModal = ({
     {onClose => (
       <Fragment>
         <div className="c-search-field__overlay-top" />
-        <div ref={searchFieldRef} {...searchFieldClasses('header')}>
+        <div {...searchFieldClasses('header')}>
           <div {...searchFieldClasses('header-container')}>
             {children}
             <Button stripped onClick={onClose}>
@@ -65,7 +65,7 @@ const MastheadSearchModal = ({
 MastheadSearchModal.propTypes = {
   onSearchExit: PropTypes.func.isRequired,
   hideOnNarrowScreen: PropTypes.bool.isRequired,
-  searchFieldRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   ndlaFilm: PropTypes.bool,
 };
 
