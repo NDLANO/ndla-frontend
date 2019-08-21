@@ -23,7 +23,7 @@ test('i18n getLocaleObject()', () => {
 test('i18n isValidLocale()', () => {
   expect(isValidLocale('nb')).toBe(true);
   expect(isValidLocale('nn')).toBe(true);
-  expect(isValidLocale('en')).toBe(false);
+  expect(isValidLocale('en')).toBe(true);
   expect(isValidLocale('aa')).toBe(false);
   expect(isValidLocale('ub')).toBe(false);
 });
