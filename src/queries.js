@@ -684,6 +684,7 @@ export const filmFrontPageQuery = gql`
       about {
         title
         description
+        language
         visualElement {
           type
           alt
