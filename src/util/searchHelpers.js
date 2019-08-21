@@ -22,17 +22,22 @@ export const searchSubjects = (query, locale) =>
   }, []);
 
 export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
-  if (!data.frontpageSearch) return [];
-
-  const {
-    frontpageSearch: { learningResources, topicResources },
-  } = data;
   const subjectHits = searchSubjects(query, locale);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
     resources: subjectHits,
   };
+
+  if (!data.frontpageSearch && subjectHits.length === 0) return [];
+  if (!data.frontpageSearch) {
+    return [subjects];
+  }
+
+  const {
+    frontpageSearch: { learningResources, topicResources },
+  } = data;
+
   const topics = {
     title: `${t('subjectPage.tabs.topics')}:`,
     contentType: 'results-frontpage',
