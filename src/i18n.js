@@ -28,8 +28,8 @@ const EN = {
   messages: formatNestedMessages({ ...messagesEN, ...additionalMessagesEN }),
 };
 
-export const appLocales = [NB, NN];
-export const preferredLocales = [NB, NN, EN];
+export const appLocales = [NB, NN, EN];
+export const preferredLocales = [NB, NN];
 
 export const getLocaleObject = localeAbbreviation => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
