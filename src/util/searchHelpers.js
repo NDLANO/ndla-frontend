@@ -12,7 +12,7 @@ export const searchSubjects = (query, locale) =>
       ...foundInSubjects.map(subject => ({
         id: subject.id,
         path: subject.id
-          ? `/subjects/${subject.id.replace('urn:', '')}/`
+          ? `/${subject.id.replace('urn:', '')}/`
           : `${locale ? `/${locale}` : ''}/node/${subject.nodeId}/`,
         subject: `${category.name.charAt(0).toUpperCase()}${category.name.slice(
           1,
