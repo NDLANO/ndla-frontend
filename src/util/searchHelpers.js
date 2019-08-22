@@ -2,6 +2,7 @@ import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const searchSubjects = (query, locale) =>
   FRONTPAGE_CATEGORIES.categories.reduce((accumulated, category) => {
+    if (!query) return [];
     query = query.trim().toLowerCase();
     const foundInSubjects = category.subjects.filter(subject =>
       subject.name.toLowerCase().includes(query),
