@@ -39,6 +39,7 @@ import {
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
 import { getLocaleUrls } from '../../util/localeHelpers';
+import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 
 class MastheadContainer extends React.PureComponent {
   constructor(props) {
@@ -48,33 +49,25 @@ class MastheadContainer extends React.PureComponent {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.updateData();
+  }
+
+  componentDidUpdate(prevProps) {
     const { location } = this.props;
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
-
-    if (subjectId) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
-      const data = await this.getData(
-        subjectId,
-        topicId,
-        resourceId,
-        activeFilters,
-      );
-
-      this.setState({
-        data,
-      });
+    if (
+      location.pathname !== prevProps.location.pathname ||
+      location.search !== prevProps.location.search
+    ) {
+      this.updateData();
     }
   }
 
-  async componentWillReceiveProps(nextProps) {
-    const { location } = nextProps;
-    if (
-      location.pathname !== this.props.location.pathname ||
-      location.search !== this.props.location.search
-    ) {
-      const { subjectId, resourceId, topicId } = getUrnIdsFromProps(nextProps);
-      if (subjectId) {
+  updateData = async () => {
+    const { location } = this.props;
+    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
+    if (subjectId) {
+      try {
         const activeFilters = getFiltersFromUrlAsArray(location);
         const data = await this.getData(
           subjectId,
@@ -85,9 +78,11 @@ class MastheadContainer extends React.PureComponent {
         this.setState({
           data,
         });
+      } catch (error) {
+        handleError(error);
       }
     }
-  }
+  };
 
   onDataFetch = async (subjectId, topicId, resourceId, filters = []) => {
     this.setState(prevState => ({
@@ -196,64 +191,63 @@ class MastheadContainer extends React.PureComponent {
         )
       : [];
 
-    const showSearch = subject && !location.pathname.includes('search');
+    const renderSearchComponent = hideOnNarrowScreen =>
+      subject &&
+      !location.pathname.includes('search') && (
+        <MastheadSearch
+          subject={subject}
+          ndlaFilm={ndlaFilm}
+          hideOnNarrowScreen={hideOnNarrowScreen}
+        />
+      );
     return (
-      <Masthead
-        showLoaderWhenNeeded={topicPath && topicPath.length > 0}
-        fixed
-        ndlaFilm={ndlaFilm}
-        skipToMainContentId={skipToMainContentId}
-        infoContent={infoContent}>
-        <MastheadItem left>
-          {subject && (
-            <MastheadMenu
-              subject={subject}
-              ndlaFilm={ndlaFilm}
-              searchFieldComponent={
-                showSearch && (
-                  <MastheadSearch subject={subject} ndlaFilm={ndlaFilm} />
-                )
-              }
-              topicPath={topicPath || []}
-              onDataFetch={this.onDataFetch}
-              filters={filters}
-              resource={resource}
-              topicResourcesByType={topicResourcesByType || []}
+      <ErrorBoundary>
+        <Masthead
+          showLoaderWhenNeeded={topicPath && topicPath.length > 0}
+          fixed
+          ndlaFilm={ndlaFilm}
+          skipToMainContentId={skipToMainContentId}
+          infoContent={infoContent}>
+          <MastheadItem left>
+            {subject && (
+              <MastheadMenu
+                subject={subject}
+                ndlaFilm={ndlaFilm}
+                searchFieldComponent={renderSearchComponent(false)}
+                topicPath={topicPath || []}
+                onDataFetch={this.onDataFetch}
+                filters={filters}
+                resource={resource}
+                topicResourcesByType={topicResourcesByType || []}
+                locale={locale}
+              />
+            )}
+            <DisplayOnPageYOffset yOffsetMin={150}>
+              <BreadcrumbBlock
+                items={
+                  breadcrumbBlockItems.length > 1
+                    ? breadcrumbBlockItems.slice(1)
+                    : []
+                }
+              />
+            </DisplayOnPageYOffset>
+          </MastheadItem>
+          <MastheadItem right>
+            <LanguageSelector
+              inverted={ndlaFilm}
+              options={getLocaleUrls(locale, location)}
+              currentLanguage={locale}
+            />
+            {renderSearchComponent(true)}
+            <Logo
+              to="/"
               locale={locale}
+              label={t('logo.altText')}
+              cssModifier={ndlaFilm ? 'white' : ''}
             />
-          )}
-          <DisplayOnPageYOffset yOffsetMin={150}>
-            <BreadcrumbBlock
-              items={
-                breadcrumbBlockItems.length > 1
-                  ? breadcrumbBlockItems.slice(1)
-                  : []
-              }
-            />
-          </DisplayOnPageYOffset>
-        </MastheadItem>
-        <MastheadItem right>
-          <LanguageSelector
-            inverted={ndlaFilm}
-            options={getLocaleUrls(locale, location)}
-            currentLanguage={locale}
-          />
-          {showSearch && (
-            <MastheadSearch
-              subject={subject}
-              locale={locale}
-              ndlaFilm={ndlaFilm}
-              hideOnNarrowScreen
-            />
-          )}
-          <Logo
-            to="/"
-            locale={locale}
-            label={t('logo.altText')}
-            cssModifier={ndlaFilm ? 'white' : ''}
-          />
-        </MastheadItem>
-      </Masthead>
+          </MastheadItem>
+        </Masthead>
+      </ErrorBoundary>
     );
   }
 }
