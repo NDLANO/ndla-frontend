@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { SearchField, SearchResultSleeve } from '@ndla/ui';
+import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
 import queryString from 'query-string';
-import BEMHelper from 'react-bem-helper';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
@@ -17,8 +16,6 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
 import { toSearch } from '../../../routeHelpers';
-
-const classes = new BEMHelper('c-search-field');
 
 const debounceCall = debounce(fun => fun(), 250);
 
@@ -92,10 +89,6 @@ const MastheadSearch = ({
     ].join(),
   };
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
-  const modifiers = ['absolute-position-sleeve'];
-  if (subjects) {
-    modifiers.push('has-filter');
-  }
 
   return (
     <MastheadSearchModal
@@ -110,10 +103,7 @@ const MastheadSearch = ({
         query={groupSearchQuery}>
         {({ data, error }) =>
           error || (
-            <form
-              action="/search/"
-              {...classes('', modifiers)}
-              onSubmit={onSearch}>
+            <SearchFieldForm onSubmit={onSearch}>
               <SearchField
                 placeholder={t('searchPage.searchFieldPlaceholder')}
                 value={query}
@@ -133,7 +123,7 @@ const MastheadSearch = ({
                   resourceToLinkProps={searchResultToLinkProps}
                 />
               )}
-            </form>
+            </SearchFieldForm>
           )
         }
       </Query>
