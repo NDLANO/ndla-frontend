@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
+import {
+  SearchField,
+  SearchResultSleeve,
+  SearchFieldForm,
+  MastheadSearchModal,
+} from '@ndla/ui';
 import queryString from 'query-string';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -9,7 +14,6 @@ import { injectT } from '@ndla/i18n';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentType';
-import MastheadSearchModal from './MastheadSearchModal';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -92,9 +96,8 @@ const MastheadSearch = ({
 
   return (
     <MastheadSearchModal
-      onSearchExit={onClearQuery}
+      onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
-      inputRef={inputRef}
       ndlaFilm={ndlaFilm}>
       <Query
         fetchPolicy="no-cache"
