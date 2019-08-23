@@ -566,6 +566,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             <a
               aria-label="Nasjonal digital læringsarena"
               href="/"
+              onClick={[Function]}
             >
               <svg
                 className="c-logo__graphic"
@@ -625,6 +626,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         >
           <a
             href="/"
+            onClick={[Function]}
           >
             Gå til forsiden
           </a>
@@ -728,7 +730,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           <h1
             className="emotion-17 emotion-18"
           >
-            NDLAs visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.
+            NDLA sin visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.
           </h1>
           <div
             className="emotion-55 emotion-56"
@@ -1086,7 +1088,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             onClick={[Function]}
             type="button"
           >
-            Personvernserklæring
+            Personvernerklæring
           </button>
           <div />
         </div>

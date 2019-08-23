@@ -6,7 +6,7 @@
  *
  */
 
-import { appLocales } from '../i18n';
+import { preferredLocales } from '../i18n';
 
 const getLocaleURL = (newLocale, locale, location) => {
   const { pathname, search } = location;
@@ -20,7 +20,7 @@ const getLocaleURL = (newLocale, locale, location) => {
 
 export const getLocaleUrls = (locale, location) => {
   const localeUrls = {};
-  appLocales.forEach(appLocale => {
+  preferredLocales.forEach(appLocale => {
     localeUrls[appLocale.abbreviation] = {
       name: appLocale.name,
       url:

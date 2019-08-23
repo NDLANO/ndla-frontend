@@ -4,6 +4,7 @@ exports[`getAlternateLanguages with article and basename is empty 1`] = `
 Array [
   "nb",
   "nn",
+  "en",
 ]
 `;
 
@@ -13,6 +14,7 @@ exports[`getAlternateLanguages without article and basename is empty 1`] = `
 Array [
   "nb",
   "nn",
+  "en",
 ]
 `;
 

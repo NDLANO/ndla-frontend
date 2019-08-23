@@ -124,7 +124,7 @@ class NdlaFilm extends Component {
     } = this.props;
     const about =
       filmfrontpage &&
-      filmfrontpage.about.find(about => (about.language = locale));
+      filmfrontpage.about.find(about => about.language === locale);
     const allResources = {
       name: t('filmfrontpage.resourcetype.all'),
       id: ALL_MOVIES_ID,
