@@ -9,6 +9,7 @@
 import 'isomorphic-unfetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
@@ -38,7 +39,9 @@ const client = createApolloClient(abbreviation);
 ReactDOM.render(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
-      <LtiProvider {...initialProps} />
+      <BrowserRouter>
+        <LtiProvider {...initialProps} />
+      </BrowserRouter>
     </IntlProvider>
   </ApolloProvider>,
   document.getElementById('root'),
