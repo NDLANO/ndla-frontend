@@ -98,7 +98,7 @@ class NdlaFilm extends Component {
 
   fetchMoviesByType = async resourceTypes => {
     const firstPage = await this.searchAllMovies(resourceTypes);
-    const movies = firstPage.data.searchWithPagination.results;
+    const movies = firstPage.data.searchWithoutPagination.results;
     return movies.map(this.transformMoviesByType);
   };
 

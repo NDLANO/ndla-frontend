@@ -84,9 +84,8 @@ export const searchQuery = gql`
   }
 `;
 
-// This is almost a duplicate of the one above, except it does not get the id of the context types. This is due to caching on that id, which gives wrong results. Should be fixed when we check our caching method.
 export const searchFilmQuery = gql`
-  query SearchWithPagination(
+  query SearchWithoutPagination(
     $query: String
     $contextTypes: String
     $language: String
@@ -100,7 +99,7 @@ export const searchFilmQuery = gql`
     $languageFilter: String
     $relevance: String
   ) {
-    searchWithPagination(
+    searchWithoutPagination(
       query: $query
       contextTypes: $contextTypes
       language: $language

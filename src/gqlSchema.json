@@ -597,7 +597,7 @@
             "deprecationReason": null
           },
           {
-            "name": "searchWithPagination",
+            "name": "searchWithoutPagination",
             "description": "",
             "args": [
               {
