@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import SafeLink from '@ndla/safelink';
 import { SubjectShape } from '../shapes';
 import { toSubject } from '../routeHelpers';
 
@@ -16,7 +16,7 @@ const SubjectLinkList = ({ subjects }) => (
   <ul className="o-list--arrows">
     {subjects.map(subject => (
       <li key={subject.id}>
-        <Link to={toSubject(subject.id)}>{subject.name}</Link>
+        <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
       </li>
     ))}
   </ul>

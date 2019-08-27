@@ -22,6 +22,7 @@ import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { createApolloClient } from '../util/apiHelpers';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import { MissingRouterContext } from '@ndla/safelink';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -116,18 +117,20 @@ export class IframeArticlePage extends Component {
     return (
       <ApolloProvider client={createApolloClient(locale)}>
         <IntlProvider locale={locale} messages={messages}>
-          <PageContainer>
-            <Helmet htmlAttributes={{ lang: locale }} />
-            {status === 'success' ? (
-              <Success
-                locale={locale}
-                resource={resource}
-                location={location}
-              />
-            ) : (
-              <Error />
-            )}
-          </PageContainer>
+          <MissingRouterContext.Provider value={true}>
+            <PageContainer>
+              <Helmet htmlAttributes={{ lang: locale }} />
+              {status === 'success' ? (
+                <Success
+                  locale={locale}
+                  resource={resource}
+                  location={location}
+                />
+              ) : (
+                <Error />
+              )}
+            </PageContainer>
+          </MissingRouterContext.Provider>
         </IntlProvider>
       </ApolloProvider>
     );
