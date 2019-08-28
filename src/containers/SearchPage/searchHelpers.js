@@ -141,12 +141,14 @@ export const resultsWithContentTypeBadgeAndImage = (
   t,
   includeEmbedButton,
   ltiData,
+  isLti = false,
 ) =>
   results.map(result => {
     const { contentType } = result;
-
+    console.log(result, ltiData);
     return {
       ...result,
+      url: isLti ? 'dd' : result.url,
       contentType,
       contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
         <ContentTypeBadge

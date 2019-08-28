@@ -33,6 +33,7 @@ const SearchResults = ({
   allTabValue,
   t,
   loading,
+  isLti,
 }) => {
   const { totalCount = '' } = resultMetadata || {};
   return (
@@ -81,6 +82,7 @@ const SearchResults = ({
             t,
             includeEmbedButton,
             ltiData,
+            isLti,
           )
         }
       />
@@ -110,6 +112,7 @@ SearchResults.propTypes = {
   ltiData: LtiDataShape,
   enabledTab: string.isRequired,
   loading: bool,
+  isLti: bool,
 };
 
 export default injectT(SearchResults);
