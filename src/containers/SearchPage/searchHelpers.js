@@ -5,7 +5,6 @@ import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
-import config from '../../config';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -116,28 +115,21 @@ export const convertSearchParam = value => {
   return value.length > 0 ? value : undefined;
 };
 
-export const convertResult = (
-  results,
-  subjectFilters,
-  enabledTab,
-  language,
-  isLti,
-) =>
+export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {
     const selectedContext = selectContext(
       result.contexts,
       subjectFilters,
       enabledTab,
     );
-    const startOfUrl = isLti ? config.ndlaFrontendDomain : '';
     return {
       ...result,
       url: selectedContext
-        ? startOfUrl + getUrl(selectedContext, result, language)
-        : startOfUrl + result.url,
+        ? getUrl(selectedContext, result, language)
+        : result.url,
       urls: result.contexts.map(context => ({
-        url: startOfUrl + getUrl(context, result),
-        contentType: startOfUrl + getContentType(context),
+        url: getUrl(context, result),
+        contentType: getContentType(context),
       })),
       ingress: result.metaDescription,
       ...taxonomyData(result, selectedContext),

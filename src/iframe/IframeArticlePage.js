@@ -13,6 +13,7 @@ import { withTracker } from '@ndla/tracker';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
+import { MissingRouterContext } from '@ndla/safelink';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -116,18 +117,20 @@ export class IframeArticlePage extends Component {
     return (
       <ApolloProvider client={createApolloClient(locale)}>
         <IntlProvider locale={locale} messages={messages}>
-          <PageContainer>
-            <Helmet htmlAttributes={{ lang: locale }} />
-            {status === 'success' ? (
-              <Success
-                locale={locale}
-                resource={resource}
-                location={location}
-              />
-            ) : (
-              <Error />
-            )}
-          </PageContainer>
+          <MissingRouterContext.Provider value={true}>
+            <PageContainer>
+              <Helmet htmlAttributes={{ lang: locale }} />
+              {status === 'success' ? (
+                <Success
+                  locale={locale}
+                  resource={resource}
+                  location={location}
+                />
+              ) : (
+                <Error />
+              )}
+            </PageContainer>
+          </MissingRouterContext.Provider>
         </IntlProvider>
       </ApolloProvider>
     );
