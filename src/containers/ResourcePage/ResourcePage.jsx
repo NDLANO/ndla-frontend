@@ -29,10 +29,10 @@ import { getFiltersFromUrl } from '../../util/filterHelper';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const transformData = data => {
   const { subject, topic } = data;
-
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   return { ...data, topicPath };
@@ -79,9 +79,13 @@ class ResourcePage extends Component {
   }
 
   render() {
-    const { data, loading } = this.props;
+    const { data, loading, errors } = this.props;
     if (loading) {
       return null;
+    }
+
+    if (errors && errors.filter(error => error.status === 404).length > 0) {
+      return <NotFoundPage />;
     }
 
     if (!data) {

@@ -41,31 +41,15 @@ class ArticlePage extends Component {
   }
 
   static getDimensions(props) {
-    const articleProps = getArticleProps(props.data.resource);
-    const {
-      data: {
-        resource: { article },
-        subject,
-        topicPath,
-      },
-    } = props;
-    return getAllDimensions(
-      { article, subject, topicPath },
-      articleProps.label,
-      true,
-    );
+    const { resource } = props.data;
+    const articleProps = getArticleProps(resource);
+    return getAllDimensions(resource, articleProps.label, true);
   }
 
-  static getDocumentTitle({
-    t,
-    data: {
-      resource: { article },
-      subject,
-    },
-  }) {
-    return `${subject ? subject.name : ''} - ${article ? article.title : ''}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+  static getDocumentTitle({ t, data }) {
+    return `${data.subject ? data.subject.name : ''} - ${
+      data.resource && data.resource.article ? data.resource.article.title : ''
+    }${t('htmlTitles.titleTemplate')}`;
   }
 
   render() {
@@ -89,7 +73,6 @@ class ArticlePage extends Component {
         <div>
           <ArticleHero
             ndlaFilm={ndlaFilm}
-            metaImage={resource.article.metaImage}
             subject={subject}
             topicPath={topicPath}
             resource={resource}

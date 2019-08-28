@@ -99,7 +99,7 @@ export const toTopicPartial = (
 export function toBreadcrumbItems(rootName, paths, filters = '') {
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
   const links = paths
-    .filter(path => path !== undefined)
+    .filter(path => path !== (undefined || null))
     .reduce(
       (links, item) => [
         ...links,
