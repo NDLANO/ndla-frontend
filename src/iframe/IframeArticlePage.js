@@ -13,6 +13,7 @@ import { withTracker } from '@ndla/tracker';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
+import { MissingRouterContext } from '@ndla/safelink';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -22,7 +23,6 @@ import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { createApolloClient } from '../util/apiHelpers';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
-import { MissingRouterContext } from '@ndla/safelink';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..

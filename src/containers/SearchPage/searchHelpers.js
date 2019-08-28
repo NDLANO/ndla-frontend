@@ -5,7 +5,6 @@ import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
-import config from '../../config';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
