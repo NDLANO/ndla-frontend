@@ -17,7 +17,7 @@ describe('Subjects page', () => {
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get(
-      '[data-testid="category-list"]  button:contains("Studiespesialisering"):visible',
+      '[data-testid="category-list"]  button:contains("Studieforberedende"):visible',
     )
       .click()
       .get('a:contains("Medieuttrykk")')

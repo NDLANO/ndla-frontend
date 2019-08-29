@@ -1088,10 +1088,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.25.17":
-  version "0.25.17"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.17.tgz#80e6b97857a0f84192b5f6239d1cd75136555eff"
-  integrity sha512-gDMASa8acAmcPMeaMG35DH9JhcZl0scV25qVaMFIFLvXxQ6GCCfDbpLYUD5BuCYpy0Hq5I4IEG3qRr6CTd2wOQ==
+"@ndla/ui@^0.25.18":
+  version "0.25.18"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.18.tgz#c882af71cbd5b5377bcb27e6667a55c64421b24f"
+  integrity sha512-xPY7REh4/LXx6ZZYkObkPC/YPnbfkAOrSchPbV6Nw5zsILLEcMqNeAv7DyGyLj3rnBl6racFOJk2/OtrGJQwvQ==
   dependencies:
     "@ndla/button" "^0.3.17"
     "@ndla/carousel" "^0.3.14"
