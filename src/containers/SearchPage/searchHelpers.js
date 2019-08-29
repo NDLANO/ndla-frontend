@@ -157,7 +157,6 @@ export const resultsWithContentTypeBadgeAndImage = (
 ) =>
   results.map(result => {
     const { contentType } = result;
-    console.log(result);
     return {
       ...result,
       url: getResultUrl(result.id, result.url, isLti),
