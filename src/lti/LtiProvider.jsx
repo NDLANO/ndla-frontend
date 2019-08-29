@@ -110,9 +110,9 @@ class LtiProvider extends React.Component {
       ltiData,
     } = this.props;
     const { hasError } = this.state;
-
+    console.log(window.location);
     if (hasError) {
-      return <ErrorPage locale={locale} />;
+      return <ErrorPage locale={locale} location={window.location} />;
     }
 
     return (
@@ -130,7 +130,7 @@ class LtiProvider extends React.Component {
             } = resourceTypesResult;
             if (resourceTypesError) {
               handleError(resourceTypesError);
-              return <ErrorPage locale={locale} />;
+              return <ErrorPage locale={locale} location={window.location} />;
             }
             return (
               <Query
@@ -145,7 +145,9 @@ class LtiProvider extends React.Component {
                   } = subjectsResult;
                   if (subjectsError) {
                     handleError(subjectsError);
-                    return <ErrorPage locale={locale} />;
+                    return (
+                      <ErrorPage locale={locale} location={window.location} />
+                    );
                   }
 
                   const loading =

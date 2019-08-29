@@ -5,6 +5,7 @@ import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
+import { parseAndMatchUrl } from '../../util/urlHelper';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -136,6 +137,18 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
     };
   });
 
+const getResultUrl = (id, url, isLti) => {
+  if ((url && url.href) || !isLti) {
+    return url;
+  }
+
+  const parsedUrl = parseAndMatchUrl(url);
+  if (!parsedUrl) {
+    return url;
+  }
+  return `/article-iframe/nb/urn:resource:${parsedUrl.params.resourceId}/${id}`;
+};
+
 export const resultsWithContentTypeBadgeAndImage = (
   results,
   t,
@@ -146,9 +159,16 @@ export const resultsWithContentTypeBadgeAndImage = (
   results.map(result => {
     const { contentType } = result;
     console.log(result, ltiData);
+
     return {
       ...result,
-      url: isLti ? 'dd' : result.url,
+      url: getResultUrl(result.id, result.url, isLti),
+      urls: isLti
+        ? result.urls.map(urlObject => ({
+            ...urlObject,
+            url: getResultUrl(result.id, urlObject.url, isLti),
+          }))
+        : result.urls,
       contentType,
       contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
         <ContentTypeBadge

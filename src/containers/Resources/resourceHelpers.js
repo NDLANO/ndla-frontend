@@ -37,6 +37,13 @@ export const getLearningPathIdFromResource = resource => {
   return undefined;
 };
 
+export function getIdFromResourceContentUri(resource) {
+  if (isLearningPathResource(resource)) {
+    return getLearningPathIdFromResource(resource);
+  }
+  return getArticleIdFromResource(resource);
+}
+
 export function getLearningPathUrlFromResource(resource, languagePrefix) {
   return `${config.learningPathDomain}${
     languagePrefix ? `/${languagePrefix}` : ''
@@ -51,7 +58,7 @@ export const resourceToLinkProps = (
 ) => {
   if (isLearningPathResource(resource)) {
     return {
-      to: toLearningPath(undefined, undefined, resource),
+      to: toLearningPath(undefined, undefined, resource, false),
     };
   }
   if (isArticleResource(resource)) {

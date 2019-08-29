@@ -43,17 +43,27 @@ function toLearningpaths() {
   return '/learningpaths';
 }
 
-export function toLearningPath(pathId, stepId, resource) {
+export function toLearningPath(
+  pathId,
+  stepId,
+  resource,
+  locale,
+  inIframe = false,
+) {
   if (resource) {
+    const startOfUrl = !inIframe ? toSubjects() : '/learningpath-iframe/';
     return stepId
-      ? `${toSubjects()}${resource.path}/${stepId}`
-      : `${toSubjects()}${resource.path}`;
+      ? `${startOfUrl}${resource.path}/${stepId}`
+      : `${startOfUrl}${resource.path}`;
   }
+  const startOfUrl = !inIframe
+    ? toLearningpaths()
+    : `/learningpath-iframe/${locale}/learningpaths`;
   if (pathId && stepId) {
-    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
+    return `${startOfUrl}/${pathId}/steps/${stepId}`;
   }
   if (pathId) {
-    return `${toLearningpaths()}/${pathId}`;
+    return `${startOfUrl}/${pathId}`;
   }
   return toSubjects();
 }

@@ -9,6 +9,7 @@
 import React from 'react';
 import IntlProvider from '@ndla/i18n';
 import { MissingRouterContext } from '@ndla/safelink';
+import queryString from 'query-string';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
 import ErrorPage from '../../containers/ErrorPage';
 import { getLocaleInfoFromPath } from '../../i18n';
@@ -25,10 +26,17 @@ const getAssets = () => ({
 async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   const { abbreviation, messages } = getLocaleInfoFromPath(req.path);
   const context = { status };
+
   const Page = (
     <IntlProvider locale={abbreviation} messages={messages}>
       <MissingRouterContext.Provider value={true}>
-        <ErrorPage locale={abbreviation} />
+        <ErrorPage
+          locale={abbreviation}
+          location={{
+            pathname: req.path,
+            search: `?${queryString.stringify(req.query)}`,
+          }}
+        />
       </MissingRouterContext.Provider>
     </IntlProvider>
   );

@@ -9,6 +9,7 @@
 export { errorRoute } from './errorRoute';
 export { defaultRoute } from './defaultRoute';
 export { iframeArticleRoute } from './iframeArticleRoute';
-export { oembedArticleRoute } from './oembedArticleRoute';
+export { iframeLearningpathRoute } from './iframeLearningpathRoute';
+export { oembedRoute } from './oembedRoute';
 export { forwardingRoute } from './forwardingRoute';
 export { ltiRoute } from './ltiRoute';

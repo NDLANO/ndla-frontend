@@ -17,12 +17,13 @@ import { MissingRouterContext } from '@ndla/safelink';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ArticleShape, ResourceTypeShape } from '../shapes';
+import { ArticleShape, ResourceTypeShape, LearningpathShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { createApolloClient } from '../util/apiHelpers';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import Learningpath from '../components/Learningpath';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -44,7 +45,7 @@ const Error = injectT(({ t }) => (
   </OneColumn>
 ));
 
-const Success = ({ resource, locale, location }) => {
+const SuccessArticle = ({ resource, locale, location }) => {
   const article = transformArticle(resource.article, locale);
   const scripts = getArticleScripts(article);
   return (
@@ -80,10 +81,81 @@ const Success = ({ resource, locale, location }) => {
   );
 };
 
+SuccessArticle.propTypes = {
+  locale: PropTypes.string.isRequired,
+  resource: PropTypes.shape({
+    article: ArticleShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+};
+
+const SuccessLearningpath = ({ resource, locale, location }) => {
+  const { learningpath } = resource;
+  const learningpathStep = learningpath.learningsteps.find(
+    step => step.seqNo === 0,
+  );
+  return (
+    <div>
+      <Helmet>
+        <title>{`NDLA | ${learningpath.title}`}</title>
+      </Helmet>
+      <SocialMediaMetadata
+        title={`${learningpath.title} - ${learningpathStep.title}`}
+        trackableContent={learningpath}
+        description={learningpath.description}
+        locale={locale}
+        location={location}
+        image={{
+          src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+        }}
+      />
+      <Learningpath
+        inIframe
+        learningpath={learningpath}
+        learningpathStep={learningpathStep}
+        locale={locale}
+        {...getArticleProps()}
+      />
+    </div>
+  );
+};
+
+SuccessLearningpath.propTypes = {
+  locale: PropTypes.string.isRequired,
+  resource: PropTypes.shape({
+    learningpath: LearningpathShape,
+    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+};
+
+const Success = ({ resource, locale, location }) => {
+  if (resource.article) {
+    return (
+      <SuccessArticle resource={resource} locale={locale} location={location} />
+    );
+  }
+  if (resource.learningpath) {
+    return (
+      <SuccessLearningpath
+        resource={resource}
+        locale={locale}
+        location={location}
+      />
+    );
+  }
+};
+
 Success.propTypes = {
   locale: PropTypes.string.isRequired,
   resource: PropTypes.shape({
     article: ArticleShape,
+    learningpath: LearningpathShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
   location: PropTypes.shape({
@@ -100,6 +172,7 @@ export class IframeArticlePage extends Component {
   }
 
   static getDocumentTitle({ t, resource }) {
+    console.log(resource);
     if (resource && resource.article && resource.article.id) {
       return `NDLA | ${resource.article.title.title}`;
     }
@@ -113,7 +186,7 @@ export class IframeArticlePage extends Component {
       resource,
       location,
     } = this.props;
-
+    console.log(this.props);
     return (
       <ApolloProvider client={createApolloClient(locale)}>
         <IntlProvider locale={locale} messages={messages}>

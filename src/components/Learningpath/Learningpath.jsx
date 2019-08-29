@@ -19,8 +19,6 @@ import {
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { compose } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
 import { toLearningPath, toBreadcrumbItems } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
@@ -38,6 +36,7 @@ const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
 const Learningpath = ({
   learningpath,
+  inIframe,
   learningpathStep,
   resource,
   topic,
@@ -89,9 +88,15 @@ const Learningpath = ({
       const newLearningpathStep = learningsteps.find(
         step => step.seqNo === newSeqNo,
       );
-      if (newLearningpathStep) {
+      if (newLearningpathStep && history) {
         history.push(
-          toLearningPath(learningpath.id, newLearningpathStep.id, resource),
+          toLearningPath(
+            learningpath.id,
+            newLearningpathStep.id,
+            resource,
+            locale,
+            false,
+          ),
         );
       }
     }
@@ -135,7 +140,7 @@ const Learningpath = ({
           learningsteps={learningsteps}
           duration={duration}
           toLearningPathUrl={(pathId, stepId) =>
-            toLearningPath(pathId, stepId, resource)
+            toLearningPath(pathId, stepId, resource, locale, inIframe)
           }
           lastUpdated={lastUpdatedString}
           copyright={copyright}
@@ -179,7 +184,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo - 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource, locale, inIframe)
             }
             label={t('learningPath.previousArrow')}
             title={learningsteps[learningpathStep.seqNo - 1].title}
@@ -194,7 +199,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo + 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource, locale, inIframe)
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
@@ -216,10 +221,8 @@ Learningpath.propTypes = {
   locale: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
+  inIframe: PropTypes.bool,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(Learningpath);
+export default injectT(Learningpath);

@@ -7,14 +7,14 @@
  */
 
 import nock from 'nock';
-import { oembedArticleRoute } from '../oembedArticleRoute';
+import { oembedRoute } from '../oembedRoute';
 
 const validArticleUrl1 =
   'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
 const unvalidArticleUrl =
   'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163';
 
-test('oembedArticleRoute success', async () => {
+test('oembedRoute article success', async () => {
   nock('http://ndla-api')
     .get('/taxonomy/v1/resources/urn:resource:1:1682/?language=nb')
     .reply(200, {
@@ -23,7 +23,7 @@ test('oembedArticleRoute success', async () => {
       title: 'Resource title',
     });
 
-  const response = await oembedArticleRoute({
+  const response = await oembedRoute({
     query: {
       url: validArticleUrl1,
     },
@@ -32,8 +32,8 @@ test('oembedArticleRoute success', async () => {
   expect(response).toMatchSnapshot();
 });
 
-test('oembedArticleRoute invalid url', async () => {
-  const response = await oembedArticleRoute({
+test('oembedRoute article invalid url', async () => {
+  const response = await oembedRoute({
     query: {
       url: unvalidArticleUrl,
     },

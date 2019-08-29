@@ -22,8 +22,9 @@ import { matchPath } from 'react-router-dom';
 import {
   defaultRoute,
   errorRoute,
-  oembedArticleRoute,
+  oembedRoute,
   iframeArticleRoute,
+  iframeLearningpathRoute,
   forwardingRoute,
   ltiRoute,
 } from './routes';
@@ -124,35 +125,54 @@ async function handleRequest(req, res, route) {
 
 app.get('/static/*', ndlaMiddleware);
 
-const iframArticleCallback = async (req, res) => {
+const iframeArticleCallback = async (req, res) => {
   res.removeHeader('X-Frame-Options');
   handleRequest(req, res, iframeArticleRoute);
 };
 
-app.get(
-  '/article-iframe/:lang/article/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.get(
-  '/article-iframe/:lang/:resourceId/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.post(
-  '/article-iframe/:lang/article/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.post(
-  '/article-iframe/:lang/:resourceId/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
+const iframeLearningpathCallback = async (req, res) => {
+  res.removeHeader('X-Frame-Options');
+  console.log('YO!');
+  handleRequest(req, res, iframeLearningpathRoute);
+};
+
+const iframeRoutes = [
+  {
+    path: '/article-iframe/:lang/article/:articleId',
+    callback: iframeArticleCallback,
+  },
+  {
+    path: '/article-iframe/:lang/:resourceId/:articleId',
+    callback: iframeArticleCallback,
+  },
+  {
+    path: '/learningpath-iframe/:lang/learningpaths/:learningpathId',
+    callback: iframeLearningpathCallback,
+  },
+  {
+    path: '/learningpath-iframe/:lang/:resourceId/:learningpathId',
+    callback: iframeLearningpathCallback,
+  },
+  {
+    path:
+      '/learningpath-iframe/:lang/learningpaths/:learningpathId/steps/:learningpathStepId',
+    callback: iframeLearningpathCallback,
+  },
+  {
+    path:
+      '/learningpath-iframe/:lang/:resourceId/:learningpathId/steps/:learningpathStepId',
+    callback: iframeLearningpathCallback,
+  },
+];
+
+iframeRoutes.forEach(path => {
+  app.get(path.path, ndlaMiddleware, path.callback);
+  app.post(path.path, ndlaMiddleware, path.callback);
+});
 
 app.get('/oembed', ndlaMiddleware, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  handleRequest(req, res, oembedArticleRoute);
+  handleRequest(req, res, oembedRoute);
 });
 
 app.get('/lti/config.xml', ndlaMiddleware, async (req, res) => {

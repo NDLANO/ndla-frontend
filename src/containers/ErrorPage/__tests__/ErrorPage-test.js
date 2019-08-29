@@ -11,7 +11,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import IntlProvider from '@ndla/i18n';
-import { BrowserRouter } from 'react-router-dom';
 import ErrorPage from '../ErrorPage';
 import { getLocaleObject } from '../../../i18n';
 
@@ -25,9 +24,7 @@ test('ErrorPage renderers correctly', () => {
   const locale = getLocaleObject('nb');
   const component = renderer.create(
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <BrowserRouter>
-        <ErrorPage locale="nb" location={{ pathname: '/' }} />
-      </BrowserRouter>
+      <ErrorPage locale="nb" location={{ pathname: '/' }} />
     </IntlProvider>,
   );
 
