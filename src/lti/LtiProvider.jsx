@@ -174,6 +174,7 @@ class LtiProvider extends React.Component {
                       handleSearchParamsChange={this.onSearchParamsChange}
                       ltiData={ltiData}
                       includeEmbedButton
+                      isLti
                     />
                   );
                 }}
