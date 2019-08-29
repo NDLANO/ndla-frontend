@@ -2,7 +2,9 @@ import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const searchSubjects = (query, locale) =>
   FRONTPAGE_CATEGORIES.categories.reduce((accumulated, category) => {
-    if (!query) return [];
+    if (!query) {
+      return [];
+    }
     query = query.trim().toLowerCase();
     const foundInSubjects = category.subjects.filter(subject =>
       subject.name.toLowerCase().includes(query),
@@ -30,7 +32,9 @@ export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
     resources: subjectHits,
   };
 
-  if (!data.frontpageSearch && subjectHits.length === 0) return [];
+  if (!data.frontpageSearch && subjectHits.length === 0) {
+    return [];
+  }
   if (!data.frontpageSearch) {
     return [subjects];
   }
