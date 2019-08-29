@@ -222,7 +222,6 @@ class SearchContainer extends Component {
                 locale,
               )
             : [];
-          console.log(search);
           return (
             <SearchPage
               closeUrl="/#"
