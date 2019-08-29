@@ -8,7 +8,11 @@
 
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
-import { fetchResource } from '../../containers/Resources/resourceApi';
+import {
+  fetchResource,
+  fetchTopicResources,
+  fetchTopic,
+} from '../../containers/Resources/resourceApi';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
@@ -27,6 +31,27 @@ function getOembedObject(req, title, html) {
   };
 }
 
+const getHTMLandTitle = async match => {
+  const {
+    params: { resourceId, topicId, lang = 'nb' },
+  } = match;
+  if (topicId && !resourceId) {
+    const topic = await fetchTopic(`urn:${topicId}`, lang);
+    const articleId = getArticleIdFromResource(topic);
+    return {
+      title: topic.name,
+      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+    };
+  }
+
+  const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
+  const articleId = getArticleIdFromResource(resource);
+  return {
+    title: resource.name,
+    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+  };
+};
+
 export async function oembedArticleRoute(req) {
   const { url } = req.query;
   if (!url) {
@@ -37,6 +62,7 @@ export async function oembedArticleRoute(req) {
   }
 
   const match = parseAndMatchUrl(url);
+  console.log('HGLLH', match);
   if (!match) {
     return {
       status: BAD_REQUEST,
@@ -45,10 +71,10 @@ export async function oembedArticleRoute(req) {
   }
 
   const {
-    params: { resourceId, lang = 'nb' },
+    params: { resourceId, topicId, lang = 'nb' },
   } = match;
   try {
-    if (!resourceId) {
+    if (!resourceId && !topicId) {
       const {
         params: { articleId },
       } = match;
@@ -59,17 +85,12 @@ export async function oembedArticleRoute(req) {
         `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
       );
     }
-
-    const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
-    const articleId = getArticleIdFromResource(resource);
-
-    return getOembedObject(
-      req,
-      resource.name,
-      `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
-    );
+    console.log('MATH', match);
+    const { html, title } = await getHTMLandTitle(match);
+    return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error);
+    console.log(error);
     const status = error.status || INTERNAL_SERVER_ERROR;
     return {
       status,

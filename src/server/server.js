@@ -135,7 +135,7 @@ app.get(
   iframArticleCallback,
 );
 app.get(
-  '/article-iframe/:lang/:resourceId/:articleId',
+  '/article-iframe/:lang/:taxonomyId/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );
@@ -145,7 +145,7 @@ app.post(
   iframArticleCallback,
 );
 app.post(
-  '/article-iframe/:lang/:resourceId/:articleId',
+  '/article-iframe/:lang/:taxonomyId/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );

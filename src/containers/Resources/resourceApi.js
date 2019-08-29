@@ -20,6 +20,11 @@ export const fetchResourceTypesForResource = (resourceId, locale) =>
     `${baseUrl}/resources/${resourceId}/resource-types/?language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 
+export const fetchTopic = (topicId, locale) =>
+  fetch(`${baseUrl}/topics/${topicId}?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
 export const fetchTopicResources = (
   topicId,
   locale,

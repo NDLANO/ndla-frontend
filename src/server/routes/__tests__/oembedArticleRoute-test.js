@@ -12,7 +12,7 @@ import { oembedArticleRoute } from '../oembedArticleRoute';
 const validArticleUrl1 =
   'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
 const unvalidArticleUrl =
-  'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163';
+  'https://ndla-frontend.test.api.ndla.no/subjects/subject:3';
 
 test('oembedArticleRoute success', async () => {
   nock('http://ndla-api')

@@ -19,8 +19,10 @@ const validArticleUrl4 =
 
 const validArticleUrlWithLang =
   'https://ndla-frontend.test.api.ndla.no/nn/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
-const unvalidArticleUrl =
+const validTopicArticleUrl =
   'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:55163';
+const unvalidArticleUrl =
+  'https://ndla-frontend.test.api.ndla.no/subjects/subject:3';
 
 const validateSimpleArticlePath1 =
   'https://ndla-frontend.test.api.ndla.no/article/4809';
@@ -32,6 +34,7 @@ const unvalidateSimpleArticlePath =
 
 test('parseAndMatchUrl', () => {
   expect(parseAndMatchUrl(validArticleUrl1)).toMatchSnapshot();
+  expect(parseAndMatchUrl(validTopicArticleUrl)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl2)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl3)).toMatchSnapshot();
   expect(parseAndMatchUrl(validArticleUrl4)).toMatchSnapshot();

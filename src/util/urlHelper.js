@@ -9,7 +9,11 @@
 import { matchPath } from 'react-router-dom';
 import parseUrl from 'parse-url';
 import { isValidLocale } from '../i18n';
-import { RESOURCE_PAGE_PATH, PLAIN_ARTICLE_PAGE_PATH } from '../constants';
+import {
+  RESOURCE_PAGE_PATH,
+  PLAIN_ARTICLE_PAGE_PATH,
+  TOPIC_PATH,
+} from '../constants';
 
 function matchUrl(pathname, type, lang = false) {
   if (type === 'article') {
@@ -18,10 +22,16 @@ function matchUrl(pathname, type, lang = false) {
       lang ? `/:lang${PLAIN_ARTICLE_PAGE_PATH}` : PLAIN_ARTICLE_PAGE_PATH,
     );
   }
-  return matchPath(
+  let match = matchPath(
     pathname,
     lang ? `/:lang${RESOURCE_PAGE_PATH}` : RESOURCE_PAGE_PATH,
   );
+  console.log('nfhfhr', match);
+  if (match) {
+    return match;
+  }
+
+  return matchPath(pathname, lang ? `/:lang${TOPIC_PATH}` : TOPIC_PATH);
 }
 
 export function parseAndMatchUrl(url) {
