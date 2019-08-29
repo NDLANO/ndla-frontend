@@ -26,12 +26,9 @@ function matchUrl(pathname, type, lang = false) {
     pathname,
     lang ? `/:lang${RESOURCE_PAGE_PATH}` : RESOURCE_PAGE_PATH,
   );
-  console.log('nfhfhr', match);
-  if (match) {
-    return match;
-  }
-
-  return matchPath(pathname, lang ? `/:lang${TOPIC_PATH}` : TOPIC_PATH);
+  return (
+    match || matchPath(pathname, lang ? `/:lang${TOPIC_PATH}` : TOPIC_PATH)
+  );
 }
 
 export function parseAndMatchUrl(url) {

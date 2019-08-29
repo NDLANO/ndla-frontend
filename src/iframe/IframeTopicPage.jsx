@@ -9,17 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import {
-  PageContainer,
-  OneColumn,
-  ErrorMessage,
-  SubjectHero,
-  constants,
-} from '@ndla/ui';
-import IntlProvider, { injectT } from '@ndla/i18n';
-import { ApolloProvider } from 'react-apollo';
-import { MissingRouterContext } from '@ndla/safelink';
+import { OneColumn, constants } from '@ndla/ui';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -27,7 +19,6 @@ import { ArticleShape, ResourceTypeShape, LocationShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import { createApolloClient } from '../util/apiHelpers';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
 
@@ -61,6 +52,7 @@ const Success = ({ resource, locale, location }) => {
         article={article}
         locale={locale}
         modifier="clean iframe"
+        isTopicArticle
         {...getArticleProps(resource)}
       />
     </OneColumn>

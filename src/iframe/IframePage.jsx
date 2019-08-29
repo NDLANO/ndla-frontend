@@ -6,23 +6,15 @@
  *
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { withTracker } from '@ndla/tracker';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
 import { ApolloProvider } from 'react-apollo';
 import { MissingRouterContext } from '@ndla/safelink';
-import { transformArticle } from '../util/transformArticle';
-import Article from '../components/Article';
-import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
-import { getArticleProps } from '../util/getArticleProps';
-import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import { createApolloClient } from '../util/apiHelpers';
-import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 import { IframeArticlePage } from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
 

@@ -10,7 +10,6 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   fetchResource,
-  fetchTopicResources,
   fetchTopic,
 } from '../../containers/Resources/resourceApi';
 import config from '../../config';
@@ -62,7 +61,6 @@ export async function oembedArticleRoute(req) {
   }
 
   const match = parseAndMatchUrl(url);
-  console.log('HGLLH', match);
   if (!match) {
     return {
       status: BAD_REQUEST,
@@ -85,12 +83,10 @@ export async function oembedArticleRoute(req) {
         `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
       );
     }
-    console.log('MATH', match);
     const { html, title } = await getHTMLandTitle(match);
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error);
-    console.log(error);
     const status = error.status || INTERNAL_SERVER_ERROR;
     return {
       status,
