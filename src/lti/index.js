@@ -11,6 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
+import { MissingRouterContext } from '@ndla/safelink';
 import { ApolloProvider } from 'react-apollo';
 import { getLocaleInfoFromPath } from '../i18n';
 import { createApolloClient } from '../util/apiHelpers';
@@ -38,7 +39,9 @@ const client = createApolloClient(abbreviation);
 ReactDOM.render(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
-      <LtiProvider {...initialProps} />
+      <MissingRouterContext.Provider value={true}>
+        <LtiProvider {...initialProps} />
+      </MissingRouterContext.Provider>
     </IntlProvider>
   </ApolloProvider>,
   document.getElementById('root'),

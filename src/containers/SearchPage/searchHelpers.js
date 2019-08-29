@@ -122,7 +122,6 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
       subjectFilters,
       enabledTab,
     );
-
     return {
       ...result,
       url: selectedContext

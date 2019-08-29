@@ -84,33 +84,21 @@ class NdlaFilm extends Component {
     };
   }
 
-  searchMovies = async (useResourceType, page, pageSize) =>
+  searchAllMovies = async useResourceType =>
     await runQueries(this.props.client, [
       {
         query: searchFilmQuery,
         variables: {
           subjects: 'urn:subject:20',
           resourceTypes: useResourceType,
-          pageSize: pageSize.toString(),
-          page: page.toString(),
           contextTypes: 'topic-article',
         },
       },
     ]);
 
   fetchMoviesByType = async resourceTypes => {
-    const pageSize = 100;
-    const firstPage = await this.searchMovies(resourceTypes, 1, pageSize);
-    const numberOfPages = Math.ceil(firstPage.totalCount / firstPage.pageSize);
-
-    const requests = [firstPage];
-    if (numberOfPages > 1) {
-      for (let i = 2; i <= numberOfPages; i += 1) {
-        requests.push(this.searchMovies(resourceTypes, i, pageSize));
-      }
-    }
-    const results = await Promise.all(requests);
-    const movies = results.flatMap(result => result.data.search.results);
+    const firstPage = await this.searchAllMovies(resourceTypes);
+    const movies = firstPage.data.searchWithoutPagination.results;
     return movies.map(this.transformMoviesByType);
   };
 

@@ -49,14 +49,6 @@ const WelcomePageInfo = ({ t }) => (
         },
       ]}
     />
-    <InfoWidget
-      heading={t('welcomePage.aboutNDLA.heading')}
-      description={t('welcomePage.aboutNDLA.description')}
-      mainLink={{
-        name: t('welcomePage.aboutNDLA.mainLink.name'),
-        url: 'https://om.ndla.no/',
-      }}
-    />
   </FrontpageInfo>
 );
 
