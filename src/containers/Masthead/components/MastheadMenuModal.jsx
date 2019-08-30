@@ -15,7 +15,6 @@ const MastheadMenuModal = ({ children, onMenuExit, t, ndlaFilm }) => (
     animation="subtle"
     animationDuration={150}
     backgroundColor="grey"
-    noBackdrop
     onClose={onMenuExit}>
     {children}
   </Modal>

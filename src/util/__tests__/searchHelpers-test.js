@@ -17,7 +17,7 @@ test('search subjects', () => {
 });
 
 test('map function', () => {
-  expect(mapSearchToFrontPageStructure({})).toEqual([]);
+  expect(mapSearchToFrontPageStructure({}, () => {})).toEqual([]);
   const returnArray = mapSearchToFrontPageStructure(
     {
       frontpageSearch: {

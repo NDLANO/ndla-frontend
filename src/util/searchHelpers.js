@@ -2,6 +2,9 @@ import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const searchSubjects = (query, locale) =>
   FRONTPAGE_CATEGORIES.categories.reduce((accumulated, category) => {
+    if (!query) {
+      return [];
+    }
     query = query.trim().toLowerCase();
     const foundInSubjects = category.subjects.filter(subject =>
       subject.name.toLowerCase().includes(query),
@@ -11,7 +14,7 @@ export const searchSubjects = (query, locale) =>
       ...foundInSubjects.map(subject => ({
         id: subject.id,
         path: subject.id
-          ? `/subjects/${subject.id.replace('urn:', '')}/`
+          ? `/${subject.id.replace('urn:', '')}/`
           : `${locale ? `/${locale}` : ''}/node/${subject.nodeId}/`,
         subject: `${category.name.charAt(0).toUpperCase()}${category.name.slice(
           1,
@@ -22,17 +25,24 @@ export const searchSubjects = (query, locale) =>
   }, []);
 
 export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
-  if (!data.frontpageSearch) return [];
-
-  const {
-    frontpageSearch: { learningResources, topicResources },
-  } = data;
   const subjectHits = searchSubjects(query, locale);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
     resources: subjectHits,
   };
+
+  if (!data.frontpageSearch && subjectHits.length === 0) {
+    return [];
+  }
+  if (!data.frontpageSearch) {
+    return [subjects];
+  }
+
+  const {
+    frontpageSearch: { learningResources, topicResources },
+  } = data;
+
   const topics = {
     title: `${t('subjectPage.tabs.topics')}:`,
     contentType: 'results-frontpage',
