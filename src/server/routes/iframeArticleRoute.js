@@ -55,7 +55,7 @@ export async function iframeArticleRoute(req) {
   const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url };
   try {
-    if (taxonomyId.startsWith('urn:topic')) {
+    if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
       const article = await fetchArticle(articleId, lang, removeRelatedContent);
       const { html, docProps } = doRenderPage({
         locale,
@@ -68,7 +68,9 @@ export async function iframeArticleRoute(req) {
       return renderHtml(req, html, { status: OK }, docProps);
     }
     const article = await fetchArticle(articleId, lang, removeRelatedContent);
-    const resourceTypes = await fetchResourceTypesForResource(taxonomyId, lang);
+    const resourceTypes = taxonomyId
+      ? await fetchResourceTypesForResource(taxonomyId, lang)
+      : [];
     const { html, docProps } = doRenderPage({
       resource: { article, resourceTypes },
       locale,
