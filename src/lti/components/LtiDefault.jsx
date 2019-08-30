@@ -45,9 +45,12 @@ LtiDefault.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    url: PropTypes.shape({
-      href: PropTypes.string,
-    }),
+    url: PropTypes.oneOfType([
+      PropTypes.shape({
+        href: PropTypes.string,
+      }),
+      PropTypes.string,
+    ]),
   }),
 };
 

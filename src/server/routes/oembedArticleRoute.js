@@ -6,41 +6,16 @@
  *
  */
 
-import { matchPath } from 'react-router-dom';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
-import parseUrl from 'parse-url';
-import { isValidLocale } from '../../i18n';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
-import { fetchResource } from '../../containers/Resources/resourceApi';
-import { RESOURCE_PAGE_PATH, PLAIN_ARTICLE_PAGE_PATH } from '../../constants';
+import {
+  fetchResource,
+  fetchTopic,
+} from '../../containers/Resources/resourceApi';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
-
-export function matchUrl(pathname, isPlainArticle, lang = false) {
-  if (isPlainArticle) {
-    return matchPath(
-      pathname,
-      lang ? `/:lang${PLAIN_ARTICLE_PAGE_PATH}` : PLAIN_ARTICLE_PAGE_PATH,
-    );
-  }
-  return matchPath(
-    pathname,
-    lang ? `/:lang${RESOURCE_PAGE_PATH}` : RESOURCE_PAGE_PATH,
-  );
-}
-
-export function parseAndMatchUrl(url) {
-  const { pathname } = parseUrl(url);
-  const paths = pathname.split('/');
-  paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
-  const path = paths.join('/');
-
-  if (isValidLocale(paths[1])) {
-    return matchUrl(path, paths[2] === 'article', true);
-  }
-  return matchUrl(path, paths[1] === 'article', false);
-}
+import { parseAndMatchUrl } from '../../util/urlHelper';
 
 function getOembedObject(req, title, html) {
   return {
@@ -54,6 +29,27 @@ function getOembedObject(req, title, html) {
     },
   };
 }
+
+const getHTMLandTitle = async match => {
+  const {
+    params: { resourceId, topicId, lang = 'nb' },
+  } = match;
+  if (topicId && !resourceId) {
+    const topic = await fetchTopic(`urn:${topicId}`, lang);
+    const articleId = getArticleIdFromResource(topic);
+    return {
+      title: topic.name,
+      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+    };
+  }
+
+  const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
+  const articleId = getArticleIdFromResource(resource);
+  return {
+    title: resource.name,
+    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+  };
+};
 
 export async function oembedArticleRoute(req) {
   const { url } = req.query;
@@ -73,10 +69,10 @@ export async function oembedArticleRoute(req) {
   }
 
   const {
-    params: { resourceId, lang = 'nb' },
+    params: { resourceId, topicId, lang = 'nb' },
   } = match;
   try {
-    if (!resourceId) {
+    if (!resourceId && !topicId) {
       const {
         params: { articleId },
       } = match;
@@ -87,15 +83,8 @@ export async function oembedArticleRoute(req) {
         `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
       );
     }
-
-    const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
-    const articleId = getArticleIdFromResource(resource);
-
-    return getOembedObject(
-      req,
-      resource.title,
-      `<iframe aria-label="${resource.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
-    );
+    const { html, title } = await getHTMLandTitle(match);
+    return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error);
     const status = error.status || INTERNAL_SERVER_ERROR;

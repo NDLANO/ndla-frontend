@@ -10,14 +10,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
-import { IframeArticlePage } from '../IframeArticlePage';
+import { IframePage } from '../IframePage';
 import { getLocaleObject } from '../../i18n';
 
 expect.addSnapshotSerializer(serializer);
 
-test('IframeArticlePage renderers correctly', () => {
+test('IframeArticlePage with article renderers correctly', () => {
   const component = renderer.create(
-    <IframeArticlePage
+    <IframePage
       locale={getLocaleObject('nb')}
       status="success"
       location={{ pathname: '/article-iframe/333' }}
@@ -61,9 +61,9 @@ test('IframeArticlePage renderers correctly', () => {
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('IframeArticlePage displays error message on status === error', () => {
+test('IframePage with article displays error message on status === error', () => {
   const component = renderer.create(
-    <IframeArticlePage
+    <IframePage
       location={{ pathname: '/article-iframe/333' }}
       locale={getLocaleObject('nb')}
       status="error"

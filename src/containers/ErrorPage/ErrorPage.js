@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
-import { withRouter } from 'react-router-dom';
 import { Trans } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
@@ -37,4 +36,4 @@ ErrorPage.propTypes = {
   location: LocationShape,
 };
 
-export default withRouter(ErrorPage);
+export default ErrorPage;

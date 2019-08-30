@@ -16,7 +16,7 @@ jest.mock('../../helpers/Document', () => () => (
   </html>
 ));
 
-jest.mock('../../../iframe/IframeArticlePage', () =>
+jest.mock('../../../iframe/IframePage', () =>
   // eslint-disable-next-line react/prop-types
   ({ status }) => (
     <div>
@@ -42,7 +42,7 @@ test('iframeArticleRoute 200 OK', async () => {
     params: {
       lang: 'nb',
       articleId: '26050',
-      resourceId: 'urn:resource:123',
+      taxonomyId: 'urn:resource:123',
     },
     query: {
       removeRelatedContent: true,
@@ -65,7 +65,7 @@ test('iframeArticleRoute 500 Internal server error', async () => {
     params: {
       lang: 'nb',
       articleId: '26050',
-      resourceId: '123',
+      taxonomyId: '123',
     },
     query: {
       removeRelatedContent: true,

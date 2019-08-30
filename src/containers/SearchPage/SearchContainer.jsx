@@ -145,6 +145,7 @@ class SearchContainer extends Component {
       ltiData,
       enabledTabs,
       allTabValue,
+      isLti,
     } = this.props;
     const { subjects } = data;
     const { query } = this.state;
@@ -221,7 +222,6 @@ class SearchContainer extends Component {
                 locale,
               )
             : [];
-
           return (
             <SearchPage
               closeUrl="/#"
@@ -250,6 +250,7 @@ class SearchContainer extends Component {
                 onUpdateContextFilters={this.onUpdateContextFilters}
                 includeEmbedButton={includeEmbedButton}
                 ltiData={ltiData}
+                isLti={isLti}
               />
               {isReadyToShow && (
                 <Pager
@@ -298,6 +299,7 @@ SearchContainer.propTypes = {
     }),
   ),
   allTabValue: string,
+  isLti: bool,
 };
 
 SearchContainer.defaultProps = {
@@ -307,6 +309,7 @@ SearchContainer.defaultProps = {
   data: {},
   handleSearchParamsChange: () => {},
   allTabValue: 'all',
+  isLti: false,
 };
 
 export default injectT(SearchContainer);
