@@ -146,47 +146,39 @@ const getResultUrl = (id, url, isLti) => {
   if (!parsedUrl) {
     return url;
   }
-  return `/article-iframe/nb/urn:resource:${parsedUrl.params.resourceId}/${id}`;
+  const {
+    params: { topicId, resourceId },
+  } = parsedUrl;
+  const urnId =
+    topicId && !resourceId ? `urn:${topicId}` : `urn:resource:${resourceId}`;
+  return `/article-iframe/nb/${urnId}/${id}`;
 };
 export const resultsWithContentTypeBadgeAndImage = (
   results,
   t,
   includeEmbedButton,
   ltiData,
-  isLti,
+  isLti = false,
 ) =>
   results.map(result => {
-    const { contentType } = result;
+    const { id, url, urls, contentType, metaImage } = result;
     return {
       ...result,
-      url: getResultUrl(result.id, result.url, isLti),
+      url: getResultUrl(id, url, isLti),
       urls: isLti
-        ? result.urls.map(urlObject => ({
+        ? urls.map(urlObject => ({
             ...urlObject,
-            url: getResultUrl(result.id, urlObject.url, isLti),
+            url: getResultUrl(id, urlObject.url, isLti),
           }))
-        : result.urls,
-      contentType,
-      contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
-        <ContentTypeBadge
-          type={contentType || result.contentType}
-          size="x-small"
-        />
+        : urls,
+      contentTypeIcon: contentTypeIcons[contentType] || (
+        <ContentTypeBadge type={contentType} size="x-small" />
       ),
-      children: includeEmbedButton ? (
+      children: includeEmbedButton && (
         <LtiEmbed ltiData={ltiData} item={result} />
-      ) : (
-        undefined
       ),
-      contentTypeLabel:
-        contentType || result.contentType
-          ? t(`contentTypes.${contentType || result.contentType}`)
-          : '',
-      image: result.metaImage ? (
-        <Image src={result.metaImage.url} alt={result.metaImage.alt} />
-      ) : (
-        undefined
-      ),
+      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : '',
+      image: metaImage && <Image src={metaImage.url} alt={metaImage.alt} />,
     };
   });
 
