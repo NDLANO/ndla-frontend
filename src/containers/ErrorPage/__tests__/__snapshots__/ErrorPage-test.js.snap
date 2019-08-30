@@ -1080,16 +1080,13 @@ exports[`ErrorPage renderers correctly 1`] = `
       <div
         className="emotion-63 emotion-68"
       >
-        <div>
-          <button
-            className="emotion-65 emotion-66"
-            onClick={[Function]}
-            type="button"
-          >
-            Personvernerklæring
-          </button>
-          <div />
-        </div>
+        <button
+          className="emotion-65 emotion-66"
+          onClick={[Function]}
+          type="button"
+        >
+          Personvernerklæring
+        </button>
       </div>
     </div>
   </footer>
