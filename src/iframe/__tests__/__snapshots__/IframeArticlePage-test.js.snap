@@ -366,17 +366,14 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             <span
               className="c-article-byline__flex"
             >
-              <div>
-                <button
-                  className="emotion-2 emotion-1"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  Bruk innhold
-                </button>
-                <div />
-              </div>
+              <button
+                className="emotion-2 emotion-1"
+                disabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                Bruk innhold
+              </button>
             </span>
           </div>
           <button
