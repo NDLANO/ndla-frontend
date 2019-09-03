@@ -992,16 +992,6 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/core@^0.6.17":
-  version "0.6.17"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.17.tgz#1f0930f1f3b4b637dc3cf770b6e1f96a2cdd0707"
-  integrity sha512-N0LvHWRMKic50W/pJ9pcKkk1vghExErHUXnYLz9rPdniglHy+lNPJuR3ryxJczTMqrNYDaKhDrOx1DOh3VBqHA==
-  dependencies:
-    facepaint "^1.2.1"
-    inuitcss "6.0.0-beta.4"
-    polished "^2.3.3"
-    sass-mq "^5.0.0"
-
 "@ndla/error-reporter@^0.4.5":
   version "0.4.5"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.5.tgz#9a218b78dc604e0817e971d52a333c245191b4a5"
@@ -1042,16 +1032,6 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/icons@^0.6.17":
-  version "0.6.17"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.17.tgz#4fb026de7451bb92705223fc0a7eb7279a39af36"
-  integrity sha512-CNknMtwlBjaDhudxRLys+WTiSmYmEzl4cgGImbaDVEsFHh2eSbEDCWfIYyD4lV06GMj9cAc7KfoLZ8Pr5SDbUA==
-
-  dependencies:
-    "@ndla/core" "^0.6.17"
-    defined "1.0.0"
-    react-bem-helper "1.4.1"
-
 "@ndla/licenses@^0.6.17":
   version "0.6.17"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.17.tgz#3598ef1c2a8aa2eedfe122aa8e0d80799fcb6007"
@@ -1061,6 +1041,10 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
+"@ndla/modal@^0.3.19":
+  version "0.3.19"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.19.tgz#8bbb320ae1a2b551648bbb936d22442462fe9338"
+  integrity sha512-i6RJtH7J+ALGwhEpMCKIwnJb1ql/PYapQfw+mJEMJ/02mLSiSBAhY7NZSOSe8gGip11hx0gHwjWEh9uK0fmRUw==
   dependencies:
     "@ndla/button" "^0.3.17"
     "@ndla/core" "^0.6.16"
@@ -1071,12 +1055,6 @@
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.1.tgz#29151b26d299ded026da1112508639741e46e4ee"
   integrity sha512-HgbZ3M0w7uDLRyL/5+9E4HMuUxIAMs/6ZqIkr2qqR3OGoJiDaFSO3x5qhED/7891A1mFN5LjGSCdiZmyogAQOw==
-  dependencies:
-    "@ndla/button" "^0.3.18"
-    "@ndla/core" "^0.6.17"
-    "@ndla/util" "^0.3.5"
-    "@reach/dialog" "^0.2.9"
-
   dependencies:
     "@ndla/button" "^0.3.18"
     "@ndla/core" "^0.6.17"
