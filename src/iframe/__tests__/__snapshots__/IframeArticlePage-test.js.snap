@@ -1,66 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IframeArticlePage displays error message on status === error 1`] = `
-.emotion-4 {
-  text-align: center;
-}
-
-.emotion-4 a {
-  color: #20588f;
-}
-
-.emotion-4 h1 {
-  margin-top: 0;
-}
-
-.emotion-0 {
-  margin-bottom: 26px;
-}
-
-@media (min-width:37.5625em) {
-  .emotion-0 {
-    margin-top: 52px;
-  }
-}
-
-.emotion-2 {
-  margin-bottom: 26px;
-}
-
-@media (min-width:37.5625em) {
-  .emotion-2 {
-    margin-bottom: 52px;
-  }
-}
-
-<div
-  className="o-container"
->
-  <div
-    className="o-wrapper o-wrapper--clear undefined"
-  >
-    <article
-      className="emotion-4 emotion-5"
-    >
-      <img
-        alt="Ops, noe gikk galt"
-        className="emotion-0 emotion-1"
-        src="/static/oops.gif"
-      />
-      <h1>
-        Ops, noe gikk galt
-      </h1>
-      <p
-        className="emotion-2 emotion-3"
-      >
-        Beklager, en feil oppsto.
-      </p>
-    </article>
-  </div>
-</div>
-`;
-
-exports[`IframeArticlePage renderers correctly 1`] = `
+exports[`IframeArticlePage with article renderers correctly 1`] = `
 .emotion-0 {
   display: inline-block;
   color: #ffffff;
@@ -426,17 +366,14 @@ exports[`IframeArticlePage renderers correctly 1`] = `
             <span
               className="c-article-byline__flex"
             >
-              <div>
-                <button
-                  className="emotion-2 emotion-1"
-                  disabled={false}
-                  onClick={[Function]}
-                  type="button"
-                >
-                  Bruk innhold
-                </button>
-                <div />
-              </div>
+              <button
+                className="emotion-2 emotion-1"
+                disabled={false}
+                onClick={[Function]}
+                type="button"
+              >
+                Bruk innhold
+              </button>
             </span>
           </div>
           <button
@@ -475,6 +412,66 @@ exports[`IframeArticlePage renderers correctly 1`] = `
           Gå til orginal artikkel
         </a>
       </section>
+    </article>
+  </div>
+</div>
+`;
+
+exports[`IframePage with article displays error message on status === error 1`] = `
+.emotion-4 {
+  text-align: center;
+}
+
+.emotion-4 a {
+  color: #20588f;
+}
+
+.emotion-4 h1 {
+  margin-top: 0;
+}
+
+.emotion-0 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-0 {
+    margin-top: 52px;
+  }
+}
+
+.emotion-2 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-2 {
+    margin-bottom: 52px;
+  }
+}
+
+<div
+  className="o-container"
+>
+  <div
+    className="o-wrapper o-wrapper--clear undefined"
+  >
+    <article
+      className="emotion-4 emotion-5"
+    >
+      <img
+        alt="Ops, noe gikk galt"
+        className="emotion-0 emotion-1"
+        src="/static/oops.gif"
+      />
+      <h1>
+        Ops, noe gikk galt
+      </h1>
+      <p
+        className="emotion-2 emotion-3"
+      >
+        Beklager, en feil oppsto.
+      </p>
     </article>
   </div>
 </div>

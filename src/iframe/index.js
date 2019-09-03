@@ -10,7 +10,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
-import IframeArticlePage from './IframeArticlePage';
+import IframePage from './IframePage';
 
 const { config, initialProps } = window.DATA;
 
@@ -35,7 +35,7 @@ configureTracker({
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <IframeArticlePage {...initialProps} location={document.location} />,
+  <IframePage {...initialProps} location={document.location} />,
   document.getElementById('root'),
 );
 

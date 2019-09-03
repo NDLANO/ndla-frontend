@@ -220,10 +220,8 @@ class SearchContainer extends Component {
                 searchParams.subjects,
                 enabledTab,
                 locale,
-                isLti,
               )
             : [];
-
           return (
             <SearchPage
               closeUrl="/#"
@@ -252,6 +250,7 @@ class SearchContainer extends Component {
                 onUpdateContextFilters={this.onUpdateContextFilters}
                 includeEmbedButton={includeEmbedButton}
                 ltiData={ltiData}
+                isLti={isLti}
               />
               {isReadyToShow && (
                 <Pager

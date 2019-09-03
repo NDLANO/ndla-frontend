@@ -40,8 +40,9 @@ import { toSearch } from '../../routeHelpers';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
+import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
 
-const debounceCall = debounce(fn => fn(), 250);
+const debounceCall = debounce(fn => fn(), 300);
 const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
@@ -140,7 +141,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
             return (
               <FrontpageSearch
                 inputHasFocus={inputHasFocus}
-                onSearchDeactiveFocusTrap={() => setInputHasFocus(false)}
+                onInputBlur={() => setInputHasFocus(false)}
                 messages={headerMessages}
                 searchFieldValue={query}
                 onSearch={onSearch}
@@ -150,12 +151,18 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
                 )}
                 searchResult={
                   delayedSearchQuery.length > 2 &&
-                  mapSearchToFrontPageStructure(data, t, query, locale)
+                  mapSearchToFrontPageStructure(
+                    data,
+                    t,
+                    delayedSearchQuery,
+                    locale,
+                  )
                 }
                 infoText={infoText}
                 onSearchInputFocus={() => setInputHasFocus(true)}
                 allResultUrl={allResultsUrl}
                 loading={loading}
+                resourceToLinkProps={searchResultToLinkProps}
               />
             );
           }}

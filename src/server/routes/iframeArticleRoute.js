@@ -14,7 +14,7 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
-import IframeArticlePage from '../../iframe/IframeArticlePage';
+import IframePage from '../../iframe/IframePage';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
@@ -41,7 +41,7 @@ const getAssets = () => ({
 });
 
 function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? '' : <IframeArticlePage {...initialProps} />;
+  const Page = config.disableSSR ? '' : <IframePage {...initialProps} />;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
@@ -52,11 +52,25 @@ export async function iframeArticleRoute(req) {
   const lang = getHtmlLang(defined(req.params.lang, ''));
   const removeRelatedContent = defined(req.query.removeRelatedContent, false);
   const locale = getLocaleObject(lang);
-  const { articleId, resourceId } = req.params;
+  const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url };
   try {
+    if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
+      const article = await fetchArticle(articleId, lang, removeRelatedContent);
+      const { html, docProps } = doRenderPage({
+        locale,
+        article,
+        isTopicArticle: true,
+        status: 'success',
+        location,
+      });
+
+      return renderHtml(req, html, { status: OK }, docProps);
+    }
     const article = await fetchArticle(articleId, lang, removeRelatedContent);
-    const resourceTypes = await fetchResourceTypesForResource(resourceId, lang);
+    const resourceTypes = taxonomyId
+      ? await fetchResourceTypesForResource(taxonomyId, lang)
+      : [];
     const { html, docProps } = doRenderPage({
       resource: { article, resourceTypes },
       locale,

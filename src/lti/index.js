@@ -9,9 +9,9 @@
 import 'isomorphic-unfetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
+import { MissingRouterContext } from '@ndla/safelink';
 import { ApolloProvider } from 'react-apollo';
 import { getLocaleInfoFromPath } from '../i18n';
 import { createApolloClient } from '../util/apiHelpers';
@@ -39,9 +39,9 @@ const client = createApolloClient(abbreviation);
 ReactDOM.render(
   <ApolloProvider client={client}>
     <IntlProvider locale={abbreviation} messages={messages}>
-      <BrowserRouter>
+      <MissingRouterContext.Provider value={true}>
         <LtiProvider {...initialProps} />
-      </BrowserRouter>
+      </MissingRouterContext.Provider>
     </IntlProvider>
   </ApolloProvider>,
   document.getElementById('root'),

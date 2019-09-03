@@ -5,7 +5,7 @@ import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
-import config from '../../config';
+import { parseAndMatchUrl } from '../../util/urlHelper';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -116,66 +116,69 @@ export const convertSearchParam = value => {
   return value.length > 0 ? value : undefined;
 };
 
-export const convertResult = (
-  results,
-  subjectFilters,
-  enabledTab,
-  language,
-  isLti,
-) =>
+export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {
     const selectedContext = selectContext(
       result.contexts,
       subjectFilters,
       enabledTab,
     );
-    const startOfUrl = isLti ? config.ndlaFrontendDomain : '';
     return {
       ...result,
       url: selectedContext
-        ? startOfUrl + getUrl(selectedContext, result, language)
-        : startOfUrl + result.url,
+        ? getUrl(selectedContext, result, language)
+        : result.url,
       urls: result.contexts.map(context => ({
-        url: startOfUrl + getUrl(context, result),
-        contentType: startOfUrl + getContentType(context),
+        url: getUrl(context, result),
+        contentType: getContentType(context),
       })),
       ingress: result.metaDescription,
       ...taxonomyData(result, selectedContext),
     };
   });
 
+const getResultUrl = (id, url, isLti) => {
+  if ((url && url.href) || !isLti) {
+    return url;
+  }
+
+  const parsedUrl = parseAndMatchUrl(url);
+  if (!parsedUrl) {
+    return url;
+  }
+  const {
+    params: { topicId, resourceId },
+  } = parsedUrl;
+  const urnId =
+    topicId && !resourceId ? `urn:${topicId}` : `urn:resource:${resourceId}`;
+  return `/article-iframe/nb/${urnId}/${id}`;
+};
 export const resultsWithContentTypeBadgeAndImage = (
   results,
   t,
   includeEmbedButton,
   ltiData,
+  isLti = false,
 ) =>
   results.map(result => {
-    const { contentType } = result;
-
+    const { id, url, urls, contentType, metaImage } = result;
     return {
       ...result,
-      contentType,
-      contentTypeIcon: contentTypeIcons[contentType || result.contentType] || (
-        <ContentTypeBadge
-          type={contentType || result.contentType}
-          size="x-small"
-        />
+      url: getResultUrl(id, url, isLti),
+      urls: isLti
+        ? urls.map(urlObject => ({
+            ...urlObject,
+            url: getResultUrl(id, urlObject.url, isLti),
+          }))
+        : urls,
+      contentTypeIcon: contentTypeIcons[contentType] || (
+        <ContentTypeBadge type={contentType} size="x-small" />
       ),
-      children: includeEmbedButton ? (
+      children: includeEmbedButton && (
         <LtiEmbed ltiData={ltiData} item={result} />
-      ) : (
-        undefined
       ),
-      contentTypeLabel:
-        contentType || result.contentType
-          ? t(`contentTypes.${contentType || result.contentType}`)
-          : '',
-      image: result.metaImage ? (
-        <Image src={result.metaImage.url} alt={result.metaImage.alt} />
-      ) : (
-        undefined
-      ),
+      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : '',
+      image: metaImage && <Image src={metaImage.url} alt={metaImage.alt} />,
     };
   });
 
