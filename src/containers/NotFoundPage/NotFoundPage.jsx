@@ -22,7 +22,7 @@ const NotFound = ({ t }) => (
           altText: t('errorMessage.title'),
         }}
         messages={{
-          title: t('errorMessage.title'),
+          title: t('notFoundPage.title'),
           description: t('notFoundPage.errorDescription'),
           back: t('errorMessage.back'),
           goToFrontPage: t('errorMessage.goToFrontPage'),

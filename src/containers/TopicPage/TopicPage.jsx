@@ -151,7 +151,6 @@ class TopicPage extends Component {
       : [];
 
     const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
-
     const metaImage =
       article &&
       article.metaData &&

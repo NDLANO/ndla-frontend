@@ -1051,10 +1051,10 @@
     "@ndla/util" "^0.3.5"
     focus-trap-react "^6.0.0"
 
-"@ndla/modal@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.0.tgz#305a30df6c6189ff9f5f88b5aa8c7db5772c5551"
-  integrity sha512-tEvPg/f4xUwhEETDn9HN8EpwYfB7vKulz4FN979XXa3Foz/jkPwky7Egkuf3gY6PV4o0PoWkNeTiC7y2X8UUmg==
+"@ndla/modal@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.1.tgz#29151b26d299ded026da1112508639741e46e4ee"
+  integrity sha512-HgbZ3M0w7uDLRyL/5+9E4HMuUxIAMs/6ZqIkr2qqR3OGoJiDaFSO3x5qhED/7891A1mFN5LjGSCdiZmyogAQOw==
   dependencies:
     "@ndla/button" "^0.3.18"
     "@ndla/core" "^0.6.17"
@@ -1133,10 +1133,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.25.20":
-  version "0.25.20"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.20.tgz#471f4d3362ce7d32748bec6b8a5f13659ee061a6"
-  integrity sha512-QL9acrbz/AGudAzHsGKK0sciPjCbm+0q5WoDuVOsBnTv6oInnm7VJKRpR2JMTtWuA++GenVd51/SJUKkAN2+AQ==
+"@ndla/ui@^0.25.21":
+  version "0.25.21"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.25.21.tgz#ff65525a32f77f8201492c65e89b50dc6891370c"
+  integrity sha512-sp2Fjq1CC0sbshmbjQw50uNgoSDfBeZy46jS7BRy2EV7ngCBbV97gQZiV2kftFNJc2pJXdCV+P7zE1hUeK3duA==
   dependencies:
     "@ndla/button" "^0.3.18"
     "@ndla/carousel" "^0.3.15"
@@ -1145,7 +1145,7 @@
     "@ndla/i18n" "^0.4.2"
     "@ndla/icons" "^0.6.17"
     "@ndla/licenses" "^0.6.17"
-    "@ndla/modal" "^0.4.0"
+    "@ndla/modal" "^0.4.1"
     "@ndla/safelink" "^0.0.3"
     "@ndla/switch" "^0.0.5"
     "@ndla/tabs" "^0.11.18"

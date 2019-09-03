@@ -29,7 +29,8 @@ const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
       </NdlaFilmHero>
     );
   }
-  return <Hero contentType={getContentType(resource)}>{children}</Hero>;
+  const contentType = resource ? getContentType(resource) : null;
+  return <Hero contentType={contentType}>{children}</Hero>;
 };
 
 WrapperComponent.propTypes = {
