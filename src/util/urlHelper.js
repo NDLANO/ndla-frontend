@@ -7,7 +7,7 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import parseUrl from 'parse-url';
+import Url from 'url-parse';
 import { isValidLocale } from '../i18n';
 import {
   RESOURCE_PAGE_PATH,
@@ -32,7 +32,7 @@ function matchUrl(pathname, type, lang = false) {
 }
 
 export function parseAndMatchUrl(url) {
-  const { pathname } = parseUrl(url);
+  const { pathname } = new Url(url);
   const paths = pathname.split('/');
   paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
   const path = paths.join('/');
