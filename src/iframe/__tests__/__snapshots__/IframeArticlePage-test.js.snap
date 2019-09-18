@@ -161,10 +161,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   outline-width: medium;
 }
 
-.emotion-2:hover {
-  box-shadow: none;
-}
-
+.emotion-2:hover,
 .emotion-2:focus {
   box-shadow: none;
 }
