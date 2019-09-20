@@ -60,6 +60,7 @@ class LearningpathPage extends Component {
       data,
       locale,
       skipToContentId,
+      ndlaFilm,
       match: {
         params: { stepId },
       },
@@ -114,6 +115,7 @@ class LearningpathPage extends Component {
           resourceTypes={resourceTypes}
           topicPath={topicPath}
           locale={locale}
+          ndlaFilm={ndlaFilm}
           {...getArticleProps()}
         />
       </div>
@@ -133,6 +135,7 @@ LearningpathPage.propTypes = {
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  ndlaFilm: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     resource: GraphQLResourceShape,
     resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),

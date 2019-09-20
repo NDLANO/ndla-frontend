@@ -47,6 +47,7 @@ const Learningpath = ({
   skipToContentId,
   locale,
   history,
+  ndlaFilm,
   t,
 }) => {
   const {
@@ -112,6 +113,7 @@ const Learningpath = ({
         <section>
           {subject && topicPath ? (
             <Breadcrumb
+              invertedStyle={ndlaFilm}
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
                 [subject, ...topicPath, { name: learningpath.title, url: '' }],
@@ -120,6 +122,7 @@ const Learningpath = ({
             />
           ) : (
             <Breadcrumb
+              invertedStyle={ndlaFilm}
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
                 [{ name: learningpath.title, url: '' }],
@@ -131,6 +134,7 @@ const Learningpath = ({
       </div>
       <LearningPathContent>
         <LearningPathMenu
+          invertedStyle={ndlaFilm}
           learningPathId={id}
           learningsteps={learningsteps}
           duration={duration}
@@ -149,6 +153,7 @@ const Learningpath = ({
           <div>
             {learningpathStep.showTitle && (
               <LearningPathInformation
+                invertedStyle={ndlaFilm}
                 title={learningpathStep.title}
                 description={learningpathStep.description}
                 license={learningpathStep.license}
@@ -214,6 +219,7 @@ Learningpath.propTypes = {
   resource: ResourceShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  ndlaFilm: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
