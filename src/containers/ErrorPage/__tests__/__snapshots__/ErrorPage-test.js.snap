@@ -38,7 +38,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-13 {
-  margin: 52px 0;
+  margin: 52px 0 78px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -187,9 +187,16 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-69 {
-  background: #184673;
+.emotion-77 {
   color: #fff;
+  position: relative;
+  background: #184673;
+  overflow: hidden;
+}
+
+.emotion-77 > div:first-of-type {
+  position: relative;
+  z-index: 1;
 }
 
 .emotion-57 {
@@ -239,14 +246,14 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-15.emotion-15.emotion-15 {
+.emotion-15 {
   color: #fff;
   width: 52px;
   height: 52px;
 }
 
 @media (min-width:48em) {
-  .emotion-15.emotion-15.emotion-15 {
+  .emotion-15 {
     width: 78px;
     height: 78px;
   }
@@ -383,7 +390,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 .emotion-59 {
   height: 1px;
   margin: 26px;
-  background: #20588f;
+  background: rgba(255,255,255,0.1);
 }
 
 @media (min-width:48em) {
@@ -542,6 +549,62 @@ exports[`ErrorPage renderers correctly 1`] = `
   box-shadow: none;
 }
 
+.emotion-69 {
+  display: block;
+  position: absolute;
+  background: linear-gradient(-60deg,rgba(4,29,48,1) 0%,rgba(32,88,143,0) 100%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animatedFooter 25000ms infinite;
+  animation: animatedFooter 25000ms infinite;
+  -webkit-animation-direction: alternate-reverse;
+  animation-direction: alternate-reverse;
+}
+
+.emotion-71 {
+  display: block;
+  position: absolute;
+  background: linear-gradient(117deg,rgba(1,146,206,1) 0%,rgba(32,88,143,0) 100%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animatedFooter 10000ms infinite;
+  animation: animatedFooter 10000ms infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+.emotion-73 {
+  display: block;
+  position: absolute;
+  background: linear-gradient(-49deg,rgba(7,38,60,1) 0%,rgba(32,88,143,0) 100%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animatedFooter 15000ms infinite;
+  animation: animatedFooter 15000ms infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+}
+
+.emotion-75 {
+  display: block;
+  position: absolute;
+  background: linear-gradient(96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-animation: animatedFooter 7500ms infinite;
+  animation: animatedFooter 7500ms infinite;
+  -webkit-animation-direction: alternate-reverse;
+  animation-direction: alternate-reverse;
+}
+
 <div
   className="o-container o-container--backgroundWide"
 >
@@ -684,7 +747,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
   </div>
   <footer
-    className="emotion-69 emotion-70"
+    className="emotion-77 emotion-78"
   >
     <div
       className="o-wrapper o-wrapper--large undefined"
@@ -1089,6 +1152,20 @@ exports[`ErrorPage renderers correctly 1`] = `
         </button>
       </div>
     </div>
+    <div
+      className="emotion-69 emotion-70"
+      reversed={true}
+    />
+    <div
+      className="emotion-71 emotion-70"
+    />
+    <div
+      className="emotion-73 emotion-70"
+    />
+    <div
+      className="emotion-75 emotion-70"
+      reversed={true}
+    />
   </footer>
 </div>
 `;
