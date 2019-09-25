@@ -116,7 +116,7 @@ class MastheadContainer extends React.PureComponent {
       if (resourceId) {
         queries.push({
           query: resourceQuery,
-          variables: { resourceId, subjectId },
+          variables: { resourceId, filterIds, subjectId },
         });
       }
 
