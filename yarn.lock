@@ -982,10 +982,10 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/error-reporter@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.5.tgz#9a218b78dc604e0817e971d52a333c245191b4a5"
-  integrity sha512-a7eyr4fbqjtq92ug/wZHBuqRu1D6v6I/2yZgc+CMy9ZxMMKN2Yn7U2JYmYMp3GsNA97p+mLPI6EvNbvgGJG4Hg==
+"@ndla/error-reporter@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.6.tgz#0c6a786569fbbd985392153fc8d2b448a5784143"
+  integrity sha512-NJiChBm1VBUglvjWJYPr7EUZHsaSQoOQeFhr4ABXkYw13HpzZ9HcOv44KHS0EtshQ2NUNJgS7HKlVoBiJiLfQA==
   dependencies:
     "@ndla/util" "^0.3.5"
     raven-js "^3.22.3"
@@ -1100,10 +1100,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.26.3":
-  version "0.26.3"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.26.3.tgz#49b3878dd54dc33f45f399a6aa1a0440caad0112"
-  integrity sha512-+WTdnFp1/MOIU5pubV+Cy+qIZUufd0RpLAuqTyjb1AmnOS1Ql3oqPKSJxTQ2ghJ68xLaz0Hqt+AESTFT7J9vFw==
+"@ndla/ui@^0.26.5":
+  version "0.26.5"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.26.5.tgz#a884ac7635b001ba5c7f1bbb3c67eb8609acbaef"
+  integrity sha512-Mxvt3o4DJMzTYqLbuPfH8ozUoT/tT9tShhLLilUOa90h1CGqT6mVth6Duj1QcKt8XAVYbyHJTQ0sDoA8RFAUhg==
   dependencies:
     "@ndla/button" "^0.3.21"
     "@ndla/carousel" "^0.3.18"
