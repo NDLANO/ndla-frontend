@@ -22,19 +22,14 @@ cache:
   directories:
     - "~/.cache"
     - ".eslintcache"
-    - node_modules
 
 matrix:
   fast_finish: true
   include:
     - name: "Unit tests"
-      install:
-        - yarn install
       script: yarn check-all
 
     - name: "Integration tests"
-      install:
-        - yarn install
       script:
         - yarn build
         - yarn e2e-ci
