@@ -17,10 +17,6 @@ addons:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
       - libgconf-2-4
 
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH="$HOME/.yarn/bin:$PATH"
-
 cache:
   yarn: true
   directories:
@@ -32,9 +28,19 @@ matrix:
   fast_finish: true
   include:
     - name: "Unit tests"
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH="$HOME/.yarn/bin:$PATH"
+      install:
+        - yarn install --frozen-lockfile
       script: yarn check-all
 
     - name: "Integration tests"
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash
+        - export PATH="$HOME/.yarn/bin:$PATH"
+      install:
+        - yarn install --frozen-lockfile
       script:
         - yarn build
         - yarn e2e-ci
