@@ -8,11 +8,9 @@ env:
   global:
     - secure: FCGrrIJ6ENYXyWoCAJ3o+Zl9YzNPcz9DmxdKkYvD02NrD3fbA5gk4aXtVNuGiMU+w1AaIIhSEkz0gnSVkZlHVLL15oBY5/cBnstiao6nyno3OSsJDCtWu9kvphVG3QCeNftah6UhbEY6n+5l7hEJ68BY6QKCevvdXRvDDnbFs0WJ9ktle4FonYU2vuIlSo3a3oEjtLcIsCXNfX8mz8pNldnudNXLOPBvrD2yXWfs+4taaKZXcMBoY7MQ3W/308/qZuLaoKjWjiIl9vAGbPJbbVpevSKvYssXXohpfRr4syCkGnPZGFRli1NhDjz5rWZVh7rdZ5Fh4A4aB6DTsFiguGDUo9KLvpmy4mimKrp7zVZWlgnTW5ZmVSjlp5VzNeVbM+khB/3vsD9YuAjVnarvXmYl9QbhQ8lwUjdvAlTe//kE6Dawn4wJl2fTA04Wipg3Cj3uuyjc9Pjcv6010f8QMGmrz7rTuy5hMVQub8/nfo9Px7oJ2kLhhaVwZw3LRzYyBY26wGzNXvKt8j0N4Dbh2j7jnS+PA57acLeD1ti4LM02kRBqo+swkPlmI0TNalXXuvg5uwLiXb+q/IDdZ9VsmkYF7X04YzSfGDImCyHyA9oi4i1NxuM7JWG1adzPXnHQ+Yx3UJmUYR/pP5g0f7dtAb9+XrXf40X8SOUEJ7F0w6U=
 
-
-
 language: node_js
 node_js:
-  - '10'
+  - "10"
 addons:
   apt:
     packages:
@@ -26,26 +24,23 @@ before_install:
 cache:
   yarn: true
   directories:
-    - '~/.npm'
-    - '~/.cache/Cypress/'
-    - '.eslintcache'
+    - "~/.npm"
+    - "~/.cache/Cypress/"
+    - ".eslintcache"
     - node_modules
 
 matrix:
   fast_finish: true
   include:
-
     - name: "Unit tests"
       script: yarn check-all
       after_success:
         - travis_wait yarn ndla-scripts now-travis
 
     - name: "Integration tests"
-      script: 
+      script:
         - yarn build
         - yarn e2e-ci
-      after_success:
-        - travis_wait yarn ndla-scripts now-travis
 
     - name: "Release"
       language: python
@@ -82,5 +77,4 @@ matrix:
         - docker push $DEPLOY_DOCKER_REPO:$DEPLOY_VERSION
 
   allow_failures:
-      - name: "Release"
-    
+    - name: "Release"

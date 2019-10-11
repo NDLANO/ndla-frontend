@@ -26,7 +26,7 @@ describe('Front page', () => {
     });
   });
 
-  it.only('should have a functioning change language box', () => {
+  it('should have a functioning change language box', () => {
     cy.get('button')
       .contains('Bokmål')
       .first()
