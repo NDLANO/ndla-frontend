@@ -24,8 +24,7 @@ before_install:
 cache:
   yarn: true
   directories:
-    - "~/.npm"
-    - "~/.cache/Cypress/"
+    - "~/.cache"
     - ".eslintcache"
     - node_modules
 
@@ -34,13 +33,13 @@ matrix:
   include:
     - name: "Unit tests"
       script: yarn check-all
-      after_success:
-        - travis_wait yarn ndla-scripts now-travis
 
     - name: "Integration tests"
       script:
         - yarn build
         - yarn e2e-ci
+      after_success:
+        - travis_wait yarn ndla-scripts now-travis
 
     - name: "Release"
       language: python
