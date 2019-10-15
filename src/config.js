@@ -66,6 +66,8 @@ const gaTrackingId = () => {
       return '';
     case 'prod':
       return 'UA-9036010-1';
+    case 'ff':
+      return 'UA-9036010-1';
     default:
       return 'UA-9036010-31';
   }
