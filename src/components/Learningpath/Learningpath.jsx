@@ -16,6 +16,7 @@ import {
   LearningPathInformation,
   LearningPathSticky,
   LearningPathStickySibling,
+  LearningPathMobileStepInfo,
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
@@ -192,6 +193,10 @@ const Learningpath = ({
         ) : (
           <div />
         )}
+        <LearningPathMobileStepInfo
+          total={learningsteps.length}
+          current={learningpathStep.seqNo + 1}
+        />
         {learningpathStep.seqNo < learningsteps.length - 1 && (
           <LearningPathStickySibling
             arrow="right"
