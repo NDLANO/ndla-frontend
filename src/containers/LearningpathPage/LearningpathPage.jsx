@@ -49,7 +49,7 @@ class LearningpathPage extends Component {
     const currentStep = learningpath.learningsteps.find(
       ls => `${ls.id}` === stepId,
     );
-    const learningpathStep = currentStep ? currentStep : firstStep;
+    const learningpathStep = currentStep || firstStep;
     return getAllDimensions(
       { subject, topicPath, learningpath, learningpathStep },
       articleProps.label,
