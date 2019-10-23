@@ -6,25 +6,36 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { compose } from 'redux';
 import { OneColumn } from '@ndla/ui';
+import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
+import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 
-export class IframeArticlePage extends React.Component {
+class IframeArticlePage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
     const { resource } = currentProps;
     if (resource && resource.article && resource.article.id) {
       trackPageView(currentProps);
     }
+  }
+
+  static getDimensions(props) {
+    const articleProps = getArticleProps(props.resource);
+    const {
+      resource: { article },
+    } = props;
+    return getAllDimensions({ article }, articleProps.label, true);
   }
 
   static getDocumentTitle({ t, resource }) {
@@ -81,3 +92,5 @@ IframeArticlePage.propTypes = {
     pathname: PropTypes.string,
   }),
 };
+
+export default compose(withTracker)(IframeArticlePage);
