@@ -41,9 +41,19 @@ class ArticlePage extends Component {
   }
 
   static getDimensions(props) {
-    const { resource } = props.data;
-    const articleProps = getArticleProps(resource);
-    return getAllDimensions(resource, articleProps.label, true);
+    const articleProps = getArticleProps(props.data.resource);
+    const {
+      data: {
+        resource: { article },
+        subject,
+        topicPath,
+      },
+    } = props;
+    return getAllDimensions(
+      { article, subject, topicPath },
+      articleProps.label,
+      true,
+    );
   }
 
   static getDocumentTitle({ t, data }) {
