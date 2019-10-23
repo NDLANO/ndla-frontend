@@ -36,8 +36,20 @@ class LearningpathPage extends Component {
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
     const {
-      data: { learningpath, learningpathStep, subject, topicPath },
+      data: {
+        resource: { learningpath },
+        subject,
+        topicPath,
+      },
+      match: {
+        params: { stepId },
+      },
     } = props;
+    const firstStep = learningpath.learningsteps[0];
+    const currentStep = learningpath.learningsteps.find(
+      ls => `${ls.id}` === stepId,
+    );
+    const learningpathStep = currentStep ? currentStep : firstStep;
     return getAllDimensions(
       { subject, topicPath, learningpath, learningpathStep },
       articleProps.label,
