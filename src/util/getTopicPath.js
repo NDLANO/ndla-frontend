@@ -16,7 +16,7 @@ export const getTopicPath = (subjectId, topicId, topics) => {
       return [topic];
     }
     const parent = topics.find(t => topic.parent === t.id);
-    const parentPath = toBreadcrumb(parent);
+    const parentPath = parent ? toBreadcrumb(parent) : [];
     return [...parentPath, topic];
   };
 
