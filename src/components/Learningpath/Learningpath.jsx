@@ -20,7 +20,6 @@ import {
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { toLearningPath, toBreadcrumbItems } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -230,7 +229,4 @@ Learningpath.propTypes = {
   }).isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(Learningpath);
+export default injectT(withRouter(Learningpath));

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 import {
@@ -91,7 +91,4 @@ SubjectPageTwoColumn.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default compose(
-  withRouter,
-  withApollo,
-)(SubjectPageTwoColumn);
+export default withRouter(withApollo(SubjectPageTwoColumn));

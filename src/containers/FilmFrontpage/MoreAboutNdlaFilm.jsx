@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'redux';
+
 import { injectT } from '@ndla/i18n';
 
 const MoreAboutNdlaFilm = ({ t }) => (
@@ -29,4 +29,4 @@ const MoreAboutNdlaFilm = ({ t }) => (
   </>
 );
 
-export default compose(injectT)(MoreAboutNdlaFilm);
+export default injectT(MoreAboutNdlaFilm);

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -48,7 +48,4 @@ SubjectsPage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
 };
 
-export default compose(
-  injectT,
-  injectSubjects,
-)(SubjectsPage);
+export default injectT(injectSubjects(SubjectsPage));

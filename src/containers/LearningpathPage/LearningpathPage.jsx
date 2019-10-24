@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -49,9 +49,9 @@ class LearningpathPage extends Component {
     const currentStep = learningpath.learningsteps.find(
       ls => `${ls.id}` === stepId,
     );
-    const learningpathStep = currentStep || firstStep;
+    const learningstep = currentStep || firstStep;
     return getAllDimensions(
-      { subject, topicPath, learningpath, learningpathStep },
+      { subject, topicPath, learningpath, learningstep },
       articleProps.label,
       false,
     );
@@ -162,7 +162,4 @@ LearningpathPage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(
-  injectT,
-  withTracker,
-)(LearningpathPage);
+export default injectT(withTracker(LearningpathPage));
