@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -150,7 +150,4 @@ PlainArticlePage.defaultProps = {
   status: 'initial',
 };
 
-export default compose(
-  injectT,
-  withTracker,
-)(PlainArticlePage);
+export default injectT(withTracker(PlainArticlePage));

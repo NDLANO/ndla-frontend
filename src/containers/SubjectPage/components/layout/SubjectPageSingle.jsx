@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import { withRouter } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 import { OneColumn, SubjectSidebarWrapper, SubjectContent } from '@ndla/ui';
@@ -75,7 +75,4 @@ SubjectPageSingle.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default compose(
-  withRouter,
-  withApollo,
-)(SubjectPageSingle);
+export default withRouter(withApollo(SubjectPageSingle));

@@ -7,7 +7,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { func, number, string, shape, arrayOf, bool } from 'prop-types';
-import { compose } from 'redux';
+
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -129,7 +129,4 @@ SearchPage.propTypes = {
   loading: bool.isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(SearchPage);
+export default injectT(withRouter(SearchPage));

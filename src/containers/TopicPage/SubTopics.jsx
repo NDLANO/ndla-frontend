@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
@@ -109,7 +109,4 @@ TopicResources.propTypes = {
   location: LocationShape,
 };
 
-export default compose(
-  withRouter,
-  injectT,
-)(TopicResources);
+export default withRouter(injectT(TopicResources));

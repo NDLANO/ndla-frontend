@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import { injectT } from '@ndla/i18n';
 import { withApollo } from 'react-apollo';
 import FilmFrontpage from './FilmFrontpage';
@@ -155,7 +155,4 @@ NdlaFilm.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default compose(
-  withApollo,
-  injectT,
-)(NdlaFilm);
+export default injectT(withApollo(NdlaFilm));
