@@ -201,4 +201,4 @@ SubjectPage.propTypes = {
   skipToContentId: PropTypes.string.isRequired,
 };
 
-export default withRouter(withApollo(withTracker(injectT(SubjectPage))));
+export default injectT(withRouter(withApollo(withTracker(SubjectPage))));

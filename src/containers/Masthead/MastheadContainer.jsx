@@ -269,4 +269,4 @@ MastheadContainer.propTypes = {
   skipToMainContentId: PropTypes.string.isRequired,
 };
 
-export default withApollo(injectT(MastheadContainer));
+export default injectT(withApollo(MastheadContainer));
