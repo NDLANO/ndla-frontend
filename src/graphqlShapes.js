@@ -151,7 +151,7 @@ export const GraphQLSubjectShape = PropTypes.shape({
 });
 
 export const GraphQLArticleMetaShape = PropTypes.shape({
-  id: PropTypes.number,
+  id: PropTypes.string,
   title: PropTypes.string,
   metaDescription: PropTypes.string,
   metaImage: PropTypes.shape({
@@ -162,7 +162,7 @@ export const GraphQLArticleMetaShape = PropTypes.shape({
 });
 
 export const GraphQLMovieThemeShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   name: PropTypes.string.isRequired,
   movies: PropTypes.arrayOf(GraphQLArticleMetaShape),
 });

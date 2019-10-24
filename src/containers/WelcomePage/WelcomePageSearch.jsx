@@ -40,9 +40,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
         variables: {
           query: delayedSearchQuery,
         },
-        options: {
-          fetchPolicy: 'no-cache',
-        },
+        fetchPolicy: 'no-cache',
       });
     }
   }, [delayedSearchQuery]);
