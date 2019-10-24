@@ -6,11 +6,11 @@
  *
  */
 
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { useQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import debounce from 'lodash.debounce';
 
 import handleError from '../../util/handleError';
@@ -29,19 +29,23 @@ const WelcomePageSearch = ({ t, history, locale }) => {
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
 
-  const { loading: loadingSearch, data: searchResult, error } = useQuery(
-    frontpageSearchQuery,
-    {
-      variables: {
-        query: delayedSearchQuery,
-      },
-      options: {
-        fetchPolicy: 'no-cache',
-        ssr: false,
-        skip: delayedSearchQuery.length <= 2,
-      },
-    },
-  );
+  const [
+    runSearch,
+    { loading: loadingSearch, data: searchResult, error },
+  ] = useLazyQuery(frontpageSearchQuery);
+
+  useEffect(() => {
+    if (delayedSearchQuery.length >= 2) {
+      runSearch({
+        variables: {
+          query: delayedSearchQuery,
+        },
+        options: {
+          fetchPolicy: 'no-cache',
+        },
+      });
+    }
+  }, [delayedSearchQuery]);
 
   const onSearchFieldChange = query => {
     setQuery(query);
@@ -96,6 +100,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       onSearchFieldChange={onSearchFieldChange}
       searchFieldPlaceholder={t('welcomePage.heading.searchFieldPlaceholder')}
       searchResult={
+        searchResult &&
         delayedSearchQuery.length > 2 &&
         mapSearchToFrontPageStructure(
           searchResult,
