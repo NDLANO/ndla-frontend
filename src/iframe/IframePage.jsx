@@ -15,7 +15,7 @@ import { ApolloProvider } from 'react-apollo';
 import { MissingRouterContext } from '@ndla/safelink';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { createApolloClient } from '../util/apiHelpers';
-import { IframeArticlePage } from './IframeArticlePage';
+import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
 
 if (process.env.NODE_ENV !== 'production') {
