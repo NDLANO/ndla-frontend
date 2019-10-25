@@ -11,7 +11,7 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
-import { ApolloProvider, getDataFromTree } from 'react-apollo';
+import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 
 import queryString from 'query-string';
 import routes, { routes as serverRoutes } from '../../routes';
@@ -89,20 +89,16 @@ async function doRender(req) {
     ''
   );
 
-  let apolloState;
-
-  getDataFromTree(Page).then(() => {
-    const apolloState = client.extract();
-    console.log(apolloState);
-  });
-  const { html, ...docProps } = renderPage(Page, getAssets(), {
+  const html = await renderToStringWithData(Page);
+  const apolloState = client.extract();
+  const { ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
     apolloState,
   });
 
   return {
-    html,
     docProps,
+    html,
     context,
   };
 }
