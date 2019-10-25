@@ -103,7 +103,7 @@ export const createApolloClient = (language = 'nb') => {
   if (__CLIENT__) console.log(cache);
 
   const client = new ApolloClient({
-    ssrMode: __CLIENT__,
+    ssrMode: true,
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
