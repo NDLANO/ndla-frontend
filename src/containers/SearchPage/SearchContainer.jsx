@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes, {
   func,
   number,
@@ -17,7 +17,7 @@ import PropTypes, {
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { Query } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 import {
   SubjectShape,
   FilterShape,
@@ -39,32 +39,43 @@ import {
 import { searchQuery } from '../../queries';
 import handleError from '../../util/handleError';
 
-class SearchContainer extends Component {
-  constructor(props) {
-    super(props);
-    const { searchParams } = props;
-    this.state = {
-      query: searchParams.query || '',
-    };
-  }
+const SearchContainer = ({
+  t,
+  data,
+  locale,
+  searchParams,
+  includeEmbedButton,
+  ltiData,
+  enabledTabs,
+  allTabValue,
+  isLti,
+  handleSearchParamsChange,
+}) => {
+  const [query, setQuery] = useState(searchParams.query || '');
+  const stateSearchParams = {};
+  Object.keys(searchParams).forEach(key => {
+    stateSearchParams[key] = convertSearchParam(searchParams[key]);
+  });
+  const { data: searchData, loading, error } = useQuery(searchQuery, {
+    variables: stateSearchParams,
+    fetchPolicy: 'no-cache',
+  });
 
-  onQuerySubmit = evt => {
+  const onQuerySubmit = evt => {
     evt.preventDefault();
-    this.updateFilter({ query: this.state.query });
+    updateFilter({ query });
   };
 
-  onFilterChange = (newValues, value, type) => {
-    const { searchParams } = this.props;
+  const onFilterChange = (newValues, value, type) => {
     const { subjects } = searchParams;
     if (type === 'subjects' && newValues.length < subjects.length) {
-      this.onRemoveSubject({ subjects: newValues }, value);
+      onRemoveSubject({ subjects: newValues }, value);
     } else {
-      this.updateFilter({ [type]: newValues });
+      updateFilter({ [type]: newValues });
     }
   };
 
-  onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { searchParams, data, handleSearchParamsChange } = this.props;
+  const onRemoveSubject = (subjectsSearchParam, subjectId) => {
     const { levels } = searchParams;
     const subject = data.subjects.find(s => s.id === subjectId);
 
@@ -78,25 +89,22 @@ class SearchContainer extends Component {
     });
   };
 
-  onSearchFieldFilterRemove = removedSubject => {
-    const { searchParams } = this.props;
+  const onSearchFieldFilterRemove = removedSubject => {
     const { subjects: subjectsInUrl } = searchParams;
 
     const subjects = subjectsInUrl.filter(
       subject => subject !== removedSubject,
     );
-    this.onRemoveSubject({ subjects }, removedSubject);
+    onRemoveSubject({ subjects }, removedSubject);
   };
 
-  onUpdateContextFilters = values => {
-    const { handleSearchParamsChange } = this.props;
+  const onUpdateContextFilters = values => {
     handleSearchParamsChange({
       contextFilters: values,
     });
   };
 
-  getEnabledTab = stateSearchParams => {
-    const { allTabValue } = this.props;
+  const getEnabledTab = stateSearchParams => {
     if (stateSearchParams.resourceTypes) {
       return stateSearchParams.resourceTypes;
     }
@@ -106,8 +114,7 @@ class SearchContainer extends Component {
     return allTabValue;
   };
 
-  updateFilter = searchParam => {
-    const { handleSearchParamsChange } = this.props;
+  const updateFilter = searchParam => {
     const page = searchParam.page || 1;
     handleSearchParamsChange({
       ...searchParam,
@@ -115,8 +122,7 @@ class SearchContainer extends Component {
     });
   };
 
-  updateTab = (value, enabledTabs) => {
-    const { handleSearchParamsChange, allTabValue } = this.props;
+  const updateTab = (value, enabledTabs) => {
     const enabledTab = enabledTabs.find(tab => value === tab.value);
     const newParams =
       !enabledTab || enabledTab.value === allTabValue
@@ -131,144 +137,104 @@ class SearchContainer extends Component {
     });
   };
 
-  updateQuery = query => {
-    this.setState({ query });
-  };
+  const { subjects } = data;
 
-  render() {
-    const {
-      t,
-      data,
-      locale,
-      searchParams,
-      includeEmbedButton,
-      ltiData,
-      enabledTabs,
-      allTabValue,
-      isLti,
-    } = this.props;
-    const { subjects } = data;
-    const { query } = this.state;
-
-    const stateSearchParams = {};
-    Object.keys(searchParams).forEach(key => {
-      stateSearchParams[key] = convertSearchParam(searchParams[key]);
-    });
-    const enabledTab = this.getEnabledTab(stateSearchParams);
-    const activeSubjectsMapped =
-      subjects && subjects.length > 0
-        ? searchParams.subjects
-            .map(it => {
-              const subject = subjects.find(s => s.id === it);
-              return subject
-                ? {
-                    ...subject,
-                    value: subject.id,
-                    title: subject.name,
-                    filterName: subject.name,
-                  }
-                : undefined;
-            })
-            .filter(subject => !!subject)
-        : [];
-
-    const searchFilters = (
-      <SearchFilters
-        onChange={this.onFilterChange}
-        searchParams={searchParams}
-        subjects={subjects}
-        enabledTab={enabledTab}
-        activeSubjects={activeSubjectsMapped}
-        enabledTabs={enabledTabs}
-        onContentTypeChange={this.onTabChange}
-      />
-    );
-
-    const searchPageMessages = totalCount => ({
-      filterHeading: t('searchPage.searchPageMessages.filterHeading'),
-      dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
-      closeButton: t('searchPage.close'),
-      narrowScreenFilterHeading: t(
-        'searchPage.searchPageMessages.narrowScreenFilterHeading',
-        {
-          totalCount,
-          query,
-        },
-      ),
-      searchFieldTitle: t('searchPage.search'),
-    });
-
-    return (
-      <Query
-        asyncMode
-        query={searchQuery}
-        variables={stateSearchParams}
-        fetchPolicy="no-cache"
-        ssr={false}>
-        {({ error, data: searchData, loading }) => {
-          if (error) {
-            handleError(error);
-            return `Error: ${error.message}`;
-          }
-          const { search } = searchData || {};
-          const resultMetadata = search ? getResultMetadata(search) : {};
-
-          const isReadyToShow = !loading && search;
-          const searchResults = isReadyToShow
-            ? convertResult(
-                search.results,
-                searchParams.subjects,
-                enabledTab,
-                locale,
-              )
-            : [];
-          return (
-            <SearchPage
-              closeUrl="/#"
-              searchString={query || ''}
-              onSearchFieldChange={this.updateQuery}
-              onSearch={this.onQuerySubmit}
-              onSearchFieldFilterRemove={this.onSearchFieldFilterRemove}
-              searchFieldFilters={activeSubjectsMapped}
-              activeFilters={activeSubjectsMapped}
-              messages={searchPageMessages(resultMetadata.totalCount)}
-              resourceToLinkProps={resourceToLinkProps}
-              filters={searchFilters}>
-              <SearchResults
-                results={searchResults}
-                resourceTypes={
-                  data && data.resourceTypes ? data.resourceTypes : []
+  const enabledTab = getEnabledTab(stateSearchParams);
+  const activeSubjectsMapped =
+    subjects && subjects.length > 0
+      ? searchParams.subjects
+          .map(it => {
+            const subject = subjects.find(s => s.id === it);
+            return subject
+              ? {
+                  ...subject,
+                  value: subject.id,
+                  title: subject.name,
+                  filterName: subject.name,
                 }
-                loading={loading}
-                enabledTab={enabledTab}
-                resultMetadata={resultMetadata}
-                searchParams={searchParams}
-                enabledTabs={enabledTabs}
-                allTabValue={allTabValue}
-                onTabChange={this.updateTab}
-                query={searchParams.query}
-                onUpdateContextFilters={this.onUpdateContextFilters}
-                includeEmbedButton={includeEmbedButton}
-                ltiData={ltiData}
-                isLti={isLti}
-              />
-              {isReadyToShow && (
-                <Pager
-                  page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
-                  lastPage={resultMetadata.lastPage}
-                  query={searchParams}
-                  pathname=""
-                  onClick={this.updateFilter}
-                  pageItemComponentClass="button"
-                />
-              )}
-            </SearchPage>
-          );
-        }}
-      </Query>
-    );
+              : undefined;
+          })
+          .filter(subject => !!subject)
+      : [];
+
+  const searchFilters = (
+    <SearchFilters
+      onChange={onFilterChange}
+      searchParams={searchParams}
+      subjects={subjects}
+      enabledTab={enabledTab}
+      activeSubjects={activeSubjectsMapped}
+      enabledTabs={enabledTabs}
+    />
+  );
+
+  const searchPageMessages = totalCount => ({
+    filterHeading: t('searchPage.searchPageMessages.filterHeading'),
+    dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
+    closeButton: t('searchPage.close'),
+    narrowScreenFilterHeading: t(
+      'searchPage.searchPageMessages.narrowScreenFilterHeading',
+      {
+        totalCount,
+        query,
+      },
+    ),
+    searchFieldTitle: t('searchPage.search'),
+  });
+
+  if (error) {
+    handleError(error);
+    return `Error: ${error.message}`;
   }
-}
+
+  const { search } = searchData || {};
+  const resultMetadata = search ? getResultMetadata(search) : {};
+
+  const isReadyToShow = !loading && search;
+  const searchResults = isReadyToShow
+    ? convertResult(search.results, searchParams.subjects, enabledTab, locale)
+    : [];
+  return (
+    <SearchPage
+      closeUrl="/#"
+      searchString={query || ''}
+      onSearchFieldChange={setQuery}
+      onSearch={onQuerySubmit}
+      onSearchFieldFilterRemove={onSearchFieldFilterRemove}
+      searchFieldFilters={activeSubjectsMapped}
+      activeFilters={activeSubjectsMapped}
+      messages={searchPageMessages(resultMetadata.totalCount)}
+      resourceToLinkProps={resourceToLinkProps}
+      filters={searchFilters}>
+      <SearchResults
+        results={searchResults}
+        resourceTypes={data && data.resourceTypes ? data.resourceTypes : []}
+        loading={loading}
+        enabledTab={enabledTab}
+        resultMetadata={resultMetadata}
+        searchParams={searchParams}
+        enabledTabs={enabledTabs}
+        allTabValue={allTabValue}
+        onTabChange={updateTab}
+        query={searchParams.query}
+        onUpdateContextFilters={onUpdateContextFilters}
+        includeEmbedButton={includeEmbedButton}
+        ltiData={ltiData}
+        isLti={isLti}
+      />
+      {isReadyToShow && (
+        <Pager
+          page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
+          lastPage={resultMetadata.lastPage}
+          query={searchParams}
+          pathname=""
+          onClick={updateFilter}
+          pageItemComponentClass="button"
+        />
+      )}
+    </SearchPage>
+  );
+};
 
 SearchContainer.propTypes = {
   subjects: arrayOf(SubjectShape),
