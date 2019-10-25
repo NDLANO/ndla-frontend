@@ -12,12 +12,9 @@ import PropTypes from 'prop-types';
 import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import Spinner from '@ndla/ui/lib/Spinner';
-import {
-  GraphQLFrontpageShape,
-  GraphQLSimpleSubjectShape,
-} from '../../graphqlShapes';
-import { frontpageQuery, subjectsQuery } from '../../queries';
-import { runQueries } from '../../util/runQueries';
+import { useQuery } from 'react-apollo';
+
+import { frontpageQuery } from '../../queries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -30,7 +27,9 @@ import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 
-const WelcomePage = ({ t, data, loading, locale, history, location }) => {
+const WelcomePage = ({ t, locale, history, location }) => {
+  const { data, loading } = useQuery(frontpageQuery);
+
   if (loading) {
     return <Spinner />;
   }
@@ -38,9 +37,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-
-  const { subjects = [] } = data;
-  const frontpage = data && data.frontpage ? data.frontpage : {};
+  const { frontpage = {}, subjects = [] } = data;
   const { categories = [] } = frontpage;
   const headerLinks = [
     {
@@ -105,22 +102,6 @@ WelcomePage.propTypes = {
   }).isRequired,
   location: LocationShape,
   locale: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    frontpage: GraphQLFrontpageShape,
-    subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
-  }),
-};
-
-WelcomePage.getInitialProps = async ({ client }) => {
-  return runQueries(client, [
-    {
-      query: frontpageQuery,
-    },
-    {
-      query: subjectsQuery,
-    },
-  ]);
 };
 
 export default injectT(WelcomePage);

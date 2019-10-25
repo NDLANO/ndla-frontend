@@ -484,6 +484,13 @@ export const frontpageQuery = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+      filters {
+        id
+        name
+      }
+    }
   }
   ${resourceInfoFragment}
   ${subjectInfoFragment}
