@@ -29,10 +29,9 @@ const WelcomePageSearch = ({ t, history, locale }) => {
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
 
-  const [
-    runSearch,
-    { loading: loadingSearch, data: searchResult, error },
-  ] = useLazyQuery(frontpageSearchQuery);
+  const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
+    frontpageSearchQuery,
+  );
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -110,7 +109,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       infoText={infoText}
       onSearchInputFocus={() => setInputHasFocus(true)}
       allResultUrl={allResultsUrl}
-      loading={loadingSearch}
+      loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
     />
   );

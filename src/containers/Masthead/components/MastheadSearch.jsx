@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   SearchField,
@@ -7,10 +7,11 @@ import {
   MastheadSearchModal,
 } from '@ndla/ui';
 import queryString from 'query-string';
-import { Query } from 'react-apollo';
+import { useLazyQuery } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { injectT } from '@ndla/i18n';
+
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentType';
@@ -30,11 +31,31 @@ const MastheadSearch = ({
   history,
   subject,
 }) => {
+  const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedQuery] = useState('');
   const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
 
-  const inputRef = useRef(null);
+  const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery(
+    groupSearchQuery,
+  );
+
+  useEffect(() => {
+    if (delayedSearchQuery.length >= 2) {
+      runSearch({
+        variables: {
+          query: delayedSearchQuery,
+          subjects,
+          resourceTypes: [
+            RESOURCE_TYPE_LEARNING_PATH,
+            RESOURCE_TYPE_SUBJECT_MATERIAL,
+            RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+          ].join(),
+        },
+        fetchPolicy: 'no-cache',
+      });
+    }
+  }, [delayedSearchQuery]);
 
   const onFilterRemove = () => {
     setSubjects(undefined);
@@ -83,15 +104,6 @@ const MastheadSearch = ({
     subjects,
   });
 
-  const searchParams = {
-    query: delayedSearchQuery,
-    subjects,
-    resourceTypes: [
-      RESOURCE_TYPE_LEARNING_PATH,
-      RESOURCE_TYPE_SUBJECT_MATERIAL,
-      RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-    ].join(),
-  };
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
 
   return (
@@ -99,37 +111,30 @@ const MastheadSearch = ({
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
       ndlaFilm={ndlaFilm}>
-      <Query
-        fetchPolicy="no-cache"
-        variables={searchParams}
-        ssr={false}
-        query={groupSearchQuery}>
-        {({ data, error }) =>
-          error || (
-            <SearchFieldForm onSubmit={onSearch}>
-              <SearchField
-                placeholder={t('searchPage.searchFieldPlaceholder')}
-                value={query}
-                inputRef={inputRef}
-                onChange={onQueryChange}
-                filters={filters}
-                onFilterRemove={onFilterRemove}
-                messages={{
-                  searchFieldTitle: t('searchPage.search'),
-                }}
-              />
-              {query.length > 2 && (
-                <SearchResultSleeve
-                  result={mapResults(data.groupSearch)}
-                  searchString={query}
-                  allResultUrl={toSearch(searchString)}
-                  resourceToLinkProps={searchResultToLinkProps}
-                />
-              )}
-            </SearchFieldForm>
-          )
-        }
-      </Query>
+      {error || (
+        <SearchFieldForm onSubmit={onSearch}>
+          <SearchField
+            placeholder={t('searchPage.searchFieldPlaceholder')}
+            value={query}
+            inputRef={inputRef}
+            onChange={onQueryChange}
+            filters={filters}
+            onFilterRemove={onFilterRemove}
+            messages={{
+              searchFieldTitle: t('searchPage.search'),
+            }}
+            loading={loading}
+          />
+          {query.length > 2 && (
+            <SearchResultSleeve
+              result={mapResults(searchResult.groupSearch)}
+              searchString={query}
+              allResultUrl={toSearch(searchString)}
+              resourceToLinkProps={searchResultToLinkProps}
+            />
+          )}
+        </SearchFieldForm>
+      )}
     </MastheadSearchModal>
   );
 };
