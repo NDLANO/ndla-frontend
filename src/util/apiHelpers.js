@@ -100,8 +100,6 @@ export const createApolloClient = (language = 'nb') => {
     ? new InMemoryCache({ fragmentMatcher }).restore(window.DATA.apolloState)
     : new InMemoryCache({ fragmentMatcher });
 
-  if (__CLIENT__) console.log(cache);
-
   const client = new ApolloClient({
     ssrMode: true,
     link: ApolloLink.from([

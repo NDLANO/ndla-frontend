@@ -163,7 +163,8 @@ export const GraphQLArticleMetaShape = PropTypes.shape({
 
 export const GraphQLMovieThemeShape = PropTypes.shape({
   id: PropTypes.number,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string }))
+    .isRequired,
   movies: PropTypes.arrayOf(GraphQLArticleMetaShape),
 });
 
