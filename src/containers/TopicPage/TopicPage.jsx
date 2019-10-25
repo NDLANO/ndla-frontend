@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import {
   SubjectHero,
   OneColumn,
@@ -275,7 +275,4 @@ TopicPage.propTypes = {
   basename: PropTypes.string,
 };
 
-export default compose(
-  injectT,
-  withTracker,
-)(TopicPage);
+export default injectT(withTracker(TopicPage));

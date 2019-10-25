@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
@@ -201,9 +201,4 @@ SubjectPage.propTypes = {
   skipToContentId: PropTypes.string.isRequired,
 };
 
-export default compose(
-  withRouter,
-  injectT,
-  withTracker,
-  withApollo,
-)(SubjectPage);
+export default injectT(withRouter(withApollo(withTracker(SubjectPage))));

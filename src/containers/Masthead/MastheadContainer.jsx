@@ -17,7 +17,6 @@ import {
   BreadcrumbBlock,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { compose } from 'redux';
 import { withApollo } from 'react-apollo';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
@@ -270,7 +269,4 @@ MastheadContainer.propTypes = {
   skipToMainContentId: PropTypes.string.isRequired,
 };
 
-export default compose(
-  withApollo,
-  injectT,
-)(MastheadContainer);
+export default injectT(withApollo(MastheadContainer));

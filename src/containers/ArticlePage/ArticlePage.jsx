@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+
 import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -204,7 +204,4 @@ ArticlePage.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default compose(
-  injectT,
-  withTracker,
-)(ArticlePage);
+export default injectT(withTracker(ArticlePage));

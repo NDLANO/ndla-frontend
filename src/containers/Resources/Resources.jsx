@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { compose } from 'react-apollo';
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
@@ -180,7 +179,4 @@ Resources.propTypes = {
   locale: PropTypes.string,
 };
 
-export default compose(
-  withRouter,
-  injectT,
-)(Resources);
+export default withRouter(injectT(Resources));

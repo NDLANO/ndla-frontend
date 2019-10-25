@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { compose } from 'redux';
+
 import { OneColumn } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
@@ -93,4 +93,4 @@ IframeArticlePage.propTypes = {
   }),
 };
 
-export default compose(withTracker)(IframeArticlePage);
+export default withTracker(IframeArticlePage);
