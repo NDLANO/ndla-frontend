@@ -8,5 +8,6 @@
   "videosFolder": "e2e/videos",
   "chromeWebSecurity": false,
   "video": false,
-  "projectId": "7d39xm"
+  "projectId": "7d39xm",
+  "defaultCommandTimeout": 10000
 }
