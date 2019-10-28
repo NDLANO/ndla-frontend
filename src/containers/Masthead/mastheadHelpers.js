@@ -7,6 +7,9 @@
  */
 
 import { contentTypeMapping } from '../../util/getContentType';
+import { getResourceGroups } from '../Resources/getResourceGroups';
+import { toTopicMenu } from '../../util/topicsHelper';
+import { getTopicPath } from '../../util/getTopicPath';
 
 function getContentTypeResults(
   topicId,
@@ -59,3 +62,48 @@ export function getSelectedTopic(topics) {
     .reverse()
     .find(topicId => topicId !== undefined && topicId !== null);
 }
+
+export const mapMastheadData = ({
+  subjectId,
+  topicId,
+  data: { resourceTypes, subject, topic, resource } = {},
+}) => {
+  const topicResourcesByType =
+    topic &&
+    getResourceGroups(
+      resourceTypes || [],
+      topic.supplementaryResources || [],
+      topic.coreResources || [],
+    );
+
+  const topicsWithSubTopics =
+    subject &&
+    subject.topics
+      .filter(t => !t.parent || t.parent === subjectId)
+      .map(t => toTopicMenu(t, subject.topics));
+
+  const topicPath =
+    subject &&
+    subject.topics &&
+    getTopicPath(subjectId, topicId, subject.topics);
+
+  const filters =
+    subject &&
+    subject.filters &&
+    subject.filters.map(filter => ({
+      ...filter,
+      title: filter.name,
+      value: filter.id,
+    }));
+
+  return {
+    subject: {
+      ...subject,
+      topics: topicsWithSubTopics || [],
+    },
+    topicPath,
+    filters,
+    topicResourcesByType,
+    resource,
+  };
+};

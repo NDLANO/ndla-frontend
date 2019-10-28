@@ -709,3 +709,59 @@ export const filmFrontPageQuery = gql`
   }
   ${movieFragment}
 `;
+
+export const mastHeadQuery = gql`
+  query mastHeadQuery(
+    $subjectId: String!
+    $filterIds: String
+    $topicId: String!
+    $resourceId: String!
+    $skipTopic: Boolean!
+    $skipResource: Boolean!
+  ) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        id
+        name
+        parent
+        path
+        meta {
+          id
+          metaDescription
+        }
+      }
+      filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+    }
+    topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
+      id
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    resource(id: $resourceId, subjectId: $subjectId) @skip(if: $skipResource) {
+      ...ResourceInfo
+      article(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ArticleInfo
+      }
+      learningpath {
+        ...LearningpathInfo
+      }
+    }
+  }
+  ${learningpathInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+`;

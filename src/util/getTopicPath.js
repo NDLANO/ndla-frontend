@@ -6,6 +6,7 @@
  *
  */
 export const getTopicPath = (subjectId, topicId, topics) => {
+  if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);
   if (!leaf) {
     return [];
