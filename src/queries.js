@@ -765,3 +765,59 @@ export const mastHeadQuery = gql`
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
+
+export const topicPageQuery = gql`
+  query topicPageQuery(
+    $topicId: String!
+    $filterIds: String!
+    $subjectId: String!
+  ) {
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      name
+      path
+      meta {
+        id
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      article {
+        ...ArticleInfo
+      }
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        id
+        name
+        parent
+        path
+        meta {
+          id
+          metaDescription
+        }
+      }
+      filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+    }
+  }
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+`;
