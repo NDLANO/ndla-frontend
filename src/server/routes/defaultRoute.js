@@ -11,6 +11,7 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
+// TODO import from @apollo/react-ssr when refactor is finished
 import { ApolloProvider, renderToStringWithData } from 'react-apollo';
 
 import queryString from 'query-string';
