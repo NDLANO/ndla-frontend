@@ -6,10 +6,11 @@
  */
 
 import React, { Fragment } from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { CompetenceGoalList, CompetenceGoalListHeading } from '@ndla/ui';
 import { isValidElementType } from 'react-is';
+import Spinner from '@ndla/ui/lib/Spinner';
 
 import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
@@ -41,37 +42,30 @@ const CompetenceGoals = ({
   wrapperComponentProps,
 }) => {
   const nodeId = article.oldNdlaUrl.split('/').pop();
+  const { error, data, loading } = useQuery(competenceGoalsQuery, {
+    variables: { nodeId },
+  });
+  if (error) {
+    handleError(error);
+    return null;
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  const curriculums = groupByCurriculums(data.competenceGoals);
   return (
-    <Query
-      asyncMode
-      query={competenceGoalsQuery}
-      variables={{ nodeId }}
-      ssr={false}>
-      {({ error, data, loading }) => {
-        if (error) {
-          handleError(error);
-          return null;
-        }
-
-        if (loading) {
-          return null;
-        }
-
-        const curriculums = groupByCurriculums(data.competenceGoals);
-        return (
-          <Component {...wrapperComponentProps}>
-            {curriculums.map(curriculum => (
-              <Fragment key={curriculum.id}>
-                <CompetenceGoalListHeading>
-                  {curriculum.name}:
-                </CompetenceGoalListHeading>
-                <CompetenceGoalList goals={curriculum.goals} />
-              </Fragment>
-            ))}
-          </Component>
-        );
-      }}
-    </Query>
+    <Component {...wrapperComponentProps}>
+      {curriculums.map(curriculum => (
+        <Fragment key={curriculum.id}>
+          <CompetenceGoalListHeading>
+            {curriculum.name}:
+          </CompetenceGoalListHeading>
+          <CompetenceGoalList goals={curriculum.goals} />
+        </Fragment>
+      ))}
+    </Component>
   );
 };
 
