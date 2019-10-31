@@ -1,3 +1,5 @@
+import { useQuery } from 'react-apollo';
+
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -37,3 +39,12 @@ export async function runQueries(client, queries) {
 
   return mergedResults;
 }
+
+export const useGraphQuery = ({ query, variables }) => {
+  const { error, data, loading } = useQuery(query, {
+    variables,
+    errorPolicy: 'all',
+  });
+
+  return { error, data, loading };
+};
