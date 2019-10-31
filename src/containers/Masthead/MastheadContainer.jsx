@@ -131,7 +131,6 @@ const MastheadContainer = ({
   return (
     <ErrorBoundary>
       <Masthead
-        showLoaderWhenNeeded={topicPath.length > 0}
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={skipToMainContentId}
