@@ -18,7 +18,6 @@ import {
 } from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
-import { useQuery } from 'react-apollo';
 import { withTracker } from '@ndla/tracker';
 
 import SubTopics from './SubTopics';
@@ -44,6 +43,7 @@ import { topicPageQuery } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { useGraphQuery } from '../../util/runQueries';
 
 const getTitle = (article, title) => {
   if (article) {
@@ -70,7 +70,8 @@ const TopicPage = ({
 }) => {
   const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
-  const { data, loading, error } = useQuery(topicPageQuery, {
+  const { data, loading, error } = useGraphQuery({
+    query: topicPageQuery,
     variables: { topicId, filterIds, subjectId },
   });
 
