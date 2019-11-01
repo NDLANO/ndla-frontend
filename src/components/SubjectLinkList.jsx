@@ -12,7 +12,7 @@ import SafeLink from '@ndla/safelink';
 import { SubjectShape } from '../shapes';
 import { toSubject } from '../routeHelpers';
 
-const SubjectLinkList = ({ subjects }) => (
+const SubjectLinkList = ({ subjects = [] }) => (
   <ul className="o-list--arrows">
     {subjects.map(subject => (
       <li key={subject.id}>
