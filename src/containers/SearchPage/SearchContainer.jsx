@@ -251,7 +251,7 @@ SearchContainer.propTypes = {
   isLti: bool,
   error: arrayOf(object),
   loading: bool,
-  searchData: arrayOf(object),
+  searchData: shape({ search: object }),
 };
 
 SearchContainer.defaultProps = {
