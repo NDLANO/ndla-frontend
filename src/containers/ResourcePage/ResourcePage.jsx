@@ -6,97 +6,61 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ArticleShape,
-  SubjectShape,
-  ResourceTypeShape,
-  TopicShape,
-} from '../../shapes';
-import { GraphqlErrorShape } from '../../graphqlShapes';
+
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
-import {
-  subjectTopicsQuery,
-  resourceTypesQuery,
-  topicResourcesQuery,
-  resourceQuery,
-} from '../../queries';
-import { runQueries } from '../../util/runQueries';
+import { resourcePageQuery } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useGraphQuery } from '../../util/runQueries';
 
-const transformData = data => {
+const ResourcePage = props => {
+  useEffect(() => {
+    if (window.MathJax) {
+      console.log('running matjax thing');
+      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+  });
+  const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
+  const filterIds = getFiltersFromUrl(props.location);
+  const { errors, loading, data } = useGraphQuery({
+    query: resourcePageQuery,
+    variables: { subjectId, topicId, filterIds, resourceId },
+  });
+
+  if (loading) {
+    return null;
+  }
+
+  if (errors && errors.filter(error => error.status === 404).length > 0) {
+    return <NotFoundPage />;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
   const { subject, topic } = data;
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  return { ...data, topicPath };
+  if (isLearningPathResource(data.resource)) {
+    return (
+      <LearningpathPage
+        {...props}
+        data={{ ...data, topicPath }}
+        errors={errors}
+      />
+    );
+  }
+  return (
+    <ArticlePage {...props} data={{ ...data, topicPath }} errors={errors} />
+  );
 };
-
-class ResourcePage extends Component {
-  componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  static async getInitialProps(ctx) {
-    const { client, location } = ctx;
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(ctx);
-    const filterIds = getFiltersFromUrl(location);
-    const response = await runQueries(client, [
-      {
-        query: subjectTopicsQuery,
-        variables: { subjectId },
-      },
-      {
-        query: topicResourcesQuery,
-        variables: { topicId, filterIds, subjectId },
-      },
-      {
-        query: resourceQuery,
-        variables: { resourceId, filterIds, subjectId },
-      },
-      {
-        query: resourceTypesQuery,
-      },
-    ]);
-    return {
-      ...response,
-      data: transformData(response.data),
-    };
-  }
-
-  render() {
-    const { data, loading, errors } = this.props;
-    if (loading) {
-      return null;
-    }
-
-    if (errors && errors.filter(error => error.status === 404).length > 0) {
-      return <NotFoundPage />;
-    }
-
-    if (!data) {
-      return <DefaultErrorMessage />;
-    }
-    if (isLearningPathResource(data.resource)) {
-      return <LearningpathPage {...this.props} />;
-    }
-    return <ArticlePage {...this.props} />;
-  }
-}
 
 ResourcePage.propTypes = {
   match: PropTypes.shape({
@@ -106,24 +70,10 @@ ResourcePage.propTypes = {
       resourceId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  data: PropTypes.shape({
-    resource: PropTypes.shape({
-      article: ArticleShape,
-      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-    }),
-    topic: PropTypes.shape({
-      coreResources: PropTypes.arrayOf(ResourceTypeShape),
-      supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
-    }),
-    topicPath: PropTypes.arrayOf(TopicShape),
-    subject: SubjectShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
-  errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
+  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
 };
 
 export default ResourcePage;

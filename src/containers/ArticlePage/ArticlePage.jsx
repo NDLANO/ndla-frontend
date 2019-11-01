@@ -193,7 +193,7 @@ ArticlePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
-    topicPath: PropTypes.arrayOf(PropTypes.string),
+    topicPath: PropTypes.arrayOf(PropTypes.object),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
