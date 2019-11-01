@@ -1,4 +1,4 @@
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 /**
  * Copyright (c) 2018-present, NDLA.

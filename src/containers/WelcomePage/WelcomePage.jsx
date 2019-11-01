@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import Spinner from '@ndla/ui/lib/Spinner';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import { frontpageQuery } from '../../queries';
 import WelcomePageInfo from './WelcomePageInfo';

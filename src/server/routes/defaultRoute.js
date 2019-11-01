@@ -12,7 +12,8 @@ import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
 // TODO import from @apollo/react-ssr when refactor is finished
-import { ApolloProvider, renderToStringWithData } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { renderToStringWithData } from '@apollo/react-ssr';
 
 import queryString from 'query-string';
 import routes, { routes as serverRoutes } from '../../routes';

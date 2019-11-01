@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { useLazyQuery, useQuery } from 'react-apollo';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 
 import FilmFrontpage from './FilmFrontpage';
 import {

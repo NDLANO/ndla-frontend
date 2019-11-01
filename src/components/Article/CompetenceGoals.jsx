@@ -6,7 +6,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { useQuery } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 import { CompetenceGoalList, CompetenceGoalListHeading } from '@ndla/ui';
 import { isValidElementType } from 'react-is';

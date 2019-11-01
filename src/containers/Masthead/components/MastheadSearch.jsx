@@ -7,7 +7,7 @@ import {
   MastheadSearchModal,
 } from '@ndla/ui';
 import queryString from 'query-string';
-import { useLazyQuery } from 'react-apollo';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { injectT } from '@ndla/i18n';
