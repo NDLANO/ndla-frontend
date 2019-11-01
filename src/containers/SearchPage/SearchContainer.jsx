@@ -13,11 +13,12 @@ import PropTypes, {
   arrayOf,
   shape,
   bool,
+  object,
 } from 'prop-types';
 import Pager from '@ndla/pager';
 import { SearchPage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { useQuery } from 'react-apollo';
+
 import {
   SubjectShape,
   FilterShape,
@@ -31,12 +32,7 @@ import {
 import { resourceToLinkProps } from '../Resources/resourceHelpers';
 import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
-import {
-  convertSearchParam,
-  convertResult,
-  getResultMetadata,
-} from './searchHelpers';
-import { searchQuery } from '../../queries';
+import { convertResult, getResultMetadata } from './searchHelpers';
 import handleError from '../../util/handleError';
 
 const SearchContainer = ({
@@ -48,18 +44,14 @@ const SearchContainer = ({
   ltiData,
   enabledTabs,
   allTabValue,
+  enabledTab,
   isLti,
   handleSearchParamsChange,
+  loading,
+  error,
+  searchData,
 }) => {
   const [query, setQuery] = useState(searchParams.query || '');
-  const stateSearchParams = {};
-  Object.keys(searchParams).forEach(key => {
-    stateSearchParams[key] = convertSearchParam(searchParams[key]);
-  });
-  const { data: searchData, loading, error } = useQuery(searchQuery, {
-    variables: stateSearchParams,
-    fetchPolicy: 'no-cache',
-  });
 
   const onQuerySubmit = evt => {
     evt.preventDefault();
@@ -104,16 +96,6 @@ const SearchContainer = ({
     });
   };
 
-  const getEnabledTab = stateSearchParams => {
-    if (stateSearchParams.resourceTypes) {
-      return stateSearchParams.resourceTypes;
-    }
-    if (stateSearchParams.contextTypes) {
-      return stateSearchParams.contextTypes;
-    }
-    return allTabValue;
-  };
-
   const updateFilter = searchParam => {
     const page = searchParam.page || 1;
     handleSearchParamsChange({
@@ -128,6 +110,7 @@ const SearchContainer = ({
       !enabledTab || enabledTab.value === allTabValue
         ? {}
         : { [enabledTab.type]: [enabledTab.value] };
+
     handleSearchParamsChange({
       contextTypes: undefined,
       resourceTypes: undefined,
@@ -139,7 +122,6 @@ const SearchContainer = ({
 
   const { subjects } = data;
 
-  const enabledTab = getEnabledTab(stateSearchParams);
   const activeSubjectsMapped =
     subjects && subjects.length > 0
       ? searchParams.subjects
@@ -265,7 +247,11 @@ SearchContainer.propTypes = {
     }),
   ),
   allTabValue: string,
+  enabledTab: string,
   isLti: bool,
+  error: arrayOf(object),
+  loading: bool,
+  searchData: arrayOf(object),
 };
 
 SearchContainer.defaultProps = {

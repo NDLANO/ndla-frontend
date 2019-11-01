@@ -40,10 +40,10 @@ export async function runQueries(client, queries) {
   return mergedResults;
 }
 
-export const useGraphQuery = ({ query, variables }) => {
+export const useGraphQuery = (query, options = {}) => {
   const { error, data, loading } = useQuery(query, {
-    variables,
     errorPolicy: 'all',
+    ...options,
   });
 
   return { error, data, loading };

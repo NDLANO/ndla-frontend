@@ -29,8 +29,7 @@ const ResourcePage = props => {
   });
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const filterIds = getFiltersFromUrl(props.location);
-  const { errors, loading, data } = useGraphQuery({
-    query: resourcePageQuery,
+  const { errors, loading, data } = useGraphQuery(resourcePageQuery, {
     variables: { subjectId, topicId, filterIds, resourceId },
   });
 

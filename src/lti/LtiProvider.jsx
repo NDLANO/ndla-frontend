@@ -10,19 +10,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
-import { useQuery } from 'react-apollo';
+
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
-import {
-  resourceTypesWithSubTypesQuery,
-  subjectsWithFiltersQuery,
-} from '../queries';
+import { searchPageQuery } from '../queries';
 import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
 import { LtiDataShape } from '../shapes';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
+import { useGraphQuery } from '../util/runQueries';
 
 const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
@@ -35,18 +33,11 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
     page: '1',
   });
 
-  const {
-    loading: resourceLoading,
-    data: resourceTypesData,
-    error: resourceTypesError,
-  } = useQuery(resourceTypesWithSubTypesQuery, { fetchPolicy: 'no-cache' });
-  const {
-    loading: subjectsLoading,
-    data: subjectsData,
-    error: subjectsError,
-  } = useQuery(subjectsWithFiltersQuery);
+  const { loading, data, error } = useGraphQuery(searchPageQuery, {
+    fetchPolicy: 'no-cache',
+  });
 
-  if (resourceLoading || subjectsLoading) return null;
+  if (loading) return null;
 
   const onSearchParamsChange = updatedFields => {
     setSearchParams({
@@ -96,16 +87,13 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
     ];
   };
 
-  const error = resourceTypesError || subjectsError;
-  if (error) {
+  if (error && !data) {
     handleError(error);
     return <ErrorPage locale={locale} />;
   }
 
-  const filtredResourceTypes = resourceTypesData.resourceTypes
-    ? resourceTypesData.resourceTypes.filter(
-        type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
-      )
+  const filtredResourceTypes = data.resourceTypes
+    ? data.resourceTypes.filter(type => type.id !== RESOURCE_TYPE_LEARNING_PATH)
     : [];
 
   return (
@@ -114,7 +102,7 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
       <SearchContainer
         data={{
           resourceTypes: filtredResourceTypes,
-          subjects: subjectsData.subjects,
+          subjects: data.subjects,
         }}
         locale={locale}
         searchParams={getSearchParams(filtredResourceTypes)}

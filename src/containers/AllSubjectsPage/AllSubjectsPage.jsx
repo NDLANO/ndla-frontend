@@ -18,7 +18,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import { subjectsQuery } from '../../queries';
 
 const AllSubjectsPage = ({ t }) => {
-  const { error, loading, data } = useGraphQuery({ query: subjectsQuery });
+  const { error, loading, data } = useGraphQuery(subjectsQuery);
   if (loading) return null;
   return (
     <div className="c-resources u-padding-top-large">

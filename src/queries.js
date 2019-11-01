@@ -454,11 +454,19 @@ export const subjectsQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const subjectsWithFiltersQuery = gql`
-  query subjectsQuery {
+export const searchPageQuery = gql`
+  query searchPageQuery {
     subjects {
       ...SubjectInfo
       filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+      subtypes {
         id
         name
       }
@@ -494,19 +502,6 @@ export const frontpageQuery = gql`
   }
   ${resourceInfoFragment}
   ${subjectInfoFragment}
-`;
-
-export const resourceTypesWithSubTypesQuery = gql`
-  query resourceTypesQuery {
-    resourceTypes {
-      id
-      name
-      subtypes {
-        id
-        name
-      }
-    }
-  }
 `;
 
 export const resourceTypesQuery = gql`

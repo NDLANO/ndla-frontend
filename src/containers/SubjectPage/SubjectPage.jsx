@@ -46,8 +46,7 @@ const SubjectPage = ({
   t,
 }) => {
   const { subjectId } = getUrnIdsFromProps({ ndlaFilm, match });
-  const { error, loading, data } = useGraphQuery({
-    query: subjectPageQuery,
+  const { error, loading, data } = useGraphQuery(subjectPageQuery, {
     variables: { subjectId, filterIds: getFiltersFromUrl(location) },
   });
 
@@ -72,10 +71,8 @@ const SubjectPage = ({
     return <DefaultErrorMessage />;
   }
   const activeFilters = getFiltersFromUrlAsArray(location);
-  const { subject } = data;
-  const { name: subjectName } = subject;
-
-  const subjectpage = subject && subject.subjectpage ? subject.subjectpage : {};
+  const { subject = {} } = data;
+  const { name: subjectName, subjectPage = {} } = subject;
 
   const {
     latestContent,
@@ -86,17 +83,14 @@ const SubjectPage = ({
     layout,
     about,
     metaDescription,
-  } = subjectpage;
+  } = subjectPage;
 
   return (
     <article>
       <Helmet>
         <title>{`${getDocumentTitle({ t, data })}`}</title>
-        {subject.subjectpage && subject.subjectpage.metaDescription && (
-          <meta
-            name="description"
-            content={subject.subjectpage.metaDescription}
-          />
+        {metaDescription && (
+          <meta name="description" content={metaDescription} />
         )}
       </Helmet>
       {about && (
@@ -127,7 +121,7 @@ const SubjectPage = ({
         layout={layout}
         locale={locale}
         subjectId={subjectId}
-        subjectpage={subjectpage}
+        subjectpage={subjectPage}
         subject={subject}
         activeFilters={activeFilters}
         handleFilterClick={handleFilterClick}

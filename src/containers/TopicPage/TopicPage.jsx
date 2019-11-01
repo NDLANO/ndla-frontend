@@ -70,8 +70,7 @@ const TopicPage = ({
 }) => {
   const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
-  const { data, loading, error } = useGraphQuery({
-    query: topicPageQuery,
+  const { data, loading, error } = useGraphQuery(topicPageQuery, {
     variables: { topicId, filterIds, subjectId },
   });
 
