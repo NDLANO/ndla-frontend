@@ -117,6 +117,9 @@
     "url-parse": "^1.4.7",
     "warning": "^4.0.3"
   },
+  "resolutions": {
+    "helmet/helmet-csp" : "2.8.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/NDLANO/ndla-frontend.git"
