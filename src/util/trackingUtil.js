@@ -85,7 +85,7 @@ export const getAllDimensions = (
     8: isArticle && article ? article.title : undefined,
     9: authors ? authors.map(author => author.name).join(', ') : undefined,
     13: learningpath ? learningpath.learningsteps.length : undefined,
-    14: learningstep ? learningstep.seqNo : undefined,
+    14: learningstep ? learningstep.seqNo + 1 : undefined,
   };
 
   return {
