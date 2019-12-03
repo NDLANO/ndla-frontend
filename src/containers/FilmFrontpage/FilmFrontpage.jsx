@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
@@ -22,6 +23,7 @@ import {
   GraphQLTopicShape,
   GraphQLArticleMetaShape,
   GraphQLMovieThemeShape,
+  GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { SUPPORTED_LANGUAGES } from '../../constants';
 
@@ -38,6 +40,10 @@ class FilmFrontpage extends Component {
     };
     this.onChangeResourceType = this.onChangeResourceType.bind(this);
     this.movieListRef = React.createRef();
+  }
+
+  static getDocumentTitle({ t, subject }) {
+    return `${subject ? subject.name : ''}${t('htmlTitles.titleTemplate')}`;
   }
 
   onChangeResourceType(resourceTypeSelected) {
@@ -59,6 +65,8 @@ class FilmFrontpage extends Component {
     const {
       highlighted,
       resourceTypes,
+      t,
+      subject,
       topics,
       aboutNDLAVideo,
       moviesByType,
@@ -79,6 +87,15 @@ class FilmFrontpage extends Component {
 
     return (
       <div id={skipToContentId}>
+        <Helmet>
+          <title>{`${this.constructor.getDocumentTitle({
+            t,
+            subject,
+          })}`}</title>
+          {aboutNDLAVideo && aboutNDLAVideo.description && (
+            <meta name="description" content={aboutNDLAVideo.description} />
+          )}
+        </Helmet>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
@@ -126,6 +143,7 @@ FilmFrontpage.propTypes = {
   moviesByType: PropTypes.arrayOf(GraphQLArticleMetaShape),
   highlighted: PropTypes.arrayOf(GraphQLArticleMetaShape),
   themes: PropTypes.arrayOf(GraphQLMovieThemeShape),
+  subject: GraphQLSubjectShape,
   topics: PropTypes.arrayOf(GraphQLTopicShape),
   resourceTypes: PropTypes.arrayOf(
     PropTypes.shape({
