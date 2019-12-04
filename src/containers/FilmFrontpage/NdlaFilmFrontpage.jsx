@@ -124,6 +124,8 @@ class NdlaFilm extends Component {
         highlighted={filmfrontpage && filmfrontpage.slideShow}
         themes={filmfrontpage && filmfrontpage.movieThemes}
         moviesByType={moviesByType}
+        t={t}
+        subject={subject}
         topics={subject && subject.topics}
         resourceTypes={[
           ...movieResourceTypes.map(resourceType => ({
