@@ -189,6 +189,8 @@ app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
   'contentbrowser/node',
   'print',
   'aktualitet',
+  'oppgave',
+  'fagstoff',
 ].forEach(path => {
   app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) =>
     forwardingRoute(req, res, next),
