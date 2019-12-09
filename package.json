@@ -112,7 +112,7 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "sass-loader": "^7.3.1",
-    "serialize-javascript": "^1.8.0",
+    "serialize-javascript": "^2.1.1",
     "source-map-support": "^0.5.9",
     "url-parse": "^1.4.7",
     "warning": "^4.0.3"
