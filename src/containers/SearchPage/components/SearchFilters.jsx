@@ -11,7 +11,6 @@ import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter, SearchFilterList } from '@ndla/ui';
 import { Core, Additional } from '@ndla/icons/common';
 import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
-import supportedLanguages from '../../../util/supportedLanguages';
 import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 
 const SearchFilters = ({
@@ -27,11 +26,6 @@ const SearchFilters = ({
         value: subject.id,
       }))
     : [];
-
-  const languages = supportedLanguages.map(language => ({
-    title: t(`languages.${language}`),
-    value: language,
-  }));
 
   const relevances = [
     {
@@ -153,17 +147,6 @@ const SearchFilters = ({
           }}
         />
       )}
-      <SearchFilter
-        label={t(`searchPage.label.languageFilter`)}
-        defaultVisibleCount={2}
-        showLabel={t(`searchPage.showLabel.languageFilter`)}
-        hideLabel={t(`searchPage.hideLabel.languageFilter`)}
-        options={languages}
-        values={searchParams.languageFilter || []}
-        onChange={(newValues, value) =>
-          onChange(newValues, value, 'languageFilter')
-        }
-      />
     </Fragment>
   );
 };
