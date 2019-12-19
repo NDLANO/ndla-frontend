@@ -163,6 +163,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
                 allResultUrl={allResultsUrl}
                 loading={loading}
                 resourceToLinkProps={searchResultToLinkProps}
+                history={history}
               />
             );
           }}
