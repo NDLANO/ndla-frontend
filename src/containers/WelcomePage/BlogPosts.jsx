@@ -17,7 +17,7 @@ const BlogPosts = ({ t, locale }) => (
     <BlogPostWrapper>
       <BlogPost
         image={{
-          url: '/static/elev-samarbeid.jpg',
+          url: '/static/fagfornyelse-blog.jpg',
         }}
         text={t('blogPosts.blog1.text')}
         externalLink={t('blogPosts.blog1.externalLink')}
@@ -28,7 +28,7 @@ const BlogPosts = ({ t, locale }) => (
       />
       <BlogPost
         image={{
-          url: '/static/student-grupper.jpg',
+          url: '/static/vilde2019.png',
         }}
         text={t('blogPosts.blog2.text')}
         externalLink={t('blogPosts.blog2.externalLink')}

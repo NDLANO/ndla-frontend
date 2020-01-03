@@ -38,7 +38,7 @@ const LearningpathEmbed = ({
 }) => {
   if (
     !learningpathStep ||
-    (!learningpathStep.article &&
+    (!learningpathStep.resource &&
       (!learningpathStep.embedUrl || !learningpathStep.oembed))
   ) {
     return null;

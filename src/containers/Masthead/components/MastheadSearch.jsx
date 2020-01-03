@@ -131,6 +131,7 @@ const MastheadSearch = ({
               searchString={query}
               allResultUrl={toSearch(searchString)}
               resourceToLinkProps={searchResultToLinkProps}
+              history={history}
             />
           )}
         </SearchFieldForm>

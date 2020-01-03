@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
+import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
 import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
@@ -38,6 +38,11 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
       to: 'https://twitter.com/ndla_no',
       text: t('footer.socialMediaLinks.twitter'),
       icon: <Twitter />,
+    },
+    {
+      to: 'https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA',
+      text: 'NDLA på YouTube',
+      icon: <Youtube />,
     },
     {
       to: 'https://om.ndla.no/nyhetsbrev/',
