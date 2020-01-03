@@ -111,6 +111,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       allResultUrl={allResultsUrl}
       loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
+      history={history}
     />
   );
 };
