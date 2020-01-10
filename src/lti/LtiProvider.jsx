@@ -10,9 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
-import { withTracker } from '@ndla/tracker';
 import { withApollo, Query } from 'react-apollo';
-import { getAllDimensions } from '../util/trackingUtil';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
@@ -44,18 +42,6 @@ class LtiProvider extends React.Component {
     this.onSearchParamsChange = this.onSearchParamsChange.bind(this);
     this.getSearchParams = this.getSearchParams.bind(this);
     this.getEnabledTabs = this.getEnabledTabs.bind(this);
-  }
-
-  static willTrackPageView(trackPageView, currentProps) {
-    trackPageView(currentProps);
-  }
-
-  static getDocumentTitle({ t }) {
-    return `LTI${t('htmlTitles.titleTemplate')}`;
-  }
-
-  static getDimensions(props) {
-    return getAllDimensions(props, undefined, true);
   }
 
   onSearchParamsChange(updatedFields) {
@@ -213,4 +199,4 @@ LtiProvider.propTypes = {
   ltiData: LtiDataShape,
 };
 
-export default injectT(withTracker(withApollo(LtiProvider)));
+export default injectT(withApollo(LtiProvider));
