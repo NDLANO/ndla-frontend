@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
-import { withApollo } from 'react-apollo';
 import {
   OneColumn,
   SubjectChildContent,
@@ -91,4 +90,4 @@ SubjectPageTwoColumn.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default withRouter(withApollo(SubjectPageTwoColumn));
+export default withRouter(SubjectPageTwoColumn);

@@ -18,7 +18,6 @@ export const sortOrder = {
 };
 
 export const groupeResourcesByResourceTypes = (
-  resourceTypes,
   supplementaryResources,
   coreResources,
 ) => {
@@ -61,7 +60,6 @@ export const getResourceGroups = (
   coreResouces,
 ) => {
   const groupedResources = groupeResourcesByResourceTypes(
-    resourceTypes,
     supplementaryResources,
     coreResouces,
   );

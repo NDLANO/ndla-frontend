@@ -11,13 +11,13 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
 import {
   FilmSlideshow,
   AboutNdlaFilm,
   FilmMovieSearch,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
+
 import MovieCategory from './MovieCategory';
 import {
   GraphQLTopicShape,
@@ -84,7 +84,6 @@ class FilmFrontpage extends Component {
       resourceTypes.find(
         resourceType => resourceType.id === resourceTypeSelected,
       );
-
     return (
       <div id={skipToContentId}>
         <Helmet>
@@ -161,13 +160,11 @@ FilmFrontpage.propTypes = {
       url: PropTypes.string,
       alt: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   locale: PropTypes.oneOf(SUPPORTED_LANGUAGES).isRequired,
   moreAboutNdlaFilm: PropTypes.any,
   showingAll: PropTypes.bool,
   skipToContentId: PropTypes.string,
-  t: PropTypes.func.isRequired,
-  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
 };
 
 FilmFrontpage.defaultProps = {
@@ -178,4 +175,4 @@ FilmFrontpage.defaultProps = {
   topics: [],
 };
 
-export default injectT(FilmFrontpage);
+export default FilmFrontpage;

@@ -19,19 +19,6 @@ class MastheadMenu extends Component {
     };
   }
 
-  componentDidMount() {
-    const { location, topicPath } = this.props;
-
-    const activeFilters = getFiltersFromUrlAsArray(location);
-    const topicIds = topicPath ? topicPath.map(topic => topic.id) : null;
-
-    this.setState({
-      expandedTopicId: topicIds[0] || null,
-      expandedSubtopicsId: topicIds.slice(1) || [],
-      activeFilters,
-    });
-  }
-
   onFilterClick = activeFilters => {
     const { onDataFetch } = this.props;
     const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
@@ -84,15 +71,8 @@ class MastheadMenu extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.location === null) {
-      return {
-        location: nextProps.location,
-      };
-    }
     const { location, topicPath } = nextProps;
-    const navigated = location !== prevState.location;
-
-    if (navigated) {
+    if (!prevState.expandedTopicId || location !== prevState.location) {
       const activeFilters = getFiltersFromUrlAsArray(location);
       const topicIds = topicPath ? topicPath.map(topic => topic.id) : null;
       return {
@@ -102,8 +82,6 @@ class MastheadMenu extends Component {
         location,
       };
     }
-
-    // No state update necessary
     return null;
   }
 

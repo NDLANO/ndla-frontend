@@ -6,58 +6,50 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
-import { withApollo, Query } from 'react-apollo';
+
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
-import {
-  resourceTypesWithSubTypesQuery,
-  subjectsWithFiltersQuery,
-} from '../queries';
+import { searchPageQuery } from '../queries';
 import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
 import { LtiDataShape } from '../shapes';
+import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
+import { useGraphQuery } from '../util/runQueries';
 
-class LtiProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.location = null;
-    this.state = {
-      hasError: false,
-      searchParams: {
-        contextFilters: [],
-        languageFilter: [],
-        resourceTypes: undefined,
-        contextTypes: undefined,
-        levels: [],
-        subjects: [],
-        page: '1',
-      },
-    };
-    this.onSearchParamsChange = this.onSearchParamsChange.bind(this);
-    this.getSearchParams = this.getSearchParams.bind(this);
-    this.getEnabledTabs = this.getEnabledTabs.bind(this);
-  }
+const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
+  const [searchParams, setSearchParams] = useState({
+    contextFilters: [],
+    languageFilter: [],
+    resourceTypes: undefined,
+    contextTypes: undefined,
+    levels: [],
+    subjects: [],
+    page: '1',
+  });
 
-  onSearchParamsChange(updatedFields) {
-    this.setState(prevState => ({
-      searchParams: {
-        ...prevState.searchParams,
-        ...updatedFields,
-        page: updatedFields.page
-          ? updatedFields.page.toString()
-          : prevState.searchParams.page,
-      },
-    }));
-  }
+  const { loading, data, error } = useGraphQuery(searchPageQuery, {
+    fetchPolicy: 'no-cache',
+  });
 
-  getSearchParams(filtredResourceTypes) {
-    const { searchParams } = this.state;
+  if (loading) return null;
+
+  const onSearchParamsChange = updatedFields => {
+    setSearchParams({
+      ...searchParams,
+      ...updatedFields,
+      page: updatedFields.page
+        ? updatedFields.page.toString()
+        : searchParams.page,
+    });
+  };
+
+  const getSearchParams = filtredResourceTypes => {
     const { contextTypes, resourceTypes } = searchParams;
     let searchParamsResourceTypes = filtredResourceTypes.map(type => type.id);
     if (contextTypes) {
@@ -70,10 +62,9 @@ class LtiProvider extends React.Component {
       ...searchParams,
       resourceTypes: searchParamsResourceTypes,
     };
-  }
+  };
 
-  getEnabledTabs(resourceTypes = []) {
-    const { t } = this.props;
+  const getEnabledTabs = (resourceTypes = []) => {
     const resourceTypeTabs = sortResourceTypes(resourceTypes).map(
       resourceType => ({
         value: resourceType.id,
@@ -94,98 +85,37 @@ class LtiProvider extends React.Component {
       },
       ...resourceTypeTabs,
     ];
+  };
+
+  if (error && !data) {
+    handleError(error);
+    return <ErrorPage locale={locale} />;
   }
 
-  componentDidCatch(error, info) {
-    if (process.env.NODE_ENV === 'production') {
-      // React prints all errors that occurred during rendering to the console in development
-      handleError(error, info);
-    }
-    this.setState({ hasError: true });
-  }
+  const filtredResourceTypes = data.resourceTypes
+    ? data.resourceTypes.filter(type => type.id !== RESOURCE_TYPE_LEARNING_PATH)
+    : [];
 
-  render() {
-    const {
-      locale: { abbreviation: locale },
-      ltiData,
-    } = this.props;
-    const { hasError } = this.state;
-
-    if (hasError) {
-      return <ErrorPage locale={locale} />;
-    }
-
-    return (
-      <Fragment>
-        <Helmet htmlAttributes={{ lang: locale }} />
-        <Query
-          asyncMode
-          query={resourceTypesWithSubTypesQuery}
-          fetchPolicy="no-cache"
-          ssr={false}>
-          {resourceTypesResult => {
-            const {
-              error: resourceTypesError,
-              data: resourceTypesData,
-            } = resourceTypesResult;
-            if (resourceTypesError) {
-              handleError(resourceTypesError);
-              return <ErrorPage locale={locale} />;
-            }
-            return (
-              <Query
-                asyncMode
-                query={subjectsWithFiltersQuery}
-                fetchPolicy="no-cache"
-                ssr={false}>
-                {subjectsResult => {
-                  const {
-                    error: subjectsError,
-                    data: subjectsData,
-                  } = subjectsResult;
-                  if (subjectsError) {
-                    handleError(subjectsError);
-                    return <ErrorPage locale={locale} />;
-                  }
-
-                  const loading =
-                    subjectsResult.loading || resourceTypesResult.loading;
-                  if (loading) {
-                    return null;
-                  }
-                  const filtredResourceTypes = resourceTypesData.resourceTypes
-                    ? resourceTypesData.resourceTypes.filter(
-                        type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
-                      )
-                    : [];
-
-                  return (
-                    <SearchContainer
-                      data={{
-                        resourceTypes: filtredResourceTypes,
-                        subjects: subjectsData.subjects,
-                      }}
-                      locale={locale}
-                      searchParams={this.getSearchParams(filtredResourceTypes)}
-                      enabledTabs={this.getEnabledTabs(filtredResourceTypes)}
-                      allTabValue={filtredResourceTypes
-                        .map(type => type.id)
-                        .join(',')}
-                      handleSearchParamsChange={this.onSearchParamsChange}
-                      ltiData={ltiData}
-                      includeEmbedButton
-                      isLti
-                    />
-                  );
-                }}
-              </Query>
-            );
-          }}
-        </Query>
-      </Fragment>
-    );
-  }
-}
+  return (
+    <ErrorBoundary>
+      <Helmet htmlAttributes={{ lang: locale }} />
+      <SearchContainer
+        data={{
+          resourceTypes: filtredResourceTypes,
+          subjects: data.subjects,
+        }}
+        locale={locale}
+        searchParams={getSearchParams(filtredResourceTypes)}
+        enabledTabs={getEnabledTabs(filtredResourceTypes)}
+        allTabValue={filtredResourceTypes.map(type => type.id).join(',')}
+        handleSearchParamsChange={onSearchParamsChange}
+        ltiData={ltiData}
+        includeEmbedButton
+        isLti
+      />
+    </ErrorBoundary>
+  );
+};
 
 LtiProvider.propTypes = {
   locale: PropTypes.shape({
@@ -199,4 +129,4 @@ LtiProvider.propTypes = {
   ltiData: LtiDataShape,
 };
 
-export default injectT(withApollo(LtiProvider));
+export default injectT(LtiProvider);

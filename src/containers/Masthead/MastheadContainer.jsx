@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Masthead,
@@ -17,239 +17,166 @@ import {
   BreadcrumbBlock,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { withApollo } from 'react-apollo';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
-import { getTopicPath } from '../../util/getTopicPath';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
-import {
-  topicResourcesQuery,
-  resourceTypesQuery,
-  resourceQuery,
-  subjectTopicsQuery,
-} from '../../queries';
-import { getResourceGroups } from '../Resources/getResourceGroups';
-import { runQueries } from '../../util/runQueries';
-import handleError from '../../util/handleError';
-import { toTopicMenu } from '../../util/topicsHelper';
+import { mastHeadQuery } from '../../queries';
 import {
   getFiltersFromUrl,
   getFiltersFromUrlAsArray,
 } from '../../util/filterHelper';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
+import { mapMastheadData } from './mastheadHelpers';
 
-class MastheadContainer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-    };
-  }
+const MastheadContainer = ({
+  infoContent,
+  locale,
+  location,
+  t,
+  ndlaFilm,
+  match,
+  skipToMainContentId,
+}) => {
+  const [subjectId, setSubjectId] = useState('');
+  const [topicId, setTopicId] = useState('');
+  const [state, setState] = useState({});
 
-  componentDidMount() {
-    this.updateData();
-  }
+  useEffect(() => {
+    updateData();
+  }, [location.pathname, location.search]);
 
-  componentDidUpdate(prevProps) {
-    const { location } = this.props;
-    if (
-      location.pathname !== prevProps.location.pathname ||
-      location.search !== prevProps.location.search
-    ) {
-      this.updateData();
-    }
-  }
+  const [fetchData, { data }] = useLazyQuery(mastHeadQuery);
 
-  updateData = async () => {
-    const { location } = this.props;
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps(this.props);
-    if (subjectId) {
-      try {
-        const activeFilters = getFiltersFromUrlAsArray(location);
-        const data = await this.getData(
+  useEffect(() => {
+    // we set data in state to prevent it from disappearing in view when we refecth
+    if (data) {
+      setState(
+        mapMastheadData({
           subjectId,
           topicId,
-          resourceId,
-          activeFilters,
-        );
-        this.setState({
           data,
-        });
-      } catch (error) {
-        handleError(error);
-      }
-    }
-  };
-
-  onDataFetch = async (subjectId, topicId, resourceId, filters = []) => {
-    this.setState(prevState => ({
-      data: {
-        ...prevState.data,
-        topicResourcesByType: [],
-      },
-    }));
-    const data = await this.getData(subjectId, topicId, resourceId, filters);
-    this.setState({ data });
-  };
-
-  getData = async (subjectId, topicId, resourceId, activeFilters = []) => {
-    const filterIds = activeFilters.join(',');
-
-    try {
-      const queries = [];
-      if (subjectId) {
-        queries.push({ query: resourceTypesQuery });
-        queries.push({
-          query: subjectTopicsQuery,
-          variables: { subjectId, filterIds },
-        });
-      }
-      if (topicId) {
-        queries.push({
-          query: topicResourcesQuery,
-          variables: { topicId, filterIds, subjectId },
-        });
-      }
-      if (resourceId) {
-        queries.push({
-          query: resourceQuery,
-          variables: { resourceId, filterIds, subjectId },
-        });
-      }
-
-      const { data } = await runQueries(this.props.client, queries);
-      const { resourceTypes, topic, subject } = data;
-      const supplementaryResources =
-        topic && topic.supplementaryResources
-          ? topic.supplementaryResources
-          : [];
-      const coreResources =
-        topic && topic.coreResources ? topic.coreResources : [];
-      const topicResourcesByType = getResourceGroups(
-        resourceTypes,
-        supplementaryResources,
-        coreResources,
+        }),
       );
-      const topicPath =
-        subject && subject.topics
-          ? getTopicPath(subjectId, topicId, subject.topics)
-          : [];
-
-      const filters =
-        subject && subject.filters
-          ? subject.filters.map(filter => ({
-              ...filter,
-              title: filter.name,
-              value: filter.id,
-            }))
-          : [];
-
-      const topicsWithSubTopics =
-        subject && subject.topics
-          ? subject.topics
-              .filter(t => !t.parent || t.parent === subjectId)
-              .map(t => toTopicMenu(t, subject.topics))
-          : [];
-
-      return {
-        filters,
-        resource: data.resource,
-        topicResourcesByType,
-        topicPath,
-        subject: {
-          ...subject,
-          topics: topicsWithSubTopics,
-        },
-      };
-    } catch (e) {
-      handleError(e);
-      return { error: true };
     }
-  };
+  }, [data]);
 
-  render() {
-    const {
-      infoContent,
-      locale,
-      location,
-      t,
+  const updateData = () => {
+    const { subjectId, resourceId, topicId } = getUrnIdsFromProps({
       ndlaFilm,
-      skipToMainContentId,
-    } = this.props;
-    const {
-      data: { subject, topicPath, filters, topicResourcesByType, resource },
-    } = this.state;
+      match,
+    });
+    if (subjectId) {
+      const activeFilters = getFiltersFromUrlAsArray(location);
+      getData(subjectId, topicId, resourceId, activeFilters);
+    }
+  };
 
-    const breadcrumbBlockItems = subject
-      ? toBreadcrumbItems(
-          t('breadcrumb.toFrontpage'),
-          [subject, ...topicPath, resource],
-          getFiltersFromUrl(location),
-        )
-      : [];
+  const onDataFetch = (subjectId, topicId, resourceId, filters = []) => {
+    getData(subjectId, topicId, resourceId, filters);
+  };
 
-    const renderSearchComponent = hideOnNarrowScreen =>
-      subject &&
-      !location.pathname.includes('search') && (
-        <MastheadSearch
-          subject={subject}
-          ndlaFilm={ndlaFilm}
-          hideOnNarrowScreen={hideOnNarrowScreen}
-        />
-      );
-    return (
-      <ErrorBoundary>
-        <Masthead
-          showLoaderWhenNeeded={topicPath && topicPath.length > 0}
-          fixed
-          ndlaFilm={ndlaFilm}
-          skipToMainContentId={skipToMainContentId}
-          infoContent={infoContent}>
-          <MastheadItem left>
-            {subject && (
-              <MastheadMenu
-                subject={subject}
-                ndlaFilm={ndlaFilm}
-                searchFieldComponent={renderSearchComponent(false)}
-                topicPath={topicPath || []}
-                onDataFetch={this.onDataFetch}
-                filters={filters}
-                resource={resource}
-                topicResourcesByType={topicResourcesByType || []}
-                locale={locale}
-              />
-            )}
-            <DisplayOnPageYOffset yOffsetMin={150}>
-              <BreadcrumbBlock
-                items={
-                  breadcrumbBlockItems.length > 1
-                    ? breadcrumbBlockItems.slice(1)
-                    : []
-                }
-              />
-            </DisplayOnPageYOffset>
-          </MastheadItem>
-          <MastheadItem right>
-            <LanguageSelector
-              inverted={ndlaFilm}
-              options={getLocaleUrls(locale, location)}
-              currentLanguage={locale}
-            />
-            {renderSearchComponent(true)}
-            <Logo
-              to="/"
-              locale={locale}
-              label={t('logo.altText')}
-              cssModifier={ndlaFilm ? 'white' : ''}
-            />
-          </MastheadItem>
-        </Masthead>
-      </ErrorBoundary>
+  const getData = (
+    subjectId,
+    topicId = '',
+    resourceId = '',
+    activeFilters = [],
+  ) => {
+    const filterIds = activeFilters.join(',');
+    if (subjectId) {
+      setSubjectId(subjectId);
+    }
+    if (topicId) {
+      setTopicId(topicId);
+    }
+    fetchData({
+      variables: {
+        subjectId,
+        filterIds,
+        topicId,
+        resourceId,
+        skipTopic: !topicId,
+        skipResource: !resourceId,
+      },
+    });
+  };
+
+  const {
+    subject,
+    topicPath = [],
+    filters,
+    topicResourcesByType,
+    resource,
+  } = state;
+
+  const breadcrumbBlockItems = subject
+    ? toBreadcrumbItems(
+        t('breadcrumb.toFrontpage'),
+        [subject, ...topicPath, resource],
+        getFiltersFromUrl(location),
+      )
+    : [];
+
+  const renderSearchComponent = hideOnNarrowScreen =>
+    subject &&
+    !location.pathname.includes('search') && (
+      <MastheadSearch
+        subject={subject}
+        ndlaFilm={ndlaFilm}
+        hideOnNarrowScreen={hideOnNarrowScreen}
+      />
     );
-  }
-}
+  return (
+    <ErrorBoundary>
+      <Masthead
+        fixed
+        ndlaFilm={ndlaFilm}
+        skipToMainContentId={skipToMainContentId}
+        infoContent={infoContent}>
+        <MastheadItem left>
+          {subject && (
+            <MastheadMenu
+              subject={subject}
+              ndlaFilm={ndlaFilm}
+              searchFieldComponent={renderSearchComponent(false)}
+              topicPath={topicPath || []}
+              onDataFetch={onDataFetch}
+              filters={filters}
+              resource={resource}
+              topicResourcesByType={topicResourcesByType || []}
+              locale={locale}
+            />
+          )}
+          <DisplayOnPageYOffset yOffsetMin={150}>
+            <BreadcrumbBlock
+              items={
+                breadcrumbBlockItems.length > 1
+                  ? breadcrumbBlockItems.slice(1)
+                  : []
+              }
+            />
+          </DisplayOnPageYOffset>
+        </MastheadItem>
+        <MastheadItem right>
+          <LanguageSelector
+            inverted={ndlaFilm}
+            options={getLocaleUrls(locale, location)}
+            currentLanguage={locale}
+          />
+          {renderSearchComponent(true)}
+          <Logo
+            to="/"
+            locale={locale}
+            label={t('logo.altText')}
+            cssModifier={ndlaFilm ? 'white' : ''}
+          />
+        </MastheadItem>
+      </Masthead>
+    </ErrorBoundary>
+  );
+};
 
 MastheadContainer.propTypes = {
   match: PropTypes.shape({
@@ -259,7 +186,6 @@ MastheadContainer.propTypes = {
     }).isRequired,
   }).isRequired,
   location: LocationShape,
-  client: PropTypes.shape({ query: PropTypes.func.isRequired }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -269,4 +195,4 @@ MastheadContainer.propTypes = {
   skipToMainContentId: PropTypes.string.isRequired,
 };
 
-export default injectT(withApollo(MastheadContainer));
+export default injectT(MastheadContainer);

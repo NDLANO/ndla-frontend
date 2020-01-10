@@ -10,7 +10,7 @@ import React from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
-import SubjectsPage from './containers/SubjectsPage/SubjectsPage';
+import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
@@ -81,7 +81,7 @@ export const routes = [
   },
   {
     path: '/subjects',
-    component: SubjectsPage,
+    component: AllSubjectsPage,
     background: false,
   },
   {

@@ -163,7 +163,6 @@ SearchFilters.propTypes = {
   searchParams: SearchParamsShape,
   filters: arrayOf(FilterShape),
   onChange: func,
-  onContentTypeChange: func,
   enabledTabs: arrayOf(
     shape({
       name: string,

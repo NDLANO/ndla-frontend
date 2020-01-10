@@ -454,11 +454,19 @@ export const subjectsQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const subjectsWithFiltersQuery = gql`
-  query subjectsQuery {
+export const searchPageQuery = gql`
+  query searchPageQuery {
     subjects {
       ...SubjectInfo
       filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+      subtypes {
         id
         name
       }
@@ -484,22 +492,16 @@ export const frontpageQuery = gql`
         }
       }
     }
-  }
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
-`;
-
-export const resourceTypesWithSubTypesQuery = gql`
-  query resourceTypesQuery {
-    resourceTypes {
-      id
-      name
-      subtypes {
+    subjects {
+      ...SubjectInfo
+      filters {
         id
         name
       }
     }
   }
+  ${resourceInfoFragment}
+  ${subjectInfoFragment}
 `;
 
 export const resourceTypesQuery = gql`
@@ -701,4 +703,175 @@ export const filmFrontPageQuery = gql`
     }
   }
   ${movieFragment}
+`;
+
+export const mastHeadQuery = gql`
+  query mastHeadQuery(
+    $subjectId: String!
+    $filterIds: String
+    $topicId: String!
+    $resourceId: String!
+    $skipTopic: Boolean!
+    $skipResource: Boolean!
+  ) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        id
+        name
+        parent
+        path
+        meta {
+          id
+          metaDescription
+        }
+      }
+      filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+    }
+    topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
+      id
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    resource(id: $resourceId, subjectId: $subjectId) @skip(if: $skipResource) {
+      ...ResourceInfo
+      article(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ArticleInfo
+      }
+      learningpath {
+        ...LearningpathInfo
+      }
+    }
+  }
+  ${learningpathInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+`;
+
+export const topicPageQuery = gql`
+  query topicPageQuery(
+    $topicId: String!
+    $filterIds: String!
+    $subjectId: String!
+  ) {
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      name
+      path
+      meta {
+        id
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      article {
+        ...ArticleInfo
+      }
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        id
+        name
+        parent
+        path
+        meta {
+          id
+          metaDescription
+        }
+      }
+      filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+    }
+  }
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+`;
+
+export const resourcePageQuery = gql`
+  query resourcePageQuery(
+    $topicId: String!
+    $filterIds: String!
+    $subjectId: String!
+    $resourceId: String!
+  ) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(all: true, filterIds: $filterIds) {
+        id
+        name
+        parent
+        path
+        meta {
+          id
+          metaDescription
+        }
+      }
+      filters {
+        id
+        name
+      }
+    }
+    resourceTypes {
+      id
+      name
+      subtypes {
+        id
+        name
+      }
+    }
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    resource(id: $resourceId, subjectId: $subjectId) {
+      ...ResourceInfo
+      article(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ArticleInfo
+      }
+      learningpath {
+        ...LearningpathInfo
+      }
+    }
+  }
+  ${learningpathInfoFragment}
+  ${resourceInfoFragment}
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
 `;
