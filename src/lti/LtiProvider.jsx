@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { withApollo, Query } from 'react-apollo';
-import { getAllDimensions } from '../../util/trackingUtil';
+import { getAllDimensions } from '../util/trackingUtil';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
