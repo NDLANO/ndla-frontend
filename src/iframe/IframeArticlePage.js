@@ -40,7 +40,7 @@ class IframeArticlePage extends Component {
 
   static getDocumentTitle({ t, resource }) {
     if (resource && resource.article && resource.article.id) {
-      return `NDLA | ${resource.article.title.title}`;
+      return `NDLA | ${resource.article.title}`;
     }
     return '';
   }
