@@ -156,6 +156,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
                     t,
                     delayedSearchQuery,
                     locale,
+                    categories,
                   )
                 }
                 infoText={infoText}

@@ -48,7 +48,7 @@ const sortByName = arr =>
     return 0;
   });
 
-function findMatchingFrontpageFilter(subjectsFromApi, subject) {
+export function findMatchingFrontpageFilter(subjectsFromApi, subject) {
   const subjectFromApi = subjectsFromApi.find(s => s.id === subject.id);
   if (
     subjectFromApi &&
@@ -74,7 +74,7 @@ function createSubjectFilterUrl(subject, filter) {
   return baseUrl;
 }
 
-function findCategoryByName(categoriesFromApi, name) {
+export function findCategoryByName(categoriesFromApi, name) {
   const found = categoriesFromApi.find(category => category.name === name);
   if (found) {
     return found.subjects;

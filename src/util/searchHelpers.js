@@ -1,31 +1,68 @@
 import { FRONTPAGE_CATEGORIES } from '../constants';
+import {
+  findCategoryByName,
+  findMatchingFrontpageFilter,
+} from '../containers/WelcomePage/FrontpageSubjects';
+import { removeUrn } from '../routeHelpers';
 
-export const searchSubjects = (query, locale) =>
-  FRONTPAGE_CATEGORIES.categories.reduce((accumulated, category) => {
-    if (!query) {
-      return [];
-    }
-    query = query.trim().toLowerCase();
-    const foundInSubjects = category.subjects.filter(subject =>
-      subject.name.toLowerCase().includes(query),
-    );
-    return [
-      ...accumulated,
-      ...foundInSubjects.map(subject => ({
-        id: subject.id,
-        path: subject.id
-          ? `/${subject.id.replace('urn:', '')}/`
-          : `${locale ? `/${locale}` : ''}/node/${subject.nodeId}/`,
-        subject: `${category.name.charAt(0).toUpperCase()}${category.name.slice(
-          1,
-        )}:`,
-        name: subject.name,
-      })),
-    ];
-  }, []);
+const createSubjectFilterPath = (subject, filter) => {
+  const baseUrl = `/${removeUrn(subject.id)}/`;
+  if (filter) {
+    const filterIds = filter.map(f => f.id).join(',');
+    return `${baseUrl}?filters=${filterIds}`;
+  }
+  return baseUrl;
+};
 
-export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
-  const subjectHits = searchSubjects(query, locale);
+export const searchSubjects = (query, locale, categoriesFromApi) => {
+  const allOfThem = FRONTPAGE_CATEGORIES.categories.reduce(
+    (accumulated, category) => {
+      if (!query) {
+        return [];
+      }
+
+      const subjectsFromApi = findCategoryByName(
+        categoriesFromApi,
+        category.name,
+      );
+
+      query = query.trim().toLowerCase();
+      const foundInSubjects = category.subjects.filter(subject =>
+        subject.name.toLowerCase().includes(query),
+      );
+
+      return [
+        ...accumulated,
+        ...foundInSubjects.map(subject => {
+          const filter = findMatchingFrontpageFilter(subjectsFromApi, subject);
+          const path = subject.id
+            ? createSubjectFilterPath(subject, filter)
+            : `${locale ? `/${locale}` : ''}/node/${subject.nodeId}/`;
+          return {
+            id: subject.id,
+            path: path,
+            subject: `${category.name
+              .charAt(0)
+              .toUpperCase()}${category.name.slice(1)}:`,
+            name: subject.name,
+          };
+        }),
+      ];
+    },
+    [],
+  );
+
+  return allOfThem;
+};
+
+export const mapSearchToFrontPageStructure = (
+  data,
+  t,
+  query,
+  locale,
+  categoriesFromApi,
+) => {
+  const subjectHits = searchSubjects(query, locale, categoriesFromApi);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
