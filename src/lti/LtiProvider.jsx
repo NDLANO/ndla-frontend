@@ -15,7 +15,14 @@ import { ArticleShape, ResourceTypeShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+} from '../constants';
 import { searchPageQuery, searchQuery } from '../queries';
 import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
 import { LtiDataShape } from '../shapes';
@@ -34,9 +41,17 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
     page: '1',
   });
 
+  const filteredSearchParams = {
+    ...searchParams,
+    resourceTypes: searchParams.contextTypes
+      ? undefined
+      : searchParams.resourceTypes ||
+        `${RESOURCE_TYPE_SUBJECT_MATERIAL},${RESOURCE_TYPE_TASKS_AND_ACTIVITIES},${RESOURCE_TYPE_ASSESSMENT_RESOURCES},${RESOURCE_TYPE_SOURCE_MATERIAL},${RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES}`,
+  };
+
   const stateSearchParams = {};
-  Object.keys(searchParams).forEach(key => {
-    stateSearchParams[key] = convertSearchParam(searchParams[key]);
+  Object.keys(filteredSearchParams).forEach(key => {
+    stateSearchParams[key] = convertSearchParam(filteredSearchParams[key]);
   });
 
   const { loading, data, error } = useGraphQuery(searchPageQuery);
@@ -61,7 +76,7 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
   };
 
   const getSearchParams = filtredResourceTypes => {
-    const { contextTypes, resourceTypes } = searchParams;
+    const { contextTypes, resourceTypes } = filteredSearchParams;
     let searchParamsResourceTypes = filtredResourceTypes.map(type => type.id);
     if (contextTypes) {
       searchParamsResourceTypes = undefined;
