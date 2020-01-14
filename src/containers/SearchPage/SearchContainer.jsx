@@ -247,7 +247,7 @@ SearchContainer.propTypes = {
     }),
   ),
   allTabValue: string,
-  enabledTab: string,
+  enabledTab: string.isRequired,
   isLti: bool,
   error: arrayOf(object),
   loading: bool,

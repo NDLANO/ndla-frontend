@@ -16,11 +16,12 @@ import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
-import { searchPageQuery } from '../queries';
+import { searchPageQuery, searchQuery } from '../queries';
 import { sortResourceTypes } from '../containers/Resources/getResourceGroups';
 import { LtiDataShape } from '../shapes';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
+import { convertSearchParam } from '../containers/SearchPage/searchHelpers';
 
 const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
@@ -33,9 +34,19 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
     page: '1',
   });
 
-  const { loading, data, error } = useGraphQuery(searchPageQuery, {
-    fetchPolicy: 'no-cache',
+  const stateSearchParams = {};
+  Object.keys(searchParams).forEach(key => {
+    stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
+
+  const { loading, data, error } = useGraphQuery(searchPageQuery);
+
+  const { data: searchData, loadingSearch, searchError } = useGraphQuery(
+    searchQuery,
+    {
+      variables: stateSearchParams,
+    },
+  );
 
   if (loading) return null;
 
@@ -96,6 +107,12 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
     ? data.resourceTypes.filter(type => type.id !== RESOURCE_TYPE_LEARNING_PATH)
     : [];
 
+  const allTabValue = filtredResourceTypes.map(type => type.id).join(',');
+  const enabledTab =
+    stateSearchParams.resourceTypes ||
+    stateSearchParams.contextTypes ||
+    allTabValue;
+
   return (
     <ErrorBoundary>
       <Helmet htmlAttributes={{ lang: locale }} />
@@ -107,9 +124,13 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
         locale={locale}
         searchParams={getSearchParams(filtredResourceTypes)}
         enabledTabs={getEnabledTabs(filtredResourceTypes)}
-        allTabValue={filtredResourceTypes.map(type => type.id).join(',')}
+        enabledTab={enabledTab}
+        allTabValue={allTabValue}
         handleSearchParamsChange={onSearchParamsChange}
+        error={searchError}
         ltiData={ltiData}
+        loading={loadingSearch}
+        searchData={searchData}
         includeEmbedButton
         isLti
       />
