@@ -65,7 +65,7 @@
     "@ndla/safelink": "^0.0.3",
     "@ndla/tabs": "^0.11.21",
     "@ndla/tracker": "^0.4.0",
-    "@ndla/ui": "^0.27.1",
+    "@ndla/ui": "^0.27.2",
     "@ndla/util": "^0.3.5",
     "@ndla/zendesk": "^0.2.20",
     "apollo-cache-inmemory": "^1.6.3",
