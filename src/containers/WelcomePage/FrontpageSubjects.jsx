@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { FrontpageCircularSubjectsSection } from '@ndla/ui';
+import SafeLink from '@ndla/safelink';
+
 import { toSubject } from '../../routeHelpers';
 import {
   GraphQLFrontpageCategoryShape,
@@ -184,7 +186,7 @@ const FrontpageSubjects = ({ categories, subjects, locale }) => {
             <ul>
               {imported.map(subject => (
                 <li key={subject.url}>
-                  <a href={subject.url}>{subject.text}</a>
+                  <SafeLink to={subject.url}>{subject.text}</SafeLink>
                 </li>
               ))}
             </ul>

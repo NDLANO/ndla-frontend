@@ -6,121 +6,98 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { LearningpathShape } from '../../shapes';
+
 import { getAllDimensions } from '../../util/trackingUtil';
 import LearningPath from '../../components/Learningpath';
-import { runQueries } from '../../util/runQueries';
 import { learningPathStepQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { useGraphQuery } from '../../util/runQueries';
 
 const getTitle = learningpath => (learningpath ? learningpath.title : '');
 
-class PlainLearningPathPage extends Component {
-  static willTrackPageView(trackPageView, currentProps) {
-    const { loading, data } = currentProps;
-    if (loading || !data) {
-      return;
-    }
-    trackPageView(currentProps);
-  }
+const getDocumentTitle = ({ t, data }) => {
+  const { learningpath } = data;
+  return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
+};
 
-  componentDidMount() {
+const PlainLearningPathPage = ({
+  locale,
+  skipToContentId,
+  match: {
+    params: { stepId, learningpathId },
+  },
+}) => {
+  useEffect(() => {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
+  });
+
+  const { data, loading } = useGraphQuery(learningPathStepQuery, {
+    variables: { pathId: learningpathId },
+  });
+
+  if (loading) {
+    return null;
   }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
+  if (
+    !data ||
+    !data.learningpath ||
+    !data.learningpath.learningsteps.length === 0
+  ) {
+    return <DefaultErrorMessage />;
   }
+  const { learningpath } = data;
+  const learningpathStep = stepId
+    ? learningpath.learningsteps.find(
+        step => step.id.toString() === stepId.toString(),
+      )
+    : learningpath.learningsteps[0];
 
-  static getDimensions(props) {
-    return getAllDimensions(props, undefined, true);
+  return (
+    <div>
+      <Helmet>
+        <title>{`${getDocumentTitle(this.props)}`}</title>
+      </Helmet>
+      <SocialMediaMetadata
+        title={`${learningpath.title} - ${learningpathStep.title}`}
+        trackableContent={learningpath}
+        description={learningpath.description}
+        locale={locale}
+        image={{
+          src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+        }}
+      />
+      <LearningPath
+        id={skipToContentId}
+        learningpath={learningpath}
+        skipToContentId={skipToContentId}
+        locale={locale}
+        learningpathStep={learningpathStep}
+      />
+    </div>
+  );
+};
+
+PlainLearningPathPage.willTrackPageView = (trackPageView, currentProps) => {
+  const { loading, data } = currentProps;
+  if (loading || !data) {
+    return;
   }
+  trackPageView(currentProps);
+};
 
-  static getDocumentTitle({ t, data }) {
-    const { learningpath } = data;
-    return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
-  }
+PlainLearningPathPage.getDimensions = props => {
+  return getAllDimensions(props, undefined, true);
+};
 
-  static async getInitialProps(ctx) {
-    const {
-      client,
-      match: {
-        params: { learningpathId },
-      },
-    } = ctx;
-    const response = await runQueries(client, [
-      {
-        query: learningPathStepQuery,
-        variables: { pathId: learningpathId },
-      },
-    ]);
-    return response;
-  }
-
-  render() {
-    const {
-      data,
-      loading,
-      locale,
-      skipToContentId,
-      match: {
-        params: { stepId },
-      },
-    } = this.props;
-
-    if (loading) {
-      return null;
-    }
-    if (
-      !data ||
-      !data.learningpath ||
-      !data.learningpath.learningsteps.length === 0
-    ) {
-      return <DefaultErrorMessage />;
-    }
-    const { learningpath } = data;
-    const learningpathStep = stepId
-      ? learningpath.learningsteps.find(
-          step => step.id.toString() === stepId.toString(),
-        )
-      : learningpath.learningsteps[0];
-
-    return (
-      <div>
-        <Helmet>
-          <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
-        </Helmet>
-        <SocialMediaMetadata
-          title={`${learningpath.title} - ${learningpathStep.title}`}
-          trackableContent={learningpath}
-          description={learningpath.description}
-          locale={locale}
-          image={{
-            src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
-          }}
-        />
-        <LearningPath
-          id={skipToContentId}
-          learningpath={learningpath}
-          skipToContentId={skipToContentId}
-          locale={locale}
-          learningpathStep={learningpathStep}
-        />
-      </div>
-    );
-  }
-}
+PlainLearningPathPage.getDocumentTitle = getDocumentTitle;
 
 PlainLearningPathPage.propTypes = {
   match: PropTypes.shape({
@@ -129,10 +106,6 @@ PlainLearningPathPage.propTypes = {
       stepId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  data: PropTypes.shape({
-    learningpath: LearningpathShape,
-  }),
-  loading: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
   skipToContentId: PropTypes.string,
 };

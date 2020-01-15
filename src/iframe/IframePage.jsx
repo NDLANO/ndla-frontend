@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { MissingRouterContext } from '@ndla/safelink';
 import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { createApolloClient } from '../util/apiHelpers';

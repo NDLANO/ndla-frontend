@@ -238,6 +238,18 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
+.emotion-6 {
+  border: calc(52px / 6.5) solid rgba(0,0,0,0.1);
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  -webkit-animation: spinnerAnimation 0.7s linear infinite;
+  animation: spinnerAnimation 0.7s linear infinite;
+  height: 52px;
+  width: 52px;
+  display: block;
+  margin: 26px auto;
+}
+
 <div
   className="o-container"
 >
@@ -381,6 +393,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           >
             Vis kompetansemål
           </button>
+          <div
+            className="emotion-6 emotion-7"
+            size="large"
+          />
         </div>
       </section>
       <section

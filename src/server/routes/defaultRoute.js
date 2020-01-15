@@ -11,9 +11,12 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
-import { ApolloProvider } from 'react-apollo';
-
+import { ApolloProvider } from '@apollo/react-hooks';
+import { renderToStringWithData } from '@apollo/react-ssr';
 import queryString from 'query-string';
+import { CacheProvider } from '@emotion/core';
+import createCache from '@emotion/cache';
+
 import routes, { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
@@ -76,28 +79,41 @@ async function doRender(req) {
     });
   }
 
+  const cache = createCache();
+
   const context = {};
   const Page = !disableSSR(req) ? (
     <ApolloProvider client={client}>
-      <IntlProvider locale={locale} messages={messages}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes({ ...initialProps, basename }, locale)}
-        </StaticRouter>
-      </IntlProvider>
+      <CacheProvider value={cache}>
+        <IntlProvider locale={locale} messages={messages}>
+          <StaticRouter
+            basename={basename}
+            location={req.url}
+            context={context}>
+            {routes({ ...initialProps, basename }, locale)}
+          </StaticRouter>
+        </IntlProvider>
+      </CacheProvider>
     </ApolloProvider>
   ) : (
     ''
   );
 
+  const html = await renderToStringWithData(Page);
   const apolloState = client.extract();
-  const { html, ...docProps } = renderPage(Page, getAssets(), {
-    initialProps,
-    apolloState,
-  });
+  const docProps = renderPage(
+    Page,
+    getAssets(),
+    {
+      initialProps,
+      apolloState,
+    },
+    cache,
+  );
 
   return {
-    html,
     docProps,
+    html,
     context,
   };
 }

@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
-import { withApollo } from 'react-apollo';
 import { OneColumn, SubjectSidebarWrapper, SubjectContent } from '@ndla/ui';
 import { GraphQLSubjectPageShape } from '../../../../graphqlShapes';
 import { TopicShape } from '../../../../shapes';
@@ -75,4 +74,4 @@ SubjectPageSingle.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default withRouter(withApollo(SubjectPageSingle));
+export default withRouter(SubjectPageSingle);

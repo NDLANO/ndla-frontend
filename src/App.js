@@ -15,7 +15,6 @@ import {
   Switch,
 } from 'react-router-dom';
 import { Content } from '@ndla/ui';
-import { withApollo } from 'react-apollo';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { routes } from './routes';
@@ -162,7 +161,6 @@ class App extends React.Component {
         locale: props.locale,
         location: props.location,
         history: props.history,
-        client: props.client,
         ndlaFilm: props.ndlaFilm,
       });
     } catch (e) {
@@ -215,4 +213,4 @@ App.propTypes = {
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default withRouter(withApollo(App));
+export default withRouter(App);

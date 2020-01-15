@@ -101,6 +101,7 @@ export const createApolloClient = (language = 'nb') => {
     : new InMemoryCache({ fragmentMatcher });
 
   const client = new ApolloClient({
+    ssrMode: true,
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {

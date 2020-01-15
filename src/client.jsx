@@ -11,9 +11,12 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { setCookie, getCookie } from '@ndla/util';
 import { configureTracker } from '@ndla/tracker';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/core';
+
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
@@ -65,14 +68,16 @@ window.hasHydrated = false;
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
-
+const cache = createCache();
 renderOrHydrate(
   <ApolloProvider client={client}>
-    <IntlProvider locale={abbreviation} messages={messages}>
-      <Router history={browserHistory}>
-        {routes({ ...initialProps, basename }, abbreviation)}
-      </Router>
-    </IntlProvider>
+    <CacheProvider value={cache}>
+      <IntlProvider locale={abbreviation} messages={messages}>
+        <Router history={browserHistory}>
+          {routes({ ...initialProps, basename }, abbreviation)}
+        </Router>
+      </IntlProvider>
+    </CacheProvider>
   </ApolloProvider>,
   document.getElementById('root'),
   () => {

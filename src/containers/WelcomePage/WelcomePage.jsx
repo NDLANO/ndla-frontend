@@ -6,74 +6,29 @@
  *
  */
 
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
-import {
-  FrontpageHeader,
-  FrontpageFilm,
-  OneColumn,
-  FrontpageSearch,
-} from '@ndla/ui';
+import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { Query } from 'react-apollo';
-import debounce from 'lodash.debounce';
 import Spinner from '@ndla/ui/lib/Spinner';
-import {
-  GraphQLFrontpageShape,
-  GraphQLSimpleSubjectShape,
-} from '../../graphqlShapes';
-import { frontpageQuery, subjectsQuery } from '../../queries';
-import { runQueries } from '../../util/runQueries';
+import { useQuery } from '@apollo/react-hooks';
+
+import { frontpageQuery } from '../../queries';
 import WelcomePageInfo from './WelcomePageInfo';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
-import handleError from '../../util/handleError';
-import { frontpageSearchQuery } from '../../queries';
 
-import { topicsNotInNDLA } from '../../util/topicsHelper';
-import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
-import { toSearch } from '../../routeHelpers';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
-import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
+import WelcomePageSearch from './WelcomePageSearch';
 
-const debounceCall = debounce(fn => fn(), 300);
-const WelcomePage = ({ t, data, loading, locale, history, location }) => {
-  const [query, setQuery] = useState('');
-  const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
-  const [inputHasFocus, setInputHasFocus] = useState(false);
-  const onSearchFieldChange = query => {
-    setQuery(query);
-    debounceCall(() => setDelayedSearchQuery(query));
-  };
-
-  const allResultsUrl = toSearch(`?query=${query}`);
-
-  const onSearch = evt => {
-    evt.preventDefault();
-    history.push(allResultsUrl);
-  };
-
-  const renderInfoText = () => (
-    <span>
-      {topicsNotInNDLA.map((topic, index) => (
-        <Fragment key={topic}>
-          {index === topicsNotInNDLA.length - 1 &&
-            `${t('welcomePage.topicsConjunction')} `}
-          <strong key={topic}>
-            {topic}
-            {index < topicsNotInNDLA.length - 2 && ','}{' '}
-          </strong>
-        </Fragment>
-      ))}
-      {t('welcomePage.topicsNotAvailableFromSearch')}
-    </span>
-  );
+const WelcomePage = ({ t, locale, history, location }) => {
+  const { data, loading } = useQuery(frontpageQuery);
 
   if (loading) {
     return <Spinner />;
@@ -82,9 +37,7 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-
-  const { subjects = [] } = data;
-  const frontpage = data && data.frontpage ? data.frontpage : {};
+  const { frontpage = {}, subjects = [] } = data;
   const { categories = [] } = frontpage;
   const headerLinks = [
     {
@@ -92,11 +45,6 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
       text: t('welcomePage.heading.links.aboutNDLA'),
     },
   ];
-
-  const headerMessages = {
-    searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
-    menuButton: t('welcomePage.heading.messages.menuButton'),
-  };
 
   const frontPageSubjects = subjects.length > 0 && (
     <FrontpageSubjects
@@ -106,10 +54,6 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
     />
   );
 
-  const infoText =
-    topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
-      ? renderInfoText()
-      : '';
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
@@ -120,55 +64,11 @@ const WelcomePage = ({ t, data, loading, locale, history, location }) => {
         image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-
       <FrontpageHeader
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        <Query
-          fetchPolicy="no-cache"
-          variables={{
-            query: delayedSearchQuery,
-          }}
-          ssr={false}
-          skip={delayedSearchQuery.length <= 2}
-          query={frontpageSearchQuery}>
-          {({ data, loading, error }) => {
-            if (error) {
-              handleError(error);
-              return `Error: ${error.message}`;
-            }
-            return (
-              <FrontpageSearch
-                inputHasFocus={inputHasFocus}
-                onInputBlur={() => setInputHasFocus(false)}
-                messages={headerMessages}
-                searchFieldValue={query}
-                onSearch={onSearch}
-                onSearchFieldChange={onSearchFieldChange}
-                searchFieldPlaceholder={t(
-                  'welcomePage.heading.searchFieldPlaceholder',
-                )}
-                searchResult={
-                  delayedSearchQuery.length > 2 &&
-                  mapSearchToFrontPageStructure(
-                    data,
-                    t,
-                    delayedSearchQuery,
-                    locale,
-                    categories,
-                  )
-                }
-                infoText={infoText}
-                onSearchInputFocus={() => setInputHasFocus(true)}
-                allResultUrl={allResultsUrl}
-                loading={loading}
-                resourceToLinkProps={searchResultToLinkProps}
-                history={history}
-              />
-            );
-          }}
-        </Query>
+        <WelcomePageSearch history={history} locale={locale} categories={categories} />
       </FrontpageHeader>
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
@@ -202,22 +102,6 @@ WelcomePage.propTypes = {
   }).isRequired,
   location: LocationShape,
   locale: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
-  data: PropTypes.shape({
-    frontpage: GraphQLFrontpageShape,
-    subjects: PropTypes.arrayOf(GraphQLSimpleSubjectShape),
-  }),
-};
-
-WelcomePage.getInitialProps = async ({ client }) => {
-  return runQueries(client, [
-    {
-      query: frontpageQuery,
-    },
-    {
-      query: subjectsQuery,
-    },
-  ]);
 };
 
 export default injectT(WelcomePage);
