@@ -41,7 +41,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
     },
     {
       to: 'https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA',
-      text: 'NDLA på YouTube',
+      text: t('footer.socialMediaLinks.youtube'),
       icon: <Youtube />,
     },
     {
