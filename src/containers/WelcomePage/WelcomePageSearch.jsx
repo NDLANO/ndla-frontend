@@ -122,6 +122,7 @@ WelcomePageSearch.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default injectT(WelcomePageSearch);
