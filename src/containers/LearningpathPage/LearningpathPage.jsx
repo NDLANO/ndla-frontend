@@ -188,6 +188,9 @@ LearningpathPage.propTypes = {
     subject: GraphQLSubjectShape,
   }),
   skipToContentId: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 LearningpathPage.defaultProps = {
