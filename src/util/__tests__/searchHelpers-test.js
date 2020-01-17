@@ -12,12 +12,14 @@ import {
 } from '../searchHelpers';
 
 test('search subjects', () => {
-  const searchResult = searchSubjects('Vg2 og', 'nb');
+  const searchResult = searchSubjects('Vg2 og', 'nb', []);
   expect(searchResult.length).toBe(2);
 });
 
 test('map function', () => {
-  expect(mapSearchToFrontPageStructure({}, () => {})).toEqual([]);
+  expect(mapSearchToFrontPageStructure({}, () => {}, undefined, [])).toEqual(
+    [],
+  );
   const returnArray = mapSearchToFrontPageStructure(
     {
       frontpageSearch: {
@@ -28,6 +30,7 @@ test('map function', () => {
     () => {},
     'Vg2 og',
     'nb',
+    [],
   );
   expect(returnArray.length).toBe(2);
 });
