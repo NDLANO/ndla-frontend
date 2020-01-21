@@ -23,6 +23,7 @@ import {
   GraphQLTopicShape,
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
+import { toLearningPath } from '../../routeHelpers';
 
 class LearningpathPage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
@@ -66,6 +67,36 @@ class LearningpathPage extends Component {
       learningpath ? learningpath.title : ''
     }${t('htmlTitles.titleTemplate')}`;
   }
+
+  onKeyUpEvent = evt => {
+    const {
+      data: { resource },
+      match: {
+        params: { stepId },
+      },
+    } = this.props;
+    const learningpathStep = stepId
+      ? resource.learningpath.learningsteps.find(
+          step => step.id.toString() === stepId.toString(),
+        )
+      : resource.learningpath.learningsteps[0];
+    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
+      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
+      const newSeqNo = learningpathStep.seqNo + directionValue;
+      const newLearningpathStep = resource.learningpath.learningsteps.find(
+        step => step.seqNo === newSeqNo,
+      );
+      if (newLearningpathStep) {
+        this.props.history.push(
+          toLearningPath(
+            resource.learningpath.id,
+            newLearningpathStep.id,
+            resource,
+          ),
+        );
+      }
+    }
+  };
 
   render() {
     const {
@@ -123,6 +154,7 @@ class LearningpathPage extends Component {
           learningpathStep={learningpathStep}
           topic={topic}
           subject={subject}
+          onKeyUpEvent={this.onKeyUpEvent}
           resource={resource}
           resourceTypes={resourceTypes}
           topicPath={topicPath}
@@ -156,6 +188,9 @@ LearningpathPage.propTypes = {
     subject: GraphQLSubjectShape,
   }),
   skipToContentId: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 LearningpathPage.defaultProps = {

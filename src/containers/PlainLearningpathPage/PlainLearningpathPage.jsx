@@ -18,6 +18,7 @@ import { learningPathStepQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
+import { toLearningPath } from '../../routeHelpers';
 
 const getTitle = learningpath => (learningpath ? learningpath.title : '');
 
@@ -26,18 +27,20 @@ const getDocumentTitle = ({ t, data }) => {
   return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
 };
 
-const PlainLearningPathPage = ({
-  locale,
-  skipToContentId,
-  match: {
-    params: { stepId, learningpathId },
-  },
-}) => {
+const PlainLearningPathPage = props => {
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
   });
+  const {
+    t,
+    locale,
+    skipToContentId,
+    match: {
+      params: { stepId, learningpathId },
+    },
+  } = props;
 
   const { data, loading } = useGraphQuery(learningPathStepQuery, {
     variables: { pathId: learningpathId },
@@ -53,6 +56,32 @@ const PlainLearningPathPage = ({
   ) {
     return <DefaultErrorMessage />;
   }
+
+  const onKeyUpEvent = evt => {
+    const {
+      match: {
+        params: { stepId },
+      },
+    } = props;
+    const learningpathStep = stepId
+      ? learningpath.learningsteps.find(
+          step => step.id.toString() === stepId.toString(),
+        )
+      : learningpath.learningsteps[0];
+    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
+      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
+      const newSeqNo = learningpathStep.seqNo + directionValue;
+      const newLearningpathStep = learningpath.learningsteps.find(
+        step => step.seqNo === newSeqNo,
+      );
+      if (newLearningpathStep) {
+        props.history.push(
+          toLearningPath(learningpath.id, newLearningpathStep.id, undefined),
+        );
+      }
+    }
+  };
+
   const { learningpath } = data;
   const learningpathStep = stepId
     ? learningpath.learningsteps.find(
@@ -63,7 +92,7 @@ const PlainLearningPathPage = ({
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle(this.props)}`}</title>
+        <title>{`${getDocumentTitle({ t, data })}`}</title>
       </Helmet>
       <SocialMediaMetadata
         title={`${learningpath.title} - ${learningpathStep.title}`}
@@ -75,11 +104,12 @@ const PlainLearningPathPage = ({
         }}
       />
       <LearningPath
-        id={skipToContentId}
         learningpath={learningpath}
-        skipToContentId={skipToContentId}
-        locale={locale}
         learningpathStep={learningpathStep}
+        skipToContentId={skipToContentId}
+        onKeyUpEvent={onKeyUpEvent}
+        locale={locale}
+        invertedStyle={false}
       />
     </div>
   );
@@ -108,6 +138,9 @@ PlainLearningPathPage.propTypes = {
   }).isRequired,
   locale: PropTypes.string.isRequired,
   skipToContentId: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default injectT(withTracker(PlainLearningPathPage));

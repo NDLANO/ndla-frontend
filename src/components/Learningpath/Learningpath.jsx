@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import {
   LearningPathWrapper,
@@ -47,6 +47,7 @@ const Learningpath = ({
   skipToContentId,
   locale,
   history,
+  onKeyUpEvent,
   ndlaFilm,
   t,
 }) => {
@@ -83,20 +84,6 @@ const Learningpath = ({
       setCookie(cookieKey, JSON.stringify(updatedCookie));
     }
   };
-  const onKeyUpEvent = evt => {
-    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
-      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
-      const newSeqNo = learningpathStep.seqNo + directionValue;
-      const newLearningpathStep = learningsteps.find(
-        step => step.seqNo === newSeqNo,
-      );
-      if (newLearningpathStep) {
-        history.push(
-          toLearningPath(learningpath.id, newLearningpathStep.id, resource),
-        );
-      }
-    }
-  };
 
   useEffect(() => updateCookies(), [learningpathStep.id]);
   useEffect(() => {
@@ -105,7 +92,7 @@ const Learningpath = ({
     return () => {
       window.removeEventListener('keyup', onKeyUpEvent);
     };
-  }, []);
+  }, [onKeyUpEvent]);
 
   return (
     <LearningPathWrapper>
@@ -227,6 +214,7 @@ Learningpath.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  onKeyUpEvent: func.isRequired,
 };
 
 export default injectT(withRouter(Learningpath));
