@@ -38,29 +38,40 @@ const PlainArticlePage = ({
     params: { articleId },
   },
 }) => {
-  const [rawArticle, setArticle] = useState(null);
+  const [rawArticle, setArticle] = useState({});
   const getArticle = async (articleId, locale) => {
-    setArticle(await fetchArticle(articleId, locale));
+    try {
+      const article = await fetchArticle(articleId, locale);
+      setArticle({ article, status: 'success' });
+    } catch (error) {
+      const status =
+        error.json && error.json.status === 404 ? 'error404' : 'error';
+      setArticle({ status });
+    }
   };
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
-    if (!rawArticle) {
+    if (!rawArticle.status) {
       getArticle(articleId, locale);
     }
   });
 
-  if (!rawArticle) {
+  if (!rawArticle.status) {
+    return null;
+  }
+
+  if (rawArticle.status !== 'success') {
     return (
       <div>
         <ArticleHero resource={{}} />
-        <ArticleErrorMessage />
+        <ArticleErrorMessage status={rawArticle.status} />
       </div>
     );
   }
 
-  const article = transformArticle(rawArticle, locale);
+  const article = transformArticle(rawArticle.article, locale);
   const scripts = getArticleScripts(article);
   const metaImage =
     article &&
