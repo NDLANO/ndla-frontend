@@ -54,6 +54,11 @@ export const selectContext = (contexts, filters, enabledTab) => {
   return filteredContext[0];
 };
 
+export const articleUrl = url => {
+  const articleId = url.split('/').pop();
+  return `/article/${articleId}`;
+};
+
 const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
   const { contexts = [] } = result;
@@ -127,7 +132,7 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
       ...result,
       url: selectedContext
         ? getUrl(selectedContext, result, language)
-        : result.url,
+        : articleUrl(result.url),
       urls: result.contexts.map(context => ({
         url: getUrl(context, result),
         contentType: getContentType(context),

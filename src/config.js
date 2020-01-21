@@ -20,11 +20,11 @@ const apiDomain = () => {
     case 'local':
       return 'http://api-gateway.ndla-local';
     case 'dev':
-      return 'https://test.api.ndla.no';
+      return 'https://api.test.ndla.no';
     case 'prod':
       return 'https://api.ndla.no';
     default:
-      return `https://${ndlaEnvironmentHostname}.api.ndla.no`;
+      return `https://api.${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -33,11 +33,11 @@ const ndlaFrontendDomain = () => {
     case 'local':
       return 'http://localhost:30017';
     case 'dev':
-      return 'https://www.test.api.ndla.no';
+      return 'https://test.ndla.no';
     case 'prod':
       return 'https://ndla.no';
     default:
-      return `https://www.${ndlaEnvironmentHostname}.api.ndla.no`;
+      return `https://${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -46,11 +46,11 @@ const learningPathDomain = () => {
     case 'local':
       return 'http://localhost:30007';
     case 'dev':
-      return 'https://learningpath-frontend.test.api.ndla.no';
+      return 'https://stier.test.ndla.no';
     case 'prod':
       return 'https://stier.ndla.no';
     default:
-      return `https://learningpath-frontend.${ndlaEnvironmentHostname}.api.ndla.no`;
+      return `https://stier.${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
