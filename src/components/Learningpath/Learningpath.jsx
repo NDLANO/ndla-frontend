@@ -92,7 +92,7 @@ const Learningpath = ({
     return () => {
       window.removeEventListener('keyup', onKeyUpEvent);
     };
-  }, []);
+  }, [onKeyUpEvent]);
 
   return (
     <LearningPathWrapper>
