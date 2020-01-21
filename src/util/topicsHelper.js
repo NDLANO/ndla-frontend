@@ -12,7 +12,10 @@ import { fixEndSlash } from '../routeHelpers';
 import { FRONTPAGE_CATEGORIES } from '../constants';
 
 export const groupedSubtopicsByParent = (topics = []) =>
-  groupBy(topics.filter(topic => topic.parent), 'parent');
+  groupBy(
+    topics.filter(topic => topic.parent),
+    'parent',
+  );
 
 export const toTopicMenu = (topic, topics) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);

@@ -209,7 +209,6 @@ export const FRONTPAGE_CATEGORIES = {
         },
         {
           nodeId: '185103',
-          beta: true,
           name: 'Sosiologi og sosialantropologi',
           id: 'urn:subject:43',
         },

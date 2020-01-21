@@ -68,7 +68,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        <WelcomePageSearch history={history} locale={locale} />
+        <WelcomePageSearch
+          history={history}
+          locale={locale}
+          categories={categories}
+        />
       </FrontpageHeader>
       <main>
         <div data-testid="category-list">{frontPageSubjects}</div>
