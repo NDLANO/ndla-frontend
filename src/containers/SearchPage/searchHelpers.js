@@ -57,7 +57,7 @@ export const selectContext = (contexts, filters, enabledTab) => {
 export const plainUrl = url => {
   const isLearningpath = url.includes('learningpath-api');
   const id = url.split('/').pop();
-  return isLearningpath ? `/learningpath/${id}` : `/article/${id}`;
+  return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
 const taxonomyData = (result, selectedContext) => {
