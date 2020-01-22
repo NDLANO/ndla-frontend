@@ -54,9 +54,10 @@ export const selectContext = (contexts, filters, enabledTab) => {
   return filteredContext[0];
 };
 
-export const articleUrl = url => {
-  const articleId = url.split('/').pop();
-  return `/article/${articleId}`;
+export const plainUrl = url => {
+  const isLearningpath = url.includes('learningpath-api');
+  const id = url.split('/').pop();
+  return isLearningpath ? `/learningpath/${id}` : `/article/${id}`;
 };
 
 const taxonomyData = (result, selectedContext) => {
@@ -77,6 +78,10 @@ const taxonomyData = (result, selectedContext) => {
           : undefined,
       additional: getRelevance(selectedContext),
       type: getResourceType(selectedContext),
+    };
+  } else {
+    taxonomyResult = {
+      contentType: 'subject-material',
     };
   }
   return taxonomyResult;
@@ -132,7 +137,7 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
       ...result,
       url: selectedContext
         ? getUrl(selectedContext, result, language)
-        : articleUrl(result.url),
+        : plainUrl(result.url),
       urls: result.contexts.map(context => ({
         url: getUrl(context, result),
         contentType: getContentType(context),
