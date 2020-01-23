@@ -837,68 +837,68 @@ exports[`ErrorPage renderers correctly 1`] = `
               >
                 <div>
                   <a
-                    aria-label="om.ndla.no"
+                    aria-label="Om NDLA"
                     className="emotion-21 emotion-22"
                     href="https://om.ndla.no"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    om.ndla.no
+                    Om NDLA
                   </a>
                 </div>
                 <div>
                   <a
-                    aria-label="om.ndla.no/about-ndla"
+                    aria-label="About NDLA"
                     className="emotion-21 emotion-22"
                     href="https://om.ndla.no/about-ndla"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    om.ndla.no/about-ndla
+                    About NDLA
                   </a>
                 </div>
                 <div>
                   <a
-                    aria-label="blogg.ndla.no"
+                    aria-label="Fagblogg"
                     className="emotion-21 emotion-22"
                     href="https://blogg.ndla.no"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    blogg.ndla.no
+                    Fagblogg
                   </a>
                 </div>
                 <div>
                   <a
-                    aria-label="blogg.ndla.no/elever"
+                    aria-label="Tips til elever"
                     className="emotion-21 emotion-22"
                     href="https://blogg.ndla.no/elever"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    blogg.ndla.no/elever
+                    Tips til elever
                   </a>
                 </div>
                 <div>
                   <a
-                    aria-label="fyr.ndla.no"
+                    aria-label="FYR-prosjektet"
                     className="emotion-21 emotion-22"
                     href="https://fyr.ndla.no"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    fyr.ndla.no
+                    FYR-prosjektet
                   </a>
                 </div>
                 <div>
                   <a
-                    aria-label="deling.ndla.no"
+                    aria-label="Delingsarena"
                     className="emotion-21 emotion-22"
                     href="https://deling.ndla.no"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    deling.ndla.no
+                    Delingsarena
                   </a>
                 </div>
               </nav>
