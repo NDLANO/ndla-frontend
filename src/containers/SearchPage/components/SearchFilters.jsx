@@ -41,12 +41,11 @@ const SearchFilters = ({
   const subjectFilters = [
     ...activeSubjects.map(subject => ({
       name: subject.filterName,
-      options: subject.filters
-        ? subject.filters.map(filter => ({
-            title: filter.name,
-            value: filter.name,
-          }))
-        : [],
+      options:
+        subject.filters?.map(filter => ({
+          title: filter.name,
+          value: filter.name,
+        })) || [],
     })),
   ];
 
@@ -55,12 +54,11 @@ const SearchFilters = ({
     title: subject.title,
     value: subject.value,
     id: subject.id,
-    subjectFilters: subject.filters
-      ? subject.filters.map(filter => ({
-          title: filter.name,
-          value: filter.name,
-        }))
-      : [],
+    subjectFilters:
+      subject.filters?.map(filter => ({
+        title: filter.name,
+        value: filter.name,
+      })) || [],
   }));
 
   const seachFilterListSubjectValues = {};

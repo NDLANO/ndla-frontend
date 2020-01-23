@@ -104,13 +104,13 @@ const arrayFields = [
 ];
 
 export const converSearchStringToObject = location => {
-  const searchLocation = queryString.parse(location ? location.search : '');
+  const searchLocation = queryString.parse(location?.search || '');
 
   return {
     ...searchLocation,
     ...arrayFields
       .map(field => ({
-        [field]: searchLocation[field] ? searchLocation[field].split(',') : [],
+        [field]: searchLocation[field]?.split(',') || [],
       }))
       .reduce((result, item) => {
         const key = Object.keys(item)[0];

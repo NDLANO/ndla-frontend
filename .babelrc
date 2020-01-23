@@ -1,4 +1,4 @@
 {
   "presets": ["razzle/babel"],
-  "plugins": ["graphql-tag"]
+  "plugins": ["graphql-tag", "@babel/plugin-proposal-optional-chaining"]
 }
