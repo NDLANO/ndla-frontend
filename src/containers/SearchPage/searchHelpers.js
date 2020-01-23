@@ -6,6 +6,10 @@ import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+} from '../../constants';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -25,8 +29,8 @@ const getResourceType = resource => {
     }
     // Avoid showing name for single types
     if (
-      resource.resourceTypes[0].id !== 'urn:resourcetype:learningPath' &&
-      resource.resourceTypes[0].id !== 'urn:resourcetype:subjectMaterial'
+      resource.resourceTypes[0].id !== RESOURCE_TYPE_LEARNING_PATH &&
+      resource.resourceTypes[0].id !== RESOURCE_TYPE_SUBJECT_MATERIAL
     )
       return resource.resourceTypes[0].name;
   }
@@ -80,8 +84,10 @@ const taxonomyData = (result, selectedContext) => {
       type: getResourceType(selectedContext),
     };
   } else {
+    const isLearningpath = result.url.includes('learningpath-api');
+    const contentType = isLearningpath ? 'learning-path' : 'subject-material';
     taxonomyResult = {
-      contentType: 'subject-material',
+      contentType: contentType,
     };
   }
   return taxonomyResult;
