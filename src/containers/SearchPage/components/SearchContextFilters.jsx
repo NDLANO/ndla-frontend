@@ -28,10 +28,9 @@ const SearchContextFilters = ({
   ) {
     return null;
   }
-  const resourceType = resourceTypes
-    ? resourceTypes.find(type => type.id === enabledTab)
-    : {};
-  const subtypes = resourceType ? resourceType.subtypes : [];
+  const resourceType =
+    resourceTypes?.find(type => type.id === enabledTab) || {};
+  const subtypes = resourceType?.subtypes || [];
 
   return (
     <SearchFilter

@@ -6,6 +6,10 @@ import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+} from '../../constants';
 
 const getRelevance = resource => {
   if (resource.filters.length > 0) {
@@ -25,8 +29,8 @@ const getResourceType = resource => {
     }
     // Avoid showing name for single types
     if (
-      resource.resourceTypes[0].id !== 'urn:resourcetype:learningPath' &&
-      resource.resourceTypes[0].id !== 'urn:resourcetype:subjectMaterial'
+      resource.resourceTypes[0].id !== RESOURCE_TYPE_LEARNING_PATH &&
+      resource.resourceTypes[0].id !== RESOURCE_TYPE_SUBJECT_MATERIAL
     )
       return resource.resourceTypes[0].name;
   }
@@ -54,9 +58,10 @@ export const selectContext = (contexts, filters, enabledTab) => {
   return filteredContext[0];
 };
 
-export const articleUrl = url => {
-  const articleId = url.split('/').pop();
-  return `/article/${articleId}`;
+export const plainUrl = url => {
+  const isLearningpath = url.includes('learningpath-api');
+  const id = url.split('/').pop();
+  return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
 const taxonomyData = (result, selectedContext) => {
@@ -78,6 +83,12 @@ const taxonomyData = (result, selectedContext) => {
       additional: getRelevance(selectedContext),
       type: getResourceType(selectedContext),
     };
+  } else {
+    const isLearningpath = result.url.includes('learningpath-api');
+    const contentType = isLearningpath ? 'learning-path' : 'subject-material';
+    taxonomyResult = {
+      contentType: contentType,
+    };
   }
   return taxonomyResult;
 };
@@ -93,13 +104,13 @@ const arrayFields = [
 ];
 
 export const converSearchStringToObject = location => {
-  const searchLocation = queryString.parse(location ? location.search : '');
+  const searchLocation = queryString.parse(location?.search || '');
 
   return {
     ...searchLocation,
     ...arrayFields
       .map(field => ({
-        [field]: searchLocation[field] ? searchLocation[field].split(',') : [],
+        [field]: searchLocation[field]?.split(',') || [],
       }))
       .reduce((result, item) => {
         const key = Object.keys(item)[0];
@@ -132,7 +143,7 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
       ...result,
       url: selectedContext
         ? getUrl(selectedContext, result, language)
-        : articleUrl(result.url),
+        : plainUrl(result.url),
       urls: result.contexts.map(context => ({
         url: getUrl(context, result),
         contentType: getContentType(context),
