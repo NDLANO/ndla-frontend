@@ -144,6 +144,7 @@ class LearningpathPage extends Component {
           trackableContent={learningpath}
           description={learningpath.description}
           locale={locale}
+          tags={learningpath.tags}
           image={{
             src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
           }}

@@ -45,6 +45,7 @@ const Success = ({ resource, locale, location }) => {
         description={article.metaDescription}
         locale={locale}
         trackableContent={article}
+        tags={article.tags}
       />
       <PostResizeMessage />
       <FixDialogPosition />
@@ -130,6 +131,7 @@ export class IframeTopicPage extends Component {
             trackableContent={article}
             locale={locale}
             location={location}
+            tags={article.tags}
           />
         )}
         <PostResizeMessage />

@@ -286,6 +286,7 @@ export const articleInfoFragment = gql`
       alt
     }
     supportedLanguages
+    tags
     created
     updated
     published
@@ -540,6 +541,7 @@ const learningpathInfoFragment = gql`
     duration
     lastUpdated
     supportedLanguages
+    tags
     copyright {
       license {
         license

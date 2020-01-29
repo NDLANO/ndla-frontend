@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
 import { getAllDimensions } from '../../util/trackingUtil';
-import LearningPath from '../../components/Learningpath';
+import Learningpath from '../../components/Learningpath';
 import { learningPathStepQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -27,7 +27,7 @@ const getDocumentTitle = ({ t, data }) => {
   return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
 };
 
-const PlainLearningPathPage = props => {
+const PlainLearningpathPage = props => {
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
@@ -99,23 +99,25 @@ const PlainLearningPathPage = props => {
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale}
+        tags={learningpath.tags}
         image={{
           src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
         }}
       />
-      <LearningPath
+      <Learningpath
         learningpath={learningpath}
         learningpathStep={learningpathStep}
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
         locale={locale}
         invertedStyle={false}
+        ndlaFilm={false}
       />
     </div>
   );
 };
 
-PlainLearningPathPage.willTrackPageView = (trackPageView, currentProps) => {
+PlainLearningpathPage.willTrackPageView = (trackPageView, currentProps) => {
   const { loading, data } = currentProps;
   if (loading || !data) {
     return;
@@ -123,13 +125,13 @@ PlainLearningPathPage.willTrackPageView = (trackPageView, currentProps) => {
   trackPageView(currentProps);
 };
 
-PlainLearningPathPage.getDimensions = props => {
+PlainLearningpathPage.getDimensions = props => {
   return getAllDimensions(props, undefined, true);
 };
 
-PlainLearningPathPage.getDocumentTitle = getDocumentTitle;
+PlainLearningpathPage.getDocumentTitle = getDocumentTitle;
 
-PlainLearningPathPage.propTypes = {
+PlainLearningpathPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       learningpathId: PropTypes.string.isRequired,
@@ -143,4 +145,4 @@ PlainLearningPathPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withTracker(PlainLearningPathPage));
+export default injectT(withTracker(PlainLearningpathPage));

@@ -107,6 +107,7 @@ const PlainArticlePage = ({
         locale={locale}
         image={metaImage}
         trackableContent={article}
+        tags={article.tags}
       />
       {article && <ArticleHero resource={{}} />}
       <OneColumn>

@@ -46,6 +46,7 @@ export const SocialMediaMetadata = ({
   description,
   locale,
   trackableContent,
+  tags,
   location,
   children,
 }) => (
@@ -67,6 +68,7 @@ export const SocialMediaMetadata = ({
           ),
         )}
         {children}
+        {tags && <meta property="keywords" content={`${tags}`} />}
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@ndla_no" />
@@ -124,6 +126,7 @@ SocialMediaMetadata.propTypes = {
   location: LocationShape,
   image: ImageShape,
   trackableContent: PropTypes.oneOfType([ArticleShape, LearningpathShape]),
+  tags: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default withRouter(SocialMediaMetadata);
