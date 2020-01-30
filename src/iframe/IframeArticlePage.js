@@ -68,7 +68,6 @@ class IframeArticlePage extends Component {
           description={article.metaDescription}
           locale={locale}
           trackableContent={article}
-          tags={article.tags}
         />
         <PostResizeMessage />
         <FixDialogPosition />

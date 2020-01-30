@@ -46,7 +46,6 @@ export const SocialMediaMetadata = ({
   description,
   locale,
   trackableContent,
-  tags,
   location,
   children,
 }) => (
@@ -68,7 +67,9 @@ export const SocialMediaMetadata = ({
           ),
         )}
         {children}
-        {tags && <meta property="keywords" content={`${tags}`} />}
+        {trackableContent?.tags && (
+          <meta property="keywords" content={`${trackableContent?.tags}`} />
+        )}
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@ndla_no" />

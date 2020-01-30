@@ -145,7 +145,6 @@ const TopicPage = ({
           }`}
           trackableContent={article}
           locale={locale}
-          tags={article.tags}
         />
       )}
       <Hero hasImage={article && article.metaImage && article.metaImage.url}>

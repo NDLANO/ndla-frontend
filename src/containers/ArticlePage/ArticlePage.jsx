@@ -143,7 +143,6 @@ class ArticlePage extends Component {
           trackableContent={article}
           description={article.metaDescription}
           locale={locale}
-          tags={article.tags}
           image={metaImage}
         />
         {resource && (
