@@ -40,6 +40,8 @@ const MastheadSearch = ({
     groupSearchQuery,
   );
 
+  let closeModal;
+
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
       runSearch({
@@ -83,6 +85,13 @@ const MastheadSearch = ({
     });
   };
 
+  const onNavigate = () => {
+    setQuery('');
+    if (closeModal) {
+      closeModal();
+    }
+  };
+
   const mapResults = (results = []) =>
     query.length > 1
       ? results.map(result => {
@@ -111,31 +120,36 @@ const MastheadSearch = ({
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
       ndlaFilm={ndlaFilm}>
-      {error || (
-        <SearchFieldForm onSubmit={onSearch}>
-          <SearchField
-            placeholder={t('searchPage.searchFieldPlaceholder')}
-            value={query}
-            inputRef={inputRef}
-            onChange={onQueryChange}
-            filters={filters}
-            onFilterRemove={onFilterRemove}
-            messages={{
-              searchFieldTitle: t('searchPage.search'),
-            }}
-            loading={loading}
-          />
-          {query.length > 2 && (
-            <SearchResultSleeve
-              result={mapResults(searchResult.groupSearch)}
-              searchString={query}
-              allResultUrl={toSearch(searchString)}
-              resourceToLinkProps={searchResultToLinkProps}
-              history={history}
-            />
-          )}
-        </SearchFieldForm>
-      )}
+      {error ||
+        (onCloseModal => {
+          closeModal = onCloseModal;
+          return (
+            <SearchFieldForm onSubmit={onSearch}>
+              <SearchField
+                placeholder={t('searchPage.searchFieldPlaceholder')}
+                value={query}
+                inputRef={inputRef}
+                onChange={onQueryChange}
+                filters={filters}
+                onFilterRemove={onFilterRemove}
+                messages={{
+                  searchFieldTitle: t('searchPage.search'),
+                }}
+                loading={loading}
+              />
+              {query.length > 2 && (
+                <SearchResultSleeve
+                  result={mapResults(searchResult.groupSearch)}
+                  searchString={query}
+                  allResultUrl={toSearch(searchString)}
+                  resourceToLinkProps={searchResultToLinkProps}
+                  history={history}
+                  onNavigate={onNavigate}
+                />
+              )}
+            </SearchFieldForm>
+          );
+        })}
     </MastheadSearchModal>
   );
 };
