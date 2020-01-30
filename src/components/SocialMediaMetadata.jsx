@@ -127,7 +127,6 @@ SocialMediaMetadata.propTypes = {
   location: LocationShape,
   image: ImageShape,
   trackableContent: PropTypes.oneOfType([ArticleShape, LearningpathShape]),
-  tags: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default withRouter(SocialMediaMetadata);
