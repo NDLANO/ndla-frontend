@@ -49,7 +49,7 @@ const WelcomePageSearch = ({ t, history, locale, categories }) => {
     debounceCall(() => setDelayedSearchQuery(query));
   };
 
-  const allResultsUrl = toSearch(`?query=${query}`);
+  const allResultsUrl = toSearch(`query=${query}`);
 
   if (error) {
     handleError(error);

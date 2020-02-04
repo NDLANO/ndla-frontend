@@ -10,7 +10,7 @@ import { matchPath } from 'react-router-dom';
 import { SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch(searchString) {
-  return `/search${searchString || ''}`;
+  return `/search?${searchString || ''}`;
 }
 
 export const removeUrn = string => (string ? string.replace('urn:', '') : '');
