@@ -21,7 +21,7 @@ import {
   // metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
-import { FileDocumentOutline } from '@ndla/icons/common';
+import { H5PBold } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape, H5pShape } from '../../shapes';
@@ -37,7 +37,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
     <MediaListItem>
       <MediaListItemImage>
         <a href={h5p.src} target="_blank" rel="noopener noreferrer">
-          <FileDocumentOutline className="c-medialist__icon" />
+          <H5PBold className="c-medialist__icon" />
         </a>
       </MediaListItemImage>
       <MediaListItemBody
