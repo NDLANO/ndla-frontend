@@ -25,7 +25,7 @@ import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 class IframeArticlePage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
     const { resource } = currentProps;
-    if (resource && resource.article && resource.article.id) {
+    if (resource?.article?.id) {
       trackPageView(currentProps);
     }
   }
@@ -39,7 +39,7 @@ class IframeArticlePage extends Component {
   }
 
   static getDocumentTitle({ t, resource }) {
-    if (resource && resource.article && resource.article.id) {
+    if (resource?.article?.id) {
       return `NDLA | ${resource.article.title}`;
     }
     return '';
@@ -64,7 +64,7 @@ class IframeArticlePage extends Component {
         <SocialMediaMetadata
           title={article.title}
           location={location}
-          image={article && article.image && { src: article.image.url }}
+          image={article.metaImage}
           description={article.metaDescription}
           locale={locale}
           trackableContent={article}
