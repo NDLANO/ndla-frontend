@@ -31,9 +31,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
 
 const getDocumentTitle = ({ t, data }) => {
-  return `${data && data.subject ? data.subject.name : ''}${t(
-    'htmlTitles.titleTemplate',
-  )}`;
+  return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
 const SubjectPage = ({
@@ -110,10 +108,10 @@ const SubjectPage = ({
         heading={subjectName || ''}
         images={[
           {
-            url: banner ? banner.desktopUrl : '',
+            url: banner?.desktopUrl || '',
             types: ['wide', 'desktop', 'tablet'],
           },
-          { url: banner ? banner.mobileUrl : '', types: ['mobile'] },
+          { url: banner?.mobileUrl || '', types: ['mobile'] },
         ]}
       />
       <SubjectPageContent
@@ -147,12 +145,7 @@ SubjectPage.getDocumentTitle = getDocumentTitle;
 
 SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
   const { data } = currentProps;
-  if (
-    data &&
-    data.subject &&
-    data.subject.topics &&
-    data.subject.topics.length > 0
-  ) {
+  if (data?.subject?.topics?.length > 0) {
     trackPageView(currentProps);
   }
 };

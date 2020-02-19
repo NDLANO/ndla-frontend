@@ -14,7 +14,7 @@ import { BasenameContext } from '../App';
 import config from '../config';
 import {
   LocationShape,
-  ImageShape,
+  MetaImageShape,
   ArticleShape,
   LearningpathShape,
 } from '../shapes';
@@ -86,11 +86,9 @@ export const SocialMediaMetadata = ({
         {description && (
           <meta name="twitter:description" content={description} />
         )}
-        {image && image.src && <meta property="og:image" content={image.src} />}
-        {image && image.src && (
-          <meta name="twitter:image:src" content={image.src} />
-        )}
-        {!image || !image.src ? (
+        {image?.url && <meta property="og:image" content={image.url} />}
+        {image?.url && <meta name="twitter:image:src" content={image.url} />}
+        {!image || !image.url ? (
           <meta
             name="twitter:image:src"
             content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
@@ -98,7 +96,7 @@ export const SocialMediaMetadata = ({
         ) : (
           ''
         )}
-        {!image || !image.src ? (
+        {!image || !image.url ? (
           <meta
             property="og:image"
             content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
@@ -125,7 +123,7 @@ SocialMediaMetadata.propTypes = {
   description: PropTypes.string,
   locale: PropTypes.string,
   location: LocationShape,
-  image: ImageShape,
+  image: MetaImageShape,
   trackableContent: PropTypes.oneOfType([ArticleShape, LearningpathShape]),
 };
 

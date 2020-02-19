@@ -95,14 +95,13 @@ const TopicPage = ({
   } = result;
 
   const getDocumentTitle = () => {
-    return `${subject ? subject.name : ''} - ${getTitle(
-      topicArticle,
-      topicTitle,
-    )}${t('htmlTitles.titleTemplate')}`;
+    return `${subject?.name || ''} - ${getTitle(topicArticle, topicTitle)}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   };
 
   const hasArticleError =
-    error && error.find(err => err.path.includes('article')) !== undefined;
+    error?.find(err => err.path.includes('article')) !== undefined;
   const article = transformArticle(topicArticle, locale);
   const scripts = getArticleScripts(article);
   const subtopics = subject
@@ -110,13 +109,6 @@ const TopicPage = ({
     : [];
 
   const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
-  const metaImage =
-    article &&
-    article.metaData &&
-    article.metaData.images &&
-    article.metaData.images.length > 0
-      ? article.metaData.images[0]
-      : undefined;
   return (
     <>
       <Helmet>
@@ -139,16 +131,14 @@ const TopicPage = ({
       {article && (
         <SocialMediaMetadata
           description={article.metaDescription}
-          image={metaImage}
-          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
-            article.title
-          }`}
+          image={article.metaImage}
+          title={`${subject?.name ? subject.name + ' - ' : ''}${article.title}`}
           trackableContent={article}
           locale={locale}
         />
       )}
-      <Hero hasImage={article && article.metaImage && article.metaImage.url}>
-        {ndlaFilm && article && article.metaImage && article.metaImage.url && (
+      <Hero hasImage={article?.metaImage?.url}>
+        {ndlaFilm && article?.metaImage?.url && (
           <div className="c-hero__background">
             <img src={article.metaImage.url} alt={article.metaImage.alt} />
           </div>

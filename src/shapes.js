@@ -188,6 +188,11 @@ export const ImageShape = PropTypes.shape({
   copyright: CopyrightObjectShape,
 });
 
+export const MetaImageShape = PropTypes.shape({
+  url: PropTypes.string,
+  alt: PropTypes.string,
+});
+
 export const H5pShape = PropTypes.shape({
   title: PropTypes.string,
   src: PropTypes.string.isRequired,

@@ -63,9 +63,9 @@ class LearningpathPage extends Component {
       subject,
       resource: { learningpath },
     } = data;
-    return `${subject ? subject.name : ''} - ${
-      learningpath ? learningpath.title : ''
-    }${t('htmlTitles.titleTemplate')}`;
+    return `${subject?.name || ''} - ${learningpath?.title || ''}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   }
 
   onKeyUpEvent = evt => {

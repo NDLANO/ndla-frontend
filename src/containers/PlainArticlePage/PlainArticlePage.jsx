@@ -24,7 +24,7 @@ import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-const getTitle = article => (article ? article.title : '');
+const getTitle = article => article?.title || '';
 
 const getDocumentTitle = ({ t, article }) => {
   return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
@@ -44,8 +44,7 @@ const PlainArticlePage = ({
       const article = await fetchArticle(articleId, locale);
       setArticle({ article, status: 'success' });
     } catch (error) {
-      const status =
-        error.json && error.json.status === 404 ? 'error404' : 'error';
+      const status = error.json?.status === 404 ? 'error404' : 'error';
       setArticle({ status });
     }
   };
@@ -73,13 +72,6 @@ const PlainArticlePage = ({
 
   const article = transformArticle(rawArticle.article, locale);
   const scripts = getArticleScripts(article);
-  const metaImage =
-    article &&
-    article.metaData &&
-    article.metaData.images &&
-    article.metaData.images.length > 0
-      ? article.metaData.images[0]
-      : undefined;
 
   return (
     <div>
@@ -105,7 +97,7 @@ const PlainArticlePage = ({
         title={article.title}
         description={article.metaDescription}
         locale={locale}
-        image={metaImage}
+        image={article.metaImage}
         trackableContent={article}
       />
       {article && <ArticleHero resource={{}} />}

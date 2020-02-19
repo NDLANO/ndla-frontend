@@ -41,7 +41,7 @@ const Success = ({ resource, locale, location }) => {
       <SocialMediaMetadata
         title={article.title}
         location={location}
-        image={article && article.image && { src: article.image.url }}
+        image={article.metaImage}
         description={article.metaDescription}
         locale={locale}
         trackableContent={article}
@@ -73,13 +73,13 @@ Success.propTypes = {
 export class IframeTopicPage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
     const { resource } = currentProps;
-    if (resource && resource.article && resource.article.id) {
+    if (resource?.article?.id) {
       trackPageView(currentProps);
     }
   }
 
   static getDocumentTitle({ t, resource }) {
-    if (resource && resource.article && resource.article.id) {
+    if (resource?.article?.id) {
       return `NDLA | ${resource.article.title.title}`;
     }
     return '';
@@ -96,13 +96,6 @@ export class IframeTopicPage extends Component {
     const article = transformArticle(propArticle, locale);
     const scripts = getArticleScripts(article);
 
-    const metaImage =
-      article &&
-      article.metaData &&
-      article.metaData.images &&
-      article.metaData.images.length > 0
-        ? article.metaData.images[0]
-        : undefined;
     return (
       <>
         <Helmet>
@@ -125,7 +118,7 @@ export class IframeTopicPage extends Component {
         {article && (
           <SocialMediaMetadata
             description={article.metaDescription}
-            image={metaImage}
+            image={article.metaImage}
             title={article.title}
             trackableContent={article}
             locale={locale}

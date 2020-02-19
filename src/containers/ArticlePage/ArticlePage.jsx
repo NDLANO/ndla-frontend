@@ -57,9 +57,8 @@ class ArticlePage extends Component {
   }
 
   static getDocumentTitle({ t, data }) {
-    return `${data.subject ? data.subject.name : ''} - ${
-      data.resource && data.resource.article ? data.resource.article.title : ''
-    }${t('htmlTitles.titleTemplate')}`;
+    return `${data.subject?.name || ''} - ${data.resource?.article?.title ||
+      ''}${t('htmlTitles.titleTemplate')}`;
   }
 
   render() {
@@ -78,7 +77,7 @@ class ArticlePage extends Component {
     }
 
     if (resource === null || resource.article === null) {
-      const error = errors ? errors.find(e => e.path.includes('resource')) : {};
+      const error = errors?.find(e => e.path.includes('resource')) || {};
       return (
         <div>
           <ArticleHero
@@ -90,9 +89,7 @@ class ArticlePage extends Component {
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
-            status={
-              error.status && error.status === 404 ? 'error404' : 'error'
-            }>
+            status={error?.status === 404 ? 'error404' : 'error'}>
             {topic && (
               <Resources
                 title={topicTitle}
@@ -110,17 +107,11 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
 
-    const metaImage =
-      article.metaData &&
-      article.metaData.images &&
-      article.metaData.images.length > 0
-        ? article.metaData.images[0]
-        : undefined;
     return (
       <div>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
-          {article && article.metaDescription && (
+          {article?.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
           {scripts.map(script => (
@@ -137,13 +128,11 @@ class ArticlePage extends Component {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
-            article.title
-          }`}
+          title={`${subject?.name ? subject.name + ' - ' : ''}${article.title}`}
           trackableContent={article}
           description={article.metaDescription}
           locale={locale}
-          image={metaImage}
+          image={article.metaImage}
         />
         {resource && (
           <ArticleHero
