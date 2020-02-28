@@ -70,7 +70,7 @@ const SubjectPage = ({
   }
   const activeFilters = getFiltersFromUrlAsArray(location);
   const { subject = {} } = data;
-  const { name: subjectName, subjectPage = {} } = subject;
+  const { name: subjectName, subjectpage = {} } = subject;
 
   const {
     latestContent,
@@ -81,7 +81,7 @@ const SubjectPage = ({
     layout,
     about,
     metaDescription,
-  } = subjectPage;
+  } = subjectpage;
 
   return (
     <article>
@@ -119,7 +119,7 @@ const SubjectPage = ({
         layout={layout}
         locale={locale}
         subjectId={subjectId}
-        subjectpage={subjectPage}
+        subjectpage={subjectpage}
         subject={subject}
         activeFilters={activeFilters}
         handleFilterClick={handleFilterClick}
