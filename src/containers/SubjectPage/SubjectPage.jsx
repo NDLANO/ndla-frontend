@@ -70,7 +70,8 @@ const SubjectPage = ({
   }
   const activeFilters = getFiltersFromUrlAsArray(location);
   const { subject = {} } = data;
-  const { name: subjectName, subjectpage = {} } = subject;
+  const { name: subjectName } = subject;
+  const subjectpage = subject.subjectpage || {};
 
   const {
     latestContent,
