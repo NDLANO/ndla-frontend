@@ -19,6 +19,7 @@ import {
 } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
+import config from '../../config';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
@@ -34,6 +35,9 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
     variables: { subjectId: 'urn:subject:20', filterIds: '' },
   });
   const [searchAllMovies, { data: allMovies }] = useLazyQuery(searchFilmQuery);
+  // TODO: When ff is phased out, always use standard.
+  const contextType =
+    config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
 
   useEffect(() => {
     // if we receive new movies we map them into state
@@ -64,14 +68,14 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
       variables: {
         subjects: 'urn:subject:20',
         resourceTypes,
-        contextTypes: 'topic-article',
+        contextTypes: contextType,
       },
     });
   };
 
   const transformMoviesByType = movie => {
     const contexts = movie.contexts.filter(
-      context => context.learningResourceType === 'topic-article',
+      context => context.learningResourceType === contextType,
     );
 
     const { path } = contexts.length > 0 ? contexts[0] : {};
