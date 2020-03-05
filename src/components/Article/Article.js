@@ -64,13 +64,6 @@ const Article = ({
       {...rest}>
       {children}
       {!config.isNdlaProdEnvironment && (
-        <a
-          className="article-old-ndla-link"
-          rel="noopener noreferrer"
-          target="_blank"
-          href={article.oldNdlaUrl}>
-          Gå til orginal artikkel
-        </a>
       )}
     </UIArticle>
   );
