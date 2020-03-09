@@ -28,7 +28,7 @@ const BlogPosts = ({ t, locale }) => (
       />
       <BlogPost
         image={{
-          url: '/static/vilde2019.png',
+          url: '/static/sy0512e8_0.jpg',
         }}
         text={t('blogPosts.blog2.text')}
         externalLink={t('blogPosts.blog2.externalLink')}
