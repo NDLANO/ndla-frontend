@@ -31,11 +31,11 @@ export const groupeResourcesByResourceTypes = (
       .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
   ];
   return resources.reduce((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes.map(type => {
+    const resourceTypesWithResources = resource.resourceTypes?.map(type => {
       const existing = defined(obj[type.id], []);
       return { ...type, resources: [...existing, resource] };
     });
-    const reduced = resourceTypesWithResources.reduce(
+    const reduced = resourceTypesWithResources?.reduce(
       (acc, type) => ({ ...acc, [type.id]: type.resources }),
       {},
     );
