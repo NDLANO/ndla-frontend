@@ -8,7 +8,7 @@
 import React, { Fragment } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, FFHeroBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
@@ -22,6 +22,7 @@ import {
 } from './searchHelpers';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 import { useGraphQuery } from '../../util/runQueries';
+import config from '../../config';
 
 const ALL_TAB_VALUE = 'all';
 
@@ -87,6 +88,7 @@ const SearchPage = ({ location, history, t, ...rest }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
+        {config.isFFServer && <FFHeroBadge isSearchPage noMargin/>}
         <SearchContainer
           searchParams={searchParams}
           handleSearchParamsChange={handleSearchParamsChange}
