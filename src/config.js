@@ -90,7 +90,7 @@ const config = {
   logglyApiKey: logglyApiKey(),
   disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  isFFServer: ndlaEnvironment === 'ff',
+  isFFServer: ndlaEnvironment === 'test',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
   ndlaFrontendDomain: ndlaFrontendDomain(),
   learningPathDomain: learningPathDomain(),
