@@ -15,7 +15,7 @@ import {
   Breadcrumb,
   constants,
   NdlaFilmHero,
-  FFHeroBadge
+  FFHeroBadge,
 } from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
@@ -148,7 +148,7 @@ const TopicPage = ({
         <OneColumn>
           <div className="c-hero__content">
             <section>
-            {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm}/>}
+              {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm} />}
               {subject ? (
                 <Breadcrumb
                   items={toBreadcrumbItems(

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
+import FFFrontPage from './containers/FFFrontPage/FFFrontPage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -29,13 +30,14 @@ import {
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
 } from './constants';
+import config from './config';
 
 export const routes = [
   {
     path: '/',
     hideMasthead: true,
     exact: true,
-    component: WelcomePage,
+    component: config.isFFServer ? FFFrontPage : WelcomePage,
     background: true,
   },
   {

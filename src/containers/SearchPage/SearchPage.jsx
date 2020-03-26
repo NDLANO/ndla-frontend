@@ -88,7 +88,7 @@ const SearchPage = ({ location, history, t, ...rest }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
-        {config.isFFServer && <FFHeroBadge isSearchPage noMargin/>}
+        {config.isFFServer && <FFHeroBadge isSearchPage noMargin />}
         <SearchContainer
           searchParams={searchParams}
           handleSearchParamsChange={handleSearchParamsChange}

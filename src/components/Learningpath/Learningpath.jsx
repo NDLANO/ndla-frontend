@@ -99,7 +99,7 @@ const Learningpath = ({
     <LearningPathWrapper>
       <div className="c-hero__content">
         <section>
-          {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm}/>}
+          {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm} />}
           {subject && topicPath ? (
             <Breadcrumb
               invertedStyle={ndlaFilm}

@@ -63,7 +63,7 @@ const Article = ({
       competenceGoals={renderCompetenceGoals(article, isTopicArticle)}
       {...rest}>
       {children}
-      {!config.isNdlaProdEnvironment && (
+      {!config.isNdlaProdEnvironment && article.oldNdlaUrl && (
         <a
           className="article-old-ndla-link"
           rel="noopener noreferrer"
