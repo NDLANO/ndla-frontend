@@ -6,8 +6,9 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { Remarkable } from 'remarkable';
 
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -43,9 +44,19 @@ const Article = ({
   t,
   ...rest
 }) => {
+  const markdown = useMemo(() => {
+    const md = new Remarkable();
+    md.inline.ruler.enable(['sub', 'sup']);
+    return md;
+  }, []);
+
   if (!article) {
     return children || null;
   }
+
+  const renderMarkdown = text => {
+    return markdown.render(text);
+  };
 
   const icon = contentType ? (
     <ContentTypeBadge type={contentType} background size="large" />
@@ -61,6 +72,7 @@ const Article = ({
         label,
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle)}
+      renderMarkdown={renderMarkdown}
       {...rest}>
       {children}
       {!config.isNdlaProdEnvironment && (
