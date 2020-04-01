@@ -16,6 +16,8 @@ import {
   AboutNdlaFilm,
   FilmMovieSearch,
   AllMoviesAlphabetically,
+  OneColumn,
+  FFHeroBadge,
 } from '@ndla/ui';
 
 import MovieCategory from './MovieCategory';
@@ -95,6 +97,9 @@ class FilmFrontpage extends Component {
             <meta name="description" content={aboutNDLAVideo.description} />
           )}
         </Helmet>
+        <OneColumn cssModifier="clear-desktop" wide>
+          <FFHeroBadge isNDLAFilm />
+        </OneColumn>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}

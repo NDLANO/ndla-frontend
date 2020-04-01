@@ -75,7 +75,7 @@ const Article = ({
       renderMarkdown={renderMarkdown}
       {...rest}>
       {children}
-      {!config.isNdlaProdEnvironment && (
+      {!config.isNdlaProdEnvironment && article.oldNdlaUrl && (
         <a
           className="article-old-ndla-link"
           rel="noopener noreferrer"
