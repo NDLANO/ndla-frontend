@@ -83,6 +83,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
           name: 'TaxonomyEntity',
           possibleTypes: [{ name: 'Resource' }, { name: 'Topic' }],
         },
+        {
+          kind: 'INTERFACE',
+          name: 'SearchResult',
+          possibleTypes: [
+            { name: 'ArticleSearchResult' },
+            { name: 'LearningpathSearchResult' },
+          ],
+        },
       ],
     },
   },
