@@ -130,7 +130,7 @@ const SearchContainer = ({
                   ...subject,
                   value: subject.id,
                   title: subject.name,
-                  filterName: subject.name,
+                  filterName: 'filter_subjects',
                 }
               : undefined;
           })
