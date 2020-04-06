@@ -14,7 +14,6 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape } from '../../shapes';
-import config from '../../config';
 import CompetenceGoals from './CompetenceGoals';
 
 function renderCompetenceGoals(article, isTopicArticle) {
@@ -75,15 +74,6 @@ const Article = ({
       renderMarkdown={renderMarkdown}
       {...rest}>
       {children}
-      {!config.isNdlaProdEnvironment && article.oldNdlaUrl && (
-        <a
-          className="article-old-ndla-link"
-          rel="noopener noreferrer"
-          target="_blank"
-          href={article.oldNdlaUrl}>
-          Gå til orginal artikkel
-        </a>
-      )}
     </UIArticle>
   );
 };
