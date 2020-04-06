@@ -9,7 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
+import {
+  Hero,
+  OneColumn,
+  Breadcrumb,
+  NdlaFilmHero,
+  FFHeroBadge,
+} from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { getContentType } from '../../../util/getContentType';
 import { toBreadcrumbItems } from '../../../routeHelpers';
@@ -20,11 +26,13 @@ import {
   LocationShape,
 } from '../../../shapes';
 import { getFiltersFromUrl } from '../../../util/filterHelper';
+import config from '../../../config';
 
 const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
   if (ndlaFilm) {
     return (
-      <NdlaFilmHero hasImage={metaImage && metaImage.url}>
+      <NdlaFilmHero
+        hasImage={config.isFFServer || (metaImage && metaImage.url)}>
         {children}
       </NdlaFilmHero>
     );
@@ -65,6 +73,7 @@ const ArticleHero = ({
     <OneColumn>
       <div className="c-hero__content">
         <section>
+          {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm} />}
           {subject && (
             <Breadcrumb
               items={toBreadcrumbItems(

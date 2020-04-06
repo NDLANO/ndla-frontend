@@ -29,6 +29,7 @@ import {
 } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
+import config from '../../config';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -114,6 +115,7 @@ const SubjectPage = ({
           },
           { url: banner?.mobileUrl || '', types: ['mobile'] },
         ]}
+        showFFBadge={config.isFFServer}
       />
       <SubjectPageContent
         skipToContentId={skipToContentId}
