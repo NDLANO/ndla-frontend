@@ -31,8 +31,7 @@ import config from '../../../config';
 const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
   if (ndlaFilm) {
     return (
-      <NdlaFilmHero
-        hasImage={config.isFFServer || (metaImage && metaImage.url)}>
+      <NdlaFilmHero hasImage={metaImage && metaImage.url}>
         {children}
       </NdlaFilmHero>
     );
