@@ -28,6 +28,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { SUPPORTED_LANGUAGES } from '../../constants';
+import config from '../../config';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -98,7 +99,7 @@ class FilmFrontpage extends Component {
           )}
         </Helmet>
         <OneColumn cssModifier="clear-desktop" wide>
-          <FFHeroBadge isNDLAFilm />
+          {config.isFFServer && <FFHeroBadge isNDLAFilm />}
         </OneColumn>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch

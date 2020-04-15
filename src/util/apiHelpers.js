@@ -11,6 +11,7 @@ import { ApolloClient } from 'apollo-client';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
+  defaultDataIdFromObject,
 } from 'apollo-cache-inmemory';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { onError } from 'apollo-link-error';
@@ -96,6 +97,15 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   },
 });
 
+const dataIdFromObject = object => {
+  switch (object.__typename) {
+    case 'SearchContext':
+      return object.path;
+    default:
+      return defaultDataIdFromObject(object);
+  }
+};
+
 export const createApolloClient = (language = 'nb') => {
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
@@ -105,8 +115,10 @@ export const createApolloClient = (language = 'nb') => {
   }));
 
   const cache = __CLIENT__
-    ? new InMemoryCache({ fragmentMatcher }).restore(window.DATA.apolloState)
-    : new InMemoryCache({ fragmentMatcher });
+    ? new InMemoryCache({ fragmentMatcher, dataIdFromObject }).restore(
+        window.DATA.apolloState,
+      )
+    : new InMemoryCache({ fragmentMatcher, dataIdFromObject });
 
   const client = new ApolloClient({
     ssrMode: true,
