@@ -44,6 +44,7 @@ import { topicPageQuery } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import config from '../../config';
 
@@ -81,6 +82,9 @@ const TopicPage = ({
   if (!data) {
     return <DefaultErrorMessage />;
   }
+  if (!data.topic) {
+    return <NotFoundPage />;
+  }
 
   const result = transformData(data);
 
@@ -103,7 +107,8 @@ const TopicPage = ({
   };
 
   const hasArticleError =
-    error?.find(err => err.path.includes('article')) !== undefined;
+    error?.graphQLErrors?.find(err => err.path.includes('article')) !==
+    undefined;
   const article = transformArticle(topicArticle, locale);
   const scripts = getArticleScripts(article);
   const subtopics = subject

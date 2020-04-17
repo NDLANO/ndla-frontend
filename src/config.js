@@ -99,10 +99,6 @@ const config = {
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
-  oldNdlaProxyUrl: getEnvironmentVariabel(
-    'OLD_NDLA_PROXY_URL',
-    'https://2018.ndla.no',
-  ),
 };
 
 export function getUniversalConfig() {

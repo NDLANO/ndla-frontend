@@ -87,6 +87,11 @@ export const routes = [
     background: false,
   },
   {
+    path: '/404',
+    component: NotFoundPage,
+    background: false,
+  },
+  {
     component: NotFoundPage,
     background: false,
   },
