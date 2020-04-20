@@ -18,7 +18,7 @@ import CompetenceGoals from './CompetenceGoals';
 
 function renderCompetenceGoals(article, isTopicArticle) {
   // Don't show competence goals for topics or articles without nodeid
-  if (isTopicArticle || !article.oldNdlaUrl) {
+  if (isTopicArticle || article.grepCodes?.length === 0) {
     // Return null to make sure UIArticle component does not render dialog buttons
     return null;
   }
