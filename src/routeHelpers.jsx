@@ -43,19 +43,20 @@ function toLearningpaths() {
   return '/learningpaths';
 }
 
-export function toLearningPath(pathId, stepId, resource) {
+export function toLearningPath(pathId, stepId, resource, filters = '') {
+  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (resource) {
     return stepId
-      ? `${toSubjects()}${resource.path}/${stepId}`
-      : `${toSubjects()}${resource.path}`;
+      ? `${toSubjects()}${resource.path}/${stepId}${filterParams}`
+      : `${toSubjects()}${resource.path}${filterParams}`;
   }
   if (pathId && stepId) {
-    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
+    return `${toLearningpaths()}/${pathId}/steps/${stepId}${filterParams}`;
   }
   if (pathId) {
-    return `${toLearningpaths()}/${pathId}`;
+    return `${toLearningpaths()}/${pathId}${filterParams}`;
   }
-  return toSubjects();
+  return `${toSubjects()}${filterParams}`;
 }
 
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {

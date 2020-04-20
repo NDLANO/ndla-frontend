@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
@@ -44,6 +44,9 @@ const SubjectPage = ({
   ndlaFilm,
   t,
 }) => {
+  const [activeFilters, setActiveFilters] = useState(
+    getFiltersFromUrlAsArray(location),
+  );
   const { subjectId } = getUrnIdsFromProps({ ndlaFilm, match });
   const { error, loading, data } = useGraphQuery(subjectPageQuery, {
     variables: { subjectId, filterIds: getFiltersFromUrl(location) },
@@ -53,6 +56,7 @@ const SubjectPage = ({
     const searchString = `?${queryString.stringify({
       filters: newValues.join(','),
     })}`;
+    setActiveFilters(newValues);
     history.push(
       newValues.length > 0
         ? {
@@ -69,7 +73,6 @@ const SubjectPage = ({
   if (error && !data) {
     return <DefaultErrorMessage />;
   }
-  const activeFilters = getFiltersFromUrlAsArray(location);
   const { subject = {} } = data;
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};

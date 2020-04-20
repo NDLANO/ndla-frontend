@@ -51,7 +51,7 @@ export const resourceToLinkProps = (
 ) => {
   if (isLearningPathResource(resource)) {
     return {
-      to: toLearningPath(undefined, undefined, resource),
+      to: toLearningPath(undefined, undefined, resource, filters),
     };
   }
   if (isArticleResource(resource)) {
