@@ -103,10 +103,11 @@ const arrayFields = [
   'contextFilters',
 ];
 
-export const converSearchStringToObject = location => {
+export const converSearchStringToObject = (location, locale) => {
   const searchLocation = queryString.parse(location?.search || '');
 
   return {
+    language: locale || 'nb',
     ...searchLocation,
     ...arrayFields
       .map(field => ({
