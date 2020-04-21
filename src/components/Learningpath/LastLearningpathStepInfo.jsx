@@ -21,8 +21,10 @@ const LastLearningpathStepInfo = ({
   seqNo,
   numberOfLearningSteps,
   title,
+  filters,
 }) => {
   const isLastStep = seqNo === numberOfLearningSteps;
+  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
 
   if (!isLastStep) {
     return null;
@@ -43,11 +45,14 @@ const LastLearningpathStepInfo = ({
     <LearningPathLastStepNavigation
       learningPathName={title}
       subject={
-        subject && { url: toSubjects() + subject.path, name: subject.name }
+        subject && {
+          url: `${toSubjects()}${subject.path}${filterParams}`,
+          name: subject.name,
+        }
       }
       topic={
         topicWithPath && {
-          url: toSubjects() + topicWithPath.path,
+          url: `${toSubjects()}${topicWithPath.path}${filterParams}`,
           name: topicWithPath.name,
         }
       }>
@@ -71,6 +76,7 @@ LastLearningpathStepInfo.propTypes = {
   seqNo: PropTypes.number.isRequired,
   numberOfLearningSteps: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  filters: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default LastLearningpathStepInfo;

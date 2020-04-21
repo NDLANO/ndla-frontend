@@ -23,6 +23,7 @@ import {
 import { getCookie, setCookie } from '@ndla/util';
 import { withRouter } from 'react-router-dom';
 import { toLearningPath, toBreadcrumbItems } from '../../routeHelpers';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
   TopicShape,
@@ -47,6 +48,7 @@ const Learningpath = ({
   resourceTypes,
   skipToContentId,
   locale,
+  location,
   history,
   onKeyUpEvent,
   ndlaFilm,
@@ -63,6 +65,7 @@ const Learningpath = ({
 
   const lastUpdatedDate = new Date(lastUpdated);
   const stepId = learningpathStep.id;
+  const filterIds = getFiltersFromUrl(location);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
@@ -106,7 +109,7 @@ const Learningpath = ({
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
                 [subject, ...topicPath, { name: learningpath.title, url: '' }],
-                undefined,
+                filterIds,
               )}
             />
           ) : (
@@ -115,7 +118,7 @@ const Learningpath = ({
               items={toBreadcrumbItems(
                 t('breadcrumb.toFrontpage'),
                 [{ name: learningpath.title, url: '' }],
-                undefined,
+                filterIds,
               )}
             />
           )}
@@ -128,7 +131,7 @@ const Learningpath = ({
           learningsteps={learningsteps}
           duration={duration}
           toLearningPathUrl={(pathId, stepId) =>
-            toLearningPath(pathId, stepId, resource)
+            toLearningPath(pathId, stepId, resource, filterIds)
           }
           lastUpdated={lastUpdatedString}
           copyright={copyright}
@@ -162,6 +165,7 @@ const Learningpath = ({
               numberOfLearningSteps={learningsteps.length - 1}
               title={title}
               subject={subject}
+              filters={filterIds}
             />
           </div>
         )}
@@ -173,7 +177,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo - 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource, filterIds)
             }
             label={t('learningPath.previousArrow')}
             title={learningsteps[learningpathStep.seqNo - 1].title}
@@ -192,7 +196,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo + 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
+              toLearningPath(pathId, stepId, resource, filterIds)
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
@@ -212,6 +216,7 @@ Learningpath.propTypes = {
   resource: ResourceShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  location: PropTypes.string,
   ndlaFilm: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -14,6 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -74,7 +75,9 @@ class LearningpathPage extends Component {
       match: {
         params: { stepId },
       },
+      location,
     } = this.props;
+    const filterIds = getFiltersFromUrl(location);
     const learningpathStep = stepId
       ? resource.learningpath.learningsteps.find(
           step => step.id.toString() === stepId.toString(),
@@ -92,6 +95,7 @@ class LearningpathPage extends Component {
             resource.learningpath.id,
             newLearningpathStep.id,
             resource,
+            filterIds,
           ),
         );
       }
@@ -178,6 +182,7 @@ LearningpathPage.propTypes = {
   }).isRequired,
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  location: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   ndlaFilm: PropTypes.bool.isRequired,
   data: PropTypes.shape({

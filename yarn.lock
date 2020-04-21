@@ -1139,22 +1139,21 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.10.tgz#7264cae7c5c00cdf9a5a685d2997dfebb692c39e"
-  integrity sha512-8j+zOVv1Vu5af/sZuloPTcJyHJwv/E6g9+NgW8HcoOUZWWJLTlGKZd5/zMm2dV4VWWr+U/xtgpRCHiRhXLHWpw==
+"@ndla/licenses@^0.6.24":
+  version "0.6.24"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.24.tgz#0c7b2a265e6695b4bf458b704f44e02e9ccbc897"
+  integrity sha512-yeTJYatjb4FAaPIfD3x3rwLCEno+DLHS//dcpZnHjN6BdpOtxdGEKMQ/uxWYEoJjxqPBGeH2Z5Z04EUP6ttPVQ==
+  dependencies:
+    "@ndla/core" "^0.6.21"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
+"@ndla/modal@^0.4.11":
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.11.tgz#68be7d795d87d708c31abd3e1468918fae4532c1"
+  integrity sha512-lr5VCBMN8RmYKfjdgLDwhAws9dukHJBvVxIO4rET603KEmzk2GO6U9MuV8FTQY5uYSfPqQ4mWtZFXPY16VwB0A==
   dependencies:
     "@ndla/button" "^0.3.24"
-    "@ndla/core" "^0.6.21"
-    "@ndla/util" "^0.3.6"
-    "@reach/dialog" "^0.2.9"
-
-"@ndla/modal@^0.4.6":
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.7.tgz#2d924c031ca52e33ba673b136c269b640e2b117a"
-  integrity sha512-eyHSB/Gq2if7Uab3j0wpyTvD/IIhog4WLGrlH3d+P4WH93f2qoBIHu4Z+kQmvqRzjgqWVH2w1uMBmpRQN5O3bQ==
-  dependencies:
-    "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
     "@ndla/util" "^0.3.6"
     "@reach/dialog" "^0.2.9"
@@ -1222,10 +1221,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.24":
-  version "0.27.24"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.24.tgz#ed19c5ed47f059620b6a3be83849c9c3f06b3427"
-  integrity sha512-PEnf+uS+Yp8LdttgTev9gh3txCau4aca3zINf5m+0ETVifs5mzr5t+T8HJ3Jw0gbTA9gla9VBevHHoGTD4eISg==
+"@ndla/ui@^0.27.26":
+  version "0.27.26"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.26.tgz#b4cd17a2d39716ddc4ed1f0f5dc0b0168acff519"
+  integrity sha512-6ugFtxzPuYnuFVVqwbb9/8e1hr7RmXObKSL8uKzo7tgAXY0vruKDgvTxD9L7PZpPAgIr1opBL5P/kS3Px3cdWw==
   dependencies:
     "@ndla/button" "^0.3.24"
     "@ndla/carousel" "^0.3.20"
@@ -1233,8 +1232,8 @@
     "@ndla/hooks" "^0.1.7"
     "@ndla/i18n" "^0.4.2"
     "@ndla/icons" "^0.6.22"
-    "@ndla/licenses" "^0.6.23"
-    "@ndla/modal" "^0.4.10"
+    "@ndla/licenses" "^0.6.24"
+    "@ndla/modal" "^0.4.11"
     "@ndla/safelink" "^0.0.4"
     "@ndla/switch" "^0.0.10"
     "@ndla/tabs" "^0.11.24"

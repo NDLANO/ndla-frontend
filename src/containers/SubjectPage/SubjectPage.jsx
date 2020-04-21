@@ -92,7 +92,7 @@ const SubjectPage = ({
   } = subjectpage;
 
   return (
-    <article>
+    <>
       <Helmet>
         <title>{`${getDocumentTitle({ t, data })}`}</title>
         {metaDescription && (
@@ -146,7 +146,7 @@ const SubjectPage = ({
         />
       )}
       <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
-    </article>
+    </>
   );
 };
 
