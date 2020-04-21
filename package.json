@@ -36,7 +36,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@ndla/scripts": "^0.7.4",
     "chalk": "^2.4.2",
-    "cypress": "3.4.1",
+    "cypress": "4.4.1",
     "eslint": "^5.14.1",
     "eslint-config-ndla": "^1.2.1",
     "eslint-plugin-graphql": "^3.0.3",

@@ -291,6 +291,7 @@ export const articleInfoFragment = gql`
     updated
     published
     oldNdlaUrl
+    grepCodes
     requiredLibraries {
       name
       url
@@ -647,13 +648,13 @@ export const learningPathStepQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoalsQuery($nodeId: String!) {
-    competenceGoals(nodeId: $nodeId) {
+  query competenceGoalsQuery($codes: [String!]) {
+    competenceGoals(codes: $codes) {
       id
-      name
+      title
       curriculum {
         id
-        name
+        title
       }
     }
   }

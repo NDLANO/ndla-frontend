@@ -20,7 +20,7 @@ export function groupByCurriculums(competenceGoals) {
   const curriculumsObject = competenceGoals.reduce((acc, goal) => {
     const curriculum = acc[goal.curriculum.id] || {
       id: goal.curriculum.id,
-      name: goal.curriculum.name,
+      title: goal.curriculum.title,
       goals: [],
     };
 
@@ -28,7 +28,7 @@ export function groupByCurriculums(competenceGoals) {
       ...acc,
       [goal.curriculum.id]: {
         ...curriculum,
-        goals: [...curriculum.goals, { id: goal.id, name: goal.name }],
+        goals: [...curriculum.goals, { id: goal.id, name: goal.title }],
       },
     };
   }, {});
@@ -41,9 +41,9 @@ const CompetenceGoals = ({
   wrapperComponent: Component,
   wrapperComponentProps,
 }) => {
-  const nodeId = article.oldNdlaUrl.split('/').pop();
+  const codes = article.grepCodes;
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
-    variables: { nodeId },
+    variables: { codes },
   });
   if (error) {
     handleError(error);
@@ -53,14 +53,13 @@ const CompetenceGoals = ({
   if (loading) {
     return <Spinner />;
   }
-
   const curriculums = groupByCurriculums(data.competenceGoals);
   return (
     <Component {...wrapperComponentProps}>
       {curriculums.map(curriculum => (
         <Fragment key={curriculum.id}>
           <CompetenceGoalListHeading>
-            {curriculum.name}:
+            {curriculum.title}:
           </CompetenceGoalListHeading>
           <CompetenceGoalList goals={curriculum.goals} />
         </Fragment>

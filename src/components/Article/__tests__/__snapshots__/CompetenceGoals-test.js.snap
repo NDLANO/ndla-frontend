@@ -10,7 +10,7 @@ Array [
       },
     ],
     "id": "NOR1-05",
-    "name": "Læreplan i norsk",
+    "title": "Læreplan i norsk",
   },
   Object {
     "goals": Array [
@@ -24,7 +24,7 @@ Array [
       },
     ],
     "id": "MOK2-01",
-    "name": "Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon",
+    "title": "Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon",
   },
 ]
 `;
