@@ -111,7 +111,7 @@ const MastheadContainer = ({
     resource,
   } = state;
 
-  const breadcrumbBlockItems = subject
+  const breadcrumbBlockItems = subject?.id
     ? toBreadcrumbItems(
         t('breadcrumb.toFrontpage'),
         [subject, ...topicPath, resource],
@@ -136,7 +136,7 @@ const MastheadContainer = ({
         skipToMainContentId={skipToMainContentId}
         infoContent={infoContent}>
         <MastheadItem left>
-          {subject && (
+          {subject?.id && (
             <MastheadMenu
               subject={subject}
               ndlaFilm={ndlaFilm}

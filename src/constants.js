@@ -264,6 +264,7 @@ export const ALLOWED_SUBJECTS = [
   'urn:subject:44',
 ];
 
+export const NOT_FOUND_PAGE_PATH = '/404';
 export const RESOURCE_PAGE_PATH =
   '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';

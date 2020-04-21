@@ -29,7 +29,7 @@ const ResourcePage = props => {
   });
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const filterIds = getFiltersFromUrl(props.location);
-  const { errors, loading, data } = useGraphQuery(resourcePageQuery, {
+  const { error, loading, data } = useGraphQuery(resourcePageQuery, {
     variables: { subjectId, topicId, filterIds, resourceId },
   });
 
@@ -37,13 +37,13 @@ const ResourcePage = props => {
     return null;
   }
 
-  if (errors && errors.filter(error => error.status === 404).length > 0) {
-    return <NotFoundPage />;
-  }
-
   if (!data) {
     return <DefaultErrorMessage />;
   }
+  if (!data.resource) {
+    return <NotFoundPage />;
+  }
+
   const { subject, topic } = data;
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
@@ -52,12 +52,16 @@ const ResourcePage = props => {
       <LearningpathPage
         {...props}
         data={{ ...data, topicPath }}
-        errors={errors}
+        errors={error?.graphQLErrors}
       />
     );
   }
   return (
-    <ArticlePage {...props} data={{ ...data, topicPath }} errors={errors} />
+    <ArticlePage
+      {...props}
+      data={{ ...data, topicPath }}
+      errors={error?.graphQLErrors}
+    />
   );
 };
 
