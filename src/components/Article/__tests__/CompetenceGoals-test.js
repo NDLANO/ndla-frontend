@@ -11,28 +11,28 @@ import { groupByCurriculums } from '../CompetenceGoals';
 const competenceGoals = [
   {
     id: 'K15502',
-    name:
+    title:
       'gjøre rede for argumentasjonen i andres tekster og skrive egne argumenterende tekster på hovedmål og sidemål',
     curriculum: {
       id: 'NOR1-05',
-      name: 'Læreplan i norsk',
+      title: 'Læreplan i norsk',
     },
   },
   {
     id: 'K17637',
-    name: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
+    title: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
     curriculum: {
       id: 'MOK2-01',
-      name:
+      title:
         'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
     },
   },
   {
     id: 'K17635',
-    name: 'lage budskap tilpasset målgruppe, formål og kanal',
+    title: 'lage budskap tilpasset målgruppe, formål og kanal',
     curriculum: {
       id: 'MOK2-01',
-      name:
+      title:
         'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
     },
   },

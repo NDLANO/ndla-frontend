@@ -8,7 +8,6 @@
 
 import fetch from 'node-fetch';
 import express from 'express';
-import proxy from 'express-http-proxy';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import {
@@ -29,11 +28,14 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import config from '../config';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
-import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../constants';
+import {
+  FILM_PAGE_PATH,
+  ALLOWED_SUBJECTS,
+  NOT_FOUND_PAGE_PATH,
+} from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
 
 global.fetch = fetch;
@@ -179,8 +181,6 @@ app.get('/lti', ndlaMiddleware, async (req, res) => {
   handleRequest(req, res, ltiRoute);
 });
 
-app.get('/:lang?/search/apachesolr_search(/*)?', proxy(config.oldNdlaProxyUrl));
-
 /** Handle different paths to a node in old ndla. */
 [
   'node',
@@ -218,7 +218,11 @@ app.get(
   },
 );
 
-app.get('/*', proxy(config.oldNdlaProxyUrl));
-app.post('/*', proxy(config.oldNdlaProxyUrl));
+app.get('/*', (req, res, next) => {
+  res.redirect(NOT_FOUND_PAGE_PATH);
+});
+app.post('/*', (req, res, next) => {
+  res.redirect(NOT_FOUND_PAGE_PATH);
+});
 
 export default app;

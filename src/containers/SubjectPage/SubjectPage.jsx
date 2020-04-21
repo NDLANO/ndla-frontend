@@ -19,6 +19,7 @@ import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { subjectPageQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
 import SubjectPageContent from './components/SubjectPageContent';
@@ -48,7 +49,7 @@ const SubjectPage = ({
     getFiltersFromUrlAsArray(location),
   );
   const { subjectId } = getUrnIdsFromProps({ ndlaFilm, match });
-  const { error, loading, data } = useGraphQuery(subjectPageQuery, {
+  const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: { subjectId, filterIds: getFiltersFromUrl(location) },
   });
 
@@ -70,9 +71,15 @@ const SubjectPage = ({
     return null;
   }
 
-  if (error && !data) {
+  if (!data) {
     return <DefaultErrorMessage />;
   }
+
+  if (!data.subject) {
+    return <NotFoundPage />;
+  }
+
+  const activeFilters = getFiltersFromUrlAsArray(location);
   const { subject = {} } = data;
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};
