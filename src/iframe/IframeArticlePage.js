@@ -66,7 +66,9 @@ class IframeArticlePage extends Component {
     const { resource, locale, location } = this.props;
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
-    const contentUrl = this.state.path ? `${config.ndlaFrontendDomain}/subjects${this.state.path}` : undefined;
+    const contentUrl = this.state.path
+      ? `${config.ndlaFrontendDomain}/subjects${this.state.path}`
+      : undefined;
     return (
       <OneColumn>
         <Helmet>
@@ -96,9 +98,7 @@ class IframeArticlePage extends Component {
           modifier="clean iframe"
           {...getArticleProps(resource)}
         />
-        <CreatedBy
-          contentUrl={contentUrl}
-        />
+        <CreatedBy contentUrl={contentUrl} />
       </OneColumn>
     );
   }
