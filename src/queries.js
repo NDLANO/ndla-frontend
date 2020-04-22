@@ -235,6 +235,10 @@ export const topicInfoFragment = gql`
         alt
       }
     }
+    metadata {
+      grepCodes
+      visible
+    }
   }
 `;
 
@@ -243,6 +247,10 @@ export const subjectInfoFragment = gql`
     id
     name
     path
+    metadata {
+      grepCodes
+      visible
+    }
   }
 `;
 
@@ -255,6 +263,10 @@ export const resourceInfoFragment = gql`
     resourceTypes {
       id
       name
+    }
+    metadata {
+      grepCodes
+      visible
     }
   }
 `;
@@ -359,6 +371,10 @@ export const taxonomyEntityInfo = gql`
     meta {
       ...MetaInfo
     }
+    metadata {
+      grepCodes
+      visible
+    }
     ... on Resource {
       resourceTypes {
         id
@@ -383,6 +399,10 @@ export const subjectTopicsQuery = gql`
           id
           metaDescription
         }
+        metadata {
+          grepCodes
+          visible
+        }
       }
       filters {
         id
@@ -404,6 +424,10 @@ export const subjectPageQuery = gql`
       filters {
         id
         name
+      }
+      metadata {
+        grepCodes
+        visible
       }
       subjectpage {
         id
@@ -529,6 +553,10 @@ export const topicResourcesQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      metadata {
+        grepCodes
+        visible
+      }
     }
   }
   ${resourceInfoFragment}
@@ -602,6 +630,10 @@ export const resourceQuery = gql`
       learningpath {
         ...LearningpathInfo
       }
+      metadata {
+        grepCodes
+        visible
+      }
     }
   }
   ${learningpathInfoFragment}
@@ -622,6 +654,10 @@ export const topicQuery = gql`
           url
           alt
         }
+      }
+      metadata {
+        grepCodes
+        visible
       }
       article {
         ...ArticleInfo
@@ -730,6 +766,10 @@ export const mastHeadQuery = gql`
           id
           metaDescription
         }
+        metadata {
+          grepCodes
+          visible
+        }
       }
       filters {
         id
@@ -748,6 +788,10 @@ export const mastHeadQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      metadata {
+        grepCodes
+        visible
+      }
     }
     resource(id: $resourceId, subjectId: $subjectId) @skip(if: $skipResource) {
       ...ResourceInfo
@@ -756,6 +800,10 @@ export const mastHeadQuery = gql`
       }
       learningpath {
         ...LearningpathInfo
+      }
+      metadata {
+        grepCodes
+        visible
       }
     }
   }
@@ -791,6 +839,10 @@ export const topicPageQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      metadata {
+        grepCodes
+        visible
+      }
     }
     subject(id: $subjectId) {
       id
@@ -805,10 +857,18 @@ export const topicPageQuery = gql`
           id
           metaDescription
         }
+        metadata {
+          grepCodes
+          visible
+        }
       }
       filters {
         id
         name
+      }
+      metadata {
+        grepCodes
+        visible
       }
     }
     resourceTypes {
@@ -840,10 +900,18 @@ export const resourcePageQuery = gql`
           id
           metaDescription
         }
+        metadata {
+          grepCodes
+          visible
+        }
       }
       filters {
         id
         name
+      }
+      metadata {
+        grepCodes
+        visible
       }
     }
     resourceTypes {
@@ -862,6 +930,10 @@ export const resourcePageQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      metadata {
+        grepCodes
+        visible
+      }
     }
     resource(id: $resourceId, subjectId: $subjectId) {
       ...ResourceInfo
@@ -870,6 +942,10 @@ export const resourcePageQuery = gql`
       }
       learningpath {
         ...LearningpathInfo
+      }
+      metadata {
+        grepCodes
+        visible
       }
     }
   }
