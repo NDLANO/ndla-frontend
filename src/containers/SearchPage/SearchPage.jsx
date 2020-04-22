@@ -34,8 +34,8 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const SearchPage = ({ location, history, t, ...rest }) => {
-  const searchParams = converSearchStringToObject(location);
+const SearchPage = ({ location, locale, history, t, ...rest }) => {
+  const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
   const { loading, data } = useGraphQuery(searchPageQuery);
@@ -108,6 +108,7 @@ const SearchPage = ({ location, history, t, ...rest }) => {
 
 SearchPage.propTypes = {
   location: LocationShape,
+  locale: string,
   history: shape({
     push: func.isRequired,
   }).isRequired,
