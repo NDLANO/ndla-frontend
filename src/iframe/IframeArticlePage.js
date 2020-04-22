@@ -28,7 +28,7 @@ class IframeArticlePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contentUrl: '',
+      path: undefined,
     };
   }
 
@@ -36,7 +36,7 @@ class IframeArticlePage extends Component {
     const resourceId = this.props.location.pathname.split('/')[3];
     fetchResource(resourceId).then(resource => {
       this.setState({
-        contentUrl: resource.path,
+        path: resource.path,
       });
     });
   }
@@ -66,6 +66,7 @@ class IframeArticlePage extends Component {
     const { resource, locale, location } = this.props;
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
+    const contentUrl = this.state.path ? `${config.ndlaFrontendDomain}/subjects${this.state.path}` : undefined;
     return (
       <OneColumn>
         <Helmet>
@@ -96,7 +97,7 @@ class IframeArticlePage extends Component {
           {...getArticleProps(resource)}
         />
         <CreatedBy
-          contentUrl={`${config.ndlaFrontendDomain}/subjects${this.state.contentUrl}`}
+          contentUrl={contentUrl}
         />
       </OneColumn>
     );
