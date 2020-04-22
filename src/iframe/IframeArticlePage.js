@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, CreatedBy } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
@@ -21,8 +21,26 @@ import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import { fetchResource } from '../containers/Resources/resourceApi';
+import config from '../config';
 
 class IframeArticlePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contentUrl: '',
+    };
+  }
+
+  componentDidMount() {
+    const resourceId = this.props.location.pathname.split('/')[3];
+    fetchResource(resourceId).then(resource => {
+      this.setState({
+        contentUrl: resource.path,
+      });
+    });
+  }
+
   static willTrackPageView(trackPageView, currentProps) {
     const { resource } = currentProps;
     if (resource?.article?.id) {
@@ -76,6 +94,9 @@ class IframeArticlePage extends Component {
           locale={locale}
           modifier="clean iframe"
           {...getArticleProps(resource)}
+        />
+        <CreatedBy
+          contentUrl={`${config.ndlaFrontendDomain}/subjects${this.state.contentUrl}`}
         />
       </OneColumn>
     );
