@@ -36,7 +36,7 @@ class IframeArticlePage extends Component {
     const resourceId = this.props.location.pathname.split('/')[3];
     fetchResource(resourceId).then(resource => {
       this.setState({
-        path: resource.path,
+        path: resource.path || resource.paths?.[0],
       });
     });
   }

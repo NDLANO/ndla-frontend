@@ -84,7 +84,7 @@ export class IframeTopicPage extends Component {
     const topicId = this.props.location.pathname.split('/')[3];
     fetchTopic(topicId).then(topic => {
       this.setState({
-        path: topic.path,
+        path: topic.path || topic.paths?.[0],
       });
     });
   }
