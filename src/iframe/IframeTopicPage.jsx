@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { OneColumn, constants } from '@ndla/ui';
+import { OneColumn, CreatedBy, constants } from '@ndla/ui';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -21,6 +21,8 @@ import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
+import { fetchTopic } from '../containers/Resources/resourceApi';
+import config from '../config';
 
 const Success = ({ resource, locale, location }) => {
   const article = transformArticle(resource.article, locale);
@@ -71,6 +73,21 @@ Success.propTypes = {
 };
 
 export class IframeTopicPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      path: undefined,
+    };
+  }
+
+  componentDidMount() {
+    const topicId = this.props.location.pathname.split('/')[3];
+    fetchTopic(topicId).then(topic => {
+      this.setState({
+        path: topic.path || topic.paths?.[0],
+      });
+    });
+  }
   static willTrackPageView(trackPageView, currentProps) {
     const { resource } = currentProps;
     if (resource?.article?.id) {
@@ -95,7 +112,9 @@ export class IframeTopicPage extends Component {
     } = this.props;
     const article = transformArticle(propArticle, locale);
     const scripts = getArticleScripts(article);
-
+    const contentUrl = this.state.path
+      ? `${config.ndlaFrontendDomain}/subjects${this.state.path}`
+      : undefined;
     return (
       <>
         <Helmet>
@@ -136,6 +155,7 @@ export class IframeTopicPage extends Component {
             modifier="clean iframe"
             label={t('topicPage.topic')}
             contentType={constants.contentTypes.SUBJECT}></Article>
+          <CreatedBy contentUrl={contentUrl} />
         </OneColumn>
       </>
     );
