@@ -18,7 +18,7 @@ import CompetenceGoals from './CompetenceGoals';
 
 function renderCompetenceGoals(article, isTopicArticle) {
   // Don't show competence goals for topics or articles without grepCodes
-  if (isTopicArticle || article.grepCodes?.length === 0) {
+  if (isTopicArticle || (article.grepCodes?.length === 0 && !article.oldNdlaUrl)) {
     // Return null to make sure UIArticle component does not render dialog buttons
     return null;
   }
