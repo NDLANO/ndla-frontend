@@ -57,7 +57,7 @@ const SearchFilters = ({
     subjectFilters:
       subject.filters?.map(filter => ({
         title: filter.name,
-        value: filter.name,
+        value: filter.id,
       })) || [],
   }));
 
@@ -72,7 +72,7 @@ const SearchFilters = ({
           }
           if (searchParams.levels && searchParams.levels.length > 0) {
             searchParams.levels.forEach(level => {
-              if (level === filter.title) {
+              if (level === filter.value) {
                 seachFilterListSubjectValues[subject.id].push(filter.value);
               }
             });
