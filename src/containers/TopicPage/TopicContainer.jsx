@@ -185,7 +185,6 @@ TopicContainer.willTrackPageView = (trackPageView, props) => {
   if (props.loading || !props.data) {
     return;
   }
-  console.log(props)
   trackPageView(props);
 };
 
