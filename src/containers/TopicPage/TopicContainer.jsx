@@ -208,12 +208,6 @@ TopicContainer.defaultProps = {
 };
 
 TopicContainer.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
   data: PropTypes.shape({
     subject: SubjectShape,
