@@ -206,6 +206,8 @@ TopicContainer.defaultProps = {
 };
 
 TopicContainer.propTypes = {
+  subjectId: PropTypes.string.isRequired,
+  topicId: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   data: PropTypes.shape({
     subject: SubjectShape,
@@ -221,7 +223,7 @@ TopicContainer.propTypes = {
     topicPath: PropTypes.arrayOf(TopicShape),
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
-  errors: PropTypes.arrayOf(GraphqlErrorShape),
+  error: PropTypes.arrayOf(GraphqlErrorShape),
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string.isRequired,
