@@ -70,7 +70,6 @@ const TopicContainer = ({
   data,
   error,
 }) => {
-
   const result = transformData(data);
 
   const {
