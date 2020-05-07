@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 
 import TopicContainer from './TopicContainer';
 import { LocationShape } from '../../shapes';
@@ -19,14 +18,7 @@ import { getFiltersFromUrl } from '../../util/filterHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 
-const TopicPage = ({
-  location,
-  ndlaFilm,
-  match,
-  locale,
-  t,
-  skipToContentId,
-}) => {
+const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
   const { data, loading, error } = useGraphQuery(topicPageQuery, {
@@ -47,7 +39,6 @@ const TopicPage = ({
       location={location}
       ndlaFilm={ndlaFilm}
       locale={locale}
-      t={t}
       skipToContentId={skipToContentId}
       subjectId={subjectId}
       topicId={topicId}
@@ -76,4 +67,4 @@ TopicPage.propTypes = {
   basename: PropTypes.string,
 };
 
-export default injectT(TopicPage);
+export default TopicPage;
