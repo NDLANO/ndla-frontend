@@ -149,11 +149,13 @@ SubjectPage.propTypes = {
   skipToContentId: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    path: PropTypes.string,
-    filters: PropTypes.arrayOf(FilterShape),
-    topics: PropTypes.arrayOf(TopicShape),
+    subject: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      path: PropTypes.string,
+      filters: PropTypes.arrayOf(FilterShape),
+      topics: PropTypes.arrayOf(TopicShape),
+    }),
   }),
 };
 
