@@ -52,6 +52,7 @@ const TopicPage = ({
       subjectId={subjectId}
       topicId={topicId}
       data={data}
+      loading={loading}
       error={error}
     />
   );

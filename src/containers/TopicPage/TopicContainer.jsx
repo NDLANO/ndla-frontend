@@ -223,6 +223,7 @@ TopicContainer.propTypes = {
     topicPath: PropTypes.arrayOf(TopicShape),
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
+  loading: PropTypes.bool,
   error: PropTypes.arrayOf(GraphqlErrorShape),
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
