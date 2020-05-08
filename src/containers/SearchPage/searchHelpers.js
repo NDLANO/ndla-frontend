@@ -108,6 +108,7 @@ export const converSearchStringToObject = (location, locale) => {
 
   return {
     language: locale || 'nb',
+    fallback: true,
     ...searchLocation,
     ...arrayFields
       .map(field => ({
@@ -128,6 +129,9 @@ export const convertSearchParam = value => {
     return value.length > 0 ? value.join(',') : undefined;
   }
   if (Number.isInteger(value)) {
+    return value;
+  }
+  if (typeof value === 'boolean') {
     return value;
   }
   return value.length > 0 ? value : undefined;
