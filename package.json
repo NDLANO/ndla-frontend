@@ -26,7 +26,9 @@
     "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record --parallel",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "get-gql-schema-local": "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json"
+    "get-gql-schema-local": "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "engines": {
     "node": ">=8.0.0",
@@ -118,7 +120,8 @@
     "serialize-javascript": "^2.1.2",
     "source-map-support": "^0.5.9",
     "url-parse": "^1.4.7",
-    "warning": "^4.0.3"
+    "warning": "^4.0.3",
+    "snyk": "^1.319.2"
   },
   "repository": {
     "type": "git",
@@ -129,5 +132,6 @@
   },
   "homepage": "https://github.com/NDLANO/ndla-frontend",
   "author": "ndla@knowit.no",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "snyk": true
 }
