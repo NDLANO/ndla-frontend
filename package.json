@@ -103,7 +103,7 @@
     "postcss-reporter": "^6.0.1",
     "prop-types": "^15.7.2",
     "query-string": "5",
-    "razzle": "3.0.0",
+    "razzle": "3.1.0",
     "razzle-config-utils": "^0.1.0",
     "react": "^16.9.0",
     "react-bem-helper": "^1.4.1",
