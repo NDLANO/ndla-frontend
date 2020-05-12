@@ -517,7 +517,9 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-69:disabled {
+  color: #777777;
   border: 2px solid transparent;
+  background-color: #e6e6e6;
   cursor: not-allowed;
   -webkit-transform: translateY(0) translateX(0);
   -ms-transform: translateY(0) translateX(0);
