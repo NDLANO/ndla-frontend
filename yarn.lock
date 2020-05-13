@@ -1271,10 +1271,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ndla/article-scripts@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.13.tgz#9936b499fbbca4ae2bf901fe101095f53ac54ebd"
-  integrity sha512-784N9Y5hb4qTFP9XRNZ29gSghtM7/nvRQ08CINWLLRiqop9n5mEwpjL/WwCJtGC7XlZwAOabuHbXw/yfZLsFTA==
+"@ndla/article-scripts@^0.5.14":
+  version "0.5.14"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.14.tgz#02ec28f2c7fa4eaa5f35fbb8473f2a138f091a1a"
+  integrity sha512-z8RAZc+ZfQJu8qEpf18SEFmRQBwFEnuTpo65000zIBWBJWeVo5nrEv0kRQJgyglSPC+SGPQm3WQqNT5Tvoyy8Q==
   dependencies:
     "@ndla/util" "^0.3.6"
     focus-trap "^4.0.2"
