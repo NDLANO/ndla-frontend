@@ -1271,10 +1271,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ndla/article-scripts@^0.5.12":
-  version "0.5.12"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.12.tgz#670b94cdaee64728e65461298b69a154c119eab0"
-  integrity sha512-Is6Vlh1p+BpW3Qqlq2sBMvfBDnV9BM9ONK206U8Po3Hi3eOfJCjpfqrIpcDgjOuEqyVx0mSmLSPsvfcMDq/Rew==
+"@ndla/article-scripts@^0.5.14":
+  version "0.5.14"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-0.5.14.tgz#02ec28f2c7fa4eaa5f35fbb8473f2a138f091a1a"
+  integrity sha512-z8RAZc+ZfQJu8qEpf18SEFmRQBwFEnuTpo65000zIBWBJWeVo5nrEv0kRQJgyglSPC+SGPQm3WQqNT5Tvoyy8Q==
   dependencies:
     "@ndla/util" "^0.3.6"
     focus-trap "^4.0.2"
@@ -1420,10 +1420,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.29":
-  version "0.27.29"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.29.tgz#ead158fd3594c46fa05894aad9bd812bee0c7a3e"
-  integrity sha512-b9ieoRc+POSAFVAnrC1ukmc4RkQG9mGJtY9nJ8UZKWmrjY/ncBK09mYEwTtIVivSKT8kYGJFT0oWbreHcRkfyw==
+"@ndla/ui@^0.27.32":
+  version "0.27.32"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.32.tgz#dfc82520bd94ebe34942b4a515fcc1ba6aebeb7c"
+  integrity sha512-YbgM0HHalShyrBuzSE89pk+pIXrlaksYOEepv57KJVG8hXWIkSjradxnEGPt6S+xUGMAqaZoRnlCDvXaBUkLOA==
   dependencies:
     "@ndla/button" "^0.3.27"
     "@ndla/carousel" "^0.3.22"
