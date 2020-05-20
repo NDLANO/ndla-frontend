@@ -27,7 +27,7 @@ export const searchQuery = gql`
     $contextFilters: String
     $levels: String
     $sort: String
-    $fallback: Boolean
+    $fallback: String
     $subjects: String
     $languageFilter: String
     $relevance: String
@@ -94,7 +94,7 @@ export const searchFilmQuery = gql`
     $contextFilters: String
     $levels: String
     $sort: String
-    $fallback: Boolean
+    $fallback: String
     $subjects: String
     $languageFilter: String
     $relevance: String
