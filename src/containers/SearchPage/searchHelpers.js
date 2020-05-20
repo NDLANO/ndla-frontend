@@ -104,7 +104,9 @@ const arrayFields = [
 ];
 
 export const converSearchStringToObject = (location, locale) => {
-  const searchLocation = queryString.parse(location?.search || '');
+  const searchLocation = queryString.parse(location?.search || '', {
+    parseBooleans: true,
+  });
 
   return {
     language: locale || 'nb',
