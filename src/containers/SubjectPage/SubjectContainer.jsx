@@ -57,7 +57,6 @@ const SubjectPage = ({
   const {
     latestContent,
     facebook,
-    twitter,
     banner,
     editorsChoices,
     layout,
@@ -119,7 +118,7 @@ const SubjectPage = ({
           latestContent={latestContent}
         />
       )}
-      <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
+      <SubjectPageSocialMedia facebook={facebook} />
     </>
   );
 };
