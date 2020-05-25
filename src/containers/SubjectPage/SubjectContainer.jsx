@@ -119,7 +119,7 @@ const SubjectPage = ({
           latestContent={latestContent}
         />
       )}
-      <SubjectPageSocialMedia twitter={twitter} facebook={facebook} />
+      <SubjectPageSocialMedia facebook={facebook} />
     </>
   );
 };
