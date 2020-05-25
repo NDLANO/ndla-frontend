@@ -57,7 +57,6 @@ const SubjectPage = ({
   const {
     latestContent,
     facebook,
-    twitter,
     banner,
     editorsChoices,
     layout,
