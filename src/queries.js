@@ -609,6 +609,15 @@ export const resourceQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const plainArticleQuery = gql`
+  query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {
+    article(id: $articleId, removeRelatedContent: $removeRelatedContent) {
+      ...ArticleInfo
+    }
+  }
+  ${articleInfoFragment}
+`;
+
 export const topicQuery = gql`
   query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {

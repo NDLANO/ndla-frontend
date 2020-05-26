@@ -23,7 +23,6 @@ import { useGraphQuery } from '../../util/runQueries';
 const ResourcePage = props => {
   useEffect(() => {
     if (window.MathJax) {
-      console.log('running matjax thing');
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
   });
