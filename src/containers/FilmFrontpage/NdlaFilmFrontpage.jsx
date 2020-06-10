@@ -36,8 +36,7 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
   });
   const [searchAllMovies, { data: allMovies }] = useLazyQuery(searchFilmQuery);
   // TODO: When ff is phased out, always use standard.
-  const contextType =
-    config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
+  const contextType = config.ndlaFilmArticleType;
 
   useEffect(() => {
     // if we receive new movies we map them into state
