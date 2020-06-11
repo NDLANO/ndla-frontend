@@ -11,11 +11,8 @@ import { visitOptions } from '../support';
 describe('Front page', () => {
   beforeEach(() => {
     cy.server();
-    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
-    cy.apiwait('@frontpageGraphQL');
   });
-
   it('should have a list of valid links on front page', () => {
     cy.get('[data-testid="category-list"] nav button').each(button => {
       button.click();

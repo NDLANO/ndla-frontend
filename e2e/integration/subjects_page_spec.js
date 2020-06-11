@@ -11,9 +11,7 @@ import { visitOptions } from '../support';
 describe('Subjects page', () => {
   beforeEach(() => {
     cy.server();
-    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
-    cy.apiwait('@frontpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get(
