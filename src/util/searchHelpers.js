@@ -1,30 +1,21 @@
 import { FRONTPAGE_CATEGORIES } from '../constants';
-import {
-  findCategoryByName,
-  findMatchingFrontpageFilter,
-} from '../containers/WelcomePage/FrontpageSubjects';
 import { removeUrn } from '../routeHelpers';
 
-const createSubjectFilterPath = (subject, filter) => {
+const createSubjectFilterPath = subject => {
   const baseUrl = `/${removeUrn(subject.id)}/`;
-  if (filter) {
-    const filterIds = filter.map(f => f.id).join(',');
+  if (subject.filters) {
+    const filterIds = subject.filters.join(',');
     return `${baseUrl}?filters=${filterIds}`;
   }
   return baseUrl;
 };
 
-export const searchSubjects = (query, locale, categoriesFromApi) => {
+export const searchSubjects = query => {
   const allOfThem = FRONTPAGE_CATEGORIES.categories.reduce(
     (accumulated, category) => {
       if (!query) {
         return [];
       }
-
-      const subjectsFromApi = findCategoryByName(
-        categoriesFromApi,
-        category.name,
-      );
 
       query = query.trim().toLowerCase();
       const foundInSubjects = category.subjects.filter(subject =>
@@ -34,10 +25,7 @@ export const searchSubjects = (query, locale, categoriesFromApi) => {
       return [
         ...accumulated,
         ...foundInSubjects.map(subject => {
-          const filter = findMatchingFrontpageFilter(subjectsFromApi, subject);
-          const path = subject.id
-            ? createSubjectFilterPath(subject, filter)
-            : `${locale ? `/${locale}` : ''}/node/${subject.nodeId}/`;
+          const path = createSubjectFilterPath(subject);
           return {
             id: subject.id,
             path: path,
@@ -55,14 +43,8 @@ export const searchSubjects = (query, locale, categoriesFromApi) => {
   return allOfThem;
 };
 
-export const mapSearchToFrontPageStructure = (
-  data,
-  t,
-  query,
-  locale,
-  categoriesFromApi,
-) => {
-  const subjectHits = searchSubjects(query, locale, categoriesFromApi);
+export const mapSearchToFrontPageStructure = (data, t, query) => {
+  const subjectHits = searchSubjects(query);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
