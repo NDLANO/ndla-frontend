@@ -6,81 +6,38 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Breadcrumb } from '@ndla/ui';
-import { toBreadcrumbItems } from '../../../routeHelpers';
+import { 
+  SubjectFilter,
+} from '@ndla/ui';
 import {
   GraphQLSubjectPageShape,
   GraphQLSubjectShape,
 } from '../../../graphqlShapes';
 import { TopicShape } from '../../../shapes';
-import SubjectPageSingle from './layout/SubjectPageSingle';
-import SubjectPageDouble from './layout/SubjectPageDouble';
-import SubjectPageStacked from './layout/SubjectPageStacked';
-import { fixEndSlash } from '../../../routeHelpers';
 
-const SubjectBreadCrumb = injectT(({ t, subject }) => (
-  <Breadcrumb
-    items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [subject], undefined)}
-  />
-));
-
-SubjectBreadCrumb.propTypes = {
-  subject: GraphQLSubjectShape,
-};
-
-const WithSubjectPageComponent = layout => {
-  switch (layout) {
-    case 'single':
-      return SubjectPageSingle;
-    case 'double':
-      return SubjectPageDouble;
-    case 'stacked':
-      return SubjectPageStacked;
-    default:
-      return SubjectPageSingle;
-  }
-};
-
-const SubjectPageContent = ({ layout, subject, skipToContentId, ...rest }) => {
-  if (!subject) {
-    return null;
-  }
-  const { filters, topics } = subject;
-  const defaultProps = {
-    topics: topics
-      ? topics.map(topic => {
-          if (topic && topic.path) {
-            topic.path = fixEndSlash(topic.path);
-          }
-          return {
-            ...topic,
-            introduction:
-              topic.meta && topic.meta.metaDescription
-                ? topic.meta.metaDescription
-                : '',
-          };
-        })
-      : [],
-    breadcrumb: <SubjectBreadCrumb subject={subject} />,
-    filters: filters
-      ? filters.map(filter => ({
+const SubjectPageContent = ({ subject, activeFilters, handleFilterClick }) => {
+  const [filterValues, setFilterValues] = useState([]);
+  return (
+    <>
+      <SubjectFilter
+        label='Filter'
+        options={subject.filters.map(filter => ({
           ...filter,
           title: filter.name,
-          value: filter.id,
-        }))
-      : [],
-  };
-
-  const SubjectPageComponent = WithSubjectPageComponent(layout);
-  return (
-    <div id={skipToContentId}>
-      <SubjectPageComponent {...rest} {...defaultProps} />
-    </div>
+          value: filter.id
+        }))}
+        values={activeFilters}
+        onChange={newValues => {
+          handleFilterClick(newValues);
+          setFilterValues(newValues);
+        }}
+      />
+    </>
   );
-};
+}
 
 SubjectPageContent.propTypes = {
   handleFilterClick: PropTypes.func.isRequired,
