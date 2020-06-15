@@ -10,7 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
-import { SubjectHeader } from '@ndla/ui';
+import {
+  OneColumn,
+  NavigationHeading,
+  BreadCrumblist,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
@@ -43,8 +47,8 @@ const SubjectPage = ({
     history.push(
       newValues.length > 0
         ? {
-            search: searchString,
-          }
+          search: searchString,
+        }
         : {},
     );
   };
@@ -64,6 +68,10 @@ const SubjectPage = ({
     metaDescription,
   } = subjectpage;
 
+  const breadCrumbs = [
+    
+  ]
+
   return (
     <>
       <Helmet>
@@ -72,53 +80,46 @@ const SubjectPage = ({
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
-      {about && (
-        <SocialMediaMetadata
-          title={about.title}
-          description={metaDescription}
-          locale={locale}
-          image={
-            about.visualElement && {
-              src: about.visualElement.url,
-              altText: about.visualElement.alt,
+      <OneColumn>
+        {about && (
+          <SocialMediaMetadata
+            title={about.title}
+            description={metaDescription}
+            locale={locale}
+            image={
+              about.visualElement && {
+                src: about.visualElement.url,
+                altText: about.visualElement.alt,
+              }
             }
-          }
-        />
-      )}
-      <SubjectHeader
-        heading={subjectName || ''}
-        images={[
-          {
-            url: banner?.desktopUrl || '',
-            types: ['wide', 'desktop', 'tablet'],
-          },
-          { url: banner?.mobileUrl || '', types: ['mobile'] },
-        ]}
-        showFFBadge={config.isFFServer}
-      />
-      <SubjectPageContent
-        skipToContentId={skipToContentId}
-        layout={layout}
-        locale={locale}
-        subjectId={subjectId}
-        subjectpage={subjectpage}
-        subject={subject}
-        activeFilters={activeFilters}
-        handleFilterClick={handleFilterClick}
-      />
-      <SubjectEditorChoices
-        wideScreen
-        editorsChoices={editorsChoices}
-        locale={locale}
-      />
-      {latestContent && (
-        <SubjectPageSecondaryContent
+          />
+        )}
+        <BreadCrumblist items={breadCrumbs} />
+        <NavigationHeading>{subjectName}</NavigationHeading>
+        <SubjectPageContent
+          skipToContentId={skipToContentId}
+          layout={layout}
           locale={locale}
-          subjectName={subjectName}
-          latestContent={latestContent}
+          subjectId={subjectId}
+          subjectpage={subjectpage}
+          subject={subject}
+          activeFilters={activeFilters}
+          handleFilterClick={handleFilterClick}
         />
-      )}
-      <SubjectPageSocialMedia facebook={facebook} />
+        <SubjectEditorChoices
+          wideScreen
+          editorsChoices={editorsChoices}
+          locale={locale}
+        />
+        {latestContent && (
+          <SubjectPageSecondaryContent
+            locale={locale}
+            subjectName={subjectName}
+            latestContent={latestContent}
+          />
+        )}
+        <SubjectPageSocialMedia facebook={facebook} />
+      </OneColumn>
     </>
   );
 };
