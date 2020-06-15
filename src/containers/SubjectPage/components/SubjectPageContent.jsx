@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { 
   SubjectFilter,
+  NavigationBox,
 } from '@ndla/ui';
 import {
   GraphQLSubjectPageShape,
@@ -19,22 +20,26 @@ import {
 import { TopicShape } from '../../../shapes';
 
 const SubjectPageContent = ({ subject, activeFilters, handleFilterClick }) => {
-  const [filterValues, setFilterValues] = useState([]);
+
+  const options = subject.filters.map(filter => ({
+    ...filter,
+    title: filter.name,
+    value: filter.id
+  }))
+
+  const topicItems = subject.topics.map(topic => ({
+    ...topic,
+    label: topic.name
+  }))
   return (
     <>
       <SubjectFilter
         label='Filter'
-        options={subject.filters.map(filter => ({
-          ...filter,
-          title: filter.name,
-          value: filter.id
-        }))}
+        options={options}
         values={activeFilters}
-        onChange={newValues => {
-          handleFilterClick(newValues);
-          setFilterValues(newValues);
-        }}
+        onChange={handleFilterClick}
       />
+      <NavigationBox items={topicItems}/>
     </>
   );
 }
