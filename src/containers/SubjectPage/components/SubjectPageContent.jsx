@@ -10,7 +10,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { 
-  SubjectFilter,
   NavigationBox,
 } from '@ndla/ui';
 import {
@@ -21,24 +20,12 @@ import { TopicShape } from '../../../shapes';
 
 const SubjectPageContent = ({ subject, activeFilters, handleFilterClick }) => {
 
-  const options = subject.filters.map(filter => ({
-    ...filter,
-    title: filter.name,
-    value: filter.id
-  }))
-
   const topicItems = subject.topics.map(topic => ({
     ...topic,
     label: topic.name
   }))
   return (
     <>
-      <SubjectFilter
-        label='Filter'
-        options={options}
-        values={activeFilters}
-        onChange={handleFilterClick}
-      />
       <NavigationBox items={topicItems}/>
     </>
   );
