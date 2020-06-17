@@ -23,7 +23,7 @@ import SubjectPageSecondaryContent from './components/SubjectPageSecondaryConten
 import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
@@ -53,7 +53,7 @@ const SubjectPage = ({
     );
   };
 
-  const activeFilters = getFiltersFromUrlAsArray(location);
+  const activeFilterId = getFiltersFromUrl(location);
   const { subject = {} } = data;
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};
@@ -72,6 +72,8 @@ const SubjectPage = ({
     
   ]
 
+  const currentFilter = subject.filters.find(filter => filter.id === activeFilterId);
+  
   return (
     <>
       <Helmet>
@@ -95,7 +97,9 @@ const SubjectPage = ({
           />
         )}
         <BreadCrumblist items={breadCrumbs} />
-        <NavigationHeading>{subjectName}</NavigationHeading>
+        <NavigationHeading subHeading={currentFilter.name}>
+          {subjectName}
+        </NavigationHeading>
         <SubjectPageContent
           skipToContentId={skipToContentId}
           layout={layout}
@@ -103,7 +107,6 @@ const SubjectPage = ({
           subjectId={subjectId}
           subjectpage={subjectpage}
           subject={subject}
-          activeFilters={activeFilters}
           handleFilterClick={handleFilterClick}
         />
         <SubjectEditorChoices
