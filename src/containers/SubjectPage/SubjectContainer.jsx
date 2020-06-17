@@ -20,7 +20,6 @@ import { withTracker } from '@ndla/tracker';
 
 import { LocationShape, FilterShape, TopicShape } from '../../shapes';
 import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
-import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
@@ -73,7 +72,7 @@ const SubjectPage = ({
   ]
 
   const currentFilter = subject.filters.find(filter => filter.id === activeFilterId);
-  
+
   return (
     <>
       <Helmet>
@@ -121,7 +120,6 @@ const SubjectPage = ({
             latestContent={latestContent}
           />
         )}
-        <SubjectPageSocialMedia facebook={facebook} />
       </OneColumn>
     </>
   );
