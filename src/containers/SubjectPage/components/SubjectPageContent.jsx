@@ -17,16 +17,33 @@ import {
   GraphQLSubjectShape,
 } from '../../../graphqlShapes';
 import { TopicShape } from '../../../shapes';
+import MainTopic from './MainTopic';
 
-const SubjectPageContent = ({ subject, activeFilters, handleFilterClick }) => {
+const SubjectPageContent = ({ subject, filter, locale, activeFilters, handleFilterClick }) => {
+  const [mainTopicId, setMainTopicId] = useState(null);
 
-  const topicItems = subject.topics.map(topic => ({
+  const mainTopics = subject.topics.map(topic => ({
     ...topic,
     label: topic.name
   }))
+
+  const onClickMainTopic = e => {
+    e.preventDefault();
+    const topic = mainTopics.find(topic => topic.label === e.currentTarget.textContent);
+    setMainTopicId(topic.id);
+  }
+
   return (
     <>
-      <NavigationBox items={topicItems}/>
+      <NavigationBox items={mainTopics} onClick={onClickMainTopic}/>
+      {mainTopicId && 
+        <MainTopic 
+          topicId={mainTopicId}
+          subjectId={subject.id}
+          filterIds={filter.id}
+          locale={locale}
+        />
+      }
     </>
   );
 }

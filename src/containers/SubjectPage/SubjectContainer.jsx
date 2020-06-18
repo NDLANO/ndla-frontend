@@ -96,7 +96,7 @@ const SubjectPage = ({
           />
         )}
         <BreadCrumblist items={breadCrumbs} />
-        <NavigationHeading subHeading={currentFilter.name}>
+        <NavigationHeading subHeading={currentFilter?.name}>
           {subjectName}
         </NavigationHeading>
         <SubjectPageContent
@@ -107,6 +107,7 @@ const SubjectPage = ({
           subjectpage={subjectpage}
           subject={subject}
           handleFilterClick={handleFilterClick}
+          filter={currentFilter}
         />
         <SubjectEditorChoices
           wideScreen
