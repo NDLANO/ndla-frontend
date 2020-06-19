@@ -13,14 +13,14 @@ import {
   NavigationBox,
 } from '@ndla/ui';
 import {
-  GraphQLSubjectPageShape,
   GraphQLSubjectShape,
+  GraphQLFilterShape,
 } from '../../../graphqlShapes';
-import { TopicShape } from '../../../shapes';
-import MainTopic from './MainTopic';
+import Topic from './Topic';
 
-const SubjectPageContent = ({ subject, filter, locale, activeFilters, handleFilterClick }) => {
+const SubjectPageContent = ({ subject, filter, locale }) => {
   const [mainTopicId, setMainTopicId] = useState(null);
+  const [subTopicId, setSubTopicId] = useState(null);
 
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
@@ -37,8 +37,17 @@ const SubjectPageContent = ({ subject, filter, locale, activeFilters, handleFilt
     <>
       <NavigationBox items={mainTopics} onClick={onClickMainTopic}/>
       {mainTopicId && 
-        <MainTopic 
+        <Topic 
           topicId={mainTopicId}
+          subjectId={subject.id}
+          filterIds={filter.id}
+          setSubTopicId={setSubTopicId}
+          locale={locale}
+        />
+      }
+      {subTopicId && 
+        <Topic
+          topicId={subTopicId}
           subjectId={subject.id}
           filterIds={filter.id}
           locale={locale}
@@ -49,20 +58,9 @@ const SubjectPageContent = ({ subject, filter, locale, activeFilters, handleFilt
 }
 
 SubjectPageContent.propTypes = {
-  handleFilterClick: PropTypes.func.isRequired,
-  subjectpage: GraphQLSubjectPageShape,
   subject: GraphQLSubjectShape,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ),
-  topics: PropTypes.arrayOf(TopicShape),
-  subjectId: PropTypes.string.isRequired,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
-  layout: PropTypes.oneOf(['single', 'double', 'stacked']),
-  skipToContentId: PropTypes.string.isRequired,
+  filter: GraphQLFilterShape,
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(SubjectPageContent);

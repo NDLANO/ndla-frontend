@@ -15,7 +15,7 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 
-const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
+const MainTopic = ({ topicId, subjectId, filterIds, setSubTopicId, locale }) => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
   }, [topicId])
 
   const { data, loading } = useGraphQuery(topicQuery, {
-    variables: { topicId }
+    variables: { topicId, subjectId, filterIds }
   })
 
   if (loading) {
@@ -35,6 +35,12 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
     id: item.id,
     label: item.name,
   }))
+
+  const onClickSubTopic = e => {
+    e.preventDefault();
+    const topic = subTopics.find(topic => topic.label === e.currentTarget.textContent);
+    setSubTopicId(topic.id);
+  }
 
   return (
     <>
@@ -53,6 +59,7 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
           colorMode='light'
           heading='emner'
           items={subTopics}
+          onClick={onClickSubTopic}
         />
       }
     </>
@@ -60,9 +67,11 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
 }
 
 MainTopic.propTypes = {
-  topicId: PropTypes.string,
+  topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
+  setSubTopicId: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 export default MainTopic;
