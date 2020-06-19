@@ -6,7 +6,9 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { Remarkable } from 'remarkable';
 import { injectT } from '@ndla/i18n';
 import {
   ArticleWrapper,
@@ -22,7 +24,16 @@ import LicenseBox from '../license/LicenseBox';
 import { ArticleShape } from '../../shapes';
 
 const ArticleContents = ({ article, locale, t }) => {
-  const renderMarkdown = text => text;
+  const markdown = useMemo(() => {
+    const md = new Remarkable({ breaks: true });
+    md.inline.ruler.enable(['sub', 'sup']);
+    md.block.ruler.disable(['list']);
+    return md;
+  }, []);
+
+  const renderMarkdown = text => {
+    return markdown.render(text);
+  };
 
   return (
       <ArticleWrapper modifier='clean-in-context'>
@@ -58,7 +69,8 @@ const ArticleContents = ({ article, locale, t }) => {
 }
 
 ArticleContents.propTypes = {
-  article: ArticleShape
+  article: ArticleShape,
+  locale: PropTypes.string,
 };
 
 export default injectT(ArticleContents);
