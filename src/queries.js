@@ -641,6 +641,10 @@ export const topicQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      subtopics {
+        id
+        name
+      }
     }
   }
   ${articleInfoFragment}
