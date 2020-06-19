@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { NavigationTopicAbout } from '@ndla/ui';
 
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import Article from '../../../components/Article';
+import ArticleContents from '../../../components/Article/ArticleContents';
 
-const MainTopic = ({ topicId, subjectId, filterIds, locale, t }) => {
+const MainTopic = ({ topicId, subjectId, filterIds, locale }) => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -27,8 +27,6 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale, t }) => {
 
   const topic = data?.topic;
 
-  console.log(topic)
-
   return (
     <NavigationTopicAbout
       heading={topic?.name}
@@ -36,11 +34,9 @@ const MainTopic = ({ topicId, subjectId, filterIds, locale, t }) => {
       showContent={showContent}
       onToggleShowContent={() => setShowContent(!showContent)}
       isLoading={loading}>
-      <Article
+      <ArticleContents
         article={topic?.article}
         locale={locale}
-        label={t('topicPage.topic')}
-        isTopicArticle
       />
     </NavigationTopicAbout>
   );
@@ -52,6 +48,4 @@ MainTopic.propTypes = {
   filterIds: PropTypes.string,
 };
 
-
-
-export default injectT(MainTopic);
+export default MainTopic;
