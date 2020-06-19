@@ -477,35 +477,6 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const frontpageQuery = gql`
-  query frontpageQuery {
-    frontpage {
-      topical {
-        ...ResourceInfo
-      }
-      categories {
-        name
-        subjects {
-          ...SubjectInfo
-          frontpageFilters {
-            id
-            name
-          }
-        }
-      }
-    }
-    subjects {
-      ...SubjectInfo
-      filters {
-        id
-        name
-      }
-    }
-  }
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
-`;
-
 export const resourceTypesQuery = gql`
   query resourceTypesQuery {
     resourceTypes {
