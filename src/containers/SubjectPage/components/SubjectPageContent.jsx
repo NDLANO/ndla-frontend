@@ -9,57 +9,68 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { 
-  NavigationBox,
-} from '@ndla/ui';
+import { NavigationBox } from '@ndla/ui';
 import {
   GraphQLSubjectShape,
   GraphQLFilterShape,
 } from '../../../graphqlShapes';
+import { BreadCrumbShape } from '../../../shapes';
 import Topic from './Topic';
 
-const SubjectPageContent = ({ subject, filter, locale }) => {
-  const [mainTopicId, setMainTopicId] = useState(null);
-  const [subTopicId, setSubTopicId] = useState(null);
-
+const SubjectPageContent = ({
+  subject,
+  filter,
+  selectedTopic,
+  selectedSubTopic,
+  setSelectedTopic,
+  setSelectedSubTopic,
+  locale,
+}) => {
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
-    label: topic.name
-  }))
+    label: topic.name,
+  }));
 
   const onClickMainTopic = e => {
     e.preventDefault();
-    const topic = mainTopics.find(topic => topic.label === e.currentTarget.textContent);
-    setMainTopicId(topic.id);
-  }
+    const topic = mainTopics.find(
+      topic => topic.label === e.currentTarget.textContent,
+    );
+    setSelectedTopic(topic);
+    setSelectedSubTopic(null);
+  };
 
   return (
     <>
-      <NavigationBox items={mainTopics} onClick={onClickMainTopic}/>
-      {mainTopicId && 
-        <Topic 
-          topicId={mainTopicId}
-          subjectId={subject.id}
-          filterIds={filter.id}
-          setSubTopicId={setSubTopicId}
-          locale={locale}
-        />
-      }
-      {subTopicId && 
+      <NavigationBox items={mainTopics} onClick={onClickMainTopic} />
+      {selectedTopic && (
         <Topic
-          topicId={subTopicId}
+          topicId={selectedTopic.id}
+          subjectId={subject.id}
+          filterIds={filter.id}
+          setSelectedSubTopic={setSelectedSubTopic}
+          locale={locale}
+        />
+      )}
+      {selectedSubTopic && (
+        <Topic
+          topicId={selectedSubTopic.id}
           subjectId={subject.id}
           filterIds={filter.id}
           locale={locale}
         />
-      }
+      )}
     </>
   );
-}
+};
 
 SubjectPageContent.propTypes = {
   subject: GraphQLSubjectShape,
   filter: GraphQLFilterShape,
+  selectedTopic: BreadCrumbShape,
+  selectedSubTopic: BreadCrumbShape,
+  setSelectedTopic: PropTypes.func,
+  setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string.isRequired,
 };
 

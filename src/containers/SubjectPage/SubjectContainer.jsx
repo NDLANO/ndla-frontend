@@ -6,15 +6,11 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
-import {
-  OneColumn,
-  NavigationHeading,
-  BreadCrumblist,
-} from '@ndla/ui';
+import { OneColumn, NavigationHeading, BreadCrumblist } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
@@ -39,6 +35,9 @@ const SubjectPage = ({
   subjectId,
   data,
 }) => {
+  const [topic, setTopic] = useState(null);
+  const [subTopic, setSubTopic] = useState(null);
+
   const handleFilterClick = newValues => {
     const searchString = `?${queryString.stringify({
       filters: newValues.join(','),
@@ -46,8 +45,8 @@ const SubjectPage = ({
     history.push(
       newValues.length > 0
         ? {
-          search: searchString,
-        }
+            search: searchString,
+          }
         : {},
     );
   };
@@ -67,11 +66,48 @@ const SubjectPage = ({
     metaDescription,
   } = subjectpage;
 
-  const breadCrumbs = [
-    
-  ]
+  const filter = subject.filters.find(filter => filter.id === activeFilterId);
 
-  const currentFilter = subject.filters.find(filter => filter.id === activeFilterId);
+  const breadCrumbs = [
+    {
+      id: subject.id,
+      label: subject.name,
+      typename: 'Subjecttype',
+      url: '#',
+    },
+    {
+      id: filter.id,
+      label: filter.name,
+      typename: 'Subject',
+      url: '#',
+    },
+    ...(topic ? [topic] : []),
+    ...(subTopic ? [subTopic] : []),
+  ];
+
+  const setTopicBreadCrumb = topic => {
+    setTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'Topic',
+            url: '#',
+          }
+        : null,
+    );
+  };
+
+  const setSubTopicBreadCrumb = topic => {
+    setSubTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'Subtopic',
+            url: '#',
+          }
+        : null,
+    );
+  };
 
   return (
     <>
@@ -96,8 +132,8 @@ const SubjectPage = ({
           />
         )}
         <BreadCrumblist items={breadCrumbs} />
-        <NavigationHeading subHeading={currentFilter?.name}>
-          {subjectName}
+        <NavigationHeading subHeading={subjectName}>
+          {filter?.name}
         </NavigationHeading>
         <SubjectPageContent
           skipToContentId={skipToContentId}
@@ -107,7 +143,11 @@ const SubjectPage = ({
           subjectpage={subjectpage}
           subject={subject}
           handleFilterClick={handleFilterClick}
-          filter={currentFilter}
+          filter={filter}
+          selectedTopic={topic}
+          selectedSubTopic={subTopic}
+          setSelectedTopic={setTopicBreadCrumb}
+          setSelectedSubTopic={setSubTopicBreadCrumb}
         />
         <SubjectEditorChoices
           wideScreen

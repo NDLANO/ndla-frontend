@@ -17,7 +17,7 @@ import {
   ArticleIntroduction,
   ArticleByline,
   ArticleContent,
-  ArticleFootNotes
+  ArticleFootNotes,
 } from '@ndla/ui';
 
 import LicenseBox from '../license/LicenseBox';
@@ -36,37 +36,33 @@ const ArticleContents = ({ article, locale, t }) => {
   };
 
   return (
-      <ArticleWrapper modifier='clean-in-context'>
-        <LayoutItem layout='extend'>
-          <ArticleHeaderWrapper>
-            <ArticleIntroduction renderMarkdown={renderMarkdown}>
-              {article.introduction}
-            </ArticleIntroduction>
-            <ArticleByline
-              licenseBox={
-              <LicenseBox 
-                article={article}
-                locale={locale}
-                t={t}/>}
-              {...{
-                authors: article.copyright?.creators,
-                published: article.published,
-                license: article.copyright?.license?.license,
-              }}
-            />
-          </ArticleHeaderWrapper>
-        </LayoutItem>
-        <LayoutItem layout='extend'>
-          <ArticleContent content={article.content}/>
-        </LayoutItem>
-        <LayoutItem layout='extend'>
-          {article.metadata?.footnotes?.length && 
-            <ArticleFootNotes footNotes={article.metaData?.footnotes}/>
-          }
-        </LayoutItem>
-      </ArticleWrapper>
-    );
-}
+    <ArticleWrapper modifier="clean-in-context">
+      <LayoutItem layout="extend">
+        <ArticleHeaderWrapper>
+          <ArticleIntroduction renderMarkdown={renderMarkdown}>
+            {article.introduction}
+          </ArticleIntroduction>
+          <ArticleByline
+            licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
+            {...{
+              authors: article.copyright?.creators,
+              published: article.published,
+              license: article.copyright?.license?.license,
+            }}
+          />
+        </ArticleHeaderWrapper>
+      </LayoutItem>
+      <LayoutItem layout="extend">
+        <ArticleContent content={article.content} />
+      </LayoutItem>
+      <LayoutItem layout="extend">
+        {article.metadata?.footnotes?.length && (
+          <ArticleFootNotes footNotes={article.metaData?.footnotes} />
+        )}
+      </LayoutItem>
+    </ArticleWrapper>
+  );
+};
 
 ArticleContents.propTypes = {
   article: ArticleShape,
