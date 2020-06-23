@@ -114,6 +114,12 @@ const SubjectPage = ({
     );
   };
 
+  const handleNav = (e, item) => {
+    e.preventDefault();
+    const { typename } = item;
+    setCurrentLevel(typename);
+  }
+
   return (
     <>
       <Helmet>
@@ -136,7 +142,7 @@ const SubjectPage = ({
             }
           />
         )}
-        <BreadCrumblist items={breadCrumbs} />
+        <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
         <NavigationHeading subHeading={subjectName}>
           {filter?.name}
         </NavigationHeading>
