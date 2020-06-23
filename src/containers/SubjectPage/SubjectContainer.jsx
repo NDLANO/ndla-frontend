@@ -37,6 +37,7 @@ const SubjectPage = ({
 }) => {
   const [topic, setTopic] = useState(null);
   const [subTopic, setSubTopic] = useState(null);
+  const [currentLevel, setCurrentLevel] = useState('Subject');
 
   const handleFilterClick = newValues => {
     const searchString = `?${queryString.stringify({
@@ -80,12 +81,14 @@ const SubjectPage = ({
       label: filter.name,
       typename: 'Subject',
       url: '#',
+      isCurrent: currentLevel === 'Subject',
     },
-    ...(topic ? [topic] : []),
-    ...(subTopic ? [subTopic] : []),
+    ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
+    ...(subTopic ? [{...subTopic, isCurrent: currentLevel === 'Subtopic' }] : []),
   ];
 
   const setTopicBreadCrumb = topic => {
+    setCurrentLevel('Topic');
     setTopic(
       topic
         ? {
@@ -95,9 +98,11 @@ const SubjectPage = ({
           }
         : null,
     );
+    setSubTopic(null);
   };
 
   const setSubTopicBreadCrumb = topic => {
+    setCurrentLevel('Subtopic');
     setSubTopic(
       topic
         ? {

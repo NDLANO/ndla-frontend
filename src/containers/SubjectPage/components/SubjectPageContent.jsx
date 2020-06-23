@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
@@ -37,7 +37,6 @@ const SubjectPageContent = ({
       topic => topic.label === e.currentTarget.textContent,
     );
     setSelectedTopic(topic);
-    setSelectedSubTopic(null);
   };
 
   return (
