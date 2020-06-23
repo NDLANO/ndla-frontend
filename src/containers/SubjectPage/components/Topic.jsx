@@ -11,9 +11,10 @@ import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import Spinner from '@ndla/ui/lib/Spinner';
 
-import { topicQuery } from '../../../queries';
+import { topicPageQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
+import Resources from '../../Resources/Resources';
 
 const MainTopic = ({
   topicId,
@@ -23,12 +24,14 @@ const MainTopic = ({
   locale,
 }) => {
   const [showContent, setShowContent] = useState(false);
+  const [showResources, setShowResources] = useState(true);
 
   useEffect(() => {
     setShowContent(false);
+    setShowResources(true);
   }, [topicId]);
 
-  const { data, loading } = useGraphQuery(topicQuery, {
+  const { data, loading } = useGraphQuery(topicPageQuery, {
     variables: { topicId, subjectId, filterIds },
   });
 
@@ -37,6 +40,7 @@ const MainTopic = ({
   }
 
   const topic = data.topic;
+  const resourceTypes = data.resourceTypes;
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
@@ -48,6 +52,7 @@ const MainTopic = ({
       topic => topic.label === e.currentTarget.textContent,
     );
     setSelectedSubTopic(topic);
+    setShowResources(false);
   };
 
   return (
@@ -67,6 +72,15 @@ const MainTopic = ({
           onClick={onClickSubTopic}
         />
       )}
+      {showResources && 
+        <Resources
+          title={topic.name}
+          resourceTypes={resourceTypes}
+          coreResources={topic.coreResources}
+          supplementaryResources={topic.supplementaryResources}
+          locale={locale}
+        />
+      }
     </>
   );
 };
