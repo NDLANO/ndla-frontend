@@ -66,11 +66,6 @@ export const routes = [
     background: true,
   },
   {
-    path: TOPIC_PATH,
-    component: TopicPage,
-    background: true,
-  },
-  {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
     exact: true,
     component: FilmFrontpage,

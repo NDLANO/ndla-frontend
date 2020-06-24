@@ -6,9 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import Helmet from 'react-helmet';
 import { OneColumn, NavigationHeading, BreadCrumblist } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -20,7 +19,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
+import { toTopic } from '../../routeHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -39,18 +38,9 @@ const SubjectPage = ({
   const [subTopic, setSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
-  const handleFilterClick = newValues => {
-    const searchString = `?${queryString.stringify({
-      filters: newValues.join(','),
-    })}`;
-    history.push(
-      newValues.length > 0
-        ? {
-            search: searchString,
-          }
-        : {},
-    );
-  };
+  useEffect(() => {
+    history.push(toTopic(subjectId, filter?.id, topic?.id, subTopic?.id));
+  }, [topic, subTopic]);
 
   const activeFilterId = getFiltersFromUrl(location);
   const { subject = {} } = data;
@@ -153,7 +143,6 @@ const SubjectPage = ({
           subjectId={subjectId}
           subjectpage={subjectpage}
           subject={subject}
-          handleFilterClick={handleFilterClick}
           filter={filter}
           selectedTopic={topic}
           selectedSubTopic={subTopic}
