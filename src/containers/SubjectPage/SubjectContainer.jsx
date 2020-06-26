@@ -19,7 +19,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toTopic, removeUrn } from '../../routeHelpers';
+import { toTopic } from '../../routeHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -155,10 +155,9 @@ const SubjectPage = ({
           subject={subject}
           filter={filter}
           topicId={topicId}
+          setTopicId={setTopicId}
           subTopicId={subTopicId}
           setSubTopicId={setSubTopicId}
-          selectedTopic={topic}
-          selectedSubTopic={subTopic}
           setSelectedTopic={setTopicBreadCrumb}
           setSubTopic={setSubTopic}
           setSelectedSubTopic={setSubTopicBreadCrumb}
@@ -213,6 +212,8 @@ SubjectPage.propTypes = {
       topics: PropTypes.arrayOf(TopicShape),
     }),
   }),
+  urlTopicId: PropTypes.string,
+  urlSubTopicId: PropTypes.string,
 };
 
 export default injectT(withTracker(SubjectPage));

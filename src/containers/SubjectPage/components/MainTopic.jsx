@@ -18,23 +18,25 @@ import Resources from '../../Resources/Resources';
 
 const MainTopic = ({
   topicId,
-  subTopicId,
   subjectId,
   filterIds,
-  setSelectedSubTopic,
+  setSubTopicId,
+  setSelectedTopic,
+  showResources,
   locale,
 }) => {
   const [showContent, setShowContent] = useState(false);
-  const [showResources, setShowResources] = useState(true);
 
   useEffect(() => {
     setShowContent(false);
-    setShowResources(true);
   }, [topicId]);
 
   const { data, loading } = useGraphQuery(topicPageQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data => subTopicId && setSelectedSubTopic(data.topic)
+    onCompleted: data => setSelectedTopic({
+      id: data.topic.id,
+      label: data.topic.name
+  })
   });
 
   if (loading) {
@@ -53,8 +55,7 @@ const MainTopic = ({
     const topic = subTopics.find(
       topic => topic.label === e.currentTarget.textContent,
     );
-    setSelectedSubTopic(topic);
-    setShowResources(false);
+    setSubTopicId(topic.id);
   };
 
   return (
@@ -91,7 +92,9 @@ MainTopic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
-  setSelectedSubTopic: PropTypes.func,
+  setSelectedTopic: PropTypes.func,
+  setSubTopicId: PropTypes.func,
+  showResources: PropTypes.bool,
   locale: PropTypes.string,
 };
 
