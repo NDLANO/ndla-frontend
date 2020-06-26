@@ -63,11 +63,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
           <FrontpageSubjects />
         </div>
         <OneColumn wide>
-          <FrontpageToolbox url={TOOLBOX_PAGE_PATH} />
           <FrontpageMultidisciplinarySubject
             url={MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}
             topics={MULTIDISCIPLINARY_SUBJECTS}
           />
+          <FrontpageToolbox url={TOOLBOX_PAGE_PATH} />
           <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
