@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
@@ -20,12 +20,26 @@ import Topic from './Topic';
 const SubjectPageContent = ({
   subject,
   filter,
+  topicId,
+  subTopicId,
+  setSubTopicId,
+  setSubTopic,
   selectedTopic,
   selectedSubTopic,
   setSelectedTopic,
   setSelectedSubTopic,
   locale,
 }) => {
+  useEffect(() => {
+    if (topicId) {
+      const topic = mainTopics.find(topic => topic.id === topicId);
+      setSelectedTopic(topic);
+    }
+    if (selectedSubTopic) {
+      setSelectedSubTopic(selectedSubTopic);
+    }
+  }, []);
+
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
     label: topic.name,
@@ -37,6 +51,8 @@ const SubjectPageContent = ({
       topic => topic.label === e.currentTarget.textContent,
     );
     setSelectedTopic(topic);
+    setSubTopicId(null);
+    setSubTopic(null);
   };
 
   return (
@@ -51,9 +67,12 @@ const SubjectPageContent = ({
           locale={locale}
         />
       )}
-      {selectedSubTopic && (
+      {subTopicId && (
         <Topic
-          topicId={selectedSubTopic.id}
+          topicId={subTopicId}
+          subTopicId={subTopicId}
+          selectedSubTopic={selectedSubTopic}
+          setSelectedSubTopic={setSelectedSubTopic}
           subjectId={subject.id}
           filterIds={filter.id}
           locale={locale}

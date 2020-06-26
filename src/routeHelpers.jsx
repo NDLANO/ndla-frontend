@@ -24,10 +24,11 @@ export function getUrnIdsFromProps(props) {
     ? `urn:${params.subjectId}`
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
-
+  
   return {
     subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
+    subTopicId: params.subTopicId ? `urn:${params.subTopicId}` : undefined,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,

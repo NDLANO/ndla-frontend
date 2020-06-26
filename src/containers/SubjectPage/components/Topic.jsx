@@ -18,6 +18,7 @@ import Resources from '../../Resources/Resources';
 
 const MainTopic = ({
   topicId,
+  subTopicId,
   subjectId,
   filterIds,
   setSelectedSubTopic,
@@ -33,6 +34,7 @@ const MainTopic = ({
 
   const { data, loading } = useGraphQuery(topicPageQuery, {
     variables: { topicId, subjectId, filterIds },
+    onCompleted: data => subTopicId && setSelectedSubTopic(data.topic)
   });
 
   if (loading) {

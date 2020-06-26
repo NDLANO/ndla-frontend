@@ -19,7 +19,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toTopic } from '../../routeHelpers';
+import { toTopic, removeUrn } from '../../routeHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -32,14 +32,23 @@ const SubjectPage = ({
   skipToContentId,
   t,
   subjectId,
+  urlTopicId,
+  urlSubTopicId,
   data,
 }) => {
+  const [topicId, setTopicId] = useState(urlTopicId);
+  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
   const [topic, setTopic] = useState(null);
   const [subTopic, setSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   useEffect(() => {
-    history.push(toTopic(subjectId, filter?.id, topic?.id, subTopic?.id));
+    history.push(toTopic(
+      subjectId,
+      filter?.id,
+      topicId,
+      subTopicId,
+    ));
   }, [topic, subTopic]);
 
   const activeFilterId = getFiltersFromUrl(location);
@@ -79,6 +88,7 @@ const SubjectPage = ({
 
   const setTopicBreadCrumb = topic => {
     setCurrentLevel('Topic');
+    setTopicId(topic.id);
     setTopic(
       topic
         ? {
@@ -88,11 +98,11 @@ const SubjectPage = ({
           }
         : null,
     );
-    setSubTopic(null);
   };
 
   const setSubTopicBreadCrumb = topic => {
     setCurrentLevel('Subtopic');
+    setSubTopicId(topic.id);
     setSubTopic(
       topic
         ? {
@@ -144,9 +154,13 @@ const SubjectPage = ({
           subjectpage={subjectpage}
           subject={subject}
           filter={filter}
+          topicId={topicId}
+          subTopicId={subTopicId}
+          setSubTopicId={setSubTopicId}
           selectedTopic={topic}
           selectedSubTopic={subTopic}
           setSelectedTopic={setTopicBreadCrumb}
+          setSubTopic={setSubTopic}
           setSelectedSubTopic={setSubTopicBreadCrumb}
         />
         <SubjectEditorChoices
