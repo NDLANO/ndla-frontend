@@ -9,12 +9,23 @@
 import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
-import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
+import {
+  FrontpageHeader,
+  FrontpageFilm,
+  OneColumn,
+  FrontpageToolbox,
+  FrontpageMultidisciplinarySubject,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH } from '../../constants';
+import {
+  FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECTS,
+  TOOLBOX_PAGE_PATH,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
@@ -52,6 +63,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
           <FrontpageSubjects />
         </div>
         <OneColumn wide>
+          <FrontpageToolbox url={TOOLBOX_PAGE_PATH} />
+          <FrontpageMultidisciplinarySubject
+            url={MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}
+            topics={MULTIDISCIPLINARY_SUBJECTS}
+          />
           <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
