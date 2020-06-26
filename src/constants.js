@@ -184,7 +184,7 @@ export const FRONTPAGE_CATEGORIES = {
         },
         {
           name: 'Salg, service og reiseliv Vg1',
-          id: 'urn:subject:12',
+          id: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
           beta: true,
         },
         {
