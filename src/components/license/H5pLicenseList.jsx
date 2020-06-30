@@ -32,7 +32,7 @@ const TextShape = PropTypes.shape({
 });
 
 const H5pLicenseInfo = ({ h5p, locale, t }) => {
-  let items = getGroupedContributorDescriptionList(h5p.copyright, locale);
+  const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
   if (h5p.title) {
     items.unshift({
       label: t('images.title'),
