@@ -75,13 +75,13 @@ const SubjectPage = ({
       typename: 'Subjecttype',
       url: '#',
     },
-    {
-      id: filter.id,
-      label: filter.name,
-      typename: 'Subject',
-      url: '#',
-      isCurrent: currentLevel === 'Subject',
-    },
+    ...(filter ? [{ 
+        id: filter.id,
+        label: filter.name,
+        typename: 'Subject',
+        url: '#',
+        isCurrent: currentLevel === 'Subject',
+    }] : []),
     ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
     ...(subTopic ? [{...subTopic, isCurrent: currentLevel === 'Subtopic' }] : []),
   ];

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import Spinner from '@ndla/ui/lib/Spinner';
 
-import { topicPageQuery } from '../../../queries';
+import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
@@ -31,7 +31,7 @@ const MainTopic = ({
     setShowContent(false);
   }, [topicId]);
 
-  const { data, loading } = useGraphQuery(topicPageQuery, {
+  const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
     onCompleted: data => setSelectedTopic({
       id: data.topic.id,

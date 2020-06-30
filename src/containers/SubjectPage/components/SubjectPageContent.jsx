@@ -52,7 +52,7 @@ const SubjectPageContent = ({
         <MainTopic
           topicId={topicId}
           subjectId={subject.id}
-          filterIds={filter.id}
+          filterIds={filter?.id}
           setSelectedTopic={setSelectedTopic}
           setSubTopicId={setSubTopicId}
           showResources={!subTopicId}
@@ -63,7 +63,7 @@ const SubjectPageContent = ({
         <SubTopic
           topicId={subTopicId}
           subjectId={subject.id}
-          filterIds={filter.id}
+          filterIds={filter?.id}
           setSelectedSubTopic={setSelectedSubTopic}
           locale={locale}
         />
