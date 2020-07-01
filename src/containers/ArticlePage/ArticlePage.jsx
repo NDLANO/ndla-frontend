@@ -16,7 +16,6 @@ import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
-import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
@@ -62,7 +61,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, ndlaFilm, skipToContentId } = this.props;
+    const { data, locale, errors, skipToContentId } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
@@ -80,12 +79,6 @@ class ArticlePage extends Component {
       const error = errors?.find(e => e.path.includes('resource')) || {};
       return (
         <div>
-          <ArticleHero
-            ndlaFilm={ndlaFilm}
-            subject={subject}
-            topicPath={topicPath}
-            resource={resource}
-          />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
@@ -134,15 +127,6 @@ class ArticlePage extends Component {
           locale={locale}
           image={article.metaImage}
         />
-        {resource && (
-          <ArticleHero
-            ndlaFilm={ndlaFilm}
-            metaImage={resource.article.metaImage}
-            subject={subject}
-            topicPath={topicPath}
-            resource={resource}
-          />
-        )}
         <OneColumn>
           <Article
             id={skipToContentId}

@@ -43,7 +43,7 @@ export const routes = [
   {
     path: RESOURCE_PAGE_PATH,
     component: ResourcePage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_ARTICLE_PAGE_PATH,

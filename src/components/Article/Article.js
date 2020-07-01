@@ -74,6 +74,7 @@ const Article = ({
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle)}
       renderMarkdown={renderMarkdown}
+      modifier='clean-in-context'
       {...rest}>
       {children}
     </UIArticle>
