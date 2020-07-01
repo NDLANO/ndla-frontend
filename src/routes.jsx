@@ -29,8 +29,11 @@ import {
   FILM_PAGE_PATH,
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
+  PROGRAMME_PATH,
+  PROGRAMME_PAGE_PATH,
 } from './constants';
 import config from './config';
+import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
 export const routes = [
   {
@@ -38,7 +41,7 @@ export const routes = [
     hideMasthead: true,
     exact: true,
     component: config.isFFServer ? FFFrontPage : WelcomePage,
-    background: true,
+    background: false,
   },
   {
     path: RESOURCE_PAGE_PATH,
@@ -83,6 +86,21 @@ export const routes = [
   },
   {
     path: '/subjects',
+    component: AllSubjectsPage,
+    background: false,
+  },
+  {
+    path: `${PROGRAMME_PAGE_PATH}${SUBJECT_PAGE_PATH}`,
+    component: SubjectPage,
+    background: false,
+  },
+  {
+    path: PROGRAMME_PAGE_PATH,
+    component: ProgrammePage,
+    background: false,
+  },
+  {
+    path: PROGRAMME_PATH,
     component: AllSubjectsPage,
     background: false,
   },
