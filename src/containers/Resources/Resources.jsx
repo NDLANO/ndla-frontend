@@ -23,8 +23,8 @@ import { getResourceGroups } from './getResourceGroups';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 
 function getSubjectTopicPath(params) {
-  const topicPath = params.topicPath ? `${params.topicPath}/` : '';
-  return `/${params.subjectId}/${topicPath}${params.topicId}`;
+  const subTopicId = params.subTopicId ? `/${params.subTopicId}` : '';
+  return `/${params.subjectId}/${params.topicId}${subTopicId}`;
 }
 
 class Resources extends Component {

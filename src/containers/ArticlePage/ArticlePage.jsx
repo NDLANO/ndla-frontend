@@ -10,10 +10,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, BreadCrumblist, SubjectMaterialBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import { ArticleShape, SubjectShape, ResourceTypeShape, LocationShape } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -22,6 +22,7 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import Resources from '../Resources/Resources';
 import {
   isLearningPathResource,
@@ -61,7 +62,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, skipToContentId } = this.props;
+    const { data, locale, errors, skipToContentId, location } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
@@ -100,6 +101,44 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
 
+    const activeFilterId = getFiltersFromUrl(location);
+    const filter = subject.filters.find(filter => filter.id === activeFilterId);
+    const [mainTopic, subTopic] = topicPath;
+
+    const breadCrumbs = [
+      {
+        id: subject.id,
+        label: subject.name,
+        typename: 'Subjecttype',
+        url: '#',
+      },
+      ...(filter ? [{
+        id: filter.id,
+        label: filter.name,
+        typename: 'Subject',
+        url: '#',
+      }] : []),
+      ...(mainTopic ? [{
+        id: mainTopic.id,
+        label: mainTopic.name,
+        typename: 'Topic',
+        url: '#',
+      }] : []),
+      ...(subTopic ? [{
+        id: subTopic.id,
+        label: subTopic.name,
+        typename: 'Subtopic',
+        url: '#',
+      }] : []),
+      {
+        id: article.id,
+        label: article.title,
+        icon: <SubjectMaterialBadge background size='xx-small' />,
+        isCurrent: true,
+        url: '#',
+      }
+    ];
+
     return (
       <div>
         <Helmet>
@@ -128,6 +167,7 @@ class ArticlePage extends Component {
           image={article.metaImage}
         />
         <OneColumn>
+          <BreadCrumblist items={breadCrumbs} onNav={e => e.preventDefault()} />
           <Article
             id={skipToContentId}
             article={article}
@@ -170,10 +210,10 @@ ArticlePage.propTypes = {
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
+  location: LocationShape,
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
 };
 
