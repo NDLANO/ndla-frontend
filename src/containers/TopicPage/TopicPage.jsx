@@ -17,7 +17,6 @@ import { topicPageQuery } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
-import { getUniversalConfig } from '../../config';
 
 const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const filterIds = getFiltersFromUrl(location);

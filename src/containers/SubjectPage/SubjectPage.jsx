@@ -18,7 +18,6 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
-import { getUniversalConfig } from '../../config';
 
 const SubjectPage = ({
   match,
