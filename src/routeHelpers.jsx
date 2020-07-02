@@ -73,14 +73,16 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   return `/article/${articleId}${filterParams}`;
 }
 
-export function toSubject(subjectId) {
-  return `${toSubjects()}/${removeUrn(subjectId)}`;
+export function toSubject(subjectId, filters) {
+  const filterParam = 
+    filters && filters.length > 0 ? `?filters=${filters}` : '';
+  return `${toSubjects()}/${removeUrn(subjectId)}${filterParam}`;
 }
 
 export function toTopic(subjectId, filters, ...topicIds) {
   const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
+    return toSubject(urnFreeSubjectId, filters);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
   const filterParam =

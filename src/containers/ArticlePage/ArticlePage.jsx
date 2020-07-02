@@ -30,6 +30,7 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { toTopic } from '../../routeHelpers';
 
 class ArticlePage extends Component {
   static willTrackPageView(trackPageView, currentProps) {
@@ -62,7 +63,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, skipToContentId, location } = this.props;
+    const { data, locale, errors, skipToContentId, location, history } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
@@ -104,6 +105,17 @@ class ArticlePage extends Component {
     const activeFilterId = getFiltersFromUrl(location);
     const filter = subject.filters.find(filter => filter.id === activeFilterId);
     const [mainTopic, subTopic] = topicPath;
+
+    const handleNav = (e, item) => {
+      e.preventDefault();
+      const { id } = item;
+      if (id !== article.id) {
+        const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
+        history.push(toTopic(
+          ...breadCrumbIds.slice(0, breadCrumbIds.indexOf(id) + 1)
+        ));
+      }
+    }
 
     const breadCrumbs = [
       {
@@ -167,7 +179,7 @@ class ArticlePage extends Component {
           image={article.metaImage}
         />
         <OneColumn>
-          <BreadCrumblist items={breadCrumbs} onNav={e => e.preventDefault()} />
+          <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
           <Article
             id={skipToContentId}
             article={article}
@@ -190,6 +202,9 @@ class ArticlePage extends Component {
 }
 
 ArticlePage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
