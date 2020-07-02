@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { NavigationTopicAbout } from '@ndla/ui';
 import Spinner from '@ndla/ui/lib/Spinner';
 
-import { topicPageQuery } from '../../../queries';
+import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
@@ -29,7 +29,7 @@ const SubTopic = ({
     setShowContent(false);
   }, [topicId]);
 
-  const { data, loading } = useGraphQuery(topicPageQuery, {
+  const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
     onCompleted: data => setSelectedSubTopic({
       id: data.topic.id,
