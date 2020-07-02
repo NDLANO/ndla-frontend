@@ -23,10 +23,8 @@ function buildLicenseTabList(article, locale, t) {
   const audios = article.metaData.audios || [];
   const brightcove = article.metaData.brightcoves || [];
   const h5ps = article.metaData.h5ps || [];
-  const oembed = article.metaData.oembed
-
+  const oembed = article.oembed;
   const tabs = [];
-  console.log(article);
 
   if (images.length > 0) {
     tabs.push({
@@ -34,7 +32,7 @@ function buildLicenseTabList(article, locale, t) {
       content: <ImageLicenseList images={images} locale={locale} />,
     });
   }
-
+  console.log(article);
   tabs.push({
     title: t('license.tabs.text'),
     content: (
@@ -73,10 +71,10 @@ function buildLicenseTabList(article, locale, t) {
 
   if (oembed) {
     tabs.push({
-    title: t('license.tabs.embedlink'),
-    content: <OembedItem oembed={oembed} locale={locale} />
+      title: t('license.tabs.embedlink'),
+      content: <OembedItem oembed={oembed} locale={locale} />,
     });
-}
+  }
 
   return tabs;
 }

@@ -49,6 +49,5 @@ export const transformArticle = (article, locale) => {
           return lib;
         })
       : [],
-    // metaData: { ...article.metaData, oembed: "asdasd"},
   };
 };

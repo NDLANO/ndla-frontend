@@ -17,14 +17,16 @@ import { topicPageQuery } from '../../queries';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
+import { getUniversalConfig } from '../../config';
 
 const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
+  const url = getUniversalConfig().ndlaFrontendDomain + location.pathname;
+  console.log(url);
   const { data, loading, error } = useGraphQuery(topicPageQuery, {
-    variables: { topicId, filterIds, subjectId },
+    variables: { topicId, filterIds, subjectId, url },
   });
-
   if (loading) return null;
 
   if (!data) {
