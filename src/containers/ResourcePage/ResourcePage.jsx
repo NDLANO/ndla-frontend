@@ -19,7 +19,6 @@ import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
-import { getUniversalConfig } from '../../config';
 
 const ResourcePage = props => {
   useEffect(() => {
@@ -29,9 +28,8 @@ const ResourcePage = props => {
   });
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const filterIds = getFiltersFromUrl(props.location);
-  const url = getUniversalConfig().ndlaFrontendDomain + props.location.pathname;
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
-    variables: { subjectId, topicId, filterIds, resourceId, url },
+    variables: { subjectId, topicId, filterIds, resourceId },
   });
 
   if (loading) {
@@ -77,7 +75,10 @@ ResourcePage.propTypes = {
   locale: PropTypes.string.isRequired,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+    pathname: PropTypes.string,
+  }).isRequired,
 };
 
 export default ResourcePage;

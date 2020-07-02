@@ -22,9 +22,8 @@ import { getUniversalConfig } from '../../config';
 const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
-  const url = getUniversalConfig().ndlaFrontendDomain + location.pathname;
   const { data, loading, error } = useGraphQuery(topicPageQuery, {
-    variables: { topicId, filterIds, subjectId, url },
+    variables: { topicId, filterIds, subjectId },
   });
   if (loading) return null;
 

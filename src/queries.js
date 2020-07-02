@@ -582,16 +582,8 @@ export const resourceQuery = gql`
 `;
 
 export const plainArticleQuery = gql`
-  query plainArticleQuery(
-    $articleId: String!
-    $removeRelatedContent: String
-    $url: String
-  ) {
-    article(
-      id: $articleId
-      removeRelatedContent: $removeRelatedContent
-      url: $url
-    ) {
+  query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {
+    article(id: $articleId, removeRelatedContent: $removeRelatedContent) {
       ...ArticleInfo
     }
   }
@@ -758,7 +750,6 @@ export const topicPageQuery = gql`
     $topicId: String!
     $filterIds: String!
     $subjectId: String!
-    $url: String
   ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
@@ -772,7 +763,7 @@ export const topicPageQuery = gql`
           alt
         }
       }
-      article(filterIds: $filterIds, subjectId: $subjectId, url: $url) {
+      article(filterIds: $filterIds, subjectId: $subjectId) {
         ...ArticleInfo
       }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
@@ -816,7 +807,6 @@ export const resourcePageQuery = gql`
     $filterIds: String!
     $subjectId: String!
     $resourceId: String!
-    $url: String!
   ) {
     subject(id: $subjectId) {
       id
@@ -854,9 +844,9 @@ export const resourcePageQuery = gql`
         ...ResourceInfo
       }
     }
-    resource(id: $resourceId, subjectId: $subjectId, url: $url) {
+    resource(id: $resourceId, subjectId: $subjectId) {
       ...ResourceInfo
-      article(filterIds: $filterIds, subjectId: $subjectId, url: $url) {
+      article(filterIds: $filterIds, subjectId: $subjectId) {
         ...ArticleInfo
       }
       learningpath {
