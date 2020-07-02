@@ -32,7 +32,6 @@ function buildLicenseTabList(article, locale, t) {
       content: <ImageLicenseList images={images} locale={locale} />,
     });
   }
-  console.log(article);
   tabs.push({
     title: t('license.tabs.text'),
     content: (
