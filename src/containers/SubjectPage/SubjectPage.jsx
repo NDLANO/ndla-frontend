@@ -32,7 +32,6 @@ const SubjectPage = ({
     variables: {
       subjectId,
       filterIds: getFiltersFromUrl(location),
-      url: window.location.href,
     },
   });
 

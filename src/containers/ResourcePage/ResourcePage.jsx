@@ -77,7 +77,6 @@ ResourcePage.propTypes = {
   skipToContentId: PropTypes.string,
   location: PropTypes.shape({
     search: PropTypes.string,
-    pathname: PropTypes.string,
   }).isRequired,
 };
 
