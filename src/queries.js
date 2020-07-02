@@ -763,7 +763,7 @@ export const topicPageQuery = gql`
           alt
         }
       }
-      article(filterIds: $filterIds, subjectId: $subjectId) {
+      article {
         ...ArticleInfo
       }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
