@@ -43,7 +43,7 @@ const SubjectPage = ({
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   useEffect(() => {
-    history.push(toTopic(
+    history.replace(toTopic(
       subjectId,
       filter?.id,
       topicId,
@@ -58,8 +58,6 @@ const SubjectPage = ({
 
   const {
     latestContent,
-    facebook,
-    banner,
     editorsChoices,
     layout,
     about,
@@ -190,7 +188,7 @@ SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
 
 SubjectPage.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
   match: PropTypes.shape({
