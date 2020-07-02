@@ -13,7 +13,6 @@ import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
-import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
@@ -25,7 +24,6 @@ import {
   PLAIN_ARTICLE_PAGE_PATH,
   SUBJECT_PAGE_PATH,
   SEARCH_PATH,
-  TOPIC_PATH,
   FILM_PAGE_PATH,
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
