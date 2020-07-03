@@ -35,15 +35,12 @@ const SubjectPageContent = ({
   useEffect(() => {
     if (subTopicId) {
       window.scrollTo({
-        top:
-          subRef.current.offsetTop - 100,
+        top: subRef.current.offsetTop - 100,
         behavior: 'smooth',
       });
-    }
-    else if (topicId) {
+    } else if (topicId) {
       window.scrollTo({
-        top:
-          mainRef.current.offsetTop - 100,
+        top: mainRef.current.offsetTop - 100,
         behavior: 'smooth',
       });
     }
@@ -63,11 +60,11 @@ const SubjectPageContent = ({
     setSubTopicId(null);
     setSubTopic(null);
   };
-  
+
   return (
     <>
       <NavigationBox items={mainTopics} onClick={onClickMainTopic} />
-      {topicId && 
+      {topicId && (
         <div ref={mainRef}>
           <MainTopic
             topicId={topicId}
@@ -79,8 +76,8 @@ const SubjectPageContent = ({
             locale={locale}
           />
         </div>
-      }
-      {subTopicId &&
+      )}
+      {subTopicId && (
         <div ref={subRef}>
           <SubTopic
             topicId={subTopicId}
@@ -90,7 +87,7 @@ const SubjectPageContent = ({
             locale={locale}
           />
         </div>
-      }
+      )}
     </>
   );
 };

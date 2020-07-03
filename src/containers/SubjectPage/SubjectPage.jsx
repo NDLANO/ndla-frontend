@@ -27,7 +27,10 @@ const SubjectPage = ({
   skipToContentId,
   ndlaFilm,
 }) => {
-  const { subjectId, topicId, subTopicId } = getUrnIdsFromProps({ ndlaFilm, match });
+  const { subjectId, topicId, subTopicId } = getUrnIdsFromProps({
+    ndlaFilm,
+    match,
+  });
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: { subjectId, filterIds: getFiltersFromUrl(location) },
   });

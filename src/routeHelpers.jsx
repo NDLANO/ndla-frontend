@@ -24,7 +24,7 @@ export function getUrnIdsFromProps(props) {
     ? `urn:${params.subjectId}`
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
-  
+
   return {
     subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
@@ -74,7 +74,7 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
 }
 
 export function toSubject(subjectId, filters) {
-  const filterParam = 
+  const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
   return `${toSubjects()}/${removeUrn(subjectId)}${filterParam}`;
 }

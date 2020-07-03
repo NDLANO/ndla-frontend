@@ -31,10 +31,11 @@ const SubTopic = ({
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data => setSelectedSubTopic({
-      id: data.topic.id,
-      label: data.topic.name
-    })
+    onCompleted: data =>
+      setSelectedSubTopic({
+        id: data.topic.id,
+        label: data.topic.name,
+      }),
   });
 
   if (loading) {

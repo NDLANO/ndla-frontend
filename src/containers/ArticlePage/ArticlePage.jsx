@@ -13,7 +13,12 @@ import Helmet from 'react-helmet';
 import { OneColumn, BreadCrumblist, SubjectMaterialBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { ArticleShape, SubjectShape, ResourceTypeShape, LocationShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  ResourceTypeShape,
+  LocationShape,
+} from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -63,7 +68,14 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, skipToContentId, location, history } = this.props;
+    const {
+      data,
+      locale,
+      errors,
+      skipToContentId,
+      location,
+      history,
+    } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const topicTitle =
@@ -111,11 +123,11 @@ class ArticlePage extends Component {
       const { id } = item;
       if (id !== article.id) {
         const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
-        history.push(toTopic(
-          ...breadCrumbIds.slice(0, breadCrumbIds.indexOf(id) + 1)
-        ));
+        history.push(
+          toTopic(...breadCrumbIds.slice(0, breadCrumbIds.indexOf(id) + 1)),
+        );
       }
-    }
+    };
 
     const breadCrumbs = [
       {
@@ -124,31 +136,43 @@ class ArticlePage extends Component {
         typename: 'Subjecttype',
         url: '#',
       },
-      ...(filter ? [{
-        id: filter.id,
-        label: filter.name,
-        typename: 'Subject',
-        url: '#',
-      }] : []),
-      ...(mainTopic ? [{
-        id: mainTopic.id,
-        label: mainTopic.name,
-        typename: 'Topic',
-        url: '#',
-      }] : []),
-      ...(subTopic ? [{
-        id: subTopic.id,
-        label: subTopic.name,
-        typename: 'Subtopic',
-        url: '#',
-      }] : []),
+      ...(filter
+        ? [
+            {
+              id: filter.id,
+              label: filter.name,
+              typename: 'Subject',
+              url: '#',
+            },
+          ]
+        : []),
+      ...(mainTopic
+        ? [
+            {
+              id: mainTopic.id,
+              label: mainTopic.name,
+              typename: 'Topic',
+              url: '#',
+            },
+          ]
+        : []),
+      ...(subTopic
+        ? [
+            {
+              id: subTopic.id,
+              label: subTopic.name,
+              typename: 'Subtopic',
+              url: '#',
+            },
+          ]
+        : []),
       {
         id: article.id,
         label: article.title,
-        icon: <SubjectMaterialBadge background size='xx-small' />,
+        icon: <SubjectMaterialBadge background size="xx-small" />,
         isCurrent: true,
         url: '#',
-      }
+      },
     ];
 
     return (

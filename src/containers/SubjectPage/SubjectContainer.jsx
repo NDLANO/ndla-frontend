@@ -43,12 +43,7 @@ const SubjectPage = ({
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   useEffect(() => {
-    history.replace(toTopic(
-      subjectId,
-      filter?.id,
-      topicId,
-      subTopicId,
-    ));
+    history.replace(toTopic(subjectId, filter?.id, topicId, subTopicId));
   }, [topic, subTopic]);
 
   const activeFilterId = getFiltersFromUrl(location);
@@ -73,15 +68,21 @@ const SubjectPage = ({
       typename: 'Subjecttype',
       url: '#',
     },
-    ...(filter ? [{ 
-        id: filter.id,
-        label: filter.name,
-        typename: 'Subject',
-        url: '#',
-        isCurrent: currentLevel === 'Subject',
-    }] : []),
+    ...(filter
+      ? [
+          {
+            id: filter.id,
+            label: filter.name,
+            typename: 'Subject',
+            url: '#',
+            isCurrent: currentLevel === 'Subject',
+          },
+        ]
+      : []),
     ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
-    ...(subTopic ? [{...subTopic, isCurrent: currentLevel === 'Subtopic' }] : []),
+    ...(subTopic
+      ? [{ ...subTopic, isCurrent: currentLevel === 'Subtopic' }]
+      : []),
   ];
 
   const setTopicBreadCrumb = topic => {
@@ -116,7 +117,7 @@ const SubjectPage = ({
     e.preventDefault();
     const { typename } = item;
     setCurrentLevel(typename);
-  }
+  };
 
   return (
     <>

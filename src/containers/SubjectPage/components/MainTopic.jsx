@@ -33,10 +33,11 @@ const MainTopic = ({
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data => setSelectedTopic({
-      id: data.topic.id,
-      label: data.topic.name
-  })
+    onCompleted: data =>
+      setSelectedTopic({
+        id: data.topic.id,
+        label: data.topic.name,
+      }),
   });
 
   if (loading) {
@@ -75,7 +76,7 @@ const MainTopic = ({
           onClick={onClickSubTopic}
         />
       )}
-      {showResources && 
+      {showResources && (
         <Resources
           title={topic.name}
           resourceTypes={resourceTypes}
@@ -83,7 +84,7 @@ const MainTopic = ({
           supplementaryResources={topic.supplementaryResources}
           locale={locale}
         />
-      }
+      )}
     </>
   );
 };
