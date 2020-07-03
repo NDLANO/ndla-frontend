@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
@@ -29,6 +29,25 @@ const SubjectPageContent = ({
   setSelectedSubTopic,
   locale,
 }) => {
+  const mainRef = useRef(null);
+  const subRef = useRef(null);
+
+  useEffect(() => {
+    if (subTopicId) {
+      window.scrollTo({
+        top:
+          subRef.current.offsetTop - 100,
+        behavior: 'smooth',
+      });
+    }
+    else if (topicId) {
+      window.scrollTo({
+        top:
+          mainRef.current.offsetTop - 100,
+        behavior: 'smooth',
+      });
+    }
+  }, [topicId, subTopicId]);
 
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
@@ -48,26 +67,30 @@ const SubjectPageContent = ({
   return (
     <>
       <NavigationBox items={mainTopics} onClick={onClickMainTopic} />
-      {topicId && (
-        <MainTopic
-          topicId={topicId}
-          subjectId={subject.id}
-          filterIds={filter?.id}
-          setSelectedTopic={setSelectedTopic}
-          setSubTopicId={setSubTopicId}
-          showResources={!subTopicId}
-          locale={locale}
-        />
-      )}
-      {subTopicId && (
-        <SubTopic
-          topicId={subTopicId}
-          subjectId={subject.id}
-          filterIds={filter?.id}
-          setSelectedSubTopic={setSelectedSubTopic}
-          locale={locale}
-        />
-      )}
+      {topicId && 
+        <div ref={mainRef}>
+          <MainTopic
+            topicId={topicId}
+            subjectId={subject.id}
+            filterIds={filter?.id}
+            setSelectedTopic={setSelectedTopic}
+            setSubTopicId={setSubTopicId}
+            showResources={!subTopicId}
+            locale={locale}
+          />
+        </div>
+      }
+      {subTopicId &&
+        <div ref={subRef}>
+          <SubTopic
+            topicId={subTopicId}
+            subjectId={subject.id}
+            filterIds={filter?.id}
+            setSelectedSubTopic={setSelectedSubTopic}
+            locale={locale}
+          />
+        </div>
+      }
     </>
   );
 };
