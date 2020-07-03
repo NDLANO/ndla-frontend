@@ -29,7 +29,10 @@ const SubjectPage = ({
 }) => {
   const { subjectId } = getUrnIdsFromProps({ ndlaFilm, match });
   const { loading, data } = useGraphQuery(subjectPageQuery, {
-    variables: { subjectId, filterIds: getFiltersFromUrl(location) },
+    variables: {
+      subjectId,
+      filterIds: getFiltersFromUrl(location),
+    },
   });
 
   if (loading) {
