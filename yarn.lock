@@ -1281,14 +1281,6 @@
     jump.js "^1.0.2"
     lodash "^4.17.14"
 
-"@ndla/button@^0.3.30":
-  version "0.3.30"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.30.tgz#f0093c91bd01ec9f511a0ec604eae298011df97d"
-  integrity sha512-dVxsnpmmPkbwN/nTTLojhsNg+RSFv+7cipK4UKctIKsccmfyOVw+1LXY2SsrTsO++HPIWdeq7Mlmw7yHQR5K4Q==
-  dependencies:
-    "@ndla/core" "^0.6.26"
-    "@ndla/icons" "^0.6.23"
-
 "@ndla/button@^0.3.31":
   version "0.3.31"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.31.tgz#8bac6fd199b51b23a16d0a3bd8a901c52c0b334e"
@@ -1355,16 +1347,6 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^0.4.18":
-  version "0.4.18"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.18.tgz#99503f939cd852398529ce8fdc66f0e89ab63a92"
-  integrity sha512-WQ/absMIoGLTlGDhy6mYXrMPX86QoX3hmUyQCn3Q02ZG5ch9MUo1MdLtQ2rWBlXSw797QAbpUaSh4Qed6cRvaw==
-  dependencies:
-    "@ndla/button" "^0.3.30"
-    "@ndla/core" "^0.6.26"
-    "@ndla/util" "^0.4.0"
-    "@reach/dialog" "^0.2.9"
-
 "@ndla/modal@^0.4.19":
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.19.tgz#778ca797d05ce2b9bf4b45d9b124af6e5127f613"
@@ -1375,13 +1357,13 @@
     "@ndla/util" "^0.4.0"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/pager@^0.4.30":
-  version "0.4.30"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.30.tgz#a7622849c7b4e5731af4c691f0310157cb02d476"
-  integrity sha512-LPOqEs13Ob2dpw9XoVLg1D7J2W8zii8F3NDn9Fsg55Nh8ekhHvdHx39KiPLHZLnEpWfJaGdB4LfnY2Hr3jRT9w==
+"@ndla/pager@^0.4.31":
+  version "0.4.31"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.31.tgz#8336aa0a5514d09cd123976141cfce0b0aec5f78"
+  integrity sha512-p1q2Y0HOFsMumAgqGHJAYnKBJikV7tU/G3VVvVG6UOLhG+Qc2dA9rD37P2dxgss+UJrOCKZl4c9sUVTdGMAM5A==
   dependencies:
     "@ndla/core" "^0.6.26"
-    "@ndla/safelink" "^0.0.5"
+    "@ndla/safelink" "^0.0.6"
 
 "@ndla/polyfill@^0.1.10":
   version "0.1.10"
@@ -1390,11 +1372,6 @@
   dependencies:
     details-polyfill "^1.1.0"
     react-app-polyfill "^0.2.1"
-
-"@ndla/safelink@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-0.0.5.tgz#a42b5b8c15d6344b5a6ff0241eb6f74c06fa5ff7"
-  integrity sha512-XzficKcFEoC7exlICai8bAWftQVl0t0eIJQ1uFNNBOaZkDURgHWvVQ+4NeTGsBs/+Gj3m69LFRY1RyHVA1MwSA==
 
 "@ndla/safelink@^0.0.6":
   version "0.0.6"
