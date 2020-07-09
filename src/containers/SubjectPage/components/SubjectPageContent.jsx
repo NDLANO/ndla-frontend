@@ -16,6 +16,7 @@ import {
 } from '../../../graphqlShapes';
 import MainTopic from './MainTopic';
 import SubTopic from './SubTopic';
+import { scrollToRef } from '../subjectPageHelpers';
 
 const SubjectPageContent = ({
   subject,
@@ -28,21 +29,15 @@ const SubjectPageContent = ({
   setSelectedTopic,
   setSelectedSubTopic,
   locale,
+  mainRef,
+  subRef,
 }) => {
-  const mainRef = useRef(null);
-  const subRef = useRef(null);
 
   useEffect(() => {
     if (subTopicId) {
-      window.scrollTo({
-        top: subRef.current.offsetTop - 100,
-        behavior: 'smooth',
-      });
+      scrollToRef(subRef)
     } else if (topicId) {
-      window.scrollTo({
-        top: mainRef.current.offsetTop - 100,
-        behavior: 'smooth',
-      });
+      scrollToRef(mainRef)
     }
   }, [topicId, subTopicId]);
 
@@ -51,11 +46,21 @@ const SubjectPageContent = ({
     label: topic.name,
   }));
 
+  const setAndScrollToSubTopic = (id) => {
+    if (id === subTopicId) {
+      scrollToRef(subRef);
+    }
+    setSubTopicId(id);
+  }
+
   const onClickMainTopic = e => {
     e.preventDefault();
     const topic = mainTopics.find(
       topic => topic.label === e.currentTarget.textContent,
     );
+    if (topic.id === topicId) {
+      scrollToRef(mainRef);
+    }
     setTopicId(topic.id);
     setSubTopicId(null);
     setSubTopic(null);
@@ -71,7 +76,7 @@ const SubjectPageContent = ({
             subjectId={subject.id}
             filterIds={filter?.id}
             setSelectedTopic={setSelectedTopic}
-            setSubTopicId={setSubTopicId}
+            setSubTopicId={setAndScrollToSubTopic}
             showResources={!subTopicId}
             locale={locale}
           />
@@ -103,6 +108,8 @@ SubjectPageContent.propTypes = {
   setSelectedTopic: PropTypes.func,
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string.isRequired,
+  mainRef: PropTypes.any.isRequired,
+  subRef: PropTypes.any.isRequired,
 };
 
 export default injectT(SubjectPageContent);

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { OneColumn, NavigationHeading, BreadCrumblist } from '@ndla/ui';
@@ -20,6 +20,7 @@ import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toTopic } from '../../routeHelpers';
+import { scrollToRef } from './subjectPageHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -113,10 +114,23 @@ const SubjectPage = ({
     );
   };
 
+  const headerRef = useRef(null);
+  const mainRef = useRef(null);
+  const subRef = useRef(null);
+
   const handleNav = (e, item) => {
     e.preventDefault();
     const { typename } = item;
     setCurrentLevel(typename);
+    if (typename === "Subjecttype") {
+     scrollToRef(headerRef)
+    }
+    else if (typename === "Topic") {
+      scrollToRef(mainRef)
+    }
+    else if (typename === "Subtopic") {
+      scrollToRef(subRef)
+    }
   };
 
   return (
@@ -142,9 +156,11 @@ const SubjectPage = ({
           />
         )}
         <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
-        <NavigationHeading subHeading={subjectName}>
+        <div ref={headerRef}>
+        <NavigationHeading subHeading={subjectName} >
           {filter?.name}
         </NavigationHeading>
+        </div>
         <SubjectPageContent
           skipToContentId={skipToContentId}
           layout={layout}
@@ -160,6 +176,8 @@ const SubjectPage = ({
           setSelectedTopic={setTopicBreadCrumb}
           setSubTopic={setSubTopic}
           setSelectedSubTopic={setSubTopicBreadCrumb}
+          mainRef={mainRef}
+          subRef={subRef}
         />
         <SubjectEditorChoices
           wideScreen
