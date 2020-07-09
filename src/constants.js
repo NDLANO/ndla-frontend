@@ -184,7 +184,7 @@ export const FRONTPAGE_CATEGORIES = {
         },
         {
           name: 'Salg, service og reiseliv Vg1',
-          id: 'urn:subject:12',
+          id: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
           beta: true,
         },
         {
@@ -383,3 +383,30 @@ export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
+
+export const TOOLBOX_PAGE_PATH =
+  '/subjects/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09';
+
+export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
+  '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+
+export const MULTIDISCIPLINARY_SUBJECTS = [
+  {
+    title: 'Folkehelse og livsmestring',
+    url:
+      '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7?filters=urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7',
+    id: 'Folkehelse og livsmestring',
+  },
+  {
+    title: 'Demokrati og medborgerskap',
+    url:
+      '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7?filters=urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc',
+    id: 'Demokrati og medborgerskap',
+  },
+  {
+    title: 'Bærekraftig utvikling',
+    url:
+      '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7?filters=urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66',
+    id: 'Bærekraftig utvikling',
+  },
+];

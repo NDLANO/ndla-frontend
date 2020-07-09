@@ -343,6 +343,7 @@ export const articleInfoFragment = gql`
         }
       }
     }
+    oembed
     copyright {
       ...CopyrightInfo
     }

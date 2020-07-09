@@ -75,7 +75,9 @@ ResourcePage.propTypes = {
   locale: PropTypes.string.isRequired,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
-  location: PropTypes.shape({ search: PropTypes.string }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
 };
 
 export default ResourcePage;
