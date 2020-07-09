@@ -44,6 +44,7 @@ const SubjectPageContent = ({
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
     label: topic.name,
+    selected: topic.id === topicId,
   }));
 
   const setAndScrollToSubTopic = (id) => {
@@ -78,6 +79,7 @@ const SubjectPageContent = ({
             setSelectedTopic={setSelectedTopic}
             setSubTopicId={setAndScrollToSubTopic}
             showResources={!subTopicId}
+            subTopicId={subTopicId}
             locale={locale}
           />
         </div>

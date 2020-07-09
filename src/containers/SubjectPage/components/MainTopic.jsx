@@ -24,6 +24,7 @@ const MainTopic = ({
   setSelectedTopic,
   showResources,
   locale,
+  subTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -49,6 +50,7 @@ const MainTopic = ({
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
+    selected: item.id === subTopicId,
   }));
 
   const onClickSubTopic = e => {
@@ -95,6 +97,7 @@ MainTopic.propTypes = {
   setSelectedTopic: PropTypes.func,
   setSubTopicId: PropTypes.func,
   showResources: PropTypes.bool,
+  subTopicId: PropTypes.string,
   locale: PropTypes.string,
 };
 
