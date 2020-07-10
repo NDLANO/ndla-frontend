@@ -132,7 +132,8 @@ class App extends React.Component {
     }
     const navigated = nextProps.location !== prevState.location;
     const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
-    const ignoreScroll =
+    // can ignoreScroll be removed?
+    const ignoreScroll = // eslint-disable-line no-unused-vars
       match?.isExact &&
       (!!match?.params?.topicId || !!match?.params?.subTopicId);
     if (navigated) {
