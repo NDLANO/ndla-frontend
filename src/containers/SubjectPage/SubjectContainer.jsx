@@ -122,14 +122,12 @@ const SubjectPage = ({
     e.preventDefault();
     const { typename } = item;
     setCurrentLevel(typename);
-    if (typename === "Subjecttype") {
-     scrollToRef(headerRef)
-    }
-    else if (typename === "Topic") {
-      scrollToRef(mainRef)
-    }
-    else if (typename === "Subtopic") {
-      scrollToRef(subRef)
+    if (typename === 'Subjecttype') {
+      scrollToRef(headerRef);
+    } else if (typename === 'Topic') {
+      scrollToRef(mainRef);
+    } else if (typename === 'Subtopic') {
+      scrollToRef(subRef);
     }
   };
 
@@ -157,9 +155,9 @@ const SubjectPage = ({
         )}
         <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
         <div ref={headerRef}>
-        <NavigationHeading subHeading={subjectName} >
-          {filter?.name}
-        </NavigationHeading>
+          <NavigationHeading subHeading={subjectName}>
+            {filter?.name}
+          </NavigationHeading>
         </div>
         <SubjectPageContent
           skipToContentId={skipToContentId}

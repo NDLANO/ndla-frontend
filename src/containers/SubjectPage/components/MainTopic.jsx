@@ -68,7 +68,8 @@ const MainTopic = ({
         ingress={topic.article?.introduction}
         showContent={showContent}
         onToggleShowContent={() => setShowContent(!showContent)}
-        children={<ArticleContents article={topic.article} locale={locale} />} />
+        children={<ArticleContents article={topic.article} locale={locale} />}
+      />
       {subTopics.length !== 0 && (
         <NavigationBox
           colorMode="light"

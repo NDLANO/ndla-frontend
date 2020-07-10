@@ -32,12 +32,11 @@ const SubjectPageContent = ({
   mainRef,
   subRef,
 }) => {
-
   useEffect(() => {
     if (subTopicId) {
-      scrollToRef(subRef)
+      scrollToRef(subRef);
     } else if (topicId) {
-      scrollToRef(mainRef)
+      scrollToRef(mainRef);
     }
   }, [topicId, subTopicId]);
 
@@ -47,12 +46,12 @@ const SubjectPageContent = ({
     selected: topic.id === topicId,
   }));
 
-  const setAndScrollToSubTopic = (id) => {
+  const setAndScrollToSubTopic = id => {
     if (id === subTopicId) {
       scrollToRef(subRef);
     }
     setSubTopicId(id);
-  }
+  };
 
   const onClickMainTopic = e => {
     e.preventDefault();
