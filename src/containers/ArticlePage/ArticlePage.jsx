@@ -124,7 +124,7 @@ class ArticlePage extends Component {
       if (id !== article.id) {
         const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
         history.push(
-          toTopic(...breadCrumbIds.slice(0, breadCrumbIds.indexOf(id) + 1)),
+          toTopic(breadCrumbIds[0], [], ...breadCrumbIds.slice(1, breadCrumbIds.indexOf(id) + 1)),
         );
       }
     };
