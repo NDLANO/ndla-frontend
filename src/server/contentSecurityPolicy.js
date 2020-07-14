@@ -97,6 +97,7 @@ const scriptSrc = (() => {
     'cdnjs.cloudflare.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
+    'cdn.jsdelivr.net',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -180,6 +181,7 @@ export default {
       'data:',
       'cdnjs.cloudflare.com',
       'https://*.hotjar.com',
+      'cdn.jsdelivr.net',
     ],
     imgSrc: [
       "'self'",
