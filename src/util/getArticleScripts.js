@@ -14,26 +14,26 @@ function getAssets() {
 }
 
 export function getArticleScripts(article) {
-  const assets = getAssets();
-  const scripts = article?.requiredLibraries.map(lib => ({
-        src: lib.url,
-        type: lib.mediaType,
-      }))
-    || [];
+  getAssets();
+  const scripts =
+    article?.requiredLibraries.map(lib => ({
+      src: lib.url,
+      type: lib.mediaType,
+    })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
       src: '/static/mathjax-config.js',
       type: 'text/javascript',
       async: false,
-      defer: true
+      defer: true,
     });
 
     scripts.push({
-      src:'https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js',
       type: 'text/javascript',
-      async:false,
-      defer:true,
-    })
+      async: false,
+      defer: true,
+    });
   }
 
   return scripts;

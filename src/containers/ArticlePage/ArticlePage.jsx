@@ -35,8 +35,8 @@ class ArticlePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      scripts : []
-    }
+      scripts: [],
+    };
   }
 
   static willTrackPageView(trackPageView, currentProps) {
@@ -69,11 +69,11 @@ class ArticlePage extends Component {
   }
 
   componentDidMount() {
-    const {data, locale} = this.props;
-    const {resource} = data;
+    const { data, locale } = this.props;
+    const { resource } = data;
     const article = transformArticle(resource.article, locale);
     let scripts = getArticleScripts(article);
-    this.setState({scripts: scripts});
+    this.setState({ scripts: scripts });
   }
 
   render() {

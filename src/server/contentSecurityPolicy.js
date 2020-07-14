@@ -24,6 +24,7 @@ const connectSrc = (() => {
     'https://optimize.google.com',
     'https://ltiredirect.itslearning.com',
     'https://platform.itslearning.com',
+    'cdn.jsdelivr.net',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
