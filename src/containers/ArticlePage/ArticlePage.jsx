@@ -72,8 +72,8 @@ class ArticlePage extends Component {
     const { data, locale } = this.props;
     const { resource } = data;
     const article = transformArticle(resource.article, locale);
-    let scripts = getArticleScripts(article);
-    this.setState({ scripts: scripts });
+    const scripts = getArticleScripts(article);
+    this.setState({ scripts });
   }
 
   render() {
