@@ -79,6 +79,18 @@ export const searchQuery = gql`
         }
         supportedLanguages
       }
+      suggestions {
+        name
+        suggestions {
+          text
+          offset
+          length
+          options {
+            text
+            score
+          }
+        }
+      }
       totalCount
     }
   }
