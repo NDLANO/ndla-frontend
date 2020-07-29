@@ -46,7 +46,7 @@ const PlainArticlePage = ({
 
   useEffect(() => {
     if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+      window.MathJax.typeset();
     }
   });
 
