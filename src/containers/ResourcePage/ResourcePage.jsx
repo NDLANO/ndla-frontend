@@ -20,6 +20,10 @@ import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 
+const urlInPaths = (location, resource) => {
+  return resource.paths?.find(p => location.pathname.includes(p));
+};
+
 const ResourcePage = props => {
   useEffect(() => {
     if (window.MathJax) {
@@ -39,7 +43,7 @@ const ResourcePage = props => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-  if (!data.resource) {
+  if (!data.resource || !urlInPaths(props.location, data.resource)) {
     return <NotFoundPage />;
   }
 
