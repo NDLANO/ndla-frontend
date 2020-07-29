@@ -132,13 +132,13 @@ class App extends React.Component {
     }
     const navigated = nextProps.location !== prevState.location;
     const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
-    // can ignoreScroll be removed?
-    const ignoreScroll = // eslint-disable-line no-unused-vars
+    const ignoreScroll =
       match?.isExact &&
       (!!match?.params?.topicId || !!match?.params?.subTopicId);
     if (navigated) {
-      // Må disables få fagside når emne er valgt
-      // window.scrollTo(0, 0);
+      if (!ignoreScroll) {
+        window.scrollTo(0, 0);
+      }
       return {
         hasError: false,
         data: { ...prevState.data, loading: true },
