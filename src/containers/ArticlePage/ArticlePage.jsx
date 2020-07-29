@@ -121,13 +121,21 @@ class ArticlePage extends Component {
     const handleNav = (e, item) => {
       e.preventDefault();
       const { id } = item;
-      if (id !== article.id) {
+      if (id !== article.id && id !== filter.id) {
         const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
+        const breadCrumbsWithoutFilter = breadCrumbIds.filter(
+          c => !c.toString().startsWith('urn:filter'),
+        );
         history.push(
           toTopic(
-            breadCrumbIds[0],
-            [],
-            ...breadCrumbIds.slice(1, breadCrumbIds.indexOf(id) + 1),
+            breadCrumbsWithoutFilter[0],
+            ...breadCrumbIds.filter(crumb =>
+              crumb.toString().startsWith('urn:filter'),
+            ),
+            ...breadCrumbsWithoutFilter.slice(
+              1,
+              breadCrumbsWithoutFilter.indexOf(id) + 1,
+            ),
           ),
         );
       }
