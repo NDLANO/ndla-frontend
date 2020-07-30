@@ -20,6 +20,10 @@ import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 
+const urlInPaths = (location, resource) => {
+  return resource.paths?.find(p => location.pathname.includes(p));
+};
+
 const ResourcePage = props => {
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const filterIds = getFiltersFromUrl(props.location);
@@ -34,7 +38,7 @@ const ResourcePage = props => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-  if (!data.resource) {
+  if (!data.resource || !urlInPaths(props.location, data.resource)) {
     return <NotFoundPage />;
   }
   const { subject, topic } = data;
