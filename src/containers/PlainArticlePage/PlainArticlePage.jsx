@@ -46,7 +46,7 @@ const PlainArticlePage = ({
 
   useEffect(() => {
     if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+      window.MathJax.typeset();
     }
   });
 
@@ -77,6 +77,7 @@ const PlainArticlePage = ({
             src={script.src}
             type={script.type}
             async={script.async}
+            defer={script.defer}
           />
         ))}
 
