@@ -25,23 +25,17 @@ describe('Subjects page', () => {
   });
 
   it('should include a list of valid topic links', () => {
-    cy.get('[data-testid="topic-list"] h1').contains(/\w+/);
+    cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="topic-list"] a').each(el => {
-      cy.wrap(el)
-        .should('have.attr', 'href')
-        .and('include', '/topic');
+    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+      cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
   });
 
-  it('should have a valid breadcrumb, filter and language select', () => {
-    cy.get('.c-breadcrumb__list a')
+  it('should have a valid breadcrumb', () => {
+    cy.get('[data-testid="breadcrumb-list"] a')
       .should('have.length', 1)
       .and('have.attr', 'href');
-
-    cy.get('input[type="checkbox"]').each(el => {
-      expect(el.attr('id')).to.equal(el.siblings().attr('for'));
-    });
   });
 });

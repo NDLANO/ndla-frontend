@@ -24,15 +24,16 @@ describe('Topic page', () => {
     cy.apiwait('@subjectpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
-    cy.get('[data-testid="topic-list"] li a:contains("Idéskaping")').click({
+    cy.get('[data-testid="nav-box-list"] li a:contains("Idéskaping")').click({
       force: true,
     });
     cy.apiwait(['@topicpageGraphQL']);
   });
 
-  it('contains article', () => {
-    cy.get('article > section:first-child').within(() => {
+  it('contains article header and introduction', () => {
+    cy.get('[data-testid="nav-topic-about"]').within(() => {
       cy.get('h1').contains(/\w+/);
+      cy.get('div').contains(/\w+/);
     });
   });
 });
