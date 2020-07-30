@@ -74,6 +74,7 @@ const LearningpathEmbed = ({
             src={script.src}
             type={script.type}
             async={script.async}
+            defer={script.defer}
           />
         ))}
 

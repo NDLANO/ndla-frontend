@@ -14,19 +14,25 @@ function getAssets() {
 }
 
 export function getArticleScripts(article) {
-  const assets = getAssets();
-  const scripts = article
-    ? article.requiredLibraries.map(lib => ({
-        src: lib.url,
-        type: lib.mediaType,
-      }))
-    : [];
-
+  getAssets();
+  const scripts =
+    article?.requiredLibraries.map(lib => ({
+      src: lib.url,
+      type: lib.mediaType,
+    })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
-      async: true,
-      src: `https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=${assets.mathJaxConfig.js}`,
+      src: '/static/mathjax-config.js',
       type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
+
+    scripts.push({
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
     });
   }
 

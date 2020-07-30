@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -20,12 +20,11 @@ import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 
+const urlInPaths = (location, resource) => {
+  return resource.paths?.find(p => location.pathname.includes(p));
+};
+
 const ResourcePage = props => {
-  useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  });
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const filterIds = getFiltersFromUrl(props.location);
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
@@ -39,10 +38,9 @@ const ResourcePage = props => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-  if (!data.resource) {
+  if (!data.resource || !urlInPaths(props.location, data.resource)) {
     return <NotFoundPage />;
   }
-
   const { subject, topic } = data;
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
