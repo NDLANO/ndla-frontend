@@ -68,7 +68,7 @@
     "@ndla/tracker": "^0.4.0",
     "@ndla/ui": "^0.27.41",
     "@ndla/util": "^0.3.6",
-    "@ndla/zendesk": "^0.2.26",
+    "@ndla/zendesk": "^0.2.27",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",

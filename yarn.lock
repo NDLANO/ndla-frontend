@@ -906,6 +906,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.3.1":
+  version "7.10.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
+  integrity sha512-otddXKhdNn7d0ptoFRHtMLa8LqDxLYwTjB4nYgM1yy5N6gU/MUf8zqyyLltCH3yAVitBzmwK4us+DD0l/MauAg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.9.2":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
@@ -1528,10 +1535,10 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/zendesk@^0.2.26":
-  version "0.2.26"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.26.tgz#3500077ea444b5462f59d546152fcfbd830148eb"
-  integrity sha512-sY3DjXx/Wxvp1WW61/slCa0cFgn+PkoOvLHGCHG84XO6oGxxDqvm6GvDjPzSe12p4hSevwXLFxCNBV687aujYg==
+"@ndla/zendesk@^0.2.27":
+  version "0.2.27"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.27.tgz#ac7e6ec83e53b2eee1e112591cc184faf4dfc526"
+  integrity sha512-MWtqYYEjYSOVErYrAlzFXVGQhsAM9JOSjQ2Pbruzma3RQoXNviiDuxdWydUx959zv37/DYQM9HmjGxFWMKYW9Q==
   dependencies:
     "@ndla/core" "^0.6.26"
 
