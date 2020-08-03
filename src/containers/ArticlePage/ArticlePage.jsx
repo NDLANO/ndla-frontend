@@ -129,23 +129,23 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
 
     const activeFilterId = getFiltersFromUrl(location);
-    const filter = subject.filters.find(filter => filter.id === activeFilterId);
+    const filter = subject.filters.filter(filter =>
+      activeFilterId.split(',').includes(filter.id),
+    );
     const [mainTopic, subTopic] = topicPath;
 
     const handleNav = (e, item) => {
       e.preventDefault();
       const { id } = item;
-      if (id !== article.id && id !== filter.id) {
+      if (id !== article.id) {
         const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
         const breadCrumbsWithoutFilter = breadCrumbIds.filter(
-          c => !c.toString().startsWith('urn:filter'),
+          c => c !== filter?.id,
         );
         history.push(
           toTopic(
             breadCrumbsWithoutFilter[0],
-            ...breadCrumbIds.filter(crumb =>
-              crumb.toString().startsWith('urn:filter'),
-            ),
+            activeFilterId,
             ...breadCrumbsWithoutFilter.slice(
               1,
               breadCrumbsWithoutFilter.indexOf(id) + 1,
@@ -166,7 +166,7 @@ class ArticlePage extends Component {
         ? [
             {
               id: filter.id,
-              label: filter.name,
+              label: filter?.map(f => f.name)?.reduce((a, b) => a + ', ' + b),
               typename: 'Subject',
               url: '#',
             },

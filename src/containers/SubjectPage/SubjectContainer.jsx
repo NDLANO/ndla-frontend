@@ -44,7 +44,7 @@ const SubjectPage = ({
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   useEffect(() => {
-    history.replace(toTopic(subjectId, filter?.id, topicId, subTopicId));
+    history.replace(toTopic(subjectId, activeFilterId, topicId, subTopicId));
   }, [topic, subTopic]);
 
   const activeFilterId = getFiltersFromUrl(location);
@@ -60,7 +60,14 @@ const SubjectPage = ({
     metaDescription,
   } = subjectpage;
 
-  const filter = subject.filters.find(filter => filter.id === activeFilterId);
+  const filter = subject.filters.filter(filter =>
+    activeFilterId.split(',').includes(filter.id),
+  );
+
+  const filterString =
+    filter.length > 0
+      ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
+      : '';
 
   const breadCrumbs = [
     {
@@ -69,11 +76,11 @@ const SubjectPage = ({
       typename: 'Subjecttype',
       url: '#',
     },
-    ...(filter
+    ...(filter.length > 0
       ? [
           {
             id: filter.id,
-            label: filter.name,
+            label: filterString,
             typename: 'Subject',
             url: '#',
             isCurrent: currentLevel === 'Subject',
@@ -122,7 +129,7 @@ const SubjectPage = ({
     e.preventDefault();
     const { typename } = item;
     setCurrentLevel(typename);
-    if (typename === 'Subjecttype') {
+    if (typename === 'Subjecttype' || typename === 'Subject') {
       scrollToRef(headerRef);
     } else if (typename === 'Topic') {
       scrollToRef(mainRef);
@@ -156,7 +163,7 @@ const SubjectPage = ({
         <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
         <div ref={headerRef}>
           <NavigationHeading subHeading={subjectName}>
-            {filter?.name}
+            {filter ? filterString : undefined}
           </NavigationHeading>
         </div>
         <SubjectPageContent
@@ -166,7 +173,7 @@ const SubjectPage = ({
           subjectId={subjectId}
           subjectpage={subjectpage}
           subject={subject}
-          filter={filter}
+          filter={filter[0]}
           topicId={topicId}
           setTopicId={setTopicId}
           subTopicId={subTopicId}
