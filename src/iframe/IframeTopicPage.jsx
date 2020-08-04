@@ -37,6 +37,7 @@ const Success = ({ resource, locale, location }) => {
             src={script.src}
             type={script.type}
             async={script.async}
+            defer={script.defer}
           />
         ))}
       </Helmet>

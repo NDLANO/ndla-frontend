@@ -7,7 +7,7 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import { SUBJECT_PAGE_PATH } from './constants';
+import { PROGRAMME_PATH, SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -154,4 +154,14 @@ export function isSubjectPagePath(pathname) {
     return match.isExact;
   }
   return false;
+}
+
+export function toProgramme(programmePath) {
+  return `${PROGRAMME_PATH}/${programmePath}`;
+}
+
+export function toProgrammeSubject(programmePath, subjectId, filterIds) {
+  const baseUrl = `${toSubject(subjectId)}/`;
+  const filterString = filterIds.join(',');
+  return `${baseUrl}?filters=${filterString}`;
 }

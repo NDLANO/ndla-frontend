@@ -79,6 +79,18 @@ export const searchQuery = gql`
         }
         supportedLanguages
       }
+      suggestions {
+        name
+        suggestions {
+          text
+          offset
+          length
+          options {
+            text
+            score
+          }
+        }
+      }
       totalCount
     }
   }
@@ -252,6 +264,7 @@ export const resourceInfoFragment = gql`
     name
     contentUri
     path
+    paths
     resourceTypes {
       id
       name
@@ -343,6 +356,7 @@ export const articleInfoFragment = gql`
         }
       }
     }
+    oembed
     copyright {
       ...CopyrightInfo
     }

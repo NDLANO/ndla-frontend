@@ -32,6 +32,13 @@ import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 class ArticlePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scripts: [],
+    };
+  }
+
   static willTrackPageView(trackPageView, currentProps) {
     const { loading, data } = currentProps;
     if (loading || !data) {
@@ -61,10 +68,18 @@ class ArticlePage extends Component {
       ''}${t('htmlTitles.titleTemplate')}`;
   }
 
+  componentDidMount() {
+    const { data, locale } = this.props;
+    const { resource } = data;
+    const article = transformArticle(resource.article, locale);
+    const scripts = getArticleScripts(article);
+    this.setState({ scripts });
+  }
+
   render() {
     const { data, locale, errors, ndlaFilm, skipToContentId } = this.props;
-
     const { resource, topic, resourceTypes, subject, topicPath } = data;
+    const { scripts } = this.state;
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
     if (isLearningPathResource(resource)) {
@@ -75,7 +90,6 @@ class ArticlePage extends Component {
         </Status>
       );
     }
-
     if (resource === null || resource.article === null) {
       const error = errors?.find(e => e.path.includes('resource')) || {};
       return (
@@ -105,7 +119,6 @@ class ArticlePage extends Component {
     }
 
     const article = transformArticle(resource.article, locale);
-    const scripts = getArticleScripts(article);
 
     return (
       <div>
@@ -120,6 +133,7 @@ class ArticlePage extends Component {
               src={script.src}
               type={script.type}
               async={script.async}
+              defer={script.defer}
             />
           ))}
 
