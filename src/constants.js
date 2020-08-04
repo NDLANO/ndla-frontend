@@ -410,3 +410,6 @@ export const MULTIDISCIPLINARY_SUBJECTS = [
     id: 'Bærekraftig utvikling',
   },
 ];
+
+export const PROGRAMME_PATH = '/utdanning';
+export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';

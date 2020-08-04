@@ -14,11 +14,9 @@ describe('Topic menu', () => {
     cy.visit('/?disableSSR=true', visitOptions);
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
-    cy.get(
-      '[data-testid="category-list"]  button:contains("Studieforberedende"):visible',
-    )
+    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk")')
+      .get('a:contains("Medieuttrykk 1")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
