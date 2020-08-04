@@ -162,7 +162,7 @@ class ArticlePage extends Component {
         typename: 'Subjecttype',
         url: '#',
       },
-      ...(filter
+      ...(filter.length > 0
         ? [
             {
               id: filter.id,
