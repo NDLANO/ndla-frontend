@@ -40,6 +40,10 @@ const MastheadSearch = ({
     groupSearchQuery,
   );
 
+  useEffect(() => {
+    setSubjects(subject?.id);
+  }, [subject]);
+
   let closeModal;
 
   useEffect(() => {

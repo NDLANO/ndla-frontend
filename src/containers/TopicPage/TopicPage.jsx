@@ -24,7 +24,6 @@ const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const { data, loading, error } = useGraphQuery(topicPageQuery, {
     variables: { topicId, filterIds, subjectId },
   });
-
   if (loading) return null;
 
   if (!data) {

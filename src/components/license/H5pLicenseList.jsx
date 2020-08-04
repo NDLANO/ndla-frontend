@@ -18,7 +18,7 @@ import {
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
-  // metaTypes,
+  metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { H5PBold } from '@ndla/icons/editor';
@@ -33,6 +33,13 @@ const TextShape = PropTypes.shape({
 
 const H5pLicenseInfo = ({ h5p, locale, t }) => {
   const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
+  if (h5p.title) {
+    items.unshift({
+      label: t('images.title'),
+      description: h5p.title,
+      metaType: metaTypes.title,
+    });
+  }
   return (
     <MediaListItem>
       <MediaListItemImage>
@@ -56,7 +63,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
               hasCopiedTitle={t('hasCopiedTitle')}
             />
             <CopyTextButton
-              stringToCopy={`<iframe title="${h5p.src}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+              stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               t={t}
               copyTitle={t('embed')}
               hasCopiedTitle={t('embedCopied')}

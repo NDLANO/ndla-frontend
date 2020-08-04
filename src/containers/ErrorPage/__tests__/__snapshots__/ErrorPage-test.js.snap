@@ -546,6 +546,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             <a
               aria-label="Nasjonal digital læringsarena"
               href="/"
+              onClick={[Function]}
             >
               <svg
                 className="c-logo__graphic"
@@ -605,6 +606,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         >
           <a
             href="/"
+            onClick={[Function]}
           >
             Gå til forsiden
           </a>
