@@ -162,7 +162,7 @@ MastheadSearch.propTypes = {
   subject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
-  }).isRequired,
+  }),
   hideOnNarrowScreen: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

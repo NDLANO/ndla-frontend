@@ -8,20 +8,22 @@
  */
 
 import React from 'react';
-import { FrontpageCircularSubjectsSection } from '@ndla/ui';
+import PropTypes from 'prop-types';
+import { FrontpageProgramMenu } from '@ndla/ui';
 
-import { toSubject } from '../../routeHelpers';
-import { FRONTPAGE_CATEGORIES } from '../../constants';
+import { toProgramme, toSubject } from '../../routeHelpers';
+import { subjectsCategories } from '../../data/subjects';
+import { programmes } from '../../data/programmes';
 
-const sortByName = arr =>
+const sortBy = (arr, sortByProp = 'name') =>
   arr.sort((a, b) => {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
+    if (a[sortByProp] < b[sortByProp]) return -1;
+    if (a[sortByProp] > b[sortByProp]) return 1;
     return 0;
   });
 
 const createSubjectFilterUrl = (subject, filter) => {
-  const baseUrl = `${toSubject(subject.id)}/`;
+  const baseUrl = `${toSubject(subject.subjectId)}/`;
   if (filter) {
     const filterIds = filter.join(',');
     return `${baseUrl}?filters=${filterIds}`;
@@ -29,31 +31,48 @@ const createSubjectFilterUrl = (subject, filter) => {
   return baseUrl;
 };
 
-export const getCategoriesSubjects = () => {
-  const data = FRONTPAGE_CATEGORIES.categories;
-
-  return data.map(category => {
+export const getCategoriesSubjects = locale => {
+  return subjectsCategories.map(category => {
     const subjects = category.subjects.map(subject => ({
-      ...subject,
-      text: subject.name,
+      name: subject.longName[locale],
       url: createSubjectFilterUrl(subject, subject.filters),
     }));
 
     return {
-      ...category,
-      subjects: sortByName(subjects),
+      name: category.name[locale],
+      subjects: sortBy(subjects),
     };
   });
 };
 
-const FrontpageSubjects = () => {
-  const categories = getCategoriesSubjects();
+const createProgrammeUrl = (program, locale) => {
+  return toProgramme(program.url[locale]);
+};
+
+const getProgrammes = locale => {
+  const programmesData = programmes.map(program => {
+    return {
+      label: program.name[locale],
+      url: createProgrammeUrl(program, locale),
+    };
+  });
+  return sortBy(programmesData, 'label');
+};
+
+const FrontpageSubjects = ({ locale }) => {
+  const categories = getCategoriesSubjects(locale);
+  const programmes = getProgrammes(locale);
 
   return (
-    <>
-      <FrontpageCircularSubjectsSection categories={categories} />
-    </>
+    <FrontpageProgramMenu
+      programItems={programmes}
+      subjectCategories={categories}
+    />
   );
+};
+
+FrontpageSubjects.propTypes = {
+  locale: PropTypes.string.isRequired,
 };
 
 export default FrontpageSubjects;
