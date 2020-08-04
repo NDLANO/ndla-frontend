@@ -161,7 +161,7 @@ export function toProgramme(programmePath) {
 }
 
 export function toProgrammeSubject(programmePath, subjectId, filterIds) {
-  const baseUrl = `${toProgramme(programmePath)}${toSubject(subjectId)}/`;
+  const baseUrl = `${toSubject(subjectId)}/`;
   const filterString = filterIds.join(',');
   return `${baseUrl}?filters=${filterString}`;
 }
