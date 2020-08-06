@@ -49,7 +49,7 @@ export const routes = [
   {
     path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
