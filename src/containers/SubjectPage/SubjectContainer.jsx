@@ -14,7 +14,6 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
 import { LocationShape, FilterShape, TopicShape } from '../../shapes';
-import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
@@ -52,13 +51,7 @@ const SubjectPage = ({
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};
 
-  const {
-    latestContent,
-    editorsChoices,
-    layout,
-    about,
-    metaDescription,
-  } = subjectpage;
+  const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
   const filter = subject.filters.filter(filter =>
     activeFilterId.split(',').includes(filter.id),
@@ -189,13 +182,6 @@ const SubjectPage = ({
           editorsChoices={editorsChoices}
           locale={locale}
         />
-        {latestContent && (
-          <SubjectPageSecondaryContent
-            locale={locale}
-            subjectName={subjectName}
-            latestContent={latestContent}
-          />
-        )}
       </OneColumn>
     </>
   );
