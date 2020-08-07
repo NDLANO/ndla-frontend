@@ -9,7 +9,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { OneColumn, NavigationHeading, BreadCrumblist } from '@ndla/ui';
+import {
+  OneColumn,
+  NavigationHeading,
+  BreadCrumblist,
+  SubjectBanner,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
@@ -20,6 +25,7 @@ import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toTopic } from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
+import SubjectPageInformation from './components/SubjectPageInformation';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -177,6 +183,10 @@ const SubjectPage = ({
           mainRef={mainRef}
           subRef={subRef}
         />
+        {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
+        {subjectpage.about && (
+          <SubjectPageInformation subjectpage={subjectpage} wide />
+        )}
         <SubjectEditorChoices
           wideScreen
           editorsChoices={editorsChoices}

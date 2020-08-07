@@ -15,6 +15,7 @@ import SubjectPageAbout from './SubjectPageAbout';
 export const SubjectPageInformation = ({
   subjectpage: { topical, about },
   twoColumns,
+  wide,
 }) => [
   <SubjectTopical
     key="subjectpage_information_topical"
@@ -25,17 +26,20 @@ export const SubjectPageInformation = ({
     key="subjectpage_information_about"
     twoColumns={twoColumns}
     about={about}
+    wide={wide}
   />,
 ];
 
 SubjectPageInformation.propTypes = {
   subjectpage: GraphQLSubjectPageShape,
   twoColumns: PropTypes.bool,
+  wide: PropTypes.bool,
 };
 
 SubjectPageInformation.defaultProps = {
   subjectpage: {},
   twoColumns: false,
+  wide: false,
 };
 
 export default SubjectPageInformation;
