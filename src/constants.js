@@ -51,14 +51,13 @@ export const FRONTPAGE_CATEGORIES = {
           lang: 'en',
           name: 'Engelsk',
           id: 'urn:subject:39',
-          beta: true,
         },
         {
           id: 'urn:subject:9',
           name: 'Historie Vg2 og Vg3',
         },
         { name: 'Kroppsøving', id: 'urn:subject:26' },
-        { name: 'Matematikk 1P', id: 'urn:subject:34', beta: true },
+        { name: 'Matematikk 1P', id: 'urn:subject:34' },
         {
           name: 'Matematikk 1P (2019-2020)',
           id: 'urn:subject:29',
@@ -67,18 +66,16 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Matematikk 1P-Y',
           id: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
-          beta: true,
         },
         {
           name: 'Matematikk 1P-Y (2019-2020)',
           id: 'urn:subject:30',
           filters: ['urn:filter:04ad8a02-856c-417c-8a58-d2f293bf788d'],
         },
-        { name: 'Matematikk 1T', id: 'urn:subject:33', beta: true },
+        { name: 'Matematikk 1T', id: 'urn:subject:33' },
         {
           name: 'Matematikk 1T-Y',
           id: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
-          beta: true,
         },
         {
           name: 'Matematikk 1T-Y (2019-2020)',
@@ -98,7 +95,6 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Naturfag',
           id: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
-          beta: true,
         },
         {
           name: 'Naturfag for påbygg',
@@ -107,7 +103,6 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Norsk Vg1 SF',
           id: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
-          beta: true,
         },
         {
           name: 'Norsk Vg2 og Vg3 SF',
@@ -132,7 +127,6 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Samfunnskunnskap',
           id: 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-          beta: true,
         },
         { name: 'Samfunnsfag Vg2 YF', id: 'urn:subject:3' },
         {
@@ -157,13 +151,11 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Bygg- og anleggsteknikk Vg1',
           id: 'urn:subject:11',
-          beta: true,
         },
         { name: 'Elektrofag Vg1', id: 'urn:subject:16', beta: true },
         {
           name: 'Helse- og oppvekstfag Vg1',
           id: 'urn:subject:24',
-          beta: true,
         },
         { name: 'Helsearbeiderfag Vg2', id: 'urn:subject:4' },
         { name: 'IKT-servicefag Vg2', id: 'urn:subject:25' },
@@ -171,12 +163,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Kokk- og servitørfag Vg2',
           id: 'urn:subject:41',
         },
-        { name: 'Naturbruk Vg1', id: 'urn:subject:13', beta: true },
+        { name: 'Naturbruk Vg1', id: 'urn:subject:13' },
         { name: 'Reiseliv Vg2', id: 'urn:subject:35' },
         {
           name: 'Restaurant- og matfag Vg1',
           id: 'urn:subject:37',
-          beta: true,
         },
         {
           name: 'Salg, service og sikkerhet Vg2',
@@ -185,12 +176,10 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Salg, service og reiseliv Vg1',
           id: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
-          beta: true,
         },
         {
           name: 'Teknikk og industriell produksjon Vg1',
           id: 'urn:subject:28',
-          beta: true,
         },
         {
           name: 'Transport og logistikk Vg2',
@@ -209,7 +198,6 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Informasjonsteknologi og medieproduksjon Vg1',
           id: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
-          beta: true,
         },
       ],
     },
@@ -231,13 +219,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Kinesisk 1',
           id: 'urn:subject:2',
           filters: ['urn:filter:1d441d40-358a-47a8-8cd5-7a80382a9062'],
-          beta: true,
         },
         {
           name: 'Kinesisk 2',
           id: 'urn:subject:2',
           filters: ['urn:filter:3170610c-6a5a-4da5-aeba-adb247aae48c'],
-          beta: true,
         },
         {
           name: 'Kommunikasjon og kultur 1',
@@ -286,7 +272,6 @@ export const FRONTPAGE_CATEGORIES = {
         {
           name: 'Medieuttrykk og mediesamfunnet Vg1',
           id: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
-          beta: true,
         },
         {
           name: 'Medieuttrykk og mediesamfunnet Vg2/Vg3',
@@ -305,13 +290,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Tysk 1',
           id: 'urn:subject:8',
           filters: ['urn:filter:1a05c6c7-121e-49e2-933c-580da74afe1a'],
-          beta: true,
         },
         {
           name: 'Tysk 2',
           id: 'urn:subject:8',
           filters: ['urn:filter:ec288dfb-4768-4f82-8387-fe2d73fff1e1'],
-          beta: true,
         },
         {
           name: 'Sørsamisk som andrespråk, saemien 4',
