@@ -148,52 +148,52 @@ const SubjectPage = ({
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extended">
-        {about && (
-          <SocialMediaMetadata
-            title={about.title}
-            description={metaDescription}
-            locale={locale}
-            image={
-              about.visualElement && {
-                src: about.visualElement.url,
-                altText: about.visualElement.alt,
+          {about && (
+            <SocialMediaMetadata
+              title={about.title}
+              description={metaDescription}
+              locale={locale}
+              image={
+                about.visualElement && {
+                  src: about.visualElement.url,
+                  altText: about.visualElement.alt,
+                }
               }
-            }
+            />
+          )}
+          <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
+          <div ref={headerRef}>
+            <NavigationHeading subHeading={subjectName}>
+              {filter ? filterString : undefined}
+            </NavigationHeading>
+          </div>
+          <SubjectPageContent
+            skipToContentId={skipToContentId}
+            layout={layout}
+            locale={locale}
+            subjectId={subjectId}
+            subjectpage={subjectpage}
+            subject={subject}
+            filter={filter}
+            topicId={topicId}
+            setTopicId={setTopicId}
+            subTopicId={subTopicId}
+            setSubTopicId={setSubTopicId}
+            setSelectedTopic={setTopicBreadCrumb}
+            setSubTopic={setSubTopic}
+            setSelectedSubTopic={setSubTopicBreadCrumb}
+            mainRef={mainRef}
+            subRef={subRef}
           />
-        )}
-        <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
-        <div ref={headerRef}>
-          <NavigationHeading subHeading={subjectName}>
-            {filter ? filterString : undefined}
-          </NavigationHeading>
-        </div>
-        <SubjectPageContent
-          skipToContentId={skipToContentId}
-          layout={layout}
-          locale={locale}
-          subjectId={subjectId}
-          subjectpage={subjectpage}
-          subject={subject}
-          filter={filter}
-          topicId={topicId}
-          setTopicId={setTopicId}
-          subTopicId={subTopicId}
-          setSubTopicId={setSubTopicId}
-          setSelectedTopic={setTopicBreadCrumb}
-          setSubTopic={setSubTopic}
-          setSelectedSubTopic={setSubTopicBreadCrumb}
-          mainRef={mainRef}
-          subRef={subRef}
-        />
-        {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
-        {subjectpage.about && (
-          <SubjectPageInformation subjectpage={subjectpage} wide />
-        )}
-        <SubjectEditorChoices
-          wideScreen
-          editorsChoices={editorsChoices}
-          locale={locale}
-        />
+          {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
+          {subjectpage.about && (
+            <SubjectPageInformation subjectpage={subjectpage} wide />
+          )}
+          <SubjectEditorChoices
+            wideScreen
+            editorsChoices={editorsChoices}
+            locale={locale}
+          />
         </LayoutItem>
       </OneColumn>
     </>
