@@ -42,6 +42,7 @@ const SubjectPage = ({
   urlTopicId,
   urlSubTopicId,
   data,
+  ndlaFilm,
 }) => {
   const [topicId, setTopicId] = useState(urlTopicId);
   const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
@@ -161,9 +162,15 @@ const SubjectPage = ({
               }
             />
           )}
-          <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
+          <Breadcrumblist
+            items={breadCrumbs}
+            onNav={handleNav}
+            invertedStyle={ndlaFilm}
+          />
           <div ref={headerRef}>
-            <NavigationHeading subHeading={subjectName}>
+            <NavigationHeading
+              subHeading={subjectName}
+              invertedStyle={ndlaFilm}>
               {filter ? filterString : undefined}
             </NavigationHeading>
           </div>
@@ -182,6 +189,7 @@ const SubjectPage = ({
             setSelectedTopic={setTopicBreadCrumb}
             setSubTopic={setSubTopic}
             setSelectedSubTopic={setSubTopicBreadCrumb}
+            ndlaFilm={ndlaFilm}
             mainRef={mainRef}
             subRef={subRef}
           />

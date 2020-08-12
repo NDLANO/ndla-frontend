@@ -166,6 +166,7 @@ const TopicContainer = ({
               subjectId={subjectId}
               subtopics={subtopics}
               topicPath={topicPath}
+              ndlaFilm={ndlaFilm}
             />
             <Resources
               title={topicTitle || ''}

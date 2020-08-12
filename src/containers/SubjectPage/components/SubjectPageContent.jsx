@@ -29,6 +29,7 @@ const SubjectPageContent = ({
   setSelectedTopic,
   setSelectedSubTopic,
   locale,
+  ndlaFilm,
   mainRef,
   subRef,
 }) => {
@@ -80,6 +81,7 @@ const SubjectPageContent = ({
             showResources={!subTopicId}
             subTopicId={subTopicId}
             locale={locale}
+            ndlaFilm={ndlaFilm}
           />
         </div>
       )}
@@ -91,6 +93,7 @@ const SubjectPageContent = ({
             filterIds={filter?.id}
             setSelectedSubTopic={setSelectedSubTopic}
             locale={locale}
+            ndlaFilm={ndlaFilm}
           />
         </div>
       )}
@@ -108,6 +111,7 @@ SubjectPageContent.propTypes = {
   setSubTopic: PropTypes.func,
   setSelectedTopic: PropTypes.func,
   setSelectedSubTopic: PropTypes.func,
+  ndlaFilm: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mainRef: PropTypes.any.isRequired,
   subRef: PropTypes.any.isRequired,

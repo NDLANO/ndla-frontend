@@ -22,6 +22,7 @@ const SubTopic = ({
   filterIds,
   setSelectedSubTopic,
   locale,
+  ndlaFilm,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -49,6 +50,7 @@ const SubTopic = ({
     <>
       <NavigationTopicAbout
         heading={topic.name}
+        invertedStyle={ndlaFilm}
         ingress={topic.article?.introduction}
         showContent={showContent}
         onToggleShowContent={() => setShowContent(!showContent)}>
@@ -71,6 +73,7 @@ SubTopic.propTypes = {
   filterIds: PropTypes.string,
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default SubTopic;

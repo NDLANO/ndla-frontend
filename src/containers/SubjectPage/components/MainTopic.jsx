@@ -25,6 +25,7 @@ const MainTopic = ({
   showResources,
   locale,
   subTopicId,
+  ndlaFilm,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -67,6 +68,7 @@ const MainTopic = ({
         heading={topic.name}
         ingress={topic.article?.introduction}
         showContent={showContent}
+        invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
         children={<ArticleContents article={topic.article} locale={locale} />}
       />
@@ -100,6 +102,7 @@ MainTopic.propTypes = {
   showResources: PropTypes.bool,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default MainTopic;
