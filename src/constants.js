@@ -152,7 +152,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Bygg- og anleggsteknikk Vg1',
           id: 'urn:subject:11',
         },
-        { name: 'Elektro og datateknologi Vg1', id: 'urn:subject:16', beta: true },
+        {
+          name: 'Elektro og datateknologi Vg1',
+          id: 'urn:subject:16',
+          beta: true,
+        },
         {
           name: 'Helse- og oppvekstfag Vg1',
           id: 'urn:subject:24',
