@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
-import { OneColumn, BreadCrumblist, SubjectMaterialBadge } from '@ndla/ui';
+import { ArticleSideBar, OneColumn, Breadcrumblist, SubjectMaterialBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import {
@@ -230,7 +230,8 @@ class ArticlePage extends Component {
           image={article.metaImage}
         />
         <OneColumn>
-          <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
+          <ArticleSideBar />
+          <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
           <Article
             id={skipToContentId}
             article={article}

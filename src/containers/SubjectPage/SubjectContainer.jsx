@@ -12,8 +12,9 @@ import Helmet from 'react-helmet';
 import {
   OneColumn,
   NavigationHeading,
-  BreadCrumblist,
+  Breadcrumblist,
   SubjectBanner,
+  LayoutItem,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -146,6 +147,7 @@ const SubjectPage = ({
         )}
       </Helmet>
       <OneColumn>
+        <LayoutItem layout="extended">
         {about && (
           <SocialMediaMetadata
             title={about.title}
@@ -159,7 +161,7 @@ const SubjectPage = ({
             }
           />
         )}
-        <BreadCrumblist items={breadCrumbs} onNav={handleNav} />
+        <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
         <div ref={headerRef}>
           <NavigationHeading subHeading={subjectName}>
             {filter ? filterString : undefined}
@@ -192,6 +194,7 @@ const SubjectPage = ({
           editorsChoices={editorsChoices}
           locale={locale}
         />
+        </LayoutItem>
       </OneColumn>
     </>
   );
