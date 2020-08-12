@@ -163,6 +163,7 @@ export default {
       '*.worldbank.org',
       'ted.com',
       'embed.ted.com',
+      'embed.molview.org',
     ],
     styleSrc: [
       "'self'",
