@@ -159,7 +159,7 @@ export const FRONTPAGE_CATEGORIES = {
           id: 'urn:subject:11',
           beta: true,
         },
-        { name: 'Elektrofag Vg1', id: 'urn:subject:16', beta: true },
+        { name: 'Elektro og datateknologi Vg1', id: 'urn:subject:16', beta: true },
         {
           name: 'Helse- og oppvekstfag Vg1',
           id: 'urn:subject:24',
@@ -188,7 +188,7 @@ export const FRONTPAGE_CATEGORIES = {
           beta: true,
         },
         {
-          name: 'Teknikk og industriell produksjon Vg1',
+          name: 'Teknologi- og industrifag Vg1',
           id: 'urn:subject:28',
           beta: true,
         },
