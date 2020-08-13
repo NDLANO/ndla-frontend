@@ -18,7 +18,7 @@ export const programmes = [
           'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/4WzuGfBZ.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -113,7 +113,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/8vHJcYft.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -208,7 +208,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/CbXtNJ7X.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -274,7 +274,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/fZgBZL9C.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -340,7 +340,7 @@ export const programmes = [
           'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/QhG3IA4s.jpg' },
     grades: [
       // Klassetrinn
       {
@@ -481,7 +481,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/VEXPfqtg.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -699,7 +699,7 @@ export const programmes = [
           'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/2Wjf0x99.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -768,7 +768,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/q13BFrCg.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -986,7 +986,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/mtbzOofz.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1237,7 +1237,7 @@ export const programmes = [
           'Utdanningsprogrammet består av ulike programfag innan musikk, dans og drama. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/B6lpbgh5.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1455,7 +1455,7 @@ export const programmes = [
           'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/jKj1Uw9Y.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1542,7 +1542,7 @@ export const programmes = [
       nn: 'pabygg',
       en: 'pabygg',
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/lap5tLYu.jpg' },
     grades: [
       {
         name: 'Vg3',
@@ -1626,7 +1626,7 @@ export const programmes = [
           'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv i tillegg til yrkesfagleg fordjuping',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/1pBrsVLW.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1739,7 +1739,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/5E4fooai.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1910,7 +1910,7 @@ export const programmes = [
           'På studiespesialisering vel du fordjuping i anten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/RPzTRrF3.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -2107,7 +2107,7 @@ export const programmes = [
           'Utdanningsprogram med programfaga produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
       },
     },
-    image: {},
+    image: { url: 'https://api.ndla.no/image-api/raw/sq1cLlG0.jpg' },
     grades: [
       {
         name: 'Vg1',
