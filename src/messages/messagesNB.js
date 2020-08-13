@@ -17,6 +17,7 @@ const messages = {
     searchPage: `Søk${titleTemplate}`,
     notFound: `Siden finnes ikke${titleTemplate}`,
     subject: 'Fag',
+    lti: `LTI${titleTemplate}`,
   },
 };
 

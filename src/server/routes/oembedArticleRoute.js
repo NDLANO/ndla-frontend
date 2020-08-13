@@ -39,7 +39,7 @@ const getHTMLandTitle = async match => {
     const articleId = getArticleIdFromResource(topic);
     return {
       title: topic.name,
-      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -47,7 +47,7 @@ const getHTMLandTitle = async match => {
   const articleId = getArticleIdFromResource(resource);
   return {
     title: resource.name,
-    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
   };
 };
 

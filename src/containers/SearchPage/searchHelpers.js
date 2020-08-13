@@ -172,7 +172,7 @@ const getResultUrl = (id, url, isLti) => {
   } = parsedUrl;
   const urnId =
     topicId && !resourceId ? `urn:${topicId}` : `urn:resource:${resourceId}`;
-  return `/article-iframe/nb/${urnId}/${id}`;
+  return `/article-iframe/${urnId}/${id}`;
 };
 export const resultsWithContentTypeBadgeAndImage = (
   results,
