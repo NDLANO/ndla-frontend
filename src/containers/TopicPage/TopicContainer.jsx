@@ -174,6 +174,7 @@ const TopicContainer = ({
               coreResources={coreResources}
               supplementaryResources={supplementaryResources}
               locale={locale}
+              ndlaFilm={ndlaFilm}
             />
           </>
         </Article>

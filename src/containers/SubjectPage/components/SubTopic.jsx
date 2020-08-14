@@ -62,6 +62,7 @@ const SubTopic = ({
         coreResources={topic.coreResources}
         supplementaryResources={topic.supplementaryResources}
         locale={locale}
+        ndlaFilm={ndlaFilm}
       />
     </>
   );

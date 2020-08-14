@@ -95,6 +95,7 @@ class ArticlePage extends Component {
       skipToContentId,
       location,
       history,
+      ndlaFilm,
     } = this.props;
 
     const { resource, topic, resourceTypes, subject, topicPath } = data;
@@ -124,6 +125,7 @@ class ArticlePage extends Component {
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
                 locale={locale}
+                ndlaFilm={ndlaFilm}
               />
             )}
           </ArticleErrorMessage>
@@ -249,6 +251,7 @@ class ArticlePage extends Component {
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
                 locale={locale}
+                ndlaFilm={ndlaFilm}
               />
             )}
           </Article>
@@ -287,6 +290,7 @@ ArticlePage.propTypes = {
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   skipToContentId: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default injectT(withTracker(ArticlePage));
