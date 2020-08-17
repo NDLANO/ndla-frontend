@@ -1121,6 +1121,12 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_2',
               },
+              {
+                id: 'programme_subject_61',
+              },
+              {
+                id: 'study_specialization_subject_5',
+              },
             ],
           },
         ],
@@ -1211,6 +1217,12 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_3',
+              },
+              {
+                id: 'programme_subject_61',
+              },
+              {
+                id: 'study_specialization_subject_5',
               },
             ],
           },
@@ -1576,6 +1588,9 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_16',
+              },
+              {
+                id: 'programme_subject_61',
               },
             ],
           },
@@ -2020,6 +2035,9 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_1',
+              },
+              {
+                id: 'programme_subject_61',
               },
             ],
           },
