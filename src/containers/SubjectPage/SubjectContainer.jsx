@@ -18,6 +18,7 @@ import {
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { useIntersectionObserver } from '@ndla/hooks';
 
 import { LocationShape, FilterShape, TopicShape } from '../../shapes';
 import SubjectPageContent from './components/SubjectPageContent';
@@ -139,6 +140,12 @@ const SubjectPage = ({
     }
   };
 
+  // show/hide breadcrumb based on intersection
+  const [containerRef, { entry }] = useIntersectionObserver({
+    root: null,
+    rootMargin: '-325px',
+  });
+  const showBreadCrumb = entry && entry.isIntersecting;
   return (
     <>
       <Helmet>
@@ -147,63 +154,66 @@ const SubjectPage = ({
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
-      <OneColumn>
-        <LayoutItem layout="extended">
-          {about && (
-            <SocialMediaMetadata
-              title={about.title}
-              description={metaDescription}
-              locale={locale}
-              image={
-                about.visualElement && {
-                  src: about.visualElement.url,
-                  altText: about.visualElement.alt,
+      <div ref={containerRef}>
+        <OneColumn>
+          <LayoutItem layout="extend">
+            {about && (
+              <SocialMediaMetadata
+                title={about.title}
+                description={metaDescription}
+                locale={locale}
+                image={
+                  about.visualElement && {
+                    src: about.visualElement.url,
+                    altText: about.visualElement.alt,
+                  }
                 }
-              }
+              />
+            )}
+            <Breadcrumblist
+              items={breadCrumbs}
+              onNav={handleNav}
+              invertedStyle={ndlaFilm}
+              isVisible={showBreadCrumb}
             />
-          )}
-          <Breadcrumblist
-            items={breadCrumbs}
-            onNav={handleNav}
-            invertedStyle={ndlaFilm}
-          />
-          <div ref={headerRef}>
-            <NavigationHeading
-              subHeading={subjectName}
-              invertedStyle={ndlaFilm}>
-              {filter ? filterString : undefined}
-            </NavigationHeading>
-          </div>
-          <SubjectPageContent
-            skipToContentId={skipToContentId}
-            layout={layout}
-            locale={locale}
-            subjectId={subjectId}
-            subjectpage={subjectpage}
-            subject={subject}
-            filter={filter}
-            topicId={topicId}
-            setTopicId={setTopicId}
-            subTopicId={subTopicId}
-            setSubTopicId={setSubTopicId}
-            setSelectedTopic={setTopicBreadCrumb}
-            setSubTopic={setSubTopic}
-            setSelectedSubTopic={setSubTopicBreadCrumb}
-            ndlaFilm={ndlaFilm}
-            mainRef={mainRef}
-            subRef={subRef}
-          />
-          {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
-          {subjectpage.about && (
-            <SubjectPageInformation subjectpage={subjectpage} wide />
-          )}
-          <SubjectEditorChoices
-            wideScreen
-            editorsChoices={editorsChoices}
-            locale={locale}
-          />
-        </LayoutItem>
-      </OneColumn>
+            <div ref={headerRef}>
+              <NavigationHeading
+                subHeading={subjectName}
+                invertedStyle={ndlaFilm}>
+                {filter ? filterString : undefined}
+              </NavigationHeading>
+            </div>
+            <SubjectPageContent
+              skipToContentId={skipToContentId}
+              layout={layout}
+              locale={locale}
+              subjectId={subjectId}
+              subjectpage={subjectpage}
+              subject={subject}
+              filter={filter}
+              topicId={topicId}
+              setTopicId={setTopicId}
+              subTopicId={subTopicId}
+              setSubTopicId={setSubTopicId}
+              setSelectedTopic={setTopicBreadCrumb}
+              setSubTopic={setSubTopic}
+              setSelectedSubTopic={setSubTopicBreadCrumb}
+              ndlaFilm={ndlaFilm}
+              mainRef={mainRef}
+              subRef={subRef}
+            />
+            {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
+            {subjectpage.about && (
+              <SubjectPageInformation subjectpage={subjectpage} wide />
+            )}
+            <SubjectEditorChoices
+              wideScreen
+              editorsChoices={editorsChoices}
+              locale={locale}
+            />
+          </LayoutItem>
+        </OneColumn>
+      </div>
     </>
   );
 };
