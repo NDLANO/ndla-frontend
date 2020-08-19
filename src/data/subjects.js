@@ -1646,6 +1646,21 @@ export const programmeSubjects = [
     filters: ['urn:filter:021e4beb-fbdf-4f1c-b408-23d08f6446f3'],
     id: 'programme_subject_60',
   },
+  {
+    name: {
+      nb: 'Markedsføring og ledelse 1',
+      nn: 'Markedsføring og ledelse 1',
+      en: 'Markedsføring og ledelse 1',
+    },
+    longName: {
+      nb: 'Markedsføring og ledelse 1',
+      nn: 'Markedsføring og ledelse 1',
+      en: 'Markedsføring og ledelse 1',
+    },
+    subjectId: 'urn:subject:7',
+    filters: [],
+    id: 'programme_subject_61',
+  },
 ];
 export const studySpecializationSubjects = [
   {
