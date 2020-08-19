@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
-import { CompetenceGoalList, CompetenceGoalListHeading } from '@ndla/ui';
+import { CompetenceGoalTab } from '@ndla/ui';
 import { isValidElementType } from 'react-is';
 import Spinner from '@ndla/ui/lib/Spinner';
 
 import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, SubjectShape } from '../../shapes';
 
 export function groupByCurriculums(competenceGoals) {
   const curriculumsObject = competenceGoals.reduce((acc, goal) => {
@@ -38,6 +38,7 @@ export function groupByCurriculums(competenceGoals) {
 
 const CompetenceGoals = ({
   article,
+  subject,
   wrapperComponent: Component,
   wrapperComponentProps,
 }) => {
@@ -54,23 +55,33 @@ const CompetenceGoals = ({
   if (loading) {
     return <Spinner />;
   }
-  const curriculums = groupByCurriculums(data.competenceGoals);
+
+  const competenceGoalsList = [
+    {
+      id: '1',
+      type: 'LK06',
+      goals: data.oldCompetenceGoals
+    },
+    {
+      id: '2',
+      type: 'LK20',
+      goals: data.competenceGoals
+    }
+  ]
+  
   return (
     <Component {...wrapperComponentProps}>
-      {curriculums.map(curriculum => (
-        <Fragment key={curriculum.id}>
-          <CompetenceGoalListHeading>
-            {curriculum.title}:
-          </CompetenceGoalListHeading>
-          <CompetenceGoalList goals={curriculum.goals} />
-        </Fragment>
-      ))}
+      <CompetenceGoalTab
+        title={subject?.name}
+        list={competenceGoalsList}
+      />
     </Component>
   );
 };
 
 CompetenceGoals.propTypes = {
   article: ArticleShape,
+  subject: SubjectShape,
   wrapperComponent: (props, propName) => {
     if (props[propName] && !isValidElementType(props[propName])) {
       return new Error(

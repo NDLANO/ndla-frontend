@@ -395,6 +395,33 @@
             "deprecationReason": null
           },
           {
+            "name": "oldCompetenceGoals",
+            "description": "",
+            "args": [
+              {
+                "name": "nodeId",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CompetenceGoal",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "search",
             "description": "",
             "args": [

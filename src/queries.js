@@ -649,13 +649,13 @@ export const learningPathStepQuery = gql`
 
 export const competenceGoalsQuery = gql`
   query competenceGoalsQuery($codes: [String], $nodeId: String) {
-    competenceGoals(codes: $codes, nodeId: $nodeId) {
+    competenceGoals(codes: $codes) {
       id
-      title
-      curriculum {
-        id
-        title
-      }
+      name: title
+    }
+    oldCompetenceGoals(nodeId: $nodeId) {
+      id
+      name: title
     }
   }
 `;
