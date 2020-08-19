@@ -69,7 +69,11 @@ const SubjectPageContent = ({
 
   return (
     <>
-      <NavigationBox items={mainTopics} onClick={onClickMainTopic} />
+      <NavigationBox
+        items={mainTopics}
+        onClick={onClickMainTopic}
+        invertedStyle={ndlaFilm}
+      />
       {topicId && (
         <div ref={mainRef}>
           <MainTopic

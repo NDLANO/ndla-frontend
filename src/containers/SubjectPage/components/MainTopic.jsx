@@ -78,6 +78,7 @@ const MainTopic = ({
           heading="emner"
           items={subTopics}
           onClick={onClickSubTopic}
+          invertedStyle={ndlaFilm}
         />
       )}
       {showResources && (
