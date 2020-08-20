@@ -10,12 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
-import {
-  ArticleSideBar,
-  OneColumn,
-  Breadcrumblist,
-  SubjectMaterialBadge,
-} from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import {
@@ -26,13 +21,13 @@ import {
 } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
+import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import Resources from '../Resources/Resources';
 import {
   isLearningPathResource,
@@ -40,7 +35,6 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toTopic } from '../../routeHelpers';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -88,16 +82,7 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const {
-      data,
-      locale,
-      errors,
-      skipToContentId,
-      location,
-      history,
-      ndlaFilm,
-    } = this.props;
-
+    const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { scripts } = this.state;
     const topicTitle =
@@ -135,81 +120,14 @@ class ArticlePage extends Component {
 
     const article = transformArticle(resource.article, locale);
 
-    const activeFilterId = getFiltersFromUrl(location);
-    const filter = subject.filters.filter(filter =>
-      activeFilterId.split(',').includes(filter.id),
-    );
-    const [mainTopic, subTopic] = topicPath;
-
-    const handleNav = (e, item) => {
-      e.preventDefault();
-      const { id } = item;
-      if (id !== article.id) {
-        const breadCrumbIds = breadCrumbs.map(crumb => crumb.id);
-        const breadCrumbsWithoutFilter = breadCrumbIds.filter(
-          c => c !== filter?.id,
-        );
-        history.push(
-          toTopic(
-            breadCrumbsWithoutFilter[0],
-            activeFilterId,
-            ...breadCrumbsWithoutFilter.slice(
-              1,
-              breadCrumbsWithoutFilter.indexOf(id) + 1,
-            ),
-          ),
-        );
-      }
-    };
-
-    const breadCrumbs = [
-      {
-        id: subject.id,
-        label: subject.name,
-        typename: 'Subjecttype',
-        url: '#',
-      },
-      ...(filter.length > 0
-        ? [
-            {
-              id: filter.id,
-              label: filter?.map(f => f.name)?.reduce((a, b) => a + ', ' + b),
-              typename: 'Subject',
-              url: '#',
-            },
-          ]
-        : []),
-      ...(mainTopic
-        ? [
-            {
-              id: mainTopic.id,
-              label: mainTopic.name,
-              typename: 'Topic',
-              url: '#',
-            },
-          ]
-        : []),
-      ...(subTopic
-        ? [
-            {
-              id: subTopic.id,
-              label: subTopic.name,
-              typename: 'Subtopic',
-              url: '#',
-            },
-          ]
-        : []),
-      {
-        id: article.id,
-        label: article.title,
-        icon: <SubjectMaterialBadge background size="xx-small" />,
-        isCurrent: true,
-        url: '#',
-      },
-    ];
-
     return (
       <div>
+        <ArticleHero
+          ndlaFilm={ndlaFilm}
+          subject={subject}
+          topicPath={topicPath}
+          resource={resource}
+        />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article?.metaDescription && (
@@ -237,12 +155,11 @@ class ArticlePage extends Component {
           image={article.metaImage}
         />
         <OneColumn>
-          <ArticleSideBar />
-          <Breadcrumblist items={breadCrumbs} onNav={handleNav} />
           <Article
             id={skipToContentId}
             article={article}
             locale={locale}
+            isResourceArticle
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
