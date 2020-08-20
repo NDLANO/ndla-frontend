@@ -43,9 +43,11 @@ const CompetenceGoals = ({
   wrapperComponentProps,
 }) => {
   const codes = article.grepCodes;
-  const nodeId = article.oldNdlaUrl.split('/').pop();
+  const competenceCodes = codes?.filter(code => code.startsWith('KM'));
+  const coreCodes = codes?.filter(code => code.startsWith('KE'));
+  const nodeId = article.oldNdlaUrl?.split('/').pop();
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
-    variables: { codes, nodeId },
+    variables: { competenceCodes, coreCodes, nodeId },
   });
   if (error) {
     handleError(error);
@@ -56,22 +58,36 @@ const CompetenceGoals = ({
     return <Spinner />;
   }
 
+  const { competenceGoals, oldCompetenceGoals, coreElements } = data;
+
   const competenceGoalsList = [
-    {
-      id: '1',
-      type: 'LK06',
-      goals: data.oldCompetenceGoals,
-    },
-    {
-      id: '2',
-      type: 'LK20',
-      goals: data.competenceGoals,
-    },
-    {
-      id: '3',
-      type: 'coreElement',
-      coreItems: data.coreElements,
-    },
+    ...(oldCompetenceGoals
+      ? [
+          {
+            id: '1',
+            type: 'LK06',
+            goals: oldCompetenceGoals,
+          },
+        ]
+      : []),
+    ...(competenceGoals
+      ? [
+          {
+            id: '2',
+            type: 'LK20',
+            goals: competenceGoals,
+          },
+        ]
+      : []),
+    ...(coreElements
+      ? [
+          {
+            id: '3',
+            type: 'coreElement',
+            coreItems: coreElements,
+          },
+        ]
+      : []),
   ];
 
   return (
