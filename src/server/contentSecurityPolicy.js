@@ -24,6 +24,7 @@ const connectSrc = (() => {
     'https://optimize.google.com',
     'https://ltiredirect.itslearning.com',
     'https://platform.itslearning.com',
+    'cdn.jsdelivr.net',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -97,6 +98,7 @@ const scriptSrc = (() => {
     'cdnjs.cloudflare.com',
     'https://*.zendesk.com',
     'https://static.zdassets.com',
+    'cdn.jsdelivr.net',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -161,6 +163,7 @@ export default {
       '*.worldbank.org',
       'ted.com',
       'embed.ted.com',
+      'embed.molview.org',
     ],
     styleSrc: [
       "'self'",
@@ -180,6 +183,7 @@ export default {
       'data:',
       'cdnjs.cloudflare.com',
       'https://*.hotjar.com',
+      'cdn.jsdelivr.net',
     ],
     imgSrc: [
       "'self'",

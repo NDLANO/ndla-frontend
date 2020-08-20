@@ -30,7 +30,7 @@ const getDocumentTitle = ({ t, data }) => {
 const PlainLearningpathPage = props => {
   useEffect(() => {
     if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+      window.MathJax.typeset();
     }
   });
   const {

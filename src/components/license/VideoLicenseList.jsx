@@ -18,7 +18,10 @@ import {
   MediaListItemMeta,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { getGroupedContributorDescriptionList } from '@ndla/licenses';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { CopyrightObjectShape } from '../../shapes';
@@ -33,6 +36,13 @@ const VideoShape = PropTypes.shape({
 
 const VideoLicenseInfo = ({ video, locale, t }) => {
   const items = getGroupedContributorDescriptionList(video.copyright, locale);
+  if (video.title) {
+    items.unshift({
+      label: t('images.title'),
+      description: video.title,
+      metaType: metaTypes.title,
+    });
+  }
   return (
     <MediaListItem>
       <MediaListItemImage>

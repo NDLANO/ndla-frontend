@@ -4,7 +4,7 @@ exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
 Object {
   "contextFilters": Array [],
   "contextTypes": Array [],
-  "fallback": true,
+  "fallback": "true",
   "language": "nb",
   "languageFilter": Array [
     "1",
@@ -32,7 +32,7 @@ exports[`searchHelpers converSearchStringToObject with no location 1`] = `
 Object {
   "contextFilters": Array [],
   "contextTypes": Array [],
-  "fallback": true,
+  "fallback": "true",
   "language": "nb",
   "languageFilter": Array [],
   "levels": Array [],

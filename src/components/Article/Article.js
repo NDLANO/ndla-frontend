@@ -50,8 +50,9 @@ const Article = ({
   ...rest
 }) => {
   const markdown = useMemo(() => {
-    const md = new Remarkable();
+    const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
+    md.block.ruler.disable(['list']);
     return md;
   }, []);
 

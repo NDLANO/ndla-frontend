@@ -8,8 +8,8 @@
  */
 
 import React from 'react';
+import { StaticRouter } from 'react-router';
 import renderer from 'react-test-renderer';
-import { MissingRouterContext } from '@ndla/safelink';
 import serializer from 'jest-emotion';
 import IntlProvider from '@ndla/i18n';
 import ErrorPage from '../ErrorPage';
@@ -25,9 +25,9 @@ test('ErrorPage renderers correctly', () => {
   const locale = getLocaleObject('nb');
   const component = renderer.create(
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <MissingRouterContext.Provider value={true}>
+      <StaticRouter>
         <ErrorPage locale="nb" location={{ pathname: '/' }} />
-      </MissingRouterContext.Provider>
+      </StaticRouter>
     </IntlProvider>,
   );
 

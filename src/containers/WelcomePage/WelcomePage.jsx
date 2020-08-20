@@ -9,16 +9,23 @@
 import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
-import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
+import {
+  FrontpageHeader,
+  FrontpageFilm,
+  OneColumn,
+  FrontpageToolbox,
+  FrontpageMultidisciplinarySubject,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import Spinner from '@ndla/ui/lib/Spinner';
-import { useQuery } from '@apollo/react-hooks';
 
-import { frontpageQuery } from '../../queries';
 import WelcomePageInfo from './WelcomePageInfo';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH, ALLOWED_SUBJECTS } from '../../constants';
+import {
+  FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECTS,
+  TOOLBOX_PAGE_PATH,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
@@ -28,31 +35,12 @@ import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 
 const WelcomePage = ({ t, locale, history, location }) => {
-  const { data, loading } = useQuery(frontpageQuery);
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (!data) {
-    return <DefaultErrorMessage />;
-  }
-  const { frontpage = {}, subjects = [] } = data;
-  const { categories = [] } = frontpage;
   const headerLinks = [
     {
       to: 'https://om.ndla.no',
       text: t('welcomePage.heading.links.aboutNDLA'),
     },
   ];
-
-  const frontPageSubjects = subjects.length > 0 && (
-    <FrontpageSubjects
-      subjects={subjects}
-      categories={categories}
-      locale={locale}
-    />
-  );
 
   return (
     <Fragment>
@@ -68,25 +56,22 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        <WelcomePageSearch
-          history={history}
-          locale={locale}
-          categories={categories}
-        />
+        <WelcomePageSearch history={history} />
       </FrontpageHeader>
       <main>
-        <div data-testid="category-list">{frontPageSubjects}</div>
+        <div data-testid="category-list">
+          <FrontpageSubjects />
+        </div>
         <OneColumn wide>
+          <FrontpageMultidisciplinarySubject
+            url={MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}
+            topics={MULTIDISCIPLINARY_SUBJECTS}
+          />
+          <FrontpageToolbox url={TOOLBOX_PAGE_PATH} />
           <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
-            url={
-              ALLOWED_SUBJECTS.includes(
-                FILM_PAGE_PATH.replace('/subjects/', 'urn:'),
-              )
-                ? FILM_PAGE_PATH
-                : 'https://ndla.no/nb/film'
-            }
+            url={FILM_PAGE_PATH}
             messages={{
               header: t('welcomePage.film.header'),
               linkLabel: t('welcomePage.film.linkLabel'),

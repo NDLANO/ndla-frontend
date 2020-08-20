@@ -18,7 +18,30 @@ import {
   ArticleShape,
   LearningpathShape,
 } from '../shapes';
-import { getHtmlLang, appLocales } from '../i18n';
+import { getHtmlLang, appLocales, isValidLocale } from '../i18n';
+
+export const getCanonicalUrl = location => {
+  if (!location.pathname.includes('article-iframe')) {
+    return `${config.ndlaFrontendDomain}${location.pathname}`;
+  }
+  const paths = location.pathname.split('/');
+  if (isValidLocale(paths[2])) {
+    paths.splice(2, 1);
+  }
+  return `${config.ndlaFrontendDomain}${paths.join('/')}`;
+};
+
+export const getAlternateUrl = (location, alternateLanguage) => {
+  if (!location.pathname.includes('article-iframe')) {
+    return `${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`;
+  }
+  const paths = location.pathname.split('/');
+  if (isValidLocale(paths[2])) {
+    paths.splice(2, 1);
+  }
+  paths.splice(2, 0, [alternateLanguage]);
+  return `${config.ndlaFrontendDomain}${paths.join('/')}`;
+};
 
 export const getAlternateLanguages = (basename, locale, trackableContent) => {
   const defaultLocale = getHtmlLang();
@@ -29,14 +52,12 @@ export const getAlternateLanguages = (basename, locale, trackableContent) => {
   if (
     (!trackableContent && !isBasenamePage) ||
     !isBasenamePage ||
-    !trackableContent.supportedLanguages ||
-    trackableContent.supportedLanguages.length === 0
+    trackableContent?.supportedLanguages?.length === 0
   ) {
     return [];
   }
   return trackableContent.supportedLanguages.filter(
-    language =>
-      !!appLocales.find(appLocale => appLocale.abbreviation === language),
+    language => !!isValidLocale(language),
   );
 };
 
@@ -52,17 +73,14 @@ export const SocialMediaMetadata = ({
   <BasenameContext.Consumer>
     {basename => (
       <Helmet>
-        <link
-          rel="canonical"
-          href={`${config.ndlaFrontendDomain}${location.pathname}`}
-        />
+        <link rel="canonical" href={getCanonicalUrl(location)} />
         {getAlternateLanguages(basename, locale, trackableContent).map(
           alternateLanguage => (
             <link
               key={alternateLanguage}
               rel="alternate"
               hrefLang={alternateLanguage}
-              href={`${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`}
+              href={getAlternateUrl(location, alternateLanguage)}
             />
           ),
         )}

@@ -6,23 +6,25 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { transformArticle } from '../../util/transformArticle';
 import Article from '../../components/Article';
 import ArticleHero from '../ArticlePage/components/ArticleHero';
-import ArticleErrorMessage from '../ArticlePage/components/ArticleErrorMessage';
-import { fetchArticle } from '../ArticlePage/articleApi';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { plainArticleQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
 
 const getTitle = article => article?.title || '';
 
@@ -38,39 +40,28 @@ const PlainArticlePage = ({
     params: { articleId },
   },
 }) => {
-  const [rawArticle, setArticle] = useState({});
-  const getArticle = async (articleId, locale) => {
-    try {
-      const article = await fetchArticle(articleId, locale);
-      setArticle({ article, status: 'success' });
-    } catch (error) {
-      const status = error.json?.status === 404 ? 'error404' : 'error';
-      setArticle({ status });
-    }
-  };
+  const { loading, data } = useGraphQuery(plainArticleQuery, {
+    variables: { articleId, removeRelatedContent: 'true' },
+  });
+
   useEffect(() => {
     if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-    if (!rawArticle.status) {
-      getArticle(articleId, locale);
+      window.MathJax.typeset();
     }
   });
 
-  if (!rawArticle.status) {
+  if (loading) {
     return null;
   }
 
-  if (rawArticle.status !== 'success') {
-    return (
-      <div>
-        <ArticleHero resource={{}} />
-        <ArticleErrorMessage status={rawArticle.status} />
-      </div>
-    );
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
+  if (!data.article) {
+    return <NotFoundPage />;
   }
 
-  const article = transformArticle(rawArticle.article, locale);
+  const article = transformArticle(data.article, locale);
   const scripts = getArticleScripts(article);
 
   return (
@@ -86,6 +77,7 @@ const PlainArticlePage = ({
             src={script.src}
             type={script.type}
             async={script.async}
+            defer={script.defer}
           />
         ))}
 
