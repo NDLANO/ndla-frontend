@@ -60,21 +60,23 @@ const CompetenceGoals = ({
     {
       id: '1',
       type: 'LK06',
-      goals: data.oldCompetenceGoals
+      goals: data.oldCompetenceGoals,
     },
     {
       id: '2',
       type: 'LK20',
-      goals: data.competenceGoals
-    }
-  ]
-  
+      goals: data.competenceGoals,
+    },
+    {
+      id: '3',
+      type: 'coreElement',
+      coreItems: data.coreElements,
+    },
+  ];
+
   return (
     <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab
-        title={subject?.name}
-        list={competenceGoalsList}
-      />
+      <CompetenceGoalTab title={subject?.name} list={competenceGoalsList} />
     </Component>
   );
 };

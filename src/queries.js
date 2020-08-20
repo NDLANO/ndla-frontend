@@ -657,6 +657,11 @@ export const competenceGoalsQuery = gql`
       id
       name: title
     }
+    coreElements(codes: $codes) {
+      id
+      name: title
+      text: description
+    }
   }
 `;
 
