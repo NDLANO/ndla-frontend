@@ -108,7 +108,7 @@ export const converSearchStringToObject = (location, locale) => {
 
   return {
     language: locale || 'nb',
-    fallback: true,
+    fallback: 'true',
     ...searchLocation,
     ...arrayFields
       .map(field => ({

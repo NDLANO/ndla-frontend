@@ -27,7 +27,7 @@ export const searchQuery = gql`
     $contextFilters: String
     $levels: String
     $sort: String
-    $fallback: Boolean
+    $fallback: String
     $subjects: String
     $languageFilter: String
     $relevance: String
@@ -79,6 +79,18 @@ export const searchQuery = gql`
         }
         supportedLanguages
       }
+      suggestions {
+        name
+        suggestions {
+          text
+          offset
+          length
+          options {
+            text
+            score
+          }
+        }
+      }
       totalCount
     }
   }
@@ -94,7 +106,7 @@ export const searchFilmQuery = gql`
     $contextFilters: String
     $levels: String
     $sort: String
-    $fallback: Boolean
+    $fallback: String
     $subjects: String
     $languageFilter: String
     $relevance: String
@@ -252,6 +264,7 @@ export const resourceInfoFragment = gql`
     name
     contentUri
     path
+    paths
     resourceTypes {
       id
       name
@@ -343,6 +356,7 @@ export const articleInfoFragment = gql`
         }
       }
     }
+    oembed
     copyright {
       ...CopyrightInfo
     }
@@ -477,35 +491,6 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const frontpageQuery = gql`
-  query frontpageQuery {
-    frontpage {
-      topical {
-        ...ResourceInfo
-      }
-      categories {
-        name
-        subjects {
-          ...SubjectInfo
-          frontpageFilters {
-            id
-            name
-          }
-        }
-      }
-    }
-    subjects {
-      ...SubjectInfo
-      filters {
-        id
-        name
-      }
-    }
-  }
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
-`;
-
 export const resourceTypesQuery = gql`
   query resourceTypesQuery {
     resourceTypes {
@@ -609,6 +594,15 @@ export const resourceQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const plainArticleQuery = gql`
+  query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {
+    article(id: $articleId, removeRelatedContent: $removeRelatedContent) {
+      ...ArticleInfo
+    }
+  }
+  ${articleInfoFragment}
+`;
+
 export const topicQuery = gql`
   query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
@@ -623,6 +617,10 @@ export const topicQuery = gql`
           alt
         }
       }
+      subtopics {
+        id
+        name
+      }
       article {
         ...ArticleInfo
       }
@@ -632,6 +630,10 @@ export const topicQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+    }
+    resourceTypes {
+      id
+      name
     }
   }
   ${articleInfoFragment}

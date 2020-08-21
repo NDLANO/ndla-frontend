@@ -16,13 +16,14 @@ import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
 import { ArticleShape } from '../../shapes';
+import OembedItem from './OembedItem';
 
 function buildLicenseTabList(article, locale, t) {
   const images = article.metaData.images || [];
   const audios = article.metaData.audios || [];
   const brightcove = article.metaData.brightcoves || [];
   const h5ps = article.metaData.h5ps || [];
-
+  const oembed = article.oembed;
   const tabs = [];
 
   if (images.length > 0) {
@@ -31,7 +32,6 @@ function buildLicenseTabList(article, locale, t) {
       content: <ImageLicenseList images={images} locale={locale} />,
     });
   }
-
   tabs.push({
     title: t('license.tabs.text'),
     content: (
@@ -65,6 +65,13 @@ function buildLicenseTabList(article, locale, t) {
     tabs.push({
       title: t('license.tabs.h5p'),
       content: <H5pLicenseList h5ps={h5ps} locale={locale} />,
+    });
+  }
+
+  if (oembed) {
+    tabs.push({
+      title: t('license.tabs.embedlink'),
+      content: <OembedItem oembed={oembed} locale={locale} />,
     });
   }
 

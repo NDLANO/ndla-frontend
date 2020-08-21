@@ -112,6 +112,7 @@ const TopicContainer = ({
             src={script.src}
             type={script.type}
             async={script.async}
+            defer={script.defer}
           />
         ))}
         <script type="application/ld+json">
@@ -165,6 +166,7 @@ const TopicContainer = ({
               subjectId={subjectId}
               subtopics={subtopics}
               topicPath={topicPath}
+              ndlaFilm={ndlaFilm}
             />
             <Resources
               title={topicTitle || ''}
@@ -172,6 +174,7 @@ const TopicContainer = ({
               coreResources={coreResources}
               supplementaryResources={supplementaryResources}
               locale={locale}
+              ndlaFilm={ndlaFilm}
             />
           </>
         </Article>

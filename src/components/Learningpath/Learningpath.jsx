@@ -166,6 +166,7 @@ const Learningpath = ({
               title={title}
               subject={subject}
               filters={filterIds}
+              ndlaFilm={ndlaFilm}
             />
           </div>
         )}

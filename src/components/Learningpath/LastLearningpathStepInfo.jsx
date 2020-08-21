@@ -22,6 +22,7 @@ const LastLearningpathStepInfo = ({
   numberOfLearningSteps,
   title,
   filters,
+  ndlaFilm,
 }) => {
   const isLastStep = seqNo === numberOfLearningSteps;
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
@@ -61,6 +62,7 @@ const LastLearningpathStepInfo = ({
           key="resources"
           resourceTypes={resourceTypes}
           title={topic.title}
+          ndlaFilm={ndlaFilm}
           {...topic}
         />
       )}
@@ -77,6 +79,7 @@ LastLearningpathStepInfo.propTypes = {
   numberOfLearningSteps: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   filters: PropTypes.arrayOf(PropTypes.string),
+  ndlaFilm: PropTypes.bool,
 };
 
 export default LastLearningpathStepInfo;

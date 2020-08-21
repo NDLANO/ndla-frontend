@@ -8,7 +8,7 @@ module.exports = {
     addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
     addEntry({ entry: './src/iframe', name: 'embed' }),
     addEntry({ entry: './src/lti', name: 'lti' }),
-    addEntry({ entry: './src/mathjax/config', name: 'mathJaxConfig' }),
+    addEntry({ entry: './public/static/mathjax-config', name: 'mathJaxConfig' }),
   ],
   modify(config, { target, dev }) {
     const appConfig = config;

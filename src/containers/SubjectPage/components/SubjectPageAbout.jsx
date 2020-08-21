@@ -40,7 +40,7 @@ AboutMedia.propTypes = {
   }),
 };
 
-export const SubjectPageAbout = ({ about, twoColumns }) => {
+export const SubjectPageAbout = ({ about, twoColumns, wide }) => {
   if (!about) {
     return null;
   }
@@ -50,6 +50,7 @@ export const SubjectPageAbout = ({ about, twoColumns }) => {
         media={<AboutMedia visualElement={about.visualElement} />}
         heading={about.title}
         description={about.description}
+        wide={wide}
       />
     </SubjectPageFlexChild>
   );
@@ -57,10 +58,12 @@ export const SubjectPageAbout = ({ about, twoColumns }) => {
 SubjectPageAbout.propTypes = {
   about: GraphQLSubjectPageAboutShape,
   twoColumns: PropTypes.bool,
+  wide: PropTypes.bool,
 };
 
 SubjectPageAbout.defaultProps = {
   twoColumns: false,
+  wide: false,
 };
 
 export default SubjectPageAbout;

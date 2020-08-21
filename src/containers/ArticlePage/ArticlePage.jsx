@@ -13,7 +13,12 @@ import Helmet from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { ArticleShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import {
+  ArticleShape,
+  SubjectShape,
+  ResourceTypeShape,
+  LocationShape,
+} from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
@@ -32,6 +37,13 @@ import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 class ArticlePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scripts: [],
+    };
+  }
+
   static willTrackPageView(trackPageView, currentProps) {
     const { loading, data } = currentProps;
     if (loading || !data) {
@@ -61,10 +73,18 @@ class ArticlePage extends Component {
       ''}${t('htmlTitles.titleTemplate')}`;
   }
 
-  render() {
-    const { data, locale, errors, ndlaFilm, skipToContentId } = this.props;
+  componentDidMount() {
+    const { data, locale } = this.props;
+    const { resource } = data;
+    const article = transformArticle(resource.article, locale);
+    const scripts = getArticleScripts(article);
+    this.setState({ scripts });
+  }
 
+  render() {
+    const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
+    const { scripts } = this.state;
     const topicTitle =
       topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
     if (isLearningPathResource(resource)) {
@@ -75,17 +95,10 @@ class ArticlePage extends Component {
         </Status>
       );
     }
-
     if (resource === null || resource.article === null) {
       const error = errors?.find(e => e.path.includes('resource')) || {};
       return (
         <div>
-          <ArticleHero
-            ndlaFilm={ndlaFilm}
-            subject={subject}
-            topicPath={topicPath}
-            resource={resource}
-          />
           <ArticleErrorMessage
             subject={subject}
             topicPath={topicPath}
@@ -97,6 +110,7 @@ class ArticlePage extends Component {
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
                 locale={locale}
+                ndlaFilm={ndlaFilm}
               />
             )}
           </ArticleErrorMessage>
@@ -105,10 +119,15 @@ class ArticlePage extends Component {
     }
 
     const article = transformArticle(resource.article, locale);
-    const scripts = getArticleScripts(article);
 
     return (
       <div>
+        <ArticleHero
+          ndlaFilm={ndlaFilm}
+          subject={subject}
+          topicPath={topicPath}
+          resource={resource}
+        />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
           {article?.metaDescription && (
@@ -120,6 +139,7 @@ class ArticlePage extends Component {
               src={script.src}
               type={script.type}
               async={script.async}
+              defer={script.defer}
             />
           ))}
 
@@ -134,21 +154,13 @@ class ArticlePage extends Component {
           locale={locale}
           image={article.metaImage}
         />
-        {resource && (
-          <ArticleHero
-            ndlaFilm={ndlaFilm}
-            metaImage={resource.article.metaImage}
-            subject={subject}
-            topicPath={topicPath}
-            resource={resource}
-          />
-        )}
         <OneColumn>
           <Article
             id={skipToContentId}
             article={article}
             subject={subject}
             locale={locale}
+            isResourceArticle
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
@@ -157,6 +169,7 @@ class ArticlePage extends Component {
                 supplementaryResources={topic.supplementaryResources}
                 coreResources={topic.coreResources}
                 locale={locale}
+                ndlaFilm={ndlaFilm}
               />
             )}
           </Article>
@@ -167,6 +180,9 @@ class ArticlePage extends Component {
 }
 
 ArticlePage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
@@ -187,11 +203,12 @@ ArticlePage.propTypes = {
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   }),
+  location: LocationShape,
   errors: PropTypes.arrayOf(GraphqlErrorShape),
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default injectT(withTracker(ArticlePage));

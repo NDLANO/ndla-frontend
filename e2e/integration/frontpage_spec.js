@@ -11,18 +11,12 @@ import { visitOptions } from '../support';
 describe('Front page', () => {
   beforeEach(() => {
     cy.server();
-    cy.apiroute('POST', '**/graphql', 'frontpageGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
-    cy.apiwait('@frontpageGraphQL');
   });
-
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-testid="category-list"] nav button').each(button => {
-      button.click();
-      cy.get('[class*="StyledListItem"] a').each(el => {
-        cy.wrap(el).should('have.attr', 'href');
-        cy.wrap(el).contains(/\w+/);
-      });
+    cy.get('[data-testid="category-list"] nav a').each(el => {
+      cy.wrap(el).should('have.attr', 'href');
+      cy.wrap(el).contains(/\w+/);
     });
   });
 
