@@ -166,6 +166,7 @@ const TopicContainer = ({
               subjectId={subjectId}
               subtopics={subtopics}
               topicPath={topicPath}
+              ndlaFilm={ndlaFilm}
             />
             <Resources
               title={topicTitle || ''}
@@ -173,6 +174,7 @@ const TopicContainer = ({
               coreResources={coreResources}
               supplementaryResources={supplementaryResources}
               locale={locale}
+              ndlaFilm={ndlaFilm}
             />
           </>
         </Article>

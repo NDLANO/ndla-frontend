@@ -50,5 +50,10 @@ test('is pathname a subject page path', () => {
   expect(isSubjectPagePath('/subjects/subject:1')).toBe(true);
   expect(isSubjectPagePath('/subjects/subject:134')).toBe(true);
   expect(isSubjectPagePath('/subjects/subject:1/')).toBe(true);
-  expect(isSubjectPagePath('/subjects/subject:1/topic:1:186460')).toBe(false);
+  expect(isSubjectPagePath('/subjects/subject:1/topic:1:186460')).toBe(true);
+  expect(
+    isSubjectPagePath(
+      '/subjects/subject:1/topic:1:184105/topic:1:184106/resource:1:62382',
+    ),
+  ).toBe(false);
 });

@@ -617,6 +617,10 @@ export const topicQuery = gql`
           alt
         }
       }
+      subtopics {
+        id
+        name
+      }
       article {
         ...ArticleInfo
       }
@@ -626,6 +630,10 @@ export const topicQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+    }
+    resourceTypes {
+      id
+      name
     }
   }
   ${articleInfoFragment}

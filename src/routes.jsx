@@ -13,7 +13,6 @@ import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
-import TopicPage from './containers/TopicPage/TopicPage';
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
@@ -25,12 +24,14 @@ import {
   PLAIN_ARTICLE_PAGE_PATH,
   SUBJECT_PAGE_PATH,
   SEARCH_PATH,
-  TOPIC_PATH,
   FILM_PAGE_PATH,
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
+  PROGRAMME_PATH,
+  PROGRAMME_PAGE_PATH,
 } from './constants';
 import config from './config';
+import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
 export const routes = [
   {
@@ -38,17 +39,17 @@ export const routes = [
     hideMasthead: true,
     exact: true,
     component: config.isFFServer ? FFFrontPage : WelcomePage,
-    background: true,
+    background: false,
   },
   {
     path: RESOURCE_PAGE_PATH,
     component: ResourcePage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
@@ -66,11 +67,6 @@ export const routes = [
     background: true,
   },
   {
-    path: TOPIC_PATH,
-    component: TopicPage,
-    background: true,
-  },
-  {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
     exact: true,
     component: FilmFrontpage,
@@ -83,6 +79,21 @@ export const routes = [
   },
   {
     path: '/subjects',
+    component: AllSubjectsPage,
+    background: false,
+  },
+  {
+    path: `${PROGRAMME_PAGE_PATH}${SUBJECT_PAGE_PATH}`,
+    component: SubjectPage,
+    background: false,
+  },
+  {
+    path: PROGRAMME_PAGE_PATH,
+    component: ProgrammePage,
+    background: false,
+  },
+  {
+    path: PROGRAMME_PATH,
     component: AllSubjectsPage,
     background: false,
   },

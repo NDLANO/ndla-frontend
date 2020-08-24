@@ -47,6 +47,7 @@ const Article = ({
   subject,
   locale,
   t,
+  isResourceArticle,
   ...rest
 }) => {
   const markdown = useMemo(() => {
@@ -79,6 +80,7 @@ const Article = ({
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
       renderMarkdown={renderMarkdown}
+      modifier={isResourceArticle ? undefined : 'clean-in-context'}
       {...rest}>
       {children}
     </UIArticle>
@@ -93,10 +95,12 @@ Article.propTypes = {
   label: PropTypes.string.isRequired,
   subject: SubjectShape,
   locale: PropTypes.string.isRequired,
+  isResourceArticle: PropTypes.bool,
 };
 
 Article.defaultProps = {
   isTopicArticle: false,
+  isResourceArticle: false,
 };
 
 export default injectT(Article);

@@ -59,9 +59,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
         <WelcomePageSearch history={history} />
       </FrontpageHeader>
       <main>
-        <div data-testid="category-list">
-          <FrontpageSubjects />
-        </div>
+        <OneColumn extraPadding>
+          <div data-testid="category-list">
+            <FrontpageSubjects locale={locale} />
+          </div>
+        </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}

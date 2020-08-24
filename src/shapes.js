@@ -28,12 +28,21 @@ export const CopyrightObjectShape = PropTypes.shape({
 
 export const ArticleShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
+  introduction: PropTypes.string,
   content: PropTypes.string.isRequired,
   copyright: PropTypes.shape({
     creators: PropTypes.array.isRequired,
+    license: PropTypes.shape({
+      license: PropTypes.string,
+      url: PropTypes.string,
+    }),
   }).isRequired,
+  metaData: PropTypes.shape({
+    footnotes: PropTypes.string,
+  }),
   created: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,
+  published: PropTypes.string,
   supportedLanguages: PropTypes.arrayOf(PropTypes.string),
 });
 
@@ -197,4 +206,12 @@ export const H5pShape = PropTypes.shape({
   title: PropTypes.string,
   src: PropTypes.string.isRequired,
   copyright: CopyrightObjectShape,
+});
+
+export const BreadCrumbShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  typename: PropTypes.string,
+  isCurrent: PropTypes.bool,
 });

@@ -17,7 +17,6 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { transformArticle } from '../../util/transformArticle';
 import Article from '../../components/Article';
-import ArticleHero from '../ArticlePage/components/ArticleHero';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
@@ -92,7 +91,6 @@ const PlainArticlePage = ({
         image={article.metaImage}
         trackableContent={article}
       />
-      {article && <ArticleHero resource={{}} />}
       <OneColumn>
         <Article
           id={skipToContentId}

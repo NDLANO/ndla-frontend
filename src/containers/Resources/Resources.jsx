@@ -23,8 +23,13 @@ import { getResourceGroups } from './getResourceGroups';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 
 function getSubjectTopicPath(params) {
-  const topicPath = params.topicPath ? `${params.topicPath}/` : '';
-  return `/${params.subjectId}/${topicPath}${params.topicId}`;
+  if (params.subTopicId) {
+    return `/${params.subjectId}/${params.topicId}/${params.subTopicId}`;
+  }
+  if (params.topicPath) {
+    return `/${params.subjectId}/${params.topicPath}/${params.topicId}`;
+  }
+  return `/${params.subjectId}/${params.topicId}`;
 }
 
 class Resources extends Component {
@@ -61,6 +66,7 @@ class Resources extends Component {
       coreResources,
       location,
       locale,
+      ndlaFilm,
     } = this.props;
 
     if (
@@ -116,6 +122,7 @@ class Resources extends Component {
 
     return (
       <ResourcesWrapper
+        invertedStyle={ndlaFilm}
         header={
           <ResourcesTopicTitle
             messages={{
@@ -136,6 +143,7 @@ class Resources extends Component {
             hasAdditionalResources={hasAdditionalResources}
             toggleAdditionalDialog={this.toggleAdditionalDialog}
             showAdditionalDialog={showAdditionalDialog}
+            invertedStyle={ndlaFilm}
           />
         }>
         {resourceGroupsWithMetaData.map(type => (
@@ -146,6 +154,7 @@ class Resources extends Component {
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={this.toggleAdditionalResources}
             contentType={type.contentType}
+            invertedStyle={ndlaFilm}
             icon={<ContentTypeBadge type={type.contentType} />}
             messages={{
               noContentBoxLabel: type.noContentLabel,
@@ -177,6 +186,7 @@ Resources.propTypes = {
   }),
   location: PropTypes.shape({ search: PropTypes.string.isRequired }),
   locale: PropTypes.string,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default withRouter(injectT(Resources));

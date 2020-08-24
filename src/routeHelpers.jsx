@@ -7,7 +7,7 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import { SUBJECT_PAGE_PATH } from './constants';
+import { PROGRAMME_PATH, SUBJECT_PAGE_PATH } from './constants';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -28,6 +28,7 @@ export function getUrnIdsFromProps(props) {
   return {
     subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
+    subTopicId: params.subTopicId ? `urn:${params.subTopicId}` : undefined,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,
@@ -72,14 +73,16 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   return `/article/${articleId}${filterParams}`;
 }
 
-export function toSubject(subjectId) {
-  return `${toSubjects()}/${removeUrn(subjectId)}`;
+export function toSubject(subjectId, filters) {
+  const filterParam =
+    filters && filters.length > 0 ? `?filters=${filters}` : '';
+  return `${toSubjects()}/${removeUrn(subjectId)}${filterParam}`;
 }
 
 export function toTopic(subjectId, filters, ...topicIds) {
   const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
+    return toSubject(urnFreeSubjectId, filters);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
   const filterParam =
@@ -154,4 +157,14 @@ export function isSubjectPagePath(pathname) {
     return match.isExact;
   }
   return false;
+}
+
+export function toProgramme(programmePath) {
+  return `${PROGRAMME_PATH}/${programmePath}`;
+}
+
+export function toProgrammeSubject(programmePath, subjectId, filterIds) {
+  const baseUrl = `${toSubject(subjectId)}/`;
+  const filterString = filterIds.join(',');
+  return `${baseUrl}?filters=${filterString}`;
 }

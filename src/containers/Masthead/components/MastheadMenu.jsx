@@ -71,13 +71,13 @@ class MastheadMenu extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { location, topicPath } = nextProps;
+    const { location } = nextProps;
     if (location !== prevState.location) {
       const activeFilters = getFiltersFromUrlAsArray(location);
-      const topicIds = topicPath ? topicPath.map(topic => topic.id) : null;
+      const { topicId, subTopicId } = getUrnIdsFromProps(nextProps);
       return {
-        expandedTopicId: topicIds[0] || null,
-        expandedSubtopicsId: topicIds.slice(1) || [],
+        expandedTopicId: topicId || null,
+        expandedSubtopicsId: [subTopicId] || [],
         activeFilters,
         location,
       };

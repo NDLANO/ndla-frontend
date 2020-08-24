@@ -14,25 +14,24 @@ describe('Topic page', () => {
     cy.visit('/?disableSSR=true', visitOptions);
 
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
-    cy.get(
-      '[data-testid="category-list"]  button:contains("Studieforberedende"):visible',
-    )
+    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk")')
+      .get('a:contains("Medieuttrykk 1")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
-    cy.get('[data-testid="topic-list"] li a:contains("Idéskaping")').click({
+    cy.get('[data-testid="nav-box-list"] li a:contains("Idéskaping")').click({
       force: true,
     });
     cy.apiwait(['@topicpageGraphQL']);
   });
 
-  it('contains article', () => {
-    cy.get('article > section:first-child').within(() => {
+  it('contains article header and introduction', () => {
+    cy.get('[data-testid="nav-topic-about"]').within(() => {
       cy.get('h1').contains(/\w+/);
+      cy.get('div').contains(/\w+/);
     });
   });
 });
