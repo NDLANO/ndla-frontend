@@ -49,7 +49,7 @@ const CompetenceGoals = ({
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
     variables: { competenceCodes, coreCodes, nodeId },
   });
-  
+
   if (error) {
     handleError(error);
     return null;
