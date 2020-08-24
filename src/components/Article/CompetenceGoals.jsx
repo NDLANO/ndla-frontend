@@ -43,11 +43,9 @@ const CompetenceGoals = ({
   wrapperComponentProps,
 }) => {
   const codes = article.grepCodes;
-  const competenceCodes = codes?.filter(code => code.startsWith('KM'));
-  const coreCodes = codes?.filter(code => code.startsWith('KE'));
   const nodeId = article.oldNdlaUrl?.split('/').pop();
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
-    variables: { competenceCodes, coreCodes, nodeId },
+    variables: { codes, nodeId },
   });
 
   if (error) {
