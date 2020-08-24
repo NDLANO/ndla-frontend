@@ -49,6 +49,7 @@ const CompetenceGoals = ({
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
     variables: { competenceCodes, coreCodes, nodeId },
   });
+  
   if (error) {
     handleError(error);
     return null;
@@ -58,24 +59,26 @@ const CompetenceGoals = ({
     return <Spinner />;
   }
 
-  const { competenceGoals, oldCompetenceGoals, coreElements } = data;
+  const { competenceGoals, coreElements } = data;
+  const LK06Goals = competenceGoals.filter(goal => goal.type === 'LK06');
+  const LK20Goals = competenceGoals.filter(goal => goal.type === 'LK20');
 
   const competenceGoalsList = [
-    ...(oldCompetenceGoals
+    ...(LK06Goals
       ? [
           {
             id: '1',
             type: 'LK06',
-            goals: oldCompetenceGoals,
+            goals: LK06Goals,
           },
         ]
       : []),
-    ...(competenceGoals
+    ...(LK20Goals
       ? [
           {
             id: '2',
             type: 'LK20',
-            goals: competenceGoals,
+            goals: LK20Goals,
           },
         ]
       : []),

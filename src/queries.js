@@ -647,13 +647,10 @@ export const competenceGoalsQuery = gql`
     $coreCodes: [String]
     $nodeId: String
   ) {
-    competenceGoals(codes: $competenceCodes) {
+    competenceGoals(codes: $competenceCodes, nodeId: $nodeId) {
       id
       name: title
-    }
-    oldCompetenceGoals(nodeId: $nodeId) {
-      id
-      name: title
+      type
     }
     coreElements(codes: $coreCodes) {
       id
