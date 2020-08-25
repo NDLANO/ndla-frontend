@@ -650,14 +650,16 @@ export const learningPathStepQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoalsQuery($codes: [String!]) {
-    competenceGoals(codes: $codes) {
+  query competenceGoalsQuery($codes: [String], $nodeId: String) {
+    competenceGoals(codes: $codes, nodeId: $nodeId) {
       id
-      title
-      curriculum {
-        id
-        title
-      }
+      name: title
+      type
+    }
+    coreElements(codes: $codes) {
+      id
+      name: title
+      text: description
     }
   }
 `;

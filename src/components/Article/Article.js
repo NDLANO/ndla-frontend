@@ -13,12 +13,15 @@ import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import LicenseBox from '../license/LicenseBox';
-import { ArticleShape } from '../../shapes';
+import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
 
-function renderCompetenceGoals(article, isTopicArticle) {
+function renderCompetenceGoals(article, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
-  if (isTopicArticle || article.grepCodes?.length === 0) {
+  if (
+    isTopicArticle ||
+    (article.grepCodes?.length === 0 && !article.oldNdlaUrl)
+  ) {
     // disable temporary by adding '|| true'
     // Return null to make sure UIArticle component does not render dialog buttons
     return null;
@@ -28,6 +31,7 @@ function renderCompetenceGoals(article, isTopicArticle) {
   return ({ Dialog, dialogProps }) => (
     <CompetenceGoals
       article={article}
+      subject={subject}
       wrapperComponent={Dialog}
       wrapperComponentProps={dialogProps}
     />
@@ -40,6 +44,7 @@ const Article = ({
   children,
   contentType,
   label,
+  subject,
   locale,
   t,
   isResourceArticle,
@@ -73,7 +78,7 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={renderCompetenceGoals(article, isTopicArticle)}
+      competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? undefined : 'clean-in-context'}
       {...rest}>
@@ -88,6 +93,7 @@ Article.propTypes = {
   contentType: PropTypes.string,
   isTopicArticle: PropTypes.bool,
   label: PropTypes.string.isRequired,
+  subject: SubjectShape,
   locale: PropTypes.string.isRequired,
   isResourceArticle: PropTypes.bool,
 };

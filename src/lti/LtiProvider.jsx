@@ -130,7 +130,9 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
 
   return (
     <ErrorBoundary>
-      <Helmet htmlAttributes={{ lang: locale }} />
+      <Helmet htmlAttributes={{ lang: locale }}>
+        <title>{`${t('htmlTitles.lti')}`}</title>
+      </Helmet>
       <SearchContainer
         data={{
           resourceTypes: filtredResourceTypes,

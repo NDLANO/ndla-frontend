@@ -17,6 +17,7 @@ import { ArticleShape, ResourceTypeShape } from '../shapes';
 import { createApolloClient } from '../util/apiHelpers';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
+import { BasenameContext } from '../App';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -39,22 +40,26 @@ const Error = injectT(({ t }) => (
 ));
 
 const IframePageWrapper = ({
+  basename,
   locale: { abbreviation: locale, messages },
   children,
 }) => (
   <ApolloProvider client={createApolloClient(locale)}>
     <IntlProvider locale={locale} messages={messages}>
       <MissingRouterContext.Provider value={true}>
-        <PageContainer>
-          <Helmet htmlAttributes={{ lang: locale }} />
-          {children}
-        </PageContainer>
+        <BasenameContext.Provider value={basename}>
+          <PageContainer>
+            <Helmet htmlAttributes={{ lang: locale }} />
+            {children}
+          </PageContainer>
+        </BasenameContext.Provider>
       </MissingRouterContext.Provider>
     </IntlProvider>
   </ApolloProvider>
 );
 
 IframePageWrapper.propTypes = {
+  basename: PropTypes.string,
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
@@ -63,6 +68,7 @@ IframePageWrapper.propTypes = {
 
 export const IframePage = ({
   status,
+  basename,
   locale,
   resource,
   location,
@@ -78,7 +84,7 @@ export const IframePage = ({
   }
   if (resource) {
     return (
-      <IframePageWrapper locale={locale}>
+      <IframePageWrapper basename={basename} locale={locale}>
         <IframeArticlePage
           locale={locale.abbreviation}
           resource={resource}
@@ -90,7 +96,7 @@ export const IframePage = ({
 
   if (article && isTopicArticle) {
     return (
-      <IframePageWrapper locale={locale}>
+      <IframePageWrapper basename={basename} locale={locale}>
         <IframeTopicPage
           locale={locale.abbreviation}
           article={article}
@@ -103,6 +109,7 @@ export const IframePage = ({
 };
 
 IframePage.propTypes = {
+  basename: PropTypes.string,
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,

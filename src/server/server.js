@@ -132,22 +132,22 @@ const iframArticleCallback = async (req, res) => {
 };
 
 app.get(
-  '/article-iframe/:lang/article/:articleId',
+  '/article-iframe/:lang?/article/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );
 app.get(
-  '/article-iframe/:lang/:taxonomyId/:articleId',
+  '/article-iframe/:lang?/:taxonomyId/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );
 app.post(
-  '/article-iframe/:lang/article/:articleId',
+  '/article-iframe/:lang?/article/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );
 app.post(
-  '/article-iframe/:lang/:taxonomyId/:articleId',
+  '/article-iframe/:lang?/:taxonomyId/:articleId',
   ndlaMiddleware,
   iframArticleCallback,
 );

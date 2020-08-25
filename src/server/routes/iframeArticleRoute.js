@@ -49,15 +49,21 @@ function doRenderPage(initialProps) {
 }
 
 export async function iframeArticleRoute(req) {
-  const lang = getHtmlLang(defined(req.params.lang, ''));
+  const lang = defined(req.params.lang, '');
   const removeRelatedContent = defined(req.query.removeRelatedContent, false);
-  const locale = getLocaleObject(lang);
+  const htmlLang = getHtmlLang(lang);
+  const locale = getLocaleObject(htmlLang);
   const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url };
   try {
     if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
-      const article = await fetchArticle(articleId, lang, removeRelatedContent);
+      const article = await fetchArticle(
+        articleId,
+        htmlLang,
+        removeRelatedContent,
+      );
       const { html, docProps } = doRenderPage({
+        basename: lang,
         locale,
         article,
         isTopicArticle: true,
@@ -67,12 +73,17 @@ export async function iframeArticleRoute(req) {
 
       return renderHtml(req, html, { status: OK }, docProps);
     }
-    const article = await fetchArticle(articleId, lang, removeRelatedContent);
+    const article = await fetchArticle(
+      articleId,
+      htmlLang,
+      removeRelatedContent,
+    );
     const resourceTypes = taxonomyId
-      ? await fetchResourceTypesForResource(taxonomyId, lang)
+      ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
       : [];
     const { html, docProps } = doRenderPage({
       resource: { article, resourceTypes },
+      basename: lang,
       locale,
       status: 'success',
       location,
@@ -85,6 +96,7 @@ export async function iframeArticleRoute(req) {
       handleError(error);
     }
     const { html, docProps } = doRenderPage({
+      basename: lang,
       locale,
       location,
       status: 'error',
