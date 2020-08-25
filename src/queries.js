@@ -78,6 +78,7 @@ export const searchQuery = gql`
           subject
         }
         supportedLanguages
+        traits
       }
       suggestions {
         name
@@ -154,6 +155,7 @@ export const searchFilmQuery = gql`
           subject
         }
         supportedLanguages
+        traits
       }
       totalCount
     }
