@@ -33,7 +33,7 @@ describe('Subjects page', () => {
 
   it('should have a valid breadcrumb', () => {
     cy.get('[data-testid="breadcrumb-list"] a')
-      .should('have.length', 2)
+      .should('have.length', 1)
       .and('have.attr', 'href');
   });
 });
