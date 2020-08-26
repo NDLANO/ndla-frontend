@@ -105,12 +105,12 @@ const SubjectPage = ({
   }, [topic, subTopic]);
 
   const breadCrumbs = [
-    {
+    /*{
       id: subject.id,
       label: programme.name,
       typename: 'Subjecttype',
       url: programme.url,
-    },
+    },*/
     ...(filter.length > 0
       ? [
           {

@@ -17,7 +17,7 @@ import { Programme } from '@ndla/ui';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
-import { toProgrammeSubject } from '../../routeHelpers';
+import { toSubject } from '../../routeHelpers';
 
 const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
@@ -28,11 +28,12 @@ const mapGradesData = (grades, locale, programmeSlug) => {
         const subjectInfo = getSubjectById(subject.id);
         const subjectData = {};
         if (subjectInfo) {
-          const url = toProgrammeSubject(
+          /*const url = toProgrammeSubject(
             programmeSlug,
             subjectInfo.subjectId,
             subjectInfo.filters,
-          );
+          );*/
+          const url = toSubject(subjectInfo.subjectId, subjectInfo.filters);
           return {
             label: subjectInfo.name[locale],
             url: url,
