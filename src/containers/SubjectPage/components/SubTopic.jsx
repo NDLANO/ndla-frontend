@@ -105,7 +105,7 @@ SubTopic.propTypes = {
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  setSubSubTopicId: PropTypes.function,
+  setSubSubTopicId: PropTypes.func,
   subTopicId: PropTypes.string,
 };
 
