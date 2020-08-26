@@ -2104,3 +2104,22 @@ export const getSubjectById = id => {
   const subjectObjects = subjectObjectIds();
   return subjectObjects[id];
 };
+
+export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
+  const subjects = [
+    ...commonSubjects,
+    ...programmeSubjects,
+    ...studySpecializationSubjects,
+  ];
+
+  return subjects.find(subject => {
+    if (subject.subjectId === subjectId) {
+      if (subject.filters.length === filters.length) {
+        return subject.filters.every(filter => {
+          return filters.includes(filter);
+        });
+      }
+    }
+    return false;
+  });
+};

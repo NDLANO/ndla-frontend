@@ -7,7 +7,13 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import { PROGRAMME_PATH, SUBJECT_PAGE_PATH } from './constants';
+import {
+  PROGRAMME_PAGE_PATH,
+  PROGRAMME_PATH,
+  SUBJECT_PAGE_PATH,
+} from './constants';
+
+import { getProgrammeBySlug } from './data/programmes';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -151,6 +157,24 @@ export function toLinkProps(linkObject, locale) {
   };
 }
 
+export function toProgramme(programmePath) {
+  return `${PROGRAMME_PATH}/${programmePath}`;
+}
+
+export function toProgrammeSubject(
+  programmePath,
+  subjectId,
+  filterIds,
+  topicIds,
+) {
+  const filterString = filterIds.join(',');
+  return `${toProgramme(programmePath)}${toTopic(
+    subjectId,
+    filterString,
+    topicIds,
+  )}`;
+}
+
 export function isSubjectPagePath(pathname) {
   const match = matchPath(pathname, SUBJECT_PAGE_PATH);
   if (match) {
@@ -159,12 +183,10 @@ export function isSubjectPagePath(pathname) {
   return false;
 }
 
-export function toProgramme(programmePath) {
-  return `${PROGRAMME_PATH}/${programmePath}`;
-}
-
-export function toProgrammeSubject(programmePath, subjectId, filterIds) {
-  const baseUrl = `${toSubject(subjectId)}/`;
-  const filterString = filterIds.join(',');
-  return `${baseUrl}?filters=${filterString}`;
+export function getProgrammeByPath(pathname, locale) {
+  const match = matchPath(pathname, PROGRAMME_PAGE_PATH);
+  if (match) {
+    return getProgrammeBySlug(match.params.programme, locale);
+  }
+  return null;
 }

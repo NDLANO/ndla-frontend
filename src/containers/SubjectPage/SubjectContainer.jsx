@@ -20,14 +20,16 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
 
-import { LocationShape, FilterShape, TopicShape } from '../../shapes';
+import { LocationShape } from '../../shapes';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toTopic } from '../../routeHelpers';
+import { getProgrammeByPath, toProgramme, toTopic } from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
+import { getSubjectBySubjectIdFilters } from '../../data/subjects';
+import { GraphQLSubjectShape } from '../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -45,44 +47,75 @@ const SubjectPage = ({
   data,
   ndlaFilm,
 }) => {
-  const [topicId, setTopicId] = useState(urlTopicId);
-  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
-  const [topic, setTopic] = useState(null);
-  const [subTopic, setSubTopic] = useState(null);
-  const [currentLevel, setCurrentLevel] = useState('Subject');
-
-  useEffect(() => {
-    history.replace(toTopic(subjectId, activeFilterId, topicId, subTopicId));
-  }, [topic, subTopic]);
-
-  const activeFilterId = getFiltersFromUrl(location);
   const { subject = {} } = data;
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};
 
   const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
+  const activeFilterId = getFiltersFromUrl(location);
   const filter = subject.filters.filter(filter =>
     activeFilterId.split(',').includes(filter.id),
   );
 
-  const filterString =
-    filter.length > 0
-      ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
-      : '';
+  const [topicId, setTopicId] = useState(urlTopicId);
+  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
+  const [topic, setTopic] = useState(null);
+  const [subTopic, setSubTopic] = useState(null);
+  const [currentLevel, setCurrentLevel] = useState('Subject');
+
+  const [programme] = useState(() => {
+    const programmeData = {
+      name: data?.subject?.name,
+      url: '',
+    };
+    const programme = getProgrammeByPath(location.pathname, locale);
+    if (programme) {
+      programmeData.name = programme.name[locale];
+      programmeData.url = toProgramme(programme.url[locale]);
+    }
+    return programmeData;
+  });
+  const [subjectNames] = useState(() => {
+    const subjectData = getSubjectBySubjectIdFilters(
+      subject.id,
+      activeFilterId.split(','),
+    );
+    if (subjectData) {
+      return {
+        name: subjectData.name[locale],
+        longName: subjectData.longName[locale],
+      };
+    }
+    // Fallback if subject and filters are missing in static constants
+    const filterString =
+      filter.length > 0
+        ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
+        : '';
+    return {
+      name: subjectName,
+      longName: `${subjectName} ${filterString}`,
+    };
+  });
+
+  useEffect(() => {
+    const baseUrl = programme.url ? programme.url : '';
+    const path = toTopic(subjectId, activeFilterId, topicId, subTopicId);
+    history.replace(`${baseUrl}${path}`);
+  }, [topic, subTopic]);
 
   const breadCrumbs = [
     {
       id: subject.id,
-      label: subject.name,
+      label: programme.name,
       typename: 'Subjecttype',
-      url: '#',
+      url: programme.url,
     },
     ...(filter.length > 0
       ? [
           {
             id: filter.id,
-            label: filterString,
+            label: subjectNames.name,
             typename: 'Subject',
             url: '#',
             isCurrent: currentLevel === 'Subject',
@@ -170,17 +203,9 @@ const SubjectPage = ({
                 }
               />
             )}
-            <Breadcrumblist
-              items={breadCrumbs}
-              onNav={handleNav}
-              invertedStyle={ndlaFilm}
-              isVisible={showBreadCrumb}
-            />
             <div ref={headerRef}>
-              <NavigationHeading
-                subHeading={subjectName}
-                invertedStyle={ndlaFilm}>
-                {filter ? filterString : undefined}
+              <NavigationHeading invertedStyle={ndlaFilm}>
+                {subjectNames.longName}
               </NavigationHeading>
             </div>
             <SubjectPageContent
@@ -202,18 +227,30 @@ const SubjectPage = ({
               mainRef={mainRef}
               subRef={subRef}
             />
-            {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
-            {subjectpage.about && (
-              <SubjectPageInformation subjectpage={subjectpage} wide />
-            )}
-            <SubjectEditorChoices
-              wideScreen
-              editorsChoices={editorsChoices}
-              locale={locale}
-            />
           </LayoutItem>
         </OneColumn>
       </div>
+      {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
+      {subjectpage.about && (
+        <OneColumn wide>
+          <SubjectPageInformation subjectpage={subjectpage} wide />
+        </OneColumn>
+      )}
+      {editorsChoices && (
+        <SubjectEditorChoices
+          wideScreen
+          editorsChoices={editorsChoices}
+          locale={locale}
+        />
+      )}
+      <OneColumn wide>
+        <Breadcrumblist
+          items={breadCrumbs}
+          onNav={handleNav}
+          invertedStyle={ndlaFilm}
+          isVisible={showBreadCrumb}
+        />
+      </OneColumn>
     </>
   );
 };
@@ -243,13 +280,7 @@ SubjectPage.propTypes = {
   skipToContentId: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    subject: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      path: PropTypes.string,
-      filters: PropTypes.arrayOf(FilterShape),
-      topics: PropTypes.arrayOf(TopicShape),
-    }),
+    subject: GraphQLSubjectShape,
   }),
   urlTopicId: PropTypes.string,
   urlSubTopicId: PropTypes.string,

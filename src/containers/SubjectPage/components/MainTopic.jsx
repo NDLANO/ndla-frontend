@@ -86,6 +86,7 @@ const MainTopic = ({
           listDirection="horizontal"
           onClick={onClickSubTopic}
           invertedStyle={ndlaFilm}
+          isButtonElements
         />
       )}
       {showResources && (
