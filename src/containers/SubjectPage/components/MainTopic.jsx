@@ -26,8 +26,8 @@ const MainTopic = ({
   locale,
   subTopicId,
   ndlaFilm,
-  setSecondLevelSubTopic,
-  setSecondLevelSubTopicId,
+  setSubSubTopic,
+  setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -62,8 +62,8 @@ const MainTopic = ({
       topic => topic.label === e.currentTarget.textContent,
     );
     setSubTopicId(topic.id);
-    setSecondLevelSubTopic(null);
-    setSecondLevelSubTopicId(null);
+    setSubSubTopic(null);
+    setSubSubTopicId(null);
   };
 
   return (
@@ -117,8 +117,8 @@ MainTopic.propTypes = {
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  setSecondLevelSubTopic: PropTypes.func,
-  setSecondLevelSubTopicId: PropTypes.func,
+  setSubSubTopic: PropTypes.func,
+  setSubSubTopicId: PropTypes.func,
 };
 
 export default MainTopic;
