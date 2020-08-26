@@ -40,6 +40,7 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
 
 const Article = ({
   article,
+  resourceType,
   isTopicArticle,
   children,
   contentType,
@@ -80,7 +81,7 @@ const Article = ({
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
       renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? undefined : 'clean-in-context'}
+      modifier={isResourceArticle ? resourceType : 'clean-in-context'}
       {...rest}>
       {children}
     </UIArticle>
@@ -89,6 +90,7 @@ const Article = ({
 
 Article.propTypes = {
   article: ArticleShape,
+  resourceType: PropTypes.string,
   children: PropTypes.node,
   contentType: PropTypes.string,
   isTopicArticle: PropTypes.bool,

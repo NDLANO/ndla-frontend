@@ -14,15 +14,16 @@ import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import {
-  ArticleShape,
   SubjectShape,
-  ResourceTypeShape,
+  ResourceShape,
   LocationShape,
+  ResourceTypeShape,
 } from '../../shapes';
 import { GraphqlErrorShape } from '../../graphqlShapes';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
+import { getContentType } from '../../util/getContentType';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
@@ -119,6 +120,7 @@ class ArticlePage extends Component {
     }
 
     const article = transformArticle(resource.article, locale);
+    const resourceType = resource ? getContentType(resource) : null;
 
     return (
       <div>
@@ -127,6 +129,7 @@ class ArticlePage extends Component {
           subject={subject}
           topicPath={topicPath}
           resource={resource}
+          resourceType={resourceType}
         />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
@@ -160,6 +163,7 @@ class ArticlePage extends Component {
             article={article}
             subject={subject}
             locale={locale}
+            resourceType={resourceType}
             isResourceArticle
             {...getArticleProps(resource, topic)}>
             {topic && (
@@ -191,10 +195,7 @@ ArticlePage.propTypes = {
     }).isRequired,
   }).isRequired,
   data: PropTypes.shape({
-    resource: PropTypes.shape({
-      article: ArticleShape,
-      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-    }),
+    resource: ResourceShape,
     topic: PropTypes.shape({
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),

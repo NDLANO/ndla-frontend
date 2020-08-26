@@ -17,10 +17,9 @@ import {
   FFHeroBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { getContentType } from '../../../util/getContentType';
 import { toBreadcrumbItems } from '../../../routeHelpers';
 import {
-  ResourceTypeShape,
+  ResourceShape,
   SubjectShape,
   TopicShape,
   LocationShape,
@@ -28,7 +27,13 @@ import {
 import { getFiltersFromUrl } from '../../../util/filterHelper';
 import config from '../../../config';
 
-const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
+const WrapperComponent = ({
+  children,
+  resource,
+  resourceType,
+  ndlaFilm,
+  metaImage,
+}) => {
   if (ndlaFilm) {
     return (
       <NdlaFilmHero hasImage={metaImage && metaImage.url}>
@@ -36,14 +41,12 @@ const WrapperComponent = ({ children, resource, ndlaFilm, metaImage }) => {
       </NdlaFilmHero>
     );
   }
-  const contentType = resource ? getContentType(resource) : null;
-  return <Hero contentType={contentType}>{children}</Hero>;
+  return <Hero contentType={resourceType}>{children}</Hero>;
 };
 
 WrapperComponent.propTypes = {
-  resource: PropTypes.shape({
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }).isRequired,
+  resource: ResourceShape.isRequired,
+  resourceType: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   metaImage: PropTypes.shape({
     url: PropTypes.string,
@@ -53,6 +56,7 @@ WrapperComponent.propTypes = {
 
 const ArticleHero = ({
   resource,
+  resourceType,
   metaImage,
   ndlaFilm,
   subject,
@@ -89,9 +93,8 @@ const ArticleHero = ({
 );
 
 ArticleHero.propTypes = {
-  resource: PropTypes.shape({
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }).isRequired,
+  resource: ResourceShape.isRequired,
+  resourceType: PropTypes.string,
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
   location: LocationShape,

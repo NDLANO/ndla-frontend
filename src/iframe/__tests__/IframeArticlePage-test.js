@@ -22,6 +22,9 @@ test('IframeArticlePage with article renderers correctly', () => {
       status="success"
       location={{ pathname: '/article-iframe/333' }}
       resource={{
+        id: '',
+        name: '',
+        path: '',
         article: {
           content:
             '<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>',
@@ -30,7 +33,7 @@ test('IframeArticlePage with article renderers correctly', () => {
             'Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!',
           metaDescription: 'Politiske skillelinjer, eller konfliktlinjer',
           metaData: {
-            footnotes: [],
+            footnotes: '',
           },
           copyright: {
             license: {

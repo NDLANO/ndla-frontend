@@ -15,7 +15,7 @@ import { OneColumn, CreatedBy, constants } from '@ndla/ui';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ArticleShape, ResourceTypeShape, LocationShape } from '../shapes';
+import { ArticleShape, ResourceShape, LocationShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
@@ -64,10 +64,7 @@ const Success = ({ resource, locale, location }) => {
 
 Success.propTypes = {
   locale: PropTypes.string.isRequired,
-  resource: PropTypes.shape({
-    article: ArticleShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
+  resource: ResourceShape,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
