@@ -27,13 +27,7 @@ import {
 import { getFiltersFromUrl } from '../../../util/filterHelper';
 import config from '../../../config';
 
-const WrapperComponent = ({
-  children,
-  resource,
-  resourceType,
-  ndlaFilm,
-  metaImage,
-}) => {
+const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }) => {
   if (ndlaFilm) {
     return (
       <NdlaFilmHero hasImage={metaImage && metaImage.url}>
@@ -45,7 +39,6 @@ const WrapperComponent = ({
 };
 
 WrapperComponent.propTypes = {
-  resource: ResourceShape.isRequired,
   resourceType: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   metaImage: PropTypes.shape({
@@ -66,7 +59,7 @@ const ArticleHero = ({
 }) => (
   <WrapperComponent
     ndlaFilm={ndlaFilm}
-    resource={resource}
+    resourceType={resourceType}
     metaImage={metaImage}>
     {ndlaFilm && metaImage && metaImage.url && (
       <div className="c-hero__background">
