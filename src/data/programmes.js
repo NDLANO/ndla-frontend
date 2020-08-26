@@ -568,9 +568,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -627,9 +627,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -855,9 +855,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -914,9 +914,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -1095,9 +1095,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -1171,9 +1171,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -1336,9 +1336,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -1395,9 +1395,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -2004,9 +2004,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
@@ -2068,9 +2068,9 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfag',
-              nn: 'Valgfag',
-              en: 'Valgfag',
+              nb: 'Valgfrie programfag',
+              nn: 'Valgfrie programfag',
+              en: 'Valgfrie programfag',
             },
             subjects: [
               {
