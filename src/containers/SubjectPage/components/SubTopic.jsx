@@ -54,7 +54,11 @@ const SubTopic = ({
         ingress={topic.article?.introduction}
         showContent={showContent}
         onToggleShowContent={() => setShowContent(!showContent)}>
-        <ArticleContents article={topic.article} locale={locale} />
+        <ArticleContents
+          article={topic.article}
+          locale={locale}
+          modifier="in-topic"
+        />
       </NavigationTopicAbout>
       <Resources
         title={topic.name}

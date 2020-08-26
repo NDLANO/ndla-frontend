@@ -23,7 +23,12 @@ import {
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape } from '../../shapes';
 
-const ArticleContents = ({ article, locale, t }) => {
+const ArticleContents = ({
+  article,
+  locale,
+  modifier = 'clean-in-context',
+  t,
+}) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -36,7 +41,7 @@ const ArticleContents = ({ article, locale, t }) => {
   };
 
   return (
-    <ArticleWrapper modifier="clean-in-context">
+    <ArticleWrapper modifier={modifier}>
       <LayoutItem layout="extend">
         <ArticleHeaderWrapper>
           <ArticleIntroduction renderMarkdown={renderMarkdown}>
@@ -67,6 +72,7 @@ const ArticleContents = ({ article, locale, t }) => {
 ArticleContents.propTypes = {
   article: ArticleShape,
   locale: PropTypes.string,
+  modifier: PropTypes.string,
 };
 
 export default injectT(ArticleContents);

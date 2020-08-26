@@ -73,6 +73,7 @@ const SubjectPageContent = ({
         items={mainTopics}
         onClick={onClickMainTopic}
         invertedStyle={ndlaFilm}
+        listDirection="horizontal"
       />
       {topicId && (
         <div ref={mainRef}>

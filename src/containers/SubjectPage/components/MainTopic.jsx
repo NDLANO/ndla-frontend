@@ -70,13 +70,20 @@ const MainTopic = ({
         showContent={showContent}
         invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
-        children={<ArticleContents article={topic.article} locale={locale} />}
+        children={
+          <ArticleContents
+            article={topic.article}
+            locale={locale}
+            modifier="in-topic"
+          />
+        }
       />
       {subTopics.length !== 0 && (
         <NavigationBox
           colorMode="light"
           heading="emner"
           items={subTopics}
+          listDirection="horizontal"
           onClick={onClickSubTopic}
           invertedStyle={ndlaFilm}
         />
