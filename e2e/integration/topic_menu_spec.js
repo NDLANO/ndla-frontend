@@ -16,7 +16,7 @@ describe('Topic menu', () => {
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk 1")')
+      .get('a:contains("Markedsføring og ledelse 1")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
