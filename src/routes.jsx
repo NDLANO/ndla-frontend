@@ -75,6 +75,7 @@ export const routes = [
   {
     path: SUBJECT_PAGE_PATH,
     component: SubjectPage,
+    hideBreadcrumb: true,
     background: false,
   },
   {
@@ -85,6 +86,7 @@ export const routes = [
   {
     path: `${PROGRAMME_PAGE_PATH}${SUBJECT_PAGE_PATH}`,
     component: SubjectPage,
+    hideBreadcrumb: true,
     background: false,
   },
   {

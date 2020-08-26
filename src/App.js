@@ -37,6 +37,7 @@ const Route = ({
   ndlaFilm,
   skipToContent,
   location,
+  hideBreadcrumb,
   ...rest
 }) => (
   <ReactRoute
@@ -53,6 +54,7 @@ const Route = ({
               skipToMainContentId={SKIP_TO_CONTENT_ID}
               locale={locale}
               ndlaFilm={ndlaFilm}
+              hideBreadcrumb={hideBreadcrumb}
               {...props}
             />
           )}
@@ -77,6 +79,7 @@ Route.propTypes = {
   initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   hideMasthead: PropTypes.bool,
   ndlaFilm: PropTypes.bool,
+  hideBreadcrumb: PropTypes.bool,
   skipToContent: PropTypes.string,
 };
 
@@ -203,6 +206,7 @@ class App extends React.Component {
                 key={`route_${route.path}`}
                 exact={route.exact}
                 hideMasthead={route.hideMasthead}
+                hideBreadcrumb={route.hideBreadcrumb}
                 initialProps={this.state.data}
                 locale={locale}
                 component={route.component}

@@ -39,6 +39,7 @@ const MastheadContainer = ({
   ndlaFilm,
   match,
   skipToMainContentId,
+  hideBreadcrumb,
 }) => {
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
@@ -149,15 +150,17 @@ const MastheadContainer = ({
               locale={locale}
             />
           )}
-          <DisplayOnPageYOffset yOffsetMin={150}>
-            <BreadcrumbBlock
-              items={
-                breadcrumbBlockItems.length > 1
-                  ? breadcrumbBlockItems.slice(1)
-                  : []
-              }
-            />
-          </DisplayOnPageYOffset>
+          {!hideBreadcrumb && (
+            <DisplayOnPageYOffset yOffsetMin={150}>
+              <BreadcrumbBlock
+                items={
+                  breadcrumbBlockItems.length > 1
+                    ? breadcrumbBlockItems.slice(1)
+                    : []
+                }
+              />
+            </DisplayOnPageYOffset>
+          )}
         </MastheadItem>
         <MastheadItem right>
           <LanguageSelector
@@ -193,6 +196,7 @@ MastheadContainer.propTypes = {
   infoContent: PropTypes.node,
   ndlaFilm: PropTypes.bool,
   skipToMainContentId: PropTypes.string.isRequired,
+  hideBreadcrumb: PropTypes.bool,
 };
 
 export default injectT(MastheadContainer);
