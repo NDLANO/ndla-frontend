@@ -208,6 +208,7 @@ const SubjectPage = ({
     rootMargin: '-325px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
+  const moveBannerUp = !topic;
   return (
     <>
       <Helmet>
@@ -265,7 +266,12 @@ const SubjectPage = ({
           </LayoutItem>
         </OneColumn>
       </div>
-      {subjectpage.banner && <SubjectBanner image={subjectpage.banner} />}
+      {subjectpage.banner && (
+        <SubjectBanner
+          image={subjectpage.banner.desktopUrl}
+          negativeTopMargin={moveBannerUp}
+        />
+      )}
       {subjectpage.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subjectpage} wide />
