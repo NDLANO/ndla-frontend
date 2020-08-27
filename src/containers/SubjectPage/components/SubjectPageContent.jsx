@@ -112,6 +112,7 @@ const SubjectPageContent = ({
             locale={locale}
             ndlaFilm={ndlaFilm}
             setSubSubTopicId={setSubSubTopicId}
+            subSubTopicId={subSubTopicId}
           />
         </div>
       )}

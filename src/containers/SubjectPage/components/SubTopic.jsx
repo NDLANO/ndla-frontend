@@ -23,7 +23,7 @@ const SubTopic = ({
   setSelectedSubTopic,
   locale,
   ndlaFilm,
-  subTopicId,
+  subSubTopicId,
   setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
@@ -49,7 +49,7 @@ const SubTopic = ({
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
-    selected: item.id === subTopicId,
+    selected: item.id === subSubTopicId,
   }));
   const resourceTypes = data.resourceTypes;
 
@@ -106,7 +106,7 @@ SubTopic.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   setSubSubTopicId: PropTypes.func,
-  subTopicId: PropTypes.string,
+  subSubTopicId: PropTypes.string,
 };
 
 export default SubTopic;
