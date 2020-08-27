@@ -124,6 +124,7 @@ const SubjectPageContent = ({
             setSelectedSubTopic={setSelectedSubSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            setSubSubTopicId={setSubSubTopicId}
           />
         </div>
       )}
