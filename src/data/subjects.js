@@ -372,9 +372,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:001c6405-79d5-4b9a-8b1b-002680265916'],
     longName: {
-      en: 'Matematikk 1P-Y (SR)',
-      nb: 'Matematikk 1P-Y (SR)',
-      nn: 'Matematikk 1P-Y (SR)',
+      en: 'Matematikk 1P-Y (SSR)',
+      nb: 'Matematikk 1P-Y (SSR)',
+      nn: 'Matematikk 1P-Y (SSR)',
     },
     name: {
       en: 'Matematikk 1P-Y',
@@ -522,9 +522,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:15af94d5-d647-4da9-aefc-f7e4b3bd44ff'],
     longName: {
-      en: 'Matematikk 1T-Y (SR)',
-      nb: 'Matematikk 1T-Y (SR)',
-      nn: 'Matematikk 1T-Y (SR)',
+      en: 'Matematikk 1T-Y (SSR)',
+      nb: 'Matematikk 1T-Y (SSR)',
+      nn: 'Matematikk 1T-Y (SSR)',
     },
     name: {
       en: 'Matematikk 1T-Y',
@@ -657,9 +657,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:721307df-c384-4a7f-ad69-668853c766c6'],
     longName: {
-      en: 'Naturfag (SR)',
-      nb: 'Naturfag (SR)',
-      nn: 'Naturfag (SR)',
+      en: 'Naturfag (SSR)',
+      nb: 'Naturfag (SSR)',
+      nn: 'Naturfag (SSR)',
     },
     name: {
       en: 'Naturfag',
@@ -1158,9 +1158,9 @@ export const programmeSubjects = [
       en: 'Forretningsdrift',
     },
     longName: {
-      nb: 'Forretningsdrift (SR Vg1)',
-      nn: 'Forretningsdrift (SR Vg1)',
-      en: 'Forretningsdrift (SR Vg1)',
+      nb: 'Forretningsdrift (SSR Vg1)',
+      nn: 'Forretningsdrift (SSR Vg1)',
+      en: 'Forretningsdrift (SSR Vg1)',
     },
     subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
     filters: ['urn:filter:792414c5-896f-470a-9558-6101d7266237'],
@@ -1169,9 +1169,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:be40ec3c-01ab-4e2e-af1a-a05fc85bcace'],
     longName: {
-      en: 'Kultur og samhandling (SR Vg1)',
-      nb: 'Kultur og samhandling (SR Vg1)',
-      nn: 'Kultur og samhandling (SR Vg1)',
+      en: 'Kultur og samhandling (SSR Vg1)',
+      nb: 'Kultur og samhandling (SSR Vg1)',
+      nn: 'Kultur og samhandling (SSR Vg1)',
     },
     name: {
       en: 'Kultur og samhandling',
@@ -1184,9 +1184,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:f18ad41e-d9c3-4428-8cb6-5eb852e45082'],
     longName: {
-      en: 'Markedsføring og innovasjon (SR Vg1)',
-      nb: 'Markedsføring og innovasjon (SR Vg1)',
-      nn: 'Markedsføring og innovasjon (SR Vg1)',
+      en: 'Markedsføring og innovasjon (SSR Vg1)',
+      nb: 'Markedsføring og innovasjon (SSR Vg1)',
+      nn: 'Markedsføring og innovasjon (SSR Vg1)',
     },
     name: {
       en: 'Markedsføring og innovasjon',
@@ -1199,9 +1199,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:a1350efc-a249-4730-8bf7-0ef0556ddbcc'],
     longName: {
-      en: 'Yrkesfaglig fordypning (SR Vg1)',
-      nb: 'Yrkesfaglig fordypning (SR Vg1)',
-      nn: 'Yrkesfaglig fordypning (SR Vg1)',
+      en: 'Yrkesfaglig fordypning (SSR Vg1)',
+      nb: 'Yrkesfaglig fordypning (SSR Vg1)',
+      nn: 'Yrkesfaglig fordypning (SSR Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',

@@ -356,6 +356,10 @@ export const articleInfoFragment = gql`
         }
       }
     }
+    competenceGoals {
+      id
+      title
+    }
     oembed
     copyright {
       ...CopyrightInfo
