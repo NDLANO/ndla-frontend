@@ -30,14 +30,25 @@ export function getUrnIdsFromProps(props) {
     ? `urn:${params.subjectId}`
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
+  const topics = params.topics?.split('/') || [];
+
+  let topicId = undefined;
+  let subTopicId = undefined;
+  let subSubTopicId = undefined;
+
+  if (topics.length > 0) {
+    topicId = topics?.[0] ? `urn:${topics?.[0]}` : undefined;
+    subTopicId = topics?.[1] ? `urn:${topics?.[1]}` : undefined;
+    subSubTopicId = topics?.[2] ? `urn:${topics?.[2]}` : undefined;
+  } else {
+    topicId = params.topicId ? `urn:${params.topicId}` : undefined;
+  }
 
   return {
     subjectId,
-    topicId: params.topicId ? `urn:${params.topicId}` : undefined,
-    subTopicId: params.subTopicId ? `urn:${params.subTopicId}` : undefined,
-    subSubTopicId: params.subSubTopicId
-      ? `urn:${params.subSubTopicId}`
-      : undefined,
+    topicId,
+    subTopicId,
+    subSubTopicId,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,

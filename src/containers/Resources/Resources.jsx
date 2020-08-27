@@ -17,23 +17,10 @@ import {
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { contentTypeMapping } from '../../util/getContentType';
-import { ResourceTypeShape, ResourceShape } from '../../shapes';
+import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
 import { getFiltersFromUrl } from '../../util/filterHelper';
-
-function getSubjectTopicPath(params) {
-  if (params.subSubTopicId) {
-    return `/${params.subjectId}/${params.topicId}/${params.subTopicId}/${params.subSubTopicId}`;
-  }
-  if (params.subTopicId) {
-    return `/${params.subjectId}/${params.topicId}/${params.subTopicId}`;
-  }
-  if (params.topicPath) {
-    return `/${params.subjectId}/${params.topicPath}/${params.topicId}`;
-  }
-  return `/${params.subjectId}/${params.topicId}`;
-}
 
 class Resources extends Component {
   constructor(props) {
@@ -63,36 +50,31 @@ class Resources extends Component {
     const {
       match: { params },
       t,
-      title,
+      topic,
       resourceTypes,
-      supplementaryResources,
-      coreResources,
       location,
       locale,
       ndlaFilm,
     } = this.props;
 
     if (
-      coreResources &&
-      coreResources.length === 0 &&
-      supplementaryResources.length === 0
+      topic?.coreResources?.length === 0 &&
+      topic?.supplementaryResources.length === 0
     ) {
       return null;
     }
 
-    const subjectTopicPath = getSubjectTopicPath(params);
-
     const resourceToLinkProps = resource =>
       resourceToLinkPropsHelper(
         resource,
-        subjectTopicPath,
+        topic.path,
         getFiltersFromUrl(location),
         locale,
       );
 
     if (
       resourceTypes === null ||
-      (coreResources === null && supplementaryResources === null)
+      (topic.coreResources === null && topic.supplementaryResources === null)
     ) {
       return (
         <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
@@ -103,8 +85,8 @@ class Resources extends Component {
 
     const resourceGroups = getResourceGroups(
       resourceTypes,
-      supplementaryResources || [],
-      coreResources || [],
+      topic.supplementaryResources || [],
+      topic.coreResources || [],
     );
 
     const hasAdditionalResources = resourceGroups.some(group =>
@@ -140,7 +122,7 @@ class Resources extends Component {
             }}
             explainationIconLabelledBy="learning-resources-info-header-id"
             id="learning-resources-id"
-            title={title}
+            title={topic.title}
             toggleAdditionalResources={this.toggleAdditionalResources}
             showAdditionalResources={showAdditionalResources}
             hasAdditionalResources={hasAdditionalResources}
@@ -176,6 +158,7 @@ class Resources extends Component {
 
 Resources.propTypes = {
   title: PropTypes.string.isRequired,
+  topic: TopicShape,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   coreResources: PropTypes.arrayOf(ResourceShape),
   supplementaryResources: PropTypes.arrayOf(ResourceShape),

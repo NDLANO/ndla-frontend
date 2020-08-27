@@ -58,12 +58,6 @@ export const SubjectShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
-export const TopicShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  subtopics: PropTypes.array,
-});
-
 export const LearningpathStepShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
@@ -135,6 +129,16 @@ export const ResourceShape = PropTypes.shape({
   path: PropTypes.string.isRequired,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   article: ArticleShape,
+});
+
+export const TopicShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string,
+  article: ArticleShape,
+  coreResources: PropTypes.arrayOf(ResourceShape),
+  supplementaryResources: PropTypes.arrayOf(ResourceShape),
+  subtopics: PropTypes.array,
 });
 
 export const MessageShape = PropTypes.shape({

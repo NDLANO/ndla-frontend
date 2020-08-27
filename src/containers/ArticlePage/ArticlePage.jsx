@@ -106,10 +106,8 @@ class ArticlePage extends Component {
             status={error?.status === 404 ? 'error404' : 'error'}>
             {topic && (
               <Resources
-                title={topicTitle}
+                topic={topic}
                 resourceTypes={resourceTypes}
-                supplementaryResources={topic.supplementaryResources}
-                coreResources={topic.coreResources}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
               />
@@ -168,10 +166,8 @@ class ArticlePage extends Component {
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
-                title={topicTitle}
+                topic={topic}
                 resourceTypes={resourceTypes}
-                supplementaryResources={topic.supplementaryResources}
-                coreResources={topic.coreResources}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
               />

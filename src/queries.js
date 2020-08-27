@@ -866,6 +866,8 @@ export const resourcePageQuery = gql`
     }
     topic(id: $topicId, subjectId: $subjectId) {
       id
+      name
+      path
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }

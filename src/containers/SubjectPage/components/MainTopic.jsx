@@ -95,10 +95,8 @@ const MainTopic = ({
       )}
       {showResources && (
         <Resources
-          title={topic.name}
+          topic={topic}
           resourceTypes={resourceTypes}
-          coreResources={topic.coreResources}
-          supplementaryResources={topic.supplementaryResources}
           locale={locale}
           ndlaFilm={ndlaFilm}
         />
