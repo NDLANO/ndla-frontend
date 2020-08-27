@@ -32,6 +32,11 @@ const SubjectPageContent = ({
   ndlaFilm,
   mainRef,
   subRef,
+  subSubRef,
+  subSubTopicId,
+  setSubSubTopicId,
+  setSelectedSubSubTopic,
+  setSubSubTopic,
 }) => {
   useEffect(() => {
     if (subTopicId) {
@@ -65,6 +70,8 @@ const SubjectPageContent = ({
     setTopicId(topic.id);
     setSubTopicId(null);
     setSubTopic(null);
+    setSubSubTopicId(null);
+    setSubSubTopic(null);
   };
 
   return (
@@ -88,6 +95,8 @@ const SubjectPageContent = ({
             subTopicId={subTopicId}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            setSubSubTopic={setSubSubTopic}
+            setSubSubTopicId={setSubSubTopicId}
           />
         </div>
       )}
@@ -98,6 +107,19 @@ const SubjectPageContent = ({
             subjectId={subject.id}
             filterIds={filter?.id}
             setSelectedSubTopic={setSelectedSubTopic}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            setSubSubTopicId={setSubSubTopicId}
+          />
+        </div>
+      )}
+      {subSubTopicId && (
+        <div ref={subSubRef}>
+          <SubTopic
+            topicId={subSubTopicId}
+            subjectId={subject.id}
+            filterIds={filter?.id}
+            setSelectedSubTopic={setSelectedSubSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
           />
@@ -121,6 +143,11 @@ SubjectPageContent.propTypes = {
   locale: PropTypes.string.isRequired,
   mainRef: PropTypes.any.isRequired,
   subRef: PropTypes.any.isRequired,
+  subSubRef: PropTypes.any.isRequired,
+  subSubTopicId: PropTypes.string,
+  setSubSubTopicId: PropTypes.func,
+  setSubSubTopic: PropTypes.func,
+  setSelectedSubSubTopic: PropTypes.func,
 };
 
 export default injectT(SubjectPageContent);

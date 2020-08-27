@@ -26,6 +26,8 @@ const MainTopic = ({
   locale,
   subTopicId,
   ndlaFilm,
+  setSubSubTopic,
+  setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -60,6 +62,8 @@ const MainTopic = ({
       topic => topic.label === e.currentTarget.textContent,
     );
     setSubTopicId(topic.id);
+    setSubSubTopic(null);
+    setSubSubTopicId(null);
   };
 
   return (
@@ -113,6 +117,8 @@ MainTopic.propTypes = {
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
+  setSubSubTopic: PropTypes.func,
+  setSubSubTopicId: PropTypes.func,
 };
 
 export default MainTopic;

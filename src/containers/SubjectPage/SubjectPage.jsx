@@ -27,7 +27,7 @@ const SubjectPage = ({
   skipToContentId,
   ndlaFilm,
 }) => {
-  const { subjectId, topicId, subTopicId } = getUrnIdsFromProps({
+  const { subjectId, topicId, subTopicId, subSubTopicId } = getUrnIdsFromProps({
     ndlaFilm,
     match,
   });
@@ -61,6 +61,7 @@ const SubjectPage = ({
       subjectId={subjectId}
       urlTopicId={topicId}
       urlSubTopicId={subTopicId}
+      urlSubSubTopicId={subSubTopicId}
       data={data}
     />
   );

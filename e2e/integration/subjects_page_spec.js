@@ -16,7 +16,7 @@ describe('Subjects page', () => {
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk 1")')
+      .get('a:contains("Medieuttrykk 2")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
@@ -25,15 +25,15 @@ describe('Subjects page', () => {
   it('should include a list of valid topic links', () => {
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li a').each(el => {
-      cy.wrap(el).should('have.attr', 'href');
+    cy.get('[data-testid="nav-box-list"] li button').each(el => {
+      // cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
   });
 
   it('should have a valid breadcrumb', () => {
     cy.get('[data-testid="breadcrumb-list"] a')
-      .should('have.length', 1)
+      .should('have.length', 2)
       .and('have.attr', 'href');
   });
 });

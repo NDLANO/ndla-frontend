@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { NavigationTopicAbout } from '@ndla/ui';
+import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import Spinner from '@ndla/ui/lib/Spinner';
 
 import { topicQuery } from '../../../queries';
@@ -23,6 +23,8 @@ const SubTopic = ({
   setSelectedSubTopic,
   locale,
   ndlaFilm,
+  subTopicId,
+  setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -44,7 +46,20 @@ const SubTopic = ({
   }
 
   const topic = data.topic;
+  const subTopics = topic.subtopics.map(item => ({
+    id: item.id,
+    label: item.name,
+    selected: item.id === subTopicId,
+  }));
   const resourceTypes = data.resourceTypes;
+
+  const onClickSubTopic = e => {
+    e.preventDefault();
+    const topic = subTopics.find(
+      topic => topic.label === e.currentTarget.textContent,
+    );
+    setSubSubTopicId(topic.id);
+  };
 
   return (
     <>
@@ -60,6 +75,17 @@ const SubTopic = ({
           modifier="in-topic"
         />
       </NavigationTopicAbout>
+      {subTopics.length !== 0 && (
+        <NavigationBox
+          colorMode="light"
+          heading="emner"
+          items={subTopics}
+          listDirection="horizontal"
+          onClick={onClickSubTopic}
+          invertedStyle={ndlaFilm}
+          isButtonElements
+        />
+      )}
       <Resources
         title={topic.name}
         resourceTypes={resourceTypes}
@@ -79,6 +105,8 @@ SubTopic.propTypes = {
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
+  setSubSubTopicId: PropTypes.func,
+  subTopicId: PropTypes.string,
 };
 
 export default SubTopic;

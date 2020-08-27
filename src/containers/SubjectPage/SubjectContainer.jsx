@@ -44,6 +44,7 @@ const SubjectPage = ({
   subjectId,
   urlTopicId,
   urlSubTopicId,
+  urlSubSubTopicId,
   data,
   ndlaFilm,
 }) => {
@@ -60,8 +61,10 @@ const SubjectPage = ({
 
   const [topicId, setTopicId] = useState(urlTopicId);
   const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
+  const [subSubTopicId, setSubSubTopicId] = useState(urlSubSubTopicId);
   const [topic, setTopic] = useState(null);
   const [subTopic, setSubTopic] = useState(null);
+  const [subSubTopic, setSubSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   const [programme] = useState(() => {
@@ -100,9 +103,15 @@ const SubjectPage = ({
 
   useEffect(() => {
     const baseUrl = programme.url ? programme.url : '';
-    const path = toTopic(subjectId, activeFilterId, topicId, subTopicId);
+    const path = toTopic(
+      subjectId,
+      activeFilterId,
+      topicId,
+      subTopicId,
+      subSubTopicId,
+    );
     history.replace(`${baseUrl}${path}`);
-  }, [topic, subTopic]);
+  }, [topic, subTopic, subSubTopic]);
 
   const breadCrumbs = [
     /*{
@@ -125,6 +134,9 @@ const SubjectPage = ({
     ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
     ...(subTopic
       ? [{ ...subTopic, isCurrent: currentLevel === 'Subtopic' }]
+      : []),
+    ...(subSubTopic
+      ? [{ ...subSubTopic, isCurrent: currentLevel === 'SubSubtopic' }]
       : []),
   ];
 
@@ -156,9 +168,24 @@ const SubjectPage = ({
     );
   };
 
+  const setSubSubTopicBreadCrumb = topic => {
+    setCurrentLevel('SubSubtopic');
+    setSubSubTopicId(topic.id);
+    setSubSubTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'SubSubtopic',
+            url: '#',
+          }
+        : null,
+    );
+  };
+
   const headerRef = useRef(null);
   const mainRef = useRef(null);
   const subRef = useRef(null);
+  const subSubRef = useRef(null);
 
   const handleNav = (e, item) => {
     e.preventDefault();
@@ -170,6 +197,8 @@ const SubjectPage = ({
       scrollToRef(mainRef);
     } else if (typename === 'Subtopic') {
       scrollToRef(subRef);
+    } else if (typename === 'SubSubtopic') {
+      scrollToRef(subSubRef);
     }
   };
 
@@ -226,6 +255,11 @@ const SubjectPage = ({
               ndlaFilm={ndlaFilm}
               mainRef={mainRef}
               subRef={subRef}
+              subSubRef={subSubRef}
+              subSubTopicId={subSubTopicId}
+              setSubSubTopicId={setSubSubTopicId}
+              setSubSubTopic={setSubSubTopic}
+              setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
             />
           </LayoutItem>
         </OneColumn>
@@ -284,6 +318,7 @@ SubjectPage.propTypes = {
   }),
   urlTopicId: PropTypes.string,
   urlSubTopicId: PropTypes.string,
+  urlSubSubTopicId: PropTypes.string,
 };
 
 export default injectT(withTracker(SubjectPage));

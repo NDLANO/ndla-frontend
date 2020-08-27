@@ -35,6 +35,9 @@ export function getUrnIdsFromProps(props) {
     subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
     subTopicId: params.subTopicId ? `urn:${params.subTopicId}` : undefined,
+    subSubTopicId: params.subSubTopicId
+      ? `urn:${params.subSubTopicId}`
+      : undefined,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,
