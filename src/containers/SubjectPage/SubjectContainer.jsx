@@ -245,6 +245,7 @@ const SubjectPage = ({
               subjectpage={subjectpage}
               subject={subject}
               filter={filter}
+              filterIds={activeFilterId}
               topicId={topicId}
               setTopicId={setTopicId}
               subTopicId={subTopicId}

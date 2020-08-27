@@ -617,7 +617,7 @@ export const topicQuery = gql`
           alt
         }
       }
-      subtopics {
+      subtopics(filterIds: $filterIds) {
         id
         name
       }

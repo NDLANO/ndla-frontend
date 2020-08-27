@@ -21,6 +21,7 @@ import { scrollToRef } from '../subjectPageHelpers';
 const SubjectPageContent = ({
   subject,
   filter,
+  filterIds,
   topicId,
   setTopicId,
   subTopicId,
@@ -90,7 +91,7 @@ const SubjectPageContent = ({
           <MainTopic
             topicId={topicId}
             subjectId={subject.id}
-            filterIds={filter?.id}
+            filterIds={filterIds}
             setSelectedTopic={setSelectedTopic}
             setSubTopicId={setAndScrollToSubTopic}
             showResources={!subTopicId}
@@ -107,7 +108,7 @@ const SubjectPageContent = ({
           <SubTopic
             topicId={subTopicId}
             subjectId={subject.id}
-            filterIds={filter?.id}
+            filterIds={filterIds}
             setSelectedSubTopic={setSelectedSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
@@ -121,7 +122,7 @@ const SubjectPageContent = ({
           <SubTopic
             topicId={subSubTopicId}
             subjectId={subject.id}
-            filterIds={filter?.id}
+            filterIds={filterIds}
             setSelectedSubTopic={setSelectedSubSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
@@ -136,6 +137,7 @@ const SubjectPageContent = ({
 SubjectPageContent.propTypes = {
   subject: GraphQLSubjectShape,
   filter: GraphQLFilterShape,
+  filterIds: PropTypes.string,
   topicId: PropTypes.string,
   subTopicId: PropTypes.string,
   setTopicId: PropTypes.func,
