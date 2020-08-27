@@ -23,6 +23,9 @@ import { getResourceGroups } from './getResourceGroups';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 
 function getSubjectTopicPath(params) {
+  if (params.subSubTopicId) {
+    return `/${params.subjectId}/${params.topicId}/${params.subTopicId}/${params.subSubTopicId}`;
+  }
   if (params.subTopicId) {
     return `/${params.subjectId}/${params.topicId}/${params.subTopicId}`;
   }

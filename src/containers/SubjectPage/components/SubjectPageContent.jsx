@@ -39,12 +39,14 @@ const SubjectPageContent = ({
   setSubSubTopic,
 }) => {
   useEffect(() => {
-    if (subTopicId) {
+    if (subSubTopicId) {
+      scrollToRef(subSubRef);
+    } else if (subTopicId) {
       scrollToRef(subRef);
     } else if (topicId) {
       scrollToRef(mainRef);
     }
-  }, [topicId, subTopicId]);
+  }, [topicId, subTopicId, subSubTopicId]);
 
   const mainTopics = subject.topics.map(topic => ({
     ...topic,
