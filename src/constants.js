@@ -361,7 +361,8 @@ export const RESOURCE_PAGE_PATH =
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SEARCH_PATH = '/search(.*)';
 export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
-export const SUBJECT_PAGE_PATH = '/subjects/:subjectId';
+export const SUBJECT_PAGE_PATH =
+  '/subjects/:subjectId/:topicId?/:subTopicId?/:subSubTopicId(!resource)?/';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subjects/subject:20';
 export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
@@ -397,3 +398,6 @@ export const MULTIDISCIPLINARY_SUBJECTS = [
     id: 'Bærekraftig utvikling',
   },
 ];
+
+export const PROGRAMME_PATH = '/utdanning';
+export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';

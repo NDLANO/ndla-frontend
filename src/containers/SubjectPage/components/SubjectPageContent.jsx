@@ -6,97 +6,154 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Breadcrumb } from '@ndla/ui';
-import { toBreadcrumbItems } from '../../../routeHelpers';
+import { NavigationBox } from '@ndla/ui';
 import {
-  GraphQLSubjectPageShape,
   GraphQLSubjectShape,
+  GraphQLFilterShape,
 } from '../../../graphqlShapes';
-import { TopicShape } from '../../../shapes';
-import SubjectPageSingle from './layout/SubjectPageSingle';
-import SubjectPageDouble from './layout/SubjectPageDouble';
-import SubjectPageStacked from './layout/SubjectPageStacked';
-import { fixEndSlash } from '../../../routeHelpers';
+import MainTopic from './MainTopic';
+import SubTopic from './SubTopic';
+import { scrollToRef } from '../subjectPageHelpers';
 
-const SubjectBreadCrumb = injectT(({ t, subject }) => (
-  <Breadcrumb
-    items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [subject], undefined)}
-  />
-));
+const SubjectPageContent = ({
+  subject,
+  filter,
+  filterIds,
+  topicId,
+  setTopicId,
+  subTopicId,
+  setSubTopicId,
+  setSubTopic,
+  setSelectedTopic,
+  setSelectedSubTopic,
+  locale,
+  ndlaFilm,
+  mainRef,
+  subRef,
+  subSubRef,
+  subSubTopicId,
+  setSubSubTopicId,
+  setSelectedSubSubTopic,
+  setSubSubTopic,
+}) => {
+  useEffect(() => {
+    if (subSubTopicId) {
+      scrollToRef(subSubRef);
+    } else if (subTopicId) {
+      scrollToRef(subRef);
+    } else if (topicId) {
+      scrollToRef(mainRef);
+    }
+  }, [topicId, subTopicId, subSubTopicId]);
 
-SubjectBreadCrumb.propTypes = {
-  subject: GraphQLSubjectShape,
-};
+  const mainTopics = subject.topics.map(topic => ({
+    ...topic,
+    label: topic.name,
+    selected: topic.id === topicId,
+  }));
 
-const WithSubjectPageComponent = layout => {
-  switch (layout) {
-    case 'single':
-      return SubjectPageSingle;
-    case 'double':
-      return SubjectPageDouble;
-    case 'stacked':
-      return SubjectPageStacked;
-    default:
-      return SubjectPageSingle;
-  }
-};
-
-const SubjectPageContent = ({ layout, subject, skipToContentId, ...rest }) => {
-  if (!subject) {
-    return null;
-  }
-  const { filters, topics } = subject;
-  const defaultProps = {
-    topics: topics
-      ? topics.map(topic => {
-          if (topic && topic.path) {
-            topic.path = fixEndSlash(topic.path);
-          }
-          return {
-            ...topic,
-            introduction:
-              topic.meta && topic.meta.metaDescription
-                ? topic.meta.metaDescription
-                : '',
-          };
-        })
-      : [],
-    breadcrumb: <SubjectBreadCrumb subject={subject} />,
-    filters: filters
-      ? filters.map(filter => ({
-          ...filter,
-          title: filter.name,
-          value: filter.id,
-        }))
-      : [],
+  const setAndScrollToSubTopic = id => {
+    if (id === subTopicId) {
+      scrollToRef(subRef);
+    }
+    setSubTopicId(id);
   };
 
-  const SubjectPageComponent = WithSubjectPageComponent(layout);
+  const onClickMainTopic = e => {
+    e.preventDefault();
+    const topic = mainTopics.find(
+      topic => topic.label === e.currentTarget.textContent,
+    );
+    if (topic.id === topicId) {
+      scrollToRef(mainRef);
+    }
+    setTopicId(topic.id);
+    setSubTopicId(null);
+    setSubTopic(null);
+    setSubSubTopicId(null);
+    setSubSubTopic(null);
+  };
+
   return (
-    <div id={skipToContentId}>
-      <SubjectPageComponent {...rest} {...defaultProps} />
-    </div>
+    <>
+      <NavigationBox
+        items={mainTopics}
+        onClick={onClickMainTopic}
+        invertedStyle={ndlaFilm}
+        isButtonElements
+        listDirection="horizontal"
+      />
+      {topicId && (
+        <div ref={mainRef}>
+          <MainTopic
+            topicId={topicId}
+            subjectId={subject.id}
+            filterIds={filterIds}
+            setSelectedTopic={setSelectedTopic}
+            setSubTopicId={setAndScrollToSubTopic}
+            showResources={!subTopicId}
+            subTopicId={subTopicId}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            setSubSubTopic={setSubSubTopic}
+            setSubSubTopicId={setSubSubTopicId}
+          />
+        </div>
+      )}
+      {subTopicId && (
+        <div ref={subRef}>
+          <SubTopic
+            topicId={subTopicId}
+            subjectId={subject.id}
+            filterIds={filterIds}
+            setSelectedSubTopic={setSelectedSubTopic}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            setSubSubTopicId={setSubSubTopicId}
+            subSubTopicId={subSubTopicId}
+          />
+        </div>
+      )}
+      {subSubTopicId && (
+        <div ref={subSubRef}>
+          <SubTopic
+            topicId={subSubTopicId}
+            subjectId={subject.id}
+            filterIds={filterIds}
+            setSelectedSubTopic={setSelectedSubSubTopic}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            setSubSubTopicId={setSubSubTopicId}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
 SubjectPageContent.propTypes = {
-  handleFilterClick: PropTypes.func.isRequired,
-  subjectpage: GraphQLSubjectPageShape,
   subject: GraphQLSubjectShape,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ),
-  topics: PropTypes.arrayOf(TopicShape),
-  subjectId: PropTypes.string.isRequired,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
-  layout: PropTypes.oneOf(['single', 'double', 'stacked']),
-  skipToContentId: PropTypes.string.isRequired,
+  filter: GraphQLFilterShape,
+  filterIds: PropTypes.string,
+  topicId: PropTypes.string,
+  subTopicId: PropTypes.string,
+  setTopicId: PropTypes.func,
+  setSubTopicId: PropTypes.func,
+  setSubTopic: PropTypes.func,
+  setSelectedTopic: PropTypes.func,
+  setSelectedSubTopic: PropTypes.func,
+  ndlaFilm: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
+  mainRef: PropTypes.any.isRequired,
+  subRef: PropTypes.any.isRequired,
+  subSubRef: PropTypes.any.isRequired,
+  subSubTopicId: PropTypes.string,
+  setSubSubTopicId: PropTypes.func,
+  setSubSubTopic: PropTypes.func,
+  setSelectedSubSubTopic: PropTypes.func,
 };
 
 export default injectT(SubjectPageContent);

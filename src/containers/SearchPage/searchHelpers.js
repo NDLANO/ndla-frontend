@@ -51,7 +51,9 @@ export const selectContext = (contexts, filters, enabledTab) => {
   if (filteredContext.length === 0) return undefined;
   if (filters.length > 0) {
     const foundContext = filteredContext.filter(context =>
-      filters.some(filter => context.path.includes(filter.replace('urn:', ''))),
+      filters.some(
+        filter => context.path.split('/')?.[1] === filter.replace('urn:', ''),
+      ),
     );
     if (foundContext.length > 0) return foundContext[0];
   }

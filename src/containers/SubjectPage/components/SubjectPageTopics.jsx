@@ -29,10 +29,12 @@ const SubjectPageTopics = props => {
     activeFilters,
     twoColumns,
     subjectPage,
+    ndlaFilm,
   } = props;
   return (
     <ResourcesWrapper
       subjectPage
+      invertedStyle={ndlaFilm}
       header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
       <div data-testid="topic-list">
         {filters && filters.length > 1 && (
@@ -69,6 +71,7 @@ SubjectPageTopics.propTypes = {
   twoColumns: PropTypes.bool,
   subjectPage: PropTypes.bool,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
+  ndlaFilm: PropTypes.bool,
 };
 
 SubjectPageTopics.defaultProps = {

@@ -7,7 +7,13 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import { SUBJECT_PAGE_PATH } from './constants';
+import {
+  PROGRAMME_PAGE_PATH,
+  PROGRAMME_PATH,
+  SUBJECT_PAGE_PATH,
+} from './constants';
+
+import { getProgrammeBySlug } from './data/programmes';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -28,6 +34,10 @@ export function getUrnIdsFromProps(props) {
   return {
     subjectId,
     topicId: params.topicId ? `urn:${params.topicId}` : undefined,
+    subTopicId: params.subTopicId ? `urn:${params.subTopicId}` : undefined,
+    subSubTopicId: params.subSubTopicId
+      ? `urn:${params.subSubTopicId}`
+      : undefined,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,
@@ -72,14 +82,16 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   return `/article/${articleId}${filterParams}`;
 }
 
-export function toSubject(subjectId) {
-  return `${toSubjects()}/${removeUrn(subjectId)}`;
+export function toSubject(subjectId, filters) {
+  const filterParam =
+    filters && filters.length > 0 ? `?filters=${filters}` : '';
+  return `${toSubjects()}/${removeUrn(subjectId)}${filterParam}`;
 }
 
 export function toTopic(subjectId, filters, ...topicIds) {
   const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
+    return toSubject(urnFreeSubjectId, filters);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
   const filterParam =
@@ -148,10 +160,36 @@ export function toLinkProps(linkObject, locale) {
   };
 }
 
+export function toProgramme(programmePath) {
+  return `${PROGRAMME_PATH}/${programmePath}`;
+}
+
+export function toProgrammeSubject(
+  programmePath,
+  subjectId,
+  filterIds,
+  topicIds,
+) {
+  const filterString = filterIds.join(',');
+  return `${toProgramme(programmePath)}${toTopic(
+    subjectId,
+    filterString,
+    topicIds,
+  )}`;
+}
+
 export function isSubjectPagePath(pathname) {
   const match = matchPath(pathname, SUBJECT_PAGE_PATH);
   if (match) {
     return match.isExact;
   }
   return false;
+}
+
+export function getProgrammeByPath(pathname, locale) {
+  const match = matchPath(pathname, PROGRAMME_PAGE_PATH);
+  if (match) {
+    return getProgrammeBySlug(match.params.programme, locale);
+  }
+  return null;
 }

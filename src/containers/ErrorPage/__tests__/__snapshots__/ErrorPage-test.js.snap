@@ -448,7 +448,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   color: #20588f;
   background-color: transparent;
   border: 2px solid #20588f;
-  font-weight: 700;
   box-shadow: none;
   border-radius: 2px;
   background-color: white;

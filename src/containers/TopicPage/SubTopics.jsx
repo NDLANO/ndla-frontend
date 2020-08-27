@@ -56,6 +56,7 @@ class TopicResources extends Component {
       subjectId,
       topicPath,
       location,
+      ndlaFilm,
       t,
     } = this.props;
     const { showAdditionalCores, showAdditionalDialog } = this.state;
@@ -65,6 +66,7 @@ class TopicResources extends Component {
     }
     return (
       <ResourcesWrapper
+        invertedStyle={ndlaFilm}
         header={
           <ResourcesTopicTitle
             messages={{
@@ -85,6 +87,7 @@ class TopicResources extends Component {
             showAdditionalResources={showAdditionalCores}
             toggleAdditionalDialog={this.toggleAdditionalDialog}
             showAdditionalDialog={showAdditionalDialog}
+            invertedStyle={ndlaFilm}
           />
         }>
         <TopicIntroductionList
@@ -107,6 +110,7 @@ TopicResources.propTypes = {
   topicPath: PropTypes.arrayOf(TopicShape).isRequired,
   subtopics: PropTypes.arrayOf(TopicShape).isRequired,
   location: LocationShape,
+  ndlaFilm: PropTypes.bool,
 };
 
 export default withRouter(injectT(TopicResources));

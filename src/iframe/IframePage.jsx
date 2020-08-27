@@ -13,7 +13,7 @@ import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
 import IntlProvider, { injectT } from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { MissingRouterContext } from '@ndla/safelink';
-import { ArticleShape, ResourceTypeShape } from '../shapes';
+import { ArticleShape, ResourceShape } from '../shapes';
 import { createApolloClient } from '../util/apiHelpers';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
@@ -115,10 +115,7 @@ IframePage.propTypes = {
     messages: PropTypes.object.isRequired,
   }).isRequired,
   article: ArticleShape,
-  resource: PropTypes.shape({
-    article: ArticleShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
+  resource: ResourceShape,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,

@@ -15,7 +15,7 @@ import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ArticleShape, ResourceTypeShape } from '../shapes';
+import { ResourceShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
@@ -107,10 +107,7 @@ class IframeArticlePage extends Component {
 
 IframeArticlePage.propTypes = {
   locale: PropTypes.string.isRequired,
-  resource: PropTypes.shape({
-    article: ArticleShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
+  resource: ResourceShape,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

@@ -6,22 +6,30 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import Helmet from 'react-helmet';
-import { SubjectHeader } from '@ndla/ui';
+import {
+  OneColumn,
+  NavigationHeading,
+  Breadcrumblist,
+  SubjectBanner,
+  LayoutItem,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { useIntersectionObserver } from '@ndla/hooks';
 
-import { LocationShape, FilterShape, TopicShape } from '../../shapes';
-import SubjectPageSecondaryContent from './components/SubjectPageSecondaryContent';
-import SubjectPageSocialMedia from './components/SubjectPageSocialMedia';
+import { LocationShape } from '../../shapes';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
+import { getProgrammeByPath, toProgramme, toTopic } from '../../routeHelpers';
+import { scrollToRef } from './subjectPageHelpers';
+import SubjectPageInformation from './components/SubjectPageInformation';
+import { getSubjectBySubjectIdFilters } from '../../data/subjects';
+import { GraphQLSubjectShape } from '../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -34,36 +42,173 @@ const SubjectPage = ({
   skipToContentId,
   t,
   subjectId,
+  urlTopicId,
+  urlSubTopicId,
+  urlSubSubTopicId,
   data,
+  ndlaFilm,
 }) => {
-  const handleFilterClick = newValues => {
-    const searchString = `?${queryString.stringify({
-      filters: newValues.join(','),
-    })}`;
-    history.push(
-      newValues.length > 0
-        ? {
-            search: searchString,
-          }
-        : {},
-    );
-  };
-
-  const activeFilters = getFiltersFromUrlAsArray(location);
   const { subject = {} } = data;
   const { name: subjectName } = subject;
   const subjectpage = subject.subjectpage || {};
 
-  const {
-    latestContent,
-    facebook,
-    banner,
-    editorsChoices,
-    layout,
-    about,
-    metaDescription,
-  } = subjectpage;
+  const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
+  const activeFilterId = getFiltersFromUrl(location);
+  const filter = subject.filters.filter(filter =>
+    activeFilterId.split(',').includes(filter.id),
+  );
+
+  const [topicId, setTopicId] = useState(urlTopicId);
+  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
+  const [subSubTopicId, setSubSubTopicId] = useState(urlSubSubTopicId);
+  const [topic, setTopic] = useState(null);
+  const [subTopic, setSubTopic] = useState(null);
+  const [subSubTopic, setSubSubTopic] = useState(null);
+  const [currentLevel, setCurrentLevel] = useState('Subject');
+
+  const [programme] = useState(() => {
+    const programmeData = {
+      name: data?.subject?.name,
+      url: '',
+    };
+    const programme = getProgrammeByPath(location.pathname, locale);
+    if (programme) {
+      programmeData.name = programme.name[locale];
+      programmeData.url = toProgramme(programme.url[locale]);
+    }
+    return programmeData;
+  });
+  const [subjectNames] = useState(() => {
+    const subjectData = getSubjectBySubjectIdFilters(
+      subject.id,
+      activeFilterId.split(','),
+    );
+    if (subjectData) {
+      return {
+        name: subjectData.name[locale],
+        longName: subjectData.longName[locale],
+      };
+    }
+    // Fallback if subject and filters are missing in static constants
+    const filterString =
+      filter.length > 0
+        ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
+        : '';
+    return {
+      name: subjectName,
+      longName: `${subjectName} ${filterString}`,
+    };
+  });
+
+  useEffect(() => {
+    const baseUrl = programme.url ? programme.url : '';
+    const path = toTopic(
+      subjectId,
+      activeFilterId,
+      topicId,
+      subTopicId,
+      subSubTopicId,
+    );
+    history.replace(`${baseUrl}${path}`);
+  }, [topic, subTopic, subSubTopic]);
+
+  const breadCrumbs = [
+    /*{
+      id: subject.id,
+      label: programme.name,
+      typename: 'Subjecttype',
+      url: programme.url,
+    },*/
+    ...(filter.length > 0
+      ? [
+          {
+            id: filter.id,
+            label: subjectNames.name,
+            typename: 'Subject',
+            url: '#',
+            isCurrent: currentLevel === 'Subject',
+          },
+        ]
+      : []),
+    ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
+    ...(subTopic
+      ? [{ ...subTopic, isCurrent: currentLevel === 'Subtopic' }]
+      : []),
+    ...(subSubTopic
+      ? [{ ...subSubTopic, isCurrent: currentLevel === 'SubSubtopic' }]
+      : []),
+  ];
+
+  const setTopicBreadCrumb = topic => {
+    setCurrentLevel('Topic');
+    setTopicId(topic.id);
+    setTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'Topic',
+            url: '#',
+          }
+        : null,
+    );
+  };
+
+  const setSubTopicBreadCrumb = topic => {
+    setCurrentLevel('Subtopic');
+    setSubTopicId(topic.id);
+    setSubTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'Subtopic',
+            url: '#',
+          }
+        : null,
+    );
+  };
+
+  const setSubSubTopicBreadCrumb = topic => {
+    setCurrentLevel('SubSubtopic');
+    setSubSubTopicId(topic.id);
+    setSubSubTopic(
+      topic
+        ? {
+            ...topic,
+            typename: 'SubSubtopic',
+            url: '#',
+          }
+        : null,
+    );
+  };
+
+  const headerRef = useRef(null);
+  const mainRef = useRef(null);
+  const subRef = useRef(null);
+  const subSubRef = useRef(null);
+
+  const handleNav = (e, item) => {
+    e.preventDefault();
+    const { typename } = item;
+    setCurrentLevel(typename);
+    if (typename === 'Subjecttype' || typename === 'Subject') {
+      scrollToRef(headerRef);
+    } else if (typename === 'Topic') {
+      scrollToRef(mainRef);
+    } else if (typename === 'Subtopic') {
+      scrollToRef(subRef);
+    } else if (typename === 'SubSubtopic') {
+      scrollToRef(subSubRef);
+    }
+  };
+
+  // show/hide breadcrumb based on intersection
+  const [containerRef, { entry }] = useIntersectionObserver({
+    root: null,
+    rootMargin: '-325px',
+  });
+  const showBreadCrumb = entry && entry.isIntersecting;
+  const moveBannerUp = !topic;
   return (
     <>
       <Helmet>
@@ -72,53 +217,81 @@ const SubjectPage = ({
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
-      {about && (
-        <SocialMediaMetadata
-          title={about.title}
-          description={metaDescription}
-          locale={locale}
-          image={
-            about.visualElement && {
-              src: about.visualElement.url,
-              altText: about.visualElement.alt,
-            }
-          }
+      <div ref={containerRef}>
+        <OneColumn>
+          <LayoutItem layout="extend">
+            {about && (
+              <SocialMediaMetadata
+                title={about.title}
+                description={metaDescription}
+                locale={locale}
+                image={
+                  about.visualElement && {
+                    src: about.visualElement.url,
+                    altText: about.visualElement.alt,
+                  }
+                }
+              />
+            )}
+            <div ref={headerRef}>
+              <NavigationHeading invertedStyle={ndlaFilm}>
+                {subjectNames.longName}
+              </NavigationHeading>
+            </div>
+            <SubjectPageContent
+              skipToContentId={skipToContentId}
+              layout={layout}
+              locale={locale}
+              subjectId={subjectId}
+              subjectpage={subjectpage}
+              subject={subject}
+              filter={filter}
+              filterIds={activeFilterId}
+              topicId={topicId}
+              setTopicId={setTopicId}
+              subTopicId={subTopicId}
+              setSubTopicId={setSubTopicId}
+              setSelectedTopic={setTopicBreadCrumb}
+              setSubTopic={setSubTopic}
+              setSelectedSubTopic={setSubTopicBreadCrumb}
+              ndlaFilm={ndlaFilm}
+              mainRef={mainRef}
+              subRef={subRef}
+              subSubRef={subSubRef}
+              subSubTopicId={subSubTopicId}
+              setSubSubTopicId={setSubSubTopicId}
+              setSubSubTopic={setSubSubTopic}
+              setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
+            />
+          </LayoutItem>
+        </OneColumn>
+      </div>
+      {subjectpage.banner && (
+        <SubjectBanner
+          image={subjectpage.banner.desktopUrl}
+          negativeTopMargin={moveBannerUp}
         />
       )}
-      <SubjectHeader
-        heading={subjectName || ''}
-        images={[
-          {
-            url: banner?.desktopUrl || '',
-            types: ['wide', 'desktop', 'tablet'],
-          },
-          { url: banner?.mobileUrl || '', types: ['mobile'] },
-        ]}
-        showFFBadge={config.isFFServer}
-      />
-      <SubjectPageContent
-        skipToContentId={skipToContentId}
-        layout={layout}
-        locale={locale}
-        subjectId={subjectId}
-        subjectpage={subjectpage}
-        subject={subject}
-        activeFilters={activeFilters}
-        handleFilterClick={handleFilterClick}
-      />
-      <SubjectEditorChoices
-        wideScreen
-        editorsChoices={editorsChoices}
-        locale={locale}
-      />
-      {latestContent && (
-        <SubjectPageSecondaryContent
+      {false && subjectpage.about && (
+        <OneColumn wide>
+          <SubjectPageInformation subjectpage={subjectpage} wide />
+        </OneColumn>
+      )}
+      {false && editorsChoices && (
+        <SubjectEditorChoices
+          wideScreen
+          editorsChoices={editorsChoices}
           locale={locale}
-          subjectName={subjectName}
-          latestContent={latestContent}
         />
       )}
-      <SubjectPageSocialMedia facebook={facebook} />
+      <OneColumn wide>
+        <Breadcrumblist
+          items={breadCrumbs}
+          onNav={handleNav}
+          invertedStyle={ndlaFilm}
+          isVisible={showBreadCrumb}
+        />
+      </OneColumn>
     </>
   );
 };
@@ -134,7 +307,7 @@ SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
 
 SubjectPage.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
   match: PropTypes.shape({
@@ -148,14 +321,11 @@ SubjectPage.propTypes = {
   skipToContentId: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
   data: PropTypes.shape({
-    subject: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      path: PropTypes.string,
-      filters: PropTypes.arrayOf(FilterShape),
-      topics: PropTypes.arrayOf(TopicShape),
-    }),
+    subject: GraphQLSubjectShape,
   }),
+  urlTopicId: PropTypes.string,
+  urlSubTopicId: PropTypes.string,
+  urlSubSubTopicId: PropTypes.string,
 };
 
 export default injectT(withTracker(SubjectPage));

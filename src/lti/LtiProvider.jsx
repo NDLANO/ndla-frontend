@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 
-import { ArticleShape, ResourceTypeShape } from '../shapes';
+import { ResourceShape } from '../shapes';
 import SearchContainer from '../containers/SearchPage/SearchContainer';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
@@ -160,10 +160,7 @@ LtiProvider.propTypes = {
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
   }).isRequired,
-  resource: PropTypes.shape({
-    article: ArticleShape,
-    resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  }),
+  resource: ResourceShape,
   ltiData: LtiDataShape,
 };
 
