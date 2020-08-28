@@ -61,7 +61,7 @@ const LastLearningpathStepInfo = ({
         <Resources
           key="resources"
           resourceTypes={resourceTypes}
-          title={topic.title}
+          topic={topic}
           ndlaFilm={ndlaFilm}
           {...topic}
         />

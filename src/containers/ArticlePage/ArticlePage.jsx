@@ -86,8 +86,6 @@ class ArticlePage extends Component {
     const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { scripts } = this.state;
-    const topicTitle =
-      topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
@@ -106,10 +104,8 @@ class ArticlePage extends Component {
             status={error?.status === 404 ? 'error404' : 'error'}>
             {topic && (
               <Resources
-                title={topicTitle}
+                topic={topic}
                 resourceTypes={resourceTypes}
-                supplementaryResources={topic.supplementaryResources}
-                coreResources={topic.coreResources}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
               />
@@ -168,10 +164,8 @@ class ArticlePage extends Component {
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
-                title={topicTitle}
+                topic={topic}
                 resourceTypes={resourceTypes}
-                supplementaryResources={topic.supplementaryResources}
-                coreResources={topic.coreResources}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
               />

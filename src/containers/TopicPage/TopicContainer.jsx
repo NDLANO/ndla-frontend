@@ -72,20 +72,10 @@ const TopicContainer = ({
 }) => {
   const result = transformData(data);
 
-  const {
-    subject,
-    topicPath,
-    resourceTypes,
-    topic: {
-      name: topicTitle,
-      article: topicArticle,
-      supplementaryResources,
-      coreResources,
-    },
-  } = result;
+  const { subject, topicPath, resourceTypes, topic } = result;
 
   const getDocumentTitle = () => {
-    return `${subject?.name || ''} - ${getTitle(topicArticle, topicTitle)}${t(
+    return `${subject?.name || ''} - ${getTitle(topic.article, topic.title)}${t(
       'htmlTitles.titleTemplate',
     )}`;
   };
@@ -93,7 +83,7 @@ const TopicContainer = ({
   const hasArticleError =
     error?.graphQLErrors?.find(err => err.path.includes('article')) !==
     undefined;
-  const article = transformArticle(topicArticle, locale);
+  const article = transformArticle(topic.article, locale);
   const scripts = getArticleScripts(article);
   const subtopics = subject
     ? subject.topics.filter(topic => topic.parent === topicId)
@@ -162,17 +152,15 @@ const TopicContainer = ({
           contentType={constants.contentTypes.SUBJECT}>
           <>
             <SubTopics
-              topicTitle={topicTitle}
+              topicTitle={topic.name}
               subjectId={subjectId}
               subtopics={subtopics}
               topicPath={topicPath}
               ndlaFilm={ndlaFilm}
             />
             <Resources
-              title={topicTitle || ''}
+              topic={topic}
               resourceTypes={resourceTypes}
-              coreResources={coreResources}
-              supplementaryResources={supplementaryResources}
               locale={locale}
               ndlaFilm={ndlaFilm}
             />
