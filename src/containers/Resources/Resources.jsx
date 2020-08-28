@@ -122,7 +122,7 @@ class Resources extends Component {
             }}
             explainationIconLabelledBy="learning-resources-info-header-id"
             id="learning-resources-id"
-            title={topic.title}
+            title={topic.name}
             toggleAdditionalResources={this.toggleAdditionalResources}
             showAdditionalResources={showAdditionalResources}
             hasAdditionalResources={hasAdditionalResources}
