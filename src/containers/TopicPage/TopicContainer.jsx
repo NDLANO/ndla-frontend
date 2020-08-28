@@ -152,7 +152,7 @@ const TopicContainer = ({
           contentType={constants.contentTypes.SUBJECT}>
           <>
             <SubTopics
-              topicTitle={topic.title}
+              topicTitle={topic.name}
               subjectId={subjectId}
               subtopics={subtopics}
               topicPath={topicPath}
