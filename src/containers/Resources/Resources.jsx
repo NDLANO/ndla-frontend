@@ -157,7 +157,6 @@ class Resources extends Component {
 }
 
 Resources.propTypes = {
-  title: PropTypes.string.isRequired,
   topic: TopicShape,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   coreResources: PropTypes.arrayOf(ResourceShape),
