@@ -569,7 +569,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
