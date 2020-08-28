@@ -86,8 +86,6 @@ class ArticlePage extends Component {
     const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { scripts } = this.state;
-    const topicTitle =
-      topicPath.length > 0 ? topicPath[topicPath.length - 1].name : '';
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
