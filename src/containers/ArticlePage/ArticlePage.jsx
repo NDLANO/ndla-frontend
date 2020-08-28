@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Helmet from 'react-helmet';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, LayoutItem } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import {
@@ -161,16 +161,18 @@ class ArticlePage extends Component {
             locale={locale}
             resourceType={resourceType}
             isResourceArticle
-            {...getArticleProps(resource, topic)}>
-            {topic && (
+            {...getArticleProps(resource, topic)}
+          />
+          {topic && (
+            <LayoutItem layout="extend">
               <Resources
                 topic={topic}
                 resourceTypes={resourceTypes}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
               />
-            )}
-          </Article>
+            </LayoutItem>
+          )}
         </OneColumn>
       </div>
     );
