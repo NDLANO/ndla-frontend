@@ -18,7 +18,11 @@ import CompetenceGoals from './CompetenceGoals';
 
 function renderCompetenceGoals(article, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
-  if (isTopicArticle || article.competenceGoals?.length === 0) {
+  if (
+    isTopicArticle ||
+    (article.competenceGoals?.length === 0 &&
+      article.coreElements?.length === 0)
+  ) {
     // disable temporary by adding '|| true'
     // Return null to make sure UIArticle component does not render dialog buttons
     return null;
@@ -78,7 +82,7 @@ const Article = ({
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
       renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : 'clean-in-context'}
+      modifier={isResourceArticle ? resourceType : 'clean'}
       {...rest}>
       {children}
     </UIArticle>
