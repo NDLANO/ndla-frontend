@@ -10,17 +10,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
-import {
-  GraphQLSubjectShape,
-  GraphQLFilterShape,
-} from '../../../graphqlShapes';
+import { GraphQLSubjectShape } from '../../../graphqlShapes';
 import MainTopic from './MainTopic';
 import SubTopic from './SubTopic';
 import { scrollToRef } from '../subjectPageHelpers';
 
 const SubjectPageContent = ({
   subject,
-  filter,
   filterIds,
   topicId,
   setTopicId,
@@ -136,7 +132,6 @@ const SubjectPageContent = ({
 
 SubjectPageContent.propTypes = {
   subject: GraphQLSubjectShape,
-  filter: GraphQLFilterShape,
   filterIds: PropTypes.string,
   topicId: PropTypes.string,
   subTopicId: PropTypes.string,
