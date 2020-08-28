@@ -80,7 +80,7 @@ const CompetenceGoals = ({
           },
         ]
       : []),
-    ...(coreElements
+    ...(coreElements?.length
       ? [
           {
             id: '3',
