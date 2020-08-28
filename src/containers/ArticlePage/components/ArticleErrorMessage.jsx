@@ -13,7 +13,7 @@ import { OneColumn, ErrorMessage } from '@ndla/ui';
 
 const ArticleErrorMessage = ({ status, children, t }) => (
   <OneColumn>
-    <article className="c-article--clean-in-context">
+    <article className="c-article--clean">
       <ErrorMessage
         illustration={{
           url:

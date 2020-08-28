@@ -362,6 +362,11 @@ export const articleInfoFragment = gql`
       id
       title
     }
+    coreElements {
+      id
+      title
+      description
+    }
     oembed
     copyright {
       ...CopyrightInfo
