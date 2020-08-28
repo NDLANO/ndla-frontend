@@ -753,9 +753,9 @@ export const programmeSubjects = [
       en: 'Sikkerhet',
     },
     longName: {
-      nb: 'Sikkerhet (SR Vg2)',
-      nn: 'Sikkerhet (SR Vg2)',
-      en: 'Sikkerhet (SR Vg2)',
+      nb: 'Sikkerhet (SSA Vg2)',
+      nn: 'Sikkerhet (SSA Vg2)',
+      en: 'Sikkerhet (SSA Vg2)',
     },
     subjectId: 'urn:subject:22',
     filters: ['urn:filter:b40855bb-9e21-4944-9257-c96679da549a'],
@@ -764,9 +764,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:5b028a77-1c35-4774-8e10-49e1bac2d6fd'],
     longName: {
-      en: 'Økonomi og administrasjon (SR Vg2)',
-      nb: 'Økonomi og administrasjon (SR Vg2)',
-      nn: 'Økonomi og administrasjon (SR Vg2)',
+      en: 'Økonomi og administrasjon (SSA Vg2)',
+      nb: 'Økonomi og administrasjon (SSA Vg2)',
+      nn: 'Økonomi og administrasjon (SSA Vg2)',
     },
     name: {
       en: 'Økonomi og administrasjon',
@@ -779,9 +779,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:3687db4f-b3c9-471b-b0e6-9e36c39cc445'],
     longName: {
-      en: 'Markedsføring og salg (SR Vg2)',
-      nb: 'Markedsføring og salg (SR Vg2)',
-      nn: 'Markedsføring og salg (SR Vg2)',
+      en: 'Markedsføring og salg (SSA Vg2)',
+      nb: 'Markedsføring og salg (SSA Vg2)',
+      nn: 'Markedsføring og salg (SSA Vg2)',
     },
     name: {
       en: 'Markedsføring og salg',
@@ -794,9 +794,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a'],
     longName: {
-      en: 'Sal og marknadsføring (SR Vg2)',
-      nb: 'Sal og marknadsføring (SR Vg2)',
-      nn: 'Sal og marknadsføring (SR Vg2)',
+      en: 'Sal og marknadsføring (SSA Vg2)',
+      nb: 'Sal og marknadsføring (SSA Vg2)',
+      nn: 'Sal og marknadsføring (SSA Vg2)',
     },
     name: {
       en: 'Sal og marknadsføring',
@@ -809,9 +809,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:8181c74a-d7cd-40de-b199-864e069ffb8b'],
     longName: {
-      en: 'Etablering og drift (SR Vg2)',
-      nb: 'Etablering og drift (SR Vg2)',
-      nn: 'Etablering og drift (SR Vg2)',
+      en: 'Etablering og drift (SSA Vg2)',
+      nb: 'Etablering og drift (SSA Vg2)',
+      nn: 'Etablering og drift (SSA Vg2)',
     },
     name: {
       en: 'Etablering og drift',
@@ -824,9 +824,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:26a01df2-376e-4090-b0bf-eec2ca3d41dd'],
     longName: {
-      en: 'Vertskapsrolla (SR Vg2)',
-      nb: 'Vertskapsrolla (SR Vg2)',
-      nn: 'Vertskapsrolla (SR Vg2)',
+      en: 'Vertskapsrolla (SSA Vg2)',
+      nb: 'Vertskapsrolla (SSA Vg2)',
+      nn: 'Vertskapsrolla (SSA Vg2)',
     },
     name: {
       en: 'Vertskapsrolla',
@@ -839,9 +839,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:34ea30e7-3294-48c1-821b-b0d76ac77eba'],
     longName: {
-      en: 'Bransjeteknikk (SR Vg2)',
-      nb: 'Bransjeteknikk (SR Vg2)',
-      nn: 'Bransjeteknikk (SR Vg2)',
+      en: 'Bransjeteknikk (SSA Vg2)',
+      nb: 'Bransjeteknikk (SSA Vg2)',
+      nn: 'Bransjeteknikk (SSA Vg2)',
     },
     name: {
       en: 'Bransjeteknikk',
@@ -854,9 +854,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:d9900359-abd3-470f-99b2-809e58abd5d7'],
     longName: {
-      en: 'Transport og logistikk (SR Vg2)',
-      nb: 'Transport og logistikk (SR Vg2)',
-      nn: 'Transport og logistikk (SR Vg2)',
+      en: 'Transport og logistikk (SSA Vg2)',
+      nb: 'Transport og logistikk (SSA Vg2)',
+      nn: 'Transport og logistikk (SSA Vg2)',
     },
     name: {
       en: 'Transport og logistikk',
@@ -1563,9 +1563,9 @@ export const programmeSubjects = [
       en: 'Virksomhetsstøtte',
     },
     longName: {
-      nb: 'Virksomhetsstøtte (SR Vg2)',
-      nn: 'Virksomhetsstøtte (SR Vg2)',
-      en: 'Virksomhetsstøtte (SR Vg2)',
+      nb: 'Virksomhetsstøtte (SSA Vg2)',
+      nn: 'Virksomhetsstøtte (SSA Vg2)',
+      en: 'Virksomhetsstøtte (SSA Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71'],
@@ -1578,9 +1578,9 @@ export const programmeSubjects = [
       en: 'Bruker- og driftsstøtte',
     },
     longName: {
-      nb: 'Bruker- og driftsstøtte (SR Vg2)',
-      nn: 'Bruker- og driftsstøtte (SR Vg2)',
-      en: 'Bruker- og driftsstøtte (SR Vg2)',
+      nb: 'Bruker- og driftsstøtte (SSA Vg2)',
+      nn: 'Bruker- og driftsstøtte (SSA Vg2)',
+      en: 'Bruker- og driftsstøtte (SSA Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:a9e14915-c279-462b-82fa-714ceee05116'],
@@ -1593,9 +1593,9 @@ export const programmeSubjects = [
       en: 'Drift og vedlikehold',
     },
     longName: {
-      nb: 'Drift og vedlikehold (SR Vg2)',
-      nn: 'Drift og vedlikehold (SR Vg2)',
-      en: 'Drift og vedlikehold (SR Vg2)',
+      nb: 'Drift og vedlikehold (SSA Vg2)',
+      nn: 'Drift og vedlikehold (SSA Vg2)',
+      en: 'Drift og vedlikehold (SSA Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:d97809a8-47b6-4d26-ae5c-1839f4c27940'],
