@@ -1329,10 +1329,10 @@
     "@ndla/util" "^0.4.0"
     raven-js "^3.22.3"
 
-"@ndla/hooks@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.9.tgz#16ecb17c991210be6a0c2ab676e750ac94a98cec"
-  integrity sha512-uw0OG6FgV3RafnBZyYkltJElfXpGF8TKqOokyioe3N2ZgBVSTa/GrY3zH0VzNR4SQzZUVVjHR7gsrDtF+ZMBkQ==
+"@ndla/hooks@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.10.tgz#3169d54b9cca7d0526814a26ed9e60b3fa0d7d35"
+  integrity sha512-JhfSY6rrKUTnWrxAG02a0D7wWK40euat4fawLSZZIPIDd+eobjtk5MPzbmB3zZ1s7g4zFpoWb1EXAT/JpiXavQ==
   dependencies:
     "@ndla/util" "^0.4.0"
     lodash "^4.17.14"
@@ -1434,15 +1434,15 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.51":
-  version "0.27.51"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.51.tgz#f42fff5bc53ad0952c7683a2cff7c0a0d627e8f9"
-  integrity sha512-Ymxz4iG45x65idfcTNKg5CJ6JKlADyP4fBHWFWlKBSeReIpMqfKUXvzzK+GPphyYIUZ90i+LIutV8rkusn1x1Q==
+"@ndla/ui@^0.27.52":
+  version "0.27.52"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.52.tgz#68b2a4b5e2951ceac7716f520b430c181bde6410"
+  integrity sha512-YX0v+p7GnhteLlxvubwwJndu01AhgM6uBKO4tV+AUD8LEvd9aFkydeOM2cMHa19+OzID5i993daxB0bsEMWKiA==
   dependencies:
     "@ndla/button" "^0.3.34"
     "@ndla/carousel" "^0.3.26"
     "@ndla/core" "^0.6.27"
-    "@ndla/hooks" "^0.1.9"
+    "@ndla/hooks" "^0.1.10"
     "@ndla/i18n" "^0.4.2"
     "@ndla/icons" "^0.6.24"
     "@ndla/licenses" "^0.6.33"
