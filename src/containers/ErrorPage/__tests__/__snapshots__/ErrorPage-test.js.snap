@@ -193,7 +193,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 52px 52px 0 0;
 }
 
-.emotion-65 > div:first-child {
+.emotion-65 > div:first-of-type {
   padding: 26px;
 }
 
@@ -208,7 +208,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     align-items: flex-start;
   }
 
-  .emotion-65 > div:first-child {
+  .emotion-65 > div:first-of-type {
     padding: 26px 45.5px 26px 52px;
   }
 }
@@ -271,12 +271,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: flex-start;
 }
 
-.emotion-63 section:first-child {
+.emotion-63 section:first-of-type {
   margin-right: 52px;
 }
 
 @media (min-width:61.3125em) {
-  .emotion-63 section:first-child {
+  .emotion-63 section:first-of-type {
     margin-right: 104px;
   }
 }
