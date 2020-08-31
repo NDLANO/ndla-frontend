@@ -464,14 +464,14 @@ export const programmes = [
   },
   {
     name: {
-      nb: 'Idrett',
-      nn: 'Idrett',
-      en: 'Idrett',
+      nb: 'Idrettsfag',
+      nn: 'Idrettsfag',
+      en: 'Idrettsfag',
     },
     url: {
-      nb: 'idrett',
-      nn: 'idrett',
-      en: 'idrett',
+      nb: 'idrettsfag',
+      nn: 'idrettsfag',
+      en: 'idrettsfag',
     },
     meta: {
       description: {
