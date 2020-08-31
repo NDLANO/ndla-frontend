@@ -205,7 +205,7 @@ const SubjectPage = ({
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
     root: null,
-    rootMargin: '-325px',
+    rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
   const moveBannerUp = !topic;
@@ -271,12 +271,12 @@ const SubjectPage = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subjectpage.about && (
+      {subjectpage.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subjectpage} wide />
         </OneColumn>
       )}
-      {false && editorsChoices && (
+      {editorsChoices && (
         <SubjectEditorChoices
           wideScreen
           editorsChoices={editorsChoices}
