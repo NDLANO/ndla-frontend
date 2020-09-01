@@ -101,6 +101,8 @@ const dataIdFromObject = object => {
   switch (object.__typename) {
     case 'SearchContext':
       return object.path;
+    case 'FrontpageSearchResult':
+      return object.path;
     default:
       return defaultDataIdFromObject(object);
   }
