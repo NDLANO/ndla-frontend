@@ -208,7 +208,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/CbXtNJ7X.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/co1nyxz1.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -274,7 +274,7 @@ export const programmes = [
           'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/fZgBZL9C.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/omQ1nTbk.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -690,7 +690,7 @@ export const programmes = [
           'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/2Wjf0x99.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/1nOY6rEf.jpg' },
     grades: [
       {
         name: 'Vg1',
@@ -1449,7 +1449,7 @@ export const programmes = [
           'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/jKj1Uw9Y.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/vcus7cFa.jpg' },
     grades: [
       {
         name: 'Vg1',
