@@ -497,9 +497,6 @@ export const programmes = [
                 id: 'common_subject_3',
               },
               {
-                id: 'common_subject_9',
-              },
-              {
                 id: 'study_specialization_subject_12',
               },
               {
@@ -540,9 +537,6 @@ export const programmes = [
               en: 'Fellesfag',
             },
             subjects: [
-              {
-                id: 'common_subject_10',
-              },
               {
                 id: 'common_subject_7',
               },
@@ -608,9 +602,6 @@ export const programmes = [
               en: 'Fellesfag',
             },
             subjects: [
-              {
-                id: 'common_subject_11',
-              },
               {
                 id: 'common_subject_7',
               },
