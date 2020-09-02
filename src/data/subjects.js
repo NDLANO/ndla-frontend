@@ -118,7 +118,7 @@ export const commonSubjects = [
       nn: 'Historie (Vg2 og Vg3)',
       en: 'Historie (Vg2 og Vg3)',
     },
-    subjectId: '',
+    subjectId: 'urn:subject:9',
     filters: [
       'urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
       'urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9',
