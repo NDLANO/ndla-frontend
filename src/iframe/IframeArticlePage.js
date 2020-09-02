@@ -24,6 +24,11 @@ import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
 import { fetchResource } from '../containers/Resources/resourceApi';
 import config from '../config';
 
+export const fetchResourceId = props => {
+  const paths = props.location.pathname.split('/');
+  return paths.find(path => path.startsWith('urn'));
+};
+
 class IframeArticlePage extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +38,7 @@ class IframeArticlePage extends Component {
   }
 
   componentDidMount() {
-    const resourceId = this.props.location.pathname.split('/')[3];
-    fetchResource(resourceId).then(resource => {
+    fetchResource(fetchResourceId(this.props)).then(resource => {
       this.setState({
         path: resource.path || resource.paths?.[0],
       });

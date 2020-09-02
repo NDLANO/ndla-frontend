@@ -12,6 +12,7 @@ import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { IframePage } from '../IframePage';
 import { getLocaleObject } from '../../i18n';
+import { fetchResourceId } from '../IframeArticlePage';
 
 expect.addSnapshotSerializer(serializer);
 
@@ -75,4 +76,18 @@ test('IframePage with article displays error message on status === error', () =>
   );
 
   expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('fetchResourceId fetches correct resource id from path', () => {
+  const url =
+    'https://ndla.no/article-iframe/urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa/24835?removeRelatedContent=true';
+  expect(fetchResourceId({ location: { pathname: url } })).toMatch(
+    'urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa',
+  );
+
+  const urlWithLang =
+    'https://ndla.no/article-iframe/nb/urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa/24835?removeRelatedContent=true';
+  expect(fetchResourceId({ location: { pathname: urlWithLang } })).toMatch(
+    'urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa',
+  );
 });
