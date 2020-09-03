@@ -197,7 +197,7 @@ export const programmes = [
     },
     url: {
       nb: 'frisor-blomster-interior-og-eksponeringsdesign',
-      nn: 'frisor-blomar-interior-og-eksponeringsdesign',
+      nn: 'frisor-blomster-interior-og-eksponeringsdesign',
       en: 'frisor-blomster-interior-og-eksponeringsdesign',
     },
     meta: {
@@ -966,7 +966,7 @@ export const programmes = [
     },
     url: {
       nb: 'medier-og-kommunikasjon',
-      nn: 'medium-og-kommunikasjon',
+      nn: 'medier-og-kommunikasjon',
       en: 'medier-og-kommunikasjon',
     },
     meta: {
@@ -1725,7 +1725,7 @@ export const programmes = [
     },
     url: {
       nb: 'salg-service-og-reiseliv',
-      nn: 'sal-service-og-reiseliv',
+      nn: 'salg-service-og-reiseliv',
       en: 'salg-service-og-reiseliv',
     },
     meta: {
