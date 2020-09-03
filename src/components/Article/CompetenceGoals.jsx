@@ -62,19 +62,10 @@ const CompetenceGoals = ({
   const LK20Goals = competenceGoals.filter(goal => goal.type === 'LK20');
 
   const competenceGoalsList = [
-    ...(LK06Goals.length
-      ? [
-          {
-            id: '1',
-            type: 'LK06',
-            goals: LK06Goals,
-          },
-        ]
-      : []),
     ...(LK20Goals.length
       ? [
           {
-            id: '2',
+            id: '1',
             type: 'LK20',
             goals: LK20Goals,
           },
@@ -83,9 +74,18 @@ const CompetenceGoals = ({
     ...(coreElements?.length
       ? [
           {
-            id: '3',
+            id: '2',
             type: 'coreElement',
             coreItems: coreElements,
+          },
+        ]
+      : []),
+    ...(LK06Goals.length
+      ? [
+          {
+            id: '3',
+            type: 'LK06',
+            goals: LK06Goals,
           },
         ]
       : []),
