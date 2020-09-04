@@ -52,7 +52,7 @@ const SubjectPage = ({
 
   let urlTopicId = topicId;
   // Pre-select topic if only one topic in subject
-  if (data.subject.topics.length === 1) {
+  if (!urlTopicId && data.subject.topics.length === 1) {
     const topic = data.subject.topics[0];
     urlTopicId = topic.id;
   }
