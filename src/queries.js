@@ -393,6 +393,45 @@ export const taxonomyEntityInfo = gql`
   }
 `;
 
+export const subjectpageInfo = gql`
+  fragment SubjectPageInfo on SubjectPage {
+    id
+    topical(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
+    }
+    banner {
+      desktopUrl
+      mobileUrl
+    }
+    facebook
+    twitter
+    layout
+    about {
+      title
+      description
+      visualElement {
+        type
+        url
+        alt
+      }
+    }
+    metaDescription
+    goTo {
+      id
+      name
+    }
+    mostRead(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
+    }
+    latestContent(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
+    }
+    editorsChoices(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
+    }
+  }
+`;
+
 export const subjectTopicsQuery = gql`
   query subjectTopicsQuery($subjectId: String!, $filterIds: String) {
     subject(id: $subjectId) {
@@ -429,46 +468,17 @@ export const subjectPageQuery = gql`
       filters {
         id
         name
+        subjectpage {
+          ...SubjectPageInfo
+        }
       }
       subjectpage {
-        id
-        topical(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        banner {
-          desktopUrl
-          mobileUrl
-        }
-        facebook
-        twitter
-        layout
-        about {
-          title
-          description
-          visualElement {
-            type
-            url
-            alt
-          }
-        }
-        metaDescription
-        goTo {
-          id
-          name
-        }
-        mostRead(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        latestContent(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        editorsChoices(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
+        ...SubjectPageInfo
       }
     }
   }
   ${topicInfoFragment}
+  ${subjectpageInfo}
   ${taxonomyEntityInfo}
 `;
 

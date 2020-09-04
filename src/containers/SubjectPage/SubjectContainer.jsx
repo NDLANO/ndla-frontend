@@ -50,14 +50,17 @@ const SubjectPage = ({
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
-  const subjectpage = subject.subjectpage || {};
-
-  const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
   const activeFilterId = getFiltersFromUrl(location);
   const filter = subject.filters.filter(filter =>
     activeFilterId.split(',').includes(filter.id),
   );
+
+  // get subjectpage from filter
+  const filterSubjectpage = filter?.[0]?.subjectpage;
+  const subjectpage = filterSubjectpage || subject.subjectpage || {};
+
+  const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
   const [topicId, setTopicId] = useState(urlTopicId);
   const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
@@ -271,7 +274,7 @@ const SubjectPage = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subjectpage.about && (
+      {subjectpage.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subjectpage} wide />
         </OneColumn>
