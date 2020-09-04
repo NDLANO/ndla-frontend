@@ -401,11 +401,7 @@ export const subjectpageInfo = gql`
     }
     banner {
       desktopUrl
-      mobileUrl
     }
-    facebook
-    twitter
-    layout
     about {
       title
       description
@@ -416,16 +412,6 @@ export const subjectpageInfo = gql`
       }
     }
     metaDescription
-    goTo {
-      id
-      name
-    }
-    mostRead(subjectId: $subjectId) {
-      ...TaxonomyEntityInfo
-    }
-    latestContent(subjectId: $subjectId) {
-      ...TaxonomyEntityInfo
-    }
     editorsChoices(subjectId: $subjectId) {
       ...TaxonomyEntityInfo
     }

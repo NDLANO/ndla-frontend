@@ -230,7 +230,7 @@ const SubjectPage = ({
                 locale={locale}
                 image={
                   about.visualElement && {
-                    src: about.visualElement.url,
+                    url: about.visualElement.url,
                     altText: about.visualElement.alt,
                   }
                 }
