@@ -14,6 +14,7 @@ import {
 } from './constants';
 
 import { getProgrammeBySlug } from './data/programmes';
+import { getSubjectBySubjectIdFilters } from './data/subjects';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -117,7 +118,19 @@ export const toTopicPartial = (
   ...topicIds
 ) => topicId => toTopic(subjectId, filters, ...topicIds, topicId);
 
-export function toBreadcrumbItems(rootName, paths, filters = '') {
+export function toBreadcrumbItems(
+  rootName,
+  paths,
+  filters = '',
+  locale = 'nb',
+) {
+  // henter longname fra filter og bruk i stedet for første ledd i path
+  let subject = paths[0];
+  const subjectData = getSubjectBySubjectIdFilters(
+    subject.id,
+    filters.split(','),
+  );
+  subject.name = subjectData?.longName[locale] || subject.name;
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
   const links = paths
     .filter(Boolean)

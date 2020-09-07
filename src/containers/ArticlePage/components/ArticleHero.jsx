@@ -55,6 +55,7 @@ const ArticleHero = ({
   subject,
   topicPath,
   location,
+  locale,
   t,
 }) => (
   <WrapperComponent
@@ -76,6 +77,7 @@ const ArticleHero = ({
                 t('breadcrumb.toFrontpage'),
                 [subject, ...topicPath, resource],
                 getFiltersFromUrl(location),
+                locale,
               )}
             />
           )}
@@ -91,6 +93,7 @@ ArticleHero.propTypes = {
   subject: SubjectShape,
   topicPath: PropTypes.arrayOf(TopicShape),
   location: LocationShape,
+  locale: PropTypes.string,
   metaImage: PropTypes.shape({
     url: PropTypes.string,
     alt: PropTypes.string,
