@@ -274,12 +274,12 @@ const SubjectPage = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {subjectpage.about && (
+      {false && subjectpage.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subjectpage} wide />
         </OneColumn>
       )}
-      {false && editorsChoices && (
+      {false && editorsChoices?.length > 0 && (
         <SubjectEditorChoices
           wideScreen
           editorsChoices={editorsChoices}
