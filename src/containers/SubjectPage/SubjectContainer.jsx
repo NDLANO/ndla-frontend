@@ -25,13 +25,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import {
-  getProgrammeByPath,
-  toProgramme,
-  toTopic,
-  toSubject,
-} from '../../routeHelpers';
-import { scrollToRef } from './subjectPageHelpers';
+import { toTopic, toSubject } from '../../routeHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
@@ -42,7 +36,6 @@ const getDocumentTitle = ({ t, data }) => {
 
 const SubjectPage = ({
   location,
-  history,
   locale,
   skipToContentId,
   t,
