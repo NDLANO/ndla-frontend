@@ -38,7 +38,6 @@ const SubTopic = ({
       setSelectedSubTopic({
         id: data.topic.id,
         label: data.topic.name,
-        url: data.topic.path,
       }),
   });
 
