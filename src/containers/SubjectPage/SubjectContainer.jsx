@@ -25,7 +25,12 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { getProgrammeByPath, toProgramme, toTopic, toSubject } from '../../routeHelpers';
+import {
+  getProgrammeByPath,
+  toProgramme,
+  toTopic,
+  toSubject,
+} from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
@@ -47,7 +52,6 @@ const SubjectPage = ({
   urlSubSubTopicId,
   data,
   ndlaFilm,
-  match,
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
@@ -75,9 +79,9 @@ const SubjectPage = ({
     if (!urlTopicId) setTopic(undefined);
     if (!urlSubTopicId) setSubTopic(undefined);
     if (!urlSubSubTopicId) setSubSubTopic(undefined);
-  })
+  });
 
-  const [programme] = useState(() => {
+  /* const [programme] = useState(() => {
     const programmeData = {
       name: data?.subject?.name,
       url: '',
@@ -88,7 +92,7 @@ const SubjectPage = ({
       programmeData.url = toProgramme(programme.url[locale]);
     }
     return programmeData;
-  });
+  }); */
   const [subjectNames] = useState(() => {
     const subjectData = getSubjectBySubjectIdFilters(
       subject.id,
@@ -174,7 +178,13 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'SubSubtopic',
-            url: toTopic(subjectId, activeFilterId, topicId, subTopicId, topic.id),
+            url: toTopic(
+              subjectId,
+              activeFilterId,
+              topicId,
+              subTopicId,
+              topic.id,
+            ),
           }
         : null,
     );
@@ -184,21 +194,6 @@ const SubjectPage = ({
   const mainRef = useRef(null);
   const subRef = useRef(null);
   const subSubRef = useRef(null);
-
-  const handleNav = (e, item) => {
-    e.preventDefault();
-    const { typename } = item;
-    setCurrentLevel(typename);
-    if (typename === 'Subjecttype' || typename === 'Subject') {
-      scrollToRef(headerRef);
-    } else if (typename === 'Topic') {
-      scrollToRef(mainRef);
-    } else if (typename === 'Subtopic') {
-      scrollToRef(subRef);
-    } else if (typename === 'SubSubtopic') {
-      scrollToRef(subSubRef);
-    }
-  };
 
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
@@ -281,7 +276,6 @@ const SubjectPage = ({
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
-          // onNav={handleNav}
           invertedStyle={ndlaFilm}
           isVisible={showBreadCrumb}
         />

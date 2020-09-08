@@ -51,7 +51,7 @@ const SubTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subSubTopicId,
-    url: toTopic(subjectId, filterIds, topicId, topic.id, item.id)
+    url: toTopic(subjectId, filterIds, topicId, topic.id, item.id),
   }));
   const resourceTypes = data.resourceTypes;
 
