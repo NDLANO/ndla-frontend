@@ -41,9 +41,9 @@ const ResourcePage = props => {
   }
 
   if (data.resource && !urlInPaths(props.location, data.resource)) {
-    return <MovedResourcePage resource={data.resource} locale={props.locale} />
+    return <MovedResourcePage resource={data.resource} locale={props.locale} />;
   }
-  
+
   if (!data.resource) {
     return <NotFoundPage />;
   }

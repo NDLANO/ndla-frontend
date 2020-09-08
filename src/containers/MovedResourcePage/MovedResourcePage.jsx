@@ -13,15 +13,17 @@ import { SearchResultList, OneColumn } from '@ndla/ui';
 
 import { searchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
-import { convertResult, resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
+import {
+  convertResult,
+  resultsWithContentTypeBadgeAndImage,
+} from '../SearchPage/searchHelpers';
 import handleError from '../../util/handleError';
 import { ResourceShape } from '../../shapes';
 
 const MovedResourcePage = ({ resource, locale, t }) => {
-
-  const { data, loading, error} = useGraphQuery(searchQuery, {
-    variables: { ids: resource.article.id.toString() }
-  })
+  const { data, loading, error } = useGraphQuery(searchQuery, {
+    variables: { ids: resource.article.id.toString() },
+  });
 
   if (loading) {
     return null;
@@ -32,20 +34,23 @@ const MovedResourcePage = ({ resource, locale, t }) => {
     return `Error: ${error.message}`;
   }
 
-  const convertedResults = convertResult(data.search.results, [], 'all', locale);
-  const results = resultsWithContentTypeBadgeAndImage(
-    convertedResults,
-    t
-  )
+  const convertedResults = convertResult(
+    data.search.results,
+    [],
+    'all',
+    locale,
+  );
+  const results = resultsWithContentTypeBadgeAndImage(convertedResults, t);
 
   return (
     <OneColumn>
-      <SearchResultList
-        results={results}
-      /> 
+      <h1>{t('movedResourcePage.title')}</h1>
+      <div className="c-search-result">
+        <SearchResultList results={results} />
+      </div>
     </OneColumn>
   );
-}
+};
 
 MovedResourcePage.propTypes = {
   resource: ResourceShape,
