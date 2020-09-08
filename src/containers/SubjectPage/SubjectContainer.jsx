@@ -25,7 +25,12 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { getProgrammeByPath, toProgramme, toTopic, toSubject } from '../../routeHelpers';
+import {
+  getProgrammeByPath,
+  toProgramme,
+  toTopic,
+  toSubject,
+} from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
@@ -47,7 +52,6 @@ const SubjectPage = ({
   urlSubSubTopicId,
   data,
   ndlaFilm,
-  match,
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
@@ -75,7 +79,7 @@ const SubjectPage = ({
     if (!urlTopicId) setTopic(undefined);
     if (!urlSubTopicId) setSubTopic(undefined);
     if (!urlSubSubTopicId) setSubSubTopic(undefined);
-  })
+  });
 
   const [programme] = useState(() => {
     const programmeData = {
@@ -174,7 +178,13 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'SubSubtopic',
-            url: toTopic(subjectId, activeFilterId, topicId, subTopicId, topic.id),
+            url: toTopic(
+              subjectId,
+              activeFilterId,
+              topicId,
+              subTopicId,
+              topic.id,
+            ),
           }
         : null,
     );
@@ -281,7 +291,6 @@ const SubjectPage = ({
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
-          // onNav={handleNav}
           invertedStyle={ndlaFilm}
           isVisible={showBreadCrumb}
         />

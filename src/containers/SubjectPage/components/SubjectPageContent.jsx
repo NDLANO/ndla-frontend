@@ -42,12 +42,13 @@ const SubjectPageContent = ({
   }, [topicId, subTopicId, subSubTopicId]);
 
   const mainTopics = subject.topics.map(topic => {
-    return ({
-    ...topic,
-    label: topic.name,
-    selected: topic.id === topicId,
-    url: toTopic(subject.id, filterIds, topic.id)
-  })});
+    return {
+      ...topic,
+      label: topic.name,
+      selected: topic.id === topicId,
+      url: toTopic(subject.id, filterIds, topic.id),
+    };
+  });
 
   return (
     <>
