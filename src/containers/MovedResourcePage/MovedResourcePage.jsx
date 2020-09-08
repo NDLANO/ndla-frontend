@@ -21,8 +21,12 @@ import handleError from '../../util/handleError';
 import { ResourceShape } from '../../shapes';
 
 const MovedResourcePage = ({ resource, locale, t }) => {
+  const isLearningpath = !!resource.learningpath;
   const { data, loading, error } = useGraphQuery(searchQuery, {
-    variables: { ids: resource.article.id.toString() },
+    variables: { 
+      ids: (isLearningpath ? resource.learningpath.id : resource.article.id).toString(),
+      contextTypes: isLearningpath ? 'learningpath' : 'standard,topic-article',
+    },
   });
 
   if (loading) {
