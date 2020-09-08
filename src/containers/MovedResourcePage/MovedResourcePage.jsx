@@ -23,8 +23,11 @@ import { ResourceShape } from '../../shapes';
 const MovedResourcePage = ({ resource, locale, t }) => {
   const isLearningpath = !!resource.learningpath;
   const { data, loading, error } = useGraphQuery(searchQuery, {
-    variables: { 
-      ids: (isLearningpath ? resource.learningpath.id : resource.article.id).toString(),
+    variables: {
+      ids: (isLearningpath
+        ? resource.learningpath.id
+        : resource.article.id
+      ).toString(),
       contextTypes: isLearningpath ? 'learningpath' : 'standard,topic-article',
     },
   });
