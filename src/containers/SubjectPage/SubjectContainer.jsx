@@ -25,7 +25,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { getProgrammeByPath, toProgramme, toTopic } from '../../routeHelpers';
+import { getProgrammeByPath, toProgramme, toTopic, toSubject } from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
@@ -47,6 +47,7 @@ const SubjectPage = ({
   urlSubSubTopicId,
   data,
   ndlaFilm,
+  match,
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
@@ -66,6 +67,15 @@ const SubjectPage = ({
   const [subTopic, setSubTopic] = useState(null);
   const [subSubTopic, setSubSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
+
+  useEffect(() => {
+    setTopicId(urlTopicId);
+    setSubTopicId(urlSubTopicId);
+    setSubSubTopicId(urlSubSubTopicId);
+    if (!urlTopicId) setTopic(undefined);
+    if (!urlSubTopicId) setSubTopic(undefined);
+    if (!urlSubSubTopicId) setSubSubTopic(undefined);
+  })
 
   const [programme] = useState(() => {
     const programmeData = {
@@ -101,18 +111,6 @@ const SubjectPage = ({
     };
   });
 
-  useEffect(() => {
-    const baseUrl = programme.url ? programme.url : '';
-    const path = toTopic(
-      subjectId,
-      activeFilterId,
-      topicId,
-      subTopicId,
-      subSubTopicId,
-    );
-    history.replace(`${baseUrl}${path}`);
-  }, [topic, subTopic, subSubTopic]);
-
   const breadCrumbs = [
     /*{
       id: subject.id,
@@ -126,7 +124,7 @@ const SubjectPage = ({
             id: filter.id,
             label: subjectNames.name,
             typename: 'Subject',
-            url: '#',
+            url: toSubject(subjectId, activeFilterId),
             isCurrent: currentLevel === 'Subject',
           },
         ]
@@ -148,7 +146,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'Topic',
-            url: '#',
+            url: toTopic(subjectId, activeFilterId, topic.id),
           }
         : null,
     );
@@ -162,7 +160,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'Subtopic',
-            url: '#',
+            url: toTopic(subjectId, activeFilterId, topicId, topic.id),
           }
         : null,
     );
@@ -176,7 +174,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'SubSubtopic',
-            url: '#',
+            url: toTopic(subjectId, activeFilterId, topicId, subTopicId, topic.id),
           }
         : null,
     );
@@ -249,7 +247,6 @@ const SubjectPage = ({
               topicId={topicId}
               setTopicId={setTopicId}
               subTopicId={subTopicId}
-              setSubTopicId={setSubTopicId}
               setSelectedTopic={setTopicBreadCrumb}
               setSubTopic={setSubTopic}
               setSelectedSubTopic={setSubTopicBreadCrumb}
@@ -258,8 +255,6 @@ const SubjectPage = ({
               subRef={subRef}
               subSubRef={subSubRef}
               subSubTopicId={subSubTopicId}
-              setSubSubTopicId={setSubSubTopicId}
-              setSubSubTopic={setSubSubTopic}
               setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
             />
           </LayoutItem>
@@ -286,7 +281,7 @@ const SubjectPage = ({
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
-          onNav={handleNav}
+          // onNav={handleNav}
           invertedStyle={ndlaFilm}
           isVisible={showBreadCrumb}
         />

@@ -15,6 +15,7 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
+import { toTopic } from '../../../routeHelpers';
 
 const SubTopic = ({
   topicId,
@@ -24,7 +25,6 @@ const SubTopic = ({
   locale,
   ndlaFilm,
   subSubTopicId,
-  setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -38,6 +38,7 @@ const SubTopic = ({
       setSelectedSubTopic({
         id: data.topic.id,
         label: data.topic.name,
+        url: data.topic.path,
       }),
   });
 
@@ -50,16 +51,9 @@ const SubTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subSubTopicId,
+    url: toTopic(subjectId, filterIds, topicId, topic.id, item.id)
   }));
   const resourceTypes = data.resourceTypes;
-
-  const onClickSubTopic = e => {
-    e.preventDefault();
-    const topic = subTopics.find(
-      topic => topic.label === e.currentTarget.textContent,
-    );
-    setSubSubTopicId(topic.id);
-  };
 
   return (
     <>
@@ -81,9 +75,7 @@ const SubTopic = ({
           heading="emner"
           items={subTopics}
           listDirection="horizontal"
-          onClick={onClickSubTopic}
           invertedStyle={ndlaFilm}
-          isButtonElements
         />
       )}
       <Resources
@@ -103,7 +95,6 @@ SubTopic.propTypes = {
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  setSubSubTopicId: PropTypes.func,
   subSubTopicId: PropTypes.string,
 };
 
