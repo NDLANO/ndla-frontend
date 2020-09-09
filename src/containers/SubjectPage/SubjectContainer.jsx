@@ -25,7 +25,7 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toTopic, toSubject } from '../../routeHelpers';
+import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
@@ -121,7 +121,7 @@ const SubjectPage = ({
             id: filter.id,
             label: subjectNames.name,
             typename: 'Subject',
-            url: toSubject(subjectId, activeFilterId),
+            url: '#',
             isCurrent: currentLevel === 'Subject',
           },
         ]
@@ -143,7 +143,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'Topic',
-            url: toTopic(subjectId, activeFilterId, topic.id),
+            url: '#',
           }
         : null,
     );
@@ -157,7 +157,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'Subtopic',
-            url: toTopic(subjectId, activeFilterId, topicId, topic.id),
+            url: '#',
           }
         : null,
     );
@@ -171,13 +171,7 @@ const SubjectPage = ({
         ? {
             ...topic,
             typename: 'SubSubtopic',
-            url: toTopic(
-              subjectId,
-              activeFilterId,
-              topicId,
-              subTopicId,
-              topic.id,
-            ),
+            url: '#',
           }
         : null,
     );
@@ -187,6 +181,21 @@ const SubjectPage = ({
   const mainRef = useRef(null);
   const subRef = useRef(null);
   const subSubRef = useRef(null);
+
+  const handleNav = (e, item) => {	
+    e.preventDefault();	
+    const { typename } = item;	
+    setCurrentLevel(typename);	
+    if (typename === 'Subjecttype' || typename === 'Subject') {	
+      scrollToRef(headerRef);	
+    } else if (typename === 'Topic') {	
+      scrollToRef(mainRef);	
+    } else if (typename === 'Subtopic') {	
+      scrollToRef(subRef);	
+    } else if (typename === 'SubSubtopic') {	
+      scrollToRef(subSubRef);	
+    }	
+  };
 
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
@@ -269,6 +278,7 @@ const SubjectPage = ({
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
+          onNav={handleNav}
           invertedStyle={ndlaFilm}
           isVisible={showBreadCrumb}
         />
