@@ -64,6 +64,7 @@ export const searchQuery = gql`
           id
           breadcrumbs
           filters {
+            id
             name
             relevance
           }
@@ -76,6 +77,7 @@ export const searchQuery = gql`
             language
           }
           subject
+          subjectId
         }
         supportedLanguages
         traits
@@ -193,6 +195,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
@@ -205,6 +211,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
