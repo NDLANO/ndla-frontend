@@ -417,9 +417,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:8bfd0a97-d456-448d-8b5f-3bc49e445b37'],
     longName: {
-      en: 'Matematikk (1T)',
-      nb: 'Matematikk (1T)',
-      nn: 'Matematikk (1T)',
+      en: 'Matematikk 1T',
+      nb: 'Matematikk 1T',
+      nn: 'Matematikk 1T',
     },
     name: {
       en: 'Matematikk 1T',
