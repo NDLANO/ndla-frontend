@@ -195,6 +195,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
@@ -207,6 +211,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
