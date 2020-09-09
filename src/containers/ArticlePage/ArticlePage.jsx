@@ -162,6 +162,7 @@ class ArticlePage extends Component {
             id={skipToContentId}
             article={article}
             locale={locale}
+            subject={subject}
             {...getArticleProps(resource, topic)}>
             {topic && (
               <Resources
