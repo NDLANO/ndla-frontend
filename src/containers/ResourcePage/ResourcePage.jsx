@@ -18,6 +18,7 @@ import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
 
 const urlInPaths = (location, resource) => {
@@ -38,7 +39,12 @@ const ResourcePage = props => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-  if (!data.resource || !urlInPaths(props.location, data.resource)) {
+
+  if (data.resource && !urlInPaths(props.location, data.resource)) {
+    return <MovedResourcePage resource={data.resource} locale={props.locale} />;
+  }
+
+  if (!data.resource) {
     return <NotFoundPage />;
   }
   const { subject, topic } = data;
