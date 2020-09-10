@@ -359,11 +359,23 @@ export const articleInfoFragment = gql`
     competenceGoals {
       id
       title
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements {
       id
       title
       description
+      curriculum {
+        id
+        title
+      }
     }
     oembed
     copyright {
@@ -656,11 +668,23 @@ export const competenceGoalsQuery = gql`
       id
       name: title
       type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements(codes: $codes) {
       id
       name: title
       text: description
+      curriculum {
+        id
+        title
+      }
     }
   }
 `;
