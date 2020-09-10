@@ -53,6 +53,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       <FrontpageHeader
+        showHeader={false}
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
