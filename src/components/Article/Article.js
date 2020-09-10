@@ -20,8 +20,8 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     isTopicArticle ||
-    (article.competenceGoals?.length === 0 &&
-      article.coreElements?.length === 0)
+    ((!article.competenceGoals || article.competenceGoals?.length === 0) &&
+      (!article.coreElements || article.coreElements?.length === 0))
   ) {
     // disable temporary by adding '|| true'
     // Return null to make sure UIArticle component does not render dialog buttons
