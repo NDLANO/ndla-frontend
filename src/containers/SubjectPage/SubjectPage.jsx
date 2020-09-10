@@ -41,8 +41,8 @@ const SubjectPage = ({
   useEffect(() => {
     if (data?.subject) {
       history.replace({
-        search: `?filters=${data.subject.filters[0].id}`
-      })
+        search: `?filters=${data.subject.filters[0].id}`,
+      });
     }
   }, [data]);
 
