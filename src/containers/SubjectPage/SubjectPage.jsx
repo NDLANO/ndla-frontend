@@ -39,7 +39,7 @@ const SubjectPage = ({
   });
 
   useEffect(() => {
-    if (data?.subject?.filters && !getFiltersFromUrl(location)) {
+    if (data?.subject?.filters?.length && !getFiltersFromUrl(location)) {
       history.replace({
         search: `?filters=${data.subject.filters[0].id}`,
       });
