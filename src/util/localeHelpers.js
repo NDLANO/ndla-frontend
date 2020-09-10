@@ -8,9 +8,9 @@
 
 import { preferredLocales } from '../i18n';
 
-const getLocaleURL = (newLocale, locale, location = {}) => {
+const getLocaleURL = (newLocale, locale, location) => {
   const { pathname, search } = location;
-  const basePath = pathname?.startsWith(`/${locale}/`)
+  const basePath = pathname.startsWith(`/${locale}/`)
     ? pathname.replace(`/${locale}/`, '/')
     : pathname;
   return newLocale === 'nb'
