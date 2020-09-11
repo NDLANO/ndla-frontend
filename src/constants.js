@@ -152,7 +152,11 @@ export const FRONTPAGE_CATEGORIES = {
           name: 'Bygg- og anleggsteknikk Vg1',
           id: 'urn:subject:11',
         },
-        { name: 'Elektrofag Vg1', id: 'urn:subject:16', beta: true },
+        {
+          name: 'Elektro og datateknologi',
+          id: 'urn:subject:16',
+          beta: true,
+        },
         {
           name: 'Helse- og oppvekstfag Vg1',
           id: 'urn:subject:24',
@@ -178,7 +182,7 @@ export const FRONTPAGE_CATEGORIES = {
           id: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
         },
         {
-          name: 'Teknikk og industriell produksjon Vg1',
+          name: 'Teknologi- og industrifag',
           id: 'urn:subject:28',
         },
         {
