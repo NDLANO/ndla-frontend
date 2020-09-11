@@ -35,6 +35,7 @@ const getDocumentTitle = ({ t, data }) => {
 };
 
 const SubjectPage = ({
+  history,
   location,
   locale,
   skipToContentId,
@@ -197,6 +198,12 @@ const SubjectPage = ({
     }	
   };
 
+  const onClickTopics = (e, subTopics) => {
+    e.preventDefault();
+    const target = subTopics.find(t => t.label === e.currentTarget.textContent)
+    history.replace(target.url)
+  }
+
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
     root: null,
@@ -241,9 +248,9 @@ const SubjectPage = ({
               subjectpage={subjectpage}
               subject={subject}
               filterIds={activeFilterId}
-              topicId={topicId}
+              topicId={urlTopicId}
               setTopicId={setTopicId}
-              subTopicId={subTopicId}
+              subTopicId={urlSubTopicId}
               setSelectedTopic={setTopicBreadCrumb}
               setSubTopic={setSubTopic}
               setSelectedSubTopic={setSubTopicBreadCrumb}
@@ -251,8 +258,9 @@ const SubjectPage = ({
               mainRef={mainRef}
               subRef={subRef}
               subSubRef={subSubRef}
-              subSubTopicId={subSubTopicId}
+              subSubTopicId={urlSubSubTopicId}
               setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
+              onClickTopics={onClickTopics}
             />
           </LayoutItem>
         </OneColumn>

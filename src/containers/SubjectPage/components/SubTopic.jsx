@@ -25,6 +25,7 @@ const SubTopic = ({
   locale,
   ndlaFilm,
   subSubTopicId,
+  onClickTopics,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -75,6 +76,9 @@ const SubTopic = ({
           items={subTopics}
           listDirection="horizontal"
           invertedStyle={ndlaFilm}
+          onClick={e => {
+            onClickTopics(e, subTopics)
+          }}
         />
       )}
       <Resources
@@ -95,6 +99,7 @@ SubTopic.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   subSubTopicId: PropTypes.string,
+  onClickTopics: PropTypes.func,
 };
 
 export default SubTopic;

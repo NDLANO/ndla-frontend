@@ -30,6 +30,7 @@ const SubjectPageContent = ({
   subSubRef,
   subSubTopicId,
   setSelectedSubSubTopic,
+  onClickTopics,
 }) => {
   useEffect(() => {
     if (subSubTopicId) {
@@ -56,6 +57,9 @@ const SubjectPageContent = ({
         items={mainTopics}
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
+        onClick={e => {
+          onClickTopics(e, mainTopics)
+        }}
       />
       {topicId && (
         <div ref={mainRef}>
@@ -68,6 +72,7 @@ const SubjectPageContent = ({
             subTopicId={subTopicId}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -81,6 +86,7 @@ const SubjectPageContent = ({
             locale={locale}
             ndlaFilm={ndlaFilm}
             subSubTopicId={subSubTopicId}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -93,6 +99,7 @@ const SubjectPageContent = ({
             setSelectedSubTopic={setSelectedSubSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -116,6 +123,7 @@ SubjectPageContent.propTypes = {
   subSubRef: PropTypes.any.isRequired,
   subSubTopicId: PropTypes.string,
   setSelectedSubSubTopic: PropTypes.func,
+  onClickTopics: PropTypes.func,
 };
 
 export default injectT(SubjectPageContent);
