@@ -25,8 +25,8 @@ describe('Subjects page', () => {
   it('should include a list of valid topic links', () => {
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li button').each(el => {
-      // cy.wrap(el).should('have.attr', 'href');
+    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+      cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
   });
