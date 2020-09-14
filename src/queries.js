@@ -31,6 +31,7 @@ export const searchQuery = gql`
     $subjects: String
     $languageFilter: String
     $relevance: String
+    $grepCodes: String
   ) {
     search(
       query: $query
@@ -47,6 +48,7 @@ export const searchQuery = gql`
       subjects: $subjects
       languageFilter: $languageFilter
       relevance: $relevance
+      grepCodes: $grepCodes
     ) {
       language
       page
