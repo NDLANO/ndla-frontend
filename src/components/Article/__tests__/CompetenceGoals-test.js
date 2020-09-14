@@ -15,7 +15,7 @@ const competenceGoals = [
       'gjøre rede for argumentasjonen i andres tekster og skrive egne argumenterende tekster på hovedmål og sidemål',
     curriculum: {
       id: 'NOR1-05',
-      name: 'Læreplan i norsk',
+      title: 'Læreplan i norsk',
     },
   },
   {
@@ -23,7 +23,7 @@ const competenceGoals = [
     name: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
     curriculum: {
       id: 'MOK2-01',
-      name:
+      title:
         'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
     },
   },
@@ -32,7 +32,7 @@ const competenceGoals = [
     name: 'lage budskap tilpasset målgruppe, formål og kanal',
     curriculum: {
       id: 'MOK2-01',
-      name:
+      title:
         'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
     },
   },
