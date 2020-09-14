@@ -6,31 +6,31 @@ Array [
     "elements": Array [
       Object {
         "id": "K15502",
-        "name": undefined,
+        "name": "gjøre rede for argumentasjonen i andres tekster og skrive egne argumenterende tekster på hovedmål og sidemål",
         "text": undefined,
         "url": "",
       },
     ],
     "id": "NOR1-05",
-    "title": "Læreplan i norsk (NOR1-05)",
+    "title": "undefined (NOR1-05)",
   },
   Object {
     "elements": Array [
       Object {
         "id": "K17637",
-        "name": undefined,
+        "name": "bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk",
         "text": undefined,
         "url": "",
       },
       Object {
         "id": "K17635",
-        "name": undefined,
+        "name": "lage budskap tilpasset målgruppe, formål og kanal",
         "text": undefined,
         "url": "",
       },
     ],
     "id": "MOK2-01",
-    "title": "Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon (MOK2-01)",
+    "title": "undefined (MOK2-01)",
   },
 ]
 `;
