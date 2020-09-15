@@ -78,9 +78,9 @@ const CompetenceGoals = ({
   );
   const LK20Goals = groupByCurriculums(
     competenceGoals.filter(goal => goal.type === 'LK20'),
-    true,
+    false,
   );
-  const LK20Elements = groupByCurriculums(coreElements || [], true);
+  const LK20Elements = groupByCurriculums(coreElements || [], false);
 
   const competenceGoalsList = [
     ...(LK20Goals?.length
