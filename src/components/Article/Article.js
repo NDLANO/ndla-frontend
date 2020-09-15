@@ -21,7 +21,8 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
   if (
     !isTopicArticle &&
     (article.grepCodes?.length ||
-      (article.competenceGoals?.length && article.coreElements?.length))
+      article.competenceGoals?.length ||
+      article.coreElements?.length)
   ) {
     // eslint-disable-next-line react/prop-types
     return ({ Dialog, dialogProps }) => (
@@ -68,6 +69,10 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
+  const competenceGoalTypes = new Set(
+    article.competenceGoals?.map(goal => goal.type),
+  );
+
   return (
     <UIArticle
       article={article}
@@ -78,6 +83,7 @@ const Article = ({
         label,
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
+      competenceGoalTypes={Array.from(competenceGoalTypes)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
       {...rest}>

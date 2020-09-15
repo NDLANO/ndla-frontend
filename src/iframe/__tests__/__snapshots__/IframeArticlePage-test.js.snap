@@ -1,7 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
+.emotion-6 {
+  margin-top: 26px;
+  padding-top: 26px;
+  padding-bottom: 6.5px;
+  border-top: 2px solid #eff0f2;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  color: #4d4d4d;
+}
+
 .emotion-0 {
+  margin-top: 10px;
+}
+
+.emotion-4 {
+  margin-top: 18px;
+}
+
+.emotion-4 button {
+  margin-bottom: 10px;
+}
+
+.emotion-4 button:first-of-type {
+  margin-right: 16px;
+}
+
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -21,60 +49,95 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  font-size: inherit;
-  line-height: inherit;
   color: #20588f;
-  box-shadow: inset 0 -1px;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  box-shadow: none;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-left: 6.5px;
+  padding-right: 6.5px;
+  font-size: 14px;
+  font-size: 0.7777777777777778rem;
+  line-height: 18px;
+  min-height: 32px;
+  font-weight: 600;
+  color: #20588f;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  box-shadow: none;
+  border-width: 1px;
+  border-radius: 32px;
+  font-weight: 600;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-left: 13px;
+  padding-right: 13px;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
+.emotion-2:hover,
+.emotion-2:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
 }
 
-.emotion-0:focus {
-  outline-width: medium;
+.emotion-2:disabled {
+  color: #777777;
+  border: 2px solid transparent;
+  background-color: #e6e6e6;
+  cursor: not-allowed;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
-  box-shadow: none;
+.emotion-2:hover,
+.emotion-2:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
 }
 
-.emotion-8 {
+.emotion-2:disabled {
+  color: #777777;
+  border: 2px solid transparent;
+  background-color: #e6e6e6;
+  cursor: not-allowed;
+}
+
+.emotion-2:hover,
+.emotion-2:focus,
+.emotion-2:disabled {
+  border-width: 1px;
+}
+
+.emotion-14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -85,7 +148,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-6 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -96,7 +159,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-4 {
+.emotion-10 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -105,7 +168,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-2 {
+.emotion-8 {
   color: #757575;
 }
 
@@ -140,103 +203,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             
 
           </p>
-          <div
-            className="c-article-byline"
-          >
-            <span
-              className="c-article-byline__flex"
-            >
-              <span
-                className="c-article-byline__icon"
-              >
-                <svg
-                  className="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style={
-                    Object {
-                      "color": undefined,
-                      "verticalAlign": "middle",
-                    }
-                  }
-                  viewBox="0 0 48 48"
-                  width="1em"
-                >
-                  <title>
-                    User
-                  </title>
-                  <g>
-                    <path
-                      d="M24 24c4.42 0 8-3.59 8-8 0-4.42-3.58-8-8-8s-8 3.58-8 8c0 4.41 3.58 8 8 8zm0 4c-5.33 0-16 2.67-16 8v4h32v-4c0-5.33-10.67-8-16-8z"
-                    />
-                  </g>
-                </svg>
-              </span>
-              <span
-                className="c-article-byline__authors"
-              >
-                Someone
-              </span>
-              <span>
-                 (CC BY-SA)
-              </span>
-            </span>
-            <span
-              className="c-article-byline__flex"
-            >
-              <span
-                className="c-article-byline__icon"
-              >
-                <svg
-                  className="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style={
-                    Object {
-                      "color": undefined,
-                      "verticalAlign": "middle",
-                    }
-                  }
-                  viewBox="0 0 48 48"
-                  width="1em"
-                >
-                  <title>
-                    Time
-                  </title>
-                  <g>
-                    <path
-                      d="M23.99 4C12.94 4 4 12.95 4 24s8.94 20 19.99 20C35.04 44 44 35.05 44 24S35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16zm1-26h-3v12l10.49 6.3L34 29.84l-9-5.34z"
-                    />
-                  </g>
-                </svg>
-              </span>
-              <span
-                className="c-article-byline__date"
-              >
-                Sist oppdatert
-                 
-                09.01.2018
-              </span>
-            </span>
-            <span
-              className="c-article-byline__flex"
-            >
-              <button
-                className="emotion-0 emotion-1"
-                disabled={false}
-                onClick={[Function]}
-                type="button"
-              >
-                Retningslinjer for bruk
-              </button>
-            </span>
-          </div>
         </div>
       </section>
       <section
@@ -254,26 +220,60 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
       >
         
+        <div
+          className="emotion-6 emotion-7"
+        >
+          <div>
+            Sist oppdatert
+             
+            09.01.2018
+          </div>
+          <div
+            className="emotion-0 emotion-1"
+          >
+            Rettighetshaver:
+            <span>
+               
+              Someone
+            </span>
+            <span>
+               (CC BY-SA)
+            </span>
+          </div>
+          <div
+            className="emotion-4 emotion-5"
+          >
+            <button
+              className="emotion-2 emotion-3"
+              disabled={false}
+              onClick={[Function]}
+              size="small"
+              type="button"
+            >
+              Retningslinjer for bruk
+            </button>
+          </div>
+        </div>
       </section>
       <section
         className="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
       />
     </article>
     <div
-      className="emotion-8 emotion-9"
+      className="emotion-14 emotion-15"
     >
       <div
-        className="emotion-6 emotion-7"
+        className="emotion-12 emotion-13"
       >
         <div
-          className="emotion-4 emotion-5"
+          className="emotion-10 emotion-11"
         >
           Artikkelen
            
           er utarbeidet av
            
           <a
-            className="emotion-2 emotion-3"
+            className="emotion-8 emotion-9"
             href="https://ndla.no"
           >
             NDLA

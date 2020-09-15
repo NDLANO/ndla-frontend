@@ -42,14 +42,6 @@ const ArticleContents = ({ article, locale, modifier = 'clean', t }) => {
           <ArticleIntroduction renderMarkdown={renderMarkdown}>
             {article.introduction}
           </ArticleIntroduction>
-          <ArticleByline
-            licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
-            {...{
-              authors: article.copyright?.creators,
-              published: article.published,
-              license: article.copyright?.license?.license,
-            }}
-          />
         </ArticleHeaderWrapper>
       </LayoutItem>
       <LayoutItem layout="extend">
@@ -59,6 +51,17 @@ const ArticleContents = ({ article, locale, modifier = 'clean', t }) => {
         {article.metadata?.footnotes?.length && (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
         )}
+      </LayoutItem>
+      <LayoutItem layout="extend">
+        <ArticleByline
+          licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
+          copyPageUrlLink={article.oembed}
+          {...{
+            authors: article.copyright?.creators,
+            published: article.published,
+            license: article.copyright?.license?.license,
+          }}
+        />
       </LayoutItem>
     </ArticleWrapper>
   );

@@ -373,6 +373,7 @@ export const articleInfoFragment = gql`
     competenceGoals {
       id
       title
+      type
       curriculum {
         id
         title
