@@ -31,6 +31,7 @@ export const searchQuery = gql`
     $subjects: String
     $languageFilter: String
     $relevance: String
+    $grepCodes: String
   ) {
     search(
       query: $query
@@ -47,6 +48,7 @@ export const searchQuery = gql`
       subjects: $subjects
       languageFilter: $languageFilter
       relevance: $relevance
+      grepCodes: $grepCodes
     ) {
       language
       page
@@ -371,11 +373,23 @@ export const articleInfoFragment = gql`
     competenceGoals {
       id
       title
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements {
       id
       title
       description
+      curriculum {
+        id
+        title
+      }
     }
     oembed
     copyright {
@@ -672,11 +686,23 @@ export const competenceGoalsQuery = gql`
       id
       name: title
       type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements(codes: $codes) {
       id
       name: title
       text: description
+      curriculum {
+        id
+        title
+      }
     }
   }
 `;

@@ -8,6 +8,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { isValidElementType } from 'react-is';
 import Spinner from '@ndla/ui/lib/Spinner';
@@ -16,19 +17,31 @@ import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
 import { ArticleShape, SubjectShape } from '../../shapes';
 
-export function groupByCurriculums(competenceGoals) {
+export function groupByCurriculums(competenceGoals, addUrl = false) {
+  const searchUrl = '/search?grepCodes=';
   const curriculumsObject = competenceGoals.reduce((acc, goal) => {
     const curriculum = acc[goal.curriculum.id] || {
       id: goal.curriculum.id,
-      title: goal.curriculum.title,
-      goals: [],
+      title: `${goal.curriculum.title} (${goal.curriculum.id})`,
+      elements: [],
     };
+    const setTitle = goal.competenceGoalSet
+      ? ` - ${goal.competenceGoalSet.title} (${goal.competenceGoalSet.id})`
+      : '';
 
     return {
       ...acc,
       [goal.curriculum.id]: {
         ...curriculum,
-        goals: [...curriculum.goals, { id: goal.id, name: goal.title }],
+        elements: [
+          ...curriculum.elements,
+          {
+            id: goal.id,
+            name: `${goal.name}${setTitle}`,
+            text: goal.text,
+            url: addUrl ? searchUrl + goal.id : '',
+          },
+        ],
       },
     };
   }, {});
@@ -41,6 +54,7 @@ const CompetenceGoals = ({
   subject,
   wrapperComponent: Component,
   wrapperComponentProps,
+  t,
 }) => {
   const codes = article.grepCodes;
   const nodeId = article.oldNdlaUrl?.split('/').pop();
@@ -58,34 +72,44 @@ const CompetenceGoals = ({
   }
 
   const { competenceGoals, coreElements } = data;
-  const LK06Goals = competenceGoals.filter(goal => goal.type === 'LK06');
-  const LK20Goals = competenceGoals.filter(goal => goal.type === 'LK20');
+  const LK06Goals = groupByCurriculums(
+    competenceGoals.filter(goal => goal.type === 'LK06'),
+    false,
+  );
+  const LK20Goals = groupByCurriculums(
+    competenceGoals.filter(goal => goal.type === 'LK20'),
+    true,
+  );
+  const LK20Elements = groupByCurriculums(coreElements || [], true);
 
   const competenceGoalsList = [
-    ...(LK20Goals.length
+    ...(LK20Goals?.length
       ? [
           {
             id: '1',
-            type: 'LK20',
-            goals: LK20Goals,
+            title: t('competenceGoals.competenceTabLK20label'),
+            type: 'competenceGoals',
+            groupedCompetenceGoals: LK20Goals,
           },
         ]
       : []),
-    ...(coreElements?.length
+    ...(LK20Elements?.length
       ? [
           {
             id: '2',
+            title: t('competenceGoals.competenceTabCorelabel'),
             type: 'coreElement',
-            coreItems: coreElements,
+            groupedCoreElementItems: LK20Elements,
           },
         ]
       : []),
-    ...(LK06Goals.length
+    ...(LK06Goals?.length
       ? [
           {
             id: '3',
-            type: 'LK06',
-            goals: LK06Goals,
+            title: t('competenceGoals.competenceTabLK06label'),
+            type: 'competenceGoals',
+            groupedCompetenceGoals: LK06Goals,
           },
         ]
       : []),
@@ -112,4 +136,4 @@ CompetenceGoals.propTypes = {
   wrapperComponentProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default CompetenceGoals;
+export default injectT(CompetenceGoals);

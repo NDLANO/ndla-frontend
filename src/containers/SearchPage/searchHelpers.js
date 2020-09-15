@@ -122,6 +122,7 @@ const arrayFields = [
   'resourceTypes',
   'contextTypes',
   'contextFilters',
+  'grepCodes',
 ];
 
 export const converSearchStringToObject = (location, locale) => {

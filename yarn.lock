@@ -1361,10 +1361,10 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^0.4.23":
-  version "0.4.23"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.23.tgz#ae9aaefae9a6eaa99f20ee0ac22c749bc3ea6c53"
-  integrity sha512-jkigoaqHHdMcz3ZpyQ7ldgxFvM2QmMlflOSkAg22BowV7i/aGhXfvEIQ1EPjufjp/zxGNuU1UXORAbW8SjytWw==
+"@ndla/modal@^0.4.24":
+  version "0.4.24"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.24.tgz#251c1f285dc161977334cc9b3c167fe6a66efebf"
+  integrity sha512-7SAA9TVUuat5ViQK2j3uzJek3a02WS1iP9ZoGxUZ2RVayFBIOBbg15gErRPS1YYgAIYw9Nqyc2ljPy0ozp3FTg==
   dependencies:
     "@ndla/button" "^0.3.34"
     "@ndla/core" "^0.6.27"
@@ -1434,10 +1434,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.57":
-  version "0.27.57"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.57.tgz#840e5f70601a1fcb0e528f0b67826301a640174f"
-  integrity sha512-8WDcYkdD5lO0rOHKPpIq094rKq+bPONXwcvQFyWIpQs9+VYOzXBUVMLUyeDj/XLXzZNSDzCDnw3pX2WpKKyt3g==
+"@ndla/ui@^0.27.61":
+  version "0.27.61"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.61.tgz#5d05fdf2eded67f770453805e51b3cafe1054340"
+  integrity sha512-pvyvqobbI9IbuRH+/YdHKSkMXIY6IxSv2uuAkJ04I7sn0nxVJo2NBhAGPuM5mZ3CEJY3REzWE+TPtcv1EWCVPw==
   dependencies:
     "@ndla/button" "^0.3.34"
     "@ndla/carousel" "^0.3.26"
@@ -1446,7 +1446,7 @@
     "@ndla/i18n" "^0.4.2"
     "@ndla/icons" "^0.6.24"
     "@ndla/licenses" "^0.6.33"
-    "@ndla/modal" "^0.4.23"
+    "@ndla/modal" "^0.4.24"
     "@ndla/safelink" "^0.0.6"
     "@ndla/switch" "^0.0.16"
     "@ndla/tabs" "^0.11.31"

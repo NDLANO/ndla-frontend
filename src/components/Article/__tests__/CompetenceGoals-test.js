@@ -11,7 +11,7 @@ import { groupByCurriculums } from '../CompetenceGoals';
 const competenceGoals = [
   {
     id: 'K15502',
-    title:
+    name:
       'gjøre rede for argumentasjonen i andres tekster og skrive egne argumenterende tekster på hovedmål og sidemål',
     curriculum: {
       id: 'NOR1-05',
@@ -20,7 +20,7 @@ const competenceGoals = [
   },
   {
     id: 'K17637',
-    title: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
+    name: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
     curriculum: {
       id: 'MOK2-01',
       title:
@@ -29,7 +29,7 @@ const competenceGoals = [
   },
   {
     id: 'K17635',
-    title: 'lage budskap tilpasset målgruppe, formål og kanal',
+    name: 'lage budskap tilpasset målgruppe, formål og kanal',
     curriculum: {
       id: 'MOK2-01',
       title:
