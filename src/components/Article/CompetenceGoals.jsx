@@ -24,6 +24,9 @@ export function groupByCurriculums(competenceGoals) {
       title: `${goal.curriculum.title} (${goal.curriculum.id})`,
       elements: [],
     };
+    const setTitle = goal.competenceGoalSet
+      ? ` - ${goal.competenceGoalSet.title} (${goal.competenceGoalSet.id})`
+      : '';
 
     return {
       ...acc,
@@ -33,7 +36,7 @@ export function groupByCurriculums(competenceGoals) {
           ...curriculum.elements,
           {
             id: goal.id,
-            name: goal.name,
+            name: `${goal.name}${setTitle}`,
             text: goal.text,
           },
         ],
