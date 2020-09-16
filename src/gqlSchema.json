@@ -605,6 +605,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "grepCodes",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -2801,6 +2811,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "curriculum",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Reference",
               "ofType": null
             },
             "isDeprecated": false,

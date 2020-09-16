@@ -19,24 +19,21 @@ import CompetenceGoals from './CompetenceGoals';
 function renderCompetenceGoals(article, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
   if (
-    isTopicArticle ||
-    (article.competenceGoals?.length === 0 &&
-      article.coreElements?.length === 0)
+    !isTopicArticle &&
+    (article.grepCodes?.length ||
+      (article.competenceGoals?.length && article.coreElements?.length))
   ) {
-    // disable temporary by adding '|| true'
-    // Return null to make sure UIArticle component does not render dialog buttons
-    return null;
+    // eslint-disable-next-line react/prop-types
+    return ({ Dialog, dialogProps }) => (
+      <CompetenceGoals
+        article={article}
+        subject={subject}
+        wrapperComponent={Dialog}
+        wrapperComponentProps={dialogProps}
+      />
+    );
   }
-
-  // eslint-disable-next-line react/prop-types
-  return ({ Dialog, dialogProps }) => (
-    <CompetenceGoals
-      article={article}
-      subject={subject}
-      wrapperComponent={Dialog}
-      wrapperComponentProps={dialogProps}
-    />
-  );
+  return null;
 }
 
 const Article = ({
