@@ -279,6 +279,10 @@ export const resourceInfoFragment = gql`
     contentUri
     path
     paths
+    filters {
+      id
+      subjectId
+    }
     resourceTypes {
       id
       name

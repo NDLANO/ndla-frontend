@@ -33,10 +33,13 @@ const ResourcePage = props => {
   });
 
   useEffect(() => {
-    if (data?.subject?.filters?.length && !getFiltersFromUrl(props.location)) {
-      props.history.replace({
-        search: `?filters=${data.subject.filters[0].id}`,
-      });
+    if (data?.resource?.filters?.length && !getFiltersFromUrl(props.location)) {
+      const filter = data.resource.filters.find(f => f.subjectId === subjectId);
+      if (filter) {
+        props.history.replace({
+          search: `?filters=${filter.id}`,
+        });
+      }
     }
   }, [data]);
 
