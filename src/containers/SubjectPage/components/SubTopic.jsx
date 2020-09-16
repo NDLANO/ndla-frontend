@@ -77,7 +77,7 @@ const SubTopic = ({
           listDirection="horizontal"
           invertedStyle={ndlaFilm}
           onClick={e => {
-            onClickTopics(e, subTopics)
+            onClickTopics(e);
           }}
         />
       )}

@@ -58,7 +58,7 @@ const SubjectPageContent = ({
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
         onClick={e => {
-          onClickTopics(e, mainTopics)
+          onClickTopics(e);
         }}
       />
       {topicId && (

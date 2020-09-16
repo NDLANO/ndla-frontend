@@ -29,6 +29,7 @@ import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
+import { parseAndMatchUrl } from '../../util/urlHelper';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -183,26 +184,26 @@ const SubjectPage = ({
   const subRef = useRef(null);
   const subSubRef = useRef(null);
 
-  const handleNav = (e, item) => {	
-    e.preventDefault();	
-    const { typename } = item;	
-    setCurrentLevel(typename);	
-    if (typename === 'Subjecttype' || typename === 'Subject') {	
-      scrollToRef(headerRef);	
-    } else if (typename === 'Topic') {	
-      scrollToRef(mainRef);	
-    } else if (typename === 'Subtopic') {	
-      scrollToRef(subRef);	
-    } else if (typename === 'SubSubtopic') {	
-      scrollToRef(subSubRef);	
-    }	
+  const handleNav = (e, item) => {
+    e.preventDefault();
+    const { typename } = item;
+    setCurrentLevel(typename);
+    if (typename === 'Subjecttype' || typename === 'Subject') {
+      scrollToRef(headerRef);
+    } else if (typename === 'Topic') {
+      scrollToRef(mainRef);
+    } else if (typename === 'Subtopic') {
+      scrollToRef(subRef);
+    } else if (typename === 'SubSubtopic') {
+      scrollToRef(subSubRef);
+    }
   };
 
-  const onClickTopics = (e, subTopics) => {
+  const onClickTopics = e => {
     e.preventDefault();
-    const target = subTopics.find(t => t.label === e.currentTarget.textContent)
-    history.replace(target.url)
-  }
+    const path = parseAndMatchUrl(e.currentTarget.href);
+    history.replace(`${path.url}?filters=${activeFilterId}`);
+  };
 
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
