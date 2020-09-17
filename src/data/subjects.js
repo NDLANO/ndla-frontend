@@ -944,14 +944,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:be544090-ff77-4017-8c65-7840bf28ba22'],
     longName: {
-      en: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
-      nb: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
-      nn: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
+      en: 'Kommunikasjon og samhandling (HS-HA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-HA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-HA Vg2)',
     },
     name: {
-      en: 'Kommunikasjon og samhandlinger',
-      nb: 'Kommunikasjon og samhandlinger',
-      nn: 'Kommunikasjon og samhandlinger',
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:4',
     id: 'programme_subject_13',
@@ -1499,14 +1499,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:37e92c60-cca9-4b68-b2ee-a706f568756e'],
     longName: {
-      en: 'Kommunikasjon (HS-BU Vg2)',
-      nb: 'Kommunikasjon (HS-BU Vg2)',
-      nn: 'Kommunikasjon (HS-BU Vg2)',
+      en: 'Kommunikasjon og samhandling (HS-BU Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-BU Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-BU Vg2)',
     },
     name: {
-      en: 'Kommunikasjon',
-      nb: 'Kommunikasjon',
-      nn: 'Kommunikasjon',
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:40',
     id: 'programme_subject_50',
