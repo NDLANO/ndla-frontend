@@ -744,6 +744,21 @@ export const commonSubjects = [
     subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
     id: 'common_subject_49',
   },
+  {
+    filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
+    longName: {
+      en: 'Sørsamisk (SF Vg1)',
+      nb: 'Sørsamisk (SF Vg1)',
+      nn: 'Sørsamisk (SF Vg1)',
+    },
+    name: {
+      en: 'Sørsamisk',
+      nb: 'Sørsamisk',
+      nn: 'Sørsamisk',
+    },
+    subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
+    id: 'common_subject_50',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -2037,21 +2052,6 @@ export const studySpecializationSubjects = [
     },
     subjectId: 'urn:subject:1',
     id: 'study_specialization_subject_25',
-  },
-  {
-    filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
-    longName: {
-      en: 'Sørsamisk (SF Vg1)',
-      nb: 'Sørsamisk (SF Vg1)',
-      nn: 'Sørsamisk (SF Vg1)',
-    },
-    name: {
-      en: 'Sørsamisk',
-      nb: 'Sørsamisk',
-      nn: 'Sørsamisk',
-    },
-    subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
-    id: 'study_specialization_subject_26',
   },
 ];
 
