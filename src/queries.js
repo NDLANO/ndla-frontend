@@ -250,6 +250,7 @@ export const topicInfoFragment = gql`
     name
     parent
     filters {
+      id
       name
     }
     path
@@ -477,6 +478,9 @@ export const subjectPageQuery = gql`
       name
       path
       topics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
       filters {
