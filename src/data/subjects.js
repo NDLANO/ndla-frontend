@@ -744,6 +744,21 @@ export const commonSubjects = [
     subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
     id: 'common_subject_49',
   },
+  {
+    filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
+    longName: {
+      en: 'Sørsamisk (SF Vg1)',
+      nb: 'Sørsamisk (SF Vg1)',
+      nn: 'Sørsamisk (SF Vg1)',
+    },
+    name: {
+      en: 'Sørsamisk',
+      nb: 'Sørsamisk',
+      nn: 'Sørsamisk',
+    },
+    subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
+    id: 'common_subject_50',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -929,14 +944,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:be544090-ff77-4017-8c65-7840bf28ba22'],
     longName: {
-      en: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
-      nb: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
-      nn: 'Kommunikasjon og samhandlinger (HS-HA Vg2)',
+      en: 'Kommunikasjon og samhandling (HS-HA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-HA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-HA Vg2)',
     },
     name: {
-      en: 'Kommunikasjon og samhandlinger',
-      nb: 'Kommunikasjon og samhandlinger',
-      nn: 'Kommunikasjon og samhandlinger',
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:4',
     id: 'programme_subject_13',
@@ -1484,14 +1499,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:37e92c60-cca9-4b68-b2ee-a706f568756e'],
     longName: {
-      en: 'Kommunikasjon (HS-BU Vg2)',
-      nb: 'Kommunikasjon (HS-BU Vg2)',
-      nn: 'Kommunikasjon (HS-BU Vg2)',
+      en: 'Kommunikasjon og samhandling (HS-BU Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-BU Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-BU Vg2)',
     },
     name: {
-      en: 'Kommunikasjon',
-      nb: 'Kommunikasjon',
-      nn: 'Kommunikasjon',
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:40',
     id: 'programme_subject_50',
@@ -2037,21 +2052,6 @@ export const studySpecializationSubjects = [
     },
     subjectId: 'urn:subject:1',
     id: 'study_specialization_subject_25',
-  },
-  {
-    filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
-    longName: {
-      en: 'Sørsamisk (SF Vg1)',
-      nb: 'Sørsamisk (SF Vg1)',
-      nn: 'Sørsamisk (SF Vg1)',
-    },
-    name: {
-      en: 'Sørsamisk',
-      nb: 'Sørsamisk',
-      nn: 'Sørsamisk',
-    },
-    subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
-    id: 'study_specialization_subject_26',
   },
 ];
 
