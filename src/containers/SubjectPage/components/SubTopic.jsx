@@ -15,6 +15,8 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
+import { toSubjects } from '../../../routeHelpers';
+import config from '../../../config';
 
 const SubTopic = ({
   topicId,
@@ -27,6 +29,9 @@ const SubTopic = ({
   setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
+  const [subjectPageUrl] = useState(() => {
+    return config.ndlaFrontendDomain + toSubjects();
+  });
 
   useEffect(() => {
     setShowContent(false);
@@ -71,6 +76,7 @@ const SubTopic = ({
         onToggleShowContent={() => setShowContent(!showContent)}>
         <ArticleContents
           article={topic.article}
+          copyPageUrlLink={subjectPageUrl + topic.path}
           locale={locale}
           modifier="in-topic"
         />

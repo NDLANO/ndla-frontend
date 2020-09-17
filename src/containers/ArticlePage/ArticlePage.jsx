@@ -36,6 +36,8 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { toSubjects } from '../../routeHelpers';
+import config from '../../config';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -79,13 +81,14 @@ class ArticlePage extends Component {
     const { resource } = data;
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
-    this.setState({ scripts });
+    const subjectPageUrl = config.ndlaFrontendDomain + toSubjects();
+    this.setState({ scripts, subjectPageUrl });
   }
 
   render() {
     const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
-    const { scripts } = this.state;
+    const { scripts, subjectPageUrl } = this.state;
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
@@ -117,6 +120,7 @@ class ArticlePage extends Component {
 
     const article = transformArticle(resource.article, locale);
     const resourceType = resource ? getContentType(resource) : null;
+    const resourcePath = `${topic.path}/${resource.id.replace('urn:', '')}`;
 
     return (
       <div>
@@ -162,6 +166,7 @@ class ArticlePage extends Component {
             locale={locale}
             resourceType={resourceType}
             isResourceArticle
+            copyPageUrlLink={subjectPageUrl + resourcePath}
             {...getArticleProps(resource, topic)}
           />
           {topic && (
@@ -194,6 +199,7 @@ ArticlePage.propTypes = {
   data: PropTypes.shape({
     resource: ResourceShape,
     topic: PropTypes.shape({
+      path: PropTypes.string,
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
