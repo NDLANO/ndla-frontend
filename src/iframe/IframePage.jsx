@@ -8,16 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
-import IntlProvider, { injectT } from '@ndla/i18n';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { MissingRouterContext } from '@ndla/safelink';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { ArticleShape, ResourceShape } from '../shapes';
-import { createApolloClient } from '../util/apiHelpers';
+import { useGraphQuery } from '../util/runQueries';
+import { plainArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
-import { BasenameContext } from '../App';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -39,36 +36,8 @@ const Error = injectT(({ t }) => (
   </OneColumn>
 ));
 
-const IframePageWrapper = ({
-  basename,
-  locale: { abbreviation: locale, messages },
-  children,
-}) => (
-  <ApolloProvider client={createApolloClient(locale)}>
-    <IntlProvider locale={locale} messages={messages}>
-      <MissingRouterContext.Provider value={true}>
-        <BasenameContext.Provider value={basename}>
-          <PageContainer>
-            <Helmet htmlAttributes={{ lang: locale }} />
-            {children}
-          </PageContainer>
-        </BasenameContext.Provider>
-      </MissingRouterContext.Provider>
-    </IntlProvider>
-  </ApolloProvider>
-);
-
-IframePageWrapper.propTypes = {
-  basename: PropTypes.string,
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
-};
-
 export const IframePage = ({
   status,
-  basename,
   locale,
   resource,
   location,
@@ -76,33 +45,25 @@ export const IframePage = ({
   isTopicArticle,
 }) => {
   if (status !== 'success') {
-    return (
-      <IframePageWrapper locale={locale}>
-        <Error />
-      </IframePageWrapper>
-    );
+    return <Error />;
   }
   if (resource) {
     return (
-      <IframePageWrapper basename={basename} locale={locale}>
-        <IframeArticlePage
-          locale={locale.abbreviation}
-          resource={resource}
-          location={location}
-        />
-      </IframePageWrapper>
+      <IframeArticlePage
+        locale={locale.abbreviation}
+        resource={resource}
+        location={location}
+      />
     );
   }
 
   if (article && isTopicArticle) {
     return (
-      <IframePageWrapper basename={basename} locale={locale}>
-        <IframeTopicPage
-          locale={locale.abbreviation}
-          article={article}
-          location={location}
-        />
-      </IframePageWrapper>
+      <IframeTopicPage
+        locale={locale.abbreviation}
+        article={article}
+        location={location}
+      />
     );
   }
   return null;
