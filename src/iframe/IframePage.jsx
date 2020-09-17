@@ -44,14 +44,20 @@ export const IframePage = ({
   article,
   isTopicArticle,
 }) => {
-  if (status !== 'success') {
+  const articleId = (isTopicArticle ? article.id : resource.article.id).toString();
+  const { error, loading, data } = useGraphQuery(plainArticleQuery, {
+    variables: { articleId }
+  });
+
+  if (status !== 'success' || error) {
     return <Error />;
   }
-  if (resource) {
+  if (resource && !loading) {
     return (
       <IframeArticlePage
         locale={locale.abbreviation}
         resource={resource}
+        article={data.article}
         location={location}
       />
     );
