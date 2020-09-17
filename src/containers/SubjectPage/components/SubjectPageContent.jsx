@@ -112,7 +112,6 @@ SubjectPageContent.propTypes = {
   filterIds: PropTypes.string,
   topicId: PropTypes.string,
   subTopicId: PropTypes.string,
-  setTopicId: PropTypes.func,
   setSubTopic: PropTypes.func,
   setSelectedTopic: PropTypes.func,
   setSelectedSubTopic: PropTypes.func,

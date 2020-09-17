@@ -59,18 +59,12 @@ const SubjectPage = ({
     activeFilterId.split(',').includes(filter.id),
   );
 
-  const [topicId, setTopicId] = useState(urlTopicId);
-  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
-  const [subSubTopicId, setSubSubTopicId] = useState(urlSubSubTopicId);
   const [topic, setTopic] = useState(null);
   const [subTopic, setSubTopic] = useState(null);
   const [subSubTopic, setSubSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
   useEffect(() => {
-    setTopicId(urlTopicId);
-    setSubTopicId(urlSubTopicId);
-    setSubSubTopicId(urlSubSubTopicId);
     if (!urlTopicId) setTopic(undefined);
     if (!urlSubTopicId) setSubTopic(undefined);
     if (!urlSubSubTopicId) setSubSubTopic(undefined);
@@ -139,7 +133,6 @@ const SubjectPage = ({
 
   const setTopicBreadCrumb = topic => {
     setCurrentLevel('Topic');
-    setTopicId(topic.id);
     setTopic(
       topic
         ? {
@@ -153,7 +146,6 @@ const SubjectPage = ({
 
   const setSubTopicBreadCrumb = topic => {
     setCurrentLevel('Subtopic');
-    setSubTopicId(topic.id);
     setSubTopic(
       topic
         ? {
@@ -167,7 +159,6 @@ const SubjectPage = ({
 
   const setSubSubTopicBreadCrumb = topic => {
     setCurrentLevel('SubSubtopic');
-    setSubSubTopicId(topic.id);
     setSubSubTopic(
       topic
         ? {
@@ -250,7 +241,6 @@ const SubjectPage = ({
               subject={subject}
               filterIds={activeFilterId}
               topicId={urlTopicId}
-              setTopicId={setTopicId}
               subTopicId={urlSubTopicId}
               setSelectedTopic={setTopicBreadCrumb}
               setSubTopic={setSubTopic}
