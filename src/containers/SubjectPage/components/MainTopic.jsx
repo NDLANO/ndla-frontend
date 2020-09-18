@@ -57,7 +57,9 @@ const MainTopic = ({
     label: item.name,
     selected: item.id === subTopicId,
   }));
-  const copyPageUrlLink = config.ndlaFrontendDomain + toSubjects() + topic.path;
+  const filterParam = filterIds ? `?filters=${filterIds}` : '';
+  const copyPageUrlLink =
+    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
 
   const onClickSubTopic = e => {
     e.preventDefault();

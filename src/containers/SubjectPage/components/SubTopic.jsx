@@ -54,7 +54,9 @@ const SubTopic = ({
     selected: item.id === subSubTopicId,
   }));
   const resourceTypes = data.resourceTypes;
-  const copyPageUrlLink = config.ndlaFrontendDomain + toSubjects() + topic.path;
+  const filterParam = filterIds ? `?filters=${filterIds}` : ';';
+  const copyPageUrlLink =
+    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
 
   const onClickSubTopic = e => {
     e.preventDefault();
