@@ -15,7 +15,6 @@ import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
 import IframePage from '../../iframe/IframePage';
-import IframePageWrapper from '../../iframe/IframePageWrapper';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
@@ -42,13 +41,7 @@ const getAssets = () => ({
 });
 
 function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? (
-    ''
-  ) : (
-    <IframePageWrapper {...initialProps}>
-      <IframePage {...initialProps} />
-    </IframePageWrapper>
-  );
+  const Page = config.disableSSR ? '' : <IframePage {...initialProps} />;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
