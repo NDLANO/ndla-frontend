@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { ArticleShape, ResourceShape } from '../shapes';
+import { ResourceTypeShape } from '../shapes';
 import { useGraphQuery } from '../util/runQueries';
 import { plainArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
@@ -39,41 +39,41 @@ const Error = injectT(({ t }) => (
 export const IframePage = ({
   status,
   locale,
-  resource,
+  resourceTypes,
   location,
-  article,
+  articleId,
+  removeRelatedContent,
   isTopicArticle,
 }) => {
-  const articleId = (isTopicArticle
-    ? article.id
-    : resource.article.id
-  ).toString();
   const { error, loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId },
+    variables: { articleId, removeRelatedContent },
   });
 
   if (status !== 'success' || error) {
     return <Error />;
   }
-  if (resource && !loading) {
-    return (
-      <IframeArticlePage
-        locale={locale.abbreviation}
-        resource={resource}
-        article={data.article}
-        location={location}
-      />
-    );
-  }
 
-  if (isTopicArticle && !loading) {
-    return (
-      <IframeTopicPage
-        locale={locale.abbreviation}
-        article={data.article}
-        location={location}
-      />
-    );
+  if (!loading) {
+    const { article } = data;
+    if (resourceTypes) {
+      return (
+        <IframeArticlePage
+          locale={locale.abbreviation}
+          resource={{ article, resourceTypes }}
+          article={article}
+          location={location}
+        />
+      );
+    }
+    if (isTopicArticle) {
+      return (
+        <IframeTopicPage
+          locale={locale.abbreviation}
+          article={article}
+          location={location}
+        />
+      );
+    }
   }
   return null;
 };
@@ -84,12 +84,13 @@ IframePage.propTypes = {
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
   }).isRequired,
-  article: ArticleShape,
-  resource: ResourceShape,
+  articleId: PropTypes.string,
+  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  removeRelatedContent: PropTypes.string,
   isTopicArticle: PropTypes.bool,
 };
 
