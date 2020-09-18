@@ -29,9 +29,6 @@ const SubTopic = ({
   setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
-  const [subjectPageUrl] = useState(() => {
-    return config.ndlaFrontendDomain + toSubjects();
-  });
 
   useEffect(() => {
     setShowContent(false);
@@ -57,6 +54,7 @@ const SubTopic = ({
     selected: item.id === subSubTopicId,
   }));
   const resourceTypes = data.resourceTypes;
+  const copyPageUrlLink = config.ndlaFrontendDomain + toSubjects() + topic.path;
 
   const onClickSubTopic = e => {
     e.preventDefault();
@@ -76,7 +74,7 @@ const SubTopic = ({
         onToggleShowContent={() => setShowContent(!showContent)}>
         <ArticleContents
           article={topic.article}
-          copyPageUrlLink={subjectPageUrl + topic.path}
+          copyPageUrlLink={copyPageUrlLink}
           locale={locale}
           modifier="in-topic"
         />

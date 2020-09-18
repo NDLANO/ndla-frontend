@@ -120,7 +120,9 @@ class ArticlePage extends Component {
 
     const article = transformArticle(resource.article, locale);
     const resourceType = resource ? getContentType(resource) : null;
-    const resourcePath = `${topic.path}/${resource.id.replace('urn:', '')}`;
+    const copyPageUrlLink = `${subjectPageUrl}${
+      topic.path
+    }/${resource.id.replace('urn:', '')}`;
 
     return (
       <div>
@@ -166,7 +168,7 @@ class ArticlePage extends Component {
             locale={locale}
             resourceType={resourceType}
             isResourceArticle
-            copyPageUrlLink={subjectPageUrl + resourcePath}
+            copyPageUrlLink={copyPageUrlLink}
             {...getArticleProps(resource, topic)}
           />
           {topic && (

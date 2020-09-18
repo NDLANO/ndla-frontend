@@ -32,9 +32,6 @@ const MainTopic = ({
   setSubSubTopicId,
 }) => {
   const [showContent, setShowContent] = useState(false);
-  const [subjectPageUrl] = useState(() => {
-    return config.ndlaFrontendDomain + toSubjects();
-  });
 
   useEffect(() => {
     setShowContent(false);
@@ -60,6 +57,7 @@ const MainTopic = ({
     label: item.name,
     selected: item.id === subTopicId,
   }));
+  const copyPageUrlLink = config.ndlaFrontendDomain + toSubjects() + topic.path;
 
   const onClickSubTopic = e => {
     e.preventDefault();
@@ -82,7 +80,7 @@ const MainTopic = ({
         children={
           <ArticleContents
             article={topic.article}
-            copyPageUrlLink={subjectPageUrl + topic.path}
+            copyPageUrlLink={copyPageUrlLink}
             locale={locale}
             modifier="in-topic"
           />
