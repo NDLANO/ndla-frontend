@@ -70,9 +70,9 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
-  const competenceGoalTypes = new Set(
-    article.competenceGoals?.map(goal => goal.type),
-  );
+  const competenceGoalTypes = [
+    ...new Set(article.competenceGoals?.map(goal => goal.type)),
+  ];
 
   return (
     <UIArticle
@@ -84,7 +84,7 @@ const Article = ({
         label,
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
-      competenceGoalTypes={Array.from(competenceGoalTypes)}
+      competenceGoalTypes={competenceGoalTypes}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
       copyPageUrlLink={copyPageUrlLink}
