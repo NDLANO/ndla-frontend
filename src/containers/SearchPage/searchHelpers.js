@@ -46,12 +46,7 @@ const getUrl = subject => {
 };
 
 export const searchResultToLinkProps = result => {
-  const filterParam = result.filters?.[0]?.id
-    ? `?filters=${result.filters?.[0]?.id}`
-    : '';
-  return result.path
-    ? { to: toSubjects() + result.path + filterParam }
-    : { to: '/404' };
+  return result.path ? { to: toSubjects() + result.path } : { to: '/404' };
 };
 
 export const selectContext = (contexts, filters, enabledTab) => {
