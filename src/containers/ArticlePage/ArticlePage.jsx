@@ -37,6 +37,7 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toSubjects } from '../../routeHelpers';
+import { getFiltersFromUrl } from '../../util/filterHelper';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -81,14 +82,15 @@ class ArticlePage extends Component {
     const { resource } = data;
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
+    const filterIds = getFiltersFromUrl(this.props.location);
     const subjectPageUrl = config.ndlaFrontendDomain + toSubjects();
-    this.setState({ scripts, subjectPageUrl });
+    this.setState({ scripts, subjectPageUrl, filterIds });
   }
 
   render() {
     const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
-    const { scripts, subjectPageUrl } = this.state;
+    const { scripts, subjectPageUrl, filterIds } = this.state;
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
@@ -120,9 +122,10 @@ class ArticlePage extends Component {
 
     const article = transformArticle(resource.article, locale);
     const resourceType = resource ? getContentType(resource) : null;
+    const filterParam = filterIds ? `?filters=${filterIds}` : '';
     const copyPageUrlLink = `${subjectPageUrl}${
       topic.path
-    }/${resource.id.replace('urn:', '')}`;
+    }/${resource.id.replace('urn:', '')}${filterParam}`;
 
     return (
       <div>
