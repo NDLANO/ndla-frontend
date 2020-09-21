@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -18,6 +18,7 @@ import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
 
 const urlInPaths = (location, resource) => {
@@ -31,6 +32,14 @@ const ResourcePage = props => {
     variables: { subjectId, topicId, filterIds, resourceId },
   });
 
+  useEffect(() => {
+    if (data?.subject?.filters?.length && !getFiltersFromUrl(props.location)) {
+      props.history.replace({
+        search: `?filters=${data.subject.filters[0].id}`,
+      });
+    }
+  }, [data]);
+
   if (loading) {
     return null;
   }
@@ -38,7 +47,12 @@ const ResourcePage = props => {
   if (!data) {
     return <DefaultErrorMessage />;
   }
-  if (!data.resource || !urlInPaths(props.location, data.resource)) {
+
+  if (data.resource && !urlInPaths(props.location, data.resource)) {
+    return <MovedResourcePage resource={data.resource} locale={props.locale} />;
+  }
+
+  if (!data.resource) {
     return <NotFoundPage />;
   }
   const { subject, topic } = data;
@@ -75,6 +89,10 @@ ResourcePage.propTypes = {
   skipToContentId: PropTypes.string,
   location: PropTypes.shape({
     search: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
 };
 

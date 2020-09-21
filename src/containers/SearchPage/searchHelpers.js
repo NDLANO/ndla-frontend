@@ -6,6 +6,7 @@ import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -37,10 +38,21 @@ const getResourceType = resource => {
   return null;
 };
 
-const getUrl = subject => `${toSubjects()}${subject.path}`;
+const getUrl = subject => {
+  const filterParam = subject.filters?.[0]?.id
+    ? `?filters=${subject.filters?.[0]?.id}`
+    : '';
+  return `${toSubjects()}${subject.path}${filterParam}`;
+};
 
-export const searchResultToLinkProps = result =>
-  result.path ? { to: toSubjects() + result.path } : { to: '/404' };
+export const searchResultToLinkProps = result => {
+  const filterParam = result.filters?.[0]?.id
+    ? `?filters=${result.filters?.[0]?.id}`
+    : '';
+  return result.path
+    ? { to: toSubjects() + result.path + filterParam }
+    : { to: '/404' };
+};
 
 export const selectContext = (contexts, filters, enabledTab) => {
   const filteredContext =
@@ -76,11 +88,18 @@ const taxonomyData = (result, selectedContext) => {
       contentTypes: contexts.map(context => getContentType(context)),
       subjects:
         contexts.length > 1
-          ? contexts.map(subject => ({
-              url: getUrl(subject, result),
-              title: subject.subject,
-              contentType: getContentType(subject),
-            }))
+          ? contexts.map(subject => {
+              const subjectData = getSubjectBySubjectIdFilters(
+                subject.subjectId,
+                subject.filters.map(f => f.id),
+              );
+              return {
+                url: getUrl(subject, result),
+                title:
+                  subjectData?.longName[subject.language] || subject.subject,
+                contentType: getContentType(subject),
+              };
+            })
           : undefined,
       additional: getRelevance(selectedContext),
       type: getResourceType(selectedContext),
@@ -103,6 +122,7 @@ const arrayFields = [
   'resourceTypes',
   'contextTypes',
   'contextFilters',
+  'grepCodes',
 ];
 
 export const converSearchStringToObject = (location, locale) => {

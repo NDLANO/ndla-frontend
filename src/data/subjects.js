@@ -372,9 +372,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:001c6405-79d5-4b9a-8b1b-002680265916'],
     longName: {
-      en: 'Matematikk 1P-Y (SSR)',
-      nb: 'Matematikk 1P-Y (SSR)',
-      nn: 'Matematikk 1P-Y (SSR)',
+      en: 'Matematikk 1P-Y (SR)',
+      nb: 'Matematikk 1P-Y (SR)',
+      nn: 'Matematikk 1P-Y (SR)',
     },
     name: {
       en: 'Matematikk 1P-Y',
@@ -417,9 +417,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:8bfd0a97-d456-448d-8b5f-3bc49e445b37'],
     longName: {
-      en: 'Matematikk (1T)',
-      nb: 'Matematikk (1T)',
-      nn: 'Matematikk (1T)',
+      en: 'Matematikk 1T',
+      nb: 'Matematikk 1T',
+      nn: 'Matematikk 1T',
     },
     name: {
       en: 'Matematikk 1T',
@@ -522,9 +522,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:15af94d5-d647-4da9-aefc-f7e4b3bd44ff'],
     longName: {
-      en: 'Matematikk 1T-Y (SSR)',
-      nb: 'Matematikk 1T-Y (SSR)',
-      nn: 'Matematikk 1T-Y (SSR)',
+      en: 'Matematikk 1T-Y (SR)',
+      nb: 'Matematikk 1T-Y (SR)',
+      nn: 'Matematikk 1T-Y (SR)',
     },
     name: {
       en: 'Matematikk 1T-Y',
@@ -657,9 +657,9 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:721307df-c384-4a7f-ad69-668853c766c6'],
     longName: {
-      en: 'Naturfag (SSR)',
-      nb: 'Naturfag (SSR)',
-      nn: 'Naturfag (SSR)',
+      en: 'Naturfag (SR)',
+      nb: 'Naturfag (SR)',
+      nn: 'Naturfag (SR)',
     },
     name: {
       en: 'Naturfag',
@@ -749,13 +749,13 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Sikkerhet',
-      nn: 'Sikkerhet',
+      nn: 'Tryggleik',
       en: 'Sikkerhet',
     },
     longName: {
-      nb: 'Sikkerhet (SSA Vg2)',
-      nn: 'Sikkerhet (SSA Vg2)',
-      en: 'Sikkerhet (SSA Vg2)',
+      nb: 'Sikkerhet (SS-SSS Vg2)',
+      nn: 'Tryggleik (SS-SSS Vg2)',
+      en: 'Sikkerhet (SS-SSS Vg2)',
     },
     subjectId: 'urn:subject:22',
     filters: ['urn:filter:b40855bb-9e21-4944-9257-c96679da549a'],
@@ -764,9 +764,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:5b028a77-1c35-4774-8e10-49e1bac2d6fd'],
     longName: {
-      en: 'Økonomi og administrasjon (SSA Vg2)',
-      nb: 'Økonomi og administrasjon (SSA Vg2)',
-      nn: 'Økonomi og administrasjon (SSA Vg2)',
+      en: 'Økonomi og administrasjon (SS-SSS Vg2)',
+      nb: 'Økonomi og administrasjon (SS-SSS Vg2)',
+      nn: 'Økonomi og administrasjon (SS-SSS Vg2)',
     },
     name: {
       en: 'Økonomi og administrasjon',
@@ -779,14 +779,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:3687db4f-b3c9-471b-b0e6-9e36c39cc445'],
     longName: {
-      en: 'Markedsføring og salg (SSA Vg2)',
-      nb: 'Markedsføring og salg (SSA Vg2)',
-      nn: 'Markedsføring og salg (SSA Vg2)',
+      en: 'Markedsføring og salg (SS-SSS Vg2)',
+      nb: 'Markedsføring og salg (SS-SSS Vg2)',
+      nn: 'Marknadsføring og sal (SS-SSS Vg2)',
     },
     name: {
       en: 'Markedsføring og salg',
       nb: 'Markedsføring og salg',
-      nn: 'Markedsføring og salg',
+      nn: 'Marknadsføring og sal',
     },
     subjectId: 'urn:subject:22',
     id: 'programme_subject_3',
@@ -794,9 +794,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a'],
     longName: {
-      en: 'Sal og marknadsføring (SSA Vg2)',
-      nb: 'Sal og marknadsføring (SSA Vg2)',
-      nn: 'Sal og marknadsføring (SSA Vg2)',
+      en: 'Sal og marknadsføring (SS-RLV Vg2)',
+      nb: 'Sal og marknadsføring (SS-RLV Vg2)',
+      nn: 'Sal og marknadsføring (SS-RLV Vg2)',
     },
     name: {
       en: 'Sal og marknadsføring',
@@ -809,9 +809,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:8181c74a-d7cd-40de-b199-864e069ffb8b'],
     longName: {
-      en: 'Etablering og drift (SSA Vg2)',
-      nb: 'Etablering og drift (SSA Vg2)',
-      nn: 'Etablering og drift (SSA Vg2)',
+      en: 'Etablering og drift (SS-RLV Vg2)',
+      nb: 'Etablering og drift (SS-RLV Vg2)',
+      nn: 'Etablering og drift (SS-RLV Vg2)',
     },
     name: {
       en: 'Etablering og drift',
@@ -824,13 +824,13 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:26a01df2-376e-4090-b0bf-eec2ca3d41dd'],
     longName: {
-      en: 'Vertskapsrolla (SSA Vg2)',
-      nb: 'Vertskapsrolla (SSA Vg2)',
-      nn: 'Vertskapsrolla (SSA Vg2)',
+      en: 'Vertskapsrollen (SS-RLV Vg2)',
+      nb: 'Vertskapsrollen (SS-RLV Vg2)',
+      nn: 'Vertskapsrolla (SS-RLV Vg2)',
     },
     name: {
-      en: 'Vertskapsrolla',
-      nb: 'Vertskapsrolla',
+      en: 'Vertskapsrollen',
+      nb: 'Vertskapsrollen',
       nn: 'Vertskapsrolla',
     },
     subjectId: 'urn:subject:35',
@@ -839,9 +839,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:34ea30e7-3294-48c1-821b-b0d76ac77eba'],
     longName: {
-      en: 'Bransjeteknikk (SSA Vg2)',
-      nb: 'Bransjeteknikk (SSA Vg2)',
-      nn: 'Bransjeteknikk (SSA Vg2)',
+      en: 'Bransjeteknikk (SS-TRL Vg2)',
+      nb: 'Bransjeteknikk (SS-TRL Vg2)',
+      nn: 'Bransjeteknikk (SS-TRL Vg2)',
     },
     name: {
       en: 'Bransjeteknikk',
@@ -854,9 +854,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:d9900359-abd3-470f-99b2-809e58abd5d7'],
     longName: {
-      en: 'Transport og logistikk (SSA Vg2)',
-      nb: 'Transport og logistikk (SSA Vg2)',
-      nn: 'Transport og logistikk (SSA Vg2)',
+      en: 'Transport og logistikk (SS-TRL Vg2)',
+      nb: 'Transport og logistikk (SS-TRL Vg2)',
+      nn: 'Transport og logistikk (SS-TRL Vg2)',
     },
     name: {
       en: 'Transport og logistikk',
@@ -916,12 +916,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Helsefremmende arbeid (HS-HA Vg2)',
       nb: 'Helsefremmende arbeid (HS-HA Vg2)',
-      nn: 'Helsefremmende arbeid (HS-HA Vg2)',
+      nn: 'Helsefremjande arbeid (HS-HA Vg2)',
     },
     name: {
       en: 'Helsefremmende arbeid',
       nb: 'Helsefremmende arbeid',
-      nn: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:4',
     id: 'programme_subject_12',
@@ -946,12 +946,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesutøvelse (HS-HA Vg2)',
       nb: 'Yrkesutøvelse (HS-HA Vg2)',
-      nn: 'Yrkesutøvelse (HS-HA Vg2)',
+      nn: 'Yrkesutøving (HS-HA Vg2)',
     },
     name: {
       en: 'Yrkesutøvelse',
       nb: 'Yrkesutøvelse',
-      nn: 'Yrkesutøvelse',
+      nn: 'Yrkesutøving',
     },
     subjectId: 'urn:subject:4',
     id: 'programme_subject_14',
@@ -1066,12 +1066,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Materialer og teknikker (DT Vg1)',
       nb: 'Materialer og teknikker (DT Vg1)',
-      nn: 'Materialer og teknikker (DT Vg1)',
+      nn: 'Materiale og teknikkar (DT Vg1)',
     },
     name: {
       en: 'Materialer og teknikker',
       nb: 'Materialer og teknikker',
-      nn: 'Materialer og teknikker',
+      nn: 'Materiale og teknikkar',
     },
     subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
     id: 'programme_subject_22',
@@ -1081,12 +1081,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Produktutvikling og skapende prosesser (DT Vg1)',
       nb: 'Produktutvikling og skapende prosesser (DT Vg1)',
-      nn: 'Produktutvikling og skapende prosesser (DT Vg1)',
+      nn: 'Produktutvikling og skapande prosessar (DT Vg1)',
     },
     name: {
       en: 'Produktutvikling og skapende prosesser',
       nb: 'Produktutvikling og skapende prosesser',
-      nn: 'Produktutvikling og skapende prosesser',
+      nn: 'Produktutvikling og skapande prosessar',
     },
     subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
     id: 'programme_subject_23',
@@ -1111,12 +1111,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Elektroniske kretser og nettverk (EL Vg1)',
       nb: 'Elektroniske kretser og nettverk (EL Vg1)',
-      nn: 'Elektroniske kretser og nettverk (EL Vg1)',
+      nn: 'Elektroniske krinsar og nettverk (EL Vg1)',
     },
     name: {
       en: 'Elektroniske kretser og nettverk',
       nb: 'Elektroniske kretser og nettverk',
-      nn: 'Elektroniske kretser og nettverk',
+      nn: 'Elektroniske krinsar og nettverk',
     },
     subjectId: 'urn:subject:16',
     id: 'programme_subject_25',
@@ -1126,12 +1126,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Energi- og styresystemer (EL Vg1)',
       nb: 'Energi- og styresystemer (EL Vg1)',
-      nn: 'Energi- og styresystemer (EL Vg1)',
+      nn: 'Energi- og styresystem (EL Vg1)',
     },
     name: {
       en: 'Energi- og styresystemer',
       nb: 'Energi- og styresystemer',
-      nn: 'Energi- og styresystemer',
+      nn: 'Energi- og styresystem',
     },
     subjectId: 'urn:subject:16',
     id: 'programme_subject_26',
@@ -1158,9 +1158,9 @@ export const programmeSubjects = [
       en: 'Forretningsdrift',
     },
     longName: {
-      nb: 'Forretningsdrift (SSR Vg1)',
-      nn: 'Forretningsdrift (SSR Vg1)',
-      en: 'Forretningsdrift (SSR Vg1)',
+      nb: 'Forretningsdrift (SR Vg1)',
+      nn: 'Forretningsdrift (SR Vg1)',
+      en: 'Forretningsdrift (SR Vg1)',
     },
     subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
     filters: ['urn:filter:792414c5-896f-470a-9558-6101d7266237'],
@@ -1169,9 +1169,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:be40ec3c-01ab-4e2e-af1a-a05fc85bcace'],
     longName: {
-      en: 'Kultur og samhandling (SSR Vg1)',
-      nb: 'Kultur og samhandling (SSR Vg1)',
-      nn: 'Kultur og samhandling (SSR Vg1)',
+      en: 'Kultur og samhandling (SR Vg1)',
+      nb: 'Kultur og samhandling (SR Vg1)',
+      nn: 'Kultur og samhandling (SR Vg1)',
     },
     name: {
       en: 'Kultur og samhandling',
@@ -1184,14 +1184,14 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:f18ad41e-d9c3-4428-8cb6-5eb852e45082'],
     longName: {
-      en: 'Markedsføring og innovasjon (SSR Vg1)',
-      nb: 'Markedsføring og innovasjon (SSR Vg1)',
-      nn: 'Markedsføring og innovasjon (SSR Vg1)',
+      en: 'Markedsføring og innovasjon (SR Vg1)',
+      nb: 'Markedsføring og innovasjon (SR Vg1)',
+      nn: 'Marknadsføring og innovasjon (SR Vg1)',
     },
     name: {
       en: 'Markedsføring og innovasjon',
       nb: 'Markedsføring og innovasjon',
-      nn: 'Markedsføring og innovasjon',
+      nn: 'Marknadsføring og innovasjon',
     },
     subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
     id: 'programme_subject_30',
@@ -1199,9 +1199,9 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:a1350efc-a249-4730-8bf7-0ef0556ddbcc'],
     longName: {
-      en: 'Yrkesfaglig fordypning (SSR Vg1)',
-      nb: 'Yrkesfaglig fordypning (SSR Vg1)',
-      nn: 'Yrkesfaglig fordypning (SSR Vg1)',
+      en: 'Yrkesfaglig fordypning (SR Vg1)',
+      nb: 'Yrkesfaglig fordypning (SR Vg1)',
+      nn: 'Yrkesfaglig fordypning (SR Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
@@ -1231,12 +1231,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Produksjon og historiefortelling (IM Vg1)',
       nb: 'Produksjon og historiefortelling (IM Vg1)',
-      nn: 'Produksjon og historiefortelling (IM Vg1)',
+      nn: 'Produksjon og historieforteljing (IM Vg1)',
     },
     name: {
       en: 'Produksjon og historiefortelling',
       nb: 'Produksjon og historiefortelling',
-      nn: 'Produksjon og historiefortelling',
+      nn: 'Produksjon og historieforteljing',
     },
     subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
     id: 'programme_subject_33',
@@ -1246,12 +1246,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Teknologiforståelse (IM Vg1)',
       nb: 'Teknologiforståelse (IM Vg1)',
-      nn: 'Teknologiforståelse (IM Vg1)',
+      nn: 'Teknologiforståing (IM Vg1)',
     },
     name: {
       en: 'Teknologiforståelse',
       nb: 'Teknologiforståelse',
-      nn: 'Teknologiforståelse',
+      nn: 'Teknologiforståing',
     },
     subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
     id: 'programme_subject_34',
@@ -1336,12 +1336,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Produksjon og tjenester (TP Vg1)',
       nb: 'Produksjon og tjenester (TP Vg1)',
-      nn: 'Produksjon og tjenester (TP Vg1)',
+      nn: 'Produksjon og tenester (TP Vg1)',
     },
     name: {
       en: 'Produksjon og tjenester',
       nb: 'Produksjon og tjenester',
-      nn: 'Produksjon og tjenester',
+      nn: 'Produksjon og tenester',
     },
     subjectId: 'urn:subject:28',
     id: 'programme_subject_40',
@@ -1396,12 +1396,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Praktisk yrkesutøvelse (BA Vg1)',
       nb: 'Praktisk yrkesutøvelse (BA Vg1)',
-      nn: 'Praktisk yrkesutøvelse (BA Vg1)',
+      nn: 'Praktisk yrkesutøving (BA Vg1)',
     },
     name: {
       en: 'Praktisk yrkesutøvelse',
       nb: 'Praktisk yrkesutøvelse',
-      nn: 'Praktisk yrkesutøvelse',
+      nn: 'Praktisk yrkesutøving',
     },
     subjectId: 'urn:subject:11',
     id: 'programme_subject_44',
@@ -1411,12 +1411,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (BA Vg1)',
       nb: 'Yrkesfaglig fordypning (BA Vg1)',
-      nn: 'Yrkesfaglig fordypning (BA Vg1)',
+      nn: 'Yrkesfagleg fordjuping (BA Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:11',
     id: 'programme_subject_45',
@@ -1456,12 +1456,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (RM Vg1)',
       nb: 'Yrkesfaglig fordypning (RM Vg1)',
-      nn: 'Yrkesfaglig fordypning (RM Vg1)',
+      nn: 'Yrkesfagleg fordjuping (RM Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:37',
     id: 'programme_subject_48',
@@ -1471,12 +1471,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Helsefremmende arbeid (HS-BU Vg2)',
       nb: 'Helsefremmende arbeid (HS-BU Vg2)',
-      nn: 'Helsefremmende arbeid (HS-BU Vg2)',
+      nn: 'Helsefremjande arbeid (HS-BU Vg2)',
     },
     name: {
       en: 'Helsefremmende arbeid',
       nb: 'Helsefremmende arbeid',
-      nn: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:40',
     id: 'programme_subject_49',
@@ -1501,12 +1501,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesutøvelse (HS-BU Vg2)',
       nb: 'Yrkesutøvelse (HS-BU Vg2)',
-      nn: 'Yrkesutøvelse (HS-BU Vg2)',
+      nn: 'Yrkesutøving (HS-BU Vg2)',
     },
     name: {
       en: 'Yrkesutøvelse',
       nb: 'Yrkesutøvelse',
-      nn: 'Yrkesutøvelse',
+      nn: 'Yrkesutøving',
     },
     subjectId: 'urn:subject:40',
     id: 'programme_subject_51',
@@ -1516,12 +1516,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Leting og boring (TP Vg2)',
       nb: 'Leting og boring (TP Vg2)',
-      nn: 'Leting og boring (TP Vg2)',
+      nn: 'Leiting og boring (TP Vg2)',
     },
     name: {
       en: 'Leting og boring',
       nb: 'Leting og boring',
-      nn: 'Leting og boring',
+      nn: 'Leiting og boring',
     },
     subjectId: 'urn:subject:6',
     id: 'programme_subject_52',
@@ -1531,12 +1531,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
       nb: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
-      nn: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (TP Vg2)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold',
       nb: 'Komplettering, produksjon og brønnvedlikehold',
-      nn: 'Komplettering, produksjon og brønnvedlikehold',
+      nn: 'Komplettering, produksjon og brønnvedlikehald',
     },
     subjectId: 'urn:subject:6',
     id: 'programme_subject_53',
@@ -1559,13 +1559,13 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Virksomhetsstøtte',
-      nn: 'Virksomhetsstøtte',
+      nn: 'Verksemdsstøtte',
       en: 'Virksomhetsstøtte',
     },
     longName: {
-      nb: 'Virksomhetsstøtte (SSA Vg2)',
-      nn: 'Virksomhetsstøtte (SSA Vg2)',
-      en: 'Virksomhetsstøtte (SSA Vg2)',
+      nb: 'Virksomhetsstøtte (SS-ISF Vg2)',
+      nn: 'Verksemdsstøtte (SS-ISF Vg2)',
+      en: 'Virksomhetsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71'],
@@ -1574,13 +1574,13 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Bruker- og driftsstøtte',
-      nn: 'Bruker- og driftsstøtte',
+      nn: 'Brukar- og driftsstøtte',
       en: 'Bruker- og driftsstøtte',
     },
     longName: {
-      nb: 'Bruker- og driftsstøtte (SSA Vg2)',
-      nn: 'Bruker- og driftsstøtte (SSA Vg2)',
-      en: 'Bruker- og driftsstøtte (SSA Vg2)',
+      nb: 'Bruker- og driftsstøtte (SS-ISF Vg2)',
+      nn: 'Brukar- og driftsstøtte (SS-ISF Vg2)',
+      en: 'Bruker- og driftsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:a9e14915-c279-462b-82fa-714ceee05116'],
@@ -1589,13 +1589,13 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Drift og vedlikehold',
-      nn: 'Drift og vedlikehold',
+      nn: 'Drift og vedlikehald',
       en: 'Drift og vedlikehold',
     },
     longName: {
-      nb: 'Drift og vedlikehold (SSA Vg2)',
-      nn: 'Drift og vedlikehold (SSA Vg2)',
-      en: 'Drift og vedlikehold (SSA Vg2)',
+      nb: 'Drift og vedlikehold (SS-ISF Vg2)',
+      nn: 'Drift og vedlikehald (SS-ISF Vg2)',
+      en: 'Drift og vedlikehold (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:25',
     filters: ['urn:filter:d97809a8-47b6-4d26-ae5c-1839f4c27940'],
@@ -1604,12 +1604,12 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
       en: 'Yrkesfaglig fordypning',
     },
     longName: {
       nb: 'Yrkesfaglig fordypning (HS-BU Vg2)',
-      nn: 'Yrkesfaglig fordypning (HS-BU Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-BU Vg2)',
       en: 'Yrkesfaglig fordypning (HS-BU Vg2)',
     },
     subjectId: 'urn:subject:40',
@@ -1619,12 +1619,12 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
       en: 'Yrkesfaglig fordypning',
     },
     longName: {
       nb: 'Yrkesfaglig fordypning (HS-HA Vg2)',
-      nn: 'Yrkesfaglig fordypning (HS-HA Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-HA Vg2)',
       en: 'Yrkesfaglig fordypning (HS-HA Vg2)',
     },
     subjectId: 'urn:subject:4',
@@ -1634,12 +1634,12 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
       en: 'Yrkesfaglig fordypning',
     },
     longName: {
       nb: 'Yrkesfaglig fordypning (SR-RE Vg2)',
-      nn: 'Yrkesfaglig fordypning (SR-RE Vg2)',
+      nn: 'Yrkesfagleg fordjuping (SR-RE Vg2)',
       en: 'Yrkesfaglig fordypning (SR-RE Vg2)',
     },
     subjectId: 'urn:subject:35',
@@ -1649,12 +1649,12 @@ export const programmeSubjects = [
   {
     name: {
       nb: 'Markedsføring og ledelse 1',
-      nn: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
       en: 'Markedsføring og ledelse 1',
     },
     longName: {
       nb: 'Markedsføring og ledelse 1',
-      nn: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
       en: 'Markedsføring og ledelse 1',
     },
     subjectId: 'urn:subject:7',
@@ -1713,12 +1713,12 @@ export const studySpecializationSubjects = [
     longName: {
       en: 'Engelskspråklig litteratur og kultur (SF Vg3)',
       nb: 'Engelskspråklig litteratur og kultur (SF Vg3)',
-      nn: 'Engelskspråklig litteratur og kultur (SF Vg3)',
+      nn: 'Engelskspråkleg litteratur og kultur (SF Vg3)',
     },
     name: {
       en: 'Engelskspråklig litteratur og kultur',
       nb: 'Engelskspråklig litteratur og kultur',
-      nn: 'Engelskspråklig litteratur og kultur',
+      nn: 'Engelskspråkleg litteratur og kultur',
     },
     subjectId: 'urn:subject:17',
     id: 'study_specialization_subject_4',
@@ -1743,12 +1743,12 @@ export const studySpecializationSubjects = [
     longName: {
       en: 'Samfunnsfaglig engelsk (SF VG3)',
       nb: 'Samfunnsfaglig engelsk (SF VG3)',
-      nn: 'Samfunnsfaglig engelsk (SF VG3)',
+      nn: 'Samfunnsfagleg engelsk (SF VG3)',
     },
     name: {
       en: 'Samfunnsfaglig engelsk',
       nb: 'Samfunnsfaglig engelsk',
-      nn: 'Samfunnsfaglig engelsk',
+      nn: 'Samfunnsfagleg engelsk',
     },
     subjectId: 'urn:subject:23',
     id: 'study_specialization_subject_6',

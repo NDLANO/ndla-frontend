@@ -23,7 +23,6 @@ const MastheadTopics = props => {
     onClose,
     subject,
     activeFilters,
-    filters,
     expandedTopicId,
     expandedSubtopicsId,
     topicResourcesByType,
@@ -66,7 +65,7 @@ const MastheadTopics = props => {
         activeFilters.join(','),
         expandedTopicIds,
       )}
-      toSubject={() => toSubject(subject.id)}
+      toSubject={() => toSubject(subject.id, activeFilters)}
       isOnSubjectFrontPage={isOnSubjectFrontPage}
       defaultCount={12}
       messages={{
@@ -79,7 +78,6 @@ const MastheadTopics = props => {
         contentTypeResultsNoHit: 'masthead.menu.contentTypeResultsNoHit',
       }}
       additionalTooltipLabel=""
-      filterOptions={filters}
       onFilterClick={onFilterClick}
       subjectTitle={subject.name}
       resourceToLinkProps={resourceToLinkPropsWithFilters}
@@ -101,7 +99,6 @@ MastheadTopics.propTypes = {
   activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
   expandedTopicId: PropTypes.string,
   expandedSubtopicsId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   locale: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired,

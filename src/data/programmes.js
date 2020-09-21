@@ -13,9 +13,9 @@ export const programmes = [
     meta: {
       description: {
         nb:
-          'Utdanningsprogram med programfagene helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfaglig fordypning.',
+          'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
         nn:
-          'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
+          'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/4WzuGfBZ.jpg' },

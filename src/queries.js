@@ -31,6 +31,7 @@ export const searchQuery = gql`
     $subjects: String
     $languageFilter: String
     $relevance: String
+    $grepCodes: String
   ) {
     search(
       query: $query
@@ -47,6 +48,7 @@ export const searchQuery = gql`
       subjects: $subjects
       languageFilter: $languageFilter
       relevance: $relevance
+      grepCodes: $grepCodes
     ) {
       language
       page
@@ -64,6 +66,7 @@ export const searchQuery = gql`
           id
           breadcrumbs
           filters {
+            id
             name
             relevance
           }
@@ -76,6 +79,7 @@ export const searchQuery = gql`
             language
           }
           subject
+          subjectId
         }
         supportedLanguages
         traits
@@ -193,6 +197,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
@@ -205,6 +213,10 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
+          filters {
+            id
+            name
+          }
         }
         totalCount
       }
@@ -361,11 +373,23 @@ export const articleInfoFragment = gql`
     competenceGoals {
       id
       title
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements {
       id
       title
       description
+      curriculum {
+        id
+        title
+      }
     }
     oembed
     copyright {
@@ -389,6 +413,31 @@ export const taxonomyEntityInfo = gql`
         id
         name
       }
+    }
+  }
+`;
+
+export const subjectpageInfo = gql`
+  fragment SubjectPageInfo on SubjectPage {
+    id
+    topical(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
+    }
+    banner {
+      desktopUrl
+    }
+    about {
+      title
+      description
+      visualElement {
+        type
+        url
+        alt
+      }
+    }
+    metaDescription
+    editorsChoices(subjectId: $subjectId) {
+      ...TaxonomyEntityInfo
     }
   }
 `;
@@ -429,46 +478,17 @@ export const subjectPageQuery = gql`
       filters {
         id
         name
+        subjectpage {
+          ...SubjectPageInfo
+        }
       }
       subjectpage {
-        id
-        topical(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        banner {
-          desktopUrl
-          mobileUrl
-        }
-        facebook
-        twitter
-        layout
-        about {
-          title
-          description
-          visualElement {
-            type
-            url
-            alt
-          }
-        }
-        metaDescription
-        goTo {
-          id
-          name
-        }
-        mostRead(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        latestContent(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
-        editorsChoices(subjectId: $subjectId) {
-          ...TaxonomyEntityInfo
-        }
+        ...SubjectPageInfo
       }
     }
   }
   ${topicInfoFragment}
+  ${subjectpageInfo}
   ${taxonomyEntityInfo}
 `;
 
@@ -666,11 +686,23 @@ export const competenceGoalsQuery = gql`
       id
       name: title
       type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
     coreElements(codes: $codes) {
       id
       name: title
       text: description
+      curriculum {
+        id
+        title
+      }
     }
   }
 `;

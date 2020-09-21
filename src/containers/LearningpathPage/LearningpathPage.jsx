@@ -27,6 +27,12 @@ import {
 import { toLearningPath } from '../../routeHelpers';
 
 class LearningpathPage extends Component {
+  componentDidUpdate() {
+    if (window.MathJax) {
+      window.MathJax.typeset();
+    }
+  }
+
   static willTrackPageView(trackPageView, currentProps) {
     const { loading, data } = currentProps;
     if (loading || !data) {

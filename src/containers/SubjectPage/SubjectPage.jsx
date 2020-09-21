@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -38,6 +38,14 @@ const SubjectPage = ({
     },
   });
 
+  useEffect(() => {
+    if (data?.subject?.filters?.length && !getFiltersFromUrl(location)) {
+      history.replace({
+        search: `?filters=${data.subject.filters[0].id}`,
+      });
+    }
+  }, [data]);
+
   if (loading) {
     return null;
   }
@@ -50,6 +58,13 @@ const SubjectPage = ({
     return <NotFoundPage />;
   }
 
+  let urlTopicId = topicId;
+  // Pre-select topic if only one topic in subject
+  if (!urlTopicId && data.subject.topics.length === 1) {
+    const topic = data.subject.topics[0];
+    urlTopicId = topic.id;
+  }
+
   return (
     <SubjectContainer
       match={match}
@@ -59,7 +74,7 @@ const SubjectPage = ({
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
-      urlTopicId={topicId}
+      urlTopicId={urlTopicId}
       urlSubTopicId={subTopicId}
       urlSubSubTopicId={subSubTopicId}
       data={data}
@@ -70,6 +85,7 @@ const SubjectPage = ({
 SubjectPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
   match: PropTypes.shape({

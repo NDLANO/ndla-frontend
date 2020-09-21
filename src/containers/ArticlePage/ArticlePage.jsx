@@ -126,6 +126,7 @@ class ArticlePage extends Component {
           topicPath={topicPath}
           resource={resource}
           resourceType={resourceType}
+          locale={locale}
         />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
