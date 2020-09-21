@@ -55,16 +55,6 @@ export const IframePage = ({
 
   if (!loading) {
     const { article } = data;
-    if (resourceTypes) {
-      return (
-        <IframeArticlePage
-          locale={locale.abbreviation}
-          resource={{ article, resourceTypes }}
-          article={article}
-          location={location}
-        />
-      );
-    }
     if (isTopicArticle) {
       return (
         <IframeTopicPage
@@ -74,12 +64,19 @@ export const IframePage = ({
         />
       );
     }
+    return (
+      <IframeArticlePage
+        locale={locale.abbreviation}
+        resource={{ article, resourceTypes }}
+        article={article}
+        location={location}
+      />
+    );
   }
   return null;
 };
 
 IframePage.propTypes = {
-  basename: PropTypes.string,
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
