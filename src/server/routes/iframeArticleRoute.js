@@ -13,7 +13,7 @@ import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
-import IframePage from '../../iframe/IframePage';
+import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPage, renderHtml } from '../helpers/render';
@@ -40,7 +40,11 @@ const getAssets = () => ({
 });
 
 function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? '' : <IframePage {...initialProps} />;
+  const Page = config.disableSSR ? (
+    ''
+  ) : (
+    <IframePageContainer {...initialProps} />
+  );
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
