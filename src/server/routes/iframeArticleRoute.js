@@ -16,7 +16,7 @@ import { fetchResourceTypesForResource } from '../../containers/Resources/resour
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
-import { renderPage, renderHtml } from '../helpers/render';
+import { renderPageWithData, renderHtml } from '../helpers/render';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -39,13 +39,13 @@ const getAssets = () => ({
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
-function doRenderPage(initialProps) {
+async function doRenderPage(initialProps) {
   const Page = config.disableSSR ? (
     ''
   ) : (
     <IframePageContainer {...initialProps} />
   );
-  const { html, ...docProps } = renderPage(Page, getAssets(), {
+  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
     initialProps,
   });
   return { html, docProps };
@@ -63,7 +63,7 @@ export async function iframeArticleRoute(req) {
   const location = { pathname: req.url };
   try {
     if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
-      const { html, docProps } = doRenderPage({
+      const { html, docProps } = await doRenderPage({
         basename: lang,
         locale,
         articleId,
@@ -78,7 +78,7 @@ export async function iframeArticleRoute(req) {
     const resourceTypes = taxonomyId
       ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
       : [];
-    const { html, docProps } = doRenderPage({
+    const { html, docProps } = await doRenderPage({
       resourceTypes,
       articleId,
       removeRelatedContent,
@@ -94,7 +94,7 @@ export async function iframeArticleRoute(req) {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = doRenderPage({
+    const { html, docProps } = await doRenderPage({
       basename: lang,
       locale,
       location,
