@@ -195,8 +195,14 @@ const SubjectPage = ({
 
   const onClickTopics = e => {
     e.preventDefault();
+    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
+    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
+    const filterParam =
+      lowermost?.filters?.length && !getFiltersFromUrl(location)
+        ? `?filters=${lowermost.filters[0].id}`
+        : `?filters=${getFiltersFromUrl(location)}`;
     const path = parseAndMatchUrl(e.currentTarget.href);
-    history.replace(`${path.url}?filters=${activeFilterId}`);
+    history.replace(`${path.url}${filterParam}`);
   };
 
   // show/hide breadcrumb based on intersection

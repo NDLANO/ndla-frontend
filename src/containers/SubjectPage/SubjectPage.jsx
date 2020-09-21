@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -37,14 +37,6 @@ const SubjectPage = ({
       filterIds: getFiltersFromUrl(location),
     },
   });
-
-  useEffect(() => {
-    if (data?.subject?.filters?.length && !getFiltersFromUrl(location)) {
-      history.replace({
-        search: `?filters=${data.subject.filters[0].id}`,
-      });
-    }
-  }, [data]);
 
   if (loading) {
     return null;
