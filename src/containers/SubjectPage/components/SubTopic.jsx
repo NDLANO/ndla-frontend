@@ -75,7 +75,7 @@ const SubTopic = ({
         showContent={showContent}
         onToggleShowContent={() => setShowContent(!showContent)}>
         <ArticleContents
-          article={topic.article}
+          topic={topic}
           copyPageUrlLink={copyPageUrlLink}
           locale={locale}
           modifier="in-topic"
