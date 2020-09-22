@@ -21,7 +21,8 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
   if (
     !isTopicArticle &&
     (article.grepCodes?.length ||
-      (article.competenceGoals?.length && article.coreElements?.length))
+      article.competenceGoals?.length ||
+      article.coreElements?.length)
   ) {
     // eslint-disable-next-line react/prop-types
     return ({ Dialog, dialogProps }) => (
@@ -47,6 +48,7 @@ const Article = ({
   locale,
   t,
   isResourceArticle,
+  copyPageUrlLink,
   ...rest
 }) => {
   const markdown = useMemo(() => {
@@ -68,6 +70,10 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
+  const competenceGoalTypes = [
+    ...new Set(article.competenceGoals?.map(goal => goal.type)),
+  ];
+
   return (
     <UIArticle
       article={article}
@@ -78,8 +84,10 @@ const Article = ({
         label,
       }}
       competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
+      competenceGoalTypes={competenceGoalTypes}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
+      copyPageUrlLink={copyPageUrlLink}
       {...rest}>
       {children}
     </UIArticle>
@@ -96,6 +104,7 @@ Article.propTypes = {
   subject: SubjectShape,
   locale: PropTypes.string.isRequired,
   isResourceArticle: PropTypes.bool,
+  copyPageUrlLink: PropTypes.string,
 };
 
 Article.defaultProps = {

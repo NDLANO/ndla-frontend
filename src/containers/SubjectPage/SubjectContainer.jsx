@@ -113,7 +113,15 @@ const SubjectPage = ({
       subTopicId,
       subSubTopicId,
     );
-    history.replace(`${baseUrl}${path}`);
+    // Maybe not very robust, but need filter from topic not subject.
+    const lowermostId = subSubTopicId || subTopicId || topicId;
+    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
+    const filterParam =
+      lowermost?.filters?.length && !getFiltersFromUrl(location)
+        ? `?filters=${lowermost.filters[0].id}`
+        : '';
+
+    history.replace(`${baseUrl}${path}${filterParam}`);
   }, [topic, subTopic, subSubTopic]);
 
   const breadCrumbs = [
@@ -215,7 +223,9 @@ const SubjectPage = ({
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle({ t, data })}`}</title>
+        <title>{`${subjectNames?.name || ''}${t(
+          'htmlTitles.titleTemplate',
+        )}`}</title>
         {metaDescription && (
           <meta name="description" content={metaDescription} />
         )}

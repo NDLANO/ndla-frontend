@@ -13,6 +13,8 @@ import Spinner from '@ndla/ui/lib/Spinner';
 
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
+import { toSubjects } from '../../../routeHelpers';
+import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 
@@ -55,6 +57,9 @@ const MainTopic = ({
     label: item.name,
     selected: item.id === subTopicId,
   }));
+  const filterParam = filterIds ? `?filters=${filterIds}` : '';
+  const copyPageUrlLink =
+    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
 
   const onClickSubTopic = e => {
     e.preventDefault();
@@ -77,6 +82,7 @@ const MainTopic = ({
         children={
           <ArticleContents
             article={topic.article}
+            copyPageUrlLink={copyPageUrlLink}
             locale={locale}
             modifier="in-topic"
           />
@@ -117,6 +123,7 @@ MainTopic.propTypes = {
   ndlaFilm: PropTypes.bool,
   setSubSubTopic: PropTypes.func,
   setSubSubTopicId: PropTypes.func,
+  toSubjects: PropTypes.func,
 };
 
 export default MainTopic;

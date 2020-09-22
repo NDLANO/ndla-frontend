@@ -77,6 +77,7 @@ const SubjectPage = ({
 SubjectPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
   match: PropTypes.shape({

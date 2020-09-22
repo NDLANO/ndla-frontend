@@ -250,6 +250,7 @@ export const topicInfoFragment = gql`
     name
     parent
     filters {
+      id
       name
     }
     path
@@ -279,6 +280,10 @@ export const resourceInfoFragment = gql`
     contentUri
     path
     paths
+    filters {
+      id
+      subjectId
+    }
     resourceTypes {
       id
       name
@@ -373,6 +378,7 @@ export const articleInfoFragment = gql`
     competenceGoals {
       id
       title
+      type
       curriculum {
         id
         title
@@ -473,6 +479,9 @@ export const subjectPageQuery = gql`
       name
       path
       topics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
       filters {

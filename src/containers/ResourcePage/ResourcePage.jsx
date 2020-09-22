@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -31,6 +31,17 @@ const ResourcePage = props => {
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
     variables: { subjectId, topicId, filterIds, resourceId },
   });
+
+  useEffect(() => {
+    if (data?.resource?.filters?.length && !getFiltersFromUrl(props.location)) {
+      const filter = data.resource.filters.find(f => f.subjectId === subjectId);
+      if (filter) {
+        props.history.replace({
+          search: `?filters=${filter.id}`,
+        });
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return null;
@@ -81,6 +92,10 @@ ResourcePage.propTypes = {
   skipToContentId: PropTypes.string,
   location: PropTypes.shape({
     search: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
   }).isRequired,
 };
 
