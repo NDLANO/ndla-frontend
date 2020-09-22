@@ -31,10 +31,11 @@ function matchUrl(pathname, type, lang = false) {
   );
 }
 
-export function parseAndMatchUrl(url) {
+export function parseAndMatchUrl(url, withoutLocale = false) {
   const { pathname } = new Url(url);
-  const paths = pathname.split('/');
+  let paths = pathname.split('/');
   paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
+  if (withoutLocale && isValidLocale(paths[1])) paths.splice(1, 1);
   const path = paths.join('/');
 
   if (isValidLocale(paths[1])) {
