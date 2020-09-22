@@ -96,15 +96,12 @@ export const commonSubjects = [
       en: 'Norsk',
     },
     longName: {
-      nb: 'Norsk (SF Vg2 og Vg3)',
-      nn: 'Norsk (SF Vg2 og Vg3)',
-      en: 'Norsk (SF Vg2 og Vg3)',
+      nb: 'Norsk (SF Vg2)',
+      nn: 'Norsk (SF Vg2)',
+      en: 'Norsk (SF Vg2)',
     },
     subjectId: 'urn:subject:19',
-    filters: [
-      'urn:filter:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
-      'urn:filter:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-    ],
+    filters: ['urn:filter:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20'],
     id: 'common_subject_7',
   },
   {
@@ -114,16 +111,12 @@ export const commonSubjects = [
       en: 'Historie',
     },
     longName: {
-      nb: 'Historie (Vg2 og Vg3)',
-      nn: 'Historie (Vg2 og Vg3)',
-      en: 'Historie (Vg2 og Vg3)',
+      nb: 'Historie (SF Vg2)',
+      nn: 'Historie (SF Vg2)',
+      en: 'Historie (SF Vg2)',
     },
     subjectId: 'urn:subject:9',
-    filters: [
-      'urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
-      'urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9',
-      'urn:filter:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
-    ],
+    filters: ['urn:filter:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1'],
     id: 'common_subject_8',
   },
   {
@@ -292,19 +285,16 @@ export const commonSubjects = [
     id: 'common_subject_19',
   },
   {
-    filters: [
-      'urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182',
-      'urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0',
-    ],
+    filters: ['urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182'],
     longName: {
-      en: 'Sørsamisk (SF Vg2 og Vg3)',
-      nb: 'Sørsamisk (SF Vg2 og Vg3)',
-      nn: 'Sørsamisk (SF Vg2 og Vg3)',
+      en: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
+      nb: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
+      nn: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
     },
     name: {
-      en: 'Sørsamisk',
-      nb: 'Sørsamisk',
-      nn: 'Sørsamisk',
+      en: 'Åarjelsaemien voestesgïeline',
+      nb: 'Åarjelsaemien voestesgïeline',
+      nn: 'Åarjelsaemien voestesgïeline',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_20',
@@ -759,6 +749,96 @@ export const commonSubjects = [
     subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
     id: 'common_subject_50',
   },
+  {
+    name: {
+      nb: 'Historie',
+      nn: 'Historie',
+      en: 'Historie',
+    },
+    longName: {
+      nb: 'Historie (SF Vg3)',
+      nn: 'Historie (SF Vg3)',
+      en: 'Historie (SF Vg3)',
+    },
+    subjectId: 'urn:subject:9',
+    filters: ['urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'],
+    id: 'common_subject_51',
+  },
+  {
+    name: {
+      nb: 'Historie',
+      nn: 'Historie',
+      en: 'Historie',
+    },
+    longName: {
+      nb: 'Historie (PB Vg3)',
+      nn: 'Historie (PB Vg3)',
+      en: 'Historie (PB Vg3)',
+    },
+    subjectId: 'urn:subject:9',
+    filters: ['urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9'],
+    id: 'common_subject_52',
+  },
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (SF Vg3)',
+      nn: 'Norsk (SF Vg3)',
+      en: 'Norsk (SF Vg3)',
+    },
+    subjectId: 'urn:subject:19',
+    filters: ['urn:filter:cddc3895-a19b-4e30-bd27-2f91b4a02894'],
+    id: 'common_subject_53',
+  },
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (PB Vg3)',
+      nn: 'Norsk (PB Vg3)',
+      en: 'Norsk (PB Vg3)',
+    },
+    subjectId: 'urn:subject:19',
+    filters: ['urn:filter:f3d2143b-66e3-428c-89ca-72c1abc659ea'],
+    id: 'common_subject_54',
+  },
+  {
+    filters: ['urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0'],
+    longName: {
+      en: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
+      nb: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
+      nn: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
+    },
+    name: {
+      en: 'Åarjelsaemien voestesgïeline',
+      nb: 'Åarjelsaemien voestesgïeline',
+      nn: 'Åarjelsaemien voestesgïeline',
+    },
+    subjectId: 'urn:subject:15',
+    id: 'common_subject_55',
+  },
+  {
+    filters: ['urn:filter:a532138d-e16a-4046-a46e-bd5bc9487b8b'],
+    longName: {
+      en: 'Lissiebigkeme (PB Jåa3)',
+      nb: 'Lissiebigkeme (PB Jåa3)',
+      nn: 'Lissiebigkeme (PB Jåa3)',
+    },
+    name: {
+      en: 'Lissiebigkeme',
+      nb: 'Lissiebigkeme',
+      nn: 'Lissiebigkeme',
+    },
+    subjectId: 'urn:subject:15',
+    id: 'common_subject_56',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -1032,94 +1112,42 @@ export const programmeSubjects = [
     id: 'programme_subject_18',
   },
   {
-    filters: ['urn:filter:f53687ae-d976-4969-afac-dae2ec16adb5'],
+    filters: [
+      'urn:filter:f53687ae-d976-4969-afac-dae2ec16adb5',
+      'urn:filter:733ccc9e-1d29-4196-8ea6-b92043bdf971',
+      'urn:filter:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
+    ],
     longName: {
-      en: 'Kommunikasjon, kunde og arbeidsliv (FD Vg1)',
-      nb: 'Kommunikasjon, kunde og arbeidsliv (FD Vg1)',
-      nn: 'Kommunikasjon, kunde og arbeidsliv (FD Vg1)',
+      en: 'Programfag (FD Vg1)',
+      nb: 'Programfag (FD Vg1)',
+      nn: 'Programfag (FD Vg1)',
     },
     name: {
-      en: 'Kommunikasjon, kunde og arbeidsliv',
-      nb: 'Kommunikasjon, kunde og arbeidsliv',
-      nn: 'Kommunikasjon, kunde og arbeidsliv',
+      en: 'Programfag',
+      nb: 'Programfag',
+      nn: 'Programfag',
     },
     subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
     id: 'programme_subject_19',
   },
   {
-    filters: ['urn:filter:733ccc9e-1d29-4196-8ea6-b92043bdf971'],
+    filters: [
+      'urn:filter:824cc0ab-3a68-43cc-8756-e2fa8517e4ef',
+      'urn:filter:3381e296-04d5-4a3e-8a50-49eef8e56a15',
+      'urn:filter:3de59c57-e25c-4509-9d9c-52da0f20e412',
+    ],
     longName: {
-      en: 'Produktutvikling og produksjon (FD Vg1)',
-      nb: 'Produktutvikling og produksjon (FD Vg1)',
-      nn: 'Produktutvikling og produksjon (FD Vg1)',
+      en: 'Programfag (DT Vg1)',
+      nb: 'Programfag (DT Vg1)',
+      nn: 'Programfag (DT Vg1)',
     },
     name: {
-      en: 'Produktutvikling og produksjon',
-      nb: 'Produktutvikling og produksjon',
-      nn: 'Produktutvikling og produksjon',
-    },
-    subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-    id: 'programme_subject_20',
-  },
-  {
-    filters: ['urn:filter:302431b9-ebb0-42e3-8ea6-447fbd27c1b5'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (FD Vg1)',
-      nb: 'Yrkesfaglig fordypning (FD Vg1)',
-      nn: 'Yrkesfaglig fordypning (FD Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-    id: 'programme_subject_21',
-  },
-  {
-    filters: ['urn:filter:824cc0ab-3a68-43cc-8756-e2fa8517e4ef'],
-    longName: {
-      en: 'Materialer og teknikker (DT Vg1)',
-      nb: 'Materialer og teknikker (DT Vg1)',
-      nn: 'Materiale og teknikkar (DT Vg1)',
-    },
-    name: {
-      en: 'Materialer og teknikker',
-      nb: 'Materialer og teknikker',
-      nn: 'Materiale og teknikkar',
+      en: 'Programfag',
+      nb: 'Programfag',
+      nn: 'Programfag',
     },
     subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
     id: 'programme_subject_22',
-  },
-  {
-    filters: ['urn:filter:3381e296-04d5-4a3e-8a50-49eef8e56a15'],
-    longName: {
-      en: 'Produktutvikling og skapende prosesser (DT Vg1)',
-      nb: 'Produktutvikling og skapende prosesser (DT Vg1)',
-      nn: 'Produktutvikling og skapande prosessar (DT Vg1)',
-    },
-    name: {
-      en: 'Produktutvikling og skapende prosesser',
-      nb: 'Produktutvikling og skapende prosesser',
-      nn: 'Produktutvikling og skapande prosessar',
-    },
-    subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
-    id: 'programme_subject_23',
-  },
-  {
-    filters: ['urn:filter:3de59c57-e25c-4509-9d9c-52da0f20e412'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (DT Vg1)',
-      nb: 'Yrkesfaglig fordypning (DT Vg1)',
-      nn: 'Yrkesfaglig fordypning (DT Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
-    id: 'programme_subject_24',
   },
   {
     filters: ['urn:filter:d92be649-8bda-4514-b04d-2d3c5251aa79'],
@@ -1994,64 +2022,24 @@ export const studySpecializationSubjects = [
     id: 'study_specialization_subject_21',
   },
   {
-    filters: ['urn:filter:ee84a147-0472-4fc6-832b-704faefa2ff0'],
+    filters: [
+      'urn:filter:ee84a147-0472-4fc6-832b-704faefa2ff0',
+      'urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf',
+      'urn:filter:980866f7-3bf5-429c-ba7a-f91a6cb37f9f',
+      'urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c',
+    ],
     longName: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
+      en: 'Medieuttrykk og mediesamfunnet',
+      nb: 'Medieuttrykk og mediesamfunnet',
+      nn: 'Medieuttrykk og mediesamfunnet',
     },
     name: {
-      en: 'Medieuttrykk',
-      nb: 'Medieuttrykk',
-      nn: 'Medieuttrykk',
+      en: 'Medieuttrykk og mediesamfunnet',
+      nb: 'Medieuttrykk og mediesamfunnet',
+      nn: 'Medieuttrykk og mediesamfunnet',
     },
     subjectId: 'urn:subject:1',
     id: 'study_specialization_subject_22',
-  },
-  {
-    filters: ['urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf'],
-    longName: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    name: {
-      en: 'Mediesamfunnet',
-      nb: 'Mediesamfunnet',
-      nn: 'Mediesamfunnet',
-    },
-    subjectId: 'urn:subject:1',
-    id: 'study_specialization_subject_23',
-  },
-  {
-    filters: ['urn:filter:980866f7-3bf5-429c-ba7a-f91a6cb37f9f'],
-    longName: {
-      en: 'Medieuttrykk 3',
-      nb: 'Medieuttrykk 3',
-      nn: 'Medieuttrykk 3',
-    },
-    name: {
-      en: 'Medieuttrykk',
-      nb: 'Medieuttrykk',
-      nn: 'Medieuttrykk',
-    },
-    subjectId: 'urn:subject:1',
-    id: 'study_specialization_subject_24',
-  },
-  {
-    filters: ['urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c'],
-    longName: {
-      en: 'Mediesamfunnet 3',
-      nb: 'Mediesamfunnet 3',
-      nn: 'Mediesamfunnet 3',
-    },
-    name: {
-      en: 'Mediesamfunnet',
-      nb: 'Mediesamfunnet',
-      nn: 'Mediesamfunnet',
-    },
-    subjectId: 'urn:subject:1',
-    id: 'study_specialization_subject_25',
   },
 ];
 
