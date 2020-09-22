@@ -15,9 +15,9 @@ const createSubjectFilterPath = subject => {
 };
 
 const categories = {
-  common: 'Fellesfag:',
-  programme: 'Yrkesfag:',
-  study: 'Studiespesialiserende:',
+  common: 'Fellesfag',
+  programme: 'Yrkesfag',
+  study: 'Studiespesialiserende',
 };
 
 export const searchSubjects = query => {
