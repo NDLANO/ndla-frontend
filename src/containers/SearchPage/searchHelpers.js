@@ -77,22 +77,29 @@ const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
   const { contexts = [] } = result;
   if (selectedContext) {
+    const subjectData = getSubjectBySubjectIdFilters(
+      selectedContext.subjectId,
+      selectedContext.filters?.map(f => f.id),
+    );
+    selectedContext.breadcrumbs[0] =
+      subjectData?.longName[selectedContext.language] ||
+      selectedContext.subject;
     taxonomyResult = {
       breadcrumb: selectedContext.breadcrumbs,
       contentType: getContentType(selectedContext),
       contentTypes: contexts.map(context => getContentType(context)),
       subjects:
         contexts.length > 1
-          ? contexts.map(subject => {
-              const subjectData = getSubjectBySubjectIdFilters(
-                subject.subjectId,
-                subject.filters.map(f => f.id),
+          ? contexts.map(context => {
+              const contextData = getSubjectBySubjectIdFilters(
+                context.subjectId,
+                context.filters.map(f => f.id),
               );
               return {
-                url: getUrl(subject, result),
+                url: getUrl(context, result),
                 title:
-                  subjectData?.longName[subject.language] || subject.subject,
-                contentType: getContentType(subject),
+                  contextData?.longName[context.language] || context.subject,
+                contentType: getContentType(context),
               };
             })
           : undefined,
