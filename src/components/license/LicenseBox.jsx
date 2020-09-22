@@ -39,7 +39,7 @@ function buildLicenseTabList(article, locale, t) {
         texts={[
           {
             copyright: article.copyright,
-            updated: article.updated,
+            updated: article.published,
           },
         ]}
         locale={locale}
