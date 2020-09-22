@@ -21,10 +21,11 @@ import {
 } from '@ndla/ui';
 
 import LicenseBox from '../license/LicenseBox';
-import { ArticleShape } from '../../shapes';
+import { TopicShape } from '../../shapes';
+import { transformArticle } from '../../util/transformArticle';
 
 const ArticleContents = ({
-  article,
+  topic,
   copyPageUrlLink,
   locale,
   modifier = 'clean',
@@ -41,6 +42,8 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
+  const article = transformArticle(topic.article, locale);
+
   return (
     <ArticleWrapper modifier={modifier}>
       <LayoutItem layout="extend">
@@ -54,7 +57,7 @@ const ArticleContents = ({
         <ArticleContent content={article.content} />
       </LayoutItem>
       <LayoutItem layout="extend">
-        {article.metadata?.footnotes?.length && (
+        {article.metaData?.footnotes?.length && (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
         )}
       </LayoutItem>
@@ -74,7 +77,7 @@ const ArticleContents = ({
 };
 
 ArticleContents.propTypes = {
-  article: ArticleShape,
+  topic: TopicShape,
   copyPageUrlLink: PropTypes.string,
   locale: PropTypes.string,
   modifier: PropTypes.string,

@@ -81,7 +81,7 @@ const MainTopic = ({
         onToggleShowContent={() => setShowContent(!showContent)}
         children={
           <ArticleContents
-            article={topic.article}
+            topic={topic}
             copyPageUrlLink={copyPageUrlLink}
             locale={locale}
             modifier="in-topic"
