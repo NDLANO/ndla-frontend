@@ -16,6 +16,8 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
+import { toSubjects } from '../../../routeHelpers';
+import config from '../../../config';
 
 const SubTopic = ({
   topicId,
@@ -54,6 +56,9 @@ const SubTopic = ({
     url: toTopic(subjectId, filterIds, topicId, topic.id, item.id),
   }));
   const resourceTypes = data.resourceTypes;
+  const filterParam = filterIds ? `?filters=${filterIds}` : ';';
+  const copyPageUrlLink =
+    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
 
   return (
     <>
@@ -64,7 +69,8 @@ const SubTopic = ({
         showContent={showContent}
         onToggleShowContent={() => setShowContent(!showContent)}>
         <ArticleContents
-          article={topic.article}
+          topic={topic}
+          copyPageUrlLink={copyPageUrlLink}
           locale={locale}
           modifier="in-topic"
         />

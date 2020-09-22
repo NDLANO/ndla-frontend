@@ -215,7 +215,9 @@ const SubjectPage = ({
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle({ t, data })}`}</title>
+        <title>{`${subjectNames?.name || ''}${t(
+          'htmlTitles.titleTemplate',
+        )}`}</title>
         {metaDescription && (
           <meta name="description" content={metaDescription} />
         )}
