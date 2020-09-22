@@ -56,7 +56,13 @@ test('IframeArticlePage with article renderers correctly', () => {
       <IframeArticlePage
         locale={locale.abbreviation}
         location={{ pathname: '/article-iframe/article/128' }}
-        resource={{ article, resourceTypes: [] }}
+        resource={{
+          id: 'urn:resource:1',
+          name: 'Ressurs',
+          path: '/subject:1/resource:1',
+          article,
+          resourceTypes: [],
+        }}
         article={article}
       />
     </IntlProvider>,
