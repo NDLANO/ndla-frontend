@@ -23,7 +23,13 @@ import {
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape } from '../../shapes';
 
-const ArticleContents = ({ article, locale, modifier = 'clean', t }) => {
+const ArticleContents = ({
+  article,
+  copyPageUrlLink,
+  locale,
+  modifier = 'clean',
+  t,
+}) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -42,14 +48,6 @@ const ArticleContents = ({ article, locale, modifier = 'clean', t }) => {
           <ArticleIntroduction renderMarkdown={renderMarkdown}>
             {article.introduction}
           </ArticleIntroduction>
-          <ArticleByline
-            licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
-            {...{
-              authors: article.copyright?.creators,
-              published: article.published,
-              license: article.copyright?.license?.license,
-            }}
-          />
         </ArticleHeaderWrapper>
       </LayoutItem>
       <LayoutItem layout="extend">
@@ -60,12 +58,24 @@ const ArticleContents = ({ article, locale, modifier = 'clean', t }) => {
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
         )}
       </LayoutItem>
+      <LayoutItem layout="extend">
+        <ArticleByline
+          licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
+          copyPageUrlLink={copyPageUrlLink}
+          {...{
+            authors: article.copyright?.creators,
+            published: article.published,
+            license: article.copyright?.license?.license,
+          }}
+        />
+      </LayoutItem>
     </ArticleWrapper>
   );
 };
 
 ArticleContents.propTypes = {
   article: ArticleShape,
+  copyPageUrlLink: PropTypes.string,
   locale: PropTypes.string,
   modifier: PropTypes.string,
 };
