@@ -197,7 +197,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <p>
             Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
           </p>
-        </div>
+          
+
+        </p>
       </div>
     </section>
     <section
@@ -208,85 +210,78 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           Object {
             "__html": "<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>",
           }
-        />
-      </section>
-      <section
-        className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
-      >
-        
-        <div
-          className="emotion-6 emotion-7"
-        >
-          <div>
-            Sist oppdatert
-             
-            09.01.2018
-          </div>
-          <div
-            className="emotion-0 emotion-1"
-          >
-            Rettighetshaver:
-            <span>
-               
-              Someone
-            </span>
-            <span>
-               (CC BY-SA)
-            </span>
-          </div>
-          <div
-            className="emotion-4 emotion-5"
-          >
-            <button
-              className="emotion-2 emotion-3"
-              disabled={false}
-              onClick={[Function]}
-              size="small"
-              type="button"
-            >
-              Retningslinjer for bruk
-            </button>
-          </div>
-        </div>
-      </section>
-      <section
-        className="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
+        }
       />
     </section>
     <section
       className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
     >
       
+      <div
+        className="emotion-6 emotion-7"
+      >
+        <div>
+          Sist oppdatert
+           
+          09.01.2018
+        </div>
+        <div
+          className="emotion-0 emotion-1"
+        >
+          Rettighetshaver:
+          <span>
+             
+            Someone
+          </span>
+          <span>
+             (CC BY-SA)
+          </span>
+        </div>
+        <div
+          className="emotion-4 emotion-5"
+        >
+          <button
+            className="emotion-2 emotion-3"
+            disabled={false}
+            onClick={[Function]}
+            size="small"
+            type="button"
+          >
+            Retningslinjer for bruk
+          </button>
+        </div>
+      </div>
     </section>
     <section
       className="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
     />
   </article>
   <div
-    className="emotion-8 emotion-9"
+    className="emotion-14 emotion-15"
   >
     <div
-      className="emotion-14 emotion-15"
+      className="emotion-12 emotion-13"
     >
       <div
-        className="emotion-12 emotion-13"
+        className="emotion-10 emotion-11"
       >
-        <div
-          className="emotion-10 emotion-11"
+        Artikkelen
+         
+        er utarbeidet av
+         
+        <a
+          className="emotion-8 emotion-9"
+          href="https://ndla.no"
         >
-          Artikkelen
-           
-          er utarbeidet av
-           
-          <a
-            className="emotion-8 emotion-9"
-            href="https://ndla.no"
-          >
-            NDLA
-          </a>
-        </div>
-        <h1
-          className="c-logo"
+          NDLA
+        </a>
+      </div>
+      <h1
+        className="c-logo"
+      >
+        <a
+          aria-label="NDLA"
+          href="https://ndla.no"
         >
           <svg
             className="c-logo__graphic"
