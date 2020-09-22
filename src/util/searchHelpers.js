@@ -24,7 +24,7 @@ export const searchSubjects = query => {
   if (!query) {
     return [];
   }
-  query.trim().toLowerCase();
+  query = query.trim().toLowerCase();
 
   const foundInSubjects = [
     ...commonSubjects,
