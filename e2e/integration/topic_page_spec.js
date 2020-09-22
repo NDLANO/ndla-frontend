@@ -22,9 +22,7 @@ describe('Topic page', () => {
     cy.apiwait('@subjectpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
-    cy.get(
-      '[data-testid="nav-box-list"] li button:contains("Idéskaping")',
-    ).click({
+    cy.get('[data-testid="nav-box-list"] li a:contains("Idéskaping")').click({
       force: true,
     });
     cy.apiwait(['@topicpageGraphQL']);

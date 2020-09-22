@@ -14,15 +14,13 @@ import { GraphQLSubjectShape } from '../../../graphqlShapes';
 import MainTopic from './MainTopic';
 import SubTopic from './SubTopic';
 import { scrollToRef } from '../subjectPageHelpers';
+import { toTopic } from '../../../routeHelpers';
 
 const SubjectPageContent = ({
   subject,
   filterIds,
   topicId,
-  setTopicId,
   subTopicId,
-  setSubTopicId,
-  setSubTopic,
   setSelectedTopic,
   setSelectedSubTopic,
   locale,
@@ -31,9 +29,8 @@ const SubjectPageContent = ({
   subRef,
   subSubRef,
   subSubTopicId,
-  setSubSubTopicId,
   setSelectedSubSubTopic,
-  setSubSubTopic,
+  onClickTopics,
 }) => {
   useEffect(() => {
     if (subSubTopicId) {
@@ -45,42 +42,24 @@ const SubjectPageContent = ({
     }
   }, [topicId, subTopicId, subSubTopicId]);
 
-  const mainTopics = subject.topics.map(topic => ({
-    ...topic,
-    label: topic.name,
-    selected: topic.id === topicId,
-  }));
-
-  const setAndScrollToSubTopic = id => {
-    if (id === subTopicId) {
-      scrollToRef(subRef);
-    }
-    setSubTopicId(id);
-  };
-
-  const onClickMainTopic = e => {
-    e.preventDefault();
-    const topic = mainTopics.find(
-      topic => topic.label === e.currentTarget.textContent,
-    );
-    if (topic.id === topicId) {
-      scrollToRef(mainRef);
-    }
-    setTopicId(topic.id);
-    setSubTopicId(null);
-    setSubTopic(null);
-    setSubSubTopicId(null);
-    setSubSubTopic(null);
-  };
+  const mainTopics = subject.topics.map(topic => {
+    return {
+      ...topic,
+      label: topic.name,
+      selected: topic.id === topicId,
+      url: toTopic(subject.id, filterIds, topic.id),
+    };
+  });
 
   return (
     <>
       <NavigationBox
         items={mainTopics}
-        onClick={onClickMainTopic}
         invertedStyle={ndlaFilm}
-        isButtonElements
         listDirection="horizontal"
+        onClick={e => {
+          onClickTopics(e);
+        }}
       />
       {topicId && (
         <div ref={mainRef}>
@@ -89,13 +68,11 @@ const SubjectPageContent = ({
             subjectId={subject.id}
             filterIds={filterIds}
             setSelectedTopic={setSelectedTopic}
-            setSubTopicId={setAndScrollToSubTopic}
             showResources={!subTopicId}
             subTopicId={subTopicId}
             locale={locale}
             ndlaFilm={ndlaFilm}
-            setSubSubTopic={setSubSubTopic}
-            setSubSubTopicId={setSubSubTopicId}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -108,8 +85,8 @@ const SubjectPageContent = ({
             setSelectedSubTopic={setSelectedSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
-            setSubSubTopicId={setSubSubTopicId}
             subSubTopicId={subSubTopicId}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -122,7 +99,7 @@ const SubjectPageContent = ({
             setSelectedSubTopic={setSelectedSubSubTopic}
             locale={locale}
             ndlaFilm={ndlaFilm}
-            setSubSubTopicId={setSubSubTopicId}
+            onClickTopics={onClickTopics}
           />
         </div>
       )}
@@ -135,8 +112,6 @@ SubjectPageContent.propTypes = {
   filterIds: PropTypes.string,
   topicId: PropTypes.string,
   subTopicId: PropTypes.string,
-  setTopicId: PropTypes.func,
-  setSubTopicId: PropTypes.func,
   setSubTopic: PropTypes.func,
   setSelectedTopic: PropTypes.func,
   setSelectedSubTopic: PropTypes.func,
@@ -146,9 +121,8 @@ SubjectPageContent.propTypes = {
   subRef: PropTypes.any.isRequired,
   subSubRef: PropTypes.any.isRequired,
   subSubTopicId: PropTypes.string,
-  setSubSubTopicId: PropTypes.func,
-  setSubSubTopic: PropTypes.func,
   setSelectedSubSubTopic: PropTypes.func,
+  onClickTopics: PropTypes.func,
 };
 
 export default injectT(SubjectPageContent);

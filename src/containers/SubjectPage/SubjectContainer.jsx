@@ -25,19 +25,19 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { getProgrammeByPath, toProgramme, toTopic } from '../../routeHelpers';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
+import { parseAndMatchUrl } from '../../util/urlHelper';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
 const SubjectPage = ({
-  location,
   history,
+  location,
   locale,
   skipToContentId,
   t,
@@ -62,15 +62,18 @@ const SubjectPage = ({
 
   const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
-  const [topicId, setTopicId] = useState(urlTopicId);
-  const [subTopicId, setSubTopicId] = useState(urlSubTopicId);
-  const [subSubTopicId, setSubSubTopicId] = useState(urlSubSubTopicId);
   const [topic, setTopic] = useState(null);
   const [subTopic, setSubTopic] = useState(null);
   const [subSubTopic, setSubSubTopic] = useState(null);
   const [currentLevel, setCurrentLevel] = useState('Subject');
 
-  const [programme] = useState(() => {
+  useEffect(() => {
+    if (!urlTopicId) setTopic(undefined);
+    if (!urlSubTopicId) setSubTopic(undefined);
+    if (!urlSubSubTopicId) setSubSubTopic(undefined);
+  });
+
+  /* const [programme] = useState(() => {
     const programmeData = {
       name: data?.subject?.name,
       url: '',
@@ -81,7 +84,7 @@ const SubjectPage = ({
       programmeData.url = toProgramme(programme.url[locale]);
     }
     return programmeData;
-  });
+  }); */
   const [subjectNames] = useState(() => {
     const subjectData = getSubjectBySubjectIdFilters(
       subject.id,
@@ -103,26 +106,6 @@ const SubjectPage = ({
       longName: `${subjectName} ${filterString}`,
     };
   });
-
-  useEffect(() => {
-    const baseUrl = programme.url ? programme.url : '';
-    const path = toTopic(
-      subjectId,
-      activeFilterId,
-      topicId,
-      subTopicId,
-      subSubTopicId,
-    );
-    // Maybe not very robust, but need filter from topic not subject.
-    const lowermostId = subSubTopicId || subTopicId || topicId;
-    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
-    const filterParam =
-      lowermost?.filters?.length && !getFiltersFromUrl(location)
-        ? `?filters=${lowermost.filters[0].id}`
-        : '';
-
-    history.replace(`${baseUrl}${path}${filterParam}`);
-  }, [topic, subTopic, subSubTopic]);
 
   const breadCrumbs = [
     /*{
@@ -153,7 +136,6 @@ const SubjectPage = ({
 
   const setTopicBreadCrumb = topic => {
     setCurrentLevel('Topic');
-    setTopicId(topic.id);
     setTopic(
       topic
         ? {
@@ -167,7 +149,6 @@ const SubjectPage = ({
 
   const setSubTopicBreadCrumb = topic => {
     setCurrentLevel('Subtopic');
-    setSubTopicId(topic.id);
     setSubTopic(
       topic
         ? {
@@ -181,7 +162,6 @@ const SubjectPage = ({
 
   const setSubSubTopicBreadCrumb = topic => {
     setCurrentLevel('SubSubtopic');
-    setSubSubTopicId(topic.id);
     setSubSubTopic(
       topic
         ? {
@@ -211,6 +191,18 @@ const SubjectPage = ({
     } else if (typename === 'SubSubtopic') {
       scrollToRef(subSubRef);
     }
+  };
+
+  const onClickTopics = e => {
+    e.preventDefault();
+    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
+    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
+    const filterParam =
+      lowermost?.filters?.length && !getFiltersFromUrl(location)
+        ? `?filters=${lowermost.filters[0].id}`
+        : `?filters=${getFiltersFromUrl(location)}`;
+    const path = parseAndMatchUrl(e.currentTarget.href);
+    history.replace(`${path.url}${filterParam}`);
   };
 
   // show/hide breadcrumb based on intersection
@@ -259,10 +251,8 @@ const SubjectPage = ({
               subjectpage={subjectpage}
               subject={subject}
               filterIds={activeFilterId}
-              topicId={topicId}
-              setTopicId={setTopicId}
-              subTopicId={subTopicId}
-              setSubTopicId={setSubTopicId}
+              topicId={urlTopicId}
+              subTopicId={urlSubTopicId}
               setSelectedTopic={setTopicBreadCrumb}
               setSubTopic={setSubTopic}
               setSelectedSubTopic={setSubTopicBreadCrumb}
@@ -270,10 +260,9 @@ const SubjectPage = ({
               mainRef={mainRef}
               subRef={subRef}
               subSubRef={subSubRef}
-              subSubTopicId={subSubTopicId}
-              setSubSubTopicId={setSubSubTopicId}
-              setSubSubTopic={setSubSubTopic}
+              subSubTopicId={urlSubSubTopicId}
               setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
+              onClickTopics={onClickTopics}
             />
           </LayoutItem>
         </OneColumn>

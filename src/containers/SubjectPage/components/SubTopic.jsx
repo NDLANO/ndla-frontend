@@ -15,6 +15,7 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
+import { toTopic } from '../../../routeHelpers';
 import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 
@@ -26,7 +27,7 @@ const SubTopic = ({
   locale,
   ndlaFilm,
   subSubTopicId,
-  setSubSubTopicId,
+  onClickTopics,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -52,19 +53,12 @@ const SubTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subSubTopicId,
+    url: toTopic(subjectId, filterIds, topicId, topic.id, item.id),
   }));
   const resourceTypes = data.resourceTypes;
   const filterParam = filterIds ? `?filters=${filterIds}` : ';';
   const copyPageUrlLink =
     config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
-
-  const onClickSubTopic = e => {
-    e.preventDefault();
-    const topic = subTopics.find(
-      topic => topic.label === e.currentTarget.textContent,
-    );
-    setSubSubTopicId(topic.id);
-  };
 
   return (
     <>
@@ -87,9 +81,10 @@ const SubTopic = ({
           heading="emner"
           items={subTopics}
           listDirection="horizontal"
-          onClick={onClickSubTopic}
           invertedStyle={ndlaFilm}
-          isButtonElements
+          onClick={e => {
+            onClickTopics(e);
+          }}
         />
       )}
       <Resources
@@ -109,8 +104,8 @@ SubTopic.propTypes = {
   setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  setSubSubTopicId: PropTypes.func,
   subSubTopicId: PropTypes.string,
+  onClickTopics: PropTypes.func,
 };
 
 export default SubTopic;

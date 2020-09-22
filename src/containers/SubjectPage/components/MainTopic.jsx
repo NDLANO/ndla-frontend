@@ -17,19 +17,18 @@ import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
+import { toTopic } from '../../../routeHelpers';
 
 const MainTopic = ({
   topicId,
   subjectId,
   filterIds,
-  setSubTopicId,
   setSelectedTopic,
   showResources,
   locale,
   subTopicId,
   ndlaFilm,
-  setSubSubTopic,
-  setSubSubTopicId,
+  onClickTopics,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -56,20 +55,11 @@ const MainTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
+    url: toTopic(subjectId, filterIds, topicId, item.id),
   }));
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
   const copyPageUrlLink =
     config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
-
-  const onClickSubTopic = e => {
-    e.preventDefault();
-    const topic = subTopics.find(
-      topic => topic.label === e.currentTarget.textContent,
-    );
-    setSubTopicId(topic.id);
-    setSubSubTopic(null);
-    setSubSubTopicId(null);
-  };
 
   return (
     <>
@@ -94,9 +84,10 @@ const MainTopic = ({
           heading="emner"
           items={subTopics}
           listDirection="horizontal"
-          onClick={onClickSubTopic}
           invertedStyle={ndlaFilm}
-          isButtonElements
+          onClick={e => {
+            onClickTopics(e);
+          }}
         />
       )}
       {showResources && (
@@ -116,13 +107,11 @@ MainTopic.propTypes = {
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
-  setSubTopicId: PropTypes.func,
   showResources: PropTypes.bool,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  setSubSubTopic: PropTypes.func,
-  setSubSubTopicId: PropTypes.func,
+  onClickTopics: PropTypes.func,
   toSubjects: PropTypes.func,
 };
 
