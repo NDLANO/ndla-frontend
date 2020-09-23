@@ -1,8 +1,12 @@
-import { FRONTPAGE_CATEGORIES } from '../constants';
+import {
+  commonSubjects,
+  programmeSubjects,
+  studySpecializationSubjects,
+} from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
 
 const createSubjectFilterPath = subject => {
-  const baseUrl = `/${removeUrn(subject.id)}/`;
+  const baseUrl = `/${removeUrn(subject.subjectId)}/`;
   if (subject.filters) {
     const filterIds = subject.filters.join(',');
     return `${baseUrl}?filters=${filterIds}`;
@@ -10,37 +14,30 @@ const createSubjectFilterPath = subject => {
   return baseUrl;
 };
 
+const categories = {
+  common: 'Fellesfag',
+  programme: 'Yrkesfag',
+  study: 'Studiespesialiserende',
+};
+
 export const searchSubjects = query => {
-  const allOfThem = FRONTPAGE_CATEGORIES.categories.reduce(
-    (accumulated, category) => {
-      if (!query) {
-        return [];
-      }
+  if (!query) {
+    return [];
+  }
+  query = query.trim().toLowerCase();
 
-      query = query.trim().toLowerCase();
-      const foundInSubjects = category.subjects.filter(subject =>
-        subject.name.toLowerCase().includes(query),
-      );
+  const foundInSubjects = [
+    ...commonSubjects,
+    ...programmeSubjects,
+    ...studySpecializationSubjects,
+  ].filter(subject => subject.longName.nb.toLowerCase().includes(query));
 
-      return [
-        ...accumulated,
-        ...foundInSubjects.map(subject => {
-          const path = createSubjectFilterPath(subject);
-          return {
-            id: subject.id,
-            path: path,
-            subject: `${category.name
-              .charAt(0)
-              .toUpperCase()}${category.name.slice(1)}:`,
-            name: subject.name,
-          };
-        }),
-      ];
-    },
-    [],
-  );
-
-  return allOfThem;
+  return foundInSubjects.map(subject => ({
+    id: subject.id,
+    path: createSubjectFilterPath(subject),
+    subject: categories[subject.id.split('_')[0]],
+    name: subject.longName.nb,
+  }));
 };
 
 export const mapSearchToFrontPageStructure = (data, t, query) => {

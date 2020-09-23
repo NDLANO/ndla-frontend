@@ -12,8 +12,8 @@ import {
 } from '../searchHelpers';
 
 test('search subjects', () => {
-  const searchResult = searchSubjects('Vg2 og', 'nb', []);
-  expect(searchResult.length).toBe(2);
+  const searchResult = searchSubjects('Vg2 og');
+  expect(searchResult.length).toBe(3);
 });
 
 test('map function', () => {
@@ -29,8 +29,6 @@ test('map function', () => {
     },
     () => {},
     'Vg2 og',
-    'nb',
-    [],
   );
   expect(returnArray.length).toBe(2);
 });
