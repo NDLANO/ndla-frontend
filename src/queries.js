@@ -901,6 +901,9 @@ export const resourcePageQuery = gql`
         id
         name
       }
+      metadata {
+        grepCodes
+      }
     }
     resourceTypes {
       id

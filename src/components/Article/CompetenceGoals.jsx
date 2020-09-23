@@ -72,12 +72,15 @@ const CompetenceGoals = ({
   }
 
   const { competenceGoals, coreElements } = data;
+  const subjectCompetenceGoals = competenceGoals.filter(goal =>
+    subject.metadata.grepCodes.includes(goal.curriculum.id),
+  );
   const LK06Goals = groupByCurriculums(
-    competenceGoals.filter(goal => goal.type === 'LK06'),
+    subjectCompetenceGoals.filter(goal => goal.type === 'LK06'),
     false,
   );
   const LK20Goals = groupByCurriculums(
-    competenceGoals.filter(goal => goal.type === 'LK20'),
+    subjectCompetenceGoals.filter(goal => goal.type === 'LK20'),
     false,
   );
   const LK20Elements = groupByCurriculums(coreElements || [], false);
