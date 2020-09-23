@@ -36,7 +36,7 @@ test('iframeArticleRoute 200 OK', async () => {
 
   nock('http://ndla-api')
     .get('/taxonomy/v1/resources/urn:resource:123/resource-types/?language=nb')
-    .reply(200, { id: 1234 });
+    .reply(200, [{ id: '1234', name: 'Type' }]);
 
   const response = await iframeArticleRoute({
     params: {

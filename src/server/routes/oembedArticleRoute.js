@@ -34,6 +34,9 @@ const getHTMLandTitle = async match => {
   const {
     params: { resourceId, topicId, lang = 'nb' },
   } = match;
+  if (!topicId && !resourceId) {
+    return {};
+  }
   if (topicId && !resourceId) {
     const topic = await fetchTopic(`urn:${topicId}`, lang);
     const articleId = getArticleIdFromResource(topic);
