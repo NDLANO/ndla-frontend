@@ -201,8 +201,8 @@ const SubjectPage = ({
       lowermost?.filters?.length && !getFiltersFromUrl(location)
         ? `?filters=${lowermost.filters[0].id}`
         : `?filters=${getFiltersFromUrl(location)}`;
-    const path = parseAndMatchUrl(e.currentTarget.href);
-    history.replace(`${path.url}${filterParam}`);
+    const path = parseAndMatchUrl(e.currentTarget.href, true);
+    history.replace({ pathname: path.url, search: filterParam });
   };
 
   // show/hide breadcrumb based on intersection
