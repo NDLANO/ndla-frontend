@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import nock from 'nock';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import IntlProvider from '@ndla/i18n';
@@ -18,6 +19,13 @@ import IframeArticlePage, { fetchResourceId } from '../IframeArticlePage';
 expect.addSnapshotSerializer(serializer);
 
 test('IframeArticlePage with article renderers correctly', () => {
+  nock('http://ndla-api')
+    .get('/taxonomy/v1/resources/urn:resource:1/?language=undefined')
+    .reply(200, {
+      id: 'urn:resource:1',
+      title: 'Ressurs',
+    });
+
   const locale = getLocaleObject('nb');
   const article = {
     content:
@@ -55,7 +63,7 @@ test('IframeArticlePage with article renderers correctly', () => {
     <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
       <IframeArticlePage
         locale={locale.abbreviation}
-        location={{ pathname: '/article-iframe/article/128' }}
+        location={{ pathname: '/article-iframe/urn:resource:1/128' }}
         resource={{
           id: 'urn:resource:1',
           name: 'Ressurs',
