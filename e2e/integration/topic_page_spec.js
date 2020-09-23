@@ -16,13 +16,15 @@ describe('Topic page', () => {
     cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk 2")')
+      .get('a:contains("Medieuttrykk og mediesamfunnet")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
 
     cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
-    cy.get('[data-testid="nav-box-list"] li a:contains("Idéskaping")').click({
+    cy.get(
+      '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
+    ).click({
       force: true,
     });
     cy.apiwait(['@topicpageGraphQL']);

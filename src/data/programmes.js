@@ -219,12 +219,6 @@ export const programmes = [
               {
                 id: 'programme_subject_19',
               },
-              {
-                id: 'programme_subject_20',
-              },
-              {
-                id: 'programme_subject_21',
-              },
             ],
           },
           {
@@ -284,12 +278,6 @@ export const programmes = [
             subjects: [
               {
                 id: 'programme_subject_22',
-              },
-              {
-                id: 'programme_subject_23',
-              },
-              {
-                id: 'programme_subject_24',
               },
             ],
           },
@@ -603,13 +591,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -890,13 +878,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -1046,9 +1034,6 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_22',
               },
-              {
-                id: 'study_specialization_subject_23',
-              },
             ],
           },
           {
@@ -1129,10 +1114,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'study_specialization_subject_24',
-              },
-              {
-                id: 'study_specialization_subject_25',
+                id: 'study_specialization_subject_22',
               },
             ],
           },
@@ -1147,13 +1129,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -1362,13 +1344,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -1574,6 +1556,9 @@ export const programmes = [
               {
                 id: 'programme_subject_61',
               },
+              {
+                id: 'common_subject_56',
+              },
             ],
           },
           {
@@ -1587,13 +1572,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_54',
               },
               {
                 id: 'common_subject_14',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_52',
               },
               {
                 id: 'common_subject_16',
@@ -2035,13 +2020,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
                 id: 'common_subject_18',
