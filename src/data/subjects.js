@@ -41,7 +41,10 @@ export const commonSubjects = [
       en: 'Engelsk (YF)',
     },
     subjectId: 'urn:subject:39',
-    filters: ['urn:filter:9b93cd9e-a45c-428c-a8fb-b4955169efdf'],
+    filters: [
+      'urn:filter:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
+      'urn:filter:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
+    ],
     id: 'common_subject_3',
   },
   {
