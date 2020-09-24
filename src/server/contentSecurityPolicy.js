@@ -32,6 +32,7 @@ const connectSrc = (() => {
   ) {
     return [
       ...defaultConnectSrc,
+      'http://api-gateway.ndla-local',
       'https://devtools.apollodata.com/graphql',
       `http://localhost:${hmrPort}`,
       `ws://localhost:${hmrPort}`,
@@ -104,6 +105,36 @@ const scriptSrc = (() => {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
   }
   return defaultScriptSrc;
+})();
+
+const imgSrc = (() => {
+  const defaultImageSrc = [
+    "'self'",
+    'https://*.ndla.no',
+    'https://www.google-analytics.com',
+    'https://optimize.google.com',
+    'https://stats.g.doubleclick.net',
+    'http://metrics.brightcove.com',
+    'https://httpsak-a.akamaihd.net',
+    'https://*.boltdns.net',
+    'https://www.nrk.no/',
+    'https://ssl.gstatic.com',
+    'https://www.gstatic.com',
+    'https://*.hotjar.com',
+    'https://ndla.zendesk.com',
+    '*.facebook.com',
+    '*.twitter.com',
+    '*.twimg.com',
+    ' data:',
+  ];
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER
+  ) {
+    return [...defaultImageSrc, 'http://api-gateway.ndla-local'];
+  }
+
+  return defaultImageSrc;
 })();
 
 export default {
@@ -185,25 +216,7 @@ export default {
       'https://*.hotjar.com',
       'cdn.jsdelivr.net',
     ],
-    imgSrc: [
-      "'self'",
-      'https://*.ndla.no',
-      'https://www.google-analytics.com',
-      'https://optimize.google.com',
-      'https://stats.g.doubleclick.net',
-      'http://metrics.brightcove.com',
-      'https://httpsak-a.akamaihd.net',
-      'https://*.boltdns.net',
-      'https://www.nrk.no/',
-      'https://ssl.gstatic.com',
-      'https://www.gstatic.com',
-      'https://*.hotjar.com',
-      'https://ndla.zendesk.com',
-      '*.facebook.com',
-      '*.twitter.com',
-      '*.twimg.com',
-      ' data:',
-    ],
+    imgSrc,
     mediaSrc: [
       "'self'",
       'blob:',
