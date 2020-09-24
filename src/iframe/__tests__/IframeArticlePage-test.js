@@ -20,7 +20,7 @@ expect.addSnapshotSerializer(serializer);
 
 test('IframeArticlePage with article renderers correctly', () => {
   nock('http://ndla-api')
-    .get('/taxonomy/v1/resources/urn:resource:1/?language=undefined')
+    .get('/taxonomy/v1/resources/urn:resource:1/?language=nb')
     .reply(200, {
       id: 'urn:resource:1',
       title: 'Ressurs',
