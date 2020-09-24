@@ -34,7 +34,10 @@ const ResourcePage = props => {
 
   useEffect(() => {
     if (data?.resource?.filters?.length && !getFiltersFromUrl(props.location)) {
-      const filter = data.resource.filters.find(f => f.subjectId === subjectId);
+      const resourceFilterOnTopic = data.resource.filters.filter(filter =>
+        data?.topic?.filters?.map(filter => filter.id).includes(filter.id),
+      );
+      const filter = resourceFilterOnTopic?.[0];
       if (filter) {
         props.history.replace({
           search: `?filters=${filter.id}`,
