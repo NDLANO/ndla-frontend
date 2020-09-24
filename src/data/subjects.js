@@ -839,6 +839,51 @@ export const commonSubjects = [
     subjectId: 'urn:subject:15',
     id: 'common_subject_56',
   },
+  {
+    filters: ['urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7'],
+    longName: {
+      en: 'Folkehelse og livsmestring',
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+    },
+    name: {
+      en: 'Folkehelse og livsmestring',
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_57',
+  },
+  {
+    filters: ['urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc'],
+    longName: {
+      en: 'Demokrati og medborgerskap',
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+    },
+    name: {
+      en: 'Demokrati og medborgerskap',
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_58',
+  },
+  {
+    filters: ['urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66'],
+    longName: {
+      en: 'Bærekraftig utvikling',
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+    },
+    name: {
+      en: 'Bærekraftig utvikling',
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_59',
+  },
 ];
 export const programmeSubjects = [
   {
