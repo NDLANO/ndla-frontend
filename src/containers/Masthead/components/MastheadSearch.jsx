@@ -86,7 +86,7 @@ const MastheadSearch = ({
       search: `?${queryString.stringify({
         query: query.length > 0 ? query : undefined,
         subjects,
-        levels: filterIds,
+        levels: filterIds || undefined,
       })}`,
     });
   };
@@ -117,7 +117,7 @@ const MastheadSearch = ({
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
     subjects,
-    levels: filterIds,
+    levels: filterIds || undefined,
   });
 
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
