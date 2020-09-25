@@ -20,11 +20,7 @@ import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
-import {
-  FILM_PAGE_PATH,
-  SKIP_TO_CONTENT_ID,
-  SUBJECT_PAGE_PATH,
-} from './constants';
+import { FILM_PAGE_PATH, SKIP_TO_CONTENT_ID, TOPIC_PATH } from './constants';
 
 export const BasenameContext = React.createContext('');
 
@@ -134,7 +130,7 @@ class App extends React.Component {
       };
     }
     const navigated = nextProps.location !== prevState.location;
-    const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
+    const match = matchPath(nextProps.location.pathname, TOPIC_PATH);
     const ignoreScroll =
       match?.isExact &&
       !!match?.params?.topics &&

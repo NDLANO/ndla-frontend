@@ -20,10 +20,9 @@ Object {
   "isExact": true,
   "params": Object {
     "subjectId": "subject:3",
-    "topicId": "topic:1:55163",
-    "topicPath": undefined,
+    "topics": "topic:1:55163",
   },
-  "path": "/subjects/:subjectId/:topicPath(.*)?/:topicId",
+  "path": "/subjects/:subjectId/:topics(.+)/",
   "url": "/subjects/subject:3/topic:1:55163",
 }
 `;

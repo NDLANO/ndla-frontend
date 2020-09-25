@@ -22,6 +22,7 @@ import App from './App';
 import {
   RESOURCE_PAGE_PATH,
   PLAIN_ARTICLE_PAGE_PATH,
+  TOPIC_PATH,
   SUBJECT_PAGE_PATH,
   SEARCH_PATH,
   FILM_PAGE_PATH,
@@ -70,6 +71,12 @@ export const routes = [
     path: FILM_PAGE_PATH.replace(':', '\\:'),
     exact: true,
     component: FilmFrontpage,
+    background: false,
+  },
+  {
+    path: TOPIC_PATH,
+    component: SubjectPage,
+    hideBreadcrumb: true,
     background: false,
   },
   {

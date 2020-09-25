@@ -73,6 +73,17 @@ const SubjectPage = ({
     if (!urlSubSubTopicId) setSubSubTopic(undefined);
   });
 
+  useEffect(() => {
+    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
+    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
+    const filters = activeFilterId || lowermost?.filters?.[0]?.id;
+    const filterParam = filters ? `?filters=${filters}` : '';
+    const path = parseAndMatchUrl(location.pathname, true);
+    if (path) {
+      history.replace({ pathname: path.url, search: filterParam });
+    }
+  }, []);
+
   /* const [programme] = useState(() => {
     const programmeData = {
       name: data?.subject?.name,
@@ -195,12 +206,7 @@ const SubjectPage = ({
 
   const onClickTopics = e => {
     e.preventDefault();
-    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
-    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
-    const filterParam =
-      lowermost?.filters?.length && !getFiltersFromUrl(location)
-        ? `?filters=${lowermost.filters[0].id}`
-        : `?filters=${getFiltersFromUrl(location)}`;
+    const filterParam = activeFilterId ? `?filters=${activeFilterId}` : '';
     const path = parseAndMatchUrl(e.currentTarget.href, true);
     history.replace({ pathname: path.url, search: filterParam });
   };
