@@ -30,6 +30,7 @@ import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+import { toSubjects } from '../../routeHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -75,12 +76,19 @@ const SubjectPage = ({
 
   useEffect(() => {
     const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
-    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
+    const lowermost =
+      subject.allTopics.find(topic => topic.id === lowermostId) || subject;
     const filters = activeFilterId || lowermost?.filters?.[0]?.id;
     const filterParam = filters ? `?filters=${filters}` : '';
     const path = parseAndMatchUrl(location.pathname, true);
     if (path) {
       history.replace({ pathname: path.url, search: filterParam });
+    } else {
+      // no topics in path
+      history.replace({
+        pathname: toSubjects() + subject.path,
+        search: filterParam,
+      });
     }
   }, []);
 
