@@ -78,19 +78,6 @@ const MastheadSearch = ({
     setQuery('');
   };
 
-  const onSearch = evt => {
-    evt.preventDefault();
-
-    history.push({
-      pathname: '/search',
-      search: `?${queryString.stringify({
-        query: query.length > 0 ? query : undefined,
-        subjects,
-        levels: filterIds || undefined,
-      })}`,
-    });
-  };
-
   const onNavigate = () => {
     setQuery('');
     if (closeModal) {
@@ -119,6 +106,15 @@ const MastheadSearch = ({
     subjects,
     levels: filterIds || undefined,
   });
+
+  const onSearch = evt => {
+    evt.preventDefault();
+
+    history.push({
+      pathname: '/search',
+      search: `?${searchString}`,
+    });
+  };
 
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
 
