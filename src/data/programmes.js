@@ -32,9 +32,6 @@ export const programmes = [
               {
                 id: 'programme_subject_43',
               },
-              {
-                id: 'programme_subject_45',
-              },
             ],
           },
           {
