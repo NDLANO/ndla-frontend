@@ -6,17 +6,41 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
 import { FilterShape, TopicShape } from '../../shapes';
 
 const MultidisciplinarySubjectPage = ({ filters, topics }) => {
+  const [selectedFilters, setSelectedFilters] = useState([]);
+
+  const onFilterClick = id => {
+    const newFilters = [...selectedFilters];
+    const idIndex = newFilters.indexOf(id);
+    if (idIndex > -1) {
+      newFilters.splice(idIndex, 1);
+    } else {
+      newFilters.push(id);
+    }
+    setSelectedFilters(newFilters);
+  };
+
+  const filterItems = items => {
+    if (!selectedFilters.length) {
+      return items;
+    }
+    return items.filter(item =>
+      item.filters.some(filter => selectedFilters.includes(filter.id)),
+    );
+  };
+
   const itemFilters = filters.map(filter => ({
     label: filter.name,
+    selected: selectedFilters.includes(filter.id),
     ...filter,
   }));
+
   const items = topics.map(topic => ({
     title: topic.name,
     introduction: topic.meta.metaDescription,
@@ -27,12 +51,14 @@ const MultidisciplinarySubjectPage = ({ filters, topics }) => {
     ...topic,
   }));
 
+  const filteredItems = filterItems(items);
+
   return (
     <MultidisciplinarySubject
       filters={itemFilters}
-      onFilterClick={() => {}}
-      items={items}
-      totalItemsCount={items.length}
+      onFilterClick={onFilterClick}
+      items={filteredItems}
+      totalItemsCount={filteredItems.length}
     />
   );
 };
