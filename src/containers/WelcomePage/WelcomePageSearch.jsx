@@ -24,7 +24,7 @@ import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
 
 const debounceCall = debounce(fn => fn(), 300);
 
-const WelcomePageSearch = ({ t, history }) => {
+const WelcomePageSearch = ({ t, history, locale }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
@@ -99,7 +99,12 @@ const WelcomePageSearch = ({ t, history }) => {
       searchResult={
         searchResult &&
         delayedSearchQuery.length > 2 &&
-        mapSearchToFrontPageStructure(searchResult, t, delayedSearchQuery)
+        mapSearchToFrontPageStructure(
+          searchResult,
+          t,
+          delayedSearchQuery,
+          locale,
+        )
       }
       infoText={infoText}
       onSearchInputFocus={() => setInputHasFocus(true)}
@@ -115,6 +120,7 @@ WelcomePageSearch.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  locale: PropTypes.string,
 };
 
 export default injectT(WelcomePageSearch);

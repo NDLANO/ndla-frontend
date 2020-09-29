@@ -56,7 +56,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        <WelcomePageSearch history={history} />
+        <WelcomePageSearch history={history} locale={locale} />
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>

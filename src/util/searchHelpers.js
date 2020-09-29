@@ -20,7 +20,7 @@ const categories = {
   study: 'Studiespesialiserende',
 };
 
-export const searchSubjects = query => {
+export const searchSubjects = (query, locale = 'nb') => {
   if (!query) {
     return [];
   }
@@ -30,18 +30,18 @@ export const searchSubjects = query => {
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
-  ].filter(subject => subject.longName.nb.toLowerCase().includes(query));
+  ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
 
   return foundInSubjects.map(subject => ({
     id: subject.id,
     path: createSubjectFilterPath(subject),
     subject: categories[subject.id.split('_')[0]],
-    name: subject.longName.nb,
+    name: subject.longName[locale],
   }));
 };
 
-export const mapSearchToFrontPageStructure = (data, t, query) => {
-  const subjectHits = searchSubjects(query);
+export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
+  const subjectHits = searchSubjects(query, locale);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
