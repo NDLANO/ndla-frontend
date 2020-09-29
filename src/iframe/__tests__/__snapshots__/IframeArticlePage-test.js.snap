@@ -228,7 +228,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         <div
           className="emotion-0 emotion-1"
         >
-          Rettighetshaver:
+          Tekst:
           <span>
              
             Someone

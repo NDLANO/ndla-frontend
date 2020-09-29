@@ -71,7 +71,7 @@ const SearchContainer = ({
     const { levels } = searchParams;
     const subject = data.subjects.find(s => s.id === subjectId);
 
-    const removedFilters = subject.filters?.map(level => level.name) || [];
+    const removedFilters = subject.filters?.map(level => level.id) || [];
 
     handleSearchParamsChange({
       ...subjectsSearchParam,

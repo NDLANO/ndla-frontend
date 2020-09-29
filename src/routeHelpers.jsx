@@ -11,6 +11,7 @@ import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
   SUBJECT_PAGE_PATH,
+  TOPIC_PATH,
 } from './constants';
 
 import { getProgrammeBySlug } from './data/programmes';
@@ -201,6 +202,14 @@ export function toProgrammeSubject(
 
 export function isSubjectPagePath(pathname) {
   const match = matchPath(pathname, SUBJECT_PAGE_PATH);
+  if (match) {
+    return match.isExact;
+  }
+  return false;
+}
+
+export function isTopicPath(pathname) {
+  const match = matchPath(pathname, TOPIC_PATH);
   if (match) {
     return match.isExact;
   }
