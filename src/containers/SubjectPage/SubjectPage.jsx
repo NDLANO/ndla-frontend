@@ -62,11 +62,12 @@ const SubjectPage = ({
   if (subject.subjectpage.layout === 'stacked') {
     return (
       <MultidisciplinarySubjectPage
-        loaction={location}
         subjectId={subject.id}
         topicId={urlTopicId}
         filters={subject.filters}
         topics={subject.topics}
+        loaction={location}
+        locale={locale}
       />
     );
   }

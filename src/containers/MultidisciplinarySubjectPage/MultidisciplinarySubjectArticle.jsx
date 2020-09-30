@@ -12,10 +12,11 @@ import { Breadcrumblist, MultidisciplinarySubjectHeader, ArticleSideBar, OneColu
 
 import { LocationShape } from '../../shapes';
 import Article from '../../components/Article/Article';
+import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
 
-const MultidisciplinarySubjectArticle = ({ location, topicId, subjects }) => {
+const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }) => {
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
@@ -46,6 +47,8 @@ const MultidisciplinarySubjectArticle = ({ location, topicId, subjects }) => {
     });
   }
 
+  const { topic, resourceTypes } = data;
+
   return (
     <>
       <>
@@ -63,7 +66,12 @@ const MultidisciplinarySubjectArticle = ({ location, topicId, subjects }) => {
       </>
       <OneColumn>
         <Article
-          article={data.topic.article}
+          article={topic.article}
+        />
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          locale={locale}
         />
       </OneColumn>
     </>
@@ -71,9 +79,10 @@ const MultidisciplinarySubjectArticle = ({ location, topicId, subjects }) => {
 }
 
 MultidisciplinarySubjectArticle.propTypes = {
-  location: LocationShape,
   subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
   topicId: PropTypes.string.isRequired,
+  location: LocationShape,
+  locale: PropTypes.string,
 };
 
 export default MultidisciplinarySubjectArticle;

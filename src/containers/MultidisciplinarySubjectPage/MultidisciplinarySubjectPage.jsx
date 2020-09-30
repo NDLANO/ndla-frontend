@@ -14,7 +14,8 @@ import { FilterShape, TopicShape, LocationShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './MultidisciplinarySubjectArticle';
 
-const MultidisciplinarySubjectPage = ({ location, subjectId, topicId, filters, topics }) => {
+
+const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, location, locale,  }) => {
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   const onFilterClick = id => {
@@ -58,9 +59,10 @@ const MultidisciplinarySubjectPage = ({ location, subjectId, topicId, filters, t
   if (topicId) {
     return (
       <MultidisciplinarySubjectArticle
-        location={location}
         topicId={topicId}
         subjects={['democracy']}
+        location={location}
+        locale={locale}
       />
     )
   }
@@ -76,11 +78,12 @@ const MultidisciplinarySubjectPage = ({ location, subjectId, topicId, filters, t
 };
 
 MultidisciplinarySubjectPage.propTypes = {
-  location: LocationShape,
   subjectId: PropTypes.string,
   topicId: PropTypes.string,
   filters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
+  location: LocationShape,
+  locale: PropTypes.string,
 };
 
 export default MultidisciplinarySubjectPage;
