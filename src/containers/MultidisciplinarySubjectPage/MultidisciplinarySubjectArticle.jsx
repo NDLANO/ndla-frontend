@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumblist, MultidisciplinarySubjectHeader, ArticleSideBar, OneColumn } from '@ndla/ui';
 
@@ -15,12 +15,15 @@ import Article from '../../components/Article/Article';
 import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
+import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 
 const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }) => {
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
   });
+
+  const resourcesRef = useRef(null);
 
   if (loading) {
     return null;
@@ -47,6 +50,10 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
     });
   }
 
+  const onLinkToResourcesClick = () => {
+    scrollToRef(resourcesRef, 0);
+  }
+
   const { topic, resourceTypes } = data;
 
   return (
@@ -55,7 +62,7 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
         <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
           <ArticleSideBar
             copyPageUrlLink={location}
-            onLinkToResourcesClick={() => { }}
+            onLinkToResourcesClick={onLinkToResourcesClick}
             linkToResources="#"
           />
         </Breadcrumblist>
@@ -68,11 +75,13 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
         <Article
           article={topic.article}
         />
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          locale={locale}
-        />
+        <div ref={resourcesRef}>
+          <Resources
+            topic={topic}
+            resourceTypes={resourceTypes}
+            locale={locale}
+          />
+        </div>
       </OneColumn>
     </>
   )

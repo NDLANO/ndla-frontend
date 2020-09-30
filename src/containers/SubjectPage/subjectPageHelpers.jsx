@@ -26,8 +26,8 @@ export const getSearchUrl = (subjectId, resourceType) => {
   return `${baseUrl}?${queryString.stringify(searchParams)}`;
 };
 
-export const scrollToRef = ref =>
+export const scrollToRef = (ref, offset = 100) =>
   window.scrollTo({
-    top: ref.current.offsetTop - 100,
+    top: ref.current.offsetTop - offset,
     behavior: 'smooth',
   });
