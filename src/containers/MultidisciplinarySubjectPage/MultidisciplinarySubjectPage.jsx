@@ -10,9 +10,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { FilterShape, TopicShape } from '../../shapes';
+import { FilterShape, TopicShape, LocationShape } from '../../shapes';
+import { toTopic } from '../../routeHelpers';
+import MultidisciplinarySubjectArticle from './MultidisciplinarySubjectArticle';
 
-const MultidisciplinarySubjectPage = ({ filters, topics }) => {
+const MultidisciplinarySubjectPage = ({ location, subjectId, topicId, filters, topics }) => {
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   const onFilterClick = id => {
@@ -47,11 +49,21 @@ const MultidisciplinarySubjectPage = ({ filters, topics }) => {
     image: topic.meta.metaImage.url,
     imageAlt: topic.meta.metaImage.alt,
     subjects: topic.filters.map(filter => filter.name),
-    url: '#',
+    url: toTopic(subjectId, undefined, topic.id),
     ...topic,
   }));
 
   const filteredItems = filterItems(items);
+
+  if (topicId) {
+    return (
+      <MultidisciplinarySubjectArticle
+        location={location}
+        topicId={topicId}
+        subjects={['democracy']}
+      />
+    )
+  }
 
   return (
     <MultidisciplinarySubject
@@ -64,7 +76,9 @@ const MultidisciplinarySubjectPage = ({ filters, topics }) => {
 };
 
 MultidisciplinarySubjectPage.propTypes = {
+  location: LocationShape,
   subjectId: PropTypes.string,
+  topicId: PropTypes.string,
   filters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
 };

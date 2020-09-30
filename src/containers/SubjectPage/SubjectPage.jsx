@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import SubjectContainer from './SubjectContainer';
-import MultidisciplinarySubjectPage from './MultidisciplinarySubjectPage';
+import MultidisciplinarySubjectPage from '../MultidisciplinarySubjectPage/MultidisciplinarySubjectPage';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { subjectPageQuery } from '../../queries';
@@ -62,6 +62,9 @@ const SubjectPage = ({
   if (subject.subjectpage.layout === 'stacked') {
     return (
       <MultidisciplinarySubjectPage
+        loaction={location}
+        subjectId={subject.id}
+        topicId={urlTopicId}
         filters={subject.filters}
         topics={subject.topics}
       />
