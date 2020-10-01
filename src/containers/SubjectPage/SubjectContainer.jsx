@@ -78,7 +78,10 @@ const SubjectPage = ({
     const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
     const lowermost =
       subject.allTopics.find(topic => topic.id === lowermostId) || subject;
-    const filters = activeFilterId || lowermost?.filters?.[0]?.id;
+    const subjectFilters = lowermost?.filters?.filter(f =>
+      subject.filters?.map(f2 => f2.id).includes(f.id),
+    );
+    const filters = activeFilterId || subjectFilters?.[0]?.id;
     const filterParam = filters ? `?filters=${filters}` : '';
     const path = parseAndMatchUrl(location.pathname, true);
     if (path) {
