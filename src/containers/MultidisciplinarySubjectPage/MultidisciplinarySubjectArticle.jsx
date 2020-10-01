@@ -10,14 +10,13 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumblist, MultidisciplinarySubjectHeader, ArticleSideBar, OneColumn } from '@ndla/ui';
 
-import { LocationShape } from '../../shapes';
 import Article from '../../components/Article/Article';
 import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 
-const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }) => {
+const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
@@ -61,7 +60,7 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
       <>
         <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
           <ArticleSideBar
-            copyPageUrlLink={location}
+            copyPageUrlLink={window.location}
             onLinkToResourcesClick={onLinkToResourcesClick}
             linkToResources="#"
           />
@@ -91,7 +90,6 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
 MultidisciplinarySubjectArticle.propTypes = {
   subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
   topicId: PropTypes.string.isRequired,
-  location: LocationShape,
   locale: PropTypes.string,
 };
 

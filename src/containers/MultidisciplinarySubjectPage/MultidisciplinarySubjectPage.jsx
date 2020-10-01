@@ -10,12 +10,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { FilterShape, TopicShape, LocationShape } from '../../shapes';
+import { FilterShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './MultidisciplinarySubjectArticle';
 
 
-const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, location, locale,  }) => {
+const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, locale }) => {
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   const onFilterClick = id => {
@@ -61,7 +61,6 @@ const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, loc
       <MultidisciplinarySubjectArticle
         topicId={topicId}
         subjects={['democracy']}
-        location={location}
         locale={locale}
       />
     )
@@ -82,7 +81,6 @@ MultidisciplinarySubjectPage.propTypes = {
   topicId: PropTypes.string,
   filters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
-  location: LocationShape,
   locale: PropTypes.string,
 };
 
