@@ -937,13 +937,13 @@ export const programmeSubjects = [
   {
     filters: ['urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a'],
     longName: {
-      en: 'Sal og marknadsføring (SS-RLV Vg2)',
-      nb: 'Sal og marknadsføring (SS-RLV Vg2)',
+      en: 'Salg og markedsføring (SS-RLV Vg2)',
+      nb: 'Salg og markedsføring (SS-RLV Vg2)',
       nn: 'Sal og marknadsføring (SS-RLV Vg2)',
     },
     name: {
-      en: 'Sal og marknadsføring',
-      nb: 'Sal og marknadsføring',
+      en: 'Salg og markedsføring',
+      nb: 'Salg og markedsføring',
       nn: 'Sal og marknadsføring',
     },
     subjectId: 'urn:subject:35',
