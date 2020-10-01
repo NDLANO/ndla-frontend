@@ -1498,21 +1498,6 @@ export const programmeSubjects = [
     id: 'programme_subject_44',
   },
   {
-    filters: ['urn:filter:e947d65c-706b-4ffd-9efc-607ff1bf3ee3'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (BA Vg1)',
-      nb: 'Yrkesfaglig fordypning (BA Vg1)',
-      nn: 'Yrkesfagleg fordjuping (BA Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-    },
-    subjectId: 'urn:subject:11',
-    id: 'programme_subject_45',
-  },
-  {
     filters: ['urn:filter:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b'],
     longName: {
       en: 'Bransje og arbeidsliv (RM Vg1)',
