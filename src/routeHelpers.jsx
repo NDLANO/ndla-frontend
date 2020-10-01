@@ -126,14 +126,17 @@ export function toBreadcrumbItems(
   locale = 'nb',
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
-  let subject = paths[0];
+  const subject = paths[0];
   const subjectData = getSubjectBySubjectIdFilters(
     subject.id,
     filters.split(','),
   );
-  subject.name = subjectData?.longName[locale] || subject.name;
+  const breadcrumbSubject = {
+    ...subject,
+    name: subjectData?.longName[locale] || subject.name,
+  };
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
-  const links = paths
+  const links = [breadcrumbSubject, ...paths.splice(1)]
     .filter(Boolean)
     .reduce(
       (links, item) => [
