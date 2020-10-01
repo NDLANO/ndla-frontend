@@ -74,6 +74,7 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, location, locale }
       <OneColumn>
         <Article
           article={topic.article}
+          locale={locale}
         />
         <div ref={resourcesRef}>
           <Resources

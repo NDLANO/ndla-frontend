@@ -66,7 +66,7 @@ const SubjectPage = ({
         topicId={urlTopicId}
         filters={subject.filters}
         topics={subject.topics}
-        loaction={location}
+        location={location}
         locale={locale}
       />
     );
