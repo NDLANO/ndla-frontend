@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumblist, MultidisciplinarySubjectHeader, ArticleSideBar, OneColumn } from '@ndla/ui';
 
@@ -21,6 +21,11 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
   });
+
+  const [pageUrl, setPageUrl] = useState('');
+  useEffect(() => {
+    setPageUrl(window.location);
+  }, []);
 
   const resourcesRef = useRef(null);
 
@@ -60,7 +65,7 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
       <>
         <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
           <ArticleSideBar
-            copyPageUrlLink={window.location}
+            copyPageUrlLink={pageUrl}
             onLinkToResourcesClick={onLinkToResourcesClick}
             linkToResources="#"
           />
