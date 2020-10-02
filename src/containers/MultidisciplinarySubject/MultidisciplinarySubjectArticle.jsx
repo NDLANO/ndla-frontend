@@ -20,9 +20,10 @@ import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { getUrnIdsFromProps, toSubject } from '../../routeHelpers';
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
+  const subjectId = `urn:${match.path.split('/')[2]}`;
   const { topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQuery, {
@@ -53,7 +54,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   });
   const subjectsLinks = topic.filters.map(filter => ({
     label: filter.name,
-    url: '#',
+    url: toSubject(subjectId, filter.id),
   }));
 
   return (
@@ -91,6 +92,7 @@ MultidisciplinarySubjectArticle.propTypes = {
       subjectId: PropTypes.string.isRequired,
       topicId: PropTypes.string,
     }).isRequired,
+    path: PropTypes.string.isRequired,
   }).isRequired,
   locale: PropTypes.string,
 };
