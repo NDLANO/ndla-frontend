@@ -10,13 +10,24 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { FilterShape, TopicShape } from '../../shapes';
 import { toTopic } from '../../routeHelpers';
-import MultidisciplinarySubjectArticle from './MultidisciplinarySubjectArticle';
+import { useGraphQuery } from '../../util/runQueries';
+import { subjectPageQuery } from '../../queries';
 
 
-const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, locale }) => {
+const MultidisciplinarySubjectPage = ({ match, locale }) => {
+  const subjectId = `urn:${match.path.split('/')[2]}`;
+  console.log(subjectId)
+  const { loading, data } = useGraphQuery(subjectPageQuery, {
+    variables: {
+      subjectId 
+    }
+  })
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+  if (loading) {
+    return null;
+  }
 
   const onFilterClick = id => {
     const newFilters = [...selectedFilters];
@@ -38,6 +49,8 @@ const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, loc
     );
   };
 
+  const { subject: { filters, topics } } = data;
+
   const itemFilters = filters.map(filter => ({
     label: filter.name,
     selected: selectedFilters.includes(filter.id),
@@ -56,16 +69,6 @@ const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, loc
 
   const filteredItems = filterItems(items);
 
-  if (topicId) {
-    return (
-      <MultidisciplinarySubjectArticle
-        topicId={topicId}
-        subjects={['democracy']}
-        locale={locale}
-      />
-    )
-  }
-
   return (
     <MultidisciplinarySubject
       filters={itemFilters}
@@ -77,11 +80,10 @@ const MultidisciplinarySubjectPage = ({ subjectId, topicId, filters, topics, loc
 };
 
 MultidisciplinarySubjectPage.propTypes = {
-  subjectId: PropTypes.string,
-  topicId: PropTypes.string,
-  filters: PropTypes.arrayOf(FilterShape),
-  topics: PropTypes.arrayOf(TopicShape),
-  locale: PropTypes.string,
+  match: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default MultidisciplinarySubjectPage;
