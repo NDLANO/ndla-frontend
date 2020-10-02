@@ -441,7 +441,6 @@ export const subjectpageInfo = gql`
         alt
       }
     }
-    layout
     metaDescription
     editorsChoices(subjectId: $subjectId) {
       ...TaxonomyEntityInfo
