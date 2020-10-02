@@ -17,7 +17,6 @@ import { subjectPageQuery } from '../../queries';
 
 const MultidisciplinarySubjectPage = ({ match, locale }) => {
   const subjectId = `urn:${match.path.split('/')[2]}`;
-  console.log(subjectId)
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
       subjectId 

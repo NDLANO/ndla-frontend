@@ -15,8 +15,11 @@ import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 
-const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
+const MultidisciplinarySubjectArticle = ({ match, locale }) => {
+
+  const { topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
@@ -33,32 +36,24 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
     return null;
   }
 
-  const subjectsLinks = [];
+  console.log(data)
 
-  if (subjects.includes('climate')) {
-    subjectsLinks.push({
-      label: 'Bærekraftig utvikling',
-      url: '#',
-    });
-  }
-  if (subjects.includes('democracy')) {
-    subjectsLinks.push({
-      label: 'Demokrati og medborgerskap',
-      url: '#',
-    });
-  }
-  if (subjects.includes('publicHealth')) {
-    subjectsLinks.push({
-      label: 'Folkehelse og livsmestring',
-      url: '#',
-    });
-  }
 
   const onLinkToResourcesClick = () => {
     scrollToRef(resourcesRef, 0);
   }
 
   const { topic, resourceTypes } = data;
+  const subjects = topic.filters.map(filter => {
+    if (filter.name === 'Folkehelse og livsmestring') return 'publicHealth';
+    if (filter.name === 'Demokrati og medborgerskap') return 'democracy';
+    if (filter.name === 'Bærekraftig utvikling') return 'climate';
+    return null;
+  })
+  const subjectsLinks = topic.filters.map(filter => ({
+    label: filter.name,
+    url: '#'
+  }))
 
   return (
     <>
@@ -93,8 +88,12 @@ const MultidisciplinarySubjectArticle = ({ topicId, subjects, locale }) => {
 }
 
 MultidisciplinarySubjectArticle.propTypes = {
-  subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
-  topicId: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
   locale: PropTypes.string,
 };
 
