@@ -104,7 +104,7 @@ const MastheadSearch = ({
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
     subjects,
-    levels: filterIds || undefined,
+    levels: subjects ? filterIds || undefined : undefined,
   });
 
   const onSearch = evt => {
