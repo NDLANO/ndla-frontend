@@ -93,7 +93,6 @@ MultidisciplinarySubjectPage.propTypes = {
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
 };

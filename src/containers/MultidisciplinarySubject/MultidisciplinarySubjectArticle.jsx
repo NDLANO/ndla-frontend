@@ -73,7 +73,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
         />
       </>
       <OneColumn>
-        <Article article={topic.article} locale={locale} />
+        <Article article={topic.article} label="" locale={locale} />
         <div ref={resourcesRef}>
           <Resources
             topic={topic}
@@ -89,8 +89,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
+      topicId: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,
