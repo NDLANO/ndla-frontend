@@ -33,14 +33,19 @@ const createSubjectFilterUrl = (subject, filter) => {
 
 export const getCategoriesSubjects = locale => {
   return subjectsCategories.map(category => {
-    const subjects = category.subjects.map(subject => ({
-      name: subject.longName[locale],
-      url: createSubjectFilterUrl(subject, subject.filters),
-    }));
+    const subjects = category.subjects.map(subject => {
+      if (subject.hideOnFrontpage) {
+        return null;
+      }
+      return {
+        name: subject.longName[locale],
+        url: createSubjectFilterUrl(subject, subject.filters),
+      };
+    });
 
     return {
       name: category.name[locale],
-      subjects: sortBy(subjects),
+      subjects: sortBy(subjects.filter(Boolean)),
     };
   });
 };
