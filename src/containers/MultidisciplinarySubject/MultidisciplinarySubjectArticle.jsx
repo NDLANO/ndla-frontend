@@ -8,7 +8,12 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Breadcrumblist, MultidisciplinarySubjectHeader, ArticleSideBar, OneColumn } from '@ndla/ui';
+import {
+  Breadcrumblist,
+  MultidisciplinarySubjectHeader,
+  ArticleSideBar,
+  OneColumn,
+} from '@ndla/ui';
 
 import Article from '../../components/Article/Article';
 import Resources from '../Resources/Resources';
@@ -18,7 +23,6 @@ import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-
   const { topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQuery, {
@@ -36,12 +40,9 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
     return null;
   }
 
-  console.log(data)
-
-
   const onLinkToResourcesClick = () => {
     scrollToRef(resourcesRef, 0);
-  }
+  };
 
   const { topic, resourceTypes } = data;
   const subjects = topic.filters.map(filter => {
@@ -49,11 +50,11 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
     if (filter.name === 'Demokrati og medborgerskap') return 'democracy';
     if (filter.name === 'Bærekraftig utvikling') return 'climate';
     return null;
-  })
+  });
   const subjectsLinks = topic.filters.map(filter => ({
     label: filter.name,
-    url: '#'
-  }))
+    url: '#',
+  }));
 
   return (
     <>
@@ -71,10 +72,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
         />
       </>
       <OneColumn>
-        <Article
-          article={topic.article}
-          locale={locale}
-        />
+        <Article article={topic.article} locale={locale} />
         <div ref={resourcesRef}>
           <Resources
             topic={topic}
@@ -84,8 +82,8 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
         </div>
       </OneColumn>
     </>
-  )
-}
+  );
+};
 
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({

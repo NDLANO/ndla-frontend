@@ -10,18 +10,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { toTopic } from '../../routeHelpers';
+import { toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
-
 
 const MultidisciplinarySubjectPage = ({ match, locale }) => {
   const subjectId = `urn:${match.path.split('/')[2]}`;
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
-      subjectId 
-    }
-  })
+      subjectId,
+    },
+  });
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   if (loading) {
@@ -48,7 +47,9 @@ const MultidisciplinarySubjectPage = ({ match, locale }) => {
     );
   };
 
-  const { subject: { filters, topics } } = data;
+  const {
+    subject: { filters, topics },
+  } = data;
 
   const itemFilters = filters.map(filter => ({
     label: filter.name,

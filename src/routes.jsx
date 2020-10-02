@@ -18,7 +18,7 @@ import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-import MultidisciplinarySubjectArticle from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticle'
+import MultidisciplinarySubjectArticle from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticle';
 
 import App from './App';
 import {
@@ -31,7 +31,7 @@ import {
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
   PROGRAMME_PATH,
   PROGRAMME_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
 } from './constants';
 import config from './config';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
@@ -78,7 +78,7 @@ export const routes = [
   {
     path: `${MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}/:topicId`,
     component: MultidisciplinarySubjectArticle,
-    background: false
+    background: false,
   },
   {
     path: MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
