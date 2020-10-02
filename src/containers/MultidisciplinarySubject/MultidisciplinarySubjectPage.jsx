@@ -6,22 +6,30 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { toTopic } from '../../routeHelpers';
+import { toSubject, toTopic } from '../../routeHelpers';
+import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
+import { LocationShape } from '../../shapes';
 
-const MultidisciplinarySubjectPage = ({ match, locale }) => {
+const MultidisciplinarySubjectPage = ({ match, history, location }) => {
+  const [selectedFilters, setSelectedFilters] = useState(
+    getFiltersFromUrlAsArray(location),
+  );
+  useEffect(() => {
+    history.push(toSubject(subjectId, selectedFilters));
+  }, [selectedFilters]);
+
   const subjectId = `urn:${match.path.split('/')[2]}`;
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
       subjectId,
     },
   });
-  const [selectedFilters, setSelectedFilters] = useState([]);
 
   if (loading) {
     return null;
@@ -83,7 +91,11 @@ MultidisciplinarySubjectPage.propTypes = {
   match: PropTypes.shape({
     path: PropTypes.string.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
+  location: LocationShape,
 };
 
 export default MultidisciplinarySubjectPage;
