@@ -114,6 +114,7 @@ const SubjectPage = ({
     );
     if (subjectData) {
       return {
+        subHeading: undefined,
         name: subjectData.name[locale],
         longName: subjectData.longName[locale],
       };
@@ -124,6 +125,7 @@ const SubjectPage = ({
         ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
         : '';
     return {
+      subHeading: subjectName,
       name: subjectName,
       longName: `${filterString}`,
     };
@@ -257,7 +259,7 @@ const SubjectPage = ({
             )}
             <div ref={headerRef}>
               <NavigationHeading
-                subHeading={subjectNames.name}
+                subHeading={subjectNames.subHeading}
                 invertedStyle={ndlaFilm}>
                 {subjectNames.longName}
               </NavigationHeading>
