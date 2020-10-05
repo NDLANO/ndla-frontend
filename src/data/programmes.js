@@ -2148,7 +2148,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_52',
+                id: 'programme_subject_62',
               },
               {
                 id: 'programme_subject_53',

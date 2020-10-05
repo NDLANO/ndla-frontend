@@ -887,6 +887,43 @@ export const commonSubjects = [
     subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
     id: 'common_subject_59',
   },
+  {
+    filters: [
+      'urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66',
+      'urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7',
+      'urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc',
+    ],
+    longName: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    name: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_60',
+  },
+  {
+    filters: [
+      'urn:filter:54b1727c-2d91-4512-901c-8434e13339b4',
+      'urn:filter:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+    ],
+    longName: {
+      en: 'Verktøykassa',
+      nb: 'Verktøykassa',
+      nn: 'Verktøykassa',
+    },
+    name: {
+      en: 'Verktøykassa',
+      nb: 'Verktøykassa',
+      nn: 'Verktøykassa',
+    },
+    subjectId: 'urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09',
+    id: 'common_subject_61',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -1588,22 +1625,29 @@ export const programmeSubjects = [
     id: 'programme_subject_51',
   },
   {
-    filters: [],
+    filters: [
+      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
+      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    ],
     longName: {
-      en: 'Leting og boring (TP Vg2)',
-      nb: 'Leting og boring (TP Vg2)',
-      nn: 'Leiting og boring (TP Vg2)',
+      en: 'Brønnteknikk',
+      nb: 'Brønnteknikk',
+      nn: 'Brønnteknikk',
     },
     name: {
-      en: 'Leting og boring',
-      nb: 'Leting og boring',
-      nn: 'Leiting og boring',
+      en: 'Brønnteknikk',
+      nb: 'Brønnteknikk',
+      nn: 'Brønnteknikk',
     },
     subjectId: 'urn:subject:6',
     id: 'programme_subject_52',
+    hideOnFrontpage: true,
   },
   {
-    filters: [],
+    filters: [
+      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
+      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    ],
     longName: {
       en: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
       nb: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
@@ -1618,7 +1662,10 @@ export const programmeSubjects = [
     id: 'programme_subject_53',
   },
   {
-    filters: [],
+    filters: [
+      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
+      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    ],
     longName: {
       en: 'HMS og kvalitet (TP Vg2)',
       nb: 'HMS og kvalitet (TP Vg2)',
@@ -1736,6 +1783,24 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:7',
     filters: [],
     id: 'programme_subject_61',
+  },
+  {
+    filters: [
+      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
+      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    ],
+    longName: {
+      en: 'Leting og boring (TP Vg2)',
+      nb: 'Leting og boring (TP Vg2)',
+      nn: 'Leiting og boring (TP Vg2)',
+    },
+    name: {
+      en: 'Leting og boring',
+      nb: 'Leting og boring',
+      nn: 'Leiting og boring',
+    },
+    subjectId: 'urn:subject:6',
+    id: 'programme_subject_62',
   },
 ];
 export const studySpecializationSubjects = [
