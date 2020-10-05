@@ -22,6 +22,12 @@ import { topicQuery } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 import { getUrnIdsFromProps, toSubject } from '../../routeHelpers';
 
+const filterCodes = {
+  'Folkehelse og livsmestring': 'publicHealth',
+  'Demokrati og medborgerskap': 'democracy',
+  'Bærekraftig utvikling': 'climate',
+}
+
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   const subjectId = `urn:${match.path.split('/')[2]}`;
   const { topicId } = getUrnIdsFromProps({ match });
@@ -46,12 +52,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   };
 
   const { topic, resourceTypes } = data;
-  const subjects = topic.filters.map(filter => {
-    if (filter.name === 'Folkehelse og livsmestring') return 'publicHealth';
-    if (filter.name === 'Demokrati og medborgerskap') return 'democracy';
-    if (filter.name === 'Bærekraftig utvikling') return 'climate';
-    return null;
-  });
+  const subjects = topic.filters.map(filter => filterCodes[filter.name]);
   const subjectsLinks = topic.filters.map(filter => ({
     label: filter.name,
     url: toSubject(subjectId, filter.id),
