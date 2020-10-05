@@ -100,7 +100,11 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 const dataIdFromObject = object => {
   switch (object.__typename) {
     case 'SearchContext':
-      return object.filters.id || object.path;
+      if (object.filters?.length) {
+        return object.filters.id;
+      } else {
+        return object.path;
+      }
     case 'FrontpageSearchResult':
       return object.path;
     default:
