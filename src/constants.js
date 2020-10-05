@@ -373,3 +373,6 @@ export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
 
 export const PROGRAMME_PATH = '/utdanning';
 export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
+
+export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
+  '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
