@@ -125,7 +125,7 @@ const SubjectPage = ({
         : '';
     return {
       name: subjectName,
-      longName: `${subjectName} ${filterString}`,
+      longName: `${filterString}`,
     };
   });
 
@@ -256,7 +256,9 @@ const SubjectPage = ({
               />
             )}
             <div ref={headerRef}>
-              <NavigationHeading invertedStyle={ndlaFilm}>
+              <NavigationHeading
+                subHeading={subjectNames.name}
+                invertedStyle={ndlaFilm}>
                 {subjectNames.longName}
               </NavigationHeading>
             </div>
