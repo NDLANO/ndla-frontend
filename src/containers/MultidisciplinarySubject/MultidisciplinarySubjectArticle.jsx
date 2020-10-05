@@ -26,7 +26,7 @@ const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
   'Demokrati og medborgerskap': 'democracy',
   'Bærekraftig utvikling': 'climate',
-}
+};
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   const subjectId = `urn:${match.path.split('/')[2]}`;
