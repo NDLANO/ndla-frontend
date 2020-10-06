@@ -24,11 +24,14 @@ import routes from './routes';
 import './style/index.css';
 
 const {
-  DATA: { initialProps, config },
+  DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
-const { abbreviation, messages, basename } = getLocaleInfoFromPath(
-  window.location.pathname,
-);
+const { abbreviation, messages, basename } = getLocaleInfoFromPath(serverPath);
+
+const fakeLocation = {
+  pathname: serverPath,
+  search: serverQuery,
+};
 
 const storedLanguage = getCookie('language', document.cookie);
 if (
@@ -74,7 +77,7 @@ renderOrHydrate(
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <Router history={browserHistory}>
-          {routes({ ...initialProps, basename }, abbreviation)}
+          {routes({ ...initialProps, basename }, abbreviation, fakeLocation)}
         </Router>
       </IntlProvider>
     </CacheProvider>
