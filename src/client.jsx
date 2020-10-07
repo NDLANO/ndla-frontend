@@ -78,7 +78,11 @@ renderOrHydrate(
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <Router history={browserHistory}>
-          {routes({ ...initialProps, basename }, abbreviation, locationFromServer)}
+          {routes(
+            { ...initialProps, basename },
+            abbreviation,
+            locationFromServer,
+          )}
         </Router>
       </IntlProvider>
     </CacheProvider>

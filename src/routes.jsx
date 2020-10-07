@@ -113,5 +113,11 @@ export const routes = [
 
 export default function(initialProps = {}, locale, location) {
   const AppWithRouter = withRouter(App);
-  return <AppWithRouter initialProps={initialProps} locale={locale} serverLocation={location} />;
+  return (
+    <AppWithRouter
+      initialProps={initialProps}
+      locale={locale}
+      serverLocation={location}
+    />
+  );
 }
