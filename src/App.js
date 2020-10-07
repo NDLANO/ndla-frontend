@@ -245,4 +245,4 @@ App.propTypes = {
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default App;
+export default withRouter(App);

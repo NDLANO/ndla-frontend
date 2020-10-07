@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import FFFrontPage from './containers/FFFrontPage/FFFrontPage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
@@ -111,13 +110,12 @@ export const routes = [
   },
 ];
 
-export default function(initialProps = {}, locale, location) {
-  const AppWithRouter = withRouter(App);
+export default function(initialProps = {}, locale, serverLocation) {
   return (
-    <AppWithRouter
+    <App
       initialProps={initialProps}
       locale={locale}
-      serverLocation={location}
+      serverLocation={serverLocation}
     />
   );
 }
