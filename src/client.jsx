@@ -17,6 +17,7 @@ import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
 
+import queryString from 'query-string';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
@@ -30,7 +31,7 @@ const { abbreviation, messages, basename } = getLocaleInfoFromPath(serverPath);
 
 const fakeLocation = {
   pathname: serverPath,
-  search: serverQuery,
+  search: `?${queryString.stringify(serverQuery)}`,
 };
 
 const storedLanguage = getCookie('language', document.cookie);
