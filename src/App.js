@@ -197,10 +197,12 @@ class App extends React.Component {
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} location={location} />;
     }
-    console.log("ServerLoc", serverLocation);
-    console.log("Loc", location);
 
-    const switchLocation = location; // TOOD:
+    // Dirty hack to allow for page to render on google translate
+    const testLocation = serverLocation?.pathname + serverLocation?.search;
+    const isGoogleUrl = decodeURIComponent(location.search).indexOf(testLocation) > -1;
+
+    const switchLocation = isGoogleUrl ? serverLocation : location;
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
@@ -231,8 +233,8 @@ class App extends React.Component {
 
 App.propTypes = {
   locale: PropTypes.string.isRequired,
-  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
-  serverLocation: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
+  location: PropTypes.shape({ pathname: PropTypes.string.isRequired, search: PropTypes.string.isRequired }),
+  serverLocation: PropTypes.shape({ pathname: PropTypes.string.isRequired, search: PropTypes.string.isRequired }),
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
