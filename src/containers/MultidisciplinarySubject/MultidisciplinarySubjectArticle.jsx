@@ -60,19 +60,17 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 
   return (
     <>
-      <>
-        <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
-          <ArticleSideBar
-            copyPageUrlLink={pageUrl}
-            onLinkToResourcesClick={onLinkToResourcesClick}
-            linkToResources="#"
-          />
-        </Breadcrumblist>
-        <MultidisciplinarySubjectHeader
-          subjects={subjects}
-          subjectsLinks={subjectsLinks}
+      <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
+        <ArticleSideBar
+          copyPageUrlLink={pageUrl}
+          onLinkToResourcesClick={onLinkToResourcesClick}
+          linkToResources="#"
         />
-      </>
+      </Breadcrumblist>
+      <MultidisciplinarySubjectHeader
+        subjects={subjects}
+        subjectsLinks={subjectsLinks}
+      />
       <OneColumn>
         <Article article={topic.article} label="" locale={locale} />
         <div ref={resourcesRef}>
