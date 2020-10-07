@@ -29,7 +29,7 @@ const {
 } = window;
 const { abbreviation, messages, basename } = getLocaleInfoFromPath(serverPath);
 
-const fakeLocation = {
+const locationFromServer = {
   pathname: serverPath,
   search: `?${queryString.stringify(serverQuery)}`,
 };
@@ -78,7 +78,7 @@ renderOrHydrate(
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <Router history={browserHistory}>
-          {routes({ ...initialProps, basename }, abbreviation, fakeLocation)}
+          {routes({ ...initialProps, basename }, abbreviation, locationFromServer)}
         </Router>
       </IntlProvider>
     </CacheProvider>

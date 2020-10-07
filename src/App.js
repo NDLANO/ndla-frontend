@@ -191,20 +191,26 @@ class App extends React.Component {
     const {
       initialProps: { basename },
       location,
+      serverLocation,
       locale,
     } = this.props;
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} location={location} />;
     }
+    console.log("ServerLoc", serverLocation);
+    console.log("Loc", location);
+
+    const switchLocation = location; // TOOD:
+
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={basename}>
-        <Switch location={location}>
+        <Switch location={switchLocation}>
           {routes
             .filter(route => route !== undefined)
             .map(route => (
               <Route
-                location={location}
+                location={switchLocation}
                 key={`route_${route.path}`}
                 exact={route.exact}
                 hideMasthead={route.hideMasthead}
@@ -226,6 +232,7 @@ class App extends React.Component {
 App.propTypes = {
   locale: PropTypes.string.isRequired,
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
+  serverLocation: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
