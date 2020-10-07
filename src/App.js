@@ -99,7 +99,6 @@ async function loadInitialProps(pathname, ctx) {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log('App->props', props);
     this.location = null;
     this.state = {
       hasError: false,
