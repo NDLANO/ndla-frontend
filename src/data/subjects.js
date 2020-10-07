@@ -1565,21 +1565,6 @@ export const programmeSubjects = [
     id: 'programme_subject_47',
   },
   {
-    filters: ['urn:filter:38ae2a93-c7d5-489a-b842-ef318e351c9d'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (RM Vg1)',
-      nb: 'Yrkesfaglig fordypning (RM Vg1)',
-      nn: 'Yrkesfagleg fordjuping (RM Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-    },
-    subjectId: 'urn:subject:37',
-    id: 'programme_subject_48',
-  },
-  {
     filters: ['urn:filter:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9'],
     longName: {
       en: 'Helsefremmende arbeid (HS-BU Vg2)',

@@ -1600,9 +1600,9 @@ export const programmes = [
     meta: {
       description: {
         nb:
-          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv i tillegg til yrkesfaglig fordypning',
+          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
         nn:
-          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv i tillegg til yrkesfagleg fordjuping',
+          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1pBrsVLW.jpg' },
@@ -1618,9 +1618,6 @@ export const programmes = [
               },
               {
                 id: 'programme_subject_46',
-              },
-              {
-                id: 'programme_subject_48',
               },
             ],
           },
