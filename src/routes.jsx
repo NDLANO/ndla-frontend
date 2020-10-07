@@ -113,10 +113,12 @@ export const routes = [
 
 export default function(initialProps = {}, locale, location) {
   if (location) {
+    console.log("loc", location);
     return (
       <App initialProps={initialProps} locale={locale} location={location} />
     );
   }
+  console.log("fails?")
   const AppWithRouter = withRouter(App);
   return <AppWithRouter initialProps={initialProps} locale={locale} />;
 }
