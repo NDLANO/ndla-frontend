@@ -41,6 +41,7 @@ const Route = ({
   ...rest
 }) => (
   <ReactRoute
+    location={location}
     {...rest}
     render={props => (
       <Page
