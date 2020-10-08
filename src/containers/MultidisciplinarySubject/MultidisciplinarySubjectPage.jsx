@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
@@ -17,12 +17,7 @@ import { subjectPageQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
 
 const MultidisciplinarySubjectPage = ({ match, history, location }) => {
-  const [selectedFilters, setSelectedFilters] = useState(
-    getFiltersFromUrlAsArray(location),
-  );
-  useEffect(() => {
-    history.push(toSubject(subjectId, selectedFilters));
-  }, [selectedFilters]);
+  const selectedFilters = getFiltersFromUrlAsArray(location);
 
   const subjectId = `urn:${match.path.split('/')[2]}`;
   const { loading, data } = useGraphQuery(subjectPageQuery, {
@@ -43,7 +38,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location }) => {
     } else {
       newFilters.push(id);
     }
-    setSelectedFilters(newFilters);
+    history.push(toSubject(subjectId, newFilters));
   };
 
   const filterItems = items => {
