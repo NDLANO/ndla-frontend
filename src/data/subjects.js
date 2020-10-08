@@ -1400,49 +1400,23 @@ export const programmeSubjects = [
     id: 'programme_subject_35',
   },
   {
-    filters: ['urn:filter:5c9423f8-268e-4e9f-aee6-12b0195ab07d'],
+    filters: [
+      'urn:filter:5c9423f8-268e-4e9f-aee6-12b0195ab07d',
+      'urn:filter:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875',
+      'urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a',
+    ],
     longName: {
-      en: 'Naturbasert næringsaktivitet (NA Vg1)',
-      nb: 'Naturbasert næringsaktivitet (NA Vg1)',
-      nn: 'Naturbasert næringsaktivitet (NA Vg1)',
+      en: 'Naturbruk vg1 - programfag',
+      nb: 'Naturbruk vg1 - programfag',
+      nn: 'Naturbruk vg1 - programfag',
     },
     name: {
-      en: 'Naturbasert næringsaktivitet',
-      nb: 'Naturbasert næringsaktivitet',
-      nn: 'Naturbasert næringsaktivitet',
+      en: 'Programfag',
+      nb: 'Programfag',
+      nn: 'Programfag',
     },
     subjectId: 'urn:subject:13',
     id: 'programme_subject_36',
-  },
-  {
-    filters: ['urn:filter:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875'],
-    longName: {
-      en: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-      nb: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-      nn: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-    },
-    name: {
-      en: 'Naturbasert produksjon og tjenesteyting',
-      nb: 'Naturbasert produksjon og tjenesteyting',
-      nn: 'Naturbasert produksjon og tjenesteyting',
-    },
-    subjectId: 'urn:subject:13',
-    id: 'programme_subject_37',
-  },
-  {
-    filters: ['urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (NA Vg1)',
-      nb: 'Yrkesfaglig fordypning (NA Vg1)',
-      nn: 'Yrkesfaglig fordypning (NA Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:13',
-    id: 'programme_subject_38',
   },
   {
     filters: ['urn:filter:5a5cac3f-46ff-4f4d-ba95-b256a706ec48'],
