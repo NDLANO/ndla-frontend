@@ -16,8 +16,6 @@ import {
   AboutNdlaFilm,
   FilmMovieSearch,
   AllMoviesAlphabetically,
-  OneColumn,
-  FFHeroBadge,
 } from '@ndla/ui';
 
 import MovieCategory from './MovieCategory';
@@ -28,7 +26,6 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { SUPPORTED_LANGUAGES } from '../../constants';
-import config from '../../config';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -98,9 +95,6 @@ class FilmFrontpage extends Component {
             <meta name="description" content={aboutNDLAVideo.description} />
           )}
         </Helmet>
-        <OneColumn cssModifier="clear-desktop" wide>
-          {config.isFFServer && <FFHeroBadge isNDLAFilm />}
-        </OneColumn>
         <FilmSlideshow slideshow={highlighted} />
         <FilmMovieSearch
           ariaControlId={ARIA_FILMCATEGORY_ID}
