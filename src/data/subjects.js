@@ -1203,9 +1203,9 @@ export const programmeSubjects = [
       'urn:filter:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
     ],
     longName: {
-      en: 'Programfag (FD Vg1)',
-      nb: 'Programfag (FD Vg1)',
-      nn: 'Programfag (FD Vg1)',
+      en: 'FBIE Vg1 - programfag',
+      nb: 'FBIE Vg1 - programfag',
+      nn: 'FBIE Vg1 - programfag',
     },
     name: {
       en: 'Programfag',
@@ -1222,9 +1222,9 @@ export const programmeSubjects = [
       'urn:filter:3de59c57-e25c-4509-9d9c-52da0f20e412',
     ],
     longName: {
-      en: 'Programfag (DT Vg1)',
-      nb: 'Programfag (DT Vg1)',
-      nn: 'Programfag (DT Vg1)',
+      en: 'HDP Vg1 - programfag',
+      nb: 'HDP Vg1 - programfag',
+      nn: 'HDP Vg1 - programfag',
     },
     name: {
       en: 'Programfag',
@@ -1406,9 +1406,9 @@ export const programmeSubjects = [
       'urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a',
     ],
     longName: {
-      en: 'Naturbruk vg1 - programfag',
-      nb: 'Naturbruk vg1 - programfag',
-      nn: 'Naturbruk vg1 - programfag',
+      en: 'Naturbruk Vg1 - programfag',
+      nb: 'Naturbruk Vg1 - programfag',
+      nn: 'Naturbruk Vg1 - programfag',
     },
     name: {
       en: 'Programfag',
