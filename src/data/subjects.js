@@ -1203,9 +1203,9 @@ export const programmeSubjects = [
       'urn:filter:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
     ],
     longName: {
-      en: 'Programfag (FD Vg1)',
-      nb: 'Programfag (FD Vg1)',
-      nn: 'Programfag (FD Vg1)',
+      en: 'FBIE Vg1 - programfag',
+      nb: 'FBIE Vg1 - programfag',
+      nn: 'FBIE Vg1 - programfag',
     },
     name: {
       en: 'Programfag',
@@ -1222,9 +1222,9 @@ export const programmeSubjects = [
       'urn:filter:3de59c57-e25c-4509-9d9c-52da0f20e412',
     ],
     longName: {
-      en: 'Programfag (DT Vg1)',
-      nb: 'Programfag (DT Vg1)',
-      nn: 'Programfag (DT Vg1)',
+      en: 'HDP Vg1 - programfag',
+      nb: 'HDP Vg1 - programfag',
+      nn: 'HDP Vg1 - programfag',
     },
     name: {
       en: 'Programfag',
@@ -1400,49 +1400,23 @@ export const programmeSubjects = [
     id: 'programme_subject_35',
   },
   {
-    filters: ['urn:filter:5c9423f8-268e-4e9f-aee6-12b0195ab07d'],
+    filters: [
+      'urn:filter:5c9423f8-268e-4e9f-aee6-12b0195ab07d',
+      'urn:filter:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875',
+      'urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a',
+    ],
     longName: {
-      en: 'Naturbasert næringsaktivitet (NA Vg1)',
-      nb: 'Naturbasert næringsaktivitet (NA Vg1)',
-      nn: 'Naturbasert næringsaktivitet (NA Vg1)',
+      en: 'Naturbruk Vg1 - programfag',
+      nb: 'Naturbruk Vg1 - programfag',
+      nn: 'Naturbruk Vg1 - programfag',
     },
     name: {
-      en: 'Naturbasert næringsaktivitet',
-      nb: 'Naturbasert næringsaktivitet',
-      nn: 'Naturbasert næringsaktivitet',
+      en: 'Programfag',
+      nb: 'Programfag',
+      nn: 'Programfag',
     },
     subjectId: 'urn:subject:13',
     id: 'programme_subject_36',
-  },
-  {
-    filters: ['urn:filter:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875'],
-    longName: {
-      en: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-      nb: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-      nn: 'Naturbasert produksjon og tjenesteyting (NA Vg1)',
-    },
-    name: {
-      en: 'Naturbasert produksjon og tjenesteyting',
-      nb: 'Naturbasert produksjon og tjenesteyting',
-      nn: 'Naturbasert produksjon og tjenesteyting',
-    },
-    subjectId: 'urn:subject:13',
-    id: 'programme_subject_37',
-  },
-  {
-    filters: ['urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a'],
-    longName: {
-      en: 'Yrkesfaglig fordypning (NA Vg1)',
-      nb: 'Yrkesfaglig fordypning (NA Vg1)',
-      nn: 'Yrkesfaglig fordypning (NA Vg1)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:13',
-    id: 'programme_subject_38',
   },
   {
     filters: ['urn:filter:5a5cac3f-46ff-4f4d-ba95-b256a706ec48'],
@@ -1985,34 +1959,22 @@ export const studySpecializationSubjects = [
     id: 'study_specialization_subject_13',
   },
   {
-    filters: ['urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e'],
+    filters: [
+      'urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
+      'urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+    ],
     longName: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
+      en: 'Medie- og informasjonskunnskap',
+      nb: 'Medie- og informasjonskunnskap',
+      nn: 'Medie- og informasjonskunnskap',
     },
     name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
+      en: 'Medie- og informasjonskunnskap',
+      nb: 'Medie- og informasjonskunnskap',
+      nn: 'Medie- og informasjonskunnskap',
     },
     subjectId: 'urn:subject:14',
     id: 'study_specialization_subject_14',
-  },
-  {
-    filters: ['urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186'],
-    longName: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    subjectId: 'urn:subject:14',
-    id: 'study_specialization_subject_15',
   },
   {
     filters: ['urn:filter:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3'],
@@ -2082,9 +2044,9 @@ export const studySpecializationSubjects = [
       nn: 'Medieuttrykk 1',
     },
     name: {
-      en: 'Medieuttrykk',
-      nb: 'Medieuttrykk',
-      nn: 'Medieuttrykk',
+      en: 'Medieuttrykk 1',
+      nb: 'Medieuttrykk 1',
+      nn: 'Medieuttrykk 1',
     },
     subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
     id: 'study_specialization_subject_20',
@@ -2097,9 +2059,9 @@ export const studySpecializationSubjects = [
       nn: 'Mediesamfunnet 1',
     },
     name: {
-      en: 'Mediesamfunnet',
-      nb: 'Mediesamfunnet',
-      nn: 'Mediesamfunnet',
+      en: 'Mediesamfunnet 1',
+      nb: 'Mediesamfunnet 1',
+      nn: 'Mediesamfunnet 1',
     },
     subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
     id: 'study_specialization_subject_21',
