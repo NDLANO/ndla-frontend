@@ -1985,34 +1985,22 @@ export const studySpecializationSubjects = [
     id: 'study_specialization_subject_13',
   },
   {
-    filters: ['urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e'],
+    filters: [
+      'urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
+      'urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+    ],
     longName: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
+      en: 'Medie- og informasjonskunnskap',
+      nb: 'Medie- og informasjonskunnskap',
+      nn: 'Medie- og informasjonskunnskap',
     },
     name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
+      en: 'Medie- og informasjonskunnskap',
+      nb: 'Medie- og informasjonskunnskap',
+      nn: 'Medie- og informasjonskunnskap',
     },
     subjectId: 'urn:subject:14',
     id: 'study_specialization_subject_14',
-  },
-  {
-    filters: ['urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186'],
-    longName: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    subjectId: 'urn:subject:14',
-    id: 'study_specialization_subject_15',
   },
   {
     filters: ['urn:filter:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3'],
