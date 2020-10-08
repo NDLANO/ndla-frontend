@@ -18,7 +18,6 @@ import {
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
   Breadcrumb,
-  FFHeroBadge,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
 import { withRouter } from 'react-router-dom';
@@ -102,7 +101,6 @@ const Learningpath = ({
     <LearningPathWrapper>
       <div className="c-hero__content">
         <section>
-          {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm} />}
           {subject && topicPath ? (
             <Breadcrumb
               invertedStyle={ndlaFilm}

@@ -15,7 +15,6 @@ import {
   Breadcrumb,
   constants,
   NdlaFilmHero,
-  FFHeroBadge,
 } from '@ndla/ui';
 import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
@@ -42,7 +41,6 @@ import { getTopicPath } from '../../util/getTopicPath';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
 
 const getTitle = (article, title) => {
   if (article) {
@@ -127,7 +125,6 @@ const TopicContainer = ({
         <OneColumn>
           <div className="c-hero__content">
             <section>
-              {config.isFFServer && <FFHeroBadge isNDLAFilm={ndlaFilm} />}
               {subject ? (
                 <Breadcrumb
                   items={toBreadcrumbItems(
