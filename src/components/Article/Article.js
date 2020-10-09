@@ -20,9 +20,7 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.grepCodes?.length ||
-      article.competenceGoals?.length ||
-      article.coreElements?.length)
+    (article.competenceGoals?.length || article.coreElements?.length)
   ) {
     // eslint-disable-next-line react/prop-types
     return ({ Dialog, dialogProps }) => (
