@@ -41,6 +41,7 @@ const Route = ({
   ...rest
 }) => (
   <ReactRoute
+    location={location}
     {...rest}
     render={props => (
       <Page
@@ -190,20 +191,29 @@ class App extends React.Component {
     const {
       initialProps: { basename },
       location,
+      serverLocation,
       locale,
     } = this.props;
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} location={location} />;
     }
+
+    // Dirty hack to allow for page to render on google translate
+    const testLocation = serverLocation?.pathname + serverLocation?.search;
+    const isGoogleUrl =
+      decodeURIComponent(location.search).indexOf(testLocation) > -1;
+
+    const switchLocation = isGoogleUrl ? serverLocation : location;
+
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={basename}>
-        <Switch>
+        <Switch location={switchLocation}>
           {routes
             .filter(route => route !== undefined)
             .map(route => (
               <Route
-                location={location}
+                location={switchLocation}
                 key={`route_${route.path}`}
                 exact={route.exact}
                 hideMasthead={route.hideMasthead}
@@ -224,7 +234,14 @@ class App extends React.Component {
 
 App.propTypes = {
   locale: PropTypes.string.isRequired,
-  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
+  }),
+  serverLocation: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
+  }),
   initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 

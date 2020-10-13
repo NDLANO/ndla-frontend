@@ -108,6 +108,12 @@ export const routes = [
   },
 ];
 
-export default function(initialProps = {}, locale) {
-  return <App initialProps={initialProps} locale={locale} />;
+export default function(initialProps = {}, locale, serverLocation) {
+  return (
+    <App
+      initialProps={initialProps}
+      locale={locale}
+      serverLocation={serverLocation}
+    />
+  );
 }

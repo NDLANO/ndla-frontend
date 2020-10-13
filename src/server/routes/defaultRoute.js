@@ -107,6 +107,8 @@ async function doRender(req) {
     {
       initialProps,
       apolloState,
+      serverPath: req.path,
+      serverQuery: req.query,
     },
     cache,
   );
