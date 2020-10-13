@@ -425,6 +425,31 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
+.emotion-73 {
+  background: none;
+  color: #fff;
+  border: 0;
+  padding: 0;
+  box-shadow: inset 0 -1px;
+  cursor: pointer;
+  margin-bottom: 52px;
+}
+
+.emotion-73:hover,
+.emotion-73:focus {
+  box-shadow: none;
+}
+
+.emotion-77 {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient( 96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100% );
+}
+
 .emotion-69 {
   display: inline-block;
   color: #ffffff;
@@ -494,31 +519,6 @@ exports[`ErrorPage renderers correctly 1`] = `
     padding: 0.4rem 0.6rem;
     margin: 0;
   }
-}
-
-.emotion-73 {
-  background: none;
-  color: #fff;
-  border: 0;
-  padding: 0;
-  box-shadow: inset 0 -1px;
-  cursor: pointer;
-  margin-bottom: 52px;
-}
-
-.emotion-73:hover,
-.emotion-73:focus {
-  box-shadow: none;
-}
-
-.emotion-77 {
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient( 96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100% );
 }
 
 <div
