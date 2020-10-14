@@ -136,8 +136,7 @@ class App extends React.Component {
     const navigated = nextProps.location !== prevState.location;
     const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
     const ignoreScroll =
-      match?.isExact &&
-      !match?.params?.topics?.includes('resource:');
+      match?.isExact && !match?.params?.topics?.includes('resource:');
     if (navigated) {
       if (!ignoreScroll) {
         window.scrollTo(0, 0);

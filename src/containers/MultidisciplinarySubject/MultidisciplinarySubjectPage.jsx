@@ -39,7 +39,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location }) => {
       newFilters.push(id);
     }
     history.push({
-      search: newFilters.length && `?filters=${newFilters}`
+      search: newFilters.length && `?filters=${newFilters}`,
     });
   };
 
