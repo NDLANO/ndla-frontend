@@ -137,7 +137,6 @@ class App extends React.Component {
     const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
     const ignoreScroll =
       match?.isExact &&
-      !!match?.params?.topics &&
       !match?.params?.topics?.includes('resource:');
     if (navigated) {
       if (!ignoreScroll) {

@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject } from '@ndla/ui';
 
-import { toSubject, toTopic } from '../../routeHelpers';
+import { toTopic } from '../../routeHelpers';
 import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -38,7 +38,9 @@ const MultidisciplinarySubjectPage = ({ match, history, location }) => {
     } else {
       newFilters.push(id);
     }
-    history.push(toSubject(subjectId, newFilters));
+    history.push({
+      search: newFilters.length && `?filters=${newFilters}`
+    });
   };
 
   const filterItems = items => {
