@@ -24,6 +24,7 @@ import {
   FILM_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
 } from './constants';
 
 export const BasenameContext = React.createContext('');
@@ -95,6 +96,24 @@ async function loadInitialProps(pathname, ctx) {
   return Promise.all(promises);
 }
 
+function shouldScrollToTop(location, prevLocation) {
+  const multiMatch = matchPath(
+    location.pathname,
+    `${MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}/:topicId?`,
+  );
+  if (multiMatch?.isExact) {
+    return (
+      !!multiMatch?.params?.topicId ||
+      location.pathname !== prevLocation.pathname
+    );
+  }
+  const subjectMatch = matchPath(location.pathname, SUBJECT_PAGE_PATH);
+  if (subjectMatch?.isExact) {
+    return subjectMatch?.params?.topics?.includes('resource:');
+  }
+  return false;
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -134,11 +153,8 @@ class App extends React.Component {
       };
     }
     const navigated = nextProps.location !== prevState.location;
-    const match = matchPath(nextProps.location.pathname, SUBJECT_PAGE_PATH);
-    const ignoreScroll =
-      match?.isExact && !match?.params?.topics?.includes('resource:');
     if (navigated) {
-      if (!ignoreScroll) {
+      if (shouldScrollToTop(nextProps.location, prevState.location)) {
         window.scrollTo(0, 0);
       }
       return {
