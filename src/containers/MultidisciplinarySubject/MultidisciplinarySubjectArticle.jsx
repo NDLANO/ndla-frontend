@@ -47,7 +47,8 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
     return null;
   }
 
-  const onLinkToResourcesClick = () => {
+  const onLinkToResourcesClick = e => {
+    e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
 
