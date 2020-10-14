@@ -22,9 +22,9 @@ import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
 } from './constants';
 
 export const BasenameContext = React.createContext('');

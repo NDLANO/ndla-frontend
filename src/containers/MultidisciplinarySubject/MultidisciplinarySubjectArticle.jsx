@@ -9,9 +9,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ArticleSideBar,
   Breadcrumblist,
   MultidisciplinarySubjectHeader,
-  ArticleSideBar,
   OneColumn,
 } from '@ndla/ui';
 
