@@ -109,9 +109,12 @@ function shouldScrollToTop(location, prevLocation) {
   }
   const subjectMatch = matchPath(location.pathname, SUBJECT_PAGE_PATH);
   if (subjectMatch?.isExact) {
-    return subjectMatch?.params?.topics?.includes('resource:');
+    return (
+      !subjectMatch?.params?.topics ||
+      subjectMatch?.params?.topics?.includes('resource:')
+    );
   }
-  return false;
+  return true;
 }
 
 class App extends React.Component {
