@@ -650,6 +650,10 @@ export const topicQuery = gql`
       id
       name
       path
+      filters {
+        id
+        name
+      }
       meta {
         id
         metaDescription
