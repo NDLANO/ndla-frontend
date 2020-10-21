@@ -136,6 +136,7 @@ class ArticlePage extends Component {
           resource={resource}
           resourceType={resourceType}
           locale={locale}
+          metaImage={article.metaImage}
         />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
