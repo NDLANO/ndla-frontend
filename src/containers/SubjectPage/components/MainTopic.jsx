@@ -23,12 +23,13 @@ const MainTopic = ({
   topicId,
   subjectId,
   filterIds,
-  setSelectedTopic,
   showResources,
   locale,
   subTopicId,
   ndlaFilm,
   onClickTopics,
+  setBreadCrumb,
+  index,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -39,10 +40,13 @@ const MainTopic = ({
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
     onCompleted: data =>
-      setSelectedTopic({
-        id: data.topic.id,
-        label: data.topic.name,
-      }),
+      setBreadCrumb(
+        {
+          id: data.topic.id,
+          label: data.topic.name,
+        },
+        index,
+      ),
   });
 
   if (loading) {
@@ -113,6 +117,8 @@ MainTopic.propTypes = {
   ndlaFilm: PropTypes.bool,
   onClickTopics: PropTypes.func,
   toSubjects: PropTypes.func,
+  setBreadCrumb: PropTypes.func,
+  index: PropTypes.number,
 };
 
 export default MainTopic;

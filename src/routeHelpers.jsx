@@ -31,22 +31,12 @@ export function getUrnIdsFromProps(props) {
     ? `urn:${params.subjectId}`
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
-  let topicId = params.topicId ? `urn:${params.topicId}` : undefined;
-  let subTopicId = undefined;
-  let subSubTopicId = undefined;
-
   const topics = params.topics?.split('/') || [];
-  if (topics.length > 0) {
-    topicId = topics?.[0] ? `urn:${topics?.[0]}` : undefined;
-    subTopicId = topics?.[1] ? `urn:${topics?.[1]}` : undefined;
-    subSubTopicId = topics?.[2] ? `urn:${topics?.[2]}` : undefined;
-  }
+  const topicList = topics.map(t => `urn:${t}`);
 
   return {
     subjectId,
-    topicId,
-    subTopicId,
-    subSubTopicId,
+    topicList,
     resourceId: params.resourceId
       ? `urn:resource:${params.resourceId}`
       : undefined,

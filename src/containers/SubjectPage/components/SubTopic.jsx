@@ -23,11 +23,13 @@ const SubTopic = ({
   topicId,
   subjectId,
   filterIds,
-  setSelectedSubTopic,
   locale,
   ndlaFilm,
   subSubTopicId,
   onClickTopics,
+  setBreadCrumb,
+  index,
+  topics,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -38,10 +40,13 @@ const SubTopic = ({
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
     onCompleted: data =>
-      setSelectedSubTopic({
-        id: data.topic.id,
-        label: data.topic.name,
-      }),
+      setBreadCrumb(
+        {
+          id: data.topic.id,
+          label: data.topic.name,
+        },
+        index,
+      ),
   });
 
   if (loading) {
@@ -53,7 +58,7 @@ const SubTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subSubTopicId,
-    url: toTopic(subjectId, filterIds, topicId, topic.id, item.id),
+    url: toTopic(subjectId, filterIds, ...topics, item.id),
   }));
   const resourceTypes = data.resourceTypes;
   const filterParam = filterIds ? `?filters=${filterIds}` : ';';
@@ -101,11 +106,13 @@ SubTopic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
-  setSelectedSubTopic: PropTypes.func,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   subSubTopicId: PropTypes.string,
   onClickTopics: PropTypes.func,
+  setBreadCrumb: PropTypes.func,
+  index: PropTypes.number,
+  topics: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SubTopic;

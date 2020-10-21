@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {
@@ -42,9 +42,7 @@ const SubjectPage = ({
   skipToContentId,
   t,
   subjectId,
-  urlTopicId,
-  urlSubTopicId,
-  urlSubSubTopicId,
+  topics,
   data,
   ndlaFilm,
 }) => {
@@ -62,16 +60,8 @@ const SubjectPage = ({
 
   const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
-  const [topic, setTopic] = useState(null);
-  const [subTopic, setSubTopic] = useState(null);
-  const [subSubTopic, setSubSubTopic] = useState(null);
-  const [currentLevel, setCurrentLevel] = useState('Subject');
-
-  useEffect(() => {
-    if (!urlTopicId) setTopic(undefined);
-    if (!urlSubTopicId) setSubTopic(undefined);
-    if (!urlSubSubTopicId) setSubSubTopic(undefined);
-  });
+  const [currentLevel, setCurrentLevel] = useState(0);
+  const [breadCrumbList, setBreadCrumbList] = useState([]);
 
   /* const [programme] = useState(() => {
     const programmeData = {
@@ -125,77 +115,41 @@ const SubjectPage = ({
           },
         ]
       : []),
-    ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
-    ...(subTopic
-      ? [{ ...subTopic, isCurrent: currentLevel === 'Subtopic' }]
-      : []),
-    ...(subSubTopic
-      ? [{ ...subSubTopic, isCurrent: currentLevel === 'SubSubtopic' }]
-      : []),
+    ...breadCrumbList.map((crumb, index) => ({
+      ...crumb,
+      index,
+      isCurrent: currentLevel === index,
+      typename: index > 0 ? 'Subtopic' : 'Topic',
+    })),
   ];
+  console.log(breadCrumbs);
+  console.log(currentLevel);
 
-  const setTopicBreadCrumb = topic => {
-    setCurrentLevel('Topic');
-    setTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'Topic',
-            url: '#',
-          }
-        : null,
-    );
-  };
-
-  const setSubTopicBreadCrumb = topic => {
-    setCurrentLevel('Subtopic');
-    setSubTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'Subtopic',
-            url: '#',
-          }
-        : null,
-    );
-  };
-
-  const setSubSubTopicBreadCrumb = topic => {
-    setCurrentLevel('SubSubtopic');
-    setSubSubTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'SubSubtopic',
-            url: '#',
-          }
-        : null,
-    );
+  const setBreadCrumb = (topic, index) => {
+    setCurrentLevel(index);
+    const breadcrumbs = breadCrumbList.slice(0, index);
+    breadcrumbs[index] = topic;
+    setBreadCrumbList(breadcrumbs);
   };
 
   const headerRef = useRef(null);
-  const mainRef = useRef(null);
-  const subRef = useRef(null);
-  const subSubRef = useRef(null);
+  const refs = topics.map(_ => React.createRef());
 
   const handleNav = (e, item) => {
     e.preventDefault();
-    const { typename } = item;
-    setCurrentLevel(typename);
+    const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
+      setCurrentLevel(typename);
       scrollToRef(headerRef);
-    } else if (typename === 'Topic') {
-      scrollToRef(mainRef);
-    } else if (typename === 'Subtopic') {
-      scrollToRef(subRef);
-    } else if (typename === 'SubSubtopic') {
-      scrollToRef(subSubRef);
+    } else {
+      setCurrentLevel(index);
+      scrollToRef(refs[index]);
     }
   };
 
   const onClickTopics = e => {
     e.preventDefault();
-    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
+    const lowermostId = topics[topics.length - 1];
     const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
     const filterParam =
       lowermost?.filters?.length && !getFiltersFromUrl(location)
@@ -211,7 +165,7 @@ const SubjectPage = ({
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
-  const moveBannerUp = !topic;
+  const moveBannerUp = !topics.length;
   return (
     <>
       <Helmet>
@@ -251,18 +205,11 @@ const SubjectPage = ({
               subjectpage={subjectpage}
               subject={subject}
               filterIds={activeFilterId}
-              topicId={urlTopicId}
-              subTopicId={urlSubTopicId}
-              setSelectedTopic={setTopicBreadCrumb}
-              setSubTopic={setSubTopic}
-              setSelectedSubTopic={setSubTopicBreadCrumb}
               ndlaFilm={ndlaFilm}
-              mainRef={mainRef}
-              subRef={subRef}
-              subSubRef={subSubRef}
-              subSubTopicId={urlSubSubTopicId}
-              setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
               onClickTopics={onClickTopics}
+              topics={topics}
+              refs={refs}
+              setBreadCrumb={setBreadCrumb}
             />
           </LayoutItem>
         </OneColumn>
@@ -324,9 +271,7 @@ SubjectPage.propTypes = {
   data: PropTypes.shape({
     subject: GraphQLSubjectShape,
   }),
-  urlTopicId: PropTypes.string,
-  urlSubTopicId: PropTypes.string,
-  urlSubSubTopicId: PropTypes.string,
+  topics: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectT(withTracker(SubjectPage));
