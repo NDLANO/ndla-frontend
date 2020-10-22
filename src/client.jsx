@@ -27,11 +27,16 @@ import './style/index.css';
 const {
   DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
-const { abbreviation, messages, basename } = getLocaleInfoFromPath(serverPath);
+const { abbreviation, messages, basename, basepath } = getLocaleInfoFromPath(
+  serverPath,
+);
 
+const serverQueryString = decodeURIComponent(
+  queryString.stringify(serverQuery),
+);
 const locationFromServer = {
-  pathname: serverPath,
-  search: `?${decodeURIComponent(queryString.stringify(serverQuery))}`,
+  pathname: basepath || '/',
+  search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
 const storedLanguage = getCookie('language', document.cookie);
