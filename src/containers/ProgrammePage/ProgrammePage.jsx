@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { injectT } from '@ndla/i18n';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';

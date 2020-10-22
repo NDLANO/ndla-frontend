@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
