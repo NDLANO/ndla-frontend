@@ -7,7 +7,7 @@
  */
 
 import defined from 'defined';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { BAD_REQUEST, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { renderPage, renderHtml } from '../helpers/render';

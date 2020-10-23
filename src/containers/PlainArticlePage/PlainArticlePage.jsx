@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';

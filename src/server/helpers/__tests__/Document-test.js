@@ -8,7 +8,7 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
 import Document from '../Document';
 

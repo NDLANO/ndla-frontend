@@ -12,7 +12,7 @@ import { renderToStringWithData } from '@apollo/react-ssr';
 import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import createEmotionServer from 'create-emotion-server';
 
 import Document from './Document';

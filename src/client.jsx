@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router-dom';
+import { Router, MemoryRouter } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -27,11 +27,16 @@ import './style/index.css';
 const {
   DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
-const { abbreviation, messages, basename } = getLocaleInfoFromPath(serverPath);
+const { abbreviation, messages, basename, basepath } = getLocaleInfoFromPath(
+  serverPath,
+);
 
+const serverQueryString = decodeURIComponent(
+  queryString.stringify(serverQuery),
+);
 const locationFromServer = {
-  pathname: serverPath,
-  search: `?${decodeURIComponent(queryString.stringify(serverQuery))}`,
+  pathname: basepath || '/',
+  search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
 const storedLanguage = getCookie('language', document.cookie);
@@ -73,17 +78,30 @@ const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
 const cache = createCache();
+
+// Use memory router if running under google translate
+const testLocation = locationFromServer?.pathname + locationFromServer?.search;
+const isGoogleUrl =
+  decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
+
+const RouterComponent = ({ children }) =>
+  isGoogleUrl ? (
+    <MemoryRouter
+      history={browserHistory}
+      initialEntries={[locationFromServer]}>
+      {children}
+    </MemoryRouter>
+  ) : (
+    <Router history={browserHistory}>{children}</Router>
+  );
+
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
-        <Router history={browserHistory}>
-          {routes(
-            { ...initialProps, basename },
-            abbreviation,
-            locationFromServer,
-          )}
-        </Router>
+        <RouterComponent>
+          {routes({ ...initialProps, basename }, abbreviation)}
+        </RouterComponent>
       </IntlProvider>
     </CacheProvider>
   </ApolloProvider>,

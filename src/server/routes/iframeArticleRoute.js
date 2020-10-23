@@ -8,7 +8,7 @@
 
 import React from 'react';
 import defined from 'defined';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 
 import { getHtmlLang, getLocaleObject } from '../../i18n';

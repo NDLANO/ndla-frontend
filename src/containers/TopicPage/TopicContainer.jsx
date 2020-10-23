@@ -16,7 +16,7 @@ import {
   constants,
   NdlaFilmHero,
 } from '@ndla/ui';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
