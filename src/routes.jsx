@@ -8,7 +8,6 @@
 
 import React from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
-import FFFrontPage from './containers/FFFrontPage/FFFrontPage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -30,7 +29,6 @@ import {
   PROGRAMME_PATH,
   PROGRAMME_PAGE_PATH,
 } from './constants';
-import config from './config';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
 export const routes = [
@@ -38,7 +36,7 @@ export const routes = [
     path: '/',
     hideMasthead: true,
     exact: true,
-    component: config.isFFServer ? FFFrontPage : WelcomePage,
+    component: WelcomePage,
     background: false,
   },
   {
@@ -110,6 +108,12 @@ export const routes = [
   },
 ];
 
-export default function(initialProps = {}, locale) {
-  return <App initialProps={initialProps} locale={locale} />;
+export default function(initialProps = {}, locale, serverLocation) {
+  return (
+    <App
+      initialProps={initialProps}
+      locale={locale}
+      serverLocation={serverLocation}
+    />
+  );
 }

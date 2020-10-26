@@ -8,16 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { PageContainer, OneColumn, ErrorMessage } from '@ndla/ui';
-import IntlProvider, { injectT } from '@ndla/i18n';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { MissingRouterContext } from '@ndla/safelink';
-import { ArticleShape, ResourceShape } from '../shapes';
-import { createApolloClient } from '../util/apiHelpers';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import { ResourceTypeShape } from '../shapes';
+import { useGraphQuery } from '../util/runQueries';
+import { plainArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
-import { BasenameContext } from '../App';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -39,87 +36,58 @@ const Error = injectT(({ t }) => (
   </OneColumn>
 ));
 
-const IframePageWrapper = ({
-  basename,
-  locale: { abbreviation: locale, messages },
-  children,
-}) => (
-  <ApolloProvider client={createApolloClient(locale)}>
-    <IntlProvider locale={locale} messages={messages}>
-      <MissingRouterContext.Provider value={true}>
-        <BasenameContext.Provider value={basename}>
-          <PageContainer>
-            <Helmet htmlAttributes={{ lang: locale }} />
-            {children}
-          </PageContainer>
-        </BasenameContext.Provider>
-      </MissingRouterContext.Provider>
-    </IntlProvider>
-  </ApolloProvider>
-);
-
-IframePageWrapper.propTypes = {
-  basename: PropTypes.string,
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
-};
-
 export const IframePage = ({
   status,
-  basename,
   locale,
-  resource,
+  resourceTypes,
   location,
-  article,
+  articleId,
+  removeRelatedContent,
   isTopicArticle,
 }) => {
-  if (status !== 'success') {
-    return (
-      <IframePageWrapper locale={locale}>
-        <Error />
-      </IframePageWrapper>
-    );
-  }
-  if (resource) {
-    return (
-      <IframePageWrapper basename={basename} locale={locale}>
-        <IframeArticlePage
-          locale={locale.abbreviation}
-          resource={resource}
-          location={location}
-        />
-      </IframePageWrapper>
-    );
+  const { error, loading, data } = useGraphQuery(plainArticleQuery, {
+    variables: { articleId, removeRelatedContent },
+  });
+
+  if (status !== 'success' || error) {
+    return <Error />;
   }
 
-  if (article && isTopicArticle) {
-    return (
-      <IframePageWrapper basename={basename} locale={locale}>
+  if (!loading) {
+    const { article } = data;
+    if (isTopicArticle) {
+      return (
         <IframeTopicPage
           locale={locale.abbreviation}
           article={article}
           location={location}
         />
-      </IframePageWrapper>
+      );
+    }
+    return (
+      <IframeArticlePage
+        locale={locale.abbreviation}
+        resource={{ article, resourceTypes }}
+        article={article}
+        location={location}
+      />
     );
   }
   return null;
 };
 
 IframePage.propTypes = {
-  basename: PropTypes.string,
   locale: PropTypes.shape({
     abbreviation: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
   }).isRequired,
-  article: ArticleShape,
-  resource: ResourceShape,
+  articleId: PropTypes.string,
+  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  removeRelatedContent: PropTypes.string,
   isTopicArticle: PropTypes.bool,
 };
 

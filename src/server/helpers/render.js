@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
+import { renderToStringWithData } from '@apollo/react-ssr';
 import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
@@ -38,6 +39,43 @@ export function renderPage(Page, assets, data = {}, cache) {
     };
   }
   const html = renderToString(Page);
+  const helmet = Helmet.renderStatic();
+  return {
+    html,
+    helmet,
+    assets,
+    // Following is serialized to window.DATA
+    data: {
+      ...data,
+      config,
+      assets,
+    },
+  };
+}
+
+export async function renderPageWithData(Page, assets, data = {}, cache) {
+  resetIdCounter();
+  if (cache) {
+    const { extractCritical } = createEmotionServer(cache);
+    const { html, css, ids } = extractCritical(
+      await renderToStringWithData(Page),
+    );
+    const helmet = Helmet.renderStatic();
+    return {
+      html,
+      helmet,
+      assets,
+      css,
+      ids,
+      // Following is serialized to window.DATA
+      data: {
+        ...data,
+        config,
+        assets,
+      },
+    };
+  }
+  const html = await renderToStringWithData(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,

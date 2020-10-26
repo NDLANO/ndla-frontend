@@ -11,6 +11,7 @@ import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
   SUBJECT_PAGE_PATH,
+  TOPIC_PATH,
 } from './constants';
 
 import { getProgrammeBySlug } from './data/programmes';
@@ -115,14 +116,17 @@ export function toBreadcrumbItems(
   locale = 'nb',
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
-  let subject = paths[0];
+  const subject = paths[0];
   const subjectData = getSubjectBySubjectIdFilters(
     subject.id,
     filters.split(','),
   );
-  subject.name = subjectData?.longName[locale] || subject.name;
+  const breadcrumbSubject = {
+    ...subject,
+    name: subjectData?.longName[locale] || subject.name,
+  };
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
-  const links = paths
+  const links = [breadcrumbSubject, ...paths.splice(1)]
     .filter(Boolean)
     .reduce(
       (links, item) => [
@@ -191,6 +195,14 @@ export function toProgrammeSubject(
 
 export function isSubjectPagePath(pathname) {
   const match = matchPath(pathname, SUBJECT_PAGE_PATH);
+  if (match) {
+    return match.isExact;
+  }
+  return false;
+}
+
+export function isTopicPath(pathname) {
+  const match = matchPath(pathname, TOPIC_PATH);
   if (match) {
     return match.isExact;
   }

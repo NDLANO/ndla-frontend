@@ -20,12 +20,7 @@ import { injectT } from '@ndla/i18n';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import {
-  FILM_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECTS,
-  TOOLBOX_PAGE_PATH,
-} from '../../constants';
+import { FILM_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
@@ -33,6 +28,33 @@ import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
+import { toSubject } from '../../routeHelpers';
+import { getSubjectById } from '../../data/subjects';
+
+const getUrlFromSubjectId = subjectId => {
+  const subject = getSubjectById(subjectId);
+  const filters = subject.filters ? subject.filters.join(',') : '';
+  return toSubject(subject.subjectId, filters);
+};
+
+const getMultidisciplinarySubjects = locale => {
+  const subjectIds = [
+    'common_subject_57',
+    'common_subject_58',
+    'common_subject_59',
+  ];
+  return subjectIds.map(subjectId => {
+    const subject = getSubjectById(subjectId);
+    return {
+      id: subject.id,
+      title: subject.name[locale],
+      url: getUrlFromSubjectId(subjectId),
+    };
+  });
+};
+
+const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
+const TOOLBOX_SUBJECT_ID = 'common_subject_61';
 
 const WelcomePage = ({ t, locale, history, location }) => {
   const headerLinks = [
@@ -56,7 +78,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        <WelcomePageSearch history={history} />
+        <WelcomePageSearch history={history} locale={locale} />
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
@@ -66,10 +88,10 @@ const WelcomePage = ({ t, locale, history, location }) => {
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
-            url={MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}
-            topics={MULTIDISCIPLINARY_SUBJECTS}
+            url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
+            topics={getMultidisciplinarySubjects(locale)}
           />
-          <FrontpageToolbox url={TOOLBOX_PAGE_PATH} />
+          <FrontpageToolbox url={getUrlFromSubjectId(TOOLBOX_SUBJECT_ID)} />
           <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"

@@ -12,12 +12,11 @@ import Helmet from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 
 import { getHtmlLang, getLocaleObject } from '../../i18n';
-import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
-import IframePage from '../../iframe/IframePage';
+import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
-import { renderPage, renderHtml } from '../helpers/render';
+import { renderPageWithData, renderHtml } from '../helpers/render';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -40,9 +39,13 @@ const getAssets = () => ({
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
-function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? '' : <IframePage {...initialProps} />;
-  const { html, ...docProps } = renderPage(Page, getAssets(), {
+async function doRenderPage(initialProps) {
+  const Page = config.disableSSR ? (
+    ''
+  ) : (
+    <IframePageContainer {...initialProps} />
+  );
+  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
     initialProps,
   });
   return { html, docProps };
@@ -50,22 +53,21 @@ function doRenderPage(initialProps) {
 
 export async function iframeArticleRoute(req) {
   const lang = defined(req.params.lang, '');
-  const removeRelatedContent = defined(req.query.removeRelatedContent, false);
+  const removeRelatedContent = defined(
+    req.query.removeRelatedContent,
+    false,
+  ).toString();
   const htmlLang = getHtmlLang(lang);
   const locale = getLocaleObject(htmlLang);
   const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url };
   try {
     if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
-      const article = await fetchArticle(
-        articleId,
-        htmlLang,
-        removeRelatedContent,
-      );
-      const { html, docProps } = doRenderPage({
+      const { html, docProps } = await doRenderPage({
         basename: lang,
         locale,
-        article,
+        articleId,
+        removeRelatedContent,
         isTopicArticle: true,
         status: 'success',
         location,
@@ -73,16 +75,13 @@ export async function iframeArticleRoute(req) {
 
       return renderHtml(req, html, { status: OK }, docProps);
     }
-    const article = await fetchArticle(
-      articleId,
-      htmlLang,
-      removeRelatedContent,
-    );
     const resourceTypes = taxonomyId
       ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
       : [];
-    const { html, docProps } = doRenderPage({
-      resource: { article, resourceTypes },
+    const { html, docProps } = await doRenderPage({
+      resourceTypes,
+      articleId,
+      removeRelatedContent,
       basename: lang,
       locale,
       status: 'success',
@@ -95,7 +94,7 @@ export async function iframeArticleRoute(req) {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = doRenderPage({
+    const { html, docProps } = await doRenderPage({
       basename: lang,
       locale,
       location,

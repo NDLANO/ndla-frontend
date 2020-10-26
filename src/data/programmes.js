@@ -32,9 +32,6 @@ export const programmes = [
               {
                 id: 'programme_subject_43',
               },
-              {
-                id: 'programme_subject_45',
-              },
             ],
           },
           {
@@ -219,12 +216,6 @@ export const programmes = [
               {
                 id: 'programme_subject_19',
               },
-              {
-                id: 'programme_subject_20',
-              },
-              {
-                id: 'programme_subject_21',
-              },
             ],
           },
           {
@@ -284,12 +275,6 @@ export const programmes = [
             subjects: [
               {
                 id: 'programme_subject_22',
-              },
-              {
-                id: 'programme_subject_23',
-              },
-              {
-                id: 'programme_subject_24',
               },
             ],
           },
@@ -603,13 +588,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -649,9 +634,6 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_4',
-              },
-              {
-                id: 'study_specialization_subject_15',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -890,13 +872,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -936,9 +918,6 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_4',
-              },
-              {
-                id: 'study_specialization_subject_15',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1046,9 +1025,6 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_22',
               },
-              {
-                id: 'study_specialization_subject_23',
-              },
             ],
           },
           {
@@ -1129,10 +1105,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'study_specialization_subject_24',
-              },
-              {
-                id: 'study_specialization_subject_25',
+                id: 'study_specialization_subject_22',
               },
             ],
           },
@@ -1147,13 +1120,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -1193,9 +1166,6 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_4',
-              },
-              {
-                id: 'study_specialization_subject_15',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1362,13 +1332,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
                 id: 'common_subject_18',
@@ -1408,9 +1378,6 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_4',
-              },
-              {
-                id: 'study_specialization_subject_15',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1459,12 +1426,6 @@ export const programmes = [
             subjects: [
               {
                 id: 'programme_subject_36',
-              },
-              {
-                id: 'programme_subject_37',
-              },
-              {
-                id: 'programme_subject_38',
               },
             ],
           },
@@ -1574,6 +1535,9 @@ export const programmes = [
               {
                 id: 'programme_subject_61',
               },
+              {
+                id: 'common_subject_56',
+              },
             ],
           },
           {
@@ -1587,13 +1551,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_54',
               },
               {
                 id: 'common_subject_14',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_52',
               },
               {
                 id: 'common_subject_16',
@@ -1618,9 +1582,9 @@ export const programmes = [
     meta: {
       description: {
         nb:
-          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv i tillegg til yrkesfaglig fordypning',
+          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
         nn:
-          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv i tillegg til yrkesfagleg fordjuping',
+          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1pBrsVLW.jpg' },
@@ -1636,9 +1600,6 @@ export const programmes = [
               },
               {
                 id: 'programme_subject_46',
-              },
-              {
-                id: 'programme_subject_48',
               },
             ],
           },
@@ -2035,13 +1996,13 @@ export const programmes = [
                 id: 'common_subject_11',
               },
               {
-                id: 'common_subject_8',
+                id: 'common_subject_51',
               },
               {
-                id: 'common_subject_20',
+                id: 'common_subject_55',
               },
               {
-                id: 'common_subject_7',
+                id: 'common_subject_53',
               },
               {
                 id: 'common_subject_18',
@@ -2071,7 +2032,7 @@ export const programmes = [
                 id: 'study_specialization_subject_8',
               },
               {
-                id: 'study_specialization_subject_15',
+                id: 'study_specialization_subject_14',
               },
               {
                 id: 'study_specialization_subject_11',
@@ -2166,7 +2127,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_52',
+                id: 'programme_subject_62',
               },
               {
                 id: 'programme_subject_53',

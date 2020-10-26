@@ -30,6 +30,7 @@ const MastheadSearch = ({
   ndlaFilm,
   history,
   subject,
+  filterIds,
 }) => {
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
@@ -77,18 +78,6 @@ const MastheadSearch = ({
     setQuery('');
   };
 
-  const onSearch = evt => {
-    evt.preventDefault();
-
-    history.push({
-      pathname: '/search',
-      search: `?${queryString.stringify({
-        query: query.length > 0 ? query : undefined,
-        subjects,
-      })}`,
-    });
-  };
-
   const onNavigate = () => {
     setQuery('');
     if (closeModal) {
@@ -115,7 +104,17 @@ const MastheadSearch = ({
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
     subjects,
+    levels: subjects ? filterIds || undefined : undefined,
   });
+
+  const onSearch = evt => {
+    evt.preventDefault();
+
+    history.push({
+      pathname: '/search',
+      search: `?${searchString}`,
+    });
+  };
 
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
 
@@ -163,6 +162,7 @@ MastheadSearch.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  filterIds: PropTypes.string,
   hideOnNarrowScreen: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

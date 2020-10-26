@@ -1,8 +1,12 @@
-import { FRONTPAGE_CATEGORIES } from '../constants';
+import {
+  commonSubjects,
+  programmeSubjects,
+  studySpecializationSubjects,
+} from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
 
 const createSubjectFilterPath = subject => {
-  const baseUrl = `/${removeUrn(subject.id)}/`;
+  const baseUrl = `/${removeUrn(subject.subjectId)}/`;
   if (subject.filters) {
     const filterIds = subject.filters.join(',');
     return `${baseUrl}?filters=${filterIds}`;
@@ -10,41 +14,34 @@ const createSubjectFilterPath = subject => {
   return baseUrl;
 };
 
-export const searchSubjects = query => {
-  const allOfThem = FRONTPAGE_CATEGORIES.categories.reduce(
-    (accumulated, category) => {
-      if (!query) {
-        return [];
-      }
-
-      query = query.trim().toLowerCase();
-      const foundInSubjects = category.subjects.filter(subject =>
-        subject.name.toLowerCase().includes(query),
-      );
-
-      return [
-        ...accumulated,
-        ...foundInSubjects.map(subject => {
-          const path = createSubjectFilterPath(subject);
-          return {
-            id: subject.id,
-            path: path,
-            subject: `${category.name
-              .charAt(0)
-              .toUpperCase()}${category.name.slice(1)}:`,
-            name: subject.name,
-          };
-        }),
-      ];
-    },
-    [],
-  );
-
-  return allOfThem;
+const categories = {
+  common: 'Fellesfag',
+  programme: 'Yrkesfag',
+  study: 'Studiespesialiserende',
 };
 
-export const mapSearchToFrontPageStructure = (data, t, query) => {
-  const subjectHits = searchSubjects(query);
+export const searchSubjects = (query, locale = 'nb') => {
+  if (!query) {
+    return [];
+  }
+  query = query.trim().toLowerCase();
+
+  const foundInSubjects = [
+    ...commonSubjects,
+    ...programmeSubjects,
+    ...studySpecializationSubjects,
+  ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
+
+  return foundInSubjects.map(subject => ({
+    id: subject.id,
+    path: createSubjectFilterPath(subject),
+    subject: categories[subject.id.split('_')[0]],
+    name: subject.longName[locale],
+  }));
+};
+
+export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
+  const subjectHits = searchSubjects(query, locale);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',

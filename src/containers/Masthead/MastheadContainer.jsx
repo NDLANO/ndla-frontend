@@ -112,11 +112,12 @@ const MastheadContainer = ({
     resource,
   } = state;
 
+  const filterIds = getFiltersFromUrl(location);
   const breadcrumbBlockItems = subject?.id
     ? toBreadcrumbItems(
         t('breadcrumb.toFrontpage'),
         [subject, ...topicPath, resource],
-        getFiltersFromUrl(location),
+        filterIds,
       )
     : [];
 
@@ -125,6 +126,7 @@ const MastheadContainer = ({
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
+        filterIds={filterIds}
         ndlaFilm={ndlaFilm}
         hideOnNarrowScreen={hideOnNarrowScreen}
       />

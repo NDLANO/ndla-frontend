@@ -38,7 +38,6 @@ const SubjectPageContent = ({
       url: toTopic(subject.id, filterIds, topic.id),
     };
   });
-  console.log(topics);
 
   return (
     <>

@@ -282,6 +282,7 @@ export const resourceInfoFragment = gql`
     paths
     filters {
       id
+      name
       subjectId
     }
     resourceTypes {
@@ -914,6 +915,10 @@ export const resourcePageQuery = gql`
       id
       name
       path
+      filters {
+        id
+        name
+      }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }

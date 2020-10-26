@@ -39,14 +39,13 @@ const SubTopic = ({
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data =>
-      setBreadCrumb(
-        {
-          id: data.topic.id,
-          label: data.topic.name,
-        },
-        index,
-      ),
+    onCompleted: data => {
+      setBreadCrumb({
+        id: data.topic.id,
+        label: data.topic.name,
+        index: index,
+      });
+    },
   });
 
   if (loading) {
@@ -54,12 +53,19 @@ const SubTopic = ({
   }
 
   const topic = data.topic;
-  const subTopics = topic.subtopics.map(item => ({
-    id: item.id,
-    label: item.name,
-    selected: item.id === subSubTopicId,
-    url: toTopic(subjectId, filterIds, ...topics, item.id),
-  }));
+  const topicpath = topic.path
+    .split('/')
+    .slice(2)
+    .map(id => `urn:${id}`);
+  const subTopics = topic.subtopics.map(item => {
+    const path = [...topicpath, item.id];
+    return {
+      id: item.id,
+      label: item.name,
+      selected: item.id === subSubTopicId,
+      url: toTopic(subjectId, filterIds, ...path),
+    };
+  });
   const resourceTypes = data.resourceTypes;
   const filterParam = filterIds ? `?filters=${filterIds}` : ';';
   const copyPageUrlLink =

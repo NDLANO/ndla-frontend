@@ -15,7 +15,7 @@ import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ResourceShape } from '../shapes';
+import { ResourceShape, ArticleShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
@@ -38,11 +38,13 @@ class IframeArticlePage extends Component {
   }
 
   componentDidMount() {
-    fetchResource(fetchResourceId(this.props)).then(resource => {
-      this.setState({
-        path: resource.path || resource.paths?.[0],
-      });
-    });
+    fetchResource(fetchResourceId(this.props), this.props.locale)
+      .then(resource => {
+        this.setState({
+          path: resource.path || resource.paths?.[0],
+        });
+      })
+      .catch(error => {});
   }
 
   static willTrackPageView(trackPageView, currentProps) {
@@ -68,7 +70,7 @@ class IframeArticlePage extends Component {
   }
   render() {
     const { resource, locale, location } = this.props;
-    const article = transformArticle(resource.article, locale);
+    const article = transformArticle(this.props.article, locale);
     const scripts = getArticleScripts(article);
     const contentUrl = this.state.path
       ? `${config.ndlaFrontendDomain}/subjects${this.state.path}`
@@ -112,6 +114,7 @@ class IframeArticlePage extends Component {
 IframeArticlePage.propTypes = {
   locale: PropTypes.string.isRequired,
   resource: ResourceShape,
+  article: ArticleShape,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

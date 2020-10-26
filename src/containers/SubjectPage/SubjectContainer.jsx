@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import {
@@ -30,6 +30,7 @@ import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+import { toSubjects } from '../../routeHelpers';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -63,6 +64,27 @@ const SubjectPage = ({
   const [currentLevel, setCurrentLevel] = useState(0);
   const [breadCrumbList, setBreadCrumbList] = useState([]);
 
+  useEffect(() => {
+    const lowermostId = topics[topics.length - 1];
+    const lowermost =
+      subject.allTopics.find(topic => topic.id === lowermostId) || subject;
+    const subjectFilters = lowermost?.filters?.filter(f =>
+      subject.filters?.map(f2 => f2.id).includes(f.id),
+    );
+    const filters = activeFilterId || subjectFilters?.[0]?.id;
+    const filterParam = filters ? `?filters=${filters}` : '';
+    const path = parseAndMatchUrl(location.pathname, true);
+    if (path) {
+      history.replace({ pathname: path.url, search: filterParam });
+    } else {
+      // no topics in path
+      history.replace({
+        pathname: toSubjects() + subject.path,
+        search: filterParam,
+      });
+    }
+  }, []);
+
   /* const [programme] = useState(() => {
     const programmeData = {
       name: data?.subject?.name,
@@ -82,6 +104,7 @@ const SubjectPage = ({
     );
     if (subjectData) {
       return {
+        subHeading: undefined,
         name: subjectData.name[locale],
         longName: subjectData.longName[locale],
       };
@@ -92,8 +115,9 @@ const SubjectPage = ({
         ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
         : '';
     return {
+      subHeading: subjectName,
       name: subjectName,
-      longName: `${subjectName} ${filterString}`,
+      longName: `${filterString}`,
     };
   });
 
@@ -115,20 +139,24 @@ const SubjectPage = ({
           },
         ]
       : []),
-    ...breadCrumbList.map((crumb, index) => ({
-      ...crumb,
-      index,
-      isCurrent: currentLevel === index,
-      typename: index > 0 ? 'Subtopic' : 'Topic',
-    })),
+    ...(breadCrumbList.length > 0
+      ? breadCrumbList.map(crumb => ({
+          ...crumb,
+          isCurrent: currentLevel === crumb.index,
+          typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+        }))
+      : []),
   ];
-  console.log(breadCrumbs);
-  console.log(currentLevel);
 
-  const setBreadCrumb = (topic, index) => {
-    setCurrentLevel(index);
-    const breadcrumbs = breadCrumbList.slice(0, index);
-    breadcrumbs[index] = topic;
+  const setBreadCrumb = topic => {
+    setCurrentLevel(topic.index);
+    const breadcrumbs = breadCrumbList.filter(
+      b =>
+        b.typename === 'Subjecttype' ||
+        b.typename === 'Subject' ||
+        topics.includes(b.id),
+    );
+    breadcrumbs.push(topic);
     setBreadCrumbList(breadcrumbs);
   };
 
@@ -149,14 +177,9 @@ const SubjectPage = ({
 
   const onClickTopics = e => {
     e.preventDefault();
-    const lowermostId = topics[topics.length - 1];
-    const lowermost = subject.allTopics.find(topic => topic.id === lowermostId);
-    const filterParam =
-      lowermost?.filters?.length && !getFiltersFromUrl(location)
-        ? `?filters=${lowermost.filters[0].id}`
-        : `?filters=${getFiltersFromUrl(location)}`;
-    const path = parseAndMatchUrl(e.currentTarget.href);
-    history.replace(`${path.url}${filterParam}`);
+    const filterParam = activeFilterId ? `?filters=${activeFilterId}` : '';
+    const path = parseAndMatchUrl(e.currentTarget.href, true);
+    history.replace({ pathname: path.url, search: filterParam });
   };
 
   // show/hide breadcrumb based on intersection
@@ -193,7 +216,9 @@ const SubjectPage = ({
               />
             )}
             <div ref={headerRef}>
-              <NavigationHeading invertedStyle={ndlaFilm}>
+              <NavigationHeading
+                subHeading={subjectNames.subHeading}
+                invertedStyle={ndlaFilm}>
                 {subjectNames.longName}
               </NavigationHeading>
             </div>

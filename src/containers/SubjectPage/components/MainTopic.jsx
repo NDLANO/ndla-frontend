@@ -39,14 +39,13 @@ const MainTopic = ({
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data =>
-      setBreadCrumb(
-        {
-          id: data.topic.id,
-          label: data.topic.name,
-        },
-        index,
-      ),
+    onCompleted: data => {
+      setBreadCrumb({
+        id: data.topic.id,
+        label: data.topic.name,
+        index: index,
+      });
+    },
   });
 
   if (loading) {
