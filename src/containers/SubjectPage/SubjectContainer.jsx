@@ -31,6 +31,7 @@ import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { toSubjects } from '../../routeHelpers';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -276,6 +277,14 @@ SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
   if (data?.subject?.topics?.length > 0) {
     trackPageView(currentProps);
   }
+};
+
+SubjectPage.getDimensions = props => {
+  const { data, topics } = props;
+  const topicPath = topics.map(t =>
+    data.subject.allTopics.find(topic => topic.id === t),
+  );
+  return getAllDimensions({ subject: data.subject, topicPath });
 };
 
 SubjectPage.propTypes = {
