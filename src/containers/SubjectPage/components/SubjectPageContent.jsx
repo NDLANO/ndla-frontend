@@ -49,22 +49,22 @@ const SubjectPageContent = ({
         }}
       />
       {topics.map((t, index) => {
-          return (
-            <div ref={refs[index]}>
-              <Topic
-                topicId={topics[index]}
-                subjectId={subject.id}
-                filterIds={filterIds}
-                setBreadCrumb={setBreadCrumb}
-                showResources={!(index === 0 && topics[index + 1])}
-                subTopicId={topics[index + 1]}
-                locale={locale}
-                ndlaFilm={ndlaFilm}
-                onClickTopics={onClickTopics}
-                index={index}
-              />
-            </div>
-          );
+        return (
+          <div ref={refs[index]}>
+            <Topic
+              topicId={topics[index]}
+              subjectId={subject.id}
+              filterIds={filterIds}
+              setBreadCrumb={setBreadCrumb}
+              showResources={!(index === 0 && topics[index + 1])}
+              subTopicId={topics[index + 1]}
+              locale={locale}
+              ndlaFilm={ndlaFilm}
+              onClickTopics={onClickTopics}
+              index={index}
+            />
+          </div>
+        );
       })}
     </>
   );

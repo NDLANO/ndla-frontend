@@ -151,12 +151,15 @@ const SubjectPage = ({
 
   const setBreadCrumb = topic => {
     setCurrentLevel(topic.index);
-    setBreadCrumbList(prevState => [...prevState.filter(
-      b =>
-        b.typename === 'Subjecttype' ||
-        b.typename === 'Subject' ||
-        topics.includes(b.id),
-    ), topic]);
+    setBreadCrumbList(prevState => [
+      ...prevState.filter(
+        b =>
+          b.typename === 'Subjecttype' ||
+          b.typename === 'Subject' ||
+          topics.includes(b.id),
+      ),
+      topic,
+    ]);
   };
 
   const headerRef = useRef(null);
@@ -195,9 +198,11 @@ const SubjectPage = ({
 
   const socialMediaMetadata = {
     title: topicPath[topicPath.length - 1].name || about.title,
-    description: topicPath[topicPath.length - 1].meta.metaDescription || metaDescription,
-    image: topicPath[topicPath.length - 1].meta.metaImage || about.visualElement,
-  }
+    description:
+      topicPath[topicPath.length - 1].meta.metaDescription || metaDescription,
+    image:
+      topicPath[topicPath.length - 1].meta.metaImage || about.visualElement,
+  };
 
   return (
     <>

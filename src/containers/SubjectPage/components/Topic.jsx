@@ -53,7 +53,10 @@ const Topic = ({
   }
 
   const topic = data.topic;
-  const topicPath = topic.path.split('/').slice(2).map(id => `urn:${id}`);
+  const topicPath = topic.path
+    .split('/')
+    .slice(2)
+    .map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
