@@ -1329,10 +1329,10 @@
     "@ndla/util" "^0.4.0"
     raven-js "^3.22.3"
 
-"@ndla/hooks@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.15.tgz#a633ba086dc7c4647d236e9f51532e6978e6f25e"
-  integrity sha512-nKR0mwL1hCffmGnoLbo4PU1ClVYqOhvOO21+A11/Syo/tRUIVsRAe+u/ysixu5Rq4bVmm2tlUz7E9TNJn6ZQ9g==
+"@ndla/hooks@^0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.16.tgz#99d79d9783bcc46c474b3e05a4d0c6541eb3b7d2"
+  integrity sha512-zOU9+5PKzAxowWSqZGLEfgnywCQOVRj08m04y8VtcckW8+ebEYj0jEgPZPzYuDKf1GALnEd3eHxQDHkyVG6HdA==
   dependencies:
     "@ndla/util" "^0.4.4"
     lodash "^4.17.20"
@@ -1435,15 +1435,15 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.28.0":
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.28.0.tgz#1383ef1e2c146adb7d612b083b49dad1000db08b"
-  integrity sha512-AMekzJP8JqQpcYTduyE6HHvHagIDw6tFtZiEmNcxhfkdUkaUXTT+zceMaL+u9d07bOkRn2lLwaclFOFT0mnGzA==
+"@ndla/ui@^0.28.2":
+  version "0.28.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.28.2.tgz#4785d2b8e1244e1fec473106bd5c25d639645d09"
+  integrity sha512-1AKmqYizJmTTm057VTM73k/Oj4iA/TCdYFDHGnDm45asP3Od8nLn4bNbCU65Xb+VIHqkKtUYtd78Y0gVGyS81g==
   dependencies:
     "@ndla/button" "^0.3.40"
     "@ndla/carousel" "^0.3.30"
     "@ndla/core" "^0.6.30"
-    "@ndla/hooks" "^0.1.15"
+    "@ndla/hooks" "^0.1.16"
     "@ndla/i18n" "^0.5.1"
     "@ndla/icons" "^0.6.25"
     "@ndla/licenses" "^0.6.36"
@@ -3258,12 +3258,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001036:
-  version "1.0.30001150"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001150.tgz"
-  integrity sha512-kiNKvihW0m36UhAFnl7bOAv0i1K1f6wpfVtTF5O5O82XzgtBnb05V0XeV3oZ968vfg2sRNChsHw8ASH2hDfoYQ==
-
-caniuse-lite@^1.0.30001043:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001036, caniuse-lite@^1.0.30001043:
   version "1.0.30001150"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001150.tgz"
   integrity sha512-kiNKvihW0m36UhAFnl7bOAv0i1K1f6wpfVtTF5O5O82XzgtBnb05V0XeV3oZ968vfg2sRNChsHw8ASH2hDfoYQ==
