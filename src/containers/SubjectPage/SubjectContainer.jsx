@@ -188,6 +188,17 @@ const SubjectPage = ({
   });
   const showBreadCrumb = entry && entry.isIntersecting;
   const moveBannerUp = !topics.length;
+
+  const topicPath = topics.map(t =>
+    data.subject.allTopics.find(topic => topic.id === t),
+  );
+
+  const socialMediaMetadata = {
+    title: topicPath[topicPath.length - 1].name || about.title,
+    description: topicPath[topicPath.length - 1].meta.metaDescription || metaDescription,
+    image: topicPath[topicPath.length - 1].meta.metaImage || about.visualElement,
+  }
+
   return (
     <>
       <Helmet>
@@ -203,13 +214,13 @@ const SubjectPage = ({
           <LayoutItem layout="extend">
             {about && (
               <SocialMediaMetadata
-                title={about.title}
-                description={metaDescription}
+                title={socialMediaMetadata.title}
+                description={socialMediaMetadata.description}
                 locale={locale}
                 image={
-                  about.visualElement && {
-                    url: about.visualElement.url,
-                    altText: about.visualElement.alt,
+                  socialMediaMetadata.image && {
+                    url: socialMediaMetadata.image.url,
+                    altText: socialMediaMetadata.image.alt,
                   }
                 }
               />
