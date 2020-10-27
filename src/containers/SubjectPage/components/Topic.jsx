@@ -23,7 +23,6 @@ const Topic = ({
   topicId,
   subjectId,
   filterIds,
-  showResources,
   locale,
   subTopicId,
   ndlaFilm,
@@ -97,14 +96,12 @@ const Topic = ({
           }}
         />
       )}
-      {showResources && (
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
           locale={locale}
           ndlaFilm={ndlaFilm}
         />
-      )}
     </>
   );
 };
@@ -114,7 +111,6 @@ Topic.propTypes = {
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
-  showResources: PropTypes.bool,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,

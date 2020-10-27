@@ -56,7 +56,6 @@ const SubjectPageContent = ({
               subjectId={subject.id}
               filterIds={filterIds}
               setBreadCrumb={setBreadCrumb}
-              showResources={!(index === 0 && topics[index + 1])}
               subTopicId={topics[index + 1]}
               locale={locale}
               ndlaFilm={ndlaFilm}
