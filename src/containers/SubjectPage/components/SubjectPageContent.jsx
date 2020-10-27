@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
 import { GraphQLSubjectShape } from '../../../graphqlShapes';
-import MainTopic from './MainTopic';
-import SubTopic from './SubTopic';
+import Topic from './Topic';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 
@@ -50,15 +49,14 @@ const SubjectPageContent = ({
         }}
       />
       {topics.map((t, index) => {
-        if (index === 0) {
           return (
             <div ref={refs[index]}>
-              <MainTopic
-                topicId={topics[0]}
+              <Topic
+                topicId={topics[index]}
                 subjectId={subject.id}
                 filterIds={filterIds}
                 setBreadCrumb={setBreadCrumb}
-                showResources={!topics[index + 1]}
+                showResources={!(index === 0 && topics[index + 1])}
                 subTopicId={topics[index + 1]}
                 locale={locale}
                 ndlaFilm={ndlaFilm}
@@ -67,26 +65,6 @@ const SubjectPageContent = ({
               />
             </div>
           );
-        } else {
-          return (
-            <div ref={refs[index]}>
-              <SubTopic
-                topicId={t}
-                subjectId={subject.id}
-                filterIds={filterIds}
-                setBreadCrumb={setBreadCrumb}
-                locale={locale}
-                ndlaFilm={ndlaFilm}
-                subSubTopicId={
-                  topics[index + 1] ? topics[index + 1] : undefined
-                }
-                onClickTopics={onClickTopics}
-                index={index}
-                topics={topics}
-              />
-            </div>
-          );
-        }
       })}
     </>
   );

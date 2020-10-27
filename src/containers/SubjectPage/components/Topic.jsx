@@ -19,7 +19,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 
-const MainTopic = ({
+const Topic = ({
   topicId,
   subjectId,
   filterIds,
@@ -53,12 +53,13 @@ const MainTopic = ({
   }
 
   const topic = data.topic;
+  const topicPath = topic.path.split('/').slice(2).map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
-    url: toTopic(subjectId, filterIds, topicId, item.id),
+    url: toTopic(subjectId, filterIds, ...topicPath, item.id),
   }));
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
   const copyPageUrlLink =
@@ -105,7 +106,7 @@ const MainTopic = ({
   );
 };
 
-MainTopic.propTypes = {
+Topic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
@@ -120,4 +121,4 @@ MainTopic.propTypes = {
   index: PropTypes.number,
 };
 
-export default MainTopic;
+export default Topic;
