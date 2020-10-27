@@ -197,11 +197,11 @@ const SubjectPage = ({
   );
 
   const socialMediaMetadata = {
-    title: topicPath[topicPath.length - 1].name || about.title,
+    title: topicPath[topicPath.length - 1]?.name || about.title,
     description:
-      topicPath[topicPath.length - 1].meta.metaDescription || metaDescription,
+      topicPath[topicPath.length - 1]?.meta.metaDescription || metaDescription,
     image:
-      topicPath[topicPath.length - 1].meta.metaImage || about.visualElement,
+      topicPath[topicPath.length - 1]?.meta.metaImage || about.visualElement,
   };
 
   return (
