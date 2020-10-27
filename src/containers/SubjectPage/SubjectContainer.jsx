@@ -151,14 +151,12 @@ const SubjectPage = ({
 
   const setBreadCrumb = topic => {
     setCurrentLevel(topic.index);
-    const breadcrumbs = breadCrumbList.filter(
+    setBreadCrumbList(prevState => [...prevState.filter(
       b =>
         b.typename === 'Subjecttype' ||
         b.typename === 'Subject' ||
         topics.includes(b.id),
-    );
-    breadcrumbs.push(topic);
-    setBreadCrumbList(breadcrumbs);
+    ), topic]);
   };
 
   const headerRef = useRef(null);
