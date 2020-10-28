@@ -52,7 +52,7 @@ const SubjectPageContent = ({
         return (
           <div ref={refs[index]}>
             <Topic
-              topicId={topics[index]}
+              topicId={t}
               subjectId={subject.id}
               filterIds={filterIds}
               setBreadCrumb={setBreadCrumb}
@@ -61,6 +61,7 @@ const SubjectPageContent = ({
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
               index={index}
+              showResources={!topics[index + 1]}
             />
           </div>
         );

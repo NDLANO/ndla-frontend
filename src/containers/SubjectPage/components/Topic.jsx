@@ -29,6 +29,7 @@ const Topic = ({
   onClickTopics,
   setBreadCrumb,
   index,
+  showResources,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -96,12 +97,12 @@ const Topic = ({
           }}
         />
       )}
-        <Resources
+      {(showResources && <Resources
           topic={topic}
           resourceTypes={resourceTypes}
           locale={locale}
           ndlaFilm={ndlaFilm}
-        />
+        />)}
     </>
   );
 };
@@ -118,6 +119,7 @@ Topic.propTypes = {
   toSubjects: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
+  showResources: PropTypes.bool,
 };
 
 export default Topic;
