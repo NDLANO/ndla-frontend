@@ -154,9 +154,10 @@ const SubjectPage = ({
     setBreadCrumbList(prevState => [
       ...prevState.filter(
         b =>
-          b.typename === 'Subjecttype' ||
+          b.id.localeCompare(topic.id) !== 0 &&
+          (b.typename === 'Subjecttype' ||
           b.typename === 'Subject' ||
-          topics.includes(b.id),
+          topics.includes(b.id)),
       ),
       topic,
     ]);
