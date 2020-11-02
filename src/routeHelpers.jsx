@@ -34,7 +34,9 @@ export function getUrnIdsFromProps(props) {
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
   const topicList = topics.map(t => `urn:${t}`);
-  const topicId = params?.topicId || topicList[topicList.length - 1];
+  const topicId = params.topicId
+    ? `urn:${params.topicId}`
+    : topicList[topicList.length - 1];
 
   return {
     subjectId,

@@ -357,7 +357,7 @@ export const ALLOWED_SUBJECTS = [
 
 export const NOT_FOUND_PAGE_PATH = '/404';
 export const RESOURCE_PAGE_PATH =
-  '/subjects/:subjectId/:topicPath*/resource\\::resourceId/:stepId?';
+  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SEARCH_PATH = '/search(.*)';
 export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
