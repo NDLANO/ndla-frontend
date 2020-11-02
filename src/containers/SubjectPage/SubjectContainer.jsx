@@ -156,8 +156,8 @@ const SubjectPage = ({
         b =>
           b.id.localeCompare(topic.id) !== 0 &&
           (b.typename === 'Subjecttype' ||
-          b.typename === 'Subject' ||
-          topics.includes(b.id)),
+            b.typename === 'Subject' ||
+            topics.includes(b.id)),
       ),
       topic,
     ]);
