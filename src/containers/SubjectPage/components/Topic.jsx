@@ -97,12 +97,14 @@ const Topic = ({
           }}
         />
       )}
-      {(showResources && <Resources
+      {showResources && (
+        <Resources
           topic={topic}
           resourceTypes={resourceTypes}
           locale={locale}
           ndlaFilm={ndlaFilm}
-        />)}
+        />
+      )}
     </>
   );
 };
