@@ -80,7 +80,7 @@ export const getAllDimensions = (
   const dimensions = {
     4: contentTypeLabel,
     5: subject ? subject.name : undefined,
-    6: topicPath ? [0]?.name : undefined,
+    6: topicPath[0]?.name || undefined,
     7:
       topicPath && topicPath[1]
         ? topicPath[topicPath.length - 1].name
