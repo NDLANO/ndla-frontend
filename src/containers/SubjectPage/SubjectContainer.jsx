@@ -47,7 +47,6 @@ const SubjectPage = ({
   topics,
   data,
   ndlaFilm,
-  loading,
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
@@ -293,8 +292,8 @@ const SubjectPage = ({
 SubjectPage.getDocumentTitle = getDocumentTitle;
 
 SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
-  const { data, loading } = currentProps;
-  if (!loading && data?.subject?.topics?.length > 0) {
+  const { data, loading, topics } = currentProps;
+  if (!loading && data?.subject?.topics?.length > 0 && topics?.length === 0) {
     trackPageView(currentProps);
   }
 };
