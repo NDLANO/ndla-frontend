@@ -47,6 +47,7 @@ const TopicWrapper = ({
       onClickTopics={onClickTopics}
       showResources={showResources}
       subject={subject}
+      loading={loading}
     />
   );
 };

@@ -138,6 +138,7 @@ Topic.propTypes = {
   showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,
   data: GraphQLTopicShape,
+  loading: PropTypes.bool,
 };
 
 export default injectT(withTracker(Topic));
