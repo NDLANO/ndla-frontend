@@ -47,6 +47,7 @@ const SubjectPage = ({
   topics,
   data,
   ndlaFilm,
+  loading,
 }) => {
   const { subject = {} } = data;
   const { name: subjectName } = subject;
@@ -72,17 +73,21 @@ const SubjectPage = ({
     const subjectFilters = lowermost?.filters?.filter(f =>
       subject.filters?.map(f2 => f2.id).includes(f.id),
     );
-    const filters = activeFilterId || subjectFilters?.[0]?.id;
+    const selectedFilter = subjectFilters?.[0]?.id;
+    const filters = activeFilterId || selectedFilter;
     const filterParam = filters ? `?filters=${filters}` : '';
     const path = parseAndMatchUrl(location.pathname, true);
-    if (path) {
-      history.replace({ pathname: path.url, search: filterParam });
-    } else {
-      // no topics in path
-      history.replace({
-        pathname: toSubjects() + subject.path,
-        search: filterParam,
-      });
+    const shouldReload = !activeFilterId && selectedFilter;
+    if (shouldReload) {
+      if (path) {
+        history.replace({ pathname: path.url, search: filterParam });
+      } else {
+        // no topics in path
+        history.replace({
+          pathname: toSubjects() + subject.path,
+          search: filterParam,
+        });
+      }
     }
   }, []);
 
@@ -288,8 +293,8 @@ const SubjectPage = ({
 SubjectPage.getDocumentTitle = getDocumentTitle;
 
 SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
-  const { data } = currentProps;
-  if (data?.subject?.topics?.length > 0) {
+  const { data, loading } = currentProps;
+  if (!loading && data?.subject?.topics?.length > 0) {
     trackPageView(currentProps);
   }
 };
@@ -321,6 +326,7 @@ SubjectPage.propTypes = {
     subject: GraphQLSubjectShape,
   }),
   topics: PropTypes.arrayOf(PropTypes.string),
+  loading: PropTypes.bool,
 };
 
 export default injectT(withTracker(SubjectPage));

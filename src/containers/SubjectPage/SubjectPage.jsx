@@ -67,6 +67,7 @@ const SubjectPage = ({
       subjectId={subjectId}
       topics={topicList}
       data={data}
+      loading={loading}
     />
   );
 };
