@@ -5,19 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import Spinner from '@ndla/ui/lib/Spinner';
-
-import { topicQuery } from '../../../queries';
-import { useGraphQuery } from '../../../util/runQueries';
+import { injectT } from '@ndla/i18n';
+import { withTracker } from '@ndla/tracker';
 import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
+
+const getDocumentTitle = ({ t, data }) => {
+  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+};
 
 const Topic = ({
   topicId,
@@ -27,30 +30,13 @@ const Topic = ({
   subTopicId,
   ndlaFilm,
   onClickTopics,
-  setBreadCrumb,
-  index,
   showResources,
+  data,
 }) => {
   const [showContent, setShowContent] = useState(false);
-
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
-
-  const { data, loading } = useGraphQuery(topicQuery, {
-    variables: { topicId, subjectId, filterIds },
-    onCompleted: data => {
-      setBreadCrumb({
-        id: data.topic.id,
-        label: data.topic.name,
-        index: index,
-      });
-    },
-  });
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   const topic = data.topic;
   const topicPath = topic.path
@@ -109,6 +95,34 @@ const Topic = ({
   );
 };
 
+Topic.getDocumentTitle = getDocumentTitle;
+
+Topic.willTrackPageView = (trackPageView, currentProps) => {
+  const { data, loading, showResources } = currentProps;
+  if (showResources && !loading && data?.topic?.article) {
+    trackPageView(currentProps);
+  }
+};
+
+Topic.getDimensions = props => {
+  const { data, subject } = props;
+  const topicPath = data.topic.path
+    .split('/')
+    .slice(2)
+    .map(t =>
+      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+    );
+  return getAllDimensions(
+    {
+      subject: subject,
+      topicPath,
+      article: data.topic.article,
+    },
+    undefined,
+    true,
+  );
+};
+
 Topic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
@@ -122,6 +136,8 @@ Topic.propTypes = {
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   showResources: PropTypes.bool,
+  subject: GraphQLSubjectShape,
+  data: GraphQLTopicShape,
 };
 
-export default Topic;
+export default injectT(withTracker(Topic));

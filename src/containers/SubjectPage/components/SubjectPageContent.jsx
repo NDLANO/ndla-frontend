@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
 import { GraphQLSubjectShape } from '../../../graphqlShapes';
-import Topic from './Topic';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
+import TopicWrapper from './TopicWrapper';
 
 const SubjectPageContent = ({
   subject,
@@ -50,8 +50,8 @@ const SubjectPageContent = ({
       />
       {topics.map((t, index) => {
         return (
-          <div ref={refs[index]}>
-            <Topic
+          <div ref={refs[index]} key={index}>
+            <TopicWrapper
               topicId={t}
               subjectId={subject.id}
               filterIds={filterIds}
@@ -62,6 +62,7 @@ const SubjectPageContent = ({
               onClickTopics={onClickTopics}
               index={index}
               showResources={!topics[index + 1]}
+              subject={subject}
             />
           </div>
         );
