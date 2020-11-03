@@ -78,7 +78,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
   );
 
   const infoText =
-    topicsNotInNDLA.length > 0 && delayedSearchQuery.length > 2
+    topicsNotInNDLA.length > 0 && delayedSearchQuery.length >= 2
       ? renderInfoText()
       : '';
 
@@ -98,7 +98,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       searchFieldPlaceholder={t('welcomePage.heading.searchFieldPlaceholder')}
       searchResult={
         searchResult &&
-        delayedSearchQuery.length > 2 &&
+        delayedSearchQuery.length >= 2 &&
         mapSearchToFrontPageStructure(
           searchResult,
           t,
