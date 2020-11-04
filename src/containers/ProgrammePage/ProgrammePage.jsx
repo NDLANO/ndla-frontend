@@ -24,7 +24,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {
       const categoryData = { name: category.name ? category.name[locale] : '' };
-      categoryData.subjects = category.subjects.map(subject => {
+      const subjects = category.subjects.map(subject => {
         const subjectInfo = getSubjectById(subject.id);
         const subjectData = {};
         if (subjectInfo) {
@@ -42,6 +42,8 @@ const mapGradesData = (grades, locale, programmeSlug) => {
 
         return subjectData;
       });
+      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
+      categoryData.subjects = subjects;
       return categoryData;
     });
     return data;
