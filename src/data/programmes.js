@@ -56,6 +56,9 @@ export const programmes = [
               {
                 id: 'common_subject_41',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -84,6 +87,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_14',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -151,6 +157,9 @@ export const programmes = [
               {
                 id: 'common_subject_45',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -179,6 +188,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_14',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -240,6 +252,9 @@ export const programmes = [
               {
                 id: 'common_subject_46',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -299,6 +314,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_49',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -369,6 +387,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_29',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -441,6 +462,9 @@ export const programmes = [
               {
                 id: 'common_subject_14',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -507,6 +531,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_50',
+              },
+              {
+                id: 'study_specialization_subject_23',
               },
             ],
           },
@@ -716,6 +743,9 @@ export const programmes = [
               {
                 id: 'common_subject_43',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -785,6 +815,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_50',
+              },
+              {
+                id: 'study_specialization_subject_23',
               },
             ],
           },
@@ -1011,6 +1044,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_50',
+              },
+              {
+                id: 'study_specialization_subject_23',
               },
             ],
           },
@@ -1252,6 +1288,9 @@ export const programmes = [
               {
                 id: 'common_subject_50',
               },
+              {
+                id: 'study_specialization_subject_23',
+              },
             ],
           },
         ],
@@ -1451,6 +1490,9 @@ export const programmes = [
               {
                 id: 'common_subject_42',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -1479,6 +1521,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_14',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -1625,6 +1670,9 @@ export const programmes = [
               {
                 id: 'common_subject_30',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -1671,6 +1719,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_14',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -1740,6 +1791,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_44',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },
@@ -1843,6 +1897,9 @@ export const programmes = [
               {
                 id: 'common_subject_14',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -1911,6 +1968,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_50',
+              },
+              {
+                id: 'study_specialization_subject_23',
               },
             ],
           },
@@ -2112,6 +2172,9 @@ export const programmes = [
               {
                 id: 'common_subject_40',
               },
+              {
+                id: 'common_subject_62',
+              },
             ],
           },
         ],
@@ -2158,6 +2221,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_14',
+              },
+              {
+                id: 'common_subject_62',
               },
             ],
           },

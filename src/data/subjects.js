@@ -290,14 +290,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182'],
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
-      nb: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
-      nn: 'Åarjelsaemien voestesgïeline (SR Jåa2)',
+      en: 'Samisk som førstespråk (SF Vg2)',
+      nb: 'Samisk som førstespråk (SF Vg2)',
+      nn: 'Samisk som førstespråk (SF Vg2)',
     },
     name: {
-      en: 'Åarjelsaemien voestesgïeline',
-      nb: 'Åarjelsaemien voestesgïeline',
-      nn: 'Åarjelsaemien voestesgïeline',
+      en: 'Samisk som førstespråk',
+      nb: 'Samisk som førstespråk',
+      nn: 'Samisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_20',
@@ -305,14 +305,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22'],
     longName: {
-      en: 'Sørsamisk (YF Vg2)',
-      nb: 'Sørsamisk (YF Vg2)',
-      nn: 'Sørsamisk (YF Vg2)',
+      en: 'Samisk som førstespråk (YF)',
+      nb: 'Samisk som førstespråk (YF)',
+      nn: 'Samisk som førstespråk (YF)',
     },
     name: {
-      en: 'Sørsamisk',
-      nb: 'Sørsamisk',
-      nn: 'Sørsamisk',
+      en: 'Samisk som førstespråk',
+      nb: 'Samisk som førstespråk',
+      nn: 'Samisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_21',
@@ -740,14 +740,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
     longName: {
-      en: 'Sørsamisk (SF Vg1)',
-      nb: 'Sørsamisk (SF Vg1)',
-      nn: 'Sørsamisk (SF Vg1)',
+      en: 'Samisk som førstespråk (SF Vg1)',
+      nb: 'Samisk som førstespråk (SF Vg1)',
+      nn: 'Samisk som førstespråk (SF Vg1)',
     },
     name: {
-      en: 'Sørsamisk',
-      nb: 'Sørsamisk',
-      nn: 'Sørsamisk',
+      en: 'Samisk som førstespråk',
+      nb: 'Samisk som førstespråk',
+      nn: 'Samisk som førstespråk',
     },
     subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
     id: 'common_subject_50',
@@ -815,14 +815,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0'],
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
-      nb: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
-      nn: 'Åarjelsaemien voestesgïeline (SR Jåa3)',
+      en: 'Samisk som førstespråk (SF Vg3)',
+      nb: 'Samisk som førstespråk (SF Vg3)',
+      nn: 'Samisk som førstespråk (SF Vg3)',
     },
     name: {
-      en: 'Åarjelsaemien voestesgïeline',
-      nb: 'Åarjelsaemien voestesgïeline',
-      nn: 'Åarjelsaemien voestesgïeline',
+      en: 'Samisk som førstespråk',
+      nb: 'Samisk som førstespråk',
+      nn: 'Samisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_55',
@@ -830,14 +830,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:a532138d-e16a-4046-a46e-bd5bc9487b8b'],
     longName: {
-      en: 'Lissiebigkeme (PB Jåa3)',
-      nb: 'Lissiebigkeme (PB Jåa3)',
-      nn: 'Lissiebigkeme (PB Jåa3)',
+      en: 'Sørsamisk som førstespråk (PB)',
+      nb: 'Sørsamisk som førstespråk (PB)',
+      nn: 'Sørsamisk som førstespråk (PB)',
     },
     name: {
-      en: 'Lissiebigkeme',
-      nb: 'Lissiebigkeme',
-      nn: 'Lissiebigkeme',
+      en: 'Sørsamisk som førstespråk',
+      nb: 'Sørsamisk som førstespråk',
+      nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_56',
@@ -923,6 +923,21 @@ export const commonSubjects = [
     },
     subjectId: 'urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09',
     id: 'common_subject_61',
+  },
+  {
+    filters: ['urn:filter:962dd49d-72e8-4576-9efb-69d93a95402e'],
+    longName: {
+      en: 'Sørsamisk som andrespråk, samisk 4 (YF)',
+      nb: 'Sørsamisk som andrespråk, samisk 4 (YF)',
+      nn: 'Sørsamisk som andrespråk, samisk 4 (YF)',
+    },
+    name: {
+      en: 'Sørsamisk som andrespråk, samisk 4',
+      nb: 'Sørsamisk som andrespråk, samisk 4',
+      nn: 'Sørsamisk som andrespråk, samisk 4',
+    },
+    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
+    id: 'common_subject_62',
   },
 ];
 export const programmeSubjects = [
@@ -2086,6 +2101,21 @@ export const studySpecializationSubjects = [
     subjectId: 'urn:subject:1',
     id: 'study_specialization_subject_22',
   },
+  {
+    filters: ['urn:filter:f7c5f36a-198d-4c38-a330-2957cf1a8325'],
+    longName: {
+      en: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+      nb: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+      nn: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+    },
+    name: {
+      en: 'Sørsamisk som andrespråk, samisk 4',
+      nb: 'Sørsamisk som andrespråk, samisk 4',
+      nn: 'Sørsamisk som andrespråk, samisk 4',
+    },
+    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
+    id: 'study_specialization_subject_23',
+  },
 ];
 
 export const subjectsCategories = [
@@ -2099,7 +2129,7 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Programfag',
+      nb: 'Programfag yrkesfag',
       nn: 'Programfag',
       en: 'Programme subjects',
     },
@@ -2107,7 +2137,7 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Studieforberedende',
+      nb: 'Programfag studieforberedende',
       nn: 'Studieførebuande',
       en: 'Study specialization',
     },
