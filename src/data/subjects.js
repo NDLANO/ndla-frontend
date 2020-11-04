@@ -939,6 +939,21 @@ export const commonSubjects = [
     subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
     id: 'common_subject_62',
   },
+  {
+    filters: ['urn:filter:f7c5f36a-198d-4c38-a330-2957cf1a8325'],
+    longName: {
+      en: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+      nb: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+      nn: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
+    },
+    name: {
+      en: 'Sørsamisk som andrespråk, samisk 4',
+      nb: 'Sørsamisk som andrespråk, samisk 4',
+      nn: 'Sørsamisk som andrespråk, samisk 4',
+    },
+    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
+    id: 'common_subject_63',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -2101,21 +2116,6 @@ export const studySpecializationSubjects = [
     subjectId: 'urn:subject:1',
     id: 'study_specialization_subject_22',
   },
-  {
-    filters: ['urn:filter:f7c5f36a-198d-4c38-a330-2957cf1a8325'],
-    longName: {
-      en: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
-      nb: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
-      nn: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
-    },
-    name: {
-      en: 'Sørsamisk som andrespråk, samisk 4',
-      nb: 'Sørsamisk som andrespråk, samisk 4',
-      nn: 'Sørsamisk som andrespråk, samisk 4',
-    },
-    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
-    id: 'study_specialization_subject_23',
-  },
 ];
 
 export const subjectsCategories = [
@@ -2129,7 +2129,7 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Programfag yrkesfag',
+      nb: 'Programfag',
       nn: 'Programfag',
       en: 'Programme subjects',
     },
@@ -2137,7 +2137,7 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Programfag studieforberedende',
+      nb: 'Studieforberedende',
       nn: 'Studieførebuande',
       en: 'Study specialization',
     },
