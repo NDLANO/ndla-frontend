@@ -290,14 +290,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182'],
     longName: {
-      en: 'Samisk som førstespråk (SF Vg2)',
-      nb: 'Samisk som førstespråk (SF Vg2)',
-      nn: 'Samisk som førstespråk (SF Vg2)',
+      en: 'Sørsamisk som førstespråk (SF Vg2)',
+      nb: 'Sørsamisk som førstespråk (SF Vg2)',
+      nn: 'Sørsamisk som førstespråk (SF Vg2)',
     },
     name: {
-      en: 'Samisk som førstespråk',
-      nb: 'Samisk som førstespråk',
-      nn: 'Samisk som førstespråk',
+      en: 'Sørsamisk som førstespråk',
+      nb: 'Sørsamisk som førstespråk',
+      nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_20',
@@ -305,14 +305,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22'],
     longName: {
-      en: 'Samisk som førstespråk (YF)',
-      nb: 'Samisk som førstespråk (YF)',
-      nn: 'Samisk som førstespråk (YF)',
+      en: 'Sørsamisk som førstespråk (YF)',
+      nb: 'Sørsamisk som førstespråk (YF)',
+      nn: 'Sørsamisk som førstespråk (YF)',
     },
     name: {
-      en: 'Samisk som førstespråk',
-      nb: 'Samisk som førstespråk',
-      nn: 'Samisk som førstespråk',
+      en: 'Sørsamisk som førstespråk',
+      nb: 'Sørsamisk som førstespråk',
+      nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_21',
@@ -740,14 +740,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
     longName: {
-      en: 'Samisk som førstespråk (SF Vg1)',
-      nb: 'Samisk som førstespråk (SF Vg1)',
-      nn: 'Samisk som førstespråk (SF Vg1)',
+      en: 'Sørsamisk som førstespråk (SF Vg1)',
+      nb: 'Sørsamisk som førstespråk (SF Vg1)',
+      nn: 'Sørsamisk som førstespråk (SF Vg1)',
     },
     name: {
-      en: 'Samisk som førstespråk',
-      nb: 'Samisk som førstespråk',
-      nn: 'Samisk som førstespråk',
+      en: 'Sørsamisk som førstespråk',
+      nb: 'Sørsamisk som førstespråk',
+      nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
     id: 'common_subject_50',
@@ -815,14 +815,14 @@ export const commonSubjects = [
   {
     filters: ['urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0'],
     longName: {
-      en: 'Samisk som førstespråk (SF Vg3)',
-      nb: 'Samisk som førstespråk (SF Vg3)',
-      nn: 'Samisk som førstespråk (SF Vg3)',
+      en: 'Sørsamisk som førstespråk (SF Vg3)',
+      nb: 'Sørsamisk som førstespråk (SF Vg3)',
+      nn: 'Sørsamisk som førstespråk (SF Vg3)',
     },
     name: {
-      en: 'Samisk som førstespråk',
-      nb: 'Samisk som førstespråk',
-      nn: 'Samisk som førstespråk',
+      en: 'Sørsamisk som førstespråk',
+      nb: 'Sørsamisk som førstespråk',
+      nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:15',
     id: 'common_subject_55',
