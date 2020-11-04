@@ -5,57 +5,50 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import Spinner from '@ndla/ui/lib/Spinner';
-
-import { topicQuery } from '../../../queries';
-import { useGraphQuery } from '../../../util/runQueries';
+import { injectT } from '@ndla/i18n';
+import { withTracker } from '@ndla/tracker';
 import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
 
-const MainTopic = ({
+const getDocumentTitle = ({ t, data }) => {
+  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+};
+
+const Topic = ({
   topicId,
   subjectId,
   filterIds,
-  setSelectedTopic,
-  showResources,
   locale,
   subTopicId,
   ndlaFilm,
   onClickTopics,
+  showResources,
+  data,
 }) => {
   const [showContent, setShowContent] = useState(false);
-
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
 
-  const { data, loading } = useGraphQuery(topicQuery, {
-    variables: { topicId, subjectId, filterIds },
-    onCompleted: data =>
-      setSelectedTopic({
-        id: data.topic.id,
-        label: data.topic.name,
-      }),
-  });
-
-  if (loading) {
-    return <Spinner />;
-  }
-
   const topic = data.topic;
+  const topicPath = topic.path
+    .split('/')
+    .slice(2)
+    .map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
-    url: toTopic(subjectId, filterIds, topicId, item.id),
+    url: toTopic(subjectId, filterIds, ...topicPath, item.id),
   }));
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
   const copyPageUrlLink =
@@ -102,17 +95,50 @@ const MainTopic = ({
   );
 };
 
-MainTopic.propTypes = {
+Topic.getDocumentTitle = getDocumentTitle;
+
+Topic.willTrackPageView = (trackPageView, currentProps) => {
+  const { data, loading, showResources } = currentProps;
+  if (showResources && !loading && data?.topic?.article) {
+    trackPageView(currentProps);
+  }
+};
+
+Topic.getDimensions = props => {
+  const { data, subject } = props;
+  const topicPath = data.topic.path
+    .split('/')
+    .slice(2)
+    .map(t =>
+      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+    );
+  return getAllDimensions(
+    {
+      subject: subject,
+      topicPath,
+      article: data.topic.article,
+    },
+    undefined,
+    true,
+  );
+};
+
+Topic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
-  showResources: PropTypes.bool,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   onClickTopics: PropTypes.func,
   toSubjects: PropTypes.func,
+  setBreadCrumb: PropTypes.func,
+  index: PropTypes.number,
+  showResources: PropTypes.bool,
+  subject: GraphQLSubjectShape,
+  data: GraphQLTopicShape,
+  loading: PropTypes.bool,
 };
 
-export default MainTopic;
+export default injectT(withTracker(Topic));

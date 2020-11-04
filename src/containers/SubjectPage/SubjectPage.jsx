@@ -27,7 +27,7 @@ const SubjectPage = ({
   skipToContentId,
   ndlaFilm,
 }) => {
-  const { subjectId, topicId, subTopicId, subSubTopicId } = getUrnIdsFromProps({
+  const { subjectId, topicList } = getUrnIdsFromProps({
     ndlaFilm,
     match,
   });
@@ -50,11 +50,10 @@ const SubjectPage = ({
     return <NotFoundPage />;
   }
 
-  let urlTopicId = topicId;
   // Pre-select topic if only one topic in subject
-  if (!urlTopicId && data.subject.topics.length === 1) {
+  if (!topicList.length && data.subject.topics.length === 1) {
     const topic = data.subject.topics[0];
-    urlTopicId = topic.id;
+    topicList.push(topic.id);
   }
 
   return (
@@ -66,10 +65,9 @@ const SubjectPage = ({
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
-      urlTopicId={urlTopicId}
-      urlSubTopicId={subTopicId}
-      urlSubSubTopicId={subSubTopicId}
+      topics={topicList}
       data={data}
+      loading={loading}
     />
   );
 };

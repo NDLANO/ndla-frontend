@@ -86,7 +86,8 @@ ResourcePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string.isRequired,
+      topicList: PropTypes.arrayOf(PropTypes.string.isRequired),
+      topicId: PropTypes.string,
       resourceId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,

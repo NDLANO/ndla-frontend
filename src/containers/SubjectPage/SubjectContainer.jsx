@@ -31,6 +31,7 @@ import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { toSubjects } from '../../routeHelpers';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -43,9 +44,7 @@ const SubjectPage = ({
   skipToContentId,
   t,
   subjectId,
-  urlTopicId,
-  urlSubTopicId,
-  urlSubSubTopicId,
+  topics,
   data,
   ndlaFilm,
 }) => {
@@ -63,35 +62,31 @@ const SubjectPage = ({
 
   const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
-  const [topic, setTopic] = useState(null);
-  const [subTopic, setSubTopic] = useState(null);
-  const [subSubTopic, setSubSubTopic] = useState(null);
-  const [currentLevel, setCurrentLevel] = useState('Subject');
+  const [currentLevel, setCurrentLevel] = useState(0);
+  const [breadCrumbList, setBreadCrumbList] = useState([]);
 
   useEffect(() => {
-    if (!urlTopicId) setTopic(undefined);
-    if (!urlSubTopicId) setSubTopic(undefined);
-    if (!urlSubSubTopicId) setSubSubTopic(undefined);
-  });
-
-  useEffect(() => {
-    const lowermostId = urlSubSubTopicId || urlSubTopicId || urlTopicId;
+    const lowermostId = topics[topics.length - 1];
     const lowermost =
       subject.allTopics.find(topic => topic.id === lowermostId) || subject;
     const subjectFilters = lowermost?.filters?.filter(f =>
       subject.filters?.map(f2 => f2.id).includes(f.id),
     );
-    const filters = activeFilterId || subjectFilters?.[0]?.id;
+    const selectedFilter = subjectFilters?.[0]?.id;
+    const filters = activeFilterId || selectedFilter;
     const filterParam = filters ? `?filters=${filters}` : '';
     const path = parseAndMatchUrl(location.pathname, true);
-    if (path) {
-      history.replace({ pathname: path.url, search: filterParam });
-    } else {
-      // no topics in path
-      history.replace({
-        pathname: toSubjects() + subject.path,
-        search: filterParam,
-      });
+    const shouldReload = !activeFilterId && selectedFilter;
+    if (shouldReload) {
+      if (path) {
+        history.replace({ pathname: path.url, search: filterParam });
+      } else {
+        // no topics in path
+        history.replace({
+          pathname: toSubjects() + subject.path,
+          search: filterParam,
+        });
+      }
     }
   }, []);
 
@@ -149,71 +144,41 @@ const SubjectPage = ({
           },
         ]
       : []),
-    ...(topic ? [{ ...topic, isCurrent: currentLevel === 'Topic' }] : []),
-    ...(subTopic
-      ? [{ ...subTopic, isCurrent: currentLevel === 'Subtopic' }]
-      : []),
-    ...(subSubTopic
-      ? [{ ...subSubTopic, isCurrent: currentLevel === 'SubSubtopic' }]
+    ...(breadCrumbList.length > 0
+      ? breadCrumbList.map(crumb => ({
+          ...crumb,
+          isCurrent: currentLevel === crumb.index,
+          typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+        }))
       : []),
   ];
 
-  const setTopicBreadCrumb = topic => {
-    setCurrentLevel('Topic');
-    setTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'Topic',
-            url: '#',
-          }
-        : null,
-    );
-  };
-
-  const setSubTopicBreadCrumb = topic => {
-    setCurrentLevel('Subtopic');
-    setSubTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'Subtopic',
-            url: '#',
-          }
-        : null,
-    );
-  };
-
-  const setSubSubTopicBreadCrumb = topic => {
-    setCurrentLevel('SubSubtopic');
-    setSubSubTopic(
-      topic
-        ? {
-            ...topic,
-            typename: 'SubSubtopic',
-            url: '#',
-          }
-        : null,
-    );
+  const setBreadCrumb = topic => {
+    setCurrentLevel(topic.index);
+    setBreadCrumbList(prevState => [
+      ...prevState.filter(
+        b =>
+          b.id.localeCompare(topic.id) !== 0 &&
+          (b.typename === 'Subjecttype' ||
+            b.typename === 'Subject' ||
+            topics.includes(b.id)),
+      ),
+      topic,
+    ]);
   };
 
   const headerRef = useRef(null);
-  const mainRef = useRef(null);
-  const subRef = useRef(null);
-  const subSubRef = useRef(null);
+  const refs = topics.map(_ => React.createRef());
 
   const handleNav = (e, item) => {
     e.preventDefault();
-    const { typename } = item;
-    setCurrentLevel(typename);
+    const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
+      setCurrentLevel(typename);
       scrollToRef(headerRef);
-    } else if (typename === 'Topic') {
-      scrollToRef(mainRef);
-    } else if (typename === 'Subtopic') {
-      scrollToRef(subRef);
-    } else if (typename === 'SubSubtopic') {
-      scrollToRef(subSubRef);
+    } else {
+      setCurrentLevel(index);
+      scrollToRef(refs[index]);
     }
   };
 
@@ -230,7 +195,20 @@ const SubjectPage = ({
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
-  const moveBannerUp = !topic;
+  const moveBannerUp = !topics.length;
+
+  const topicPath = topics.map(t =>
+    data.subject.allTopics.find(topic => topic.id === t),
+  );
+
+  const socialMediaMetadata = {
+    title: topicPath[topicPath.length - 1]?.name || about.title,
+    description:
+      topicPath[topicPath.length - 1]?.meta.metaDescription || metaDescription,
+    image:
+      topicPath[topicPath.length - 1]?.meta.metaImage || about.visualElement,
+  };
+
   return (
     <>
       <Helmet>
@@ -246,13 +224,13 @@ const SubjectPage = ({
           <LayoutItem layout="extend">
             {about && (
               <SocialMediaMetadata
-                title={about.title}
-                description={metaDescription}
+                title={socialMediaMetadata.title}
+                description={socialMediaMetadata.description}
                 locale={locale}
                 image={
-                  about.visualElement && {
-                    url: about.visualElement.url,
-                    altText: about.visualElement.alt,
+                  socialMediaMetadata.image && {
+                    url: socialMediaMetadata.image.url,
+                    altText: socialMediaMetadata.image.alt,
                   }
                 }
               />
@@ -272,18 +250,11 @@ const SubjectPage = ({
               subjectpage={subjectpage}
               subject={subject}
               filterIds={activeFilterId}
-              topicId={urlTopicId}
-              subTopicId={urlSubTopicId}
-              setSelectedTopic={setTopicBreadCrumb}
-              setSubTopic={setSubTopic}
-              setSelectedSubTopic={setSubTopicBreadCrumb}
               ndlaFilm={ndlaFilm}
-              mainRef={mainRef}
-              subRef={subRef}
-              subSubRef={subSubRef}
-              subSubTopicId={urlSubSubTopicId}
-              setSelectedSubSubTopic={setSubSubTopicBreadCrumb}
               onClickTopics={onClickTopics}
+              topics={topics}
+              refs={refs}
+              setBreadCrumb={setBreadCrumb}
             />
           </LayoutItem>
         </OneColumn>
@@ -321,10 +292,18 @@ const SubjectPage = ({
 SubjectPage.getDocumentTitle = getDocumentTitle;
 
 SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
-  const { data } = currentProps;
-  if (data?.subject?.topics?.length > 0) {
+  const { data, loading, topics } = currentProps;
+  if (!loading && data?.subject?.topics?.length > 0 && topics?.length === 0) {
     trackPageView(currentProps);
   }
+};
+
+SubjectPage.getDimensions = props => {
+  const { data, topics } = props;
+  const topicPath = topics.map(t =>
+    data.subject.allTopics.find(topic => topic.id === t),
+  );
+  return getAllDimensions({ subject: data.subject, topicPath });
 };
 
 SubjectPage.propTypes = {
@@ -345,9 +324,8 @@ SubjectPage.propTypes = {
   data: PropTypes.shape({
     subject: GraphQLSubjectShape,
   }),
-  urlTopicId: PropTypes.string,
-  urlSubTopicId: PropTypes.string,
-  urlSubSubTopicId: PropTypes.string,
+  topics: PropTypes.arrayOf(PropTypes.string),
+  loading: PropTypes.bool,
 };
 
 export default injectT(withTracker(SubjectPage));
