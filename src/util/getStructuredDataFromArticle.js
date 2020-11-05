@@ -6,6 +6,8 @@
  *
  */
 
+import format from 'date-fns/format';
+
 const CREATIVE_WORK_TYPE = 'CreativeWork';
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
@@ -101,10 +103,15 @@ const getStructuredDataFromArticle = article => {
 
     let structuredData = getStructuredDataBase();
     structuredData['@type'] = type;
+    structuredData['@id'] = data.src;
     structuredData.name = data.title;
 
     if (type === VIDEO_TYPE) {
       structuredData.embedUrl = data.src;
+      structuredData.thumbnailUrl = data.cover;
+      structuredData.description = data.description;
+      structuredData.contentUrl = data.download;
+      structuredData.uploadDate = format(data.uploadDate, 'YYYY-MM-DD');
     } else {
       structuredData.contentUrl = data.src;
     }

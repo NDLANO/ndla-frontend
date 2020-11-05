@@ -63,7 +63,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <AnchorButton href={video.src} download appearance="outline">
+            <AnchorButton href={video.download} download appearance="outline">
               {t('download')}
             </AnchorButton>
 
