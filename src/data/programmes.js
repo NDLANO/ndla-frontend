@@ -59,6 +59,9 @@ export const programmes = [
               {
                 id: 'common_subject_62',
               },
+              {
+                id: 'common_subject_21',
+              },
             ],
           },
         ],
@@ -160,6 +163,9 @@ export const programmes = [
               {
                 id: 'common_subject_62',
               },
+              {
+                id: 'common_subject_21',
+              },
             ],
           },
         ],
@@ -255,6 +261,9 @@ export const programmes = [
               {
                 id: 'common_subject_62',
               },
+              {
+                id: 'common_subject_21',
+              },
             ],
           },
         ],
@@ -317,6 +326,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_62',
+              },
+              {
+                id: 'common_subject_21',
               },
             ],
           },
@@ -390,6 +402,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_62',
+              },
+              {
+                id: 'common_subject_21',
               },
             ],
           },
@@ -745,6 +760,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_62',
+              },
+              {
+                id: 'common_subject_21',
               },
             ],
           },
@@ -1493,6 +1511,9 @@ export const programmes = [
               {
                 id: 'common_subject_62',
               },
+              {
+                id: 'common_subject_21',
+              },
             ],
           },
         ],
@@ -1673,6 +1694,9 @@ export const programmes = [
               {
                 id: 'common_subject_62',
               },
+              {
+                id: 'common_subject_21',
+              },
             ],
           },
         ],
@@ -1794,6 +1818,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_62',
+              },
+              {
+                id: 'common_subject_21',
               },
             ],
           },
@@ -2174,6 +2201,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_62',
+              },
+              {
+                id: 'common_subject_21',
               },
             ],
           },
