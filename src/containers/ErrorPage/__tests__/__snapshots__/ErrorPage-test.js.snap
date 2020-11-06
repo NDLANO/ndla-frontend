@@ -342,7 +342,8 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-37 {
-  background: #20588f;
+  background: #fff;
+  color: #20588f;
   border-radius: 100%;
   display: -webkit-box;
   display: -webkit-flex;
