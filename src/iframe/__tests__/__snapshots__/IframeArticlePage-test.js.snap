@@ -247,7 +247,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             size="small"
             type="button"
           >
-            Retningslinjer for bruk
+            Regler for bruk
           </button>
         </div>
       </div>

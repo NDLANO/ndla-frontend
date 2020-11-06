@@ -46,7 +46,7 @@ function getContentTypeFromResourceTypes(resourceTypes = []) {
 
 export function getContentType(resourceOrTopic) {
   if (resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic')) {
-    return contentTypes.SUBJECT;
+    return contentTypes.TOPIC;
   }
   return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
     .contentType;
