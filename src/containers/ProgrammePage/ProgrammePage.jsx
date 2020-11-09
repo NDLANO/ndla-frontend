@@ -95,8 +95,9 @@ const ProgrammePage = ({ match, locale, t }) => {
 ProgrammePage.getDocumentTitle = getDocumentTitle;
 
 ProgrammePage.getDimensions = props => {
+  const { match, locale } = props;
   return getAllDimensions(
-    { subject: { name: getProgrammeName(props) } },
+    { subject: { name: getProgrammeName(match, locale) } },
     undefined,
     false,
   );
