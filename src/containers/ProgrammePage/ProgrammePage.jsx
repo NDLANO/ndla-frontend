@@ -15,6 +15,7 @@ import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
 import { toSubject } from '../../routeHelpers';
@@ -50,14 +51,19 @@ const mapGradesData = (grades, locale, programmeSlug) => {
   });
 };
 
-const getDocumentTitle = ({ match, locale, t }) => {
+const getProgrammeName = (match, locale) => {
   const slug = match?.params?.programme;
   const programmeData = getProgrammeBySlug(slug, locale);
   let heading = '';
   if (programmeData) {
     heading = programmeData.name[locale];
   }
-  return `${heading}${t('htmlTitles.titleTemplate')}`;
+  return heading;
+};
+
+const getDocumentTitle = ({ match, locale, t }) => {
+  const name = getProgrammeName(match, locale);
+  return name ? `${name}${t('htmlTitles.titleTemplate')}` : '';
 };
 
 const ProgrammePage = ({ match, locale, t }) => {
@@ -87,6 +93,14 @@ const ProgrammePage = ({ match, locale, t }) => {
 };
 
 ProgrammePage.getDocumentTitle = getDocumentTitle;
+
+ProgrammePage.getDimensions = props => {
+  return getAllDimensions(
+    { subject: { name: getProgrammeName(props) } },
+    undefined,
+    false,
+  );
+};
 
 ProgrammePage.propTypes = {
   match: PropTypes.shape({
