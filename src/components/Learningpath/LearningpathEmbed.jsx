@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import parse from 'html-react-parser';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
@@ -54,9 +55,9 @@ const LearningpathEmbed = ({
     return (
       <StyledIframeContainer
         oembedWidth={oembed.width}
-        oembedHeight={oembed.height}
-        dangerouslySetInnerHTML={{ __html: oembed.html }}
-      />
+        oembedHeight={oembed.height}>
+        {parse(oembed.html)}
+      </StyledIframeContainer>
     );
   }
   const learningpathStepResource = learningpathStep.resource;
