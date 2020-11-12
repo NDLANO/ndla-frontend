@@ -43,6 +43,10 @@ export const getDimensionsCodes = {
     ga: 'dimension14',
     gtm: 'CustDimStiSteg',
   },
+  19: {
+    ga: 'dimension19',
+    gtm: 'CustDimFilter',
+  },
 };
 
 export const convertToGaOrGtmDimension = (dimensions, type) => {
@@ -65,7 +69,14 @@ export const getAllDimensions = (
   contentTypeLabel,
   isArticle = false,
 ) => {
-  const { article, subject, topicPath, learningpath, learningstep } = props;
+  const {
+    article,
+    subject,
+    topicPath,
+    learningpath,
+    learningstep,
+    filter,
+  } = props;
   const rightsholders = getCopyrightFieldWithFallBack(
     article,
     'rightsholders',
@@ -89,6 +100,7 @@ export const getAllDimensions = (
     9: authors ? authors.map(author => author.name).join(', ') : undefined,
     13: learningpath ? learningpath.learningsteps.length : undefined,
     14: learningstep ? learningstep.seqNo + 1 : undefined,
+    19: filter ? filter : undefined, // TODO her skal navn inn
   };
 
   return {

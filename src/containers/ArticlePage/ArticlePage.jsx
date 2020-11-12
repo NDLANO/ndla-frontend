@@ -58,6 +58,8 @@ class ArticlePage extends Component {
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
+    const filterIds = getFiltersFromUrl(props.location); // SPM: denne som er static, kan jeg da få verdien fra componentDidMount eller må den settes her?
+
     const {
       data: {
         resource: { article },
@@ -65,8 +67,9 @@ class ArticlePage extends Component {
         topicPath,
       },
     } = props;
+
     return getAllDimensions(
-      { article, subject, topicPath },
+      { article, subject, topicPath, filters: filterIds }, // TODO: navn på filteret.
       articleProps.label,
       true,
     );
