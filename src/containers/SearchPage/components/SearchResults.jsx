@@ -5,89 +5,57 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
-import { SearchResult, SearchResultList } from '@ndla/ui';
+import React, { useState, useReducer, Fragment } from 'react';
 import { func, arrayOf, shape, string, number, bool } from 'prop-types';
+import { SearchTypeResult, constants } from '@ndla/ui';
+import Pager from '@ndla/pager';
 import { injectT } from '@ndla/i18n';
-import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
 import {
   ArticleResultShape,
   LtiDataShape,
   SearchParamsShape,
 } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
-import SearchContextFilters from './SearchContextFilters';
+
+const { contentTypes } = constants;
 
 const SearchResults = ({
-  results,
-  resultMetadata,
-  searchParams,
-  enabledTabs,
-  enabledTab,
-  onTabChange,
-  query,
-  onUpdateContextFilters,
-  resourceTypes,
-  includeEmbedButton,
-  ltiData,
-  allTabValue,
-  t,
-  isLti,
-  loading,
+  searchItems
 }) => {
-  const { totalCount = '' } = resultMetadata || {};
-  return (
-    <SearchResult
-      messages={{
-        searchStringLabel: t(
-          'searchPage.searchResultMessages.searchStringLabel',
-        ),
-        subHeading: t('searchPage.searchResultMessages.subHeading', {
-          totalCount,
-        }),
-        resultHeading: t('searchPage.searchPageMessages.resultHeading', {
-          totalCount,
-        }),
-        dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
-      }}
-      searchString={query || ''}
-      tabOptions={enabledTabs.map(tab => ({
-        value: tab.value,
-        title: tab.name,
-      }))}
-      onTabChange={tab => onTabChange(tab, enabledTabs)}
-      currentTab={enabledTab || allTabValue}>
-      <SearchContextFilters
-        allTabValue={allTabValue}
-        enabledTab={enabledTab}
-        searchParams={searchParams}
-        resourceTypes={resourceTypes}
-        onUpdateContextFilters={onUpdateContextFilters}
-      />
-      <SearchResultList
-        messages={{
-          subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
-          noResultHeading: t(
-            'searchPage.searchResultListMessages.noResultHeading',
-          ),
-          noResultDescription: t(
-            'searchPage.searchResultListMessages.noResultDescription',
-          ),
-        }}
-        loading={loading}
-        results={
-          results &&
-          resultsWithContentTypeBadgeAndImage(
-            results,
-            t,
-            includeEmbedButton,
-            ltiData,
-            isLti,
-          )
-        }
-      />
-    </SearchResult>
-  );
+
+  const pagination = {
+    totalCount: 123,
+    toCount: 12,
+    onShowMore: () => {},
+    onShowAll: () => {},
+  };
+
+  return searchItems
+    .filter(item => item.type !== contentTypes.SUBJECT)
+    .map(searchItem => (
+      <Fragment key={`searchresult-${searchItem.type}`}>
+        <SearchTypeResult
+          filters={[]}
+          onFilterClick={() => {}}
+          items={searchItem.items}
+          loading={false}
+          type={searchItem.type}
+          totalCount={123}
+          pagination={pagination}>
+          {!pagination && (
+            <Pager
+              page={1}
+              lastPage={2}
+              query={{ type: searchItem.type }}
+              pageItemComponentClass="button"
+              pathname="#"
+              onClick={() => {}}
+            />
+          )}
+        </SearchTypeResult>
+      </Fragment>
+    ))
+
 };
 
 SearchResults.propTypes = {

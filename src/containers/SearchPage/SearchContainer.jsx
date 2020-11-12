@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import PropTypes, {
   func,
   number,
@@ -15,8 +15,8 @@ import PropTypes, {
   bool,
   object,
 } from 'prop-types';
-import Pager from '@ndla/pager';
-import { SearchPage } from '@ndla/ui';
+import { SearchTypeResult, SearchHeader, constants } from '@ndla/ui';
+import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
 import {
@@ -35,6 +35,93 @@ import SearchResults from './components/SearchResults';
 import { convertResult, getResultMetadata } from './searchHelpers';
 import handleError from '../../util/handleError';
 
+import {
+  subjectTypeResults,
+  subjectMaterialResults,
+  searchTypeFilterOptions,
+  searchSubjectTypeOptions,
+  topicResults,
+} from './mockData';
+
+const { contentTypes } = constants;
+
+const subjectDataSource = {
+  items: subjectTypeResults,
+  totalCount: subjectTypeResults.length,
+  type: contentTypes.SUBJECT,
+};
+
+const responseDataSource = [
+  {
+    items: topicResults,
+    totalCount: topicResults.length,
+    type: contentTypes.TOPIC,
+  },
+  {
+    items: subjectMaterialResults,
+    totalCount: subjectMaterialResults.length,
+    type: contentTypes.SUBJECT_MATERIAL,
+  },
+];
+
+const searchResults = [...responseDataSource, subjectDataSource];
+const initialTypeFilter = {};
+searchResults.forEach(item => {
+  const pageSize = item.type === contentTypes.SUBJECT ? 2 : 4;
+  const filters = [];
+  if (searchTypeFilterOptions[item.type].length) {
+    filters.push({ id: 'all', name: 'Alle', active: true });
+    filters.push(...searchTypeFilterOptions[item.type]);
+  }
+  initialTypeFilter[item.type] = {
+    filters: filters,
+    page: 1,
+    loading: false,
+    pageSize,
+  };
+});
+
+const initialResults = searchResults.map(res => {
+  if (res.items.length > initialTypeFilter[res.type].pageSize) {
+    return {
+      ...res,
+      items: res.items.slice(0, initialTypeFilter[res.type].pageSize),
+    };
+  }
+  return res;
+});
+
+const resultsReducer = (state, action) => {
+  switch (action.type) {
+    case 'SEARCH':
+      return state.map(contextItem => {
+        if (contextItem.type === action.context) {
+          return {
+            ...contextItem,
+            loading: true,
+          };
+        } else {
+          return contextItem;
+        }
+      });
+    case 'SEARCH_RESULT_UPDATE':
+      return state.map(contextItem => {
+        if (contextItem.type === action.results.contextType) {
+          return {
+            ...contextItem,
+            // append new items
+            items: action.results.items,
+            loading: false,
+          };
+        } else {
+          return contextItem;
+        }
+      });
+    default:
+      return state;
+  }
+};
+
 const SearchContainer = ({
   t,
   data,
@@ -51,168 +138,30 @@ const SearchContainer = ({
   error,
   searchData,
 }) => {
-  const [query, setQuery] = useState(searchParams.query || '');
-
-  const onQuerySubmit = evt => {
-    evt.preventDefault();
-    updateFilter({ query });
-  };
-
-  const onFilterChange = (newValues, value, type) => {
-    const { subjects } = searchParams;
-    if (type === 'subjects' && newValues.length < subjects.length) {
-      onRemoveSubject({ subjects: newValues }, value);
-    } else {
-      updateFilter({ [type]: newValues });
-    }
-  };
-
-  const onRemoveSubject = (subjectsSearchParam, subjectId) => {
-    const { levels } = searchParams;
-    const subject = data.subjects.find(s => s.id === subjectId);
-
-    const removedFilters = subject.filters?.map(level => level.id) || [];
-
-    handleSearchParamsChange({
-      ...subjectsSearchParam,
-      levels: levels.filter(level => !removedFilters.includes(level)),
-    });
-  };
-
-  const onSearchFieldFilterRemove = removedSubject => {
-    const { subjects: subjectsInUrl } = searchParams;
-
-    const subjects = subjectsInUrl.filter(
-      subject => subject !== removedSubject,
-    );
-    onRemoveSubject({ subjects }, removedSubject);
-  };
-
-  const onUpdateContextFilters = values => {
-    handleSearchParamsChange({
-      contextFilters: values,
-    });
-  };
-
-  const updateFilter = searchParam => {
-    const page = searchParam.page || 1;
-    handleSearchParamsChange({
-      ...searchParam,
-      page,
-    });
-  };
-
-  const updateTab = (value, enabledTabs) => {
-    const enabledTab = enabledTabs.find(tab => value === tab.value);
-    const newParams =
-      !enabledTab || enabledTab.value === allTabValue
-        ? {}
-        : { [enabledTab.type]: [enabledTab.value] };
-
-    handleSearchParamsChange({
-      contextTypes: undefined,
-      resourceTypes: undefined,
-      contextFilters: [],
-      ...newParams,
-      page: 1,
-    });
-  };
-
-  const { subjects } = data;
-
-  const activeSubjectsMapped =
-    subjects && subjects.length > 0
-      ? searchParams.subjects
-          .map(it => {
-            const subject = subjects.find(s => s.id === it);
-            return subject
-              ? {
-                  ...subject,
-                  value: subject.id,
-                  title: subject.name,
-                  filterName: 'filter_subjects',
-                }
-              : undefined;
-          })
-          .filter(subject => !!subject)
-      : [];
-
-  const searchFilters = (
-    <SearchFilters
-      onChange={onFilterChange}
-      searchParams={searchParams}
-      subjects={subjects}
-      enabledTab={enabledTab}
-      activeSubjects={activeSubjectsMapped}
-      enabledTabs={enabledTabs}
-    />
+  const [searchItems, dispatch] = useReducer(
+    resultsReducer,
+    initialResults
   );
 
-  const searchPageMessages = totalCount => ({
-    filterHeading: t('searchPage.searchPageMessages.filterHeading'),
-    dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
-    closeButton: t('searchPage.close'),
-    narrowScreenFilterHeading: t(
-      'searchPage.searchPageMessages.narrowScreenFilterHeading',
-      {
-        totalCount,
-        query,
-      },
-    ),
-    searchFieldTitle: t('searchPage.search'),
-  });
-
-  if (error) {
-    handleError(error);
-    return `Error: ${error.message}`;
-  }
-
-  const { search } = searchData || {};
-  const resultMetadata = search ? getResultMetadata(search) : {};
-
-  const isReadyToShow = !loading && search;
-  const searchResults = isReadyToShow
-    ? convertResult(search.results, searchParams.subjects, enabledTab, locale)
-    : [];
   return (
-    <SearchPage
-      closeUrl="/#"
-      searchString={query || ''}
-      onSearchFieldChange={setQuery}
-      onSearch={onQuerySubmit}
-      onSearchFieldFilterRemove={onSearchFieldFilterRemove}
-      searchFieldFilters={activeSubjectsMapped}
-      activeFilters={activeSubjectsMapped}
-      messages={searchPageMessages(resultMetadata.totalCount)}
-      resourceToLinkProps={resourceToLinkProps}
-      filters={searchFilters}>
-      <SearchResults
-        results={searchResults}
-        resourceTypes={data && data.resourceTypes ? data.resourceTypes : []}
-        loading={loading}
-        enabledTab={enabledTab}
-        resultMetadata={resultMetadata}
-        searchParams={searchParams}
-        enabledTabs={enabledTabs}
-        allTabValue={allTabValue}
-        onTabChange={updateTab}
-        query={searchParams.query}
-        onUpdateContextFilters={onUpdateContextFilters}
-        includeEmbedButton={includeEmbedButton}
-        ltiData={ltiData}
-        isLti={isLti}
+    <>
+      <SearchHeader
+        count={123}
+        searchPhrase="nunorsk"
+        searchPhraseSuggestion="nynorsk"
+        searchPhraseSuggestionOnClick={() =>
+          console.log('search-phrase suggestion click')
+        }
       />
-      {isReadyToShow && (
-        <Pager
-          page={searchParams.page ? parseInt(searchParams.page, 10) : 1}
-          lastPage={resultMetadata.lastPage}
-          query={searchParams}
-          pathname=""
-          onClick={updateFilter}
-          pageItemComponentClass="button"
-        />
-      )}
-    </SearchPage>
+      <SearchResults searchItems={searchItems} />
+      <FilterTabs
+        dropdownBtnLabel="Velg"
+        value={'ALL'}
+        options={searchSubjectTypeOptions}
+        contentId="search-result-content"
+        onChange={() => {}}>
+      </FilterTabs>
+    </>
   );
 };
 
