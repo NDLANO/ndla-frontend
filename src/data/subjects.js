@@ -2129,17 +2129,17 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Programfag',
-      nn: 'Programfag',
-      en: 'Programme subjects',
+      nb: 'Programfag YF',
+      nn: 'Programfag YF',
+      en: 'Programme subjects YF',
     },
     subjects: programmeSubjects,
   },
   {
     name: {
-      nb: 'Studieforberedende',
-      nn: 'Studieførebuande',
-      en: 'Study specialization',
+      nb: 'Programfag SF',
+      nn: 'Programfag SF',
+      en: 'Programme subjects SF',
     },
     subjects: studySpecializationSubjects,
   },
