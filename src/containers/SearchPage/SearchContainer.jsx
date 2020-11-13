@@ -138,6 +138,7 @@ const SearchContainer = ({
   error,
   searchData,
 }) => {
+  const [typeFilter, setTypeFilter] = useState(initialTypeFilter);
   const [searchItems, dispatch] = useReducer(
     resultsReducer,
     initialResults
@@ -153,13 +154,18 @@ const SearchContainer = ({
           console.log('search-phrase suggestion click')
         }
       />
-      <SearchResults searchItems={searchItems} />
+      <SearchResults 
+        searchItems={searchItems.filter(item => item.type === contentTypes.SUBJECT)}
+      />
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={'ALL'}
         options={searchSubjectTypeOptions}
         contentId="search-result-content"
         onChange={() => {}}>
+        <SearchResults 
+          searchItems={searchItems.filter(item => item.type !== contentTypes.SUBJECT)}
+        />
       </FilterTabs>
     </>
   );

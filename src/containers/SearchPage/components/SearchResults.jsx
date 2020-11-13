@@ -7,7 +7,7 @@
 
 import React, { useState, useReducer, Fragment } from 'react';
 import { func, arrayOf, shape, string, number, bool } from 'prop-types';
-import { SearchTypeResult, constants } from '@ndla/ui';
+import { SearchTypeResult } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { injectT } from '@ndla/i18n';
 import {
@@ -17,10 +17,8 @@ import {
 } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
-const { contentTypes } = constants;
-
 const SearchResults = ({
-  searchItems
+  searchItems,
 }) => {
 
   const pagination = {
@@ -31,7 +29,6 @@ const SearchResults = ({
   };
 
   return searchItems
-    .filter(item => item.type !== contentTypes.SUBJECT)
     .map(searchItem => (
       <Fragment key={`searchresult-${searchItem.type}`}>
         <SearchTypeResult
