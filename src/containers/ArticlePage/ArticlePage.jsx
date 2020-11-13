@@ -26,6 +26,7 @@ import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType } from '../../util/getContentType';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
@@ -58,7 +59,7 @@ class ArticlePage extends Component {
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
-    const filterIds = getFiltersFromUrl(props.location); // SPM: denne som er static, kan jeg da få verdien fra componentDidMount eller må den settes her?
+    const filters = getFiltersFromUrl(props.location);
 
     const {
       data: {
@@ -66,10 +67,17 @@ class ArticlePage extends Component {
         subject,
         topicPath,
       },
+      locale,
     } = props;
 
+    const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
+      subject.id,
+      filters.split(','),
+    );
+    const longName = subjectBySubjectIdFiltes.longName[locale];
+
     return getAllDimensions(
-      { article, subject, topicPath, filters: filterIds }, // TODO: navn på filteret.
+      { article, subject, topicPath, filter: longName },
       articleProps.label,
       true,
     );
