@@ -303,14 +303,17 @@ SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 SubjectPage.getDimensions = props => {
-  const { locale, location, topics } = props;
-  const { subject } = props.data;
+  const { data, locale, location, topics } = props;
   const topicPath = topics.map(t =>
-    subject.allTopics.find(topic => topic.id === t),
+    data.subject.allTopics.find(topic => topic.id === t),
   );
-  const longName = getLongNameFromFilters(locale, location, subject);
+  const longName = getLongNameFromFilters(locale, location, data.subject);
 
-  return getAllDimensions({ subject: subject, topicPath, filter: longName });
+  return getAllDimensions({
+    subject: data.subject,
+    topicPath,
+    filter: longName,
+  });
 };
 
 SubjectPage.propTypes = {

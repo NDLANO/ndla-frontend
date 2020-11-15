@@ -14,7 +14,10 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { getFiltersFromUrl, getLongNameFromFilters } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -60,7 +63,7 @@ class LearningpathPage extends Component {
       ls => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
-    const longName = getLongNameFromFilters(locale, location, subject)
+    const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
       { subject, topicPath, learningpath, learningstep, filter: longName },
