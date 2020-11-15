@@ -38,7 +38,7 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toSubjects } from '../../routeHelpers';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import { getFiltersFromUrl, getLongNameFromFilters } from '../../util/filterHelper';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -59,8 +59,6 @@ class ArticlePage extends Component {
 
   static getDimensions(props) {
     const articleProps = getArticleProps(props.data.resource);
-    const filters = getFiltersFromUrl(props.location);
-
     const {
       data: {
         resource: { article },
@@ -68,13 +66,9 @@ class ArticlePage extends Component {
         topicPath,
       },
       locale,
+      location
     } = props;
-
-    const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
-      subject.id,
-      filters.split(','),
-    );
-    const longName = subjectBySubjectIdFiltes.longName[locale];
+    const longName = getLongNameFromFilters(locale, location, subject)
 
     return getAllDimensions(
       { article, subject, topicPath, filter: longName },

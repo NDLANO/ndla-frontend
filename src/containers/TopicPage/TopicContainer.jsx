@@ -38,7 +38,7 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getAllDimensions } from '../../util/trackingUtil';
 import Resources from '../Resources/Resources';
 import { getTopicPath } from '../../util/getTopicPath';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import { getFiltersFromUrl, getLongNameFromFilters } from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
@@ -87,6 +87,7 @@ const TopicContainer = ({
     ? subject.topics.filter(topic => topic.parent === topicId)
     : [];
   const Hero = ndlaFilm ? NdlaFilmHero : SubjectHero;
+
   return (
     <>
       <Helmet>
@@ -182,9 +183,11 @@ TopicContainer.getDocumentTitle = ({ t, data: { topic, subject } }) => {
 };
 
 TopicContainer.getDimensions = props => {
-  const { subject, topicPath, topic } = props.data;
+  const { locale, subject, topicPath, topic } = props.data;
+  const longName = getLongNameFromFilters(locale, props.location, subject);
+
   return getAllDimensions(
-    { subject, topicPath, article: topic.article },
+    { subject, topicPath, article: topic.article, filter: longName },
     props.t('htmlTitles.topicPage'),
   );
 };
