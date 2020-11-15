@@ -23,7 +23,10 @@ import { useIntersectionObserver } from '@ndla/hooks';
 import { LocationShape } from '../../shapes';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
@@ -300,18 +303,12 @@ SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 SubjectPage.getDimensions = props => {
-  const { location, topics } = props;
-  const { locale, subject } = props.data;
+  const { locale, location, topics } = props;
+  const { subject } = props.data;
   const topicPath = topics.map(t =>
     subject.allTopics.find(topic => topic.id === t),
   );
-
-  const filterIds = getFiltersFromUrl(location);
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
-    subject.id,
-    filterIds.split(','),
-  );
-  const longName = subjectBySubjectIdFiltes?.longName[locale];
+  const longName = getLongNameFromFilters(locale, location, subject);
 
   return getAllDimensions({ subject: subject, topicPath, filter: longName });
 };

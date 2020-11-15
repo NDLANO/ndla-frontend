@@ -100,7 +100,7 @@ export const getAllDimensions = (
     9: authors ? authors.map(author => author.name).join(', ') : undefined,
     13: learningpath ? learningpath.learningsteps.length : undefined,
     14: learningstep ? learningstep.seqNo + 1 : undefined,
-    19: filter ? filter : undefined, // TODO her skal navn inn
+    19: filter ? filter : undefined,
   };
 
   return {

@@ -26,7 +26,6 @@ import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType } from '../../util/getContentType';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
-import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
@@ -38,7 +37,10 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toSubjects } from '../../routeHelpers';
-import { getFiltersFromUrl, getLongNameFromFilters } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -66,9 +68,9 @@ class ArticlePage extends Component {
         topicPath,
       },
       locale,
-      location
+      location,
     } = props;
-    const longName = getLongNameFromFilters(locale, location, subject)
+    const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
       { article, subject, topicPath, filter: longName },

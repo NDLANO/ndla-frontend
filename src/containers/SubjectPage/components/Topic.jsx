@@ -17,7 +17,6 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
-
 import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {

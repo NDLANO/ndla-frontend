@@ -38,7 +38,10 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getAllDimensions } from '../../util/trackingUtil';
 import Resources from '../Resources/Resources';
 import { getTopicPath } from '../../util/getTopicPath';
-import { getFiltersFromUrl, getLongNameFromFilters } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
