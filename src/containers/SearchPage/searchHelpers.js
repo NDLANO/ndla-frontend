@@ -1,7 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
-import { ContentTypeBadge, Image } from '@ndla/ui';
-import { getContentType } from '../../util/getContentType';
+import { ContentTypeBadge, Image, constants } from '@ndla/ui';
+import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
 import { parseAndMatchUrl } from '../../util/urlHelper';
@@ -234,3 +234,87 @@ export const getResultMetadata = search => ({
   totalCountSubjectMaterial: search.totalCountSubjectMaterial || 0,
   totalCountTasks: search.totalCountTasks || 0,
 });
+
+const searchTypeFilterOptions = {
+  subject: [],
+  'learning-path': [],
+  'subject-material': [
+    {
+      name: 'Veiledning',
+      id: 'urn:resourcetype:guidance',
+    },
+    {
+      name: 'Forelesning og presentasjon',
+      id: 'urn:resourcetype:lectureAndPresentation',
+    },
+    {
+      name: 'Fagartikkel',
+      id: 'urn:resourcetype:academicArticle',
+    },
+  ],
+  'tasks-and-activities': [
+    {
+      name: 'Oppgave',
+      id: 'urn:resourcetype:task',
+    },
+    {
+      name: 'Øvelse',
+      id: 'urn:resourcetype:exercise',
+    },
+  ],
+  EVALUATION_RESOURCE: [],
+  SOURCE_MATERIAL: [],
+  SHARED_RESOURCES: [],
+  topic: [],
+};
+
+const appendImageParams = resources =>
+  resources.map(resource => ({
+    ...resource,
+    ...(resource.img?.url && {
+      img: {
+        url: `${resource.img.url}?focalX=50&focalY=50&ratio=1.75`,
+        alt: resource.img?.alt,
+      },
+    }),
+  }));
+
+export const mapSearchToSearchPageStructure = searchData => {
+  const { contentTypes } = constants;
+  const searchResults = searchData.map(contentData => ({
+    items: appendImageParams(contentData.resources),
+    totalCount: contentData.totalCount,
+    type: contentTypeMapping[contentData.resourceType],
+  }));
+
+  const initialTypeFilter = {};
+  searchResults.forEach(item => {
+    const pageSize = item.type === contentTypes.SUBJECT ? 2 : 4;
+    const filters = [];
+    if (searchTypeFilterOptions[item.type].length) {
+      filters.push({ id: 'all', name: 'Alle', active: true });
+      filters.push(...searchTypeFilterOptions[item.type]);
+    }
+    initialTypeFilter[item.type] = {
+      filters: filters,
+      page: 1,
+      loading: false,
+      pageSize,
+    };
+  });
+
+  const initialResults = searchResults.map(res => {
+    if (res.items.length > initialTypeFilter[res.type].pageSize) {
+      return {
+        ...res,
+        items: res.items.slice(0, initialTypeFilter[res.type].pageSize),
+      };
+    }
+    return res;
+  });
+
+  return {
+    initialResults,
+    initialTypeFilter,
+  };
+};

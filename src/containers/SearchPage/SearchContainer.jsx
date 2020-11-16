@@ -15,7 +15,7 @@ import PropTypes, {
   bool,
   object,
 } from 'prop-types';
-import { SearchTypeResult, SearchHeader, constants } from '@ndla/ui';
+import { SearchHeader, constants } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
@@ -29,67 +29,25 @@ import {
   GraphqlResourceTypeWithsubtypesShape,
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
-import { resourceToLinkProps } from '../Resources/resourceHelpers';
-import SearchFilters from './components/SearchFilters';
 import SearchResults from './components/SearchResults';
-import { convertResult, getResultMetadata } from './searchHelpers';
 import handleError from '../../util/handleError';
-
-import {
-  subjectTypeResults,
-  subjectMaterialResults,
-  searchTypeFilterOptions,
-  searchSubjectTypeOptions,
-  topicResults,
-} from './mockData';
 
 const { contentTypes } = constants;
 
-const subjectDataSource = {
-  items: subjectTypeResults,
-  totalCount: subjectTypeResults.length,
-  type: contentTypes.SUBJECT,
-};
-
-const responseDataSource = [
+const searchSubjectTypeOptions = [
   {
-    items: topicResults,
-    totalCount: topicResults.length,
-    type: contentTypes.TOPIC,
+    title: 'Alle',
+    value: 'ALL',
   },
   {
-    items: subjectMaterialResults,
-    totalCount: subjectMaterialResults.length,
-    type: contentTypes.SUBJECT_MATERIAL,
+    title: 'Emne',
+    value: 'topic',
+  },
+  {
+    title: 'Fagstoff',
+    value: 'subject-material',
   },
 ];
-
-const searchResults = [...responseDataSource, subjectDataSource];
-const initialTypeFilter = {};
-searchResults.forEach(item => {
-  const pageSize = item.type === contentTypes.SUBJECT ? 2 : 4;
-  const filters = [];
-  if (searchTypeFilterOptions[item.type].length) {
-    filters.push({ id: 'all', name: 'Alle', active: true });
-    filters.push(...searchTypeFilterOptions[item.type]);
-  }
-  initialTypeFilter[item.type] = {
-    filters: filters,
-    page: 1,
-    loading: false,
-    pageSize,
-  };
-});
-
-const initialResults = searchResults.map(res => {
-  if (res.items.length > initialTypeFilter[res.type].pageSize) {
-    return {
-      ...res,
-      items: res.items.slice(0, initialTypeFilter[res.type].pageSize),
-    };
-  }
-  return res;
-});
 
 const resultsReducer = (state, action) => {
   switch (action.type) {
@@ -137,12 +95,11 @@ const SearchContainer = ({
   loading,
   error,
   searchData,
+  initialResults,
+  initialTypeFilter,
 }) => {
   const [typeFilter, setTypeFilter] = useState(initialTypeFilter);
-  const [searchItems, dispatch] = useReducer(
-    resultsReducer,
-    initialResults
-  );
+  const [searchItems, dispatch] = useReducer(resultsReducer, initialResults);
 
   return (
     <>
@@ -154,8 +111,10 @@ const SearchContainer = ({
           console.log('search-phrase suggestion click')
         }
       />
-      <SearchResults 
-        searchItems={searchItems.filter(item => item.type === contentTypes.SUBJECT)}
+      <SearchResults
+        searchItems={searchItems.filter(
+          item => item.type === contentTypes.SUBJECT,
+        )}
       />
       <FilterTabs
         dropdownBtnLabel="Velg"
@@ -163,8 +122,10 @@ const SearchContainer = ({
         options={searchSubjectTypeOptions}
         contentId="search-result-content"
         onChange={() => {}}>
-        <SearchResults 
-          searchItems={searchItems.filter(item => item.type !== contentTypes.SUBJECT)}
+        <SearchResults
+          searchItems={searchItems.filter(
+            item => item.type !== contentTypes.SUBJECT,
+          )}
         />
       </FilterTabs>
     </>

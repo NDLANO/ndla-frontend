@@ -177,6 +177,12 @@ export const groupSearchQuery = gql`
         id
         path
         name
+        ingress
+        breadcrumb
+        img {
+          url
+          alt
+        }
       }
       resourceType
       totalCount

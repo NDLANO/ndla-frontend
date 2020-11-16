@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useReducer, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { func, arrayOf, shape, string, number, bool } from 'prop-types';
 import { SearchTypeResult } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -17,10 +17,7 @@ import {
 } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
-const SearchResults = ({
-  searchItems,
-}) => {
-
+const SearchResults = ({ searchItems }) => {
   const pagination = {
     totalCount: 123,
     toCount: 12,
@@ -28,31 +25,29 @@ const SearchResults = ({
     onShowAll: () => {},
   };
 
-  return searchItems
-    .map(searchItem => (
-      <Fragment key={`searchresult-${searchItem.type}`}>
-        <SearchTypeResult
-          filters={[]}
-          onFilterClick={() => {}}
-          items={searchItem.items}
-          loading={false}
-          type={searchItem.type}
-          totalCount={123}
-          pagination={pagination}>
-          {!pagination && (
-            <Pager
-              page={1}
-              lastPage={2}
-              query={{ type: searchItem.type }}
-              pageItemComponentClass="button"
-              pathname="#"
-              onClick={() => {}}
-            />
-          )}
-        </SearchTypeResult>
-      </Fragment>
-    ))
-
+  return searchItems.map(searchItem => (
+    <Fragment key={`searchresult-${searchItem.type}`}>
+      <SearchTypeResult
+        filters={[]}
+        onFilterClick={() => {}}
+        items={searchItem.items}
+        loading={false}
+        type={searchItem.type}
+        totalCount={123}
+        pagination={pagination}>
+        {!pagination && (
+          <Pager
+            page={1}
+            lastPage={2}
+            query={{ type: searchItem.type }}
+            pageItemComponentClass="button"
+            pathname="#"
+            onClick={() => {}}
+          />
+        )}
+      </SearchTypeResult>
+    </Fragment>
+  ));
 };
 
 SearchResults.propTypes = {

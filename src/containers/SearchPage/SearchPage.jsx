@@ -13,17 +13,29 @@ import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
-import { searchPageQuery, searchQuery } from '../../queries';
+import { searchPageQuery, groupSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
 import SearchContainer from './SearchContainer';
 import {
   converSearchStringToObject,
   convertSearchParam,
+  mapSearchToSearchPageStructure,
 } from './searchHelpers';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 import { useGraphQuery } from '../../util/runQueries';
+import {
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+} from '../../constants';
 
 const ALL_TAB_VALUE = 'all';
+
+const resourceTypes = `
+  ${RESOURCE_TYPE_SUBJECT_MATERIAL},
+  ${RESOURCE_TYPE_LEARNING_PATH},
+  ${RESOURCE_TYPE_TASKS_AND_ACTIVITIES}
+`;
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -39,13 +51,16 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
 
   const { loading, data } = useGraphQuery(searchPageQuery);
   const { data: searchData, loadingSearch, searchError } = useGraphQuery(
-    searchQuery,
+    groupSearchQuery,
     {
-      variables: stateSearchParams,
+      variables: {
+        ...stateSearchParams,
+        resourceTypes,
+      },
     },
   );
 
-  if (loading) {
+  if (loading || loadingSearch) {
     return null;
   }
 
@@ -83,11 +98,17 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     stateSearchParams.contextTypes ||
     ALL_TAB_VALUE;
 
+  const { initialResults, initialTypeFilter } = mapSearchToSearchPageStructure(
+    searchData.groupSearch,
+  );
+
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchContainer
+          initialResults={initialResults}
+          initialTypeFilter={initialTypeFilter}
           searchParams={searchParams}
           handleSearchParamsChange={handleSearchParamsChange}
           data={data}
