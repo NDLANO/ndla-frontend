@@ -19,12 +19,11 @@ export const getFiltersFromUrlAsArray = location => {
   return filters.length > 0 ? filters.split(',') : [];
 };
 
-// TODO usikke på hvor denne hører hjemme
 export const getLongNameFromFilters = (locale, location, subject) => {
   const filters = getFiltersFromUrl(location);
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
+  const subjectBySubjectIdFilters = getSubjectBySubjectIdFilters(
     subject.id,
     filters.split(','),
   );
-  return subjectBySubjectIdFiltes?.longName[locale] || '';
+  return subjectBySubjectIdFilters?.longName[locale] || '';
 };
