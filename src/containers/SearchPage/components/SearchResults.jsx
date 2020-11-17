@@ -7,7 +7,7 @@
 
 import React, { Fragment } from 'react';
 import { func, arrayOf, shape, string, number, bool } from 'prop-types';
-import { SearchTypeResult } from '@ndla/ui';
+import { SearchTypeResult, constants } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { injectT } from '@ndla/i18n';
 import {
@@ -17,37 +17,53 @@ import {
 } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
-const SearchResults = ({ searchItems }) => {
-  const pagination = {
-    totalCount: 123,
-    toCount: 12,
-    onShowMore: () => {},
-    onShowAll: () => {},
-  };
+const { contentTypes } = constants;
 
-  return searchItems.map(searchItem => (
-    <Fragment key={`searchresult-${searchItem.type}`}>
-      <SearchTypeResult
-        filters={[]}
-        onFilterClick={() => {}}
-        items={searchItem.items}
-        loading={false}
-        type={searchItem.type}
-        totalCount={123}
-        pagination={pagination}>
-        {!pagination && (
-          <Pager
-            page={1}
-            lastPage={2}
-            query={{ type: searchItem.type }}
-            pageItemComponentClass="button"
-            pathname="#"
-            onClick={() => {}}
-          />
-        )}
-      </SearchTypeResult>
-    </Fragment>
-  ));
+const SearchResults = ({
+  currentSubjectType, 
+  searchItems,
+  typeFilter
+ }) => {
+  return searchItems.map(searchItem => {
+      const { totalCount, type } = searchItem;
+      let pagination = null;
+      if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
+        const toCount =
+          typeFilter[type].pageSize > totalCount
+            ? totalCount
+            : typeFilter[type].pageSize;
+        pagination = {
+          totalCount,
+          toCount,
+          onShowMore: () => {},
+          onShowAll: () => {},
+        };
+      }
+
+    return (
+      <Fragment key={`searchresult-${searchItem.type}`}>
+        <SearchTypeResult
+          filters={[]}
+          onFilterClick={() => {}}
+          items={searchItem.items}
+          loading={false}
+          type={searchItem.type}
+          totalCount={searchItem.totalCount}
+          pagination={pagination}>
+          {!pagination && (
+            <Pager
+              page={1}
+              lastPage={2}
+              query={{ type: searchItem.type }}
+              pageItemComponentClass="button"
+              pathname="#"
+              onClick={() => {}}
+            />
+          )}
+        </SearchTypeResult>
+      </Fragment>
+    )
+  });
 };
 
 SearchResults.propTypes = {

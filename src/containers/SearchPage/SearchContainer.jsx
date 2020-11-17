@@ -98,14 +98,15 @@ const SearchContainer = ({
   initialResults,
   initialTypeFilter,
 }) => {
+  const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(initialTypeFilter);
   const [searchItems, dispatch] = useReducer(resultsReducer, initialResults);
 
   return (
     <>
       <SearchHeader
-        count={123}
-        searchPhrase="nunorsk"
+        count={searchItems.reduce((acc, item) => acc + item.totalCount, 0)}
+        searchPhrase={searchParams.query}
         searchPhraseSuggestion="nynorsk"
         searchPhraseSuggestionOnClick={() =>
           console.log('search-phrase suggestion click')
@@ -126,6 +127,8 @@ const SearchContainer = ({
           searchItems={searchItems.filter(
             item => item.type !== contentTypes.SUBJECT,
           )}
+          currentSubjectType={currentSubjectType}
+          typeFilter={typeFilter}
         />
       </FilterTabs>
     </>
