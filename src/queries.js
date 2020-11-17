@@ -375,6 +375,13 @@ export const articleInfoFragment = gql`
           ...CopyrightInfo
         }
       }
+      concepts {
+        title
+        src
+        copyright {
+          ...CopyrightInfo
+        }
+      }
     }
     competenceGoals {
       id

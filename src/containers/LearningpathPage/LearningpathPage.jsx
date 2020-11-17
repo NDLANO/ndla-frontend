@@ -25,6 +25,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { toLearningPath } from '../../routeHelpers';
+import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
   componentDidUpdate() {
@@ -188,7 +189,7 @@ LearningpathPage.propTypes = {
   }).isRequired,
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
   loading: PropTypes.bool.isRequired,
   ndlaFilm: PropTypes.bool.isRequired,
   data: PropTypes.shape({

@@ -220,3 +220,9 @@ export const BreadCrumbShape = PropTypes.shape({
   typename: PropTypes.string,
   isCurrent: PropTypes.bool,
 });
+
+export const ConceptLicenseShape = PropTypes.shape({
+  copyright: CopyrightObjectShape,
+  src: PropTypes.string.isRequired,
+  title: PropTypes.string,
+});
