@@ -67,7 +67,6 @@ const resultsReducer = (state, action) => {
         if (contextItem.type === action.results.contextType) {
           return {
             ...contextItem,
-            // append new items
             items: action.results.items,
             loading: false,
           };
@@ -102,6 +101,25 @@ const SearchContainer = ({
   const [typeFilter, setTypeFilter] = useState(initialTypeFilter);
   const [searchItems, dispatch] = useReducer(resultsReducer, initialResults);
 
+  const handleFilterClick = (type, filterId) => {
+    const filterUpdate = { ...typeFilter[type] };
+    const filters = [...filterUpdate.filters];
+    const selectedFilter = filters.find(item => filterId === item.id);
+    if (filterId === 'all') {
+      filters.forEach(filter => {
+        filter.active = filter.id === 'all';
+      });
+    } else {
+      const allFilter = filters.find(item => 'all' === item.id);
+      allFilter.active = false;
+      selectedFilter.active = !selectedFilter.active;
+      if (!filters.some(item => item.active)) {
+        allFilter.active = true;
+      }
+    }
+    setTypeFilter({ ...typeFilter, [type]: filterUpdate });
+  };
+
   return (
     <>
       <SearchHeader
@@ -116,6 +134,7 @@ const SearchContainer = ({
         searchItems={searchItems.filter(
           item => item.type === contentTypes.SUBJECT,
         )}
+        handleFilterClick={handleFilterClick}
       />
       <FilterTabs
         dropdownBtnLabel="Velg"
@@ -129,6 +148,7 @@ const SearchContainer = ({
           )}
           currentSubjectType={currentSubjectType}
           typeFilter={typeFilter}
+          handleFilterClick={handleFilterClick}
         />
       </FilterTabs>
     </>

@@ -20,7 +20,8 @@ import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 const { contentTypes } = constants;
 
 const SearchResults = ({
-  currentSubjectType, 
+  currentSubjectType,
+  handleFilterClick, 
   searchItems,
   typeFilter
  }) => {
@@ -43,17 +44,16 @@ const SearchResults = ({
     return (
       <Fragment key={`searchresult-${searchItem.type}`}>
         <SearchTypeResult
-          filters={[]}
-          onFilterClick={() => {}}
+          filters={typeFilter[type].filters}
+          onFilterClick={id => handleFilterClick(type, id)}
           items={searchItem.items}
-          loading={false}
           type={searchItem.type}
           totalCount={searchItem.totalCount}
           pagination={pagination}>
           {!pagination && (
             <Pager
-              page={1}
-              lastPage={2}
+              page={typeFilter[type].page}
+              lastPage={Math.ceil(totalCount / typeFilter[type].pageSize)}
               query={{ type: searchItem.type }}
               pageItemComponentClass="button"
               pathname="#"
