@@ -15,6 +15,7 @@ import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
+import ConceptLicenseList from './ConceptLicenseList';
 import { ArticleShape } from '../../shapes';
 import OembedItem from './OembedItem';
 
@@ -24,6 +25,7 @@ function buildLicenseTabList(article, locale, t) {
   const brightcove = article.metaData.brightcoves || [];
   const h5ps = article.metaData.h5ps || [];
   const oembed = article.oembed;
+  const concepts = article.metaData.concepts || [];
   const tabs = [];
 
   if (images.length > 0) {
@@ -72,6 +74,13 @@ function buildLicenseTabList(article, locale, t) {
     tabs.push({
       title: t('license.tabs.embedlink'),
       content: <OembedItem oembed={oembed} locale={locale} />,
+    });
+  }
+
+  if (concepts.length) {
+    tabs.push({
+      title: t('license.tabs.concept'),
+      content: <ConceptLicenseList concepts={concepts} locale={locale} />,
     });
   }
 
