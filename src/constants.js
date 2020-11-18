@@ -6,16 +6,6 @@
  *
  */
 
-import React from 'react';
-import {
-  SubjectMaterialBadge,
-  TasksAndActivitiesBadge,
-  SubjectBadge,
-  ExternalLearningResourcesBadge,
-  SourceMaterialBadge,
-  LearningPathBadge,
-} from '@ndla/ui';
-
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL =
   'urn:resourcetype:subjectMaterial';
@@ -29,18 +19,6 @@ export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 
 export const RELEVANCE_CORE = 'urn:relevance:core';
 export const RELEVANCE_SUPPLEMENTARY = 'urn:relevance:supplementary';
-
-export const contentTypeIcons = {
-  subject: <SubjectBadge size="x-small" background />,
-  'topic-article': <SubjectBadge size="x-small" background />,
-  'learning-path': <LearningPathBadge size="x-small" background />,
-  'tasks-and-activities': <TasksAndActivitiesBadge size="x-small" background />,
-  'external-learning-resources': (
-    <ExternalLearningResourcesBadge size="x-small" backgrounde />
-  ),
-  'source-material': <SourceMaterialBadge size="x-small" background />,
-  'subject-material': <SubjectMaterialBadge size="x-small" background />,
-};
 
 export const FRONTPAGE_CATEGORIES = {
   categories: [

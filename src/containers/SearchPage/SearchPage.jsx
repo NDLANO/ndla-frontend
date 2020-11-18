@@ -73,7 +73,7 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     {
       value: 'topic-article',
       type: 'contextTypes',
-      name: t('contentTypes.subject'),
+      name: t('contentTypes.topic'),
     },
     ...resourceTypeTabs,
   ];

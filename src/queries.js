@@ -364,8 +364,10 @@ export const articleInfoFragment = gql`
       }
       brightcoves {
         title
+        description
         cover
         src
+        download
         iframe {
           height
           src
@@ -374,6 +376,7 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
+        uploadDate
       }
       concepts {
         title

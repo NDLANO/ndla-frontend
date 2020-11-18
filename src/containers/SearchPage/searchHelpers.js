@@ -1,7 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import { contentTypeIcons } from '../../constants';
 import { getContentType } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
@@ -100,6 +99,7 @@ const taxonomyData = (result, selectedContext) => {
                 title:
                   contextData?.longName[context.language] || context.subject,
                 contentType: getContentType(context),
+                breadcrumb: context.breadcrumbs,
               };
             })
           : undefined,
@@ -216,8 +216,8 @@ export const resultsWithContentTypeBadgeAndImage = (
             url: getResultUrl(id, urlObject.url, isLti),
           }))
         : urls,
-      contentTypeIcon: contentTypeIcons[contentType] || (
-        <ContentTypeBadge type={contentType} size="x-small" />
+      contentTypeIcon: (
+        <ContentTypeBadge type={contentType} size="x-small" background />
       ),
       children: includeEmbedButton && (
         <LtiEmbed ltiData={ltiData} item={result} />
