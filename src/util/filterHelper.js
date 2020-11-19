@@ -25,5 +25,9 @@ export const getLongNameFromFilters = (locale, location, subject) => {
     subject.id,
     filters.split(','),
   );
-  return subjectBySubjectIdFilters?.longName[locale] || '';
+
+  if (subjectBySubjectIdFilters) {
+    return subjectBySubjectIdFilters?.longName[locale];
+  }
+  return subject.filters?.find(filter => filter.id === filters)?.name;
 };
