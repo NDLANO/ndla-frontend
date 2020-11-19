@@ -16,6 +16,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
 import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
@@ -34,6 +35,7 @@ const Topic = ({
   data,
 }) => {
   const [showContent, setShowContent] = useState(false);
+
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
@@ -105,18 +107,26 @@ Topic.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 Topic.getDimensions = props => {
-  const { data, subject } = props;
+  const { filterIds, data, locale, subject } = props;
   const topicPath = data.topic.path
     .split('/')
     .slice(2)
     .map(t =>
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
+
+  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
+    subject.id,
+    filterIds.split(','),
+  );
+  const longName = subjectBySubjectIdFiltes.longName[locale];
+
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
       article: data.topic.article,
+      filter: longName,
     },
     undefined,
     true,
