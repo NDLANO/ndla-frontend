@@ -103,9 +103,9 @@ class IframeArticlePage extends Component {
           article={article}
           locale={locale}
           modifier="clean iframe"
-          {...getArticleProps(resource)}
-        />
-        <CreatedBy contentUrl={contentUrl} />
+          {...getArticleProps(resource)}>
+          <CreatedBy contentUrl={contentUrl} />
+        </Article>
       </OneColumn>
     );
   }
