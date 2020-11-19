@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
@@ -19,7 +19,6 @@ import SearchContainer from './SearchContainer';
 import {
   converSearchStringToObject,
   convertSearchParam,
-  mapSearchToSearchPageStructure,
 } from './searchHelpers';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 import { useGraphQuery } from '../../util/runQueries';
@@ -49,18 +48,21 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
+  const [page, setPage] = useState(1);
   const { loading, data } = useGraphQuery(searchPageQuery);
   const { data: searchData, loadingSearch, searchError } = useGraphQuery(
     groupSearchQuery,
     {
       variables: {
         ...stateSearchParams,
+        page: page.toString(),
+        pageSize: '4',
         resourceTypes,
       },
     },
   );
 
-  if (loading || loadingSearch) {
+  if (loading || loadingSearch) {
     return null;
   }
 
@@ -98,17 +100,11 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     stateSearchParams.contextTypes ||
     ALL_TAB_VALUE;
 
-  const { initialResults, initialTypeFilter } = mapSearchToSearchPageStructure(
-    searchData.groupSearch,
-  );
-
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchContainer
-          initialResults={initialResults}
-          initialTypeFilter={initialTypeFilter}
           searchParams={searchParams}
           handleSearchParamsChange={handleSearchParamsChange}
           data={data}
@@ -117,7 +113,9 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
           allTabValue={ALL_TAB_VALUE}
           loading={loadingSearch}
           error={searchError}
-          searchData={searchData}
+          searchData={searchData.groupSearch}
+          page={page}
+          setPage={setPage}
           {...rest}
         />
       </OneColumn>

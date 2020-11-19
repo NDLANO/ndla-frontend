@@ -21,40 +21,42 @@ const { contentTypes } = constants;
 
 const SearchResults = ({
   currentSubjectType,
-  handleFilterClick, 
-  searchItems,
+  handleFilterClick,
+  handleShowMore,
+  searchGroups,
   typeFilter
  }) => {
-  return searchItems.map(searchItem => {
-      const { totalCount, type } = searchItem;
-      let pagination = null;
-      if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
-        const toCount =
-          typeFilter[type].pageSize > totalCount
-            ? totalCount
-            : typeFilter[type].pageSize;
-        pagination = {
-          totalCount,
-          toCount,
-          onShowMore: () => {},
-          onShowAll: () => {},
-        };
-      }
+  return searchGroups.map(group => {
+    const { totalCount, type, items, loading } = group;
+    let pagination = null;
+    if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
+      const toCount =
+        typeFilter?.[type]?.pageSize > totalCount
+          ? totalCount
+          : typeFilter[type].pageSize;
+      pagination = {
+        totalCount,
+        toCount,
+        onShowMore: () => handleShowMore(type),
+        onShowAll: () => {},
+      };
+    }
 
     return (
-      <Fragment key={`searchresult-${searchItem.type}`}>
+      <Fragment key={`searchresult-${type}`}>
         <SearchTypeResult
           filters={typeFilter[type].filters}
           onFilterClick={id => handleFilterClick(type, id)}
-          items={searchItem.items}
-          type={searchItem.type}
-          totalCount={searchItem.totalCount}
+          items={items.slice(0, pagination.toCount)}
+          loading={loading}
+          type={type}
+          totalCount={totalCount}
           pagination={pagination}>
           {!pagination && (
             <Pager
               page={typeFilter[type].page}
               lastPage={Math.ceil(totalCount / typeFilter[type].pageSize)}
-              query={{ type: searchItem.type }}
+              query={{ type }}
               pageItemComponentClass="button"
               pathname="#"
               onClick={() => {}}

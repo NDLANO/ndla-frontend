@@ -167,11 +167,13 @@ export const searchFilmQuery = gql`
 `;
 
 export const groupSearchQuery = gql`
-  query GroupSearch($resourceTypes: String, $subjects: String, $query: String) {
+  query GroupSearch($resourceTypes: String, $subjects: String, $query: String, $page: String, $pageSize: String) {
     groupSearch(
       resourceTypes: $resourceTypes
       subjects: $subjects
       query: $query
+      page: $page
+      pageSize: $pageSize
     ) {
       resources {
         id

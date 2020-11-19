@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes, {
   func,
   number,
@@ -30,6 +30,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import SearchResults from './components/SearchResults';
+import { getTypeFilter, getSearchGroups } from './searchHelpers';
 import handleError from '../../util/handleError';
 
 const { contentTypes } = constants;
@@ -49,57 +50,28 @@ const searchSubjectTypeOptions = [
   },
 ];
 
-const resultsReducer = (state, action) => {
-  switch (action.type) {
-    case 'SEARCH':
-      return state.map(contextItem => {
-        if (contextItem.type === action.context) {
-          return {
-            ...contextItem,
-            loading: true,
-          };
-        } else {
-          return contextItem;
-        }
-      });
-    case 'SEARCH_RESULT_UPDATE':
-      return state.map(contextItem => {
-        if (contextItem.type === action.results.contextType) {
-          return {
-            ...contextItem,
-            items: action.results.items,
-            loading: false,
-          };
-        } else {
-          return contextItem;
-        }
-      });
-    default:
-      return state;
-  }
-};
-
 const SearchContainer = ({
-  t,
-  data,
-  locale,
   searchParams,
-  includeEmbedButton,
-  ltiData,
-  enabledTabs,
-  allTabValue,
-  enabledTab,
-  isLti,
-  handleSearchParamsChange,
-  loading,
   error,
   searchData,
-  initialResults,
-  initialTypeFilter,
+  page,
+  setPage,
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
-  const [typeFilter, setTypeFilter] = useState(initialTypeFilter);
-  const [searchItems, dispatch] = useReducer(resultsReducer, initialResults);
+  const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
+  const [searchGroups, setSearchGroups] = useState(getSearchGroups(searchData, false));
+
+  useEffect(() => {
+    const updatedSearchGroups = getSearchGroups(searchData);
+    setSearchGroups(searchGroups.map(group => {
+      const updatedGroup = updatedSearchGroups.find(x => x.type === group.type);
+      return {
+        ...group,
+        items: [...group.items, ...updatedGroup.items],
+        loading: false
+      }
+    }));
+  }, [searchData]);
 
   const handleFilterClick = (type, filterId) => {
     const filterUpdate = { ...typeFilter[type] };
@@ -120,21 +92,26 @@ const SearchContainer = ({
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
   };
 
+
+  const handleShowMore = type => {
+    const filterUpdate = { ...typeFilter[type] };
+    filterUpdate.pageSize += type === contentTypes.SUBJECT ? 2 : 4;
+    setTypeFilter({ ...typeFilter, [type]: filterUpdate });
+    if (type !== contentTypes.SUBJECT && filterUpdate.pageSize > 4 * page) {
+      searchGroups.find(group => group.type === type).loading = true;
+      setPage(page + 1);
+    }
+  };
+
   return (
     <>
       <SearchHeader
-        count={searchItems.reduce((acc, item) => acc + item.totalCount, 0)}
+        count={searchGroups.reduce((acc, item) => acc + item.totalCount, 0)}
         searchPhrase={searchParams.query}
         searchPhraseSuggestion="nynorsk"
         searchPhraseSuggestionOnClick={() =>
           console.log('search-phrase suggestion click')
         }
-      />
-      <SearchResults
-        searchItems={searchItems.filter(
-          item => item.type === contentTypes.SUBJECT,
-        )}
-        handleFilterClick={handleFilterClick}
       />
       <FilterTabs
         dropdownBtnLabel="Velg"
@@ -143,12 +120,13 @@ const SearchContainer = ({
         contentId="search-result-content"
         onChange={() => {}}>
         <SearchResults
-          searchItems={searchItems.filter(
+          searchGroups={searchGroups.filter(
             item => item.type !== contentTypes.SUBJECT,
           )}
           currentSubjectType={currentSubjectType}
           typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
+          handleShowMore={handleShowMore}
         />
       </FilterTabs>
     </>

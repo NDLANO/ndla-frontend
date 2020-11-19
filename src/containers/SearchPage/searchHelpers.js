@@ -268,7 +268,7 @@ const searchTypeFilterOptions = {
   topic: [],
 };
 
-const appendImageParams = resources =>
+export const appendImageParams = resources =>
   resources.map(resource => ({
     ...resource,
     ...(resource.img?.url && {
@@ -279,42 +279,31 @@ const appendImageParams = resources =>
     }),
   }));
 
-export const mapSearchToSearchPageStructure = searchData => {
-  const { contentTypes } = constants;
-  const searchResults = searchData.map(contentData => ({
-    items: appendImageParams(contentData.resources),
-    totalCount: contentData.totalCount,
-    type: contentTypeMapping[contentData.resourceType],
+export const getSearchGroups = (searchData, includeItems = true) => {
+  return searchData.map(result => ({
+    items: includeItems ? appendImageParams(result.resources) : [],
+    totalCount: result.totalCount,
+    type: contentTypeMapping[result.resourceType],
   }));
+}
 
-  const initialTypeFilter = {};
-  searchResults.forEach(item => {
-    const pageSize = item.type === contentTypes.SUBJECT ? 2 : 4;
+export const getTypeFilter = searchData => {
+  const { contentTypes } = constants;
+  const typeFilter = {};
+  searchData.forEach(result => {
+    const type = contentTypeMapping[result.resourceType]
+    const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
-    if (searchTypeFilterOptions[item.type].length) {
+    if (searchTypeFilterOptions[type].length) {
       filters.push({ id: 'all', name: 'Alle', active: true });
-      filters.push(...searchTypeFilterOptions[item.type]);
+      filters.push(...searchTypeFilterOptions[type]);
     }
-    initialTypeFilter[item.type] = {
-      filters: filters,
+    typeFilter[type] = {
+      filters,
       page: 1,
       loading: false,
       pageSize,
     };
   });
-
-  const initialResults = searchResults.map(res => {
-    if (res.items.length > initialTypeFilter[res.type].pageSize) {
-      return {
-        ...res,
-        items: res.items.slice(0, initialTypeFilter[res.type].pageSize),
-      };
-    }
-    return res;
-  });
-
-  return {
-    initialResults,
-    initialTypeFilter,
-  };
-};
+  return typeFilter;
+}
