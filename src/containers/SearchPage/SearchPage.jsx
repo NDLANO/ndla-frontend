@@ -48,15 +48,18 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
-  const [page, setPage] = useState(1);
+  const [pageParams, setPageParams] = useState({
+    page: 1,
+    pageSize: 4,
+  })
   const { loading, data } = useGraphQuery(searchPageQuery);
   const { data: searchData, loadingSearch, searchError } = useGraphQuery(
     groupSearchQuery,
     {
       variables: {
         ...stateSearchParams,
-        page: page.toString(),
-        pageSize: '4',
+        page: pageParams.page.toString(),
+        pageSize: pageParams.pageSize.toString(),
         resourceTypes,
       },
     },
@@ -114,8 +117,8 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
           loading={loadingSearch}
           error={searchError}
           searchData={searchData.groupSearch}
-          page={page}
-          setPage={setPage}
+          pageParams={pageParams}
+          setPageParams={setPageParams}
           {...rest}
         />
       </OneColumn>

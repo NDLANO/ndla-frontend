@@ -54,8 +54,8 @@ const SearchContainer = ({
   searchParams,
   error,
   searchData,
-  page,
-  setPage,
+  pageParams,
+  setPageParams
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
@@ -72,6 +72,10 @@ const SearchContainer = ({
       }
     }));
   }, [searchData]);
+
+  const setLoadingOnGroup = type => {
+    searchGroups.find(group => group.type === type).loading = true;
+  }
 
   const handleFilterClick = (type, filterId) => {
     const filterUpdate = { ...typeFilter[type] };
@@ -92,16 +96,58 @@ const SearchContainer = ({
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
   };
 
+  const handleSetSubjectType = type => {
+    if (type === 'ALL') {
+      setCurrentSubjectType(null);
+    } else {
+      if (typeFilter[type]) {
+        const filterUpdate = { ...typeFilter };
+        filterUpdate[type] = {
+          ...filterUpdate[type],
+          pageSize: 8,
+          page: 1,
+        };
+        setTypeFilter(filterUpdate);
+        setLoadingOnGroup(type);
+        setPageParams({
+          page: 1,
+          pageSize: 8,
+        })
+      }
+      setCurrentSubjectType(type);
+    }
+  };
 
   const handleShowMore = type => {
     const filterUpdate = { ...typeFilter[type] };
     filterUpdate.pageSize += type === contentTypes.SUBJECT ? 2 : 4;
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
-    if (type !== contentTypes.SUBJECT && filterUpdate.pageSize > 4 * page) {
-      searchGroups.find(group => group.type === type).loading = true;
-      setPage(page + 1);
+    if (type !== contentTypes.SUBJECT && filterUpdate.pageSize > 4 * pageParams.page) {
+      setLoadingOnGroup(type);
+      setPageParams(prevState => ({
+        ...prevState,
+        page: prevState.page + 1
+      }))
     }
   };
+
+  const handleShowAll = type => {
+    handleSetSubjectType(type);
+  } 
+
+  const onPagerNavigate = pagerEvent => {
+    const { type, page} = pagerEvent;
+    const filterUpdate = { ...typeFilter[type] };
+    filterUpdate.page = page;
+    setTypeFilter({ ...typeFilter, [type]: filterUpdate });
+    if (type !== contentTypes.SUBJECT && page > pageParams.page) {
+      setLoadingOnGroup(type);
+      setPageParams({
+        page,
+        pageSize: 8,
+      })
+    }
+  }
 
   return (
     <>
@@ -118,7 +164,7 @@ const SearchContainer = ({
         value={'ALL'}
         options={searchSubjectTypeOptions}
         contentId="search-result-content"
-        onChange={() => {}}>
+        onChange={handleSetSubjectType}>
         <SearchResults
           searchGroups={searchGroups.filter(
             item => item.type !== contentTypes.SUBJECT,
@@ -127,6 +173,8 @@ const SearchContainer = ({
           typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
           handleShowMore={handleShowMore}
+          handleShowAll={handleShowAll}
+          onPagerNavigate={onPagerNavigate}
         />
       </FilterTabs>
     </>

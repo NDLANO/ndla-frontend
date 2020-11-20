@@ -22,7 +22,9 @@ const { contentTypes } = constants;
 const SearchResults = ({
   currentSubjectType,
   handleFilterClick,
+  handleShowAll,
   handleShowMore,
+  onPagerNavigate,
   searchGroups,
   typeFilter
  }) => {
@@ -38,7 +40,7 @@ const SearchResults = ({
         totalCount,
         toCount,
         onShowMore: () => handleShowMore(type),
-        onShowAll: () => {},
+        onShowAll: () => handleShowAll(type),
       };
     }
 
@@ -47,7 +49,7 @@ const SearchResults = ({
         <SearchTypeResult
           filters={typeFilter[type].filters}
           onFilterClick={id => handleFilterClick(type, id)}
-          items={items.slice(0, pagination.toCount)}
+          items={items.slice(0, typeFilter[type].pageSize)}
           loading={loading}
           type={type}
           totalCount={totalCount}
@@ -59,7 +61,7 @@ const SearchResults = ({
               query={{ type }}
               pageItemComponentClass="button"
               pathname="#"
-              onClick={() => {}}
+              onClick={onPagerNavigate}
             />
           )}
         </SearchTypeResult>
