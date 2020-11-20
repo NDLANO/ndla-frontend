@@ -279,12 +279,25 @@ export const appendImageParams = resources =>
     }),
   }));
 
-export const getSearchGroups = (searchData, includeItems = true) => {
+export const getSearchGroups = searchData => {
   return searchData.map(result => ({
-    items: includeItems ? appendImageParams(result.resources) : [],
+    items: appendImageParams(result.resources),
     totalCount: result.totalCount,
     type: contentTypeMapping[result.resourceType],
   }));
+}
+
+export const updateSearchGroups = (searchData, searchGroups) => {
+  return searchGroups.map(group => {
+    if (group.type === contentTypeMapping[searchData.resourceType]) {
+      return {
+        ...group,
+        items: appendImageParams(searchData.resources),
+        loading: false
+      }
+    }
+    return group;
+  })
 }
 
 export const getTypeFilter = searchData => {

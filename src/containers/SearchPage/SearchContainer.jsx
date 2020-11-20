@@ -30,7 +30,8 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import SearchResults from './components/SearchResults';
-import { getTypeFilter, getSearchGroups } from './searchHelpers';
+import { getTypeFilter, getSearchGroups, updateSearchGroups } from './searchHelpers';
+import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
 const { contentTypes } = constants;
@@ -54,23 +55,16 @@ const SearchContainer = ({
   searchParams,
   error,
   searchData,
-  pageParams,
-  setPageParams
+  setParams
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
-  const [searchGroups, setSearchGroups] = useState(getSearchGroups(searchData, false));
+  const [searchGroups, setSearchGroups] = useState(getSearchGroups(searchData));
 
   useEffect(() => {
-    const updatedSearchGroups = getSearchGroups(searchData);
-    setSearchGroups(searchGroups.map(group => {
-      const updatedGroup = updatedSearchGroups.find(x => x.type === group.type);
-      return {
-        ...group,
-        items: [...group.items, ...updatedGroup.items],
-        loading: false
-      }
-    }));
+    setSearchGroups(prevState =>
+      updateSearchGroups(searchData[0], prevState)
+    );
   }, [searchData]);
 
   const setLoadingOnGroup = type => {
@@ -109,9 +103,10 @@ const SearchContainer = ({
         };
         setTypeFilter(filterUpdate);
         setLoadingOnGroup(type);
-        setPageParams({
+        setParams({
           page: 1,
           pageSize: 8,
+          resourceTypes: resourceTypeMapping[type]
         })
       }
       setCurrentSubjectType(type);
@@ -120,13 +115,15 @@ const SearchContainer = ({
 
   const handleShowMore = type => {
     const filterUpdate = { ...typeFilter[type] };
-    filterUpdate.pageSize += type === contentTypes.SUBJECT ? 2 : 4;
+    const pageIncrement = type === contentTypes.SUBJECT ? 2 : 4;
+    filterUpdate.pageSize += pageIncrement;
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
-    if (type !== contentTypes.SUBJECT && filterUpdate.pageSize > 4 * pageParams.page) {
+    if (type !== contentTypes.SUBJECT) {
       setLoadingOnGroup(type);
-      setPageParams(prevState => ({
+      setParams(prevState => ({
         ...prevState,
-        page: prevState.page + 1
+        pageSize: prevState.pageSize + pageIncrement,
+        resourceTypes: resourceTypeMapping[type]
       }))
     }
   };
@@ -140,11 +137,12 @@ const SearchContainer = ({
     const filterUpdate = { ...typeFilter[type] };
     filterUpdate.page = page;
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
-    if (type !== contentTypes.SUBJECT && page > pageParams.page) {
+    if (type !== contentTypes.SUBJECT) {
       setLoadingOnGroup(type);
-      setPageParams({
+      setParams({
         page,
         pageSize: 8,
+        resourceTypes: resourceTypeMapping[type]
       })
     }
   }
