@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
 import { OneColumn, CreatedBy } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
@@ -69,7 +70,7 @@ class IframeArticlePage extends Component {
     return '';
   }
   render() {
-    const { resource, locale, location } = this.props;
+    const { resource, locale, location, t } = this.props;
     const article = transformArticle(this.props.article, locale);
     const scripts = getArticleScripts(article);
     const contentUrl = this.state.path
@@ -103,9 +104,13 @@ class IframeArticlePage extends Component {
           article={article}
           locale={locale}
           modifier="clean iframe"
-          {...getArticleProps(resource)}
-        />
-        <CreatedBy contentUrl={contentUrl} />
+          {...getArticleProps(resource)}>
+          <CreatedBy
+            name={t('createdBy.content')}
+            description={t('createdBy.text')}
+            url={contentUrl}
+          />
+        </Article>
       </OneColumn>
     );
   }
@@ -120,4 +125,4 @@ IframeArticlePage.propTypes = {
   }),
 };
 
-export default withTracker(IframeArticlePage);
+export default injectT(withTracker(IframeArticlePage));
