@@ -27,46 +27,49 @@ const SearchResults = ({
   onPagerNavigate,
   searchGroups,
   typeFilter
- }) => {
+}) => {
   return searchGroups.map(group => {
     const { totalCount, type, items, loading } = group;
-    let pagination = null;
-    if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
-      const toCount =
-        typeFilter?.[type]?.pageSize > totalCount
-          ? totalCount
-          : typeFilter[type].pageSize;
-      pagination = {
-        totalCount,
-        toCount,
-        onShowMore: () => handleShowMore(type),
-        onShowAll: () => handleShowAll(type),
-      };
-    }
+    if (!currentSubjectType || type === currentSubjectType) {
+      let pagination = null;
+      if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
+        const toCount =
+          typeFilter?.[type]?.pageSize > totalCount
+            ? totalCount
+            : typeFilter[type].pageSize;
+        pagination = {
+          totalCount,
+          toCount,
+          onShowMore: () => handleShowMore(type),
+          onShowAll: () => handleShowAll(type),
+        };
+      }
 
-    return (
-      <Fragment key={`searchresult-${type}`}>
-        <SearchTypeResult
-          filters={typeFilter[type].filters}
-          onFilterClick={id => handleFilterClick(type, id)}
-          items={items.slice(0, typeFilter[type].pageSize)}
-          loading={loading}
-          type={type}
-          totalCount={totalCount}
-          pagination={pagination}>
-          {!pagination && (
-            <Pager
-              page={typeFilter[type].page}
-              lastPage={Math.ceil(totalCount / typeFilter[type].pageSize)}
-              query={{ type }}
-              pageItemComponentClass="button"
-              pathname="#"
-              onClick={onPagerNavigate}
-            />
-          )}
-        </SearchTypeResult>
-      </Fragment>
-    )
+      return (
+        <Fragment key={`searchresult-${type}`}>
+          <SearchTypeResult
+            filters={typeFilter[type].filters}
+            onFilterClick={id => handleFilterClick(type, id)}
+            items={items}
+            loading={loading}
+            type={type}
+            totalCount={totalCount}
+            pagination={pagination}>
+            {!pagination && (
+              <Pager
+                page={typeFilter[type].page}
+                lastPage={Math.ceil(totalCount / typeFilter[type].pageSize)}
+                query={{ type }}
+                pageItemComponentClass="button"
+                pathname="#"
+                onClick={onPagerNavigate}
+              />
+            )}
+          </SearchTypeResult>
+        </Fragment>
+      )
+    }
+    return null;
   });
 };
 

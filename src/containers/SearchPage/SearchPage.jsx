@@ -61,7 +61,7 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
         ...stateSearchParams,
         page: params.page.toString(),
         pageSize: params.pageSize.toString(),
-        resourceTypes: params.resourceTypes
+        resourceTypes: params.resourceTypes || resourceTypes
       },
     },
   );

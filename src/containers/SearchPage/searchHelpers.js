@@ -289,10 +289,11 @@ export const getSearchGroups = searchData => {
 
 export const updateSearchGroups = (searchData, searchGroups) => {
   return searchGroups.map(group => {
-    if (group.type === contentTypeMapping[searchData.resourceType]) {
+    const resources = searchData.find(result => contentTypeMapping[result.resourceType] === group.type)?.resources;
+    if (resources) {
       return {
         ...group,
-        items: appendImageParams(searchData.resources),
+        items: appendImageParams(resources),
         loading: false
       }
     }

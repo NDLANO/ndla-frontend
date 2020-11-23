@@ -63,12 +63,14 @@ const SearchContainer = ({
 
   useEffect(() => {
     setSearchGroups(prevState =>
-      updateSearchGroups(searchData[0], prevState)
+      updateSearchGroups(searchData, prevState)
     );
   }, [searchData]);
 
   const setLoadingOnGroup = type => {
-    searchGroups.find(group => group.type === type).loading = true;
+    if (type !== currentSubjectType) {
+      searchGroups.find(group => group.type === type).loading = true;
+    }
   }
 
   const handleFilterClick = (type, filterId) => {
@@ -93,6 +95,11 @@ const SearchContainer = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
+      setParams({
+        page: 1,
+        pageSize: 4,
+        resourceTypes: null
+      })
     } else {
       if (typeFilter[type]) {
         const filterUpdate = { ...typeFilter };
@@ -159,7 +166,7 @@ const SearchContainer = ({
       />
       <FilterTabs
         dropdownBtnLabel="Velg"
-        value={'ALL'}
+        value={currentSubjectType ? currentSubjectType : 'ALL'}
         options={searchSubjectTypeOptions}
         contentId="search-result-content"
         onChange={handleSetSubjectType}>
