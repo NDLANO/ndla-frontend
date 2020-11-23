@@ -30,11 +30,11 @@ const SearchResults = ({
 }) => {
   return searchGroups.map(group => {
     const { totalCount, type, items, loading } = group;
-    if (!currentSubjectType || type === currentSubjectType) {
+    if (!currentSubjectType || type === currentSubjectType || type === contentTypes.SUBJECT) {
       let pagination = null;
       if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
         const toCount =
-          typeFilter?.[type]?.pageSize > totalCount
+          typeFilter[type].pageSize > totalCount
             ? totalCount
             : typeFilter[type].pageSize;
         pagination = {
@@ -50,7 +50,7 @@ const SearchResults = ({
           <SearchTypeResult
             filters={typeFilter[type].filters}
             onFilterClick={id => handleFilterClick(type, id)}
-            items={items}
+            items={items.slice(0, typeFilter[type].pageSize)}
             loading={loading}
             type={type}
             totalCount={totalCount}

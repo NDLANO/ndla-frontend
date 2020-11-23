@@ -68,9 +68,7 @@ const SearchContainer = ({
   }, [searchData]);
 
   const setLoadingOnGroup = type => {
-    if (type !== currentSubjectType) {
-      searchGroups.find(group => group.type === type).loading = true;
-    }
+    searchGroups.find(group => group.type === type).loading = true;
   }
 
   const handleFilterClick = (type, filterId) => {
@@ -100,7 +98,17 @@ const SearchContainer = ({
         pageSize: 4,
         resourceTypes: null
       })
-    } else {
+    } 
+    else if (type === contentTypes.SUBJECT) {
+      const filterUpdate = { ...typeFilter };
+        filterUpdate[type] = {
+          ...filterUpdate[type],
+          pageSize: searchGroups.find(group => group.type === type).totalCount,
+          page: 1,
+        };
+        setTypeFilter(filterUpdate);
+    }
+    else {
       if (typeFilter[type]) {
         const filterUpdate = { ...typeFilter };
         filterUpdate[type] = {
@@ -109,7 +117,9 @@ const SearchContainer = ({
           page: 1,
         };
         setTypeFilter(filterUpdate);
-        setLoadingOnGroup(type);
+        if (type !== currentSubjectType) {
+          setLoadingOnGroup(type);
+        }
         setParams({
           page: 1,
           pageSize: 8,
@@ -164,6 +174,17 @@ const SearchContainer = ({
           console.log('search-phrase suggestion click')
         }
       />
+      <SearchResults
+          searchGroups={searchGroups.filter(
+            item => item.type === contentTypes.SUBJECT,
+          )}
+          currentSubjectType={currentSubjectType}
+          typeFilter={typeFilter}
+          handleFilterClick={handleFilterClick}
+          handleShowMore={handleShowMore}
+          handleShowAll={handleShowAll}
+          onPagerNavigate={onPagerNavigate}
+        />
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={currentSubjectType ? currentSubjectType : 'ALL'}

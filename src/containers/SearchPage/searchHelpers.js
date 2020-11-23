@@ -268,9 +268,13 @@ const searchTypeFilterOptions = {
   topic: [],
 };
 
-export const appendImageParams = resources =>
+export const mapResourcesToItems = resources =>
   resources.map(resource => ({
-    ...resource,
+    id: resource.id,
+    title: resource.name,
+    ingress: resource.ingress,
+    breadcrumb: resource.breadcrumb,
+    url: `${toSubjects()}${resource.path}`,
     ...(resource.img?.url && {
       img: {
         url: `${resource.img.url}?focalX=50&focalY=50&ratio=1.75`,
@@ -281,9 +285,9 @@ export const appendImageParams = resources =>
 
 export const getSearchGroups = searchData => {
   return searchData.map(result => ({
-    items: appendImageParams(result.resources),
+    items: mapResourcesToItems(result.resources),
     totalCount: result.totalCount,
-    type: contentTypeMapping[result.resourceType],
+    type: result.type || contentTypeMapping[result.resourceType],
   }));
 }
 
@@ -293,7 +297,7 @@ export const updateSearchGroups = (searchData, searchGroups) => {
     if (resources) {
       return {
         ...group,
-        items: appendImageParams(resources),
+        items: mapResourcesToItems(resources),
         loading: false
       }
     }
@@ -305,7 +309,7 @@ export const getTypeFilter = searchData => {
   const { contentTypes } = constants;
   const typeFilter = {};
   searchData.forEach(result => {
-    const type = contentTypeMapping[result.resourceType]
+    const type = result.type || contentTypeMapping[result.resourceType]
     const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
     if (searchTypeFilterOptions[type].length) {

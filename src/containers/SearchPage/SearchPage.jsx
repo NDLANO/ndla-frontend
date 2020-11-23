@@ -20,6 +20,7 @@ import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
+import { searchSubjects } from '../../util/searchHelpers';
 import { sortResourceTypes } from '../Resources/getResourceGroups';
 import { useGraphQuery } from '../../util/runQueries';
 import {
@@ -104,6 +105,13 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     stateSearchParams.contextTypes ||
     ALL_TAB_VALUE;
 
+  const subjects = searchSubjects(searchParams.query);
+  const subjectGroup = {
+    type: 'subject',
+    resources: subjects,
+    totalCount: subjects.length,
+  }
+
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
@@ -117,7 +125,7 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
           allTabValue={ALL_TAB_VALUE}
           loading={loadingSearch}
           error={searchError}
-          searchData={searchData.groupSearch}
+          searchData={[...searchData.groupSearch, subjectGroup]}
           setParams={setParams}
           {...rest}
         />
