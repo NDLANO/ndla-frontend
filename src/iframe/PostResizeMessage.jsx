@@ -46,7 +46,7 @@ class PostResizeMessage extends React.Component {
   onWatchHeight = () => {
     this.intervalId = setInterval(() => {
       const container = document.querySelector('.c-article--iframe');
-      const height = container ? container.scrollHeight + 20 : 0;
+      const height = container ? container.scrollHeight + 35 : 0;
       if (this.state.height !== height) {
         this.resizer();
       }
@@ -65,7 +65,7 @@ class PostResizeMessage extends React.Component {
 
   resizer = (width = undefined) => {
     const container = document.querySelector('.c-article--iframe');
-    const height = container ? container.scrollHeight + 20 : 0;
+    const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };
     this.setState(newState, () =>
       window.parent.postMessage(

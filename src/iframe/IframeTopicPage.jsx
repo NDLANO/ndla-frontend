@@ -152,12 +152,13 @@ export class IframeTopicPage extends Component {
             locale={locale}
             modifier="clean iframe"
             label={t('topicPage.topic')}
-            contentType={constants.contentTypes.SUBJECT}></Article>
-          <CreatedBy
-            name={t('createdBy.content')}
-            description={t('createdBy.text')}
-            url={contentUrl}
-          />
+            contentType={constants.contentTypes.SUBJECT}>
+            <CreatedBy
+              name={t('createdBy.content')}
+              description={t('createdBy.text')}
+              url={contentUrl}
+            />
+          </Article>
         </OneColumn>
       </>
     );
