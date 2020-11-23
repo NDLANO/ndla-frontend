@@ -186,6 +186,13 @@ export const groupSearchQuery = gql`
           alt
         }
       }
+      suggestions {
+        suggestions {
+          options {
+            text
+          }
+        }
+      }
       resourceType
       totalCount
       language

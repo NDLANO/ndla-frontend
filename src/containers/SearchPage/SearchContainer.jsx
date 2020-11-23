@@ -55,7 +55,8 @@ const SearchContainer = ({
   searchParams,
   error,
   searchData,
-  setParams
+  setParams,
+  history
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
@@ -164,15 +165,19 @@ const SearchContainer = ({
     }
   }
 
+  const suggestion = searchData[0].suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+
   return (
     <>
       <SearchHeader
         count={searchGroups.reduce((acc, item) => acc + item.totalCount, 0)}
         searchPhrase={searchParams.query}
-        searchPhraseSuggestion="nynorsk"
-        searchPhraseSuggestionOnClick={() =>
-          console.log('search-phrase suggestion click')
-        }
+        searchPhraseSuggestion={suggestion}
+        searchPhraseSuggestionOnClick={() => {
+          history.push({
+            search: `?query=${suggestion}`
+          })
+        }}
       />
       <SearchResults
           searchGroups={searchGroups.filter(
@@ -241,6 +246,9 @@ SearchContainer.propTypes = {
   error: arrayOf(object),
   loading: bool,
   searchData: shape({ search: object }),
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
 };
 
 SearchContainer.defaultProps = {

@@ -127,6 +127,7 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
           error={searchError}
           searchData={[...searchData.groupSearch, subjectGroup]}
           setParams={setParams}
+          history={history}
           {...rest}
         />
       </OneColumn>
