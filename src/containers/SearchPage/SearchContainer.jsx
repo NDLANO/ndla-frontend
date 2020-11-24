@@ -30,26 +30,11 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import SearchResults from './components/SearchResults';
-import { getTypeFilter, getSearchGroups, updateSearchGroups } from './searchHelpers';
+import { getTypeFilter, getSearchGroups, updateSearchGroups, searchSubjectTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
 const { contentTypes } = constants;
-
-const searchSubjectTypeOptions = [
-  {
-    title: 'Alle',
-    value: 'ALL',
-  },
-  {
-    title: 'Emne',
-    value: 'topic',
-  },
-  {
-    title: 'Fagstoff',
-    value: 'subject-material',
-  },
-];
 
 const SearchContainer = ({
   searchParams,

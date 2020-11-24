@@ -268,6 +268,29 @@ const searchTypeFilterOptions = {
   topic: [],
 };
 
+export const searchSubjectTypeOptions = [
+  {
+    title: 'Alle',
+    value: 'ALL',
+  },
+  {
+    title: 'Emne',
+    value: 'topic',
+  },
+  {
+    title: 'Fagstoff',
+    value: 'subject-material',
+  },
+  {
+    title: 'Læringssti',
+    value: 'learning-path',
+  },
+  {
+    title: 'Oppgaver og aktiviteter',
+    value: 'tasks-and-activities',
+  }
+];
+
 export const mapResourcesToItems = resources =>
   resources.map(resource => ({
     id: resource.id,
