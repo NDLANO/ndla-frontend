@@ -20,6 +20,7 @@ import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
+import { LocationShape } from '../../shapes';
 
 const urlInPaths = (location, resource) => {
   return resource.paths?.find(p => location.pathname.includes(p));
@@ -94,9 +95,7 @@ ResourcePage.propTypes = {
   locale: PropTypes.string.isRequired,
   ndlaFilm: PropTypes.bool,
   skipToContentId: PropTypes.string,
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
+  location: LocationShape,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired,
