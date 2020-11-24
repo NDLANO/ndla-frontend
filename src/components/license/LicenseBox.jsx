@@ -70,17 +70,17 @@ function buildLicenseTabList(article, locale, t) {
     });
   }
 
-  if (oembed) {
-    tabs.push({
-      title: t('license.tabs.embedlink'),
-      content: <OembedItem oembed={oembed} locale={locale} />,
-    });
-  }
-
   if (concepts.length) {
     tabs.push({
       title: t('license.tabs.concept'),
       content: <ConceptLicenseList concepts={concepts} locale={locale} />,
+    });
+  }
+
+  if (oembed) {
+    tabs.push({
+      title: t('license.tabs.embedlink'),
+      content: <OembedItem oembed={oembed} locale={locale} />,
     });
   }
 
