@@ -41,7 +41,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
         <Concept className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        license={concept.copyright.license.license}
+        license={concept.copyright?.license?.license}
         title={t('concept.rules')}
         resourceType="concept"
         resourceUrl={concept.src}
