@@ -27,6 +27,12 @@ import { ConceptLicenseShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const ConceptLicenseInfo = ({ concept, locale, t }) => {
+  if (
+    concept.copyright?.license?.license === undefined ||
+    concept.copyright.license.license === 'unknown'
+  )
+    return null;
+
   const items = getGroupedContributorDescriptionList(concept.copyright, locale);
   if (concept.title) {
     items.unshift({
@@ -41,7 +47,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
         <Concept className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        license={concept.copyright?.license?.license}
+        license={concept.copyright.license.license}
         title={t('concept.rules')}
         resourceType="concept"
         resourceUrl={concept.src}
