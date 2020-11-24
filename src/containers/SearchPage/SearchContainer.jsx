@@ -165,6 +165,11 @@ const SearchContainer = ({
     }
   }
 
+  if (error) {
+    handleError(error);
+    return `Error: ${error.message}`;
+  }
+
   const suggestion = searchData[0].suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
