@@ -10,10 +10,9 @@ import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
-import { searchPageQuery, groupSearchQuery } from '../../queries';
+import { groupSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
 import SearchContainer from './SearchContainer';
 import {
@@ -21,15 +20,12 @@ import {
   convertSearchParam,
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
-import { sortResourceTypes } from '../Resources/getResourceGroups';
 import { useGraphQuery } from '../../util/runQueries';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from '../../constants';
-
-const ALL_TAB_VALUE = 'all';
 
 const resourceTypes = `
   ${RESOURCE_TYPE_SUBJECT_MATERIAL},
@@ -45,7 +41,7 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const SearchPage = ({ location, locale, history, t, ...rest }) => {
+const SearchPage = ({ location, locale, history, t }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
@@ -54,8 +50,7 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     pageSize: 4,
     resourceTypes
   })
-  const { loading, data } = useGraphQuery(searchPageQuery);
-  const { data: searchData, loadingSearch, searchError } = useGraphQuery(
+  const { data, loading, error } = useGraphQuery(
     groupSearchQuery,
     {
       variables: {
@@ -67,68 +62,28 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     },
   );
 
-  if (loading || loadingSearch) {
-    return null;
-  }
-
-  const handleSearchParamsChange = searchParams => {
-    history.push({
-      pathname: '/search',
-      search: queryString.stringify({
-        ...queryString.parse(location.search),
-        ...getStateSearchParams(searchParams),
-      }),
-    });
-  };
-
-  const resourceTypeTabs =
-    data && data.resourceTypes
-      ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
-          value: resourceType.id,
-          type: 'resourceTypes',
-          name: resourceType.name,
-        }))
-      : [];
-
-  const enabledTabs = [
-    { value: ALL_TAB_VALUE, name: t('contentTypes.all') },
-    {
-      value: 'topic-article',
-      type: 'contextTypes',
-      name: t('contentTypes.topic'),
-    },
-    ...resourceTypeTabs,
-  ];
-
-  const enabledTab =
-    stateSearchParams.resourceTypes ||
-    stateSearchParams.contextTypes ||
-    ALL_TAB_VALUE;
-
   const subjects = searchSubjects(searchParams.query);
   const subjectGroup = {
     type: 'subject',
     resources: subjects,
     totalCount: subjects.length,
-  }
+  };
+  const searchData = [
+    ...(data ? data.groupSearch : []),
+    subjectGroup
+  ];
 
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchContainer
-          searchParams={searchParams}
-          handleSearchParamsChange={handleSearchParamsChange}
-          data={data}
-          enabledTabs={enabledTabs}
-          enabledTab={enabledTab}
-          allTabValue={ALL_TAB_VALUE}
-          loading={loadingSearch}
-          error={searchError}
-          searchData={[...searchData.groupSearch, subjectGroup]}
-          setParams={setParams}
+          error={error}
           history={history}
-          {...rest}
+          loading={loading}
+          searchData={searchData}
+          searchParams={searchParams}
+          setParams={setParams}
         />
       </OneColumn>
     </Fragment>

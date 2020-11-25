@@ -6,13 +6,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes, {
+import {
   func,
-  number,
-  string,
   arrayOf,
   shape,
-  bool,
   object,
 } from 'prop-types';
 import { SearchHeader, constants } from '@ndla/ui';
@@ -20,15 +17,9 @@ import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
 import {
-  SubjectShape,
-  FilterShape,
-  LtiDataShape,
   SearchParamsShape,
+  SearchDataShape,
 } from '../../shapes';
-import {
-  GraphqlResourceTypeWithsubtypesShape,
-  GraphQLSubjectShape,
-} from '../../graphqlShapes';
 import SearchResults from './components/SearchResults';
 import { getTypeFilter, getSearchGroups, updateSearchGroups, searchSubjectTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
@@ -37,11 +28,11 @@ import handleError from '../../util/handleError';
 const { contentTypes } = constants;
 
 const SearchContainer = ({
-  searchParams,
   error,
+  history,
   searchData,
+  searchParams,
   setParams,
-  history
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
@@ -215,52 +206,13 @@ const SearchContainer = ({
 };
 
 SearchContainer.propTypes = {
-  subjects: arrayOf(SubjectShape),
-  resultMetadata: shape({
-    totalCount: number,
-    lastPage: number,
-  }),
-  filters: arrayOf(FilterShape),
-  match: shape({
-    params: shape({
-      subjectId: string,
-    }),
-  }),
-  data: shape({
-    resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
-    subjects: arrayOf(GraphQLSubjectShape),
-  }),
-  locale: PropTypes.string,
-  searchParams: SearchParamsShape,
-  handleSearchParamsChange: func,
-  includeEmbedButton: bool,
-  ltiData: LtiDataShape,
-  enabledTabs: arrayOf(
-    shape({
-      name: string,
-      value: string,
-      type: string,
-    }),
-  ),
-  allTabValue: string,
-  enabledTab: string.isRequired,
-  isLti: bool,
   error: arrayOf(object),
-  loading: bool,
-  searchData: shape({ search: object }),
+  searchData: arrayOf(SearchDataShape),
+  searchParams: SearchParamsShape,
+  setParams: func,
   history: shape({
     push: func.isRequired,
   }).isRequired,
-};
-
-SearchContainer.defaultProps = {
-  filters: [],
-  subjects: [],
-  searchParams: {},
-  data: {},
-  handleSearchParamsChange: () => {},
-  allTabValue: 'all',
-  isLti: false,
 };
 
 export default injectT(SearchContainer);

@@ -6,16 +6,14 @@
  */
 
 import React, { Fragment } from 'react';
-import { func, arrayOf, shape, string, number, bool } from 'prop-types';
+import { func, arrayOf, objectOf, string } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { injectT } from '@ndla/i18n';
 import {
-  ArticleResultShape,
-  LtiDataShape,
-  SearchParamsShape,
+  SearchGroupShape,
+  TypeFilterShape,
 } from '../../../shapes';
-import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
 const { contentTypes } = constants;
 
@@ -74,28 +72,13 @@ const SearchResults = ({
 };
 
 SearchResults.propTypes = {
-  searchParams: SearchParamsShape,
-  query: string,
-  enabledTabs: arrayOf(
-    shape({
-      name: string,
-      value: string,
-      type: string,
-    }),
-  ),
-  resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
-  onTabChange: func,
-  results: arrayOf(ArticleResultShape),
-  resultMetadata: shape({
-    totalCount: number,
-  }),
-  allTabValue: string.isRequired,
-  onUpdateContextFilters: func,
-  includeEmbedButton: bool,
-  ltiData: LtiDataShape,
-  enabledTab: string.isRequired,
-  loading: bool,
-  isLti: bool,
+  currentSubjectType: string,
+  handleFilterClick: func,
+  handleShowAll: func,
+  handleShowMore: func,
+  onPagerNavigate: func,
+  searchGroups: arrayOf(SearchGroupShape),
+  typeFilter: objectOf(TypeFilterShape),
 };
 
 export default injectT(SearchResults);
