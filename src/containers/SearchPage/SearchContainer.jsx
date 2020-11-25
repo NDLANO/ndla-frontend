@@ -45,7 +45,11 @@ const SearchContainer = ({
   }, [searchData]);
 
   const setLoadingOnGroup = type => {
-    searchGroups.find(group => group.type === type).loading = true;
+    setSearchGroups(prevState => 
+      prevState.map(group => ({
+        ...group,
+        loading: group.type === type
+      })))
   }
 
   const hasActiveFilters = type => (
@@ -100,6 +104,7 @@ const SearchContainer = ({
       updateTypeFilter(type, 1, searchGroups.find(group => group.type === type).totalCount);
     }
     else {
+      setCurrentSubjectType(type);
       if (typeFilter[type]) {
         updateTypeFilter(type, 1, 8);
         if (type !== currentSubjectType) {
@@ -111,7 +116,6 @@ const SearchContainer = ({
           resourceTypes: hasActiveFilters(type) ? prevState.resourceTypes : resourceTypeMapping[type]
         }))
       }
-      setCurrentSubjectType(type);
     }
   };
 
