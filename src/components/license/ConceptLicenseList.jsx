@@ -44,7 +44,9 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Concept className="c-medialist__icon" />
+        <a href={concept.src} target="_blank" rel="noopener noreferrer">
+          <Concept className="c-medialist__icon" />
+        </a>
       </MediaListItemImage>
       <MediaListItemBody
         license={concept.copyright.license.license}
