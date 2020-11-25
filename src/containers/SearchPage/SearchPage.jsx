@@ -19,7 +19,7 @@ import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
-import { searchSubjects } from '../../util/searchHelpers';
+import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -48,19 +48,16 @@ const SearchPage = ({ location, locale, history, t }) => {
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4,
-    resourceTypes
-  })
-  const { data, loading, error } = useGraphQuery(
-    groupSearchQuery,
-    {
-      variables: {
-        ...stateSearchParams,
-        page: params.page.toString(),
-        pageSize: params.pageSize.toString(),
-        resourceTypes: params.resourceTypes || resourceTypes
-      },
+    resourceTypes,
+  });
+  const { data, loading, error } = useGraphQuery(groupSearchQuery, {
+    variables: {
+      ...stateSearchParams,
+      page: params.page.toString(),
+      pageSize: params.pageSize.toString(),
+      resourceTypes: params.resourceTypes || resourceTypes,
     },
-  );
+  });
 
   const subjects = searchSubjects(searchParams.query);
   const subjectGroup = {
@@ -68,10 +65,7 @@ const SearchPage = ({ location, locale, history, t }) => {
     resources: subjects,
     totalCount: subjects.length,
   };
-  const searchData = [
-    ...(data ? data.groupSearch : []),
-    subjectGroup
-  ];
+  const searchData = [...(data ? data.groupSearch : []), subjectGroup];
 
   return (
     <Fragment>

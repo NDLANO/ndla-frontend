@@ -45,13 +45,12 @@ export const resourceTypeMapping = {
 
   [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
 
-  [contentTypes.EXTERNAL_LEARNING_RESOURCES]:
-    RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  [contentTypes.EXTERNAL_LEARNING_RESOURCES]: RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 
   [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
 
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
-}
+};
 
 function getContentTypeFromResourceTypes(resourceTypes = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);

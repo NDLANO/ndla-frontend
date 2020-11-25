@@ -288,7 +288,7 @@ export const searchSubjectTypeOptions = [
   {
     title: 'Oppgaver og aktiviteter',
     value: 'tasks-and-activities',
-  }
+  },
 ];
 
 export const mapResourcesToItems = resources =>
@@ -312,30 +312,34 @@ export const getSearchGroups = searchData => {
     totalCount: result.totalCount,
     type: result.type || contentTypeMapping[result.resourceType],
   }));
-}
+};
 
 export const updateSearchGroups = (searchData, searchGroups) => {
   return searchGroups.map(group => {
-    const searchResult = searchData.find(result => 
-      contentTypeMapping[result.resourceType] === group.type || searchTypeFilterOptions[group.type].map(type => type.id).includes(result.resourceType)
+    const searchResult = searchData.find(
+      result =>
+        contentTypeMapping[result.resourceType] === group.type ||
+        searchTypeFilterOptions[group.type]
+          .map(type => type.id)
+          .includes(result.resourceType),
     );
     if (searchResult) {
       return {
         ...group,
         items: mapResourcesToItems(searchResult.resources),
         loading: false,
-        totalCount: searchResult.totalCount
-      }
+        totalCount: searchResult.totalCount,
+      };
     }
     return group;
-  })
-}
+  });
+};
 
 export const getTypeFilter = searchData => {
   const { contentTypes } = constants;
   const typeFilter = {};
   searchData.forEach(result => {
-    const type = result.type || contentTypeMapping[result.resourceType]
+    const type = result.type || contentTypeMapping[result.resourceType];
     const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
     if (searchTypeFilterOptions[type]?.length) {
@@ -350,4 +354,4 @@ export const getTypeFilter = searchData => {
     };
   });
   return typeFilter;
-}
+};

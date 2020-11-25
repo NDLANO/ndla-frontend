@@ -251,10 +251,10 @@ export const TypeFilterShape = PropTypes.shape({
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      active: PropTypes.bool
-    })
+      active: PropTypes.bool,
+    }),
   ),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
 });

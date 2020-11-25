@@ -10,10 +10,7 @@ import { func, arrayOf, objectOf, string } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { injectT } from '@ndla/i18n';
-import {
-  SearchGroupShape,
-  TypeFilterShape,
-} from '../../../shapes';
+import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
 
 const { contentTypes } = constants;
 
@@ -24,11 +21,15 @@ const SearchResults = ({
   handleShowMore,
   onPagerNavigate,
   searchGroups,
-  typeFilter
+  typeFilter,
 }) => {
   return searchGroups.map(group => {
     const { totalCount, type, items, loading } = group;
-    if (!currentSubjectType || type === currentSubjectType || type === contentTypes.SUBJECT) {
+    if (
+      !currentSubjectType ||
+      type === currentSubjectType ||
+      type === contentTypes.SUBJECT
+    ) {
       let pagination = null;
       if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
         const toCount =
@@ -65,7 +66,7 @@ const SearchResults = ({
             )}
           </SearchTypeResult>
         </Fragment>
-      )
+      );
     }
     return null;
   });
