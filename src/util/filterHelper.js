@@ -7,6 +7,7 @@
  */
 
 import queryString from 'query-string';
+import { getSubjectBySubjectIdFilters } from '../data/subjects';
 
 export const getFiltersFromUrl = location => {
   const urlParams = queryString.parse(location.search || '');
@@ -16,4 +17,17 @@ export const getFiltersFromUrl = location => {
 export const getFiltersFromUrlAsArray = location => {
   const filters = getFiltersFromUrl(location);
   return filters.length > 0 ? filters.split(',') : [];
+};
+
+export const getLongNameFromFilters = (locale, location, subject) => {
+  const filters = getFiltersFromUrl(location);
+  const subjectBySubjectIdFilters = getSubjectBySubjectIdFilters(
+    subject.id,
+    filters.split(','),
+  );
+
+  if (subjectBySubjectIdFilters) {
+    return subjectBySubjectIdFilters?.longName[locale];
+  }
+  return subject.filters?.find(filter => filter.id === filters)?.name;
 };

@@ -258,3 +258,9 @@ export const TypeFilterShape = PropTypes.shape({
   pageSize: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
 });
+
+export const ConceptLicenseShape = PropTypes.shape({
+  copyright: CopyrightObjectShape,
+  src: PropTypes.string.isRequired,
+  title: PropTypes.string,
+});

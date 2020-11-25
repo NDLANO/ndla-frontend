@@ -14,7 +14,10 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -25,6 +28,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { toLearningPath } from '../../routeHelpers';
+import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
   componentDidUpdate() {
@@ -49,6 +53,8 @@ class LearningpathPage extends Component {
         subject,
         topicPath,
       },
+      locale,
+      location,
       match: {
         params: { stepId },
       },
@@ -58,8 +64,10 @@ class LearningpathPage extends Component {
       ls => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
+    const longName = getLongNameFromFilters(locale, location, subject);
+
     return getAllDimensions(
-      { subject, topicPath, learningpath, learningstep },
+      { subject, topicPath, learningpath, learningstep, filter: longName },
       articleProps.label,
       false,
     );
@@ -188,7 +196,7 @@ LearningpathPage.propTypes = {
   }).isRequired,
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
   loading: PropTypes.bool.isRequired,
   ndlaFilm: PropTypes.bool.isRequired,
   data: PropTypes.shape({

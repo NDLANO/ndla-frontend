@@ -99,6 +99,7 @@ const taxonomyData = (result, selectedContext) => {
                 title:
                   contextData?.longName[context.language] || context.subject,
                 contentType: getContentType(context),
+                breadcrumb: context.breadcrumbs,
               };
             })
           : undefined,

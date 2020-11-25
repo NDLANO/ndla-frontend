@@ -400,6 +400,13 @@ export const articleInfoFragment = gql`
         }
         uploadDate
       }
+      concepts {
+        title
+        src
+        copyright {
+          ...CopyrightInfo
+        }
+      }
     }
     competenceGoals {
       id

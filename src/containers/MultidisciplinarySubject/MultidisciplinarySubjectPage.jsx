@@ -65,8 +65,8 @@ const MultidisciplinarySubjectPage = ({ match, history, location }) => {
   const items = topics.map(topic => ({
     title: topic.name,
     introduction: topic.meta.metaDescription,
-    image: topic.meta.metaImage.url,
-    imageAlt: topic.meta.metaImage.alt,
+    image: topic.meta.metaImage?.url,
+    imageAlt: topic.meta.metaImage?.alt,
     subjects: topic.filters.map(filter => filter.name),
     url: toTopic(subjectId, undefined, topic.id),
     ...topic,

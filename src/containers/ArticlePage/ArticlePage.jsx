@@ -37,7 +37,10 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toSubjects } from '../../routeHelpers';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import {
+  getFiltersFromUrl,
+  getLongNameFromFilters,
+} from '../../util/filterHelper';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -64,9 +67,13 @@ class ArticlePage extends Component {
         subject,
         topicPath,
       },
+      locale,
+      location,
     } = props;
+    const longName = getLongNameFromFilters(locale, location, subject);
+
     return getAllDimensions(
-      { article, subject, topicPath },
+      { article, subject, topicPath, filter: longName },
       articleProps.label,
       true,
     );
