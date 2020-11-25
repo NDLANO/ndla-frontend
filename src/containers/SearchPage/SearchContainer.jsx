@@ -57,6 +57,10 @@ const SearchContainer = ({
     searchGroups.find(group => group.type === type).loading = true;
   }
 
+  const hasActiveFilters = type => (
+    typeFilter[type].filters.length && !typeFilter[type].filters.find(f => f.id === 'all').active
+  )
+
   const handleFilterClick = (type, filterId) => {
     const filterUpdate = { ...typeFilter[type] };
     const filters = [...filterUpdate.filters];
@@ -65,6 +69,10 @@ const SearchContainer = ({
       filters.forEach(filter => {
         filter.active = filter.id === 'all';
       });
+      setParams(prevState => ({
+        ...prevState,
+        resourceTypes: null
+      }))
     } else {
       const allFilter = filters.find(item => 'all' === item.id);
       allFilter.active = false;
@@ -72,6 +80,10 @@ const SearchContainer = ({
       if (!filters.some(item => item.active)) {
         allFilter.active = true;
       }
+      setParams(prevState => ({
+        ...prevState,
+        resourceTypes: filters.filter(filter => filter.active).map(f => f.id).join()
+      }))
     }
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
   };
@@ -126,7 +138,7 @@ const SearchContainer = ({
       setParams(prevState => ({
         ...prevState,
         pageSize: prevState.pageSize + pageIncrement,
-        resourceTypes: resourceTypeMapping[type]
+        resourceTypes: hasActiveFilters(type) ? prevState.resourceTypes : resourceTypeMapping[type]
       }))
     }
   };
@@ -142,11 +154,11 @@ const SearchContainer = ({
     setTypeFilter({ ...typeFilter, [type]: filterUpdate });
     if (type !== contentTypes.SUBJECT) {
       setLoadingOnGroup(type);
-      setParams({
+      setParams(prevState => ({
         page,
         pageSize: 8,
-        resourceTypes: resourceTypeMapping[type]
-      })
+        resourceTypes: hasActiveFilters(type) ? prevState.resourceTypes : resourceTypeMapping[type]
+      }))
     }
   }
 

@@ -316,12 +316,15 @@ export const getSearchGroups = searchData => {
 
 export const updateSearchGroups = (searchData, searchGroups) => {
   return searchGroups.map(group => {
-    const resources = searchData.find(result => contentTypeMapping[result.resourceType] === group.type)?.resources;
-    if (resources) {
+    const searchResult = searchData.find(result => 
+      contentTypeMapping[result.resourceType] === group.type || searchTypeFilterOptions[group.type].map(type => type.id).includes(result.resourceType)
+    );
+    if (searchResult) {
       return {
         ...group,
-        items: mapResourcesToItems(resources),
-        loading: false
+        items: mapResourcesToItems(searchResult.resources),
+        loading: false,
+        totalCount: searchResult.totalCount
       }
     }
     return group;
@@ -335,7 +338,7 @@ export const getTypeFilter = searchData => {
     const type = result.type || contentTypeMapping[result.resourceType]
     const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
-    if (searchTypeFilterOptions[type].length) {
+    if (searchTypeFilterOptions[type]?.length) {
       filters.push({ id: 'all', name: 'Alle', active: true });
       filters.push(...searchTypeFilterOptions[type]);
     }

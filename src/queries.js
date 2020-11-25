@@ -181,6 +181,7 @@ export const groupSearchQuery = gql`
         name
         ingress
         breadcrumb
+        resourceTypes
         img {
           url
           alt

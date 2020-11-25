@@ -6006,6 +6006,22 @@
             "deprecationReason": null
           },
           {
+            "name": "resourceTypes",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "img",
             "description": "",
             "args": [],
