@@ -263,9 +263,6 @@ const searchTypeFilterOptions = {
       id: 'urn:resourcetype:exercise',
     },
   ],
-  EVALUATION_RESOURCE: [],
-  SOURCE_MATERIAL: [],
-  SHARED_RESOURCES: [],
   topic: [],
 };
 
@@ -307,15 +304,14 @@ export const mapResourcesToItems = resources =>
     }),
   }));
 
-export const getSearchGroups = searchData => {
-  return searchData.map(result => ({
-    items: mapResourcesToItems(result.resources),
-    totalCount: result.totalCount,
-    type: result.type || contentTypeMapping[result.resourceType],
-  }));
-};
-
 export const updateSearchGroups = (searchData, searchGroups) => {
+  if (!searchGroups.length) {
+    return searchData.map(result => ({
+      items: mapResourcesToItems(result.resources),
+      totalCount: result.totalCount,
+      type: result.type || contentTypeMapping[result.resourceType],
+    }));
+  }
   return searchGroups.map(group => {
     const searchResult = searchData.find(
       result =>
@@ -336,16 +332,15 @@ export const updateSearchGroups = (searchData, searchGroups) => {
   });
 };
 
-export const getTypeFilter = searchData => {
+export const getTypeFilter = () => {
   const { contentTypes } = constants;
   const typeFilter = {};
-  searchData.forEach(result => {
-    const type = result.type || contentTypeMapping[result.resourceType];
+  for (const [type, subTypes] of Object.entries(searchTypeFilterOptions)) {
     const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
-    if (searchTypeFilterOptions[type]?.length) {
+    if (subTypes.length) {
       filters.push({ id: 'all', name: 'Alle', active: true });
-      filters.push(...searchTypeFilterOptions[type]);
+      filters.push(...subTypes);
     }
     typeFilter[type] = {
       filters,
@@ -353,6 +348,6 @@ export const getTypeFilter = searchData => {
       loading: false,
       pageSize,
     };
-  });
+  }
   return typeFilter;
 };

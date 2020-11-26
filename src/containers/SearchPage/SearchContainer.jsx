@@ -5,20 +5,15 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
-import { func, arrayOf, shape, object } from 'prop-types';
+import React from 'react';
+import { func, arrayOf, objectOf, shape, object, string } from 'prop-types';
 import { SearchHeader, constants } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
-import { SearchParamsShape, SearchDataShape } from '../../shapes';
+import { SearchGroupShape, TypeFilterShape } from '../../shapes';
 import SearchResults from './components/SearchResults';
-import {
-  getTypeFilter,
-  getSearchGroups,
-  updateSearchGroups,
-  searchSubjectTypeOptions,
-} from './searchHelpers';
+import { searchSubjectTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
@@ -27,18 +22,16 @@ const { contentTypes } = constants;
 const SearchContainer = ({
   error,
   history,
-  searchData,
-  searchParams,
+  query,
   setParams,
+  currentSubjectType,
+  setCurrentSubjectType,
+  typeFilter,
+  setTypeFilter,
+  searchGroups,
+  setSearchGroups,
+  suggestion,
 }) => {
-  const [currentSubjectType, setCurrentSubjectType] = useState(null);
-  const [typeFilter, setTypeFilter] = useState(getTypeFilter(searchData));
-  const [searchGroups, setSearchGroups] = useState(getSearchGroups(searchData));
-
-  useEffect(() => {
-    setSearchGroups(prevState => updateSearchGroups(searchData, prevState));
-  }, [searchData]);
-
   const setLoadingOnGroup = type => {
     setSearchGroups(prevState =>
       prevState.map(group => ({
@@ -161,14 +154,11 @@ const SearchContainer = ({
     return `Error: ${error.message}`;
   }
 
-  const suggestion =
-    searchData[0].suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
-
   return (
     <>
       <SearchHeader
         count={searchGroups.reduce((acc, item) => acc + item.totalCount, 0)}
-        searchPhrase={searchParams.query}
+        searchPhrase={query}
         searchPhraseSuggestion={suggestion}
         searchPhraseSuggestionOnClick={() => {
           history.push({
@@ -211,12 +201,18 @@ const SearchContainer = ({
 
 SearchContainer.propTypes = {
   error: arrayOf(object),
-  searchData: arrayOf(SearchDataShape),
-  searchParams: SearchParamsShape,
-  setParams: func,
   history: shape({
     push: func.isRequired,
   }).isRequired,
+  query: string,
+  suggestion: string,
+  currentSubjectType: string,
+  setCurrentSubjectType: func,
+  searchGroups: arrayOf(SearchGroupShape),
+  setSearchGroups: func,
+  typeFilter: objectOf(TypeFilterShape),
+  setTypeFilter: func,
+  setParams: func,
 };
 
 export default injectT(SearchContainer);

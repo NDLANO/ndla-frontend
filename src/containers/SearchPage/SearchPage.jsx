@@ -18,6 +18,8 @@ import SearchContainer from './SearchContainer';
 import {
   converSearchStringToObject,
   convertSearchParam,
+  getTypeFilter,
+  updateSearchGroups,
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
@@ -45,6 +47,17 @@ const SearchPage = ({ location, locale, history, t }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
+  const subjects = searchSubjects(searchParams.query);
+  const subjectGroup = {
+    type: 'subject',
+    resources: subjects,
+    totalCount: subjects.length,
+  };
+
+  const [currentSubjectType, setCurrentSubjectType] = useState(null);
+  const [typeFilter, setTypeFilter] = useState(getTypeFilter());
+  const [searchGroups, setSearchGroups] = useState([]);
+
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4,
@@ -57,15 +70,15 @@ const SearchPage = ({ location, locale, history, t }) => {
       pageSize: params.pageSize.toString(),
       resourceTypes: params.resourceTypes || resourceTypes,
     },
+    onCompleted: data =>
+      setSearchGroups(
+        updateSearchGroups([...data.groupSearch, subjectGroup], searchGroups),
+      ),
   });
 
-  const subjects = searchSubjects(searchParams.query);
-  const subjectGroup = {
-    type: 'subject',
-    resources: subjects,
-    totalCount: subjects.length,
-  };
-  const searchData = [...(data ? data.groupSearch : []), subjectGroup];
+  const suggestion =
+    data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
+      ?.text;
 
   return (
     <Fragment>
@@ -75,9 +88,15 @@ const SearchPage = ({ location, locale, history, t }) => {
           error={error}
           history={history}
           loading={loading}
-          searchData={searchData}
-          searchParams={searchParams}
+          query={searchParams.query}
+          suggestion={suggestion}
           setParams={setParams}
+          currentSubjectType={currentSubjectType}
+          setCurrentSubjectType={setCurrentSubjectType}
+          searchGroups={searchGroups}
+          setSearchGroups={setSearchGroups}
+          typeFilter={typeFilter}
+          setTypeFilter={setTypeFilter}
         />
       </OneColumn>
     </Fragment>
