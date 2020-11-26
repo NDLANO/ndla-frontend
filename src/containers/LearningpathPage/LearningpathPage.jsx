@@ -52,6 +52,7 @@ class LearningpathPage extends Component {
         resource: { learningpath },
         subject,
         topicPath,
+        relevance,
       },
       locale,
       location,
@@ -67,7 +68,14 @@ class LearningpathPage extends Component {
     const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
-      { subject, topicPath, learningpath, learningstep, filter: longName },
+      {
+        subject,
+        relevance,
+        topicPath,
+        learningpath,
+        learningstep,
+        filter: longName,
+      },
       articleProps.label,
       false,
     );
@@ -204,6 +212,7 @@ LearningpathPage.propTypes = {
     resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
     topic: GraphQLTopicShape,
     topicPath: PropTypes.arrayOf(GraphQLTopicShape),
+    relevance: PropTypes.string,
     subject: GraphQLSubjectShape,
   }),
   skipToContentId: PropTypes.string,
