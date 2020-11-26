@@ -11,14 +11,12 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { toBreadcrumbItems } from '../../../routeHelpers';
 import {
   ResourceShape,
   SubjectShape,
   TopicShape,
   LocationShape,
 } from '../../../shapes';
-import { getFiltersFromUrl } from '../../../util/filterHelper';
 
 const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }) => {
   if (ndlaFilm) {
@@ -49,6 +47,7 @@ const ArticleHero = ({
   topicPath,
   location,
   locale,
+  breadcrumbItems,
   t,
 }) => (
   <WrapperComponent
@@ -62,18 +61,7 @@ const ArticleHero = ({
     )}
     <OneColumn>
       <div className="c-hero__content">
-        <section>
-          {subject && (
-            <Breadcrumb
-              items={toBreadcrumbItems(
-                t('breadcrumb.toFrontpage'),
-                [subject, ...topicPath, resource],
-                getFiltersFromUrl(location),
-                locale,
-              )}
-            />
-          )}
-        </section>
+        <section>{subject && <Breadcrumb items={breadcrumbItems} />}</section>
       </div>
     </OneColumn>
   </WrapperComponent>
@@ -90,6 +78,7 @@ ArticleHero.propTypes = {
     url: PropTypes.string,
     alt: PropTypes.string,
   }),
+  breadcrumbItems: PropTypes.arrayOf(PropTypes.object),
   ndlaFilm: PropTypes.bool,
 };
 export default withRouter(injectT(ArticleHero));

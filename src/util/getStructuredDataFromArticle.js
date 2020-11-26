@@ -8,7 +8,12 @@
 
 import format from 'date-fns/format';
 
-const CREATIVE_WORK_TYPE = 'CreativeWork';
+import config from '../config'
+
+const CREATIVE_WORK_TYPE = 'WebPage';
+const BREADCRUMB_TYPE = 'BreadcrumbList';
+const ITEM_TYPE = 'ListItem';
+
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
@@ -57,7 +62,29 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   return data;
 };
 
-const getStructuredDataFromArticle = article => {
+const getBreadcrumbs = breadcrumbItems => {
+  const items = breadcrumbItems.map((item, index) => {
+    return {
+      '@type': ITEM_TYPE,
+      name: item.name,
+      position: index + 1,
+      item: {
+        '@type': 'Thing',
+        id: `${config.ndlaFrontendDomain}${item.to}`,
+      }
+    }
+  });
+
+  const breadcrumbList = {
+    '@type': BREADCRUMB_TYPE,
+    numberOfItems: breadcrumbItems.length,
+    ...items
+  };
+
+  return  breadcrumbList;
+};
+
+const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   if (!article) return [];
 
   let articleData = getStructuredDataBase();
@@ -66,6 +93,7 @@ const getStructuredDataFromArticle = article => {
 
   articleData = {
     ...articleData,
+    breadcrumbs: getBreadcrumbs(breadcrumbItems),
     ...getCopyrightData(article.copyright),
   };
 
