@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 
 import { SearchGroupShape, TypeFilterShape } from '../../shapes';
 import SearchResults from './components/SearchResults';
-import { searchSubjectTypeOptions } from './searchHelpers';
+import { searchSubjectTypeOptions, getTypeFilter } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
@@ -86,6 +86,7 @@ const SearchContainer = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
+      setTypeFilter(getTypeFilter);
       setParams({
         page: 1,
         pageSize: 4,
