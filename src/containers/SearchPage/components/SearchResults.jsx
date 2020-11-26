@@ -26,9 +26,10 @@ const SearchResults = ({
   return searchGroups.map(group => {
     const { totalCount, type, items, loading } = group;
     if (
-      !currentSubjectType ||
-      type === currentSubjectType ||
-      type === contentTypes.SUBJECT
+      (!currentSubjectType ||
+        type === currentSubjectType ||
+        type === contentTypes.SUBJECT) &&
+      items.length
     ) {
       let pagination = null;
       if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
