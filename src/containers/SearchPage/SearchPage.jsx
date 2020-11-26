@@ -63,7 +63,7 @@ const SearchPage = ({ location, locale, history, t }) => {
     pageSize: 4,
     resourceTypes,
   });
-  const { data, loading, error } = useGraphQuery(groupSearchQuery, {
+  const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
       page: params.page.toString(),
@@ -76,6 +76,10 @@ const SearchPage = ({ location, locale, history, t }) => {
       ),
   });
 
+  if (!searchGroups.length) {
+    return null;
+  }
+
   const suggestion =
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
       ?.text;
@@ -87,7 +91,6 @@ const SearchPage = ({ location, locale, history, t }) => {
         <SearchContainer
           error={error}
           history={history}
-          loading={loading}
           query={searchParams.query}
           suggestion={suggestion}
           setParams={setParams}
