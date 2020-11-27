@@ -27,7 +27,7 @@ import {
   GraphQLTopicShape,
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
-import { toLearningPath } from '../../routeHelpers';
+import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
@@ -122,9 +122,11 @@ class LearningpathPage extends Component {
       locale,
       skipToContentId,
       ndlaFilm,
+      location,
       match: {
         params: { stepId },
       },
+      t,
     } = this.props;
 
     if (
@@ -139,6 +141,7 @@ class LearningpathPage extends Component {
     }
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { learningpath } = resource;
+    const filterIds = getFiltersFromUrl(location);
 
     const learningpathStep = stepId
       ? learningpath.learningsteps.find(
@@ -149,6 +152,19 @@ class LearningpathPage extends Component {
     if (!learningpathStep) {
       return null;
     }
+
+    const breadcrumbItems =
+      subject && topicPath
+        ? toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [subject, ...topicPath, { name: learningpath.title, url: '' }],
+            filterIds,
+          )
+        : toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [{ name: learningpath.title, url: '' }],
+            filterIds,
+          );
 
     return (
       <div>
@@ -178,6 +194,7 @@ class LearningpathPage extends Component {
           topicPath={topicPath}
           locale={locale}
           ndlaFilm={ndlaFilm}
+          breadcrumbItems={breadcrumbItems}
           {...getArticleProps()}
         />
       </div>

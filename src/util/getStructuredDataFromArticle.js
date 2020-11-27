@@ -8,11 +8,12 @@
 
 import format from 'date-fns/format';
 
-import config from '../config'
+import config from '../config';
 
-const CREATIVE_WORK_TYPE = 'WebPage';
+const CREATIVE_WORK_TYPE = 'Article';
 const BREADCRUMB_TYPE = 'BreadcrumbList';
 const ITEM_TYPE = 'ListItem';
+const THING_TYPE = 'Thing';
 
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
@@ -30,7 +31,7 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   };
 
   // can only be one since it is a person or a organization
-  const author = creators.length > 0 ? creators[0] : rightsholders[0];
+  const author = creators?.length > 0 ? creators[0] : rightsholders?.[0];
 
   if (author) {
     data.author = {
@@ -40,7 +41,7 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   }
 
   // can only be one since it is a person or a organization
-  const copyrightHolder = rightsholders[0];
+  const copyrightHolder = rightsholders?.[0];
 
   if (copyrightHolder) {
     data.copyrightHolder = {
@@ -50,7 +51,7 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   }
 
   // can only be one since it is a person or a organization
-  const contributor = processors[0];
+  const contributor = processors?.[0];
 
   if (contributor) {
     data.contributor = {
@@ -63,25 +64,27 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
 };
 
 const getBreadcrumbs = breadcrumbItems => {
+  if (!breadcrumbItems) {
+    return [];
+  }
   const items = breadcrumbItems.map((item, index) => {
     return {
       '@type': ITEM_TYPE,
       name: item.name,
       position: index + 1,
       item: {
-        '@type': 'Thing',
+        '@type': THING_TYPE,
         id: `${config.ndlaFrontendDomain}${item.to}`,
-      }
-    }
+      },
+    };
   });
 
-  const breadcrumbList = {
-    '@type': BREADCRUMB_TYPE,
-    numberOfItems: breadcrumbItems.length,
-    ...items
-  };
+  let data = getStructuredDataBase();
+  data['@type'] = BREADCRUMB_TYPE;
+  data.numberOfItems = breadcrumbItems.length;
+  data.itemListELement = items;
 
-  return  breadcrumbList;
+  return data;
 };
 
 const getStructuredDataFromArticle = (article, breadcrumbItems) => {
@@ -93,15 +96,21 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
 
   articleData = {
     ...articleData,
-    breadcrumbs: getBreadcrumbs(breadcrumbItems),
     ...getCopyrightData(article.copyright),
   };
 
   const structuredDataCollection = [articleData];
 
+  const breadcrumbs = breadcrumbItems
+    ? getBreadcrumbs(breadcrumbItems)
+    : undefined;
+  if (breadcrumbs) {
+    structuredDataCollection.push(breadcrumbs);
+  }
+
   const mediaElements = [];
 
-  const images = article.metaData.images || [];
+  const images = article.metaData?.images || [];
   images.forEach(image => {
     mediaElements.push({
       data: image,
@@ -109,7 +118,7 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
     });
   });
 
-  const audios = article.metaData.audios || [];
+  const audios = article.metaData?.audios || [];
   audios.forEach(audio => {
     mediaElements.push({
       data: audio,
@@ -117,7 +126,7 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
     });
   });
 
-  const videos = article.metaData.brightcoves || [];
+  const videos = article.metaData?.brightcoves || [];
 
   videos.forEach(video => {
     mediaElements.push({

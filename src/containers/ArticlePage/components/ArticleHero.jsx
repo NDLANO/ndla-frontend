@@ -12,10 +12,11 @@ import { injectT } from '@ndla/i18n';
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import {
+  BreadCrumbShape,
+  LocationShape,
   ResourceShape,
   SubjectShape,
   TopicShape,
-  LocationShape,
 } from '../../../shapes';
 
 const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }) => {
@@ -78,7 +79,7 @@ ArticleHero.propTypes = {
     url: PropTypes.string,
     alt: PropTypes.string,
   }),
-  breadcrumbItems: PropTypes.arrayOf(PropTypes.object),
+  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
   ndlaFilm: PropTypes.bool,
 };
 export default withRouter(injectT(ArticleHero));
