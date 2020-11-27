@@ -71,6 +71,7 @@ export const getAllDimensions = (
 ) => {
   const {
     article,
+    relevance,
     subject,
     topicPath,
     learningpath,
@@ -89,6 +90,7 @@ export const getAllDimensions = (
   );
 
   const dimensions = {
+    3: relevance ? relevance : undefined,
     4: contentTypeLabel,
     5: subject ? subject.name : undefined,
     6: topicPath?.[0]?.name || undefined,

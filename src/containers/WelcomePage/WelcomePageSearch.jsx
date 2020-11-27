@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -16,7 +16,6 @@ import debounce from 'lodash.debounce';
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
 
-import { topicsNotInNDLA } from '../../util/topicsHelper';
 import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
 
@@ -61,27 +60,6 @@ const WelcomePageSearch = ({ t, history, locale }) => {
     history.push(allResultsUrl);
   };
 
-  const renderInfoText = () => (
-    <span>
-      {topicsNotInNDLA.map((topic, index) => (
-        <Fragment key={topic}>
-          {index === topicsNotInNDLA.length - 1 &&
-            `${t('welcomePage.topicsConjunction')} `}
-          <strong key={topic}>
-            {topic}
-            {index < topicsNotInNDLA.length - 2 && ','}{' '}
-          </strong>
-        </Fragment>
-      ))}
-      {t('welcomePage.topicsNotAvailableFromSearch')}
-    </span>
-  );
-
-  const infoText =
-    topicsNotInNDLA.length > 0 && delayedSearchQuery.length >= 2
-      ? renderInfoText()
-      : '';
-
   const headerMessages = {
     searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
     menuButton: t('welcomePage.heading.messages.menuButton'),
@@ -106,7 +84,6 @@ const WelcomePageSearch = ({ t, history, locale }) => {
           locale,
         )
       }
-      infoText={infoText}
       onSearchInputFocus={() => setInputHasFocus(true)}
       allResultUrl={allResultsUrl}
       loading={loading}

@@ -31,11 +31,7 @@ import handleError from '../util/handleError';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
-import {
-  FILM_PAGE_PATH,
-  ALLOWED_SUBJECTS,
-  NOT_FOUND_PAGE_PATH,
-} from '../constants';
+import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
 
 global.fetch = fetch;
@@ -87,11 +83,7 @@ app.get('/health', ndlaMiddleware, (req, res) => {
 });
 
 app.get('/film', ndlaMiddleware, (req, res, next) => {
-  if (ALLOWED_SUBJECTS.includes(FILM_PAGE_PATH.replace('/subjects/', 'urn:'))) {
-    res.redirect(FILM_PAGE_PATH);
-  } else {
-    next();
-  }
+  res.redirect(FILM_PAGE_PATH);
 });
 
 async function sendInternalServerError(req, res) {

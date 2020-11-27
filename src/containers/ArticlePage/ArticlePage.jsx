@@ -66,6 +66,7 @@ class ArticlePage extends Component {
         resource: { article },
         subject,
         topicPath,
+        relevance,
       },
       locale,
       location,
@@ -73,7 +74,7 @@ class ArticlePage extends Component {
     const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
-      { article, subject, topicPath, filter: longName },
+      { article, relevance, subject, topicPath, filter: longName },
       articleProps.label,
       true,
     );
@@ -216,6 +217,7 @@ ArticlePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    relevance: PropTypes.string,
     topicPath: PropTypes.arrayOf(PropTypes.object),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
