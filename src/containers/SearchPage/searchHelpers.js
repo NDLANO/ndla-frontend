@@ -289,6 +289,13 @@ export const searchSubjectTypeOptions = [
   },
 ];
 
+export const filterTypeOptions = searchGroups =>
+  searchSubjectTypeOptions.filter(
+    option =>
+      searchGroups.find(group => group.type === option.value)?.items?.length ||
+      option.value === 'ALL',
+  );
+
 export const mapResourcesToItems = resources =>
   resources.map(resource => ({
     id: resource.id,

@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 
 import { SearchGroupShape, TypeFilterShape } from '../../shapes';
 import SearchResults from './components/SearchResults';
-import { searchSubjectTypeOptions, getTypeFilter } from './searchHelpers';
+import { getTypeFilter, filterTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
@@ -181,7 +181,7 @@ const SearchContainer = ({
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={currentSubjectType ? currentSubjectType : 'ALL'}
-        options={searchSubjectTypeOptions}
+        options={filterTypeOptions(searchGroups)}
         contentId="search-result-content"
         onChange={handleSetSubjectType}>
         <SearchResults
