@@ -25,7 +25,7 @@ import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType } from '../../util/getContentType';
 import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredData from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
@@ -177,7 +177,7 @@ class ArticlePage extends Component {
           ))}
 
           <script type="application/ld+json">
-            {JSON.stringify(getStructuredData(article, breadcrumbItems))}
+            {JSON.stringify(getStructuredDataFromArticle(article, breadcrumbItems))}
           </script>
         </Helmet>
         <SocialMediaMetadata

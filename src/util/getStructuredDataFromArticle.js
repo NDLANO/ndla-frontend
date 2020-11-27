@@ -93,7 +93,10 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   let articleData = getStructuredDataBase();
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
-
+  articleData.headline = article.title;
+  articleData.datePublished = format(article.published, 'YYYY-MM-DD');
+  articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
+  
   articleData = {
     ...articleData,
     ...getCopyrightData(article.copyright),
