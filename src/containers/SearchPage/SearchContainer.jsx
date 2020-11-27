@@ -20,6 +20,7 @@ import handleError from '../../util/handleError';
 const { contentTypes } = constants;
 
 const SearchContainer = ({
+  t,
   error,
   history,
   query,
@@ -181,7 +182,7 @@ const SearchContainer = ({
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={currentSubjectType ? currentSubjectType : 'ALL'}
-        options={filterTypeOptions(searchGroups)}
+        options={filterTypeOptions(searchGroups, t)}
         contentId="search-result-content"
         onChange={handleSetSubjectType}>
         <SearchResults

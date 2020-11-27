@@ -263,34 +263,49 @@ const searchTypeFilterOptions = {
       id: 'urn:resourcetype:exercise',
     },
   ],
+  'assessment-resources': [],
+  'external-learning-resources': [],
+  'source-material': [],
   topic: [],
 };
 
-export const searchSubjectTypeOptions = [
+const searchSubjectTypeOptions = t => [
   {
-    title: 'Alle',
+    title: t('contentTypes.all'),
     value: 'ALL',
   },
   {
-    title: 'Emne',
+    title: t('contentTypes.topic'),
     value: 'topic',
   },
   {
-    title: 'Fagstoff',
+    title: t('contentTypes.subject-material'),
     value: 'subject-material',
   },
   {
-    title: 'Læringssti',
+    title: t('contentTypes.learning-path'),
     value: 'learning-path',
   },
   {
-    title: 'Oppgaver og aktiviteter',
+    title: t('contentTypes.tasks-and-activities'),
     value: 'tasks-and-activities',
+  },
+  {
+    title: t('contentTypes.assessment-resources'),
+    value: 'assessment-resources',
+  },
+  {
+    title: t('contentTypes.external-learning-resources'),
+    value: 'external-learning-resources',
+  },
+  {
+    title: t('contentTypes.source-material'),
+    value: 'source-material',
   },
 ];
 
-export const filterTypeOptions = searchGroups =>
-  searchSubjectTypeOptions.filter(
+export const filterTypeOptions = (searchGroups, t) =>
+  searchSubjectTypeOptions(t).filter(
     option =>
       searchGroups.find(group => group.type === option.value)?.items?.length ||
       option.value === 'ALL',

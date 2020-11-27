@@ -9,7 +9,6 @@ import React, { Fragment } from 'react';
 import { func, arrayOf, objectOf, string } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import Pager from '@ndla/pager';
-import { injectT } from '@ndla/i18n';
 import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
 
 const { contentTypes } = constants;
@@ -83,4 +82,4 @@ SearchResults.propTypes = {
   typeFilter: objectOf(TypeFilterShape),
 };
 
-export default injectT(SearchResults);
+export default SearchResults;
