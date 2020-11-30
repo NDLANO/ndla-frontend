@@ -57,7 +57,7 @@ test('util/getStructuredDataFromArticle article with copyright should return str
     article.copyright.rightsholders[0].name,
   );
   expect(structuredData[0].copyrightHolder['@type']).toBe('Organization');
-  expect(structuredData[0]['@type']).toBe('CreativeWork');
+  expect(structuredData[0]['@type']).toBe('Article');
   expect(structuredData[0].name).toBe(article.title);
 });
 
@@ -95,4 +95,21 @@ test('util/getStructuredDataFromArticle article with video should return video s
   expect(structuredData[1].name).toBe(article.metaData.brightcoves[0].title);
   expect(structuredData[1].embedUrl).toBe(article.metaData.brightcoves[0].src);
   expect(structuredData[1]['@type']).toBe('VideoObject');
+});
+
+test('util/getStructuredDataFromArticle article with breadcrumbs should return breadcrumbitems', () => {
+  const article = getBaseArticle();
+  const breadcrumbItems = [
+    {
+      to: '/',
+      name: 'NDLA',
+    }, {
+      to: '/subjects/subject:1/',
+      name: 'MEDIEUTTRYKK OG MEDIESAMFUNNET',
+    }
+  ];
+  const structuredData = getStructuredDataFromArticle(article, breadcrumbItems);
+  expect(structuredData.length).toBe(2);
+  expect(structuredData[1]['@type']).toBe('BreadcrumbList');
+  expect(structuredData[1].numberOfItems).toBe(2);
 });

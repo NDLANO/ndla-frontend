@@ -18,7 +18,7 @@ import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import { TopicShape } from '../../shapes';
+import { BreadCrumbShape, TopicShape } from '../../shapes';
 
 const StyledIframeContainer = styled.div`
   margin-bottom: ${spacing.normal};
@@ -36,6 +36,7 @@ const LearningpathEmbed = ({
   skipToContentId,
   locale,
   topic,
+  breadcrumbItems,
 }) => {
   if (
     !learningpathStep ||
@@ -80,7 +81,9 @@ const LearningpathEmbed = ({
         ))}
 
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(article))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(article, breadcrumbItems),
+          )}
         </script>
       </Helmet>
       <Article
@@ -98,5 +101,6 @@ LearningpathEmbed.propTypes = {
   topic: TopicShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  breadcrumbItems: BreadCrumbShape,
 };
 export default LearningpathEmbed;

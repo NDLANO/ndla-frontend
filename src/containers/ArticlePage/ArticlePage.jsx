@@ -36,7 +36,7 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toSubjects } from '../../routeHelpers';
+import { toBreadcrumbItems, toSubjects } from '../../routeHelpers';
 import {
   getFiltersFromUrl,
   getLongNameFromFilters,
@@ -96,7 +96,15 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
+    const {
+      data,
+      locale,
+      location,
+      errors,
+      skipToContentId,
+      ndlaFilm,
+      t,
+    } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { scripts, subjectPageUrl, filterIds } = this.state;
     if (isLearningPathResource(resource)) {
@@ -135,6 +143,13 @@ class ArticlePage extends Component {
       topic.path
     }/${resource.id.replace('urn:', '')}${filterParam}`;
 
+    const breadcrumbItems = toBreadcrumbItems(
+      t('breadcrumb.toFrontpage'),
+      [subject, ...topicPath, resource],
+      getFiltersFromUrl(location),
+      locale,
+    );
+
     return (
       <div>
         <ArticleHero
@@ -145,6 +160,7 @@ class ArticlePage extends Component {
           resourceType={resourceType}
           locale={locale}
           metaImage={article.metaImage}
+          breadcrumbItems={breadcrumbItems}
         />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
@@ -162,7 +178,7 @@ class ArticlePage extends Component {
           ))}
 
           <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(article))}
+            {JSON.stringify(getStructuredDataFromArticle(article, breadcrumbItems))}
           </script>
         </Helmet>
         <SocialMediaMetadata

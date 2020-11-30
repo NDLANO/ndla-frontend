@@ -21,16 +21,17 @@ import {
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
 import { withRouter } from 'react-router-dom';
-import { toLearningPath, toBreadcrumbItems } from '../../routeHelpers';
+import { toLearningPath } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
-  TopicShape,
-  SubjectShape,
+  BreadCrumbShape,
   LearningpathShape,
-  ResourceTypeShape,
-  ResourceShape,
   LearningpathStepShape,
+  ResourceShape,
+  ResourceTypeShape,
+  SubjectShape,
+  TopicShape,
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
@@ -51,6 +52,7 @@ const Learningpath = ({
   history,
   onKeyUpEvent,
   ndlaFilm,
+  breadcrumbItems,
   t,
 }) => {
   const {
@@ -101,25 +103,7 @@ const Learningpath = ({
     <LearningPathWrapper>
       <div className="c-hero__content">
         <section>
-          {subject && topicPath ? (
-            <Breadcrumb
-              invertedStyle={ndlaFilm}
-              items={toBreadcrumbItems(
-                t('breadcrumb.toFrontpage'),
-                [subject, ...topicPath, { name: learningpath.title, url: '' }],
-                filterIds,
-              )}
-            />
-          ) : (
-            <Breadcrumb
-              invertedStyle={ndlaFilm}
-              items={toBreadcrumbItems(
-                t('breadcrumb.toFrontpage'),
-                [{ name: learningpath.title, url: '' }],
-                filterIds,
-              )}
-            />
-          )}
+          <Breadcrumb invertedStyle={ndlaFilm} items={breadcrumbItems} />
         </section>
       </div>
       <LearningPathContent>
@@ -154,6 +138,7 @@ const Learningpath = ({
               locale={locale}
               topic={topic}
               learningpathStep={learningpathStep}
+              breadcrumbItems={breadcrumbItems}
             />
             <LastLearningpathStepInfo
               topic={topic}
@@ -221,6 +206,7 @@ Learningpath.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   onKeyUpEvent: func.isRequired,
+  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
 };
 
 export default injectT(withRouter(Learningpath));
