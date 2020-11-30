@@ -238,6 +238,7 @@ export const getResultMetadata = search => ({
 
 const searchTypeFilterOptions = {
   subject: [],
+  'topic-article': [],
   'learning-path': [],
   'subject-material': [
     {
@@ -266,17 +267,16 @@ const searchTypeFilterOptions = {
   'assessment-resources': [],
   'external-learning-resources': [],
   'source-material': [],
-  topic: [],
 };
 
-const searchSubjectTypeOptions = t => [
+export const searchSubjectTypeOptions = t => [
   {
     title: t('contentTypes.all'),
     value: 'ALL',
   },
   {
     title: t('contentTypes.topic'),
-    value: 'topic',
+    value: 'topic-article',
   },
   {
     title: t('contentTypes.subject-material'),
@@ -331,13 +331,14 @@ export const updateSearchGroups = (searchData, searchGroups) => {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources),
       totalCount: result.totalCount,
-      type: result.type || contentTypeMapping[result.resourceType],
+      type: contentTypeMapping[result.resourceType] || result.resourceType,
     }));
   }
   return searchGroups.map(group => {
     const searchResult = searchData.find(
       result =>
-        contentTypeMapping[result.resourceType] === group.type ||
+        (contentTypeMapping[result.resourceType] || result.resourceType) ===
+          group.type ||
         searchTypeFilterOptions[group.type]
           .map(type => type.id)
           .includes(result.resourceType),
@@ -372,4 +373,24 @@ export const getTypeFilter = () => {
     };
   }
   return typeFilter;
+};
+
+export const getTypeParams = (
+  type,
+  initialResourceTypes,
+  initialContextTypes,
+) => {
+  if (!type) {
+    return {
+      resourceTypes: initialResourceTypes,
+      contextTypes: initialContextTypes,
+    };
+  } else if (type === 'topic-article') {
+    return {
+      contextTypes: type,
+    };
+  }
+  return {
+    resourceTypes: type,
+  };
 };

@@ -51,7 +51,7 @@ const SearchResults = ({
             onFilterClick={id => handleFilterClick(type, id)}
             items={items.slice(0, typeFilter[type].pageSize)}
             loading={loading}
-            type={type}
+            type={type === 'topic-article' ? 'topic' : type}
             totalCount={totalCount}
             pagination={pagination}>
             {!pagination && (

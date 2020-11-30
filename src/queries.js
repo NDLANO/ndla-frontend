@@ -169,6 +169,7 @@ export const searchFilmQuery = gql`
 export const groupSearchQuery = gql`
   query GroupSearch(
     $resourceTypes: String
+    $contextTypes: String
     $subjects: String
     $query: String
     $page: String
@@ -176,6 +177,7 @@ export const groupSearchQuery = gql`
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
+      contextTypes: $contextTypes
       subjects: $subjects
       query: $query
       page: $page

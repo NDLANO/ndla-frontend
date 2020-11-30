@@ -20,6 +20,7 @@ import {
   convertSearchParam,
   getTypeFilter,
   updateSearchGroups,
+  getTypeParams,
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
@@ -40,6 +41,7 @@ const resourceTypes = `
   ${RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES},
   ${RESOURCE_TYPE_SOURCE_MATERIAL}
 `;
+const contextTypes = 'topic-article';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -55,7 +57,7 @@ const SearchPage = ({ location, locale, history, t }) => {
 
   const subjects = searchSubjects(searchParams.query);
   const subjectGroup = {
-    type: 'subject',
+    resourceType: 'subject',
     resources: subjects,
     totalCount: subjects.length,
   };
@@ -67,14 +69,14 @@ const SearchPage = ({ location, locale, history, t }) => {
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4,
-    resourceTypes,
+    types: null,
   });
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
-      resourceTypes: params.resourceTypes || resourceTypes,
+      ...getTypeParams(params.types, resourceTypes, contextTypes),
     },
     onCompleted: data =>
       setSearchGroups(
@@ -87,8 +89,7 @@ const SearchPage = ({ location, locale, history, t }) => {
   }
 
   const suggestion =
-    data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
-      ?.text;
+    data.groupSearch[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
     <Fragment>

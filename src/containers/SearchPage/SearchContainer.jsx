@@ -19,6 +19,16 @@ import handleError from '../../util/handleError';
 
 const { contentTypes } = constants;
 
+const sortedResourceTypes = [
+  'topic-article',
+  'subject-material',
+  'learning-path',
+  'tasks-and-activities',
+  'assessment-resources',
+  'external-learning-resources',
+  'source-material',
+];
+
 const SearchContainer = ({
   t,
   error,
@@ -65,7 +75,7 @@ const SearchContainer = ({
       });
       setParams(prevState => ({
         ...prevState,
-        resourceTypes: null,
+        types: null,
       }));
     } else {
       const allFilter = filters.find(item => 'all' === item.id);
@@ -76,7 +86,7 @@ const SearchContainer = ({
       }
       setParams(prevState => ({
         ...prevState,
-        resourceTypes: filters
+        types: filters
           .filter(filter => filter.active)
           .map(f => f.id)
           .join(),
@@ -91,7 +101,7 @@ const SearchContainer = ({
       setParams({
         page: 1,
         pageSize: 4,
-        resourceTypes: null,
+        types: null,
       });
     } else if (type === contentTypes.SUBJECT) {
       updateTypeFilter(
@@ -109,9 +119,9 @@ const SearchContainer = ({
         setParams(prevState => ({
           page: 1,
           pageSize: 8,
-          resourceTypes: hasActiveFilters(type)
-            ? prevState.resourceTypes
-            : resourceTypeMapping[type],
+          types: hasActiveFilters(type)
+            ? prevState.types
+            : resourceTypeMapping[type] || type,
         }));
       }
     }
@@ -125,9 +135,9 @@ const SearchContainer = ({
       setParams(prevState => ({
         ...prevState,
         pageSize: prevState.pageSize + pageIncrement,
-        resourceTypes: hasActiveFilters(type)
-          ? prevState.resourceTypes
-          : resourceTypeMapping[type],
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
       }));
     }
   };
@@ -144,9 +154,9 @@ const SearchContainer = ({
       setParams(prevState => ({
         page,
         pageSize: 8,
-        resourceTypes: hasActiveFilters(type)
-          ? prevState.resourceTypes
-          : resourceTypeMapping[type],
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
       }));
     }
   };
@@ -186,9 +196,13 @@ const SearchContainer = ({
         contentId="search-result-content"
         onChange={handleSetSubjectType}>
         <SearchResults
-          searchGroups={searchGroups.filter(
-            item => item.type !== contentTypes.SUBJECT,
-          )}
+          searchGroups={searchGroups
+            .filter(item => item.type !== contentTypes.SUBJECT)
+            .sort(
+              (a, b) =>
+                sortedResourceTypes.indexOf(a.type) -
+                sortedResourceTypes.indexOf(b.type),
+            )}
           currentSubjectType={currentSubjectType}
           typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
