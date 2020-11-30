@@ -94,6 +94,7 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
   articleData.headline = article.title;
+  articleData.abstract = article.metaDescription;
   articleData.datePublished = format(article.published, 'YYYY-MM-DD');
   articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
   
