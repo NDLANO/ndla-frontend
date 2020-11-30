@@ -105,6 +105,8 @@ const dataIdFromObject = object => {
       } else {
         return object.path;
       }
+    case 'Filter':
+      return `${object.id}+${object.relevanceId}`;
     case 'FrontpageSearchResult':
       return object.path;
     default:

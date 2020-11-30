@@ -2129,8 +2129,8 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'Programfag YF',
-      nn: 'Programfag YF',
+      nb: 'Yrkesfag',
+      nn: 'Yrkesfag',
       en: 'Programme subjects YF',
     },
     subjects: programmeSubjects,

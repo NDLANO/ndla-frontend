@@ -119,7 +119,7 @@ Topic.getDimensions = props => {
     subject.id,
     filterIds.split(','),
   );
-  const longName = subjectBySubjectIdFiltes.longName[locale];
+  const longName = subjectBySubjectIdFiltes?.longName[locale];
 
   return getAllDimensions(
     {
