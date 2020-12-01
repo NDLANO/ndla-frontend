@@ -38,18 +38,17 @@ const Topic = ({
     setShowContent(false);
   }, [topicId]);
 
-  const topic = data.topic;
-  const topicPath = topic.path
-    .split('/')
+  const topic = data?.topic || {};
+  const topicPath = topic.path?.split('/')
     .slice(2)
-    .map(id => `urn:${id}`);
-  const resourceTypes = data.resourceTypes;
-  const subTopics = topic.subtopics.map(item => ({
+    .map(id => `urn:${id}`) || [];
+  const resourceTypes = data?.resourceTypes;
+  const subTopics = topic.subtopics?.map(item => ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
     url: toTopic(subjectId, filterIds, ...topicPath, item.id),
-  }));
+  })) || [];
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
   const copyPageUrlLink =
     config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;

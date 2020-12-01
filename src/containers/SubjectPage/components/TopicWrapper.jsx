@@ -24,8 +24,8 @@ const TopicWrapper = ({
     variables: { topicId, subjectId, filterIds },
     onCompleted: data => {
       setBreadCrumb({
-        id: data.topic.id,
-        label: data.topic.name,
+        id: data?.topic?.id,
+        label: data?.topic?.name,
         index: index,
       });
     },

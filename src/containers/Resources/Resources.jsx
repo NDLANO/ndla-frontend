@@ -84,9 +84,9 @@ class Resources extends Component {
     }
 
     const resourceGroups = getResourceGroups(
-      resourceTypes,
-      topic.supplementaryResources || [],
-      topic.coreResources || [],
+      resourceTypes || [],
+      topic?.supplementaryResources || [],
+      topic?.coreResources || [],
     );
 
     const hasAdditionalResources = resourceGroups.some(group =>
