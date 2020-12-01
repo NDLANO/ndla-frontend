@@ -67,7 +67,6 @@ const getPublisher = () => {
   const data = {}
   data.publisher = {
     '@type': ORGANIZATION_TYPE,
-    '@id': 'https://ndla.no',
     name: 'NDLA',
   }
   return data;
