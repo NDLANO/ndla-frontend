@@ -34,9 +34,9 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
     return {
       '@type': PERSON_TYPE,
       name: c.name,
-    }
-  })
-  if(author?.length > 0) {
+    };
+  });
+  if (author?.length > 0) {
     data.author = author;
   }
 
@@ -44,9 +44,9 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
     return {
       '@type': ORGANIZATION_TYPE,
       name: r.name,
-    }
-  })
-  if(copyrightHolder?.length > 0) {
+    };
+  });
+  if (copyrightHolder?.length > 0) {
     data.copyrightHolder = copyrightHolder;
   }
 
@@ -54,9 +54,9 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
     return {
       '@type': PERSON_TYPE,
       name: c.name,
-    }
-  })
-  if(contributor?.length > 0) {
+    };
+  });
+  if (contributor?.length > 0) {
     data.contributor = contributor;
   }
 
@@ -64,13 +64,13 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
 };
 
 const getPublisher = () => {
-  const data = {}
+  const data = {};
   data.publisher = {
     '@type': ORGANIZATION_TYPE,
     name: 'NDLA',
-  }
+  };
   return data;
-}
+};
 
 const getBreadcrumbs = breadcrumbItems => {
   if (!breadcrumbItems) {
@@ -107,7 +107,7 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   articleData.datePublished = format(article.published, 'YYYY-MM-DD');
   articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
   articleData.image = article.metaImage?.url;
-  
+
   articleData = {
     ...articleData,
     ...getPublisher(),
