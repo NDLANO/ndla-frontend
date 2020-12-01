@@ -19,18 +19,19 @@ import {
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 
-import WelcomePageInfo from './WelcomePageInfo';
-import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
-import BlogPosts from './BlogPosts';
-import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
+
+const BlogPosts = loadable(() => import('./BlogPosts')) ;
+const WelcomePageSearch = loadable(() => import('./WelcomePageSearch')) ;
+const WelcomePageInfo = loadable(() => import('./WelcomePageInfo'));
+const FrontpageSubjects = loadable(() => import('./FrontpageSubjects'));
+const SocialMediaMetadata = loadable(() => import('../../components/SocialMediaMetadata')) ;
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
