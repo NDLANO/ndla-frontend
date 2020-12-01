@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
+import loadable from '@loadable/component';
 import { node, shape, func, string, arrayOf, object, bool } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
 import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
-import MastheadTopics from './MastheadTopics';
-import MastheadMenuModal from './MastheadMenuModal';
+
+const MastheadMenuModal = loadable(() => import('./MastheadMenuModal'));
+const MastheadTopics = loadable(() => import('./MastheadTopics'));
 
 class MastheadMenu extends Component {
   constructor() {

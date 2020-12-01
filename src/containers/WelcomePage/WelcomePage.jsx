@@ -27,11 +27,13 @@ import { LocationShape } from '../../shapes';
 import { toSubject } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 
-const BlogPosts = loadable(() => import('./BlogPosts')) ;
-const WelcomePageSearch = loadable(() => import('./WelcomePageSearch')) ;
+const BlogPosts = loadable(() => import('./BlogPosts'));
+const WelcomePageSearch = loadable(() => import('./WelcomePageSearch'));
 const WelcomePageInfo = loadable(() => import('./WelcomePageInfo'));
 const FrontpageSubjects = loadable(() => import('./FrontpageSubjects'));
-const SocialMediaMetadata = loadable(() => import('../../components/SocialMediaMetadata')) ;
+const SocialMediaMetadata = loadable(() =>
+  import('../../components/SocialMediaMetadata'),
+);
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);

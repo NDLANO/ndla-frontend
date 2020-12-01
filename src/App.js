@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import loadable from '@loadable/component';
 import {
   Route as ReactRoute,
   matchPath,
@@ -16,10 +17,8 @@ import {
 } from 'react-router-dom';
 import { Content } from '@ndla/ui';
 import Page from './containers/Page/Page';
-import Masthead from './containers/Masthead';
 import { routes } from './routes';
 import handleError from './util/handleError';
-import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
@@ -28,6 +27,9 @@ import {
 } from './constants';
 
 export const BasenameContext = React.createContext('');
+
+const Masthead = loadable(() => import('./containers/Masthead'));
+const ErrorPage = loadable(() => import('./containers/ErrorPage/ErrorPage'));
 
 const Route = ({
   component: Component,
