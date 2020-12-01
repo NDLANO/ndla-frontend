@@ -103,10 +103,11 @@ test('util/getStructuredDataFromArticle article with breadcrumbs should return b
     {
       to: '/',
       name: 'NDLA',
-    }, {
+    },
+    {
       to: '/subjects/subject:1/',
       name: 'MEDIEUTTRYKK OG MEDIESAMFUNNET',
-    }
+    },
   ];
   const structuredData = getStructuredDataFromArticle(article, breadcrumbItems);
   expect(structuredData.length).toBe(2);

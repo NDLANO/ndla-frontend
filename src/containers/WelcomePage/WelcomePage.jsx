@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
+import loadable from '@loadable/component';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {

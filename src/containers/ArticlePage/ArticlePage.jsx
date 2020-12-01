@@ -178,7 +178,9 @@ class ArticlePage extends Component {
           ))}
 
           <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(article, breadcrumbItems))}
+            {JSON.stringify(
+              getStructuredDataFromArticle(article, breadcrumbItems),
+            )}
           </script>
         </Helmet>
         <SocialMediaMetadata

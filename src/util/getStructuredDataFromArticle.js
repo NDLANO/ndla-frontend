@@ -96,7 +96,7 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   articleData.headline = article.title;
   articleData.datePublished = format(article.published, 'YYYY-MM-DD');
   articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
-  
+
   articleData = {
     ...articleData,
     ...getCopyrightData(article.copyright),

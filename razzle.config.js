@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const path = require('path');
 const addEntry = require('./razzle-add-entry-plugin');
 
+const LoadablePlugin = require('@loadable/webpack-plugin');
+
 module.exports = {
   plugins: [
     addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
@@ -19,6 +21,7 @@ module.exports = {
     });
 
     appConfig.module.rules.shift(); // remove eslint-loader
+    appConfig.plugins.push(new LoadablePlugin());
 
     if (target === 'web') {
       appConfig.output.filename = dev
