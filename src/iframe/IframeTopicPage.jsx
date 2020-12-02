@@ -129,7 +129,7 @@ export class IframeTopicPage extends Component {
             />
           ))}
           <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(article))}
+            {JSON.stringify(getStructuredDataFromArticle(propArticle))}
           </script>
         </Helmet>
         {article && (

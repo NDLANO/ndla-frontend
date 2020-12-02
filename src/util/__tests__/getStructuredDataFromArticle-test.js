@@ -45,18 +45,18 @@ test('util/getStructuredDataFromArticle article with copyright should return str
 
   const structuredData = getStructuredDataFromArticle(article);
   expect(structuredData.length).toBe(1);
-  expect(structuredData[0].author.name).toBe(
+  expect(structuredData[0].author[0].name).toBe(
     article.copyright.creators[0].name,
   );
-  expect(structuredData[0].author['@type']).toBe('Person');
-  expect(structuredData[0].contributor.name).toBe(
+  expect(structuredData[0].author[0]['@type']).toBe('Person');
+  expect(structuredData[0].contributor[0].name).toBe(
     article.copyright.processors[0].name,
   );
-  expect(structuredData[0].contributor['@type']).toBe('Person');
-  expect(structuredData[0].copyrightHolder.name).toBe(
+  expect(structuredData[0].contributor[0]['@type']).toBe('Person');
+  expect(structuredData[0].copyrightHolder[0].name).toBe(
     article.copyright.rightsholders[0].name,
   );
-  expect(structuredData[0].copyrightHolder['@type']).toBe('Organization');
+  expect(structuredData[0].copyrightHolder[0]['@type']).toBe('Organization');
   expect(structuredData[0]['@type']).toBe('Article');
   expect(structuredData[0].name).toBe(article.title);
 });
@@ -103,10 +103,11 @@ test('util/getStructuredDataFromArticle article with breadcrumbs should return b
     {
       to: '/',
       name: 'NDLA',
-    }, {
+    },
+    {
       to: '/subjects/subject:1/',
       name: 'MEDIEUTTRYKK OG MEDIESAMFUNNET',
-    }
+    },
   ];
   const structuredData = getStructuredDataFromArticle(article, breadcrumbItems);
   expect(structuredData.length).toBe(2);

@@ -33,6 +33,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
   )
     return null;
 
+  const src = `${concept.src}/${locale}`;
   const items = getGroupedContributorDescriptionList(concept.copyright, locale);
   if (concept.title) {
     items.unshift({
@@ -44,7 +45,9 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Concept className="c-medialist__icon" />
+        <a href={src} target="_blank" rel="noopener noreferrer">
+          <Concept className="c-medialist__icon" />
+        </a>
       </MediaListItemImage>
       <MediaListItemBody
         license={concept.copyright.license.license}
@@ -62,7 +65,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
               hasCopiedTitle={t('hasCopiedTitle')}
             />
             <CopyTextButton
-              stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${concept.src}" allowfullscreen=""></iframe>`}
+              stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               t={t}
               copyTitle={t('embed')}
               hasCopiedTitle={t('embedCopied')}
