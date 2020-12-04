@@ -10,8 +10,8 @@ import nock from 'nock';
 import { oembedArticleRoute } from '../oembedArticleRoute';
 
 const validArticleUrl1 =
-  'https://test.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
-const unvalidArticleUrl = 'https://test.ndla.no/subjects/subject:3';
+  'https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
+const unvalidArticleUrl = 'https://test.ndla.no/subject:3';
 
 test('oembedArticleRoute success', async () => {
   nock('http://ndla-api')

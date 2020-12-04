@@ -86,6 +86,11 @@ app.get('/film', ndlaMiddleware, (req, res, next) => {
   res.redirect(FILM_PAGE_PATH);
 });
 
+app.get('/subjects/:path(*)', ndlaMiddleware, (req, res, next) => {
+  const { path } = req.params;
+  res.redirect(`/${path}`);
+});
+
 async function sendInternalServerError(req, res) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
