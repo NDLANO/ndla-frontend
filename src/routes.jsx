@@ -21,16 +21,17 @@ import MultidisciplinarySubjectArticle from './containers/MultidisciplinarySubje
 
 import App from './App';
 import {
-  RESOURCE_PAGE_PATH,
-  PLAIN_ARTICLE_PAGE_PATH,
-  SUBJECT_PAGE_PATH,
-  SEARCH_PATH,
   FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  PLAIN_ARTICLE_PAGE_PATH,
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
-  PROGRAMME_PATH,
   PROGRAMME_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  PROGRAMME_PATH,
+  RESOURCE_PAGE_PATH,
+  SEARCH_PATH,
+  SUBJECTS,
+  SUBJECT_PAGE_PATH,
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
@@ -90,7 +91,7 @@ export const routes = [
     background: false,
   },
   {
-    path: '/subjects',
+    path: SUBJECTS,
     component: AllSubjectsPage,
     background: false,
   },

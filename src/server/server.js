@@ -88,7 +88,7 @@ app.get('/film', ndlaMiddleware, (req, res, next) => {
 
 app.get('/subjects/:path(*)', ndlaMiddleware, (req, res, next) => {
   const { path } = req.params;
-  res.redirect(`/${path}`);
+  res.redirect(301, `/${path}`);
 });
 
 async function sendInternalServerError(req, res) {
