@@ -122,9 +122,8 @@ const MastheadContainer = ({
     : [];
 
   const renderSearchComponent = hideOnNarrowScreen =>
-    (location.pathname.includes('utdanning') ||
-      location.pathname.includes('search') ||
-      subject) && (
+    !location.pathname.includes('search') &&
+    (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
         filterIds={filterIds}

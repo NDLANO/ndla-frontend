@@ -114,8 +114,6 @@ const MastheadSearch = ({
       pathname: '/search',
       search: `?${searchString}`,
     });
-
-    onNavigate();
   };
 
   const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
