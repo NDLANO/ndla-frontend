@@ -316,12 +316,12 @@ export const mapResourcesToItems = resources =>
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
-    breadcrumb: resource.breadcrumb,
     url: `${toSubjects()}${resource.path}`,
-    ...(resource.img?.url && {
+    contexts: resource.contexts || [undefined], //Temp
+    ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.img.url}?focalX=50&focalY=50&ratio=1.75`,
-        alt: resource.img?.alt,
+        url: `${resource.metaImage.url}?focalX=50&focalY=50&ratio=1.75`,
+        alt: resource.metaImage?.alt,
       },
     }),
   }));

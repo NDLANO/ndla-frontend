@@ -188,9 +188,14 @@ export const groupSearchQuery = gql`
         path
         name
         ingress
-        breadcrumb
-        resourceTypes
-        img {
+        contexts {
+          url: path
+          breadcrumb: breadcrumbs
+          resourceTypes {
+            id
+          }
+        }
+        metaImage {
           url
           alt
         }

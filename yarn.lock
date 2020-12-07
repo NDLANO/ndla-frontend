@@ -1421,6 +1421,15 @@
     "@ndla/util" "^0.4.4"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^0.11.40":
+  version "0.11.40"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.40.tgz#2db386981cf7aeb07cc9a3d5c436881c4a4905ad"
+  integrity sha512-2w13qGzg7rX1bywsyMj2RFEtJ2HkwCL4aGUbfS+SHB54cyDlCbbA1MPPX/DKdQFEXAjyaSFKoD8IhuxMJk6oWg==
+  dependencies:
+    "@ndla/core" "^0.6.31"
+    "@ndla/util" "^0.4.4"
+    react-tabs "^3.0.0"
+
 "@ndla/tooltip@^0.2.31":
   version "0.2.31"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.31.tgz#aadfeaafa2611113c26efc4b918a5739b1eb6fea"
@@ -1435,10 +1444,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.29.0":
-  version "0.29.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.0.tgz#bb8bd4dbbe7c4731233a9961a85f26a66ae85fbc"
-  integrity sha512-LmEEcaZsrT+roRng1hnKzCFkIzXtsxp1lILLhunnxjZB9LL/OXtoEsDgYHvFKEI/9lCQ3wZvsJtTYRjkUOVuCA==
+"@ndla/ui@^0.29.4":
+  version "0.29.4"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.4.tgz#0f4d2087b4dd2dad1fc4ace8992b1af2ba050c18"
+  integrity sha512-YQzimHCtlMkaadX+5XsqYzyb8VFdjTFoxfeK3dwiHWaPYilhTer8zSjuyRnLFclpnGNV/j1NUzbS3l6A+PzYYA==
   dependencies:
     "@ndla/button" "^0.3.41"
     "@ndla/carousel" "^0.3.31"
@@ -1450,7 +1459,7 @@
     "@ndla/modal" "^0.4.32"
     "@ndla/safelink" "^0.0.7"
     "@ndla/switch" "^0.0.20"
-    "@ndla/tabs" "^0.11.39"
+    "@ndla/tabs" "^0.11.40"
     "@ndla/tooltip" "^0.2.31"
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
