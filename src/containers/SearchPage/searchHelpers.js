@@ -320,7 +320,7 @@ export const mapResourcesToItems = resources =>
     contexts: resource.contexts || [undefined], //Temp
     ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.metaImage.url}?focalX=50&focalY=50&ratio=1.75`,
+        url: `${resource.metaImage.url}?width=250`,
         alt: resource.metaImage?.alt,
       },
     }),
