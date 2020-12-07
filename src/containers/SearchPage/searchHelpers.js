@@ -356,10 +356,8 @@ export const updateSearchGroups = (searchData, searchGroups) => {
 };
 
 export const getTypeFilter = () => {
-  const { contentTypes } = constants;
   const typeFilter = {};
   for (const [type, subTypes] of Object.entries(searchTypeFilterOptions)) {
-    const pageSize = type === contentTypes.SUBJECT ? 2 : 4;
     const filters = [];
     if (subTypes.length) {
       filters.push({ id: 'all', name: 'Alle', active: true });
@@ -369,7 +367,7 @@ export const getTypeFilter = () => {
       filters,
       page: 1,
       loading: false,
-      pageSize,
+      pageSize: 4,
     };
   }
   return typeFilter;

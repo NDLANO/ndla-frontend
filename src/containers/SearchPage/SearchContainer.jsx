@@ -128,7 +128,7 @@ const SearchContainer = ({
   };
 
   const handleShowMore = type => {
-    const pageIncrement = type === contentTypes.SUBJECT ? 2 : 4;
+    const pageIncrement = 4;
     updateTypeFilter(type, 1, typeFilter[type].pageSize + pageIncrement);
     if (type !== contentTypes.SUBJECT) {
       setLoadingOnGroup(type);
