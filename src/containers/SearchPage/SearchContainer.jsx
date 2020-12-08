@@ -7,17 +7,19 @@
 
 import React from 'react';
 import { func, arrayOf, objectOf, shape, object, string } from 'prop-types';
-import { SearchHeader, constants } from '@ndla/ui';
+import { SearchHeader, SearchSubjectResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
-import { SearchGroupShape, TypeFilterShape } from '../../shapes';
+import {
+  SearchGroupShape,
+  SearchItemShape,
+  TypeFilterShape,
+} from '../../shapes';
 import SearchResults from './components/SearchResults';
 import { getTypeFilter, filterTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
-
-const { contentTypes } = constants;
 
 const sortedResourceTypes = [
   'topic-article',
@@ -34,6 +36,8 @@ const SearchContainer = ({
   error,
   history,
   query,
+  suggestion,
+  subjectItems,
   setParams,
   currentSubjectType,
   setCurrentSubjectType,
@@ -41,7 +45,6 @@ const SearchContainer = ({
   setTypeFilter,
   searchGroups,
   setSearchGroups,
-  suggestion,
 }) => {
   const setLoadingOnGroup = type => {
     setSearchGroups(prevState =>
@@ -103,12 +106,6 @@ const SearchContainer = ({
         pageSize: 4,
         types: null,
       });
-    } else if (type === contentTypes.SUBJECT) {
-      updateTypeFilter(
-        type,
-        1,
-        searchGroups.find(group => group.type === type).totalCount,
-      );
     } else {
       setCurrentSubjectType(type);
       if (typeFilter[type]) {
@@ -130,16 +127,14 @@ const SearchContainer = ({
   const handleShowMore = type => {
     const pageIncrement = 4;
     updateTypeFilter(type, 1, typeFilter[type].pageSize + pageIncrement);
-    if (type !== contentTypes.SUBJECT) {
-      setLoadingOnGroup(type);
-      setParams(prevState => ({
-        ...prevState,
-        pageSize: prevState.pageSize + pageIncrement,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : resourceTypeMapping[type] || type,
-      }));
-    }
+    setLoadingOnGroup(type);
+    setParams(prevState => ({
+      ...prevState,
+      pageSize: prevState.pageSize + pageIncrement,
+      types: hasActiveFilters(type)
+        ? prevState.types
+        : resourceTypeMapping[type] || type,
+    }));
   };
 
   const handleShowAll = type => {
@@ -149,16 +144,14 @@ const SearchContainer = ({
   const onPagerNavigate = pagerEvent => {
     const { type, page } = pagerEvent;
     updateTypeFilter(type, page, 8);
-    if (type !== contentTypes.SUBJECT) {
-      setLoadingOnGroup(type);
-      setParams(prevState => ({
-        page,
-        pageSize: 8,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : resourceTypeMapping[type] || type,
-      }));
-    }
+    setLoadingOnGroup(type);
+    setParams(prevState => ({
+      page,
+      pageSize: 8,
+      types: hasActiveFilters(type)
+        ? prevState.types
+        : resourceTypeMapping[type] || type,
+    }));
   };
 
   if (error) {
@@ -178,17 +171,7 @@ const SearchContainer = ({
           });
         }}
       />
-      <SearchResults
-        searchGroups={searchGroups.filter(
-          item => item.type === contentTypes.SUBJECT,
-        )}
-        currentSubjectType={currentSubjectType}
-        typeFilter={typeFilter}
-        handleFilterClick={handleFilterClick}
-        handleShowMore={handleShowMore}
-        handleShowAll={handleShowAll}
-        onPagerNavigate={onPagerNavigate}
-      />
+      <SearchSubjectResult items={subjectItems} />
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={currentSubjectType ? currentSubjectType : 'ALL'}
@@ -196,13 +179,11 @@ const SearchContainer = ({
         contentId="search-result-content"
         onChange={handleSetSubjectType}>
         <SearchResults
-          searchGroups={searchGroups
-            .filter(item => item.type !== contentTypes.SUBJECT)
-            .sort(
-              (a, b) =>
-                sortedResourceTypes.indexOf(a.type) -
-                sortedResourceTypes.indexOf(b.type),
-            )}
+          searchGroups={searchGroups.sort(
+            (a, b) =>
+              sortedResourceTypes.indexOf(a.type) -
+              sortedResourceTypes.indexOf(b.type),
+          )}
           currentSubjectType={currentSubjectType}
           typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
@@ -222,6 +203,7 @@ SearchContainer.propTypes = {
   }).isRequired,
   query: string,
   suggestion: string,
+  subjectItems: arrayOf(SearchItemShape),
   currentSubjectType: string,
   setCurrentSubjectType: func,
   searchGroups: arrayOf(SearchGroupShape),

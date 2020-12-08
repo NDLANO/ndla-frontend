@@ -56,11 +56,11 @@ const SearchPage = ({ location, locale, history, t }) => {
   const stateSearchParams = getStateSearchParams(searchParams);
 
   const subjects = searchSubjects(searchParams.query);
-  const subjectGroup = {
-    resourceType: 'subject',
-    resources: subjects,
-    totalCount: subjects.length,
-  };
+  const subjectItems = subjects.map(subject => ({
+    id: subject.id,
+    title: subject.name,
+    url: subject.path,
+  }));
 
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter());
@@ -79,9 +79,7 @@ const SearchPage = ({ location, locale, history, t }) => {
       ...getTypeParams(params.types, resourceTypes, contextTypes),
     },
     onCompleted: data =>
-      setSearchGroups(
-        updateSearchGroups([...data.groupSearch, subjectGroup], searchGroups),
-      ),
+      setSearchGroups(updateSearchGroups(data.groupSearch, searchGroups)),
   });
 
   if (!searchGroups.length) {
@@ -100,6 +98,7 @@ const SearchPage = ({ location, locale, history, t }) => {
           history={history}
           query={searchParams.query}
           suggestion={suggestion}
+          subjectItems={subjectItems}
           setParams={setParams}
           currentSubjectType={currentSubjectType}
           setCurrentSubjectType={setCurrentSubjectType}

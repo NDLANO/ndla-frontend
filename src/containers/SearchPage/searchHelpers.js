@@ -1,6 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
-import { ContentTypeBadge, Image, constants } from '@ndla/ui';
+import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { toSubjects } from '../../routeHelpers';
@@ -317,7 +317,7 @@ export const mapResourcesToItems = resources =>
     title: resource.name,
     ingress: resource.ingress,
     url: `${toSubjects()}${resource.path}`,
-    contexts: resource.contexts || [undefined], //Temp
+    contexts: resource.contexts,
     ...(resource.metaImage?.url && {
       img: {
         url: `${resource.metaImage.url}?width=250`,
