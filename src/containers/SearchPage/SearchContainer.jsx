@@ -100,7 +100,7 @@ const SearchContainer = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
-      setTypeFilter(getTypeFilter);
+      setTypeFilter(getTypeFilter());
       setParams({
         page: 1,
         pageSize: 4,
@@ -125,29 +125,12 @@ const SearchContainer = ({
   };
 
   const handleShowMore = type => {
-    const pageIncrement = 4;
-    updateTypeFilter(type, 1, typeFilter[type].pageSize + pageIncrement);
+    const pageSize = typeFilter[type].pageSize + 4;
+    updateTypeFilter(type, 1, pageSize);
     setLoadingOnGroup(type);
     setParams(prevState => ({
       ...prevState,
-      pageSize: prevState.pageSize + pageIncrement,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
-  };
-
-  const handleShowAll = type => {
-    handleSetSubjectType(type);
-  };
-
-  const onPagerNavigate = pagerEvent => {
-    const { type, page } = pagerEvent;
-    updateTypeFilter(type, page, 8);
-    setLoadingOnGroup(type);
-    setParams(prevState => ({
-      page,
-      pageSize: 8,
+      pageSize: pageSize,
       types: hasActiveFilters(type)
         ? prevState.types
         : resourceTypeMapping[type] || type,
@@ -188,8 +171,6 @@ const SearchContainer = ({
           typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
           handleShowMore={handleShowMore}
-          handleShowAll={handleShowAll}
-          onPagerNavigate={onPagerNavigate}
         />
       </FilterTabs>
     </>

@@ -8,7 +8,6 @@
 import React, { Fragment } from 'react';
 import { func, arrayOf, objectOf, string } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
-import Pager from '@ndla/pager';
 import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
 
 const { contentTypes } = constants;
@@ -16,9 +15,7 @@ const { contentTypes } = constants;
 const SearchResults = ({
   currentSubjectType,
   handleFilterClick,
-  handleShowAll,
   handleShowMore,
-  onPagerNavigate,
   searchGroups,
   typeFilter,
 }) => {
@@ -30,40 +27,20 @@ const SearchResults = ({
         type === contentTypes.SUBJECT) &&
       items.length
     ) {
-      let pagination = null;
-      if (currentSubjectType !== type || type === contentTypes.SUBJECT) {
-        const toCount =
-          typeFilter[type].pageSize > totalCount
-            ? totalCount
-            : typeFilter[type].pageSize;
-        pagination = {
-          totalCount,
-          toCount,
-          onShowMore: () => handleShowMore(type),
-          onShowAll: () => handleShowAll(type),
-        };
-      }
-
       return (
         <Fragment key={`searchresult-${type}`}>
           <SearchTypeResult
             filters={typeFilter[type].filters}
             onFilterClick={id => handleFilterClick(type, id)}
-            items={items.slice(0, typeFilter[type].pageSize)}
+            items={items}
             loading={loading}
+            pagination={{
+              totalCount,
+              toCount: items.length,
+              onShowMore: () => handleShowMore(type)
+            }}
             type={type === 'topic-article' ? 'topic' : type}
-            totalCount={totalCount}
-            pagination={pagination}>
-            {!pagination && (
-              <Pager
-                page={typeFilter[type].page}
-                lastPage={Math.ceil(totalCount / typeFilter[type].pageSize)}
-                query={{ type }}
-                pageItemComponentClass="button"
-                pathname="#"
-                onClick={onPagerNavigate}
-              />
-            )}
+            totalCount={totalCount}>
           </SearchTypeResult>
         </Fragment>
       );
@@ -75,9 +52,7 @@ const SearchResults = ({
 SearchResults.propTypes = {
   currentSubjectType: string,
   handleFilterClick: func,
-  handleShowAll: func,
   handleShowMore: func,
-  onPagerNavigate: func,
   searchGroups: arrayOf(SearchGroupShape),
   typeFilter: objectOf(TypeFilterShape),
 };
