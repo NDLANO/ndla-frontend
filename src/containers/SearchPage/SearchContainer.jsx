@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
-import { func, arrayOf, objectOf, shape, object, string } from 'prop-types';
+import React, { useState } from 'react';
+import { func, arrayOf, objectOf, object, string } from 'prop-types';
 import { SearchHeader, SearchSubjectResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
@@ -34,8 +34,8 @@ const sortedResourceTypes = [
 const SearchContainer = ({
   t,
   error,
-  history,
   query,
+  search,
   suggestion,
   subjectItems,
   setParams,
@@ -46,6 +46,8 @@ const SearchContainer = ({
   searchGroups,
   setSearchGroups,
 }) => {
+  const [searchValue, setSearchValue] = useState(query);
+
   const setLoadingOnGroup = type => {
     setSearchGroups(prevState =>
       prevState.map(group => ({
@@ -137,6 +139,11 @@ const SearchContainer = ({
     }));
   };
 
+  const handleSearchSubmit = e => {
+    e.preventDefault();
+    search(searchValue);
+  };
+
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
@@ -145,14 +152,12 @@ const SearchContainer = ({
   return (
     <>
       <SearchHeader
-        count={searchGroups.reduce((acc, item) => acc + item.totalCount, 0)}
         searchPhrase={query}
         searchPhraseSuggestion={suggestion}
-        searchPhraseSuggestionOnClick={() => {
-          history.push({
-            search: `?query=${suggestion}`,
-          });
-        }}
+        searchPhraseSuggestionOnClick={() => search(suggestion)}
+        searchValue={searchValue}
+        onSearchValueChange={value => setSearchValue(value)}
+        onSubmit={handleSearchSubmit}
       />
       <SearchSubjectResult items={subjectItems} />
       <FilterTabs
@@ -179,10 +184,8 @@ const SearchContainer = ({
 
 SearchContainer.propTypes = {
   error: arrayOf(object),
-  history: shape({
-    push: func.isRequired,
-  }).isRequired,
   query: string,
+  search: func,
   suggestion: string,
   subjectItems: arrayOf(SearchItemShape),
   currentSubjectType: string,

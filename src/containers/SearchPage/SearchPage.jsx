@@ -86,6 +86,12 @@ const SearchPage = ({ location, locale, history, t }) => {
     return null;
   }
 
+  const search = searchValue => {
+    history.push({
+      search: `?query=${searchValue}`,
+    });
+  }
+
   const suggestion =
     data.groupSearch[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
@@ -95,8 +101,8 @@ const SearchPage = ({ location, locale, history, t }) => {
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchContainer
           error={error}
-          history={history}
           query={searchParams.query}
+          search={search}
           suggestion={suggestion}
           subjectItems={subjectItems}
           setParams={setParams}
