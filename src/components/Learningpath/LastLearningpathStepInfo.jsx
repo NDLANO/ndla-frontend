@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';
-import { toSubjects } from '../../routeHelpers';
 import { TopicShape, SubjectShape, ResourceTypeShape } from '../../shapes';
 
 const LastLearningpathStepInfo = ({
@@ -47,13 +46,13 @@ const LastLearningpathStepInfo = ({
       learningPathName={title}
       subject={
         subject && {
-          url: `${toSubjects()}${subject.path}${filterParams}`,
+          url: `${subject.path}${filterParams}`,
           name: subject.name,
         }
       }
       topic={
         topicWithPath && {
-          url: `${toSubjects()}${topicWithPath.path}${filterParams}`,
+          url: `${topicWithPath.path}${filterParams}`,
           name: topicWithPath.name,
         }
       }>

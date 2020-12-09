@@ -36,7 +36,7 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toBreadcrumbItems, toSubjects } from '../../routeHelpers';
+import { toBreadcrumbItems } from '../../routeHelpers';
 import {
   getFiltersFromUrl,
   getLongNameFromFilters,
@@ -91,7 +91,7 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
     const filterIds = getFiltersFromUrl(this.props.location);
-    const subjectPageUrl = config.ndlaFrontendDomain + toSubjects();
+    const subjectPageUrl = config.ndlaFrontendDomain;
     this.setState({ scripts, subjectPageUrl, filterIds });
   }
 

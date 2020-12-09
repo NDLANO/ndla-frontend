@@ -105,7 +105,7 @@ test('util/getStructuredDataFromArticle article with breadcrumbs should return b
       name: 'NDLA',
     },
     {
-      to: '/subjects/subject:1/',
+      to: '/subject:1/',
       name: 'MEDIEUTTRYKK OG MEDIESAMFUNNET',
     },
   ];

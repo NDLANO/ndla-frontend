@@ -68,7 +68,7 @@ export async function forwardingRoute(req, res, next) {
     } else {
       res.redirect(
         301,
-        `${languagePrefix ? `/${languagePrefix}` : ''}/subjects${data.path}`,
+        `${languagePrefix ? `/${languagePrefix}` : ''}${data.path}`,
       );
     }
   } catch (e) {

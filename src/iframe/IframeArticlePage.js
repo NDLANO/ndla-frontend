@@ -74,7 +74,7 @@ class IframeArticlePage extends Component {
     const article = transformArticle(this.props.article, locale);
     const scripts = getArticleScripts(article);
     const contentUrl = this.state.path
-      ? `${config.ndlaFrontendDomain}/subjects${this.state.path}`
+      ? `${config.ndlaFrontendDomain}/{this.state.path}`
       : undefined;
     return (
       <OneColumn>

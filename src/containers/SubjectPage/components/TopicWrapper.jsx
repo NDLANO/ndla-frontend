@@ -61,7 +61,6 @@ TopicWrapper.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   onClickTopics: PropTypes.func,
-  toSubjects: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   showResources: PropTypes.bool,
