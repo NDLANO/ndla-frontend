@@ -33,7 +33,6 @@ test('oembedArticleRoute success', async () => {
 
   expect(response).toMatchSnapshot();
 
-
   const response2 = await oembedArticleRoute({
     query: {
       url: validArticleUrl2,

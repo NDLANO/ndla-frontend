@@ -25,7 +25,8 @@ export const RESOURCE_PAGE_PATH =
   '/(subjects)?/subject\\::subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SEARCH_PATH = '/search(.*)';
-export const TOPIC_PATH = '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
+export const TOPIC_PATH =
+  '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subject:20';
