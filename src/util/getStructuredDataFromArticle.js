@@ -31,36 +31,45 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
     license: license.url,
   };
 
-  // can only be one since it is a person or a organization
-  const author = creators?.length > 0 ? creators[0] : rightsholders?.[0];
-
-  if (author) {
-    data.author = {
+  const author = creators?.map(c => {
+    return {
       '@type': PERSON_TYPE,
-      name: author.name,
+      name: c.name,
     };
+  });
+  if (author?.length > 0) {
+    data.author = author;
   }
 
-  // can only be one since it is a person or a organization
-  const copyrightHolder = rightsholders?.[0];
-
-  if (copyrightHolder) {
-    data.copyrightHolder = {
+  const copyrightHolder = rightsholders?.map(r => {
+    return {
       '@type': ORGANIZATION_TYPE,
-      name: copyrightHolder.name,
+      name: r.name,
     };
+  });
+  if (copyrightHolder?.length > 0) {
+    data.copyrightHolder = copyrightHolder;
   }
 
-  // can only be one since it is a person or a organization
-  const contributor = processors?.[0];
-
-  if (contributor) {
-    data.contributor = {
+  const contributor = processors?.map(c => {
+    return {
       '@type': PERSON_TYPE,
-      name: contributor.name,
+      name: c.name,
     };
+  });
+  if (contributor?.length > 0) {
+    data.contributor = contributor;
   }
 
+  return data;
+};
+
+const getPublisher = () => {
+  const data = {};
+  data.publisher = {
+    '@type': ORGANIZATION_TYPE,
+    name: 'NDLA',
+  };
   return data;
 };
 
@@ -95,11 +104,14 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
   articleData.headline = article.title;
+  articleData.abstract = article.metaDescription;
   articleData.datePublished = format(article.published, 'YYYY-MM-DD');
   articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
-  
+  articleData.image = article.metaImage?.url;
+
   articleData = {
     ...articleData,
+    ...getPublisher(),
     ...getCopyrightData(article.copyright),
   };
 

@@ -81,7 +81,7 @@ const PlainArticlePage = ({
         ))}
 
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(article))}
+          {JSON.stringify(getStructuredDataFromArticle(data.article))}
         </script>
       </Helmet>
       <SocialMediaMetadata

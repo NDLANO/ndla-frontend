@@ -33,10 +33,24 @@ class Resources extends Component {
     this.toggleAdditionalDialog = this.toggleAdditionalDialog.bind(this);
   }
 
+  componentDidMount() {
+    const showAdditional = window
+      ? window.localStorage.getItem('showAdditionalResources')
+      : 'false';
+    this.setState(prevState => ({
+      showAdditionalResources: showAdditional === 'true',
+    }));
+  }
+
   toggleAdditionalResources() {
     this.setState(prevState => ({
       showAdditionalResources: !prevState.showAdditionalResources,
     }));
+    window &&
+      window.localStorage.setItem(
+        'showAdditionalResources',
+        `${!this.state.showAdditionalResources}`,
+      );
   }
 
   toggleAdditionalDialog() {

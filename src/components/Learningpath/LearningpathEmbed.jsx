@@ -82,7 +82,10 @@ const LearningpathEmbed = ({
 
         <script type="application/ld+json">
           {JSON.stringify(
-            getStructuredDataFromArticle(article, breadcrumbItems),
+            getStructuredDataFromArticle(
+              learningpathStepResource.article,
+              breadcrumbItems,
+            ),
           )}
         </script>
       </Helmet>
