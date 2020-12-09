@@ -10,9 +10,10 @@ import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
-import { groupSearchQuery } from '../../queries';
+import { searchPageQuery, groupSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
 import SearchContainer from './SearchContainer';
 import {
@@ -52,9 +53,10 @@ const getStateSearchParams = searchParams => {
 };
 
 const SearchPage = ({ location, locale, history, t }) => {
+  const { loading, data } = useGraphQuery(searchPageQuery);
+
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
-
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -71,7 +73,7 @@ const SearchPage = ({ location, locale, history, t }) => {
     pageSize: 4,
     types: null,
   });
-  const { data, error } = useGraphQuery(groupSearchQuery, {
+  const { data: searchData, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
       page: params.page.toString(),
@@ -82,18 +84,29 @@ const SearchPage = ({ location, locale, history, t }) => {
       setSearchGroups(updateSearchGroups(data.groupSearch, searchGroups)),
   });
 
-  if (!searchGroups.length) {
+  if (!searchGroups.length || loading) {
     return null;
   }
 
-  const search = searchValue => {
+  const handleSearchParamsChange = searchParams => {
     history.push({
-      search: `?query=${searchValue}`,
+      pathname: '/search',
+      search: queryString.stringify({
+        ...queryString.parse(location.search),
+        ...getStateSearchParams(searchParams),
+      }),
     });
-  }
+  };
 
   const suggestion =
-    data.groupSearch[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+    searchData.groupSearch[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
+      ?.text;
+
+  const allSubjects =
+    data.subjects?.map(subject => ({
+      title: subject.name,
+      value: subject.id,
+    })) || [];
 
   return (
     <Fragment>
@@ -101,8 +114,10 @@ const SearchPage = ({ location, locale, history, t }) => {
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchContainer
           error={error}
+          handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
-          search={search}
+          subjects={searchParams.subjects}
+          allSubjects={allSubjects}
           suggestion={suggestion}
           subjectItems={subjectItems}
           setParams={setParams}

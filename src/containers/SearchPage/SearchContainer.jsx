@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { func, arrayOf, objectOf, object, string } from 'prop-types';
+import { func, arrayOf, objectOf, object, string, shape } from 'prop-types';
 import { SearchHeader, SearchSubjectResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
@@ -34,8 +34,10 @@ const sortedResourceTypes = [
 const SearchContainer = ({
   t,
   error,
+  handleSearchParamsChange,
   query,
-  search,
+  subjects,
+  allSubjects,
   suggestion,
   subjectItems,
   setParams,
@@ -47,6 +49,20 @@ const SearchContainer = ({
   setSearchGroups,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
+
+  const filterProps = {
+    options: allSubjects,
+    values: subjects,
+    onSubmit: filters => {
+      handleSearchParamsChange({ subjects: filters });
+    },
+    messages: {
+      filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
+      closeButton: t('searchPage.close'),
+      confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
+      buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
+    },
+  };
 
   const setLoadingOnGroup = type => {
     setSearchGroups(prevState =>
@@ -141,8 +157,18 @@ const SearchContainer = ({
 
   const handleSearchSubmit = e => {
     e.preventDefault();
-    search(searchValue);
+    handleSearchParamsChange({ query: searchValue });
   };
+
+  const handleFilterRemove = value => {
+    handleSearchParamsChange({
+      subjects: subjects.filter(option => option !== value),
+    });
+  };
+
+  const activeSubjectFilters = allSubjects.filter(option =>
+    subjects.includes(option.value),
+  );
 
   if (error) {
     handleError(error);
@@ -154,10 +180,17 @@ const SearchContainer = ({
       <SearchHeader
         searchPhrase={query}
         searchPhraseSuggestion={suggestion}
-        searchPhraseSuggestionOnClick={() => search(suggestion)}
+        searchPhraseSuggestionOnClick={() =>
+          handleSearchParamsChange({ query: suggestion })
+        }
         searchValue={searchValue}
         onSearchValueChange={value => setSearchValue(value)}
         onSubmit={handleSearchSubmit}
+        activeFilters={{
+          filters: activeSubjectFilters,
+          onFilterRemove: handleFilterRemove,
+        }}
+        filters={filterProps}
       />
       <SearchSubjectResult items={subjectItems} />
       <FilterTabs
@@ -184,8 +217,15 @@ const SearchContainer = ({
 
 SearchContainer.propTypes = {
   error: arrayOf(object),
+  handleSearchParamsChange: func,
   query: string,
-  search: func,
+  subjects: arrayOf(string),
+  allSubjects: arrayOf(
+    shape({
+      title: string,
+      value: string,
+    }),
+  ),
   suggestion: string,
   subjectItems: arrayOf(SearchItemShape),
   currentSubjectType: string,
