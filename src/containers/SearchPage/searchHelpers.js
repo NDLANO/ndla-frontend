@@ -315,7 +315,7 @@ export const mapResourcesToItems = resources =>
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
-    url: `${toSubjects()}${resource.path}`,
+    url: resource.path,
     contexts: resource.contexts,
     ...(resource.metaImage?.url && {
       img: {
