@@ -46,7 +46,7 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps article 1`] = `
 Object {
-  "to": "/subjects/article/300",
+  "to": "/article/300",
 }
 `;
 
@@ -58,6 +58,6 @@ Object {
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 Object {
-  "to": "/subjects/learningpath/500",
+  "to": "/learningpath/500",
 }
 `;

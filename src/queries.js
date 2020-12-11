@@ -313,6 +313,7 @@ export const resourceInfoFragment = gql`
       id
       name
       subjectId
+      relevanceId
     }
     resourceTypes {
       id

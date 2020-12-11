@@ -25,7 +25,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700|Source+Code+Pro:400,700"
         />
         {config.gaTrackingId && (
           <script async src="https://www.google-analytics.com/analytics.js" />
@@ -63,25 +63,6 @@ const Document = ({ helmet, assets, data, css, ids }) => {
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
         {helmet.script.toComponent()}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.twttr = (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0],
-              t = window.twttr || {};
-            if (d.getElementById(id)) return t;
-            js = d.createElement(s);
-            js.id = id;
-            js.async = true;
-            js.src = "https://platform.twitter.com/widgets.js";
-            fjs.parentNode.insertBefore(js, fjs);
-            t._e = [];
-            t.ready = function (f) {
-              t._e.push(f);
-            };
-            return t;
-          }(document, "script", "twitter-wjs")); `,
-          }}
-        />
       </body>
     </html>
   );

@@ -89,9 +89,6 @@ export const programmes = [
                 id: 'common_subject_1',
               },
               {
-                id: 'common_subject_14',
-              },
-              {
                 id: 'common_subject_62',
               },
             ],
@@ -191,9 +188,6 @@ export const programmes = [
               },
               {
                 id: 'common_subject_1',
-              },
-              {
-                id: 'common_subject_14',
               },
               {
                 id: 'common_subject_62',
@@ -473,9 +467,6 @@ export const programmes = [
               },
               {
                 id: 'common_subject_1',
-              },
-              {
-                id: 'common_subject_14',
               },
               {
                 id: 'common_subject_62',
@@ -1541,9 +1532,6 @@ export const programmes = [
                 id: 'common_subject_1',
               },
               {
-                id: 'common_subject_14',
-              },
-              {
                 id: 'common_subject_62',
               },
             ],
@@ -1742,9 +1730,6 @@ export const programmes = [
                 id: 'common_subject_1',
               },
               {
-                id: 'common_subject_14',
-              },
-              {
                 id: 'common_subject_62',
               },
             ],
@@ -1920,9 +1905,6 @@ export const programmes = [
               },
               {
                 id: 'common_subject_1',
-              },
-              {
-                id: 'common_subject_14',
               },
               {
                 id: 'common_subject_62',
@@ -2248,9 +2230,6 @@ export const programmes = [
               },
               {
                 id: 'common_subject_1',
-              },
-              {
-                id: 'common_subject_14',
               },
               {
                 id: 'common_subject_62',

@@ -8,7 +8,13 @@
 
 import format from 'date-fns/format';
 
-const CREATIVE_WORK_TYPE = 'CreativeWork';
+import config from '../config';
+
+const CREATIVE_WORK_TYPE = 'Article';
+const BREADCRUMB_TYPE = 'BreadcrumbList';
+const ITEM_TYPE = 'ListItem';
+const THING_TYPE = 'Thing';
+
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
@@ -24,56 +30,102 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
     license: license.url,
   };
 
-  // can only be one since it is a person or a organization
-  const author = creators.length > 0 ? creators[0] : rightsholders[0];
-
-  if (author) {
-    data.author = {
+  const author = creators?.map(c => {
+    return {
       '@type': PERSON_TYPE,
-      name: author.name,
+      name: c.name,
     };
+  });
+  if (author?.length > 0) {
+    data.author = author;
   }
 
-  // can only be one since it is a person or a organization
-  const copyrightHolder = rightsholders[0];
-
-  if (copyrightHolder) {
-    data.copyrightHolder = {
+  const copyrightHolder = rightsholders?.map(r => {
+    return {
       '@type': ORGANIZATION_TYPE,
-      name: copyrightHolder.name,
+      name: r.name,
     };
+  });
+  if (copyrightHolder?.length > 0) {
+    data.copyrightHolder = copyrightHolder;
   }
 
-  // can only be one since it is a person or a organization
-  const contributor = processors[0];
-
-  if (contributor) {
-    data.contributor = {
+  const contributor = processors?.map(c => {
+    return {
       '@type': PERSON_TYPE,
-      name: contributor.name,
+      name: c.name,
     };
+  });
+  if (contributor?.length > 0) {
+    data.contributor = contributor;
   }
 
   return data;
 };
 
-const getStructuredDataFromArticle = article => {
+const getPublisher = () => {
+  const data = {};
+  data.publisher = {
+    '@type': ORGANIZATION_TYPE,
+    name: 'NDLA',
+  };
+  return data;
+};
+
+const getBreadcrumbs = breadcrumbItems => {
+  if (!breadcrumbItems) {
+    return [];
+  }
+  const items = breadcrumbItems.map((item, index) => {
+    return {
+      '@type': ITEM_TYPE,
+      name: item.name,
+      position: index + 1,
+      item: {
+        '@type': THING_TYPE,
+        id: `${config.ndlaFrontendDomain}${item.to}`,
+      },
+    };
+  });
+
+  let data = getStructuredDataBase();
+  data['@type'] = BREADCRUMB_TYPE;
+  data.numberOfItems = breadcrumbItems.length;
+  data.itemListELement = items;
+
+  return data;
+};
+
+const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   if (!article) return [];
 
   let articleData = getStructuredDataBase();
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
+  articleData.headline = article.title;
+  articleData.abstract = article.metaDescription;
+  articleData.datePublished = format(article.published, 'YYYY-MM-DD');
+  articleData.dateModified = format(article.updated, 'YYYY-MM-DD');
+  articleData.image = article.metaImage?.url;
 
   articleData = {
     ...articleData,
+    ...getPublisher(),
     ...getCopyrightData(article.copyright),
   };
 
   const structuredDataCollection = [articleData];
 
+  const breadcrumbs = breadcrumbItems
+    ? getBreadcrumbs(breadcrumbItems)
+    : undefined;
+  if (breadcrumbs) {
+    structuredDataCollection.push(breadcrumbs);
+  }
+
   const mediaElements = [];
 
-  const images = article.metaData.images || [];
+  const images = article.metaData?.images || [];
   images.forEach(image => {
     mediaElements.push({
       data: image,
@@ -81,7 +133,7 @@ const getStructuredDataFromArticle = article => {
     });
   });
 
-  const audios = article.metaData.audios || [];
+  const audios = article.metaData?.audios || [];
   audios.forEach(audio => {
     mediaElements.push({
       data: audio,
@@ -89,7 +141,7 @@ const getStructuredDataFromArticle = article => {
     });
   });
 
-  const videos = article.metaData.brightcoves || [];
+  const videos = article.metaData?.brightcoves || [];
 
   videos.forEach(video => {
     mediaElements.push({

@@ -27,7 +27,7 @@ import {
   GraphQLTopicShape,
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
-import { toLearningPath } from '../../routeHelpers';
+import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
@@ -52,6 +52,7 @@ class LearningpathPage extends Component {
         resource: { learningpath },
         subject,
         topicPath,
+        relevance,
       },
       locale,
       location,
@@ -67,7 +68,14 @@ class LearningpathPage extends Component {
     const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
-      { subject, topicPath, learningpath, learningstep, filter: longName },
+      {
+        subject,
+        relevance,
+        topicPath,
+        learningpath,
+        learningstep,
+        filter: longName,
+      },
       articleProps.label,
       false,
     );
@@ -122,9 +130,11 @@ class LearningpathPage extends Component {
       locale,
       skipToContentId,
       ndlaFilm,
+      location,
       match: {
         params: { stepId },
       },
+      t,
     } = this.props;
 
     if (
@@ -139,6 +149,7 @@ class LearningpathPage extends Component {
     }
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { learningpath } = resource;
+    const filterIds = getFiltersFromUrl(location);
 
     const learningpathStep = stepId
       ? learningpath.learningsteps.find(
@@ -149,6 +160,19 @@ class LearningpathPage extends Component {
     if (!learningpathStep) {
       return null;
     }
+
+    const breadcrumbItems =
+      subject && topicPath
+        ? toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [subject, ...topicPath, { name: learningpath.title, url: '' }],
+            filterIds,
+          )
+        : toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [{ name: learningpath.title, url: '' }],
+            filterIds,
+          );
 
     return (
       <div>
@@ -178,6 +202,7 @@ class LearningpathPage extends Component {
           topicPath={topicPath}
           locale={locale}
           ndlaFilm={ndlaFilm}
+          breadcrumbItems={breadcrumbItems}
           {...getArticleProps()}
         />
       </div>
@@ -204,6 +229,7 @@ LearningpathPage.propTypes = {
     resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
     topic: GraphQLTopicShape,
     topicPath: PropTypes.arrayOf(GraphQLTopicShape),
+    relevance: PropTypes.string,
     subject: GraphQLSubjectShape,
   }),
   skipToContentId: PropTypes.string,

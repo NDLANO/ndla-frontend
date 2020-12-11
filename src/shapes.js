@@ -205,11 +205,8 @@ export const H5pShape = PropTypes.shape({
 });
 
 export const BreadCrumbShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  typename: PropTypes.string,
-  isCurrent: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
 });
 
 export const SearchParamsShape = PropTypes.shape({

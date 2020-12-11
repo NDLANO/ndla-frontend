@@ -108,7 +108,7 @@ const TopicContainer = ({
           />
         ))}
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(article))}
+          {JSON.stringify(getStructuredDataFromArticle(topic.article))}
         </script>
       </Helmet>
       {article && (

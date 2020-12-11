@@ -36,7 +36,7 @@ import {
 } from '../Resources/resourceHelpers';
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toSubjects } from '../../routeHelpers';
+import { toBreadcrumbItems } from '../../routeHelpers';
 import {
   getFiltersFromUrl,
   getLongNameFromFilters,
@@ -66,6 +66,7 @@ class ArticlePage extends Component {
         resource: { article },
         subject,
         topicPath,
+        relevance,
       },
       locale,
       location,
@@ -73,7 +74,7 @@ class ArticlePage extends Component {
     const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
-      { article, subject, topicPath, filter: longName },
+      { article, relevance, subject, topicPath, filter: longName },
       articleProps.label,
       true,
     );
@@ -90,12 +91,20 @@ class ArticlePage extends Component {
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
     const filterIds = getFiltersFromUrl(this.props.location);
-    const subjectPageUrl = config.ndlaFrontendDomain + toSubjects();
+    const subjectPageUrl = config.ndlaFrontendDomain;
     this.setState({ scripts, subjectPageUrl, filterIds });
   }
 
   render() {
-    const { data, locale, errors, skipToContentId, ndlaFilm } = this.props;
+    const {
+      data,
+      locale,
+      location,
+      errors,
+      skipToContentId,
+      ndlaFilm,
+      t,
+    } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { scripts, subjectPageUrl, filterIds } = this.state;
     if (isLearningPathResource(resource)) {
@@ -134,6 +143,13 @@ class ArticlePage extends Component {
       topic.path
     }/${resource.id.replace('urn:', '')}${filterParam}`;
 
+    const breadcrumbItems = toBreadcrumbItems(
+      t('breadcrumb.toFrontpage'),
+      [subject, ...topicPath, resource],
+      getFiltersFromUrl(location),
+      locale,
+    );
+
     return (
       <div>
         <ArticleHero
@@ -144,6 +160,7 @@ class ArticlePage extends Component {
           resourceType={resourceType}
           locale={locale}
           metaImage={article.metaImage}
+          breadcrumbItems={breadcrumbItems}
         />
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
@@ -161,7 +178,9 @@ class ArticlePage extends Component {
           ))}
 
           <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(article))}
+            {JSON.stringify(
+              getStructuredDataFromArticle(resource.article, breadcrumbItems),
+            )}
           </script>
         </Helmet>
         <SocialMediaMetadata
@@ -216,6 +235,7 @@ ArticlePage.propTypes = {
       coreResources: PropTypes.arrayOf(ResourceTypeShape),
       supplementaryResources: PropTypes.arrayOf(ResourceTypeShape),
     }),
+    relevance: PropTypes.string,
     topicPath: PropTypes.arrayOf(PropTypes.object),
     subject: SubjectShape,
     resourceTypes: PropTypes.arrayOf(ResourceTypeShape),

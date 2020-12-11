@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
@@ -53,8 +52,7 @@ const Topic = ({
     url: toTopic(subjectId, filterIds, ...topicPath, item.id),
   }));
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
-  const copyPageUrlLink =
-    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
+  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path + filterParam;
 
   return (
     <>
@@ -119,7 +117,7 @@ Topic.getDimensions = props => {
     subject.id,
     filterIds.split(','),
   );
-  const longName = subjectBySubjectIdFiltes.longName[locale];
+  const longName = subjectBySubjectIdFiltes?.longName[locale];
 
   return getAllDimensions(
     {
@@ -142,7 +140,6 @@ Topic.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   onClickTopics: PropTypes.func,
-  toSubjects: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   showResources: PropTypes.bool,

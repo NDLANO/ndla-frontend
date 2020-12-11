@@ -45,19 +45,19 @@ test('util/getStructuredDataFromArticle article with copyright should return str
 
   const structuredData = getStructuredDataFromArticle(article);
   expect(structuredData.length).toBe(1);
-  expect(structuredData[0].author.name).toBe(
+  expect(structuredData[0].author[0].name).toBe(
     article.copyright.creators[0].name,
   );
-  expect(structuredData[0].author['@type']).toBe('Person');
-  expect(structuredData[0].contributor.name).toBe(
+  expect(structuredData[0].author[0]['@type']).toBe('Person');
+  expect(structuredData[0].contributor[0].name).toBe(
     article.copyright.processors[0].name,
   );
-  expect(structuredData[0].contributor['@type']).toBe('Person');
-  expect(structuredData[0].copyrightHolder.name).toBe(
+  expect(structuredData[0].contributor[0]['@type']).toBe('Person');
+  expect(structuredData[0].copyrightHolder[0].name).toBe(
     article.copyright.rightsholders[0].name,
   );
-  expect(structuredData[0].copyrightHolder['@type']).toBe('Organization');
-  expect(structuredData[0]['@type']).toBe('CreativeWork');
+  expect(structuredData[0].copyrightHolder[0]['@type']).toBe('Organization');
+  expect(structuredData[0]['@type']).toBe('Article');
   expect(structuredData[0].name).toBe(article.title);
 });
 
@@ -95,4 +95,22 @@ test('util/getStructuredDataFromArticle article with video should return video s
   expect(structuredData[1].name).toBe(article.metaData.brightcoves[0].title);
   expect(structuredData[1].embedUrl).toBe(article.metaData.brightcoves[0].src);
   expect(structuredData[1]['@type']).toBe('VideoObject');
+});
+
+test('util/getStructuredDataFromArticle article with breadcrumbs should return breadcrumbitems', () => {
+  const article = getBaseArticle();
+  const breadcrumbItems = [
+    {
+      to: '/',
+      name: 'NDLA',
+    },
+    {
+      to: '/subject:1/',
+      name: 'MEDIEUTTRYKK OG MEDIESAMFUNNET',
+    },
+  ];
+  const structuredData = getStructuredDataFromArticle(article, breadcrumbItems);
+  expect(structuredData.length).toBe(2);
+  expect(structuredData[1]['@type']).toBe('BreadcrumbList');
+  expect(structuredData[1].numberOfItems).toBe(2);
 });

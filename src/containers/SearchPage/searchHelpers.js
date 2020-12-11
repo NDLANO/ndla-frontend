@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { toSubjects } from '../../routeHelpers';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import {
@@ -41,11 +40,11 @@ const getUrl = subject => {
   const filterParam = subject.filters?.[0]?.id
     ? `?filters=${subject.filters?.[0]?.id}`
     : '';
-  return `${toSubjects()}${subject.path}${filterParam}`;
+  return `${subject.path}${filterParam}`;
 };
 
 export const searchResultToLinkProps = result => {
-  return result.path ? { to: toSubjects() + result.path } : { to: '/404' };
+  return result.path ? { to: result.path } : { to: '/404' };
 };
 
 export const selectContext = (contexts, filters, enabledTab) => {

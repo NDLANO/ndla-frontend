@@ -8,15 +8,15 @@ Array [
   },
   Object {
     "name": "Historie vg2 og vg3",
-    "to": "/subjects/subject:9/",
+    "to": "/subject:9/",
   },
   Object {
     "name": "Om Utforskeren ",
-    "to": "/subjects/subject:9/topic:1:179373/",
+    "to": "/subject:9/topic:1:179373/",
   },
   Object {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subjects/subject:9/topic:1:179373/topic:1:170165/",
+    "to": "/subject:9/topic:1:179373/topic:1:170165/",
   },
 ]
 `;
@@ -29,19 +29,19 @@ Array [
   },
   Object {
     "name": "Historie vg2 og vg3",
-    "to": "/subjects/subject:9/",
+    "to": "/subject:9/",
   },
   Object {
     "name": "Om Utforskeren ",
-    "to": "/subjects/subject:9/topic:1:179373/",
+    "to": "/subject:9/topic:1:179373/",
   },
   Object {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subjects/subject:9/topic:1:179373/topic:1:170165/",
+    "to": "/subject:9/topic:1:179373/topic:1:170165/",
   },
   Object {
     "name": "Utforskeren",
-    "to": "/subjects/subject:9/topic:1:179373/topic:1:170165/resource:1:168389",
+    "to": "/subject:9/topic:1:179373/topic:1:170165/resource:1:168389",
   },
 ]
 `;
@@ -54,7 +54,7 @@ Array [
   },
   Object {
     "name": "Historie vg2 og vg3",
-    "to": "/subjects/subject:9/",
+    "to": "/subject:9/",
   },
 ]
 `;

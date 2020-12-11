@@ -12,7 +12,7 @@ import { forwardingRoute } from '../forwardingRoute';
 
 jest.mock('../../../config', () => ({
   isNdlaProdEnvironment: true,
-  learningPathDomain: 'https://learningpath-frontend.test.api.ndla.no',
+  learningPathDomain: 'https://stier.test.ndla.no',
   getEnvironmentVariabel: () => {},
 }));
 
@@ -53,7 +53,7 @@ test('forwardingRoute redirect with 301 if mapping OK', async () => {
   expect(
     redirect.calledWith(
       301,
-      `/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
@@ -74,7 +74,7 @@ test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
   expect(
     redirect.calledWith(
       301,
-      `/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
@@ -95,7 +95,7 @@ test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
   expect(
     redirect.calledWith(
       301,
-      `/en/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      `/en/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
@@ -122,7 +122,7 @@ test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
   expect(
     redirect.calledWith(
       301,
-      `/nn/subjects/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+      `/nn/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
@@ -143,7 +143,7 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async 
   expect(
     redirect.calledWith(
       301,
-      `https://learningpath-frontend.test.api.ndla.no/learningpaths/122/first-step`,
+      `https://stier.test.ndla.no/learningpaths/122/first-step`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
@@ -168,7 +168,7 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async 
   expect(
     redirect.calledWith(
       301,
-      `https://learningpath-frontend.test.api.ndla.no/nn/learningpaths/122/first-step`,
+      `https://stier.test.ndla.no/nn/learningpaths/122/first-step`,
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);

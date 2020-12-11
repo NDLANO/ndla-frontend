@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Image, SubjectArchive } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
-import { toSubjects } from '../../../routeHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
 const SubjectTopical = ({ topical, twoColumns, t }) => {
@@ -35,7 +34,7 @@ const SubjectTopical = ({ topical, twoColumns, t }) => {
             ) : null,
           heading: title,
           description: metaDescription,
-          url: toSubjects() + path,
+          url: path,
         }}
         archiveArticles={[]}
         sectionHeading={t('subjectPage.subjectArchive.heading')}

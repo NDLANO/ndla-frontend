@@ -33,7 +33,6 @@ import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { toSubjects } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 
 const getDocumentTitle = ({ t, data }) => {
@@ -86,7 +85,7 @@ const SubjectPage = ({
       } else {
         // no topics in path
         history.replace({
-          pathname: toSubjects() + subject.path,
+          pathname: subject.path,
           search: filterParam,
         });
       }

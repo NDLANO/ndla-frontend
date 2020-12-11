@@ -7,13 +7,15 @@
  */
 
 import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { resourcePageQuery } from '../../queries';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
@@ -21,6 +23,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
 import { LocationShape } from '../../shapes';
+import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
 
 const urlInPaths = (location, resource) => {
   return resource.paths?.find(p => location.pathname.includes(p));
@@ -28,13 +31,14 @@ const urlInPaths = (location, resource) => {
 
 const ResourcePage = props => {
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
-  const filterIds = getFiltersFromUrl(props.location);
+  const filters = getFiltersFromUrlAsArray(props.location);
+  const filterIds = filters.join(',');
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
     variables: { subjectId, topicId, filterIds, resourceId },
   });
 
   useEffect(() => {
-    if (data?.resource?.filters?.length && !getFiltersFromUrl(props.location)) {
+    if (data?.resource?.filters?.length && !filterIds) {
       const resourceFilterOnTopic = data.resource.filters.filter(filter =>
         data?.topic?.filters?.map(filter => filter.id).includes(filter.id),
       );
@@ -56,20 +60,32 @@ const ResourcePage = props => {
   }
 
   if (data.resource && !urlInPaths(props.location, data.resource)) {
-    return <MovedResourcePage resource={data.resource} locale={props.locale} />;
+    if (data.resource.paths?.length === 1) {
+      return <Redirect to={data.resource.paths[0]} />;
+    } else {
+      return (
+        <MovedResourcePage resource={data.resource} locale={props.locale} />
+      );
+    }
   }
 
   if (!data.resource) {
     return <NotFoundPage />;
   }
-  const { subject, topic } = data;
+  const { subject, resource, topic } = data;
+  const relevanceId = resource.filters?.find(f => f.id === filters?.[0])
+    ?.relevanceId;
+  const relevance =
+    relevanceId === RELEVANCE_SUPPLEMENTARY
+      ? props.t('searchPage.searchFilterMessages.supplementaryRelevance')
+      : props.t('searchPage.searchFilterMessages.coreRelevance');
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
-  if (isLearningPathResource(data.resource)) {
+  if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
         {...props}
-        data={{ ...data, topicPath }}
+        data={{ ...data, relevance, topicPath }}
         errors={error?.graphQLErrors}
       />
     );
@@ -77,7 +93,7 @@ const ResourcePage = props => {
   return (
     <ArticlePage
       {...props}
-      data={{ ...data, topicPath }}
+      data={{ ...data, relevance, topicPath }}
       errors={error?.graphQLErrors}
     />
   );
@@ -102,4 +118,4 @@ ResourcePage.propTypes = {
   }).isRequired,
 };
 
-export default ResourcePage;
+export default injectT(ResourcePage);

@@ -107,7 +107,7 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
       {
         value: 'topic-article',
         type: 'contextTypes',
-        name: t('contentTypes.subject'),
+        name: t('contentTypes.topic'),
       },
       ...resourceTypeTabs,
     ];
