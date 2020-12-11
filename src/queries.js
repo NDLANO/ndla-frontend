@@ -706,7 +706,11 @@ export const learningPathStepQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoalsQuery($codes: [String], $nodeId: String, $language: String) {
+  query competenceGoalsQuery(
+    $codes: [String]
+    $nodeId: String
+    $language: String
+  ) {
     competenceGoals(codes: $codes, nodeId: $nodeId, language: $language) {
       id
       name: title

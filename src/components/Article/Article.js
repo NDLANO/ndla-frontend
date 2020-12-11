@@ -82,7 +82,12 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={renderCompetenceGoals(article, locale, isTopicArticle, subject)}
+      competenceGoals={renderCompetenceGoals(
+        article,
+        locale,
+        isTopicArticle,
+        subject,
+      )}
       competenceGoalTypes={competenceGoalTypes}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}

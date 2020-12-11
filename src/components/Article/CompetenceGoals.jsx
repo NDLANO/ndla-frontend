@@ -59,7 +59,9 @@ const CompetenceGoals = ({
 }) => {
   const codes = article.grepCodes;
   const nodeId = article.oldNdlaUrl?.split('/').pop();
-  const lang = article.supportedLanguages.find(l => l === language) || article.supportedLanguages[0];
+  const lang =
+    article.supportedLanguages.find(l => l === language) ||
+    article.supportedLanguages[0];
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
     variables: { codes, nodeId, language: lang },
   });
