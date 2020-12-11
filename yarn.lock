@@ -1435,10 +1435,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.29.7":
-  version "0.29.7"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.7.tgz#a0f57d62234a3c088d3c7a98678b847c63ca48da"
-  integrity sha512-OSJy2M4yH/JFq1Brbhh3V+dUT0rODcbvRbXcjei5JcZwUS/jRjnaT8FUzT6AeSI/3PamWbO1yveUrqjCsEHZ3Q==
+"@ndla/ui@^0.29.8":
+  version "0.29.8"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.8.tgz#ed3c7809023dea2b896b1e4cb2264ebc029a7a1f"
+  integrity sha512-hF8L9zRewfIvD/Qfn10scq+oC/fA8kMeiauThBwbZnl3m036UMjKpDItWlmkOrQbEwD7SO8qGz/9B6x7/e/+QA==
   dependencies:
     "@ndla/button" "^0.3.42"
     "@ndla/carousel" "^0.3.32"
