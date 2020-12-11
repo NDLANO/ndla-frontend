@@ -16,7 +16,7 @@ import LicenseBox from '../license/LicenseBox';
 import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
 
-function renderCompetenceGoals(article, isTopicArticle, subject) {
+function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
@@ -26,6 +26,7 @@ function renderCompetenceGoals(article, isTopicArticle, subject) {
     return ({ Dialog, dialogProps }) => (
       <CompetenceGoals
         article={article}
+        language={locale}
         subject={subject}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
@@ -81,7 +82,7 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={renderCompetenceGoals(article, isTopicArticle, subject)}
+      competenceGoals={renderCompetenceGoals(article, locale, isTopicArticle, subject)}
       competenceGoalTypes={competenceGoalTypes}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
