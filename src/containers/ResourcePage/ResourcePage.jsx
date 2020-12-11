@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -59,7 +60,13 @@ const ResourcePage = props => {
   }
 
   if (data.resource && !urlInPaths(props.location, data.resource)) {
-    return <MovedResourcePage resource={data.resource} locale={props.locale} />;
+    if (data.resource.paths?.length === 1) {
+      return <Redirect to={data.resource.paths[0]} />;
+    } else {
+      return (
+        <MovedResourcePage resource={data.resource} locale={props.locale} />
+      );
+    }
   }
 
   if (!data.resource) {
