@@ -16,7 +16,11 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
-import { GraphQLResourceTypeShape, GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
+import {
+  GraphQLResourceTypeShape,
+  GraphQLSubjectShape,
+  GraphQLTopicShape,
+} from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -70,7 +74,8 @@ const Topic = ({
             locale={locale}
             modifier="in-topic"
           />
-        }/>
+        }
+      />
       {subTopics.length !== 0 && (
         <NavigationBox
           colorMode="light"

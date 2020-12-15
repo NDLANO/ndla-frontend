@@ -151,6 +151,7 @@ const SubjectPage = ({
           ...crumb,
           isCurrent: currentLevel === crumb.index,
           typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+          url: '#',
         }))
       : []),
   ];
