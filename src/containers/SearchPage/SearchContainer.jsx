@@ -17,7 +17,7 @@ import {
   TypeFilterShape,
 } from '../../shapes';
 import SearchResults from './components/SearchResults';
-import { getTypeFilter, filterTypeOptions } from './searchHelpers';
+import { filterTypeOptions } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 
@@ -43,10 +43,7 @@ const SearchContainer = ({
   setParams,
   currentSubjectType,
   setCurrentSubjectType,
-  typeFilter,
-  setTypeFilter,
   searchGroups,
-  setSearchGroups,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
 
@@ -64,31 +61,16 @@ const SearchContainer = ({
     },
   };
 
-  const setLoadingOnGroup = type => {
-    setSearchGroups(prevState =>
-      prevState.map(group => ({
-        ...group,
-        loading: group.type === type,
-      })),
-    );
-  };
+  const hasActiveFilters = type => {
+    const filters = getSearchGroup(type).filters;
+    return filters.length && !filters.find(f => f.id === 'all').active;
+  }
 
-  const hasActiveFilters = type =>
-    typeFilter[type].filters.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
-
-  const updateTypeFilter = (type, page, pageSize) => {
-    const filterUpdate = { ...typeFilter };
-    filterUpdate[type] = {
-      ...filterUpdate[type],
-      page,
-      pageSize,
-    };
-    setTypeFilter(filterUpdate);
-  };
+  const getSearchGroup = type => 
+    searchGroups.find(group => group.type === type);
 
   const handleFilterClick = (type, filterId) => {
-    const filters = typeFilter[type].filters;
+    const filters = getSearchGroup(type).filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
       filters.forEach(filter => {
@@ -118,7 +100,6 @@ const SearchContainer = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
-      setTypeFilter(getTypeFilter());
       setParams({
         page: 1,
         pageSize: 4,
@@ -126,32 +107,25 @@ const SearchContainer = ({
       });
     } else {
       setCurrentSubjectType(type);
-      if (typeFilter[type]) {
-        updateTypeFilter(type, 1, 8);
-        if (type !== currentSubjectType) {
-          setLoadingOnGroup(type);
-        }
-        setParams(prevState => ({
-          page: 1,
-          pageSize: 8,
-          types: hasActiveFilters(type)
-            ? prevState.types
-            : resourceTypeMapping[type] || type,
-        }));
-      }
+      setParams(prevState => ({
+        page: 1,
+        pageSize: 8,
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
+      }));
     }
   };
 
   const handleShowMore = type => {
-    const pageSize = typeFilter[type].pageSize + 4;
-    updateTypeFilter(type, 1, pageSize);
-    setLoadingOnGroup(type);
     setParams(prevState => ({
       ...prevState,
-      pageSize: pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
+      page: prevState.page + 1,
+      type: hasActiveFilters(type)
+        ? prevState.type
+        : type,
+      preAction: 'RESOURCE_TYPE_LOADING',
+      postAction: 'RESOURCE_TYPE_ADD_ITEMS',
     }));
   };
 
@@ -206,7 +180,6 @@ const SearchContainer = ({
               sortedResourceTypes.indexOf(b.type),
           )}
           currentSubjectType={currentSubjectType}
-          typeFilter={typeFilter}
           handleFilterClick={handleFilterClick}
           handleShowMore={handleShowMore}
         />
