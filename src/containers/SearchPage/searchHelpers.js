@@ -1,7 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import { getContentType, contentTypeMapping, resourceTypeMapping } from '../../util/getContentType';
+import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
@@ -388,6 +388,6 @@ export const getTypeParams = (
     };
   }
   return {
-    resourceTypes: resourceTypeMapping[type],
+    resourceTypes: type,
   };
 };

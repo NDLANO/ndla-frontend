@@ -17,9 +17,10 @@ const SearchResults = ({
   handleFilterClick,
   handleShowMore,
   searchGroups,
+  typeFilter,
 }) => {
   return searchGroups.map(group => {
-    const { totalCount, type, items, filters, loading } = group;
+    const { totalCount, type, items, loading } = group;
     if (
       (!currentSubjectType ||
         type === currentSubjectType ||
@@ -29,7 +30,7 @@ const SearchResults = ({
       return (
         <Fragment key={`searchresult-${type}`}>
           <SearchTypeResult
-            filters={filters}
+            filters={typeFilter[type].filters}
             onFilterClick={id => handleFilterClick(type, id)}
             items={items}
             loading={loading}
