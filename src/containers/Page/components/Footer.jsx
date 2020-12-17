@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
@@ -15,6 +16,11 @@ import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
+
+// Remove when Footer in frontend-packages is updated.
+const StyledFooter = styled(Footer)`
+  z-index: 0;
+`;
 
 const FooterWrapper = ({ location, locale, t, inverted }) => {
   const languageSelector = (
@@ -52,7 +58,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
   ];
 
   return (
-    <Footer
+    <StyledFooter
       lang={locale}
       links={links}
       languageSelector={languageSelector}
@@ -67,7 +73,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
           {t('askNDLA')}
         </ZendeskButton>
       </FooterText>
-    </Footer>
+    </StyledFooter>
   );
 };
 
