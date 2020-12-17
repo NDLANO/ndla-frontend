@@ -1303,6 +1303,14 @@
     "@ndla/core" "^0.6.32"
     "@ndla/icons" "^0.6.25"
 
+"@ndla/button@^0.3.43":
+  version "0.3.43"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.43.tgz#c9e0cc08fb4c4034651bcf71919dc1052058295e"
+  integrity sha512-ufnp9Otzo/BMVoo6JRlwlxZ1mSK9IWPc6SrYNEVOzK0nz/ArGqif0+L+BldA1madDhKjWrMxfQQfRCgzCK/eTg==
+  dependencies:
+    "@ndla/core" "^0.6.32"
+    "@ndla/icons" "^0.6.26"
+
 "@ndla/carousel@^0.3.32":
   version "0.3.32"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.32.tgz#de352ca100843de51a57370a79d57b1cff009dbc"
@@ -1353,10 +1361,24 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.25.tgz#166ea02b952aa3436e4d9f51b73585ec0fc6ddb4"
   integrity sha512-OUh2chfEE10L0HquREKwknO+dZxhZ7CiMruS6e3nKxJ2GHlE3MkCSaBTLdHNZDiJt8SuxZ7N2HuVsUZJa+Urpw==
 
+"@ndla/icons@^0.6.26":
+  version "0.6.26"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.26.tgz#4e56e45db15f1b0ee497d93eaf8f1a71c95f4877"
+  integrity sha512-uFEh+XOxWFsB1Kam9Gq6AqUm2+tSiRt5P1bNmW1QQuMWBcfg3cX0GZimzokOshyTBitva8vZtUB3wKnXqlR9Xw==
+
 "@ndla/licenses@^0.6.38":
   version "0.6.38"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.38.tgz#8b28720ad824b5f7f5c245e240a0855d26642e8b"
   integrity sha512-5Fq7ZV3CiCj837VqqHvpWiNpi2f+zWmohSiNvhJ2FqQ/gYnGRpQj++A9hSdAaactIkB8GXvxb2b3b56YPuKL9g==
+  dependencies:
+    "@ndla/core" "^0.6.32"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
+"@ndla/licenses@^0.6.39":
+  version "0.6.39"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.39.tgz#923c09c3d53ec798d29f3ca746b542098939e2df"
+  integrity sha512-WMa6KgJWoIS9M/TMTBkGwc79GuIijpddJkto9UqpoH986CT3zUWbdSMVixpuhWyWM7Xm1PIt5p4HSZ36zM7QYA==
   dependencies:
     "@ndla/core" "^0.6.32"
     defined "1.0.0"
@@ -1368,6 +1390,16 @@
   integrity sha512-wF7uxjH9EHu5ZYitk8dDpa3gGJyzMOJI0Uk+v3HnHBpfoDQbMGOHa6CyGi+aQaBaGnOtQWQ71daqecWk9AbrtA==
   dependencies:
     "@ndla/button" "^0.3.42"
+    "@ndla/core" "^0.6.32"
+    "@ndla/util" "^0.4.4"
+    "@reach/dialog" "^0.2.9"
+
+"@ndla/modal@^0.4.34":
+  version "0.4.34"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.34.tgz#5a45c64e1eb06765acbcc5206eefc837b4b4938f"
+  integrity sha512-jO7y4xqoyp5Ie6TBOAiq+KSuG8g2GjAG9gBqI9ngpc5msqSHGHIX6Nhi/6XljD6tMoD3S+2VO7KpuAjoESKgEw==
+  dependencies:
+    "@ndla/button" "^0.3.43"
     "@ndla/core" "^0.6.32"
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
@@ -1421,6 +1453,15 @@
     "@ndla/util" "^0.4.4"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^0.11.42":
+  version "0.11.42"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.42.tgz#70dce307b87d15227abc132fad4069c8e25f83b7"
+  integrity sha512-zU/vim2wEHKRzvnBNKkfNjlUVJtj8IyTw+La6XhxAaUmQ422JRsCyiYA2Y+PM7rpZiGXLzM6AxL2gXbLKTXLUQ==
+  dependencies:
+    "@ndla/core" "^0.6.32"
+    "@ndla/util" "^0.4.4"
+    react-tabs "^3.0.0"
+
 "@ndla/tooltip@^0.2.32":
   version "0.2.32"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.32.tgz#25e20498e24b94ddc00a936057a2c6abfcba506b"
@@ -1435,22 +1476,22 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.29.9":
-  version "0.29.9"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.9.tgz#2692f8823eeedd0dff49434acfa77ca4ba5a0485"
-  integrity sha512-SvQ1+tcGn9JbfZdET0YLzNBNgqwkl6L3kENtQucJwz4wWB2tz9A7p02zcsVe0RRV8KWHyL4SWL/9wUlbKR7lzA==
+"@ndla/ui@^0.29.10":
+  version "0.29.11"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.29.11.tgz#04f1bcc3bb4fd4d008acd2116c142842893c9693"
+  integrity sha512-FOpffZbr4e2T8G5SvvjLR8YMYMphQIzT3+2tUpWS2UjPks+vZgWgmbDGkM66dw+6vfvglXmiADRRZarq/CIeuQ==
   dependencies:
-    "@ndla/button" "^0.3.42"
+    "@ndla/button" "^0.3.43"
     "@ndla/carousel" "^0.3.32"
     "@ndla/core" "^0.6.32"
     "@ndla/hooks" "^0.1.17"
     "@ndla/i18n" "^0.5.1"
-    "@ndla/icons" "^0.6.25"
-    "@ndla/licenses" "^0.6.38"
-    "@ndla/modal" "^0.4.33"
+    "@ndla/icons" "^0.6.26"
+    "@ndla/licenses" "^0.6.39"
+    "@ndla/modal" "^0.4.34"
     "@ndla/safelink" "^0.0.7"
     "@ndla/switch" "^0.0.21"
-    "@ndla/tabs" "^0.11.41"
+    "@ndla/tabs" "^0.11.42"
     "@ndla/tooltip" "^0.2.32"
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"

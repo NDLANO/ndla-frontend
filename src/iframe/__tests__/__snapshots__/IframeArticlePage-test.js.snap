@@ -275,7 +275,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               NDLA
             </a>
           </div>
-          <h1
+          <div
             className="c-logo"
           >
             <a
@@ -309,7 +309,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 />
               </svg>
             </a>
-          </h1>
+          </div>
         </div>
       </div>
     </section>

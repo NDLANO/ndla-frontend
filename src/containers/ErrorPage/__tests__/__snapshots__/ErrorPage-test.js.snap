@@ -171,6 +171,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   position: relative;
   background: #184673;
   overflow: hidden;
+  z-index: 0;
 }
 
 .emotion-79 > div:first-of-type {
@@ -540,7 +541,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         <div
           className="c-masthead__right"
         >
-          <h1
+          <div
             className="c-logo"
           >
             <a
@@ -575,7 +576,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 />
               </svg>
             </a>
-          </h1>
+          </div>
         </div>
       </div>
     </div>
