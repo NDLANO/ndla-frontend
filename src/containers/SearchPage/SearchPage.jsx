@@ -67,6 +67,7 @@ const SearchPage = ({ location, locale, history, t }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter());
   const [searchGroups, setSearchGroups] = useState([]);
+  const [replaceItems, setReplaceItems] = useState(false);
 
   const [params, setParams] = useState({
     page: 1,
@@ -80,8 +81,12 @@ const SearchPage = ({ location, locale, history, t }) => {
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes, contextTypes),
     },
-    onCompleted: data =>
-      setSearchGroups(updateSearchGroups(data.groupSearch, searchGroups)),
+    onCompleted: data => {
+      setSearchGroups(
+        updateSearchGroups(data.groupSearch, searchGroups, replaceItems),
+      );
+      setReplaceItems(false);
+    },
   });
 
   if (!searchGroups.length || loading) {
@@ -127,6 +132,7 @@ const SearchPage = ({ location, locale, history, t }) => {
           setSearchGroups={setSearchGroups}
           typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
+          setReplaceItems={setReplaceItems}
         />
       </OneColumn>
     </Fragment>

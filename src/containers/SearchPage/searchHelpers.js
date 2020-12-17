@@ -325,7 +325,7 @@ export const mapResourcesToItems = resources =>
     }),
   }));
 
-export const updateSearchGroups = (searchData, searchGroups) => {
+export const updateSearchGroups = (searchData, searchGroups, replaceItems) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources),
@@ -334,7 +334,7 @@ export const updateSearchGroups = (searchData, searchGroups) => {
     }));
   }
   return searchGroups.map(group => {
-    const searchResult = searchData.find(
+    const searchResults = searchData.filter(
       result =>
         (contentTypeMapping[result.resourceType] || result.resourceType) ===
           group.type ||
@@ -342,12 +342,20 @@ export const updateSearchGroups = (searchData, searchGroups) => {
           .map(type => type.id)
           .includes(result.resourceType),
     );
-    if (searchResult) {
+
+    if (searchResults.length) {
+      const result = searchResults.reduce((accumulator, currentValue) => ({
+        ...currentValue,
+        resources: [...currentValue.resources, ...accumulator.resources],
+        totalCount: currentValue.totalCount + accumulator.totalCount,
+      }));
       return {
         ...group,
-        items: mapResourcesToItems(searchResult.resources),
+        items: replaceItems
+          ? mapResourcesToItems(result.resources)
+          : [...group.items, ...mapResourcesToItems(result.resources)],
         loading: false,
-        totalCount: searchResult.totalCount,
+        totalCount: result.totalCount,
       };
     }
     return group;

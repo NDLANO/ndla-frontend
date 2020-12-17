@@ -47,6 +47,7 @@ const SearchContainer = ({
   setTypeFilter,
   searchGroups,
   setSearchGroups,
+  setReplaceItems,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
 
@@ -77,17 +78,18 @@ const SearchContainer = ({
     typeFilter[type].filters.length &&
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
-  const updateTypeFilter = (type, page, pageSize) => {
+  const updateTypeFilter = (type, page) => {
     const filterUpdate = { ...typeFilter };
     filterUpdate[type] = {
       ...filterUpdate[type],
       page,
-      pageSize,
     };
     setTypeFilter(filterUpdate);
   };
 
   const handleFilterClick = (type, filterId) => {
+    setReplaceItems(true);
+    updateTypeFilter(type, 1);
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
@@ -96,6 +98,7 @@ const SearchContainer = ({
       });
       setParams(prevState => ({
         ...prevState,
+        page: 1,
         types: null,
       }));
     } else {
@@ -107,6 +110,7 @@ const SearchContainer = ({
       }
       setParams(prevState => ({
         ...prevState,
+        page: 1,
         types: filters
           .filter(filter => filter.active)
           .map(f => f.id)
@@ -119,36 +123,32 @@ const SearchContainer = ({
     if (type === 'ALL') {
       setCurrentSubjectType(null);
       setTypeFilter(getTypeFilter());
-      setParams({
-        page: 1,
-        pageSize: 4,
-        types: null,
-      });
     } else {
       setCurrentSubjectType(type);
-      if (typeFilter[type]) {
-        updateTypeFilter(type, 1, 8);
-        if (type !== currentSubjectType) {
-          setLoadingOnGroup(type);
-        }
-        setParams(prevState => ({
-          page: 1,
-          pageSize: 8,
-          types: hasActiveFilters(type)
-            ? prevState.types
-            : resourceTypeMapping[type] || type,
-        }));
+      updateTypeFilter(type, 1);
+      if (type !== currentSubjectType) {
+        setLoadingOnGroup(type);
       }
+      setReplaceItems(true);
+      setParams(prevState => ({
+        page: 1,
+        pageSize: 8,
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
+      }));
     }
   };
 
   const handleShowMore = type => {
-    const pageSize = typeFilter[type].pageSize + 4;
-    updateTypeFilter(type, 1, pageSize);
+    const pageSize = currentSubjectType ? 8 : 4;
+    const page = typeFilter[type].page + 1;
+    updateTypeFilter(type, page);
     setLoadingOnGroup(type);
     setParams(prevState => ({
       ...prevState,
-      pageSize: pageSize,
+      page,
+      pageSize,
       types: hasActiveFilters(type)
         ? prevState.types
         : resourceTypeMapping[type] || type,
@@ -235,6 +235,7 @@ SearchContainer.propTypes = {
   typeFilter: objectOf(TypeFilterShape),
   setTypeFilter: func,
   setParams: func,
+  setReplaceItems: func,
 };
 
 export default injectT(SearchContainer);
