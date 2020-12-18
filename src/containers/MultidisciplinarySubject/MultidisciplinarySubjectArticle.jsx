@@ -29,7 +29,7 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const subjectId = `urn:${match.path.split('/')[2]}`;
+  const subjectId = `urn:${match.path.split('/')[1]}`;
   const { topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQuery, {
