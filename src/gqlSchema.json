@@ -2820,7 +2820,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "ElementCode",
+                "name": "Element",
                 "ofType": null
               }
             },
@@ -2852,7 +2852,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "ElementCode",
+                "name": "Element",
                 "ofType": null
               }
             },
@@ -2926,53 +2926,6 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "ElementCode",
-        "description": "",
-        "fields": [
-          {
-            "name": "referenceCode",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "explanation",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
