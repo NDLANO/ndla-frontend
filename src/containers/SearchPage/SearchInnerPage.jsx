@@ -59,7 +59,7 @@ const SearchInnerPage = ({
   locale,
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
-  const [replaceItems, setReplaceItems] = useState(false);
+  const [replaceItems, setReplaceItems] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter());
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState({
@@ -82,7 +82,7 @@ const SearchInnerPage = ({
       setSearchGroups(
         updateSearchGroups(data.groupSearch, searchGroups, replaceItems),
       );
-      setReplaceItems(false);
+      setReplaceItems(true);
     },
   });
 
@@ -109,7 +109,6 @@ const SearchInnerPage = ({
   };
 
   const handleFilterClick = (type, filterId) => {
-    setReplaceItems(true);
     updateTypeFilter(type, 1);
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
@@ -150,7 +149,6 @@ const SearchInnerPage = ({
       if (type !== currentSubjectType) {
         setLoadingOnGroup(type);
       }
-      setReplaceItems(true);
       setParams(prevState => ({
         page: 1,
         pageSize: 8,
@@ -165,6 +163,7 @@ const SearchInnerPage = ({
     const pageSize = currentSubjectType ? 8 : 4;
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, page);
+    setReplaceItems(false);
     setLoadingOnGroup(type);
     setParams(prevState => ({
       ...prevState,

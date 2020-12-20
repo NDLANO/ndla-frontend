@@ -37,11 +37,10 @@ const SearchResults = ({
             pagination={{
               totalCount,
               toCount: items.length,
-              onShowMore: () => handleShowMore(type)
+              onShowMore: () => handleShowMore(type),
             }}
             type={type === 'topic-article' ? 'topic' : type}
-            totalCount={totalCount}>
-          </SearchTypeResult>
+            totalCount={totalCount}></SearchTypeResult>
         </Fragment>
       );
     }
