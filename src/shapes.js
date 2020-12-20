@@ -256,6 +256,16 @@ export const TypeFilterShape = PropTypes.shape({
   loading: PropTypes.bool.isRequired,
 });
 
+export const ConceptShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    url: PropTypes.string,
+    alt: PropTypes.string,
+  }),
+});
+
 export const ConceptLicenseShape = PropTypes.shape({
   copyright: CopyrightObjectShape,
   src: PropTypes.string.isRequired,

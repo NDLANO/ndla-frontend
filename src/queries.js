@@ -214,6 +214,20 @@ export const groupSearchQuery = gql`
   }
 `;
 
+export const conceptSearchQuery = gql`
+  query ConceptSearch($query: String) {
+    conceptSearch(query: $query) {
+      id
+      title
+      text: content
+      image: metaImage {
+        url
+        alt
+      }
+    }
+  }
+`;
+
 export const frontpageSearchQuery = gql`
   query FrontpageSearch($query: String) {
     frontpageSearch(query: $query) {

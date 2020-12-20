@@ -7,19 +7,22 @@
 
 import React, { useState } from 'react';
 import { func, arrayOf, objectOf, object, string, shape } from 'prop-types';
-import { SearchHeader, SearchSubjectResult } from '@ndla/ui';
+import {
+  SearchHeader,
+  SearchSubjectResult,
+  SearchNotionsResult,
+} from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
 import {
-  SearchGroupShape,
   SearchItemShape,
+  ConceptShape,
   TypeFilterShape,
+  SearchGroupShape,
 } from '../../shapes';
 import SearchResults from './components/SearchResults';
-import { getTypeFilter, filterTypeOptions } from './searchHelpers';
-import { resourceTypeMapping } from '../../util/getContentType';
-import handleError from '../../util/handleError';
+import { filterTypeOptions } from './searchHelpers';
 
 const sortedResourceTypes = [
   'topic-article',
@@ -33,23 +36,22 @@ const sortedResourceTypes = [
 
 const SearchContainer = ({
   t,
-  error,
   handleSearchParamsChange,
+  handleFilterClick,
+  handleShowMore,
+  handleSetSubjectType,
   query,
   subjects,
   allSubjects,
-  suggestion,
   subjectItems,
-  setParams,
+  concepts,
+  suggestion,
   currentSubjectType,
-  setCurrentSubjectType,
   typeFilter,
-  setTypeFilter,
   searchGroups,
-  setSearchGroups,
-  setReplaceItems,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
+  const [showConcepts, setShowConcepts] = useState(true);
 
   const filterProps = {
     options: allSubjects,
@@ -63,96 +65,6 @@ const SearchContainer = ({
       confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
       buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
     },
-  };
-
-  const setLoadingOnGroup = type => {
-    setSearchGroups(prevState =>
-      prevState.map(group => ({
-        ...group,
-        loading: group.type === type,
-      })),
-    );
-  };
-
-  const hasActiveFilters = type =>
-    typeFilter[type].filters.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
-
-  const updateTypeFilter = (type, page) => {
-    const filterUpdate = { ...typeFilter };
-    filterUpdate[type] = {
-      ...filterUpdate[type],
-      page,
-    };
-    setTypeFilter(filterUpdate);
-  };
-
-  const handleFilterClick = (type, filterId) => {
-    setReplaceItems(true);
-    updateTypeFilter(type, 1);
-    const filters = typeFilter[type].filters;
-    const selectedFilter = filters.find(item => filterId === item.id);
-    if (filterId === 'all') {
-      filters.forEach(filter => {
-        filter.active = filter.id === 'all';
-      });
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: null,
-      }));
-    } else {
-      const allFilter = filters.find(item => 'all' === item.id);
-      allFilter.active = false;
-      selectedFilter.active = !selectedFilter.active;
-      if (!filters.some(item => item.active)) {
-        allFilter.active = true;
-      }
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: filters
-          .filter(filter => filter.active)
-          .map(f => f.id)
-          .join(),
-      }));
-    }
-  };
-
-  const handleSetSubjectType = type => {
-    if (type === 'ALL') {
-      setCurrentSubjectType(null);
-      setTypeFilter(getTypeFilter());
-    } else {
-      setCurrentSubjectType(type);
-      updateTypeFilter(type, 1);
-      if (type !== currentSubjectType) {
-        setLoadingOnGroup(type);
-      }
-      setReplaceItems(true);
-      setParams(prevState => ({
-        page: 1,
-        pageSize: 8,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : resourceTypeMapping[type] || type,
-      }));
-    }
-  };
-
-  const handleShowMore = type => {
-    const pageSize = currentSubjectType ? 8 : 4;
-    const page = typeFilter[type].page + 1;
-    updateTypeFilter(type, page);
-    setLoadingOnGroup(type);
-    setParams(prevState => ({
-      ...prevState,
-      page,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
   };
 
   const handleSearchSubmit = e => {
@@ -169,11 +81,6 @@ const SearchContainer = ({
   const activeSubjectFilters = allSubjects.filter(option =>
     subjects.includes(option.value),
   );
-
-  if (error) {
-    handleError(error);
-    return `Error: ${error.message}`;
-  }
 
   return (
     <>
@@ -192,6 +99,15 @@ const SearchContainer = ({
         }}
         filters={filterProps}
       />
+      {showConcepts && concepts?.length ? (
+        <SearchNotionsResult
+          items={concepts}
+          totalCount={concepts.length}
+          onRemove={() => {
+            setShowConcepts(false);
+          }}
+        />
+      ) : null}
       <SearchSubjectResult items={subjectItems} />
       <FilterTabs
         dropdownBtnLabel="Velg"
@@ -218,6 +134,9 @@ const SearchContainer = ({
 SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
+  handleFilterClick: func,
+  handleShowMore: func,
+  handleSetSubjectType: func,
   query: string,
   subjects: arrayOf(string),
   allSubjects: arrayOf(
@@ -226,16 +145,12 @@ SearchContainer.propTypes = {
       value: string,
     }),
   ),
-  suggestion: string,
   subjectItems: arrayOf(SearchItemShape),
+  concepts: arrayOf(ConceptShape),
+  suggestion: string,
   currentSubjectType: string,
-  setCurrentSubjectType: func,
-  searchGroups: arrayOf(SearchGroupShape),
-  setSearchGroups: func,
   typeFilter: objectOf(TypeFilterShape),
-  setTypeFilter: func,
-  setParams: func,
-  setReplaceItems: func,
+  searchGroups: arrayOf(SearchGroupShape),
 };
 
 export default injectT(SearchContainer);

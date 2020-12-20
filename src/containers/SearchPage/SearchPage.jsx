@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
@@ -13,36 +13,15 @@ import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
-import { searchPageQuery, groupSearchQuery } from '../../queries';
+import { searchPageQuery, conceptSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
-import SearchContainer from './SearchContainer';
+import SearchInnerPage from './SearchInnerPage';
 import {
   converSearchStringToObject,
   convertSearchParam,
-  getTypeFilter,
-  updateSearchGroups,
-  getTypeParams,
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import {
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-} from '../../constants';
-
-const resourceTypes = `
-  ${RESOURCE_TYPE_SUBJECT_MATERIAL},
-  ${RESOURCE_TYPE_LEARNING_PATH},
-  ${RESOURCE_TYPE_TASKS_AND_ACTIVITIES},
-  ${RESOURCE_TYPE_ASSESSMENT_RESOURCES},
-  ${RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES},
-  ${RESOURCE_TYPE_SOURCE_MATERIAL}
-`;
-const contextTypes = 'topic-article';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -53,8 +32,6 @@ const getStateSearchParams = searchParams => {
 };
 
 const SearchPage = ({ location, locale, history, t }) => {
-  const { loading, data } = useGraphQuery(searchPageQuery);
-
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);
@@ -64,34 +41,10 @@ const SearchPage = ({ location, locale, history, t }) => {
     url: subject.path,
   }));
 
-  const [currentSubjectType, setCurrentSubjectType] = useState(null);
-  const [typeFilter, setTypeFilter] = useState(getTypeFilter());
-  const [searchGroups, setSearchGroups] = useState([]);
-  const [replaceItems, setReplaceItems] = useState(false);
-
-  const [params, setParams] = useState({
-    page: 1,
-    pageSize: 4,
-    types: null,
+  const { data } = useGraphQuery(searchPageQuery);
+  const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
+    variables: stateSearchParams,
   });
-  const { data: searchData, error } = useGraphQuery(groupSearchQuery, {
-    variables: {
-      ...stateSearchParams,
-      page: params.page.toString(),
-      pageSize: params.pageSize.toString(),
-      ...getTypeParams(params.types, resourceTypes, contextTypes),
-    },
-    onCompleted: data => {
-      setSearchGroups(
-        updateSearchGroups(data.groupSearch, searchGroups, replaceItems),
-      );
-      setReplaceItems(false);
-    },
-  });
-
-  if (!searchGroups.length || loading) {
-    return null;
-  }
 
   const handleSearchParamsChange = searchParams => {
     history.push({
@@ -103,12 +56,8 @@ const SearchPage = ({ location, locale, history, t }) => {
     });
   };
 
-  const suggestion =
-    searchData.groupSearch[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
-      ?.text;
-
   const allSubjects =
-    data.subjects?.map(subject => ({
+    data?.subjects?.map(subject => ({
       title: subject.name,
       value: subject.id,
     })) || [];
@@ -117,22 +66,15 @@ const SearchPage = ({ location, locale, history, t }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
-        <SearchContainer
-          error={error}
+        <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjects={searchParams.subjects}
           allSubjects={allSubjects}
-          suggestion={suggestion}
           subjectItems={subjectItems}
-          setParams={setParams}
-          currentSubjectType={currentSubjectType}
-          setCurrentSubjectType={setCurrentSubjectType}
-          searchGroups={searchGroups}
-          setSearchGroups={setSearchGroups}
-          typeFilter={typeFilter}
-          setTypeFilter={setTypeFilter}
-          setReplaceItems={setReplaceItems}
+          concepts={conceptData?.conceptSearch}
+          location={location}
+          locale={locale}
         />
       </OneColumn>
     </Fragment>
