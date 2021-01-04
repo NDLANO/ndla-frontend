@@ -9,7 +9,12 @@ import React, { useState } from 'react';
 import { func, arrayOf, object, string, shape } from 'prop-types';
 
 import SearchContainer from './SearchContainer';
-import { LocationShape, SearchItemShape, ConceptShape } from '../../shapes';
+import {
+  LocationShape,
+  SearchItemShape,
+  ConceptShape,
+  ResourceTypeShape,
+} from '../../shapes';
 import {
   getTypeFilter,
   updateSearchGroups,
@@ -21,24 +26,6 @@ import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
-import {
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-} from '../../constants';
-
-const resourceTypes = `
-  ${RESOURCE_TYPE_SUBJECT_MATERIAL},
-  ${RESOURCE_TYPE_LEARNING_PATH},
-  ${RESOURCE_TYPE_TASKS_AND_ACTIVITIES},
-  ${RESOURCE_TYPE_ASSESSMENT_RESOURCES},
-  ${RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES},
-  ${RESOURCE_TYPE_SOURCE_MATERIAL}
-`;
-const contextTypes = 'topic-article';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -55,12 +42,13 @@ const SearchInnerPage = ({
   allSubjects,
   subjectItems,
   concepts,
+  resourceTypes,
   location,
   locale,
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [replaceItems, setReplaceItems] = useState(true);
-  const [typeFilter, setTypeFilter] = useState(getTypeFilter());
+  const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState({
     page: 1,
@@ -76,11 +64,16 @@ const SearchInnerPage = ({
       ...stateSearchParams,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
-      ...getTypeParams(params.types, resourceTypes, contextTypes),
+      ...getTypeParams(params.types, resourceTypes),
     },
     onCompleted: data => {
       setSearchGroups(
-        updateSearchGroups(data.groupSearch, searchGroups, replaceItems),
+        updateSearchGroups(
+          data.groupSearch,
+          searchGroups,
+          resourceTypes,
+          replaceItems,
+        ),
       );
       setReplaceItems(true);
     },
@@ -142,7 +135,7 @@ const SearchInnerPage = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
-      setTypeFilter(getTypeFilter());
+      setTypeFilter(getTypeFilter(resourceTypes));
     } else {
       setCurrentSubjectType(type);
       updateTypeFilter(type, 1);
@@ -216,6 +209,13 @@ SearchInnerPage.propTypes = {
   ),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
+  resourceTypes: arrayOf(
+    shape({
+      id: string.isRequired,
+      name: string.isRequired,
+      subtypes: arrayOf(ResourceTypeShape),
+    }),
+  ),
   location: LocationShape,
   locale: string,
 };

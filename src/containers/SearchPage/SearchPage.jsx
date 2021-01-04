@@ -41,7 +41,7 @@ const SearchPage = ({ location, locale, history, t }) => {
     url: subject.path,
   }));
 
-  const { data } = useGraphQuery(searchPageQuery);
+  const { data, loading } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
     skip: !searchParams.query,
     variables: stateSearchParams,
@@ -57,8 +57,12 @@ const SearchPage = ({ location, locale, history, t }) => {
     });
   };
 
+  if (loading) {
+    return null;
+  }
+
   const allSubjects =
-    data?.subjects?.map(subject => ({
+    data.subjects?.map(subject => ({
       title: subject.name,
       value: subject.id,
     })) || [];
@@ -74,6 +78,7 @@ const SearchPage = ({ location, locale, history, t }) => {
           allSubjects={allSubjects}
           subjectItems={subjectItems}
           concepts={conceptData?.conceptSearch}
+          resourceTypes={data.resourceTypes}
           location={location}
           locale={locale}
         />

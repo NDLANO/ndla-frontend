@@ -235,80 +235,23 @@ export const getResultMetadata = search => ({
   totalCountTasks: search.totalCountTasks || 0,
 });
 
-const searchTypeFilterOptions = {
-  subject: [],
-  'topic-article': [],
-  'learning-path': [],
-  'subject-material': [
+export const filterTypeOptions = (searchGroups, t) => {
+  const options = [
     {
-      name: 'Veiledning',
-      id: 'urn:resourcetype:guidance',
+      title: t('contentTypes.all'),
+      value: 'ALL',
     },
-    {
-      name: 'Forelesning og presentasjon',
-      id: 'urn:resourcetype:lectureAndPresentation',
-    },
-    {
-      name: 'Fagartikkel',
-      id: 'urn:resourcetype:academicArticle',
-    },
-  ],
-  'tasks-and-activities': [
-    {
-      name: 'Oppgave',
-      id: 'urn:resourcetype:task',
-    },
-    {
-      name: 'Øvelse',
-      id: 'urn:resourcetype:exercise',
-    },
-  ],
-  'assessment-resources': [],
-  'external-learning-resources': [],
-  'source-material': [],
+  ];
+  searchGroups.forEach(group => {
+    if (group.items?.length) {
+      options.push({
+        value: group.type,
+        title: t(`contentTypes.${group.type}`),
+      });
+    }
+  });
+  return options;
 };
-
-export const searchSubjectTypeOptions = t => [
-  {
-    title: t('contentTypes.all'),
-    value: 'ALL',
-  },
-  {
-    title: t('contentTypes.topic'),
-    value: 'topic-article',
-  },
-  {
-    title: t('contentTypes.subject-material'),
-    value: 'subject-material',
-  },
-  {
-    title: t('contentTypes.learning-path'),
-    value: 'learning-path',
-  },
-  {
-    title: t('contentTypes.tasks-and-activities'),
-    value: 'tasks-and-activities',
-  },
-  {
-    title: t('contentTypes.assessment-resources'),
-    value: 'assessment-resources',
-  },
-  {
-    title: t('contentTypes.external-learning-resources'),
-    value: 'external-learning-resources',
-  },
-  {
-    title: t('contentTypes.source-material'),
-    value: 'source-material',
-  },
-];
-
-export const filterTypeOptions = (searchGroups, t) =>
-  searchSubjectTypeOptions(t).filter(
-    option =>
-      searchGroups.find(group => group.type === option.value)?.items?.length ||
-      option.value === 'ALL',
-  );
 
 export const mapResourcesToItems = resources =>
   resources.map(resource => ({
@@ -325,7 +268,12 @@ export const mapResourcesToItems = resources =>
     }),
   }));
 
-export const updateSearchGroups = (searchData, searchGroups, replaceItems) => {
+export const updateSearchGroups = (
+  searchData,
+  searchGroups,
+  resourceTypes,
+  replaceItems,
+) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources),
@@ -338,9 +286,10 @@ export const updateSearchGroups = (searchData, searchGroups, replaceItems) => {
       result =>
         (contentTypeMapping[result.resourceType] || result.resourceType) ===
           group.type ||
-        searchTypeFilterOptions[group.type]
-          .map(type => type.id)
-          .includes(result.resourceType),
+        resourceTypes
+          .find(type => contentTypeMapping[type.id] === group.type)
+          ?.subtypes?.map(subtype => subtype.id)
+          ?.includes(result.resourceType),
     );
 
     if (searchResults.length) {
@@ -362,33 +311,39 @@ export const updateSearchGroups = (searchData, searchGroups, replaceItems) => {
   });
 };
 
-export const getTypeFilter = () => {
-  const typeFilter = {};
-  for (const [type, subTypes] of Object.entries(searchTypeFilterOptions)) {
-    const filters = [];
-    if (subTypes.length) {
-      filters.push({ id: 'all', name: 'Alle', active: true });
-      filters.push(...subTypes);
-    }
-    typeFilter[type] = {
-      filters,
+export const getTypeFilter = resourceTypes => {
+  const typeFilter = {
+    'topic-article': {
       page: 1,
       loading: false,
       pageSize: 4,
-    };
+    },
+  };
+  if (resourceTypes) {
+    resourceTypes.forEach(type => {
+      const filters = [];
+      if (type.subtypes) {
+        filters.push({ id: 'all', name: 'Alle', active: true });
+        filters.push(...type.subtypes);
+      }
+      typeFilter[contentTypeMapping[type.id]] = {
+        filters,
+        page: 1,
+        loading: false,
+        pageSize: 4,
+      };
+    });
   }
+
   return typeFilter;
 };
 
-export const getTypeParams = (
-  type,
-  initialResourceTypes,
-  initialContextTypes,
-) => {
+export const getTypeParams = (type, resourceTypes) => {
+  console.log(resourceTypes);
   if (!type) {
     return {
-      resourceTypes: initialResourceTypes,
-      contextTypes: initialContextTypes,
+      resourceTypes: resourceTypes.map(resourceType => resourceType.id).join(),
+      contextTypes: 'topic-article',
     };
   } else if (type === 'topic-article') {
     return {
