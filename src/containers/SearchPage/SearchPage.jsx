@@ -43,6 +43,7 @@ const SearchPage = ({ location, locale, history, t }) => {
 
   const { data } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
+    skip: !searchParams.query,
     variables: stateSearchParams,
   });
 
