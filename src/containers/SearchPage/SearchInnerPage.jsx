@@ -41,6 +41,8 @@ const initalParams = {
   types: null,
 };
 
+let newSearch = true;
+
 const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
@@ -62,6 +64,7 @@ const SearchInnerPage = ({
   useEffect(() => {
     setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
+    newSearch = true;
   }, [query]);
 
   const searchParams = converSearchStringToObject(location, locale);
@@ -84,7 +87,10 @@ const SearchInnerPage = ({
         ),
       );
       setReplaceItems(true);
-      setShowConcepts(true);
+      if (newSearch) {
+        setShowConcepts(true);
+      }
+      newSearch = false;
     },
   });
 
