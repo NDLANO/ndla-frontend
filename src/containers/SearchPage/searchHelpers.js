@@ -295,7 +295,16 @@ export const updateSearchGroups = (
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
-        resources: [...currentValue.resources, ...accumulator.resources],
+        resources: [
+          ...currentValue.resources.slice(
+            0,
+            Math.floor(currentValue.resources.length / 2),
+          ),
+          ...accumulator.resources.slice(
+            0,
+            Math.floor(accumulator.resources.length / 2),
+          ),
+        ],
         totalCount: currentValue.totalCount + accumulator.totalCount,
       }));
       return {

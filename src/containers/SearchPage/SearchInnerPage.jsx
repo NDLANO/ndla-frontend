@@ -89,7 +89,7 @@ const SearchInnerPage = ({
   };
 
   const hasActiveFilters = type =>
-    typeFilter[type].filters.length &&
+    typeFilter[type].filters?.length &&
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
   const updateTypeFilter = (type, page) => {
@@ -112,7 +112,7 @@ const SearchInnerPage = ({
       setParams(prevState => ({
         ...prevState,
         page: 1,
-        types: null,
+        types: resourceTypeMapping[type] || type,
       }));
     } else {
       const allFilter = filters.find(item => 'all' === item.id);
@@ -125,7 +125,7 @@ const SearchInnerPage = ({
         ...prevState,
         page: 1,
         types: filters
-          .filter(filter => filter.active)
+          .filter(filter => filter.active && filter.id !== 'all')
           .map(f => f.id)
           .join(),
       }));
@@ -136,6 +136,11 @@ const SearchInnerPage = ({
     if (type === 'ALL') {
       setCurrentSubjectType(null);
       setTypeFilter(getTypeFilter(resourceTypes));
+      setParams({
+        page: 1,
+        pageSize: 4,
+        types: null,
+      });
     } else {
       setCurrentSubjectType(type);
       updateTypeFilter(type, 1);
