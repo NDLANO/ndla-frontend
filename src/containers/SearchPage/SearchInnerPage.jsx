@@ -39,7 +39,7 @@ const initalParams = {
   page: 1,
   pageSize: 4,
   types: null,
-}
+};
 
 const SearchInnerPage = ({
   handleSearchParamsChange,
@@ -54,6 +54,7 @@ const SearchInnerPage = ({
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [replaceItems, setReplaceItems] = useState(true);
+  const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
@@ -61,7 +62,7 @@ const SearchInnerPage = ({
   useEffect(() => {
     setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
-  }, [query])
+  }, [query]);
 
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
@@ -83,6 +84,7 @@ const SearchInnerPage = ({
         ),
       );
       setReplaceItems(true);
+      setShowConcepts(true);
     },
   });
 
@@ -204,6 +206,8 @@ const SearchInnerPage = ({
       currentSubjectType={currentSubjectType}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
+      showConcepts={showConcepts}
+      setShowConcepts={setShowConcepts}
     />
   );
 };

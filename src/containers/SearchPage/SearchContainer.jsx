@@ -5,8 +5,16 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
-import { func, arrayOf, objectOf, object, string, shape } from 'prop-types';
+import React from 'react';
+import {
+  func,
+  arrayOf,
+  objectOf,
+  object,
+  string,
+  shape,
+  bool,
+} from 'prop-types';
 import { SearchSubjectResult, SearchNotionsResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
@@ -46,9 +54,9 @@ const SearchContainer = ({
   currentSubjectType,
   typeFilter,
   searchGroups,
+  showConcepts,
+  setShowConcepts,
 }) => {
-  const [showConcepts, setShowConcepts] = useState(true);
-
   return (
     <>
       <SearchHeader
@@ -114,6 +122,8 @@ SearchContainer.propTypes = {
   currentSubjectType: string,
   typeFilter: objectOf(TypeFilterShape),
   searchGroups: arrayOf(SearchGroupShape),
+  showConcepts: bool,
+  setShowConcepts: func,
 };
 
 export default injectT(SearchContainer);
