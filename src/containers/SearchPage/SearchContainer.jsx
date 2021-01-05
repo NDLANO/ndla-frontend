@@ -108,27 +108,29 @@ const SearchContainer = ({
           }}
         />
       ) : null}
-      {subjectItems?.length ? (
+      {subjectItems.length ? (
         <SearchSubjectResult items={subjectItems} />
       ) : null}
-      <FilterTabs
-        dropdownBtnLabel="Velg"
-        value={currentSubjectType ? currentSubjectType : 'ALL'}
-        options={filterTypeOptions(searchGroups, t)}
-        contentId="search-result-content"
-        onChange={handleSetSubjectType}>
-        <SearchResults
-          searchGroups={searchGroups.sort(
-            (a, b) =>
-              sortedResourceTypes.indexOf(a.type) -
-              sortedResourceTypes.indexOf(b.type),
-          )}
-          currentSubjectType={currentSubjectType}
-          typeFilter={typeFilter}
-          handleFilterClick={handleFilterClick}
-          handleShowMore={handleShowMore}
-        />
-      </FilterTabs>
+      {searchGroups.length && (
+        <FilterTabs
+          dropdownBtnLabel="Velg"
+          value={currentSubjectType ? currentSubjectType : 'ALL'}
+          options={filterTypeOptions(searchGroups, t)}
+          contentId="search-result-content"
+          onChange={handleSetSubjectType}>
+          <SearchResults
+            searchGroups={searchGroups.sort(
+              (a, b) =>
+                sortedResourceTypes.indexOf(a.type) -
+                sortedResourceTypes.indexOf(b.type),
+            )}
+            currentSubjectType={currentSubjectType}
+            typeFilter={typeFilter}
+            handleFilterClick={handleFilterClick}
+            handleShowMore={handleShowMore}
+          />
+        </FilterTabs>
+      )}
     </>
   );
 };
