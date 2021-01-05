@@ -108,7 +108,9 @@ const SearchContainer = ({
           }}
         />
       ) : null}
-      <SearchSubjectResult items={subjectItems} />
+      {subjectItems?.length ? (
+        <SearchSubjectResult items={subjectItems} />
+      ) : null}
       <FilterTabs
         dropdownBtnLabel="Velg"
         value={currentSubjectType ? currentSubjectType : 'ALL'}
