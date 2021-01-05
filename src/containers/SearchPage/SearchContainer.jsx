@@ -7,11 +7,7 @@
 
 import React, { useState } from 'react';
 import { func, arrayOf, objectOf, object, string, shape } from 'prop-types';
-import {
-  SearchHeader,
-  SearchSubjectResult,
-  SearchNotionsResult,
-} from '@ndla/ui';
+import { SearchSubjectResult, SearchNotionsResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
 
@@ -21,6 +17,7 @@ import {
   TypeFilterShape,
   SearchGroupShape,
 } from '../../shapes';
+import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { filterTypeOptions } from './searchHelpers';
 
@@ -50,54 +47,16 @@ const SearchContainer = ({
   typeFilter,
   searchGroups,
 }) => {
-  const [searchValue, setSearchValue] = useState(query);
   const [showConcepts, setShowConcepts] = useState(true);
-
-  const filterProps = {
-    options: allSubjects,
-    values: subjects,
-    onSubmit: filters => {
-      handleSearchParamsChange({ subjects: filters });
-    },
-    messages: {
-      filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-      closeButton: t('searchPage.close'),
-      confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
-      buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
-    },
-  };
-
-  const handleSearchSubmit = e => {
-    e.preventDefault();
-    handleSearchParamsChange({ query: searchValue });
-  };
-
-  const handleFilterRemove = value => {
-    handleSearchParamsChange({
-      subjects: subjects.filter(option => option !== value),
-    });
-  };
-
-  const activeSubjectFilters = allSubjects.filter(option =>
-    subjects.includes(option.value),
-  );
 
   return (
     <>
       <SearchHeader
-        searchPhrase={query}
-        searchPhraseSuggestion={suggestion}
-        searchPhraseSuggestionOnClick={() =>
-          handleSearchParamsChange({ query: suggestion })
-        }
-        searchValue={searchValue}
-        onSearchValueChange={value => setSearchValue(value)}
-        onSubmit={handleSearchSubmit}
-        activeFilters={{
-          filters: activeSubjectFilters,
-          onFilterRemove: handleFilterRemove,
-        }}
-        filters={filterProps}
+        query={query}
+        suggestion={suggestion}
+        subjects={subjects}
+        allSubjects={allSubjects}
+        handleSearchParamsChange={handleSearchParamsChange}
       />
       {showConcepts && concepts?.length ? (
         <SearchNotionsResult
