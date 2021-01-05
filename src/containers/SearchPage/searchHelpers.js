@@ -333,7 +333,7 @@ export const getTypeFilter = resourceTypes => {
       const filters = [];
       if (type.subtypes) {
         filters.push({ id: 'all', name: 'Alle', active: true });
-        filters.push(...type.subtypes);
+        filters.push(...JSON.parse(JSON.stringify(type.subtypes)));
       }
       typeFilter[contentTypeMapping[type.id]] = {
         filters,
@@ -343,12 +343,10 @@ export const getTypeFilter = resourceTypes => {
       };
     });
   }
-
   return typeFilter;
 };
 
 export const getTypeParams = (type, resourceTypes) => {
-  console.log(resourceTypes);
   if (!type) {
     return {
       resourceTypes: resourceTypes.map(resourceType => resourceType.id).join(),

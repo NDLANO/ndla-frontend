@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape } from 'prop-types';
 
 import SearchContainer from './SearchContainer';
@@ -35,6 +35,12 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
+const initalParams = {
+  page: 1,
+  pageSize: 4,
+  types: null,
+}
+
 const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
@@ -50,11 +56,12 @@ const SearchInnerPage = ({
   const [replaceItems, setReplaceItems] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
-  const [params, setParams] = useState({
-    page: 1,
-    pageSize: 4,
-    types: null,
-  });
+  const [params, setParams] = useState(initalParams);
+
+  useEffect(() => {
+    setParams(initalParams);
+    setTypeFilter(getTypeFilter(resourceTypes));
+  }, [query])
 
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
