@@ -32,7 +32,6 @@ const MultidisciplinaryTopic = ({
   locale,
   subTopicId,
   ndlaFilm,
-  onClickTopics,
   data,
   disableNav,
 }) => {
@@ -79,9 +78,6 @@ const MultidisciplinaryTopic = ({
           items={subTopics}
           listDirection="horizontal"
           invertedStyle={ndlaFilm}
-          onClick={e => {
-            onClickTopics(e);
-          }}
         />
       )}
     </>
@@ -132,7 +128,6 @@ MultidisciplinaryTopic.propTypes = {
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  onClickTopics: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   subject: GraphQLSubjectShape,

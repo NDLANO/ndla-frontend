@@ -14,8 +14,6 @@ const MultidisciplinaryTopicWrapper = ({
   locale,
   subTopicId,
   ndlaFilm,
-  onClickTopics,
-  setBreadCrumb,
   index,
   showResources,
   subject,
@@ -23,13 +21,6 @@ const MultidisciplinaryTopicWrapper = ({
 }) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId, filterIds },
-    onCompleted: data => {
-      setBreadCrumb({
-        id: data.topic.id,
-        label: data.topic.name,
-        index: index,
-      });
-    },
   });
 
   if (loading) {
@@ -45,7 +36,6 @@ const MultidisciplinaryTopicWrapper = ({
       subTopicId={subTopicId}
       locale={locale}
       ndlaFilm={ndlaFilm}
-      onClickTopics={onClickTopics}
       showResources={showResources}
       subject={subject}
       loading={loading}
@@ -62,8 +52,6 @@ MultidisciplinaryTopicWrapper.propTypes = {
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  onClickTopics: PropTypes.func,
-  setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,

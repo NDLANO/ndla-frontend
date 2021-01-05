@@ -39,7 +39,6 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     return <DefaultErrorMessage />;
   }
 
-  const onClickTopics = () => {};
   const { subject = {} } = data;
 
   const mainTopics = subject.topics.map(topic => {
@@ -74,36 +73,31 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
           ...topic,
         }));
 
+  const TopicBoxes = () =>
+    selectedTopics.map((topicId, index) => {
+      return (
+        <div key={index}>
+          <MultidisciplinaryTopicWrapper
+            disableNav={index >= selectionLimit - 1}
+            topicId={topicId}
+            subjectId={subject.id}
+            subTopicId={selectedTopics[index + 1]}
+            locale={locale}
+            index={index}
+            showResources={false}
+            subject={subject}
+          />
+        </div>
+      );
+    });
+
   return (
     <MultidisciplinarySubject
       hideCards={isNotLastTopic}
       cards={cards}
       totalCardCount={cards.length}>
-      <NavigationBox
-        items={mainTopics}
-        listDirection="horizontal"
-        onClick={e => {
-          onClickTopics(e);
-        }}
-      />
-      {selectedTopics.map((topicId, index) => {
-        return (
-          <div key={index}>
-            <MultidisciplinaryTopicWrapper
-              disableNav={index >= selectionLimit - 1}
-              setBreadCrumb={() => {}}
-              topicId={topicId}
-              subjectId={subject.id}
-              subTopicId={selectedTopics[index + 1]}
-              locale={locale}
-              onClickTopics={onClickTopics}
-              index={index}
-              showResources={false}
-              subject={subject}
-            />
-          </div>
-        );
-      })}
+      <NavigationBox items={mainTopics} listDirection="horizontal" />
+      <TopicBoxes />
     </MultidisciplinarySubject>
   );
 };
