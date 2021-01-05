@@ -64,9 +64,25 @@ const WelcomePage = ({ t, locale, history, location }) => {
     },
   ];
 
+  const googleSearchJSONLd = () => {
+    const data = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      url: 'https://ndla.no/',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://ndla.no/search?query={search_term_string}',
+        'query-input': 'required name=search_term_string',
+      },
+    };
+    return JSON.stringify(data);
+  };
+
   return (
     <Fragment>
-      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
+        <script type="application/ld+json">{googleSearchJSONLd()}</script>
+      </HelmetWithTracker>
       <SocialMediaMetadata
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
