@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { arrayOf, func, shape, string } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -19,6 +19,10 @@ const SearchHeader = ({
   handleSearchParamsChange,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
+
+  useEffect(() => {
+    setSearchValue(query);
+  }, [query]);
 
   const filterProps = {
     options: allSubjects,
