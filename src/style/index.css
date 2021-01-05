@@ -12,23 +12,10 @@
 @import '~@ndla/tabs/scss/tabs';
 @import '~@ndla/core/scss/utilities';
 
-.article-old-ndla-link:any-link {
-  &:any-link {
-    font-size: 0.8333rem;
-    color: black;
-  }
-  &:hover {
-    color: #20588f;
-  }
-}
-
 .c-topic-resource__item--hidden {
   display: none;
 }
 
-mjx-container.MathJax[jax="CHTML"][display="true"] {
-  margin: 0;
+mjx-container.MathJax[jax='CHTML'][display='true'] {
   display: inline-block !important;
 }
-
-

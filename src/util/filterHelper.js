@@ -22,12 +22,12 @@ export const getFiltersFromUrlAsArray = location => {
 export const getLongNameFromFilters = (locale, location, subject) => {
   const filters = getFiltersFromUrl(location);
   const subjectBySubjectIdFilters = getSubjectBySubjectIdFilters(
-    subject.id,
+    subject?.id,
     filters.split(','),
   );
 
   if (subjectBySubjectIdFilters) {
     return subjectBySubjectIdFilters?.longName[locale];
   }
-  return subject.filters?.find(filter => filter.id === filters)?.name;
+  return subject?.filters?.find(filter => filter.id === filters)?.name;
 };

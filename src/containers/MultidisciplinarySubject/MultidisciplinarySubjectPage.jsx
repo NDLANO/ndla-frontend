@@ -19,7 +19,7 @@ import { LocationShape } from '../../shapes';
 const MultidisciplinarySubjectPage = ({ match, history, location }) => {
   const selectedFilters = getFiltersFromUrlAsArray(location);
 
-  const subjectId = `urn:${match.path.split('/')[2]}`;
+  const subjectId = `urn:${match.path.split('/')[1]}`;
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
       subjectId,
