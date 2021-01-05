@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
-import queryString from 'query-string';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -41,11 +40,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
   }
 
   const onClickTopics = () => {};
-
-  const items = [];
   const { subject = {} } = data;
-
-  console.log('sub', subject);
 
   const mainTopics = subject.topics.map(topic => {
     return {
@@ -56,8 +51,34 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     };
   });
 
+  const selectionLimit = 2;
+  const isNotLastTopic = selectedTopics.length < selectionLimit;
+  const selectedSubject =
+    isNotLastTopic || subject.topics.find(t => t.id === selectedTopics[0]);
+
+  const cards = isNotLastTopic
+    ? []
+    : subject.allTopics
+        .filter(topic => {
+          const selectedId = selectedTopics[selectedTopics.length - 1];
+          return topic.parent === selectedId;
+        })
+        .map(topic => ({
+          title: topic.name,
+          topicId: topic.id,
+          introduction: topic.meta.metaDescription,
+          image: topic.meta.metaImage?.url,
+          imageAlt: topic.meta.metaImage?.alt,
+          subjects: [selectedSubject.name],
+          url: `${toTopic(subjectId, undefined, topic.id)}card`,
+          ...topic,
+        }));
+
   return (
-    <MultidisciplinarySubject cards={items} totalCardCount={0}>
+    <MultidisciplinarySubject
+      hideCards={isNotLastTopic}
+      cards={cards}
+      totalCardCount={cards.length}>
       <NavigationBox
         items={mainTopics}
         listDirection="horizontal"
@@ -69,7 +90,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
         return (
           <div key={index}>
             <MultidisciplinaryTopicWrapper
-              disableNav={index >= 1}
+              disableNav={index >= selectionLimit - 1}
               setBreadCrumb={() => {}}
               topicId={topicId}
               subjectId={subject.id}

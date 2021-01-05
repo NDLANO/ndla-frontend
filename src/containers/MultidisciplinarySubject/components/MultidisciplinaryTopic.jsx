@@ -72,7 +72,7 @@ const MultidisciplinaryTopic = ({
           modifier="in-topic"
         />
       </NavigationTopicAbout>
-      {(subTopics.length !== 0 && disableNav !== true) && (
+      {subTopics.length !== 0 && disableNav !== true && (
         <NavigationBox
           colorMode="light"
           heading="emner"
