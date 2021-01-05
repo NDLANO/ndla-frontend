@@ -215,8 +215,8 @@ export const groupSearchQuery = gql`
 `;
 
 export const conceptSearchQuery = gql`
-  query ConceptSearch($query: String) {
-    conceptSearch(query: $query) {
+  query ConceptSearch($query: String, $subjects: String) {
+    conceptSearch(query: $query, subjects: $subjects) {
       id
       title
       text: content
