@@ -20,7 +20,7 @@ const SearchResults = ({
   typeFilter,
 }) => {
   return searchGroups.map(group => {
-    const { totalCount, type, items, loading } = group;
+    const { totalCount, type, items } = group;
     if (
       (!currentSubjectType ||
         type === currentSubjectType ||
@@ -33,7 +33,7 @@ const SearchResults = ({
             filters={typeFilter[type].filters}
             onFilterClick={id => handleFilterClick(type, id)}
             items={items}
-            loading={loading}
+            loading={typeFilter[type].loading}
             pagination={{
               totalCount,
               toCount: items.length,

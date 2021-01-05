@@ -86,6 +86,7 @@ const SearchInnerPage = ({
           replaceItems,
         ),
       );
+      resetLoading();
       setReplaceItems(true);
       if (newSearch) {
         setShowConcepts(true);
@@ -94,30 +95,32 @@ const SearchInnerPage = ({
     },
   });
 
-  const setLoadingOnGroup = type => {
-    setSearchGroups(prevState =>
-      prevState.map(group => ({
-        ...group,
-        loading: group.type === type,
-      })),
-    );
+  const resetLoading = () => {
+    const filterUpdate = { ...typeFilter };
+    for (const [key, value] of Object.entries(filterUpdate)) {
+      filterUpdate[key] = {
+        ...value,
+        loading: false,
+      };
+    }
+    setTypeFilter(filterUpdate);
   };
 
   const hasActiveFilters = type =>
     typeFilter[type].filters?.length &&
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
-  const updateTypeFilter = (type, page) => {
+  const updateTypeFilter = (type, updates) => {
     const filterUpdate = { ...typeFilter };
     filterUpdate[type] = {
       ...filterUpdate[type],
-      page,
+      ...updates,
     };
     setTypeFilter(filterUpdate);
   };
 
   const handleFilterClick = (type, filterId) => {
-    updateTypeFilter(type, 1);
+    updateTypeFilter(type, { page: 1, loading: true });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
@@ -158,10 +161,10 @@ const SearchInnerPage = ({
       });
     } else {
       setCurrentSubjectType(type);
-      updateTypeFilter(type, 1);
-      if (type !== currentSubjectType) {
-        setLoadingOnGroup(type);
-      }
+      updateTypeFilter(type, {
+        page: 1,
+        ...(type !== currentSubjectType && { loading: true }),
+      });
       setParams(prevState => ({
         page: 1,
         pageSize: 8,
@@ -175,9 +178,8 @@ const SearchInnerPage = ({
   const handleShowMore = type => {
     const pageSize = currentSubjectType ? 8 : 4;
     const page = typeFilter[type].page + 1;
-    updateTypeFilter(type, page);
+    updateTypeFilter(type, { page, loading: true });
     setReplaceItems(false);
-    setLoadingOnGroup(type);
     setParams(prevState => ({
       ...prevState,
       page,

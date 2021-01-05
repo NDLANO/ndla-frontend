@@ -312,7 +312,6 @@ export const updateSearchGroups = (
         items: replaceItems
           ? mapResourcesToItems(result.resources)
           : [...group.items, ...mapResourcesToItems(result.resources)],
-        loading: false,
         totalCount: result.totalCount,
       };
     }
@@ -324,7 +323,7 @@ export const getTypeFilter = resourceTypes => {
   const typeFilter = {
     'topic-article': {
       page: 1,
-      loading: false,
+      loading: true,
       pageSize: 4,
     },
   };
@@ -338,7 +337,7 @@ export const getTypeFilter = resourceTypes => {
       typeFilter[contentTypeMapping[type.id]] = {
         filters,
         page: 1,
-        loading: false,
+        loading: true,
         pageSize: 4,
       };
     });
