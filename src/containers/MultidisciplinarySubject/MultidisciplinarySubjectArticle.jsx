@@ -20,7 +20,7 @@ import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQuery } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
-import { getUrnIdsFromProps, toSubject } from '../../routeHelpers';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 
 const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
@@ -29,12 +29,18 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const subjectId = `urn:${match.path.split('/')[1]}`;
-  const { topicId } = getUrnIdsFromProps({ match });
+  const { topicList, topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId },
   });
+
+  const { data: baseTopicData, loading: baseTopicLoading } = useGraphQuery(
+    topicQuery,
+    {
+      variables: { topicId: topicList[0] },
+    },
+  );
 
   const [pageUrl, setPageUrl] = useState('');
   useEffect(() => {
@@ -43,7 +49,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 
   const resourcesRef = useRef(null);
 
-  if (loading) {
+  if (loading || baseTopicLoading) {
     return null;
   }
 
@@ -53,11 +59,14 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   };
 
   const { topic, resourceTypes } = data;
-  const subjects = topic.filters.map(filter => filterCodes[filter.name]);
-  const subjectsLinks = topic.filters.map(filter => ({
-    label: filter.name,
-    url: toSubject(subjectId, filter.id),
-  }));
+
+  const subjects = [filterCodes[baseTopicData.topic.name]];
+  const subjectsLinks = [
+    {
+      label: baseTopicData.topic.name,
+      url: baseTopicData.topic.path,
+    },
+  ];
 
   return (
     <>
@@ -89,7 +98,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      topicId: PropTypes.string.isRequired,
+      topicPath: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,
