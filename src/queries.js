@@ -174,6 +174,7 @@ export const groupSearchQuery = gql`
     $query: String
     $page: String
     $pageSize: String
+    $language: String
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -182,6 +183,7 @@ export const groupSearchQuery = gql`
       query: $query
       page: $page
       pageSize: $pageSize
+      language: $language
     ) {
       resources {
         id
@@ -215,8 +217,8 @@ export const groupSearchQuery = gql`
 `;
 
 export const conceptSearchQuery = gql`
-  query ConceptSearch($query: String, $subjects: String) {
-    conceptSearch(query: $query, subjects: $subjects) {
+  query ConceptSearch($query: String, $subjects: String, $language: String) {
+    conceptSearch(query: $query, subjects: $subjects, language: $language) {
       id
       title
       text: content
