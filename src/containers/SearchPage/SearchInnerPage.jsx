@@ -153,7 +153,6 @@ const SearchInnerPage = ({
   const handleSetSubjectType = type => {
     if (type === 'ALL') {
       setCurrentSubjectType(null);
-      setTypeFilter(getTypeFilter(resourceTypes));
       setParams({
         page: 1,
         pageSize: 4,
