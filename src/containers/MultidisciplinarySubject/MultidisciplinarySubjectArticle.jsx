@@ -54,10 +54,12 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   const { topic, resourceTypes } = data;
 
   // "Base topics" are considered subjects
-  const subjects = topic.pathTopics.map(listOfTopics => filterCodes[listOfTopics[0].name]);
-  const subjectsLinks = topic.pathTopics.map(listOfTopics => ( {
+  const subjects = topic.pathTopics.map(
+    listOfTopics => filterCodes[listOfTopics[0].name],
+  );
+  const subjectsLinks = topic.pathTopics.map(listOfTopics => ({
     label: listOfTopics[0].name,
-      url: listOfTopics[0].path,
+    url: listOfTopics[0].path,
   }));
 
   return (
