@@ -32,11 +32,11 @@ import { filterTypeOptions } from './searchHelpers';
 const sortedResourceTypes = [
   'topic-article',
   'subject-material',
-  'learning-path',
   'tasks-and-activities',
   'assessment-resources',
   'external-learning-resources',
   'source-material',
+  'learning-path',
 ];
 
 const SearchContainer = ({
