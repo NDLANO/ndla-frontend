@@ -18,7 +18,7 @@ import {
 import Article from '../../components/Article/Article';
 import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
-import { topicQuery } from '../../queries';
+import { topicQueryWithPathTopics } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 
@@ -29,18 +29,11 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const { topicList, topicId } = getUrnIdsFromProps({ match });
+  const { topicId } = getUrnIdsFromProps({ match });
 
-  const { data, loading } = useGraphQuery(topicQuery, {
+  const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
     variables: { topicId },
   });
-
-  const { data: baseTopicData, loading: baseTopicLoading } = useGraphQuery(
-    topicQuery,
-    {
-      variables: { topicId: topicList[0] },
-    },
-  );
 
   const [pageUrl, setPageUrl] = useState('');
   useEffect(() => {
@@ -49,7 +42,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 
   const resourcesRef = useRef(null);
 
-  if (loading || baseTopicLoading) {
+  if (loading) {
     return null;
   }
 
@@ -60,13 +53,12 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 
   const { topic, resourceTypes } = data;
 
-  const subjects = [filterCodes[baseTopicData.topic.name]];
-  const subjectsLinks = [
-    {
-      label: baseTopicData.topic.name,
-      url: baseTopicData.topic.path,
-    },
-  ];
+  // "Base topics" are considered subjects
+  const subjects = topic.pathTopics.map(listOfTopics => filterCodes[listOfTopics[0].name]);
+  const subjectsLinks = topic.pathTopics.map(listOfTopics => ( {
+    label: listOfTopics[0].name,
+      url: listOfTopics[0].path,
+  }));
 
   return (
     <>

@@ -655,6 +655,52 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const topicQueryWithPathTopics = gql`
+  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      name
+      path
+      pathTopics {
+        id
+        name
+        path
+      }
+      filters {
+        id
+        name
+      }
+      meta {
+        id
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      subtopics(filterIds: $filterIds) {
+        id
+        name
+      }
+      article {
+        ...ArticleInfo
+      }
+      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+        ...ResourceInfo
+      }
+    }
+    resourceTypes {
+      id
+      name
+    }
+  }
+  ${articleInfoFragment}
+  ${resourceInfoFragment}
+`;
+
 export const topicQuery = gql`
   query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
