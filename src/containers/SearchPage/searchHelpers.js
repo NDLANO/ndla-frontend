@@ -80,7 +80,7 @@ const updateBreadcrumbSubject = (
 ) => {
   const subjectData = getSubjectBySubjectIdFilters(
     subjectId,
-    filters?.map(f => f.id),
+    filters?.map(f => f.id) || [],
   );
   const breadcrumbSubject = subjectData?.longName[language] || subject;
   return [breadcrumbSubject, ...breadcrumbs.slice(1)];
@@ -275,7 +275,7 @@ export const mapResourcesToItems = resources =>
     ingress: resource.ingress,
     url: resource.path,
     contexts: resource.contexts.map(context => ({
-      url: `${context.path}?filters=${context.filters[0].id}`,
+      url: context.filters?.length ? `${context.path}?filters=${context.filters[0].id}` : context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
