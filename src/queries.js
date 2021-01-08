@@ -191,9 +191,15 @@ export const groupSearchQuery = gql`
         name
         ingress
         contexts {
-          url: path
-          breadcrumb: breadcrumbs
+          language
+          path
+          breadcrumbs
+          subjectId
+          subject
           resourceTypes {
+            id
+          }
+          filters {
             id
           }
         }

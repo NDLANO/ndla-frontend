@@ -71,17 +71,32 @@ export const plainUrl = url => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
+const updateBreadcrumbSubject = (
+  breadcrumbs,
+  subjectId,
+  subject,
+  filters,
+  language,
+) => {
+  const subjectData = getSubjectBySubjectIdFilters(
+    subjectId,
+    filters?.map(f => f.id),
+  );
+  const breadcrumbSubject = subjectData?.longName[language] || subject;
+  return [breadcrumbSubject, ...breadcrumbs.slice(1)];
+};
+
 const taxonomyData = (result, selectedContext) => {
   let taxonomyResult = {};
   const { contexts = [] } = result;
   if (selectedContext) {
-    const subjectData = getSubjectBySubjectIdFilters(
+    selectedContext.breadcrumbs = updateBreadcrumbSubject(
+      selectedContext.breadcrumbs,
       selectedContext.subjectId,
-      selectedContext.filters?.map(f => f.id),
+      selectedContext.subject,
+      selectedContext.filters,
+      selectedContext.language,
     );
-    selectedContext.breadcrumbs[0] =
-      subjectData?.longName[selectedContext.language] ||
-      selectedContext.subject;
     taxonomyResult = {
       breadcrumb: selectedContext.breadcrumbs,
       contentType: getContentType(selectedContext),
@@ -259,7 +274,16 @@ export const mapResourcesToItems = resources =>
     title: resource.name,
     ingress: resource.ingress,
     url: resource.path,
-    contexts: resource.contexts,
+    contexts: resource.contexts.map(context => ({
+      url: `${context.path}?filters=${context.filters[0].id}`,
+      breadcrumb: updateBreadcrumbSubject(
+        context.breadcrumbs,
+        context.subjectId,
+        context.subject,
+        context.filters,
+        context.language,
+      ),
+    })),
     ...(resource.metaImage?.url && {
       img: {
         url: `${resource.metaImage.url}?width=250`,
