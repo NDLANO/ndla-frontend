@@ -275,7 +275,9 @@ export const mapResourcesToItems = resources =>
     ingress: resource.ingress,
     url: resource.path,
     contexts: resource.contexts.map(context => ({
-      url: context.filters?.length ? `${context.path}?filters=${context.filters[0].id}` : context.path,
+      url: context.filters?.length
+        ? `${context.path}?filters=${context.filters[0].id}`
+        : context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
