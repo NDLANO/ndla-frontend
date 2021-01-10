@@ -1,0 +1,7 @@
+.h5p-dialogcards li{
+  text-align: left;
+}
+
+.h5p-dialogcards .h5p-dialogcards-card-text-inner {
+  padding: 0;
+}
