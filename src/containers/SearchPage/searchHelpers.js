@@ -275,7 +275,9 @@ export const mapResourcesToItems = resources =>
     ingress: resource.ingress,
     url: resource.path,
     contexts: resource.contexts.map(context => ({
-      url: context.filters?.length ? `${context.path}?filters=${context.filters[0].id}` : context.path,
+      url: context.filters?.length
+        ? `${context.path}?filters=${context.filters[0].id}`
+        : context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
@@ -292,6 +294,20 @@ export const mapResourcesToItems = resources =>
     }),
   }));
 
+const getResourceTypeFilters = resources => {
+  const resourceTypeFilters = [];
+  resources.forEach(resource => {
+    resource.contexts.forEach(context => {
+      context.resourceTypes.forEach(type => {
+        if (!resourceTypeFilters.includes(type.id)) {
+          resourceTypeFilters.push(type.id);
+        }
+      });
+    });
+  });
+  return resourceTypeFilters;
+};
+
 export const updateSearchGroups = (
   searchData,
   searchGroups,
@@ -301,6 +317,7 @@ export const updateSearchGroups = (
   if (!searchGroups.length) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources),
+      resourceTypes: getResourceTypeFilters(result.resources),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
     }));
@@ -333,9 +350,20 @@ export const updateSearchGroups = (
       }));
       return {
         ...group,
-        items: replaceItems
-          ? mapResourcesToItems(result.resources)
-          : [...group.items, ...mapResourcesToItems(result.resources)],
+        ...(replaceItems
+          ? {
+              items: mapResourcesToItems(result.resources),
+              resourceTypes: getResourceTypeFilters(result.resources),
+            }
+          : {
+              items: [...group.items, ...mapResourcesToItems(result.resources)],
+              resourceTypes: [
+                ...new Set([
+                  ...group.resourceTypes,
+                  ...getResourceTypeFilters(result.resources),
+                ]),
+              ],
+            }),
         totalCount: result.totalCount,
       };
     }
@@ -347,8 +375,8 @@ export const getTypeFilter = resourceTypes => {
   const typeFilter = {
     'topic-article': {
       page: 1,
-      loading: true,
       pageSize: 4,
+      loading: true,
     },
   };
   if (resourceTypes) {
@@ -361,8 +389,8 @@ export const getTypeFilter = resourceTypes => {
       typeFilter[contentTypeMapping[type.id]] = {
         filters,
         page: 1,
-        loading: true,
         pageSize: 4,
+        loading: true,
       };
     });
   }
