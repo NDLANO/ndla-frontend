@@ -2,6 +2,11 @@
   text-align: left;
 }
 
-.h5p-dialogcards .h5p-dialogcards-card-text-inner {
+.h5p-dialogcards .h5p-dialogcards-card-text-wrapper {
+  min-height: auto;
   padding: 0;
+}
+
+.h5p-dialogcards.h5p-text-scaling .h5p-dialogcards-card-text-wrapper {
+  height: auto;
 }
