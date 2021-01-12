@@ -100,6 +100,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 const dataIdFromObject = object => {
   switch (object.__typename) {
     case 'SearchContext':
+    case 'GroupSearchResult':
       if (object.filters?.length) {
         return object.filters.id;
       } else {
