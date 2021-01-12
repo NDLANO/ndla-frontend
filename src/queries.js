@@ -187,7 +187,6 @@ export const groupSearchQuery = gql`
     ) {
       resources {
         id
-        path
         name
         ingress
         contexts {

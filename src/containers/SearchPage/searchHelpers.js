@@ -268,16 +268,19 @@ export const filterTypeOptions = (searchGroups, t) => {
   return options;
 };
 
+const getContextUrl = context =>
+  context.filters?.length
+    ? `${context.path}?filters=${context.filters[0].id}`
+    : context.path;
+
 export const mapResourcesToItems = resources =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
-    url: resource.path,
+    url: getContextUrl(resource.contexts[0]),
     contexts: resource.contexts.map(context => ({
-      url: context.filters?.length
-        ? `${context.path}?filters=${context.filters[0].id}`
-        : context.path,
+      url: getContextUrl(context),
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
