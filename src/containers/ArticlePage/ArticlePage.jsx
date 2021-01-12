@@ -95,12 +95,6 @@ class ArticlePage extends Component {
     this.setState({ scripts, subjectPageUrl, filterIds });
   }
 
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.typeset();
-    }
-  }
-
   render() {
     const {
       data,

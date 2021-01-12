@@ -90,6 +90,9 @@ const ResourcePage = props => {
       />
     );
   }
+  if (typeof window !== 'undefined' && window.MathJax) {
+    window.MathJax.typeset();
+  }
   return (
     <ArticlePage
       {...props}
