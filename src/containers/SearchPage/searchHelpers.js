@@ -313,6 +313,7 @@ export const updateSearchGroups = (
   searchGroups,
   resourceTypes,
   replaceItems,
+  newSearch,
 ) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
@@ -350,20 +351,17 @@ export const updateSearchGroups = (
       }));
       return {
         ...group,
-        ...(replaceItems
-          ? {
-              items: mapResourcesToItems(result.resources),
-              resourceTypes: getResourceTypeFilters(result.resources),
-            }
-          : {
-              items: [...group.items, ...mapResourcesToItems(result.resources)],
-              resourceTypes: [
-                ...new Set([
-                  ...group.resourceTypes,
-                  ...getResourceTypeFilters(result.resources),
-                ]),
-              ],
-            }),
+        items: replaceItems
+          ? mapResourcesToItems(result.resources)
+          : [...group.items, ...mapResourcesToItems(result.resources)],
+        resourceTypes: newSearch
+          ? [...new Set(getResourceTypeFilters(result.resources))]
+          : [
+              ...new Set([
+                ...group.resourceTypes,
+                ...getResourceTypeFilters(result.resources),
+              ]),
+            ],
         totalCount: result.totalCount,
       };
     }

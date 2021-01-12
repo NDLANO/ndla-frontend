@@ -84,6 +84,7 @@ const SearchInnerPage = ({
           searchGroups,
           resourceTypes,
           replaceItems,
+          newSearch,
         ),
       );
       resetLoading();
