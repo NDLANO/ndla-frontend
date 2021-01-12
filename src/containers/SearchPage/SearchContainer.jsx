@@ -66,7 +66,7 @@ const SearchContainer = ({
         allSubjects={allSubjects}
         handleSearchParamsChange={handleSearchParamsChange}
       />
-      {showConcepts && concepts?.length ? (
+      {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
           items={concepts}
           totalCount={concepts.length}
@@ -74,11 +74,9 @@ const SearchContainer = ({
             setShowConcepts(false);
           }}
         />
-      ) : null}
-      {subjectItems.length ? (
-        <SearchSubjectResult items={subjectItems} />
-      ) : null}
-      {searchGroups.length && (
+      )}
+      {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {searchGroups.length > 0 && (
         <FilterTabs
           dropdownBtnLabel="Velg"
           value={currentSubjectType ? currentSubjectType : 'ALL'}
