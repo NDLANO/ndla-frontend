@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
@@ -28,7 +28,7 @@ import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
-import { toSubject } from '../../routeHelpers';
+import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 
 const getUrlFromSubjectId = subjectId => {
@@ -37,24 +37,27 @@ const getUrlFromSubjectId = subjectId => {
   return toSubject(subject.subjectId, filters);
 };
 
+const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
+const TOOLBOX_SUBJECT_ID = 'common_subject_61';
+
 const getMultidisciplinarySubjects = locale => {
   const subjectIds = [
-    'common_subject_57',
-    'common_subject_58',
-    'common_subject_59',
+    'multidisciplinary_subject_1',
+    'multidisciplinary_subject_2',
+    'multidisciplinary_subject_3',
   ];
+
+  const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
+
   return subjectIds.map(subjectId => {
     const subject = getSubjectById(subjectId);
     return {
       id: subject.id,
       title: subject.name[locale],
-      url: getUrlFromSubjectId(subjectId),
+      url: toTopic(baseSubject.subjectId, null, subject.topicId),
     };
   });
 };
-
-const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
-const TOOLBOX_SUBJECT_ID = 'common_subject_61';
 
 const WelcomePage = ({ t, locale, history, location }) => {
   const headerLinks = [
