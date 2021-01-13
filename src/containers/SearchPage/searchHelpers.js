@@ -269,7 +269,7 @@ export const filterTypeOptions = (searchGroups, t) => {
 };
 
 const getContextUrl = context =>
-  context.filters?.length
+  context?.filters?.length
     ? `${context.path}?filters=${context.filters[0].id}`
     : context.path;
 
@@ -278,7 +278,7 @@ export const mapResourcesToItems = resources =>
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
-    url: getContextUrl(resource.contexts[0]),
+    url: resource.context ? getContextUrl(resource.contexts[0]) : resource.path,
     contexts: resource.contexts.map(context => ({
       url: getContextUrl(context),
       breadcrumb: updateBreadcrumbSubject(
