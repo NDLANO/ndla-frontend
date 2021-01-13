@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
