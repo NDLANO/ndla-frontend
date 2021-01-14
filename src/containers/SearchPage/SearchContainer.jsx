@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   func,
   arrayOf,
@@ -15,6 +15,7 @@ import {
   shape,
   bool,
 } from 'prop-types';
+import { Remarkable } from 'remarkable';
 import { SearchSubjectResult, SearchNotionsResult } from '@ndla/ui';
 import { FilterTabs } from '@ndla/tabs';
 import { injectT } from '@ndla/i18n';
@@ -57,6 +58,13 @@ const SearchContainer = ({
   showConcepts,
   setShowConcepts,
 }) => {
+  const markdown = useMemo(() => {
+    const md = new Remarkable({ breaks: true });
+    md.inline.ruler.enable(['sub', 'sup']);
+    return md;
+  }, []);
+  const renderMarkdown = text => markdown.render(text);
+
   return (
     <>
       <SearchHeader
@@ -73,6 +81,7 @@ const SearchContainer = ({
           onRemove={() => {
             setShowConcepts(false);
           }}
+          renderMarkdown={renderMarkdown}
         />
       )}
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
