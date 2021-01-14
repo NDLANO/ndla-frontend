@@ -18,12 +18,10 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 
 const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
-  const { topicList: selectedTopics } = getUrnIdsFromProps({
+  const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
   });
-
-  const subjectId = `urn:${match.path.split('/')[1]}`;
 
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
