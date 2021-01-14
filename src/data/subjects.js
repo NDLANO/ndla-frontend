@@ -2118,6 +2118,36 @@ export const studySpecializationSubjects = [
   },
 ];
 
+export const multidisciplinarySubjects = [
+  {
+    name: {
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+      en: 'Folkehelse og livsmestring',
+    },
+    topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
+    id: 'multidisciplinary_subject_1',
+  },
+  {
+    name: {
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+      en: 'Demokrati og medborgerskap',
+    },
+    topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
+    id: 'multidisciplinary_subject_2',
+  },
+  {
+    name: {
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+      en: 'Bærekraftig utvikling',
+    },
+    topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
+    id: 'multidisciplinary_subject_3',
+  },
+];
+
 export const subjectsCategories = [
   {
     name: {
@@ -2153,6 +2183,7 @@ export const subjectObjectIds = () => {
       ...commonSubjects,
       ...programmeSubjects,
       ...studySpecializationSubjects,
+      ...multidisciplinarySubjects,
     ];
 
     subjectsIdx = subjects.reduce((obj, item) => {

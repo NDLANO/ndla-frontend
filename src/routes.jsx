@@ -32,6 +32,7 @@ import {
   SEARCH_PATH,
   SUBJECTS,
   SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
@@ -75,7 +76,7 @@ export const routes = [
     background: false,
   },
   {
-    path: `${MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}/:topicId`,
+    path: MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
     component: MultidisciplinarySubjectArticle,
     background: false,
   },
