@@ -12,7 +12,6 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
@@ -26,16 +25,15 @@ const getDocumentTitle = ({ t, data }) => {
   return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
-const Topic = ({
+const MultidisciplinaryTopic = ({
   topicId,
   subjectId,
   filterIds,
   locale,
   subTopicId,
   ndlaFilm,
-  onClickTopics,
-  showResources,
   data,
+  disableNav,
 }) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -48,7 +46,6 @@ const Topic = ({
     .split('/')
     .slice(2)
     .map(id => `urn:${id}`);
-  const resourceTypes = data.resourceTypes;
   const subTopics = topic.subtopics.map(item => ({
     id: item.id,
     label: item.name,
@@ -66,50 +63,37 @@ const Topic = ({
         showContent={showContent}
         invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
-        isLoading={false}
-        children={
-          <ArticleContents
-            topic={topic}
-            copyPageUrlLink={copyPageUrlLink}
-            locale={locale}
-            modifier="in-topic"
-          />
-        }
-      />
-      {subTopics.length !== 0 && (
+        isLoading={false}>
+        <ArticleContents
+          topic={topic}
+          copyPageUrlLink={copyPageUrlLink}
+          locale={locale}
+          modifier="in-topic"
+        />
+      </NavigationTopicAbout>
+      {subTopics.length !== 0 && disableNav !== true && (
         <NavigationBox
           colorMode="light"
           heading="emner"
           items={subTopics}
           listDirection="horizontal"
           invertedStyle={ndlaFilm}
-          onClick={e => {
-            onClickTopics(e);
-          }}
-        />
-      )}
-      {showResources && (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          locale={locale}
-          ndlaFilm={ndlaFilm}
         />
       )}
     </>
   );
 };
 
-Topic.getDocumentTitle = getDocumentTitle;
+MultidisciplinaryTopic.getDocumentTitle = getDocumentTitle;
 
-Topic.willTrackPageView = (trackPageView, currentProps) => {
+MultidisciplinaryTopic.willTrackPageView = (trackPageView, currentProps) => {
   const { data, loading, showResources } = currentProps;
   if (showResources && !loading && data?.topic?.article) {
     trackPageView(currentProps);
   }
 };
 
-Topic.getDimensions = props => {
+MultidisciplinaryTopic.getDimensions = props => {
   const { filterIds, data, locale, subject } = props;
   const topicPath = data.topic.path
     .split('/')
@@ -136,7 +120,7 @@ Topic.getDimensions = props => {
   );
 };
 
-Topic.propTypes = {
+MultidisciplinaryTopic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
   filterIds: PropTypes.string,
@@ -144,16 +128,15 @@ Topic.propTypes = {
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
-  onClickTopics: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
-  showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,
   data: PropTypes.shape({
     topic: GraphQLTopicShape,
     resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
   }),
   loading: PropTypes.bool,
+  disableNav: PropTypes.bool,
 };
 
-export default injectT(withTracker(Topic));
+export default injectT(withTracker(MultidisciplinaryTopic));

@@ -39,7 +39,7 @@ const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
-const SubjectPage = ({
+const SubjectContainer = ({
   history,
   location,
   locale,
@@ -151,6 +151,7 @@ const SubjectPage = ({
           ...crumb,
           isCurrent: currentLevel === crumb.index,
           typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+          url: '#',
         }))
       : []),
   ];
@@ -292,16 +293,16 @@ const SubjectPage = ({
   );
 };
 
-SubjectPage.getDocumentTitle = getDocumentTitle;
+SubjectContainer.getDocumentTitle = getDocumentTitle;
 
-SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
+SubjectContainer.willTrackPageView = (trackPageView, currentProps) => {
   const { data, loading, topics } = currentProps;
   if (!loading && data?.subject?.topics?.length > 0 && topics?.length === 0) {
     trackPageView(currentProps);
   }
 };
 
-SubjectPage.getDimensions = props => {
+SubjectContainer.getDimensions = props => {
   const { data, locale, location, topics } = props;
   const topicPath = topics.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
@@ -315,7 +316,7 @@ SubjectPage.getDimensions = props => {
   });
 };
 
-SubjectPage.propTypes = {
+SubjectContainer.propTypes = {
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
@@ -337,4 +338,4 @@ SubjectPage.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default injectT(withTracker(SubjectPage));
+export default injectT(withTracker(SubjectContainer));

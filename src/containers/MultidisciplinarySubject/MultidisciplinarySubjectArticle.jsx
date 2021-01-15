@@ -18,9 +18,9 @@ import {
 import Article from '../../components/Article/Article';
 import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
-import { topicQuery } from '../../queries';
+import { topicQueryWithPathTopics } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
-import { getUrnIdsFromProps, toSubject } from '../../routeHelpers';
+import { getUrnIdsFromProps } from '../../routeHelpers';
 
 const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
@@ -29,10 +29,9 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const subjectId = `urn:${match.path.split('/')[2]}`;
   const { topicId } = getUrnIdsFromProps({ match });
 
-  const { data, loading } = useGraphQuery(topicQuery, {
+  const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
     variables: { topicId },
   });
 
@@ -53,10 +52,14 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   };
 
   const { topic, resourceTypes } = data;
-  const subjects = topic.filters.map(filter => filterCodes[filter.name]);
-  const subjectsLinks = topic.filters.map(filter => ({
-    label: filter.name,
-    url: toSubject(subjectId, filter.id),
+
+  // "Base topics" are considered subjects
+  const subjects = topic.pathTopics.map(
+    listOfTopics => filterCodes[listOfTopics[0].name],
+  );
+  const subjectsLinks = topic.pathTopics.map(listOfTopics => ({
+    label: listOfTopics[0].name,
+    url: listOfTopics[0].path,
   }));
 
   return (
@@ -89,7 +92,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      topicId: PropTypes.string.isRequired,
+      topicPath: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,
