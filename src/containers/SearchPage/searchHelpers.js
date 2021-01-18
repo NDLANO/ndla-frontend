@@ -268,17 +268,31 @@ export const filterTypeOptions = (searchGroups, t) => {
   return options;
 };
 
+const mapTraits = (traits, t) =>
+  traits.map(trait => {
+    if (trait === 'VIDEO') {
+      return t('resource.trait.video');
+    } else if (trait === 'H5P') {
+      return t('resource.trait.h5p');
+    }
+    return trait;
+  });
+
 const getContextUrl = context =>
   context?.filters?.length
     ? `${context.path}?filters=${context.filters[0].id}`
     : context.path;
 
-export const mapResourcesToItems = resources =>
+const mapResourcesToItems = (resources, t) =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
     url: resource.context ? getContextUrl(resource.contexts[0]) : resource.path,
+    labels: [
+      ...mapTraits(resource.traits, t),
+      ...resource.contexts?.[0].resourceTypes.map(type => type.name),
+    ],
     contexts: resource.contexts.map(context => ({
       url: getContextUrl(context),
       breadcrumb: updateBreadcrumbSubject(
@@ -317,10 +331,11 @@ export const updateSearchGroups = (
   resourceTypes,
   replaceItems,
   newSearch,
+  t,
 ) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
-      items: mapResourcesToItems(result.resources),
+      items: mapResourcesToItems(result.resources, t),
       resourceTypes: getResourceTypeFilters(result.resources),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
@@ -355,8 +370,8 @@ export const updateSearchGroups = (
       return {
         ...group,
         items: replaceItems
-          ? mapResourcesToItems(result.resources)
-          : [...group.items, ...mapResourcesToItems(result.resources)],
+          ? mapResourcesToItems(result.resources, t)
+          : [...group.items, ...mapResourcesToItems(result.resources, t)],
         resourceTypes: newSearch
           ? [...new Set(getResourceTypeFilters(result.resources))]
           : [

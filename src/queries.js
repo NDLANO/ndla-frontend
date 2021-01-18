@@ -190,6 +190,7 @@ export const groupSearchQuery = gql`
         path
         name
         ingress
+        traits
         contexts {
           language
           path
@@ -198,6 +199,7 @@ export const groupSearchQuery = gql`
           subject
           resourceTypes {
             id
+            name
           }
           filters {
             id

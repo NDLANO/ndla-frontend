@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape } from 'prop-types';
+import { injectT } from '@ndla/i18n';
 
 import SearchContainer from './SearchContainer';
 import {
@@ -44,6 +45,7 @@ const initalParams = {
 let newSearch = true;
 
 const SearchInnerPage = ({
+  t,
   handleSearchParamsChange,
   query,
   subjects,
@@ -85,6 +87,7 @@ const SearchInnerPage = ({
           resourceTypes,
           replaceItems,
           newSearch,
+          t,
         ),
       );
       resetLoading();
@@ -244,4 +247,4 @@ SearchInnerPage.propTypes = {
   locale: string,
 };
 
-export default SearchInnerPage;
+export default injectT(SearchInnerPage);
