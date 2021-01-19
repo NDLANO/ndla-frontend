@@ -8,6 +8,8 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes, { func } from 'prop-types';
+import Button from '@ndla/button';
+import { LearningPath } from '@ndla/icons/contentType';
 import { injectT } from '@ndla/i18n';
 import {
   LearningPathWrapper,
@@ -17,6 +19,7 @@ import {
   LearningPathSticky,
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
+  showLearningPathButtonToggleCss,
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
@@ -99,6 +102,13 @@ const Learningpath = ({
     };
   }, [onKeyUpEvent]);
 
+  const showLearningPathButton = (
+    <Button css={showLearningPathButtonToggleCss}>
+      <LearningPath />
+      <span>{t('learningPath.openMenuTooltip')}</span>
+    </Button>
+  );
+
   return (
     <LearningPathWrapper>
       <div className="c-hero__content">
@@ -122,6 +132,7 @@ const Learningpath = ({
           name={title}
           cookies={useCookies}
           learningPathURL={config.learningPathDomain}
+          showLearningPathButton={showLearningPathButton}
         />
         {learningpathStep && (
           <div>
@@ -155,6 +166,7 @@ const Learningpath = ({
         )}
       </LearningPathContent>
       <LearningPathSticky>
+        {showLearningPathButton}
         {learningpathStep.seqNo > 0 ? (
           <LearningPathStickySibling
             arrow="left"
