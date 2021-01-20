@@ -293,7 +293,9 @@ const mapResourcesToItems = (resources, t) =>
       : resource.path,
     labels: [
       ...mapTraits(resource.traits, t),
-      ...resource.contexts?.[0].resourceTypes.map(type => type.name),
+      ...(resource.contexts?.length
+        ? resource.contexts[0].resourceTypes.slice(1).map(type => type.name)
+        : []),
     ],
     contexts: resource.contexts.map(context => ({
       url: getContextUrl(context),
