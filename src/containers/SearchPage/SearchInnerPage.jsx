@@ -68,7 +68,7 @@ const SearchInnerPage = ({
     setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
     newSearch = true;
-  }, [query]);
+  }, [query, JSON.stringify(subjects)]);
 
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
