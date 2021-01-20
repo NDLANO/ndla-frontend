@@ -1,3 +1,7 @@
+.h5p-content .h5p-wrapper{
+  max-width:100%;
+}
+
 .h5p-dialogcards li{
   text-align: left;
 }
