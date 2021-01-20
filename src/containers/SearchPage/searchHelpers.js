@@ -327,6 +327,22 @@ const getResourceTypeFilters = resources => {
   return resourceTypeFilters;
 };
 
+export const sortSearchGroups = groups => {
+  const sortedResourceTypes = [
+    'topic-article',
+    'subject-material',
+    'tasks-and-activities',
+    'assessment-resources',
+    'external-learning-resources',
+    'source-material',
+    'learning-path',
+  ];
+  return groups.sort(
+    (a, b) =>
+      sortedResourceTypes.indexOf(a.type) - sortedResourceTypes.indexOf(b.type),
+  );
+};
+
 export const updateSearchGroups = (
   searchData,
   searchGroups,

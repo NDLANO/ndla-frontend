@@ -30,16 +30,6 @@ import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { filterTypeOptions } from './searchHelpers';
 
-const sortedResourceTypes = [
-  'topic-article',
-  'subject-material',
-  'tasks-and-activities',
-  'assessment-resources',
-  'external-learning-resources',
-  'source-material',
-  'learning-path',
-];
-
 const SearchContainer = ({
   t,
   handleSearchParamsChange,
@@ -93,11 +83,7 @@ const SearchContainer = ({
           contentId="search-result-content"
           onChange={handleSetSubjectType}>
           <SearchResults
-            searchGroups={searchGroups.sort(
-              (a, b) =>
-                sortedResourceTypes.indexOf(a.type) -
-                sortedResourceTypes.indexOf(b.type),
-            )}
+            searchGroups={searchGroups}
             currentSubjectType={currentSubjectType}
             typeFilter={typeFilter}
             handleFilterClick={handleFilterClick}
