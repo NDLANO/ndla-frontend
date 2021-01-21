@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { func, arrayOf, object, string, shape } from 'prop-types';
+import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
 import SearchContainer from './SearchContainer';
@@ -56,6 +56,7 @@ const SearchInnerPage = ({
   resourceTypes,
   location,
   locale,
+  isLti,
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [replaceItems, setReplaceItems] = useState(true);
@@ -71,7 +72,12 @@ const SearchInnerPage = ({
   }, [query, JSON.stringify(subjects)]);
 
   const searchParams = converSearchStringToObject(location, locale);
-  const stateSearchParams = getStateSearchParams(searchParams);
+  const stateSearchParams = isLti
+    ? {
+        query,
+        subjects: subjects.length ? subjects.join() : undefined,
+      }
+    : getStateSearchParams(searchParams);
 
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
@@ -246,6 +252,7 @@ SearchInnerPage.propTypes = {
       subtypes: arrayOf(ResourceTypeShape),
     }),
   ),
+  isLti: bool,
   location: LocationShape,
   locale: string,
 };
