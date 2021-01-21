@@ -77,7 +77,7 @@ const SearchContainer = ({
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
         <FilterTabs
-          dropdownBtnLabel="Velg"
+          dropdownBtnLabel={t('searchPage.showLabel.contentTypes')}
           value={currentSubjectType ? currentSubjectType : 'ALL'}
           options={filterTypeOptions(searchGroups, t)}
           contentId="search-result-content"
