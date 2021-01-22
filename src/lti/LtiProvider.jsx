@@ -20,6 +20,7 @@ import { LtiDataShape } from '../shapes';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
 
 const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
@@ -75,7 +76,7 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
         allSubjects={allSubjects}
         subjectItems={subjectItems}
         concepts={conceptData?.conceptSearch}
-        resourceTypes={data.resourceTypes}
+        resourceTypes={data.resourceTypes.filter(type => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
         locale={locale}
         isLti
       />
