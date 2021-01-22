@@ -278,17 +278,21 @@ const mapTraits = (traits, t) =>
     return trait;
   });
 
+const getLtiUrl = (path, id) => `article-iframe/${path.split('/').pop()}/${id}`;
+
 const getContextUrl = context =>
   context?.filters?.length
     ? `${context.path}?filters=${context.filters[0].id}`
     : context.path;
 
-const mapResourcesToItems = (resources, t) =>
+const mapResourcesToItems = (resources, isLti, t) =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
-    url: resource.contexts?.length
+    url: isLti
+      ? getLtiUrl(resource.path, resource.id)
+      : resource.contexts?.length
       ? getContextUrl(resource.contexts[0])
       : resource.path,
     labels: [
@@ -351,11 +355,12 @@ export const updateSearchGroups = (
   resourceTypes,
   replaceItems,
   newSearch,
+  isLti,
   t,
 ) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
-      items: mapResourcesToItems(result.resources, t),
+      items: mapResourcesToItems(result.resources, isLti, t),
       resourceTypes: getResourceTypeFilters(result.resources),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
@@ -390,8 +395,11 @@ export const updateSearchGroups = (
       return {
         ...group,
         items: replaceItems
-          ? mapResourcesToItems(result.resources, t)
-          : [...group.items, ...mapResourcesToItems(result.resources, t)],
+          ? mapResourcesToItems(result.resources, isLti, t)
+          : [
+              ...group.items,
+              ...mapResourcesToItems(result.resources, isLti, t),
+            ],
         resourceTypes: newSearch
           ? [...new Set(getResourceTypeFilters(result.resources))]
           : [

@@ -95,6 +95,7 @@ const SearchInnerPage = ({
             resourceTypes,
             replaceItems,
             newSearch,
+            isLti,
             t,
           ),
         ),
