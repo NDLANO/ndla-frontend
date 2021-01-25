@@ -285,7 +285,7 @@ const getContextUrl = context =>
     ? `${context.path}?filters=${context.filters[0].id}`
     : context.path;
 
-const mapResourcesToItems = (resources, isLti, t) =>
+const mapResourcesToItems = (resources, ltiData, isLti, t) =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
@@ -317,6 +317,16 @@ const mapResourcesToItems = (resources, isLti, t) =>
         alt: resource.metaImage?.alt,
       },
     }),
+    children: isLti && (
+      <LtiEmbed
+        ltiData={ltiData}
+        item={{
+          id: resource.id,
+          title: resource.name,
+          url: resource.path,
+        }}
+      />
+    ),
   }));
 
 const getResourceTypeFilters = resources => {
@@ -355,12 +365,13 @@ export const updateSearchGroups = (
   resourceTypes,
   replaceItems,
   newSearch,
+  ltiData,
   isLti,
   t,
 ) => {
   if (!searchGroups.length) {
     return searchData.map(result => ({
-      items: mapResourcesToItems(result.resources, isLti, t),
+      items: mapResourcesToItems(result.resources, ltiData, isLti, t),
       resourceTypes: getResourceTypeFilters(result.resources),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
@@ -395,10 +406,10 @@ export const updateSearchGroups = (
       return {
         ...group,
         items: replaceItems
-          ? mapResourcesToItems(result.resources, isLti, t)
+          ? mapResourcesToItems(result.resources, ltiData, isLti, t)
           : [
               ...group.items,
-              ...mapResourcesToItems(result.resources, isLti, t),
+              ...mapResourcesToItems(result.resources, ltiData, isLti, t),
             ],
         resourceTypes: newSearch
           ? [...new Set(getResourceTypeFilters(result.resources))]

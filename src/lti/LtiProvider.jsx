@@ -76,8 +76,11 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
         allSubjects={allSubjects}
         subjectItems={subjectItems}
         concepts={conceptData?.conceptSearch}
-        resourceTypes={data.resourceTypes.filter(type => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
+        resourceTypes={data.resourceTypes.filter(
+          type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
+        )}
         locale={locale}
+        ltiData={ltiData}
         isLti
       />
     </ErrorBoundary>

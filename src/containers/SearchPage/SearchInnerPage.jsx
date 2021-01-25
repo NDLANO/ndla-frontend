@@ -15,6 +15,7 @@ import {
   SearchItemShape,
   ConceptShape,
   ResourceTypeShape,
+  LtiDataShape,
 } from '../../shapes';
 import {
   getTypeFilter,
@@ -56,6 +57,7 @@ const SearchInnerPage = ({
   resourceTypes,
   location,
   locale,
+  ltiData,
   isLti,
 }) => {
   const [currentSubjectType, setCurrentSubjectType] = useState(null);
@@ -95,6 +97,7 @@ const SearchInnerPage = ({
             resourceTypes,
             replaceItems,
             newSearch,
+            ltiData,
             isLti,
             t,
           ),
@@ -253,6 +256,7 @@ SearchInnerPage.propTypes = {
       subtypes: arrayOf(ResourceTypeShape),
     }),
   ),
+  ltiData: LtiDataShape,
   isLti: bool,
   location: LocationShape,
   locale: string,
