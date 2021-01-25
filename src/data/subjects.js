@@ -888,11 +888,7 @@ export const commonSubjects = [
     id: 'common_subject_59',
   },
   {
-    filters: [
-      'urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66',
-      'urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7',
-      'urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc',
-    ],
+    filters: [],
     longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
