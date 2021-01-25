@@ -67,7 +67,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
           image: topic.meta.metaImage?.url,
           imageAlt: topic.meta.metaImage?.alt,
           subjects: [selectedSubject.name],
-          url: `${topic.path}/card`,
+          url: topic.path,
           ...topic,
         }));
 

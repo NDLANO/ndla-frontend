@@ -44,4 +44,4 @@ export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
   '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/';
 
 export const MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH =
-  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/card';
+  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/topic\\::topic1/topic\\::topic2/:topicId';
