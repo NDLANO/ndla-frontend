@@ -79,9 +79,9 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
         resourceTypes={data.resourceTypes.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
-        locale={locale}
         ltiData={ltiData}
         isLti
+        locale={locale}
       />
     </ErrorBoundary>
   );
