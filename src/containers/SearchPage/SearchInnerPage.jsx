@@ -258,7 +258,10 @@ SearchInnerPage.propTypes = {
   ),
   ltiData: LtiDataShape,
   isLti: bool,
-  location: LocationShape,
+  location: shape({
+    search: string,
+    pathname: string,
+  }),
   locale: string,
 };
 
