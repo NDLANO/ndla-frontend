@@ -13,7 +13,7 @@ exports[`Document renderers correctly 1`] = `
       charSet="utf-8"
     />
     <meta
-      content="width=device-width, initial-scale=1"
+      content="width=device-width, initial-scale=1 viewport-fit=cover"
       name="viewport"
     />
     <link
