@@ -11,7 +11,6 @@ import { injectT } from '@ndla/i18n';
 
 import SearchContainer from './SearchContainer';
 import {
-  LocationShape,
   SearchItemShape,
   ConceptShape,
   ResourceTypeShape,
