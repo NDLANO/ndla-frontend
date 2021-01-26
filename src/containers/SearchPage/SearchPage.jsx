@@ -13,17 +13,15 @@ import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
 
-import { searchPageQuery, searchQuery } from '../../queries';
+import { searchPageQuery, conceptSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
-import SearchContainer from './SearchContainer';
+import SearchInnerPage from './SearchInnerPage';
 import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
-import { sortResourceTypes } from '../Resources/getResourceGroups';
+import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-
-const ALL_TAB_VALUE = 'all';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -33,21 +31,21 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const SearchPage = ({ location, locale, history, t, ...rest }) => {
+const SearchPage = ({ location, locale, history, t }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
+  const subjects = searchSubjects(searchParams.query);
+  const subjectItems = subjects.map(subject => ({
+    id: subject.id,
+    title: subject.name,
+    url: subject.path,
+  }));
 
-  const { loading, data } = useGraphQuery(searchPageQuery);
-  const { data: searchData, loadingSearch, searchError } = useGraphQuery(
-    searchQuery,
-    {
-      variables: stateSearchParams,
-    },
-  );
-
-  if (loading) {
-    return null;
-  }
+  const { data, loading } = useGraphQuery(searchPageQuery);
+  const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
+    skip: !searchParams.query,
+    variables: stateSearchParams,
+  });
 
   const handleSearchParamsChange = searchParams => {
     history.push({
@@ -59,45 +57,30 @@ const SearchPage = ({ location, locale, history, t, ...rest }) => {
     });
   };
 
-  const resourceTypeTabs =
-    data && data.resourceTypes
-      ? sortResourceTypes(data.resourceTypes).map(resourceType => ({
-          value: resourceType.id,
-          type: 'resourceTypes',
-          name: resourceType.name,
-        }))
-      : [];
+  if (loading) {
+    return null;
+  }
 
-  const enabledTabs = [
-    { value: ALL_TAB_VALUE, name: t('contentTypes.all') },
-    {
-      value: 'topic-article',
-      type: 'contextTypes',
-      name: t('contentTypes.topic'),
-    },
-    ...resourceTypeTabs,
-  ];
-
-  const enabledTab =
-    stateSearchParams.resourceTypes ||
-    stateSearchParams.contextTypes ||
-    ALL_TAB_VALUE;
+  const allSubjects =
+    data.subjects?.map(subject => ({
+      title: subject.name,
+      value: subject.id,
+    })) || [];
 
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
-        <SearchContainer
-          searchParams={searchParams}
+        <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
-          data={data}
-          enabledTabs={enabledTabs}
-          enabledTab={enabledTab}
-          allTabValue={ALL_TAB_VALUE}
-          loading={loadingSearch}
-          error={searchError}
-          searchData={searchData}
-          {...rest}
+          query={searchParams.query}
+          subjects={searchParams.subjects}
+          allSubjects={allSubjects}
+          subjectItems={subjectItems}
+          concepts={conceptData?.conceptSearch}
+          resourceTypes={data.resourceTypes}
+          location={location}
+          locale={locale}
         />
       </OneColumn>
     </Fragment>

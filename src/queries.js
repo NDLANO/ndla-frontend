@@ -167,20 +167,73 @@ export const searchFilmQuery = gql`
 `;
 
 export const groupSearchQuery = gql`
-  query GroupSearch($resourceTypes: String, $subjects: String, $query: String) {
+  query GroupSearch(
+    $resourceTypes: String
+    $contextTypes: String
+    $subjects: String
+    $query: String
+    $page: String
+    $pageSize: String
+    $language: String
+  ) {
     groupSearch(
       resourceTypes: $resourceTypes
+      contextTypes: $contextTypes
       subjects: $subjects
       query: $query
+      page: $page
+      pageSize: $pageSize
+      language: $language
     ) {
       resources {
         id
         path
         name
+        ingress
+        traits
+        contexts {
+          language
+          path
+          breadcrumbs
+          subjectId
+          subject
+          resourceTypes {
+            id
+            name
+          }
+          filters {
+            id
+          }
+        }
+        metaImage {
+          url
+          alt
+        }
+      }
+      suggestions {
+        suggestions {
+          options {
+            text
+          }
+        }
       }
       resourceType
       totalCount
       language
+    }
+  }
+`;
+
+export const conceptSearchQuery = gql`
+  query ConceptSearch($query: String, $subjects: String, $language: String) {
+    conceptSearch(query: $query, subjects: $subjects, language: $language) {
+      id
+      title
+      text: content
+      image: metaImage {
+        url
+        alt
+      }
     }
   }
 `;

@@ -36,6 +36,22 @@ export const contentTypeMapping = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
+export const resourceTypeMapping = {
+  [contentTypes.LEARNING_PATH]: RESOURCE_TYPE_LEARNING_PATH,
+
+  [contentTypes.SUBJECT_MATERIAL]: RESOURCE_TYPE_SUBJECT_MATERIAL,
+
+  [contentTypes.TASKS_AND_ACTIVITIES]: RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+
+  [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+
+  [contentTypes.EXTERNAL_LEARNING_RESOURCES]: RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+
+  [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
+
+  default: RESOURCE_TYPE_SUBJECT_MATERIAL,
+};
+
 function getContentTypeFromResourceTypes(resourceTypes = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {

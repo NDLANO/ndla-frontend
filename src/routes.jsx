@@ -67,7 +67,7 @@ export const routes = [
   {
     path: SEARCH_PATH,
     component: SearchPage,
-    background: true,
+    background: false,
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
