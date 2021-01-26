@@ -38,6 +38,9 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
+import styled from "@emotion/styled";
+import {animations, breakpoints, colors, mq, spacing} from "@ndla/core";
+import {css} from "@emotion/core";
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -102,11 +105,49 @@ const Learningpath = ({
     };
   }, [onKeyUpEvent]);
 
+  const showLearningPathButtonToggleCss = css`
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: none;
+  }
+  margin-right: auto;
+  margin-left: ${spacing.normal};
+  z-index: 100;
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-right: ${spacing.xsmall};
+    transform: translateY(-2px);
+  }
+`;
+
+  const FOOTER_HEIGHT = '78px';
+  const FOOTER_HEIGHT_MOBILE = spacing.large;
+
+  const StyledFooter = styled.nav`
+  display: flex;
+  height: ${FOOTER_HEIGHT};
+  width: 100%;
+  ${mq.range({ until: breakpoints.tablet })} {
+    height: ${FOOTER_HEIGHT_MOBILE};
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: flex-end;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  background: ${colors.brand.lighter};
+  align-items: center;
+  justify-content: space-between;
+  ${animations.fadeInBottom()}
+`;
+
   const showLearningPathButton = (
-    <Button css={showLearningPathButtonToggleCss}>
-      <LearningPath />
-      <span>{t('learningPath.openMenuTooltip')}</span>
-    </Button>
+      <Button css={showLearningPathButtonToggleCss}>
+        <LearningPath />
+        <span>{t('learningPath.openMenuTooltip')}</span>
+      </Button>
   );
 
   return (
@@ -165,7 +206,7 @@ const Learningpath = ({
           </div>
         )}
       </LearningPathContent>
-      <LearningPathSticky>
+      <StyledFooter>
         {showLearningPathButton}
         {learningpathStep.seqNo > 0 ? (
           <LearningPathStickySibling
@@ -197,7 +238,7 @@ const Learningpath = ({
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
         )}
-      </LearningPathSticky>
+      </StyledFooter>
     </LearningPathWrapper>
   );
 };
