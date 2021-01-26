@@ -126,7 +126,8 @@ const Learningpath = ({
     height: ${FOOTER_HEIGHT};
     width: 100%;
     ${mq.range({ until: breakpoints.tablet })} {
-      height: ${FOOTER_HEIGHT_MOBILE};
+      --safe-area-inset-bottom: env(safe-area-inset-bottom);
+      height: calc(${FOOTER_HEIGHT_MOBILE} + var(--safe-area-inset-bottom));
       position: fixed;
       z-index: 2;
       bottom: 0;
