@@ -16,14 +16,15 @@ import {
   LearningPathMenu,
   LearningPathContent,
   LearningPathInformation,
-  LearningPathSticky,
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
-  showLearningPathButtonToggleCss,
   Breadcrumb,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
 import { withRouter } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { animations, breakpoints, colors, mq, spacing } from '@ndla/core';
+import { css } from '@emotion/core';
 import { toLearningPath } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -38,9 +39,6 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
-import styled from '@emotion/styled';
-import { animations, breakpoints, colors, mq, spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
