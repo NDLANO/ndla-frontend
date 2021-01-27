@@ -44,6 +44,10 @@ export function apiResourceUrl(path) {
   return apiBaseUrl + path;
 }
 
+export function grepUrl(path = '') {
+  return `${apiResourceUrl('/grep/kl06/v201906')}${path}`;
+}
+
 export function createErrorPayload(status, message, json) {
   return Object.assign(new Error(message), { status, json });
 }
