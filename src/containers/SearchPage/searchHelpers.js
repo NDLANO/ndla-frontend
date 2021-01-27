@@ -11,7 +11,7 @@ import {
 } from '../../constants';
 
 const getRelevance = context => {
-  if (context.filters.length > 0) {
+  if (context?.filters?.length > 0) {
     return (
       // Consider getting from constants
       context.filters[0].relevance === 'Tilleggsstoff' ||
