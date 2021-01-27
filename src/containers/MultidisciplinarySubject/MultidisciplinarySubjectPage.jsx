@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
+import { withTracker } from '@ndla/tracker';
 
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
@@ -78,11 +79,11 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
           <MultidisciplinaryTopicWrapper
             disableNav={index >= selectionLimit - 1}
             topicId={topicId}
+            filterIds=""
             subjectId={subject.id}
             subTopicId={selectedTopics[index + 1]}
             locale={locale}
             index={index}
-            showResources={false}
             subject={subject}
           />
         </div>
