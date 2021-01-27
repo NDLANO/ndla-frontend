@@ -92,7 +92,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      topicPath: PropTypes.string.isRequired,
+      topicId: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,

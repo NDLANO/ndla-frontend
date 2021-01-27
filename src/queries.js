@@ -203,6 +203,7 @@ export const groupSearchQuery = gql`
           }
           filters {
             id
+            relevance
           }
         }
         metaImage {
