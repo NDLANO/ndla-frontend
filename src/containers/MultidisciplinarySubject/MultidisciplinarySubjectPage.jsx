@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
 
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
