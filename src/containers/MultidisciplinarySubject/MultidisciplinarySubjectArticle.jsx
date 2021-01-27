@@ -21,24 +21,55 @@ import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
 import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
 import { getUrnIdsFromProps } from '../../routeHelpers';
+import { fetchGrepCodeTitle } from '../../util/grepApi';
 
 const filterCodes = {
-  'Folkehelse og livsmestring': 'publicHealth',
-  'Demokrati og medborgerskap': 'democracy',
-  'Bærekraftig utvikling': 'climate',
+  TT1: 'publicHealth',
+  TT2: 'democracy',
+  TT3: 'climate',
+};
+
+const subjectPaths = {
+  TT1:
+    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/',
+  TT2:
+    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/',
+  TT3:
+    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2/',
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
   const { topicId } = getUrnIdsFromProps({ match });
-
   const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
     variables: { topicId },
   });
+  const { topic, resourceTypes } = data;
 
   const [pageUrl, setPageUrl] = useState('');
+  const [subjectsLinks, setSubjectsLinks] = useState([]);
+
   useEffect(() => {
     setPageUrl(window.location);
   }, []);
+
+  useEffect(() => {
+    getGrepCodes();
+  }, []);
+
+  const getGrepCodes = async () => {
+    const { grepCodes } = topic.article;
+    const greps = await Promise.all(
+      grepCodes.map(async code => {
+        const title = await fetchGrepCodeTitle(code, locale);
+        return {
+          label: title,
+          url: subjectPaths[code],
+          grepCode: code,
+        };
+      }),
+    );
+    setSubjectsLinks(greps);
+  };
 
   const resourcesRef = useRef(null);
 
@@ -51,16 +82,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
     scrollToRef(resourcesRef, 0);
   };
 
-  const { topic, resourceTypes } = data;
-
-  // "Base topics" are considered subjects
-  const subjects = topic.pathTopics.map(
-    listOfTopics => filterCodes[listOfTopics[0].name],
-  );
-  const subjectsLinks = topic.pathTopics.map(listOfTopics => ({
-    label: listOfTopics[0].name,
-    url: listOfTopics[0].path,
-  }));
+  const subjects = subjectsLinks.map(codes => filterCodes[codes.grepCode]);
 
   return (
     <>
