@@ -1,27 +1,25 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withTracker } from '@ndla/tracker';
 import {
   ArticleSideBar,
   Breadcrumblist,
   MultidisciplinarySubjectHeader,
   OneColumn,
 } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import { withTracker } from '@ndla/tracker';
+import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 
-import Article from '../../components/Article/Article';
-import Resources from '../Resources/Resources';
-import { useGraphQuery } from '../../util/runQueries';
-import { topicQueryWithPathTopics } from '../../queries';
-import { scrollToRef } from '../SubjectPage/subjectPageHelpers';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import Article from '../../../components/Article';
+import Resources from '../../Resources/Resources';
 
 const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
@@ -29,30 +27,17 @@ const filterCodes = {
   'Bærekraftig utvikling': 'climate',
 };
 
-const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const { topicId } = getUrnIdsFromProps({ match });
-
-  const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
-    variables: { topicId },
-  });
-
-  const [pageUrl, setPageUrl] = useState('');
-  useEffect(() => {
-    setPageUrl(window.location);
-  }, []);
-
+const MultidisciplinarySubjectArticle = ({
+  pageUrl,
+  topic,
+  locale,
+  resourceTypes,
+}) => {
   const resourcesRef = useRef(null);
-
-  if (loading) {
-    return null;
-  }
-
   const onLinkToResourcesClick = e => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
-
-  const { topic, resourceTypes } = data;
 
   // "Base topics" are considered subjects
   const subjects = topic.pathTopics.map(
@@ -91,27 +76,27 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 };
 
 MultidisciplinarySubjectArticle.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      topicPath: PropTypes.string.isRequired,
-    }).isRequired,
-    path: PropTypes.string.isRequired,
+  pageUrl: PropTypes.string,
+  topic: PropTypes.shape({
+    article: PropTypes.shape({}),
+    pathTopics: PropTypes.array,
   }).isRequired,
   locale: PropTypes.string,
+  resourceTypes: PropTypes.array,
 };
 
-MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, data }) => {
-  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }) => {
+  return `${topic.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
 MultidisciplinarySubjectArticle.willTrackPageView = (
   trackPageView,
   currentProps,
 ) => {
-  const { data, loading } = currentProps;
-  if (!loading && data?.topic?.article) {
+  const { topic } = currentProps;
+  if (topic.article) {
     trackPageView(currentProps);
   }
 };
 
-export default withTracker(MultidisciplinarySubjectArticle);
+export default injectT(withTracker(MultidisciplinarySubjectArticle));

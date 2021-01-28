@@ -36,7 +36,6 @@ const MultidisciplinaryTopicWrapper = ({
       locale={locale}
       ndlaFilm={ndlaFilm}
       subject={subject}
-      loading={loading}
       disableNav={disableNav}
     />
   );
