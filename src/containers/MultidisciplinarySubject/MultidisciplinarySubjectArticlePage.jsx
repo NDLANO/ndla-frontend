@@ -26,7 +26,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
     setPageUrl(window.location);
   }, []);
 
-  const { topic, resourceTypes } = data;
+  const { topic, subject, resourceTypes } = data;
 
   if (loading) {
     return <Spinner />;
@@ -35,6 +35,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
   return (
     <MultidisciplinarySubjectArticle
       topic={topic}
+      subject={subject}
       resourceTypes={resourceTypes}
       pageUrl={pageUrl}
       locale={locale}

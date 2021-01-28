@@ -16,10 +16,12 @@ import {
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 
 import Article from '../../../components/Article';
-import Resources from '../../Resources/Resources';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import Resources from '../Resources/Resources';
 
 const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
@@ -30,6 +32,7 @@ const filterCodes = {
 const MultidisciplinarySubjectArticle = ({
   pageUrl,
   topic,
+  subject,
   locale,
   resourceTypes,
 }) => {
@@ -61,6 +64,15 @@ const MultidisciplinarySubjectArticle = ({
         subjects={subjects}
         subjectsLinks={subjectsLinks}
       />
+      <SocialMediaMetadata
+        title={`${subject?.name ? subject.name + ' - ' : ''}${
+          topic.article.title
+        }`}
+        trackableContent={topic.article}
+        description={topic.article.metaDescription}
+        locale={locale}
+        image={topic.article.metaImage}
+      />
       <OneColumn>
         <Article article={topic.article} label="" locale={locale} />
         <div ref={resourcesRef}>
@@ -78,9 +90,10 @@ const MultidisciplinarySubjectArticle = ({
 MultidisciplinarySubjectArticle.propTypes = {
   pageUrl: PropTypes.string,
   topic: PropTypes.shape({
-    article: PropTypes.shape({}),
+    article: ArticleShape,
     pathTopics: PropTypes.array,
   }).isRequired,
+  subject: SubjectShape.isRequired,
   locale: PropTypes.string,
   resourceTypes: PropTypes.array,
 };

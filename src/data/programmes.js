@@ -512,7 +512,7 @@ export const programmes = [
                 id: 'common_subject_3',
               },
               {
-                id: 'study_specialization_subject_12',
+                id: 'common_subject_64',
               },
               {
                 id: 'study_specialization_subject_7',
@@ -799,7 +799,7 @@ export const programmes = [
                 id: 'common_subject_9',
               },
               {
-                id: 'study_specialization_subject_12',
+                id: 'common_subject_64',
               },
               {
                 id: 'study_specialization_subject_7',
@@ -1028,7 +1028,7 @@ export const programmes = [
                 id: 'common_subject_9',
               },
               {
-                id: 'study_specialization_subject_12',
+                id: 'common_subject_64',
               },
               {
                 id: 'study_specialization_subject_7',
@@ -1271,7 +1271,7 @@ export const programmes = [
                 id: 'common_subject_3',
               },
               {
-                id: 'study_specialization_subject_12',
+                id: 'common_subject_64',
               },
               {
                 id: 'study_specialization_subject_7',
@@ -1949,7 +1949,7 @@ export const programmes = [
                 id: 'study_specialization_subject_8',
               },
               {
-                id: 'study_specialization_subject_12',
+                id: 'common_subject_64',
               },
               {
                 id: 'common_subject_4',
