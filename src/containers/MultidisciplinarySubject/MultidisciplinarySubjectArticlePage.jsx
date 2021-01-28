@@ -12,7 +12,7 @@ import Spinner from '@ndla/ui/lib/Spinner';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { MultidisciplinarySubjectArticle } from './components/MultidisciplinarySubjectArticle';
+import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 
 const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
   const { topicId } = getUrnIdsFromProps({ match });
