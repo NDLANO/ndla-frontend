@@ -8,6 +8,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { withTracker } from '@ndla/tracker';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -99,4 +100,18 @@ MultidisciplinarySubjectArticle.propTypes = {
   locale: PropTypes.string,
 };
 
-export default MultidisciplinarySubjectArticle;
+MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, data }) => {
+  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+};
+
+MultidisciplinarySubjectArticle.willTrackPageView = (
+  trackPageView,
+  currentProps,
+) => {
+  const { data, loading } = currentProps;
+  if (!loading && data?.topic?.article) {
+    trackPageView(currentProps);
+  }
+};
+
+export default withTracker(MultidisciplinarySubjectArticle);
