@@ -17,11 +17,11 @@ import {
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
-import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 
 import Article from '../../../components/Article';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import Resources from '../Resources/Resources';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
+import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
+import Resources from '../../Resources/Resources';
 
 const filterCodes = {
   'Folkehelse og livsmestring': 'publicHealth',
