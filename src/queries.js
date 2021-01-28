@@ -710,7 +710,11 @@ export const plainArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
+  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+    }
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
