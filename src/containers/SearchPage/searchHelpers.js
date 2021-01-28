@@ -10,12 +10,12 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
 } from '../../constants';
 
-const getRelevance = resource => {
-  if (resource.filters.length > 0) {
+const getRelevance = context => {
+  if (context?.filters?.length > 0) {
     return (
       // Consider getting from constants
-      resource.filters[0].relevance === 'Tilleggsstoff' ||
-      resource.filters[0].relevance === 'Supplementary'
+      context.filters[0].relevance === 'Tilleggsstoff' ||
+      context.filters[0].relevance === 'Supplementary'
     );
   }
   return false;
@@ -294,11 +294,14 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
       ? getLtiUrl(resource.path, resource.id)
       : resource.contexts?.length
       ? getContextUrl(resource.contexts[0])
-      : resource.path,
+      : plainUrl(resource.path),
     labels: [
       ...mapTraits(resource.traits, t),
       ...(resource.contexts?.length
         ? resource.contexts[0].resourceTypes.slice(1).map(type => type.name)
+        : []),
+      ...(getRelevance(resource.contexts?.[0])
+        ? [resource.contexts[0].filters?.[0].relevance]
         : []),
     ],
     contexts: resource.contexts.map(context => ({

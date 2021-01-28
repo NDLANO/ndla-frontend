@@ -16,6 +16,7 @@ import {
 } from '@ndla/ui';
 
 import Article from '../../components/Article/Article';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Resources from '../Resources/Resources';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
@@ -29,10 +30,10 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
-  const { topicId } = getUrnIdsFromProps({ match });
+  const { subjectId, topicId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
-    variables: { topicId },
+    variables: { topicId, subjectId },
   });
 
   const [pageUrl, setPageUrl] = useState('');
@@ -51,7 +52,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
     scrollToRef(resourcesRef, 0);
   };
 
-  const { topic, resourceTypes } = data;
+  const { subject, topic, resourceTypes } = data;
 
   // "Base topics" are considered subjects
   const subjects = topic.pathTopics.map(
@@ -75,6 +76,15 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
         subjects={subjects}
         subjectsLinks={subjectsLinks}
       />
+      <SocialMediaMetadata
+        title={`${subject?.name ? subject.name + ' - ' : ''}${
+          topic.article.title
+        }`}
+        trackableContent={topic.article}
+        description={topic.article.metaDescription}
+        locale={locale}
+        image={topic.article.metaImage}
+      />
       <OneColumn>
         <Article article={topic.article} label="" locale={locale} />
         <div ref={resourcesRef}>
@@ -92,7 +102,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 MultidisciplinarySubjectArticle.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      topicPath: PropTypes.string.isRequired,
+      topicId: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,
