@@ -15,10 +15,10 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 
 const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
-  const { topicId } = getUrnIdsFromProps({ match });
+  const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
-    variables: { topicId },
+    variables: { topicId, subjectId },
   });
 
   const [pageUrl, setPageUrl] = useState('');
@@ -46,7 +46,8 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
 MultidisciplinarySubjectArticlePage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      topicPath: PropTypes.string.isRequired,
+      topicId: PropTypes.string.isRequired,
+      subjectId: PropTypes.string.isRequired,
     }).isRequired,
     path: PropTypes.string.isRequired,
   }).isRequired,
