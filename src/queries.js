@@ -175,6 +175,7 @@ export const groupSearchQuery = gql`
     $page: String
     $pageSize: String
     $language: String
+    $fallback: String
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -184,6 +185,7 @@ export const groupSearchQuery = gql`
       page: $page
       pageSize: $pageSize
       language: $language
+      fallback: $fallback
     ) {
       resources {
         id
