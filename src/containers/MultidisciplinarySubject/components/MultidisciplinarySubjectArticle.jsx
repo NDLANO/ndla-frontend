@@ -32,7 +32,7 @@ const filterCodes = {
 };
 
 const MultidisciplinarySubjectArticle = ({
-  pageUrl,
+  copyPageUrlLink,
   topic,
   subject,
   locale,
@@ -57,7 +57,7 @@ const MultidisciplinarySubjectArticle = ({
     <>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
         <ArticleSideBar
-          copyPageUrlLink={pageUrl}
+          copyPageUrlLink={copyPageUrlLink}
           onLinkToResourcesClick={onLinkToResourcesClick}
           linkToResources="#"
         />
@@ -90,7 +90,7 @@ const MultidisciplinarySubjectArticle = ({
 };
 
 MultidisciplinarySubjectArticle.propTypes = {
-  pageUrl: PropTypes.string,
+  copyPageUrlLink: PropTypes.string,
   topic: PropTypes.shape({
     article: ArticleShape,
     pathTopics: PropTypes.array,

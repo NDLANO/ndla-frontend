@@ -6,13 +6,14 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
+import config from '../../config';
 
 const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
@@ -21,23 +22,19 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
     variables: { topicId, subjectId },
   });
 
-  const [pageUrl, setPageUrl] = useState('');
-  useEffect(() => {
-    setPageUrl(window.location);
-  }, []);
-
-  const { topic, subject, resourceTypes } = data;
-
   if (loading) {
     return <Spinner />;
   }
+  
+  const { topic, subject, resourceTypes } = data;
+  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
     <MultidisciplinarySubjectArticle
       topic={topic}
       subject={subject}
       resourceTypes={resourceTypes}
-      pageUrl={pageUrl}
+      copyPageUrlLink={copyPageUrlLink}
       locale={locale}
     />
   );
