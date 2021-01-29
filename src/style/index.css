@@ -22,7 +22,7 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   overflow-y: hidden;
   padding: 0.5em;
   margin: 0;
-  top: 9px;
   background-color: aliceblue;
   max-width: -webkit-fill-available;
+  vertical-align: middle;
 }
