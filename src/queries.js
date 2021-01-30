@@ -175,6 +175,7 @@ export const groupSearchQuery = gql`
     $page: String
     $pageSize: String
     $language: String
+    $fallback: String
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -184,6 +185,7 @@ export const groupSearchQuery = gql`
       page: $page
       pageSize: $pageSize
       language: $language
+      fallback: $fallback
     ) {
       resources {
         id
@@ -203,6 +205,7 @@ export const groupSearchQuery = gql`
           }
           filters {
             id
+            relevance
           }
         }
         metaImage {
@@ -709,7 +712,11 @@ export const plainArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
+  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+    }
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
