@@ -10,7 +10,6 @@ import { visitOptions } from '../support';
 
 describe('Front page', () => {
   beforeEach(() => {
-    cy.server();
     cy.visit('/?disableSSR=true', visitOptions);
   });
   it('should have a list of valid links on front page', () => {

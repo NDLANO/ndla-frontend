@@ -10,16 +10,23 @@ import { visitOptions } from '../support';
 
 describe('Search page', () => {
   beforeEach(() => {
-    cy.server();
+    cy.apiIntercept(
+      'POST',
+      '**/graphql',
+      ['groupSearchGraphQL', 'searchPageGraphQL'],
+      ['GroupSearch', 'searchPageQuery'],
+    );
   });
 
   it('contains search bar', () => {
     cy.visit('/search/?disableSSR=true', visitOptions);
+    cy.apiwait(['@groupSearchGraphQL', '@searchPageGraphQL']);
     cy.get('input').focus();
   });
 
   it('LTI contains search bar', () => {
     cy.visit('/lti/?disableSSR=true', visitOptions);
+    cy.apiwait(['@groupSearchGraphQL', '@searchPageGraphQL']);
     cy.get('input').focus();
   });
 });
