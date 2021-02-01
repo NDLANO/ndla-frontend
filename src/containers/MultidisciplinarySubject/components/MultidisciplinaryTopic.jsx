@@ -87,8 +87,8 @@ const MultidisciplinaryTopic = ({
 MultidisciplinaryTopic.getDocumentTitle = getDocumentTitle;
 
 MultidisciplinaryTopic.willTrackPageView = (trackPageView, currentProps) => {
-  const { data, loading, showResources } = currentProps;
-  if (showResources && !loading && data?.topic?.article) {
+  const { data } = currentProps;
+  if (data?.topic?.article) {
     trackPageView(currentProps);
   }
 };

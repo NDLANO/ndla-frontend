@@ -716,6 +716,9 @@ export const topicQueryWithPathTopics = gql`
     subject(id: $subjectId) {
       id
       name
+      allTopics: topics(all: true, filterIds: $filterIds) {
+        ...TopicInfo
+      }
     }
     topic(id: $topicId, subjectId: $subjectId) {
       id
@@ -757,6 +760,7 @@ export const topicQueryWithPathTopics = gql`
       name
     }
   }
+  ${topicInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
