@@ -142,6 +142,7 @@ export default {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
     frameSrc: [
+      'blob:',
       '*.nrk.no',
       'nrk.no',
       '*.vg.no',
