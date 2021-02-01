@@ -25,7 +25,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
   if (loading) {
     return <Spinner />;
   }
-  
+
   const { topic, subject, resourceTypes } = data;
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
