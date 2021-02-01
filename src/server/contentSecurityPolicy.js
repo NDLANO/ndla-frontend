@@ -142,6 +142,7 @@ export default {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
     frameSrc: [
+      'blob:',
       '*.nrk.no',
       'nrk.no',
       '*.vg.no',
@@ -151,7 +152,7 @@ export default {
       'https://optimize.google.com',
       'https://www.youtube.com',
       'ndla.no',
-      'https://*.ndlah5p.com',
+      '*.ndlah5p.com',
       'https://h5p.org',
       '*.ndla.no',
       '*.slideshare.net',

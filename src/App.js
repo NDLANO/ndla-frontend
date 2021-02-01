@@ -111,8 +111,8 @@ function shouldScrollToTop(location, prevLocation) {
   const subjectMatch = matchPath(location.pathname, SUBJECT_PAGE_PATH);
   if (subjectMatch?.isExact) {
     return (
-      !subjectMatch?.params?.topics ||
-      subjectMatch?.params?.topics?.includes('resource:')
+      !subjectMatch?.params?.topicPath ||
+      subjectMatch?.params?.topicPath?.includes('resource:')
     );
   }
   return true;
