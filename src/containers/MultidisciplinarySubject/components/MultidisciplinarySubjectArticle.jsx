@@ -32,15 +32,6 @@ const filterCodes = {
   TT3: 'climate',
 };
 
-const subjectPaths = {
-  TT1:
-    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/',
-  TT2:
-    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/',
-  TT3:
-    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2/',
-};
-
 const MultidisciplinarySubjectArticle = ({
   copyPageUrlLink,
   topic,
@@ -56,24 +47,24 @@ const MultidisciplinarySubjectArticle = ({
   const [subjectLinks, setSubjectLinks] = useState([]);
 
   useEffect(() => {
-    getSubjectsFromGrepCodes();
+    getSubjectsFromGrepCodes().then(subjects => setSubjectLinks(subjects));
   }, []);
 
   const getSubjectsFromGrepCodes = async () => {
     const { grepCodes } = topic.article;
-    const greps = await Promise.all(
+    return await Promise.all(
       grepCodes
         .filter(code => code.startsWith('TT'))
         .map(async code => {
           const title = await fetchGrepCodeTitle(code, locale);
+          const subjectInfo = subject.topics.find(({ name }) => name === title);
           return {
             label: title,
-            url: subjectPaths[code],
+            url: subjectInfo ? subjectInfo.path : subject.path,
             grepCode: code,
           };
         }),
     );
-    setSubjectLinks(greps);
   };
 
   // "Base topics" are considered subjects
