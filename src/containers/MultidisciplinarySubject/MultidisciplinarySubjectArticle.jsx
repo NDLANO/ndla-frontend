@@ -31,11 +31,11 @@ const filterCodes = {
 
 const subjectPaths = {
   TT1:
-    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/',
+    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/',
   TT2:
-    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/',
+    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/',
   TT3:
-    'subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2/',
+    '/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2/',
 };
 
 const MultidisciplinarySubjectArticle = ({ match, locale }) => {
