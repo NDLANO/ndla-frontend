@@ -24,12 +24,26 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('apiroute', (method, url, alias) => {
-  if (Cypress.env('USE_FIXTURES')) {
-    return cy.route(method, url, `fixture:${alias}`).as(alias);
-  }
-  return cy.route(method, url).as(alias);
-});
+// alias can be a a string for single requests or an array of strings for multiple requests
+// Multiple requests also needs an array of GraphQL operation names to distinguish different requests
+Cypress.Commands.add(
+  'apiIntercept',
+  (method, url, alias, operationNames = []) => {
+    cy.intercept(method, url, req => {
+      const reqOperationName = req.body[0].operationName;
+      if (!operationNames.length) {
+        req.alias = alias;
+      } else if (operationNames.includes(reqOperationName)) {
+        req.alias = alias[operationNames.indexOf(reqOperationName)];
+      }
+      if (Cypress.env('USE_FIXTURES')) {
+        req.reply({
+          fixture: req.alias,
+        });
+      }
+    });
+  },
+);
 
 const readResponseBody = body => {
   const fr = new FileReader();
@@ -43,7 +57,8 @@ const readResponseBody = body => {
     fr.onload = () => {
       resolve(fr.result);
     };
-    fr.readAsText(body);
+    const blob = new Blob([JSON.stringify(body)], { type: 'application/json' });
+    fr.readAsText(blob);
   });
 };
 
