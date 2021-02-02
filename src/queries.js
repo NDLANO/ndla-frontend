@@ -716,6 +716,10 @@ export const topicQueryWithPathTopics = gql`
     subject(id: $subjectId) {
       id
       name
+      path
+      topics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
       allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
