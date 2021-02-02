@@ -754,6 +754,16 @@
                   "ofType": null
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "fallback",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -1104,6 +1114,16 @@
               },
               {
                 "name": "subjectId",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "removeRelatedContent",
                 "description": "",
                 "type": {
                   "kind": "SCALAR",
@@ -2743,13 +2763,9 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Copyright",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Copyright",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

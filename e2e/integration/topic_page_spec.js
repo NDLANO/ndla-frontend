@@ -10,10 +10,14 @@ import { visitOptions } from '../support';
 
 describe('Topic page', () => {
   beforeEach(() => {
-    cy.server();
     cy.visit('/?disableSSR=true', visitOptions);
 
-    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
+    cy.apiIntercept(
+      'POST',
+      '**/graphql',
+      ['subjectpageGraphQL', 'topicpageGraphQL'],
+      ['subjectPageQuery', 'topicQuery'],
+    );
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Medieuttrykk og mediesamfunnet")')
@@ -21,13 +25,12 @@ describe('Topic page', () => {
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');
 
-    cy.apiroute('POST', '**/graphql', 'topicpageGraphQL');
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
     ).click({
       force: true,
     });
-    cy.apiwait(['@topicpageGraphQL']);
+    cy.apiwait('@topicpageGraphQL');
   });
 
   it('contains article header and introduction', () => {
