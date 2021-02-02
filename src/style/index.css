@@ -20,9 +20,8 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   display: inline-block !important;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0.5em;
-  margin: 0;
-  background-color: aliceblue;
+  padding: 0;
+  margin: 5px 0;
   max-width: -webkit-fill-available;
   vertical-align: middle;
 }
