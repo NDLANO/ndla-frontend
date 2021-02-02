@@ -664,7 +664,7 @@ const learningpathInfoFragment = gql`
       }
       resource {
         ...ResourceInfo
-        article {
+        article(removeRelatedContent: "true") {
           ...ArticleInfo
         }
       }
