@@ -19,7 +19,7 @@
     "start-with-local-graphql-and-article-converter": "cross-env LOCAL_GRAPHQL_API=true RAZZLE_LOCAL_ARTICLE_CONVERTER=true razzle start",
     "start-with-local-article-converter": "cross-env RAZZLE_LOCAL_ARTICLE_CONVERTER=true yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
-    "e2e": "BABEL_ENV=test cypress open",
+    "e2e": "cross-env BABEL_ENV=test cypress open",
     "e2e-use-fixtures": "cross-env BABEL_ENV=test CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env BABEL_ENV=test CYPRESS_RECORD_FIXTURES=true cypress run",
     "pree2e-ci": "cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &",
