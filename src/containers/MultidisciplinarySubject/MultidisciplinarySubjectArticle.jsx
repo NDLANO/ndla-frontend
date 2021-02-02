@@ -58,6 +58,7 @@ const MultidisciplinarySubjectArticle = ({ match, locale }) => {
 
   const getGrepCodes = async () => {
     const { grepCodes } = topic.article;
+    grepCodes.filter(code => code.startsWith('TT'));
     const greps = await Promise.all(
       grepCodes.map(async code => {
         const title = await fetchGrepCodeTitle(code, locale);
