@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   ArticleSideBar,
@@ -24,7 +24,6 @@ import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
-import { fetchGrepCodeTitle } from '../../../util/grepApi';
 
 const filterCodes = {
   TT1: 'publicHealth',
@@ -44,31 +43,16 @@ const MultidisciplinarySubjectArticle = ({
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
-  const [subjectLinks, setSubjectLinks] = useState([]);
 
-  useEffect(() => {
-    getSubjectsFromGrepCodes().then(subjects => setSubjectLinks(subjects));
-  }, []);
-
-  const getSubjectsFromGrepCodes = async () => {
-    const { grepCodes } = topic.article;
-    return await Promise.all(
-      grepCodes
-        .filter(code => code.startsWith('TT'))
-        .map(async code => {
-          const title = await fetchGrepCodeTitle(code, locale);
-          const subjectInfo = subject.topics.find(({ name }) => name === title);
-          return {
-            label: title,
-            url: subjectInfo ? subjectInfo.path : subject.path,
-            grepCode: code,
-          };
-        }),
-    );
-  };
-
-  // "Base topics" are considered subjects
-  const subjects = subjectLinks.map(codes => filterCodes[codes.grepCode]);
+  const subjectLinks = topic.article.crossSubjectTopics.map(
+    crossSubjectTopic => ({
+      label: crossSubjectTopic.name,
+      url: crossSubjectTopic.path || subject.path,
+    }),
+  );
+  const subjects = topic.article.grepCodes
+    .filter(grepCode => grepCode.startsWith('TT'))
+    .map(code => filterCodes[code]);
 
   return (
     <>

@@ -751,6 +751,11 @@ export const topicQueryWithPathTopics = gql`
       }
       article {
         ...ArticleInfo
+        crossSubjectTopics(subjectId: $subjectId, filterIds: $filterIds) {
+          id
+          name
+          path
+        }
       }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
