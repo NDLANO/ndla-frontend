@@ -702,6 +702,23 @@ export const resourceQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const movedResourceQuery = gql`
+  query resourceQuery(
+    $resourceId: String!
+  ) {
+    resource(id: $resourceId) {
+      name
+      breadcrumbs
+      learningpath {
+        coverphoto {
+          url
+          metaUrl
+        }
+      }
+    }
+  }
+`
+
 export const plainArticleQuery = gql`
   query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {
     article(id: $articleId, removeRelatedContent: $removeRelatedContent) {
