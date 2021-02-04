@@ -86,7 +86,11 @@ export const LearningpathStepShape = PropTypes.shape({
       }),
     ),
   }),
-  license: LicenseShape,
+  license: PropTypes.shape({
+    license: PropTypes.string,
+    url: PropTypes.string,
+    description: PropTypes.string,
+  }),
   metaUrl: PropTypes.string,
   revision: PropTypes.number,
   status: PropTypes.string,

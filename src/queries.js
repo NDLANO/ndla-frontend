@@ -703,9 +703,7 @@ export const resourceQuery = gql`
 `;
 
 export const movedResourceQuery = gql`
-  query resourceQuery(
-    $resourceId: String!
-  ) {
+  query resourceQuery($resourceId: String!) {
     resource(id: $resourceId) {
       name
       breadcrumbs
@@ -717,7 +715,7 @@ export const movedResourceQuery = gql`
       }
     }
   }
-`
+`;
 
 export const plainArticleQuery = gql`
   query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {

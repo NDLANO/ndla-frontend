@@ -14,9 +14,7 @@ import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { contentTypeMapping } from '../../util/getContentType';
-import {
-  resultsWithContentTypeBadgeAndImage
-} from '../SearchPage/searchHelpers';
+import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 
 import { ResourceShape } from '../../shapes';
 
@@ -24,31 +22,45 @@ const MovedResourcePage = ({ resource, t }) => {
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery(movedResourceQuery, {
-    variables: { resourceId: resource.id }
-  })
+    variables: { resourceId: resource.id },
+  });
 
   const convertResourceToResult = resource => {
-    return [{
-      ...resource,
-      title: resource.name,
-      url: resource.path,
-      contentType: resource.resourceTypes.map(type => contentTypeMapping[type.id]).find(t => t),
-      type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])?.name,
-      breadcrumb: data.resource.breadcrumbs?.[0],
-      subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
-        url: resource.paths[index],
-        title: crumb[0],
-        breadcrumb: crumb,
-      })),
-      ...(isLearningpath ? {
-        ingress: resource.learningpath.description,
-        metaImage: { url: data.resource.learningpath?.coverphoto?.url },
-      } : {
-        ingress: resource.article.metaDescription,
-        metaImage: { url: resource.article?.metaImage?.url },
-      })
-    }]
-  }
+    return [
+      {
+        title: resource.name,
+        url: resource.path,
+        contentType: resource.resourceTypes
+          .map(type => contentTypeMapping[type.id])
+          .find(t => t),
+        type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])
+          ?.name,
+        breadcrumb: data.resource.breadcrumbs?.[0],
+        subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
+          url: resource.paths[index],
+          title: crumb[0],
+          breadcrumb: crumb,
+        })),
+        ...(isLearningpath
+          ? {
+              id: resource.learningpath.id,
+              ingress: resource.learningpath.description,
+              metaImage: {
+                url: data.resource.learningpath?.coverphoto?.url,
+                alt: '',
+              },
+            }
+          : {
+              id: resource.article.id,
+              ingress: resource.article.metaDescription,
+              metaImage: {
+                url: resource.article?.metaImage?.url,
+                alt: resource.article?.metaImage?.alt,
+              },
+            }),
+      },
+    ];
+  };
 
   if (loading) {
     return null;
@@ -59,7 +71,10 @@ const MovedResourcePage = ({ resource, t }) => {
     return `Error: ${error.message}`;
   }
 
-  const results = resultsWithContentTypeBadgeAndImage(convertResourceToResult(resource), t);
+  const results = resultsWithContentTypeBadgeAndImage(
+    convertResourceToResult(resource),
+    t,
+  );
 
   return (
     <OneColumn>
