@@ -7,31 +7,33 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { SearchResultList, OneColumn, Image } from '@ndla/ui';
+import { SearchResultList, OneColumn } from '@ndla/ui';
 
 import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
+import { contentTypeMapping } from '../../util/getContentType';
+import {
+  resultsWithContentTypeBadgeAndImage
+} from '../SearchPage/searchHelpers';
 
 import { ResourceShape } from '../../shapes';
 
-const MovedResourcePage = ({ resource, locale, t }) => {
+const MovedResourcePage = ({ resource, t }) => {
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery(movedResourceQuery, {
     variables: { resourceId: resource.id }
   })
 
-  const getImage = metaImage => 
-    <Image src={metaImage?.url} alt={metaImage?.alt} />
-
   const convertResourceToResult = resource => {
     return [{
       ...resource,
       title: resource.name,
       url: resource.path,
+      contentType: resource.resourceTypes.map(type => contentTypeMapping[type.id]).find(t => t),
+      type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])?.name,
       breadcrumb: data.resource.breadcrumbs?.[0],
       subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
         url: resource.paths[index],
@@ -40,10 +42,10 @@ const MovedResourcePage = ({ resource, locale, t }) => {
       })),
       ...(isLearningpath ? {
         ingress: resource.learningpath.description,
-        image: getImage({ url: data.resource.learningpath?.coverphoto?.url, alt: '' }),
+        metaImage: { url: data.resource.learningpath?.coverphoto?.url },
       } : {
         ingress: resource.article.metaDescription,
-        image: getImage(resource.article.metaImage)
+        metaImage: { url: resource.article?.metaImage?.url },
       })
     }]
   }
@@ -57,37 +59,20 @@ const MovedResourcePage = ({ resource, locale, t }) => {
     return `Error: ${error.message}`;
   }
 
+  const results = resultsWithContentTypeBadgeAndImage(convertResourceToResult(resource), t);
+
   return (
     <OneColumn>
       <h1>{t('movedResourcePage.title')}</h1>
       <div className="c-search-result">
-        <SearchResultList results={convertResourceToResult(resource)} />
+        <SearchResultList results={results} />
       </div>
     </OneColumn>
   );
 };
 
-const searchResultItemShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  url: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  breadcrumb: PropTypes.arrayOf(PropTypes.string),
-  subjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    }),
-  ),
-  additional: PropTypes.bool,
-  image: PropTypes.node,
-  ingress: PropTypes.string.isRequired,
-  contentTypeIcon: PropTypes.node.isRequired,
-  contentTypeLabel: PropTypes.string.isRequired,
-});
-
 MovedResourcePage.propTypes = {
   resource: ResourceShape,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(MovedResourcePage);
