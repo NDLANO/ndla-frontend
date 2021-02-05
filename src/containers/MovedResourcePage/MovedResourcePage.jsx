@@ -35,7 +35,6 @@ const MovedResourcePage = ({ resource, t }) => {
           .find(t => t),
         type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])
           ?.name,
-        breadcrumb: data.resource.breadcrumbs?.[0],
         subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
           url: resource.paths[index],
           title: crumb[0],
