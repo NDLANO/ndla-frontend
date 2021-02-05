@@ -646,6 +646,10 @@ const learningpathInfoFragment = gql`
         ...ContributorInfo
       }
     }
+    coverphoto {
+      url
+      metaUrl
+    }
     learningsteps {
       id
       title
@@ -705,14 +709,7 @@ export const resourceQuery = gql`
 export const movedResourceQuery = gql`
   query resourceQuery($resourceId: String!) {
     resource(id: $resourceId) {
-      name
       breadcrumbs
-      learningpath {
-        coverphoto {
-          url
-          metaUrl
-        }
-      }
     }
   }
 `;

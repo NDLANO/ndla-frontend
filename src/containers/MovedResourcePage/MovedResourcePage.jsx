@@ -46,7 +46,7 @@ const MovedResourcePage = ({ resource, t }) => {
               id: resource.learningpath.id,
               ingress: resource.learningpath.description,
               metaImage: {
-                url: data.resource.learningpath?.coverphoto?.url,
+                url: resource.learningpath?.coverphoto?.url,
                 alt: '',
               },
             }
