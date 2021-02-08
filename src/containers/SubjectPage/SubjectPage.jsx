@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -31,12 +31,25 @@ const SubjectPage = ({
     ndlaFilm,
     match,
   });
+  const filterIds = getFiltersFromUrl(location);
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
       subjectId,
-      filterIds: getFiltersFromUrl(location),
+      filterIds,
     },
   });
+
+  useEffect(() => {
+    if (
+      !data?.subject?.filters?.map(filter => filter.id)?.includes(filterIds)
+    ) {
+      history.replace({
+        search: data?.subject?.filters?.length
+          ? `?filters=${data.subject.filters[0].id}`
+          : '',
+      });
+    }
+  }, [data]);
 
   if (loading) {
     return null;
