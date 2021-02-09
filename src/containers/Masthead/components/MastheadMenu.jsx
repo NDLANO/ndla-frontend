@@ -1,7 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { node, shape, func, string, arrayOf, object, bool } from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { TopicShape, ResourceShape, LocationShape } from '../../../shapes';
+import {
+  TopicShape,
+  ResourceShape,
+  LocationShape,
+  SubjectCategoryShape,
+  ProgrammeShape,
+} from '../../../shapes';
 import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
@@ -94,6 +100,8 @@ class MastheadMenu extends Component {
       locale,
       searchFieldComponent,
       ndlaFilm,
+      programmes,
+      subjectCategories,
     } = this.props;
 
     const { activeFilters, expandedTopicId, expandedSubtopicsId } = this.state;
@@ -113,6 +121,8 @@ class MastheadMenu extends Component {
               subject={subject}
               filters={filters}
               locale={locale}
+              programmes={programmes}
+              subjectCategories={subjectCategories}
               onFilterClick={this.onFilterClick}
               onNavigate={this.onNavigate}
             />
@@ -138,6 +148,8 @@ MastheadMenu.propTypes = {
   onDataFetch: func.isRequired,
   searchFieldComponent: node.isRequired,
   ndlaFilm: bool,
+  subjectCategories: arrayOf(SubjectCategoryShape),
+  programmes: arrayOf(ProgrammeShape),
 };
 
 export default withRouter(MastheadMenu);
