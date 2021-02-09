@@ -646,6 +646,10 @@ const learningpathInfoFragment = gql`
         ...ContributorInfo
       }
     }
+    coverphoto {
+      url
+      metaUrl
+    }
     learningsteps {
       id
       title
@@ -700,6 +704,14 @@ export const resourceQuery = gql`
   ${learningpathInfoFragment}
   ${resourceInfoFragment}
   ${articleInfoFragment}
+`;
+
+export const movedResourceQuery = gql`
+  query resourceQuery($resourceId: String!) {
+    resource(id: $resourceId) {
+      breadcrumbs
+    }
+  }
 `;
 
 export const plainArticleQuery = gql`

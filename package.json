@@ -28,6 +28,12 @@
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
     "get-gql-schema-local": "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json"
   },
+  "jest": {
+    "testRegex": "/__tests__/.*-test.(js|jsx|ts|tsx)$",
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
+  },
   "engines": {
     "node": ">=8.0.0",
     "npm": ">=5.0.0"
@@ -35,11 +41,20 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@ndla/scripts": "^0.7.4",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.25",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-helmet": "^6.1.0",
+    "@types/react-router": "^5.1.11",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/webpack-env": "^1.16.0",
     "chalk": "^2.4.2",
     "cypress": "6.3.0",
     "eslint": "^5.14.1",
     "eslint-config-ndla": "^1.2.1",
     "eslint-plugin-graphql": "^3.0.3",
+    "eslint-plugin-react": "^7.22.0",
     "flux-standard-action": "^2.1.1",
     "jest-emotion": "^10.0.17",
     "nock": "^10.0.6",
@@ -47,7 +62,9 @@
     "react-test-renderer": "^16.9.0",
     "regenerator-runtime": "0.13.7",
     "rimraf": "^3.0.0",
-    "sinon": "^7.4.1"
+    "sinon": "^7.4.1",
+    "ts-jest": "^26.5.0",
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
@@ -55,13 +72,13 @@
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@ndla/article-scripts": "^0.5.20",
-    "@ndla/button": "^0.3.44",
+    "@ndla/button": "^0.3.45",
     "@ndla/core": "^0.6.33",
     "@ndla/error-reporter": "^0.4.13",
     "@ndla/i18n": "^0.5.1",
-    "@ndla/icons": "^0.6.26",
+    "@ndla/icons": "^0.6.27",
     "@ndla/licenses": "^0.6.40",
-    "@ndla/modal": "^0.4.35",
+    "@ndla/modal": "^0.4.36",
     "@ndla/pager": "^0.4.38",
     "@ndla/polyfill": "^0.1.10",
     "@ndla/safelink": "^0.0.7",
@@ -104,8 +121,9 @@
     "postcss-reporter": "^6.0.1",
     "prop-types": "^15.7.2",
     "query-string": "5",
-    "razzle": "3.1.1",
+    "razzle": "3.3.13",
     "razzle-config-utils": "^0.1.0",
+    "razzle-plugin-typescript": "^3.3.13",
     "react": "^16.9.0",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^16.9.0",

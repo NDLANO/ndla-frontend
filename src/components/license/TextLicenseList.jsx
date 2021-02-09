@@ -29,6 +29,8 @@ import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
+  src: PropTypes.string.isRequired,
+  updated: PropTypes.string.isRequired,
 });
 
 const TextLicenseInfo = ({ text, locale, t }) => {

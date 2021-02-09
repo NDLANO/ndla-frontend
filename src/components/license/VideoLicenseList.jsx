@@ -32,6 +32,12 @@ const VideoShape = PropTypes.shape({
   src: PropTypes.string.isRequired,
   cover: PropTypes.string.isRequired,
   copyright: CopyrightObjectShape.isRequired,
+  download: PropTypes.string.isRequired,
+  iframe: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired,
+    width: PropTypes.string.isRequired,
+  }),
 });
 
 const VideoLicenseInfo = ({ video, locale, t }) => {
