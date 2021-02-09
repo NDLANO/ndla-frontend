@@ -40,14 +40,22 @@ const SubjectPage = ({
   });
 
   useEffect(() => {
-    if (
-      !data?.subject?.filters?.map(filter => filter.id)?.includes(filterIds)
-    ) {
-      history.replace({
-        search: data?.subject?.filters?.length
-          ? `?filters=${data.subject.filters[0].id}`
-          : '',
-      });
+    if (data) {
+      const filterIdsArray = filterIds.split(',');
+      const subjectFilters =
+        data?.subject?.filters?.map(filter => filter.id) || [];
+      const sharedFilters = subjectFilters?.filter(id =>
+        filterIdsArray.includes(id),
+      );
+      if (sharedFilters.length < filterIdsArray.length) {
+        history.replace({
+          search: subjectFilters.length
+            ? `?filters=${
+                sharedFilters.length ? sharedFilters.join() : subjectFilters[0]
+              }`
+            : '',
+        });
+      }
     }
   }, [data]);
 
