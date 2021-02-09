@@ -752,8 +752,8 @@ export const topicQueryWithPathTopics = gql`
       article {
         ...ArticleInfo
         crossSubjectTopics(subjectId: $subjectId, filterIds: $filterIds) {
-          id
-          name
+          code
+          title
           path
         }
       }

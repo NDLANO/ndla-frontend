@@ -46,7 +46,7 @@ const MultidisciplinarySubjectArticle = ({
 
   const subjectLinks = topic.article.crossSubjectTopics.map(
     crossSubjectTopic => ({
-      label: crossSubjectTopic.name,
+      label: crossSubjectTopic.title,
       url: crossSubjectTopic.path || subject.path,
     }),
   );
