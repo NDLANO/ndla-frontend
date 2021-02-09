@@ -33,7 +33,7 @@ const args = Object.keys(options)
   .map(key => `--${key}=${options[key]}`)
   .concat(
     `--${shouldWrite ? 'write' : 'l'}`,
-    '"{src,e2e}/**/*(*.js|*.jsx)"'
+    '"{src,scripts}/**/*(*.js|*.jsx|*.ts|*.tsx)"'
   );
 
 try {
