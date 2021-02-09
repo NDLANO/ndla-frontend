@@ -15,7 +15,6 @@ const MultidisciplinaryTopicWrapper = ({
   subTopicId,
   ndlaFilm,
   index,
-  showResources,
   subject,
   disableNav,
 }) => {
@@ -36,9 +35,7 @@ const MultidisciplinaryTopicWrapper = ({
       subTopicId={subTopicId}
       locale={locale}
       ndlaFilm={ndlaFilm}
-      showResources={showResources}
       subject={subject}
-      loading={loading}
       disableNav={disableNav}
     />
   );
@@ -53,7 +50,6 @@ MultidisciplinaryTopicWrapper.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   index: PropTypes.number,
-  showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,
   disableNav: PropTypes.bool,
 };

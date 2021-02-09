@@ -167,20 +167,76 @@ export const searchFilmQuery = gql`
 `;
 
 export const groupSearchQuery = gql`
-  query GroupSearch($resourceTypes: String, $subjects: String, $query: String) {
+  query GroupSearch(
+    $resourceTypes: String
+    $contextTypes: String
+    $subjects: String
+    $query: String
+    $page: String
+    $pageSize: String
+    $language: String
+    $fallback: String
+  ) {
     groupSearch(
       resourceTypes: $resourceTypes
+      contextTypes: $contextTypes
       subjects: $subjects
       query: $query
+      page: $page
+      pageSize: $pageSize
+      language: $language
+      fallback: $fallback
     ) {
       resources {
         id
         path
         name
+        ingress
+        traits
+        contexts {
+          language
+          path
+          breadcrumbs
+          subjectId
+          subject
+          resourceTypes {
+            id
+            name
+          }
+          filters {
+            id
+            relevance
+          }
+        }
+        metaImage {
+          url
+          alt
+        }
+      }
+      suggestions {
+        suggestions {
+          options {
+            text
+          }
+        }
       }
       resourceType
       totalCount
       language
+    }
+  }
+`;
+
+export const conceptSearchQuery = gql`
+  query ConceptSearch($query: String, $subjects: String, $language: String) {
+    conceptSearch(query: $query, subjects: $subjects, language: $language) {
+      id
+      title
+      text: content
+      image: metaImage {
+        url
+        alt
+      }
     }
   }
 `;
@@ -608,7 +664,7 @@ const learningpathInfoFragment = gql`
       }
       resource {
         ...ResourceInfo
-        article {
+        article(removeRelatedContent: "true") {
           ...ArticleInfo
         }
       }
@@ -656,7 +712,14 @@ export const plainArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
+  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String!) {
+    subject(id: $subjectId) {
+      id
+      name
+      allTopics: topics(all: true, filterIds: $filterIds) {
+        ...TopicInfo
+      }
+    }
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
@@ -697,6 +760,7 @@ export const topicQueryWithPathTopics = gql`
       name
     }
   }
+  ${topicInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;

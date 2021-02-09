@@ -950,6 +950,21 @@ export const commonSubjects = [
     subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
     id: 'common_subject_63',
   },
+  {
+    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
+    longName: {
+      en: 'Naturfag (SF)',
+      nb: 'Naturfag (SF)',
+      nn: 'Naturfag (SF)',
+    },
+    name: {
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
+    },
+    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    id: 'common_subject_64',
+  },
 ];
 export const programmeSubjects = [
   {
@@ -1953,21 +1968,6 @@ export const studySpecializationSubjects = [
     },
     subjectId: 'urn:subject:18',
     id: 'study_specialization_subject_11',
-  },
-  {
-    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
-    longName: {
-      en: 'Naturfag (SF)',
-      nb: 'Naturfag (SF)',
-      nn: 'Naturfag (SF)',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
-    id: 'study_specialization_subject_12',
   },
   {
     filters: ['urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4'],

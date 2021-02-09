@@ -72,6 +72,9 @@ const ResourcePage = props => {
   if (!data.resource) {
     return <NotFoundPage />;
   }
+  if (typeof window != 'undefined' && window.scrollY) {
+    window.scroll(0, 0);
+  }
   const { subject, resource, topic } = data;
   const relevanceId = resource.filters?.find(f => f.id === filters?.[0])
     ?.relevanceId;
