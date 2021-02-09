@@ -7,10 +7,10 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes, { func } from 'prop-types';
-import Button from '@ndla/button';
-import { LearningPath } from '@ndla/icons/contentType';
 import { injectT } from '@ndla/i18n';
+import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
   LearningPathMenu,
@@ -18,13 +18,12 @@ import {
   LearningPathInformation,
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
+  LearningPathStickyPlaceholder,
   Breadcrumb,
+  LearningPathSticky,
+  LearningPathMobileHeader,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { withRouter } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { animations, breakpoints, colors, mq, spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 import { toLearningPath } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -103,51 +102,25 @@ const Learningpath = ({
     };
   }, [onKeyUpEvent]);
 
-  const showLearningPathButtonToggleCss = css`
-    ${mq.range({ from: breakpoints.tablet })} {
-      display: none;
-    }
-    margin-right: auto;
-    margin-left: ${spacing.normal};
-    z-index: 100;
-    svg {
-      width: 20px;
-      height: 20px;
-      margin-right: ${spacing.xsmall};
-      transform: translateY(-2px);
-    }
-  `;
-
-  const FOOTER_HEIGHT = '78px';
-  const FOOTER_HEIGHT_MOBILE = spacing.large;
-
-  const StyledFooter = styled.nav`
-    display: flex;
-    height: ${FOOTER_HEIGHT};
-    width: 100%;
-    ${mq.range({ until: breakpoints.tablet })} {
-      --safe-area-inset-bottom: env(safe-area-inset-bottom);
-      height: calc(${FOOTER_HEIGHT_MOBILE} + var(--safe-area-inset-bottom));
-      min-height: var(-webkit-fill-available);
-      position: fixed;
-      z-index: 2;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      justify-content: flex-end;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-    background: ${colors.brand.lighter};
-    align-items: center;
-    justify-content: space-between;
-    ${animations.fadeInBottom()}
-  `;
-
-  const showLearningPathButton = (
-    <Button css={showLearningPathButtonToggleCss}>
-      <LearningPath />
-      <span>{t('learningPath.openMenuTooltip')}</span>
-    </Button>
+  const { innerWidth } = useWindowSize(100);
+  const mobileView = innerWidth < 601;
+  const learningPathMenu = (
+    <LearningPathMenu
+      invertedStyle={ndlaFilm}
+      learningPathId={id}
+      learningsteps={learningsteps}
+      duration={duration}
+      toLearningPathUrl={(pathId, stepId) =>
+        toLearningPath(pathId, stepId, resource, filterIds)
+      }
+      lastUpdated={lastUpdatedString}
+      copyright={copyright}
+      stepId={stepId}
+      currentIndex={learningpathStep.seqNo}
+      name={title}
+      cookies={useCookies}
+      learningPathURL={config.learningPathDomain}
+    />
   );
 
   return (
@@ -158,23 +131,7 @@ const Learningpath = ({
         </section>
       </div>
       <LearningPathContent>
-        <LearningPathMenu
-          invertedStyle={ndlaFilm}
-          learningPathId={id}
-          learningsteps={learningsteps}
-          duration={duration}
-          toLearningPathUrl={(pathId, stepId) =>
-            toLearningPath(pathId, stepId, resource, filterIds)
-          }
-          lastUpdated={lastUpdatedString}
-          copyright={copyright}
-          stepId={stepId}
-          currentIndex={learningpathStep.seqNo}
-          name={title}
-          cookies={useCookies}
-          learningPathURL={config.learningPathDomain}
-          showLearningPathButton={showLearningPathButton}
-        />
+        {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (
           <div>
             {learningpathStep.showTitle && (
@@ -206,8 +163,8 @@ const Learningpath = ({
           </div>
         )}
       </LearningPathContent>
-      <StyledFooter>
-        {showLearningPathButton}
+      <LearningPathSticky>
+        {mobileView && learningPathMenu}
         {learningpathStep.seqNo > 0 ? (
           <LearningPathStickySibling
             arrow="left"
@@ -220,13 +177,13 @@ const Learningpath = ({
             title={learningsteps[learningpathStep.seqNo - 1].title}
           />
         ) : (
-          <div />
+          <LearningPathStickyPlaceholder />
         )}
         <LearningPathMobileStepInfo
           total={learningsteps.length}
           current={learningpathStep.seqNo + 1}
         />
-        {learningpathStep.seqNo < learningsteps.length - 1 && (
+        {learningpathStep.seqNo < learningsteps.length - 1 ? (
           <LearningPathStickySibling
             arrow="right"
             label={t('learningPath.nextArrow')}
@@ -237,8 +194,10 @@ const Learningpath = ({
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
+        ) : (
+          <LearningPathStickyPlaceholder />
         )}
-      </StyledFooter>
+      </LearningPathSticky>
     </LearningPathWrapper>
   );
 };
