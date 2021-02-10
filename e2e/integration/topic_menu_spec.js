@@ -24,6 +24,6 @@ describe('Topic menu', () => {
   });
 
   it('Menu is displayed', () => {
-    cy.get('a').contains('Alle fag');
+    cy.get('a').contains('Til forsiden');
   });
 });
