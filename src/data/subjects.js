@@ -2144,6 +2144,132 @@ export const multidisciplinarySubjects = [
   },
 ];
 
+export const archivedSubjects = [
+  {
+    filters: ['urn:filter:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa'],
+    longName: {
+      en: 'Matematikk 1P',
+      nb: 'Matematikk 1P',
+      nn: 'Matematikk 1P',
+    },
+    name: {
+      en: 'Matematikk 1P',
+      nb: 'Matematikk 1P',
+      nn: 'Matematikk 1P',
+    },
+    subjectId: 'urn:subject:29',
+    id: 'archived_subject_1',
+  },
+  {
+    filters: ['urn:filter:04ad8a02-856c-417c-8a58-d2f293bf788d'],
+    longName: {
+      en: 'Matematikk for yrkesfaglige programmer 1P-Y',
+      nb: 'Matematikk for yrkesfaglige programmer 1P-Y',
+      nn: 'Matematikk for yrkesfaglige programmer 1P-Y',
+    },
+    name: {
+      en: 'Matematikk 1P-Y',
+      nb: 'Matematikk 1P-Y',
+      nn: 'Matematikk 1P-Y',
+    },
+    subjectId: 'urn:subject:30',
+    id: 'archived_subject_2',
+  },
+  {
+    filters: ['urn:filter:ffe90e5e-d2c0-4def-8af3-07d9356a44dc'],
+    longName: {
+      en: 'Matematikk for yrkesfaglige programmer 1T-Y',
+      nb: 'Matematikk for yrkesfaglige programmer 1T-Y',
+      nn: 'Matematikk for yrkesfaglige programmer 1T-Y',
+    },
+    name: {
+      en: 'Matematikk 1T-Y',
+      nb: 'Matematikk 1T-Y',
+      nn: 'Matematikk 1T-Y',
+    },
+    subjectId: 'urn:subject:30',
+    id: 'archived_subject_3',
+  },
+  {
+    filters: ['urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22'],
+    longName: {
+      en: 'Sørsamisk som førstespråk (SF Vg1)',
+      nb: 'Sørsamisk som førstespråk (SF Vg1)',
+      nn: 'Sørsamisk som førstespråk (SF Vg1)',
+    },
+    name: {
+      en: 'Sørsamisk som førstespråk (SF Vg1)',
+      nb: 'Sørsamisk som førstespråk (SF Vg1)',
+      nn: 'Sørsamisk som førstespråk (SF Vg1)',
+    },
+    subjectId: 'urn:subject:15',
+    id: 'archived_subject_4',
+  },
+  {
+    filters: [],
+    longName: {
+      en: 'Matematikk 1T',
+      nb: 'Matematikk 1T',
+      nn: 'Matematikk 1T',
+    },
+    name: {
+      en: 'Matematikk 1T',
+      nb: 'Matematikk 1T',
+      nn: 'Matematikk 1T',
+    },
+    subjectId: 'urn:subject:114139c1-0480-4b5d-add7-2b2edf6e2765',
+    id: 'archived_subject_5',
+  },
+  {
+    filters: [
+      'urn:filter:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+      'urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690',
+    ],
+    longName: {
+      en: 'Naturfag SF Vg1',
+      nb: 'Naturfag SF Vg1',
+      nn: 'Naturfag SF Vg1',
+    },
+    name: {
+      en: 'Naturfag SF Vg1',
+      nb: 'Naturfag SF Vg1',
+      nn: 'Naturfag SF Vg1',
+    },
+    subjectId: 'urn:subject:21',
+    id: 'archived_subject_6',
+  },
+  {
+    filters: ['urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690'],
+    longName: {
+      en: 'Naturfag YF Vg1',
+      nb: 'Naturfag YF Vg1',
+      nn: 'Naturfag YF Vg1',
+    },
+    name: {
+      en: 'Naturfag YF Vg1',
+      nb: 'Naturfag YF Vg1',
+      nn: 'Naturfag YF Vg1',
+    },
+    subjectId: 'urn:subject:21',
+    id: 'archived_subject_7',
+  },
+  {
+    filters: [],
+    longName: {
+      en: 'Engelsk SF Vg1',
+      nb: 'Engelsk SF Vg1',
+      nn: 'Engelsk SF Vg1',
+    },
+    name: {
+      en: 'Engelsk SF Vg1',
+      nb: 'Engelsk SF Vg1',
+      nn: 'Engelsk SF Vg1',
+    },
+    subjectId: 'urn:subject:a1af12e8-0911-4c9c-ad29-dc1a42065c45',
+    id: 'archived_subject_8',
+  },
+];
+
 export const subjectsCategories = [
   {
     name: {
@@ -2169,6 +2295,14 @@ export const subjectsCategories = [
     },
     subjects: studySpecializationSubjects,
   },
+  {
+    name: {
+      nb: 'LK06 fag',
+      nn: 'LK06 fag',
+      en: 'LK06 fag',
+    },
+    subjects: archivedSubjects,
+  },
 ];
 
 let subjectsIdx;
@@ -2180,6 +2314,7 @@ export const subjectObjectIds = () => {
       ...programmeSubjects,
       ...studySpecializationSubjects,
       ...multidisciplinarySubjects,
+      ...archivedSubjects,
     ];
 
     subjectsIdx = subjects.reduce((obj, item) => {
@@ -2200,6 +2335,7 @@ export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
+    ...archivedSubjects,
   ];
 
   return subjects.find(subject => {
