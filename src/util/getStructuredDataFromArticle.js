@@ -20,7 +20,7 @@ const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
-const CONCEPT_TYPE = 'Claim';
+const CONCEPT_TYPE = 'Article';
 
 const getStructuredDataBase = () => ({
   '@context': 'http://schema.org',
@@ -28,7 +28,7 @@ const getStructuredDataBase = () => ({
 
 const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   const data = {
-    license: license.url,
+    license: license?.url,
   };
 
   const author = creators?.map(c => {
