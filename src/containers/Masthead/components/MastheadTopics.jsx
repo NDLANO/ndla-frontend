@@ -1,10 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf } from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
-import { TopicShape } from '../../../shapes';
+import {
+  ProgrammeShape,
+  SubjectCategoryShape,
+  TopicShape,
+} from '../../../shapes';
 
 export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
   return topicId => {
@@ -31,6 +35,8 @@ const MastheadTopics = props => {
     onNavigate,
     searchFieldComponent,
     isOnSubjectFrontPage,
+    programmes,
+    subjectCategories,
   } = props;
 
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
@@ -85,6 +91,8 @@ const MastheadTopics = props => {
       onNavigate={onNavigate}
       expandedTopicId={expandedTopicId}
       expandedSubtopicsId={expandedSubtopicsId}
+      programmes={programmes}
+      subjectCategories={subjectCategories}
     />
   );
 };
@@ -105,6 +113,8 @@ MastheadTopics.propTypes = {
   onNavigate: PropTypes.func.isRequired,
   searchFieldComponent: PropTypes.node.isRequired,
   isOnSubjectFrontPage: PropTypes.bool,
+  subjectCategories: arrayOf(SubjectCategoryShape),
+  programmes: arrayOf(ProgrammeShape),
 };
 
 export default MastheadTopics;

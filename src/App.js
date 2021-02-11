@@ -22,7 +22,7 @@ import handleError from './util/handleError';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
@@ -100,12 +100,11 @@ async function loadInitialProps(pathname, ctx) {
 function shouldScrollToTop(location, prevLocation) {
   const multiMatch = matchPath(
     location.pathname,
-    `${MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}/:topicId?`,
+    MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
   );
   if (multiMatch?.isExact) {
     return (
-      !!multiMatch?.params?.topicId ||
-      location.pathname !== prevLocation.pathname
+      multiMatch?.params?.topicId || multiMatch?.params?.topic1 === undefined
     );
   }
   const subjectMatch = matchPath(location.pathname, SUBJECT_PAGE_PATH);

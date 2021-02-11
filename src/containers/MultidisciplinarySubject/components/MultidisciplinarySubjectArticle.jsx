@@ -26,9 +26,9 @@ import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 
 const filterCodes = {
-  'Folkehelse og livsmestring': 'publicHealth',
-  'Demokrati og medborgerskap': 'democracy',
-  'Bærekraftig utvikling': 'climate',
+  TT1: 'publicHealth',
+  TT2: 'democracy',
+  TT3: 'climate',
 };
 
 const MultidisciplinarySubjectArticle = ({
@@ -44,14 +44,15 @@ const MultidisciplinarySubjectArticle = ({
     scrollToRef(resourcesRef, 0);
   };
 
-  // "Base topics" are considered subjects
-  const subjects = topic.pathTopics.map(
-    listOfTopics => filterCodes[listOfTopics[0].name],
+  const subjectLinks = topic.article.crossSubjectTopics.map(
+    crossSubjectTopic => ({
+      label: crossSubjectTopic.title,
+      url: crossSubjectTopic.path || subject.path,
+    }),
   );
-  const subjectsLinks = topic.pathTopics.map(listOfTopics => ({
-    label: listOfTopics[0].name,
-    url: listOfTopics[0].path,
-  }));
+  const subjects = topic.article.grepCodes
+    .filter(grepCode => grepCode.startsWith('TT'))
+    .map(code => filterCodes[code]);
 
   return (
     <>
@@ -64,7 +65,7 @@ const MultidisciplinarySubjectArticle = ({
       </Breadcrumblist>
       <MultidisciplinarySubjectHeader
         subjects={subjects}
-        subjectsLinks={subjectsLinks}
+        subjectsLinks={subjectLinks}
       />
       <SocialMediaMetadata
         title={`${subject?.name ? subject.name + ' - ' : ''}${

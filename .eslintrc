@@ -1,5 +1,5 @@
 {
-  "extends": "ndla",
+  "extends": "eslint-config-ndla",
   "rules": {
     "graphql/template-strings": [
       "error",

@@ -86,7 +86,11 @@ export const LearningpathStepShape = PropTypes.shape({
       }),
     ),
   }),
-  license: LicenseShape,
+  license: PropTypes.shape({
+    license: PropTypes.string,
+    url: PropTypes.string,
+    description: PropTypes.string,
+  }),
   metaUrl: PropTypes.string,
   revision: PropTypes.number,
   status: PropTypes.string,
@@ -270,4 +274,19 @@ export const ConceptLicenseShape = PropTypes.shape({
   copyright: CopyrightObjectShape,
   src: PropTypes.string.isRequired,
   title: PropTypes.string,
+});
+
+export const SubjectCategoryShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  subjects: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
+export const ProgrammeShape = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 });
