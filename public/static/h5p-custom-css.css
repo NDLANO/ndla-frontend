@@ -8,7 +8,7 @@
 }
 
 .h5p-dialogcards .h5p-dialogcards-card-text-inner {
-  padding: 0em 1.5em;
+  padding: 3em 1.5em;
 }
 
 .h5p-dialogcards .h5p-dialogcards-card-text {
@@ -18,3 +18,4 @@
 .h5p-dialogcards.h5p-text-scaling .h5p-dialogcards-card-text-wrapper {
   height: auto;
 }
+
