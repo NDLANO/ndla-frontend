@@ -29,7 +29,7 @@ export function getUrnIdsFromProps(props) {
     match: { params },
   } = props;
   const paramSubjectId = params.subjectId
-    ? `urn:${params.subjectId}`
+    ? `urn:subject:${params.subjectId}`
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
@@ -49,10 +49,6 @@ export function getUrnIdsFromProps(props) {
   };
 }
 
-export function toSubjects() {
-  return `/subjects`;
-}
-
 function toLearningpaths() {
   return '/learningpaths';
 }
@@ -61,8 +57,8 @@ export function toLearningPath(pathId, stepId, resource, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (resource) {
     return stepId
-      ? `${toSubjects()}${resource.path}/${stepId}${filterParams}`
-      : `${toSubjects()}${resource.path}${filterParams}`;
+      ? `${resource.path}/${stepId}${filterParams}`
+      : `${resource.path}${filterParams}`;
   }
   if (pathId && stepId) {
     return `${toLearningpaths()}/${pathId}/steps/${stepId}${filterParams}`;
@@ -70,18 +66,16 @@ export function toLearningPath(pathId, stepId, resource, filters = '') {
   if (pathId) {
     return `${toLearningpaths()}/${pathId}${filterParams}`;
   }
-  return `${toSubjects()}${filterParams}`;
+  return `${filterParams}`;
 }
 
 export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
   const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (subjectTopicPath) {
-    return `${toSubjects()}${subjectTopicPath}/${removeUrn(
-      resource.id,
-    )}${filterParams}`;
+    return `${subjectTopicPath}/${removeUrn(resource.id)}${filterParams}`;
   }
   if (resource) {
-    return `${toSubjects()}${resource.path}/${filterParams}`;
+    return `${resource.path}/${filterParams}`;
   }
   return `/article/${articleId}${filterParams}`;
 }
@@ -89,7 +83,7 @@ export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
 export function toSubject(subjectId, filters) {
   const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
-  return `${toSubjects()}/${removeUrn(subjectId)}${filterParam}`;
+  return `/${removeUrn(subjectId)}${filterParam}`;
 }
 
 export function toTopic(subjectId, filters, ...topicIds) {
@@ -101,9 +95,8 @@ export function toTopic(subjectId, filters, ...topicIds) {
   const filterParam =
     filters && filters.length > 0 ? `?filters=${filters}` : '';
   const t =
-    fixEndSlash(
-      `${toSubjects()}/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`,
-    ) + filterParam;
+    fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`) +
+    filterParam;
   return t;
 }
 
@@ -122,12 +115,12 @@ export function toBreadcrumbItems(
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
   const subjectData = getSubjectBySubjectIdFilters(
-    subject.id,
+    subject?.id,
     filters.split(','),
   );
   const breadcrumbSubject = {
     ...subject,
-    name: subjectData?.longName[locale] || subject.name,
+    name: subjectData?.longName[locale] || subject?.name,
   };
   const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
   const links = [breadcrumbSubject, ...paths.splice(1)]
@@ -154,7 +147,7 @@ export function toBreadcrumbItems(
     })
     .map(links => ({
       ...links,
-      to: toSubjects() + links.to + filterParam,
+      to: links.to + filterParam,
     }));
   return [{ to: '/', name: rootName }, ...links];
 }
@@ -173,9 +166,7 @@ export function toLinkProps(linkObject, locale) {
     linkObject.contentUri.startsWith('urn:learningpath') &&
     linkObject.meta;
   return {
-    to: isLearningpath
-      ? toLearningPath() + linkObject.path
-      : toSubjects() + linkObject.path,
+    to: isLearningpath ? toLearningPath() + linkObject.path : linkObject.path,
   };
 }
 

@@ -22,13 +22,14 @@ export const RELEVANCE_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
 export const NOT_FOUND_PAGE_PATH = '/404';
 export const RESOURCE_PAGE_PATH =
-  '/subjects/:subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
+  '/(subjects)?/subject\\::subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
 export const SEARCH_PATH = '/search(.*)';
-export const TOPIC_PATH = '/subjects/:subjectId/:topicPath(.*)?/:topicId';
-export const SUBJECT_PAGE_PATH = '/subjects/:subjectId/:topicPath*/';
+export const TOPIC_PATH =
+  '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
+export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
 export const SUBJECTS = '/subjects';
-export const FILM_PAGE_PATH = '/subjects/subject:20';
+export const FILM_PAGE_PATH = '/subject:20';
 export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
 export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
   '/learningpaths/:learningpathId/steps/:stepId';
@@ -40,4 +41,7 @@ export const PROGRAMME_PATH = '/utdanning';
 export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
 
 export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
-  '/subjects/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/';
+
+export const MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH =
+  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/topic\\::topic1/topic\\::topic2/:topicId';

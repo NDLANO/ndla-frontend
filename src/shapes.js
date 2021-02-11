@@ -86,7 +86,11 @@ export const LearningpathStepShape = PropTypes.shape({
       }),
     ),
   }),
-  license: LicenseShape,
+  license: PropTypes.shape({
+    license: PropTypes.string,
+    url: PropTypes.string,
+    description: PropTypes.string,
+  }),
   metaUrl: PropTypes.string,
   revision: PropTypes.number,
   status: PropTypes.string,
@@ -186,15 +190,6 @@ export const LtiDataShape = PropTypes.shape({
   ext_content_return_types: PropTypes.string,
 });
 
-export const SearchParamsShape = PropTypes.shape({
-  contextFilters: PropTypes.arrayOf(PropTypes.string),
-  languageFilter: PropTypes.arrayOf(PropTypes.string),
-  levels: PropTypes.arrayOf(PropTypes.string),
-  page: PropTypes.string,
-  resourceTypes: PropTypes.arrayOf(PropTypes.string),
-  subjects: PropTypes.arrayOf(PropTypes.string),
-});
-
 export const ImageShape = PropTypes.shape({
   title: PropTypes.string,
   src: PropTypes.string.isRequired,
@@ -218,8 +213,80 @@ export const BreadCrumbShape = PropTypes.shape({
   to: PropTypes.string.isRequired,
 });
 
+export const SearchParamsShape = PropTypes.shape({
+  contextFilters: PropTypes.arrayOf(PropTypes.string),
+  languageFilter: PropTypes.arrayOf(PropTypes.string),
+  levels: PropTypes.arrayOf(PropTypes.string),
+  page: PropTypes.string,
+  resourceTypes: PropTypes.arrayOf(PropTypes.string),
+  subjects: PropTypes.arrayOf(PropTypes.string),
+});
+
+export const SearchItemShape = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  ingress: PropTypes.string,
+  breadcrumb: PropTypes.arrayOf(PropTypes.string),
+  img: MetaImageShape,
+});
+
+export const SearchDataShape = PropTypes.shape({
+  resources: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalCount: PropTypes.number.isRequired,
+  language: PropTypes.string,
+  resourceType: PropTypes.string,
+  type: PropTypes.string,
+  suggestions: PropTypes.arrayOf(PropTypes.object),
+});
+
+export const SearchGroupShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(SearchItemShape).isRequired,
+  totalCount: PropTypes.number.isRequired,
+  loading: PropTypes.bool,
+});
+
+export const TypeFilterShape = PropTypes.shape({
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      active: PropTypes.bool,
+    }),
+  ),
+  page: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
+});
+
+export const ConceptShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    url: PropTypes.string,
+    alt: PropTypes.string,
+  }),
+});
+
 export const ConceptLicenseShape = PropTypes.shape({
   copyright: CopyrightObjectShape,
   src: PropTypes.string.isRequired,
   title: PropTypes.string,
+});
+
+export const SubjectCategoryShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  subjects: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
+export const ProgrammeShape = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 });

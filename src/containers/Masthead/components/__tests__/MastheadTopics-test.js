@@ -21,7 +21,7 @@ test('Get path to main topicId', () => {
     expandedTopicIds,
   )('urn:topic:main');
 
-  expect(pathToMain).toBe('/subjects/subject:1/topic:main/');
+  expect(pathToMain).toBe('/subject:1/topic:main/');
 });
 
 test('Get path to sub topicId', () => {
@@ -31,7 +31,7 @@ test('Get path to sub topicId', () => {
     expandedTopicIds,
   )('urn:topic:sub');
 
-  expect(pathToSub).toBe('/subjects/subject:1/topic:main/topic:sub/');
+  expect(pathToSub).toBe('/subject:1/topic:main/topic:sub/');
 });
 
 test('Get path to leaf topicId', () => {
@@ -42,6 +42,6 @@ test('Get path to leaf topicId', () => {
   )('urn:topic:subsubsub');
 
   expect(pathToLeaf).toBe(
-    '/subjects/subject:1/topic:main/topic:sub/topic:subsub/topic:subsubsub/',
+    '/subject:1/topic:main/topic:sub/topic:subsub/topic:subsubsub/',
   );
 });

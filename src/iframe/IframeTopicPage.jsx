@@ -111,7 +111,7 @@ export class IframeTopicPage extends Component {
     const article = transformArticle(propArticle, locale);
     const scripts = getArticleScripts(article);
     const contentUrl = this.state.path
-      ? `${config.ndlaFrontendDomain}/subjects${this.state.path}`
+      ? `${config.ndlaFrontendDomain}/{this.state.path}`
       : undefined;
     return (
       <>

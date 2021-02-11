@@ -51,31 +51,29 @@ test('breadcrumb items from from subject, topicpath and resouce', () => {
 });
 
 test('is pathname a subject page path', () => {
-  expect(isSubjectPagePath('/subjects/subject:1')).toBe(true);
-  expect(isSubjectPagePath('/subjects/subject:134')).toBe(true);
-  expect(isSubjectPagePath('/subjects/subject:1/')).toBe(true);
-  expect(isSubjectPagePath('/subjects/subject:1/topic:1:186460')).toBe(true);
-  expect(
-    isSubjectPagePath('/subjects/subject:1/topic:1:184105/topic:1:184106'),
-  ).toBe(true);
+  expect(isSubjectPagePath('/subject:1')).toBe(true);
+  expect(isSubjectPagePath('/subject:134')).toBe(true);
+  expect(isSubjectPagePath('/subject:1/')).toBe(true);
+  expect(isSubjectPagePath('/subject:1/topic:1:186460')).toBe(true);
+  expect(isSubjectPagePath('/subject:1/topic:1:184105/topic:1:184106')).toBe(
+    true,
+  );
   expect(
     isSubjectPagePath(
-      '/subjects/subject:1/topic:1:184105/topic:1:184106/topic:1:184107/resource:1:62382',
+      '/subject:1/topic:1:184105/topic:1:184106/topic:1:184107/resource:1:62382',
     ),
   ).toBe(true);
 });
 
 test('is pathname a topic page path', () => {
-  expect(isTopicPath('/subjects/subject:1')).toBe(false);
-  expect(isTopicPath('/subjects/subject:134')).toBe(false);
-  expect(isTopicPath('/subjects/subject:1/')).toBe(false);
-  expect(isTopicPath('/subjects/subject:1/topic:1:186460')).toBe(true);
-  expect(isTopicPath('/subjects/subject:1/topic:1:184105/topic:1:184106')).toBe(
-    true,
-  );
+  expect(isTopicPath('/subject:1')).toBe(false);
+  expect(isTopicPath('/subject:134')).toBe(false);
+  expect(isTopicPath('/subject:1/')).toBe(false);
+  expect(isTopicPath('/subject:1/topic:1:186460')).toBe(true);
+  expect(isTopicPath('/subject:1/topic:1:184105/topic:1:184106')).toBe(true);
   expect(
     isTopicPath(
-      '/subjects/subject:1/topic:1:184105/topic:1:184106/topic:1:184107/resource:1:62382',
+      '/subject:1/topic:1:184105/topic:1:184106/topic:1:184107/resource:1:62382',
     ),
   ).toBe(true); // not exactly right, but must do for now.
 });

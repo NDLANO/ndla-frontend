@@ -52,14 +52,18 @@ export function groupByCurriculums(competenceGoals, addUrl = false) {
 const CompetenceGoals = ({
   article,
   subject,
+  language,
   wrapperComponent: Component,
   wrapperComponentProps,
   t,
 }) => {
   const codes = article.grepCodes;
   const nodeId = article.oldNdlaUrl?.split('/').pop();
+  const lang =
+    article.supportedLanguages.find(l => l === language) ||
+    article.supportedLanguages[0];
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
-    variables: { codes, nodeId },
+    variables: { codes, nodeId, language: lang },
   });
 
   if (error) {
@@ -125,6 +129,7 @@ const CompetenceGoals = ({
 CompetenceGoals.propTypes = {
   article: ArticleShape,
   subject: SubjectShape,
+  language: PropTypes.string,
   wrapperComponent: (props, propName) => {
     if (props[propName] && !isValidElementType(props[propName])) {
       return new Error(

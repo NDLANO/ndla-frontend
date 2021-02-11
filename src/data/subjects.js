@@ -888,11 +888,7 @@ export const commonSubjects = [
     id: 'common_subject_59',
   },
   {
-    filters: [
-      'urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66',
-      'urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7',
-      'urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc',
-    ],
+    filters: [],
     longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
@@ -953,6 +949,21 @@ export const commonSubjects = [
     },
     subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
     id: 'common_subject_63',
+  },
+  {
+    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
+    longName: {
+      en: 'Naturfag (SF)',
+      nb: 'Naturfag (SF)',
+      nn: 'Naturfag (SF)',
+    },
+    name: {
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
+    },
+    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    id: 'common_subject_64',
   },
 ];
 export const programmeSubjects = [
@@ -1959,21 +1970,6 @@ export const studySpecializationSubjects = [
     id: 'study_specialization_subject_11',
   },
   {
-    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
-    longName: {
-      en: 'Naturfag (SF)',
-      nb: 'Naturfag (SF)',
-      nn: 'Naturfag (SF)',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
-    id: 'study_specialization_subject_12',
-  },
-  {
     filters: ['urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4'],
     longName: {
       en: 'Sosiologi og sosialantropologi (SF VG2)',
@@ -2118,6 +2114,36 @@ export const studySpecializationSubjects = [
   },
 ];
 
+export const multidisciplinarySubjects = [
+  {
+    name: {
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+      en: 'Folkehelse og livsmestring',
+    },
+    topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
+    id: 'multidisciplinary_subject_1',
+  },
+  {
+    name: {
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+      en: 'Demokrati og medborgerskap',
+    },
+    topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
+    id: 'multidisciplinary_subject_2',
+  },
+  {
+    name: {
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+      en: 'Bærekraftig utvikling',
+    },
+    topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
+    id: 'multidisciplinary_subject_3',
+  },
+];
+
 export const subjectsCategories = [
   {
     name: {
@@ -2153,6 +2179,7 @@ export const subjectObjectIds = () => {
       ...commonSubjects,
       ...programmeSubjects,
       ...studySpecializationSubjects,
+      ...multidisciplinarySubjects,
     ];
 
     subjectsIdx = subjects.reduce((obj, item) => {

@@ -17,20 +17,22 @@ import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-import MultidisciplinarySubjectArticle from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticle';
+import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 
 import App from './App';
 import {
-  RESOURCE_PAGE_PATH,
-  PLAIN_ARTICLE_PAGE_PATH,
-  SUBJECT_PAGE_PATH,
-  SEARCH_PATH,
   FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  PLAIN_ARTICLE_PAGE_PATH,
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
-  PROGRAMME_PATH,
   PROGRAMME_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
+  PROGRAMME_PATH,
+  RESOURCE_PAGE_PATH,
+  SEARCH_PATH,
+  SUBJECTS,
+  SUBJECT_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
@@ -65,7 +67,7 @@ export const routes = [
   {
     path: SEARCH_PATH,
     component: SearchPage,
-    background: true,
+    background: false,
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
@@ -74,8 +76,8 @@ export const routes = [
     background: false,
   },
   {
-    path: `${MULTIDISCIPLINARY_SUBJECT_PAGE_PATH}/:topicId`,
-    component: MultidisciplinarySubjectArticle,
+    path: MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
+    component: MultidisciplinarySubjectArticlePage,
     background: false,
   },
   {
@@ -90,7 +92,7 @@ export const routes = [
     background: false,
   },
   {
-    path: '/subjects',
+    path: SUBJECTS,
     component: AllSubjectsPage,
     background: false,
   },

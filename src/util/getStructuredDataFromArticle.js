@@ -69,6 +69,8 @@ const getPublisher = () => {
   data.publisher = {
     '@type': ORGANIZATION_TYPE,
     name: 'NDLA',
+    url: 'https://ndla.no',
+    logo: 'https://ndla.no/static/logo.png',
   };
   return data;
 };

@@ -33,14 +33,13 @@ import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectIdFilters } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { toSubjects } from '../../routeHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
 };
 
-const SubjectPage = ({
+const SubjectContainer = ({
   history,
   location,
   locale,
@@ -86,7 +85,7 @@ const SubjectPage = ({
       } else {
         // no topics in path
         history.replace({
-          pathname: toSubjects() + subject.path,
+          pathname: subject.path,
           search: filterParam,
         });
       }
@@ -152,6 +151,7 @@ const SubjectPage = ({
           ...crumb,
           isCurrent: currentLevel === crumb.index,
           typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+          url: '#',
         }))
       : []),
   ];
@@ -293,16 +293,16 @@ const SubjectPage = ({
   );
 };
 
-SubjectPage.getDocumentTitle = getDocumentTitle;
+SubjectContainer.getDocumentTitle = getDocumentTitle;
 
-SubjectPage.willTrackPageView = (trackPageView, currentProps) => {
+SubjectContainer.willTrackPageView = (trackPageView, currentProps) => {
   const { data, loading, topics } = currentProps;
   if (!loading && data?.subject?.topics?.length > 0 && topics?.length === 0) {
     trackPageView(currentProps);
   }
 };
 
-SubjectPage.getDimensions = props => {
+SubjectContainer.getDimensions = props => {
   const { data, locale, location, topics } = props;
   const topicPath = topics.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
@@ -316,7 +316,7 @@ SubjectPage.getDimensions = props => {
   });
 };
 
-SubjectPage.propTypes = {
+SubjectContainer.propTypes = {
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
@@ -338,4 +338,4 @@ SubjectPage.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default injectT(withTracker(SubjectPage));
+export default injectT(withTracker(SubjectContainer));

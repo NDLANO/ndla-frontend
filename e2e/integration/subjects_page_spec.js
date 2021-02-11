@@ -10,10 +10,9 @@ import { visitOptions } from '../support';
 
 describe('Subjects page', () => {
   beforeEach(() => {
-    cy.server();
     cy.visit('/?disableSSR=true', visitOptions);
 
-    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
+    cy.apiIntercept('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Medieuttrykk og mediesamfunnet")')

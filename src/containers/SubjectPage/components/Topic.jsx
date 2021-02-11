@@ -10,14 +10,17 @@ import PropTypes from 'prop-types';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { toSubjects } from '../../../routeHelpers';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
-import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
+import {
+  GraphQLResourceTypeShape,
+  GraphQLSubjectShape,
+  GraphQLTopicShape,
+} from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -53,8 +56,7 @@ const Topic = ({
     url: toTopic(subjectId, filterIds, ...topicPath, item.id),
   }));
   const filterParam = filterIds ? `?filters=${filterIds}` : '';
-  const copyPageUrlLink =
-    config.ndlaFrontendDomain + toSubjects() + topic.path + filterParam;
+  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path + filterParam;
 
   return (
     <>
@@ -64,6 +66,7 @@ const Topic = ({
         showContent={showContent}
         invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
+        isLoading={false}
         children={
           <ArticleContents
             topic={topic}
@@ -142,12 +145,14 @@ Topic.propTypes = {
   locale: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   onClickTopics: PropTypes.func,
-  toSubjects: PropTypes.func,
   setBreadCrumb: PropTypes.func,
   index: PropTypes.number,
   showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,
-  data: GraphQLTopicShape,
+  data: PropTypes.shape({
+    topic: GraphQLTopicShape,
+    resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
+  }),
   loading: PropTypes.bool,
 };
 

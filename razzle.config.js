@@ -9,6 +9,22 @@ module.exports = {
     addEntry({ entry: './src/iframe', name: 'embed' }),
     addEntry({ entry: './src/lti', name: 'lti' }),
     addEntry({ entry: './public/static/mathjax-config', name: 'mathJaxConfig' }),
+    {
+      name: 'typescript',
+      options: {
+        useBabel: true,
+        tsLoader: {
+          transpileOnly: false,
+          experimentalWatchApi: true,
+        },
+        forkTsChecker: {
+          tsconfig: './tsconfig.json',
+          tslint: undefined,
+          watch: './src',
+          typeCheck: false,
+        },
+      },
+    },
   ],
   modify(config, { target, dev }) {
     const appConfig = config;
