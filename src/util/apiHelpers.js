@@ -7,16 +7,15 @@
  */
 
 import defined from 'defined';
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient, ApolloLink } from '@apollo/client';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { onError } from '@apollo/client/link/error';
+import { setContext } from '@apollo/client/link/context';
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
   defaultDataIdFromObject,
 } from 'apollo-cache-inmemory';
-import { BatchHttpLink } from 'apollo-link-batch-http';
-import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';

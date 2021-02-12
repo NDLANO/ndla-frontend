@@ -17,7 +17,7 @@ import {
   BreadcrumbBlock,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/client';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';

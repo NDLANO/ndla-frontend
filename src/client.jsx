@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import { Router, MemoryRouter } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { setCookie, getCookie } from '@ndla/util';
 import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
