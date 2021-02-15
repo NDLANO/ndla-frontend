@@ -1401,14 +1401,6 @@
     "@ndla/core" "^0.6.33"
     "@ndla/icons" "^0.6.27"
 
-"@ndla/button@^0.3.45":
-  version "0.3.45"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.45.tgz#33f30e4ee5768c08ceace3bb9f07ba4a6c8e37bd"
-  integrity sha512-FrT11vonQnAlXEmRDjeoj26ROyhonPR2wMplO2imElRYmsufaZGWmWMOx66+dGzzQ1Eo6iHt/h/f4zK8MO1MKg==
-  dependencies:
-    "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.27"
-
 "@ndla/carousel@^0.3.33":
   version "0.3.33"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.33.tgz#a6184e2ccb2901f78ea41907c28abad76e4ac701"
@@ -1459,11 +1451,6 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.27.tgz#5aaa41dc1b7cb587bf39ea32124302101a76bb03"
   integrity sha512-Nu/WpUVegkHO4e0Lcl/xsV6SiE6wanN/0CqYlM8NjYWnV+MF+HXYMHmLoElciBNrH9uKKQ9E41j12LZJZN/Obw==
 
-"@ndla/icons@^0.6.27":
-  version "0.6.27"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.27.tgz#5aaa41dc1b7cb587bf39ea32124302101a76bb03"
-  integrity sha512-Nu/WpUVegkHO4e0Lcl/xsV6SiE6wanN/0CqYlM8NjYWnV+MF+HXYMHmLoElciBNrH9uKKQ9E41j12LZJZN/Obw==
-
 "@ndla/licenses@^0.6.40":
   version "0.6.40"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.40.tgz#b7fe146927c0791bad01146daf3a94c1538cdc18"
@@ -1472,16 +1459,6 @@
     "@ndla/core" "^0.6.33"
     defined "1.0.0"
     react-bem-helper "1.4.1"
-
-"@ndla/modal@^0.4.36":
-  version "0.4.36"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.36.tgz#77818a3e9518d36fac8dd1fc2df69240145c502a"
-  integrity sha512-nk4l8ITf5aqddtj/U9uBM9fCp2zO0ev2XoZc3Kxn6Dmxp7k7a1w+DN4c4MmeI3MdcYdALvZNG9xqV4QFv4ir2w==
-  dependencies:
-    "@ndla/button" "^0.3.45"
-    "@ndla/core" "^0.6.33"
-    "@ndla/util" "^0.4.4"
-    "@reach/dialog" "^0.2.9"
 
 "@ndla/modal@^0.4.36":
   version "0.4.36"
@@ -1514,10 +1491,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-0.0.7.tgz#fa7fcece73196d2c4528616f9ed068672ee941f7"
   integrity sha512-+EfldXKUsxcH2Xm/bTC9tpBqUjkCsv/CB4reRURvmpmMVdM1dC/810D+L1oF9UB5qix9yaesnBTSI8WhU8CrGw==
 
-"@ndla/scripts@^0.7.4":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.4.tgz#87c71967e1df6887eda7e0c4975570b68ac02ba3"
-  integrity sha512-bcjFlB6MykrPsfM8+QzoBO5kehscHvgwWJSiVzHEfaotkBoSUvBBicQlPwuqEPCYCSI/itCCKety2lEM6aXt/w==
+"@ndla/scripts@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.6.tgz#a29eea4222d50a273ca3ea01bb9950e25552d766"
+  integrity sha512-P0vCg1mMmJL71Idi99YB8kqqXRGkfMxf0CcB/Qc+fFMUEKNCjpJo6+Icd0bE/gYGh6bYtnNXdsXLz9h9nE8E3w==
   dependencies:
     cross-spawn "^6.0.5"
     cross-spawn-promise "^0.10.1"

@@ -1,0 +1,90 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
+  AWS_DEFAULT_REGION: "eu-west-1"
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
+  NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
+  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
+  CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
+  PACT_BROKER_PASSWORD: ${{ secrets.PACT_BROKER_PASSWORD }}
+  PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
+  PACT_BROKER_USERNAME: ${{ secrets.PACT_BROKER_USERNAME }}
+  NDLA_ENVIRONMENT: local
+  NDLA_HOME: ${{ github.workspace }}/ndla
+  NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
+  COMPONENT: ${{ github.event.repository.name }}
+jobs:
+  release:
+    name: "Release and push to registry"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: ndla/${{ github.event.repository.name }}
+      - uses: actions/checkout@v2
+        with:
+          repository: NDLANO/deploy
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          path: ndla/deploy
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - uses: olafurpg/setup-scala@v10
+        with:
+          java-version: adopt@1.11
+      - name: "Login to ECR repo"
+        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
+          AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
+          AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey)
+          AWS_SESSION_TOKEN=$(echo $RES | jq -r .Credentials.SessionToken)
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
+      - name: "Login to dockerhub"
+        run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+      - name: "Cache pip"
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('ndla/deploy/scripts/pyshare/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+      - name: "Install python dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r ndla/deploy/scripts/pyshare/requirements.txt
+      - name: "Install kubectl"
+        run: |
+          curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
+          sudo mv kubectl /usr/bin/kubectl
+          sudo chmod +x /usr/bin/kubectl
+          mkdir -p ~/.kube
+      - name: "Install aws-iam-authenticator"
+        run: |
+          sudo curl -L https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator > aws-iam-authenticator
+          sudo mv aws-iam-authenticator /usr/bin/aws-iam-authenticator
+          sudo chmod +x /usr/bin/aws-iam-authenticator
+      - name: "Install helm /w push-plugin"
+        run: |
+          curl -L https://get.helm.sh/helm-v3.2.0-linux-amd64.tar.gz > /tmp/helm.tar.gz
+          tar xvzf /tmp/helm.tar.gz -C /tmp/
+          sudo mv /tmp/linux-amd64/helm /usr/bin
+          sudo chmod +x /usr/bin/helm
+          helm plugin install https://github.com/chartmuseum/helm-push
+      - name: "Build kubernetes config"
+        run: |
+          for config in `find ndla/deploy -name "kubeconfig*eks-cluster"`; do
+            echo $config >> kubeconfigs;
+          done
+          KUBECONFIG=$(cat kubeconfigs | paste -sd ":" -) kubectl config view --raw > ~/.kube/config
+      - name: "Do release"
+        shell: bash
+        run: |
+          eval "$($NDLA_DEPLOY/scripts/bin/ndla init -)"
+          _ndla_wrapper release $COMPONENT --update-chart
