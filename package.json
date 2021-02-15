@@ -86,7 +86,6 @@
     "@ndla/ui": "^0.30.13",
     "@ndla/util": "^0.4.4",
     "@ndla/zendesk": "^0.2.34",
-    "apollo-cache-inmemory": "^1.6.3",
     "babel-plugin-graphql-tag": "^2.5.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.19.0",

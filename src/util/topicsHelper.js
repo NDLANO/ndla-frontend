@@ -22,11 +22,9 @@ export const toTopicMenu = (topic, topics) => {
   const subtopicsWithSubtopics = subtopics.map(child =>
     toTopicMenu(child, topics),
   );
-  if (topic && topic.path) {
-    topic.path = fixEndSlash(topic.path);
-  }
   return {
     ...topic,
+    ...(topic.path && { path: fixEndSlash(topic.path) }),
     introduction:
       topic.meta && topic.meta.metaDescription
         ? topic.meta.metaDescription

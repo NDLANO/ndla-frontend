@@ -7,15 +7,10 @@
  */
 
 import defined from 'defined';
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher,
-  defaultDataIdFromObject,
-} from 'apollo-cache-inmemory';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
@@ -73,45 +68,26 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
-// See: https://www.apollographql.com/docs/react/advanced/fragments.html#fragment-matcher
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData: {
-    __schema: {
-      types: [
-        {
-          kind: 'INTERFACE',
-          name: 'TaxonomyEntity',
-          possibleTypes: [{ name: 'Resource' }, { name: 'Topic' }],
-        },
-        {
-          kind: 'INTERFACE',
-          name: 'SearchResult',
-          possibleTypes: [
-            { name: 'ArticleSearchResult' },
-            { name: 'LearningpathSearchResult' },
-          ],
-        },
-      ],
-    },
-  },
-});
+const possibleTypes = {
+  TaxonomyEntity: ['Resource', 'Topic'],
+  SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
+};
 
-const dataIdFromObject = object => {
-  switch (object.__typename) {
-    case 'SearchContext':
-    case 'GroupSearchResult':
-      if (object.filters?.length) {
-        return object.filters.id;
-      } else {
-        return object.path;
-      }
-    case 'Filter':
-      return `${object.id}+${object.relevanceId}`;
-    case 'FrontpageSearchResult':
-      return object.path;
-    default:
-      return defaultDataIdFromObject(object);
-  }
+const typePolicies = {
+  SearchContext: {
+    keyFields: object =>
+      object.filters?.length ? object.filters.id : object.path,
+  },
+  GroupSearchResult: {
+    keyFields: object =>
+      object.filters?.length ? object.filters.id : object.path,
+  },
+  Filter: {
+    keyFields: object => `${object.id}+${object.relevanceId}`,
+  },
+  FrontpageSearchResult: {
+    keyFields: ['path'],
+  },
 };
 
 export const createApolloClient = (language = 'nb') => {
@@ -123,10 +99,10 @@ export const createApolloClient = (language = 'nb') => {
   }));
 
   const cache = __CLIENT__
-    ? new InMemoryCache({ fragmentMatcher, dataIdFromObject }).restore(
+    ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
         window.DATA.apolloState,
       )
-    : new InMemoryCache({ fragmentMatcher, dataIdFromObject });
+    : new InMemoryCache({ possibleTypes, typePolicies });
 
   const client = new ApolloClient({
     ssrMode: true,
