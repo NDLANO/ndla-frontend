@@ -80,7 +80,7 @@ class MastheadMenu extends Component {
     const { location } = nextProps;
     if (location !== prevState.location) {
       const activeFilters = getFiltersFromUrlAsArray(location);
-      const { topicList } = getUrnIdsFromProps(nextProps);
+      const topicList = nextProps.topicPath?.map(topic => topic.id);
       return {
         expandedTopicId: topicList?.[0] || null,
         expandedSubtopicsId: topicList?.slice(1) || [],
