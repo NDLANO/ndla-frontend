@@ -646,6 +646,10 @@ const learningpathInfoFragment = gql`
         ...ContributorInfo
       }
     }
+    coverphoto {
+      url
+      metaUrl
+    }
     learningsteps {
       id
       title
@@ -702,6 +706,14 @@ export const resourceQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const movedResourceQuery = gql`
+  query resourceQuery($resourceId: String!) {
+    resource(id: $resourceId) {
+      breadcrumbs
+    }
+  }
+`;
+
 export const plainArticleQuery = gql`
   query plainArticleQuery($articleId: String!, $removeRelatedContent: String) {
     article(id: $articleId, removeRelatedContent: $removeRelatedContent) {
@@ -716,6 +728,10 @@ export const topicQueryWithPathTopics = gql`
     subject(id: $subjectId) {
       id
       name
+      path
+      topics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
       allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
@@ -747,6 +763,11 @@ export const topicQueryWithPathTopics = gql`
       }
       article {
         ...ArticleInfo
+        crossSubjectTopics(subjectId: $subjectId, filterIds: $filterIds) {
+          code
+          title
+          path
+        }
       }
       coreResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo

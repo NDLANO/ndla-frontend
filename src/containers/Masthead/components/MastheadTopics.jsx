@@ -9,6 +9,7 @@ import {
   SubjectCategoryShape,
   TopicShape,
 } from '../../../shapes';
+import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
 
 export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
   return topicId => {
@@ -60,6 +61,9 @@ const MastheadTopics = props => {
     );
   };
 
+  const subjectData = getSubjectBySubjectIdFilters(subject?.id, activeFilters);
+  const subjectTitle = subjectData?.name[locale] || subject?.name;
+
   return (
     <TopicMenu
       close={onClose}
@@ -85,7 +89,7 @@ const MastheadTopics = props => {
       }}
       additionalTooltipLabel=""
       onFilterClick={onFilterClick}
-      subjectTitle={subject.name}
+      subjectTitle={subjectTitle}
       resourceToLinkProps={resourceToLinkPropsWithFilters}
       filterValues={activeFilters}
       onNavigate={onNavigate}

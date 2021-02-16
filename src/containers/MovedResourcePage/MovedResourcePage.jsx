@@ -7,30 +7,59 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
-import { searchQuery } from '../../queries';
+import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
-import {
-  convertResult,
-  resultsWithContentTypeBadgeAndImage,
-} from '../SearchPage/searchHelpers';
 import handleError from '../../util/handleError';
+import { contentTypeMapping } from '../../util/getContentType';
+import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
+
 import { ResourceShape } from '../../shapes';
 
-const MovedResourcePage = ({ resource, locale, t }) => {
+const MovedResourcePage = ({ resource, t }) => {
   const isLearningpath = !!resource.learningpath;
-  const { data, loading, error } = useGraphQuery(searchQuery, {
-    variables: {
-      ids: (isLearningpath
-        ? resource.learningpath.id
-        : resource.article.id
-      ).toString(),
-      contextTypes: isLearningpath ? 'learningpath' : 'standard,topic-article',
-    },
+
+  const { error, loading, data } = useGraphQuery(movedResourceQuery, {
+    variables: { resourceId: resource.id },
   });
+
+  const convertResourceToResult = resource => {
+    return [
+      {
+        title: resource.name,
+        url: resource.path,
+        contentType: resource.resourceTypes
+          .map(type => contentTypeMapping[type.id])
+          .find(t => t),
+        type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])
+          ?.name,
+        subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
+          url: resource.paths[index],
+          title: crumb[0],
+          breadcrumb: crumb,
+        })),
+        ...(isLearningpath
+          ? {
+              id: resource.learningpath.id,
+              ingress: resource.learningpath.description,
+              metaImage: {
+                url: resource.learningpath?.coverphoto?.url,
+                alt: '',
+              },
+            }
+          : {
+              id: resource.article.id,
+              ingress: resource.article.metaDescription,
+              metaImage: {
+                url: resource.article?.metaImage?.url,
+                alt: resource.article?.metaImage?.alt,
+              },
+            }),
+      },
+    ];
+  };
 
   if (loading) {
     return null;
@@ -41,13 +70,10 @@ const MovedResourcePage = ({ resource, locale, t }) => {
     return `Error: ${error.message}`;
   }
 
-  const convertedResults = convertResult(
-    data.search.results,
-    [],
-    'all',
-    locale,
+  const results = resultsWithContentTypeBadgeAndImage(
+    convertResourceToResult(resource),
+    t,
   );
-  const results = resultsWithContentTypeBadgeAndImage(convertedResults, t);
 
   return (
     <OneColumn>
@@ -61,7 +87,6 @@ const MovedResourcePage = ({ resource, locale, t }) => {
 
 MovedResourcePage.propTypes = {
   resource: ResourceShape,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(MovedResourcePage);

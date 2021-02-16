@@ -17,5 +17,10 @@
 }
 
 mjx-container.MathJax[jax='CHTML'][display='true'] {
-  display: inline-block !important;
+  display: inline-flex !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  margin: 5px 0;
+  max-width: -webkit-fill-available;
 }
