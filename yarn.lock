@@ -1533,10 +1533,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.30.16":
-  version "0.30.16"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.16.tgz#b0ec14402156142612f8ff12f8f5c2a279e397f2"
-  integrity sha512-zTkzg1Hyquogfff2Kme38ZVYCJmMFsTawO/x0yVyKCnznuZsIcTqyJPdurC5siW+pBYGwM4QrHmczAGG1ZzCQw==
+"@ndla/ui@^0.30.17":
+  version "0.30.17"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.17.tgz#7ed5c694ca66fbe6bda70e224106f8bca981aece"
+  integrity sha512-fCTptGg/9p7wxEM949PX50npAedx61amtnJm22iGMA8fvCaVw08mHepPzuTwU1q9z9rvrBs0kDuMsju2WFeYdQ==
   dependencies:
     "@ndla/button" "^0.3.45"
     "@ndla/carousel" "^0.3.33"
