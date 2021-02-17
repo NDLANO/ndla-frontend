@@ -16,6 +16,7 @@ import {
   TOPIC_PATH,
   PLAIN_ARTICLE_IFRAME_PATH,
   RESOURCE_ARTICLE_IFRAME_PATH,
+  TOPIC_ARTICLE_IFRAME_PATH,
 } from '../constants';
 
 function matchUrl<Params>(
@@ -30,6 +31,7 @@ function matchUrl<Params>(
     lang
       ? `/:lang${RESOURCE_ARTICLE_IFRAME_PATH}`
       : RESOURCE_ARTICLE_IFRAME_PATH,
+    lang ? `/:lang${TOPIC_ARTICLE_IFRAME_PATH}` : TOPIC_ARTICLE_IFRAME_PATH,
   ];
 
   for (let i = 0; i < possiblePaths.length; i++) {
