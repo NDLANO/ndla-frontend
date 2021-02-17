@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-const hmrPort = parseInt(process.env.PORT, 10) + 1;
+const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
