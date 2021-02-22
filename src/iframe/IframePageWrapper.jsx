@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
 import IntlProvider from '@ndla/i18n';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { MissingRouterContext } from '@ndla/safelink';
 import { createApolloClient } from '../util/apiHelpers';
 import { BasenameContext } from '../App';

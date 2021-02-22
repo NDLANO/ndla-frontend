@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { CompetenceGoalTab } from '@ndla/ui';

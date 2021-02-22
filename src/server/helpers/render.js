@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { renderToStringWithData } from '@apollo/react-ssr';
+import { renderToStringWithData } from '@apollo/client/react/ssr';
 import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';

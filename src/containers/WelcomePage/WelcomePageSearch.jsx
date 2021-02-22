@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
 
 import handleError from '../../util/handleError';
