@@ -2191,7 +2191,7 @@ export const archivedSubjects = [
     id: 'archived_subject_3',
   },
   {
-    filters: ['urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22'],
+    filters: ['urn:filter:b8a448f0-e251-41ea-af1c-b2fd62a89828'],
     longName: {
       en: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
       nb: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
