@@ -22,6 +22,7 @@ import {
   Breadcrumb,
   LearningPathSticky,
   LearningPathMobileHeader,
+  constants,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
 import { toLearningPath } from '../../routeHelpers';
@@ -75,6 +76,34 @@ const Learningpath = ({
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
   }${lastUpdatedDate.getMonth()}.${lastUpdatedDate.getFullYear()}`;
 
+  const { contentTypes } = constants;
+
+  const mappedLearningsteps = learningsteps.map(step => {
+    let type = '';
+    switch (step.type) {
+      case 'INTRODUCTION':
+        type = contentTypes.LEARNING_PATH;
+        break;
+      case 'TEXT':
+        type = contentTypes.SUBJECT_MATERIAL;
+        break;
+      case 'TASK':
+      case 'QUIZ':
+        type = contentTypes.TASKS_AND_ACTIVITIES;
+        break;
+      case 'MULTIMEDIA':
+        type = contentTypes.ASSESSMENT_RESOURCES;
+        break;
+      default:
+        type = contentTypes.LEARNING_PATH;
+        break;
+    }
+    return {
+      ...step,
+      type: type,
+    };
+  });
+
   const cookieKey = `${LEARNING_PATHS_COOKIES_KEY}_${id}`;
 
   const [useCookies, setUseCookies] = useState({});
@@ -108,7 +137,7 @@ const Learningpath = ({
     <LearningPathMenu
       invertedStyle={ndlaFilm}
       learningPathId={id}
-      learningsteps={learningsteps}
+      learningsteps={mappedLearningsteps}
       duration={duration}
       toLearningPathUrl={(pathId, stepId) =>
         toLearningPath(pathId, stepId, resource, filterIds)

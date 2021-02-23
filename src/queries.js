@@ -677,6 +677,7 @@ const learningpathInfoFragment = gql`
         url
         description
       }
+      type
       showTitle
     }
   }
