@@ -16,6 +16,11 @@ test('search subjects', () => {
   expect(searchResult.length).toBe(2);
 });
 
+test('search subjects with one character', () => {
+  const searchResult = searchSubjects('1');
+  expect(searchResult.length).toBe(0);
+});
+
 test('map function', () => {
   expect(mapSearchToFrontPageStructure({}, () => {}, undefined, [])).toEqual(
     [],
