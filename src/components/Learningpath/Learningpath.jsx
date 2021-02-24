@@ -39,6 +39,7 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
+import { getContentType } from '../../util/getContentType';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -79,25 +80,9 @@ const Learningpath = ({
   const { contentTypes } = constants;
 
   const mappedLearningsteps = learningsteps.map(step => {
-    let type = '';
-    switch (step.type) {
-      case 'INTRODUCTION':
-        type = contentTypes.LEARNING_PATH;
-        break;
-      case 'TEXT':
-        type = contentTypes.SUBJECT_MATERIAL;
-        break;
-      case 'TASK':
-      case 'QUIZ':
-        type = contentTypes.TASKS_AND_ACTIVITIES;
-        break;
-      case 'MULTIMEDIA':
-        type = contentTypes.ASSESSMENT_RESOURCES;
-        break;
-      default:
-        type = contentTypes.LEARNING_PATH;
-        break;
-    }
+    const type = step.resource
+      ? getContentType(step.resource)
+      : contentTypes.LEARNING_PATH;
     return {
       ...step,
       type: type,
