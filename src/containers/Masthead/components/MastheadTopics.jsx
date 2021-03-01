@@ -1,10 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf } from 'prop-types';
 import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
-import { TopicShape } from '../../../shapes';
+import {
+  ProgrammeShape,
+  SubjectCategoryShape,
+  TopicShape,
+} from '../../../shapes';
+import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
 
 export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
   return topicId => {
@@ -31,6 +36,8 @@ const MastheadTopics = props => {
     onNavigate,
     searchFieldComponent,
     isOnSubjectFrontPage,
+    programmes,
+    subjectCategories,
   } = props;
 
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
@@ -53,6 +60,9 @@ const MastheadTopics = props => {
       locale,
     );
   };
+
+  const subjectData = getSubjectBySubjectIdFilters(subject?.id, activeFilters);
+  const subjectTitle = subjectData?.name[locale] || subject?.name;
 
   return (
     <TopicMenu
@@ -79,12 +89,14 @@ const MastheadTopics = props => {
       }}
       additionalTooltipLabel=""
       onFilterClick={onFilterClick}
-      subjectTitle={subject.name}
+      subjectTitle={subjectTitle}
       resourceToLinkProps={resourceToLinkPropsWithFilters}
       filterValues={activeFilters}
       onNavigate={onNavigate}
       expandedTopicId={expandedTopicId}
       expandedSubtopicsId={expandedSubtopicsId}
+      programmes={programmes}
+      subjectCategories={subjectCategories}
     />
   );
 };
@@ -105,6 +117,8 @@ MastheadTopics.propTypes = {
   onNavigate: PropTypes.func.isRequired,
   searchFieldComponent: PropTypes.node.isRequired,
   isOnSubjectFrontPage: PropTypes.bool,
+  subjectCategories: arrayOf(SubjectCategoryShape),
+  programmes: arrayOf(ProgrammeShape),
 };
 
 export default MastheadTopics;

@@ -17,7 +17,7 @@ import {
   BreadcrumbBlock,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/client';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
@@ -30,6 +30,10 @@ import {
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
+import {
+  getCategorizedSubjects,
+  getProgrammes,
+} from '../../util/programmesSubjectsHelper';
 
 const MastheadContainer = ({
   infoContent,
@@ -150,6 +154,8 @@ const MastheadContainer = ({
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
               locale={locale}
+              programmes={getProgrammes(locale)}
+              subjectCategories={getCategorizedSubjects(locale)}
             />
           )}
           {!hideBreadcrumb && (

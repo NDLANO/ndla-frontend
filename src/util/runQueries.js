@@ -1,5 +1,3 @@
-import { useQuery } from '@apollo/react-hooks';
-
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -7,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { useQuery } from '@apollo/client';
 
 export const useGraphQuery = (query, options = {}) => {
   const { error, data, loading } = useQuery(query, {

@@ -8,18 +8,21 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MultidisciplinarySubject } from '@ndla/ui';
+import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
-import { toTopic } from '../../routeHelpers';
-import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
+import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 
-const MultidisciplinarySubjectPage = ({ match, history, location }) => {
-  const selectedFilters = getFiltersFromUrlAsArray(location);
+const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
+  const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
+    ndlaFilm: false,
+    match,
+  });
 
-  const subjectId = `urn:${match.path.split('/')[1]}`;
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
       subjectId,
@@ -30,57 +33,70 @@ const MultidisciplinarySubjectPage = ({ match, history, location }) => {
     return null;
   }
 
-  const onFilterClick = id => {
-    const newFilters = [...selectedFilters];
-    const idIndex = newFilters.indexOf(id);
-    if (idIndex > -1) {
-      newFilters.splice(idIndex, 1);
-    } else {
-      newFilters.push(id);
-    }
-    history.push({
-      search: newFilters.length && `?filters=${newFilters}`,
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
+
+  const { subject = {} } = data;
+
+  const mainTopics = subject.topics.map(topic => {
+    return {
+      ...topic,
+      label: topic.name,
+      selected: topic.id === selectedTopics[0],
+      url: toTopic(subject.id, [], topic.id),
+    };
+  });
+
+  const selectionLimit = 2;
+  const isNotLastTopic = selectedTopics.length < selectionLimit;
+  const selectedSubject =
+    isNotLastTopic || subject.topics.find(t => t.id === selectedTopics[0]);
+
+  const cards = isNotLastTopic
+    ? []
+    : subject.allTopics
+        .filter(topic => {
+          const selectedId = selectedTopics[selectedTopics.length - 1];
+          return topic.parent === selectedId;
+        })
+        .map(topic => ({
+          title: topic.name,
+          topicId: topic.id,
+          introduction: topic.meta.metaDescription,
+          image: topic.meta.metaImage?.url,
+          imageAlt: topic.meta.metaImage?.alt,
+          subjects: [selectedSubject.name],
+          url: topic.path,
+          ...topic,
+        }));
+
+  const TopicBoxes = () =>
+    selectedTopics.map((topicId, index) => {
+      return (
+        <div key={index}>
+          <MultidisciplinaryTopicWrapper
+            disableNav={index >= selectionLimit - 1}
+            topicId={topicId}
+            filterIds=""
+            subjectId={subject.id}
+            subTopicId={selectedTopics[index + 1]}
+            locale={locale}
+            index={index}
+            subject={subject}
+          />
+        </div>
+      );
     });
-  };
-
-  const filterItems = items => {
-    if (!selectedFilters.length) {
-      return items;
-    }
-    return items.filter(item =>
-      item.filters.some(filter => selectedFilters.includes(filter.id)),
-    );
-  };
-
-  const {
-    subject: { filters, topics },
-  } = data;
-
-  const itemFilters = filters.map(filter => ({
-    label: filter.name,
-    selected: selectedFilters.includes(filter.id),
-    ...filter,
-  }));
-
-  const items = topics.map(topic => ({
-    title: topic.name,
-    introduction: topic.meta.metaDescription,
-    image: topic.meta.metaImage?.url,
-    imageAlt: topic.meta.metaImage?.alt,
-    subjects: topic.filters.map(filter => filter.name),
-    url: toTopic(subjectId, undefined, topic.id),
-    ...topic,
-  }));
-
-  const filteredItems = filterItems(items);
 
   return (
     <MultidisciplinarySubject
-      filters={itemFilters}
-      onFilterClick={onFilterClick}
-      items={filteredItems}
-      totalItemsCount={filteredItems.length}
-    />
+      hideCards={isNotLastTopic}
+      cards={cards}
+      totalCardCount={cards.length}>
+      <NavigationBox items={mainTopics} listDirection="horizontal" />
+      <TopicBoxes />
+    </MultidisciplinarySubject>
   );
 };
 
@@ -92,6 +108,7 @@ MultidisciplinarySubjectPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   location: LocationShape,
+  locale: PropTypes.string.isRequired,
 };
 
 export default MultidisciplinarySubjectPage;

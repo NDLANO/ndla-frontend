@@ -5,114 +5,54 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
-import { SearchResult, SearchResultList } from '@ndla/ui';
-import { func, arrayOf, shape, string, number, bool } from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import { resultsWithContentTypeBadgeAndImage } from '../searchHelpers';
-import {
-  ArticleResultShape,
-  LtiDataShape,
-  SearchParamsShape,
-} from '../../../shapes';
-import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
-import SearchContextFilters from './SearchContextFilters';
+import React, { Fragment } from 'react';
+import { func, arrayOf, objectOf, string } from 'prop-types';
+import { SearchTypeResult, constants } from '@ndla/ui';
+import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
+
+const { contentTypes } = constants;
 
 const SearchResults = ({
-  results,
-  resultMetadata,
-  searchParams,
-  enabledTabs,
-  enabledTab,
-  onTabChange,
-  query,
-  onUpdateContextFilters,
-  resourceTypes,
-  includeEmbedButton,
-  ltiData,
-  allTabValue,
-  t,
-  isLti,
-  loading,
+  currentSubjectType,
+  handleFilterClick,
+  handleShowMore,
+  searchGroups,
+  typeFilter,
 }) => {
-  const { totalCount = '' } = resultMetadata || {};
-  return (
-    <SearchResult
-      messages={{
-        searchStringLabel: t(
-          'searchPage.searchResultMessages.searchStringLabel',
-        ),
-        subHeading: t('searchPage.searchResultMessages.subHeading', {
-          totalCount,
-        }),
-        resultHeading: t('searchPage.searchPageMessages.resultHeading', {
-          totalCount,
-        }),
-        dropdownBtnLabel: t('searchPage.searchPageMessages.dropdownBtnLabel'),
-      }}
-      searchString={query || ''}
-      tabOptions={enabledTabs.map(tab => ({
-        value: tab.value,
-        title: tab.name,
-      }))}
-      onTabChange={tab => onTabChange(tab, enabledTabs)}
-      currentTab={enabledTab || allTabValue}>
-      <SearchContextFilters
-        allTabValue={allTabValue}
-        enabledTab={enabledTab}
-        searchParams={searchParams}
-        resourceTypes={resourceTypes}
-        onUpdateContextFilters={onUpdateContextFilters}
-      />
-      <SearchResultList
-        messages={{
-          subjectsLabel: t('searchPage.searchResultListMessages.subjectsLabel'),
-          noResultHeading: t(
-            'searchPage.searchResultListMessages.noResultHeading',
-          ),
-          noResultDescription: t(
-            'searchPage.searchResultListMessages.noResultDescription',
-          ),
-        }}
-        loading={loading}
-        results={
-          results &&
-          resultsWithContentTypeBadgeAndImage(
-            results,
-            t,
-            includeEmbedButton,
-            ltiData,
-            isLti,
-          )
-        }
-      />
-    </SearchResult>
-  );
+  return searchGroups.map(group => {
+    const { totalCount, type, items } = group;
+    if (
+      (!currentSubjectType ||
+        type === currentSubjectType ||
+        type === contentTypes.SUBJECT) &&
+      items.length
+    ) {
+      return (
+        <Fragment key={`searchresult-${type}`}>
+          <SearchTypeResult
+            onFilterClick={id => handleFilterClick(type, id)}
+            items={items}
+            loading={typeFilter[type].loading}
+            pagination={{
+              totalCount,
+              toCount: items.length,
+              onShowMore: () => handleShowMore(type),
+            }}
+            type={type === 'topic-article' ? 'topic' : type}
+            totalCount={totalCount}></SearchTypeResult>
+        </Fragment>
+      );
+    }
+    return null;
+  });
 };
 
 SearchResults.propTypes = {
-  searchParams: SearchParamsShape,
-  query: string,
-  enabledTabs: arrayOf(
-    shape({
-      name: string,
-      value: string,
-      type: string,
-    }),
-  ),
-  resourceTypes: arrayOf(GraphqlResourceTypeWithsubtypesShape),
-  onTabChange: func,
-  results: arrayOf(ArticleResultShape),
-  resultMetadata: shape({
-    totalCount: number,
-  }),
-  allTabValue: string.isRequired,
-  onUpdateContextFilters: func,
-  includeEmbedButton: bool,
-  ltiData: LtiDataShape,
-  enabledTab: string.isRequired,
-  loading: bool,
-  isLti: bool,
+  currentSubjectType: string,
+  handleFilterClick: func,
+  handleShowMore: func,
+  searchGroups: arrayOf(SearchGroupShape),
+  typeFilter: objectOf(TypeFilterShape),
 };
 
-export default injectT(SearchResults);
+export default SearchResults;

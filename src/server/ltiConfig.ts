@@ -1,6 +1,7 @@
+// @ts-ignore
 import config from '../config';
 
-const ltiConfig = () => {
+const ltiConfig = (): string => {
   const launchUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'

@@ -888,11 +888,7 @@ export const commonSubjects = [
     id: 'common_subject_59',
   },
   {
-    filters: [
-      'urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66',
-      'urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7',
-      'urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc',
-    ],
+    filters: [],
     longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
@@ -953,6 +949,21 @@ export const commonSubjects = [
     },
     subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
     id: 'common_subject_63',
+  },
+  {
+    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
+    longName: {
+      en: 'Naturfag (SF)',
+      nb: 'Naturfag (SF)',
+      nn: 'Naturfag (SF)',
+    },
+    name: {
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
+    },
+    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    id: 'common_subject_64',
   },
 ];
 export const programmeSubjects = [
@@ -1959,21 +1970,6 @@ export const studySpecializationSubjects = [
     id: 'study_specialization_subject_11',
   },
   {
-    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
-    longName: {
-      en: 'Naturfag (SF)',
-      nb: 'Naturfag (SF)',
-      nn: 'Naturfag (SF)',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
-    id: 'study_specialization_subject_12',
-  },
-  {
     filters: ['urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4'],
     longName: {
       en: 'Sosiologi og sosialantropologi (SF VG2)',
@@ -2118,6 +2114,162 @@ export const studySpecializationSubjects = [
   },
 ];
 
+export const multidisciplinarySubjects = [
+  {
+    name: {
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+      en: 'Folkehelse og livsmestring',
+    },
+    topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
+    id: 'multidisciplinary_subject_1',
+  },
+  {
+    name: {
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+      en: 'Demokrati og medborgerskap',
+    },
+    topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
+    id: 'multidisciplinary_subject_2',
+  },
+  {
+    name: {
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+      en: 'Bærekraftig utvikling',
+    },
+    topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
+    id: 'multidisciplinary_subject_3',
+  },
+];
+
+export const archivedSubjects = [
+  {
+    filters: ['urn:filter:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa'],
+    longName: {
+      en: 'Matematikk 1P (LK06)',
+      nb: 'Matematikk 1P (LK06)',
+      nn: 'Matematikk 1P (LK06)',
+    },
+    name: {
+      en: 'Matematikk 1P (LK06)',
+      nb: 'Matematikk 1P (LK06)',
+      nn: 'Matematikk 1P (LK06)',
+    },
+    subjectId: 'urn:subject:29',
+    id: 'archived_subject_1',
+  },
+  {
+    filters: ['urn:filter:04ad8a02-856c-417c-8a58-d2f293bf788d'],
+    longName: {
+      en: 'Matematikk 1P-Y (LK06)',
+      nb: 'Matematikk 1P-Y (LK06)',
+      nn: 'Matematikk 1P-Y (LK06)',
+    },
+    name: {
+      en: 'Matematikk 1P-Y (LK06)',
+      nb: 'Matematikk 1P-Y (LK06)',
+      nn: 'Matematikk 1P-Y (LK06)',
+    },
+    subjectId: 'urn:subject:30',
+    id: 'archived_subject_2',
+  },
+  {
+    filters: ['urn:filter:ffe90e5e-d2c0-4def-8af3-07d9356a44dc'],
+    longName: {
+      en: 'Matematikk 1T-Y (LK06)',
+      nb: 'Matematikk 1T-Y (LK06)',
+      nn: 'Matematikk 1T-Y (LK06)',
+    },
+    name: {
+      en: 'Matematikk 1T-Y (LK06)',
+      nb: 'Matematikk 1T-Y (LK06)',
+      nn: 'Matematikk 1T-Y (LK06)',
+    },
+    subjectId: 'urn:subject:30',
+    id: 'archived_subject_3',
+  },
+  /*{
+    filters: ['urn:filter:b8a448f0-e251-41ea-af1c-b2fd62a89828'],
+    longName: {
+      en: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      nb: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      nn: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+    },
+    name: {
+      en: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      nb: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      nn: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+    },
+    subjectId: 'urn:subject:15',
+    id: 'archived_subject_4',
+  },*/
+  {
+    filters: ['urn:filter:fe0ba9d0-e040-4aa8-91ae-a9a85f89e6a1'],
+    longName: {
+      en: 'Matematikk 1T (LK06)',
+      nb: 'Matematikk 1T (LK06)',
+      nn: 'Matematikk 1T (LK06)',
+    },
+    name: {
+      en: 'Matematikk 1T (LK06)',
+      nb: 'Matematikk 1T (LK06)',
+      nn: 'Matematikk 1T (LK06)',
+    },
+    subjectId: 'urn:subject:114139c1-0480-4b5d-add7-2b2edf6e2765',
+    id: 'archived_subject_5',
+  },
+  {
+    filters: [
+      'urn:filter:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+      'urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690',
+    ],
+    longName: {
+      en: 'Naturfag SF Vg1 (LK06)',
+      nb: 'Naturfag SF Vg1 (LK06)',
+      nn: 'Naturfag SF Vg1 (LK06)',
+    },
+    name: {
+      en: 'Naturfag SF Vg1 (LK06)',
+      nb: 'Naturfag SF Vg1 (LK06)',
+      nn: 'Naturfag SF Vg1 (LK06)',
+    },
+    subjectId: 'urn:subject:21',
+    id: 'archived_subject_6',
+  },
+  {
+    filters: ['urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690'],
+    longName: {
+      en: 'Naturfag YF Vg1 (LK06)',
+      nb: 'Naturfag YF Vg1 (LK06)',
+      nn: 'Naturfag YF Vg1 (LK06)',
+    },
+    name: {
+      en: 'Naturfag YF Vg1 (LK06)',
+      nb: 'Naturfag YF Vg1 (LK06)',
+      nn: 'Naturfag YF Vg1 (LK06)',
+    },
+    subjectId: 'urn:subject:21',
+    id: 'archived_subject_7',
+  },
+  {
+    filters: ['urn:filter:a81148de-fb95-4e41-b000-57b268337e2d'],
+    longName: {
+      en: 'Engelsk SF Vg1 (LK06)',
+      nb: 'Engelsk SF Vg1 (LK06)',
+      nn: 'Engelsk SF Vg1 (LK06)',
+    },
+    name: {
+      en: 'Engelsk SF Vg1 (LK06)',
+      nb: 'Engelsk SF Vg1 (LK06)',
+      nn: 'Engelsk SF Vg1 (LK06)',
+    },
+    subjectId: 'urn:subject:a1af12e8-0911-4c9c-ad29-dc1a42065c45',
+    id: 'archived_subject_8',
+  },
+];
+
 export const subjectsCategories = [
   {
     name: {
@@ -2143,6 +2295,14 @@ export const subjectsCategories = [
     },
     subjects: studySpecializationSubjects,
   },
+  {
+    name: {
+      nb: 'LK06 fag',
+      nn: 'LK06 fag',
+      en: 'LK06 fag',
+    },
+    subjects: archivedSubjects,
+  },
 ];
 
 let subjectsIdx;
@@ -2153,6 +2313,8 @@ export const subjectObjectIds = () => {
       ...commonSubjects,
       ...programmeSubjects,
       ...studySpecializationSubjects,
+      ...multidisciplinarySubjects,
+      ...archivedSubjects,
     ];
 
     subjectsIdx = subjects.reduce((obj, item) => {
@@ -2173,6 +2335,7 @@ export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
+    ...archivedSubjects,
   ];
 
   return subjects.find(subject => {

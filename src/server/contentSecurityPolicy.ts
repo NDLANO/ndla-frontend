@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-const hmrPort = parseInt(process.env.PORT, 10) + 1;
+const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
@@ -142,6 +142,7 @@ export default {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
     frameSrc: [
+      'blob:',
       '*.nrk.no',
       'nrk.no',
       '*.vg.no',
@@ -151,7 +152,7 @@ export default {
       'https://optimize.google.com',
       'https://www.youtube.com',
       'ndla.no',
-      'https://*.ndlah5p.com',
+      '*.ndlah5p.com',
       'https://h5p.org',
       '*.ndla.no',
       '*.slideshare.net',

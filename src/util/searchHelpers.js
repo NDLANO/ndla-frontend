@@ -21,10 +21,10 @@ const categories = {
 };
 
 export const searchSubjects = (query, locale = 'nb') => {
-  if (!query) {
+  query = query?.trim().toLowerCase();
+  if (!query || query.length < 2) {
     return [];
   }
-  query = query.trim().toLowerCase();
 
   const foundInSubjects = [
     ...commonSubjects,

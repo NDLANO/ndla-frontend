@@ -16,7 +16,11 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
-import { GraphQLSubjectShape, GraphQLTopicShape } from '../../../graphqlShapes';
+import {
+  GraphQLResourceTypeShape,
+  GraphQLSubjectShape,
+  GraphQLTopicShape,
+} from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
   return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
@@ -62,6 +66,7 @@ const Topic = ({
         showContent={showContent}
         invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
+        isLoading={false}
         children={
           <ArticleContents
             topic={topic}
@@ -144,7 +149,10 @@ Topic.propTypes = {
   index: PropTypes.number,
   showResources: PropTypes.bool,
   subject: GraphQLSubjectShape,
-  data: GraphQLTopicShape,
+  data: PropTypes.shape({
+    topic: GraphQLTopicShape,
+    resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
+  }),
   loading: PropTypes.bool,
 };
 

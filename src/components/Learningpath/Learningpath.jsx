@@ -7,20 +7,24 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes, { func } from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
   LearningPathMenu,
   LearningPathContent,
   LearningPathInformation,
-  LearningPathSticky,
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
+  LearningPathStickyPlaceholder,
   Breadcrumb,
+  LearningPathSticky,
+  LearningPathMobileHeader,
+  constants,
 } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { withRouter } from 'react-router-dom';
 import { toLearningPath } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -35,6 +39,7 @@ import {
 } from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
+import { getContentType } from '../../util/getContentType';
 
 const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -72,6 +77,18 @@ const Learningpath = ({
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
   }${lastUpdatedDate.getMonth()}.${lastUpdatedDate.getFullYear()}`;
 
+  const { contentTypes } = constants;
+
+  const mappedLearningsteps = learningsteps.map(step => {
+    const type = step.resource
+      ? getContentType(step.resource)
+      : contentTypes.LEARNING_PATH;
+    return {
+      ...step,
+      type: type,
+    };
+  });
+
   const cookieKey = `${LEARNING_PATHS_COOKIES_KEY}_${id}`;
 
   const [useCookies, setUseCookies] = useState({});
@@ -99,6 +116,27 @@ const Learningpath = ({
     };
   }, [onKeyUpEvent]);
 
+  const { innerWidth } = useWindowSize(100);
+  const mobileView = innerWidth < 601;
+  const learningPathMenu = (
+    <LearningPathMenu
+      invertedStyle={ndlaFilm}
+      learningPathId={id}
+      learningsteps={mappedLearningsteps}
+      duration={duration}
+      toLearningPathUrl={(pathId, stepId) =>
+        toLearningPath(pathId, stepId, resource, filterIds)
+      }
+      lastUpdated={lastUpdatedString}
+      copyright={copyright}
+      stepId={stepId}
+      currentIndex={learningpathStep.seqNo}
+      name={title}
+      cookies={useCookies}
+      learningPathURL={config.learningPathDomain}
+    />
+  );
+
   return (
     <LearningPathWrapper>
       <div className="c-hero__content">
@@ -107,22 +145,7 @@ const Learningpath = ({
         </section>
       </div>
       <LearningPathContent>
-        <LearningPathMenu
-          invertedStyle={ndlaFilm}
-          learningPathId={id}
-          learningsteps={learningsteps}
-          duration={duration}
-          toLearningPathUrl={(pathId, stepId) =>
-            toLearningPath(pathId, stepId, resource, filterIds)
-          }
-          lastUpdated={lastUpdatedString}
-          copyright={copyright}
-          stepId={stepId}
-          currentIndex={learningpathStep.seqNo}
-          name={title}
-          cookies={useCookies}
-          learningPathURL={config.learningPathDomain}
-        />
+        {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (
           <div>
             {learningpathStep.showTitle && (
@@ -155,6 +178,7 @@ const Learningpath = ({
         )}
       </LearningPathContent>
       <LearningPathSticky>
+        {mobileView && learningPathMenu}
         {learningpathStep.seqNo > 0 ? (
           <LearningPathStickySibling
             arrow="left"
@@ -167,13 +191,13 @@ const Learningpath = ({
             title={learningsteps[learningpathStep.seqNo - 1].title}
           />
         ) : (
-          <div />
+          <LearningPathStickyPlaceholder />
         )}
         <LearningPathMobileStepInfo
           total={learningsteps.length}
           current={learningpathStep.seqNo + 1}
         />
-        {learningpathStep.seqNo < learningsteps.length - 1 && (
+        {learningpathStep.seqNo < learningsteps.length - 1 ? (
           <LearningPathStickySibling
             arrow="right"
             label={t('learningPath.nextArrow')}
@@ -184,6 +208,8 @@ const Learningpath = ({
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
+        ) : (
+          <LearningPathStickyPlaceholder />
         )}
       </LearningPathSticky>
     </LearningPathWrapper>

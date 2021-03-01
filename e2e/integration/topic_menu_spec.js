@@ -10,10 +10,9 @@ import { visitOptions } from '../support';
 
 describe('Topic menu', () => {
   beforeEach(() => {
-    cy.server();
     cy.visit('/?disableSSR=true', visitOptions);
 
-    cy.apiroute('POST', '**/graphql', 'subjectpageGraphQL');
+    cy.apiIntercept('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Markedsføring og ledelse 1")')
@@ -25,6 +24,6 @@ describe('Topic menu', () => {
   });
 
   it('Menu is displayed', () => {
-    cy.get('a').contains('Alle fag');
+    cy.get('a').contains('Til forsiden');
   });
 });
