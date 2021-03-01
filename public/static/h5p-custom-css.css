@@ -1,4 +1,4 @@
-.h5p-dialogcards li{
+.h5p-dialogcards li {
   text-align: left;
 }
 
@@ -7,8 +7,13 @@
   padding: 0;
 }
 
-.h5p-dialogcards .h5p-dialogcards-card-text-inner {
+.h5p-dialogcards .h5p-dialogcards-card-text-inner {
   padding: 3em 1.5em;
+  position: relative;
+}
+
+.h5p-dialogcards .h5p-dialogcards-card-text-inner-content {
+  position: relative;
 }
 
 .h5p-dialogcards .h5p-dialogcards-card-text {
@@ -18,4 +23,3 @@
 .h5p-dialogcards.h5p-text-scaling .h5p-dialogcards-card-text-wrapper {
   height: auto;
 }
-
