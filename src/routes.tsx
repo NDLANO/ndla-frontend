@@ -7,19 +7,32 @@
  */
 
 import React from 'react';
+import { RouteProps } from 'react-router';
+// @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
+// @ts-ignore
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
+// @ts-ignore
 import SearchPage from './containers/SearchPage/SearchPage';
+// @ts-ignore
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
+// @ts-ignore
 import SubjectPage from './containers/SubjectPage/SubjectPage';
+// @ts-ignore
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
+// @ts-ignore
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
+// @ts-ignore
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
+// @ts-ignore
 import ResourcePage from './containers/ResourcePage/ResourcePage';
+// @ts-ignore
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
+// @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-
+// @ts-ignore
 import App from './App';
+
 import {
   FILM_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
@@ -34,9 +47,17 @@ import {
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
 } from './constants';
+
+// @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
-export const routes = [
+interface RouteType extends RouteProps {
+  hideBreadcrumb?: boolean;
+  hideMasthead?: boolean;
+  background?: boolean;
+}
+
+export const routes: RouteType[] = [
   {
     path: '/',
     hideMasthead: true,
@@ -123,7 +144,11 @@ export const routes = [
   },
 ];
 
-export default function(initialProps = {}, locale, serverLocation) {
+export default function(
+  initialProps = {},
+  locale: string,
+  serverLocation: Location,
+) {
   return (
     <App
       initialProps={initialProps}

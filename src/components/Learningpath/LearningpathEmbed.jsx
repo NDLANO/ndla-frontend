@@ -49,7 +49,7 @@ const LearningpathEmbed = ({
   if (
     !learningpathStep.resource &&
     embedUrl &&
-    embedUrl.embedType === 'oembed' &&
+    (embedUrl.embedType === 'oembed' || embedUrl.embedType === 'iframe') &&
     oembed &&
     oembed.html
   ) {
