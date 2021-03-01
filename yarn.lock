@@ -1390,14 +1390,6 @@
     jump.js "^1.0.2"
     lodash "^4.17.20"
 
-"@ndla/button@^0.3.45":
-  version "0.3.45"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.45.tgz#33f30e4ee5768c08ceace3bb9f07ba4a6c8e37bd"
-  integrity sha512-FrT11vonQnAlXEmRDjeoj26ROyhonPR2wMplO2imElRYmsufaZGWmWMOx66+dGzzQ1Eo6iHt/h/f4zK8MO1MKg==
-  dependencies:
-    "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.27"
-
 "@ndla/button@^0.3.46":
   version "0.3.46"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.46.tgz#ba9cdf547d45a13fdfdce4799bf1f423a0fc902e"
@@ -1451,11 +1443,6 @@
     intl-messageformat "5.4.3"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.27":
-  version "0.6.27"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.27.tgz#5aaa41dc1b7cb587bf39ea32124302101a76bb03"
-  integrity sha512-Nu/WpUVegkHO4e0Lcl/xsV6SiE6wanN/0CqYlM8NjYWnV+MF+HXYMHmLoElciBNrH9uKKQ9E41j12LZJZN/Obw==
-
 "@ndla/icons@^0.6.28":
   version "0.6.28"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.28.tgz#d60612338bdd3ce2396409d162611dbec87767ea"
@@ -1469,16 +1456,6 @@
     "@ndla/core" "^0.6.33"
     defined "1.0.0"
     react-bem-helper "1.4.1"
-
-"@ndla/modal@^0.4.36":
-  version "0.4.36"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.36.tgz#77818a3e9518d36fac8dd1fc2df69240145c502a"
-  integrity sha512-nk4l8ITf5aqddtj/U9uBM9fCp2zO0ev2XoZc3Kxn6Dmxp7k7a1w+DN4c4MmeI3MdcYdALvZNG9xqV4QFv4ir2w==
-  dependencies:
-    "@ndla/button" "^0.3.45"
-    "@ndla/core" "^0.6.33"
-    "@ndla/util" "^0.4.4"
-    "@reach/dialog" "^0.2.9"
 
 "@ndla/modal@^0.4.37":
   version "0.4.37"
@@ -1553,10 +1530,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.30.19":
-  version "0.30.19"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.19.tgz#b3a7725377b909900ea7b0f34e3c5233534f9f0e"
-  integrity sha512-D2j86idvx1jQtDWh8qzw5kE+jcr+NL0/GKTWGN0bzy7uj5SogBfbmXFybA6qxJifty68NANRmH7yXKzZZdeRnw==
+"@ndla/ui@^0.30.20":
+  version "0.30.20"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.20.tgz#1fa96ab82c7553b50eed639abb5439c468e03889"
+  integrity sha512-C4w29q5TlzjGtX9qJsM+GTKMdDZ9vbcXJFfNfY8UYHBo5buVlHOvVXd5jGUKMB1uls4nf9GwDdZJAOhlvZK6aQ==
   dependencies:
     "@ndla/button" "^0.3.46"
     "@ndla/carousel" "^0.3.33"
