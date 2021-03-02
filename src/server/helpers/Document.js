@@ -28,7 +28,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700|Source+Serif+Pro:400,700|Source+Code+Pro:400,700"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,700|Source+Serif+Pro:400,700|Source+Code+Pro:400,700"
         />
         {config.gaTrackingId && (
           <script async src="https://www.google-analytics.com/analytics.js" />
