@@ -20,6 +20,7 @@ const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
+const CONCEPT_TYPE = 'Article';
 
 const getStructuredDataBase = () => ({
   '@context': 'http://schema.org',
@@ -27,7 +28,7 @@ const getStructuredDataBase = () => ({
 
 const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
   const data = {
-    license: license.url,
+    license: license?.url,
   };
 
   const author = creators?.map(c => {
@@ -144,11 +145,18 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   });
 
   const videos = article.metaData?.brightcoves || [];
-
   videos.forEach(video => {
     mediaElements.push({
       data: video,
       type: VIDEO_TYPE,
+    });
+  });
+
+  const concepts = article.metaData.concepts || [];
+  concepts.forEach(concept => {
+    mediaElements.push({
+      data: concept,
+      type: CONCEPT_TYPE,
     });
   });
 
@@ -166,6 +174,8 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
       structuredData.description = data.description;
       structuredData.contentUrl = data.download;
       structuredData.uploadDate = format(data.uploadDate, 'YYYY-MM-DD');
+    } else if (type === CONCEPT_TYPE) {
+      structuredData.url = data.src;
     } else {
       structuredData.contentUrl = data.src;
     }
