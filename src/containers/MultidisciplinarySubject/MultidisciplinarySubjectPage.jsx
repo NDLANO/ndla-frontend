@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
@@ -22,6 +22,20 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     ndlaFilm: false,
     match,
   });
+  const refs = selectedTopics.map(_ => React.createRef());
+
+  useEffect(() => {
+    if (selectedTopics.length) {
+      const ref = refs[selectedTopics.length - 1];
+      const positionFromTop =
+        ref.current.getBoundingClientRect().top +
+        document.documentElement.scrollTop;
+      window.scrollTo({
+        top: positionFromTop - 100,
+        behavior: 'smooth',
+      });
+    }
+  }, [selectedTopics]);
 
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
@@ -74,7 +88,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
   const TopicBoxes = () =>
     selectedTopics.map((topicId, index) => {
       return (
-        <div key={index}>
+        <div key={index} ref={refs[index]}>
           <MultidisciplinaryTopicWrapper
             disableNav={index >= selectionLimit - 1}
             topicId={topicId}
