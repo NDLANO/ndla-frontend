@@ -47,7 +47,7 @@ const SubjectPage = ({
       const sharedFilters = subjectFilters?.filter(id =>
         filterIdsArray.includes(id),
       );
-      if (sharedFilters.length < filterIdsArray.length) {
+      if (sharedFilters.length < filterIdsArray.length && data.subject.path === location.pathname) {
         history.replace({
           search: subjectFilters.length
             ? `?filters=${
