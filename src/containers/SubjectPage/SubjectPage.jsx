@@ -60,7 +60,7 @@ const SubjectPage = ({
         });
       }
     }
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return null;

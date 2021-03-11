@@ -107,14 +107,14 @@ const Learningpath = ({
     }
   };
 
-  useEffect(() => updateCookies(), [learningpathStep.id]);
+  useEffect(() => updateCookies(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     window.addEventListener('keyup', onKeyUpEvent);
     updateCookies();
     return () => {
       window.removeEventListener('keyup', onKeyUpEvent);
     };
-  }, [onKeyUpEvent]);
+  }, [onKeyUpEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { innerWidth } = useWindowSize(100);
   const mobileView = innerWidth < 601;

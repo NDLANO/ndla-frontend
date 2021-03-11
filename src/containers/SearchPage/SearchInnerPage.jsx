@@ -70,7 +70,7 @@ const SearchInnerPage = ({
     setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
     newSearch = true;
-  }, [query, JSON.stringify(subjects)]);
+  }, [query, JSON.stringify(subjects)]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti

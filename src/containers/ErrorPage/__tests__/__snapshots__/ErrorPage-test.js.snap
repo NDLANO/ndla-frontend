@@ -263,9 +263,9 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: columns;
-  -ms-flex-direction: columns;
-  flex-direction: columns;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-align-items: flex-start;
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;

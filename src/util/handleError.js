@@ -11,7 +11,7 @@ import ErrorReporter from '@ndla/error-reporter';
 const log =
   process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;
 
-export default (error, info) => {
+const handleError = (error, info) => {
   if (
     process.env.NODE_ENV === 'production' &&
     process.env.BUILD_TARGET === 'client'
@@ -26,3 +26,4 @@ export default (error, info) => {
     console.error(error); // eslint-disable-line no-console
   }
 };
+export default handleError;

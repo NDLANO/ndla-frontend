@@ -51,7 +51,7 @@ const MastheadContainer = ({
 
   useEffect(() => {
     updateData();
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [fetchData, { data }] = useLazyQuery(mastHeadQuery);
 
@@ -66,7 +66,7 @@ const MastheadContainer = ({
         }),
       );
     }
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateData = () => {
     const { subjectId, resourceId, topicId } = getUrnIdsFromProps({

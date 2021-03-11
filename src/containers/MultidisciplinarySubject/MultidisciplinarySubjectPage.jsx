@@ -35,7 +35,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
         behavior: 'smooth',
       });
     }
-  }, [selectedTopics]);
+  }, [selectedTopics]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { loading, data } = useGraphQuery(subjectPageQuery, {
     variables: {
