@@ -40,6 +40,27 @@ export const searchSubjects = (query, locale = 'nb') => {
   }));
 };
 
+export const frontPageSearchSuggestion = searchResult => {
+  if (!searchResult.frontpageSearch) {
+    return;
+  }
+
+  const {
+    frontpageSearch: { learningResources, topicResources },
+  } = searchResult;
+
+  const suggestions = learningResources.suggestions.concat(
+    topicResources.suggestions,
+  );
+
+  return suggestions.find(s => {
+    if (s?.suggestions?.[0]?.options?.[0]?.text) {
+      return true;
+    }
+    return false;
+  })?.suggestions?.[0]?.options?.[0]?.text;
+};
+
 export const mapSearchToFrontPageStructure = (data, t, query, locale) => {
   const subjectHits = searchSubjects(query, locale);
   const subjects = {
