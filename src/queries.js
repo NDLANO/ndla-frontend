@@ -242,43 +242,57 @@ export const conceptSearchQuery = gql`
 `;
 
 export const frontpageSearchQuery = gql`
-  query FrontpageSearch($query: String) {
-    frontpageSearch(query: $query) {
-      topicResources {
-        results {
-          id
-          name
-          path
-          resourceTypes {
-            name
-          }
-          subject
-          filters {
-            id
-            name
-          }
-        }
-        totalCount
-      }
-      learningResources {
-        results {
-          id
-          name
-          path
-          resourceTypes {
-            name
-          }
-          subject
-          filters {
-            id
-            name
-          }
-        }
-        totalCount
-      }
-    }
-  }
-`;
+         query FrontpageSearch($query: String) {
+           frontpageSearch(query: $query) {
+             topicResources {
+               results {
+                 id
+                 name
+                 path
+                 resourceTypes {
+                   name
+                 }
+                 subject
+                 filters {
+                   id
+                   name
+                 }
+               }
+               totalCount
+               suggestions {
+                 suggestions {
+                   options {
+                     text
+                   }
+                 }
+               }
+             }
+             learningResources {
+               results {
+                 id
+                 name
+                 path
+                 resourceTypes {
+                   name
+                 }
+                 subject
+                 filters {
+                   id
+                   name
+                 }
+               }
+               totalCount
+               suggestions {
+                 suggestions {
+                   options {
+                     text
+                   }
+                 }
+               }
+             }
+           }
+         }
+       `;
 
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
