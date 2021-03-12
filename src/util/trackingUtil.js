@@ -108,7 +108,7 @@ export const getAllDimensions = (
     6: topicPath?.[0]?.name || undefined,
     7:
       topicPath && topicPath[1]
-        ? topicPath[topicPath.length - 1].name
+        ? topicPath[topicPath.length - 1]?.name
         : undefined,
     8: isArticle && article ? article.title : undefined,
     9: authors ? authors.map(author => author.name).join(', ') : undefined,

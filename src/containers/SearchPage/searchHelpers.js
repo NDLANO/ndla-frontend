@@ -293,7 +293,7 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
     url: isLti
       ? getLtiUrl(resource.path, resource.id)
       : resource.contexts?.length
-      ? getContextUrl(resource.contexts[0])
+      ? resource.path
       : plainUrl(resource.path),
     labels: [
       ...mapTraits(resource.traits, t),
