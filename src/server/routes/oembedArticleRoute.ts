@@ -7,17 +7,24 @@
  */
 
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
+import express from 'express';
+import { match as RouterMatchType } from 'react-router';
+// @ts-ignore
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   fetchResource,
   fetchTopic,
+  // @ts-ignore
 } from '../../containers/Resources/resourceApi';
+// @ts-ignore
 import config from '../../config';
+// @ts-ignore
 import handleError from '../../util/handleError';
+// @ts-ignore
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 
-function getOembedObject(req, title, html) {
+function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
     data: {
       type: 'rich',
@@ -30,7 +37,13 @@ function getOembedObject(req, title, html) {
   };
 }
 
-const getHTMLandTitle = async match => {
+interface MatchParams {
+  resourceId?: string;
+  topicId?: string;
+  lang?: string;
+  articleId?: string;
+}
+const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
   const {
     params: { resourceId, topicId, lang = 'nb' },
   } = match;
@@ -54,16 +67,16 @@ const getHTMLandTitle = async match => {
   };
 };
 
-export async function oembedArticleRoute(req) {
+export async function oembedArticleRoute(req: express.Request) {
   const { url } = req.query;
-  if (!url) {
+  if (!url || typeof url !== 'string') {
     return {
       status: BAD_REQUEST,
       data: 'Bad request. Missing url param.',
     };
   }
 
-  const match = parseAndMatchUrl(url);
+  const match = parseAndMatchUrl<MatchParams>(url);
   if (!match) {
     return {
       status: BAD_REQUEST,

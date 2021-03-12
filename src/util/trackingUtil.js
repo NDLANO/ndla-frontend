@@ -35,6 +35,10 @@ export const getDimensionsCodes = {
     ga: 'dimension9',
     gtm: 'CustDimForfatter',
   },
+  10: {
+    ga: 'dimension10',
+    gtm: 'CustDimKjerneelement',
+  },
   13: {
     ga: 'dimension13',
     gtm: 'CustDimStiLengde',
@@ -46,6 +50,10 @@ export const getDimensionsCodes = {
   19: {
     ga: 'dimension19',
     gtm: 'CustDimFilter',
+  },
+  20: {
+    ga: 'dimension20',
+    gtm: 'CustDimKompetansemaal',
   },
 };
 
@@ -63,6 +71,10 @@ const getCopyrightFieldWithFallBack = (article, field, fallback) =>
   article && article.copyright && article.copyright[field]
     ? article.copyright[field]
     : fallback;
+
+const getGrepCodeOfType = (article, pattern) =>
+  article?.grepCodes?.filter(code => code.startsWith(pattern))?.join('|') ||
+  undefined;
 
 export const getAllDimensions = (
   props,
@@ -96,13 +108,15 @@ export const getAllDimensions = (
     6: topicPath?.[0]?.name || undefined,
     7:
       topicPath && topicPath[1]
-        ? topicPath[topicPath.length - 1].name
+        ? topicPath[topicPath.length - 1]?.name
         : undefined,
     8: isArticle && article ? article.title : undefined,
     9: authors ? authors.map(author => author.name).join(', ') : undefined,
+    10: getGrepCodeOfType(article, 'KE'),
     13: learningpath ? learningpath.learningsteps.length : undefined,
     14: learningstep ? learningstep.seqNo + 1 : undefined,
     19: filter ? filter : undefined,
+    20: getGrepCodeOfType(article, 'KM'),
   };
 
   return {
