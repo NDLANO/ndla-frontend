@@ -53,6 +53,9 @@ const WelcomePageSearch = ({ t, history, locale }) => {
 
   const allResultsUrl = toSearch(`query=${query}`);
 
+  const suggestion = searchResult && frontPageSearchSuggestion(searchResult);
+  const suggestionUrl = toSearch(`query=${suggestion}`);
+
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
@@ -92,7 +95,8 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
       history={history}
-      suggestion={searchResult && frontPageSearchSuggestion(searchResult)}
+      suggestion={suggestion}
+      suggestionUrl={suggestionUrl}
     />
   );
 };
