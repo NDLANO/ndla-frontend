@@ -78,7 +78,7 @@ const LtiDeepLinking = ({ ltiData, item, t }) => {
 
   useEffect(() => {
     updatePostData();
-  }, [ltiData]);
+  }, [ltiData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updatePostData = async () => {
     const data = await getLtiPostData(ltiData, item);

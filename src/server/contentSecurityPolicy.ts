@@ -137,7 +137,7 @@ const imgSrc = (() => {
   return defaultImageSrc;
 })();
 
-export default {
+const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
@@ -228,3 +228,4 @@ export default {
     connectSrc,
   },
 };
+export default contentSecurityPolicy;
