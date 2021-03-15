@@ -69,6 +69,7 @@ const MultidisciplinaryTopic = ({
           copyPageUrlLink={copyPageUrlLink}
           locale={locale}
           modifier="in-topic"
+          showIngress={false}
         />
       </NavigationTopicAbout>
       {subTopics.length !== 0 && disableNav !== true && (
