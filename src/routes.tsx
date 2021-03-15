@@ -144,7 +144,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-export default function(
+const routesFunc = function(
   initialProps = {},
   locale: string,
   serverLocation: Location,
@@ -156,4 +156,5 @@ export default function(
       serverLocation={serverLocation}
     />
   );
-}
+};
+export default routesFunc;
