@@ -6,11 +6,12 @@
  *
  */
 
-export default function(array, key) {
+const func = function(array, key) {
   return array.reduce((obj, item) => {
     const copy = obj;
     copy[item[key]] = copy[item[key]] || [];
     copy[item[key]].push(item);
     return copy;
   }, {});
-}
+};
+export default func;

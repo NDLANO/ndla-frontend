@@ -44,7 +44,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
         fetchPolicy: 'no-cache',
       });
     }
-  }, [delayedSearchQuery]);
+  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSearchFieldChange = query => {
     setQuery(query);

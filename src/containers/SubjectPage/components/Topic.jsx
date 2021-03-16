@@ -73,6 +73,7 @@ const Topic = ({
             copyPageUrlLink={copyPageUrlLink}
             locale={locale}
             modifier="in-topic"
+            showIngress={false}
           />
         }
       />

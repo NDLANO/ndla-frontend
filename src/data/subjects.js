@@ -2190,21 +2190,21 @@ export const archivedSubjects = [
     subjectId: 'urn:subject:30',
     id: 'archived_subject_3',
   },
-  /*{
+  {
     filters: ['urn:filter:b8a448f0-e251-41ea-af1c-b2fd62a89828'],
     longName: {
-      en: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
-      nb: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
-      nn: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
     },
     name: {
-      en: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
-      nb: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
-      nn: 'Sørsamisk som førstespråk SF Vg1 (LK06)',
+      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
     },
     subjectId: 'urn:subject:15',
     id: 'archived_subject_4',
-  },*/
+  },
   {
     filters: ['urn:filter:fe0ba9d0-e040-4aa8-91ae-a9a85f89e6a1'],
     longName: {

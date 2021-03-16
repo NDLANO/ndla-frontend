@@ -62,7 +62,7 @@ const MastheadSearch = ({
         fetchPolicy: 'no-cache',
       });
     }
-  }, [delayedSearchQuery]);
+  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFilterRemove = () => {
     setSubjects(undefined);
