@@ -1092,3 +1092,21 @@ export const resourcePageQuery = gql`
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
+
+export const podcastQuery = gql`
+  query podcastQuery($podcastId: String!) {
+    subject(id: $podcastId) {
+      ...PodcastInfo
+    }
+  }
+`;
+
+// export const podcastSearchQuery = gql`
+//   query podcastSearchQuery(
+//     $podcastId: String!
+//     $page: String!
+//     $pageSize: String!
+//   ) {
+
+//   }
+// `;

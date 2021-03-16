@@ -31,6 +31,10 @@ import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/
 // @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 // @ts-ignore
+import PodcastPage from './containers/Podcast/PodcastPage';
+// @ts-ignore
+import PodcastListPage from './containers/Podcast/PodcastListPage';
+// @ts-ignore
 import App from './App';
 
 import {
@@ -46,6 +50,8 @@ import {
   SUBJECTS,
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
+  PODCAST_PAGE_PATH,
+  PODCAST_LIST_PAGE_PATH,
 } from './constants';
 
 // @ts-ignore
@@ -131,6 +137,16 @@ export const routes: RouteType[] = [
   {
     path: PROGRAMME_PATH,
     component: AllSubjectsPage,
+    background: false,
+  },
+  {
+    path: PODCAST_PAGE_PATH,
+    component: PodcastPage,
+    background: false,
+  },
+  {
+    path: PODCAST_LIST_PAGE_PATH,
+    component: PodcastListPage,
     background: false,
   },
   {
