@@ -28,7 +28,7 @@ const ArticleContents = ({
   topic,
   copyPageUrlLink,
   locale,
-  modifier = 'clean',
+  modifier,
   showIngress,
   t,
 }) => {
@@ -85,6 +85,11 @@ ArticleContents.propTypes = {
   locale: PropTypes.string,
   modifier: PropTypes.string,
   showIngress: PropTypes.bool,
+};
+
+ArticleContents.defaultProps = {
+  showIngress: true,
+  modifier: 'clean',
 };
 
 export default injectT(ArticleContents);
