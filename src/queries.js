@@ -263,6 +263,7 @@ export const frontpageSearchQuery = gql`
           suggestions {
             options {
               text
+              score
             }
           }
         }
@@ -286,6 +287,7 @@ export const frontpageSearchQuery = gql`
           suggestions {
             options {
               text
+              score
             }
           }
         }
