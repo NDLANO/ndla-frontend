@@ -259,6 +259,13 @@ export const frontpageSearchQuery = gql`
           }
         }
         totalCount
+        suggestions {
+          suggestions {
+            options {
+              text
+            }
+          }
+        }
       }
       learningResources {
         results {
@@ -275,6 +282,13 @@ export const frontpageSearchQuery = gql`
           }
         }
         totalCount
+        suggestions {
+          suggestions {
+            options {
+              text
+            }
+          }
+        }
       }
     }
   }
