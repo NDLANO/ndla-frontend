@@ -31,6 +31,7 @@ import {
 } from '../../shapes';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
+import { sortResourceTypes } from './searchHelpers';
 
 const SearchContainer = ({
   t,
@@ -67,6 +68,9 @@ const SearchContainer = ({
     });
   }
 
+  const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, 'value');
+  const sortedSearchGroups = sortResourceTypes(searchGroups, 'type');
+
   return (
     <>
       <SearchHeader
@@ -93,7 +97,7 @@ const SearchContainer = ({
             heading={t(
               'searchPage.searchFilterMessages.resourceTypeFilter.heading',
             )}
-            items={filterButtonItems}
+            items={sortedFilterButtonItems}
             onFilterToggle={handleFilterToggle}
             onRemoveAllFilters={handleFilterReset}
             labels={{
@@ -104,7 +108,7 @@ const SearchContainer = ({
           />
           <SearchResults
             showAll={showAll}
-            searchGroups={searchGroups}
+            searchGroups={sortedSearchGroups}
             typeFilter={typeFilter}
             handleFilterClick={handleFilterClick}
             handleShowMore={handleShowMore}

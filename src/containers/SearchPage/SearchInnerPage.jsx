@@ -19,7 +19,6 @@ import {
 import {
   getTypeFilter,
   updateSearchGroups,
-  sortSearchGroups,
   convertSearchParam,
   converSearchStringToObject,
   getTypeParams,
@@ -88,17 +87,15 @@ const SearchInnerPage = ({
     },
     onCompleted: data => {
       setSearchGroups(
-        sortSearchGroups(
-          updateSearchGroups(
-            data.groupSearch,
-            searchGroups,
-            resourceTypes,
-            replaceItems,
-            newSearch,
-            ltiData,
-            isLti,
-            t,
-          ),
+        updateSearchGroups(
+          data.groupSearch,
+          searchGroups,
+          resourceTypes,
+          replaceItems,
+          newSearch,
+          ltiData,
+          isLti,
+          t,
         ),
       );
       resetLoading();

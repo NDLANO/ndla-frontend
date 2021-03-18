@@ -250,24 +250,6 @@ export const getResultMetadata = search => ({
   totalCountTasks: search.totalCountTasks || 0,
 });
 
-export const filterTypeOptions = (searchGroups, t) => {
-  const options = [
-    {
-      title: t('contentTypes.all'),
-      value: 'ALL',
-    },
-  ];
-  searchGroups.forEach(group => {
-    if (group.items?.length) {
-      options.push({
-        value: group.type,
-        title: t(`contentTypes.${group.type}`),
-      });
-    }
-  });
-  return options;
-};
-
 const mapTraits = (traits, t) =>
   traits.map(trait => {
     if (trait === 'VIDEO') {
@@ -346,19 +328,20 @@ const getResourceTypeFilters = resources => {
   return resourceTypeFilters;
 };
 
-export const sortSearchGroups = groups => {
+export const sortResourceTypes = (array, value) => {
   const sortedResourceTypes = [
     'topic-article',
     'subject-material',
     'tasks-and-activities',
+    'learning-path',
     'assessment-resources',
     'external-learning-resources',
     'source-material',
-    'learning-path',
   ];
-  return groups.sort(
+  return array.sort(
     (a, b) =>
-      sortedResourceTypes.indexOf(a.type) - sortedResourceTypes.indexOf(b.type),
+      sortedResourceTypes.indexOf(a[value]) -
+      sortedResourceTypes.indexOf(b[value]),
   );
 };
 
