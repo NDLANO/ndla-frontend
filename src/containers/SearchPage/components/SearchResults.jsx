@@ -6,14 +6,14 @@
  */
 
 import React, { Fragment } from 'react';
-import { func, arrayOf, objectOf, string } from 'prop-types';
+import { func, arrayOf, objectOf, bool } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
 
 const { contentTypes } = constants;
 
 const SearchResults = ({
-  currentSubjectType,
+  showAll,
   handleFilterClick,
   handleShowMore,
   searchGroups,
@@ -22,9 +22,7 @@ const SearchResults = ({
   return searchGroups.map(group => {
     const { totalCount, type, items } = group;
     if (
-      (!currentSubjectType ||
-        type === currentSubjectType ||
-        type === contentTypes.SUBJECT) &&
+      (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
       return (
@@ -48,7 +46,7 @@ const SearchResults = ({
 };
 
 SearchResults.propTypes = {
-  currentSubjectType: string,
+  showAll: bool,
   handleFilterClick: func,
   handleShowMore: func,
   searchGroups: arrayOf(SearchGroupShape),

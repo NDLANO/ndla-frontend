@@ -16,8 +16,11 @@ import {
   bool,
 } from 'prop-types';
 import { Remarkable } from 'remarkable';
-import { SearchSubjectResult, SearchNotionsResult } from '@ndla/ui';
-import { FilterTabs } from '@ndla/tabs';
+import {
+  SearchSubjectResult,
+  SearchNotionsResult,
+  FilterButtons,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 
 import {
@@ -28,25 +31,25 @@ import {
 } from '../../shapes';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
-import { filterTypeOptions } from './searchHelpers';
 
 const SearchContainer = ({
   t,
   handleSearchParamsChange,
   handleFilterClick,
+  handleFilterToggle,
+  handleFilterReset,
   handleShowMore,
-  handleSetSubjectType,
   query,
   subjects,
   allSubjects,
   subjectItems,
   concepts,
   suggestion,
-  currentSubjectType,
   typeFilter,
   searchGroups,
   showConcepts,
   setShowConcepts,
+  showAll,
 }) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -54,6 +57,15 @@ const SearchContainer = ({
     return md;
   }, []);
   const renderMarkdown = text => markdown.render(text);
+
+  const filterButtonItems = [];
+  for (const [type, values] of Object.entries(typeFilter)) {
+    filterButtonItems.push({
+      value: type,
+      label: t(`contentTypes.${type}`),
+      selected: values.selected,
+    });
+  }
 
   return (
     <>
@@ -76,20 +88,28 @@ const SearchContainer = ({
       )}
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
-        <FilterTabs
-          dropdownBtnLabel={t('searchPage.showLabel.contentTypes')}
-          value={currentSubjectType ? currentSubjectType : 'ALL'}
-          options={filterTypeOptions(searchGroups, t)}
-          contentId="search-result-content"
-          onChange={handleSetSubjectType}>
+        <>
+          <FilterButtons
+            heading={t(
+              'searchPage.searchFilterMessages.resourceTypeFilter.heading',
+            )}
+            items={filterButtonItems}
+            onFilterToggle={handleFilterToggle}
+            onRemoveAllFilters={handleFilterReset}
+            labels={{
+              openFilter: t(
+                'searchPage.searchFilterMessages.resourceTypeFilter.button',
+              ),
+            }}
+          />
           <SearchResults
+            showAll={showAll}
             searchGroups={searchGroups}
-            currentSubjectType={currentSubjectType}
             typeFilter={typeFilter}
             handleFilterClick={handleFilterClick}
             handleShowMore={handleShowMore}
           />
-        </FilterTabs>
+        </>
       )}
     </>
   );
@@ -99,8 +119,9 @@ SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
   handleFilterClick: func,
+  handleFilterToggle: func,
+  handleFilterReset: func,
   handleShowMore: func,
-  handleSetSubjectType: func,
   query: string,
   subjects: arrayOf(string),
   allSubjects: arrayOf(
@@ -112,11 +133,11 @@ SearchContainer.propTypes = {
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,
-  currentSubjectType: string,
   typeFilter: objectOf(TypeFilterShape),
   searchGroups: arrayOf(SearchGroupShape),
   showConcepts: bool,
   setShowConcepts: func,
+  showAll: bool,
 };
 
 export default injectT(SearchContainer);

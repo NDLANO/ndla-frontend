@@ -59,7 +59,6 @@ const SearchInnerPage = ({
   ltiData,
   isLti,
 }) => {
-  const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [replaceItems, setReplaceItems] = useState(true);
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
@@ -122,9 +121,16 @@ const SearchInnerPage = ({
     setTypeFilter(filterUpdate);
   };
 
-  const hasActiveFilters = type =>
-    typeFilter[type].filters?.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
+  const resetSelected = () => {
+    const filterUpdate = { ...typeFilter };
+    for (const [key, value] of Object.entries(filterUpdate)) {
+      filterUpdate[key] = {
+        ...value,
+        selected: false,
+      };
+    }
+    setTypeFilter(filterUpdate);
+  };
 
   const updateTypeFilter = (type, updates) => {
     const filterUpdate = { ...typeFilter };
@@ -134,6 +140,10 @@ const SearchInnerPage = ({
     };
     setTypeFilter(filterUpdate);
   };
+
+  const hasActiveFilters = type =>
+    typeFilter[type].filters?.length &&
+    !typeFilter[type].filters.find(f => f.id === 'all').active;
 
   const handleFilterClick = (type, filterId) => {
     updateTypeFilter(type, { page: 1, loading: true });
@@ -166,32 +176,35 @@ const SearchInnerPage = ({
     }
   };
 
-  const handleSetSubjectType = type => {
-    if (type === 'ALL') {
-      setCurrentSubjectType(null);
-      setParams({
-        page: 1,
-        pageSize: 4,
-        types: null,
-      });
-    } else {
-      setCurrentSubjectType(type);
-      updateTypeFilter(type, {
-        page: 1,
-        ...(type !== currentSubjectType && { loading: true }),
-      });
-      setParams(prevState => ({
-        page: 1,
-        pageSize: 8,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : resourceTypeMapping[type] || type,
-      }));
-    }
+  const handleFilterReset = () => {
+    resetSelected();
+    setTypeFilter(getTypeFilter(resourceTypes));
+    setParams({
+      page: 1,
+      pageSize: 4,
+      types: null,
+    });
+  };
+
+  const handleFilterToggle = type => {
+    const pageSize = typeFilter[type].selected ? 4 : 8;
+    updateTypeFilter(type, {
+      page: 1,
+      pageSize,
+      loading: false,
+      selected: !typeFilter[type].selected,
+    });
+    setParams(prevState => ({
+      page: 1,
+      pageSize,
+      types: hasActiveFilters(type)
+        ? prevState.types
+        : resourceTypeMapping[type] || type,
+    }));
   };
 
   const handleShowMore = type => {
-    const pageSize = currentSubjectType ? 8 : 4;
+    const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, { page, loading: true });
     setReplaceItems(false);
@@ -214,23 +227,28 @@ const SearchInnerPage = ({
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
       ?.text;
 
+  const showAll = !Object.values(typeFilter).some(value => value.selected);
+
   return (
     <SearchContainer
       handleSearchParamsChange={handleSearchParamsChange}
       handleFilterClick={handleFilterClick}
+      handleFilterToggle={handleFilterToggle}
+      handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      handleSetSubjectType={handleSetSubjectType}
       suggestion={suggestion}
       concepts={concepts}
       query={query}
       subjects={subjects}
       allSubjects={allSubjects}
       subjectItems={subjectItems}
-      currentSubjectType={currentSubjectType}
       typeFilter={typeFilter}
+      updateTypeFilter={updateTypeFilter}
+      resetSelected={resetSelected}
       searchGroups={searchGroups}
       showConcepts={showConcepts}
       setShowConcepts={setShowConcepts}
+      showAll={showAll}
     />
   );
 };
