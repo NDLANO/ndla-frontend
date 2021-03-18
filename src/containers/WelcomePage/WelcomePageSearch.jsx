@@ -95,7 +95,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
       history={history}
-      suggestion={suggestion}
+      suggestion={searchResult && delayedSearchQuery.length >= 2 && suggestion}
       suggestionUrl={suggestionUrl}
     />
   );
