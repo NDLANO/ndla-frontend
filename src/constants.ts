@@ -49,5 +49,5 @@ export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resour
 export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
 export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
 
-export const PODCAST_PAGE_PATH = '/podcast/:podcastId';
+export const PODCAST_PAGE_PATH = '/podcast/:id';
 export const PODCAST_LIST_PAGE_PATH = '/podcast';

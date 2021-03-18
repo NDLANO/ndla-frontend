@@ -1,38 +1,31 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { AudioPlayer, Figure, OneColumn } from '@ndla/ui';
+// @ts-ignore
+import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router';
 import { useGraphQuery } from '../../util/runQueries';
 import { podcastQuery } from '../../queries';
+import Podcast from './Podcast';
 
-type RouteParams = { podcastId: string };
+type RouteParams = { id: string };
 
-const PodcastPage = ({
+const PodcastPage: React.FC<RouteComponentProps<RouteParams>> = ({
   match: {
-    params: { podcastId },
+    params: { id },
   },
-}: RouteComponentProps<RouteParams>) => {
-  // eslint-disable-next-line no-empty-pattern
-  const { data } = useGraphQuery(podcastQuery, {
-    variables: { podcastId },
+}) => {
+  const { loading, data: { podcast } = {} } = useGraphQuery(podcastQuery, {
+    variables: { id },
   });
-
-  console.log(data);
 
   return (
     <div>
       <OneColumn>
-        <Figure id={podcastId} type="full-column">
-          <AudioPlayer
-            src=""
-            title=""
-            description=""
-            img={{
-              url: '',
-              alt: '',
-            }}
-            textVersion={''}
-          />
-        </Figure>
+        {!loading && podcast ? (
+          <Podcast podcast={podcast} />
+        ) : (
+          <div>loading</div>
+        )}
       </OneColumn>
     </div>
   );

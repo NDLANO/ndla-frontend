@@ -1094,9 +1094,35 @@ export const resourcePageQuery = gql`
 `;
 
 export const podcastQuery = gql`
-  query podcastQuery($podcastId: String!) {
-    subject(id: $podcastId) {
-      ...PodcastInfo
+  ${copyrightInfoFragment}
+  query podcastQuery($id: String!) {
+    podcast(id: $id) {
+      id
+      title
+      revision
+      audioFile {
+        url
+        mimeType
+        fileSize
+        language
+      }
+      copyright {
+        ...CopyrightInfo
+      }
+      tags
+      supportedLanguages
+      audioType
+      podcastMeta {
+        header
+        introduction
+        coverPhoto {
+          id
+          url
+          altText
+        }
+        manuscript
+        language
+      }
     }
   }
 `;
