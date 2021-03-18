@@ -61,11 +61,13 @@ const SearchContainer = ({
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
-    filterButtonItems.push({
-      value: type,
-      label: t(`contentTypes.${type}`),
-      selected: values.selected,
-    });
+    if (searchGroups.find(group => group.type === type)?.items?.length) {
+      filterButtonItems.push({
+        value: type,
+        label: t(`contentTypes.${type}`),
+        selected: values.selected,
+      });
+    }
   }
 
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, 'value');
