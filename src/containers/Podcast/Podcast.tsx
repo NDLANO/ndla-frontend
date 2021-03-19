@@ -16,11 +16,12 @@ import {
 // @ts-ignore
 import Button, { StyledButton } from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
-import { Copyright, Audio } from '.../../../interfaces';
 import {
   addCloseDialogClickListeners,
   addShowDialogClickListeners,
+  // @ts-ignore
 } from '@ndla/article-scripts';
+import { Copyright, Audio } from '.../../../interfaces';
 
 const Anchor = StyledButton.withComponent('a');
 
