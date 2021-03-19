@@ -17,6 +17,10 @@ import {
 import Button, { StyledButton } from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import { Copyright, Audio } from '.../../../interfaces';
+import {
+  addCloseDialogClickListeners,
+  addShowDialogClickListeners,
+} from '@ndla/article-scripts';
 
 const Anchor = StyledButton.withComponent('a');
 
@@ -59,9 +63,14 @@ const AudioActionButtons: React.FC<AudioActionButtonProps & tType> = ({
 
 interface PodcastProps {
   podcast: Audio;
+  runScripts: boolean;
 }
 
-const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
+const Podcast: React.FC<tType & PodcastProps> = ({
+  podcast,
+  runScripts,
+  t,
+}) => {
   const license =
     podcast.copyright?.license &&
     getLicenseByAbbreviation(
@@ -75,8 +84,16 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
     name: item.description,
     type: item.label,
   }));
+
+  React.useEffect(() => {
+    if (runScripts) {
+      addShowDialogClickListeners();
+      addCloseDialogClickListeners();
+    }
+  }, [runScripts]);
+
   return (
-    <Figure id={podcast.id} type="full-column">
+    <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
         src={podcast.audioFile.url}
         title={podcast.title}
@@ -91,7 +108,6 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
       />
       <FigureLicenseDialog
         id={podcast.id}
-        key={podcast.id}
         license={license}
         authors={contributors}
         origin={podcast.copyright?.origin}
@@ -107,7 +123,7 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
         <AudioActionButtons src="test" copyString="test" t={t} />
       </FigureLicenseDialog>
       <FigureCaption
-        figureId={podcast.id}
+        figureId={`figure-${podcast.id}`}
         id={podcast.id}
         locale="nb" // Fiks
         key="caption"

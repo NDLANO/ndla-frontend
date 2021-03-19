@@ -22,7 +22,7 @@ const PodcastPage: React.FC<RouteComponentProps<RouteParams>> = ({
     <div>
       <OneColumn>
         {!loading && podcast ? (
-          <Podcast podcast={podcast} />
+          <Podcast podcast={podcast} runScripts />
         ) : (
           <div>loading</div>
         )}
