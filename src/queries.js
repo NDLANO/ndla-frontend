@@ -176,6 +176,7 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
+    $aggregatePaths: [String]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -186,6 +187,7 @@ export const groupSearchQuery = gql`
       pageSize: $pageSize
       language: $language
       fallback: $fallback
+      aggregatePaths: $aggregatePaths
     ) {
       resources {
         id
@@ -211,6 +213,11 @@ export const groupSearchQuery = gql`
         metaImage {
           url
           alt
+        }
+      }
+      aggregations {
+        values {
+          value
         }
       }
       suggestions {

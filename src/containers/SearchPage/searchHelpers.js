@@ -348,32 +348,28 @@ export const sortResourceTypes = (array, value) => {
 export const updateSearchGroups = (
   searchData,
   searchGroups,
-  resourceTypes,
   replaceItems,
   newSearch,
   ltiData,
   isLti,
   t,
 ) => {
-  if (!searchGroups.length) {
+  if (newSearch) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources, ltiData, isLti, t),
-      resourceTypes: getResourceTypeFilters(result.resources),
+      resourceTypes: result.aggregations?.[0]?.values.map(value => value.value),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
     }));
   }
   return searchGroups.map(group => {
-    const searchResults = searchData.filter(
-      result =>
-        (contentTypeMapping[result.resourceType] || result.resourceType) ===
-          group.type ||
-        resourceTypes
-          .find(type => contentTypeMapping[type.id] === group.type)
-          ?.subtypes?.map(subtype => subtype.id)
-          ?.includes(result.resourceType),
-    );
-
+    const searchResults = searchData.filter(result => {
+      const resultType =
+        contentTypeMapping[result.resourceType] || result.resourceType;
+      return (
+        group.type === resultType || group.resourceTypes.includes(resultType)
+      );
+    });
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
@@ -396,14 +392,6 @@ export const updateSearchGroups = (
           : [
               ...group.items,
               ...mapResourcesToItems(result.resources, ltiData, isLti, t),
-            ],
-        resourceTypes: newSearch
-          ? [...new Set(getResourceTypeFilters(result.resources))]
-          : [
-              ...new Set([
-                ...group.resourceTypes,
-                ...getResourceTypeFilters(result.resources),
-              ]),
             ],
         totalCount: result.totalCount,
       };

@@ -84,13 +84,13 @@ const SearchInnerPage = ({
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),
+      aggregatePaths: ['contexts.resourceTypes.id'],
     },
     onCompleted: data => {
       setSearchGroups(
         updateSearchGroups(
           data.groupSearch,
           searchGroups,
-          resourceTypes,
           replaceItems,
           newSearch,
           ltiData,
