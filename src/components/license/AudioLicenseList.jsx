@@ -31,7 +31,7 @@ const AudioShape = PropTypes.shape({
   copyright: NewCopyrightObjectShape.isRequired,
 });
 
-const AudioLicenseInfo = ({ audio, locale, t }) => {
+export const AudioLicenseInfo = ({ audio, locale, t }) => {
   const items = getGroupedContributorDescriptionList(audio.copyright, locale);
   return (
     <MediaListItem>

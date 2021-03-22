@@ -5,25 +5,17 @@ import {
   // @ts-ignore
   Figure,
   // @ts-ignore
-  FigureLicenseDialog,
-  // @ts-ignore
   FigureCaption,
 } from '@ndla/ui';
-import {
-  getLicenseByAbbreviation,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 // @ts-ignore
-import Button, { StyledButton } from '@ndla/button';
+import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
-import {
-  addCloseDialogClickListeners,
-  addShowDialogClickListeners,
-  // @ts-ignore
-} from '@ndla/article-scripts';
+// @ts-ignore
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+// @ts-ignore
+import { AudioLicenseInfo } from 'components/license/AudioLicenseList';
 import { Copyright, Audio } from '.../../../interfaces';
-
-const Anchor = StyledButton.withComponent('a');
 
 const getLicenseCredits = (copyright: Copyright) => {
   if (copyright.creators && copyright.creators.length > 0) {
@@ -38,60 +30,17 @@ const getLicenseCredits = (copyright: Copyright) => {
   return [];
 };
 
-interface AudioActionButtonProps {
-  src: string;
-  copyString: string;
-}
-
-const AudioActionButtons: React.FC<AudioActionButtonProps & tType> = ({
-  src,
-  copyString,
-  t,
-}) => (
-  <>
-    <Button
-      key="copy"
-      outline
-      data-copied-title={t('license.hasCopiedTitle')}
-      data-copy-string={copyString}>
-      {t('license.copyTitle')}
-    </Button>
-    <Anchor key="download" href={src} download appearance="outline">
-      {t('audio.download')}
-    </Anchor>
-  </>
-);
-
 interface PodcastProps {
   podcast: Audio;
-  runScripts: boolean;
 }
 
-const Podcast: React.FC<tType & PodcastProps> = ({
-  podcast,
-  runScripts,
-  t,
-}) => {
+const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
   const license =
     podcast.copyright?.license &&
     getLicenseByAbbreviation(
       podcast.copyright?.license?.license,
       'nb', // Fiks
     );
-  const contributors = getGroupedContributorDescriptionList(
-    podcast.copyright,
-    'nb', // Fiks
-  ).map(item => ({
-    name: item.description,
-    type: item.label,
-  }));
-
-  React.useEffect(() => {
-    if (runScripts) {
-      addShowDialogClickListeners();
-      addCloseDialogClickListeners();
-    }
-  }, [runScripts]);
 
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
@@ -107,32 +56,44 @@ const Podcast: React.FC<tType & PodcastProps> = ({
         }
         textVersion={podcast.podcastMeta?.manuscript}
       />
-      <FigureLicenseDialog
-        id={podcast.id}
-        license={license}
-        authors={contributors}
-        origin={podcast.copyright?.origin}
-        title={podcast.title}
-        locale={'nb'} // Fiks
-        messages={{
-          close: 'Lukk', // Fiks
-          rulesForUse: 'Regler for bruk av lydklippet', // Fiks
-          learnAboutLicenses: license?.linkText,
-          source: 'Kilde', // Fiks
-          title: 'Tittel', // Fiks
-        }}>
-        <AudioActionButtons src="test" copyString="test" t={t} />
-      </FigureLicenseDialog>
       <FigureCaption
         figureId={`figure-${podcast.id}`}
         id={podcast.id}
         locale="nb" // Fiks
         key="caption"
         caption={podcast.title}
-        reuseLabel={'Bruk lydklipp'} // Fiks
         licenseRights={license?.rights}
-        authors={getLicenseCredits(podcast.copyright)} //
-      />
+        authors={getLicenseCredits(podcast.copyright)} // Fiks
+      >
+        <Modal
+          backgroundColor="blue"
+          activateButton={<Button link>{t('article.useContent')}</Button>}
+          size="regular">
+          {(onClose: void) => (
+            <>
+              <ModalHeader modifier="no-bottom-padding">
+                <ModalCloseButton onClick={onClose} title="Lukk" />
+              </ModalHeader>
+              <ModalBody>
+                <div>
+                  <AudioLicenseInfo
+                    audio={{
+                      src: podcast.audioFile.url,
+                      copyright: podcast.copyright,
+                      title: podcast.title,
+                    }}
+                    locale={'nb'}
+                    t={(
+                      arg: string,
+                      obj: { [key: string]: string | boolean | number },
+                    ) => t(`license.${arg}`, obj)}
+                  />
+                </div>
+              </ModalBody>
+            </>
+          )}
+        </Modal>
+      </FigureCaption>
     </Figure>
   );
 };
