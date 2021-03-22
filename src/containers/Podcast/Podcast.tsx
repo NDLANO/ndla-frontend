@@ -42,18 +42,18 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
       'nb', // Fiks
     );
 
+  const coverPhoto = podcast.podcastMeta?.coverPhoto && {
+    url: podcast.podcastMeta?.coverPhoto?.url,
+    alt: podcast.podcastMeta?.coverPhoto?.altText,
+  };
+
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
         src={podcast.audioFile.url}
         title={podcast.title}
         description={podcast.podcastMeta?.introduction}
-        img={
-          podcast.podcastMeta?.coverPhoto && {
-            url: podcast.podcastMeta?.coverPhoto?.url,
-            alt: podcast.podcastMeta?.coverPhoto?.altText,
-          }
-        }
+        img={coverPhoto}
         textVersion={podcast.podcastMeta?.manuscript}
       />
       <FigureCaption
@@ -68,27 +68,26 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
         <Modal
           backgroundColor="blue"
           activateButton={<Button link>{t('article.useContent')}</Button>}
-          size="regular">
+          size="medium">
           {(onClose: void) => (
             <>
               <ModalHeader modifier="no-bottom-padding">
                 <ModalCloseButton onClick={onClose} title="Lukk" />
               </ModalHeader>
               <ModalBody>
-                <div>
-                  <AudioLicenseInfo
-                    audio={{
-                      src: podcast.audioFile.url,
-                      copyright: podcast.copyright,
-                      title: podcast.title,
-                    }}
-                    locale={'nb'}
-                    t={(
-                      arg: string,
-                      obj: { [key: string]: string | boolean | number },
-                    ) => t(`license.${arg}`, obj)}
-                  />
-                </div>
+                <AudioLicenseInfo
+                  audio={{
+                    src: podcast.audioFile.url,
+                    copyright: podcast.copyright,
+                    title: podcast.title,
+                    image: coverPhoto,
+                  }}
+                  locale={'nb'}
+                  t={(
+                    arg: string,
+                    obj: { [key: string]: string | boolean | number },
+                  ) => t(`license.${arg}`, obj)}
+                />
               </ModalBody>
             </>
           )}

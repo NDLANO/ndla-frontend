@@ -2,6 +2,10 @@
 import React from 'react';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
+// @ts-ignore
+import { Spinner } from '@ndla/ui';
+import { Redirect } from 'react-router-dom';
+
 import { RouteComponentProps } from 'react-router';
 import { useGraphQuery } from '../../util/runQueries';
 import { podcastQuery } from '../../queries';
@@ -14,20 +18,21 @@ const PodcastPage: React.FC<RouteComponentProps<RouteParams>> = ({
     params: { id },
   },
 }) => {
-  const { loading, data: { podcast } = {} } = useGraphQuery(podcastQuery, {
-    variables: { id },
-  });
+  const { error, loading, data: { podcast } = {} } = useGraphQuery(
+    podcastQuery,
+    {
+      variables: { id },
+    },
+  );
+
+  if (error) {
+    return <Redirect to="/podcast" />;
+  }
 
   return (
     <div>
       <OneColumn>
-        {!loading && podcast ? (
-          <div>
-            <Podcast podcast={podcast} />
-          </div>
-        ) : (
-          <div>loading</div>
-        )}
+        {loading ? <Spinner /> : <Podcast podcast={podcast} />}
       </OneColumn>
     </div>
   );

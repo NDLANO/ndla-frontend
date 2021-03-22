@@ -22,13 +22,14 @@ import { injectT } from '@ndla/i18n';
 import { getGroupedContributorDescriptionList } from '@ndla/licenses';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { NewCopyrightObjectShape } from '../../shapes';
+import { NewCopyrightObjectShape, MetaImageShape } from '../../shapes';
 import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const AudioShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   copyright: NewCopyrightObjectShape.isRequired,
+  image: MetaImageShape,
 });
 
 export const AudioLicenseInfo = ({ audio, locale, t }) => {
@@ -36,7 +37,11 @@ export const AudioLicenseInfo = ({ audio, locale, t }) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <AudioDocument className="c-medialist__icon" />
+        {audio.image ? (
+          <img alt={audio.image.alt} src={audio.image.src} />
+        ) : (
+          <AudioDocument className="c-medialist__icon" />
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         title={t('audio.rules')}
