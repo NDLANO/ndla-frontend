@@ -1098,7 +1098,10 @@ export const podcastQuery = gql`
   query podcastQuery($id: String!) {
     podcast(id: $id) {
       id
-      title
+      title {
+        title
+        language
+      }
       revision
       audioFile {
         url
@@ -1109,7 +1112,10 @@ export const podcastQuery = gql`
       copyright {
         ...CopyrightInfo
       }
-      tags
+      tags {
+        tags
+        language
+      }
       supportedLanguages
       audioType
       podcastMeta {

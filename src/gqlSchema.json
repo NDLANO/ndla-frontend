@@ -6925,8 +6925,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "Title",
                 "ofType": null
               }
             },
@@ -6970,13 +6970,9 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Tags",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7021,6 +7017,50 @@
               "kind": "OBJECT",
               "name": "PodcastMeta",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Title",
+        "description": "",
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "title",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "language",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7079,6 +7119,50 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "language",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Tags",
+        "description": "",
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "tags",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },

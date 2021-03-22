@@ -49,7 +49,7 @@ const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
         src={podcast.audioFile.url}
-        title={podcast.title}
+        title={podcast.title.title}
         description={podcast.podcastMeta?.introduction}
         img={coverPhoto}
         textVersion={podcast.podcastMeta?.manuscript}
@@ -59,7 +59,7 @@ const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
         id={podcast.id}
         locale={locale}
         key="caption"
-        caption={podcast.title}
+        caption={podcast.title.title}
         licenseRights={license?.rights}
         authors={getLicenseCredits(podcast.copyright)} // Fiks
       >
@@ -77,7 +77,7 @@ const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
                   audio={{
                     src: podcast.audioFile.url,
                     copyright: podcast.copyright,
-                    title: podcast.title,
+                    title: podcast.title.title,
                     image: coverPhoto,
                   }}
                   locale={locale}

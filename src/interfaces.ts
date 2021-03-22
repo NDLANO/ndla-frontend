@@ -24,10 +24,13 @@ export interface Audio {
   revision: number;
   supportedLanguages: string[];
   tags: {
-    language: string;
     tags: string[];
+    language: string;
   };
-  title: string;
+  title: {
+    title: string;
+    language: string;
+  };
   podcastMeta?: {
     header: string;
     introduction: string;
