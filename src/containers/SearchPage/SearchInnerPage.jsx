@@ -91,6 +91,7 @@ const SearchInnerPage = ({
         updateSearchGroups(
           data.groupSearch,
           searchGroups,
+          params.pageSize,
           replaceItems,
           newSearch,
           ltiData,

@@ -348,6 +348,7 @@ export const sortResourceTypes = (array, value) => {
 export const updateSearchGroups = (
   searchData,
   searchGroups,
+  pageSize,
   replaceItems,
   newSearch,
   ltiData,
@@ -373,25 +374,17 @@ export const updateSearchGroups = (
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
-        resources: [
-          ...currentValue.resources.slice(
-            0,
-            Math.floor(currentValue.resources.length / 2),
-          ),
-          ...accumulator.resources.slice(
-            0,
-            Math.floor(accumulator.resources.length / 2),
-          ),
-        ],
+        resources: [...currentValue.resources, ...accumulator.resources],
         totalCount: currentValue.totalCount + accumulator.totalCount,
       }));
+      const resources = result.resources.slice(0, pageSize);
       return {
         ...group,
         items: replaceItems
-          ? mapResourcesToItems(result.resources, ltiData, isLti, t)
+          ? mapResourcesToItems(resources, ltiData, isLti, t)
           : [
               ...group.items,
-              ...mapResourcesToItems(result.resources, ltiData, isLti, t),
+              ...mapResourcesToItems(resources, ltiData, isLti, t),
             ],
         totalCount: result.totalCount,
       };
