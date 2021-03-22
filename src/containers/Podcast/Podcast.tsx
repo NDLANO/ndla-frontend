@@ -30,17 +30,15 @@ const getLicenseCredits = (copyright: Copyright) => {
   return [];
 };
 
-interface PodcastProps {
+interface Props {
   podcast: Audio;
+  locale: string;
 }
 
-const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
+const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
   const license =
     podcast.copyright?.license &&
-    getLicenseByAbbreviation(
-      podcast.copyright?.license?.license,
-      'nb', // Fiks
-    );
+    getLicenseByAbbreviation(podcast.copyright?.license?.license, locale);
 
   const coverPhoto = podcast.podcastMeta?.coverPhoto && {
     url: podcast.podcastMeta?.coverPhoto?.url,
@@ -59,7 +57,7 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
       <FigureCaption
         figureId={`figure-${podcast.id}`}
         id={podcast.id}
-        locale="nb" // Fiks
+        locale={locale}
         key="caption"
         caption={podcast.title}
         licenseRights={license?.rights}
@@ -82,7 +80,7 @@ const Podcast: React.FC<tType & PodcastProps> = ({ podcast, t }) => {
                     title: podcast.title,
                     image: coverPhoto,
                   }}
-                  locale={'nb'}
+                  locale={locale}
                   t={(
                     arg: string,
                     obj: { [key: string]: string | boolean | number },
