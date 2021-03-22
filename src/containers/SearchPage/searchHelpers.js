@@ -314,20 +314,6 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
     ),
   }));
 
-const getResourceTypeFilters = resources => {
-  const resourceTypeFilters = [];
-  resources.forEach(resource => {
-    resource.contexts.forEach(context => {
-      context.resourceTypes.forEach(type => {
-        if (!resourceTypeFilters.includes(type.id)) {
-          resourceTypeFilters.push(type.id);
-        }
-      });
-    });
-  });
-  return resourceTypeFilters;
-};
-
 export const sortResourceTypes = (array, value) => {
   const sortedResourceTypes = [
     'topic-article',
