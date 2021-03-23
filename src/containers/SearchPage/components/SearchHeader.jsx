@@ -5,35 +5,83 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
-import { arrayOf, func, shape, string } from 'prop-types';
+import React, { useState, useEffect, useMemo } from 'react';
+import { func, string } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { subjectsCategories } from '../../../data/subjects';
+
+const getSubjectCategoriesForLocale = locale => {
+  return subjectsCategories.map(category => ({
+    name: category.name[locale],
+    subjects: category.subjects.map(subject => ({
+      id: `${subject.subjectId},${subject.filters[0]}`,
+      name: subject.longName[locale],
+    })),
+  }));
+};
+
+let activeSubjectFilters = [];
 
 const SearchHeader = ({
   t,
   query,
   suggestion,
-  subjects,
-  allSubjects,
   handleSearchParamsChange,
+  locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
+  const [subjectFilter, setSubjectFilter] = useState([]);
+
+  const localeSubjectCategories = useMemo(
+    () => getSubjectCategoriesForLocale(locale),
+    [locale],
+  );
 
   useEffect(() => {
     setSearchValue(query);
   }, [query]);
 
-  const filterProps = {
-    options: allSubjects,
-    values: subjects,
-    onSubmit: filters => {
-      handleSearchParamsChange({ subjects: filters });
+  useEffect(() => {
+    activeSubjectFilters = [];
+    localeSubjectCategories.forEach(category => {
+      category.subjects.forEach(subject => {
+        if (subjectFilter.includes(subject.id)) {
+          activeSubjectFilters.push({
+            name: subject.name,
+            value: subject.id,
+            title: subject.name,
+          });
+        }
+      });
+    });
+  }, [subjectFilter, localeSubjectCategories]);
+
+  const handleSubjectValuesChange = values => {
+    setSubjectFilter(values);
+    const subjects = [];
+    const filters = [];
+    values.forEach(id => {
+      const [subject, filter] = id.split(',');
+      if (!subjects.includes(subject)) subjects.push(subject);
+      if (!filters.includes(filter)) filters.push(filter);
+    });
+    handleSearchParamsChange({
+      subjects,
+      filters,
+    });
+  };
+
+  const subjectFilterProps = {
+    subjectCategories: {
+      categories: localeSubjectCategories,
+      values: subjectFilter,
+      onSubjectValuesChange: handleSubjectValuesChange,
     },
+
     messages: {
       filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
       closeButton: t('searchPage.close'),
-      confirmButton: t('searchPage.searchFilterMessages.confirmButton'),
       buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
     },
   };
@@ -44,14 +92,8 @@ const SearchHeader = ({
   };
 
   const handleFilterRemove = value => {
-    handleSearchParamsChange({
-      subjects: subjects.filter(option => option !== value),
-    });
+    handleSubjectValuesChange(subjectFilter.filter(id => id !== value));
   };
-
-  const activeSubjectFilters = allSubjects.filter(option =>
-    subjects.includes(option.value),
-  );
 
   return (
     <SearchHeaderUI
@@ -67,7 +109,7 @@ const SearchHeader = ({
         filters: activeSubjectFilters,
         onFilterRemove: handleFilterRemove,
       }}
-      filters={filterProps}
+      filters={subjectFilterProps}
     />
   );
 };
@@ -75,14 +117,8 @@ const SearchHeader = ({
 SearchHeader.propTypes = {
   handleSearchParamsChange: func,
   query: string,
-  subjects: arrayOf(string),
-  allSubjects: arrayOf(
-    shape({
-      title: string,
-      value: string,
-    }),
-  ),
   suggestion: string,
+  locale: string,
 };
 
 export default injectT(SearchHeader);

@@ -6,15 +6,7 @@
  */
 
 import React, { useMemo } from 'react';
-import {
-  func,
-  arrayOf,
-  objectOf,
-  object,
-  string,
-  shape,
-  bool,
-} from 'prop-types';
+import { func, arrayOf, objectOf, object, string, bool } from 'prop-types';
 import { Remarkable } from 'remarkable';
 import {
   SearchSubjectResult,
@@ -41,8 +33,6 @@ const SearchContainer = ({
   handleFilterReset,
   handleShowMore,
   query,
-  subjects,
-  allSubjects,
   subjectItems,
   concepts,
   suggestion,
@@ -51,6 +41,7 @@ const SearchContainer = ({
   showConcepts,
   setShowConcepts,
   showAll,
+  locale,
 }) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -78,9 +69,8 @@ const SearchContainer = ({
       <SearchHeader
         query={query}
         suggestion={suggestion}
-        subjects={subjects}
-        allSubjects={allSubjects}
         handleSearchParamsChange={handleSearchParamsChange}
+        locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
@@ -129,13 +119,6 @@ SearchContainer.propTypes = {
   handleFilterReset: func,
   handleShowMore: func,
   query: string,
-  subjects: arrayOf(string),
-  allSubjects: arrayOf(
-    shape({
-      title: string,
-      value: string,
-    }),
-  ),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,
@@ -144,6 +127,7 @@ SearchContainer.propTypes = {
   showConcepts: bool,
   setShowConcepts: func,
   showAll: bool,
+  locale: string,
 };
 
 export default injectT(SearchContainer);

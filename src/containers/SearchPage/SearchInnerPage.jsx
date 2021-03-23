@@ -49,7 +49,6 @@ const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
   subjects,
-  allSubjects,
   subjectItems,
   concepts,
   resourceTypes,
@@ -237,14 +236,13 @@ const SearchInnerPage = ({
       suggestion={suggestion}
       concepts={concepts}
       query={query}
-      subjects={subjects}
-      allSubjects={allSubjects}
       subjectItems={subjectItems}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
       showConcepts={showConcepts}
       setShowConcepts={setShowConcepts}
       showAll={showAll}
+      locale={locale}
     />
   );
 };
@@ -254,12 +252,6 @@ SearchInnerPage.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
-  allSubjects: arrayOf(
-    shape({
-      title: string,
-      value: string,
-    }),
-  ),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   resourceTypes: arrayOf(
