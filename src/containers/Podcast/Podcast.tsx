@@ -14,7 +14,7 @@ import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 // @ts-ignore
-import { AudioLicenseInfo } from 'components/license/AudioLicenseList';
+import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
 import { Copyright, Audio } from '.../../../interfaces';
 
 const getLicenseCredits = (copyright: Copyright) => {
