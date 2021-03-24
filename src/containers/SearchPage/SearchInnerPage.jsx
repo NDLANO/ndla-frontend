@@ -49,6 +49,7 @@ const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
   subjects,
+  filters,
   subjectItems,
   concepts,
   resourceTypes,
@@ -233,6 +234,7 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
+      filters={filters}
       suggestion={suggestion}
       concepts={concepts}
       query={query}
@@ -252,6 +254,7 @@ SearchInnerPage.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
+  filters: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   resourceTypes: arrayOf(

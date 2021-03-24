@@ -33,6 +33,7 @@ const SearchContainer = ({
   handleFilterReset,
   handleShowMore,
   query,
+  filters,
   subjectItems,
   concepts,
   suggestion,
@@ -69,6 +70,7 @@ const SearchContainer = ({
       <SearchHeader
         query={query}
         suggestion={suggestion}
+        filters={filters}
         handleSearchParamsChange={handleSearchParamsChange}
         locale={locale}
       />
@@ -119,6 +121,7 @@ SearchContainer.propTypes = {
   handleFilterReset: func,
   handleShowMore: func,
   query: string,
+  filters: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,

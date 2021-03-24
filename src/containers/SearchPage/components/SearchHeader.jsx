@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { func, string } from 'prop-types';
+import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { subjectsCategories } from '../../../data/subjects';
@@ -21,17 +21,27 @@ const getSubjectCategoriesForLocale = locale => {
   }));
 };
 
-let activeSubjectFilters = [];
+const getSubjectFilterByFilter = filters => {
+  return subjectsCategories
+    .map(category =>
+      category.subjects
+        .filter(subject => filters.includes(subject.filters[0]))
+        .map(s => `${s.subjectId},${s.filters[0]}`),
+    )
+    .flat();
+};
 
 const SearchHeader = ({
   t,
   query,
   suggestion,
+  filters,
   handleSearchParamsChange,
   locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
   const [subjectFilter, setSubjectFilter] = useState([]);
+  const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
@@ -43,11 +53,15 @@ const SearchHeader = ({
   }, [query]);
 
   useEffect(() => {
-    activeSubjectFilters = [];
+    setSubjectFilter(getSubjectFilterByFilter(filters));
+  }, [filters]);
+
+  useEffect(() => {
+    const newActiveSubjectFilters = [];
     localeSubjectCategories.forEach(category => {
       category.subjects.forEach(subject => {
         if (subjectFilter.includes(subject.id)) {
-          activeSubjectFilters.push({
+          newActiveSubjectFilters.push({
             name: subject.name,
             value: subject.id,
             title: subject.name,
@@ -55,6 +69,7 @@ const SearchHeader = ({
         }
       });
     });
+    setActiveSubjectFilters(newActiveSubjectFilters);
   }, [subjectFilter, localeSubjectCategories]);
 
   const handleSubjectValuesChange = values => {
@@ -118,6 +133,7 @@ SearchHeader.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   suggestion: string,
+  filters: arrayOf(string),
   locale: string,
 };
 

@@ -134,6 +134,7 @@ const arrayFields = [
   'languageFilter',
   'levels',
   'subjects',
+  'filters',
   'relevance',
   'resourceTypes',
   'contextTypes',
