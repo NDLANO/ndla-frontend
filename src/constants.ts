@@ -35,6 +35,7 @@ export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
+export const STORED_LANGUAGE_KEY = 'ndla-frontend-language';
 
 export const PROGRAMME_PATH = '/utdanning';
 export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
