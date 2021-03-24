@@ -16,7 +16,10 @@ import debounce from 'lodash.debounce';
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
 
-import { mapSearchToFrontPageStructure } from '../../util/searchHelpers';
+import {
+  frontPageSearchSuggestion,
+  mapSearchToFrontPageStructure,
+} from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
 
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
@@ -49,6 +52,9 @@ const WelcomePageSearch = ({ t, history, locale }) => {
   };
 
   const allResultsUrl = toSearch(`query=${query}`);
+
+  const suggestion = searchResult && frontPageSearchSuggestion(searchResult);
+  const suggestionUrl = toSearch(`query=${suggestion}`);
 
   if (error) {
     handleError(error);
@@ -89,6 +95,8 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
       history={history}
+      suggestion={searchResult && delayedSearchQuery.length >= 2 && suggestion}
+      suggestionUrl={suggestionUrl}
     />
   );
 };
