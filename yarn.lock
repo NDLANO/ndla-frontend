@@ -1499,6 +1499,17 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
+"@ndla/core@^0.6.37":
+  version "0.6.37"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.37.tgz#d5bb4879482b9098f8375f6d7315ed0df6a30919"
+  integrity sha512-Mroe18BpIRDCazqlvw03gsZxvLv8zo/zw44lVCgDNUQceTmjV4hx8bk+H6+ha9GdMGYk71Xo/uSt7ceSAbMQLw==
+  dependencies:
+    "@types/facepaint" "^1.2.1"
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
 "@ndla/error-reporter@^0.4.14":
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-0.4.14.tgz#ccb92cace0a9440bcb34c63b552ad37f04d850ab"
@@ -1551,12 +1562,12 @@
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/pager@^0.4.40":
-  version "0.4.40"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.40.tgz#2ca887db9ea90a8502f5ab1e2e1ac25707848076"
-  integrity sha512-yZ2sb09Z0cKpZ0q0lR1eIz5fFaV8Wcm6qTqviVyJiVygIC1h3dIjMguXmK0XVWOdj4wuYFyhrTHuCIUz0koszg==
+"@ndla/pager@^0.4.42":
+  version "0.4.42"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.42.tgz#627847aad578f42949d5085e5faa988ed2ef5c71"
+  integrity sha512-+i7/QcKYl15W2dBoJGBivt8TC9gTHIyVtXG6GodPFOMux/qX6dQ3q8Lft9qxOlG+fxajoYYliu5G/GBouZNChw==
   dependencies:
-    "@ndla/core" "^0.6.35"
+    "@ndla/core" "^0.6.37"
     "@ndla/safelink" "^0.0.7"
 
 "@ndla/polyfill@^0.1.11":
@@ -1929,6 +1940,11 @@
     "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
+
+"@types/facepaint@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@types/facepaint/-/facepaint-1.2.1.tgz#925f8f0f2ed7766487c58736d37c2ceded6966f8"
+  integrity sha512-LBMeEmlndIC5yEm8g1ulIcAm38xDhVcqcgVrSv6bnn31yQnYT+XUT5Nljj9un2gr0cItCd5Gt02oGJuXjKdjSg==
 
 "@types/glob@^7.1.1":
   version "7.1.3"

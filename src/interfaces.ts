@@ -11,6 +11,16 @@ interface CoverPhoto {
   altText: string;
 }
 
+export interface AudioSearch {
+  podcastSearch: {
+    pageSize: number;
+    page: number;
+    language: string;
+    totalCount: number;
+    results: Audio[];
+  };
+}
+
 export interface Audio {
   audioFile: {
     filesize: number;

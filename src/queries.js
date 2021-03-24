@@ -1133,12 +1133,47 @@ export const podcastQuery = gql`
   }
 `;
 
-// export const podcastSearchQuery = gql`
-//   query podcastSearchQuery(
-//     $podcastId: String!
-//     $page: String!
-//     $pageSize: String!
-//   ) {
-
-//   }
-// `;
+export const podcastSearchQuery = gql`
+         ${copyrightInfoFragment}
+         query podcastSearchQuery($page: String!, $pageSize: String!) {
+           podcastSearch(page: $page, pageSize: $pageSize) {
+             results {
+               id
+               title {
+                 title
+                 language
+               }
+               revision
+               audioFile {
+                 url
+                 mimeType
+                 fileSize
+                 language
+               }
+               copyright {
+                 ...CopyrightInfo
+               }
+               tags {
+                 tags
+                 language
+               }
+               supportedLanguages
+               audioType
+               podcastMeta {
+                 header
+                 introduction
+                 coverPhoto {
+                   id
+                   url
+                   altText
+                 }
+                 manuscript
+                 language
+               }
+             }
+             totalCount
+             page
+             pageSize
+           }
+         }
+       `;
