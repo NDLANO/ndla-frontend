@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { useGraphQuery } from '../../util/runQueries';
 import { podcastQuery } from '../../queries';
 import Podcast from './Podcast';
+import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 
 type RouteParams = { id: string };
 
@@ -20,9 +21,12 @@ const PodcastPage: React.FC<Props & RouteComponentProps<RouteParams>> = ({
   },
   locale,
 }) => {
-  const { loading, data: { podcast } = {} } = useGraphQuery(podcastQuery, {
-    variables: { id },
-  });
+  const { error, loading, data: { podcast } = {} } = useGraphQuery(
+    podcastQuery,
+    {
+      variables: { id },
+    },
+  );
 
   if (loading) {
     return null;
@@ -30,6 +34,10 @@ const PodcastPage: React.FC<Props & RouteComponentProps<RouteParams>> = ({
 
   if (!podcast) {
     return <Redirect to="/podcast" />;
+  }
+
+  if (error) {
+    return <DefaultErrorMessage />;
   }
 
   return (

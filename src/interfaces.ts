@@ -76,3 +76,10 @@ export interface Copyright {
   validFrom?: string;
   validTo?: string;
 }
+
+export type SearchObject = {
+  page: number;
+  'page-size': string;
+} & {
+  [key: string]: string;
+};
