@@ -6,6 +6,7 @@ import { OneColumn, Spinner } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
+// @ts-ignore
 import queryString from 'query-string';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { AudioSearch, SearchObject } from '../../interfaces';
