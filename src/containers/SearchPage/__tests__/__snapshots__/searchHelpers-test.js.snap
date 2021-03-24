@@ -5,6 +5,7 @@ Object {
   "contextFilters": Array [],
   "contextTypes": Array [],
   "fallback": "true",
+  "filters": Array [],
   "grepCodes": Array [],
   "language": "nb",
   "languageFilter": Array [
@@ -34,6 +35,7 @@ Object {
   "contextFilters": Array [],
   "contextTypes": Array [],
   "fallback": "true",
+  "filters": Array [],
   "grepCodes": Array [],
   "language": "nb",
   "languageFilter": Array [],
