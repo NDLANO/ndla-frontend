@@ -21,7 +21,7 @@ import queryString from 'query-string';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
-import routes from './routes';
+import routesFunc from './routes';
 import './style/index.css';
 
 const {
@@ -100,7 +100,7 @@ renderOrHydrate(
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <RouterComponent>
-          {routes({ ...initialProps, basename }, abbreviation)}
+          {routesFunc({ ...initialProps, basename }, abbreviation)}
         </RouterComponent>
       </IntlProvider>
     </CacheProvider>
