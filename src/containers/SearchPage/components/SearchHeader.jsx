@@ -100,6 +100,7 @@ const SearchHeader = ({
         });
       }
     });
+    setProgrammeFilter(newActiveSubjectFilters.map(filter => filter.value));
     if (subjectFilterUpdate.length) {
       localeSubjectCategories.forEach(category => {
         category.subjects.forEach(subject => {
@@ -131,6 +132,16 @@ const SearchHeader = ({
     });
   };
 
+  const handleProgrammeValuesChange = values => {
+    setProgrammeFilter(values);
+    handleSubjectValuesChange(
+      localeProgrammes
+        .filter(programme => values.includes(programme.id))
+        .map(p => p.subjectsFilters)
+        .flat(),
+    );
+  };
+
   const subjectFilterProps = {
     subjectCategories: {
       categories: localeSubjectCategories,
@@ -140,15 +151,7 @@ const SearchHeader = ({
     programmes: {
       options: localeProgrammes.map(({ id, name }) => ({ id, name })),
       values: programmeFilter,
-      onProgrammeValuesChange: values => {
-        setProgrammeFilter(values);
-        handleSubjectValuesChange(
-          localeProgrammes
-            .filter(programme => values.includes(programme.id))
-            .map(p => p.subjectsFilters)
-            .flat(),
-        );
-      },
+      onProgrammeValuesChange: handleProgrammeValuesChange,
     },
     messages: {
       filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
@@ -164,6 +167,7 @@ const SearchHeader = ({
 
   const handleFilterRemove = value => {
     handleSubjectValuesChange(subjectFilter.filter(id => id !== value));
+    handleProgrammeValuesChange(programmeFilter.filter(id => id !== value));
   };
 
   return (
