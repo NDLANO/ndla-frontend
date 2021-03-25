@@ -51,10 +51,17 @@ import {
 // @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
+export interface RootComponentProps {
+  locale: string;
+  ndlaFilm?: boolean;
+  skipToContentId?: string;
+}
+
 export interface RouteType extends RouteProps {
   hideBreadcrumb?: boolean;
   hideMasthead?: boolean;
   background?: boolean;
+  component: React.ComponentType<RootComponentProps>;
 }
 
 export const routes: RouteType[] = [

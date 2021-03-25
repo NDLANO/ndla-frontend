@@ -21,7 +21,7 @@ import * as H from 'history';
 import Page from './containers/Page/Page';
 // @ts-ignore
 import Masthead from './containers/Masthead';
-import { routes, RouteType } from './routes';
+import {RootComponentProps, routes, RouteType} from './routes';
 // @ts-ignore
 import handleError from './util/handleError';
 // @ts-ignore
@@ -37,7 +37,7 @@ import { WindowData } from './interfaces';
 export const BasenameContext = React.createContext('');
 
 interface NDLARouteProps extends RouteProps {
-  initialProps?: {};
+  initialProps?: WindowData['initialProps'];
   locale: string;
   background: boolean;
   hideMasthead?: boolean;
@@ -45,6 +45,7 @@ interface NDLARouteProps extends RouteProps {
   skipToContent?: string;
   hideBreadcrumb?: boolean;
   location: H.Location;
+  component: React.ComponentType<RootComponentProps>;
 }
 
 const NDLARoute = ({
@@ -64,7 +65,6 @@ const NDLARoute = ({
       location={location}
       {...rest}
       render={(props: RouteComponentProps) => {
-        // const Comp: React.ComponentType<any> = Component as React.ComponentType<any>;
         return (
           <Page
             background={background}
