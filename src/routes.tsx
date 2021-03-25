@@ -144,15 +144,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(
-  initialProps = {},
-  locale: string,
-) {
-  return (
-    <App
-      initialProps={initialProps}
-      locale={locale}
-    />
-  );
+const routesFunc = function(initialProps = {}, locale: string) {
+  return <App initialProps={initialProps} locale={locale} />;
 };
 export default routesFunc;

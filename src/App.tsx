@@ -8,11 +8,12 @@
 
 import React, { ErrorInfo } from 'react';
 import {
-  Route as ReactRoute,
-  RouteProps as ReactRouteProps,
+  Route,
+  RouteProps,
   matchPath,
   withRouter,
-  Switch, RouteComponentProps,
+  Switch,
+  RouteComponentProps,
 } from 'react-router-dom';
 // @ts-ignore
 import { Content } from '@ndla/ui';
@@ -20,7 +21,7 @@ import * as H from 'history';
 import Page from './containers/Page/Page';
 // @ts-ignore
 import Masthead from './containers/Masthead';
-import {routes, RouteType} from './routes';
+import { routes, RouteType } from './routes';
 // @ts-ignore
 import handleError from './util/handleError';
 // @ts-ignore
@@ -31,11 +32,11 @@ import {
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
-import {WindowData} from "./interfaces";
+import { WindowData } from './interfaces';
 
 export const BasenameContext = React.createContext('');
 
-interface NdlaRouteProps extends ReactRouteProps {
+interface NDLARouteProps extends RouteProps {
   initialProps?: {};
   locale: string;
   background: boolean;
@@ -46,7 +47,7 @@ interface NdlaRouteProps extends ReactRouteProps {
   location: H.Location;
 }
 
-const Route = ({
+const NDLARoute = ({
   component: Component,
   initialProps,
   locale,
@@ -57,39 +58,43 @@ const Route = ({
   location,
   hideBreadcrumb,
   ...rest
-}: NdlaRouteProps) => (
-  <ReactRoute
-    location={location}
-    {...rest}
-    render={props => (
-      <Page
-        background={background}
-        locale={locale}
-        ndlaFilm={ndlaFilm}
-        location={location}>
-        <Content>
-          {!hideMasthead && (
-            <Masthead
-              skipToMainContentId={SKIP_TO_CONTENT_ID}
-              locale={locale}
-              ndlaFilm={ndlaFilm}
-              hideBreadcrumb={hideBreadcrumb}
-              {...props}
-            />
-          )}
-          {/* @ts-ignore*/ /* TODO: fix denne? */}
-          <Component
-            {...props}
+}: NDLARouteProps) => {
+  return (
+    <Route
+      location={location}
+      {...rest}
+      render={(props: RouteComponentProps) => {
+        // const Comp: React.ComponentType<any> = Component as React.ComponentType<any>;
+        return (
+          <Page
+            background={background}
             locale={locale}
             ndlaFilm={ndlaFilm}
-            skipToContentId={SKIP_TO_CONTENT_ID}
-            {...initialProps}
-          />
-        </Content>
-      </Page>
-    )}
-  />
-);
+            location={location}>
+            <Content>
+              {!hideMasthead && (
+                <Masthead
+                  skipToMainContentId={SKIP_TO_CONTENT_ID}
+                  locale={locale}
+                  ndlaFilm={ndlaFilm}
+                  hideBreadcrumb={hideBreadcrumb}
+                  {...props}
+                />
+              )}
+              <Component
+                {...props}
+                locale={locale}
+                ndlaFilm={ndlaFilm}
+                skipToContentId={SKIP_TO_CONTENT_ID}
+                {...initialProps}
+              />
+            </Content>
+          </Page>
+        );
+      }}
+    />
+  );
+};
 
 async function loadInitialProps(pathname: string, ctx: AppProps) {
   const promises: any[] = [];
@@ -121,7 +126,10 @@ function shouldScrollToTop(location: H.Location) {
       multiMatch?.params?.topicId || multiMatch?.params?.topic1 === undefined
     );
   }
-  const subjectMatch = matchPath<MatchParams>(location.pathname, SUBJECT_PAGE_PATH);
+  const subjectMatch = matchPath<MatchParams>(
+    location.pathname,
+    SUBJECT_PAGE_PATH,
+  );
   if (subjectMatch?.isExact) {
     return (
       !subjectMatch?.params?.topicPath ||
@@ -150,7 +158,6 @@ declare global {
     DATA: WindowData;
   }
 }
-
 
 class App extends React.Component<AppProps, AppState> {
   private location: H.Location | null;
@@ -186,7 +193,10 @@ class App extends React.Component<AppProps, AppState> {
     this.location = null;
   }
 
-  static getDerivedStateFromProps(nextProps: AppProps, prevState: AppState): AppState {
+  static getDerivedStateFromProps(
+    nextProps: AppProps,
+    prevState: AppState,
+  ): AppState {
     if (prevState.location === null) {
       return {
         ...prevState,
@@ -253,7 +263,7 @@ class App extends React.Component<AppProps, AppState> {
           {routes
             .filter(route => route !== undefined)
             .map(route => (
-              <Route
+              <NDLARoute
                 key={`route_${route.path}`}
                 exact={route.exact}
                 hideMasthead={route.hideMasthead}
@@ -264,7 +274,8 @@ class App extends React.Component<AppProps, AppState> {
                 background={route.background ?? false}
                 path={route.path}
                 ndlaFilm={isNdlaFilm}
-               location={location}/>
+                location={location}
+              />
             ))}
         </Switch>
       </BasenameContext.Provider>

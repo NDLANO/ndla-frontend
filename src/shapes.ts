@@ -177,7 +177,6 @@ export const FilterShape = PropTypes.shape({
   subjectId: PropTypes.string.isRequired,
 });
 
-
 export const LtiDataShape = PropTypes.shape({
   launch_presentation_return_url: PropTypes.string,
   launch_presentation_document_target: PropTypes.string,

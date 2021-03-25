@@ -6,10 +6,19 @@
  *
  */
 
-export function getEnvironmentVariabel(key: string, fallback: string): string
-export function getEnvironmentVariabel(key: string, fallback: boolean): string | boolean
-export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined
-export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
+export function getEnvironmentVariabel(key: string, fallback: string): string;
+export function getEnvironmentVariabel(
+  key: string,
+  fallback: boolean,
+): string | boolean;
+export function getEnvironmentVariabel(
+  key: string,
+  fallback?: string,
+): string | undefined;
+export function getEnvironmentVariabel(
+  key: string,
+  fallback?: string | boolean,
+): string | boolean | undefined {
   const env = 'env';
   const variableValue = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   return variableValue || fallback;
