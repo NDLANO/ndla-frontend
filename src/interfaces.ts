@@ -28,7 +28,6 @@ export interface Audio {
     mimeType: string;
     url: string;
   };
-  caption: string;
   copyright: Copyright;
   id: number;
   revision: number;

@@ -17,6 +17,7 @@ const messages = {
     searchPage: `Search${titleTemplate}`,
     notFound: `Page not found${titleTemplate}`,
     subject: 'Subject',
+    page: 'Page',
   },
 };
 

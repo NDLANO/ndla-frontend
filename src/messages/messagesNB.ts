@@ -18,6 +18,7 @@ const messages = {
     notFound: `Siden finnes ikke${titleTemplate}`,
     subject: 'Fag',
     lti: `LTI${titleTemplate}`,
+    page: 'Side',
   },
 };
 

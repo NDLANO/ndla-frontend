@@ -8,6 +8,8 @@ import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 // @ts-ignore
 import queryString from 'query-string';
+import { Helmet } from 'react-helmet';
+import { injectT, tType } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { AudioSearch, SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
@@ -17,10 +19,11 @@ interface Props {
   locale: string;
 }
 
-const PodcastListPage: React.FC<Props & RouteComponentProps> = ({
+const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({
   locale,
   location,
   history,
+  t,
 }) => {
   const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
     podcastSearchQuery,
@@ -59,6 +62,12 @@ const PodcastListPage: React.FC<Props & RouteComponentProps> = ({
     });
   };
 
+  const getDocumentTitle = (searchObject: SearchObject) => {
+    return `Podcast - ${t('htmlTitles.page')} ${searchObject?.page || '1'}${t(
+      'htmlTitles.titleTemplate',
+    )}`;
+  };
+
   React.useEffect(() => {
     getPodcasts({
       variables: {
@@ -86,6 +95,9 @@ const PodcastListPage: React.FC<Props & RouteComponentProps> = ({
 
   return (
     <div>
+      <Helmet>
+        <title>{`${getDocumentTitle(searchObject)}`}</title>
+      </Helmet>
       <OneColumn>
         {loading ? (
           <Spinner />
@@ -107,4 +119,4 @@ const PodcastListPage: React.FC<Props & RouteComponentProps> = ({
   );
 };
 
-export default PodcastListPage;
+export default injectT(PodcastListPage);
