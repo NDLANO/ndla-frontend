@@ -51,7 +51,7 @@ import {
 // @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 
-interface RouteType extends RouteProps {
+export interface RouteType extends RouteProps {
   hideBreadcrumb?: boolean;
   hideMasthead?: boolean;
   background?: boolean;
@@ -147,13 +147,11 @@ export const routes: RouteType[] = [
 const routesFunc = function(
   initialProps = {},
   locale: string,
-  serverLocation: Location,
 ) {
   return (
     <App
       initialProps={initialProps}
       locale={locale}
-      serverLocation={serverLocation}
     />
   );
 };

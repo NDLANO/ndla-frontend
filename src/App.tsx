@@ -6,19 +6,24 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ErrorInfo } from 'react';
 import {
   Route as ReactRoute,
+  RouteProps as ReactRouteProps,
   matchPath,
   withRouter,
-  Switch,
+  Switch, RouteComponentProps,
 } from 'react-router-dom';
+// @ts-ignore
 import { Content } from '@ndla/ui';
+import * as H from 'history';
 import Page from './containers/Page/Page';
+// @ts-ignore
 import Masthead from './containers/Masthead';
-import { routes } from './routes';
+import {routes, RouteType} from './routes';
+// @ts-ignore
 import handleError from './util/handleError';
+// @ts-ignore
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
@@ -28,6 +33,17 @@ import {
 } from './constants';
 
 export const BasenameContext = React.createContext('');
+
+interface NdlaRouteProps extends ReactRouteProps {
+  initialProps?: {};
+  locale: string;
+  background: boolean;
+  hideMasthead?: boolean;
+  ndlaFilm?: boolean;
+  skipToContent?: string;
+  hideBreadcrumb?: boolean;
+  location: H.Location;
+}
 
 const Route = ({
   component: Component,
@@ -40,7 +56,7 @@ const Route = ({
   location,
   hideBreadcrumb,
   ...rest
-}) => (
+}: NdlaRouteProps) => (
   <ReactRoute
     location={location}
     {...rest}
@@ -60,6 +76,7 @@ const Route = ({
               {...props}
             />
           )}
+          {/* @ts-ignore*/ /* TODO: fix denne? */}
           <Component
             {...props}
             locale={locale}
@@ -73,23 +90,13 @@ const Route = ({
   />
 );
 
-Route.propTypes = {
-  component: PropTypes.func.isRequired,
-  background: PropTypes.bool.isRequired,
-  locale: PropTypes.string.isRequired,
-  location: PropTypes.shape({ pathname: PropTypes.string.isRequired }),
-  initialProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  hideMasthead: PropTypes.bool,
-  ndlaFilm: PropTypes.bool,
-  hideBreadcrumb: PropTypes.bool,
-  skipToContent: PropTypes.string,
-};
-
-async function loadInitialProps(pathname, ctx) {
-  const promises = [];
-  routes.some(route => {
+async function loadInitialProps(pathname: string, ctx: AppProps) {
+  const promises: any[] = [];
+  routes.some((route: RouteType) => {
     const match = matchPath(pathname, route);
+    // @ts-ignore
     if (match && route.component.getInitialProps) {
+      // @ts-ignore
       promises.push(route.component.getInitialProps({ match, ...ctx }));
     }
     return !!match;
@@ -97,8 +104,14 @@ async function loadInitialProps(pathname, ctx) {
   return Promise.all(promises);
 }
 
-function shouldScrollToTop(location, prevLocation) {
-  const multiMatch = matchPath(
+interface MatchParams {
+  topicId?: string;
+  topic1?: string;
+  topicPath?: string;
+}
+
+function shouldScrollToTop(location: H.Location) {
+  const multiMatch = matchPath<MatchParams>(
     location.pathname,
     MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
   );
@@ -107,7 +120,7 @@ function shouldScrollToTop(location, prevLocation) {
       multiMatch?.params?.topicId || multiMatch?.params?.topic1 === undefined
     );
   }
-  const subjectMatch = matchPath(location.pathname, SUBJECT_PAGE_PATH);
+  const subjectMatch = matchPath<MatchParams>(location.pathname, SUBJECT_PAGE_PATH);
   if (subjectMatch?.isExact) {
     return (
       !subjectMatch?.params?.topicPath ||
@@ -117,8 +130,31 @@ function shouldScrollToTop(location, prevLocation) {
   return true;
 }
 
-class App extends React.Component {
-  constructor(props) {
+type InitialProps = any;
+
+interface AppProps extends RouteComponentProps {
+  initialProps: InitialProps;
+  location: H.Location;
+  locale: string;
+}
+
+interface AppState {
+  hasError: boolean;
+  data: InitialProps;
+  location: H.Location | null;
+}
+
+declare global {
+  interface Window {
+    DATA: any; // TODO: Maybe better DATA type?
+  }
+}
+
+
+class App extends React.Component<AppProps, AppState> {
+  private location: H.Location | null;
+
+  constructor(props: AppProps) {
     super(props);
     this.location = null;
     this.state = {
@@ -149,15 +185,16 @@ class App extends React.Component {
     this.location = null;
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps: AppProps, prevState: AppState): AppState {
     if (prevState.location === null) {
       return {
+        ...prevState,
         location: nextProps.location,
       };
     }
     const navigated = nextProps.location !== prevState.location;
     if (navigated) {
-      if (shouldScrollToTop(nextProps.location, prevState.location)) {
+      if (shouldScrollToTop(nextProps.location)) {
         window.scrollTo(0, 0);
       }
       return {
@@ -168,10 +205,10 @@ class App extends React.Component {
     }
 
     // No state update necessary
-    return null;
+    return prevState;
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: ErrorInfo) {
     if (process.env.NODE_ENV === 'production') {
       // React prints all errors that occurred during rendering to the console in development
       handleError(error, info);
@@ -179,7 +216,7 @@ class App extends React.Component {
     this.setState({ hasError: true });
   }
 
-  async handleLoadInitialProps(props) {
+  async handleLoadInitialProps(props: AppProps) {
     if (props.location === this.location) {
       // Data for this location is already loading
       return;
@@ -188,12 +225,7 @@ class App extends React.Component {
     this.location = props.location;
     let data = [];
     try {
-      data = await loadInitialProps(props.location.pathname, {
-        locale: props.locale,
-        location: props.location,
-        history: props.history,
-        ndlaFilm: props.ndlaFilm,
-      });
+      data = await loadInitialProps(props.location.pathname, props);
     } catch (e) {
       handleError(e);
     }
@@ -228,24 +260,15 @@ class App extends React.Component {
                 initialProps={this.state.data}
                 locale={locale}
                 component={route.component}
-                background={route.background}
+                background={route.background ?? false}
                 path={route.path}
                 ndlaFilm={isNdlaFilm}
-              />
+               location={location}/>
             ))}
         </Switch>
       </BasenameContext.Provider>
     );
   }
 }
-
-App.propTypes = {
-  locale: PropTypes.string.isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired,
-  }),
-  initialProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-};
 
 export default withRouter(App);
