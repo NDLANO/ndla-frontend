@@ -21,7 +21,7 @@ import * as H from 'history';
 import Page from './containers/Page/Page';
 // @ts-ignore
 import Masthead from './containers/Masthead';
-import {RootComponentProps, routes, RouteType} from './routes';
+import { RootComponentProps, routes, RouteType } from './routes';
 // @ts-ignore
 import handleError from './util/handleError';
 // @ts-ignore
