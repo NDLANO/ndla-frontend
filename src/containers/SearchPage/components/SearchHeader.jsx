@@ -9,7 +9,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { subjectsCategories } from '../../../data/subjects';
+import { subjectsCategories, getSubjectById } from '../../../data/subjects';
+import { programmes } from '../../../data/programmes';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
@@ -19,6 +20,26 @@ const getSubjectCategoriesForLocale = locale => {
       name: subject.longName[locale],
     })),
   }));
+};
+
+const getProgrammesByLocale = locale => {
+  return programmes.map(programme => ({
+    id: programme.url[locale],
+    name: programme.name[locale],
+    subjectsFilters: getProgrammeSubjectFilters(programme),
+  }));
+};
+
+const getProgrammeSubjectFilters = programme => {
+  const subjects = [];
+  programme.grades.forEach(grade =>
+    grade.categories.forEach(category =>
+      category.subjects.forEach(subject =>
+        subjects.push(getSubjectById(subject.id)),
+      ),
+    ),
+  );
+  return subjects.map(subject => `${subject.subjectId},${subject.filters[0]}`);
 };
 
 const getSubjectFilterByFilter = filters => {
@@ -41,12 +62,16 @@ const SearchHeader = ({
 }) => {
   const [searchValue, setSearchValue] = useState(query);
   const [subjectFilter, setSubjectFilter] = useState([]);
+  const [programmeFilter, setProgrammeFilter] = useState([]);
   const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
     [locale],
   );
+  const localeProgrammes = useMemo(() => getProgrammesByLocale(locale), [
+    locale,
+  ]);
 
   useEffect(() => {
     setSearchValue(query);
@@ -58,19 +83,38 @@ const SearchHeader = ({
 
   useEffect(() => {
     const newActiveSubjectFilters = [];
-    localeSubjectCategories.forEach(category => {
-      category.subjects.forEach(subject => {
-        if (subjectFilter.includes(subject.id)) {
-          newActiveSubjectFilters.push({
-            name: subject.name,
-            value: subject.id,
-            title: subject.name,
-          });
-        }
-      });
+    let subjectFilterUpdate = [...subjectFilter];
+    localeProgrammes.forEach(programme => {
+      if (
+        programme.subjectsFilters.every(subject =>
+          subjectFilter.includes(subject),
+        )
+      ) {
+        subjectFilterUpdate = subjectFilterUpdate.filter(
+          subject => !programme.subjectsFilters.includes(subject),
+        );
+        newActiveSubjectFilters.push({
+          name: programme.name,
+          value: programme.id,
+          title: programme.name,
+        });
+      }
     });
+    if (subjectFilterUpdate.length) {
+      localeSubjectCategories.forEach(category => {
+        category.subjects.forEach(subject => {
+          if (subjectFilterUpdate.includes(subject.id)) {
+            newActiveSubjectFilters.push({
+              name: subject.name,
+              value: subject.id,
+              title: subject.name,
+            });
+          }
+        });
+      });
+    }
     setActiveSubjectFilters(newActiveSubjectFilters);
-  }, [subjectFilter, localeSubjectCategories]);
+  }, [subjectFilter, localeSubjectCategories, localeProgrammes]);
 
   const handleSubjectValuesChange = values => {
     setSubjectFilter(values);
@@ -93,7 +137,19 @@ const SearchHeader = ({
       values: subjectFilter,
       onSubjectValuesChange: handleSubjectValuesChange,
     },
-
+    programmes: {
+      options: localeProgrammes.map(({ id, name }) => ({ id, name })),
+      values: programmeFilter,
+      onProgrammeValuesChange: values => {
+        setProgrammeFilter(values);
+        handleSubjectValuesChange(
+          localeProgrammes
+            .filter(programme => values.includes(programme.id))
+            .map(p => p.subjectsFilters)
+            .flat(),
+        );
+      },
+    },
     messages: {
       filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
       closeButton: t('searchPage.close'),
