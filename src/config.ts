@@ -6,16 +6,19 @@
  *
  */
 
-export const getEnvironmentVariabel = (key, fallback = undefined) => {
+export function getEnvironmentVariabel(key: string, fallback: string): string
+export function getEnvironmentVariabel(key: string, fallback: boolean): string | boolean
+export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined
+export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
   const env = 'env';
-  const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
-  return variabel || fallback;
-};
+  const variableValue = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
+  return variableValue || fallback;
+}
 
 const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'dev');
 const ndlaEnvironmentHostname = ndlaEnvironment.replace('_', '-');
 
-const apiDomain = () => {
+const apiDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://api-gateway.ndla-local';
@@ -28,7 +31,7 @@ const apiDomain = () => {
   }
 };
 
-const ndlaFrontendDomain = () => {
+const ndlaFrontendDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30017';
@@ -41,7 +44,7 @@ const ndlaFrontendDomain = () => {
   }
 };
 
-const learningPathDomain = () => {
+const learningPathDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30007';
@@ -54,7 +57,7 @@ const learningPathDomain = () => {
   }
 };
 
-const gaTrackingId = () => {
+const gaTrackingId = (): string => {
   if (process.env.NODE_ENV !== 'production') {
     return '';
   }
@@ -73,7 +76,7 @@ const gaTrackingId = () => {
   }
 };
 
-const logglyApiKey = () => {
+const logglyApiKey = (): string | undefined => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
   }
@@ -85,7 +88,11 @@ const ndlaFilmArticleType = getEnvironmentVariabel(
   'topic-article',
 );
 
-const config = {
+export interface ConfigType {
+  [key: string]: string | boolean | undefined;
+}
+
+const config: ConfigType = {
   componentName: 'ndla-frontend',
   ndlaEnvironment,
   ndlaFilmArticleType,

@@ -15,7 +15,6 @@ import { injectT, tType } from '@ndla/i18n';
 import ZendeskButton from '@ndla/zendesk';
 
 import * as H from 'history';
-// @ts-ignore
 import config from '../../config';
 // @ts-ignore
 import Footer from './components/Footer';

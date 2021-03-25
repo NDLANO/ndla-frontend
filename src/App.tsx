@@ -31,6 +31,7 @@ import {
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
+import {WindowData} from "./interfaces";
 
 export const BasenameContext = React.createContext('');
 
@@ -146,7 +147,7 @@ interface AppState {
 
 declare global {
   interface Window {
-    DATA: any; // TODO: Maybe better DATA type?
+    DATA: WindowData;
   }
 }
 
@@ -167,7 +168,7 @@ class App extends React.Component<AppProps, AppState> {
 
   componentDidMount() {
     if (
-      window.DATA.config.disableSSR ||
+      window.DATA?.config?.disableSSR ||
       window.location.search.indexOf('disableSSR=true') > -1 ||
       (module.hot && module.hot.status() === 'apply')
     ) {

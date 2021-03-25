@@ -6,9 +6,15 @@
  *
  */
 
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, History } from 'history';
 
-export function createHistory(basename) {
+declare global {
+  interface Window {
+    browserHistory: History;
+  }
+}
+
+export function createHistory(basename: string): History {
   // avoid recreating history on HMR
   if (window.browserHistory) {
     return window.browserHistory;
