@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:10-alpine as builder
+FROM node:14.16-alpine as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -24,7 +24,7 @@ RUN yarn run build
 RUN mv $APP_PATH/src/server/robots.txt $APP_PATH/build/robots.txt
 
 ### Run stage
-FROM node:10-alpine
+FROM node:14.16-alpine
 
 RUN apk add py2-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /
