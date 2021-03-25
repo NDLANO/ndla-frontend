@@ -31,7 +31,6 @@ import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/
 // @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import PodcastPage from './containers/Podcast/PodcastPage';
-// @ts-ignore
 import PodcastListPage from './containers/Podcast/PodcastListPage';
 // @ts-ignore
 import App from './App';
