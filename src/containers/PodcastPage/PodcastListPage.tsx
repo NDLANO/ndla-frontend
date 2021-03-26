@@ -15,6 +15,15 @@ import { AudioSearch, SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 
+const DEFAULT_PAGE_SIZE = '5';
+
+export const getPageSize = (searchObject: SearchObject): string => {
+  return searchObject['page-size'] || DEFAULT_PAGE_SIZE;
+};
+export const getPage = (searchObject: SearchObject): string => {
+  return searchObject.page || '1';
+};
+
 interface Props {
   locale: string;
 }
@@ -31,15 +40,8 @@ const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({
       fetchPolicy: 'no-cache',
     },
   );
-  const [totalCount, setTotalCount] = React.useState(1);
+  const [totalCount, setTotalCount] = React.useState(0);
   const searchObject = queryString.parse(location.search);
-
-  const page =
-    (typeof searchObject.page === 'string' && searchObject.page) || '1';
-  const pageSize =
-    (typeof searchObject['page-size'] === 'string' &&
-      searchObject['page-size']) ||
-    '5';
 
   const onQueryPush = (newSearchObject: SearchObject) => {
     const oldSearchObject = queryString.parse(location.search);
@@ -57,31 +59,30 @@ const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({
     getPodcasts({
       variables: {
         page: searchQuery.page.toString(),
-        pageSize: searchQuery['page-size'] || '5',
+        pageSize: getPageSize(searchQuery),
       },
     });
   };
 
   const getDocumentTitle = (searchObject: SearchObject) => {
-    return `Podcast - ${t('htmlTitles.page')} ${searchObject?.page || '1'}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+    return `${t('htmlTitles.podcast')} - ${t(
+      'htmlTitles.page',
+    )} ${searchObject?.page || '1'}${t('htmlTitles.titleTemplate')}`;
   };
 
   React.useEffect(() => {
     getPodcasts({
       variables: {
-        page: searchObject.page || '1',
-        pageSize: searchObject['page-size'] || '5',
+        page: getPage(searchObject),
+        pageSize: getPageSize(searchObject),
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-    const newTotalCount = data?.podcastSearch.totalCount;
-    if (newTotalCount) {
-      setTotalCount(newTotalCount);
+    if (data?.podcastSearch) {
+      setTotalCount(data.podcastSearch.totalCount);
     }
   }, [data]);
 
@@ -108,8 +109,10 @@ const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({
           ))
         )}
         <Pager
-          page={parseInt(page, 10)}
-          lastPage={Math.ceil(totalCount / parseInt(pageSize, 10))}
+          page={parseInt(getPage(searchObject), 10)}
+          lastPage={Math.ceil(
+            totalCount / parseInt(getPageSize(searchObject), 10),
+          )}
           pageItemComponentClass="button"
           query={searchObject}
           onClick={onQueryPush}

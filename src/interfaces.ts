@@ -77,8 +77,6 @@ export interface Copyright {
 }
 
 export type SearchObject = {
-  page: number;
+  page: string;
   'page-size': string;
-} & {
-  [key: string]: string;
 };

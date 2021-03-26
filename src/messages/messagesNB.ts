@@ -19,6 +19,7 @@ const messages = {
     subject: 'Fag',
     lti: `LTI${titleTemplate}`,
     page: 'Side',
+    podcast: 'Podcast',
   },
 };
 

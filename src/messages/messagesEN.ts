@@ -18,6 +18,7 @@ const messages = {
     notFound: `Page not found${titleTemplate}`,
     subject: 'Subject',
     page: 'Page',
+    podcast: 'Podcast',
   },
 };
 

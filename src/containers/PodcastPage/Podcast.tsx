@@ -15,20 +15,8 @@ import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 // @ts-ignore
 import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
-import { Copyright, Audio } from '.../../../interfaces';
-
-const getLicenseCredits = (copyright: Copyright) => {
-  if (copyright.creators && copyright.creators.length > 0) {
-    return copyright.creators;
-  }
-  if (copyright.rightsholders && copyright.rightsholders.length > 0) {
-    return copyright.rightsholders;
-  }
-  if (copyright.processors && copyright.processors.length > 0) {
-    return copyright.processors;
-  }
-  return [];
-};
+import { Audio } from '.../../../interfaces';
+import { getLicenseCredits } from './util';
 
 interface Props {
   podcast: Audio;

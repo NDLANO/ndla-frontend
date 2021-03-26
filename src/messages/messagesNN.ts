@@ -18,6 +18,7 @@ const messages = {
     notFound: `Sida finst ikkje${titleTemplate}`,
     subject: 'Fag',
     page: 'Side',
+    podcast: 'Podcast',
   },
 };
 
