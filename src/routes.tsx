@@ -30,8 +30,8 @@ import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 // @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-import PodcastPage from './containers/Podcast/PodcastPage';
-import PodcastListPage from './containers/Podcast/PodcastListPage';
+import PodcastPage from './containers/PodcastPage/PodcastPage';
+import PodcastListPage from './containers/PodcastPage/PodcastListPage';
 // @ts-ignore
 import App from './App';
 

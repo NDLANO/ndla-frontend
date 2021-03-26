@@ -38,7 +38,7 @@ export const AudioLicenseInfo = ({ audio, locale, t }) => {
     <MediaListItem>
       <MediaListItemImage>
         {audio.image ? (
-          <img alt={audio.image.alt} src={audio.image.src} />
+          <img alt={audio.image.alt} src={audio.image.url} />
         ) : (
           <AudioDocument className="c-medialist__icon" />
         )}
