@@ -32,12 +32,12 @@ import {
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
-import { WindowData } from './interfaces';
+import { InitialProps } from './interfaces';
 
 export const BasenameContext = React.createContext('');
 
 interface NDLARouteProps extends RouteProps {
-  initialProps?: WindowData['initialProps'];
+  initialProps?: InitialProps;
   locale: string;
   background: boolean;
   hideMasthead?: boolean;
@@ -139,8 +139,6 @@ function shouldScrollToTop(location: H.Location) {
   return true;
 }
 
-type InitialProps = any;
-
 interface AppProps extends RouteComponentProps {
   initialProps: InitialProps;
   location: H.Location;
@@ -151,12 +149,6 @@ interface AppState {
   hasError: boolean;
   data: InitialProps;
   location: H.Location | null;
-}
-
-declare global {
-  interface Window {
-    DATA: WindowData;
-  }
 }
 
 class App extends React.Component<AppProps, AppState> {

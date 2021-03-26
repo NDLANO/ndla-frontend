@@ -50,6 +50,7 @@ import {
 
 // @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import { InitialProps } from './interfaces';
 
 export interface RootComponentProps {
   locale: string;
@@ -151,7 +152,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(initialProps = {}, locale: string) {
+const routesFunc = function(initialProps: InitialProps, locale: string) {
   return <App initialProps={initialProps} locale={locale} />;
 };
 export default routesFunc;

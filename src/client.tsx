@@ -27,14 +27,10 @@ import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { createApolloClient } from './util/apiHelpers';
 import routesFunc from './routes';
 import './style/index.css';
-import { WindowData } from './interfaces';
+import { NDLAWindow } from './interfaces';
 
 declare global {
-  interface Window {
-    errorReporter: any;
-    hasHydrated?: boolean;
-    DATA: WindowData;
-  }
+  interface Window extends NDLAWindow {}
 }
 
 const {

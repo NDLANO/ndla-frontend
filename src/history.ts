@@ -7,11 +7,10 @@
  */
 
 import { createBrowserHistory, History } from 'history';
+import { NDLAWindow } from './interfaces';
 
 declare global {
-  interface Window {
-    browserHistory: History;
-  }
+  interface Window extends NDLAWindow {}
 }
 
 export function createHistory(basename: string): History {
