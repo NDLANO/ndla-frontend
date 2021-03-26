@@ -1109,83 +1109,59 @@ export const resourcePageQuery = gql`
   ${resourceInfoFragment}
 `;
 
-export const podcastQuery = gql`
+const audioFragment = gql`
   ${copyrightInfoFragment}
+  fragment Audio on Audio {
+    id
+    title {
+      title
+      language
+    }
+    revision
+    audioFile {
+      url
+      mimeType
+      fileSize
+      language
+    }
+    copyright {
+      ...CopyrightInfo
+    }
+    tags {
+      tags
+      language
+    }
+    supportedLanguages
+    audioType
+    podcastMeta {
+      header
+      introduction
+      coverPhoto {
+        id
+        url
+        altText
+      }
+      manuscript
+      language
+    }
+  }
+`;
+
+export const podcastQuery = gql`
+  ${audioFragment}
   query podcastQuery($id: String!) {
     podcast(id: $id) {
-      id
-      title {
-        title
-        language
-      }
-      revision
-      audioFile {
-        url
-        mimeType
-        fileSize
-        language
-      }
-      copyright {
-        ...CopyrightInfo
-      }
-      tags {
-        tags
-        language
-      }
-      supportedLanguages
-      audioType
-      podcastMeta {
-        header
-        introduction
-        coverPhoto {
-          id
-          url
-          altText
-        }
-        manuscript
-        language
-      }
+      ...Audio
     }
   }
 `;
 
 export const podcastSearchQuery = gql`
-  ${copyrightInfoFragment}
+  ${audioFragment}
   query podcastSearchQuery($page: String!, $pageSize: String!) {
     podcastSearch(page: $page, pageSize: $pageSize) {
       results {
-        id
-        title {
-          title
-          language
-        }
-        revision
-        audioFile {
-          url
-          mimeType
-          fileSize
-          language
-        }
-        copyright {
-          ...CopyrightInfo
-        }
-        tags {
-          tags
-          language
-        }
-        supportedLanguages
-        audioType
-        podcastMeta {
-          header
-          introduction
-          coverPhoto {
-            id
-            url
-            altText
-          }
-          manuscript
-          language
-        }
+        ...Audio
       }
       totalCount
       page
