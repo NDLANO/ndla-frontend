@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+export type LocaleType = 'nb' | 'nn' | 'en';
+
 interface CoverPhoto {
   id: string;
   url: string;

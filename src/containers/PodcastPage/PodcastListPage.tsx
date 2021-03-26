@@ -11,7 +11,7 @@ import queryString from 'query-string';
 import { Helmet } from 'react-helmet';
 import { injectT, tType } from '@ndla/i18n';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-import { AudioSearch, SearchObject } from '../../interfaces';
+import { AudioSearch, LocaleType, SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 
@@ -25,7 +25,7 @@ export const getPage = (searchObject: SearchObject): string => {
 };
 
 interface Props {
-  locale: string;
+  locale: LocaleType;
 }
 
 const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({

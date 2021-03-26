@@ -11,12 +11,12 @@ import { podcastQuery } from '../../queries';
 import Podcast from './Podcast';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { Audio } from '.../../../interfaces';
+import { Audio, LocaleType } from '.../../../interfaces';
 
 type RouteParams = { id: string };
 
 interface Props {
-  locale: string;
+  locale: LocaleType;
 }
 
 interface PodcastQuery {
@@ -65,7 +65,7 @@ const PodcastPage: React.FC<Props &
       </Helmet>
       <SocialMediaMetadata
         // @ts-ignore
-        title={podcast?.title.title ? podcast?.title.title : ''}
+        title={podcast?.title.title ?? ''}
         trackableContent={podcast}
         description={podcast.podcastMeta?.introduction}
         locale={locale}

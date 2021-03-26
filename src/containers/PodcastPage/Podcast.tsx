@@ -15,12 +15,12 @@ import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 // @ts-ignore
 import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
-import { Audio } from '.../../../interfaces';
+import { Audio, LocaleType } from '.../../../interfaces';
 import { getLicenseCredits } from './util';
 
 interface Props {
   podcast: Audio;
-  locale: string;
+  locale: LocaleType;
 }
 
 const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
