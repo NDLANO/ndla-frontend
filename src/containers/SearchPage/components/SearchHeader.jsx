@@ -9,14 +9,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { subjectsCategories, getSubjectById } from '../../../data/subjects';
+import { subjectsCategories } from '../../../data/subjects';
 import { programmes } from '../../../data/programmes';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
     subjects: category.subjects.map(subject => ({
-      id: `${subject.subjectId},${subject.filters[0]}`,
+      id: subject.id,
       name: subject.longName[locale],
     })),
   }));
@@ -26,20 +26,17 @@ const getProgrammesByLocale = locale => {
   return programmes.map(programme => ({
     id: programme.url[locale],
     name: programme.name[locale],
-    subjectsFilters: getProgrammeSubjectFilters(programme),
   }));
 };
 
-const getProgrammeSubjectFilters = programme => {
+const getProgrammeSubjects = programme => {
   const subjects = [];
   programme.grades.forEach(grade =>
     grade.categories.forEach(category =>
-      category.subjects.forEach(subject =>
-        subjects.push(getSubjectById(subject.id)),
-      ),
+      category.subjects.forEach(subject => subjects.push(subject.id)),
     ),
   );
-  return subjects.map(subject => `${subject.subjectId},${subject.filters[0]}`);
+  return subjects;
 };
 
 const getSubjectFilterByFilter = filters => {
@@ -47,9 +44,22 @@ const getSubjectFilterByFilter = filters => {
     .map(category =>
       category.subjects
         .filter(subject => filters.includes(subject.filters[0]))
-        .map(s => `${s.subjectId},${s.filters[0]}`),
+        .map(s => s.id),
     )
     .flat();
+};
+
+const getSubjectMapping = () => {
+  const subjectMapping = {};
+  subjectsCategories.forEach(category => ({
+    subjects: category.subjects.forEach(subject => {
+      subjectMapping[subject.id] = {
+        subjectId: subject.subjectId,
+        filter: subject.filters[0],
+      };
+    }),
+  }));
+  return subjectMapping;
 };
 
 const SearchHeader = ({
@@ -72,6 +82,7 @@ const SearchHeader = ({
   const localeProgrammes = useMemo(() => getProgrammesByLocale(locale), [
     locale,
   ]);
+  const subjectMapping = useMemo(() => getSubjectMapping(), []);
 
   useEffect(() => {
     setSearchValue(query);
@@ -81,50 +92,14 @@ const SearchHeader = ({
     setSubjectFilter(getSubjectFilterByFilter(filters));
   }, [filters]);
 
-  useEffect(() => {
-    const newActiveSubjectFilters = [];
-    let subjectFilterUpdate = [...subjectFilter];
-    localeProgrammes.forEach(programme => {
-      if (
-        programme.subjectsFilters.every(subject =>
-          subjectFilter.includes(subject),
-        )
-      ) {
-        subjectFilterUpdate = subjectFilterUpdate.filter(
-          subject => !programme.subjectsFilters.includes(subject),
-        );
-        newActiveSubjectFilters.push({
-          name: programme.name,
-          value: programme.id,
-          title: programme.name,
-        });
-      }
-    });
-    setProgrammeFilter(newActiveSubjectFilters.map(filter => filter.value));
-    if (subjectFilterUpdate.length) {
-      localeSubjectCategories.forEach(category => {
-        category.subjects.forEach(subject => {
-          if (subjectFilterUpdate.includes(subject.id)) {
-            newActiveSubjectFilters.push({
-              name: subject.name,
-              value: subject.id,
-              title: subject.name,
-            });
-          }
-        });
-      });
-    }
-    setActiveSubjectFilters(newActiveSubjectFilters);
-  }, [subjectFilter, localeSubjectCategories, localeProgrammes]);
-
-  const handleSubjectValuesChange = values => {
+  const onSubjectValuesChange = values => {
     setSubjectFilter(values);
     const subjects = [];
     const filters = [];
-    values.forEach(id => {
-      const [subject, filter] = id.split(',');
-      if (!subjects.includes(subject)) subjects.push(subject);
-      if (!filters.includes(filter)) filters.push(filter);
+    values.forEach(subject => {
+      const { subjectId, filter } = subjectMapping[subject];
+      subjects.push(subjectId);
+      filters.push(filter);
     });
     handleSearchParamsChange({
       subjects,
@@ -132,26 +107,35 @@ const SearchHeader = ({
     });
   };
 
-  const handleProgrammeValuesChange = values => {
+  const onProgrammeValuesChange = values => {
     setProgrammeFilter(values);
-    handleSubjectValuesChange(
-      localeProgrammes
-        .filter(programme => values.includes(programme.id))
-        .map(p => p.subjectsFilters)
-        .flat(),
-    );
+    const subjectFilterValues = [...subjectFilter];
+    programmes.forEach(programme => {
+      if (values.includes(programme.url[locale])) {
+        programme.grades.forEach(grade =>
+          grade.categories.forEach(category =>
+            category.subjects.forEach(subject => {
+              if (!subjectFilterValues.includes(subject.id)) {
+                subjectFilterValues.push(subject.id);
+              }
+            }),
+          ),
+        );
+      }
+    });
+    onSubjectValuesChange(subjectFilterValues);
   };
 
   const subjectFilterProps = {
     subjectCategories: {
       categories: localeSubjectCategories,
       values: subjectFilter,
-      onSubjectValuesChange: handleSubjectValuesChange,
+      onSubjectValuesChange: onSubjectValuesChange,
     },
     programmes: {
       options: localeProgrammes.map(({ id, name }) => ({ id, name })),
       values: programmeFilter,
-      onProgrammeValuesChange: handleProgrammeValuesChange,
+      onProgrammeValuesChange: onProgrammeValuesChange,
     },
     messages: {
       filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
@@ -166,8 +150,8 @@ const SearchHeader = ({
   };
 
   const handleFilterRemove = value => {
-    handleSubjectValuesChange(subjectFilter.filter(id => id !== value));
-    handleProgrammeValuesChange(programmeFilter.filter(id => id !== value));
+    onSubjectValuesChange(subjectFilter.filter(id => id !== value));
+    onProgrammeValuesChange(programmeFilter.filter(id => id !== value));
   };
 
   return (
