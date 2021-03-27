@@ -29,15 +29,18 @@ const getProgrammesByLocale = locale => {
   }));
 };
 
-const getProgrammeSubjects = programme => {
-  const subjects = [];
-  programme.grades.forEach(grade =>
-    grade.categories.forEach(category =>
-      category.subjects.forEach(subject => subjects.push(subject.id)),
-    ),
-  );
-  return subjects;
-};
+const getProgrammeSubjects = locale => {
+  const programmeSubjects = {};
+  programmes.forEach(programme => {
+    programme.grades.forEach(grade =>
+      grade.categories.forEach(category => {
+        programmeSubjects[programme.url[locale]] = 
+          [...programmeSubjects[programme.url[locale]] || [], ...category.subjects.map(subject => subject.id)] 
+      }),
+    );
+  })
+  return programmeSubjects;
+}
 
 const getSubjectFilterByFilter = filters => {
   return subjectsCategories
@@ -83,14 +86,25 @@ const SearchHeader = ({
     locale,
   ]);
   const subjectMapping = useMemo(() => getSubjectMapping(), []);
+  const programmeSubjects = useMemo(() => getProgrammeSubjects(locale), [locale]);
 
   useEffect(() => {
     setSearchValue(query);
   }, [query]);
 
   useEffect(() => {
-    setSubjectFilter(getSubjectFilterByFilter(filters));
-  }, [filters]);
+    const subjectFilterUpdate = getSubjectFilterByFilter(filters);
+    setSubjectFilter(subjectFilterUpdate);
+    if (programmeSubjects) {
+      const programmeFilterUpdate = [];
+      for (const [programme, subjects] of Object.entries(programmeSubjects)) {
+        if (subjects.every(subject => subjectFilterUpdate.includes(subject))) {
+          programmeFilterUpdate.push(programme);
+        }
+      }
+      setProgrammeFilter(programmeFilterUpdate);
+    }
+  }, [filters, programmeSubjects]);
 
   const onSubjectValuesChange = values => {
     setSubjectFilter(values);
