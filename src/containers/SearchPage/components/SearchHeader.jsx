@@ -9,7 +9,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { subjectsCategories } from '../../../data/subjects';
+import { subjectsCategories, getSubjectById } from '../../../data/subjects';
 import { programmes } from '../../../data/programmes';
 
 const getSubjectCategoriesForLocale = locale => {
@@ -34,13 +34,15 @@ const getProgrammeSubjects = locale => {
   programmes.forEach(programme => {
     programme.grades.forEach(grade =>
       grade.categories.forEach(category => {
-        programmeSubjects[programme.url[locale]] = 
-          [...programmeSubjects[programme.url[locale]] || [], ...category.subjects.map(subject => subject.id)] 
+        programmeSubjects[programme.url[locale]] = [
+          ...(programmeSubjects[programme.url[locale]] || []),
+          ...category.subjects.map(subject => subject.id),
+        ];
       }),
     );
-  })
+  });
   return programmeSubjects;
-}
+};
 
 const getSubjectFilterByFilter = filters => {
   return subjectsCategories
@@ -86,7 +88,9 @@ const SearchHeader = ({
     locale,
   ]);
   const subjectMapping = useMemo(() => getSubjectMapping(), []);
-  const programmeSubjects = useMemo(() => getProgrammeSubjects(locale), [locale]);
+  const programmeSubjects = useMemo(() => getProgrammeSubjects(locale), [
+    locale,
+  ]);
 
   useEffect(() => {
     setSearchValue(query);
@@ -94,7 +98,6 @@ const SearchHeader = ({
 
   useEffect(() => {
     const subjectFilterUpdate = getSubjectFilterByFilter(filters);
-    setSubjectFilter(subjectFilterUpdate);
     if (programmeSubjects) {
       const programmeFilterUpdate = [];
       for (const [programme, subjects] of Object.entries(programmeSubjects)) {
@@ -102,28 +105,48 @@ const SearchHeader = ({
           programmeFilterUpdate.push(programme);
         }
       }
-      setProgrammeFilter(programmeFilterUpdate);
+      if (programmeFilterUpdate.length) {
+        setProgrammeFilter(programmeFilterUpdate);
+      } else {
+        setSubjectFilter(subjectFilterUpdate);
+      }
     }
   }, [filters, programmeSubjects]);
 
+  useEffect(() => {
+    const activeSubjects = subjectFilter.map(id => {
+      const subject = getSubjectById(id);
+      return {
+        value: id,
+        name: subject.longName[locale],
+        title: subject.longName[locale],
+      };
+    });
+    setActiveSubjectFilters(activeSubjects);
+  }, [subjectFilter, locale]);
+
+  useEffect(() => {
+    const activeProgrammes = programmeFilter.map(id => {
+      const programme = localeProgrammes.find(p => p.id === id);
+      return {
+        value: id,
+        name: programme.name,
+        title: programme.name,
+      };
+    });
+    setActiveSubjectFilters(activeProgrammes);
+  }, [programmeFilter, localeProgrammes]);
+
   const onSubjectValuesChange = values => {
+    setProgrammeFilter([]);
     setSubjectFilter(values);
-    const subjects = [];
-    const filters = [];
-    values.forEach(subject => {
-      const { subjectId, filter } = subjectMapping[subject];
-      subjects.push(subjectId);
-      filters.push(filter);
-    });
-    handleSearchParamsChange({
-      subjects,
-      filters,
-    });
+    updateSearchParams(values);
   };
 
   const onProgrammeValuesChange = values => {
+    setSubjectFilter([]);
     setProgrammeFilter(values);
-    const subjectFilterValues = [...subjectFilter];
+    const subjectFilterValues = [];
     programmes.forEach(programme => {
       if (values.includes(programme.url[locale])) {
         programme.grades.forEach(grade =>
@@ -137,7 +160,21 @@ const SearchHeader = ({
         );
       }
     });
-    onSubjectValuesChange(subjectFilterValues);
+    updateSearchParams(subjectFilterValues);
+  };
+
+  const updateSearchParams = values => {
+    const subjects = [];
+    const filters = [];
+    values.forEach(subject => {
+      const { subjectId, filter } = subjectMapping[subject];
+      subjects.push(subjectId);
+      filters.push(filter);
+    });
+    handleSearchParamsChange({
+      subjects,
+      filters,
+    });
   };
 
   const subjectFilterProps = {
@@ -147,7 +184,7 @@ const SearchHeader = ({
       onSubjectValuesChange: onSubjectValuesChange,
     },
     programmes: {
-      options: localeProgrammes.map(({ id, name }) => ({ id, name })),
+      options: localeProgrammes,
       values: programmeFilter,
       onProgrammeValuesChange: onProgrammeValuesChange,
     },
@@ -164,8 +201,12 @@ const SearchHeader = ({
   };
 
   const handleFilterRemove = value => {
-    onSubjectValuesChange(subjectFilter.filter(id => id !== value));
-    onProgrammeValuesChange(programmeFilter.filter(id => id !== value));
+    if (subjectFilter.includes(value)) {
+      onSubjectValuesChange(subjectFilter.filter(id => id !== value));
+    }
+    if (programmeFilter.includes(value)) {
+      onProgrammeValuesChange(programmeFilter.filter(id => id !== value));
+    }
   };
 
   return (
