@@ -9,26 +9,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, MemoryRouter } from 'react-router-dom';
+// @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/client';
+// @ts-ignore
 import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
 
+// @ts-ignore
 import queryString from 'query-string';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
+// @ts-ignore
 import { createApolloClient } from './util/apiHelpers';
-import routes from './routes';
 import { STORED_LANGUAGE_KEY } from './constants';
+import routesFunc from './routes';
 import './style/index.css';
+import { NDLAWindow } from './interfaces';
+
+declare global {
+  interface Window extends NDLAWindow {}
+}
 
 const {
   DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
+
 const { abbreviation, messages, basename, basepath } = getLocaleInfoFromPath(
-  serverPath,
+  serverPath ?? '',
 );
 
 const serverQueryString = decodeURIComponent(
@@ -42,39 +52,37 @@ const locationFromServer = {
 const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
 if (
   basename === '' &&
+  storedLanguage !== null &&
   isValidLocale(storedLanguage) &&
   storedLanguage !== 'nb'
 ) {
   const { pathname, search } = window.location;
   window.location.href = `/${storedLanguage}${pathname}${search}`;
-} else if (storedLanguage !== basename && isValidLocale(basename)) {
+} else if (
+  storedLanguage !== basename &&
+  basename !== undefined &&
+  isValidLocale(basename)
+) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
 }
 
-const browserHistory = createHistory(basename);
-
-const {
-  disableSSR,
-  logglyApiKey,
-  logEnvironment: environment,
-  componentName,
-} = config;
+const browserHistory = createHistory(basename ?? '');
 
 window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
+  logglyApiKey: config.logglyApiKey,
+  environment: config.environment,
+  componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
 configureTracker({
   listen: browserHistory.listen,
-  gaTrackingId: window.location.host ? config.gaTrackingId : '',
-  googleTagManagerId: config.googleTagManagerId,
+  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+  googleTagManagerId: config?.googleTagManagerId,
 });
 
 window.hasHydrated = false;
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
 const cache = createCache();
@@ -84,11 +92,13 @@ const testLocation = locationFromServer?.pathname + locationFromServer?.search;
 const isGoogleUrl =
   decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
-const RouterComponent = ({ children }) =>
+interface RCProps {
+  children?: React.ReactNode;
+}
+
+const RouterComponent = ({ children }: RCProps) =>
   isGoogleUrl ? (
-    <MemoryRouter
-      history={browserHistory}
-      initialEntries={[locationFromServer]}>
+    <MemoryRouter initialEntries={[locationFromServer]}>
       {children}
     </MemoryRouter>
   ) : (
@@ -100,7 +110,7 @@ renderOrHydrate(
     <CacheProvider value={cache}>
       <IntlProvider locale={abbreviation} messages={messages}>
         <RouterComponent>
-          {routes({ ...initialProps, basename }, abbreviation)}
+          {routesFunc({ ...initialProps, basename }, abbreviation)}
         </RouterComponent>
       </IntlProvider>
     </CacheProvider>
