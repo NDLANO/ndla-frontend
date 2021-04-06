@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:10-alpine as builder
+FROM node:12-alpine as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -12,7 +12,7 @@ WORKDIR $APP_PATH
 RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json .eslintrc razzle.config.js razzle-add-entry-plugin.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json .eslintrc razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
 COPY public $APP_PATH/public
@@ -24,7 +24,7 @@ RUN yarn run build
 RUN mv $APP_PATH/src/server/robots.txt $APP_PATH/build/robots.txt
 
 ### Run stage
-FROM node:10-alpine
+FROM node:12-alpine
 
 RUN apk add py2-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /

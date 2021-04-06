@@ -46,9 +46,13 @@ test('External redirect for static router with basename', () => {
 test('External redirect for (memory/dom) router', () => {
   const context = {};
   const replace = sinon.spy();
-  Object.defineProperty(window.location, 'replace', {
-    value: replace,
-  });
+
+  const oldWindow = window.location;
+  delete window.location;
+  window.location = {
+    ...oldWindow,
+    replace,
+  };
 
   renderer.create(
     <MemoryRouter basename="/nb" context={context}>

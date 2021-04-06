@@ -177,11 +177,6 @@ export const FilterShape = PropTypes.shape({
   subjectId: PropTypes.string.isRequired,
 });
 
-export const LocationShape = PropTypes.shape({
-  search: PropTypes.string,
-  pathname: PropTypes.string.isRequired,
-}).isRequired;
-
 export const LtiDataShape = PropTypes.shape({
   launch_presentation_return_url: PropTypes.string,
   launch_presentation_document_target: PropTypes.string,
@@ -290,3 +285,29 @@ export const ProgrammeShape = PropTypes.shape({
   label: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 });
+
+export const HistoryShape = PropTypes.shape({
+  push: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  block: PropTypes.func.isRequired,
+  replace: PropTypes.func.isRequired,
+});
+
+export const LocationShape = PropTypes.shape({
+  search: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  hash: PropTypes.string.isRequired,
+  state: PropTypes.any,
+  key: PropTypes.string,
+}).isRequired;
+
+export const RoutePropTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape.isRequired,
+};

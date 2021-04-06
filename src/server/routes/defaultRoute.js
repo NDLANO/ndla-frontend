@@ -27,10 +27,10 @@ import { renderHtml, renderPage } from '../helpers/render';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = () => ({
-  css: assets.client.css ? assets.client.css : undefined,
-  polyfill: { src: assets.polyfill.js },
-  js: [{ src: assets.client.js }],
-  mathJaxConfig: { js: assets.mathJaxConfig.js },
+  css: assets.client.css ? assets.client.css[0] : undefined,
+  polyfill: { src: assets.polyfill.js[0] },
+  js: [{ src: assets.client.js[0] }],
+  mathJaxConfig: { js: assets.mathJaxConfig.js[0] },
 });
 
 async function loadGetInitialProps(Component, ctx) {

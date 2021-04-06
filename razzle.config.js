@@ -1,40 +1,37 @@
 const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack');
 const path = require('path');
-const addEntry = require('./razzle-add-entry-plugin');
 
 module.exports = {
   plugins: [
-    addEntry({ entry: '@ndla/polyfill', name: 'polyfill' }),
-    addEntry({ entry: './src/iframe', name: 'embed' }),
-    addEntry({ entry: './src/lti', name: 'lti' }),
-    addEntry({ entry: './public/static/mathjax-config', name: 'mathJaxConfig' }),
-    {
-      name: 'typescript',
-      options: {
-        useBabel: true,
-        tsLoader: {
-          transpileOnly: false,
-          experimentalWatchApi: true,
-        },
-        forkTsChecker: {
-          tsconfig: './tsconfig.json',
-          tslint: undefined,
-          watch: './src',
-          typeCheck: false,
-        },
-      },
-    },
   ],
-  modify(config, { target, dev }) {
-    const appConfig = config;
+  modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
+
+    const addEntry = options => {
+      if (target === 'web') {
+        if (dev) {
+          appConfig.entry[options.name] = [
+            appConfig.entry.client[0], // hot reloading
+            options.entry,
+          ];
+        } else {
+          appConfig.entry[options.name] = [options.entry];
+        }
+      }
+    };
+
 
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
       rule.use.push({ loader: 'sass-loader' });
     });
 
-    appConfig.module.rules.shift(); // remove eslint-loader
+    addEntry({ entry: '@ndla/polyfill', name: 'polyfill' });
+    addEntry({ entry: './src/iframe', name: 'embed' });
+    addEntry({ entry: './src/lti', name: 'lti' });
+    addEntry({ entry: './public/static/mathjax-config', name: 'mathJaxConfig', });
+
+    // appConfig.module.rules.shift(); // remove eslint-loader
 
     if (target === 'web') {
       appConfig.output.filename = dev
@@ -46,9 +43,7 @@ module.exports = {
       }
 
       if (!dev) {
-        appConfig.plugins.push(
-          new webpack.optimize.ModuleConcatenationPlugin(),
-        );
+        appConfig.optimization.concatenateModules = true;
       }
       appConfig.performance = {
         hints: false,
@@ -61,7 +56,7 @@ module.exports = {
       // expression warning» which we can safely ignore.
       appConfig.externals = [];
       // Razzle/CRA breaks the build on webpack warnings. Disable CI env to circumvent the check.
-      process.env.CI = false;
+      process.env.CI = 'false';
     }
 
     if (!dev) {

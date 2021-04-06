@@ -16,7 +16,6 @@ import {
   fetchTopic,
   // @ts-ignore
 } from '../../containers/Resources/resourceApi';
-// @ts-ignore
 import config from '../../config';
 // @ts-ignore
 import handleError from '../../util/handleError';
