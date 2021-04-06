@@ -13,7 +13,6 @@ import { Router, MemoryRouter } from 'react-router-dom';
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/client';
-import { setCookie, getCookie } from '@ndla/util';
 // @ts-ignore
 import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
@@ -25,6 +24,7 @@ import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 // @ts-ignore
 import { createApolloClient } from './util/apiHelpers';
+import { STORED_LANGUAGE_KEY } from './constants';
 import routesFunc from './routes';
 import './style/index.css';
 import { NDLAWindow } from './interfaces';
@@ -49,9 +49,10 @@ const locationFromServer = {
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
-const storedLanguage = getCookie('language', document.cookie);
+const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
 if (
   basename === '' &&
+  storedLanguage !== null &&
   isValidLocale(storedLanguage) &&
   storedLanguage !== 'nb'
 ) {
@@ -62,7 +63,7 @@ if (
   basename !== undefined &&
   isValidLocale(basename)
 ) {
-  setCookie('language', basename, false, undefined);
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
 }
 
 const browserHistory = createHistory(basename ?? '');

@@ -24,7 +24,6 @@ import {
   LearningPathMobileHeader,
   constants,
 } from '@ndla/ui';
-import { getCookie, setCookie } from '@ndla/util';
 import { toLearningPath } from '../../routeHelpers';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -41,7 +40,7 @@ import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
 import { getContentType } from '../../util/getContentType';
 
-const LEARNING_PATHS_COOKIES_KEY = 'LEARNING_PATHS_COOKIES_KEY';
+const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
 const Learningpath = ({
   learningpath,
@@ -89,28 +88,33 @@ const Learningpath = ({
     };
   });
 
-  const cookieKey = `${LEARNING_PATHS_COOKIES_KEY}_${id}`;
+  const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${id}`;
 
-  const [useCookies, setUseCookies] = useState({});
+  const [viewedSteps, setViewedSteps] = useState({});
 
-  const updateCookies = () => {
+  const updateViewedSteps = () => {
     if (
       learningpath &&
       learningpathStep &&
       learningpathStep.seqNo !== undefined
     ) {
-      const currentCookie = getCookie(cookieKey, document.cookie);
-      const updatedCookie = currentCookie ? JSON.parse(currentCookie) : {};
-      setUseCookies(updatedCookie);
-      updatedCookie[learningpathStep.id] = true;
-      setCookie(cookieKey, JSON.stringify(updatedCookie));
+      const currentViewedSteps = window.localStorage.getItem(storageKey);
+      const updatedViewedSteps = currentViewedSteps
+        ? JSON.parse(currentViewedSteps)
+        : {};
+      setViewedSteps(updatedViewedSteps);
+      updatedViewedSteps[learningpathStep.id] = true;
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify(updatedViewedSteps),
+      );
     }
   };
 
-  useEffect(() => updateCookies(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => updateViewedSteps(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     window.addEventListener('keyup', onKeyUpEvent);
-    updateCookies();
+    updateViewedSteps();
     return () => {
       window.removeEventListener('keyup', onKeyUpEvent);
     };
@@ -132,7 +136,7 @@ const Learningpath = ({
       stepId={stepId}
       currentIndex={learningpathStep.seqNo}
       name={title}
-      cookies={useCookies}
+      cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
     />
   );
