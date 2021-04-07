@@ -1803,9 +1803,7 @@ export const programmeSubjects = [
     id: 'programme_subject_62',
   },
   {
-    filters: [
-      'urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452',
-    ],
+    filters: ['urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452'],
     longName: {
       en: 'Informasjonsteknologi Vg2 - 2021 BETA',
       nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
