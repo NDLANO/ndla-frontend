@@ -162,6 +162,7 @@ const SearchHeader = ({
     handleSearchParamsChange({
       subjects,
       filters,
+      levels: [],
     });
   };
 
