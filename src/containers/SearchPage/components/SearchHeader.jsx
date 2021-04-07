@@ -106,46 +106,34 @@ const SearchHeader = ({
         }
       }
       if (programmeFilterUpdate.length) {
+        setSubjectFilter([]);
         setProgrammeFilter(programmeFilterUpdate);
+        const activeProgrammes = programmeFilterUpdate.map(id => {
+          const programme = localeProgrammes.find(p => p.id === id);
+          return {
+            value: id,
+            name: programme.name,
+            title: programme.name,
+          };
+        });
+        setActiveSubjectFilters(activeProgrammes);
       } else {
+        setProgrammeFilter([]);
         setSubjectFilter(subjectFilterUpdate);
+        const activeSubjects = subjectFilterUpdate.map(id => {
+          const subject = getSubjectById(id);
+          return {
+            value: id,
+            name: subject.longName[locale],
+            title: subject.longName[locale],
+          };
+        });
+        setActiveSubjectFilters(activeSubjects);
       }
     }
-  }, [filters, programmeSubjects]);
-
-  useEffect(() => {
-    const activeSubjects = subjectFilter.map(id => {
-      const subject = getSubjectById(id);
-      return {
-        value: id,
-        name: subject.longName[locale],
-        title: subject.longName[locale],
-      };
-    });
-    setActiveSubjectFilters(activeSubjects);
-  }, [subjectFilter, locale]);
-
-  useEffect(() => {
-    const activeProgrammes = programmeFilter.map(id => {
-      const programme = localeProgrammes.find(p => p.id === id);
-      return {
-        value: id,
-        name: programme.name,
-        title: programme.name,
-      };
-    });
-    setActiveSubjectFilters(activeProgrammes);
-  }, [programmeFilter, localeProgrammes]);
-
-  const onSubjectValuesChange = values => {
-    setProgrammeFilter([]);
-    setSubjectFilter(values);
-    updateSearchParams(values);
-  };
+  }, [filters, programmeSubjects, localeProgrammes, locale]);
 
   const onProgrammeValuesChange = values => {
-    setSubjectFilter([]);
-    setProgrammeFilter(values);
     const subjectFilterValues = [];
     programmes.forEach(programme => {
       if (values.includes(programme.url[locale])) {
@@ -160,10 +148,10 @@ const SearchHeader = ({
         );
       }
     });
-    updateSearchParams(subjectFilterValues);
+    onSubjectValuesChange(subjectFilterValues);
   };
 
-  const updateSearchParams = values => {
+  const onSubjectValuesChange = values => {
     const subjects = [];
     const filters = [];
     values.forEach(subject => {
