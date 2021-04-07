@@ -28,7 +28,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     if (selectedTopics.length) {
       const ref = refs[selectedTopics.length - 1];
       const positionFromTop =
-        ref.current.getBoundingClientRect().top +
+        ref.current?.getBoundingClientRect().top +
         document.documentElement.scrollTop;
       window.scrollTo({
         top: positionFromTop - 100,
