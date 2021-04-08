@@ -39,12 +39,14 @@ const getStateSearchParams = (searchParams, locale) => {
       searchParams.programs,
       locale,
     );
-    stateSearchParams.subjects = `${
-      stateSearchParams.subjects
-    },${convertSearchParam(subjects)}`;
-    stateSearchParams.filters = `${
-      stateSearchParams.filters
-    },${convertSearchParam(filters)}`;
+    stateSearchParams.subjects = convertSearchParam([
+      ...searchParams.subjects,
+      ...subjects,
+    ]);
+    stateSearchParams.filters = convertSearchParam([
+      ...searchParams.filters,
+      ...filters,
+    ]);
     delete stateSearchParams.programs;
   }
   return stateSearchParams;
@@ -89,7 +91,10 @@ const SearchInnerPage = ({
   const stateSearchParams = isLti
     ? {
         query,
-        subjects: subjects.length ? subjects.join() : undefined,
+        subjects: convertSearchParam([
+          ...subjects,
+          ...convertProgramSearchParams(programmes, locale).subjects,
+        ]),
       }
     : getStateSearchParams(searchParams, locale);
 
