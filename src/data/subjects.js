@@ -10,8 +10,7 @@ export const commonSubjects = [
       nn: 'Samfunnsfag (Vg2)',
       en: 'Samfunnsfag (Vg2)',
     },
-    subjectId: 'urn:subject:3',
-    filters: ['urn:filter:19dae192-699d-488f-8218-d81535ce3ae3'],
+    subjectId: 'urn:subject:1:19dae192-699d-488f-8218-d81535ce3ae3',
     id: 'common_subject_1',
   },
   {
@@ -25,8 +24,7 @@ export const commonSubjects = [
       nn: 'Samfunnskunnskap',
       en: 'Samfunnskunnskap',
     },
-    subjectId: 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-    filters: ['urn:filter:470720f9-6b03-40cb-ab58-e3e130803578'],
+    subjectId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     id: 'common_subject_2',
   },
   {
@@ -40,11 +38,7 @@ export const commonSubjects = [
       nn: 'Engelsk (YF)',
       en: 'Engelsk (YF)',
     },
-    subjectId: 'urn:subject:39',
-    filters: [
-      'urn:filter:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
-      'urn:filter:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
-    ],
+    subjectId: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
     id: 'common_subject_3',
   },
   {
@@ -58,8 +52,7 @@ export const commonSubjects = [
       nn: 'Engelsk (SF)',
       en: 'Engelsk (SF)',
     },
-    subjectId: 'urn:subject:39',
-    filters: ['urn:filter:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6'],
+    subjectId: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
     id: 'common_subject_4',
   },
   {
@@ -73,8 +66,7 @@ export const commonSubjects = [
       nn: 'Norsk (YF Vg2)',
       en: 'Norsk (YF Vg2)',
     },
-    subjectId: 'urn:subject:19',
-    filters: ['urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70'],
+    subjectId: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
     id: 'common_subject_5',
   },
   {
@@ -88,8 +80,7 @@ export const commonSubjects = [
       nn: 'Norsk (SF Vg1)',
       en: 'Norsk (SF Vg1)',
     },
-    subjectId: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
-    filters: ['urn:filter:605d33e0-1695-4540-9255-fc5e612e996f'],
+    subjectId: 'urn:subject:1:605d33e0-1695-4540-9255-fc5e612e996f',
     id: 'common_subject_6',
   },
   {
@@ -103,8 +94,7 @@ export const commonSubjects = [
       nn: 'Norsk (SF Vg2)',
       en: 'Norsk (SF Vg2)',
     },
-    subjectId: 'urn:subject:19',
-    filters: ['urn:filter:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20'],
+    subjectId: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
     id: 'common_subject_7',
   },
   {
@@ -118,12 +108,10 @@ export const commonSubjects = [
       nn: 'Historie (SF Vg2)',
       en: 'Historie (SF Vg2)',
     },
-    subjectId: 'urn:subject:9',
-    filters: ['urn:filter:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1'],
+    subjectId: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
     id: 'common_subject_8',
   },
   {
-    filters: ['urn:filter:ca607ca1-4dd0-4bbd-954f-67461f4b96fc'],
     longName: {
       en: 'Kroppsøving (Vg1)',
       nb: 'Kroppsøving (Vg1)',
@@ -134,11 +122,10 @@ export const commonSubjects = [
       nb: 'Kroppsøving',
       nn: 'Kroppsøving',
     },
-    subjectId: 'urn:subject:26',
+    subjectId: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
     id: 'common_subject_9',
   },
   {
-    filters: ['urn:filter:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c'],
     longName: {
       en: 'Kroppsøving (Vg2)',
       nb: 'Kroppsøving (Vg2)',
@@ -149,11 +136,10 @@ export const commonSubjects = [
       nb: 'Kroppsøving',
       nn: 'Kroppsøving',
     },
-    subjectId: 'urn:subject:26',
+    subjectId: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
     id: 'common_subject_10',
   },
   {
-    filters: ['urn:filter:c2133910-2de5-4dc9-9057-f59fed74982f'],
     longName: {
       en: 'Kroppsøving (Vg3)',
       nb: 'Kroppsøving (Vg3)',
@@ -164,11 +150,10 @@ export const commonSubjects = [
       nb: 'Kroppsøving',
       nn: 'Kroppsøving',
     },
-    subjectId: 'urn:subject:26',
+    subjectId: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
     id: 'common_subject_11',
   },
   {
-    filters: ['urn:filter:b0a79538-d211-4254-852a-5aa2c4b89db7'],
     longName: {
       en: 'Matematikk 2P',
       nb: 'Matematikk 2P',
@@ -179,11 +164,10 @@ export const commonSubjects = [
       nb: 'Matematikk 2P',
       nn: 'Matematikk 2P',
     },
-    subjectId: 'urn:subject:29',
+    subjectId: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
     id: 'common_subject_12',
   },
   {
-    filters: ['urn:filter:a3c1b65a-c41f-4879-b650-32a13fe1801b'],
     longName: {
       en: 'Matematikk 1P',
       nb: 'Matematikk 1P',
@@ -194,11 +178,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P',
       nn: 'Matematikk 1P',
     },
-    subjectId: 'urn:subject:34',
+    subjectId: 'urn:subject:1:a3c1b65a-c41f-4879-b650-32a13fe1801b',
     id: 'common_subject_13',
   },
   {
-    filters: ['urn:filter:38bc9538-63fd-48f3-9085-c2142dafd64c'],
     longName: {
       en: 'Matematikk 2P-Y',
       nb: 'Matematikk 2P-Y',
@@ -209,11 +192,10 @@ export const commonSubjects = [
       nb: 'Matematikk 2P-Y',
       nn: 'Matematikk 2P-Y',
     },
-    subjectId: 'urn:subject:30',
+    subjectId: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
     id: 'common_subject_14',
   },
   {
-    filters: ['urn:filter:daa130e2-5035-4803-b3c0-6158f455a982'],
     longName: {
       en: 'Matematikk 1P-Y (HS)',
       nb: 'Matematikk 1P-Y (HS)',
@@ -224,11 +206,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:daa130e2-5035-4803-b3c0-6158f455a982',
     id: 'common_subject_15',
   },
   {
-    filters: ['urn:filter:671bd263-eee6-4c56-9e23-a6bbd3130f33'],
     longName: {
       en: 'Naturfag for påbygg',
       nb: 'Naturfag for påbygg',
@@ -239,11 +220,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:21',
+    subjectId: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
     id: 'common_subject_16',
   },
   {
-    filters: ['urn:filter:d78133ee-73be-4640-9eb6-50372cda2287'],
     longName: {
       en: 'Matematikk 1P-Y (RM)',
       nb: 'Matematikk 1P-Y (RM)',
@@ -254,11 +234,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:d78133ee-73be-4640-9eb6-50372cda2287',
     id: 'common_subject_17',
   },
   {
-    filters: ['urn:filter:78e538a3-78bf-4db2-af00-2ca7d721cb25'],
     longName: {
       en: 'Religion og etikk',
       nb: 'Religion og etikk',
@@ -269,11 +248,10 @@ export const commonSubjects = [
       nb: 'Religion og etikk',
       nn: 'Religion og etikk',
     },
-    subjectId: 'urn:subject:44',
+    subjectId: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
     id: 'common_subject_18',
   },
   {
-    filters: ['urn:filter:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4'],
     longName: {
       en: 'Matematikk 1P-Y (TP)',
       nb: 'Matematikk 1P-Y (TP)',
@@ -284,11 +262,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4',
     id: 'common_subject_19',
   },
   {
-    filters: ['urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182'],
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg2)',
       nb: 'Sørsamisk som førstespråk (SF Vg2)',
@@ -299,11 +276,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som førstespråk',
       nn: 'Sørsamisk som førstespråk',
     },
-    subjectId: 'urn:subject:15',
+    subjectId: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
     id: 'common_subject_20',
   },
   {
-    filters: ['urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22'],
     longName: {
       en: 'Sørsamisk som førstespråk (YF)',
       nb: 'Sørsamisk som førstespråk (YF)',
@@ -314,11 +290,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som førstespråk',
       nn: 'Sørsamisk som førstespråk',
     },
-    subjectId: 'urn:subject:15',
+    subjectId: 'urn:subject:1:2a1420a8-a485-4000-8593-6fe0341a8a22',
     id: 'common_subject_21',
   },
   {
-    filters: ['urn:filter:e1272473-7361-4129-8bfd-a0d6ebc8cf98'],
     longName: {
       en: 'Matematikk 1P-Y (BA)',
       nb: 'Matematikk 1P-Y (BA)',
@@ -329,11 +304,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:e1272473-7361-4129-8bfd-a0d6ebc8cf98',
     id: 'common_subject_22',
   },
   {
-    filters: ['urn:filter:33d3fab4-4b5a-46b1-bd9d-6d7af8e79616'],
     longName: {
       en: 'Matematikk 1P-Y (NA)',
       nb: 'Matematikk 1P-Y (NA)',
@@ -344,11 +318,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:33d3fab4-4b5a-46b1-bd9d-6d7af8e79616',
     id: 'common_subject_23',
   },
   {
-    filters: ['urn:filter:dbd108ac-73b3-4efc-92d5-1bbbed22abaf'],
     longName: {
       en: 'Matematikk 1P-Y (IM)',
       nb: 'Matematikk 1P-Y (IM)',
@@ -359,11 +332,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:dbd108ac-73b3-4efc-92d5-1bbbed22abaf',
     id: 'common_subject_24',
   },
   {
-    filters: ['urn:filter:001c6405-79d5-4b9a-8b1b-002680265916'],
     longName: {
       en: 'Matematikk 1P-Y (SR)',
       nb: 'Matematikk 1P-Y (SR)',
@@ -374,11 +346,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:001c6405-79d5-4b9a-8b1b-002680265916',
     id: 'common_subject_25',
   },
   {
-    filters: ['urn:filter:4c20c255-cf86-44b7-b628-950a4911c686'],
     longName: {
       en: 'Matematikk 1P-Y (EL)',
       nb: 'Matematikk 1P-Y (EL)',
@@ -389,11 +360,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:4c20c255-cf86-44b7-b628-950a4911c686',
     id: 'common_subject_26',
   },
   {
-    filters: ['urn:filter:6c28a8a2-2291-49d6-aeb9-48315063ab4c'],
     longName: {
       en: 'Matematikk 1P-Y (FD)',
       nb: 'Matematikk 1P-Y (FD)',
@@ -404,11 +374,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:6c28a8a2-2291-49d6-aeb9-48315063ab4c',
     id: 'common_subject_27',
   },
   {
-    filters: ['urn:filter:8bfd0a97-d456-448d-8b5f-3bc49e445b37'],
     longName: {
       en: 'Matematikk 1T',
       nb: 'Matematikk 1T',
@@ -419,11 +388,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T',
       nn: 'Matematikk 1T',
     },
-    subjectId: 'urn:subject:33',
+    subjectId: 'urn:subject:1:8bfd0a97-d456-448d-8b5f-3bc49e445b37',
     id: 'common_subject_28',
   },
   {
-    filters: ['urn:filter:2205eb3b-73d5-4d01-a69b-83d1b842636b'],
     longName: {
       en: 'Matematikk 1T-Y (HS)',
       nb: 'Matematikk 1T-Y (HS)',
@@ -434,11 +402,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:2205eb3b-73d5-4d01-a69b-83d1b842636b',
     id: 'common_subject_29',
   },
   {
-    filters: ['urn:filter:947772c4-d806-40d9-95b7-6dc855a37e13'],
     longName: {
       en: 'Matematikk 1T-Y (RM)',
       nb: 'Matematikk 1T-Y (RM)',
@@ -449,11 +416,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:947772c4-d806-40d9-95b7-6dc855a37e13',
     id: 'common_subject_30',
   },
   {
-    filters: ['urn:filter:2dc9a180-e501-46ba-93b4-f665f59bdced'],
     longName: {
       en: 'Matematikk 1T-Y (TP)',
       nb: 'Matematikk 1T-Y (TP)',
@@ -464,11 +430,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:2dc9a180-e501-46ba-93b4-f665f59bdced',
     id: 'common_subject_31',
   },
   {
-    filters: ['urn:filter:10f1822a-86ab-4a35-a9bf-477f98775617'],
     longName: {
       en: 'Matematikk 1T-Y (BA)',
       nb: 'Matematikk 1T-Y (BA)',
@@ -479,11 +444,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:10f1822a-86ab-4a35-a9bf-477f98775617',
     id: 'common_subject_32',
   },
   {
-    filters: ['urn:filter:a51e0766-654d-4f71-be5d-78bc33a6663f'],
     longName: {
       en: 'Matematikk 1T-Y (NA)',
       nb: 'Matematikk 1T-Y (NA)',
@@ -494,11 +458,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:a51e0766-654d-4f71-be5d-78bc33a6663f',
     id: 'common_subject_33',
   },
   {
-    filters: ['urn:filter:6012d8a9-994a-4b21-b4a1-8c54443fc0d1'],
     longName: {
       en: 'Matematikk 1T-Y (IM)',
       nb: 'Matematikk 1T-Y (IM)',
@@ -509,11 +472,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:6012d8a9-994a-4b21-b4a1-8c54443fc0d1',
     id: 'common_subject_34',
   },
   {
-    filters: ['urn:filter:15af94d5-d647-4da9-aefc-f7e4b3bd44ff'],
     longName: {
       en: 'Matematikk 1T-Y (SR)',
       nb: 'Matematikk 1T-Y (SR)',
@@ -524,11 +486,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:15af94d5-d647-4da9-aefc-f7e4b3bd44ff',
     id: 'common_subject_35',
   },
   {
-    filters: ['urn:filter:ffb5b58f-c993-4cba-99f5-40844b51e588'],
     longName: {
       en: 'Matematikk 1T-Y (EL)',
       nb: 'Matematikk 1T-Y (EL)',
@@ -539,11 +500,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:ffb5b58f-c993-4cba-99f5-40844b51e588',
     id: 'common_subject_36',
   },
   {
-    filters: ['urn:filter:9031c947-8761-4db7-ab02-33dc3a8ba2e2'],
     longName: {
       en: 'Matematikk 1T-Y (FD)',
       nb: 'Matematikk 1T-Y (FD)',
@@ -554,11 +514,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:9031c947-8761-4db7-ab02-33dc3a8ba2e2',
     id: 'common_subject_37',
   },
   {
-    filters: ['urn:filter:aeaf8fcc-9ad2-4f23-a2cf-d764194f5380'],
     longName: {
       en: 'Naturfag (HS)',
       nb: 'Naturfag (HS)',
@@ -569,11 +528,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:aeaf8fcc-9ad2-4f23-a2cf-d764194f5380',
     id: 'common_subject_38',
   },
   {
-    filters: ['urn:filter:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9'],
     longName: {
       en: 'Naturfag (RM)',
       nb: 'Naturfag (RM)',
@@ -584,11 +542,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9',
     id: 'common_subject_39',
   },
   {
-    filters: ['urn:filter:0d8458e9-632b-4bdf-977c-cb04ccde02bd'],
     longName: {
       en: 'Naturfag (TP)',
       nb: 'Naturfag (TP)',
@@ -599,11 +556,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:0d8458e9-632b-4bdf-977c-cb04ccde02bd',
     id: 'common_subject_40',
   },
   {
-    filters: ['urn:filter:48d5ff11-d459-4327-bbe5-8dd313e9dcbf'],
     longName: {
       en: 'Naturfag (BA)',
       nb: 'Naturfag (BA)',
@@ -614,11 +570,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:48d5ff11-d459-4327-bbe5-8dd313e9dcbf',
     id: 'common_subject_41',
   },
   {
-    filters: ['urn:filter:f2e831f5-2365-4ac8-bfce-4fc38323d91b'],
     longName: {
       en: 'Naturfag (NA)',
       nb: 'Naturfag (NA)',
@@ -629,11 +584,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:f2e831f5-2365-4ac8-bfce-4fc38323d91b',
     id: 'common_subject_42',
   },
   {
-    filters: ['urn:filter:330336a5-9e92-405b-bb5c-b0e8bdc8ba98'],
     longName: {
       en: 'Naturfag (IM)',
       nb: 'Naturfag (IM)',
@@ -644,11 +598,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:330336a5-9e92-405b-bb5c-b0e8bdc8ba98',
     id: 'common_subject_43',
   },
   {
-    filters: ['urn:filter:721307df-c384-4a7f-ad69-668853c766c6'],
     longName: {
       en: 'Naturfag (SR)',
       nb: 'Naturfag (SR)',
@@ -659,11 +612,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:721307df-c384-4a7f-ad69-668853c766c6',
     id: 'common_subject_44',
   },
   {
-    filters: ['urn:filter:7a0cbbc6-f213-4545-a6e3-44d3043ddaae'],
     longName: {
       en: 'Naturfag (EL)',
       nb: 'Naturfag (EL)',
@@ -674,11 +626,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:7a0cbbc6-f213-4545-a6e3-44d3043ddaae',
     id: 'common_subject_45',
   },
   {
-    filters: ['urn:filter:b4f8369c-139e-4a3f-8c79-f1341be06501'],
     longName: {
       en: 'Naturfag (FD)',
       nb: 'Naturfag (FD)',
@@ -689,11 +640,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:b4f8369c-139e-4a3f-8c79-f1341be06501',
     id: 'common_subject_46',
   },
   {
-    filters: ['urn:filter:e4f1bd93-e941-4f7e-a150-1dd99a9ac419'],
     longName: {
       en: 'Naturfag (DT)',
       nb: 'Naturfag (DT)',
@@ -704,11 +654,10 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:e4f1bd93-e941-4f7e-a150-1dd99a9ac419',
     id: 'common_subject_47',
   },
   {
-    filters: ['urn:filter:919bde2e-9525-4eb1-88f4-3f730f793cf9'],
     longName: {
       en: 'Matematikk 1P-Y (DT)',
       nb: 'Matematikk 1P-Y (DT)',
@@ -719,11 +668,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1P-Y',
       nn: 'Matematikk 1P-Y',
     },
-    subjectId: 'urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f',
+    subjectId: 'urn:subject:1:919bde2e-9525-4eb1-88f4-3f730f793cf9',
     id: 'common_subject_48',
   },
   {
-    filters: ['urn:filter:43fcb3a9-0144-4b7b-bba9-40e447f17303'],
     longName: {
       en: 'Matematikk 1T-Y (DT)',
       nb: 'Matematikk 1T-Y (DT)',
@@ -734,11 +682,10 @@ export const commonSubjects = [
       nb: 'Matematikk 1T-Y',
       nn: 'Matematikk 1T-Y',
     },
-    subjectId: 'urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6',
+    subjectId: 'urn:subject:1:43fcb3a9-0144-4b7b-bba9-40e447f17303',
     id: 'common_subject_49',
   },
   {
-    filters: ['urn:filter:a5d7da3a-8a19-4a83-9b3f-3c855621df70'],
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg1)',
       nb: 'Sørsamisk som førstespråk (SF Vg1)',
@@ -749,7 +696,7 @@ export const commonSubjects = [
       nb: 'Sørsamisk som førstespråk',
       nn: 'Sørsamisk som førstespråk',
     },
-    subjectId: 'urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23',
+    subjectId: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
     id: 'common_subject_50',
   },
   {
@@ -763,8 +710,7 @@ export const commonSubjects = [
       nn: 'Historie (SF Vg3)',
       en: 'Historie (SF Vg3)',
     },
-    subjectId: 'urn:subject:9',
-    filters: ['urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'],
+    subjectId: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
     id: 'common_subject_51',
   },
   {
@@ -778,8 +724,7 @@ export const commonSubjects = [
       nn: 'Historie (PB Vg3)',
       en: 'Historie (PB Vg3)',
     },
-    subjectId: 'urn:subject:9',
-    filters: ['urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9'],
+    subjectId: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
     id: 'common_subject_52',
   },
   {
@@ -793,8 +738,7 @@ export const commonSubjects = [
       nn: 'Norsk (SF Vg3)',
       en: 'Norsk (SF Vg3)',
     },
-    subjectId: 'urn:subject:19',
-    filters: ['urn:filter:cddc3895-a19b-4e30-bd27-2f91b4a02894'],
+    subjectId: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
     id: 'common_subject_53',
   },
   {
@@ -808,12 +752,10 @@ export const commonSubjects = [
       nn: 'Norsk (PB Vg3)',
       en: 'Norsk (PB Vg3)',
     },
-    subjectId: 'urn:subject:19',
-    filters: ['urn:filter:f3d2143b-66e3-428c-89ca-72c1abc659ea'],
+    subjectId: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
     id: 'common_subject_54',
   },
   {
-    filters: ['urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0'],
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg3)',
       nb: 'Sørsamisk som førstespråk (SF Vg3)',
@@ -824,11 +766,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som førstespråk',
       nn: 'Sørsamisk som førstespråk',
     },
-    subjectId: 'urn:subject:15',
+    subjectId: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
     id: 'common_subject_55',
   },
   {
-    filters: ['urn:filter:a532138d-e16a-4046-a46e-bd5bc9487b8b'],
     longName: {
       en: 'Sørsamisk som førstespråk (PB)',
       nb: 'Sørsamisk som førstespråk (PB)',
@@ -839,56 +780,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som førstespråk',
       nn: 'Sørsamisk som førstespråk',
     },
-    subjectId: 'urn:subject:15',
+    subjectId: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
     id: 'common_subject_56',
   },
   {
-    filters: ['urn:filter:3645d7c4-63af-469a-a502-38e53d03d6c7'],
-    longName: {
-      en: 'Folkehelse og livsmestring',
-      nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
-    },
-    name: {
-      en: 'Folkehelse og livsmestring',
-      nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_57',
-  },
-  {
-    filters: ['urn:filter:1e3b4fd0-3245-42b5-8685-db02c5592acc'],
-    longName: {
-      en: 'Demokrati og medborgerskap',
-      nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
-    },
-    name: {
-      en: 'Demokrati og medborgerskap',
-      nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_58',
-  },
-  {
-    filters: ['urn:filter:7ab1cc5c-4f79-4bb4-b1ab-bef7c41aed66'],
-    longName: {
-      en: 'Bærekraftig utvikling',
-      nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
-    },
-    name: {
-      en: 'Bærekraftig utvikling',
-      nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_59',
-  },
-  {
-    filters: [],
     longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
@@ -903,25 +798,20 @@ export const commonSubjects = [
     id: 'common_subject_60',
   },
   {
-    filters: [
-      'urn:filter:54b1727c-2d91-4512-901c-8434e13339b4',
-      'urn:filter:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
-    ],
     longName: {
-      en: 'Verktøykassa',
-      nb: 'Verktøykassa',
-      nn: 'Verktøykassa',
+      en: 'Verktøykassa - For lærer',
+      nb: 'Verktøykassa - For lærer',
+      nn: 'Verktøykassa - For lærer',
     },
     name: {
       en: 'Verktøykassa',
       nb: 'Verktøykassa',
       nn: 'Verktøykassa',
     },
-    subjectId: 'urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09',
+    subjectId: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
     id: 'common_subject_61',
   },
   {
-    filters: ['urn:filter:962dd49d-72e8-4576-9efb-69d93a95402e'],
     longName: {
       en: 'Sørsamisk som andrespråk, samisk 4 (YF)',
       nb: 'Sørsamisk som andrespråk, samisk 4 (YF)',
@@ -932,11 +822,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som andrespråk, samisk 4',
       nn: 'Sørsamisk som andrespråk, samisk 4',
     },
-    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
+    subjectId: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
     id: 'common_subject_62',
   },
   {
-    filters: ['urn:filter:f7c5f36a-198d-4c38-a330-2957cf1a8325'],
     longName: {
       en: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
       nb: 'Sørsamisk som andrespråk, samisk 4 (SF Vg1)',
@@ -947,11 +836,10 @@ export const commonSubjects = [
       nb: 'Sørsamisk som andrespråk, samisk 4',
       nn: 'Sørsamisk som andrespråk, samisk 4',
     },
-    subjectId: 'urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3',
+    subjectId: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
     id: 'common_subject_63',
   },
   {
-    filters: ['urn:filter:f18b0daa-6507-4025-8998-b8a11c8ccc70'],
     longName: {
       en: 'Naturfag (SF)',
       nb: 'Naturfag (SF)',
@@ -962,8 +850,22 @@ export const commonSubjects = [
       nb: 'Naturfag',
       nn: 'Naturfag',
     },
-    subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
+    subjectId: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
     id: 'common_subject_64',
+  },
+  {
+    longName: {
+      en: 'Verktøykassa - For elev',
+      nb: 'Verktøykassa - For elev',
+      nn: 'Verktøykassa - For elev',
+    },
+    name: {
+      en: 'Verktøykassa',
+      nb: 'Verktøykassa',
+      nn: 'Verktøykassa',
+    },
+    subjectId: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+    id: 'common_subject_65',
   },
 ];
 export const programmeSubjects = [
