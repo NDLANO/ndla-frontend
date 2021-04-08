@@ -4,7 +4,8 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { getSubjectBySubjectIdFilters } from '../../data/subjects';
+import { getSubjectBySubjectIdFilters, getSubjectById } from '../../data/subjects';
+import { programmes } from '../../data/programmes';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -135,6 +136,7 @@ const arrayFields = [
   'levels',
   'subjects',
   'filters',
+  'programs',
   'relevance',
   'resourceTypes',
   'contextTypes',
@@ -175,6 +177,28 @@ export const convertSearchParam = value => {
   }
   return value.length > 0 ? value : undefined;
 };
+
+export const convertProgramSearchParams = (values, locale) => {
+  const subjectParams = [];
+  const filterParams = [];
+  programmes.forEach(programme => {
+    if (values.includes(programme.url[locale])) {
+      programme.grades.forEach(grade =>
+        grade.categories.forEach(category => {
+          category.subjects.forEach(subject => {
+            const { subjectId, filters } = getSubjectById(subject.id);
+            if (!subjectParams.includes(subjectId)) subjectParams.push(subjectId);
+            if (!filterParams.includes(filters[0])) filterParams.push(filters[0]);
+          })
+        }),
+      );
+    }
+  });
+  return {
+    subjects: subjectParams,
+    filters: filterParams,
+  }
+}
 
 export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {

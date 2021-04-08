@@ -34,6 +34,7 @@ const SearchContainer = ({
   handleShowMore,
   query,
   filters,
+  programmes,
   subjectItems,
   concepts,
   suggestion,
@@ -71,6 +72,7 @@ const SearchContainer = ({
         query={query}
         suggestion={suggestion}
         filters={filters}
+        programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
         locale={locale}
       />
@@ -122,6 +124,7 @@ SearchContainer.propTypes = {
   handleShowMore: func,
   query: string,
   filters: arrayOf(string),
+  programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,

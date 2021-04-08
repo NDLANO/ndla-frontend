@@ -21,6 +21,7 @@ import {
   updateSearchGroups,
   convertSearchParam,
   converSearchStringToObject,
+  convertProgramSearchParams,
   getTypeParams,
 } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
@@ -28,11 +29,17 @@ import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 
-const getStateSearchParams = searchParams => {
+const getStateSearchParams = (searchParams, locale) => {
   const stateSearchParams = {};
   Object.keys(searchParams).forEach(key => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
+  if (stateSearchParams.programs?.length) {
+    const { subjects, filters } = convertProgramSearchParams(searchParams.programs, locale);
+    stateSearchParams.subjects = convertSearchParam(subjects);
+    stateSearchParams.filters = convertSearchParam(filters);
+    delete stateSearchParams.programs;
+  }
   return stateSearchParams;
 };
 
@@ -50,6 +57,7 @@ const SearchInnerPage = ({
   query,
   subjects,
   filters,
+  programmes,
   subjectItems,
   concepts,
   resourceTypes,
@@ -76,7 +84,7 @@ const SearchInnerPage = ({
         query,
         subjects: subjects.length ? subjects.join() : undefined,
       }
-    : getStateSearchParams(searchParams);
+    : getStateSearchParams(searchParams, locale);
 
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
@@ -235,6 +243,7 @@ const SearchInnerPage = ({
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
       filters={filters}
+      programmes={programmes}
       suggestion={suggestion}
       concepts={concepts}
       query={query}
@@ -255,6 +264,7 @@ SearchInnerPage.propTypes = {
   query: string,
   subjects: arrayOf(string),
   filters: arrayOf(string),
+  programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   resourceTypes: arrayOf(

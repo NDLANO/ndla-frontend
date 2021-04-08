@@ -10,7 +10,7 @@ import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { subjectsCategories, getSubjectById } from '../../../data/subjects';
-import { programmes } from '../../../data/programmes';
+import { programmes as programmesData } from '../../../data/programmes';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
@@ -23,7 +23,7 @@ const getSubjectCategoriesForLocale = locale => {
 };
 
 const getProgrammesByLocale = locale => {
-  return programmes.map(programme => ({
+  return programmesData.map(programme => ({
     id: programme.url[locale],
     name: programme.name[locale],
   }));
@@ -31,7 +31,7 @@ const getProgrammesByLocale = locale => {
 
 const getProgrammeSubjects = locale => {
   const programmeSubjects = {};
-  programmes.forEach(programme => {
+  programmesData.forEach(programme => {
     programme.grades.forEach(grade =>
       grade.categories.forEach(category => {
         programmeSubjects[programme.url[locale]] = [
@@ -54,24 +54,12 @@ const getSubjectFilterByFilter = filters => {
     .flat();
 };
 
-const getSubjectMapping = () => {
-  const subjectMapping = {};
-  subjectsCategories.forEach(category => ({
-    subjects: category.subjects.forEach(subject => {
-      subjectMapping[subject.id] = {
-        subjectId: subject.subjectId,
-        filter: subject.filters[0],
-      };
-    }),
-  }));
-  return subjectMapping;
-};
-
 const SearchHeader = ({
   t,
   query,
   suggestion,
   filters,
+  programmes,
   handleSearchParamsChange,
   locale,
 }) => {
@@ -87,7 +75,6 @@ const SearchHeader = ({
   const localeProgrammes = useMemo(() => getProgrammesByLocale(locale), [
     locale,
   ]);
-  const subjectMapping = useMemo(() => getSubjectMapping(), []);
   const programmeSubjects = useMemo(() => getProgrammeSubjects(locale), [
     locale,
   ]);
@@ -98,66 +85,46 @@ const SearchHeader = ({
 
   useEffect(() => {
     const subjectFilterUpdate = getSubjectFilterByFilter(filters);
-    if (programmeSubjects) {
-      const programmeFilterUpdate = [];
-      for (const [programme, subjects] of Object.entries(programmeSubjects)) {
-        if (subjects.every(subject => subjectFilterUpdate.includes(subject))) {
-          programmeFilterUpdate.push(programme);
-        }
-      }
-      if (programmeFilterUpdate.length) {
-        setSubjectFilter([]);
-        setProgrammeFilter(programmeFilterUpdate);
-        const activeProgrammes = programmeFilterUpdate.map(id => {
-          const programme = localeProgrammes.find(p => p.id === id);
-          return {
-            value: id,
-            name: programme.name,
-            title: programme.name,
-          };
-        });
-        setActiveSubjectFilters(activeProgrammes);
-      } else {
-        setProgrammeFilter([]);
-        setSubjectFilter(subjectFilterUpdate);
-        const activeSubjects = subjectFilterUpdate.map(id => {
-          const subject = getSubjectById(id);
-          return {
-            value: id,
-            name: subject.longName[locale],
-            title: subject.longName[locale],
-          };
-        });
-        setActiveSubjectFilters(activeSubjects);
-      }
+    if (programmes.length) {
+      setSubjectFilter([]);
+      setProgrammeFilter(programmes);
+      const activeProgrammes = programmes.map(id => {
+        const programme = localeProgrammes.find(p => p.id === id);
+        return {
+          value: id,
+          name: programme.name,
+          title: programme.name,
+        };
+      });
+      setActiveSubjectFilters(activeProgrammes);
+    } else {
+      setProgrammeFilter([]);
+      setSubjectFilter(subjectFilterUpdate);
+      const activeSubjects = subjectFilterUpdate.map(id => {
+        const subject = getSubjectById(id);
+        return {
+          value: id,
+          name: subject.longName[locale],
+          title: subject.longName[locale],
+        };
+      });
+      setActiveSubjectFilters(activeSubjects);
     }
-  }, [filters, programmeSubjects, localeProgrammes, locale]);
+  }, [filters, programmeSubjects, programmes, localeProgrammes, locale]);
 
   const onProgrammeValuesChange = values => {
-    const subjectFilterValues = [];
-    programmes.forEach(programme => {
-      if (values.includes(programme.url[locale])) {
-        programme.grades.forEach(grade =>
-          grade.categories.forEach(category =>
-            category.subjects.forEach(subject => {
-              if (!subjectFilterValues.includes(subject.id)) {
-                subjectFilterValues.push(subject.id);
-              }
-            }),
-          ),
-        );
-      }
-    });
-    onSubjectValuesChange(subjectFilterValues);
-  };
+    handleSearchParamsChange({
+      programs: values,
+    })
+  }
 
   const onSubjectValuesChange = values => {
     const subjects = [];
     const filters = [];
-    values.forEach(subject => {
-      const { subjectId, filter } = subjectMapping[subject];
+    values.forEach(id => {
+      const { subjectId, filters: subjectFilters } = getSubjectById(id);
       subjects.push(subjectId);
-      filters.push(filter);
+      filters.push(subjectFilters[0]);
     });
     handleSearchParamsChange({
       subjects,
@@ -222,6 +189,7 @@ SearchHeader.propTypes = {
   query: string,
   suggestion: string,
   filters: arrayOf(string),
+  programmes: arrayOf(string),
   locale: string,
 };
 
