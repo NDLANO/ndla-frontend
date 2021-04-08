@@ -785,6 +785,48 @@ export const commonSubjects = [
   },
   {
     longName: {
+      en: 'Folkehelse og livsmestring',
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+    },
+    name: {
+      en: 'Folkehelse og livsmestring',
+      nb: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmestring',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_57',
+  },
+  {
+    longName: {
+      en: 'Demokrati og medborgerskap',
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+    },
+    name: {
+      en: 'Demokrati og medborgerskap',
+      nb: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgerskap',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_58',
+  },
+  {
+    longName: {
+      en: 'Bærekraftig utvikling',
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+    },
+    name: {
+      en: 'Bærekraftig utvikling',
+      nb: 'Bærekraftig utvikling',
+      nn: 'Bærekraftig utvikling',
+    },
+    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+    id: 'common_subject_59',
+  },
+  {
+    longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
       nn: 'Tverrfaglege tema',
