@@ -85,38 +85,33 @@ const SearchHeader = ({
 
   useEffect(() => {
     const subjectFilterUpdate = getSubjectFilterByFilter(filters);
-    if (programmes.length) {
-      setSubjectFilter([]);
-      setProgrammeFilter(programmes);
-      const activeProgrammes = programmes.map(id => {
-        const programme = localeProgrammes.find(p => p.id === id);
-        return {
-          value: id,
-          name: programme.name,
-          title: programme.name,
-        };
-      });
-      setActiveSubjectFilters(activeProgrammes);
-    } else {
-      setProgrammeFilter([]);
-      setSubjectFilter(subjectFilterUpdate);
-      const activeSubjects = subjectFilterUpdate.map(id => {
-        const subject = getSubjectById(id);
-        return {
-          value: id,
-          name: subject.longName[locale],
-          title: subject.longName[locale],
-        };
-      });
-      setActiveSubjectFilters(activeSubjects);
-    }
+    setProgrammeFilter(programmes);
+    const activeProgrammes = programmes.map(id => {
+      const programme = localeProgrammes.find(p => p.id === id);
+      return {
+        value: id,
+        name: programme.name,
+        title: programme.name,
+      };
+    });
+
+    setSubjectFilter(subjectFilterUpdate);
+    const activeSubjects = subjectFilterUpdate.map(id => {
+      const subject = getSubjectById(id);
+      return {
+        value: id,
+        name: subject.longName[locale],
+        title: subject.longName[locale],
+      };
+    });
+    setActiveSubjectFilters([...activeProgrammes, ...activeSubjects]);
   }, [filters, programmeSubjects, programmes, localeProgrammes, locale]);
 
   const onProgrammeValuesChange = values => {
     handleSearchParamsChange({
       programs: values,
-    })
-  }
+    });
+  };
 
   const onSubjectValuesChange = values => {
     const subjects = [];

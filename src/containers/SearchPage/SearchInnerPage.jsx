@@ -35,9 +35,16 @@ const getStateSearchParams = (searchParams, locale) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
   if (stateSearchParams.programs?.length) {
-    const { subjects, filters } = convertProgramSearchParams(searchParams.programs, locale);
-    stateSearchParams.subjects = convertSearchParam(subjects);
-    stateSearchParams.filters = convertSearchParam(filters);
+    const { subjects, filters } = convertProgramSearchParams(
+      searchParams.programs,
+      locale,
+    );
+    stateSearchParams.subjects = `${
+      stateSearchParams.subjects
+    },${convertSearchParam(subjects)}`;
+    stateSearchParams.filters = `${
+      stateSearchParams.filters
+    },${convertSearchParam(filters)}`;
     delete stateSearchParams.programs;
   }
   return stateSearchParams;
