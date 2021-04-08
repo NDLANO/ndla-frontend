@@ -81,11 +81,12 @@ const SearchInnerPage = ({
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
 
+  const subjectString = subjects.join();
   useEffect(() => {
     setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
     newSearch = true;
-  }, [query, resourceTypes, location.search]);
+  }, [query, resourceTypes, subjectString]);
 
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti
