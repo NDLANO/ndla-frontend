@@ -6,9 +6,14 @@
  *
  */
 
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, History } from 'history';
+import { NDLAWindow } from './interfaces';
 
-export function createHistory(basename) {
+declare global {
+  interface Window extends NDLAWindow {}
+}
+
+export function createHistory(basename: string): History {
   // avoid recreating history on HMR
   if (window.browserHistory) {
     return window.browserHistory;

@@ -28,7 +28,8 @@ const ArticleContents = ({
   topic,
   copyPageUrlLink,
   locale,
-  modifier = 'clean',
+  modifier,
+  showIngress,
   t,
 }) => {
   const markdown = useMemo(() => {
@@ -46,13 +47,15 @@ const ArticleContents = ({
 
   return (
     <ArticleWrapper modifier={modifier}>
-      <LayoutItem layout="extend">
-        <ArticleHeaderWrapper>
-          <ArticleIntroduction renderMarkdown={renderMarkdown}>
-            {article.introduction}
-          </ArticleIntroduction>
-        </ArticleHeaderWrapper>
-      </LayoutItem>
+      {showIngress && (
+        <LayoutItem layout="extend">
+          <ArticleHeaderWrapper>
+            <ArticleIntroduction renderMarkdown={renderMarkdown}>
+              {article.introduction}
+            </ArticleIntroduction>
+          </ArticleHeaderWrapper>
+        </LayoutItem>
+      )}
       <LayoutItem layout="extend">
         <ArticleContent content={article.content} />
       </LayoutItem>
@@ -81,6 +84,12 @@ ArticleContents.propTypes = {
   copyPageUrlLink: PropTypes.string,
   locale: PropTypes.string,
   modifier: PropTypes.string,
+  showIngress: PropTypes.bool,
+};
+
+ArticleContents.defaultProps = {
+  showIngress: true,
+  modifier: 'clean',
 };
 
 export default injectT(ArticleContents);

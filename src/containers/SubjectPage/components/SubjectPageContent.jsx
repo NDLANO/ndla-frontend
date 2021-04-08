@@ -27,7 +27,7 @@ const SubjectPageContent = ({
 }) => {
   useEffect(() => {
     if (topics.length) scrollToRef(refs[topics.length - 1]);
-  }, [topics]);
+  }, [topics]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const mainTopics = subject.topics.map(topic => {
     return {

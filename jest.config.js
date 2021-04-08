@@ -10,7 +10,9 @@ module.exports = {
     // Use ts-jest for typescript tests: https://kulshekhar.github.io/ts-jest/user/babel7-or-ts#no-type-checking
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  /* snapshotSerializers: ['jest-emotion'], 
-      disable this globally and instead import serializer in tests with emotion styles
-  */
+  globals: {
+    'ts-jest': {
+      babelConfig: true,
+    },
+  },
 };

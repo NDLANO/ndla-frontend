@@ -49,7 +49,7 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
         fetchingMoviesByType: false,
       });
     }
-  }, [allMovies]);
+  }, [allMovies]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSelectedMovieByType = resourceId => {
     const showingAll = resourceId === ALL_MOVIES_ID;
