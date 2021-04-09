@@ -31,6 +31,8 @@ const getSubjectFilterByFilter = filters => {
     .flat();
 };
 
+// Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 for programme filter
+
 const SearchHeader = ({
   t,
   query,
