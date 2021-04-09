@@ -785,48 +785,6 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Folkehelse og livsmestring',
-      nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
-    },
-    name: {
-      en: 'Folkehelse og livsmestring',
-      nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_57',
-  },
-  {
-    longName: {
-      en: 'Demokrati og medborgerskap',
-      nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
-    },
-    name: {
-      en: 'Demokrati og medborgerskap',
-      nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_58',
-  },
-  {
-    longName: {
-      en: 'Bærekraftig utvikling',
-      nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
-    },
-    name: {
-      en: 'Bærekraftig utvikling',
-      nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
-    },
-    subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_59',
-  },
-  {
-    longName: {
       en: 'Tverrfaglige tema',
       nb: 'Tverrfaglige tema',
       nn: 'Tverrfaglege tema',
@@ -922,12 +880,10 @@ export const programmeSubjects = [
       nn: 'Tryggleik (SS-SSS Vg2)',
       en: 'Sikkerhet (SS-SSS Vg2)',
     },
-    subjectId: 'urn:subject:22',
-    filters: ['urn:filter:b40855bb-9e21-4944-9257-c96679da549a'],
+    subjectId: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
     id: 'programme_subject_1',
   },
   {
-    filters: ['urn:filter:5b028a77-1c35-4774-8e10-49e1bac2d6fd'],
     longName: {
       en: 'Økonomi og administrasjon (SS-SSS Vg2)',
       nb: 'Økonomi og administrasjon (SS-SSS Vg2)',
@@ -938,11 +894,10 @@ export const programmeSubjects = [
       nb: 'Økonomi og administrasjon',
       nn: 'Økonomi og administrasjon',
     },
-    subjectId: 'urn:subject:22',
+    subjectId: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
     id: 'programme_subject_2',
   },
   {
-    filters: ['urn:filter:3687db4f-b3c9-471b-b0e6-9e36c39cc445'],
     longName: {
       en: 'Markedsføring og salg (SS-SSS Vg2)',
       nb: 'Markedsføring og salg (SS-SSS Vg2)',
@@ -953,11 +908,10 @@ export const programmeSubjects = [
       nb: 'Markedsføring og salg',
       nn: 'Marknadsføring og sal',
     },
-    subjectId: 'urn:subject:22',
+    subjectId: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
     id: 'programme_subject_3',
   },
   {
-    filters: ['urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a'],
     longName: {
       en: 'Salg og markedsføring (SS-RLV Vg2)',
       nb: 'Salg og markedsføring (SS-RLV Vg2)',
@@ -968,11 +922,10 @@ export const programmeSubjects = [
       nb: 'Salg og markedsføring',
       nn: 'Sal og marknadsføring',
     },
-    subjectId: 'urn:subject:35',
+    subjectId: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
     id: 'programme_subject_4',
   },
   {
-    filters: ['urn:filter:8181c74a-d7cd-40de-b199-864e069ffb8b'],
     longName: {
       en: 'Etablering og drift (SS-RLV Vg2)',
       nb: 'Etablering og drift (SS-RLV Vg2)',
@@ -983,11 +936,10 @@ export const programmeSubjects = [
       nb: 'Etablering og drift',
       nn: 'Etablering og drift',
     },
-    subjectId: 'urn:subject:35',
+    subjectId: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
     id: 'programme_subject_5',
   },
   {
-    filters: ['urn:filter:26a01df2-376e-4090-b0bf-eec2ca3d41dd'],
     longName: {
       en: 'Vertskapsrollen (SS-RLV Vg2)',
       nb: 'Vertskapsrollen (SS-RLV Vg2)',
@@ -998,11 +950,10 @@ export const programmeSubjects = [
       nb: 'Vertskapsrollen',
       nn: 'Vertskapsrolla',
     },
-    subjectId: 'urn:subject:35',
+    subjectId: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
     id: 'programme_subject_6',
   },
   {
-    filters: ['urn:filter:34ea30e7-3294-48c1-821b-b0d76ac77eba'],
     longName: {
       en: 'Bransjeteknikk (SS-TRL Vg2)',
       nb: 'Bransjeteknikk (SS-TRL Vg2)',
@@ -1013,11 +964,10 @@ export const programmeSubjects = [
       nb: 'Bransjeteknikk',
       nn: 'Bransjeteknikk',
     },
-    subjectId: 'urn:subject:36',
+    subjectId: 'urn:subject:1:34ea30e7-3294-48c1-821b-b0d76ac77eba',
     id: 'programme_subject_7',
   },
   {
-    filters: ['urn:filter:d9900359-abd3-470f-99b2-809e58abd5d7'],
     longName: {
       en: 'Transport og logistikk (SS-TRL Vg2)',
       nb: 'Transport og logistikk (SS-TRL Vg2)',
@@ -1028,11 +978,10 @@ export const programmeSubjects = [
       nb: 'Transport og logistikk',
       nn: 'Transport og logistikk',
     },
-    subjectId: 'urn:subject:36',
+    subjectId: 'urn:subject:1:d9900359-abd3-470f-99b2-809e58abd5d7',
     id: 'programme_subject_8',
   },
   {
-    filters: ['urn:filter:6f770e8e-7426-4b43-b1b1-9c12bbbcae43'],
     longName: {
       en: 'Kosthold, ernæring og helse (RM Vg2)',
       nb: 'Kosthold, ernæring og helse (RM Vg2)',
@@ -1043,11 +992,10 @@ export const programmeSubjects = [
       nb: 'Kosthold, ernæring og helse',
       nn: 'Kosthold, ernæring og helse',
     },
-    subjectId: 'urn:subject:41',
+    subjectId: 'urn:subject:1:6f770e8e-7426-4b43-b1b1-9c12bbbcae43',
     id: 'programme_subject_9',
   },
   {
-    filters: ['urn:filter:b5156afd-e11c-4426-a3ba-a1e25c03f489'],
     longName: {
       en: 'Råvarer og produksjon (RM Vg2)',
       nb: 'Råvarer og produksjon (RM Vg2)',
@@ -1058,11 +1006,10 @@ export const programmeSubjects = [
       nb: 'Råvarer og produksjon',
       nn: 'Råvarer og produksjon',
     },
-    subjectId: 'urn:subject:41',
+    subjectId: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
     id: 'programme_subject_10',
   },
   {
-    filters: ['urn:filter:89f7d059-6ae6-4e83-846f-7db4d24b1d36'],
     longName: {
       en: 'Servering, bransje og miljø (RM Vg2)',
       nb: 'Servering, bransje og miljø (RM Vg2)',
@@ -1073,11 +1020,10 @@ export const programmeSubjects = [
       nb: 'Servering, bransje og miljø',
       nn: 'Servering, bransje og miljø',
     },
-    subjectId: 'urn:subject:41',
+    subjectId: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
     id: 'programme_subject_11',
   },
   {
-    filters: ['urn:filter:992c86f7-8cae-45ef-aab3-a40cdc5e99d9'],
     longName: {
       en: 'Helsefremmende arbeid (HS-HA Vg2)',
       nb: 'Helsefremmende arbeid (HS-HA Vg2)',
@@ -1088,11 +1034,10 @@ export const programmeSubjects = [
       nb: 'Helsefremmende arbeid',
       nn: 'Helsefremjande arbeid',
     },
-    subjectId: 'urn:subject:4',
+    subjectId: 'urn:subject:1:992c86f7-8cae-45ef-aab3-a40cdc5e99d9',
     id: 'programme_subject_12',
   },
   {
-    filters: ['urn:filter:be544090-ff77-4017-8c65-7840bf28ba22'],
     longName: {
       en: 'Kommunikasjon og samhandling (HS-HA Vg2)',
       nb: 'Kommunikasjon og samhandling (HS-HA Vg2)',
@@ -1103,11 +1048,10 @@ export const programmeSubjects = [
       nb: 'Kommunikasjon og samhandling',
       nn: 'Kommunikasjon og samhandling',
     },
-    subjectId: 'urn:subject:4',
+    subjectId: 'urn:subject:1:be544090-ff77-4017-8c65-7840bf28ba22',
     id: 'programme_subject_13',
   },
   {
-    filters: ['urn:filter:8ee2047e-d1f1-495c-9c19-0a42384dfd81'],
     longName: {
       en: 'Yrkesutøvelse (HS-HA Vg2)',
       nb: 'Yrkesutøvelse (HS-HA Vg2)',
@@ -1118,11 +1062,10 @@ export const programmeSubjects = [
       nb: 'Yrkesutøvelse',
       nn: 'Yrkesutøving',
     },
-    subjectId: 'urn:subject:4',
+    subjectId: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
     id: 'programme_subject_14',
   },
   {
-    filters: ['urn:filter:2cbe8089-7d7b-407f-8f04-fbfdc116abc1'],
     longName: {
       en: 'Helsefremmende arbeid (HS Vg1)',
       nb: 'Helsefremmende arbeid (HS Vg1)',
@@ -1133,11 +1076,10 @@ export const programmeSubjects = [
       nb: 'Helsefremmende arbeid',
       nn: 'Helsefremjande arbeid',
     },
-    subjectId: 'urn:subject:24',
+    subjectId: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
     id: 'programme_subject_15',
   },
   {
-    filters: ['urn:filter:777ae87e-ca79-4866-920a-115cfeb7bbe1'],
     longName: {
       en: 'Kommunikasjon og samhandling (HS Vg1)',
       nb: 'Kommunikasjon og samhandling (HS Vg1)',
@@ -1148,11 +1090,10 @@ export const programmeSubjects = [
       nb: 'Kommunikasjon og samhandling',
       nn: 'Kommunikasjon og samhandling',
     },
-    subjectId: 'urn:subject:24',
+    subjectId: 'urn:subject:1:777ae87e-ca79-4866-920a-115cfeb7bbe1',
     id: 'programme_subject_16',
   },
   {
-    filters: ['urn:filter:113986bb-9b00-42dc-b1ff-0b9a352369f4'],
     longName: {
       en: 'Yrkesliv i helse- og oppvekstfag (HS Vg1)',
       nb: 'Yrkesliv i helse- og oppvekstfag (HS Vg1)',
@@ -1163,11 +1104,10 @@ export const programmeSubjects = [
       nb: 'Yrkesliv i helse- og oppvekstfag',
       nn: 'Yrkesliv i helse- og oppvekstfag',
     },
-    subjectId: 'urn:subject:24',
+    subjectId: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
     id: 'programme_subject_17',
   },
   {
-    filters: ['urn:filter:ab5e9191-407a-492e-a2b9-5071275a37a7'],
     longName: {
       en: 'Yrkesfaglig fordypning (HS Vg1)',
       nb: 'Yrkesfaglig fordypning (HS Vg1)',
@@ -1178,49 +1118,103 @@ export const programmeSubjects = [
       nb: 'Yrkesfaglig fordypning',
       nn: 'Yrkesfaglig fordypning',
     },
-    subjectId: 'urn:subject:24',
+    subjectId: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
     id: 'programme_subject_18',
   },
   {
-    filters: [
-      'urn:filter:f53687ae-d976-4969-afac-dae2ec16adb5',
-      'urn:filter:733ccc9e-1d29-4196-8ea6-b92043bdf971',
-      'urn:filter:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
-    ],
     longName: {
-      en: 'FBIE Vg1 - programfag',
-      nb: 'FBIE Vg1 - programfag',
-      nn: 'FBIE Vg1 - programfag',
+      en:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
+      nb:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
+      nn:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
     },
     name: {
-      en: 'Programfag',
-      nb: 'Programfag',
-      nn: 'Programfag',
+      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
     },
-    subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
+    subjectId: 'urn:subject:1:f53687ae-d976-4969-afac-dae2ec16adb5',
     id: 'programme_subject_19',
   },
   {
-    filters: [
-      'urn:filter:824cc0ab-3a68-43cc-8756-e2fa8517e4ef',
-      'urn:filter:3381e296-04d5-4a3e-8a50-49eef8e56a15',
-      'urn:filter:3de59c57-e25c-4509-9d9c-52da0f20e412',
-    ],
     longName: {
-      en: 'HDP Vg1 - programfag',
-      nb: 'HDP Vg1 - programfag',
-      nn: 'HDP Vg1 - programfag',
+      en:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
+      nb:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
+      nn:
+        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
     },
     name: {
-      en: 'Programfag',
-      nb: 'Programfag',
-      nn: 'Programfag',
+      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
     },
-    subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
+    subjectId: 'urn:subject:1:733ccc9e-1d29-4196-8ea6-b92043bdf971',
+    id: 'programme_subject_20',
+  },
+  {
+    longName: {
+      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
+      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
+      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
+    },
+    name: {
+      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+    },
+    subjectId: 'urn:subject:1:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
+    id: 'programme_subject_21',
+  },
+  {
+    longName: {
+      en: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
+      nb: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
+      nn: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
+    },
+    name: {
+      en: 'Håndverk, design og produktutvikling Vg1',
+      nb: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Håndverk, design og produktutvikling Vg1',
+    },
+    subjectId: 'urn:subject:1:824cc0ab-3a68-43cc-8756-e2fa8517e4ef',
     id: 'programme_subject_22',
   },
   {
-    filters: ['urn:filter:d92be649-8bda-4514-b04d-2d3c5251aa79'],
+    longName: {
+      en:
+        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
+      nb:
+        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
+      nn:
+        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
+    },
+    name: {
+      en: 'Håndverk, design og produktutvikling Vg1',
+      nb: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Håndverk, design og produktutvikling Vg1',
+    },
+    subjectId: 'urn:subject:1:3381e296-04d5-4a3e-8a50-49eef8e56a15',
+    id: 'programme_subject_23',
+  },
+  {
+    longName: {
+      en: 'Håndverk, design og produktutvikling Vg1 - YFF',
+      nb: 'Håndverk, design og produktutvikling Vg1 - YFF',
+      nn: 'Håndverk, design og produktutvikling Vg1 - YFF',
+    },
+    name: {
+      en: 'Håndverk, design og produktutvikling Vg1',
+      nb: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Håndverk, design og produktutvikling Vg1',
+    },
+    subjectId: 'urn:subject:1:3de59c57-e25c-4509-9d9c-52da0f20e412',
+    id: 'programme_subject_24',
+  },
+  {
     longName: {
       en: 'Elektroniske kretser og nettverk (EL Vg1)',
       nb: 'Elektroniske kretser og nettverk (EL Vg1)',
@@ -1231,11 +1225,10 @@ export const programmeSubjects = [
       nb: 'Elektroniske kretser og nettverk',
       nn: 'Elektroniske krinsar og nettverk',
     },
-    subjectId: 'urn:subject:16',
+    subjectId: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
     id: 'programme_subject_25',
   },
   {
-    filters: ['urn:filter:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7'],
     longName: {
       en: 'Energi- og styresystemer (EL Vg1)',
       nb: 'Energi- og styresystemer (EL Vg1)',
@@ -1246,11 +1239,10 @@ export const programmeSubjects = [
       nb: 'Energi- og styresystemer',
       nn: 'Energi- og styresystem',
     },
-    subjectId: 'urn:subject:16',
+    subjectId: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
     id: 'programme_subject_26',
   },
   {
-    filters: ['urn:filter:57d2a2c6-b75a-4264-9f56-a692ef56e06c'],
     longName: {
       en: 'Yrkesfaglig fordypning (EL Vg1)',
       nb: 'Yrkesfaglig fordypning (EL Vg1)',
@@ -1261,7 +1253,7 @@ export const programmeSubjects = [
       nb: 'Yrkesfaglig fordypning',
       nn: 'Yrkesfaglig fordypning',
     },
-    subjectId: 'urn:subject:16',
+    subjectId: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
     id: 'programme_subject_27',
   },
   {
@@ -1275,12 +1267,10 @@ export const programmeSubjects = [
       nn: 'Forretningsdrift (SR Vg1)',
       en: 'Forretningsdrift (SR Vg1)',
     },
-    subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
-    filters: ['urn:filter:792414c5-896f-470a-9558-6101d7266237'],
+    subjectId: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
     id: 'programme_subject_28',
   },
   {
-    filters: ['urn:filter:be40ec3c-01ab-4e2e-af1a-a05fc85bcace'],
     longName: {
       en: 'Kultur og samhandling (SR Vg1)',
       nb: 'Kultur og samhandling (SR Vg1)',
@@ -1291,11 +1281,10 @@ export const programmeSubjects = [
       nb: 'Kultur og samhandling',
       nn: 'Kultur og samhandling',
     },
-    subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
+    subjectId: 'urn:subject:1:be40ec3c-01ab-4e2e-af1a-a05fc85bcace',
     id: 'programme_subject_29',
   },
   {
-    filters: ['urn:filter:f18ad41e-d9c3-4428-8cb6-5eb852e45082'],
     longName: {
       en: 'Markedsføring og innovasjon (SR Vg1)',
       nb: 'Markedsføring og innovasjon (SR Vg1)',
@@ -1306,11 +1295,10 @@ export const programmeSubjects = [
       nb: 'Markedsføring og innovasjon',
       nn: 'Marknadsføring og innovasjon',
     },
-    subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
+    subjectId: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
     id: 'programme_subject_30',
   },
   {
-    filters: ['urn:filter:a1350efc-a249-4730-8bf7-0ef0556ddbcc'],
     longName: {
       en: 'Yrkesfaglig fordypning (SR Vg1)',
       nb: 'Yrkesfaglig fordypning (SR Vg1)',
@@ -1321,11 +1309,10 @@ export const programmeSubjects = [
       nb: 'Yrkesfaglig fordypning',
       nn: 'Yrkesfaglig fordypning',
     },
-    subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
+    subjectId: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
     id: 'programme_subject_31',
   },
   {
-    filters: ['urn:filter:1352b19e-e706-4480-a728-c6b0a57ba8ae'],
     longName: {
       en: 'Konseptutvikling og programmering (IM Vg1)',
       nb: 'Konseptutvikling og programmering (IM Vg1)',
@@ -1336,11 +1323,10 @@ export const programmeSubjects = [
       nb: 'Konseptutvikling og programmering',
       nn: 'Konseptutvikling og programmering',
     },
-    subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
+    subjectId: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
     id: 'programme_subject_32',
   },
   {
-    filters: ['urn:filter:763fc674-6cef-46ac-8ffe-ea6d76d56dbd'],
     longName: {
       en: 'Produksjon og historiefortelling (IM Vg1)',
       nb: 'Produksjon og historiefortelling (IM Vg1)',
@@ -1351,11 +1337,10 @@ export const programmeSubjects = [
       nb: 'Produksjon og historiefortelling',
       nn: 'Produksjon og historieforteljing',
     },
-    subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
+    subjectId: 'urn:subject:1:763fc674-6cef-46ac-8ffe-ea6d76d56dbd',
     id: 'programme_subject_33',
   },
   {
-    filters: ['urn:filter:81b3892a-78e7-4e43-bc31-fd5f8a5090e7'],
     longName: {
       en: 'Teknologiforståelse (IM Vg1)',
       nb: 'Teknologiforståelse (IM Vg1)',
@@ -1366,11 +1351,10 @@ export const programmeSubjects = [
       nb: 'Teknologiforståelse',
       nn: 'Teknologiforståing',
     },
-    subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
+    subjectId: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
     id: 'programme_subject_34',
   },
   {
-    filters: ['urn:filter:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9'],
     longName: {
       en: 'Yrkesfaglig fordypning (IM Vg1)',
       nb: 'Yrkesfaglig fordypning (IM Vg1)',
@@ -1381,30 +1365,52 @@ export const programmeSubjects = [
       nb: 'Yrkesfaglig fordypning',
       nn: 'Yrkesfaglig fordypning',
     },
-    subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
+    subjectId: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
     id: 'programme_subject_35',
   },
   {
-    filters: [
-      'urn:filter:5c9423f8-268e-4e9f-aee6-12b0195ab07d',
-      'urn:filter:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875',
-      'urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a',
-    ],
     longName: {
-      en: 'Naturbruk Vg1 - programfag',
-      nb: 'Naturbruk Vg1 - programfag',
-      nn: 'Naturbruk Vg1 - programfag',
+      en: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
+      nb: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
+      nn: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
     },
     name: {
-      en: 'Programfag',
-      nb: 'Programfag',
-      nn: 'Programfag',
+      en: 'Naturbruk Vg1',
+      nb: 'Naturbruk Vg1',
+      nn: 'Naturbruk Vg1',
     },
-    subjectId: 'urn:subject:13',
+    subjectId: 'urn:subject:1:5c9423f8-268e-4e9f-aee6-12b0195ab07d',
     id: 'programme_subject_36',
   },
   {
-    filters: ['urn:filter:5a5cac3f-46ff-4f4d-ba95-b256a706ec48'],
+    longName: {
+      en: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
+      nb: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
+      nn: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
+    },
+    name: {
+      en: 'Naturbruk Vg1',
+      nb: 'Naturbruk Vg1',
+      nn: 'Naturbruk Vg1',
+    },
+    subjectId: 'urn:subject:1:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875',
+    id: 'programme_subject_37',
+  },
+  {
+    longName: {
+      en: 'Naturbruk Vg1 - YFF',
+      nb: 'Naturbruk Vg1 - YFF',
+      nn: 'Naturbruk Vg1 - YFF',
+    },
+    name: {
+      en: 'Naturbruk Vg1',
+      nb: 'Naturbruk Vg1',
+      nn: 'Naturbruk Vg1',
+    },
+    subjectId: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
+    id: 'programme_subject_38',
+  },
+  {
     longName: {
       en: 'Konstruksjons- og styringsteknikk (TP Vg1)',
       nb: 'Konstruksjons- og styringsteknikk (TP Vg1)',
@@ -1415,11 +1421,10 @@ export const programmeSubjects = [
       nb: 'Konstruksjons- og styringsteknikk',
       nn: 'Konstruksjons- og styringsteknikk',
     },
-    subjectId: 'urn:subject:28',
+    subjectId: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
     id: 'programme_subject_39',
   },
   {
-    filters: ['urn:filter:84d4651b-fc52-4876-a066-f8567ecf79a6'],
     longName: {
       en: 'Produksjon og tjenester (TP Vg1)',
       nb: 'Produksjon og tjenester (TP Vg1)',
@@ -1430,11 +1435,10 @@ export const programmeSubjects = [
       nb: 'Produksjon og tjenester',
       nn: 'Produksjon og tenester',
     },
-    subjectId: 'urn:subject:28',
+    subjectId: 'urn:subject:1:84d4651b-fc52-4876-a066-f8567ecf79a6',
     id: 'programme_subject_40',
   },
   {
-    filters: ['urn:filter:29212872-62d6-4555-89fd-b85e7f3f9411'],
     longName: {
       en: 'Produktivitet- og kvalitetsstyring (TP Vg1)',
       nb: 'Produktivitet- og kvalitetsstyring (TP Vg1)',
@@ -1445,11 +1449,10 @@ export const programmeSubjects = [
       nb: 'Produktivitet- og kvalitetsstyring',
       nn: 'Produktivitet- og kvalitetsstyring',
     },
-    subjectId: 'urn:subject:28',
+    subjectId: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
     id: 'programme_subject_41',
   },
   {
-    filters: ['urn:filter:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901'],
     longName: {
       en: 'Yrkesfaglig fordypning (TP Vg1)',
       nb: 'Yrkesfaglig fordypning (TP Vg1)',
@@ -1460,11 +1463,10 @@ export const programmeSubjects = [
       nb: 'Yrkesfaglig fordypning',
       nn: 'Yrkesfaglig fordypning',
     },
-    subjectId: 'urn:subject:28',
+    subjectId: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
     id: 'programme_subject_42',
   },
   {
-    filters: ['urn:filter:9b7e7534-c072-4412-b8ef-df076308cad0'],
     longName: {
       en: 'Arbeidsmiljø og dokumentasjon (BA Vg1)',
       nb: 'Arbeidsmiljø og dokumentasjon (BA Vg1)',
@@ -1475,11 +1477,10 @@ export const programmeSubjects = [
       nb: 'Arbeidsmiljø og dokumentasjon',
       nn: 'Arbeidsmiljø og dokumentasjon',
     },
-    subjectId: 'urn:subject:11',
+    subjectId: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
     id: 'programme_subject_43',
   },
   {
-    filters: ['urn:filter:0d67724e-d9fa-4365-9839-4cc91c012855'],
     longName: {
       en: 'Praktisk yrkesutøvelse (BA Vg1)',
       nb: 'Praktisk yrkesutøvelse (BA Vg1)',
@@ -1490,11 +1491,10 @@ export const programmeSubjects = [
       nb: 'Praktisk yrkesutøvelse',
       nn: 'Praktisk yrkesutøving',
     },
-    subjectId: 'urn:subject:11',
+    subjectId: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
     id: 'programme_subject_44',
   },
   {
-    filters: ['urn:filter:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b'],
     longName: {
       en: 'Bransje og arbeidsliv (RM Vg1)',
       nb: 'Bransje og arbeidsliv (RM Vg1)',
@@ -1505,11 +1505,10 @@ export const programmeSubjects = [
       nb: 'Bransje og arbeidsliv',
       nn: 'Bransje og arbeidsliv',
     },
-    subjectId: 'urn:subject:37',
+    subjectId: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
     id: 'programme_subject_46',
   },
   {
-    filters: ['urn:filter:fdefda2a-7d3a-4749-92cf-24ad466a20db'],
     longName: {
       en: 'Råvare, produksjon og kvalitet (RM Vg1)',
       nb: 'Råvare, produksjon og kvalitet (RM Vg1)',
@@ -1520,11 +1519,10 @@ export const programmeSubjects = [
       nb: 'Råvare, produksjon og kvalitet',
       nn: 'Råvare, produksjon og kvalitet',
     },
-    subjectId: 'urn:subject:37',
+    subjectId: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
     id: 'programme_subject_47',
   },
   {
-    filters: ['urn:filter:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9'],
     longName: {
       en: 'Helsefremmende arbeid (HS-BU Vg2)',
       nb: 'Helsefremmende arbeid (HS-BU Vg2)',
@@ -1535,11 +1533,10 @@ export const programmeSubjects = [
       nb: 'Helsefremmende arbeid',
       nn: 'Helsefremjande arbeid',
     },
-    subjectId: 'urn:subject:40',
+    subjectId: 'urn:subject:1:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9',
     id: 'programme_subject_49',
   },
   {
-    filters: ['urn:filter:37e92c60-cca9-4b68-b2ee-a706f568756e'],
     longName: {
       en: 'Kommunikasjon og samhandling (HS-BU Vg2)',
       nb: 'Kommunikasjon og samhandling (HS-BU Vg2)',
@@ -1550,11 +1547,10 @@ export const programmeSubjects = [
       nb: 'Kommunikasjon og samhandling',
       nn: 'Kommunikasjon og samhandling',
     },
-    subjectId: 'urn:subject:40',
+    subjectId: 'urn:subject:1:37e92c60-cca9-4b68-b2ee-a706f568756e',
     id: 'programme_subject_50',
   },
   {
-    filters: ['urn:filter:8c230faa-c1b1-4c16-b47a-490d8d7247cf'],
     longName: {
       en: 'Yrkesutøvelse (HS-BU Vg2)',
       nb: 'Yrkesutøvelse (HS-BU Vg2)',
@@ -1565,14 +1561,10 @@ export const programmeSubjects = [
       nb: 'Yrkesutøvelse',
       nn: 'Yrkesutøving',
     },
-    subjectId: 'urn:subject:40',
+    subjectId: 'urn:subject:1:8c230faa-c1b1-4c16-b47a-490d8d7247cf',
     id: 'programme_subject_51',
   },
   {
-    filters: [
-      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
-      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    ],
     longName: {
       en: 'Brønnteknikk',
       nb: 'Brønnteknikk',
@@ -1583,15 +1575,11 @@ export const programmeSubjects = [
       nb: 'Brønnteknikk',
       nn: 'Brønnteknikk',
     },
-    subjectId: 'urn:subject:6',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_52',
     hideOnFrontpage: true,
   },
   {
-    filters: [
-      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
-      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    ],
     longName: {
       en: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
       nb: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
@@ -1602,14 +1590,10 @@ export const programmeSubjects = [
       nb: 'Komplettering, produksjon og brønnvedlikehold',
       nn: 'Komplettering, produksjon og brønnvedlikehald',
     },
-    subjectId: 'urn:subject:6',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_53',
   },
   {
-    filters: [
-      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
-      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    ],
     longName: {
       en: 'HMS og kvalitet (TP Vg2)',
       nb: 'HMS og kvalitet (TP Vg2)',
@@ -1620,7 +1604,7 @@ export const programmeSubjects = [
       nb: 'HMS og kvalitet',
       nn: 'HMS og kvalitet',
     },
-    subjectId: 'urn:subject:6',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_54',
   },
   {
@@ -1634,8 +1618,7 @@ export const programmeSubjects = [
       nn: 'Verksemdsstøtte (SS-ISF Vg2)',
       en: 'Virksomhetsstøtte (SS-ISF Vg2)',
     },
-    subjectId: 'urn:subject:25',
-    filters: ['urn:filter:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71'],
+    subjectId: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
     id: 'programme_subject_55',
   },
   {
@@ -1649,8 +1632,7 @@ export const programmeSubjects = [
       nn: 'Brukar- og driftsstøtte (SS-ISF Vg2)',
       en: 'Bruker- og driftsstøtte (SS-ISF Vg2)',
     },
-    subjectId: 'urn:subject:25',
-    filters: ['urn:filter:a9e14915-c279-462b-82fa-714ceee05116'],
+    subjectId: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
     id: 'programme_subject_56',
   },
   {
@@ -1664,8 +1646,7 @@ export const programmeSubjects = [
       nn: 'Drift og vedlikehald (SS-ISF Vg2)',
       en: 'Drift og vedlikehold (SS-ISF Vg2)',
     },
-    subjectId: 'urn:subject:25',
-    filters: ['urn:filter:d97809a8-47b6-4d26-ae5c-1839f4c27940'],
+    subjectId: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
     id: 'programme_subject_57',
   },
   {
@@ -1679,8 +1660,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping (HS-BU Vg2)',
       en: 'Yrkesfaglig fordypning (HS-BU Vg2)',
     },
-    subjectId: 'urn:subject:40',
-    filters: ['urn:filter:cfa0043e-c52f-4930-b9c3-c65dcefafb62'],
+    subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
     id: 'programme_subject_58',
   },
   {
@@ -1694,8 +1674,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping (HS-HA Vg2)',
       en: 'Yrkesfaglig fordypning (HS-HA Vg2)',
     },
-    subjectId: 'urn:subject:4',
-    filters: ['urn:filter:537bdc1a-159b-43d8-80f4-97e0cf8b78eb'],
+    subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
     id: 'programme_subject_59',
   },
   {
@@ -1709,8 +1688,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping (SR-RE Vg2)',
       en: 'Yrkesfaglig fordypning (SR-RE Vg2)',
     },
-    subjectId: 'urn:subject:35',
-    filters: ['urn:filter:021e4beb-fbdf-4f1c-b408-23d08f6446f3'],
+    subjectId: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
     id: 'programme_subject_60',
   },
   {
@@ -1729,10 +1707,6 @@ export const programmeSubjects = [
     id: 'programme_subject_61',
   },
   {
-    filters: [
-      'urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26',
-      'urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    ],
     longName: {
       en: 'Leting og boring (TP Vg2)',
       nb: 'Leting og boring (TP Vg2)',
@@ -1743,7 +1717,7 @@ export const programmeSubjects = [
       nb: 'Leting og boring',
       nn: 'Leiting og boring',
     },
-    subjectId: 'urn:subject:6',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_62',
   },
 ];
