@@ -58,8 +58,6 @@ const initalParams = {
   types: null,
 };
 
-let newSearch = true;
-
 const SearchInnerPage = ({
   t,
   handleSearchParamsChange,
@@ -81,13 +79,6 @@ const SearchInnerPage = ({
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
 
-  const subjectString = subjects.join();
-  useEffect(() => {
-    setParams(initalParams);
-    setTypeFilter(getTypeFilter(resourceTypes));
-    newSearch = true;
-  }, [query, resourceTypes, subjectString]);
-
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti
     ? {
@@ -99,6 +90,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams, locale);
 
+  const newSearch = params.page === 1;
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
@@ -125,7 +117,6 @@ const SearchInnerPage = ({
       if (newSearch) {
         setShowConcepts(true);
       }
-      newSearch = false;
     },
   });
 
@@ -237,6 +228,11 @@ const SearchInnerPage = ({
     }));
   };
 
+  const handleNewSearch = () => {
+    setParams(initalParams);
+    setTypeFilter(getTypeFilter(resourceTypes));
+  };
+
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
@@ -255,6 +251,7 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
+      handleNewSearch={handleNewSearch}
       filters={filters}
       programmes={programmes}
       suggestion={suggestion}

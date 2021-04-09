@@ -61,6 +61,7 @@ const SearchHeader = ({
   filters,
   programmes,
   handleSearchParamsChange,
+  handleNewSearch,
   locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
@@ -108,6 +109,7 @@ const SearchHeader = ({
   }, [filters, programmeSubjects, programmes, localeProgrammes, locale]);
 
   const onProgrammeValuesChange = values => {
+    handleNewSearch();
     handleSearchParamsChange({
       programs: values,
     });
@@ -121,6 +123,7 @@ const SearchHeader = ({
       subjects.push(subjectId);
       filters.push(subjectFilters[0]);
     });
+    handleNewSearch();
     handleSearchParamsChange({
       subjects,
       filters,
@@ -148,6 +151,7 @@ const SearchHeader = ({
 
   const handleSearchSubmit = e => {
     e.preventDefault();
+    handleNewSearch();
     handleSearchParamsChange({ query: searchValue });
   };
 
@@ -181,6 +185,7 @@ const SearchHeader = ({
 
 SearchHeader.propTypes = {
   handleSearchParamsChange: func,
+  handleNewSearch: func,
   query: string,
   suggestion: string,
   filters: arrayOf(string),
