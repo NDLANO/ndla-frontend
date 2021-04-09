@@ -1733,12 +1733,10 @@ export const studySpecializationSubjects = [
       nn: 'Biologi 1',
       en: 'Biologi 1',
     },
-    subjectId: 'urn:subject:42',
-    filters: ['urn:filter:22dee9ab-5b1a-4c23-8c97-c68107b881bb'],
+    subjectId: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
     id: 'study_specialization_subject_1',
   },
   {
-    filters: ['urn:filter:1d441d40-358a-47a8-8cd5-7a80382a9062'],
     longName: {
       en: 'Kinesisk 1',
       nb: 'Kinesisk 1',
@@ -1749,11 +1747,10 @@ export const studySpecializationSubjects = [
       nb: 'Kinesisk 1',
       nn: 'Kinesisk 1',
     },
-    subjectId: 'urn:subject:2',
+    subjectId: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
     id: 'study_specialization_subject_2',
   },
   {
-    filters: ['urn:filter:3170610c-6a5a-4da5-aeba-adb247aae48c'],
     longName: {
       en: 'Kinesisk 2',
       nb: 'Kinesisk 2',
@@ -1764,11 +1761,10 @@ export const studySpecializationSubjects = [
       nb: 'Kinesisk 2',
       nn: 'Kinesisk 2',
     },
-    subjectId: 'urn:subject:2',
+    subjectId: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
     id: 'study_specialization_subject_3',
   },
   {
-    filters: ['urn:filter:41cb93c0-abc7-4212-b69f-df81106ae3c0'],
     longName: {
       en: 'Engelskspråklig litteratur og kultur (SF Vg3)',
       nb: 'Engelskspråklig litteratur og kultur (SF Vg3)',
@@ -1779,11 +1775,10 @@ export const studySpecializationSubjects = [
       nb: 'Engelskspråklig litteratur og kultur',
       nn: 'Engelskspråkleg litteratur og kultur',
     },
-    subjectId: 'urn:subject:17',
+    subjectId: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
     id: 'study_specialization_subject_4',
   },
   {
-    filters: ['urn:filter:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c'],
     longName: {
       en: 'Internasjonal engelsk (SF Vg2)',
       nb: 'Internasjonal engelsk (SF Vg2)',
@@ -1794,11 +1789,10 @@ export const studySpecializationSubjects = [
       nb: 'Internasjonal engelsk',
       nn: 'Internasjonal engelsk',
     },
-    subjectId: 'urn:subject:27',
+    subjectId: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
     id: 'study_specialization_subject_5',
   },
   {
-    filters: ['urn:filter:06270029-7aa7-4a7a-b383-128b275ff150'],
     longName: {
       en: 'Samfunnsfaglig engelsk (SF VG3)',
       nb: 'Samfunnsfaglig engelsk (SF VG3)',
@@ -1809,11 +1803,10 @@ export const studySpecializationSubjects = [
       nb: 'Samfunnsfaglig engelsk',
       nn: 'Samfunnsfagleg engelsk',
     },
-    subjectId: 'urn:subject:23',
+    subjectId: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
     id: 'study_specialization_subject_6',
   },
   {
-    filters: ['urn:filter:1a05c6c7-121e-49e2-933c-580da74afe1a'],
     longName: {
       en: 'Tysk 1',
       nb: 'Tysk 1',
@@ -1824,11 +1817,10 @@ export const studySpecializationSubjects = [
       nb: 'Tysk 1',
       nn: 'Tysk 1',
     },
-    subjectId: 'urn:subject:8',
+    subjectId: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
     id: 'study_specialization_subject_7',
   },
   {
-    filters: ['urn:filter:ec288dfb-4768-4f82-8387-fe2d73fff1e1'],
     longName: {
       en: 'Tysk 2',
       nb: 'Tysk 2',
@@ -1839,11 +1831,10 @@ export const studySpecializationSubjects = [
       nb: 'Tysk 2',
       nn: 'Tysk 2',
     },
-    subjectId: 'urn:subject:8',
+    subjectId: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
     id: 'study_specialization_subject_8',
   },
   {
-    filters: ['urn:filter:18569f4e-5901-472a-96a0-b06c09b201fb'],
     longName: {
       en: 'Kommunikasjon og kultur 1',
       nb: 'Kommunikasjon og kultur 1',
@@ -1854,11 +1845,10 @@ export const studySpecializationSubjects = [
       nb: 'Kommunikasjon og kultur 1',
       nn: 'Kommunikasjon og kultur 1',
     },
-    subjectId: 'urn:subject:18',
+    subjectId: 'urn:subject:1:18569f4e-5901-472a-96a0-b06c09b201fb',
     id: 'study_specialization_subject_9',
   },
   {
-    filters: ['urn:filter:4a73afd7-f263-48fa-b6fb-49bd21e517ab'],
     longName: {
       en: 'Kommunikasjon og kultur 2',
       nb: 'Kommunikasjon og kultur 2',
@@ -1869,11 +1859,10 @@ export const studySpecializationSubjects = [
       nb: 'Kommunikasjon og kultur 2',
       nn: 'Kommunikasjon og kultur 2',
     },
-    subjectId: 'urn:subject:18',
+    subjectId: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
     id: 'study_specialization_subject_10',
   },
   {
-    filters: ['urn:filter:b9e86c43-93b8-49e9-81af-09dbc7d79401'],
     longName: {
       en: 'Kommunikasjon og kultur 3',
       nb: 'Kommunikasjon og kultur 3',
@@ -1884,11 +1873,10 @@ export const studySpecializationSubjects = [
       nb: 'Kommunikasjon og kultur 3',
       nn: 'Kommunikasjon og kultur 3',
     },
-    subjectId: 'urn:subject:18',
+    subjectId: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
     id: 'study_specialization_subject_11',
   },
   {
-    filters: ['urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4'],
     longName: {
       en: 'Sosiologi og sosialantropologi (SF VG2)',
       nb: 'Sosiologi og sosialantropologi (SF VG2)',
@@ -1899,29 +1887,38 @@ export const studySpecializationSubjects = [
       nb: 'Sosiologi og sosialantropologi',
       nn: 'Sosiologi og sosialantropologi',
     },
-    subjectId: 'urn:subject:43',
+    subjectId: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
     id: 'study_specialization_subject_13',
   },
   {
-    filters: [
-      'urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
-      'urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186',
-    ],
     longName: {
-      en: 'Medie- og informasjonskunnskap 1 og 2',
-      nb: 'Medie- og informasjonskunnskap 1 og 2',
-      nn: 'Medie- og informasjonskunnskap 1 og 2',
+      en: 'Medie- og informasjonskunnskap - 1',
+      nb: 'Medie- og informasjonskunnskap - 1',
+      nn: 'Medie- og informasjonskunnskap - 1',
     },
     name: {
-      en: 'Medie- og informasjonskunnskap 1 og 2',
-      nb: 'Medie- og informasjonskunnskap 1 og 2',
-      nn: 'Medie- og informasjonskunnskap 1 og 2',
+      en: 'Medie- og informasjonskunnskap - 1',
+      nb: 'Medie- og informasjonskunnskap - 1',
+      nn: 'Medie- og informasjonskunnskap - 1',
     },
-    subjectId: 'urn:subject:14',
+    subjectId: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
     id: 'study_specialization_subject_14',
   },
   {
-    filters: ['urn:filter:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3'],
+    longName: {
+      en: 'Medie- og informasjonskunnskap - 2',
+      nb: 'Medie- og informasjonskunnskap - 2',
+      nn: 'Medie- og informasjonskunnskap - 2',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap - 2',
+      nb: 'Medie- og informasjonskunnskap - 2',
+      nn: 'Medie- og informasjonskunnskap - 2',
+    },
+    subjectId: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+    id: 'study_specialization_subject_15',
+  },
+  {
     longName: {
       en: 'Matematikk R1',
       nb: 'Matematikk R1',
@@ -1932,11 +1929,10 @@ export const studySpecializationSubjects = [
       nb: 'Matematikk R1',
       nn: 'Matematikk R1',
     },
-    subjectId: 'urn:subject:32',
+    subjectId: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
     id: 'study_specialization_subject_16',
   },
   {
-    filters: ['urn:filter:4200b774-5b7b-4900-bf1d-e0b298b9cb97'],
     longName: {
       en: 'Matematikk R2',
       nb: 'Matematikk R2',
@@ -1947,11 +1943,10 @@ export const studySpecializationSubjects = [
       nb: 'Matematikk R2',
       nn: 'Matematikk R2',
     },
-    subjectId: 'urn:subject:32',
+    subjectId: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
     id: 'study_specialization_subject_17',
   },
   {
-    filters: ['urn:filter:3ae2c40f-4661-4863-9987-4944ff534974'],
     longName: {
       en: 'Matematikk S1',
       nb: 'Matematikk S1',
@@ -1962,11 +1957,10 @@ export const studySpecializationSubjects = [
       nb: 'Matematikk S1',
       nn: 'Matematikk S1',
     },
-    subjectId: 'urn:subject:31',
+    subjectId: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
     id: 'study_specialization_subject_18',
   },
   {
-    filters: ['urn:filter:ebaf899b-4161-4281-80ab-2cb7eebecca4'],
     longName: {
       en: 'Matematikk S2',
       nb: 'Matematikk S2',
@@ -1977,11 +1971,10 @@ export const studySpecializationSubjects = [
       nb: 'Matematikk S2',
       nn: 'Matematikk S2',
     },
-    subjectId: 'urn:subject:31',
+    subjectId: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
     id: 'study_specialization_subject_19',
   },
   {
-    filters: ['urn:filter:090997c4-78d3-4a79-93ad-178d465cdba3'],
     longName: {
       en: 'Medieuttrykk Vg1',
       nb: 'Medieuttrykk Vg1',
@@ -1992,11 +1985,10 @@ export const studySpecializationSubjects = [
       nb: 'Medieuttrykk Vg1',
       nn: 'Medieuttrykk Vg1',
     },
-    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    subjectId: 'urn:subject:1:090997c4-78d3-4a79-93ad-178d465cdba3',
     id: 'study_specialization_subject_20',
   },
   {
-    filters: ['urn:filter:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643'],
     longName: {
       en: 'Mediesamfunnet Vg1',
       nb: 'Mediesamfunnet Vg1',
@@ -2007,28 +1999,64 @@ export const studySpecializationSubjects = [
       nb: 'Mediesamfunnet Vg1',
       nn: 'Mediesamfunnet Vg1',
     },
-    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    subjectId: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
     id: 'study_specialization_subject_21',
   },
   {
-    filters: [
-      'urn:filter:ee84a147-0472-4fc6-832b-704faefa2ff0',
-      'urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf',
-      'urn:filter:980866f7-3bf5-429c-ba7a-f91a6cb37f9f',
-      'urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c',
-    ],
     longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
     },
     name: {
       en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
       nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
       nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
     },
-    subjectId: 'urn:subject:1',
+    subjectId: 'urn:subject:1:ee84a147-0472-4fc6-832b-704faefa2ff0',
     id: 'study_specialization_subject_22',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
+    },
+    name: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+    },
+    subjectId: 'urn:subject:1:c338d76a-6e12-4ab5-9018-34e25b4dc9cf',
+    id: 'study_specialization_subject_23',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
+    },
+    name: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+    },
+    subjectId: 'urn:subject:1:980866f7-3bf5-429c-ba7a-f91a6cb37f9f',
+    id: 'study_specialization_subject_24',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
+    },
+    name: {
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+    },
+    subjectId: 'urn:subject:1:8866ecad-85ec-4fcb-b470-d88ec4ebb83c',
+    id: 'study_specialization_subject_25',
   },
 ];
 
