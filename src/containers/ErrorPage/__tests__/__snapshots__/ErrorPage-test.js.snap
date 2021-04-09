@@ -263,9 +263,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   -webkit-align-items: flex-start;
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
@@ -520,7 +517,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient( 96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100% );
+  background: linear-gradient(96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100%);
 }
 
 <div
