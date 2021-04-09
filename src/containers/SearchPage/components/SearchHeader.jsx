@@ -10,7 +10,6 @@ import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { subjectsCategories, getSubjectById } from '../../../data/subjects';
-import { programmes as programmesData } from '../../../data/programmes';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
@@ -20,28 +19,6 @@ const getSubjectCategoriesForLocale = locale => {
       name: subject.longName[locale],
     })),
   }));
-};
-
-const getProgrammesByLocale = locale => {
-  return programmesData.map(programme => ({
-    id: programme.url[locale],
-    name: programme.name[locale],
-  }));
-};
-
-const getProgrammeSubjects = locale => {
-  const programmeSubjects = {};
-  programmesData.forEach(programme => {
-    programme.grades.forEach(grade =>
-      grade.categories.forEach(category => {
-        programmeSubjects[programme.url[locale]] = [
-          ...(programmeSubjects[programme.url[locale]] || []),
-          ...category.subjects.map(subject => subject.id),
-        ];
-      }),
-    );
-  });
-  return programmeSubjects;
 };
 
 const getSubjectFilterByFilter = filters => {
@@ -59,26 +36,18 @@ const SearchHeader = ({
   query,
   suggestion,
   filters,
-  programmes,
   handleSearchParamsChange,
   handleNewSearch,
   locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
   const [subjectFilter, setSubjectFilter] = useState([]);
-  const [programmeFilter, setProgrammeFilter] = useState([]);
   const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
     [locale],
   );
-  const localeProgrammes = useMemo(() => getProgrammesByLocale(locale), [
-    locale,
-  ]);
-  const programmeSubjects = useMemo(() => getProgrammeSubjects(locale), [
-    locale,
-  ]);
 
   useEffect(() => {
     setSearchValue(query);
@@ -86,16 +55,6 @@ const SearchHeader = ({
 
   useEffect(() => {
     const subjectFilterUpdate = getSubjectFilterByFilter(filters);
-    setProgrammeFilter(programmes);
-    const activeProgrammes = programmes.map(id => {
-      const programme = localeProgrammes.find(p => p.id === id);
-      return {
-        value: id,
-        name: programme.name,
-        title: programme.name,
-      };
-    });
-
     setSubjectFilter(subjectFilterUpdate);
     const activeSubjects = subjectFilterUpdate.map(id => {
       const subject = getSubjectById(id);
@@ -105,15 +64,8 @@ const SearchHeader = ({
         title: subject.longName[locale],
       };
     });
-    setActiveSubjectFilters([...activeProgrammes, ...activeSubjects]);
-  }, [filters, programmeSubjects, programmes, localeProgrammes, locale]);
-
-  const onProgrammeValuesChange = values => {
-    handleNewSearch();
-    handleSearchParamsChange({
-      programs: values,
-    });
-  };
+    setActiveSubjectFilters(activeSubjects);
+  }, [filters, locale]);
 
   const onSubjectValuesChange = values => {
     const subjects = [];
@@ -137,11 +89,6 @@ const SearchHeader = ({
       values: subjectFilter,
       onSubjectValuesChange: onSubjectValuesChange,
     },
-    programmes: {
-      options: localeProgrammes,
-      values: programmeFilter,
-      onProgrammeValuesChange: onProgrammeValuesChange,
-    },
     messages: {
       filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
       closeButton: t('searchPage.close'),
@@ -158,9 +105,6 @@ const SearchHeader = ({
   const handleFilterRemove = value => {
     if (subjectFilter.includes(value)) {
       onSubjectValuesChange(subjectFilter.filter(id => id !== value));
-    }
-    if (programmeFilter.includes(value)) {
-      onProgrammeValuesChange(programmeFilter.filter(id => id !== value));
     }
   };
 
@@ -189,7 +133,6 @@ SearchHeader.propTypes = {
   query: string,
   suggestion: string,
   filters: arrayOf(string),
-  programmes: arrayOf(string),
   locale: string,
 };
 
