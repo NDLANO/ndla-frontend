@@ -104,6 +104,7 @@ const SearchInnerPage = ({
         updateSearchGroups(
           data.groupSearch,
           searchGroups,
+          resourceTypes,
           params.pageSize,
           replaceItems,
           newSearch,

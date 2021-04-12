@@ -361,9 +361,18 @@ export const sortResourceTypes = (array, value) => {
   );
 };
 
+const getResourceTypeFilters = (resourceTypes, aggregations) => {
+  return (
+    resourceTypes?.subtypes
+      ?.map(type => type.id)
+      .filter(t => aggregations.includes(t)) || []
+  );
+};
+
 export const updateSearchGroups = (
   searchData,
   searchGroups,
+  resourceTypes,
   pageSize,
   replaceItems,
   newSearch,
@@ -374,7 +383,10 @@ export const updateSearchGroups = (
   if (newSearch) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources, ltiData, isLti, t),
-      resourceTypes: result.aggregations?.[0]?.values.map(value => value.value),
+      resourceTypes: getResourceTypeFilters(
+        resourceTypes.find(type => type.id === result.resourceType),
+        result.aggregations?.[0]?.values.map(value => value.value),
+      ),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
     }));
