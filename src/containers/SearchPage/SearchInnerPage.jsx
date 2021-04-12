@@ -90,7 +90,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams, locale);
 
-  const newSearch = params.page === 1;
+  const newSearch = !params.types;
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
