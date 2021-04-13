@@ -253,6 +253,7 @@ const SearchInnerPage = ({
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
       handleNewSearch={handleNewSearch}
+      subjects={subjects}
       filters={filters}
       programmes={programmes}
       suggestion={suggestion}

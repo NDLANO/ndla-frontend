@@ -21,11 +21,15 @@ const getSubjectCategoriesForLocale = locale => {
   }));
 };
 
-const getSubjectFilterByFilter = filters => {
+const getSubjectFilter = (filters, subjects) => {
   return subjectsCategories
     .map(category =>
       category.subjects
-        .filter(subject => filters.includes(subject.filters[0]))
+        .filter(subject =>
+          filters.length
+            ? subject.filters.some(filter => filters.includes(filter))
+            : subjects.includes(subject.subjectId),
+        )
         .map(s => s.id),
     )
     .flat();
@@ -37,6 +41,7 @@ const SearchHeader = ({
   t,
   query,
   suggestion,
+  subjects,
   filters,
   handleSearchParamsChange,
   handleNewSearch,
@@ -56,7 +61,7 @@ const SearchHeader = ({
   }, [query]);
 
   useEffect(() => {
-    const subjectFilterUpdate = getSubjectFilterByFilter(filters);
+    const subjectFilterUpdate = getSubjectFilter(filters, subjects);
     setSubjectFilter(subjectFilterUpdate);
     const activeSubjects = subjectFilterUpdate.map(id => {
       const subject = getSubjectById(id);
@@ -67,7 +72,7 @@ const SearchHeader = ({
       };
     });
     setActiveSubjectFilters(activeSubjects);
-  }, [filters, locale]);
+  }, [filters, subjects, locale]);
 
   const onSubjectValuesChange = values => {
     const subjects = [];
@@ -134,6 +139,7 @@ SearchHeader.propTypes = {
   handleNewSearch: func,
   query: string,
   suggestion: string,
+  subjects: arrayOf(string),
   filters: arrayOf(string),
   locale: string,
 };

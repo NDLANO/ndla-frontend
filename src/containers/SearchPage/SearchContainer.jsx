@@ -34,6 +34,7 @@ const SearchContainer = ({
   handleShowMore,
   handleNewSearch,
   query,
+  subjects,
   filters,
   programmes,
   subjectItems,
@@ -72,6 +73,7 @@ const SearchContainer = ({
       <SearchHeader
         query={query}
         suggestion={suggestion}
+        subjects={subjects}
         filters={filters}
         programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
@@ -126,6 +128,7 @@ SearchContainer.propTypes = {
   handleShowMore: func,
   handleNewSearch: func,
   query: string,
+  subjects: arrayOf(string),
   filters: arrayOf(string),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
