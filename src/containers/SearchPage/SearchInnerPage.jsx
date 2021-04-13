@@ -72,6 +72,7 @@ const SearchInnerPage = ({
           ...subjects,
           ...convertProgramSearchParams(programmes, locale).subjects,
         ]),
+        filters: convertSearchParam(filters),
       }
     : getStateSearchParams(searchParams, locale);
 
@@ -79,6 +80,7 @@ const SearchInnerPage = ({
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
+      levels: stateSearchParams.filters,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),

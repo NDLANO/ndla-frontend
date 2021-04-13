@@ -171,6 +171,7 @@ export const groupSearchQuery = gql`
     $resourceTypes: String
     $contextTypes: String
     $subjects: String
+    $levels: String
     $query: String
     $page: String
     $pageSize: String
@@ -182,6 +183,7 @@ export const groupSearchQuery = gql`
       resourceTypes: $resourceTypes
       contextTypes: $contextTypes
       subjects: $subjects
+      levels: $levels
       query: $query
       page: $page
       pageSize: $pageSize
