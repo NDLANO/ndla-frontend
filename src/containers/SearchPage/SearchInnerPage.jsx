@@ -29,26 +29,11 @@ import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 
-const getStateSearchParams = (searchParams, locale) => {
+const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
   Object.keys(searchParams).forEach(key => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
-  if (stateSearchParams.programs?.length) {
-    const { subjects, filters } = convertProgramSearchParams(
-      searchParams.programs,
-      locale,
-    );
-    stateSearchParams.subjects = convertSearchParam([
-      ...searchParams.subjects,
-      ...subjects,
-    ]);
-    stateSearchParams.filters = convertSearchParam([
-      ...searchParams.filters,
-      ...filters,
-    ]);
-    delete stateSearchParams.programs;
-  }
   return stateSearchParams;
 };
 
