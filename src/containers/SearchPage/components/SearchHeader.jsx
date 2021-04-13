@@ -35,7 +35,7 @@ const getSubjectFilter = (filters, subjects) => {
     .flat();
 };
 
-// Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 for programme filter
+// Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 + d39a0c692bbd0e3151fa13a7ec28b0cf229d9fd1 for programme filter
 
 const SearchHeader = ({
   t,
