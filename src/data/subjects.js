@@ -1702,7 +1702,7 @@ export const programmeSubjects = [
       nn: 'Marknadsføring og leiing 1',
       en: 'Markedsføring og ledelse 1',
     },
-    subjectId: 'urn:subject:7',
+    subjectId: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
     filters: [],
     id: 'programme_subject_61',
   },
@@ -2289,7 +2289,11 @@ export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
 
   return subjects.find(subject => {
     if (subject.subjectId === subjectId) {
-      if (subject.filters.length === filters.length) {
+      // Support both with and without filters for now
+      if (!subject.filters) {
+        return true;
+      }
+      if (subject.filters?.length === filters.length) {
         return subject.filters.every(filter => {
           return filters.includes(filter);
         });
