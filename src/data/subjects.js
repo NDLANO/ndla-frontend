@@ -1703,7 +1703,6 @@ export const programmeSubjects = [
       en: 'Markedsføring og ledelse 1',
     },
     subjectId: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
-    filters: [],
     id: 'programme_subject_61',
   },
   {
