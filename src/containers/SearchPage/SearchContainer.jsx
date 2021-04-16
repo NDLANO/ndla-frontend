@@ -6,18 +6,13 @@
  */
 
 import React, { useMemo } from 'react';
-import {
-  func,
-  arrayOf,
-  objectOf,
-  object,
-  string,
-  shape,
-  bool,
-} from 'prop-types';
+import { func, arrayOf, objectOf, object, string, bool } from 'prop-types';
 import { Remarkable } from 'remarkable';
-import { SearchSubjectResult, SearchNotionsResult } from '@ndla/ui';
-import { FilterTabs } from '@ndla/tabs';
+import {
+  SearchSubjectResult,
+  SearchNotionsResult,
+  FilterButtons,
+} from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 
 import {
@@ -28,25 +23,29 @@ import {
 } from '../../shapes';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
-import { filterTypeOptions } from './searchHelpers';
+import { sortResourceTypes } from './searchHelpers';
 
 const SearchContainer = ({
   t,
   handleSearchParamsChange,
   handleFilterClick,
+  handleFilterToggle,
+  handleFilterReset,
   handleShowMore,
-  handleSetSubjectType,
+  handleNewSearch,
   query,
   subjects,
-  allSubjects,
+  filters,
+  programmes,
   subjectItems,
   concepts,
   suggestion,
-  currentSubjectType,
   typeFilter,
   searchGroups,
   showConcepts,
   setShowConcepts,
+  showAll,
+  locale,
 }) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -55,14 +54,31 @@ const SearchContainer = ({
   }, []);
   const renderMarkdown = text => markdown.render(text);
 
+  const filterButtonItems = [];
+  for (const [type, values] of Object.entries(typeFilter)) {
+    if (searchGroups.find(group => group.type === type)?.items?.length) {
+      filterButtonItems.push({
+        value: type,
+        label: t(`contentTypes.${type}`),
+        selected: values.selected,
+      });
+    }
+  }
+
+  const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, 'value');
+  const sortedSearchGroups = sortResourceTypes(searchGroups, 'type');
+
   return (
     <>
       <SearchHeader
         query={query}
         suggestion={suggestion}
         subjects={subjects}
-        allSubjects={allSubjects}
+        filters={filters}
+        programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
+        handleNewSearch={handleNewSearch}
+        locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
@@ -76,20 +92,28 @@ const SearchContainer = ({
       )}
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
-        <FilterTabs
-          dropdownBtnLabel={t('searchPage.showLabel.contentTypes')}
-          value={currentSubjectType ? currentSubjectType : 'ALL'}
-          options={filterTypeOptions(searchGroups, t)}
-          contentId="search-result-content"
-          onChange={handleSetSubjectType}>
+        <>
+          <FilterButtons
+            heading={t(
+              'searchPage.searchFilterMessages.resourceTypeFilter.heading',
+            )}
+            items={sortedFilterButtonItems}
+            onFilterToggle={handleFilterToggle}
+            onRemoveAllFilters={handleFilterReset}
+            labels={{
+              openFilter: t(
+                'searchPage.searchFilterMessages.resourceTypeFilter.button',
+              ),
+            }}
+          />
           <SearchResults
-            searchGroups={searchGroups}
-            currentSubjectType={currentSubjectType}
+            showAll={showAll}
+            searchGroups={sortedSearchGroups}
             typeFilter={typeFilter}
             handleFilterClick={handleFilterClick}
             handleShowMore={handleShowMore}
           />
-        </FilterTabs>
+        </>
       )}
     </>
   );
@@ -99,24 +123,23 @@ SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
   handleFilterClick: func,
+  handleFilterToggle: func,
+  handleFilterReset: func,
   handleShowMore: func,
-  handleSetSubjectType: func,
+  handleNewSearch: func,
   query: string,
   subjects: arrayOf(string),
-  allSubjects: arrayOf(
-    shape({
-      title: string,
-      value: string,
-    }),
-  ),
+  filters: arrayOf(string),
+  programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,
-  currentSubjectType: string,
   typeFilter: objectOf(TypeFilterShape),
   searchGroups: arrayOf(SearchGroupShape),
   showConcepts: bool,
   setShowConcepts: func,
+  showAll: bool,
+  locale: string,
 };
 
 export default injectT(SearchContainer);
