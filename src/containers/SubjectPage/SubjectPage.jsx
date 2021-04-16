@@ -6,18 +6,30 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQuery } from '../../queries';
+import {
+  subjectPageQueryWithTopics,
+  topicsQueryWithBreadcrumbs,
+} from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getFiltersFromUrl } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
+import MovedTopicPage from './components/MovedTopicPage';
+
+const getLastTopicIdFromUrl = location => {
+  return location?.pathname
+    ?.split('/')
+    .reverse()
+    .find(e => e.includes('topic:'))
+    ?.split('?')[0];
+};
 
 const SubjectPage = ({
   match,
@@ -32,42 +44,39 @@ const SubjectPage = ({
     match,
   });
   const filterIds = getFiltersFromUrl(location);
-  const { loading, data } = useGraphQuery(subjectPageQuery, {
+  const topicUrn = `urn:${getLastTopicIdFromUrl(location)}`;
+
+  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
       filterIds,
+      topicId: topicUrn,
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      const filterIdsArray = filterIds.split(',');
-      const subjectFilters =
-        data?.subject?.filters?.map(filter => filter.id) || [];
-      const sharedFilters = subjectFilters?.filter(id =>
-        filterIdsArray.includes(id),
-      );
-      if (
-        sharedFilters.length < filterIdsArray.length &&
-        data.subject.path === location.pathname
-      ) {
-        history.replace({
-          search: subjectFilters.length
-            ? `?filters=${
-                sharedFilters.length ? sharedFilters.join() : subjectFilters[0]
-              }`
-            : '',
-        });
-      }
-    }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  const skipFetchingAllTopics = !data || data.topic?.path !== null;
 
-  if (loading) {
+  const { loading: loadingTopics, data: allTopics } = useGraphQuery(
+    topicsQueryWithBreadcrumbs,
+    {
+      skip: skipFetchingAllTopics,
+      variables: {
+        contentUri: data?.topic?.contentUri,
+      },
+    },
+  );
+
+  if (loading || loadingTopics) {
     return null;
   }
 
   if (!data) {
     return <DefaultErrorMessage />;
+  }
+
+  if (!data?.subject && allTopics?.topics?.length >= 1) {
+    const topicsWithPath = allTopics.topics.filter(t => t.path);
+    return <MovedTopicPage topics={topicsWithPath} />;
   }
 
   if (!data.subject) {
