@@ -11,6 +11,7 @@
         "kind": "OBJECT",
         "name": "Query",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "resource",
@@ -28,7 +29,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -38,7 +41,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -65,7 +70,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "filterIds",
@@ -75,7 +82,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -85,7 +94,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "removeRelatedContent",
@@ -95,7 +106,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -122,7 +135,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -149,7 +164,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -188,7 +205,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -215,7 +234,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "stepId",
@@ -229,7 +250,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -272,7 +295,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -282,7 +307,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -305,7 +332,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -364,7 +393,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "nodeId",
@@ -374,7 +405,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -384,7 +417,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -415,7 +450,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -425,7 +462,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -452,7 +491,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -462,7 +503,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -493,7 +536,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -503,7 +548,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -526,7 +573,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "page",
@@ -536,7 +585,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "pageSize",
@@ -546,7 +597,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "contextTypes",
@@ -556,7 +609,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -566,7 +621,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "ids",
@@ -576,7 +633,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "resourceTypes",
@@ -586,7 +645,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "contextFilters",
@@ -596,7 +657,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "levels",
@@ -606,7 +669,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "sort",
@@ -616,7 +681,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "fallback",
@@ -626,7 +693,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjects",
@@ -636,7 +705,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "languageFilter",
@@ -646,7 +717,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "relevance",
@@ -656,7 +729,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "grepCodes",
@@ -666,7 +741,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "aggregatePaths",
@@ -680,7 +757,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -719,7 +798,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjects",
@@ -729,7 +810,21 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "levels",
+                "description": "",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "resourceTypes",
@@ -739,7 +834,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "contextTypes",
@@ -749,7 +846,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "page",
@@ -759,7 +858,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "pageSize",
@@ -769,7 +870,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -779,7 +882,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "fallback",
@@ -789,7 +894,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "grepCodes",
@@ -799,7 +906,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "aggregatePaths",
@@ -813,7 +922,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -840,7 +951,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjects",
@@ -850,7 +963,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -860,7 +975,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -887,7 +1004,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -910,7 +1029,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "contextTypes",
@@ -920,7 +1041,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "language",
@@ -930,7 +1053,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "ids",
@@ -940,7 +1065,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "resourceTypes",
@@ -950,7 +1077,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "contextFilters",
@@ -960,7 +1089,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "levels",
@@ -970,7 +1101,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "sort",
@@ -980,7 +1113,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "fallback",
@@ -990,7 +1125,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjects",
@@ -1000,7 +1137,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "languageFilter",
@@ -1010,7 +1149,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "relevance",
@@ -1020,7 +1161,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1043,7 +1186,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1066,7 +1211,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "pageSize",
@@ -1076,7 +1223,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1097,6 +1246,7 @@
         "kind": "SCALAR",
         "name": "String",
         "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1107,6 +1257,7 @@
         "kind": "OBJECT",
         "name": "Resource",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -1216,7 +1367,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -1226,7 +1379,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "removeRelatedContent",
@@ -1236,7 +1391,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1355,6 +1512,7 @@
         "kind": "INTERFACE",
         "name": "TaxonomyEntity",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -1464,7 +1622,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -1474,7 +1634,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -1500,6 +1662,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "relevanceId",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -1522,6 +1696,7 @@
         "kind": "OBJECT",
         "name": "Meta",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -1613,6 +1788,7 @@
         "kind": "SCALAR",
         "name": "Int",
         "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1623,6 +1799,7 @@
         "kind": "OBJECT",
         "name": "MetaImage",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "url",
@@ -1658,6 +1835,7 @@
         "kind": "OBJECT",
         "name": "TaxonomyMetadata",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "grepCodes",
@@ -1697,6 +1875,7 @@
         "kind": "SCALAR",
         "name": "Boolean",
         "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1707,6 +1886,7 @@
         "kind": "OBJECT",
         "name": "Article",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -2036,7 +2216,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "filterIds",
@@ -2046,7 +2228,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -2115,6 +2299,7 @@
         "kind": "OBJECT",
         "name": "ArticleRequiredLibrary",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -2174,6 +2359,7 @@
         "kind": "OBJECT",
         "name": "ArticleMetaData",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "footnotes",
@@ -2281,6 +2467,7 @@
         "kind": "OBJECT",
         "name": "FootNote",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "ref",
@@ -2396,6 +2583,7 @@
         "kind": "OBJECT",
         "name": "ImageLicense",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -2471,6 +2659,7 @@
         "kind": "OBJECT",
         "name": "Copyright",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "license",
@@ -2554,6 +2743,7 @@
         "kind": "OBJECT",
         "name": "License",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "license",
@@ -2605,6 +2795,7 @@
         "kind": "OBJECT",
         "name": "Contributor",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "type",
@@ -2648,6 +2839,7 @@
         "kind": "OBJECT",
         "name": "AudioLicense",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -2707,6 +2899,7 @@
         "kind": "OBJECT",
         "name": "BrightcoveLicense",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -2822,6 +3015,7 @@
         "kind": "OBJECT",
         "name": "BrightcoveIframe",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "src",
@@ -2881,6 +3075,7 @@
         "kind": "OBJECT",
         "name": "H5pLicense",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -2936,6 +3131,7 @@
         "kind": "OBJECT",
         "name": "ConceptLicense",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -2987,6 +3183,7 @@
         "kind": "OBJECT",
         "name": "CompetenceGoal",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3194,6 +3391,7 @@
         "kind": "OBJECT",
         "name": "Reference",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3249,6 +3447,7 @@
         "kind": "OBJECT",
         "name": "Element",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "reference",
@@ -3296,6 +3495,7 @@
         "kind": "OBJECT",
         "name": "CoreElement",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3387,6 +3587,7 @@
         "kind": "OBJECT",
         "name": "CrossSubjectElement",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -3438,6 +3639,7 @@
         "kind": "OBJECT",
         "name": "Concept",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3497,6 +3699,7 @@
         "kind": "OBJECT",
         "name": "Filter",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3588,6 +3791,7 @@
         "kind": "OBJECT",
         "name": "Learningpath",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -3823,6 +4027,7 @@
         "kind": "OBJECT",
         "name": "LearningpathCopyright",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "license",
@@ -3862,6 +4067,7 @@
         "kind": "OBJECT",
         "name": "LearningpathStep",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -4069,6 +4275,7 @@
         "kind": "OBJECT",
         "name": "LearningpathStepEmbedUrl",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "url",
@@ -4104,6 +4311,7 @@
         "kind": "OBJECT",
         "name": "LearningpathStepOembed",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "type",
@@ -4195,6 +4403,7 @@
         "kind": "OBJECT",
         "name": "LearningpathCoverphoto",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "url",
@@ -4230,6 +4439,7 @@
         "kind": "OBJECT",
         "name": "ResourceType",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -4279,7 +4489,9 @@
                     "ofType": null
                   }
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4304,6 +4516,7 @@
         "kind": "OBJECT",
         "name": "Topic",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -4413,7 +4626,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -4423,7 +4638,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4498,7 +4715,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4545,7 +4764,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -4555,7 +4776,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4582,7 +4805,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "subjectId",
@@ -4592,7 +4817,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4643,6 +4870,7 @@
         "kind": "OBJECT",
         "name": "Subject",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -4772,7 +5000,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               },
               {
                 "name": "filterIds",
@@ -4782,7 +5012,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4807,6 +5039,7 @@
         "kind": "OBJECT",
         "name": "SubjectFilter",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -4902,6 +5135,7 @@
         "kind": "OBJECT",
         "name": "SubjectPage",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "topical",
@@ -4915,7 +5149,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4938,7 +5174,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -5017,7 +5255,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -5044,7 +5284,9 @@
                   "name": "String",
                   "ofType": null
                 },
-                "defaultValue": null
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -5133,6 +5375,7 @@
         "kind": "OBJECT",
         "name": "SubjectPageBanner",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "desktopUrl",
@@ -5192,6 +5435,7 @@
         "kind": "OBJECT",
         "name": "SubjectPageAbout",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -5239,6 +5483,7 @@
         "kind": "OBJECT",
         "name": "SubjectPageVisualElement",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "type",
@@ -5286,6 +5531,7 @@
         "kind": "OBJECT",
         "name": "ResourceTypeDefinition",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -5345,6 +5591,7 @@
         "kind": "OBJECT",
         "name": "FilmFrontpage",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -5416,6 +5663,7 @@
         "kind": "OBJECT",
         "name": "FilmPageAbout",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -5475,6 +5723,7 @@
         "kind": "OBJECT",
         "name": "MovieTheme",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -5518,6 +5767,7 @@
         "kind": "OBJECT",
         "name": "Name",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -5553,6 +5803,7 @@
         "kind": "OBJECT",
         "name": "Movie",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -5644,6 +5895,7 @@
         "kind": "OBJECT",
         "name": "Frontpage",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "topical",
@@ -5687,6 +5939,7 @@
         "kind": "OBJECT",
         "name": "Category",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -5726,6 +5979,7 @@
         "kind": "OBJECT",
         "name": "Search",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageSize",
@@ -5845,6 +6099,7 @@
         "kind": "INTERFACE",
         "name": "SearchResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -5991,6 +6246,7 @@
         "kind": "OBJECT",
         "name": "SearchContext",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "breadcrumbs",
@@ -6122,6 +6378,7 @@
         "kind": "OBJECT",
         "name": "SearchContextResourceTypes",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -6169,6 +6426,7 @@
         "kind": "OBJECT",
         "name": "SearchContextFilter",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -6216,6 +6474,7 @@
         "kind": "OBJECT",
         "name": "SuggestionResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -6255,6 +6514,7 @@
         "kind": "OBJECT",
         "name": "SearchSuggestion",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "text",
@@ -6318,6 +6578,7 @@
         "kind": "OBJECT",
         "name": "SuggestOption",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "text",
@@ -6353,6 +6614,7 @@
         "kind": "SCALAR",
         "name": "Float",
         "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -6363,6 +6625,7 @@
         "kind": "OBJECT",
         "name": "AggregationResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "field",
@@ -6426,6 +6689,7 @@
         "kind": "OBJECT",
         "name": "BucketResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "value",
@@ -6461,6 +6725,7 @@
         "kind": "OBJECT",
         "name": "ConceptResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "concepts",
@@ -6488,6 +6753,7 @@
         "kind": "OBJECT",
         "name": "GroupSearch",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "language",
@@ -6583,6 +6849,7 @@
         "kind": "OBJECT",
         "name": "GroupSearchResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -6698,6 +6965,7 @@
         "kind": "OBJECT",
         "name": "FrontpageSearch",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "topicResources",
@@ -6733,6 +7001,7 @@
         "kind": "OBJECT",
         "name": "FrontPageResources",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "results",
@@ -6788,6 +7057,7 @@
         "kind": "OBJECT",
         "name": "FrontpageSearchResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -6883,6 +7153,7 @@
         "kind": "OBJECT",
         "name": "Audio",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -7030,6 +7301,7 @@
         "kind": "OBJECT",
         "name": "Title",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -7073,6 +7345,7 @@
         "kind": "OBJECT",
         "name": "AudioFile",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "url",
@@ -7148,6 +7421,7 @@
         "kind": "OBJECT",
         "name": "Tags",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "tags",
@@ -7191,6 +7465,7 @@
         "kind": "OBJECT",
         "name": "PodcastMeta",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "header",
@@ -7282,6 +7557,7 @@
         "kind": "OBJECT",
         "name": "CoverPhoto",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -7341,6 +7617,7 @@
         "kind": "OBJECT",
         "name": "AudioSearch",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "pageSize",
@@ -7416,6 +7693,7 @@
         "kind": "OBJECT",
         "name": "__Schema",
         "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "description",
@@ -7527,6 +7805,7 @@
         "kind": "OBJECT",
         "name": "__Type",
         "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "kind",
@@ -7592,7 +7871,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -7663,7 +7944,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -7694,7 +7977,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -7735,6 +8020,7 @@
         "kind": "ENUM",
         "name": "__TypeKind",
         "description": "An enum describing what kind of type a given `__Type` is.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7794,6 +8080,7 @@
         "kind": "OBJECT",
         "name": "__Field",
         "description": "Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -7835,7 +8122,9 @@
                   "name": "Boolean",
                   "ofType": null
                 },
-                "defaultValue": "false"
+                "defaultValue": "false",
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -7912,6 +8201,7 @@
         "kind": "OBJECT",
         "name": "__InputValue",
         "description": "Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -8007,6 +8297,7 @@
         "kind": "OBJECT",
         "name": "__EnumValue",
         "description": "One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -8074,6 +8365,7 @@
         "kind": "OBJECT",
         "name": "__Directive",
         "description": "A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.\n\nIn some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "name",
@@ -8177,6 +8469,7 @@
         "kind": "ENUM",
         "name": "__DirectiveLocation",
         "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -8302,6 +8595,7 @@
         "kind": "OBJECT",
         "name": "MovieMeta",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "title",
@@ -8349,6 +8643,7 @@
         "kind": "OBJECT",
         "name": "MoviePath",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "path",
@@ -8372,6 +8667,7 @@
         "kind": "OBJECT",
         "name": "MovieResourceTypes",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "resourceTypes",
@@ -8399,6 +8695,7 @@
         "kind": "OBJECT",
         "name": "ArticleSearchResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -8540,6 +8837,7 @@
         "kind": "OBJECT",
         "name": "LearningpathSearchResult",
         "description": "",
+        "specifiedByUrl": null,
         "fields": [
           {
             "name": "id",
@@ -8681,6 +8979,7 @@
         "kind": "ENUM",
         "name": "CacheControlScope",
         "description": "",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -8704,6 +9003,7 @@
         "kind": "SCALAR",
         "name": "Upload",
         "description": "The `Upload` scalar type represents a file upload.",
+        "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -8730,7 +9030,9 @@
               "name": "Int",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "scope",
@@ -8740,7 +9042,9 @@
               "name": "CacheControlScope",
               "ofType": null
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -8766,7 +9070,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -8792,7 +9098,9 @@
                 "ofType": null
               }
             },
-            "defaultValue": null
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       },
@@ -8813,7 +9121,9 @@
               "name": "String",
               "ofType": null
             },
-            "defaultValue": "\"No longer supported\""
+            "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ]
       }
