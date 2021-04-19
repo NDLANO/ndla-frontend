@@ -482,7 +482,6 @@ export const articleInfoFragment = gql`
         title
       }
     }
-    oembed
     copyright {
       ...CopyrightInfo
     }
@@ -736,6 +735,7 @@ const learningpathInfoFragment = gql`
         ...ResourceInfo
         article(removeRelatedContent: "true") {
           ...ArticleInfo
+          oembed
         }
       }
       license {
