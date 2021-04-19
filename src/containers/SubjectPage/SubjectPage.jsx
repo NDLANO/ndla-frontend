@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
@@ -19,17 +19,8 @@ import {
 } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
-
-const getLastTopicIdFromUrl = location => {
-  return location?.pathname
-    ?.split('/')
-    .reverse()
-    .find(e => e.includes('topic:'))
-    ?.split('?')[0];
-};
 
 const SubjectPage = ({
   match,
@@ -39,18 +30,14 @@ const SubjectPage = ({
   skipToContentId,
   ndlaFilm,
 }) => {
-  const { subjectId, topicList } = getUrnIdsFromProps({
+  const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
     match,
   });
-  const filterIds = getFiltersFromUrl(location);
-  const topicUrn = `urn:${getLastTopicIdFromUrl(location)}`;
-
   const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
-      filterIds,
-      topicId: topicUrn,
+      topicId: topicId || '',
     },
   });
 
@@ -76,6 +63,9 @@ const SubjectPage = ({
 
   if (!data?.subject && allTopics?.topics?.length >= 1) {
     const topicsWithPath = allTopics.topics.filter(t => t.path);
+    if (topicsWithPath.length === 1) {
+      return <Redirect to={topicsWithPath[0].path} />;
+    }
     return <MovedTopicPage topics={topicsWithPath} />;
   }
 
