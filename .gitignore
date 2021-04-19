@@ -7,7 +7,7 @@ yarn-error.log
 /.idea
 /build/
 /coverage/
-/build/
+/cache/
 /e2e/screenshots
 /htdocs/
 .vscode

@@ -56,12 +56,12 @@ export const getHtmlLang = (localeAbbreviation?: string): string => {
 
 interface RetType extends LocaleObject {
   basepath: string;
-  basename?: string;
+  basename: string;
 }
 
 export const getLocaleInfoFromPath = (path: string): RetType => {
   const paths = path.split('/');
-  const basename = isValidLocale(paths[1]) ? paths[1] : '';
+  const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : '';
   const basepath = basename ? path.replace(`/${basename}`, '') : path;
   return {
     basepath,

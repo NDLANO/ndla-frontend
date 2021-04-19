@@ -54,11 +54,19 @@ import {
 
 // @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import { InitialProps } from './interfaces';
 
-interface RouteType extends RouteProps {
+export interface RootComponentProps {
+  locale: string;
+  ndlaFilm?: boolean;
+  skipToContentId?: string;
+}
+
+export interface RouteType extends RouteProps {
   hideBreadcrumb?: boolean;
   hideMasthead?: boolean;
   background?: boolean;
+  component: React.ComponentType<RootComponentProps>;
 }
 
 export const routes: RouteType[] = [
@@ -158,17 +166,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(
-  initialProps = {},
-  locale: string,
-  serverLocation: Location,
-) {
-  return (
-    <App
-      initialProps={initialProps}
-      locale={locale}
-      serverLocation={serverLocation}
-    />
-  );
+const routesFunc = function(initialProps: InitialProps, locale: string) {
+  return <App initialProps={initialProps} locale={locale} />;
 };
 export default routesFunc;

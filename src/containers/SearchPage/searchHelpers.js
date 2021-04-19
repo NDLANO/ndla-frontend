@@ -4,7 +4,11 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { getSubjectBySubjectIdFilters } from '../../data/subjects';
+import {
+  getSubjectBySubjectIdFilters,
+  getSubjectById,
+} from '../../data/subjects';
+import { programmes } from '../../data/programmes';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -134,6 +138,8 @@ const arrayFields = [
   'languageFilter',
   'levels',
   'subjects',
+  'filters',
+  'programs',
   'relevance',
   'resourceTypes',
   'contextTypes',
@@ -173,6 +179,30 @@ export const convertSearchParam = value => {
     return value;
   }
   return value.length > 0 ? value : undefined;
+};
+
+export const convertProgramSearchParams = (values, locale) => {
+  const subjectParams = [];
+  const filterParams = [];
+  programmes.forEach(programme => {
+    if (values.includes(programme.url[locale])) {
+      programme.grades.forEach(grade =>
+        grade.categories.forEach(category => {
+          category.subjects.forEach(subject => {
+            const { subjectId, filters } = getSubjectById(subject.id);
+            if (!subjectParams.includes(subjectId))
+              subjectParams.push(subjectId);
+            if (!filterParams.includes(filters[0]))
+              filterParams.push(filters[0]);
+          });
+        }),
+      );
+    }
+  });
+  return {
+    subjects: subjectParams,
+    filters: filterParams,
+  };
 };
 
 export const convertResult = (results, subjectFilters, enabledTab, language) =>
@@ -250,24 +280,6 @@ export const getResultMetadata = search => ({
   totalCountTasks: search.totalCountTasks || 0,
 });
 
-export const filterTypeOptions = (searchGroups, t) => {
-  const options = [
-    {
-      title: t('contentTypes.all'),
-      value: 'ALL',
-    },
-  ];
-  searchGroups.forEach(group => {
-    if (group.items?.length) {
-      options.push({
-        value: group.type,
-        title: t(`contentTypes.${group.type}`),
-      });
-    }
-  });
-  return options;
-};
-
 const mapTraits = (traits, t) =>
   traits.map(trait => {
     if (trait === 'VIDEO') {
@@ -332,33 +344,28 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
     ),
   }));
 
-const getResourceTypeFilters = resources => {
-  const resourceTypeFilters = [];
-  resources.forEach(resource => {
-    resource.contexts.forEach(context => {
-      context.resourceTypes.forEach(type => {
-        if (!resourceTypeFilters.includes(type.id)) {
-          resourceTypeFilters.push(type.id);
-        }
-      });
-    });
-  });
-  return resourceTypeFilters;
-};
-
-export const sortSearchGroups = groups => {
+export const sortResourceTypes = (array, value) => {
   const sortedResourceTypes = [
     'topic-article',
     'subject-material',
     'tasks-and-activities',
+    'learning-path',
     'assessment-resources',
     'external-learning-resources',
     'source-material',
-    'learning-path',
   ];
-  return groups.sort(
+  return array.sort(
     (a, b) =>
-      sortedResourceTypes.indexOf(a.type) - sortedResourceTypes.indexOf(b.type),
+      sortedResourceTypes.indexOf(a[value]) -
+      sortedResourceTypes.indexOf(b[value]),
+  );
+};
+
+const getResourceTypeFilters = (resourceTypes, aggregations) => {
+  return (
+    resourceTypes?.subtypes
+      ?.map(type => type.id)
+      .filter(t => aggregations.includes(t)) || []
   );
 };
 
@@ -366,61 +373,46 @@ export const updateSearchGroups = (
   searchData,
   searchGroups,
   resourceTypes,
+  pageSize,
   replaceItems,
   newSearch,
   ltiData,
   isLti,
   t,
 ) => {
-  if (!searchGroups.length) {
+  if (newSearch) {
     return searchData.map(result => ({
       items: mapResourcesToItems(result.resources, ltiData, isLti, t),
-      resourceTypes: getResourceTypeFilters(result.resources),
+      resourceTypes: getResourceTypeFilters(
+        resourceTypes.find(type => type.id === result.resourceType),
+        result.aggregations?.[0]?.values.map(value => value.value),
+      ),
       totalCount: result.totalCount,
       type: contentTypeMapping[result.resourceType] || result.resourceType,
     }));
   }
   return searchGroups.map(group => {
-    const searchResults = searchData.filter(
-      result =>
-        (contentTypeMapping[result.resourceType] || result.resourceType) ===
-          group.type ||
-        resourceTypes
-          .find(type => contentTypeMapping[type.id] === group.type)
-          ?.subtypes?.map(subtype => subtype.id)
-          ?.includes(result.resourceType),
-    );
-
+    const searchResults = searchData.filter(result => {
+      const resultType =
+        contentTypeMapping[result.resourceType] || result.resourceType;
+      return (
+        group.type === resultType || group.resourceTypes.includes(resultType)
+      );
+    });
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
-        resources: [
-          ...currentValue.resources.slice(
-            0,
-            Math.floor(currentValue.resources.length / 2),
-          ),
-          ...accumulator.resources.slice(
-            0,
-            Math.floor(accumulator.resources.length / 2),
-          ),
-        ],
+        resources: [...currentValue.resources, ...accumulator.resources],
         totalCount: currentValue.totalCount + accumulator.totalCount,
       }));
+      const resources = result.resources.slice(0, pageSize);
       return {
         ...group,
         items: replaceItems
-          ? mapResourcesToItems(result.resources, ltiData, isLti, t)
+          ? mapResourcesToItems(resources, ltiData, isLti, t)
           : [
               ...group.items,
-              ...mapResourcesToItems(result.resources, ltiData, isLti, t),
-            ],
-        resourceTypes: newSearch
-          ? [...new Set(getResourceTypeFilters(result.resources))]
-          : [
-              ...new Set([
-                ...group.resourceTypes,
-                ...getResourceTypeFilters(result.resources),
-              ]),
+              ...mapResourcesToItems(resources, ltiData, isLti, t),
             ],
         totalCount: result.totalCount,
       };
