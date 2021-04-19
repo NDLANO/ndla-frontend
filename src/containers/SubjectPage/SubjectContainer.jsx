@@ -135,17 +135,13 @@ const SubjectContainer = ({
       typename: 'Subjecttype',
       url: programme.url,
     },*/
-    ...(filter.length > 0
-      ? [
-          {
-            id: filter.id,
-            label: subjectNames.name,
-            typename: 'Subject',
-            url: '#',
-            isCurrent: currentLevel === 'Subject',
-          },
-        ]
-      : []),
+    {
+      id: subjectId,
+      label: subjectNames.name,
+      typename: 'Subject',
+      url: '#',
+      isCurrent: currentLevel === 'Subject',
+    },
     ...(breadCrumbList.length > 0
       ? breadCrumbList.map(crumb => ({
           ...crumb,
