@@ -1723,10 +1723,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-0.0.8.tgz#89e8531cc6bffd0b205da36c8f31cad4fe5dce83"
   integrity sha512-VrYGIt9iKNRrc/uH03XnMrxogPrma70PskdT3dpWg7l3UrkIpcvOZP07S03zgd5nfg4idjVRi/PIXt6ZdsBIiw==
 
-"@ndla/scripts@^0.7.6":
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.6.tgz#a29eea4222d50a273ca3ea01bb9950e25552d766"
-  integrity sha512-P0vCg1mMmJL71Idi99YB8kqqXRGkfMxf0CcB/Qc+fFMUEKNCjpJo6+Icd0bE/gYGh6bYtnNXdsXLz9h9nE8E3w==
+"@ndla/scripts@^0.7.7":
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.7.tgz#098aeb2fd1a736e9d99099276538d0e44ce5ea06"
+  integrity sha512-8vvPmHj7vzglheQABjQEW7pzL8fEA5Qq7KUCSQgMono7mHGKpM59WjpeU+hHsIUWVjJVZdPy0mA9S5r8HRuEGA==
   dependencies:
     cross-spawn "^6.0.5"
     cross-spawn-promise "^0.10.1"
@@ -1751,10 +1751,10 @@
     "@ndla/util" "^0.4.5"
     react-tabs "^3.0.0"
 
-"@ndla/tooltip@^0.2.38":
-  version "0.2.38"
-  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.38.tgz#d201c593b41e1177c98dfc6c7e68c3be1581dd9c"
-  integrity sha512-ng/UI8pJRwOv182cm+59OzWhWR4Ez0N2B4PZsC2NSM5NH179F9Be2i6TOvTz//a5t26io7XXWUcwbpMZ/her+w==
+"@ndla/tooltip@^0.2.39":
+  version "0.2.39"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.39.tgz#32346b1eee3c0c49161e1666fee6ddf397edb9bc"
+  integrity sha512-uIhUcjCF8ui64eopTFUFoD+vZ+IFWFLbhUyMEOluku7l5xyHNwPWVc2dHQQqKWcpo4V1xJGcy1k2QY2V+UZ4xA==
   dependencies:
     "@ndla/core" "^0.6.38"
 
@@ -1765,10 +1765,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.33.4":
-  version "0.33.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.33.4.tgz#8d3b60988fb1b615a55819a349c0404c839107d9"
-  integrity sha512-Q661Cg4fGI3N9Ac1dsxfNADzWNK8P+naaCYjh+tRFxstXiXIX9TM79JApuQ/bD9M0340LMebf5SDRuWPoH1K3w==
+"@ndla/ui@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.34.0.tgz#b9700f1c9155b0f6051223cc1ad6b0dab89d2ab6"
+  integrity sha512-09xDO/OyORXP/3D/09PiHNAoduhMlF4Dp3B5BtodNM6EDecDjcWM6fjD2RVcTeXmnVFewzUzO2Oc0VQaNs4ARQ==
   dependencies:
     "@ndla/button" "^0.3.53"
     "@ndla/carousel" "^0.3.39"
@@ -1781,7 +1781,7 @@
     "@ndla/safelink" "^0.0.8"
     "@ndla/switch" "^0.0.27"
     "@ndla/tabs" "^0.11.48"
-    "@ndla/tooltip" "^0.2.38"
+    "@ndla/tooltip" "^0.2.39"
     "@ndla/util" "^0.4.5"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"

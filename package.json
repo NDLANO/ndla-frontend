@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
-    "@ndla/scripts": "^0.7.6",
+    "@ndla/scripts": "^0.7.7",
     "@types/express": "^4.17.11",
     "@types/helmet": "0.0.48",
     "@types/history": "^4.7.8",
@@ -101,7 +101,7 @@
     "@ndla/safelink": "^0.0.8",
     "@ndla/tabs": "^0.11.48",
     "@ndla/tracker": "^0.4.4",
-    "@ndla/ui": "^0.33.4",
+    "@ndla/ui": "^0.34.0",
     "@ndla/util": "^0.4.5",
     "@ndla/zendesk": "^0.2.39",
     "babel-plugin-graphql-tag": "^2.5.0",
