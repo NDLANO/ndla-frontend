@@ -14,16 +14,16 @@ import { SearchResultList, OneColumn } from '@ndla/ui';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 import { GQLTopic } from '../../../graphqlTypes';
 
-const convertTopicToResult = (topic: any) => {
+const convertTopicToResult = (topic: GQLTopic) => {
   return {
-    metaImage: topic.meta.metaImage,
+    metaImage: topic.meta?.metaImage,
     title: topic.name,
     url: topic.path,
     id: topic.id,
-    ingress: topic.meta.metaDescription,
-    subjects: topic.breadcrumbs?.map((crumb: string[]) => ({
+    ingress: topic.meta?.metaDescription,
+    subjects: topic.breadcrumbs?.map(crumb => ({
       url: topic.path,
-      title: crumb[0],
+      title: crumb?.[0],
       breadcrumb: crumb,
     })),
     contentType: 'topic',
