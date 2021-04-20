@@ -271,6 +271,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             <a
               className="emotion-8 emotion-9"
               href="https://ndla.no"
+              target="_blank"
             >
               NDLA
             </a>

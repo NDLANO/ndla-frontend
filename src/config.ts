@@ -92,11 +92,6 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
-const ndlaFilmArticleType = getEnvironmentVariabel(
-  'NDLA_FILM_ARTICLE_TYPE',
-  'topic-article',
-);
-
 export interface ConfigType {
   [key: string]: string | boolean | undefined;
 }
@@ -104,7 +99,6 @@ export interface ConfigType {
 const config: ConfigType = {
   componentName: 'ndla-frontend',
   ndlaEnvironment,
-  ndlaFilmArticleType,
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),

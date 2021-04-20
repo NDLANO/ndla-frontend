@@ -61,12 +61,6 @@ const SearchPage = ({ location, locale, history, t }) => {
     return null;
   }
 
-  const allSubjects =
-    data.subjects?.map(subject => ({
-      title: subject.name,
-      value: subject.id,
-    })) || [];
-
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
@@ -75,7 +69,8 @@ const SearchPage = ({ location, locale, history, t }) => {
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjects={searchParams.subjects}
-          allSubjects={allSubjects}
+          filters={[...searchParams.filters, ...searchParams.levels]}
+          programmes={searchParams.programs}
           subjectItems={subjectItems}
           concepts={conceptData?.conceptSearch}
           resourceTypes={data.resourceTypes}

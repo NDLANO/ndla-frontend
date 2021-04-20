@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Remarkable } from 'remarkable';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -38,6 +39,13 @@ const Topic = ({
   data,
 }) => {
   const [showContent, setShowContent] = useState(false);
+  const markdown = useMemo(() => {
+    const md = new Remarkable({ breaks: true });
+    md.inline.ruler.enable(['sub', 'sup']);
+    md.block.ruler.disable(['list']);
+    return md;
+  }, []);
+  const renderMarkdown = text => markdown.render(text);
 
   useEffect(() => {
     setShowContent(false);
@@ -62,8 +70,9 @@ const Topic = ({
     <>
       <NavigationTopicAbout
         heading={topic.name}
-        ingress={topic.article?.introduction}
+        introduction={topic.article?.introduction}
         showContent={showContent}
+        renderMarkdown={renderMarkdown}
         invertedStyle={ndlaFilm}
         onToggleShowContent={() => setShowContent(!showContent)}
         isLoading={false}

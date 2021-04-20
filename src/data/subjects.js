@@ -1719,7 +1719,23 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_62',
   },
+  {
+    filters: ['urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452'],
+    longName: {
+      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
+    },
+    name: {
+      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:331f077e-04a3-4340-94d7-b6a463bab9e5',
+    id: 'programme_subject_63',
+  },
 ];
+
 export const studySpecializationSubjects = [
   {
     name: {

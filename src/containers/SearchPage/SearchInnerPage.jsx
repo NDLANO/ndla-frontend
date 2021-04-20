@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -19,9 +19,9 @@ import {
 import {
   getTypeFilter,
   updateSearchGroups,
-  sortSearchGroups,
   convertSearchParam,
   converSearchStringToObject,
+  convertProgramSearchParams,
   getTypeParams,
 } from './searchHelpers';
 import { resourceTypeMapping } from '../../util/getContentType';
@@ -43,14 +43,13 @@ const initalParams = {
   types: null,
 };
 
-let newSearch = true;
-
 const SearchInnerPage = ({
   t,
   handleSearchParamsChange,
   query,
   subjects,
-  allSubjects,
+  filters,
+  programmes,
   subjectItems,
   concepts,
   resourceTypes,
@@ -59,47 +58,46 @@ const SearchInnerPage = ({
   ltiData,
   isLti,
 }) => {
-  const [currentSubjectType, setCurrentSubjectType] = useState(null);
   const [replaceItems, setReplaceItems] = useState(true);
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
 
-  useEffect(() => {
-    setParams(initalParams);
-    setTypeFilter(getTypeFilter(resourceTypes));
-    newSearch = true;
-  }, [query, JSON.stringify(subjects)]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti
     ? {
         query,
-        subjects: subjects.length ? subjects.join() : undefined,
+        subjects: convertSearchParam([
+          ...subjects,
+          ...convertProgramSearchParams(programmes, locale).subjects,
+        ]),
+        filters: convertSearchParam(filters),
       }
-    : getStateSearchParams(searchParams);
+    : getStateSearchParams(searchParams, locale);
 
+  const newSearch = !params.types;
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
+      levels: stateSearchParams.filters,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),
+      aggregatePaths: ['contexts.resourceTypes.id'],
     },
     onCompleted: data => {
       setSearchGroups(
-        sortSearchGroups(
-          updateSearchGroups(
-            data.groupSearch,
-            searchGroups,
-            resourceTypes,
-            replaceItems,
-            newSearch,
-            ltiData,
-            isLti,
-            t,
-          ),
+        updateSearchGroups(
+          data.groupSearch,
+          searchGroups,
+          resourceTypes,
+          params.pageSize,
+          replaceItems,
+          newSearch,
+          ltiData,
+          isLti,
+          t,
         ),
       );
       resetLoading();
@@ -107,7 +105,6 @@ const SearchInnerPage = ({
       if (newSearch) {
         setShowConcepts(true);
       }
-      newSearch = false;
     },
   });
 
@@ -122,9 +119,16 @@ const SearchInnerPage = ({
     setTypeFilter(filterUpdate);
   };
 
-  const hasActiveFilters = type =>
-    typeFilter[type].filters?.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
+  const resetSelected = () => {
+    const filterUpdate = { ...typeFilter };
+    for (const [key, value] of Object.entries(filterUpdate)) {
+      filterUpdate[key] = {
+        ...value,
+        selected: false,
+      };
+    }
+    setTypeFilter(filterUpdate);
+  };
 
   const updateTypeFilter = (type, updates) => {
     const filterUpdate = { ...typeFilter };
@@ -134,6 +138,10 @@ const SearchInnerPage = ({
     };
     setTypeFilter(filterUpdate);
   };
+
+  const hasActiveFilters = type =>
+    typeFilter[type].filters?.length &&
+    !typeFilter[type].filters.find(f => f.id === 'all').active;
 
   const handleFilterClick = (type, filterId) => {
     updateTypeFilter(type, { page: 1, loading: true });
@@ -166,32 +174,35 @@ const SearchInnerPage = ({
     }
   };
 
-  const handleSetSubjectType = type => {
-    if (type === 'ALL') {
-      setCurrentSubjectType(null);
-      setParams({
-        page: 1,
-        pageSize: 4,
-        types: null,
-      });
-    } else {
-      setCurrentSubjectType(type);
-      updateTypeFilter(type, {
-        page: 1,
-        ...(type !== currentSubjectType && { loading: true }),
-      });
-      setParams(prevState => ({
-        page: 1,
-        pageSize: 8,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : resourceTypeMapping[type] || type,
-      }));
-    }
+  const handleFilterReset = () => {
+    resetSelected();
+    setTypeFilter(getTypeFilter(resourceTypes));
+    setParams({
+      page: 1,
+      pageSize: 4,
+      types: null,
+    });
+  };
+
+  const handleFilterToggle = type => {
+    const pageSize = typeFilter[type].selected ? 4 : 8;
+    updateTypeFilter(type, {
+      page: 1,
+      pageSize,
+      loading: false,
+      selected: !typeFilter[type].selected,
+    });
+    setParams(prevState => ({
+      page: 1,
+      pageSize,
+      types: hasActiveFilters(type)
+        ? prevState.types
+        : resourceTypeMapping[type] || type,
+    }));
   };
 
   const handleShowMore = type => {
-    const pageSize = currentSubjectType ? 8 : 4;
+    const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, { page, loading: true });
     setReplaceItems(false);
@@ -205,6 +216,11 @@ const SearchInnerPage = ({
     }));
   };
 
+  const handleNewSearch = () => {
+    setParams(initalParams);
+    setTypeFilter(getTypeFilter(resourceTypes));
+  };
+
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
@@ -214,23 +230,29 @@ const SearchInnerPage = ({
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
       ?.text;
 
+  const showAll = !Object.values(typeFilter).some(value => value.selected);
+
   return (
     <SearchContainer
       handleSearchParamsChange={handleSearchParamsChange}
       handleFilterClick={handleFilterClick}
+      handleFilterToggle={handleFilterToggle}
+      handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      handleSetSubjectType={handleSetSubjectType}
+      handleNewSearch={handleNewSearch}
+      subjects={subjects}
+      filters={filters}
+      programmes={programmes}
       suggestion={suggestion}
       concepts={concepts}
       query={query}
-      subjects={subjects}
-      allSubjects={allSubjects}
       subjectItems={subjectItems}
-      currentSubjectType={currentSubjectType}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
       showConcepts={showConcepts}
       setShowConcepts={setShowConcepts}
+      showAll={showAll}
+      locale={locale}
     />
   );
 };
@@ -240,12 +262,8 @@ SearchInnerPage.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
-  allSubjects: arrayOf(
-    shape({
-      title: string,
-      value: string,
-    }),
-  ),
+  filters: arrayOf(string),
+  programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
   resourceTypes: arrayOf(
