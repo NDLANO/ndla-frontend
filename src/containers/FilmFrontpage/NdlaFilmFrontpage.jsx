@@ -71,7 +71,7 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
 
   const transformMoviesByType = movie => {
     const contexts = movie.contexts.filter(
-      context => context.learningResourceType === contextType,
+      context => context.learningResourceType === 'standard',
     );
 
     const { path } = contexts.length > 0 ? contexts[0] : {};
