@@ -965,7 +965,23 @@ export const commonSubjects = [
     subjectId: 'urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6',
     id: 'common_subject_64',
   },
+  {
+    filters: [],
+    longName: {
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
+    },
+    name: {
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
+    },
+    subjectId: 'urn:subject:20',
+    id: 'common_subject_65',
+  },
 ];
+
 export const programmeSubjects = [
   {
     name: {
@@ -1802,21 +1818,6 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:6',
     id: 'programme_subject_62',
   },
-  {
-    filters: ['urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452'],
-    longName: {
-      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
-    },
-    name: {
-      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:331f077e-04a3-4340-94d7-b6a463bab9e5',
-    id: 'programme_subject_63',
-  },
 ];
 
 export const studySpecializationSubjects = [
@@ -2286,6 +2287,228 @@ export const archivedSubjects = [
   },
 ];
 
+export const betaSubjects = [
+  {
+    filters: ['urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452'],
+    longName: {
+      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
+    },
+    name: {
+      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:331f077e-04a3-4340-94d7-b6a463bab9e5',
+    id: 'beta_subject_1',
+  },
+  {
+    filters: ['urn:filter:9c50184f-6e9c-4229-a328-c7490b6dad37'],
+    longName: {
+      en: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    name: {
+      en: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    id: 'beta_subject_2',
+  },
+  {
+    filters: ['urn:filter:1b7155ae-9670-4972-b438-fd1375875ac1'],
+    longName: {
+      en: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Helsefremjande arbeid - 2021 BETA',
+    },
+    name: {
+      en: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Helsefremjande arbeid - 2021 BETA',
+    },
+    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    id: 'beta_subject_3',
+  },
+  {
+    filters: ['urn:filter:18fa6a42-a5d2-44d9-bf47-e772a83d82f4'],
+    longName: {
+      en: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+    },
+    name: {
+      en: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+    },
+    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    id: 'beta_subject_4',
+  },
+  {
+    filters: ['urn:filter:f644f829-4e7a-4e74-a63a-342ef786f68a'],
+    longName: {
+      en: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+    },
+    name: {
+      en: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      nb: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      nn: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+    },
+    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    id: 'beta_subject_5',
+  },
+  {
+    filters: ['urn:filter:87aecb77-cd9d-4679-8c6f-043e9f8046f9'],
+    longName: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    name: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    id: 'beta_subject_6',
+  },
+  {
+    filters: ['urn:filter:56ea35da-73d9-431f-a451-19f24f564f59'],
+    longName: {
+      en: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      nb: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      nn: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+    },
+    name: {
+      en: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      nb: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      nn: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+    },
+    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    id: 'beta_subject_7',
+  },
+  {
+    filters: ['urn:filter:793027a5-0b4c-42c1-a2aa-840aaf9f8083'],
+    longName: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+    },
+    name: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+    },
+    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    id: 'beta_subject_8',
+  },
+  {
+    filters: ['urn:filter:03e810db-3560-47b5-a5f6-e7afe1d0a2d6'],
+    longName: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+    },
+    name: {
+      en:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      nb:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      nn:
+        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+    },
+    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    id: 'beta_subject_9',
+  },
+  {
+    filters: ['urn:filter:485b4813-89ff-4404-b9dc-f37c22d48de5'],
+    longName: {
+      en: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    name: {
+      en: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nb: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
+      nn: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+    },
+    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    id: 'beta_subject_10',
+  },
+  {
+    filters: ['urn:filter:9e515764-0ce6-49d5-8ecd-1cde8b08a33f'],
+    longName: {
+      en:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      nb:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      nn:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+    },
+    name: {
+      en:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      nb:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      nn:
+        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+    },
+    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    id: 'beta_subject_11',
+  },
+  {
+    filters: ['urn:filter:09410bfa-5b0d-470b-8727-5006e711bc1f'],
+    longName: {
+      en: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      nb: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      nn: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+    },
+    name: {
+      en: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      nb: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      nn: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+    },
+    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    id: 'beta_subject_12',
+  },
+  {
+    filters: ['urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417'],
+    longName: {
+      en: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+      nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+      nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+      nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+      nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5',
+    id: 'beta_subject_12',
+  },
+];
+
 export const subjectsCategories = [
   {
     name: {
@@ -2319,6 +2542,14 @@ export const subjectsCategories = [
     },
     subjects: archivedSubjects,
   },
+  {
+    name: {
+      nb: 'Betafag',
+      nn: 'Betafag',
+      en: 'Betafag',
+    },
+    subjects: betaSubjects,
+  },
 ];
 
 let subjectsIdx;
@@ -2331,6 +2562,7 @@ export const subjectObjectIds = () => {
       ...studySpecializationSubjects,
       ...multidisciplinarySubjects,
       ...archivedSubjects,
+      ...betaSubjects,
     ];
 
     subjectsIdx = subjects.reduce((obj, item) => {
@@ -2352,6 +2584,7 @@ export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
     ...programmeSubjects,
     ...studySpecializationSubjects,
     ...archivedSubjects,
+    ...betaSubjects,
   ];
 
   return subjects.find(subject => {
