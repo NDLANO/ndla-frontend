@@ -2585,14 +2585,20 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd'],
     longName: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      en:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nb:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nn:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
     },
     name: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      en:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nb:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nn:
+        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_19',
@@ -2600,14 +2606,20 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:e15e4240-1d05-4398-b63b-2177815eb61a'],
     longName: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      en:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nb:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nn:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
     },
     name: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      en:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nb:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nn:
+        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_20',
