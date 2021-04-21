@@ -27,14 +27,14 @@ interface Props {
   children?: ReactNode;
 }
 
-export const Page = ({
+export const Page: React.FC<Props & tType> = ({
   children,
   background = true,
   locale,
   t,
   ndlaFilm,
   location,
-}: Props & tType) => (
+}) => (
   <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
     <Helmet
       htmlAttributes={{ lang: locale }}

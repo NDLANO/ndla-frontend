@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';

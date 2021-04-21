@@ -10,5 +10,13 @@
     ],
     "react/prop-types": [2, { "ignore": ["children", "className", "t"] }]
   },
-  "plugins": ["graphql"]
+  "plugins": ["graphql"],
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 }
