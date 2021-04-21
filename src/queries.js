@@ -693,7 +693,7 @@ const learningpathInfoFragment = gql`
       }
       resource {
         ...ResourceInfo
-        article(removeRelatedContent: "true") {
+        article(isOembed: "true") {
           ...ArticleInfo
         }
       }
