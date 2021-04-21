@@ -105,7 +105,7 @@ MultidisciplinaryTopic.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 MultidisciplinaryTopic.getDimensions = props => {
-  const { filterIds, data, locale, subject } = props;
+  const { data, locale, subject } = props;
   const topicPath = data.topic.path
     .split('/')
     .slice(2)
@@ -113,10 +113,7 @@ MultidisciplinaryTopic.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
-    subject.id,
-    filterIds.split(','),
-  );
+  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(subject.id, []);
   const longName = subjectBySubjectIdFiltes?.longName[locale];
 
   return getAllDimensions(
