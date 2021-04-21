@@ -77,7 +77,9 @@ Document.propTypes = {
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
-    polyfill: PropTypes.shape({ src: PropTypes.string.isRequired }),
+    polyfill: PropTypes.shape({
+      src: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+    }),
   }).isRequired,
   css: PropTypes.string,
   ids: PropTypes.arrayOf(PropTypes.string),
