@@ -2505,7 +2505,172 @@ export const betaSubjects = [
       nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
     },
     subjectId: 'urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5',
-    id: 'beta_subject_12',
+    id: 'beta_subject_13',
+  },
+  {
+    filters: ['urn:filter:ff69c291-6374-4766-80c2-47d5840d8bbf'],
+    longName: {
+      en: 'Historie Vg2 - 2021 BETA',
+      nb: 'Historie Vg2 - 2021 BETA',
+      nn: 'Historie Vg2 - 2021 BETA',
+    },
+    name: {
+      en: 'Historie Vg2 - 2021 BETA',
+      nb: 'Historie Vg2 - 2021 BETA',
+      nn: 'Historie Vg2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:ada003d8-1ae7-4e19-982e-34bf7e8868de',
+    id: 'beta_subject_14',
+  },
+  {
+    filters: ['urn:filter:fb6ad516-0108-4059-acc3-3c5f13f49368'],
+    longName: {
+      en: 'Sosiologi og sosialantropologi - 2021 BETA',
+      nb: 'Sosiologi og sosialantropologi - 2021 BETA',
+      nn: 'Sosiologi og sosialantropologi - 2021 BETA',
+    },
+    name: {
+      en: 'Sosiologi og sosialantropologi - 2021 BETA',
+      nb: 'Sosiologi og sosialantropologi - 2021 BETA',
+      nn: 'Sosiologi og sosialantropologi - 2021 BETA',
+    },
+    subjectId: 'urn:subject:39ec57c0-d11c-42be-a17b-e73813597be0',
+    id: 'beta_subject_15',
+  },
+  {
+    filters: ['urn:filter:47678c7b-bc09-4fc8-b2d9-a2e3d709e105'],
+    longName: {
+      en: 'Markedsføring og ledelse 1 - 2021 BETA',
+      nb: 'Markedsføring og ledelse 1 - 2021 BETA',
+      nn: 'Markedsføring og ledelse 1 - 2021 BETA',
+    },
+    name: {
+      en: 'Markedsføring og ledelse 1 - 2021 BETA',
+      nb: 'Markedsføring og ledelse 1 - 2021 BETA',
+      nn: 'Markedsføring og ledelse 1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:be55024d-278b-4b55-97de-832ac6a514ea',
+    id: 'beta_subject_16',
+  },
+  {
+    filters: ['urn:filter:af71d86b-3464-4f35-a704-b21ebd556863'],
+    longName: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+    },
+    name: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+    },
+    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    id: 'beta_subject_17',
+  },
+  {
+    filters: ['urn:filter:14fadc31-9799-4e46-ae3b-8294957e4d26'],
+    longName: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+    },
+    name: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+    },
+    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    id: 'beta_subject_18',
+  },
+  {
+    filters: ['urn:filter:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd'],
+    longName: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+    },
+    name: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+    },
+    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    id: 'beta_subject_19',
+  },
+  {
+    filters: ['urn:filter:e15e4240-1d05-4398-b63b-2177815eb61a'],
+    longName: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+    },
+    name: {
+      en: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nb: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      nn: 'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+    },
+    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    id: 'beta_subject_20',
+  },
+  {
+    filters: ['urn:filter:69c829b0-50f5-4944-bcaf-309da101a3d4'],
+    longName: {
+      en: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+    },
+    name: {
+      en: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+    },
+    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    id: 'beta_subject_21',
+  },
+  {
+    filters: ['urn:filter:59a988c6-4020-4e70-8329-4de68a19b6fe'],
+    longName: {
+      en: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+    },
+    name: {
+      en: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+    },
+    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    id: 'beta_subject_22',
+  },
+  {
+    filters: ['urn:filter:a7c337ca-d3b6-492f-ace2-b05c45f54e93'],
+    longName: {
+      en: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+    },
+    name: {
+      en: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+    },
+    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    id: 'beta_subject_23',
+  },
+  {
+    filters: ['urn:filter:4aef7156-a5ae-4476-8e81-6d2a4842143a'],
+    longName: {
+      en: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+    },
+    name: {
+      en: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      nb: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      nn: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+    },
+    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    id: 'beta_subject_24',
   },
 ];
 
