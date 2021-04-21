@@ -39,6 +39,7 @@ import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
 // @ts-ignore
 import { generateOauthData } from './helpers/oauthHelper';
 
+// @ts-ignore
 global.fetch = fetch;
 const app = express();
 const allowedBodyContentTypes = [
