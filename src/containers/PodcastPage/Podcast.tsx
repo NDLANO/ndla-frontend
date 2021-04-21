@@ -22,7 +22,7 @@ interface Props {
   locale: LocaleType;
 }
 
-const Podcast: React.FC<tType & Props> = ({ podcast, t, locale }) => {
+const Podcast = ({ podcast, t, locale }: tType & Props) => {
   const license =
     podcast.copyright?.license &&
     getLicenseByAbbreviation(podcast.copyright?.license?.license, locale);

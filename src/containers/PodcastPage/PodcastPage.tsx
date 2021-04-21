@@ -22,15 +22,13 @@ interface PodcastQuery {
   podcast: Audio;
 }
 
-const PodcastPage: React.FC<Props &
-  tType &
-  RouteComponentProps<RouteParams>> = ({
+const PodcastPage = ({
   match: {
     params: { id },
   },
   locale,
   t,
-}) => {
+}: Props & tType & RouteComponentProps<RouteParams>) => {
   const { error, loading, data: { podcast } = {} } = useQuery<PodcastQuery>(
     podcastQuery,
     {

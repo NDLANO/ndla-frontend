@@ -27,12 +27,12 @@ interface Props {
   locale: LocaleType;
 }
 
-const PodcastListPage: React.FC<Props & tType & RouteComponentProps> = ({
+const PodcastListPage = ({
   locale,
   location,
   history,
   t,
-}) => {
+}: Props & tType & RouteComponentProps) => {
   const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
     podcastSearchQuery,
     {
