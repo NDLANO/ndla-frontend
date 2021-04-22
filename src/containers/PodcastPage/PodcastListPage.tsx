@@ -35,9 +35,6 @@ const PodcastListPage = ({
 }: Props & tType & RouteComponentProps) => {
   const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
     podcastSearchQuery,
-    {
-      fetchPolicy: 'no-cache',
-    },
   );
   const [totalCount, setTotalCount] = React.useState(0);
   const searchObject = queryString.parse(location.search);
