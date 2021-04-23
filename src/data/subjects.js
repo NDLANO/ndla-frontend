@@ -2306,14 +2306,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:9c50184f-6e9c-4229-a328-c7490b6dad37'],
     longName: {
-      en: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
     id: 'beta_subject_2',
@@ -2321,14 +2321,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:1b7155ae-9670-4972-b438-fd1375875ac1'],
     longName: {
-      en: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Helsefremjande arbeid - 2021 BETA',
+      en: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Helsefremmende arbeid - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Helsefremjande arbeid - 2021 BETA',
+      en: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
     id: 'beta_subject_3',
@@ -2336,14 +2336,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:18fa6a42-a5d2-44d9-bf47-e772a83d82f4'],
     longName: {
-      en: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      en: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      en: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
     id: 'beta_subject_4',
@@ -2351,14 +2351,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:f644f829-4e7a-4e74-a63a-342ef786f68a'],
     longName: {
-      en: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
-      nb: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
-      nn: 'Helsearbeiderfag Vg2 - Yrkesliv i helsearbeiderfag - 2021 BETA',
+      en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
+      nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
+      nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
     id: 'beta_subject_5',
@@ -2366,20 +2366,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:87aecb77-cd9d-4679-8c6f-043e9f8046f9'],
     longName: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
     id: 'beta_subject_6',
@@ -2387,14 +2381,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:56ea35da-73d9-431f-a451-19f24f564f59'],
     longName: {
-      en: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
-      nb: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
-      nn: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
-      nb: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
-      nn: 'Barne- og ungdomsarbeiderfag Vg2 - Pedagogisk arbeid - 2021 BETA',
+      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
     id: 'beta_subject_7',
@@ -2402,20 +2396,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:793027a5-0b4c-42c1-a2aa-840aaf9f8083'],
     longName: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Kommunikasjon og samhandling - 2021 BETA',
+      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
     id: 'beta_subject_8',
@@ -2423,20 +2411,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:03e810db-3560-47b5-a5f6-e7afe1d0a2d6'],
     longName: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
-      nb:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
-      nn:
-        'Barne- og ungdomsarbeiderfag Vg2 - Yrkesliv i barne- og ungdomsarbeiderfag - 2021 BETA',
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
+      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
     id: 'beta_subject_9',
@@ -2444,14 +2426,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:485b4813-89ff-4404-b9dc-f37c22d48de5'],
     longName: {
-      en: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nb: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordypning - 2021 BETA',
-      nn: 'Kokk- og servitørfag Vg2 - Yrkesfaglig fordjupning - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
     id: 'beta_subject_10',
@@ -2459,20 +2441,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:9e515764-0ce6-49d5-8ecd-1cde8b08a33f'],
     longName: {
-      en:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
-      nb:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
-      nn:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      en: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
-      nb:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
-      nn:
-        'Kokk- og servitørfag Vg2 - Råvare, produksjon, salg og service - 2021 BETA',
+      en: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
     id: 'beta_subject_11',
@@ -2480,14 +2456,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:09410bfa-5b0d-470b-8727-5006e711bc1f'],
     longName: {
-      en: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
-      nb: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
-      nn: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      en: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      nb: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      nn: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
     },
     name: {
-      en: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
-      nb: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
-      nn: 'Kokk- og servitørfag Vg2 - Bransje og arbeidsliv - 2021 BETA',
+      en: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      nb: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      nn: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
     id: 'beta_subject_12',
@@ -2555,14 +2531,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:af71d86b-3464-4f35-a704-b21ebd556863'],
     longName: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - YFF - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_17',
@@ -2570,14 +2546,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:14fadc31-9799-4e46-ae3b-8294957e4d26'],
     longName: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
-      nb: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
-      nn: 'Service, sikkerhet og administrasjon Vg2 - Sikkerhet - 2021 BETA',
+      en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_18',
@@ -2585,20 +2561,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd'],
     longName: {
-      en:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nb:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nn:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nb:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
-      nn:
-        'Service, sikkerhet og administrasjon Vg2 - Administrasjon og bærekraftig drift - 2021 BETA',
+      en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_19',
@@ -2606,20 +2576,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:e15e4240-1d05-4398-b63b-2177815eb61a'],
     longName: {
-      en:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nb:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nn:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
-      en:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nb:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
-      nn:
-        'Service, sikkerhet og administrasjon Vg2 - Kommunikasjon og yrkesutøvning - 2021 BETA',
+      en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_20',
@@ -2627,14 +2591,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:69c829b0-50f5-4944-bcaf-309da101a3d4'],
     longName: {
-      en: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - YFF - 2021 BETA',
+      en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_21',
@@ -2642,14 +2606,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:59a988c6-4020-4e70-8329-4de68a19b6fe'],
     longName: {
-      en: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      en: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Forretningsdrift - 2021 BETA',
+      en: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_22',
@@ -2657,14 +2621,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:a7c337ca-d3b6-492f-ace2-b05c45f54e93'],
     longName: {
-      en: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Innovasjon og markedsføring - 2021 BETA',
+      en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_23',
@@ -2672,14 +2636,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:4aef7156-a5ae-4476-8e81-6d2a4842143a'],
     longName: {
-      en: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      en: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
-      nb: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
-      nn: 'Salg og reiseliv Vg2 - Kultur og kommunikasjon - 2021 BETA',
+      en: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
+      nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_24',
