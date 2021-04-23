@@ -2456,14 +2456,14 @@ export const betaSubjects = [
   {
     filters: ['urn:filter:09410bfa-5b0d-470b-8727-5006e711bc1f'],
     longName: {
-      en: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
-      nb: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
-      nn: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      en: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
-      nb: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
-      nn: 'Bransje og arbeidsliv (RM-KOSVg2) - 2021 BETA',
+      en: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
+      nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
+      nn: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
     id: 'beta_subject_12',
