@@ -2648,6 +2648,36 @@ export const betaSubjects = [
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_24',
   },
+  {
+    filters: ['urn:filter:50dfc86d-6566-4a45-a531-d32b82e8bfa1'],
+    longName: {
+      en: 'Norsk SF Vg2 - 2021 BETA',
+      nb: 'Norsk SF Vg2 - 2021 BETA',
+      nn: 'Norsk SF Vg2 - 2021 BETA',
+    },
+    name: {
+      en: 'Norsk SF Vg2 - 2021 BETA',
+      nb: 'Norsk SF Vg2 - 2021 BETA',
+      nn: 'Norsk SF Vg2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
+    id: 'beta_subject_25',
+  },
+  {
+    filters: ['urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5'],
+    longName: {
+      en: 'Norsk YF Vg2 - 2021 BETA',
+      nb: 'Norsk YF Vg2 - 2021 BETA',
+      nn: 'Norsk YF Vg2 - 2021 BETA',
+    },
+    name: {
+      en: 'Norsk YF Vg2 - 2021 BETA',
+      nb: 'Norsk YF Vg2 - 2021 BETA',
+      nn: 'Norsk YF Vg2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
+    id: 'beta_subject_26',
+  },
 ];
 
 export const subjectsCategories = [
