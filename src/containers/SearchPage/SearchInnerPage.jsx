@@ -185,20 +185,28 @@ const SearchInnerPage = ({
   };
 
   const handleFilterToggle = type => {
-    const pageSize = typeFilter[type].selected ? 4 : 8;
-    updateTypeFilter(type, {
-      page: 1,
-      pageSize,
-      loading: false,
-      selected: !typeFilter[type].selected,
-    });
-    setParams(prevState => ({
-      page: 1,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
+    if (typeFilter[type].selected) {
+      setTypeFilter(getTypeFilter(resourceTypes));
+      setParams({
+        page: 1,
+        pageSize: 4,
+        types: resourceTypeMapping[type] || type,
+      });
+    } else {
+      updateTypeFilter(type, {
+        page: 1,
+        pageSize: 8,
+        loading: false,
+        selected: true,
+      });
+      setParams(prevState => ({
+        page: 1,
+        pageSize: 8,
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
+      }));
+    }
   };
 
   const handleShowMore = type => {
