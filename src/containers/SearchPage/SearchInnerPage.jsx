@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -64,6 +64,12 @@ const SearchInnerPage = ({
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
 
+  useEffect(() => {
+    setParams(initalParams);
+    setTypeFilter(getTypeFilter(resourceTypes));
+    setShowConcepts(true);
+  }, [query, resourceTypes]);
+
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti
     ? {
@@ -102,9 +108,6 @@ const SearchInnerPage = ({
       );
       resetLoading();
       setReplaceItems(true);
-      if (newSearch) {
-        setShowConcepts(true);
-      }
     },
   });
 
@@ -196,7 +199,7 @@ const SearchInnerPage = ({
       updateTypeFilter(type, {
         page: 1,
         pageSize: 8,
-        loading: false,
+        loading: true,
         selected: true,
       });
       setParams(prevState => ({
@@ -224,11 +227,6 @@ const SearchInnerPage = ({
     }));
   };
 
-  const handleNewSearch = () => {
-    setParams(initalParams);
-    setTypeFilter(getTypeFilter(resourceTypes));
-  };
-
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
@@ -247,7 +245,6 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      handleNewSearch={handleNewSearch}
       subjects={subjects}
       filters={filters}
       programmes={programmes}
