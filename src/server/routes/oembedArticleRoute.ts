@@ -54,7 +54,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
     const articleId = getArticleIdFromResource(topic);
     return {
       title: topic.name,
-      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -62,7 +62,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
   const articleId = getArticleIdFromResource(resource);
   return {
     title: resource.name,
-    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
   };
 };
 
@@ -95,7 +95,7 @@ export async function oembedArticleRoute(req: express.Request) {
       return getOembedObject(
         req,
         article.title,
-        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" frameborder="0" allowFullscreen="" />`,
       );
     }
     const { html, title } = await getHTMLandTitle(match);

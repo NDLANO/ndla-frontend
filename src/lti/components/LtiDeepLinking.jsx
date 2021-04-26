@@ -33,7 +33,7 @@ const getLtiPostData = async (ltiData, item = {}) => {
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
-  const iframeurl = `${baseUrl}/article-iframe/article/${item.id}?removeRelatedContent=true`;
+  const iframeurl = `${baseUrl}/article-iframe/article/${item.id}`;
   const postData = {
     oauth_callback: ltiData.oauth_callback || '',
     oauth_consumer_key: ltiData.oauth_consumer_key || 'key',
