@@ -40,7 +40,7 @@ const PlainArticlePage = ({
   },
 }) => {
   const { loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, removeRelatedContent: 'true' },
+    variables: { articleId, isOembed: 'false' },
   });
 
   useEffect(() => {

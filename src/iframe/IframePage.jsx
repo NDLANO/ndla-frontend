@@ -42,11 +42,11 @@ export const IframePage = ({
   resourceTypes,
   location,
   articleId,
-  removeRelatedContent,
+  isOembed,
   isTopicArticle,
 }) => {
   const { error, loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, removeRelatedContent },
+    variables: { articleId, isOembed },
   });
 
   if (status !== 'success' || error) {
@@ -87,7 +87,7 @@ IframePage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
-  removeRelatedContent: PropTypes.string,
+  isOembed: PropTypes.string,
   isTopicArticle: PropTypes.bool,
 };
 
