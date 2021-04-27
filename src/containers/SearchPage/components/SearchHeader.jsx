@@ -44,7 +44,6 @@ const SearchHeader = ({
   subjects,
   filters,
   handleSearchParamsChange,
-  handleNewSearch,
   locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
@@ -82,7 +81,6 @@ const SearchHeader = ({
       subjects.push(subjectId);
       filters.push(subjectFilters[0]);
     });
-    handleNewSearch();
     handleSearchParamsChange({
       subjects,
       filters,
@@ -105,7 +103,6 @@ const SearchHeader = ({
 
   const handleSearchSubmit = e => {
     e.preventDefault();
-    handleNewSearch();
     handleSearchParamsChange({ query: searchValue });
   };
 

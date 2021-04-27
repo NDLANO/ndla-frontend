@@ -32,7 +32,6 @@ const SearchContainer = ({
   handleFilterToggle,
   handleFilterReset,
   handleShowMore,
-  handleNewSearch,
   query,
   subjects,
   filters,
@@ -77,7 +76,6 @@ const SearchContainer = ({
         filters={filters}
         programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
-        handleNewSearch={handleNewSearch}
         locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
@@ -126,7 +124,6 @@ SearchContainer.propTypes = {
   handleFilterToggle: func,
   handleFilterReset: func,
   handleShowMore: func,
-  handleNewSearch: func,
   query: string,
   subjects: arrayOf(string),
   filters: arrayOf(string),

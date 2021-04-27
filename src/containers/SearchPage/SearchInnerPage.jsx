@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -64,6 +64,12 @@ const SearchInnerPage = ({
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
 
+  useEffect(() => {
+    setParams(initalParams);
+    setTypeFilter(getTypeFilter(resourceTypes));
+    setShowConcepts(true);
+  }, [query, resourceTypes]);
+
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = isLti
     ? {
@@ -102,9 +108,6 @@ const SearchInnerPage = ({
       );
       resetLoading();
       setReplaceItems(true);
-      if (newSearch) {
-        setShowConcepts(true);
-      }
     },
   });
 
@@ -185,20 +188,28 @@ const SearchInnerPage = ({
   };
 
   const handleFilterToggle = type => {
-    const pageSize = typeFilter[type].selected ? 4 : 8;
-    updateTypeFilter(type, {
-      page: 1,
-      pageSize,
-      loading: false,
-      selected: !typeFilter[type].selected,
-    });
-    setParams(prevState => ({
-      page: 1,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
+    if (typeFilter[type].selected) {
+      setTypeFilter(getTypeFilter(resourceTypes));
+      setParams({
+        page: 1,
+        pageSize: 4,
+        types: resourceTypeMapping[type] || type,
+      });
+    } else {
+      updateTypeFilter(type, {
+        page: 1,
+        pageSize: 8,
+        loading: true,
+        selected: true,
+      });
+      setParams(prevState => ({
+        page: 1,
+        pageSize: 8,
+        types: hasActiveFilters(type)
+          ? prevState.types
+          : resourceTypeMapping[type] || type,
+      }));
+    }
   };
 
   const handleShowMore = type => {
@@ -214,11 +225,6 @@ const SearchInnerPage = ({
         ? prevState.types
         : resourceTypeMapping[type] || type,
     }));
-  };
-
-  const handleNewSearch = () => {
-    setParams(initalParams);
-    setTypeFilter(getTypeFilter(resourceTypes));
   };
 
   if (error) {
@@ -239,7 +245,6 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      handleNewSearch={handleNewSearch}
       subjects={subjects}
       filters={filters}
       programmes={programmes}
