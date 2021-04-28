@@ -189,7 +189,7 @@ const SearchInnerPage = ({
 
   const handleFilterToggle = type => {
     if (typeFilter[type].selected) {
-      setTypeFilter(getTypeFilter(resourceTypes));
+      updateTypeFilter(type, { selected: false });
       setParams({
         page: 1,
         pageSize: 4,
