@@ -20,7 +20,7 @@ const IframePageContainer = ({
   resourceTypes,
   location,
   articleId,
-  removeRelatedContent,
+  isOembed,
   isTopicArticle,
 }) => (
   <IframePageWrapper basename={basename} locale={locale}>
@@ -30,7 +30,7 @@ const IframePageContainer = ({
       resourceTypes={resourceTypes}
       location={location}
       articleId={articleId}
-      removeRelatedContent={removeRelatedContent}
+      isOembed={isOembed}
       isTopicArticle={isTopicArticle}
     />
   </IframePageWrapper>
@@ -48,7 +48,7 @@ IframePageContainer.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
-  removeRelatedContent: PropTypes.string,
+  isOembed: PropTypes.string,
   isTopicArticle: PropTypes.bool,
 };
 

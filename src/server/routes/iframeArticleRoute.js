@@ -53,10 +53,6 @@ async function doRenderPage(initialProps) {
 
 export async function iframeArticleRoute(req) {
   const lang = defined(req.params.lang, '');
-  const removeRelatedContent = defined(
-    req.query.removeRelatedContent,
-    false,
-  ).toString();
   const htmlLang = getHtmlLang(lang);
   const locale = getLocaleObject(htmlLang);
   const { articleId, taxonomyId } = req.params;
@@ -67,7 +63,7 @@ export async function iframeArticleRoute(req) {
         basename: lang,
         locale,
         articleId,
-        removeRelatedContent,
+        isOembed: 'true',
         isTopicArticle: true,
         status: 'success',
         location,
@@ -81,7 +77,7 @@ export async function iframeArticleRoute(req) {
     const { html, docProps } = await doRenderPage({
       resourceTypes,
       articleId,
-      removeRelatedContent,
+      isOembed: 'true',
       basename: lang,
       locale,
       status: 'success',
