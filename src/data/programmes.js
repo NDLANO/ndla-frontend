@@ -71,6 +71,14 @@ export const programmes = [
         categories: [
           {
             name: {
+              nb: 'Vi har dessverre ikke programfagene enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
+              en: 'Vi har dessverre ikke programfagene enda.',
+            },
+            subjects: [],
+          },
+          {
+            name: {
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Fellesfag',
@@ -170,6 +178,14 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
+          {
+            name: {
+              nb: 'Vi har dessverre ikke programfagene enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
+              en: 'Vi har dessverre ikke programfagene enda.',
+            },
+            subjects: [],
+          },
           {
             name: {
               nb: 'Fellesfag',
@@ -504,7 +520,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -559,7 +575,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -632,7 +648,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -812,7 +828,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -870,7 +886,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -946,7 +962,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -1311,7 +1327,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -1366,7 +1382,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -1439,7 +1455,7 @@ export const programmes = [
           {
             name: {
               nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Me har diverre ikkje programfaga enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
               en: 'Vi har dessverre ikke programfagene enda.',
             },
             subjects: [],
@@ -1584,6 +1600,14 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
+          {
+            name: {
+              nb: 'Vi har dessverre ikke programfagene enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
+              en: 'Vi har dessverre ikke programfagene enda.',
+            },
+            subjects: [],
+          },
           {
             name: {
               nb: 'Fellesfag',
