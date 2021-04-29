@@ -2236,7 +2236,6 @@ export const archivedSubjects = [
 
 export const betaSubjects = [
   {
-    filters: ['urn:filter:83cd145e-3412-4f06-8de6-961bae9ff452'],
     longName: {
       en: 'Informasjonsteknologi Vg2 - 2021 BETA',
       nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
@@ -2247,11 +2246,10 @@ export const betaSubjects = [
       nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
       nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:331f077e-04a3-4340-94d7-b6a463bab9e5',
+    subjectId: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
     id: 'beta_subject_1',
   },
   {
-    filters: ['urn:filter:9c50184f-6e9c-4229-a328-c7490b6dad37'],
     longName: {
       en: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
@@ -2262,11 +2260,10 @@ export const betaSubjects = [
       nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
       nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
     id: 'beta_subject_2',
   },
   {
-    filters: ['urn:filter:1b7155ae-9670-4972-b438-fd1375875ac1'],
     longName: {
       en: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
       nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
@@ -2277,11 +2274,10 @@ export const betaSubjects = [
       nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
       nn: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
     id: 'beta_subject_3',
   },
   {
-    filters: ['urn:filter:18fa6a42-a5d2-44d9-bf47-e772a83d82f4'],
     longName: {
       en: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
@@ -2292,11 +2288,10 @@ export const betaSubjects = [
       nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
       nn: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    subjectId: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
     id: 'beta_subject_4',
   },
   {
-    filters: ['urn:filter:f644f829-4e7a-4e74-a63a-342ef786f68a'],
     longName: {
       en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
       nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
@@ -2307,11 +2302,10 @@ export const betaSubjects = [
       nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
       nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089',
+    subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
     id: 'beta_subject_5',
   },
   {
-    filters: ['urn:filter:87aecb77-cd9d-4679-8c6f-043e9f8046f9'],
     longName: {
       en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
@@ -2322,11 +2316,10 @@ export const betaSubjects = [
       nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
       nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
     id: 'beta_subject_6',
   },
   {
-    filters: ['urn:filter:56ea35da-73d9-431f-a451-19f24f564f59'],
     longName: {
       en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
       nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
@@ -2337,11 +2330,10 @@ export const betaSubjects = [
       nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
       nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
     id: 'beta_subject_7',
   },
   {
-    filters: ['urn:filter:793027a5-0b4c-42c1-a2aa-840aaf9f8083'],
     longName: {
       en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
@@ -2352,11 +2344,10 @@ export const betaSubjects = [
       nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
       nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
     id: 'beta_subject_8',
   },
   {
-    filters: ['urn:filter:03e810db-3560-47b5-a5f6-e7afe1d0a2d6'],
     longName: {
       en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
       nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
@@ -2367,11 +2358,10 @@ export const betaSubjects = [
       nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
       nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15',
+    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
     id: 'beta_subject_9',
   },
   {
-    filters: ['urn:filter:485b4813-89ff-4404-b9dc-f37c22d48de5'],
     longName: {
       en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
@@ -2382,11 +2372,10 @@ export const betaSubjects = [
       nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
       nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
     id: 'beta_subject_10',
   },
   {
-    filters: ['urn:filter:9e515764-0ce6-49d5-8ecd-1cde8b08a33f'],
     longName: {
       en: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
       nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
@@ -2397,11 +2386,10 @@ export const betaSubjects = [
       nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
       nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
     id: 'beta_subject_11',
   },
   {
-    filters: ['urn:filter:09410bfa-5b0d-470b-8727-5006e711bc1f'],
     longName: {
       en: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
       nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
@@ -2412,11 +2400,10 @@ export const betaSubjects = [
       nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
       nn: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517',
+    subjectId: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
     id: 'beta_subject_12',
   },
   {
-    filters: ['urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417'],
     longName: {
       en: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
       nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
@@ -2427,11 +2414,10 @@ export const betaSubjects = [
       nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
       nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5',
+    subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
     id: 'beta_subject_13',
   },
   {
-    filters: ['urn:filter:ff69c291-6374-4766-80c2-47d5840d8bbf'],
     longName: {
       en: 'Historie Vg2 - 2021 BETA',
       nb: 'Historie Vg2 - 2021 BETA',
@@ -2442,11 +2428,10 @@ export const betaSubjects = [
       nb: 'Historie Vg2 - 2021 BETA',
       nn: 'Historie Vg2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:ada003d8-1ae7-4e19-982e-34bf7e8868de',
+    subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
     id: 'beta_subject_14',
   },
   {
-    filters: ['urn:filter:fb6ad516-0108-4059-acc3-3c5f13f49368'],
     longName: {
       en: 'Sosiologi og sosialantropologi - 2021 BETA',
       nb: 'Sosiologi og sosialantropologi - 2021 BETA',
@@ -2457,11 +2442,10 @@ export const betaSubjects = [
       nb: 'Sosiologi og sosialantropologi - 2021 BETA',
       nn: 'Sosiologi og sosialantropologi - 2021 BETA',
     },
-    subjectId: 'urn:subject:39ec57c0-d11c-42be-a17b-e73813597be0',
+    subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
     id: 'beta_subject_15',
   },
   {
-    filters: ['urn:filter:47678c7b-bc09-4fc8-b2d9-a2e3d709e105'],
     longName: {
       en: 'Markedsføring og ledelse 1 - 2021 BETA',
       nb: 'Markedsføring og ledelse 1 - 2021 BETA',
@@ -2472,11 +2456,10 @@ export const betaSubjects = [
       nb: 'Markedsføring og ledelse 1 - 2021 BETA',
       nn: 'Markedsføring og ledelse 1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:be55024d-278b-4b55-97de-832ac6a514ea',
+    subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
     id: 'beta_subject_16',
   },
   {
-    filters: ['urn:filter:af71d86b-3464-4f35-a704-b21ebd556863'],
     longName: {
       en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
@@ -2487,11 +2470,10 @@ export const betaSubjects = [
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
     id: 'beta_subject_17',
   },
   {
-    filters: ['urn:filter:14fadc31-9799-4e46-ae3b-8294957e4d26'],
     longName: {
       en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
@@ -2502,11 +2484,10 @@ export const betaSubjects = [
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
     id: 'beta_subject_18',
   },
   {
-    filters: ['urn:filter:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd'],
     longName: {
       en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
       nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
@@ -2517,11 +2498,10 @@ export const betaSubjects = [
       nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
       nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    subjectId: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
     id: 'beta_subject_19',
   },
   {
-    filters: ['urn:filter:e15e4240-1d05-4398-b63b-2177815eb61a'],
     longName: {
       en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
@@ -2532,11 +2512,10 @@ export const betaSubjects = [
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
+    subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
     id: 'beta_subject_20',
   },
   {
-    filters: ['urn:filter:69c829b0-50f5-4944-bcaf-309da101a3d4'],
     longName: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
@@ -2547,11 +2526,10 @@ export const betaSubjects = [
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
     id: 'beta_subject_21',
   },
   {
-    filters: ['urn:filter:59a988c6-4020-4e70-8329-4de68a19b6fe'],
     longName: {
       en: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
       nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
@@ -2562,11 +2540,10 @@ export const betaSubjects = [
       nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
       nn: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    subjectId: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
     id: 'beta_subject_22',
   },
   {
-    filters: ['urn:filter:a7c337ca-d3b6-492f-ace2-b05c45f54e93'],
     longName: {
       en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
@@ -2577,11 +2554,10 @@ export const betaSubjects = [
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
     id: 'beta_subject_23',
   },
   {
-    filters: ['urn:filter:4aef7156-a5ae-4476-8e81-6d2a4842143a'],
     longName: {
       en: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
       nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
@@ -2592,11 +2568,10 @@ export const betaSubjects = [
       nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
       nn: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
     },
-    subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
+    subjectId: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
     id: 'beta_subject_24',
   },
   {
-    filters: ['urn:filter:50dfc86d-6566-4a45-a531-d32b82e8bfa1'],
     longName: {
       en: 'Norsk SF Vg2 - 2021 BETA',
       nb: 'Norsk SF Vg2 - 2021 BETA',
@@ -2607,11 +2582,10 @@ export const betaSubjects = [
       nb: 'Norsk SF Vg2 - 2021 BETA',
       nn: 'Norsk SF Vg2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
+    subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
     id: 'beta_subject_25',
   },
   {
-    filters: ['urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5'],
     longName: {
       en: 'Norsk YF Vg2 - 2021 BETA',
       nb: 'Norsk YF Vg2 - 2021 BETA',
@@ -2622,7 +2596,7 @@ export const betaSubjects = [
       nb: 'Norsk YF Vg2 - 2021 BETA',
       nn: 'Norsk YF Vg2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:80063181-61d8-4c52-9bbc-4313376175a2',
+    subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
     id: 'beta_subject_26',
   },
 ];
