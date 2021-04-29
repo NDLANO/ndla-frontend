@@ -8,6 +8,7 @@
 
 import React from 'react';
 import get from 'lodash/get';
+import parse from 'html-react-parser';
 
 export const urlIsNDLAApiUrl = (url: string) =>
   /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
@@ -135,11 +136,11 @@ export default class LearningpathIframe extends React.Component<Props, State> {
 
     return (
       <div
-        dangerouslySetInnerHTML={{ __html: html }}
         ref={iframeDiv => {
           this._iframeDiv = iframeDiv;
-        }}
-      />
+        }}>
+        {parse(html)}
+      </div>
     );
   }
 }
