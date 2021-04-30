@@ -2785,7 +2785,7 @@ export const subjectsCategories = [
     name: {
       nb: 'LK06 fag',
       nn: 'LK06 fag',
-      en: 'LK06 fag',
+      en: 'LK06 subjetcs',
     },
     subjects: archivedSubjects,
   },
@@ -2793,7 +2793,7 @@ export const subjectsCategories = [
     name: {
       nb: 'Betafag',
       nn: 'Betafag',
-      en: 'Betafag',
+      en: 'Beta subjects',
     },
     subjects: betaSubjects,
   },
