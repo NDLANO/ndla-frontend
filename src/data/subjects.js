@@ -2785,7 +2785,7 @@ export const subjectsCategories = [
     name: {
       nb: 'LK06 fag',
       nn: 'LK06 fag',
-      en: 'LK06 subjetcs',
+      en: 'LK06 subjects',
     },
     subjects: archivedSubjects,
   },
