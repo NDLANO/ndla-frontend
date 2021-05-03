@@ -1243,12 +1243,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (HS Vg1)',
       nb: 'Yrkesfaglig fordypning (HS Vg1)',
-      nn: 'Yrkesfaglig fordypning (HS Vg1)',
+      nn: 'Yrkesfagleg fordjuping (HS Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:24',
     id: 'programme_subject_18',
@@ -1326,12 +1326,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (EL Vg1)',
       nb: 'Yrkesfaglig fordypning (EL Vg1)',
-      nn: 'Yrkesfaglig fordypning (EL Vg1)',
+      nn: 'Yrkesfagleg fordjuping (EL Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:16',
     id: 'programme_subject_27',
@@ -1386,12 +1386,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (SR Vg1)',
       nb: 'Yrkesfaglig fordypning (SR Vg1)',
-      nn: 'Yrkesfaglig fordypning (SR Vg1)',
+      nn: 'Yrkesfagleg fordjuping (SR Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d',
     id: 'programme_subject_31',
@@ -1446,12 +1446,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (IM Vg1)',
       nb: 'Yrkesfaglig fordypning (IM Vg1)',
-      nn: 'Yrkesfaglig fordypning (IM Vg1)',
+      nn: 'Yrkesfagleg fordjuping (IM Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:f248e20c-3131-495e-a759-c71678430d5f',
     id: 'programme_subject_35',
@@ -1525,12 +1525,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (TP Vg1)',
       nb: 'Yrkesfaglig fordypning (TP Vg1)',
-      nn: 'Yrkesfaglig fordypning (TP Vg1)',
+      nn: 'Yrkesfagleg fordjuping TP Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:28',
     id: 'programme_subject_42',
@@ -2533,12 +2533,12 @@ export const betaSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_17',
@@ -2548,12 +2548,12 @@ export const betaSubjects = [
     longName: {
       en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_18',
@@ -2578,12 +2578,12 @@ export const betaSubjects = [
     longName: {
       en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4',
     id: 'beta_subject_20',
@@ -2593,12 +2593,12 @@ export const betaSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_21',
@@ -2623,12 +2623,12 @@ export const betaSubjects = [
     longName: {
       en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
       en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866',
     id: 'beta_subject_23',
