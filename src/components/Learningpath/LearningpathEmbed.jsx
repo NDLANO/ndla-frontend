@@ -104,6 +104,6 @@ LearningpathEmbed.propTypes = {
   topic: TopicShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  breadcrumbItems: BreadCrumbShape,
+  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
 };
 export default LearningpathEmbed;
