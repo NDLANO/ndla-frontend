@@ -38,7 +38,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
 
   useEffect(() => {
     handleIframeResizing(url);
-  }, [url, iframeRef]);
+  });
 
   const getIframeDOM = () => {
     return iframeRef.current?.children[0] as HTMLIFrameElement;
