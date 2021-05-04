@@ -237,14 +237,26 @@ export const groupSearchQuery = gql`
 `;
 
 export const conceptSearchQuery = gql`
-  query ConceptSearch($query: String, $subjects: String, $language: String) {
-    conceptSearch(query: $query, subjects: $subjects, language: $language) {
-      id
-      title
-      text: content
-      image: metaImage {
-        url
-        alt
+  query ConceptSearch(
+    $query: String
+    $subjects: String
+    $exactMatch: Boolean
+    $language: String
+  ) {
+    conceptSearch(
+      query: $query
+      subjects: $subjects
+      exactMatch: $exactMatch
+      language: $language
+    ) {
+      concepts {
+        id
+        title
+        text: content
+        image: metaImage {
+          url
+          alt
+        }
       }
     }
   }
