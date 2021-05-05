@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import get from 'lodash/get';
 import parse from 'html-react-parser';
 
 export const urlIsNDLAApiUrl = (url: string) =>
@@ -72,7 +71,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     }
     const iframe = getIframeDOM();
     if (iframe) {
-      const newHeight = parseInt(get(evt, 'data.height', 0), 10);
+      const newHeight = parseInt(evt.data.height, 10);
       iframe.style.height = `${newHeight}px`; // eslint-disable-line no-param-reassign
     }
   };
