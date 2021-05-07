@@ -26,6 +26,8 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
     query: '',
     subjects: [],
+    filters: [],
+    programs: [],
   });
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
@@ -73,6 +75,8 @@ const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
         subjects={searchParams.subjects}
+        filters={searchParams.filters}
+        programmes={searchParams.programs}
         allSubjects={allSubjects}
         subjectItems={subjectItems}
         concepts={conceptData?.conceptSearch}

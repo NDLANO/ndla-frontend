@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Remarkable } from 'remarkable';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
@@ -41,6 +42,14 @@ const MultidisciplinaryTopic = ({
     setShowContent(false);
   }, [topicId]);
 
+  const markdown = useMemo(() => {
+    const md = new Remarkable({ breaks: true });
+    md.inline.ruler.enable(['sub', 'sup']);
+    md.block.ruler.disable(['list']);
+    return md;
+  }, []);
+  const renderMarkdown = text => markdown.render(text);
+
   const topic = data.topic;
   const topicPath = topic.path
     .split('/')
@@ -59,9 +68,10 @@ const MultidisciplinaryTopic = ({
     <>
       <NavigationTopicAbout
         heading={topic.name}
-        ingress={topic.article?.introduction}
+        introduction={topic.article?.introduction}
         showContent={showContent}
         invertedStyle={ndlaFilm}
+        renderMarkdown={renderMarkdown}
         onToggleShowContent={() => setShowContent(!showContent)}
         isLoading={false}>
         <ArticleContents
@@ -95,7 +105,7 @@ MultidisciplinaryTopic.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 MultidisciplinaryTopic.getDimensions = props => {
-  const { filterIds, data, locale, subject } = props;
+  const { data, locale, subject } = props;
   const topicPath = data.topic.path
     .split('/')
     .slice(2)
@@ -103,10 +113,7 @@ MultidisciplinaryTopic.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
-    subject.id,
-    filterIds.split(','),
-  );
+  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(subject.id, []);
   const longName = subjectBySubjectIdFiltes?.longName[locale];
 
   return getAllDimensions(

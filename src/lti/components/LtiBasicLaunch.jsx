@@ -59,7 +59,7 @@ const getQuery = (ltiData, item) => {
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
   const query = {
-    url: `${baseUrl}/article-iframe/article/${item.id}?removeRelatedContent=true`,
+    url: `${baseUrl}/article-iframe/article/${item.id}`,
     title: item.title,
     return_type: getReturnType(ltiData),
     width: ltiData.launch_presentation_width,

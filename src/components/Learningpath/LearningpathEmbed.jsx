@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import parse from 'html-react-parser';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
@@ -19,6 +18,7 @@ import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { BreadCrumbShape, TopicShape } from '../../shapes';
+import LearningpathIframe from './LearningpathIframe';
 
 const StyledIframeContainer = styled.div`
   margin-bottom: ${spacing.normal};
@@ -57,7 +57,7 @@ const LearningpathEmbed = ({
       <StyledIframeContainer
         oembedWidth={oembed.width}
         oembedHeight={oembed.height}>
-        {parse(oembed.html)}
+        <LearningpathIframe html={oembed.html} url={embedUrl.url} />
       </StyledIframeContainer>
     );
   }
@@ -104,6 +104,6 @@ LearningpathEmbed.propTypes = {
   topic: TopicShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  breadcrumbItems: BreadCrumbShape,
+  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
 };
 export default LearningpathEmbed;
