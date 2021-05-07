@@ -1126,12 +1126,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (HS Vg1)',
       nb: 'Yrkesfaglig fordypning (HS Vg1)',
-      nn: 'Yrkesfaglig fordypning (HS Vg1)',
+      nn: 'Yrkesfagleg fordjuping (HS Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
     id: 'programme_subject_18',
@@ -1261,12 +1261,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (EL Vg1)',
       nb: 'Yrkesfaglig fordypning (EL Vg1)',
-      nn: 'Yrkesfaglig fordypning (EL Vg1)',
+      nn: 'Yrkesfagleg fordjuping (EL Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
     id: 'programme_subject_27',
@@ -1317,12 +1317,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (SR Vg1)',
       nb: 'Yrkesfaglig fordypning (SR Vg1)',
-      nn: 'Yrkesfaglig fordypning (SR Vg1)',
+      nn: 'Yrkesfagleg fordjuping (SR Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
     id: 'programme_subject_31',
@@ -1373,12 +1373,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (IM Vg1)',
       nb: 'Yrkesfaglig fordypning (IM Vg1)',
-      nn: 'Yrkesfaglig fordypning (IM Vg1)',
+      nn: 'Yrkesfagleg fordjuping (IM Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
     id: 'programme_subject_35',
@@ -1471,12 +1471,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (TP Vg1)',
       nb: 'Yrkesfaglig fordypning (TP Vg1)',
-      nn: 'Yrkesfaglig fordypning (TP Vg1)',
+      nn: 'Yrkesfagleg fordjuping TP Vg1)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
     id: 'programme_subject_42',
@@ -2463,12 +2463,12 @@ export const betaSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
     id: 'beta_subject_17',
@@ -2477,12 +2477,12 @@ export const betaSubjects = [
     longName: {
       en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
       nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
     id: 'beta_subject_18',
@@ -2505,12 +2505,12 @@ export const betaSubjects = [
     longName: {
       en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
     },
     name: {
       en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
       nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
+      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
     id: 'beta_subject_20',
@@ -2519,12 +2519,12 @@ export const betaSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
     id: 'beta_subject_21',
@@ -2547,12 +2547,12 @@ export const betaSubjects = [
     longName: {
       en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
     },
     name: {
       en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
       nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
+      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
     },
     subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
     id: 'beta_subject_23',
@@ -2599,6 +2599,82 @@ export const betaSubjects = [
     subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
     id: 'beta_subject_26',
   },
+
+  {
+    filters: ['urn:filter:a45bba8f-61b7-4dc5-8609-126c4d9c7652'],
+    longName: {
+      en: 'Matematikk 2P -  2021 BETA',
+      nb: 'Matematikk 2P -  2021 BETA',
+      nn: 'Matematikk 2P -  2021 BETA',
+    },
+    name: {
+      en: 'Matematikk 2P -  2021 BETA',
+      nb: 'Matematikk 2P -  2021 BETA',
+      nn: 'Matematikk 2P -  2021 BETA',
+    },
+    subjectId: 'urn:subject:9d6d7550-f6df-4157-aa21-1f161d18f771',
+    id: 'beta_subject_27',
+  },
+  {
+    filters: ['urn:filter:734bd33b-da6d-49b0-bb34-c6df5b956f8e'],
+    longName: {
+      en: 'Matematikk R1 - 2021 BETA',
+      nb: 'Matematikk R1 - 2021 BETA',
+      nn: 'Matematikk R1 - 2021 BETA',
+    },
+    name: {
+      en: 'Matematikk R1 - 2021 BETA',
+      nb: 'Matematikk R1 - 2021 BETA',
+      nn: 'Matematikk R1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:dab41c7e-e8b1-4f28-8893-e360d849c270',
+    id: 'beta_subject_28',
+  },
+  {
+    filters: ['urn:filter:b561f04f-d633-453e-b0ce-84985f97969b'],
+    longName: {
+      en: 'Matematikk S1 - 2021 BETA',
+      nb: 'Matematikk S1 - 2021 BETA',
+      nn: 'Matematikk S1 - 2021 BETA',
+    },
+    name: {
+      en: 'Matematikk S1 - 2021 BETA',
+      nb: 'Matematikk S1 - 2021 BETA',
+      nn: 'Matematikk S1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:6ba15509-052e-42dc-83cb-b06c1774cc74',
+    id: 'beta_subject_29',
+  },
+  {
+    filters: ['urn:filter:1f1865fc-e4cc-48a0-918f-3530485ec424'],
+    longName: {
+      en: 'Kommunikasjon og kultur - 2021 BETA',
+      nb: 'Kommunikasjon og kultur - 2021 BETA',
+      nn: 'Kommunikasjon og kultur - 2021 BETA',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur - 2021 BETA',
+      nb: 'Kommunikasjon og kultur - 2021 BETA',
+      nn: 'Kommunikasjon og kultur - 2021 BETA',
+    },
+    subjectId: 'urn:subject:22d73be5-840f-4811-b442-9cd10d0d7248',
+    id: 'beta_subject_30',
+  },
+  {
+    filters: ['urn:filter:83ce68bc-19c9-4f2b-8dba-caf401428f21'],
+    longName: {
+      en: 'Biologi 1 - 2021 BETA',
+      nb: 'Biologi 1 - 2021 BETA',
+      nn: 'Biologi 1 - 2021 BETA',
+    },
+    name: {
+      en: 'Biologi 1 - 2021 BETA',
+      nb: 'Biologi 1 - 2021 BETA',
+      nn: 'Biologi 1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:f665de3e-65dc-478e-b736-cb0af3d38ad4',
+    id: 'beta_subject_31',
+  },
 ];
 
 export const subjectsCategories = [
@@ -2630,7 +2706,7 @@ export const subjectsCategories = [
     name: {
       nb: 'LK06 fag',
       nn: 'LK06 fag',
-      en: 'LK06 fag',
+      en: 'LK06 subjects',
     },
     subjects: archivedSubjects,
   },
@@ -2638,7 +2714,7 @@ export const subjectsCategories = [
     name: {
       nb: 'Betafag',
       nn: 'Betafag',
-      en: 'Betafag',
+      en: 'Beta subjects',
     },
     subjects: betaSubjects,
   },

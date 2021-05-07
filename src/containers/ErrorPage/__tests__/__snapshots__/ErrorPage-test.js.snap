@@ -594,7 +594,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         <p
           className="emotion-2 emotion-3"
         >
-          Beklager, en feil oppsto.
+          Beklager, en feil oppstod.
         </p>
         <h2>
           Kom igang:
@@ -705,11 +705,11 @@ exports[`ErrorPage renderers correctly 1`] = `
           </svg>
         </div>
         <div>
-          <h1
+          <h2
             className="emotion-17 emotion-18"
           >
             NDLA sin visjon er å lage gode, åpne digitale læremidler for alle fag i videregående opplæring og støtte opp om elever og lærere i aktivt og deltakende læringsarbeid.
-          </h1>
+          </h2>
           <div
             className="emotion-63 emotion-64"
           >
