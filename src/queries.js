@@ -741,8 +741,12 @@ export const movedResourceQuery = gql`
 `;
 
 export const plainArticleQuery = gql`
-  query plainArticleQuery($articleId: String!, $isOembed: String) {
-    article(id: $articleId, isOembed: $isOembed) {
+  query plainArticleQuery(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
       ...ArticleInfo
     }
   }

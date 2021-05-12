@@ -46,7 +46,7 @@ export const IframePage = ({
   isTopicArticle,
 }) => {
   const { error, loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, isOembed },
+    variables: { articleId, isOembed, path: location.pathname },
   });
 
   if (status !== 'success' || error) {
