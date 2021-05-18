@@ -59,7 +59,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(concept.copyright, t)}
+              stringToCopy={concept.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

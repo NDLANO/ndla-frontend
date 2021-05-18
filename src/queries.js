@@ -413,6 +413,7 @@ export const articleInfoFragment = gql`
       mediaType
     }
     metaData {
+      copyText
       footnotes {
         ref
         title
@@ -429,6 +430,7 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
+        copyText
       }
       h5ps {
         title
@@ -436,6 +438,7 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
+        copyText
       }
       audios {
         title
@@ -443,6 +446,7 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
+        copyText
       }
       brightcoves {
         title
@@ -459,6 +463,7 @@ export const articleInfoFragment = gql`
           ...CopyrightInfo
         }
         uploadDate
+        copyText
       }
       concepts {
         title
@@ -466,6 +471,7 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
+        copyText
       }
     }
     competenceGoals {

@@ -38,6 +38,7 @@ const VideoShape = PropTypes.shape({
     height: PropTypes.string.isRequired,
     width: PropTypes.string.isRequired,
   }),
+  copyText: PropTypes.string,
 });
 
 const VideoLicenseInfo = ({ video, locale, t }) => {
@@ -64,7 +65,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(video.copyright, t)}
+              stringToCopy={video.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

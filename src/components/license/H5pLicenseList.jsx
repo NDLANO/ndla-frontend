@@ -25,7 +25,6 @@ import { H5PBold } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape, H5pShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
