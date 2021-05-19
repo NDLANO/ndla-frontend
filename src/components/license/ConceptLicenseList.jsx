@@ -24,7 +24,6 @@ import { injectT } from '@ndla/i18n';
 import { Concept } from '@ndla/icons/editor';
 import CopyTextButton from './CopyTextButton';
 import { ConceptLicenseShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const ConceptLicenseInfo = ({ concept, locale, t }) => {
   if (

@@ -27,7 +27,6 @@ import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { ImageShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 export const downloadUrl = imageSrc => {
   const urlObject = queryString.parseUrl(imageSrc);

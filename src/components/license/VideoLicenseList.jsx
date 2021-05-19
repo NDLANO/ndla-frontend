@@ -25,7 +25,6 @@ import {
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { CopyrightObjectShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const VideoShape = PropTypes.shape({
   title: PropTypes.string.isRequired,

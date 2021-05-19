@@ -56,7 +56,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(h5p.copyright, t)}
+              stringToCopy={h5p.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
