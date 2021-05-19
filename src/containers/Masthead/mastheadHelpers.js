@@ -78,6 +78,7 @@ export const mapMastheadData = ({
 
   const topicsWithSubTopics =
     subject &&
+    subject.topics &&
     subject.topics
       .filter(t => !t.parent || t.parent === subjectId)
       .map(t => toTopicMenu(t, subject.topics));
