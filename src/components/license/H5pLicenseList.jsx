@@ -25,7 +25,6 @@ import { H5PBold } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape, H5pShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
@@ -57,7 +56,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(h5p.copyright, t)}
+              stringToCopy={h5p.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

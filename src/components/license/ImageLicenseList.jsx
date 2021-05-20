@@ -27,7 +27,6 @@ import queryString from 'query-string';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { ImageShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 export const downloadUrl = imageSrc => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -70,7 +69,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(image.copyright, t)}
+              stringToCopy={image.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

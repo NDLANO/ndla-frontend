@@ -99,7 +99,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "removeRelatedContent",
+                "name": "isOembed",
                 "description": "",
                 "type": {
                   "kind": "SCALAR",
@@ -111,7 +111,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "isOembed",
+                "name": "path",
                 "description": "",
                 "type": {
                   "kind": "SCALAR",
@@ -1396,18 +1396,6 @@
                 "deprecationReason": null
               },
               {
-                "name": "removeRelatedContent",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "isOembed",
                 "description": "",
                 "type": {
@@ -2480,6 +2468,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "copyText",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -2669,6 +2669,18 @@
                 "name": "Copyright",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "copyText",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2912,6 +2924,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "copyText",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3019,6 +3043,18 @@
           },
           {
             "name": "uploadDate",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "copyText",
             "description": "",
             "args": [],
             "type": {
@@ -3144,6 +3180,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "copyText",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3192,6 +3240,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "Copyright",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "copyText",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
