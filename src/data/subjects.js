@@ -1138,95 +1138,30 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
-      nb:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
-      nn:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Kommunikasjon, kunde og arbeidsliv',
+      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
     },
     name: {
-      en: 'Kommunikasjon, kunde og arbeidsliv',
-      nb: 'Kommunikasjon, kunde og arbeidsliv',
-      nn: 'Kommunikasjon, kunde og arbeidsliv',
+      en: 'Programfag FBIE',
+      nb: 'Programfag FBIE',
+      nn: 'Programfag FBIE',
     },
-    subjectId: 'urn:subject:1:f53687ae-d976-4969-afac-dae2ec16adb5',
-    id: 'programme_subject_19',
-  },
-  {
-    longName: {
-      en:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
-      nb:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
-      nn:
-        'Frisør, blomster, interiør og eksponeringsdesign Vg1 - Produktutvikling og produksjon',
-    },
-    name: {
-      en: 'Produktutvikling og produksjon',
-      nb: 'Produktutvikling og produksjon',
-      nn: 'Produktutvikling og produksjon',
-    },
-    subjectId: 'urn:subject:1:733ccc9e-1d29-4196-8ea6-b92043bdf971',
-    id: 'programme_subject_20',
-  },
-  {
-    longName: {
-      en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
-      nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
-      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1 - YFF',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:1:302431b9-ebb0-42e3-8ea6-447fbd27c1b5',
+    subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
     id: 'programme_subject_21',
   },
   {
     longName: {
-      en: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
-      nb: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
-      nn: 'Håndverk, design og produktutvikling Vg1 - Materialer og teknikker',
+      en: 'Håndverk, design og produktutvikling Vg1',
+      nb: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Håndverk, design og produktutvikling Vg1',
     },
     name: {
-      en: 'Materialer og teknikker',
-      nb: 'Materialer og teknikker',
-      nn: 'Materialer og teknikker',
+      en: 'Programfag HDP',
+      nb: 'Programfag HDP',
+      nn: 'Programfag HDP',
     },
-    subjectId: 'urn:subject:1:824cc0ab-3a68-43cc-8756-e2fa8517e4ef',
-    id: 'programme_subject_22',
-  },
-  {
-    longName: {
-      en:
-        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
-      nb:
-        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
-      nn:
-        'Håndverk, design og produktutvikling Vg1 - Produktutvikling og skapende prosesser',
-    },
-    name: {
-      en: 'Produktutvikling og skapende prosesser',
-      nb: 'Produktutvikling og skapende prosesser',
-      nn: 'Produktutvikling og skapende prosesser',
-    },
-    subjectId: 'urn:subject:1:3381e296-04d5-4a3e-8a50-49eef8e56a15',
-    id: 'programme_subject_23',
-  },
-  {
-    longName: {
-      en: 'Håndverk, design og produktutvikling Vg1 - YFF',
-      nb: 'Håndverk, design og produktutvikling Vg1 - YFF',
-      nn: 'Håndverk, design og produktutvikling Vg1 - YFF',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:1:3de59c57-e25c-4509-9d9c-52da0f20e412',
+    subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
     id: 'programme_subject_24',
   },
   {
@@ -1385,30 +1320,16 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
-      nb: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
-      nn: 'Naturbruk Vg1 - Naturbasert næringsaktivitet',
+      en: 'Naturbruk Vg1',
+      nb: 'Naturbruk Vg1',
+      nn: 'Naturbruk Vg1',
     },
     name: {
-      en: 'Naturbasert næringsaktivitet',
-      nb: 'Naturbasert næringsaktivitet',
-      nn: 'Naturbasert næringsaktivitet',
+      en: 'Programfag Naturbruk',
+      nb: 'Programfag Naturbruk',
+      nn: 'Programfag Naturbruk',
     },
-    subjectId: 'urn:subject:1:5c9423f8-268e-4e9f-aee6-12b0195ab07d',
-    id: 'programme_subject_36',
-  },
-  {
-    longName: {
-      en: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
-      nb: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
-      nn: 'Naturbruk Vg1 - Naturbasert produksjon og tjenesteyting',
-    },
-    name: {
-      en: 'Naturbasert produksjon og tjenesteyting',
-      nb: 'Naturbasert produksjon og tjenesteyting',
-      nn: 'Naturbasert produksjon og tjenesteyting',
-    },
-    subjectId: 'urn:subject:1:ba75ac53-15eb-4c7a-a08a-b8d5cd19a875',
+    subjectId: 'urn:subject:13',
     id: 'programme_subject_37',
   },
   {
