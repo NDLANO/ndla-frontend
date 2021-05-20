@@ -283,7 +283,7 @@
           ],
           "suggestions": [],
           "resourceType": "urn:resourcetype:subjectMaterial",
-          "totalCount": 10622,
+          "totalCount": 10944,
           "language": "all",
           "__typename": "GroupSearch"
         },
@@ -558,7 +558,7 @@
           ],
           "suggestions": [],
           "resourceType": "urn:resourcetype:tasksAndActivities",
-          "totalCount": 7590,
+          "totalCount": 7855,
           "language": "all",
           "__typename": "GroupSearch"
         },
@@ -774,7 +774,7 @@
           ],
           "suggestions": [],
           "resourceType": "urn:resourcetype:reviewResource",
-          "totalCount": 305,
+          "totalCount": 307,
           "language": "all",
           "__typename": "GroupSearch"
         },
@@ -820,54 +820,6 @@
                 }
               ],
               "metaImage": null,
-              "__typename": "GroupSearchResult"
-            },
-            {
-              "id": 968,
-              "path": "/subject:1/topic:1:171906/topic:1:166872/resource:1:136916",
-              "name": "The greatest movie ever sold",
-              "ingress": "Dokumentarfilmen The greatest movie ever sold er finansiert utelukkende med produktplassering.",
-              "traits": [
-                "VIDEO"
-              ],
-              "contexts": [
-                {
-                  "language": "all",
-                  "path": "/subject:1/topic:1:171906/topic:1:166872/resource:1:136916",
-                  "breadcrumbs": [
-                    "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
-                    "Mediebransjen",
-                    "Markedsføring"
-                  ],
-                  "subjectId": "urn:subject:1",
-                  "subject": "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
-                  "resourceTypes": [
-                    {
-                      "id": "urn:resourcetype:SourceMaterial",
-                      "name": "Kildemateriale",
-                      "__typename": "SearchContextResourceTypes"
-                    },
-                    {
-                      "id": "urn:resourcetype:featureFilm",
-                      "name": "Spillefilm",
-                      "__typename": "SearchContextResourceTypes"
-                    }
-                  ],
-                  "filters": [
-                    {
-                      "id": "urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf",
-                      "relevance": "Kjernestoff",
-                      "__typename": "SearchContextFilter"
-                    }
-                  ],
-                  "__typename": "SearchContext"
-                }
-              ],
-              "metaImage": {
-                "url": "https://api.test.ndla.no/image-api/raw/id/10138",
-                "alt": "The greatest movie ever sold ",
-                "__typename": "MetaImage"
-              },
               "__typename": "GroupSearchResult"
             },
             {
@@ -995,6 +947,85 @@
                 "__typename": "MetaImage"
               },
               "__typename": "GroupSearchResult"
+            },
+            {
+              "id": 1302,
+              "path": "/subject:20/topic:1:193720/topic:1:194403/resource:1:151968",
+              "name": "IRL",
+              "ingress": "IRL er en svensk spillefilm fra 2013 om mobbing, sosiale medier og dataspill.",
+              "traits": [
+                "VIDEO"
+              ],
+              "contexts": [
+                {
+                  "language": "all",
+                  "path": "/subject:20/topic:1:193720/topic:1:194403/resource:1:151968",
+                  "breadcrumbs": [
+                    "NDLA film",
+                    "Folkehelse og livsmestring",
+                    "Identitet"
+                  ],
+                  "subjectId": "urn:subject:20",
+                  "subject": "NDLA film",
+                  "resourceTypes": [
+                    {
+                      "id": "urn:resourcetype:SourceMaterial",
+                      "name": "Kildemateriale",
+                      "__typename": "SearchContextResourceTypes"
+                    },
+                    {
+                      "id": "urn:resourcetype:featureFilm",
+                      "name": "Spillefilm",
+                      "__typename": "SearchContextResourceTypes"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "id": "urn:filter:364a61b2-1653-4fe2-bc74-f1d41ec43ba8",
+                      "relevance": "Kjernestoff",
+                      "__typename": "SearchContextFilter"
+                    }
+                  ],
+                  "__typename": "SearchContext"
+                },
+                {
+                  "language": "all",
+                  "path": "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:537598a2-4857-40e0-b0bc-9a937e954374/topic:3fbaf99e-62e9-4443-bc8f-b97bfc235dbf/resource:1:151968",
+                  "breadcrumbs": [
+                    "Medie- og informasjonskunnskap MIK1 - 2021",
+                    "Mediebevisshet",
+                    "Mediepåvirkning"
+                  ],
+                  "subjectId": "urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+                  "subject": "Medie- og informasjonskunnskap MIK1 - 2021",
+                  "resourceTypes": [
+                    {
+                      "id": "urn:resourcetype:SourceMaterial",
+                      "name": "Kildemateriale",
+                      "__typename": "SearchContextResourceTypes"
+                    },
+                    {
+                      "id": "urn:resourcetype:featureFilm",
+                      "name": "Spillefilm",
+                      "__typename": "SearchContextResourceTypes"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "id": "urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417",
+                      "relevance": "Kjernestoff",
+                      "__typename": "SearchContextFilter"
+                    }
+                  ],
+                  "__typename": "SearchContext"
+                }
+              ],
+              "metaImage": {
+                "url": "https://api.test.ndla.no/image-api/raw/id/4694",
+                "alt": "Utsnitt fra filmplakaten til filmen IRL.",
+                "__typename": "MetaImage"
+              },
+              "__typename": "GroupSearchResult"
             }
           ],
           "aggregations": [
@@ -1013,11 +1044,11 @@
                   "__typename": "BucketResult"
                 },
                 {
-                  "value": "urn:resourcetype:historicalMaterial",
+                  "value": "urn:resourcetype:documentary",
                   "__typename": "BucketResult"
                 },
                 {
-                  "value": "urn:resourcetype:documentary",
+                  "value": "urn:resourcetype:historicalMaterial",
                   "__typename": "BucketResult"
                 },
                 {
@@ -1046,7 +1077,7 @@
           ],
           "suggestions": [],
           "resourceType": "urn:resourcetype:SourceMaterial",
-          "totalCount": 698,
+          "totalCount": 702,
           "language": "all",
           "__typename": "GroupSearch"
         },
@@ -1395,11 +1426,11 @@
                   "__typename": "BucketResult"
                 },
                 {
-                  "value": "urn:resourcetype:subjectMaterial",
+                  "value": "urn:resourcetype:featureFilm",
                   "__typename": "BucketResult"
                 },
                 {
-                  "value": "urn:resourcetype:featureFilm",
+                  "value": "urn:resourcetype:subjectMaterial",
                   "__typename": "BucketResult"
                 },
                 {
@@ -1424,7 +1455,7 @@
           ],
           "suggestions": [],
           "resourceType": "topic-article",
-          "totalCount": 2579,
+          "totalCount": 2689,
           "language": "all",
           "__typename": "GroupSearch"
         }
