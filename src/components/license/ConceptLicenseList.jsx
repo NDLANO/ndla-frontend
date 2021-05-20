@@ -24,7 +24,6 @@ import { injectT } from '@ndla/i18n';
 import { Concept } from '@ndla/icons/editor';
 import CopyTextButton from './CopyTextButton';
 import { ConceptLicenseShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const ConceptLicenseInfo = ({ concept, locale, t }) => {
   if (
@@ -59,7 +58,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(concept.copyright, t)}
+              stringToCopy={concept.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}

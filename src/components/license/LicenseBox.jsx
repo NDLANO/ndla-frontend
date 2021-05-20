@@ -42,6 +42,7 @@ function buildLicenseTabList(article, locale, t) {
           {
             copyright: article.copyright,
             updated: article.published,
+            copyText: article.metaData.copyText,
           },
         ]}
         locale={locale}

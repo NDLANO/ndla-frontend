@@ -25,12 +25,12 @@ import { FileDocumentOutline } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
   src: PropTypes.string.isRequired,
   updated: PropTypes.string.isRequired,
+  copyText: PropTypes.string,
 });
 
 const TextLicenseInfo = ({ text, locale, t }) => {
@@ -56,7 +56,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={getCopyrightCopyString(text.copyright, t)}
+              stringToCopy={text.copyText}
               t={t}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
