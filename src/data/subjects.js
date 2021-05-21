@@ -2754,6 +2754,51 @@ export const betaSubjects = [
     subjectId: 'urn:subject:f665de3e-65dc-478e-b736-cb0af3d38ad4',
     id: 'beta_subject_31',
   },
+  {
+    filters: ['urn:filter:00a0141d-2307-4a5a-a154-0c821449f6d2'],
+    longName: {
+      en: 'Medieuttrykk 2 - 2021 BETA',
+      nb: 'Medieuttrykk 2 - 2021 BETA',
+      nn: 'Medieuttrykk 2 - 2021 BETA',
+    },
+    name: {
+      en: 'Medieuttrykk 2 - 2021 BETA',
+      nb: 'Medieuttrykk 2 - 2021 BETA',
+      nn: 'Medieuttrykk 2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    id: 'beta_subject_32',
+  },
+  {
+    filters: ['urn:filter:ca0f428c-d59a-4836-83be-83cbc3191a23'],
+    longName: {
+      en: 'Mediesamfunnet 2 - 2021 BETA',
+      nb: 'Mediesamfunnet 2 - 2021 BETA',
+      nn: 'Mediesamfunnet 2 - 2021 BETA',
+    },
+    name: {
+      en: 'Mediesamfunnet 2 - 2021 BETA',
+      nb: 'Mediesamfunnet 2 - 2021 BETA',
+      nn: 'Mediesamfunnet 2 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    id: 'beta_subject_33',
+  },
+  {
+    filters: [],
+    longName: {
+      en: 'Engelsk 1 - 2021 BETA',
+      nb: 'Engelsk 1 - 2021 BETA',
+      nn: 'Engelsk 1 - 2021 BETA',
+    },
+    name: {
+      en: 'Engelsk 1 - 2021 BETA',
+      nb: 'Engelsk 1 - 2021 BETA',
+      nn: 'Engelsk 1 - 2021 BETA',
+    },
+    subjectId: 'urn:subject:cccdda20-f034-4fc7-877a-f91d89c40178',
+    id: 'beta_subject_34',
+  },
 ];
 
 export const subjectsCategories = [
