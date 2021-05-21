@@ -36,11 +36,12 @@ const PlainArticlePage = ({
   locale,
   skipToContentId,
   match: {
+    url,
     params: { articleId },
   },
 }) => {
   const { loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, isOembed: 'false' },
+    variables: { articleId, isOembed: 'false', path: url },
   });
 
   useEffect(() => {
@@ -118,6 +119,7 @@ PlainArticlePage.getDocumentTitle = getDocumentTitle;
 
 PlainArticlePage.propTypes = {
   match: PropTypes.shape({
+    url: PropTypes.string,
     params: PropTypes.shape({
       articleId: PropTypes.string.isRequired,
     }).isRequired,

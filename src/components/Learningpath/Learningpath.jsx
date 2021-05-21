@@ -31,6 +31,7 @@ import {
   BreadCrumbShape,
   LearningpathShape,
   LearningpathStepShape,
+  LocationShape,
   ResourceShape,
   ResourceTypeShape,
   SubjectShape,
@@ -230,7 +231,7 @@ Learningpath.propTypes = {
   resource: ResourceShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
   ndlaFilm: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

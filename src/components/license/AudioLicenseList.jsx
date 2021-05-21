@@ -23,12 +23,12 @@ import { getGroupedContributorDescriptionList } from '@ndla/licenses';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { NewCopyrightObjectShape } from '../../shapes';
-import { getCopyrightCopyString } from './getCopyrightCopyString';
 
 const AudioShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   copyright: NewCopyrightObjectShape.isRequired,
+  copyText: PropTypes.string,
 });
 
 const AudioLicenseInfo = ({ audio, locale, t }) => {
@@ -49,7 +49,7 @@ const AudioLicenseInfo = ({ audio, locale, t }) => {
             <MediaListItemMeta items={items} />
             <CopyTextButton
               t={t}
-              stringToCopy={getCopyrightCopyString(audio.copyright, t)}
+              stringToCopy={audio.copyText}
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
