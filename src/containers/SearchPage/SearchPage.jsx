@@ -44,7 +44,10 @@ const SearchPage = ({ location, locale, history, t }) => {
   const { data, loading } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
     skip: !searchParams.query,
-    variables: stateSearchParams,
+    variables: {
+      ...stateSearchParams,
+      exactMatch: true,
+    },
   });
 
   const handleSearchParamsChange = searchParams => {
@@ -72,7 +75,7 @@ const SearchPage = ({ location, locale, history, t }) => {
           filters={[...searchParams.filters, ...searchParams.levels]}
           programmes={searchParams.programs}
           subjectItems={subjectItems}
-          concepts={conceptData?.conceptSearch}
+          concepts={conceptData?.conceptSearch.concepts}
           resourceTypes={data.resourceTypes}
           location={location}
           locale={locale}
