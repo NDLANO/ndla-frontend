@@ -13,7 +13,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src e2e",
     "format": "node prettier.js write",
     "format-check": "node prettier.js lint",
-    "start": "concurrently \"yarn start:tsc\" \"razzle start --inspect --inspect-port 9230\"",
+    "start": "concurrently --kill-others \"yarn start:tsc\" \"razzle start --inspect --inspect-port 9230\"",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start-without-ssr": "cross-env RAZZLE_DISABLE_SSR=true razzle start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true yarn start",
