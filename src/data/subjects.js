@@ -1940,59 +1940,17 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 2',
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
     },
     name: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
+      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
     },
-    subjectId: 'urn:subject:1:ee84a147-0472-4fc6-832b-704faefa2ff0',
+    subjectId: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
     id: 'study_specialization_subject_22',
-  },
-  {
-    longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 2',
-    },
-    name: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    subjectId: 'urn:subject:1:c338d76a-6e12-4ab5-9018-34e25b4dc9cf',
-    id: 'study_specialization_subject_23',
-  },
-  {
-    longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Medieuttrykk 3',
-    },
-    name: {
-      en: 'Medieuttrykk 3',
-      nb: 'Medieuttrykk 3',
-      nn: 'Medieuttrykk 3',
-    },
-    subjectId: 'urn:subject:1:980866f7-3bf5-429c-ba7a-f91a6cb37f9f',
-    id: 'study_specialization_subject_24',
-  },
-  {
-    longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3 - Mediesamfunnet 3',
-    },
-    name: {
-      en: 'Mediesamfunnet 3',
-      nb: 'Mediesamfunnet 3',
-      nn: 'Mediesamfunnet 3',
-    },
-    subjectId: 'urn:subject:1:8866ecad-85ec-4fcb-b470-d88ec4ebb83c',
-    id: 'study_specialization_subject_25',
   },
 ];
 

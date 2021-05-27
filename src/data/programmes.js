@@ -1134,9 +1134,6 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_22',
               },
-              {
-                id: 'study_specialization_subject_23',
-              },
             ],
           },
           {
@@ -1217,10 +1214,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'study_specialization_subject_24',
-              },
-              {
-                id: 'study_specialization_subject_25',
+                id: 'study_specialization_subject_22',
               },
             ],
           },
