@@ -49,6 +49,7 @@ const SubjectPage = ({
       skip: skipFetchingAllTopics,
       variables: {
         contentUri: data?.topic?.contentUri,
+        filterVisible: true,
       },
     },
   );
