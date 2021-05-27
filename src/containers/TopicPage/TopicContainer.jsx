@@ -38,10 +38,6 @@ import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticl
 import { getAllDimensions } from '../../util/trackingUtil';
 import Resources from '../Resources/Resources';
 import { getTopicPath } from '../../util/getTopicPath';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
@@ -131,11 +127,10 @@ const TopicContainer = ({
             <section>
               {subject ? (
                 <Breadcrumb
-                  items={toBreadcrumbItems(
-                    t('breadcrumb.toFrontpage'),
-                    [subject, ...topicPath],
-                    getFiltersFromUrl(location),
-                  )}
+                  items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+                    subject,
+                    ...topicPath,
+                  ])}
                 />
               ) : null}
             </section>
@@ -186,11 +181,9 @@ TopicContainer.getDocumentTitle = ({ t, data: { topic, subject } }) => {
 };
 
 TopicContainer.getDimensions = props => {
-  const { locale, subject, topicPath, topic } = props.data;
-  const longName = getLongNameFromFilters(locale, props.location, subject);
-
+  const { subject, topicPath, topic } = props.data;
   return getAllDimensions(
-    { subject, topicPath, article: topic.article, filter: longName },
+    { subject, topicPath, article: topic.article, filter: subject.name },
     props.t('htmlTitles.topicPage'),
   );
 };

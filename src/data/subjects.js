@@ -2870,7 +2870,7 @@ export const getSubjectById = id => {
   return subjectObjects[id];
 };
 
-export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
+export const getSubjectBySubjectId = subjectId => {
   const subjects = [
     ...commonSubjects,
     ...programmeSubjects,
@@ -2881,11 +2881,7 @@ export const getSubjectBySubjectIdFilters = (subjectId, filters) => {
 
   return subjects.find(subject => {
     if (subject.subjectId === subjectId) {
-      if (subject.filters.length === filters.length) {
-        return subject.filters.every(filter => {
-          return filters.includes(filter);
-        });
-      }
+      return true;
     }
     return false;
   });

@@ -26,7 +26,7 @@ const getSubjectFilter = (filters, subjects) => {
     .map(category =>
       category.subjects
         .filter(subject =>
-          filters.length
+          filters?.length
             ? subject.filters.some(filter => filters.includes(filter))
             : subjects.includes(subject.subjectId),
         )

@@ -48,7 +48,6 @@ const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
   subjects,
-  filters,
   programmes,
   subjectItems,
   concepts,
@@ -78,7 +77,6 @@ const SearchInnerPage = ({
           ...subjects,
           ...convertProgramSearchParams(programmes, locale).subjects,
         ]),
-        filters: convertSearchParam(filters),
       }
     : getStateSearchParams(searchParams, locale);
 
@@ -86,7 +84,6 @@ const SearchInnerPage = ({
   const { data, error } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
-      levels: stateSearchParams.filters,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),
@@ -246,7 +243,6 @@ const SearchInnerPage = ({
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
       subjects={subjects}
-      filters={filters}
       programmes={programmes}
       suggestion={suggestion}
       concepts={concepts}
@@ -267,7 +263,6 @@ SearchInnerPage.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
-  filters: arrayOf(string),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),

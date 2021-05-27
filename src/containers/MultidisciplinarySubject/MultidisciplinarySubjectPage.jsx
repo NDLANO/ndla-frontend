@@ -92,7 +92,6 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
           <MultidisciplinaryTopicWrapper
             disableNav={index >= selectionLimit - 1}
             topicId={topicId}
-            filterIds=""
             subjectId={subject.id}
             subTopicId={selectedTopics[index + 1]}
             locale={locale}

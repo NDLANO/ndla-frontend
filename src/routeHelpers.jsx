@@ -15,7 +15,7 @@ import {
 } from './constants';
 
 import { getProgrammeBySlug } from './data/programmes';
-import { getSubjectBySubjectIdFilters } from './data/subjects';
+import { getSubjectBySubjectId } from './data/subjects';
 
 export function toSearch(searchString) {
   return `/search?${searchString || ''}`;
@@ -54,76 +54,54 @@ function toLearningpaths() {
   return '/learningpaths';
 }
 
-export function toLearningPath(pathId, stepId, resource, filters = '') {
-  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
+export function toLearningPath(pathId, stepId, resource) {
   if (resource) {
-    return stepId
-      ? `${resource.path}/${stepId}${filterParams}`
-      : `${resource.path}${filterParams}`;
+    return stepId ? `${resource.path}/${stepId}` : resource.path;
   }
   if (pathId && stepId) {
-    return `${toLearningpaths()}/${pathId}/steps/${stepId}${filterParams}`;
+    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
   }
   if (pathId) {
-    return `${toLearningpaths()}/${pathId}${filterParams}`;
+    return `${toLearningpaths()}/${pathId}`;
   }
-  return `${filterParams}`;
+  return toLearningpaths();
 }
 
-export function toArticle(articleId, resource, subjectTopicPath, filters = '') {
-  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
+export function toArticle(articleId, resource, subjectTopicPath) {
   if (subjectTopicPath) {
-    return `${subjectTopicPath}/${removeUrn(resource.id)}${filterParams}`;
+    return `${subjectTopicPath}/${removeUrn(resource.id)}`;
   }
   if (resource) {
-    return `${resource.path}/${filterParams}`;
+    return resource.path;
   }
-  return `/article/${articleId}${filterParams}`;
+  return `/article/${articleId}`;
 }
 
-export function toSubject(subjectId, filters) {
-  const filterParam =
-    filters && filters.length > 0 ? `?filters=${filters}` : '';
-  return `/${removeUrn(subjectId)}${filterParam}`;
+export function toSubject(subjectId) {
+  return `/${removeUrn(subjectId)}`;
 }
 
-export function toTopic(subjectId, filters, ...topicIds) {
+export function toTopic(subjectId, ...topicIds) {
   const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId, filters);
+    return toSubject(urnFreeSubjectId);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
-  const filterParam =
-    filters && filters.length > 0 ? `?filters=${filters}` : '';
-  const t =
-    fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`) +
-    filterParam;
+  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`);
   return t;
 }
 
-export const toTopicPartial = (
-  subjectId,
-  filters = '',
-  ...topicIds
-) => topicId => toTopic(subjectId, filters, ...topicIds, topicId);
+export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
+  toTopic(subjectId, ...topicIds, topicId);
 
-export function toBreadcrumbItems(
-  rootName,
-  paths,
-  filters = '',
-  locale = 'nb',
-) {
+export function toBreadcrumbItems(rootName, paths, locale = 'nb') {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const subjectData = getSubjectBySubjectIdFilters(
-    subject?.id,
-    filters.split(','),
-  );
+  const subjectData = getSubjectBySubjectId(subject?.id);
   const breadcrumbSubject = {
     ...subject,
     name: subjectData?.longName[locale] || subject?.name,
   };
-  const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
   const links = [breadcrumbSubject, ...paths.splice(1)]
     .filter(Boolean)
     .reduce(
@@ -145,11 +123,7 @@ export function toBreadcrumbItems(
         link.to = fixEndSlash(link.to);
       }
       return link;
-    })
-    .map(links => ({
-      ...links,
-      to: links.to + filterParam,
-    }));
+    });
   return [{ to: '/', name: rootName }, ...links];
 }
 
@@ -175,18 +149,8 @@ export function toProgramme(programmePath) {
   return `${PROGRAMME_PATH}/${programmePath}`;
 }
 
-export function toProgrammeSubject(
-  programmePath,
-  subjectId,
-  filterIds,
-  topicIds,
-) {
-  const filterString = filterIds.join(',');
-  return `${toProgramme(programmePath)}${toTopic(
-    subjectId,
-    filterString,
-    topicIds,
-  )}`;
+export function toProgrammeSubject(programmePath, subjectId, topicIds) {
+  return `${toProgramme(programmePath)}${toTopic(subjectId, topicIds)}`;
 }
 
 export function isSubjectPagePath(pathname) {

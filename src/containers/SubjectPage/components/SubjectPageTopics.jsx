@@ -12,7 +12,6 @@ import {
   TopicIntroductionList,
   ResourcesWrapper,
   ResourcesTitle,
-  SubjectFilter,
 } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { TopicShape } from '../../../shapes';
@@ -20,33 +19,15 @@ import { toTopic } from '../subjectPageHelpers';
 import { topicIntroductionMessages } from '../../../util/topicsHelper';
 
 const SubjectPageTopics = props => {
-  const {
-    t,
-    handleFilterClick,
-    filters,
-    topics,
-    subjectId,
-    activeFilters,
-    twoColumns,
-    subjectPage,
-    ndlaFilm,
-  } = props;
+  const { t, topics, subjectId, twoColumns, subjectPage, ndlaFilm } = props;
   return (
     <ResourcesWrapper
       subjectPage
       invertedStyle={ndlaFilm}
       header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
       <div data-testid="topic-list">
-        {filters && filters.length > 1 && (
-          <SubjectFilter
-            label={t('subjectPage.subjectFilter.label')}
-            options={filters}
-            values={activeFilters}
-            onChange={handleFilterClick}
-          />
-        )}
         <TopicIntroductionList
-          toTopic={toTopic(subjectId, activeFilters)}
+          toTopic={toTopic(subjectId)}
           topics={topics}
           messages={topicIntroductionMessages(t)}
           toggleAdditionalCores={() => {}}
@@ -60,17 +41,10 @@ const SubjectPageTopics = props => {
 
 SubjectPageTopics.propTypes = {
   handleFilterClick: PropTypes.func.isRequired,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ),
   topics: PropTypes.arrayOf(TopicShape),
   subjectId: PropTypes.string.isRequired,
   twoColumns: PropTypes.bool,
   subjectPage: PropTypes.bool,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
   ndlaFilm: PropTypes.bool,
 };
 

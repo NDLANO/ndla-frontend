@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
@@ -16,7 +16,6 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import { subjectPageQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import { useGraphQuery } from '../../util/runQueries';
 
 const SubjectPage = ({
@@ -31,36 +30,9 @@ const SubjectPage = ({
     ndlaFilm,
     match,
   });
-  const filterIds = getFiltersFromUrl(location);
   const { loading, data } = useGraphQuery(subjectPageQuery, {
-    variables: {
-      subjectId,
-      filterIds,
-    },
+    variables: { subjectId },
   });
-
-  useEffect(() => {
-    if (data) {
-      const filterIdsArray = filterIds.split(',');
-      const subjectFilters =
-        data?.subject?.filters?.map(filter => filter.id) || [];
-      const sharedFilters = subjectFilters?.filter(id =>
-        filterIdsArray.includes(id),
-      );
-      if (
-        sharedFilters.length < filterIdsArray.length &&
-        data.subject.path === location.pathname
-      ) {
-        history.replace({
-          search: subjectFilters.length
-            ? `?filters=${
-                sharedFilters.length ? sharedFilters.join() : subjectFilters[0]
-              }`
-            : '',
-        });
-      }
-    }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return null;

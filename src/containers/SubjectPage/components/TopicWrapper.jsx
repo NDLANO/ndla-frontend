@@ -10,7 +10,6 @@ import { GraphQLSubjectShape } from '../../../graphqlShapes';
 const TopicWrapper = ({
   topicId,
   subjectId,
-  filterIds,
   locale,
   subTopicId,
   ndlaFilm,
@@ -21,7 +20,7 @@ const TopicWrapper = ({
   subject,
 }) => {
   const { data, loading } = useGraphQuery(topicQuery, {
-    variables: { topicId, subjectId, filterIds },
+    variables: { topicId, subjectId },
     onCompleted: data => {
       setBreadCrumb({
         id: data.topic.id,
@@ -40,7 +39,6 @@ const TopicWrapper = ({
       data={data}
       topicId={topicId}
       subjectId={subjectId}
-      filterIds={filterIds}
       subTopicId={subTopicId}
       locale={locale}
       ndlaFilm={ndlaFilm}
@@ -55,7 +53,6 @@ const TopicWrapper = ({
 TopicWrapper.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
-  filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,

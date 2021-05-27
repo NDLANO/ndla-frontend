@@ -9,7 +9,7 @@ import {
   SubjectCategoryShape,
   TopicShape,
 } from '../../../shapes';
-import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
+import { getSubjectBySubjectId } from '../../../data/subjects';
 
 export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
   return topicId => {
@@ -61,7 +61,7 @@ const MastheadTopics = props => {
     );
   };
 
-  const subjectData = getSubjectBySubjectIdFilters(subject?.id, activeFilters);
+  const subjectData = getSubjectBySubjectId(subject?.id, activeFilters);
   const subjectTitle = subjectData?.name[locale] || subject?.name;
 
   return (

@@ -4,10 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import {
-  getSubjectBySubjectIdFilters,
-  getSubjectById,
-} from '../../data/subjects';
+import { getSubjectBySubjectId, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -75,17 +72,8 @@ export const plainUrl = url => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
-const updateBreadcrumbSubject = (
-  breadcrumbs,
-  subjectId,
-  subject,
-  filters,
-  language,
-) => {
-  const subjectData = getSubjectBySubjectIdFilters(
-    subjectId,
-    filters?.map(f => f.id) || [],
-  );
+const updateBreadcrumbSubject = (breadcrumbs, subjectId, subject, language) => {
+  const subjectData = getSubjectBySubjectId(subjectId);
   const breadcrumbSubject = subjectData?.longName[language] || subject;
   return [breadcrumbSubject, ...breadcrumbs.slice(1)];
 };
@@ -108,10 +96,7 @@ const taxonomyData = (result, selectedContext) => {
       subjects:
         contexts.length > 1
           ? contexts.map(context => {
-              const contextData = getSubjectBySubjectIdFilters(
-                context.subjectId,
-                context.filters.map(f => f.id),
-              );
+              const contextData = getSubjectBySubjectId(context.subjectId);
               return {
                 url: getUrl(context, result),
                 title:

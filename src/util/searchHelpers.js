@@ -6,12 +6,7 @@ import {
 import { removeUrn } from '../routeHelpers';
 
 const createSubjectFilterPath = subject => {
-  const baseUrl = `/${removeUrn(subject.subjectId)}/`;
-  if (subject.filters) {
-    const filterIds = subject.filters.join(',');
-    return `${baseUrl}?filters=${filterIds}`;
-  }
-  return baseUrl;
+  return `/${removeUrn(subject.subjectId)}/`;
 };
 
 const categories = {

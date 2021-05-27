@@ -14,10 +14,6 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -54,8 +50,6 @@ class LearningpathPage extends Component {
         topicPath,
         relevance,
       },
-      locale,
-      location,
       match: {
         params: { stepId },
       },
@@ -65,7 +59,6 @@ class LearningpathPage extends Component {
       ls => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
-    const longName = getLongNameFromFilters(locale, location, subject);
 
     return getAllDimensions(
       {
@@ -74,7 +67,7 @@ class LearningpathPage extends Component {
         topicPath,
         learningpath,
         learningstep,
-        filter: longName,
+        filter: subject.name,
       },
       articleProps.label,
       false,
@@ -97,9 +90,7 @@ class LearningpathPage extends Component {
       match: {
         params: { stepId },
       },
-      location,
     } = this.props;
-    const filterIds = getFiltersFromUrl(location);
     const learningpathStep = stepId
       ? resource.learningpath.learningsteps.find(
           step => step.id.toString() === stepId.toString(),
@@ -117,7 +108,6 @@ class LearningpathPage extends Component {
             resource.learningpath.id,
             newLearningpathStep.id,
             resource,
-            filterIds,
           ),
         );
       }
@@ -130,7 +120,6 @@ class LearningpathPage extends Component {
       locale,
       skipToContentId,
       ndlaFilm,
-      location,
       match: {
         params: { stepId },
       },
@@ -149,7 +138,6 @@ class LearningpathPage extends Component {
     }
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { learningpath } = resource;
-    const filterIds = getFiltersFromUrl(location);
 
     const learningpathStep = stepId
       ? learningpath.learningsteps.find(
@@ -163,16 +151,14 @@ class LearningpathPage extends Component {
 
     const breadcrumbItems =
       subject && topicPath
-        ? toBreadcrumbItems(
-            t('breadcrumb.toFrontpage'),
-            [subject, ...topicPath, { name: learningpath.title, url: '' }],
-            filterIds,
-          )
-        : toBreadcrumbItems(
-            t('breadcrumb.toFrontpage'),
-            [{ name: learningpath.title, url: '' }],
-            filterIds,
-          );
+        ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+            subject,
+            ...topicPath,
+            { name: learningpath.title, url: '' },
+          ])
+        : toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+            { name: learningpath.title, url: '' },
+          ]);
 
     return (
       <div>

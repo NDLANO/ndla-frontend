@@ -15,7 +15,7 @@ import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
+import { getSubjectBySubjectId } from '../../../data/subjects';
 import {
   GraphQLResourceTypeShape,
   GraphQLSubjectShape,
@@ -29,7 +29,6 @@ const getDocumentTitle = ({ t, data }) => {
 const MultidisciplinaryTopic = ({
   topicId,
   subjectId,
-  filterIds,
   locale,
   subTopicId,
   ndlaFilm,
@@ -59,10 +58,9 @@ const MultidisciplinaryTopic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
-    url: toTopic(subjectId, filterIds, ...topicPath, item.id),
+    url: toTopic(subjectId, ...topicPath, item.id),
   }));
-  const filterParam = filterIds ? `?filters=${filterIds}` : '';
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path + filterParam;
+  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
     <>
@@ -113,8 +111,8 @@ MultidisciplinaryTopic.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(subject.id, []);
-  const longName = subjectBySubjectIdFiltes?.longName[locale];
+  const subjectBySubjectId = getSubjectBySubjectId(subject.id);
+  const longName = subjectBySubjectId?.longName[locale];
 
   return getAllDimensions(
     {
@@ -131,7 +129,6 @@ MultidisciplinaryTopic.getDimensions = props => {
 MultidisciplinaryTopic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
-  filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,

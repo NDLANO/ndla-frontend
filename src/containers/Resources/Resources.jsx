@@ -20,7 +20,6 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups } from './getResourceGroups';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 
 class Resources extends Component {
   constructor(props) {
@@ -66,7 +65,6 @@ class Resources extends Component {
       t,
       topic,
       resourceTypes,
-      location,
       locale,
       ndlaFilm,
     } = this.props;
@@ -79,12 +77,7 @@ class Resources extends Component {
     }
 
     const resourceToLinkProps = resource =>
-      resourceToLinkPropsHelper(
-        resource,
-        topic.path,
-        getFiltersFromUrl(location),
-        locale,
-      );
+      resourceToLinkPropsHelper(resource, topic.path, locale);
 
     if (
       resourceTypes === null ||

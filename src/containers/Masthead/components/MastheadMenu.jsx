@@ -10,7 +10,6 @@ import {
 } from '../../../shapes';
 import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
-import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
 
@@ -79,12 +78,10 @@ class MastheadMenu extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { location } = nextProps;
     if (location !== prevState.location) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
       const { topicList } = getUrnIdsFromProps(nextProps);
       return {
         expandedTopicId: topicList?.[0] || null,
         expandedSubtopicsId: topicList?.slice(1) || [],
-        activeFilters,
         location,
       };
     }

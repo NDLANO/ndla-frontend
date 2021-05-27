@@ -10,7 +10,6 @@ import MultidisciplinaryTopic from './MultidisciplinaryTopic';
 const MultidisciplinaryTopicWrapper = ({
   topicId,
   subjectId,
-  filterIds,
   locale,
   subTopicId,
   ndlaFilm,
@@ -19,7 +18,7 @@ const MultidisciplinaryTopicWrapper = ({
   disableNav,
 }) => {
   const { data, loading } = useGraphQuery(topicQuery, {
-    variables: { topicId, subjectId, filterIds },
+    variables: { topicId, subjectId },
   });
 
   if (loading) {
@@ -31,7 +30,6 @@ const MultidisciplinaryTopicWrapper = ({
       data={data}
       topicId={topicId}
       subjectId={subjectId}
-      filterIds={filterIds}
       subTopicId={subTopicId}
       locale={locale}
       ndlaFilm={ndlaFilm}
@@ -44,7 +42,6 @@ const MultidisciplinaryTopicWrapper = ({
 MultidisciplinaryTopicWrapper.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
-  filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,
