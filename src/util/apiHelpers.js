@@ -95,7 +95,6 @@ export const createApolloClient = (language = 'nb') => {
     headers: {
       ...headers,
       'Accept-Language': language,
-      'Use-Taxonomy2': true,
     },
   }));
 
