@@ -2480,7 +2480,6 @@ export const betaSubjects = [
   },
 
   {
-    filters: ['urn:filter:a45bba8f-61b7-4dc5-8609-126c4d9c7652'],
     longName: {
       en: 'Matematikk 2P -  2021 BETA',
       nb: 'Matematikk 2P -  2021 BETA',
@@ -2491,11 +2490,10 @@ export const betaSubjects = [
       nb: 'Matematikk 2P -  2021 BETA',
       nn: 'Matematikk 2P -  2021 BETA',
     },
-    subjectId: 'urn:subject:9d6d7550-f6df-4157-aa21-1f161d18f771',
+    subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
     id: 'beta_subject_27',
   },
   {
-    filters: ['urn:filter:734bd33b-da6d-49b0-bb34-c6df5b956f8e'],
     longName: {
       en: 'Matematikk R1 - 2021 BETA',
       nb: 'Matematikk R1 - 2021 BETA',
@@ -2506,11 +2504,10 @@ export const betaSubjects = [
       nb: 'Matematikk R1 - 2021 BETA',
       nn: 'Matematikk R1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:dab41c7e-e8b1-4f28-8893-e360d849c270',
+    subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
     id: 'beta_subject_28',
   },
   {
-    filters: ['urn:filter:b561f04f-d633-453e-b0ce-84985f97969b'],
     longName: {
       en: 'Matematikk S1 - 2021 BETA',
       nb: 'Matematikk S1 - 2021 BETA',
@@ -2521,11 +2518,10 @@ export const betaSubjects = [
       nb: 'Matematikk S1 - 2021 BETA',
       nn: 'Matematikk S1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:6ba15509-052e-42dc-83cb-b06c1774cc74',
+    subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
     id: 'beta_subject_29',
   },
   {
-    filters: ['urn:filter:1f1865fc-e4cc-48a0-918f-3530485ec424'],
     longName: {
       en: 'Kommunikasjon og kultur - 2021 BETA',
       nb: 'Kommunikasjon og kultur - 2021 BETA',
@@ -2536,11 +2532,10 @@ export const betaSubjects = [
       nb: 'Kommunikasjon og kultur - 2021 BETA',
       nn: 'Kommunikasjon og kultur - 2021 BETA',
     },
-    subjectId: 'urn:subject:22d73be5-840f-4811-b442-9cd10d0d7248',
+    subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
     id: 'beta_subject_30',
   },
   {
-    filters: ['urn:filter:83ce68bc-19c9-4f2b-8dba-caf401428f21'],
     longName: {
       en: 'Biologi 1 - 2021 BETA',
       nb: 'Biologi 1 - 2021 BETA',
@@ -2551,11 +2546,10 @@ export const betaSubjects = [
       nb: 'Biologi 1 - 2021 BETA',
       nn: 'Biologi 1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:f665de3e-65dc-478e-b736-cb0af3d38ad4',
+    subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
     id: 'beta_subject_31',
   },
   {
-    filters: ['urn:filter:00a0141d-2307-4a5a-a154-0c821449f6d2'],
     longName: {
       en: 'Medieuttrykk 2 - 2021 BETA',
       nb: 'Medieuttrykk 2 - 2021 BETA',
@@ -2566,11 +2560,10 @@ export const betaSubjects = [
       nb: 'Medieuttrykk 2 - 2021 BETA',
       nn: 'Medieuttrykk 2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    subjectId: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
     id: 'beta_subject_32',
   },
   {
-    filters: ['urn:filter:ca0f428c-d59a-4836-83be-83cbc3191a23'],
     longName: {
       en: 'Mediesamfunnet 2 - 2021 BETA',
       nb: 'Mediesamfunnet 2 - 2021 BETA',
@@ -2581,11 +2574,10 @@ export const betaSubjects = [
       nb: 'Mediesamfunnet 2 - 2021 BETA',
       nn: 'Mediesamfunnet 2 - 2021 BETA',
     },
-    subjectId: 'urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4',
+    subjectId: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
     id: 'beta_subject_33',
   },
   {
-    filters: [],
     longName: {
       en: 'Engelsk 1 - 2021 BETA',
       nb: 'Engelsk 1 - 2021 BETA',
@@ -2596,7 +2588,7 @@ export const betaSubjects = [
       nb: 'Engelsk 1 - 2021 BETA',
       nn: 'Engelsk 1 - 2021 BETA',
     },
-    subjectId: 'urn:subject:cccdda20-f034-4fc7-877a-f91d89c40178',
+    subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
     id: 'beta_subject_34',
   },
 ];
