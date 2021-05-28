@@ -584,8 +584,8 @@ export const subjectTopicsQuery = gql`
 `;
 
 export const topicsQueryWithBreadcrumbs = gql`
-  query topicQuery($contentUri: String) {
-    topics(contentUri: $contentUri) {
+  query topicQuery($contentUri: String, $filterVisible: Boolean) {
+    topics(contentUri: $contentUri, filterVisible: $filterVisible) {
       ...TopicInfo
       breadcrumbs
     }
