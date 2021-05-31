@@ -545,6 +545,7 @@ exports[`ErrorPage renderers correctly 1`] = `
               aria-label="Nasjonal digital læringsarena"
               href="/"
               onClick={[Function]}
+              tabIndex={0}
             >
               <svg
                 className="c-logo__graphic"
@@ -605,6 +606,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           <a
             href="/"
             onClick={[Function]}
+            tabIndex={0}
           >
             Gå til forsiden
           </a>
@@ -708,7 +710,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           <h2
             className="emotion-17 emotion-18"
           >
-            Sammen skaper vi fremtidens læring.
+            Sammen skaper vi framtidas læring
           </h2>
           <div
             className="emotion-63 emotion-64"
