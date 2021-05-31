@@ -1526,7 +1526,7 @@ export const programmeSubjects = [
       nb: 'Komplettering, produksjon og brønnvedlikehold',
       nn: 'Komplettering, produksjon og brønnvedlikehald',
     },
-    subjectId: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_53',
   },
   {
@@ -1540,7 +1540,7 @@ export const programmeSubjects = [
       nb: 'HMS og kvalitet',
       nn: 'HMS og kvalitet',
     },
-    subjectId: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_54',
   },
   {
@@ -1652,7 +1652,7 @@ export const programmeSubjects = [
       nb: 'Leting og boring',
       nn: 'Leiting og boring',
     },
-    subjectId: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     id: 'programme_subject_62',
   },
 ];

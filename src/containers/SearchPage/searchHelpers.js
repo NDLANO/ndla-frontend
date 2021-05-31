@@ -121,9 +121,7 @@ const taxonomyData = (result, selectedContext) => {
 
 const arrayFields = [
   'languageFilter',
-  'levels',
   'subjects',
-  'filters',
   'programs',
   'relevance',
   'resourceTypes',
