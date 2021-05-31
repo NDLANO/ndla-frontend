@@ -12,7 +12,6 @@ Object {
     "2",
     "3",
   ],
-  "levels": "urn:test:3,urn:test:1,urn:test:2",
   "page": "3",
   "programs": Array [],
   "query": "test",
