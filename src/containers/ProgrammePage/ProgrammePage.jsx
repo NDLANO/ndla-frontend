@@ -18,7 +18,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
-import { toSubject } from '../../routeHelpers';
+import { createSubjectFilterUrl } from '../../util/programmesSubjectsHelper';
 
 const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
@@ -34,7 +34,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
             subjectInfo.subjectId,
             subjectInfo.filters,
           );*/
-          const url = toSubject(subjectInfo.subjectId, subjectInfo.filters);
+          const url = createSubjectFilterUrl(subjectInfo, subjectInfo.filters);
           return {
             label: subjectInfo.name[locale],
             url: url,
