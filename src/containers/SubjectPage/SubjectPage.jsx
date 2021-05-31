@@ -8,15 +8,19 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQuery } from '../../queries';
+import {
+  subjectPageQueryWithTopics,
+  topicsQueryWithBreadcrumbs,
+} from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
+import MovedTopicPage from './components/MovedTopicPage';
 
 const SubjectPage = ({
   match,
@@ -26,20 +30,44 @@ const SubjectPage = ({
   skipToContentId,
   ndlaFilm,
 }) => {
-  const { subjectId, topicList } = getUrnIdsFromProps({
+  const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
     match,
   });
-  const { loading, data } = useGraphQuery(subjectPageQuery, {
-    variables: { subjectId },
+  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
+    variables: {
+      subjectId,
+      topicId: topicId || '',
+    },
   });
 
-  if (loading) {
+  const skipFetchingAllTopics = !data || data.topic?.path !== null;
+
+  const { loading: loadingTopics, data: allTopics } = useGraphQuery(
+    topicsQueryWithBreadcrumbs,
+    {
+      skip: skipFetchingAllTopics,
+      variables: {
+        contentUri: data?.topic?.contentUri,
+        filterVisible: true,
+      },
+    },
+  );
+
+  if (loading || loadingTopics) {
     return null;
   }
 
   if (!data) {
     return <DefaultErrorMessage />;
+  }
+
+  if (!data?.subject && allTopics?.topics?.length >= 1) {
+    const topicsWithPath = allTopics.topics.filter(t => t.path);
+    if (topicsWithPath.length === 1) {
+      return <Redirect to={topicsWithPath[0].path} />;
+    }
+    return <MovedTopicPage topics={topicsWithPath} />;
   }
 
   if (!data.subject) {
