@@ -12,14 +12,11 @@ import {
 } from '../../constants';
 
 const getRelevance = context => {
-  if (context?.filters?.length > 0) {
-    return (
-      // Consider getting from constants
-      context.filters[0].relevance === 'Tilleggsstoff' ||
-      context.filters[0].relevance === 'Supplementary'
-    );
-  }
-  return false;
+  // Consider getting from constants
+  return (
+    context?.relevance === 'Tilleggsstoff' ||
+    context?.relevance === 'Supplementary'
+  );
 };
 
 const getResourceType = resource => {
@@ -298,7 +295,7 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
         ? resource.contexts[0].resourceTypes.slice(1).map(type => type.name)
         : []),
       ...(getRelevance(resource.contexts?.[0])
-        ? [resource.contexts[0].filters?.[0].relevance]
+        ? [getRelevance(resource.contexts[0])]
         : []),
     ],
     contexts: resource.contexts.map(context => ({

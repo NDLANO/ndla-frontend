@@ -75,12 +75,10 @@ const possibleTypes = {
 
 const typePolicies = {
   SearchContext: {
-    keyFields: object =>
-      object.filters?.length ? object.filters.id : object.path,
+    keyFields: object => object.path,
   },
   GroupSearchResult: {
-    keyFields: object =>
-      object.filters?.length ? object.filters.id : object.path,
+    keyFields: object => object.path,
   },
   Filter: {
     keyFields: object => `${object.id}+${object.relevanceId}`,

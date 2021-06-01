@@ -65,11 +65,7 @@ export const searchQuery = gql`
         contexts {
           id
           breadcrumbs
-          filters {
-            id
-            name
-            relevance
-          }
+          relevance
           language
           learningResourceType
           path
@@ -144,10 +140,7 @@ export const searchFilmQuery = gql`
         title
         contexts {
           breadcrumbs
-          filters {
-            name
-            relevance
-          }
+          relevance
           language
           learningResourceType
           path
@@ -203,13 +196,10 @@ export const groupSearchQuery = gql`
           breadcrumbs
           subjectId
           subject
+          relevance
           resourceTypes {
             id
             name
-          }
-          filters {
-            id
-            relevance
           }
         }
         metaImage {
@@ -274,10 +264,6 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
-          filters {
-            id
-            name
-          }
         }
         totalCount
         suggestions {
@@ -298,10 +284,6 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
-          filters {
-            id
-            name
-          }
         }
         totalCount
         suggestions {
@@ -342,10 +324,6 @@ export const topicInfoFragment = gql`
     id
     name
     parent
-    filters {
-      id
-      name
-    }
     contentUri
     path
     meta {
@@ -374,12 +352,7 @@ export const resourceInfoFragment = gql`
     contentUri
     path
     paths
-    filters {
-      id
-      name
-      subjectId
-      relevanceId
-    }
+    relevanceId
     resourceTypes {
       id
       name
@@ -575,10 +548,6 @@ export const subjectTopicsQuery = gql`
           metaDescription
         }
       }
-      filters {
-        id
-        name
-      }
     }
   }
 `;
@@ -609,13 +578,6 @@ export const subjectPageQueryWithTopics = gql`
       allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
-      filters {
-        id
-        name
-        subjectpage {
-          ...SubjectPageInfo
-        }
-      }
       subjectpage {
         ...SubjectPageInfo
       }
@@ -644,13 +606,6 @@ export const subjectPageQuery = gql`
       allTopics: topics(all: true) {
         ...TopicInfo
       }
-      filters {
-        id
-        name
-        subjectpage {
-          ...SubjectPageInfo
-        }
-      }
       subjectpage {
         ...SubjectPageInfo
       }
@@ -674,10 +629,6 @@ export const searchPageQuery = gql`
   query searchPageQuery {
     subjects {
       ...SubjectInfo
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -835,10 +786,6 @@ export const topicQueryWithPathTopics = gql`
         name
         path
       }
-      filters {
-        id
-        name
-      }
       meta {
         id
         metaDescription
@@ -882,10 +829,6 @@ export const topicQuery = gql`
       id
       name
       path
-      filters {
-        id
-        name
-      }
       meta {
         id
         metaDescription
@@ -1027,10 +970,6 @@ export const mastHeadQuery = gql`
           metaDescription
         }
       }
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -1098,10 +1037,6 @@ export const topicPageQuery = gql`
           metaDescription
         }
       }
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -1132,10 +1067,6 @@ export const resourcePageQuery = gql`
           metaDescription
         }
       }
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -1149,10 +1080,6 @@ export const resourcePageQuery = gql`
       id
       name
       path
-      filters {
-        id
-        name
-      }
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
