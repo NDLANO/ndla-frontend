@@ -16,7 +16,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { getSubjectBySubjectId } from '../../../data/subjects';
+import { getSubjectLongName } from '../../../data/subjects';
 import {
   GraphQLResourceTypeShape,
   GraphQLSubjectShape,
@@ -126,8 +126,7 @@ Topic.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectId = getSubjectBySubjectId(subject.id);
-  const longName = subjectBySubjectId?.longName[locale];
+  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions(
     {

@@ -4,7 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { getSubjectBySubjectId, getSubjectById } from '../../data/subjects';
+import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -73,8 +73,8 @@ export const plainUrl = url => {
 };
 
 const updateBreadcrumbSubject = (breadcrumbs, subjectId, subject, language) => {
-  const subjectData = getSubjectBySubjectId(subjectId);
-  const breadcrumbSubject = subjectData?.longName[language] || subject;
+  const longName = getSubjectLongName(subjectId, language);
+  const breadcrumbSubject = longName || subject;
   return [breadcrumbSubject, ...breadcrumbs.slice(1)];
 };
 
@@ -96,11 +96,13 @@ const taxonomyData = (result, selectedContext) => {
       subjects:
         contexts.length > 1
           ? contexts.map(context => {
-              const contextData = getSubjectBySubjectId(context.subjectId);
+              const longName = getSubjectLongName(
+                context.subjectId,
+                context.language,
+              );
               return {
                 url: getUrl(context, result),
-                title:
-                  contextData?.longName[context.language] || context.subject,
+                title: longName || context.subject,
                 contentType: getContentType(context),
                 breadcrumb: context.breadcrumbs,
               };

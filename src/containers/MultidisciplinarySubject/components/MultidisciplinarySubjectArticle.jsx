@@ -19,7 +19,7 @@ import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { getSubjectBySubjectId } from '../../../data/subjects';
+import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
@@ -124,8 +124,7 @@ MultidisciplinarySubjectArticle.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectId = getSubjectBySubjectId(subject.id, []);
-  const longName = subjectBySubjectId?.longName[locale];
+  const longName = getSubjectLongName(subject?.id, locale);
 
   return getAllDimensions(
     {
