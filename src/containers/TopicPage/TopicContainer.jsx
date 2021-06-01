@@ -36,6 +36,7 @@ import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { getSubjectLongName } from '../../data/subjects';
 import Resources from '../Resources/Resources';
 import { getTopicPath } from '../../util/getTopicPath';
 import { transformArticle } from '../../util/transformArticle';
@@ -182,8 +183,9 @@ TopicContainer.getDocumentTitle = ({ t, data: { topic, subject } }) => {
 
 TopicContainer.getDimensions = props => {
   const { subject, topicPath, topic } = props.data;
+  const longName = getSubjectLongName(subject?.id, props.locale);
   return getAllDimensions(
-    { subject, topicPath, article: topic.article, filter: subject.name },
+    { subject, topicPath, article: topic.article, filter: longName },
     props.t('htmlTitles.topicPage'),
   );
 };

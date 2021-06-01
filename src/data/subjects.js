@@ -2681,3 +2681,7 @@ export const getSubjectBySubjectId = subjectId => {
     return false;
   });
 };
+
+export const getSubjectLongName = (subjectId, locale) => {
+  return getSubjectBySubjectId(subjectId)?.longName[locale];
+};

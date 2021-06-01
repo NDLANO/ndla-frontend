@@ -37,6 +37,7 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
+import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -64,10 +65,12 @@ class ArticlePage extends Component {
         topicPath,
         relevance,
       },
+      locale,
     } = props;
+    const longName = getSubjectLongName(subject?.id, locale);
 
     return getAllDimensions(
-      { article, relevance, subject, topicPath, filter: subject.name },
+      { article, relevance, subject, topicPath, filter: longName },
       articleProps.label,
       true,
     );

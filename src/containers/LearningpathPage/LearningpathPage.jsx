@@ -24,6 +24,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
+import { getSubjectLongName } from '../../data/subjects';
 import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
@@ -50,6 +51,7 @@ class LearningpathPage extends Component {
         topicPath,
         relevance,
       },
+      locale,
       match: {
         params: { stepId },
       },
@@ -59,6 +61,7 @@ class LearningpathPage extends Component {
       ls => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
+    const longName = getSubjectLongName(subject?.id, locale);
 
     return getAllDimensions(
       {
@@ -67,7 +70,7 @@ class LearningpathPage extends Component {
         topicPath,
         learningpath,
         learningstep,
-        filter: subject.name,
+        filter: longName,
       },
       articleProps.label,
       false,

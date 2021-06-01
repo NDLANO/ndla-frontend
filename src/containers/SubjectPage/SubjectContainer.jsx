@@ -26,7 +26,7 @@ import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
-import { getSubjectBySubjectId } from '../../data/subjects';
+import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -254,15 +254,16 @@ SubjectContainer.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 SubjectContainer.getDimensions = props => {
-  const { data, topics } = props;
+  const { data, locale, topics } = props;
   const topicPath = topics.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
+  const longName = getSubjectLongName(data.subject?.id, locale);
 
   return getAllDimensions({
     subject: data.subject,
     topicPath,
-    filter: data.subject.name,
+    filter: longName,
   });
 };
 
