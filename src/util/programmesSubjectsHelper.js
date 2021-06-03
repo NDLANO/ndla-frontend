@@ -9,6 +9,7 @@
 import { toProgramme, toSubject } from '../routeHelpers';
 import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
+import { removeUrn } from '../routeHelpers';
 
 const sortBy = (arr, sortByProp = 'name') =>
   arr.sort((a, b) => {
@@ -17,8 +18,11 @@ const sortBy = (arr, sortByProp = 'name') =>
     return 0;
   });
 
-const createSubjectFilterUrl = (subject, filter) => {
-  const baseUrl = `${toSubject(subject.subjectId)}/`;
+export const createSubjectFilterUrl = (subject, filter) => {
+  let baseUrl = `${toSubject(subject.subjectId)}/`;
+  if (subject.topicId) {
+    baseUrl = `${baseUrl}${removeUrn(subject.topicId)}/`;
+  }
   if (filter) {
     const filterIds = filter.join(',');
     return `${baseUrl}?filters=${filterIds}`;

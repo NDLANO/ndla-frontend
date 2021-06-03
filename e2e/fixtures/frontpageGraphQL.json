@@ -1,1 +1,734 @@
-[{"data":{"frontpage":{"topical":[{"id":"urn:resource:1:161411","name":"Klar, ferdig, kreativ!","contentUri":"urn:learningpath:296","path":null,"resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:182176","name":"NABC, pitch, rollespill og moodboards","contentUri":null,"path":null,"resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:183636","name":"Skisseteknikk","contentUri":null,"path":null,"resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:170204","name":"Kreativ kommunikasjon","contentUri":"urn:article:1041","path":null,"resourceTypes":[],"__typename":"Resource"}],"categories":[{"name":"fellesfag","subjects":[],"__typename":"Category"},{"name":"yrkesfag","subjects":[{"id":"urn:subject:24","name":"Helsed- og oppvekstfag Vg1","path":"/subject:24","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:12","name":"Service og samferdsel Vg1","path":"/subject:12","__typename":"Subject","frontpageFilters":[]}],"__typename":"Category"},{"name":"studiespesialiserende","subjects":[{"id":"urn:subject:14","name":"Medie- og informasjonskunnskap","path":"/subject:14","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:8","name":"Tysk","path":"/subject:8","__typename":"Subject","frontpageFilters":[{"id":"urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d","name":"Tysk 2","__typename":"SubjectFilter"},{"id":"urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413","name":"Tysk 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:1","name":"Medieuttrykk og mediesamfunnet","path":"/subject:1","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:2","name":"Kinesisk","path":"/subject:2","__typename":"Subject","frontpageFilters":[{"id":"urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f","name":"Kinesisk 2","__typename":"SubjectFilter"},{"id":"urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028","name":"Kinesisk 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:7","name":"Markedsføring og ledelse 1","path":"/subject:7","__typename":"Subject","frontpageFilters":[]}],"__typename":"Category"}],"__typename":"Frontpage"},"subjects":[{"id":"urn:subject:23","name":"Samfunnsfaglig engelsk","path":"/subject:23","__typename":"Subject","filters":[{"id":"urn:filter:ba8a160d-0925-4a56-9507-b9cf3885f955","name":"SF VG3","__typename":"SubjectFilter"}]},{"id":"urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff","name":"Informatikk","path":"/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff","__typename":"Subject","filters":[{"id":"urn:filter:69300880-72f3-435f-a752-12fbdd42c398","name":"Simple","__typename":"SubjectFilter"},{"id":"urn:filter:abc7c8fc-ead9-48b5-9dd8-9ff3c55185cc","name":"Advanced","__typename":"SubjectFilter"}]},{"id":"urn:subject:4","name":"Vg 2 Helsearbeiderfag","path":"/subject:4","__typename":"Subject","filters":[{"id":"urn:filter:214262b2-8430-4ef1-93ad-e45568dc3166","name":"YF VG2","__typename":"SubjectFilter"}]},{"id":"urn:subject:27","name":"Internasjonal engelsk","path":"/subject:27","__typename":"Subject","filters":[{"id":"urn:filter:f36fc323-304b-442e-a4b7-33e3161ce433","name":"SF VG2","__typename":"SubjectFilter"},{"id":"urn:filter:3ca86b25-453c-4547-aca7-dcddff32d9a1","name":"ddd","__typename":"SubjectFilter"}]},{"id":"urn:subject:14","name":"Medie- og informasjonskunnskap","path":"/subject:14","__typename":"Subject","filters":[{"id":"urn:filter:fcc721ed-aa16-486d-801c-511bbe7f7dcc","name":"MIK 2","__typename":"SubjectFilter"},{"id":"urn:filter:77db55c9-b7ae-4702-8a57-eaa4f88c6332","name":"MIK 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:8","name":"Tysk","path":"/subject:8","__typename":"Subject","filters":[{"id":"urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d","name":"Tysk 2","__typename":"SubjectFilter"},{"id":"urn:filter:5555ce0e-f34f-436d-acff-5e58fd8ab53b","name":"Tysk 3","__typename":"SubjectFilter"},{"id":"urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413","name":"Tysk 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:b1bcf1fc-e538-4a19-bb5f-efdc06c375b4","name":"Tomt fag","path":"/subject:b1bcf1fc-e538-4a19-bb5f-efdc06c375b4","__typename":"Subject","filters":[]},{"id":"urn:subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74","name":"dddd","path":"/subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74","__typename":"Subject","filters":[{"id":"urn:filter:b1c741a8-0339-360c-ad19-fd9812c66653","name":"d","__typename":"SubjectFilter"}]},{"id":"urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672","name":"Testfag 123","path":"/subject:7cf523b9-8d16-4173-80a4-1674ec8f6672","__typename":"Subject","filters":[{"id":"urn:filter:d60b8f38-96d4-43c6-8beb-d6a0da950a98","name":"Testfilter","__typename":"SubjectFilter"}]},{"id":"urn:subject:1","name":"Medieuttrykk og mediesamfunnet","path":"/subject:1","__typename":"Subject","filters":[{"id":"urn:filter:122309e6-ad4b-45a3-8d86-39d07aa6daa0","name":"SF VG3","__typename":"SubjectFilter"},{"id":"urn:filter:ca7608a8-2a81-413c-9c7f-7c3629b9b6d1","name":"SF VG1","__typename":"SubjectFilter"},{"id":"urn:filter:9494cb1a-bf5f-4273-ad39-59a1308fdfb7","name":"SF VG2","__typename":"SubjectFilter"},{"id":"urn:filter:c317b2a0-73c8-43d8-9bf1-964c60d902e1","name":"Medieuttrykk","__typename":"SubjectFilter"},{"id":"urn:filter:c3b90373-e42b-4456-8aba-4833643882d4","name":"Mediesamfunnet","__typename":"SubjectFilter"}]},{"id":"urn:subject:6b5aeb7a-3237-4d1b-9657-db20e33c2ab9","name":"Bærekraftig utvikling","path":"/subject:6b5aeb7a-3237-4d1b-9657-db20e33c2ab9","__typename":"Subject","filters":[]},{"id":"urn:subject:24","name":"Helsed- og oppvekstfag Vg1","path":"/subject:24","__typename":"Subject","filters":[{"id":"urn:filter:8f224489-e31e-49c4-9fd2-3b9a1dd53c8d","name":"Filter","__typename":"SubjectFilter"}]},{"id":"urn:subject:20","name":"NDLA film","path":"/subject:20","__typename":"Subject","filters":[{"id":"urn:filter:45a062eb-25cd-33e5-89b7-0c5c18889ed7","name":"NDLA Film","__typename":"SubjectFilter"}]},{"id":"urn:subject:7afebc1c-bb9d-4aca-8783-18ec580b5b5a","name":"Murerfaget","path":"/subject:7afebc1c-bb9d-4aca-8783-18ec580b5b5a","__typename":"Subject","filters":[]},{"id":"urn:subject:4769da63-fa10-4666-bf93-55173c57753f","name":"Testfag 2","path":"/subject:4769da63-fa10-4666-bf93-55173c57753f","__typename":"Subject","filters":[{"id":"urn:filter:cb0d317d-78bb-4ac5-b293-d0d5e333bdec","name":"TestFilter","__typename":"SubjectFilter"},{"id":"urn:filter:6926b744-1d8b-4cd0-a366-b15680cdccd4","name":"Lang","__typename":"SubjectFilter"},{"id":"urn:filter:7a538c54-48b1-462e-ab31-23a088b17318","name":"TestFilter VG2","__typename":"SubjectFilter"}]},{"id":"urn:subject:1cc21323-3aa2-4213-8e56-c7403148030f","name":"TMK-faget[edited]","path":"/subject:1cc21323-3aa2-4213-8e56-c7403148030f","__typename":"Subject","filters":[{"id":"urn:filter:192e12df-b3d1-40c7-b32f-112b3ebcb7ec","name":"TMK filter 2","__typename":"SubjectFilter"},{"id":"urn:filter:5fc964cd-e27b-46c3-9edb-781ccc7caffe","name":"TMK filter 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:172db814-eb31-3ace-a54b-b68acd669b6c","name":"Demokrati og medborgerskap","path":"/subject:172db814-eb31-3ace-a54b-b68acd669b6c","__typename":"Subject","filters":[]},{"id":"urn:subject:15","name":"Sørsamisk vg1 og vg2","path":"/subject:15","__typename":"Subject","filters":[{"id":"urn:filter:86b992ee-d7d5-4591-a077-fed55848ded9","name":"YF VG1","__typename":"SubjectFilter"},{"id":"urn:filter:26ac4b1a-4069-4049-8acb-35c8531f9197","name":"YF VG2","__typename":"SubjectFilter"},{"id":"urn:filter:30d96ddc-f04f-4d76-a9ae-e69b0698bd5c","name":"PB VG3","__typename":"SubjectFilter"},{"id":"urn:filter:55c53a49-9d53-49fa-844d-1f0a47e35e3d","name":"SF VG2","__typename":"SubjectFilter"},{"id":"urn:filter:e01feab2-2f07-4144-9424-e3b73537e595","name":"SF VG1","__typename":"SubjectFilter"}]},{"id":"urn:subject:11","name":"Bygg- og anleggsteknikk","path":"/subject:11","__typename":"Subject","filters":[]},{"id":"urn:subject:13","name":"Naturbruk Vg1","path":"/subject:13","__typename":"Subject","filters":[]},{"id":"urn:subject:9aa04328-83de-4d96-b539-152440464e04","name":"testfag BM","path":"/subject:9aa04328-83de-4d96-b539-152440464e04","__typename":"Subject","filters":[]},{"id":"urn:subject:12","name":"Service og samferdsel Vg1","path":"/subject:12","__typename":"Subject","filters":[{"id":"urn:filter:487b2693-e69b-41e2-97e2-ed5e99bd0e27","name":"Test admin2","__typename":"SubjectFilter"},{"id":"urn:filter:e5ab97a3-a390-4508-8d92-53b0c26e47a4","name":"Sikkerhet og transport","__typename":"SubjectFilter"},{"id":"urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce","name":"Administrasjon og økonomi","__typename":"SubjectFilter"},{"id":"urn:filter:6d928a1c-f774-409a-9c04-26b0a107f525","name":"Markedsføring og salg","__typename":"SubjectFilter"}]},{"id":"urn:subject:b5b2b1fa-a129-4781-b2b4-18ecbadf0f10","name":"cypress-test-fag ","path":"/subject:b5b2b1fa-a129-4781-b2b4-18ecbadf0f10","__typename":"Subject","filters":[]},{"id":"urn:subject:10","name":"Matematikk fellesfag","path":"/subject:10","__typename":"Subject","filters":[{"id":"urn:filter:1e2de4a1-db77-4b56-8fec-9027637d44f4","name":"1T","__typename":"SubjectFilter"},{"id":"urn:filter:222b1643-cb6c-492b-be90-97e7016a580c","name":"1P","__typename":"SubjectFilter"},{"id":"urn:filter:8abb2332-1f96-47d2-a061-8c8551f2bab9","name":"2P-Y","__typename":"SubjectFilter"},{"id":"urn:filter:03200223-742a-499b-ad0f-4e73917cfea4","name":"1T-Y","__typename":"SubjectFilter"},{"id":"urn:filter:fb2266d4-7c50-4972-94f5-e0ec08c68e4b","name":"R1","__typename":"SubjectFilter"},{"id":"urn:filter:85efba2b-f50f-4bec-8f71-2aba1c6cb53f","name":"2P","__typename":"SubjectFilter"},{"id":"urn:filter:b4913bfd-d1a2-40cc-ac0a-eb3f64d491ab","name":"R2","__typename":"SubjectFilter"},{"id":"urn:filter:f0fff57a-d375-4a85-bea2-63b4272decf1","name":"1P-Y","__typename":"SubjectFilter"},{"id":"urn:filter:90db0775-b7bd-4630-b0b9-cb3fe6f1313a","name":"S2","__typename":"SubjectFilter"},{"id":"urn:filter:f95feb14-a86c-4700-9ad6-f2d8b6d82405","name":"S1","__typename":"SubjectFilter"}]},{"id":"urn:subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3","name":"test","path":"/subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3","__typename":"Subject","filters":[]},{"id":"urn:subject:adf22336-a201-4d78-bf09-d648ea5b9165","name":"test","path":"/subject:adf22336-a201-4d78-bf09-d648ea5b9165","__typename":"Subject","filters":[]},{"id":"urn:subject:9","name":"Historie Vg2 og Vg3","path":"/subject:9","__typename":"Subject","filters":[{"id":"urn:filter:2309b75d-197e-4d94-a1b3-55eaab9945f2","name":"SF VG2","__typename":"SubjectFilter"},{"id":"urn:filter:fb7e8e6f-de72-4f49-a207-7a94278786a2","name":"PB VG3","__typename":"SubjectFilter"},{"id":"urn:filter:66ddbbd8-7c79-4e59-8f95-083027d712cb","name":"SF VG3","__typename":"SubjectFilter"}]},{"id":"urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a","name":"Bærekraftig utviking","path":"/subject:308eb24b-886f-35a3-b4ff-4170f099056a","__typename":"Subject","filters":[{"id":"urn:filter:8eb64af6-65b1-328c-af59-41213b19f5a9","name":"Byggfag yrkesprogram","__typename":"SubjectFilter"},{"id":"urn:filter:820c704e-6d31-3dd2-9d8c-a8c3ccde4550","name":"TIP yrkesprgram","__typename":"SubjectFilter"},{"id":"urn:filter:9d9adf4f-662d-39e1-9c03-691b40634863","name":"Tverrfaglige ressurser","__typename":"SubjectFilter"}]},{"id":"urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2","name":"Slett denne","path":"/subject:8770048e-937f-46e1-bf12-8728019ed3f2","__typename":"Subject","filters":[{"id":"urn:filter:578477c5-ce99-4353-b05e-ed306ffbd0bc","name":"Filter 2","__typename":"SubjectFilter"},{"id":"urn:filter:0b0a7a49-f126-4917-8121-07aa61cd457f","name":"Filter 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8","name":"dh2","path":"/subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8","__typename":"Subject","filters":[{"id":"urn:filter:32c02e05-c5cf-4a99-9d08-d0cd05a9b7de","name":"vg1 yf","__typename":"SubjectFilter"},{"id":"urn:filter:6222b28c-e2a2-4d35-8f46-9c53fdf5a37e","name":"vg1 sf","__typename":"SubjectFilter"}]},{"id":"urn:subject:2","name":"Kinesisk","path":"/subject:2","__typename":"Subject","filters":[{"id":"urn:filter:1ceede07-0824-4dee-b5f6-c2f008b4924a","name":"kinesisk 2","__typename":"SubjectFilter"},{"id":"urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f","name":"Kinesisk 2","__typename":"SubjectFilter"},{"id":"urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028","name":"Kinesisk 1","__typename":"SubjectFilter"}]},{"id":"urn:subject:2003","name":"TestFagNr2003","path":"/subject:2003","__typename":"Subject","filters":[]},{"id":"urn:subject:b69ef89b-22eb-4512-a399-3cec194c9f1b","name":"Gammelt fag","path":"/subject:b69ef89b-22eb-4512-a399-3cec194c9f1b","__typename":"Subject","filters":[{"id":"urn:filter:1f7d38e3-5b84-45e4-9751-4c561ea9055d","name":"YFF","__typename":"SubjectFilter"},{"id":"urn:filter:f1abdfcf-5e50-4d1a-85bf-eee07ed00c37","name":"Vg1 SF","__typename":"SubjectFilter"},{"id":"urn:filter:02e5e299-b929-4bef-b05c-b2adb172e118","name":"Vg2 YF","__typename":"SubjectFilter"}]},{"id":"urn:subject:7","name":"Markedsføring og ledelse 1","path":"/subject:7","__typename":"Subject","filters":[{"id":"urn:filter:c5dac80d-6195-4836-800a-a9f550d34c9e","name":"ML 1","__typename":"SubjectFilter"},{"id":"urn:filter:d8f5765d-04a4-45c7-8763-ab573d4883de","name":"ML1","__typename":"SubjectFilter"},{"id":"urn:filter:745bc9be-b42d-4937-9df2-59bdb0a0c041","name":"YL","__typename":"SubjectFilter"},{"id":"urn:filter:dc42aca9-35e4-4bf1-8fd2-64907934b5f2","name":"ML 2","__typename":"SubjectFilter"}]}]}}]
+[
+  {
+    "data": {
+      "frontpage": {
+        "topical": [
+          {
+            "id": "urn:resource:1:161411",
+            "name": "Klar, ferdig, kreativ!",
+            "contentUri": "urn:learningpath:296",
+            "path": null,
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:182176",
+            "name": "NABC, pitch, rollespill og moodboards",
+            "contentUri": null,
+            "path": null,
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:183636",
+            "name": "Skisseteknikk",
+            "contentUri": null,
+            "path": null,
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:170204",
+            "name": "Kreativ kommunikasjon",
+            "contentUri": "urn:article:1041",
+            "path": null,
+            "resourceTypes": [],
+            "__typename": "Resource"
+          }
+        ],
+        "categories": [
+          {
+            "name": "fellesfag",
+            "subjects": [],
+            "__typename": "Category"
+          },
+          {
+            "name": "yrkesfag",
+            "subjects": [
+              {
+                "id": "urn:subject:24",
+                "name": "Helsed- og oppvekstfag Vg1",
+                "path": "/subject:24",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:12",
+                "name": "Service og samferdsel Vg1",
+                "path": "/subject:12",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              }
+            ],
+            "__typename": "Category"
+          },
+          {
+            "name": "studiespesialiserende",
+            "subjects": [
+              {
+                "id": "urn:subject:14",
+                "name": "Medie- og informasjonskunnskap",
+                "path": "/subject:14",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:8",
+                "name": "Tysk",
+                "path": "/subject:8",
+                "__typename": "Subject",
+                "frontpageFilters": [
+                  {
+                    "id": "urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d",
+                    "name": "Tysk 2",
+                    "__typename": "SubjectFilter"
+                  },
+                  {
+                    "id": "urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413",
+                    "name": "Tysk 1",
+                    "__typename": "SubjectFilter"
+                  }
+                ]
+              },
+              {
+                "id": "urn:subject:1",
+                "name": "Medieuttrykk og mediesamfunnet",
+                "path": "/subject:1",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:2",
+                "name": "Kinesisk",
+                "path": "/subject:2",
+                "__typename": "Subject",
+                "frontpageFilters": [
+                  {
+                    "id": "urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f",
+                    "name": "Kinesisk 2",
+                    "__typename": "SubjectFilter"
+                  },
+                  {
+                    "id": "urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028",
+                    "name": "Kinesisk 1",
+                    "__typename": "SubjectFilter"
+                  }
+                ]
+              },
+              {
+                "id": "urn:subject:7",
+                "name": "Markedsføring og ledelse 1",
+                "path": "/subject:7",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              }
+            ],
+            "__typename": "Category"
+          }
+        ],
+        "__typename": "Frontpage"
+      },
+      "subjects": [
+        {
+          "id": "urn:subject:23",
+          "name": "Samfunnsfaglig engelsk",
+          "path": "/subject:23",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:ba8a160d-0925-4a56-9507-b9cf3885f955",
+              "name": "SF VG3",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff",
+          "name": "Informatikk",
+          "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:69300880-72f3-435f-a752-12fbdd42c398",
+              "name": "Simple",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:abc7c8fc-ead9-48b5-9dd8-9ff3c55185cc",
+              "name": "Advanced",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:4",
+          "name": "Vg 2 Helsearbeiderfag",
+          "path": "/subject:4",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:214262b2-8430-4ef1-93ad-e45568dc3166",
+              "name": "YF VG2",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:27",
+          "name": "Internasjonal engelsk",
+          "path": "/subject:27",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:f36fc323-304b-442e-a4b7-33e3161ce433",
+              "name": "SF VG2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:3ca86b25-453c-4547-aca7-dcddff32d9a1",
+              "name": "ddd",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:14",
+          "name": "Medie- og informasjonskunnskap",
+          "path": "/subject:14",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:fcc721ed-aa16-486d-801c-511bbe7f7dcc",
+              "name": "MIK 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:77db55c9-b7ae-4702-8a57-eaa4f88c6332",
+              "name": "MIK 1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:8",
+          "name": "Tysk",
+          "path": "/subject:8",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d",
+              "name": "Tysk 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:5555ce0e-f34f-436d-acff-5e58fd8ab53b",
+              "name": "Tysk 3",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413",
+              "name": "Tysk 1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:b1bcf1fc-e538-4a19-bb5f-efdc06c375b4",
+          "name": "Tomt fag",
+          "path": "/subject:b1bcf1fc-e538-4a19-bb5f-efdc06c375b4",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74",
+          "name": "dddd",
+          "path": "/subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:b1c741a8-0339-360c-ad19-fd9812c66653",
+              "name": "d",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672",
+          "name": "Testfag 123",
+          "path": "/subject:7cf523b9-8d16-4173-80a4-1674ec8f6672",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:d60b8f38-96d4-43c6-8beb-d6a0da950a98",
+              "name": "Testfilter",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:1",
+          "name": "Medieuttrykk og mediesamfunnet",
+          "path": "/subject:1",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:122309e6-ad4b-45a3-8d86-39d07aa6daa0",
+              "name": "SF VG3",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:ca7608a8-2a81-413c-9c7f-7c3629b9b6d1",
+              "name": "SF VG1",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:9494cb1a-bf5f-4273-ad39-59a1308fdfb7",
+              "name": "SF VG2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:c317b2a0-73c8-43d8-9bf1-964c60d902e1",
+              "name": "Medieuttrykk",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:c3b90373-e42b-4456-8aba-4833643882d4",
+              "name": "Mediesamfunnet",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:6b5aeb7a-3237-4d1b-9657-db20e33c2ab9",
+          "name": "Bærekraftig utvikling",
+          "path": "/subject:6b5aeb7a-3237-4d1b-9657-db20e33c2ab9",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:24",
+          "name": "Helsed- og oppvekstfag Vg1",
+          "path": "/subject:24",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:8f224489-e31e-49c4-9fd2-3b9a1dd53c8d",
+              "name": "Filter",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:20",
+          "name": "NDLA film",
+          "path": "/subject:20",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:45a062eb-25cd-33e5-89b7-0c5c18889ed7",
+              "name": "NDLA Film",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:7afebc1c-bb9d-4aca-8783-18ec580b5b5a",
+          "name": "Murerfaget",
+          "path": "/subject:7afebc1c-bb9d-4aca-8783-18ec580b5b5a",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:4769da63-fa10-4666-bf93-55173c57753f",
+          "name": "Testfag 2",
+          "path": "/subject:4769da63-fa10-4666-bf93-55173c57753f",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:cb0d317d-78bb-4ac5-b293-d0d5e333bdec",
+              "name": "TestFilter",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:6926b744-1d8b-4cd0-a366-b15680cdccd4",
+              "name": "Lang",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:7a538c54-48b1-462e-ab31-23a088b17318",
+              "name": "TestFilter VG2",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:1cc21323-3aa2-4213-8e56-c7403148030f",
+          "name": "TMK-faget[edited]",
+          "path": "/subject:1cc21323-3aa2-4213-8e56-c7403148030f",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:192e12df-b3d1-40c7-b32f-112b3ebcb7ec",
+              "name": "TMK filter 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:5fc964cd-e27b-46c3-9edb-781ccc7caffe",
+              "name": "TMK filter 1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:172db814-eb31-3ace-a54b-b68acd669b6c",
+          "name": "Demokrati og medborgerskap",
+          "path": "/subject:172db814-eb31-3ace-a54b-b68acd669b6c",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:15",
+          "name": "Sørsamisk vg1 og vg2",
+          "path": "/subject:15",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:86b992ee-d7d5-4591-a077-fed55848ded9",
+              "name": "YF VG1",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:26ac4b1a-4069-4049-8acb-35c8531f9197",
+              "name": "YF VG2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:30d96ddc-f04f-4d76-a9ae-e69b0698bd5c",
+              "name": "PB VG3",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:55c53a49-9d53-49fa-844d-1f0a47e35e3d",
+              "name": "SF VG2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:e01feab2-2f07-4144-9424-e3b73537e595",
+              "name": "SF VG1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:11",
+          "name": "Bygg- og anleggsteknikk",
+          "path": "/subject:11",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:13",
+          "name": "Naturbruk Vg1",
+          "path": "/subject:13",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:9aa04328-83de-4d96-b539-152440464e04",
+          "name": "testfag BM",
+          "path": "/subject:9aa04328-83de-4d96-b539-152440464e04",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:12",
+          "name": "Service og samferdsel Vg1",
+          "path": "/subject:12",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:487b2693-e69b-41e2-97e2-ed5e99bd0e27",
+              "name": "Test admin2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:e5ab97a3-a390-4508-8d92-53b0c26e47a4",
+              "name": "Sikkerhet og transport",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce",
+              "name": "Administrasjon og økonomi",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:6d928a1c-f774-409a-9c04-26b0a107f525",
+              "name": "Markedsføring og salg",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:b5b2b1fa-a129-4781-b2b4-18ecbadf0f10",
+          "name": "cypress-test-fag ",
+          "path": "/subject:b5b2b1fa-a129-4781-b2b4-18ecbadf0f10",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:10",
+          "name": "Matematikk fellesfag",
+          "path": "/subject:10",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:1e2de4a1-db77-4b56-8fec-9027637d44f4",
+              "name": "1T",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:222b1643-cb6c-492b-be90-97e7016a580c",
+              "name": "1P",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:8abb2332-1f96-47d2-a061-8c8551f2bab9",
+              "name": "2P-Y",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:03200223-742a-499b-ad0f-4e73917cfea4",
+              "name": "1T-Y",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:fb2266d4-7c50-4972-94f5-e0ec08c68e4b",
+              "name": "R1",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:85efba2b-f50f-4bec-8f71-2aba1c6cb53f",
+              "name": "2P",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:b4913bfd-d1a2-40cc-ac0a-eb3f64d491ab",
+              "name": "R2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:f0fff57a-d375-4a85-bea2-63b4272decf1",
+              "name": "1P-Y",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:90db0775-b7bd-4630-b0b9-cb3fe6f1313a",
+              "name": "S2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:f95feb14-a86c-4700-9ad6-f2d8b6d82405",
+              "name": "S1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3",
+          "name": "test",
+          "path": "/subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:adf22336-a201-4d78-bf09-d648ea5b9165",
+          "name": "test",
+          "path": "/subject:adf22336-a201-4d78-bf09-d648ea5b9165",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:9",
+          "name": "Historie Vg2 og Vg3",
+          "path": "/subject:9",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:2309b75d-197e-4d94-a1b3-55eaab9945f2",
+              "name": "SF VG2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:fb7e8e6f-de72-4f49-a207-7a94278786a2",
+              "name": "PB VG3",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:66ddbbd8-7c79-4e59-8f95-083027d712cb",
+              "name": "SF VG3",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a",
+          "name": "Bærekraftig utviking",
+          "path": "/subject:308eb24b-886f-35a3-b4ff-4170f099056a",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:8eb64af6-65b1-328c-af59-41213b19f5a9",
+              "name": "Byggfag yrkesprogram",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:820c704e-6d31-3dd2-9d8c-a8c3ccde4550",
+              "name": "TIP yrkesprgram",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:9d9adf4f-662d-39e1-9c03-691b40634863",
+              "name": "Tverrfaglige ressurser",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2",
+          "name": "Slett denne",
+          "path": "/subject:8770048e-937f-46e1-bf12-8728019ed3f2",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:578477c5-ce99-4353-b05e-ed306ffbd0bc",
+              "name": "Filter 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:0b0a7a49-f126-4917-8121-07aa61cd457f",
+              "name": "Filter 1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8",
+          "name": "dh2",
+          "path": "/subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:32c02e05-c5cf-4a99-9d08-d0cd05a9b7de",
+              "name": "vg1 yf",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:6222b28c-e2a2-4d35-8f46-9c53fdf5a37e",
+              "name": "vg1 sf",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:2",
+          "name": "Kinesisk",
+          "path": "/subject:2",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:1ceede07-0824-4dee-b5f6-c2f008b4924a",
+              "name": "kinesisk 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f",
+              "name": "Kinesisk 2",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028",
+              "name": "Kinesisk 1",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:2003",
+          "name": "TestFagNr2003",
+          "path": "/subject:2003",
+          "__typename": "Subject",
+          "filters": []
+        },
+        {
+          "id": "urn:subject:b69ef89b-22eb-4512-a399-3cec194c9f1b",
+          "name": "Gammelt fag",
+          "path": "/subject:b69ef89b-22eb-4512-a399-3cec194c9f1b",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:1f7d38e3-5b84-45e4-9751-4c561ea9055d",
+              "name": "YFF",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:f1abdfcf-5e50-4d1a-85bf-eee07ed00c37",
+              "name": "Vg1 SF",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:02e5e299-b929-4bef-b05c-b2adb172e118",
+              "name": "Vg2 YF",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        },
+        {
+          "id": "urn:subject:7",
+          "name": "Markedsføring og ledelse 1",
+          "path": "/subject:7",
+          "__typename": "Subject",
+          "filters": [
+            {
+              "id": "urn:filter:c5dac80d-6195-4836-800a-a9f550d34c9e",
+              "name": "ML 1",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:d8f5765d-04a4-45c7-8763-ab573d4883de",
+              "name": "ML1",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:745bc9be-b42d-4937-9df2-59bdb0a0c041",
+              "name": "YL",
+              "__typename": "SubjectFilter"
+            },
+            {
+              "id": "urn:filter:dc42aca9-35e4-4bf1-8fd2-64907934b5f2",
+              "name": "ML 2",
+              "__typename": "SubjectFilter"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

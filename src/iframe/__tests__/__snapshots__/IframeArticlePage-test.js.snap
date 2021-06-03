@@ -23,9 +23,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 .emotion-4 button {
   margin-bottom: 10px;
-}
-
-.emotion-4 button:first-of-type {
   margin-right: 16px;
 }
 
@@ -187,7 +184,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         <div
           className="c-article__title"
         >
-          <h1>
+          <h1
+            tabIndex={0}
+          >
             Politiske skillelinjer
           </h1>
         </div>

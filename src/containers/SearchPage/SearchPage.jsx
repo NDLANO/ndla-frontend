@@ -72,7 +72,6 @@ const SearchPage = ({ location, locale, history, t }) => {
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjects={searchParams.subjects}
-          filters={[...searchParams.filters, ...searchParams.levels]}
           programmes={searchParams.programs}
           subjectItems={subjectItems}
           concepts={conceptData?.conceptSearch.concepts}
