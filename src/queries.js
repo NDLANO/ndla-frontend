@@ -348,6 +348,7 @@ export const topicInfoFragment = gql`
       id
       name
     }
+    contentUri
     path
     meta {
       id
@@ -510,7 +511,6 @@ export const articleInfoFragment = gql`
         title
       }
     }
-    oembed
     copyright {
       ...CopyrightInfo
     }
@@ -583,6 +583,55 @@ export const subjectTopicsQuery = gql`
       }
     }
   }
+`;
+
+export const topicsQueryWithBreadcrumbs = gql`
+  query topicQuery($contentUri: String, $filterVisible: Boolean) {
+    topics(contentUri: $contentUri, filterVisible: $filterVisible) {
+      ...TopicInfo
+      breadcrumbs
+    }
+  }
+  ${topicInfoFragment}
+`;
+
+export const subjectPageQueryWithTopics = gql`
+  query subjectPageQuery(
+    $subjectId: String!
+    $filterIds: String
+    $topicId: String!
+  ) {
+    subject(id: $subjectId) {
+      id
+      name
+      path
+      topics(filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      allTopics: topics(all: true, filterIds: $filterIds) {
+        ...TopicInfo
+      }
+      filters {
+        id
+        name
+        subjectpage {
+          ...SubjectPageInfo
+        }
+      }
+      subjectpage {
+        ...SubjectPageInfo
+      }
+    }
+    topic(id: $topicId) {
+      id
+      name
+      path
+      contentUri
+    }
+  }
+  ${topicInfoFragment}
+  ${subjectpageInfo}
+  ${taxonomyEntityInfo}
 `;
 
 export const subjectPageQuery = gql`
@@ -715,6 +764,7 @@ const learningpathInfoFragment = gql`
         ...ResourceInfo
         article(isOembed: "true") {
           ...ArticleInfo
+          oembed
         }
       }
       license {

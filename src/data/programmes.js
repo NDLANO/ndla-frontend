@@ -242,7 +242,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_19',
+                id: 'programme_subject_21',
               },
             ],
           },
@@ -308,7 +308,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_22',
+                id: 'programme_subject_24',
               },
             ],
           },
@@ -1561,7 +1561,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_36',
+                id: 'programme_subject_37',
               },
             ],
           },
