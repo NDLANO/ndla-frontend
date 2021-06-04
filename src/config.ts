@@ -45,7 +45,7 @@ const ndlaFrontendDomain = (): string => {
     case 'local':
       return 'http://localhost:30017';
     case 'dev':
-      return 'https://test.ndla.no';
+      return 'http://localhost:3000';
     case 'prod':
       return 'https://ndla.no';
     default:
