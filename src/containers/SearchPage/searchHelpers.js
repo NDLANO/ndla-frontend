@@ -14,15 +14,12 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
 } from '../../constants';
 
-const getRelevance = context => {
-  if (context?.filters?.length > 0) {
-    return (
-      // Consider getting from constants
-      context.filters[0].relevance === 'Tilleggsstoff' ||
-      context.filters[0].relevance === 'Supplementary'
-    );
-  }
-  return false;
+const isSupplementary = context => {
+  return (
+    // Consider getting from constants
+    context?.relevance === 'Tilleggsstoff' ||
+    context?.relevance === 'Supplementary'
+  );
 };
 
 const getResourceType = resource => {
@@ -121,7 +118,7 @@ const taxonomyData = (result, selectedContext) => {
               };
             })
           : undefined,
-      additional: getRelevance(selectedContext),
+      additional: isSupplementary(selectedContext),
       type: getResourceType(selectedContext),
     };
   } else {
@@ -310,8 +307,8 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
       ...(resource.contexts?.length
         ? resource.contexts[0].resourceTypes.slice(1).map(type => type.name)
         : []),
-      ...(getRelevance(resource.contexts?.[0])
-        ? [resource.contexts[0].filters?.[0].relevance]
+      ...(isSupplementary(resource.contexts?.[0])
+        ? [resource.contexts[0].relevance]
         : []),
     ],
     contexts: resource.contexts.map(context => ({
