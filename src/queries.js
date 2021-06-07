@@ -76,6 +76,7 @@ export const searchQuery = gql`
           }
           subject
           subjectId
+          relevance
         }
         supportedLanguages
         traits

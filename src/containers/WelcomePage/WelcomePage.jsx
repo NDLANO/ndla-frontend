@@ -37,7 +37,8 @@ const getUrlFromSubjectId = subjectId => {
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
-const TOOLBOX_SUBJECT_ID = 'common_subject_61';
+const TOOLBOX_TEACHER_SUBJECT_ID = 'common_subject_61';
+const TOOLBOX_STUDENT_SUBJECT_ID = 'common_subject_66';
 
 const getMultidisciplinarySubjects = locale => {
   const subjectIds = [
@@ -109,7 +110,10 @@ const WelcomePage = ({ t, locale, history, location }) => {
             url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
             topics={getMultidisciplinarySubjects(locale)}
           />
-          <FrontpageToolbox url={getUrlFromSubjectId(TOOLBOX_SUBJECT_ID)} />
+          <FrontpageToolbox
+            urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}
+            urlTeachers={getUrlFromSubjectId(TOOLBOX_TEACHER_SUBJECT_ID)}
+          />
           <BlogPosts locale={locale} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
