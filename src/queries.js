@@ -80,6 +80,7 @@ export const searchQuery = gql`
           }
           subject
           subjectId
+          relevance
         }
         supportedLanguages
         traits
@@ -203,6 +204,7 @@ export const groupSearchQuery = gql`
           breadcrumbs
           subjectId
           subject
+          relevance
           resourceTypes {
             id
             name
