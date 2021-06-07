@@ -48,6 +48,7 @@ const Article = ({
   t,
   isResourceArticle,
   copyPageUrlLink,
+  printUrl,
   ...rest
 }) => {
   const markdown = useMemo(() => {
@@ -92,6 +93,7 @@ const Article = ({
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
       copyPageUrlLink={copyPageUrlLink}
+      printUrl={printUrl}
       {...rest}>
       {children}
     </UIArticle>
@@ -109,6 +111,7 @@ Article.propTypes = {
   locale: PropTypes.string.isRequired,
   isResourceArticle: PropTypes.bool,
   copyPageUrlLink: PropTypes.string,
+  printUrl: PropTypes.string,
 };
 
 Article.defaultProps = {
