@@ -59,6 +59,10 @@ const ResourcePage = props => {
     return <DefaultErrorMessage />;
   }
 
+  if (!data.resource || !data.resource.article || !data.resource.learningpath) {
+    return <NotFoundPage />;
+  }
+
   if (data.resource && !urlInPaths(props.location, data.resource)) {
     if (data.resource.paths?.length === 1) {
       return <Redirect to={data.resource.paths[0]} />;
@@ -69,9 +73,6 @@ const ResourcePage = props => {
     }
   }
 
-  if (!data.resource) {
-    return <NotFoundPage />;
-  }
   if (typeof window != 'undefined' && window.scrollY) {
     window.scroll(0, 0);
   }
