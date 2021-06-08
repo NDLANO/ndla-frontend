@@ -59,7 +59,10 @@ const ResourcePage = props => {
     return <DefaultErrorMessage />;
   }
 
-  if (!data.resource && !data.resource.article && !data.resource.learningpath) {
+  if (
+    !data.resource &&
+    (!data.resource.article || !data.resource.learningpath)
+  ) {
     return <NotFoundPage />;
   }
 
