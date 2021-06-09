@@ -266,6 +266,13 @@ export const resultsWithContentTypeBadgeAndImage = (
     };
   });
 
+export const mergeTopicSubjects = results => {
+  // Assuming that first element has the same values that the rest of the elements in the results array
+  return [
+    { ...results[0], subjects: results.flatMap(topic => topic.subjects) },
+  ];
+};
+
 export const getResultMetadata = search => ({
   pageSize: search.pageSize || 0,
   totalCount: search.totalCount || 0,

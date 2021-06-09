@@ -11,7 +11,10 @@ import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 // @ts-ignore
-import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
+import {
+  resultsWithContentTypeBadgeAndImage,
+  mergeTopicSubjects,
+} from '../../SearchPage/searchHelpers';
 import { GQLTopic } from '../../../graphqlTypes';
 
 const convertTopicToResult = (topic: GQLTopic) => {
@@ -37,12 +40,13 @@ interface Props {
 const MovedTopicPage = ({ topics, t }: Props & tType) => {
   const topicsAsResults = topics.map(convertTopicToResult);
   const results = resultsWithContentTypeBadgeAndImage(topicsAsResults, t);
+  const mergedTopic = mergeTopicSubjects(results);
 
   return (
     <OneColumn>
       <h1>{t('movedResourcePage.title')}</h1>
       <div className="c-search-result">
-        <SearchResultList results={results} />
+        <SearchResultList results={mergedTopic} />
       </div>
     </OneColumn>
   );
