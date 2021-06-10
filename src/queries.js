@@ -511,6 +511,7 @@ export const articleInfoFragment = gql`
         title
       }
     }
+    oembed
     copyright {
       ...CopyrightInfo
     }
