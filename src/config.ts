@@ -96,6 +96,8 @@ export interface ConfigType {
   [key: string]: string | boolean | undefined;
 }
 
+const getFeideDomain =  "auth.dataporten.no/oauth";
+
 const config: ConfigType = {
   componentName: 'ndla-frontend',
   ndlaEnvironment,
@@ -115,6 +117,9 @@ const config: ConfigType = {
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
+  feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
+  feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
+  feideDomain: getFeideDomain,
 };
 
 export function getUniversalConfig() {

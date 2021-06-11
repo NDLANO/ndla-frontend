@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import Login from 'containers/Login/Login';
 import { RouteProps } from 'react-router';
 // @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
@@ -147,9 +148,15 @@ export const routes: RouteType[] = [
     background: false,
   },
   {
+    path:'/login',
+    component: Login,
+    background: false,
+  },
+  {
     component: NotFoundPage,
     background: false,
   },
+  
 ];
 
 const routesFunc = function(initialProps: InitialProps, locale: string) {
