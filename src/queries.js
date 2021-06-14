@@ -376,6 +376,8 @@ export const resourceInfoFragment = gql`
     contentUri
     path
     paths
+    relevanceId
+    rank
     filters {
       id
       name
@@ -918,6 +920,9 @@ export const topicQuery = gql`
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
       }
+      metadata {
+        customFields
+      }
     }
     resourceTypes {
       id
@@ -1175,6 +1180,9 @@ export const resourcePageQuery = gql`
       }
       supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
         ...ResourceInfo
+      }
+      metadata {
+        customFields
       }
     }
     resource(id: $resourceId, subjectId: $subjectId) {

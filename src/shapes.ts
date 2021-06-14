@@ -132,7 +132,13 @@ export const ResourceShape = PropTypes.shape({
   learningpath: LearningpathShape,
   path: PropTypes.string.isRequired,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  relevanceId: PropTypes.string,
+  rank: PropTypes.number,
   article: ArticleShape,
+});
+
+export const TaxonomyMetadataShape = PropTypes.shape({
+  customFields: PropTypes.object,
 });
 
 export const TopicShape = PropTypes.shape({
@@ -143,6 +149,7 @@ export const TopicShape = PropTypes.shape({
   coreResources: PropTypes.arrayOf(ResourceShape),
   supplementaryResources: PropTypes.arrayOf(ResourceShape),
   subtopics: PropTypes.array,
+  metadata: TaxonomyMetadataShape,
 });
 
 export const MessageShape = PropTypes.shape({

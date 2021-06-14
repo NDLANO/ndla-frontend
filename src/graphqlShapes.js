@@ -10,6 +10,10 @@ import PropTypes from 'prop-types';
 import { ArticleShape, LicenseShape } from '@ndla/ui/lib/shapes';
 import { CopyrightObjectShape } from './shapes';
 
+export const GraphqlTaxonomyMetadataShape = PropTypes.shape({
+  customFields: PropTypes.object,
+});
+
 export const GraphQLTopicShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -18,6 +22,7 @@ export const GraphQLTopicShape = PropTypes.shape({
   meta: PropTypes.shape({
     metaDescription: PropTypes.string,
   }),
+  metadata: GraphqlTaxonomyMetadataShape,
 });
 
 export const GraphQLFilterShape = PropTypes.shape({

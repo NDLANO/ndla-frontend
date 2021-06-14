@@ -17,19 +17,7 @@ export const sortOrder = {
   [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: 6,
 };
 
-export const groupeResourcesByResourceTypes = (
-  supplementaryResources,
-  coreResources,
-) => {
-  const resources = [
-    ...coreResources,
-    ...supplementaryResources
-      .map(resource => ({
-        ...resource,
-        additional: true,
-      }))
-      .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
-  ];
+export const groupeResourcesByResourceTypes = resources => {
   return resources.reduce((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map(type => {
       const existing = defined(obj[type.id], []);
@@ -54,15 +42,8 @@ export const sortResourceTypes = resourceTypes =>
     return 0;
   });
 
-export const getResourceGroups = (
-  resourceTypes,
-  supplementaryResources,
-  coreResouces,
-) => {
-  const groupedResources = groupeResourcesByResourceTypes(
-    supplementaryResources,
-    coreResouces,
-  );
+export const getResourceGroups = (resourceTypes, resouces) => {
+  const groupedResources = groupeResourcesByResourceTypes(resouces);
   const sortedResourceTypes = sortResourceTypes(resourceTypes);
 
   return sortedResourceTypes
