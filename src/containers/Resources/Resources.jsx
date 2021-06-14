@@ -91,9 +91,9 @@ class Resources extends Component {
     if (
       resourceTypes === null ||
       (coreResources === null && supplementaryResources === null)
-      ) {
-        return (
-          <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
+    ) {
+      return (
+        <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
           {t('resource.errorDescription')}
         </p>
       );
@@ -109,7 +109,8 @@ class Resources extends Component {
         resource => !coreResources?.find(core => core.id === resource.id),
       );
 
-    const isUngrouped = metadata?.customFields['topic-resources'] === 'ungrouped' || false;
+    const isUngrouped =
+      metadata?.customFields['topic-resources'] === 'ungrouped' || false;
 
     const sortedResources = [...coreResources, ...supplementary].sort(
       (a, b) => {
