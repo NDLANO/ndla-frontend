@@ -49,3 +49,5 @@ export const MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH =
 export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resource\\::resourceId/:articleId`;
 export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
 export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
+
+export const PODCAST_FEED_PATH = `/podcast/:seriesId/feed.xml`;

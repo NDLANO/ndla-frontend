@@ -38,6 +38,7 @@ import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
 // @ts-ignore
 import { generateOauthData } from './helpers/oauthHelper';
+import podcastRssFeed from './podcastRssFeed';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -178,6 +179,24 @@ app.get(
     res.removeHeader('X-Frame-Options');
     res.setHeader('Content-Type', 'application/xml');
     res.send(ltiConfig());
+  },
+);
+
+app.get(
+  '/podcast/:seriesId/feed.xml',
+  ndlaMiddleware,
+  async (req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/xml');
+    const id = req.params.seriesId;
+    if (!id) return sendInternalServerError(req, res); // TODO: Make this a 400 bad request instead
+
+    try {
+      const idNum = parseInt(id, 10);
+      const podcastPage = await podcastRssFeed(idNum);
+      res.send(podcastPage);
+    } catch (err) {
+      sendInternalServerError(req, res); // TODO: Make this a 400 bad request instead
+    }
   },
 );
 
