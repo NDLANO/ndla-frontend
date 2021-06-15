@@ -134,6 +134,7 @@ class ArticlePage extends Component {
     const copyPageUrlLink = `${subjectPageUrl}${
       topic.path
     }/${resource.id.replace('urn:', '')}`;
+    const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
 
     const breadcrumbItems = toBreadcrumbItems(
       t('breadcrumb.toFrontpage'),
@@ -190,6 +191,7 @@ class ArticlePage extends Component {
             resourceType={resourceType}
             isResourceArticle
             copyPageUrlLink={copyPageUrlLink}
+            printUrl={printUrl}
             {...getArticleProps(resource, topic)}
           />
           {topic && (
