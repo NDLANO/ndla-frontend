@@ -15,9 +15,6 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     const podcastUrl = `${config?.ndlaFrontendDomain}/podcast/${series.id}`;
     const ownerEmail = 'support+podcast@ndla.no';
 
-    // TODO: Finne ut om kategori burde lagres
-    // TODO: Finne ut om vi burde lagre explicitness
-
     const authors = series.episodes
       .flatMap(ep => {
         return ep.copyright.creators
@@ -64,14 +61,19 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
       `;
     });
 
+    // TODO: These are hardcoded right now.
+    //       At some point we will probably want to store them in the audio-api
+    const category = `<itunes:category text="Education"><itunes:category text="Courses" /></itunes:category>`;
+    const explicitness = `false`;
+
     return `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
       <channel>
         <title>${series.title.title}</title>
         <link>${podcastUrl}</link>
         <language>${series.title.language}</language>
-        <itunes:category text="Education" />
-        <itunes:explicit>false</itunes:explicit>
+        ${category}
+        <itunes:explicit>${explicitness}</itunes:explicit>
         ${uniqueAuthors}
         <itunes:owner>
           <itunes:name>NDLA</itunes:name>
