@@ -96,7 +96,7 @@ export interface ConfigType {
   [key: string]: string | boolean | undefined;
 }
 
-const getFeideDomain =  "auth.dataporten.no/oauth";
+const getFeideDomain = 'auth.dataporten.no/oauth';
 
 const config: ConfigType = {
   componentName: 'ndla-frontend',

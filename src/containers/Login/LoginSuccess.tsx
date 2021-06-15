@@ -6,43 +6,30 @@
  *
  */
 
- import React,{ useEffect } from 'react';
- //import { parseHash } from '../../util/authHelpers';
- import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { setAccessTokenInLocalStorage } from '../../util/authHelpers';
+import React, { useEffect } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import {
+  setTokenSetInLocalStorage,
+  getPKCECode,
+  locationOrigin,
+} from '../../util/authHelpers';
 
- interface Props extends RouteComponentProps{
+interface Props extends RouteComponentProps {}
 
- }
+export const LoginSuccess = ({ location: { search } }: Props) => {
+  useEffect(() => {
+    const searchParams = search.substring(1).split('&');
+    const code: string =
+      searchParams.find(data => data.match('code'))?.split('=')[1] || '';
+    const verifier = getPKCECode();
 
- export const LoginSuccess =  ({location}: Props )=> {
+    fetch(`${locationOrigin}/feide/token?code=${code}&verifier=${verifier}`)
+      .then(json => json.json())
+      .then(token => setTokenSetInLocalStorage(token, true))
+      .then(() => (window.location.href = '/'));
+  }, []);
 
-    useEffect(() => {
-        const searchParams = location.search.substring(1).split('&');
-        let code: string = '';
-        searchParams.forEach(param => {
-            const key = param.split('=')[0];
-            if(key === 'code') {
-                code = param.split('=')[1] || '';
-            }
-        });
+  return <div />;
+};
 
-        //Can go direct to assuming one only sends code, but in events people trying other values.
-
-        const verifier = localStorage.getItem('code_verifier');
-        
-        fetch(`http://localhost:3000/test?code=${code}&verifier=${verifier}`)
-        .then(json => json.text())
-        .then(token => setAccessTokenInLocalStorage(token,true))
-        .then()
-        .catch(e => console.log(e));
-        
-    }, [])
-
-    return <div/>;
-     
- };
-
-
- export default withRouter(LoginSuccess);
- 
+export default withRouter(LoginSuccess);

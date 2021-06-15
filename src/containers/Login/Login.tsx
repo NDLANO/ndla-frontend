@@ -5,44 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  */
 
- import React, { Fragment } from 'react';
- import { Switch, Route } from 'react-router-dom';
- // @ts-ignore
- import { OneColumn } from '@ndla/ui';
- import LoginFailure from './LoginFailure';
- import LoginSuccess from './LoginSuccess';
- import LoginProviders from './LoginProviders';
- import { RouteComponentProps } from 'react-router';
- 
+import React, { Fragment } from 'react';
+import { Switch, Route } from 'react-router-dom';
+// @ts-ignore
+import { OneColumn } from '@ndla/ui';
+import { RouteComponentProps } from 'react-router';
+import LoginFailure from './LoginFailure';
+import LoginSuccess from './LoginSuccess';
+import LoginProviders from './LoginProviders';
 
- interface Props extends RouteComponentProps{
-    
- }
+interface Props extends RouteComponentProps {}
 
+export const Login = ({ match, location, history }: Props) => {
+  const authenticated = false; //fetch from auth
 
- export const Login = ({  match, location, history } : Props) => {
-    const authenticated = false; //fetch from auth
+  if (authenticated && location.hash === '' && match.url === '/login') {
+    history.push('/');
+    return null;
+  }
 
-   if (authenticated && location.hash === '' && match.url === '/login') {
-     history.push('/');
-     return null;
-   }
- 
-   return (
-     <Fragment>
-       <OneColumn cssModifier="clear">
-         <div className="u-2/3@desktop u-push-1/3@desktop">
-           <Switch>
-             <Route path={`${match.url}/success`} component={LoginSuccess} />
-             <Route path={`${match.url}/failure`} component={LoginFailure} />
-             <Route component={LoginProviders} />
-           </Switch>
-         </div>
-       </OneColumn>
-     </Fragment>
-   );
- };
+  return (
+    <Fragment>
+      <OneColumn cssModifier="clear">
+        <div className="u-2/3@desktop u-push-1/3@desktop">
+          <Switch>
+            <Route path={`${match.url}/success`} component={LoginSuccess} />
+            <Route path={`${match.url}/failure`} component={LoginFailure} />
+            <Route component={LoginProviders} />
+          </Switch>
+        </div>
+      </OneColumn>
+    </Fragment>
+  );
+};
 
-
- export default Login;
- 
+export default Login;

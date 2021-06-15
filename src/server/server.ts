@@ -38,7 +38,12 @@ import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
 // @ts-ignore
 import { generateOauthData } from './helpers/oauthHelper';
-import { getFeideToken, getRedirectUrl } from './helpers/openidHelper';
+import {
+  getFeideToken,
+  getRedirectUrl,
+  feideLogout,
+  refreshFeideToken,
+} from './helpers/openidHelper';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -98,13 +103,25 @@ app.get(
   },
 );
 
-app.get('/feideRedirection', (_req:Request, res:Response) => {
-  getRedirectUrl().then(feide_url => res.send(feide_url)).catch(() => res.redirect('/'));
-})
+app.get('/feide/login', (_req: Request, res: Response) => {
+  getRedirectUrl()
+    .then(feide_url => res.send(feide_url))
+    .catch(() => res.redirect('/'));
+});
 
-app.get('/test', (req: Request, res: Response) => {
+app.get('/feide/token', (req: Request, res: Response) => {
   getFeideToken(req).then(json => res.send(json));
-})
+});
+
+app.get('/feide/renew', (req: Request, _res: Response) => {
+  refreshFeideToken(req);
+});
+
+app.get('/feide/logout', (req: Request, res: Response) => {
+  feideLogout(req)
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500));
+});
 
 app.get(
   '/:lang?/subjects/:path(*)',

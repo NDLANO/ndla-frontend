@@ -148,7 +148,7 @@ export const routes: RouteType[] = [
     background: false,
   },
   {
-    path:'/login',
+    path: '/login',
     component: Login,
     background: false,
   },
@@ -156,7 +156,6 @@ export const routes: RouteType[] = [
     component: NotFoundPage,
     background: false,
   },
-  
 ];
 
 const routesFunc = function(initialProps: InitialProps, locale: string) {
