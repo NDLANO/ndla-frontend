@@ -20,7 +20,12 @@ describe('Topic page', () => {
       .click({ force: true });
     cy.apiwait('@medieutrykkGraphQL');
 
-    cy.apiIntercept('POST', '**/graphql', ['medieutrykkWithTopicGraphQL', 'topicpageGraphQL'], ['subjectPageQuery', 'topicQuery']);
+    cy.apiIntercept(
+      'POST',
+      '**/graphql',
+      ['medieutrykkWithTopicGraphQL', 'topicpageGraphQL'],
+      ['subjectPageQuery', 'topicQuery'],
+    );
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
     ).click({
