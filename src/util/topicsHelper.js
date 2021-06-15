@@ -11,10 +11,7 @@ import groupBy from './groupBy';
 import { fixEndSlash } from '../routeHelpers';
 
 export const groupedSubtopicsByParent = (topics = []) =>
-  groupBy(
-    topics.filter(topic => topic.parent),
-    'parent',
-  );
+  groupBy(topics.filter(topic => topic.parent), 'parent');
 
 export const toTopicMenu = (topic, topics) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);

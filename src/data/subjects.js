@@ -928,7 +928,7 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
     id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
   },
-  
+
   {
     longName: {
       en: 'YFF (HS-BUA Vg2)',
@@ -943,7 +943,7 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
     id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
   },
-  
+
   {
     name: {
       nb: 'Sikkerhet',
