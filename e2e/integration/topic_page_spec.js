@@ -12,25 +12,21 @@ describe('Topic page', () => {
   beforeEach(() => {
     cy.visit('/?disableSSR=true', visitOptions);
 
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      ['subjectpageGraphQL', 'topicpageGraphQL'],
-      ['subjectPageQuery', 'topicQuery'],
-    );
+    cy.apiIntercept('POST', '**/graphql', 'medieutrykkGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Medieuttrykk og mediesamfunnet")')
       .last()
       .click({ force: true });
-    cy.apiwait('@subjectpageGraphQL');
+    cy.apiwait('@medieutrykkGraphQL');
 
+    cy.apiIntercept('POST', '**/graphql', ['medieutrykkWithTopicGraphQL', 'topicpageGraphQL'], ['subjectPageQuery', 'topicQuery']);
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
     ).click({
       force: true,
     });
-    cy.apiwait('@topicpageGraphQL');
+    cy.apiwait(['@medieutrykkWithTopicGraphQL', '@topicpageGraphQL']);
   });
 
   it('contains article header and introduction', () => {
