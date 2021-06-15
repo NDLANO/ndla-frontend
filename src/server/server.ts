@@ -186,17 +186,33 @@ app.get(
   '/podcast/:seriesId/feed.xml',
   ndlaMiddleware,
   async (req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'application/xml');
     const id = req.params.seriesId;
-    if (!id) return sendInternalServerError(req, res); // TODO: Make this a 400 bad request instead
 
-    try {
-      const idNum = parseInt(id, 10);
-      const podcastPage = await podcastRssFeed(idNum);
-      res.send(podcastPage);
-    } catch (err) {
-      sendInternalServerError(req, res); // TODO: Make this a 400 bad request instead
+    if (!id) {
+      res.status(BAD_REQUEST);
+      res.send('Invalid ID for series supplied. ID must be an integer.');
+      return;
     }
+    const idNum = parseInt(id, 10);
+    if (isNaN(idNum)) {
+      res.status(BAD_REQUEST);
+      res.send('Invalid ID for series supplied. ID must be an integer.');
+      return;
+    }
+
+    await podcastRssFeed(idNum)
+      .then(podcastPage => {
+        res.setHeader('Content-Type', 'application/xml');
+        res.send(podcastPage);
+      })
+      .catch(err => {
+        if (err.status === 404) {
+          res.redirect(NOT_FOUND_PAGE_PATH);
+          return;
+        }
+
+        sendInternalServerError(req, res);
+      });
   },
 );
 

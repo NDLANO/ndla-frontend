@@ -4,7 +4,6 @@ import { fetchSeries } from '../util/audioApi';
 const podcastRssFeed = async (seriesId: number): Promise<string> => {
   try {
     const series = await fetchSeries(seriesId, 'nb');
-    console.log('s', series);
     const podcastUrl = `${config?.ndlaFrontendDomain}/podcast/${series.id}`;
     const ownerEmail = 'support+podcast@ndla.no';
 
@@ -76,8 +75,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     </rss>
       `;
   } catch (err) {
-    console.log('ERR', err);
-    return '';
+    return Promise.reject(err);
   }
 };
 
