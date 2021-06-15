@@ -928,7 +928,6 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
     id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
   },
-
   {
     longName: {
       en: 'YFF (HS-BUA Vg2)',
@@ -2247,62 +2246,7 @@ export const betaSubjects = [
     subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
     id: 'beta_subject_5',
   },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'beta_subject_6',
-  },
-  {
-    longName: {
-      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-    id: 'beta_subject_7',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-    id: 'beta_subject_8',
-  },
-  {
-    longName: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-    id: 'beta_subject_9',
-  },
+
   {
     longName: {
       en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
