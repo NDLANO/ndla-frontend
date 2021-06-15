@@ -34,13 +34,6 @@ const getResourceType = resource => {
   return null;
 };
 
-const getUrl = subject => {
-  const filterParam = subject.filters?.[0]?.id
-    ? `?filters=${subject.filters?.[0]?.id}`
-    : '';
-  return `${subject.path}${filterParam}`;
-};
-
 export const searchResultToLinkProps = result => {
   return result.path ? { to: result.path } : { to: '/404' };
 };
@@ -98,7 +91,7 @@ const taxonomyData = (result, selectedContext) => {
                 context.language,
               );
               return {
-                url: getUrl(context, result),
+                url: context.path,
                 title: longName || context.subject,
                 contentType: getContentType(context),
                 breadcrumb: context.breadcrumbs,
@@ -165,17 +158,14 @@ export const convertSearchParam = value => {
 
 export const convertProgramSearchParams = (values, locale) => {
   const subjectParams = [];
-  const filterParams = [];
   programmes.forEach(programme => {
     if (values.includes(programme.url[locale])) {
       programme.grades.forEach(grade =>
         grade.categories.forEach(category => {
           category.subjects.forEach(subject => {
-            const { subjectId, filters } = getSubjectById(subject.id);
+            const { subjectId } = getSubjectById(subject.id);
             if (!subjectParams.includes(subjectId))
               subjectParams.push(subjectId);
-            if (!filterParams.includes(filters[0]))
-              filterParams.push(filters[0]);
           });
         }),
       );
@@ -183,10 +173,10 @@ export const convertProgramSearchParams = (values, locale) => {
   });
   return {
     subjects: subjectParams,
-    filters: filterParams,
   };
 };
 
+// Not in use currently. Maybe when search is ungrouped?
 export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {
     const selectedContext = selectContext(
@@ -196,11 +186,9 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
     );
     return {
       ...result,
-      url: selectedContext
-        ? getUrl(selectedContext, result, language)
-        : plainUrl(result.url),
+      url: selectedContext ? selectedContext.path : plainUrl(result.url),
       urls: result.contexts.map(context => ({
-        url: getUrl(context, result),
+        url: context.path,
         contentType: getContentType(context),
       })),
       ingress: result.metaDescription,
@@ -274,11 +262,6 @@ const mapTraits = (traits, t) =>
 
 const getLtiUrl = (path, id) => `article-iframe/${path.split('/').pop()}/${id}`;
 
-const getContextUrl = context =>
-  context?.filters?.length
-    ? `${context.path}?filters=${context.filters[0].id}`
-    : context.path;
-
 const mapResourcesToItems = (resources, ltiData, isLti, t) =>
   resources.map(resource => ({
     id: resource.id,
@@ -299,12 +282,11 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
         : []),
     ],
     contexts: resource.contexts.map(context => ({
-      url: getContextUrl(context),
+      url: context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
         context.subject,
-        context.filters,
         context.language,
       ),
     })),

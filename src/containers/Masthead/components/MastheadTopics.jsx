@@ -9,9 +9,9 @@ import {
   SubjectCategoryShape,
   TopicShape,
 } from '../../../shapes';
-import { getSubjectBySubjectId } from '../../../data/subjects';
+import { getSubjectLongName } from '../../../data/subjects';
 
-export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
+export function toTopicWithBoundParams(subjectId, expandedTopicIds) {
   return topicId => {
     // expandedTopics is an array like this: [mainTopic, subtopic, subsubtopic, etc]
     // topicId is always either mainTopic, subtopic, subsubtopic, etc
@@ -19,7 +19,7 @@ export function toTopicWithBoundParams(subjectId, filters, expandedTopicIds) {
     // topic ids we can send to toTopic().
     const index = expandedTopicIds.indexOf(topicId);
     const topicIds = expandedTopicIds.slice(0, index + 1);
-    return toTopic(subjectId, filters, ...topicIds);
+    return toTopic(subjectId, ...topicIds);
   };
 }
 
@@ -27,15 +27,12 @@ const MastheadTopics = props => {
   const {
     onClose,
     subject,
-    activeFilters,
     expandedTopicId,
     expandedSubtopicsId,
     topicResourcesByType,
     locale,
-    onFilterClick,
     onNavigate,
     searchFieldComponent,
-    isOnSubjectFrontPage,
     programmes,
     subjectCategories,
   } = props;
@@ -49,20 +46,14 @@ const MastheadTopics = props => {
     expandedSubtopicsId,
   );
 
-  const resourceToLinkPropsWithFilters = resource => {
+  const localResourceToLinkProps = resource => {
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
-    return resourceToLinkProps(
-      resource,
-      '/' + subjectTopicPath,
-      activeFilters.join(','),
-      locale,
-    );
+    return resourceToLinkProps(resource, '/' + subjectTopicPath, locale);
   };
 
-  const subjectData = getSubjectBySubjectId(subject?.id, activeFilters);
-  const subjectTitle = subjectData?.name[locale] || subject?.name;
+  const subjectTitle = getSubjectLongName(subject.id, locale) || subject?.name;
 
   return (
     <TopicMenu
@@ -70,33 +61,17 @@ const MastheadTopics = props => {
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes}
-      toTopic={toTopicWithBoundParams(
-        subject.id,
-        activeFilters.join(','),
-        expandedTopicIds,
-      )}
-      toSubject={() => toSubject(subject.id, activeFilters)}
-      isOnSubjectFrontPage={isOnSubjectFrontPage}
+      toTopic={toTopicWithBoundParams(subject.id, expandedTopicIds)}
+      toSubject={() => toSubject(subject.id)}
       defaultCount={12}
-      messages={{
-        subjectPage: 'masthead.menu.subjectPage',
-        learningResourcesHeading: 'masthead.menu.learningResourcesHeading',
-        back: 'masthead.menu.back',
-        goTo: 'masthead.menu.goTo',
-        contentTypeResultsShowMore: 'masthead.menu.contentTypeResultsShowMore',
-        contentTypeResultsShowLess: 'masthead.menu.contentTypeResultsShowLess',
-        contentTypeResultsNoHit: 'masthead.menu.contentTypeResultsNoHit',
-      }}
-      additionalTooltipLabel=""
-      onFilterClick={onFilterClick}
       subjectTitle={subjectTitle}
-      resourceToLinkProps={resourceToLinkPropsWithFilters}
-      filterValues={activeFilters}
+      resourceToLinkProps={localResourceToLinkProps}
       onNavigate={onNavigate}
       expandedTopicId={expandedTopicId}
       expandedSubtopicsId={expandedSubtopicsId}
       programmes={programmes}
       subjectCategories={subjectCategories}
+      locale={locale}
     />
   );
 };
@@ -108,15 +83,12 @@ MastheadTopics.propTypes = {
     topics: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   topicResourcesByType: PropTypes.arrayOf(TopicShape).isRequired,
-  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
   expandedTopicId: PropTypes.string,
   expandedSubtopicsId: PropTypes.arrayOf(PropTypes.string).isRequired,
   locale: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
-  onFilterClick: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
   searchFieldComponent: PropTypes.node.isRequired,
-  isOnSubjectFrontPage: PropTypes.bool,
   subjectCategories: arrayOf(SubjectCategoryShape),
   programmes: arrayOf(ProgrammeShape),
 };
