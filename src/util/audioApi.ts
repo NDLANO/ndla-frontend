@@ -59,6 +59,8 @@ interface AudioMetaInformation {
     language: string;
   };
   manuscript?: { manuscript: string; language: string };
+  updated: string;
+  created: string;
 }
 
 interface Series {
