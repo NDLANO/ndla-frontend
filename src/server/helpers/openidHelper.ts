@@ -38,9 +38,7 @@ export const getRedirectUrl = () => {
     .then(client =>
       client.authorizationUrl({
         scope: 'openid email profile',
-        resource: 'https://auth.dataporten.no/oauth/authorization',
         code_challenge,
-        code_challenge_method: 'S256',
       }),
     )
     .then(feide_url => {
@@ -63,7 +61,7 @@ export const getFeideToken = (req: Request) => {
 
 export const refreshFeideToken = (_req: Request) => {};
 
-export const feideLogout = (_req: Request) => {
+export const feideLogout = async (_req: Request) => {
   return getClient()
     .then(client => client.endSessionUrl())
     .catch(err => err);

@@ -87,6 +87,7 @@ export const clearTokenSetFromLocalStorage = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('access_token_expires_at');
   localStorage.removeItem('access_token_personal');
+  localStorage.removeItem('PKCE_code');
   //localStorage.removeItem('id_token_feide');
 };
 
@@ -110,7 +111,7 @@ export function loginPersonalAccessToken() {
       localStorage.setItem('PKCE_code', data.verifier);
       window.location.href = data.url;
     });
-}
+};
 
 export const personalAuthLogout = (returnToLogin: boolean) => {
   fetch(`${locationOrigin}/feide/logout`)
@@ -156,4 +157,4 @@ const scheduleRenewal = async () => {
   return;
 };
 
-scheduleRenewal();
+//scheduleRenewal();

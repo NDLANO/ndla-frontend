@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Login from 'containers/Login/Login';
+import Logout from 'containers/Logout/Logout';
 import { RouteProps } from 'react-router';
 // @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
@@ -150,6 +151,11 @@ export const routes: RouteType[] = [
   {
     path: '/login',
     component: Login,
+    background: false,
+  },
+  {
+    path: '/logout',
+    component: Logout,
     background: false,
   },
   {
