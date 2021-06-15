@@ -452,16 +452,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_49',
+                id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
               },
               {
-                id: 'programme_subject_50',
+                id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
               },
               {
-                id: 'programme_subject_51',
+                id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
               },
               {
-                id: 'programme_subject_58',
+                id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
               },
             ],
           },

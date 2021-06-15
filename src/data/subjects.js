@@ -885,6 +885,66 @@ export const commonSubjects = [
 
 export const programmeSubjects = [
   {
+    longName: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
+    },
+    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+    id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+  },
+
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+    id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+  },
+
+  {
+    longName: {
+      en: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nb: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nn: 'Pedagogisk arbeid (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Pedagogisk arbeid',
+      nb: 'Pedagogisk arbeid',
+      nn: 'Pedagogisk arbeid',
+    },
+    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
+    id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+  },
+  
+  {
+    longName: {
+      en: 'YFF (HS-BUA Vg2)',
+      nb: 'YFF (HS-BUA Vg2)',
+      nn: 'YFF (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'YFF',
+      nb: 'YFF',
+      nn: 'YFF',
+    },
+    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+    id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+  },
+  
+  {
     name: {
       nb: 'Sikkerhet',
       nn: 'Tryggleik',
