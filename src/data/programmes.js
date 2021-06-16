@@ -431,16 +431,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_12',
+                id: 'programme_subject_18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
               },
               {
-                id: 'programme_subject_13',
+                id: 'programme_subject_1b7155ae-9670-4972-b438-fd1375875ac1',
               },
               {
-                id: 'programme_subject_14',
+                id: 'programme_subject_9c50184f-6e9c-4229-a328-c7490b6dad37',
               },
               {
-                id: 'programme_subject_59',
+                id: 'programme_subject_f644f829-4e7a-4e74-a63a-342ef786f68a',
               },
             ],
           },
@@ -452,16 +452,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_49',
+                id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
               },
               {
-                id: 'programme_subject_50',
+                id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
               },
               {
-                id: 'programme_subject_51',
+                id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
               },
               {
-                id: 'programme_subject_58',
+                id: 'programme_subject_87aecb77-cd9d-4679-8c6f-043e9f8046f9',
               },
             ],
           },
@@ -1813,13 +1813,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_10',
+                id: 'programme_subject_09410bfa-5b0d-470b-8727-5006e711bc1f',
               },
               {
-                id: 'programme_subject_9',
+                id: 'programme_subject_485b4813-89ff-4404-b9dc-f37c22d48de5',
               },
               {
-                id: 'programme_subject_11',
+                id: 'programme_subject_9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
               },
             ],
           },
@@ -1953,10 +1953,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_7',
+                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
               },
               {
-                id: 'programme_subject_8',
+                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+              },
+              {
+                id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
               },
             ],
           },
@@ -1983,6 +1986,27 @@ export const programmes = [
           },
           {
             name: {
+              nb: 'Salg og reiseliv',
+              nn: 'Sal og reiseliv',
+              en: 'Salg og reiseliv',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_59a988c6-4020-4e70-8329-4de68a19b6fe',
+              },
+              {
+                id: 'programme_subject_4aef7156-a5ae-4476-8e81-6d2a4842143a',
+              },
+              {
+                id: 'programme_subject_a7c337ca-d3b6-492f-ace2-b05c45f54e93',
+              },
+              {
+                id: 'programme_subject_69c829b0-50f5-4944-bcaf-309da101a3d4',
+              },
+            ],
+          },
+          {
+            name: {
               nb: 'Salg, service og sikkerhet',
               nn: 'Salg, service og sikkerhet',
               en: 'Salg, service og sikkerhet',
@@ -1996,6 +2020,27 @@ export const programmes = [
               },
               {
                 id: 'programme_subject_3',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Service, sikkerhet og administrasjon',
+              nn: 'Service, tryggleik og administrasjon',
+              en: 'Service, sikkerhet og administrasjon',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_e15e4240-1d05-4398-b63b-2177815eb61a',
+              },
+              {
+                id: 'programme_subject_af71d86b-3464-4f35-a704-b21ebd556863',
+              },
+              {
+                id: 'programme_subject_f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
+              },
+              {
+                id: 'programme_subject_14fadc31-9799-4e46-ae3b-8294957e4d26',
               },
             ],
           },
@@ -2315,13 +2360,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_62',
+                id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
               },
               {
-                id: 'programme_subject_53',
+                id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
               },
               {
-                id: 'programme_subject_54',
+                id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
+              },
+              {
+                id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
               },
             ],
           },
