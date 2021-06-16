@@ -431,16 +431,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_9c50184f-6e9c-4229-a328-c7490b6dad37',
+                id: 'programme_subject_12',
               },
               {
-                id: 'programme_subject_1b7155ae-9670-4972-b438-fd1375875ac1',
+                id: 'programme_subject_13',
               },
               {
-                id: 'programme_subject_18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
+                id: 'programme_subject_14',
               },
               {
-                id: 'programme_subject_f644f829-4e7a-4e74-a63a-342ef786f68a',
+                id: 'programme_subject_59',
               },
             ],
           },
@@ -452,16 +452,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+                id: 'programme_subject_49',
               },
               {
-                id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+                id: 'programme_subject_50',
               },
               {
-                id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+                id: 'programme_subject_51',
               },
               {
-                id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+                id: 'programme_subject_58',
               },
             ],
           },
@@ -797,14 +797,16 @@ export const programmes = [
               },
             ],
           },
+        ],
+      },
       {
         name: 'Vg2',
         categories: [
           {
             name: {
-              nb: 'Informasjonstekonologi Vg2',
+              en: 'Informasjonsteknologi Vg2',
+              nb: 'Informasjonsteknologi Vg2',
               nn: 'Informasjonsteknologi Vg2',
-              en: 'Informasjonstekonologi Vg2',
             },
             subjects: [
               {
@@ -1811,13 +1813,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_485b4813-89ff-4404-b9dc-f37c22d48de5',
+                id: 'programme_subject_10',
               },
               {
-                id: 'programme_subject_9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
+                id: 'programme_subject_9',
               },
               {
-                id: 'programme_subject_09410bfa-5b0d-470b-8727-5006e711bc1f',
+                id: 'programme_subject_11',
               },
             ],
           },
@@ -1997,28 +1999,7 @@ export const programmes = [
               },
             ],
           },
-          {
-            name: {
-              nb: 'Service, sikkerhet og administrasjon',
-              nn: 'Service, trykkleik og administrasjon',
-              en: 'Service, sikkerhet og administrasjon',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_af71d86b-3464-4f35-a704-b21ebd556863',
-              },
-              {
-              id: 'programme_subject_14fadc31-9799-4e46-ae3b-8294957e4d26',
-              },
-              {
-              id: 'programme_subject_f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
-              },
-              {
-              id: 'programme_subject_1:e15e4240-1d05-4398-b63b-2177815eb61a',
-              },
-            ],
-          },
-          
+
           {
             name: {
               nb: 'Fellesfag',
