@@ -13,10 +13,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import {
-  subjectPageQueryWithTopics,
-  topicsQueryWithBreadcrumbs,
-} from '../../queries';
+import { subjectPageQueryWithTopics } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -41,20 +38,7 @@ const SubjectPage = ({
     },
   });
 
-  const skipFetchingAllTopics = !data || data.topic?.path !== null;
-
-  const { loading: loadingTopics, data: allTopics } = useGraphQuery(
-    topicsQueryWithBreadcrumbs,
-    {
-      skip: skipFetchingAllTopics,
-      variables: {
-        contentUri: data?.topic?.contentUri,
-        filterVisible: true,
-      },
-    },
-  );
-
-  if (loading || loadingTopics) {
+  if (loading) {
     return null;
   }
 
@@ -62,12 +46,12 @@ const SubjectPage = ({
     return <DefaultErrorMessage />;
   }
 
-  if (!data?.subject && allTopics?.topics?.length >= 1) {
-    const topicsWithPath = allTopics.topics.filter(t => t.path);
-    if (topicsWithPath.length === 1) {
-      return <Redirect to={topicsWithPath[0].path} />;
+  const alternateTopics = data?.topic?.alternateTopics;
+  if (!data?.subject && alternateTopics?.length >= 1) {
+    if (alternateTopics.length === 1) {
+      return <Redirect to={alternateTopics[0].path} />;
     }
-    return <MovedTopicPage topics={topicsWithPath} />;
+    return <MovedTopicPage topics={alternateTopics} />;
   }
 
   if (!data.subject) {
