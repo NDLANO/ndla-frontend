@@ -1,20 +1,5 @@
 [
     {
-        "errors": [
-            {
-                "message": "Cannot return null for non-nullable field Topic.id.",
-                "locations": [
-                    {
-                        "line": 30,
-                        "column": 5
-                    }
-                ],
-                "path": [
-                    "topic",
-                    "id"
-                ]
-            }
-        ],
         "data": {
             "subject": {
                 "id": "urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d",
@@ -883,7 +868,14 @@
                 "subjectpage": null,
                 "__typename": "Subject"
             },
-            "topic": null
+            "topic": {
+                "id": "urn:topic:2:172416",
+                "name": "Idéskaping og mediedesign",
+                "path": "/subject:1:f7d7f164-fb40-4d21-9813-6a171603281d/topic:2:172416",
+                "contentUri": "urn:article:9009",
+                "alternateTopics": null,
+                "__typename": "Topic"
+            }
         }
     },
     {
@@ -1372,7 +1364,13 @@
                     "name": "Ekstern læringsressurs",
                     "__typename": "ResourceTypeDefinition"
                 }
-            ]
+            ],
+            "topic": {
+                "id": "urn:topic:2:172416",
+                "coreResources": [],
+                "supplementaryResources": [],
+                "__typename": "Topic"
+            }
         }
     }
 ]
