@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
+import React, {  Fragment, useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -13,15 +13,25 @@ import { RouteComponentProps } from 'react-router';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
+import {AuthContext} from '../../components/AuthenticationContext';
 
 interface Props extends RouteComponentProps {}
 
 export const Login = ({ match, location, history }: Props) => {
-  const authenticated = false; //fetch from auth
+  let authenticated: boolean | undefined = undefined;
+  if(typeof localStorage !== 'undefined'){
+  // @ts-ignore
+   authenticated  = useContext(AuthContext).authenticated; 
+  }
+
+  if(authenticated === undefined){
+    return<></>;
+  }
 
   if (authenticated && location.hash === '' && match.url === '/login') {
+    console.log(authenticated);
     history.push('/');
-    return null;
+    return <div/>;
   }
 
   return (
@@ -31,7 +41,7 @@ export const Login = ({ match, location, history }: Props) => {
           <Switch>
             <Route path={`${match.url}/success`} component={LoginSuccess} />
             <Route path={`${match.url}/failure`} component={LoginFailure} />
-            <Route component={LoginProviders} />
+            <Route component={ () => <LoginProviders authenticated={authenticated}/> }  />
           </Switch>
         </div>
       </OneColumn>

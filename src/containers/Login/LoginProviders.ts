@@ -8,9 +8,19 @@
 import { useEffect } from 'react';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 
-export const LoginProviders = () => {
+interface Props {
+  authenticated: boolean | undefined
+}
+
+export const LoginProviders = ({authenticated}: Props) => {
+  // @ts-ignore
+  
+  
   useEffect(() => {
-    loginPersonalAccessToken();
+    if(!authenticated){
+      console.log(authenticated);
+      loginPersonalAccessToken();
+    }
   }, []);
   return null;
 };

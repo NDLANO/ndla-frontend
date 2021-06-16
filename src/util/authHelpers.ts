@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -80,7 +80,7 @@ export function setTokenSetInLocalStorage(
     (tokenSet.expires_at * 1000 + new Date().getTime()).toString(),
   );
   localStorage.setItem('access_token_personal', personal.toString());
-  //localStorage.setItem('id_token_feide', tokenSet.id_token); Not in use but is sent from feide in tokenset
+  localStorage.setItem('id_token_feide', tokenSet.id_token);// Not in use but is sent from feide in tokenset
 }
 
 export const clearTokenSetFromLocalStorage = () => {
@@ -88,7 +88,7 @@ export const clearTokenSetFromLocalStorage = () => {
   localStorage.removeItem('access_token_expires_at');
   localStorage.removeItem('access_token_personal');
   localStorage.removeItem('PKCE_code');
-  //localStorage.removeItem('id_token_feide');
+  localStorage.removeItem('id_token_feide');
 };
 
 export const getAccessTokenPersonal = () =>
@@ -113,7 +113,7 @@ export function loginPersonalAccessToken() {
     });
 };
 
-export const personalAuthLogout = (returnToLogin: boolean) => {
+export const personalAuthLogout = async (returnToLogin: boolean) => {
   fetch(`${locationOrigin}/feide/logout`)
     .then(() => clearTokenSetFromLocalStorage())
     .then(() => (window.location.href = returnToLogin ? '/login' : '/'));

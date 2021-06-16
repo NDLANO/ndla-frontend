@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { AuthContext } from '../../components/AuthenticationContext';
+import React, { useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import {
   setTokenSetInLocalStorage,
@@ -14,12 +15,17 @@ import {
   locationOrigin,
 } from '../../util/authHelpers';
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps {} // Definert i LoginProviders, LogoutProviders, LogoutSession og loginFailure
 
 export const LoginSuccess = ({ location: { search } }: Props) => {
+  //@ts-ignore
+  const { login } = useContext(AuthContext);
+  
+
   useEffect(() => {
+    
     const searchParams = search.substring(1).split('&');
-    const code: string =
+    const code =
       searchParams.find(data => data.match('code'))?.split('=')[1] || '';
     const verifier = getPKCECode();
 

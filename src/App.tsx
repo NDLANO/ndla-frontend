@@ -33,6 +33,7 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps } from './interfaces';
+import AuthenticationContext from './components/AuthenticationContext';
 
 export const BasenameContext = React.createContext('');
 
@@ -251,25 +252,27 @@ class App extends React.Component<AppProps, AppState> {
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={basename}>
-        <Switch>
-          {routes
-            .filter(route => route !== undefined)
-            .map(route => (
-              <NDLARoute
-                key={`route_${route.path}`}
-                exact={route.exact}
-                hideMasthead={route.hideMasthead}
-                hideBreadcrumb={route.hideBreadcrumb}
-                initialProps={this.state.data}
-                locale={locale}
-                component={route.component}
-                background={route.background ?? false}
-                path={route.path}
-                ndlaFilm={isNdlaFilm}
-                location={location}
-              />
-            ))}
-        </Switch>
+        <AuthenticationContext>
+          <Switch>
+            {routes
+              .filter(route => route !== undefined)
+              .map(route => (
+                <NDLARoute
+                  key={`route_${route.path}`}
+                  exact={route.exact}
+                  hideMasthead={route.hideMasthead}
+                  hideBreadcrumb={route.hideBreadcrumb}
+                  initialProps={this.state.data}
+                  locale={locale}
+                  component={route.component}
+                  background={route.background ?? false}
+                  path={route.path}
+                  ndlaFilm={isNdlaFilm}
+                  location={location}
+                />
+              ))}
+          </Switch>
+        </AuthenticationContext>
       </BasenameContext.Provider>
     );
   }
