@@ -795,27 +795,27 @@ export const programmes = [
               {
                 id: 'common_subject_21',
               },
-                {
-                  name: 'Vg2',
-                  categories: [
-                    {
-                      name: {
-                        nb: 'Informasjonstekonologi Vg2',
-                        nn: 'Informasjonsteknologi Vg2',
-                        en: 'Informasjonstekonologi Vg2',
-                      },
-                      subjects: [
-                          {
-                              id: 'programme_subject_83cd145e-3412-4f06-8de6-961bae9ff452',
-                            },
-                      ],
-                    },
-                  ],
+            ],
+          },
+      {
+        name: 'Vg2',
+        categories: [
+          {
+            name: {
+              nb: 'Informasjonstekonologi Vg2',
+              nn: 'Informasjonsteknologi Vg2',
+              en: 'Informasjonstekonologi Vg2',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_83cd145e-3412-4f06-8de6-961bae9ff452',
               },
             ],
           },
         ],
       },
+    ],
+  },
   {
     name: {
       nb: 'Kunst, design og arkitektur',
