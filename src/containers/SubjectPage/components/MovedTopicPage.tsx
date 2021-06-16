@@ -23,7 +23,7 @@ const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
     ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({
       url: topic.path,
-      title: crumb?.[0],
+      title: crumb?.[0]!,
       breadcrumb: crumb,
     })),
     contentType: 'topic',
