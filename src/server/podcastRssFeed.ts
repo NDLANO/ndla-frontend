@@ -27,9 +27,17 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
       a => `<itunes:author>${a}</itunes:author>`,
     );
 
+    const description = `
+    <description>
+      <![CDATA[
+      ${series.description.description}
+      ]]>
+    </description>
+    `;
+
     const episodes = series.episodes.map(episode => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
-      const episodeGUID = `NDLA-${episode.id}`;
+      const episodeGUID = `NDLA-${config.ndlaEnvironment}-${episode.id}`;
       const episodePubDate = new Date(episode.created).toUTCString();
       const description = !episode.podcastMeta?.introduction
         ? ''
@@ -70,6 +78,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
       <channel>
         <title>${series.title.title}</title>
+        ${description}
         <link>${podcastUrl}</link>
         <language>${series.title.language}</language>
         ${category}
