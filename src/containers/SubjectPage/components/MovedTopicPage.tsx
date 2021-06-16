@@ -11,13 +11,10 @@ import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 // @ts-ignore
-import {
-  resultsWithContentTypeBadgeAndImage,
-  mergeTopicSubjects,
-} from '../../SearchPage/searchHelpers';
-import { GQLTopic } from '../../../graphqlTypes';
+import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
+import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
 
-const convertTopicToResult = (topic: GQLTopic) => {
+const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
@@ -31,6 +28,16 @@ const convertTopicToResult = (topic: GQLTopic) => {
     })),
     contentType: 'topic',
   };
+};
+
+const mergeTopicSubjects = (results: GQLSearchResult[]) => {
+  // Assuming that first element has the same values that the rest of the elements in the results array
+  return [
+    {
+      ...results[0],
+      subjects: results.flatMap((topic: GQLSearchResult) => topic.subjects),
+    },
+  ];
 };
 
 interface Props {
