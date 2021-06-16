@@ -589,6 +589,20 @@ export const subjectPageQueryWithTopics = gql`
       name
       path
       contentUri
+      alternateTopics {
+        id
+        name
+        path
+        breadcrumbs
+        meta {
+          id
+          metaDescription
+          metaImage {
+            url
+            alt
+          }
+        }
+      }
     }
   }
   ${topicInfoFragment}
