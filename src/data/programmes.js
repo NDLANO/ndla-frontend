@@ -71,11 +71,24 @@ export const programmes = [
         categories: [
           {
             name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
+              nb: 'Brønnteknikk',
+              nn: 'Brønnteknikk',
+              en: 'Brønnteknikk',
             },
-            subjects: [],
+            subjects: [
+              {
+                id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
+              },
+              {
+                id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
+              },
+              {
+                id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
+              },
+              {
+                id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+              },
+            ],
           },
           {
             name: {
