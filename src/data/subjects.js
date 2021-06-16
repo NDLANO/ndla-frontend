@@ -1342,7 +1342,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og yrkesutøving',
     },
     subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
-    id: 'programme_subject_1:e15e4240-1d05-4398-b63b-2177815eb61a',
+    id: 'programme_subject_e15e4240-1d05-4398-b63b-2177815eb61a',
   },
   {
     longName: {

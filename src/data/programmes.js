@@ -2114,6 +2114,15 @@ export const programmes = [
             name: null,
             subjects: [
               {
+                id: 'programme_subject_51a7271b-a9d5-4205-bade-1c125a8650b5',
+              },
+              {
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+              },
+              {
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+              },
+              {
                 id: 'study_specialization_subject_7',
               },
               {
@@ -2163,6 +2172,10 @@ export const programmes = [
             name: null,
             subjects: [
               {
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+              },
+
+              {
                 id: 'common_subject_8',
               },
               {
@@ -2187,11 +2200,75 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
-              en: 'Valgfrie programfag',
+              nb: 'Realfag',
+              nn: 'Realfag',
+              en: 'Realfag',
             },
             subjects: [
+              {
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+              {
+                id: 'study_specialization_subject_7',
+              },
+              {
+                id: 'study_specialization_subject_5',
+              },
+              {
+                id: 'study_specialization_subject_18',
+              },
+              {
+                id: 'study_specialization_subject_13',
+              },
+              {
+                id: 'study_specialization_subject_14',
+              },
+              {
+                id: 'study_specialization_subject_9',
+              },
+              {
+                id: 'study_specialization_subject_16',
+              },
+              {
+                id: 'study_specialization_subject_2',
+              },
+              {
+                id: 'study_specialization_subject_1',
+              },
+              {
+                id: 'programme_subject_61',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Språk, samfunnsfag og økonomi',
+              nn: 'Språk, samfunnsfag og økonomi',
+              en: 'Språk, samfunnsfag og økonomi',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+              },
+              {
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+              },
+              {
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+              },
+              {
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+              },
+
               {
                 id: 'study_specialization_subject_7',
               },
