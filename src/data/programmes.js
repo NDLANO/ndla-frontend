@@ -1969,7 +1969,7 @@ export const programmes = [
                 id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
               },
               {
-                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+                id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
               },
               {
                 id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',

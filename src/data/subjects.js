@@ -929,6 +929,168 @@ export const commonSubjects = [
 export const programmeSubjects = [
   {
     longName: {
+      en: 'Bransjelære (SS-TRL Vg2)',
+      nb: 'Bransjelære (SS-TRL Vg2)',
+      nn: 'Bransjelære (SS-TRL Vg2)',
+    },
+    name: {
+      en: 'Bransjelære',
+      nb: 'Bransjelære',
+      nn: 'Bransjelære',
+    },
+    subjectId: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
+    id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+  },
+
+  {
+    longName: {
+      en: 'Bransjeteknikk (SS-TRL Vg2)',
+      nb: 'Bransjeteknikk (SS-TRL Vg2)',
+      nn: 'Bransjeteknikk (SS-TRL Vg2)',
+    },
+    name: {
+      en: 'Bransjeteknikk',
+      nb: 'Bransjeteknikk',
+      nn: 'Bransjeteknikk',
+    },
+    subjectId: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
+    id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
+  },
+
+  {
+    longName: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
+    },
+    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+    id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+  },
+
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+    id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+  },
+
+  {
+    longName: {
+      en: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nb: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nn: 'Pedagogisk arbeid (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Pedagogisk arbeid',
+      nb: 'Pedagogisk arbeid',
+      nn: 'Pedagogisk arbeid',
+    },
+    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
+    id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
+      nn: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfaglig fordypning',
+    },
+    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+    id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+  },
+  {
+    longName: {
+      en: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
+      nb: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
+      nn: 'Transport, logistikk og løfteoperasjonar (SS-TRL VG2)',
+    },
+    name: {
+      en: 'Transport, logistikk og løfteoperasjoner',
+      nb: 'Transport, logistikk og løfteoperasjoner',
+      nn: 'Transport, logistikk og løfteoperasjonar',
+    },
+    subjectId: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+    id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+  },
+
+  {
+    longName: {
+      en: 'Komplettering og brønnservice (TP-BRT Vg2)',
+      nb: 'Komplettering og brønnservice (TP-BRT Vg2)',
+      nn: 'Komplettering og brønnservice (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Komplettering og brønnservice',
+      nb: 'Komplettering og brønnservice',
+      nn: 'Komplettering og brønnservice',
+    },
+    subjectId: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+    id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
+  },
+  {
+    longName: {
+      en: 'Prosedyrer og praksis (TP-BRT Vg2)',
+      nb: 'Prosedyrer og praksis (TP-BRT Vg2)',
+      nn: 'Prosedyrar og praksis (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Prosedyrer og praksis',
+      nb: 'Prosedyrer og praksis',
+      nn: 'Prosedyrar og praksis',
+    },
+    subjectId: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+    id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
+  },
+
+  {
+    longName: {
+      en: 'Boring (TP-BRT Vg2)',
+      nb: 'Boring (TP-BRT Vg2)',
+      nn: 'Boring (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Boring',
+      nb: 'Boring',
+      nn: 'Boring',
+    },
+    subjectId: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+    id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
+  },
+
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+      nb: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+      nn: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfaglig fordypning',
+    },
+    subjectId: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+    id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+  },
+
+  {
+    longName: {
       en: 'Medieuttrykk 2',
       nb: 'Medieuttrykk 2',
       nn: 'Medieuttrykk 2',
