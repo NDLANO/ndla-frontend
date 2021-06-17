@@ -772,24 +772,7 @@ export const programmes = [
               },
             ],
           },
-          {
-            name: {
-              nb: 'IKT-servicefag',
-              nn: 'IKT-servicefag',
-              en: 'IKT-servicefag',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_55',
-              },
-              {
-                id: 'programme_subject_56',
-              },
-              {
-                id: 'programme_subject_57',
-              },
-            ],
-          },
+          
           {
             name: {
               nb: 'Fellesfag',
@@ -2158,42 +2141,14 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
-                id: 'study_specialization_subject_7',
-              },
-
-              {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
-              },
-              {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
-              },
-              {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
-              },
-              {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
-              },
-              {
-                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
-              },
-              {
-                id: 'study_specialization_subject_2',
-              },
-              {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
-              },
+                id:'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+              },  
             ],
           },
           {
@@ -2222,31 +2177,10 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_7',
               },
-
-              {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
-              },
-              {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
-              },
-              {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
-              },
-              {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
-              },
-              {
-                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
-              },
               {
                 id: 'study_specialization_subject_2',
               },
-              {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
-              },
+              
             ],
           },
         ],
@@ -2282,34 +2216,12 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_19',
+                id: '4200b774-5b7b-4900-bf1d-e0b298b9cb97',
               },
-              {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
-              },
-              {
-                id: 'study_specialization_subject_6',
-              },
-              {
-                id: 'study_specialization_subject_17',
-              },
-              {
-                id: 'study_specialization_subject_8',
-              },
-              {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
-              },
-              {
-                id: 'study_specialization_subject_11',
-              },
-              {
-                id: 'study_specialization_subject_10',
-              },
-              {
-                id: 'study_specialization_subject_3',
-              },
+              
             ],
           },
+          //todo
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
