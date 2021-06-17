@@ -37,7 +37,9 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
 
     const episodes = series.episodes.map(episode => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
-      const episodeGUID = `NDLA-${config.ndlaEnvironment}-${episode.id}`;
+      const GUIDEnvPart =
+        config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
+      const episodeGUID = `NDLA-${GUIDEnvPart}${episode.id}`;
       const episodePubDate = new Date(episode.created).toUTCString();
       const description = !episode.podcastMeta?.introduction
         ? ''
