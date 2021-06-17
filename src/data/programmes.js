@@ -71,24 +71,11 @@ export const programmes = [
         categories: [
           {
             name: {
-              nb: 'Brønnteknikk',
-              nn: 'Brønnteknikk',
-              en: 'Brønnteknikk',
+              nb: 'Vi har dessverre ikke programfagene enda.',
+              nn: 'Vi har dessverre ikkje programfaga enno.',
+              en: 'Vi har dessverre ikke programfagene enda.',
             },
-            subjects: [
-              {
-                id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
-              },
-              {
-                id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
-              },
-              {
-                id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
-              },
-              {
-                id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
-              },
-            ],
+            subjects: [],
           },
           {
             name: {
@@ -613,10 +600,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'common_subject_8',
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'common_subject_12',
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_1',
@@ -631,7 +618,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
 
               {
@@ -639,19 +626,19 @@ export const programmes = [
               },
 
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
 
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
 
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
 
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -700,22 +687,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -724,7 +711,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -782,6 +769,24 @@ export const programmes = [
               },
               {
                 id: 'programme_subject_35',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'IKT-servicefag',
+              nn: 'IKT-servicefag',
+              en: 'IKT-servicefag',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_55',
+              },
+              {
+                id: 'programme_subject_56',
+              },
+              {
+                id: 'programme_subject_57',
               },
             ],
           },
@@ -949,10 +954,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'common_subject_8',
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'common_subject_12',
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_1',
@@ -967,22 +972,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1034,22 +1039,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1058,7 +1063,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1194,10 +1199,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'common_subject_8',
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'common_subject_12',
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_1',
@@ -1212,32 +1217,30 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'programme_subject_61',
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
-              {
-                id: 'study_specialization_subject_5',
-              },
+
             ],
           },
         ],
@@ -1285,22 +1288,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1309,7 +1312,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1324,11 +1327,9 @@ export const programmes = [
                 id: 'study_specialization_subject_3',
               },
               {
-                id: 'programme_subject_61',
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
-              {
-                id: 'study_specialization_subject_5',
-              },
+
             ],
           },
         ],
@@ -1442,10 +1443,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'common_subject_8',
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'common_subject_12',
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_1',
@@ -1460,22 +1461,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1524,22 +1525,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1548,7 +1549,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1691,34 +1692,32 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
-              {
-                id: 'study_specialization_subject_5',
-              },
+
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_9',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'study_specialization_subject_16',
+                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
-                id: 'programme_subject_61',
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
                 id: 'common_subject_56',
@@ -1871,9 +1870,9 @@ export const programmes = [
   },
   {
     name: {
-      nb: 'Salg, service og reiseliv (service og samferdsel)',
-      nn: 'Sal, service og reiseliv (service og samferdsel)',
-      en: 'Salg, service og reiseliv (service og samferdsel)',
+      nb: 'Salg, service og reiseliv',
+      nn: 'Sal, service og reiseliv',
+      en: 'Salg, service og reiseliv',
     },
     url: {
       nb: 'salg-service-og-reiseliv',
@@ -1945,42 +1944,8 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
-          {
-            name: {
-              nb: 'IKT-servicefag',
-              nn: 'IKT-servicefag',
-              en: 'IKT-servicefag',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_55',
-              },
-              {
-                id: 'programme_subject_56',
-              },
-              {
-                id: 'programme_subject_57',
-              },
-            ],
-          },
-          {
-            name: {
-              nb: 'Transport og logistikk',
-              nn: 'Transport og logistikk',
-              en: 'Transport og logistikk',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
-              },
-              {
-                id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
-              },
-              {
-                id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-              },
-            ],
-          },
+          
+          
           {
             name: {
               nb: 'Reiseliv',
@@ -2023,25 +1988,7 @@ export const programmes = [
               },
             ],
           },
-          {
-            name: {
-              nb: 'Salg, service og sikkerhet',
-              nn: 'Salg, service og sikkerhet',
-              en: 'Salg, service og sikkerhet',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_1',
-              },
-              {
-                id: 'programme_subject_2',
-              },
-              {
-                id: 'programme_subject_3',
-              },
-            ],
-          },
-          {
+                    {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
               nn: 'Service, tryggleik og administrasjon',
@@ -2181,7 +2128,7 @@ export const programmes = [
               },
 
               {
-                id: 'common_subject_8',
+                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
                 id: 'common_subject_10',
@@ -2196,7 +2143,7 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'common_subject_12',
+                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_7',
@@ -2222,32 +2169,30 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_7',
               },
+
               {
-                id: 'study_specialization_subject_5',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_9',
-              },
-              {
-                id: 'study_specialization_subject_16',
+                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
-                id: 'programme_subject_61',
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
             ],
           },
@@ -2277,32 +2222,30 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_7',
               },
+
               {
-                id: 'study_specialization_subject_5',
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'study_specialization_subject_18',
+                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'study_specialization_subject_13',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'study_specialization_subject_9',
-              },
-              {
-                id: 'study_specialization_subject_16',
+                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'study_specialization_subject_1',
+                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
-                id: 'programme_subject_61',
+                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
             ],
           },
@@ -2342,7 +2285,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_6',
@@ -2354,7 +2297,7 @@ export const programmes = [
                 id: 'study_specialization_subject_8',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
                 id: 'study_specialization_subject_11',
@@ -2378,7 +2321,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'study_specialization_subject_4',
+                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_6',
@@ -2390,7 +2333,7 @@ export const programmes = [
                 id: 'study_specialization_subject_8',
               },
               {
-                id: 'study_specialization_subject_14',
+                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
                 id: 'study_specialization_subject_11',
@@ -2483,6 +2426,7 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
+          
           {
             name: {
               nb: 'Brønnteknikk',
@@ -2501,6 +2445,24 @@ export const programmes = [
               },
               {
                 id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Transport og logistikk',
+              nn: 'Transport og logistikk',
+              en: 'Transport og logistikk',
+            },
+            subjects: [
+              {
+                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+              },
+              {
+                id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
+              },
+              {
+                id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
               },
             ],
           },
