@@ -1927,29 +1927,8 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
+                  
           
-          
-          {
-            name: {
-              nb: 'Reiseliv',
-              nn: 'Reiseliv',
-              en: 'Reiseliv',
-            },
-            subjects: [
-              {
-                id: 'programme_subject_4',
-              },
-              {
-                id: 'programme_subject_5',
-              },
-              {
-                id: 'programme_subject_6',
-              },
-              {
-                id: 'programme_subject_60',
-              },
-            ],
-          },
           {
             name: {
               nb: 'Salg og reiseliv',
