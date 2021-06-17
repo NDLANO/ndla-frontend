@@ -8,9 +8,8 @@ import {
   SubjectCategoryShape,
   ProgrammeShape,
 } from '../../../shapes';
-import { getUrnIdsFromProps, isSubjectPagePath } from '../../../routeHelpers';
+import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
-import { getFiltersFromUrlAsArray } from '../../../util/filterHelper';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
 
@@ -18,30 +17,11 @@ class MastheadMenu extends Component {
   constructor() {
     super();
     this.state = {
-      activeFilters: [],
       expandedTopicId: null,
       expandedSubtopicsId: [],
       location: null,
     };
   }
-
-  onFilterClick = activeFilters => {
-    const { onDataFetch } = this.props;
-    const { subjectId, topicId, resourceId } = getUrnIdsFromProps(this.props);
-
-    const selectedTopicId = getSelectedTopic([
-      this.state.expandedTopicId,
-      ...this.state.expandedSubtopicsId,
-    ]);
-
-    this.setState({ activeFilters });
-    onDataFetch(
-      subjectId,
-      selectedTopicId || topicId,
-      resourceId,
-      activeFilters,
-    );
-  };
 
   onNavigate = async (expandedTopicId, subtopicId, currentIndex) => {
     const { onDataFetch } = this.props;
@@ -67,24 +47,17 @@ class MastheadMenu extends Component {
 
     if (selectedTopicId) {
       const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
-      onDataFetch(
-        subjectId,
-        selectedTopicId,
-        resourceId,
-        this.state.activeFilters,
-      );
+      onDataFetch(subjectId, selectedTopicId, resourceId);
     }
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { location } = nextProps;
     if (location !== prevState.location) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
       const { topicList } = getUrnIdsFromProps(nextProps);
       return {
         expandedTopicId: topicList?.[0] || null,
         expandedSubtopicsId: topicList?.slice(1) || [],
-        activeFilters,
         location,
       };
     }
@@ -94,8 +67,6 @@ class MastheadMenu extends Component {
   render() {
     const {
       subject,
-      location,
-      filters,
       topicResourcesByType,
       locale,
       searchFieldComponent,
@@ -104,7 +75,7 @@ class MastheadMenu extends Component {
       subjectCategories,
     } = this.props;
 
-    const { activeFilters, expandedTopicId, expandedSubtopicsId } = this.state;
+    const { expandedTopicId, expandedSubtopicsId } = this.state;
 
     return (
       <Fragment>
@@ -113,17 +84,13 @@ class MastheadMenu extends Component {
             <MastheadTopics
               onClose={onClose}
               searchFieldComponent={searchFieldComponent}
-              isOnSubjectFrontPage={isSubjectPagePath(location.pathname)}
-              activeFilters={activeFilters}
               expandedTopicId={expandedTopicId}
               expandedSubtopicsId={expandedSubtopicsId}
               topicResourcesByType={topicResourcesByType}
               subject={subject}
-              filters={filters}
               locale={locale}
               programmes={programmes}
               subjectCategories={subjectCategories}
-              onFilterClick={this.onFilterClick}
               onNavigate={this.onNavigate}
             />
           )}
@@ -141,7 +108,6 @@ MastheadMenu.propTypes = {
   }).isRequired,
   locale: string.isRequired,
   resource: ResourceShape,
-  filters: arrayOf(object),
   topicResourcesByType: arrayOf(TopicShape).isRequired,
   topicPath: arrayOf(TopicShape).isRequired,
   location: LocationShape,

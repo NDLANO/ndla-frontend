@@ -43,15 +43,10 @@ export function getLearningPathUrlFromResource(resource, languagePrefix) {
   }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`;
 }
 
-export const resourceToLinkProps = (
-  resource,
-  subjectTopicPath,
-  filters,
-  language,
-) => {
+export const resourceToLinkProps = (resource, subjectTopicPath, language) => {
   if (isLearningPathResource(resource)) {
     return {
-      to: toLearningPath(undefined, undefined, resource, filters),
+      to: toLearningPath(undefined, undefined, resource),
     };
   }
   if (isArticleResource(resource)) {
@@ -60,7 +55,6 @@ export const resourceToLinkProps = (
         getArticleIdFromResource(resource),
         resource,
         subjectTopicPath,
-        filters,
       ),
     };
   }

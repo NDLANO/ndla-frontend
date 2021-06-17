@@ -37,10 +37,7 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
+import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 
 class ArticlePage extends Component {
@@ -69,9 +66,8 @@ class ArticlePage extends Component {
         relevance,
       },
       locale,
-      location,
     } = props;
-    const longName = getLongNameFromFilters(locale, location, subject);
+    const longName = getSubjectLongName(subject?.id, locale);
 
     return getAllDimensions(
       { article, relevance, subject, topicPath, filter: longName },
@@ -90,9 +86,8 @@ class ArticlePage extends Component {
     const { resource } = data;
     const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
-    const filterIds = getFiltersFromUrl(this.props.location);
     const subjectPageUrl = config.ndlaFrontendDomain;
-    this.setState({ scripts, subjectPageUrl, filterIds });
+    this.setState({ scripts, subjectPageUrl });
   }
 
   componentDidUpdate() {
@@ -102,17 +97,9 @@ class ArticlePage extends Component {
   }
 
   render() {
-    const {
-      data,
-      locale,
-      location,
-      errors,
-      skipToContentId,
-      ndlaFilm,
-      t,
-    } = this.props;
+    const { data, locale, errors, skipToContentId, ndlaFilm, t } = this.props;
     const { resource, topic, resourceTypes, subject, topicPath } = data;
-    const { scripts, subjectPageUrl, filterIds } = this.state;
+    const { scripts, subjectPageUrl } = this.state;
     if (isLearningPathResource(resource)) {
       const url = getLearningPathUrlFromResource(resource);
       return (
@@ -144,16 +131,14 @@ class ArticlePage extends Component {
 
     const article = transformArticle(resource.article, locale);
     const resourceType = resource ? getContentType(resource) : null;
-    const filterParam = filterIds ? `?filters=${filterIds}` : '';
     const copyPageUrlLink = `${subjectPageUrl}${
       topic.path
-    }/${resource.id.replace('urn:', '')}${filterParam}`;
+    }/${resource.id.replace('urn:', '')}`;
     const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
 
     const breadcrumbItems = toBreadcrumbItems(
       t('breadcrumb.toFrontpage'),
       [subject, ...topicPath, resource],
-      getFiltersFromUrl(location),
       locale,
     );
 

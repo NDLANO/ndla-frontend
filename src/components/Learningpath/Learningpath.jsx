@@ -25,7 +25,6 @@ import {
   constants,
 } from '@ndla/ui';
 import { toLearningPath } from '../../routeHelpers';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
   BreadCrumbShape,
@@ -71,7 +70,6 @@ const Learningpath = ({
 
   const lastUpdatedDate = new Date(lastUpdated);
   const stepId = learningpathStep.id;
-  const filterIds = getFiltersFromUrl(location);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
@@ -130,7 +128,7 @@ const Learningpath = ({
       learningsteps={mappedLearningsteps}
       duration={duration}
       toLearningPathUrl={(pathId, stepId) =>
-        toLearningPath(pathId, stepId, resource, filterIds)
+        toLearningPath(pathId, stepId, resource)
       }
       lastUpdated={lastUpdatedString}
       copyright={copyright}
@@ -176,7 +174,6 @@ const Learningpath = ({
               numberOfLearningSteps={learningsteps.length - 1}
               title={title}
               subject={subject}
-              filters={filterIds}
               ndlaFilm={ndlaFilm}
             />
           </div>
@@ -190,7 +187,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo - 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource, filterIds)
+              toLearningPath(pathId, stepId, resource)
             }
             label={t('learningPath.previousArrow')}
             title={learningsteps[learningpathStep.seqNo - 1].title}
@@ -209,7 +206,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo + 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource, filterIds)
+              toLearningPath(pathId, stepId, resource)
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />

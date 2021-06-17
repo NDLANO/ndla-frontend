@@ -14,15 +14,13 @@ import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { topicPageQuery } from '../../queries';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 
 const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
-  const filterIds = getFiltersFromUrl(location);
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
   const { data, loading, error } = useGraphQuery(topicPageQuery, {
-    variables: { topicId, filterIds, subjectId },
+    variables: { topicId, subjectId },
   });
   if (loading) return null;
 
