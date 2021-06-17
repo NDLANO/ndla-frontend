@@ -633,18 +633,23 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_1',
               },
+
               {
                 id: 'study_specialization_subject_7',
               },
+
               {
                 id: 'study_specialization_subject_18',
               },
+
               {
                 id: 'study_specialization_subject_14',
               },
+
               {
                 id: 'study_specialization_subject_9',
               },
+
               {
                 id: 'study_specialization_subject_13',
               },
@@ -2328,9 +2333,45 @@ export const programmes = [
           },
           {
             name: {
-              nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
-              en: 'Valgfrie programfag',
+              nb: 'Realfag',
+              nn: 'Realfag',
+              en: 'Realfag',
+            },
+            subjects: [
+              {
+                id: 'study_specialization_subject_19',
+              },
+              {
+                id: 'study_specialization_subject_4',
+              },
+              {
+                id: 'study_specialization_subject_6',
+              },
+              {
+                id: 'study_specialization_subject_17',
+              },
+              {
+                id: 'study_specialization_subject_8',
+              },
+              {
+                id: 'study_specialization_subject_14',
+              },
+              {
+                id: 'study_specialization_subject_11',
+              },
+              {
+                id: 'study_specialization_subject_10',
+              },
+              {
+                id: 'study_specialization_subject_3',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Språk, samfunnsfag og økonomi',
+              nn: 'Språk, samfunnsfag og økonomi',
+              en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
               {

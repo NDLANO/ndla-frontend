@@ -25,7 +25,7 @@ export const commonSubjects = [
       nn: 'Norsk YF Vg2',
     },
     subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
-    id: 'programme_subject_subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+    id: 'programme_subject_51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
 
   {
