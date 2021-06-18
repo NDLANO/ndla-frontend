@@ -14,6 +14,7 @@ import { setContext } from '@apollo/client/link/context';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
+import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
 
 export const fetch = createFetch;
 
@@ -131,4 +132,28 @@ export const createApolloClient = (language = 'nb') => {
   });
 
   return client;
+};
+
+export const fetchAuthorized = (url, config = {}) =>
+  fetchWithAuthorization(url, config, false);
+
+export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
+  if (forceAuth || !isAccessTokenValid()) {
+    await renewAuth();
+  }
+
+  const contentType = config.headers
+    ? config.headers['Content-Type']
+    : 'text/plain';
+  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+  const cacheControl = { 'Cache-Control': 'no-cache' };
+
+  return fetch(url, {
+    ...config,
+    headers: {
+      ...extraHeaders,
+      ...cacheControl,
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  });
 };

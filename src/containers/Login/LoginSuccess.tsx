@@ -6,34 +6,28 @@
  *
  */
 
-import { AuthContext } from '../../components/AuthenticationContext';
 import React, { useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import {
-  setTokenSetInLocalStorage,
-  getPKCECode,
-  locationOrigin,
-} from '../../util/authHelpers';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { finalizeFeideLogin } from '../../util/authHelpers';
 
 interface Props extends RouteComponentProps {} // Definert i LoginProviders, LogoutProviders, LogoutSession og loginFailure
 
-export const LoginSuccess = ({ location: { search } }: Props) => {
+export const LoginSuccess = ({ location: { search }, history }: Props) => {
   //@ts-ignore
-  const { login } = useContext(AuthContext);
-  
+  const { login, authenticated, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    
-    const searchParams = search.substring(1).split('&');
-    const code =
-      searchParams.find(data => data.match('code'))?.split('=')[1] || '';
-    const verifier = getPKCECode();
-
-    fetch(`${locationOrigin}/feide/token?code=${code}&verifier=${verifier}`)
-      .then(json => json.json())
-      .then(token => setTokenSetInLocalStorage(token, true))
-      .then(() => (window.location.href = '/'));
-  }, []);
+    if (!authenticated && authContextLoaded) {
+      const searchParams = search.substring(1).split('&');
+      const feideLoginCode =
+        searchParams.find(data => data.match('code'))?.split('=')[1] || '';
+      finalizeFeideLogin(feideLoginCode).then(() => {
+        login();
+        history.push('/');
+      });
+    }
+  }, [history, login, search, authenticated, authContextLoaded]);
 
   return <div />;
 };

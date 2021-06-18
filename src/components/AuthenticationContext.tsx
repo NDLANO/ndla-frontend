@@ -1,26 +1,27 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
+import { isAccessTokenValid } from '../util/authHelpers';
 // @ts-ignore
 export const AuthContext = createContext();
 
 interface Props {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const AuthenticationContext = ({ children }: Props)  => {
-  if (typeof localStorage === 'undefined') {
-    return <>{children}</>;
-  }
-  
-  const [authenticated, setAuthenticated] = useState(localStorage.getItem('access_token') ? true : false);
+const AuthenticationContext = ({ children }: Props) => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [authContextLoaded, setLoaded] = useState(false);
 
-  useEffect(() => setAuthenticated(localStorage.getItem('access_token') ? true : false), []);
+  useEffect(() => {
+    setAuthenticated(isAccessTokenValid());
+    setLoaded(true);
+  }, []);
 
   const login = () => setAuthenticated(true);
   const logout = () => setAuthenticated(false);
 
-
   return (
-    <AuthContext.Provider value={{ authenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ authenticated, login, logout, authContextLoaded }}>
       {children}
     </AuthContext.Provider>
   );

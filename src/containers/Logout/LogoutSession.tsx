@@ -6,27 +6,26 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react';
-import queryString from 'query-string';
-import {RouteComponentProps} from 'react-router-dom';
-import {
-  personalAuthLogout
-} from '../../util/authHelpers';
-import  {AuthContext} from '../../components/AuthenticationContext';
+import { useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { feideLogout } from '../../util/authHelpers';
 
-interface Props extends RouteComponentProps  {}
+interface Props extends RouteComponentProps {}
 
-const LogoutSession = ( { location }: Props )  => {
+const LogoutSession = ({ history }: Props) => {
   //@ts-ignore
-  const { logout }  = useContext(AuthContext);
+  const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    const query = queryString.parse(location.search);
-    logout();
-    personalAuthLogout(query && query.returnToLogin);
-  }, [])
+    if (!authenticated && authContextLoaded) {
+      history.push('/');
+    } else if (authenticated && authContextLoaded) {
+      feideLogout(logout);
+    }
+  }, [authContextLoaded, authenticated, history, logout]);
 
-  return <div/>;
-}
+  return null;
+};
 
 export default LogoutSession;

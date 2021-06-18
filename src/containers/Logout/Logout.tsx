@@ -14,17 +14,19 @@ import LogoutProviders from './LogoutProviders';
 
 interface Props extends RouteComponentProps {}
 
-const Logout = ({ match }: Props) => (
-  <Fragment>
-    <OneColumn cssModifier="clear">
-      <div className="u-2/3@desktop u-push-1/3@desktop">
-        <Switch>
-          <Route path={`${match.url}/session`} component={LogoutSession} />
-          <Route component={LogoutProviders} />
-        </Switch>
-      </div>
-    </OneColumn>
-  </Fragment>
-);
+const Logout = ({ match }: Props) => {
+  return (
+    <Fragment>
+      <OneColumn cssModifier="clear">
+        <div className="u-2/3@desktop u-push-1/3@desktop">
+          <Switch>
+            <Route path={`${match.url}/session`} component={LogoutSession} />
+            <Route component={LogoutProviders} />
+          </Switch>
+        </div>
+      </OneColumn>
+    </Fragment>
+  );
+};
 
 export default Logout;

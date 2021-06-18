@@ -6,8 +6,9 @@
  *
  */
 
-import defined from 'defined';
+import { TokenSet } from 'openid-client';
 import config from '../config';
+import { fetchAuthorized } from '../util/apiHelpers';
 
 const handleConfigTypes = (
   configVariable: string | boolean | undefined,
@@ -18,9 +19,7 @@ const handleConfigTypes = (
   return '';
 };
 
-const NDLA_API_URL = handleConfigTypes(config.ndlaApiUrl);
-const AUTH0_DOMAIN = 'auth.dataporten.no/oauth'; //handleConfigTypes(config.feideDomain);
-const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientID);
+const FEIDE_DOMAIN = handleConfigTypes(config.feideDomain);
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -48,25 +47,10 @@ const locationOrigin = (() => {
   return window.location.origin;
 })();
 
-type TokenSet = {
-  token_type: string; //code
-  access_token: string; //UUID
-  expires_at: number;
-  scope: string; //User allowed scope
-  id_token: string; //JWT token
-};
-
 export const auth0Domain =
-  process.env.NODE_ENV === 'unittest' ? 'http://auth-ndla' : AUTH0_DOMAIN;
-export const feideClientId =
-  process.env.NODE_ENV === 'unittest' ? '123456789' : FEIDE_CLIENT_ID;
+  process.env.NODE_ENV === 'unittest' ? 'http://auth-ndla' : FEIDE_DOMAIN;
 
-const apiBaseUrl =
-  process.env.NODE_ENV === 'unittest'
-    ? 'http://ndla-api'
-    : defined(NDLA_API_URL, locationOrigin);
-
-export { locationOrigin, apiBaseUrl };
+export { locationOrigin };
 
 export function parseHash(_hash: string) {}
 
@@ -74,13 +58,13 @@ export function setTokenSetInLocalStorage(
   tokenSet: TokenSet,
   personal: boolean,
 ) {
-  localStorage.setItem('access_token', tokenSet.access_token);
+  localStorage.setItem('access_token', tokenSet.access_token || '');
   localStorage.setItem(
     'access_token_expires_at',
-    (tokenSet.expires_at * 1000 + new Date().getTime()).toString(),
+    ((tokenSet.expires_at || 0) + new Date().getTime()).toString(),
   );
   localStorage.setItem('access_token_personal', personal.toString());
-  localStorage.setItem('id_token_feide', tokenSet.id_token);// Not in use but is sent from feide in tokenset
+  localStorage.setItem('id_token_feide', tokenSet.id_token || ''); // Not in use but is sent from feide in tokenset
 }
 
 export const clearTokenSetFromLocalStorage = () => {
@@ -104,36 +88,39 @@ export const getPKCECode = () => localStorage.getItem('PKCE_code');
 export const isAccessTokenValid = () =>
   new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
-export function loginPersonalAccessToken() {
+const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
+
+export const initializeFeideLogin = () => {
   fetch(`${locationOrigin}/feide/login`)
     .then(json => json.json())
-    .then(data => {
-      localStorage.setItem('PKCE_code', data.verifier);
-      window.location.href = data.url;
-    });
+    .then(data => (window.location.href = data.url));
 };
 
-export const personalAuthLogout = async (returnToLogin: boolean) => {
-  fetch(`${locationOrigin}/feide/logout`)
-    .then(() => clearTokenSetFromLocalStorage())
-    .then(() => (window.location.href = returnToLogin ? '/login' : '/'));
+export const finalizeFeideLogin = async (feideLoginCode: string) => {
+  return fetch(`${locationOrigin}/feide/token?code=${feideLoginCode}`, {
+    credentials: 'include',
+  })
+    .then(json => json.json())
+    .then(token => setTokenSetInLocalStorage(token, true));
+};
+
+export const feideLogout = async (logout: () => void) => {
+  fetchAuthorized(
+    `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}`,
+  )
+    .then((json: { text: () => any }) => json.text())
+    .then((url: string) => {
+      clearTokenSetFromLocalStorage();
+      logout();
+      window.location.href = url;
+    });
 };
 
 let tokenRenewalTimeout: NodeJS.Timeout;
 
-export const renewPersonalAuth = async () => {
-  let accessToken = getAccessToken();
-  let code = getPKCECode();
-  return fetch(
-    `${locationOrigin}/feide/renew?accessToken=${accessToken}&code=${code}`,
-  )
-    .then(json => json.json())
-    .then(data => setTokenSetInLocalStorage(data, true));
-};
-
 export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
-    return renewPersonalAuth();
+    return initializeFeideLogin();
   }
 };
 
@@ -144,7 +131,6 @@ const scheduleRenewal = async () => {
   const expiresAt = getAccessTokenExpiresAt();
 
   const timeout = expiresAt - Date.now();
-
   if (timeout > 0) {
     tokenRenewalTimeout = setTimeout(async () => {
       await renewAuth();
@@ -153,8 +139,11 @@ const scheduleRenewal = async () => {
   } else {
     await renewAuth();
     scheduleRenewal();
+    clearTimeout(tokenRenewalTimeout);
   }
   return;
 };
 
-//scheduleRenewal();
+if (typeof localStorage !== 'undefined') {
+  scheduleRenewal();
+}

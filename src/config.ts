@@ -96,8 +96,6 @@ export interface ConfigType {
   [key: string]: string | boolean | undefined;
 }
 
-const getFeideDomain = 'auth.dataporten.no/oauth';
-
 const config: ConfigType = {
   componentName: 'ndla-frontend',
   ndlaEnvironment,
@@ -119,7 +117,6 @@ const config: ConfigType = {
   showAllFrontpageSubjects: true,
   feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
   feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
-  feideDomain: getFeideDomain,
 };
 
 export function getUniversalConfig() {

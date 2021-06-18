@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {  Fragment, useContext } from 'react';
+import { AuthContext } from 'components/AuthenticationContext';
+import React, { Fragment, useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -13,26 +14,12 @@ import { RouteComponentProps } from 'react-router';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
-import {AuthContext} from '../../components/AuthenticationContext';
 
 interface Props extends RouteComponentProps {}
 
-export const Login = ({ match, location, history }: Props) => {
-  let authenticated: boolean | undefined = undefined;
-  if(typeof localStorage !== 'undefined'){
+export const Login = ({ match }: Props) => {
   // @ts-ignore
-   authenticated  = useContext(AuthContext).authenticated; 
-  }
-
-  if(authenticated === undefined){
-    return<></>;
-  }
-
-  if (authenticated && location.hash === '' && match.url === '/login') {
-    console.log(authenticated);
-    history.push('/');
-    return <div/>;
-  }
+  const { authenticated, authContextLoaded } = useContext(AuthContext);
 
   return (
     <Fragment>
@@ -41,7 +28,15 @@ export const Login = ({ match, location, history }: Props) => {
           <Switch>
             <Route path={`${match.url}/success`} component={LoginSuccess} />
             <Route path={`${match.url}/failure`} component={LoginFailure} />
-            <Route component={ () => <LoginProviders authenticated={authenticated}/> }  />
+            <Route
+              component={(props: Props) => (
+                <LoginProviders
+                  authenticated={authenticated}
+                  authContextLoaded={authContextLoaded}
+                  {...props}
+                />
+              )}
+            />
           </Switch>
         </div>
       </OneColumn>

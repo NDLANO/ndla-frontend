@@ -42,7 +42,6 @@ import {
   getFeideToken,
   getRedirectUrl,
   feideLogout,
-  refreshFeideToken,
 } from './helpers/openidHelper';
 
 // @ts-ignore
@@ -105,7 +104,13 @@ app.get(
 
 app.get('/feide/login', (_req: Request, res: Response) => {
   getRedirectUrl()
-    .then(feide_url => res.send(feide_url))
+    .then(json =>
+      res
+        .cookie('PKCE_code', json.verifier, {
+          httpOnly: true,
+        })
+        .send(json),
+    )
     .catch(() => res.redirect('/'));
 });
 
@@ -113,13 +118,9 @@ app.get('/feide/token', (req: Request, res: Response) => {
   getFeideToken(req).then(json => res.send(json));
 });
 
-app.get('/feide/renew', (req: Request, _res: Response) => {
-  refreshFeideToken(req);
-});
-
 app.get('/feide/logout', (req: Request, res: Response) => {
   feideLogout(req)
-    .then(() => res.sendStatus(200))
+    .then(logouturi => res.send(logouturi))
     .catch(() => res.sendStatus(500));
 });
 

@@ -6,22 +6,27 @@
  */
 
 import { useEffect } from 'react';
-import { loginPersonalAccessToken } from '../../util/authHelpers';
+import { RouteComponentProps } from 'react-router';
+import { initializeFeideLogin } from '../../util/authHelpers';
 
-interface Props {
-  authenticated: boolean | undefined
+interface Props extends RouteComponentProps {
+  authenticated: boolean;
+  authContextLoaded: boolean;
 }
 
-export const LoginProviders = ({authenticated}: Props) => {
-  // @ts-ignore
-  
-  
+export const LoginProviders = ({
+  authenticated,
+  history,
+  authContextLoaded,
+}: Props) => {
   useEffect(() => {
-    if(!authenticated){
-      console.log(authenticated);
-      loginPersonalAccessToken();
+    if (authenticated && authContextLoaded) {
+      history.push('/');
+    } else if (authContextLoaded && !authenticated) {
+      initializeFeideLogin();
     }
-  }, []);
+  }, [authenticated, history, authContextLoaded]);
+
   return null;
 };
 

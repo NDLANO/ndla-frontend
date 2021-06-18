@@ -11,7 +11,7 @@ import { RouteComponentProps } from 'react-router';
 
 interface Props extends RouteComponentProps {}
 
-const LogoutProviders = ({ history } : Props ) => {
+const LogoutProviders = ({ history }: Props) => {
   useEffect(() => {
     history.push('/logout/session');
   });
