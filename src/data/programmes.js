@@ -27,10 +27,10 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_44',
+                subjectId: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
               },
               {
-                id: 'programme_subject_43',
+                subjectId: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
               },
             ],
           },
@@ -133,13 +133,13 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_25',
+                subjectId: 'urn:subject:1:001c6405-79d5-4b9a-8b1b-002680265916',
               },
               {
-                id: 'programme_subject_26',
+                subjectId: 'urn:subject:1:4c20c255-cf86-44b7-b628-950a4911c686',
               },
               {
-                id: 'programme_subject_27',
+                subjectId: 'urn:subject:1:6c28a8a2-2291-49d6-aeb9-48315063ab4c',
               },
             ],
           },
@@ -242,7 +242,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_21',
+                subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
               },
             ],
           },
@@ -308,7 +308,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_24',
+                subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
               },
             ],
           },
@@ -374,16 +374,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_15',
+                subjectId: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
               },
               {
-                id: 'programme_subject_16',
+                subjectId: 'urn:subject:1:777ae87e-ca79-4866-920a-115cfeb7bbe1',
               },
               {
-                id: 'programme_subject_17',
+                subjectId: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
               },
               {
-                id: 'programme_subject_18',
+                subjectId: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
               },
             ],
           },
@@ -430,16 +430,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
+                subjectId: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
               },
               {
-                id: 'programme_subject_1b7155ae-9670-4972-b438-fd1375875ac1',
+                subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
               },
               {
-                id: 'programme_subject_9c50184f-6e9c-4229-a328-c7490b6dad37',
+                subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
               },
               {
-                id: 'programme_subject_f644f829-4e7a-4e74-a63a-342ef786f68a',
+                subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
               },
             ],
           },
@@ -451,16 +451,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+                subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
               },
               {
-                id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+                subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
               },
               {
-                id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+                subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
               },
               {
-                id: 'programme_subject_87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+                subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
               },
             ],
           },
@@ -587,7 +587,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+                subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -599,10 +599,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_2',
@@ -617,7 +617,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
 
               {
@@ -625,19 +625,19 @@ export const programmes = [
               },
 
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
 
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
 
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
 
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -686,22 +686,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -710,7 +710,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -758,16 +758,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_32',
+                subjectId: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
               },
               {
-                id: 'programme_subject_33',
+                subjectId: 'urn:subject:1:763fc674-6cef-46ac-8ffe-ea6d76d56dbd',
               },
               {
-                id: 'programme_subject_34',
+                subjectId: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
               },
               {
-                id: 'programme_subject_35',
+                subjectId: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
               },
             ],
           },
@@ -815,7 +815,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83cd145e-3412-4f06-8de6-961bae9ff452',
+                subjectId: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
               },
             ],
           },
@@ -921,7 +921,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+                subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -933,10 +933,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_2',
@@ -954,7 +954,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
 
               {
@@ -962,19 +962,19 @@ export const programmes = [
               },
 
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
 
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
 
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
 
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1023,22 +1023,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1047,7 +1047,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1174,7 +1174,7 @@ export const programmes = [
                 id: 'common_subject_10',
               },
               {
-                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+                subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -1186,10 +1186,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_2',
@@ -1204,28 +1204,28 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
             ],
           },
@@ -1274,22 +1274,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1298,7 +1298,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1313,7 +1313,7 @@ export const programmes = [
                 id: 'study_specialization_subject_3',
               },
               {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
             ],
           },
@@ -1419,7 +1419,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+                subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -1431,10 +1431,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'common_subject_2',
@@ -1452,7 +1452,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
 
               {
@@ -1460,19 +1460,19 @@ export const programmes = [
               },
 
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
 
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
 
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
 
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1521,22 +1521,22 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
                 id: 'study_specialization_subject_2',
@@ -1545,7 +1545,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_10',
@@ -1596,7 +1596,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_37',
+                subjectId: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
               },
             ],
           },
@@ -1691,32 +1691,32 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
 
               {
                 id: 'study_specialization_subject_7',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
                 id: 'study_specialization_subject_2',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+                subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
                 id: 'common_subject_56',
@@ -1779,10 +1779,10 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_47',
+                subjectId: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
               },
               {
-                id: 'programme_subject_46',
+                subjectId: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
               },
             ],
           },
@@ -1829,13 +1829,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_09410bfa-5b0d-470b-8727-5006e711bc1f',
+                subjectId: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
               },
               {
-                id: 'programme_subject_485b4813-89ff-4404-b9dc-f37c22d48de5',
+                subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
               },
               {
-                id: 'programme_subject_9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
+                subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
               },
             ],
           },
@@ -1895,16 +1895,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_28',
+                subjectId: 'urn:subject:1:8bfd0a97-d456-448d-8b5f-3bc49e445b37',
               },
               {
-                id: 'programme_subject_29',
+                subjectId: 'urn:subject:1:2205eb3b-73d5-4d01-a69b-83d1b842636b',
               },
               {
-                id: 'programme_subject_30',
+                subjectId: 'urn:subject:1:947772c4-d806-40d9-95b7-6dc855a37e13',
               },
               {
-                id: 'programme_subject_31',
+                subjectId: 'urn:subject:1:2dc9a180-e501-46ba-93b4-f665f59bdced',
               },
             ],
           },
@@ -1951,16 +1951,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_59a988c6-4020-4e70-8329-4de68a19b6fe',
+                subjectId: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
               },
               {
-                id: 'programme_subject_4aef7156-a5ae-4476-8e81-6d2a4842143a',
+                subjectId: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
               },
               {
-                id: 'programme_subject_a7c337ca-d3b6-492f-ace2-b05c45f54e93',
+                subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
               },
               {
-                id: 'programme_subject_69c829b0-50f5-4944-bcaf-309da101a3d4',
+                subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
               },
             ],
           },
@@ -1972,16 +1972,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_e15e4240-1d05-4398-b63b-2177815eb61a',
+                subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
               },
               {
-                id: 'programme_subject_af71d86b-3464-4f35-a704-b21ebd556863',
+                subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
               },
               {
-                id: 'programme_subject_f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
+                subjectId: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
               },
               {
-                id: 'programme_subject_14fadc31-9799-4e46-ae3b-8294957e4d26',
+                subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
               },
             ],
           },
@@ -2042,13 +2042,13 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_51a7271b-a9d5-4205-bade-1c125a8650b5',
+                subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
                 id: 'study_specialization_subject_7',
@@ -2100,11 +2100,11 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
 
               {
-                id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+                subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
                 id: 'common_subject_10',
@@ -2119,10 +2119,10 @@ export const programmes = [
                 id: 'common_subject_20',
               },
               {
-                id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+                subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+                subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
             ],
           },
@@ -2134,13 +2134,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
-                id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+                subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
-                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+                subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
             ],
           },
@@ -2152,19 +2152,19 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+                subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+                subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
 
               {
@@ -2224,7 +2224,7 @@ export const programmes = [
                 id: 'study_specialization_subject_19',
               },
               {
-                id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'study_specialization_subject_6',
@@ -2236,7 +2236,7 @@ export const programmes = [
                 id: 'study_specialization_subject_8',
               },
               {
-                id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+                subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
                 id: 'study_specialization_subject_11',
@@ -2281,16 +2281,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'programme_subject_39',
+                subjectId: 'urn:subject:1:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9',
               },
               {
-                id: 'programme_subject_40',
+                subjectId: 'urn:subject:1:0d8458e9-632b-4bdf-977c-cb04ccde02bd',
               },
               {
-                id: 'programme_subject_41',
+                subjectId: 'urn:subject:1:48d5ff11-d459-4327-bbe5-8dd313e9dcbf',
               },
               {
-                id: 'programme_subject_42',
+                subjectId: 'urn:subject:1:f2e831f5-2365-4ac8-bfce-4fc38323d91b',
               },
             ],
           },
@@ -2337,16 +2337,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
+                subjectId: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
               },
               {
-                id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
+                subjectId: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
               },
               {
-                id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
+                subjectId: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
               },
               {
-                id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+                subjectId: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
               },
             ],
           },
@@ -2358,13 +2358,13 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+                subjectId: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
               },
               {
-                id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
+                subjectId: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
               },
               {
-                id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+                subjectId: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
               },
             ],
           },
