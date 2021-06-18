@@ -14,7 +14,6 @@ import { feideLogout } from '../../util/authHelpers';
 interface Props extends RouteComponentProps {}
 
 const LogoutSession = ({ history }: Props) => {
-  //@ts-ignore
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {

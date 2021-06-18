@@ -14,7 +14,6 @@ import { finalizeFeideLogin } from '../../util/authHelpers';
 interface Props extends RouteComponentProps {} // Definert i LoginProviders, LogoutProviders, LogoutSession og loginFailure
 
 export const LoginSuccess = ({ location: { search }, history }: Props) => {
-  //@ts-ignore
   const { login, authenticated, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {

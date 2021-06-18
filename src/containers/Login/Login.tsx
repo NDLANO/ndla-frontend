@@ -18,7 +18,6 @@ import LoginProviders from './LoginProviders';
 interface Props extends RouteComponentProps {}
 
 export const Login = ({ match }: Props) => {
-  // @ts-ignore
   const { authenticated, authContextLoaded } = useContext(AuthContext);
 
   return (

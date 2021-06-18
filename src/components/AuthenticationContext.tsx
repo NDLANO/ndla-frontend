@@ -1,7 +1,12 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { isAccessTokenValid } from '../util/authHelpers';
-// @ts-ignore
-export const AuthContext = createContext();
+
+export const AuthContext = createContext({
+  authenticated: false,
+  login : () => console.log(),
+  logout : () => console.log(),
+  authContextLoaded: false
+});
 
 interface Props {
   children: React.ReactNode;
