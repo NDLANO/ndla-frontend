@@ -430,16 +430,16 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
-              },
-              {
                 id: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
               },
               {
-                id: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
+                id: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
               },
               {
                 id: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
+              },
+              {
+                id: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
               },
             ],
           },
