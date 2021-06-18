@@ -668,7 +668,7 @@ export const programmes = [
                 id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
@@ -1005,7 +1005,7 @@ export const programmes = [
                 id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
@@ -1256,7 +1256,7 @@ export const programmes = [
                 id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
@@ -1503,7 +1503,7 @@ export const programmes = [
                 id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
@@ -2187,7 +2187,7 @@ export const programmes = [
                 id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',

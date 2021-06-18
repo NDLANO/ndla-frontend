@@ -754,7 +754,7 @@ export const commonSubjects = [
       en: 'Historie (SF Vg3)',
     },
     subjectId: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
-    id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7'
+    id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
   },
   {
     name: {
@@ -838,7 +838,7 @@ export const commonSubjects = [
       nn: 'Tverrfaglege tema',
     },
     subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',,
+    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
   },
   {
     longName: {
