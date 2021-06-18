@@ -64,7 +64,7 @@ export function setTokenSetInLocalStorage(
     ((tokenSet.expires_at || 0) + new Date().getTime()).toString(),
   );
   localStorage.setItem('access_token_personal', personal.toString());
-  localStorage.setItem('id_token_feide', tokenSet.id_token || ''); 
+  localStorage.setItem('id_token_feide', tokenSet.id_token || '');
 }
 
 export const clearTokenSetFromLocalStorage = () => {
