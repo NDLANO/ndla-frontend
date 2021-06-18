@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import Login from 'containers/Login/Login';
-import Logout from 'containers/Logout/Logout';
+import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
 import { RouteProps } from 'react-router';
 // @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
