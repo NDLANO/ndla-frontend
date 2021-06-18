@@ -11,7 +11,7 @@ export const commonSubjects = [
       nn: 'Engelsk 1',
     },
     subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
-    id: 'programme_subject_c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
   },
   {
     longName: {
@@ -25,7 +25,7 @@ export const commonSubjects = [
       nn: 'Norsk YF Vg2',
     },
     subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
-    id: 'programme_subject_51a7271b-a9d5-4205-bade-1c125a8650b5',
+    id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
 
   {
@@ -40,7 +40,7 @@ export const commonSubjects = [
       nn: 'Matematikk 2P',
     },
     subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
-    id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
   },
   {
     name: {
@@ -939,7 +939,7 @@ export const programmeSubjects = [
       nn: 'Bransjelære',
     },
     subjectId: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
-    id: 'programme_subject_67a5a464-ee5b-4b21-b383-fb744460dce4',
+    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
   },
 
   {
@@ -954,7 +954,7 @@ export const programmeSubjects = [
       nn: 'Bransjeteknikk',
     },
     subjectId: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
-    id: 'programme_subject_aa902796-db72-4f3f-ade1-63e4dba5653b',
+    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
   },
 
   {
@@ -969,7 +969,7 @@ export const programmeSubjects = [
       nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
     },
     subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-    id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+    id: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
   },
 
   {
@@ -984,7 +984,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-    id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+    id: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
   },
 
   {
@@ -999,7 +999,7 @@ export const programmeSubjects = [
       nn: 'Pedagogisk arbeid',
     },
     subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-    id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+    id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
   },
   {
     longName: {
@@ -1027,7 +1027,7 @@ export const programmeSubjects = [
       nn: 'Transport, logistikk og løfteoperasjonar',
     },
     subjectId: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-    id: 'programme_subject_4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
   },
 
   {
@@ -1042,7 +1042,7 @@ export const programmeSubjects = [
       nn: 'Komplettering og brønnservice',
     },
     subjectId: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-    id: 'programme_subject_6951e039-c23e-483f-94bf-2194a1fb197d',
+    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
   },
   {
     longName: {
@@ -1056,7 +1056,7 @@ export const programmeSubjects = [
       nn: 'Prosedyrar og praksis',
     },
     subjectId: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
-    id: 'programme_subject_6eb22154-3d19-4551-93f5-f137bb5abba8',
+    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
   },
 
   {
@@ -1071,7 +1071,7 @@ export const programmeSubjects = [
       nn: 'Boring',
     },
     subjectId: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-    id: 'programme_subject_98cbb757-a718-4275-b87a-2248cde4b58d',
+    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
   },
 
   {
@@ -1086,7 +1086,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordypning',
     },
     subjectId: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
-    id: 'programme_subject_0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
   },
 
   {
@@ -1101,7 +1101,7 @@ export const programmeSubjects = [
       nn: 'Medieuttrykk 2',
     },
     subjectId: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
-    id: 'programme_subject_00a0141d-2307-4a5a-a154-0c821449f6d2',
+    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
   },
   {
     longName: {
@@ -1115,7 +1115,7 @@ export const programmeSubjects = [
       nn: 'Mediesamfunnet 2',
     },
     subjectId: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-    id: 'programme_subject_ca0f428c-d59a-4836-83be-83cbc3191a23',
+    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
   },
   {
     longName: {
@@ -1129,7 +1129,7 @@ export const programmeSubjects = [
       nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
     },
     subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-    id: 'programme_subject_03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+    id: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
   },
 
   {
@@ -1144,7 +1144,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-    id: 'programme_subject_793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+    id: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
   },
 
   {
@@ -1159,7 +1159,7 @@ export const programmeSubjects = [
       nn: 'Pedagogisk arbeid',
     },
     subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-    id: 'programme_subject_56ea35da-73d9-431f-a451-19f24f564f59',
+    id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
   },
   {
     longName: {
@@ -1187,7 +1187,7 @@ export const programmeSubjects = [
       nn: 'Informasjonsteknologi Vg2',
     },
     subjectId: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
-    id: 'programme_subject_83cd145e-3412-4f06-8de6-961bae9ff452',
+    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
   },
   {
     longName: {
@@ -1201,7 +1201,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordjuping',
     },
     subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
-    id: 'programme_subject_9c50184f-6e9c-4229-a328-c7490b6dad37',
+    id: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
   },
   {
     longName: {
@@ -1215,7 +1215,7 @@ export const programmeSubjects = [
       nn: 'Helsefremmende arbeid',
     },
     subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
-    id: 'programme_subject_1b7155ae-9670-4972-b438-fd1375875ac1',
+    id: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
   },
   {
     longName: {
@@ -1229,7 +1229,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
-    id: 'programme_subject_18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
+    id: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
   },
   {
     longName: {
@@ -1243,7 +1243,7 @@ export const programmeSubjects = [
       nn: 'Yrkesliv i helsearbeiderfag',
     },
     subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
-    id: 'programme_subject_f644f829-4e7a-4e74-a63a-342ef786f68a',
+    id: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
   },
 
   {
@@ -1258,7 +1258,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordjuping',
     },
     subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
-    id: 'programme_subject_485b4813-89ff-4404-b9dc-f37c22d48de5',
+    id: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
   },
   {
     longName: {
@@ -1272,7 +1272,7 @@ export const programmeSubjects = [
       nn: 'Råvare, produksjon, salg og service',
     },
     subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
-    id: 'programme_subject_9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
+    id: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
   },
   {
     longName: {
@@ -1286,7 +1286,7 @@ export const programmeSubjects = [
       nn: 'Bransje og arbeidsliv',
     },
     subjectId: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
-    id: 'programme_subject_09410bfa-5b0d-470b-8727-5006e711bc1f',
+    id: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
   },
   {
     longName: {
@@ -1300,7 +1300,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
-    id: 'programme_subject_af71d86b-3464-4f35-a704-b21ebd556863',
+    id: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
   },
   {
     longName: {
@@ -1314,7 +1314,7 @@ export const programmeSubjects = [
       nn: 'Sikkerheit',
     },
     subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
-    id: 'programme_subject_14fadc31-9799-4e46-ae3b-8294957e4d26',
+    id: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
   },
   {
     longName: {
@@ -1328,7 +1328,7 @@ export const programmeSubjects = [
       nn: 'Administrasjon og bærekraftig drift',
     },
     subjectId: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
-    id: 'programme_subject_f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
+    id: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
   },
   {
     longName: {
@@ -1342,7 +1342,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og yrkesutøving',
     },
     subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
-    id: 'programme_subject_e15e4240-1d05-4398-b63b-2177815eb61a',
+    id: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
   },
   {
     longName: {
@@ -1356,7 +1356,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-    id: 'programme_subject_69c829b0-50f5-4944-bcaf-309da101a3d4',
+    id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
   },
   {
     longName: {
@@ -1370,7 +1370,7 @@ export const programmeSubjects = [
       nn: 'Forretningsdrift',
     },
     subjectId: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
-    id: 'programme_subject_59a988c6-4020-4e70-8329-4de68a19b6fe',
+    id: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
   },
   {
     longName: {
@@ -1384,7 +1384,7 @@ export const programmeSubjects = [
       nn: 'Innovasjon og marknadsføring',
     },
     subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
-    id: 'programme_subject_a7c337ca-d3b6-492f-ace2-b05c45f54e93',
+    id: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
   },
   {
     longName: {
@@ -1398,7 +1398,7 @@ export const programmeSubjects = [
       nn: 'Kultur og kommunikasjon',
     },
     subjectId: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
-    id: 'programme_subject_4aef7156-a5ae-4476-8e81-6d2a4842143a',
+    id: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
   },
 
   {
@@ -1413,7 +1413,7 @@ export const programmeSubjects = [
       en: 'Sikkerhet (SS-SSS Vg2)',
     },
     subjectId: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
-    id: 'programme_subject_1',
+    id: 'urn:subject:1:1',
   },
   {
     longName: {
@@ -1427,7 +1427,7 @@ export const programmeSubjects = [
       nn: 'Økonomi og administrasjon',
     },
     subjectId: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
-    id: 'programme_subject_2',
+    id: 'urn:subject:1:2',
   },
   {
     longName: {
@@ -1441,7 +1441,7 @@ export const programmeSubjects = [
       nn: 'Marknadsføring og sal',
     },
     subjectId: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
-    id: 'programme_subject_3',
+    id: 'urn:subject:1:3',
   },
   {
     longName: {
@@ -1455,7 +1455,7 @@ export const programmeSubjects = [
       nn: 'Sal og marknadsføring',
     },
     subjectId: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
-    id: 'programme_subject_4',
+    id: 'urn:subject:1:4',
   },
   {
     longName: {
@@ -1469,7 +1469,7 @@ export const programmeSubjects = [
       nn: 'Etablering og drift',
     },
     subjectId: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
-    id: 'programme_subject_5',
+    id: 'urn:subject:1:5',
   },
   {
     longName: {
@@ -1483,7 +1483,7 @@ export const programmeSubjects = [
       nn: 'Vertskapsrolla',
     },
     subjectId: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
-    id: 'programme_subject_6',
+    id: 'urn:subject:1:6',
   },
   {
     longName: {
@@ -1497,7 +1497,7 @@ export const programmeSubjects = [
       nn: 'Bransjeteknikk',
     },
     subjectId: 'urn:subject:1:34ea30e7-3294-48c1-821b-b0d76ac77eba',
-    id: 'programme_subject_7',
+    id: 'urn:subject:1:7',
   },
   {
     longName: {
@@ -1511,7 +1511,7 @@ export const programmeSubjects = [
       nn: 'Transport og logistikk',
     },
     subjectId: 'urn:subject:1:d9900359-abd3-470f-99b2-809e58abd5d7',
-    id: 'programme_subject_8',
+    id: 'urn:subject:1:8',
   },
   {
     longName: {
@@ -1525,7 +1525,7 @@ export const programmeSubjects = [
       nn: 'Kosthold, ernæring og helse',
     },
     subjectId: 'urn:subject:1:6f770e8e-7426-4b43-b1b1-9c12bbbcae43',
-    id: 'programme_subject_9',
+    id: 'urn:subject:1:9',
   },
   {
     longName: {
@@ -1539,7 +1539,7 @@ export const programmeSubjects = [
       nn: 'Råvarer og produksjon',
     },
     subjectId: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
-    id: 'programme_subject_10',
+    id: 'urn:subject:1:10',
   },
   {
     longName: {
@@ -1553,7 +1553,7 @@ export const programmeSubjects = [
       nn: 'Servering, bransje og miljø',
     },
     subjectId: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
-    id: 'programme_subject_11',
+    id: 'urn:subject:1:11',
   },
   {
     longName: {
@@ -1567,7 +1567,7 @@ export const programmeSubjects = [
       nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:1:992c86f7-8cae-45ef-aab3-a40cdc5e99d9',
-    id: 'programme_subject_12',
+    id: 'urn:subject:1:12',
   },
   {
     longName: {
@@ -1581,7 +1581,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:be544090-ff77-4017-8c65-7840bf28ba22',
-    id: 'programme_subject_13',
+    id: 'urn:subject:1:13',
   },
   {
     longName: {
@@ -1595,7 +1595,7 @@ export const programmeSubjects = [
       nn: 'Yrkesutøving',
     },
     subjectId: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
-    id: 'programme_subject_14',
+    id: 'urn:subject:1:14',
   },
   {
     longName: {
@@ -1609,7 +1609,7 @@ export const programmeSubjects = [
       nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
-    id: 'programme_subject_15',
+    id: 'urn:subject:1:15',
   },
   {
     longName: {
@@ -1623,7 +1623,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:777ae87e-ca79-4866-920a-115cfeb7bbe1',
-    id: 'programme_subject_16',
+    id: 'urn:subject:1:16',
   },
   {
     longName: {
@@ -1637,7 +1637,7 @@ export const programmeSubjects = [
       nn: 'Yrkesliv i helse- og oppvekstfag',
     },
     subjectId: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
-    id: 'programme_subject_17',
+    id: 'urn:subject:1:17',
   },
   {
     longName: {
@@ -1651,7 +1651,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
-    id: 'programme_subject_18',
+    id: 'urn:subject:1:18',
   },
   {
     longName: {
@@ -1665,7 +1665,7 @@ export const programmeSubjects = [
       nn: 'Programfag FBIE',
     },
     subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-    id: 'programme_subject_21',
+    id: 'urn:subject:1:21',
   },
   {
     longName: {
@@ -1679,7 +1679,7 @@ export const programmeSubjects = [
       nn: 'Programfag HDP',
     },
     subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
-    id: 'programme_subject_24',
+    id: 'urn:subject:1:24',
   },
   {
     longName: {
@@ -1693,7 +1693,7 @@ export const programmeSubjects = [
       nn: 'Elektroniske krinsar og nettverk',
     },
     subjectId: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
-    id: 'programme_subject_25',
+    id: 'urn:subject:1:25',
   },
   {
     longName: {
@@ -1707,7 +1707,7 @@ export const programmeSubjects = [
       nn: 'Energi- og styresystem',
     },
     subjectId: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
-    id: 'programme_subject_26',
+    id: 'urn:subject:1:26',
   },
   {
     longName: {
@@ -1721,7 +1721,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
-    id: 'programme_subject_27',
+    id: 'urn:subject:1:27',
   },
   {
     name: {
@@ -1735,7 +1735,7 @@ export const programmeSubjects = [
       en: 'Forretningsdrift (SR Vg1)',
     },
     subjectId: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
-    id: 'programme_subject_28',
+    id: 'urn:subject:1:28',
   },
   {
     longName: {
@@ -1749,7 +1749,7 @@ export const programmeSubjects = [
       nn: 'Kultur og samhandling',
     },
     subjectId: 'urn:subject:1:be40ec3c-01ab-4e2e-af1a-a05fc85bcace',
-    id: 'programme_subject_29',
+    id: 'urn:subject:1:29',
   },
   {
     longName: {
@@ -1763,7 +1763,7 @@ export const programmeSubjects = [
       nn: 'Marknadsføring og innovasjon',
     },
     subjectId: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
-    id: 'programme_subject_30',
+    id: 'urn:subject:1:30',
   },
   {
     longName: {
@@ -1777,7 +1777,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
-    id: 'programme_subject_31',
+    id: 'urn:subject:1:31',
   },
   {
     longName: {
@@ -1791,7 +1791,7 @@ export const programmeSubjects = [
       nn: 'Konseptutvikling og programmering',
     },
     subjectId: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
-    id: 'programme_subject_32',
+    id: 'urn:subject:1:32',
   },
   {
     longName: {
@@ -1805,7 +1805,7 @@ export const programmeSubjects = [
       nn: 'Produksjon og historieforteljing',
     },
     subjectId: 'urn:subject:1:763fc674-6cef-46ac-8ffe-ea6d76d56dbd',
-    id: 'programme_subject_33',
+    id: 'urn:subject:1:33',
   },
   {
     longName: {
@@ -1819,7 +1819,7 @@ export const programmeSubjects = [
       nn: 'Teknologiforståing',
     },
     subjectId: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
-    id: 'programme_subject_34',
+    id: 'urn:subject:1:34',
   },
   {
     longName: {
@@ -1833,7 +1833,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
-    id: 'programme_subject_35',
+    id: 'urn:subject:1:35',
   },
   {
     longName: {
@@ -1847,7 +1847,7 @@ export const programmeSubjects = [
       nn: 'Programfag Naturbruk',
     },
     subjectId: 'urn:subject:13',
-    id: 'programme_subject_37',
+    id: 'urn:subject:1:37',
   },
   {
     longName: {
@@ -1861,7 +1861,7 @@ export const programmeSubjects = [
       nn: 'Naturbruk Vg1',
     },
     subjectId: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
-    id: 'programme_subject_38',
+    id: 'urn:subject:1:38',
   },
   {
     longName: {
@@ -1875,7 +1875,7 @@ export const programmeSubjects = [
       nn: 'Konstruksjons- og styringsteknikk',
     },
     subjectId: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
-    id: 'programme_subject_39',
+    id: 'urn:subject:1:39',
   },
   {
     longName: {
@@ -1889,7 +1889,7 @@ export const programmeSubjects = [
       nn: 'Produksjon og tenester',
     },
     subjectId: 'urn:subject:1:84d4651b-fc52-4876-a066-f8567ecf79a6',
-    id: 'programme_subject_40',
+    id: 'urn:subject:1:40',
   },
   {
     longName: {
@@ -1903,7 +1903,7 @@ export const programmeSubjects = [
       nn: 'Produktivitet- og kvalitetsstyring',
     },
     subjectId: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
-    id: 'programme_subject_41',
+    id: 'urn:subject:1:41',
   },
   {
     longName: {
@@ -1917,7 +1917,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
-    id: 'programme_subject_42',
+    id: 'urn:subject:1:42',
   },
   {
     longName: {
@@ -1931,7 +1931,7 @@ export const programmeSubjects = [
       nn: 'Arbeidsmiljø og dokumentasjon',
     },
     subjectId: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
-    id: 'programme_subject_43',
+    id: 'urn:subject:1:43',
   },
   {
     longName: {
@@ -1945,7 +1945,7 @@ export const programmeSubjects = [
       nn: 'Praktisk yrkesutøving',
     },
     subjectId: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
-    id: 'programme_subject_44',
+    id: 'urn:subject:1:44',
   },
   {
     longName: {
@@ -1959,7 +1959,7 @@ export const programmeSubjects = [
       nn: 'Bransje og arbeidsliv',
     },
     subjectId: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
-    id: 'programme_subject_46',
+    id: 'urn:subject:1:46',
   },
   {
     longName: {
@@ -1973,7 +1973,7 @@ export const programmeSubjects = [
       nn: 'Råvare, produksjon og kvalitet',
     },
     subjectId: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
-    id: 'programme_subject_47',
+    id: 'urn:subject:1:47',
   },
   {
     longName: {
@@ -1987,7 +1987,7 @@ export const programmeSubjects = [
       nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:1:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9',
-    id: 'programme_subject_49',
+    id: 'urn:subject:1:49',
   },
   {
     longName: {
@@ -2001,7 +2001,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:37e92c60-cca9-4b68-b2ee-a706f568756e',
-    id: 'programme_subject_50',
+    id: 'urn:subject:1:50',
   },
   {
     longName: {
@@ -2015,7 +2015,7 @@ export const programmeSubjects = [
       nn: 'Yrkesutøving',
     },
     subjectId: 'urn:subject:1:8c230faa-c1b1-4c16-b47a-490d8d7247cf',
-    id: 'programme_subject_51',
+    id: 'urn:subject:1:51',
   },
   {
     longName: {
@@ -2029,7 +2029,7 @@ export const programmeSubjects = [
       nn: 'Brønnteknikk',
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    id: 'programme_subject_52',
+    id: 'urn:subject:1:52',
     hideOnFrontpage: true,
   },
   {
@@ -2045,7 +2045,7 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182061',
-    id: 'programme_subject_53',
+    id: 'urn:subject:1:53',
   },
   {
     longName: {
@@ -2060,7 +2060,7 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182078',
-    id: 'programme_subject_54',
+    id: 'urn:subject:1:54',
   },
   {
     name: {
@@ -2074,7 +2074,7 @@ export const programmeSubjects = [
       en: 'Virksomhetsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
-    id: 'programme_subject_55',
+    id: 'urn:subject:1:55',
   },
   {
     name: {
@@ -2088,7 +2088,7 @@ export const programmeSubjects = [
       en: 'Bruker- og driftsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
-    id: 'programme_subject_56',
+    id: 'urn:subject:1:56',
   },
   {
     name: {
@@ -2102,7 +2102,7 @@ export const programmeSubjects = [
       en: 'Drift og vedlikehold (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
-    id: 'programme_subject_57',
+    id: 'urn:subject:1:57',
   },
   {
     name: {
@@ -2116,7 +2116,7 @@ export const programmeSubjects = [
       en: 'Yrkesfaglig fordypning (HS-BU Vg2)',
     },
     subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
-    id: 'programme_subject_58',
+    id: 'urn:subject:1:58',
   },
   {
     name: {
@@ -2130,7 +2130,7 @@ export const programmeSubjects = [
       en: 'Yrkesfaglig fordypning (HS-HA Vg2)',
     },
     subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
-    id: 'programme_subject_59',
+    id: 'urn:subject:1:59',
   },
   {
     name: {
@@ -2144,7 +2144,7 @@ export const programmeSubjects = [
       en: 'Yrkesfaglig fordypning (SR-RE Vg2)',
     },
     subjectId: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
-    id: 'programme_subject_60',
+    id: 'urn:subject:1:60',
   },
   {
     name: {
@@ -2158,7 +2158,7 @@ export const programmeSubjects = [
       en: 'Markedsføring og ledelse 1',
     },
     subjectId: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
-    id: 'programme_subject_61',
+    id: 'urn:subject:1:61',
   },
   {
     longName: {
@@ -2173,7 +2173,7 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182849',
-    id: 'programme_subject_62',
+    id: 'urn:subject:1:62',
   },
 ];
 
@@ -2190,7 +2190,7 @@ export const studySpecializationSubjects = [
       nn: 'Matematikk R1',
     },
     subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
-    id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+    id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
   },
   {
     longName: {
@@ -2204,7 +2204,7 @@ export const studySpecializationSubjects = [
       nn: 'Matematikk S1',
     },
     subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
-    id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+    id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
   },
   {
     longName: {
@@ -2218,7 +2218,7 @@ export const studySpecializationSubjects = [
       nn: 'Kommunikasjon og kultur',
     },
     subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
-    id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
+    id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
   },
   {
     longName: {
@@ -2232,7 +2232,7 @@ export const studySpecializationSubjects = [
       nn: 'Biologi 1',
     },
     subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-    id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
+    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
   {
     longName: {
@@ -2246,7 +2246,7 @@ export const studySpecializationSubjects = [
       nn: 'Norsk SF Vg2',
     },
     subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
-    id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+    id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
   },
   {
     longName: {
@@ -2260,7 +2260,7 @@ export const studySpecializationSubjects = [
       nn: 'Medie- og informasjonskunnskap 1',
     },
     subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-    id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
@@ -2274,7 +2274,7 @@ export const studySpecializationSubjects = [
       nn: 'Historie Vg2',
     },
     subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
-    id: 'programme_subject_ff69c291-6374-4766-80c2-47d5840d8bbf',
+    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
   {
     longName: {
@@ -2288,7 +2288,7 @@ export const studySpecializationSubjects = [
       nn: 'Sosiologi og sosialantropologi',
     },
     subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
-    id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
+    id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
   },
   {
     longName: {
@@ -2302,7 +2302,7 @@ export const studySpecializationSubjects = [
       nn: 'Markedsføring og ledelse 1',
     },
     subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
-    id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+    id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
   },
   {
     name: {
