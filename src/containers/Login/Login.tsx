@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { AuthContext } from '../../components/AuthenticationContext'
 import React, { Fragment, useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router';
+import { AuthContext } from '../../components/AuthenticationContext';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';

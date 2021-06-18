@@ -7,8 +7,6 @@
  */
 
 import React from 'react';
-import Login from './containers/Login/Login';
-import Logout from './containers/Logout/Logout';
 import { RouteProps } from 'react-router';
 // @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
@@ -34,6 +32,8 @@ import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 // @ts-ignore
 import App from './App';
+import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
 
 import {
   FILM_PAGE_PATH,
