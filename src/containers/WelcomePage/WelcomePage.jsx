@@ -43,9 +43,9 @@ const TOOLBOX_STUDENT_SUBJECT_ID = 'common_subject_66';
 
 const getMultidisciplinarySubjects = locale => {
   const subjectIds = [
-    'multidisciplinary_subject_1',
-    'multidisciplinary_subject_2',
-    'multidisciplinary_subject_3',
+    'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
+    'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
+    'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
   ];
 
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
