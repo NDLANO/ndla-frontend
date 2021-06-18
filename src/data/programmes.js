@@ -1361,7 +1361,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_3',
+                id: 'common_subject_4',
               },
               {
                 id: 'common_subject_64',
@@ -1392,6 +1392,9 @@ export const programmes = [
               },
               {
                 id: 'common_subject_63',
+              },
+              {
+                id: 'common_subject_9',
               },
             ],
           },
@@ -1436,30 +1439,38 @@ export const programmes = [
               {
                 id: 'common_subject_2',
               },
+              {
+                id: 'common_subject_10',
+              },
             ],
           },
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
               {
                 id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+
               {
                 id: 'study_specialization_subject_7',
               },
+
               {
                 id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
+
               {
                 id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
+
               {
                 id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
+
               {
                 id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
@@ -1547,6 +1558,9 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_3',
+              },
+              {
+                id: 'common_subject_11',
               },
             ],
           },
