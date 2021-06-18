@@ -94,7 +94,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -203,7 +203,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -367,7 +367,6 @@ export const programmes = [
     },
     image: { url: 'https://api.ndla.no/image-api/raw/QhG3IA4s.jpg' },
     grades: [
-      // Klassetrinn
       {
         name: 'Vg1',
         categories: [
@@ -482,7 +481,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -533,7 +532,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_3',
+                id: 'common_subject_4',
               },
               {
                 id: 'common_subject_64',
@@ -588,7 +587,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -606,7 +605,7 @@ export const programmes = [
                 id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
             ],
           },
@@ -772,7 +771,7 @@ export const programmes = [
               },
             ],
           },
-          
+
           {
             name: {
               nb: 'Fellesfag',
@@ -864,10 +863,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_3',
-              },
-              {
-                id: 'common_subject_9',
+                id: 'common_subject_4',
               },
               {
                 id: 'common_subject_64',
@@ -899,6 +895,9 @@ export const programmes = [
               {
                 id: 'common_subject_63',
               },
+              {
+                id: 'common_subject_9',
+              },
             ],
           },
         ],
@@ -922,10 +921,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_10',
-              },
-              {
-                id: 'common_subject_7',
+                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -943,32 +939,40 @@ export const programmes = [
                 id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
+              },
+              {
+                id: 'common_subject_10',
               },
             ],
           },
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
               {
                 id: 'programme_subject_83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+
               {
                 id: 'study_specialization_subject_7',
               },
+
               {
                 id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
               },
+
               {
                 id: 'programme_subject_058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
+
               {
                 id: 'programme_subject_1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
+
               {
                 id: 'programme_subject_fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
@@ -997,9 +1001,6 @@ export const programmes = [
               en: 'Fellesfag',
             },
             subjects: [
-              {
-                id: 'common_subject_11',
-              },
               {
                 id: 'common_subject_53',
               },
@@ -1059,6 +1060,9 @@ export const programmes = [
               },
               {
                 id: 'study_specialization_subject_3',
+              },
+              {
+                id: 'common_subject_11',
               },
             ],
           },
@@ -1170,7 +1174,7 @@ export const programmes = [
                 id: 'common_subject_10',
               },
               {
-                id: 'common_subject_7',
+                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -1188,7 +1192,7 @@ export const programmes = [
                 id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
             ],
           },
@@ -1223,7 +1227,6 @@ export const programmes = [
               {
                 id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
-
             ],
           },
         ],
@@ -1312,7 +1315,6 @@ export const programmes = [
               {
                 id: 'programme_subject_47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
-
             ],
           },
         ],
@@ -1414,7 +1416,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'common_subject_7',
+                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'study_specialization_subject_8',
@@ -1432,7 +1434,7 @@ export const programmes = [
                 id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
             ],
           },
@@ -1644,7 +1646,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -1840,7 +1842,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -1927,8 +1929,6 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
-                  
-          
           {
             name: {
               nb: 'Salg og reiseliv',
@@ -1950,7 +1950,7 @@ export const programmes = [
               },
             ],
           },
-                    {
+          {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
               nn: 'Service, tryggleik og administrasjon',
@@ -1989,7 +1989,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',
@@ -2108,7 +2108,7 @@ export const programmes = [
                 id: 'programme_subject_a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
-                id: 'common_subject_7',
+                id: 'programme_subject_50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
             ],
           },
@@ -2126,8 +2126,8 @@ export const programmes = [
                 id: 'programme_subject_734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
-                id:'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
-              },  
+                id: 'programme_subject_b561f04f-d633-453e-b0ce-84985f97969b',
+              },
             ],
           },
           {
@@ -2159,7 +2159,6 @@ export const programmes = [
               {
                 id: 'study_specialization_subject_2',
               },
-              
             ],
           },
         ],
@@ -2197,7 +2196,6 @@ export const programmes = [
               {
                 id: '4200b774-5b7b-4900-bf1d-e0b298b9cb97',
               },
-              
             ],
           },
           //todo
@@ -2317,7 +2315,6 @@ export const programmes = [
       {
         name: 'Vg2',
         categories: [
-          
           {
             name: {
               nb: 'Brønnteknikk',
@@ -2374,7 +2371,7 @@ export const programmes = [
                 id: 'common_subject_5',
               },
               {
-                id: 'common_subject_1',
+                id: 'common_subject_2',
               },
               {
                 id: 'common_subject_62',

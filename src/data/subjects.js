@@ -1201,7 +1201,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordjuping',
     },
     subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
-    id: 'programme_subject_subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
+    id: 'programme_subject_9c50184f-6e9c-4229-a328-c7490b6dad37',
   },
   {
     longName: {
