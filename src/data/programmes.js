@@ -1895,16 +1895,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'urn:subject:1:8bfd0a97-d456-448d-8b5f-3bc49e445b37',
+                id: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
               },
               {
-                id: 'urn:subject:1:2205eb3b-73d5-4d01-a69b-83d1b842636b',
+                id: 'urn:subject:1:be40ec3c-01ab-4e2e-af1a-a05fc85bcace',
               },
               {
-                id: 'urn:subject:1:947772c4-d806-40d9-95b7-6dc855a37e13',
+                id: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
               },
               {
-                id: 'urn:subject:1:2dc9a180-e501-46ba-93b4-f665f59bdced',
+                id: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
               },
             ],
           },
@@ -1932,9 +1932,6 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
-              },
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
               },
             ],
           },
@@ -1993,9 +1990,6 @@ export const programmes = [
               en: 'Fellesfag',
             },
             subjects: [
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
@@ -2142,6 +2136,10 @@ export const programmes = [
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
+              //informasjonsteknologi?
+              {
+                id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+              },
             ],
           },
           {
@@ -2166,7 +2164,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-
               {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
@@ -2208,11 +2205,17 @@ export const programmes = [
             },
             subjects: [
               {
-                id: '4200b774-5b7b-4900-bf1d-e0b298b9cb97',
+                id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
+              },
+              {
+                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+              },
+              //todo biologi 1
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
             ],
           },
-          //todo
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
@@ -2220,15 +2223,18 @@ export const programmes = [
               en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
+              //todo s2?
               {
                 id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
+              //todo samfunnsfaglig engelsk
               {
                 id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
+              //todo matematikk r2 -> fellesfag
               {
                 id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
               },
@@ -2281,16 +2287,16 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'urn:subject:1:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9',
+                id: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
               },
               {
-                id: 'urn:subject:1:0d8458e9-632b-4bdf-977c-cb04ccde02bd',
+                id: 'urn:subject:1:84d4651b-fc52-4876-a066-f8567ecf79a6',
               },
               {
-                id: 'urn:subject:1:48d5ff11-d459-4327-bbe5-8dd313e9dcbf',
+                id: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
               },
               {
-                id: 'urn:subject:1:f2e831f5-2365-4ac8-bfce-4fc38323d91b',
+                id: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
               },
             ],
           },
@@ -2318,9 +2324,6 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
-              },
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
               },
             ],
           },
@@ -2376,7 +2379,7 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
+                id: '',
               },
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
