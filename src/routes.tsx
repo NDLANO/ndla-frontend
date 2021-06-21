@@ -30,6 +30,7 @@ import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 // @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
+import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
 // @ts-ignore
 import App from './App';
 
@@ -46,6 +47,8 @@ import {
   SUBJECTS,
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
+  TOOLBOX_TEACHER_PAGE_PATH,
+  TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
 
 // @ts-ignore
@@ -112,6 +115,16 @@ export const routes: RouteType[] = [
   {
     path: MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
     component: MultidisciplinarySubjectPage,
+    background: false,
+  },
+  {
+    path: TOOLBOX_TEACHER_PAGE_PATH,
+    component: ToolboxSubjectPage,
+    background: false,
+  },
+  {
+    path: TOOLBOX_STUDENT_PAGE_PATH,
+    component: ToolboxSubjectPage,
     background: false,
   },
   {
