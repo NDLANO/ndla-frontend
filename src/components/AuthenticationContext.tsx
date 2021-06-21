@@ -8,11 +8,18 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { isAccessTokenValid } from '../util/authHelpers';
 
-export const AuthContext = createContext({
+interface AuthContextType {
+  authenticated: boolean,
+  authContextLoaded: boolean,
+  login: () => void,
+  logout: () => void
+}
+
+export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  login: () => console.log(''),
-  logout: () => console.log(''),
+  login: () => {},
+  logout: () => {},
 });
 
 interface Props {

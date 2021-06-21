@@ -43,6 +43,7 @@ import {
   getRedirectUrl,
   feideLogout,
 } from './helpers/openidHelper';
+import config from 'config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -103,6 +104,9 @@ app.get(
 );
 
 app.get('/feide/login', (_req: Request, res: Response) => {
+  if(config.ndlaEnvironment === 'local'){
+    res.send({url:'/'})
+  }
   getRedirectUrl()
     .then(json =>
       res
