@@ -12,9 +12,9 @@ import { injectT, tType } from '@ndla/i18n';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 // @ts-ignore
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
-import { GQLTopic } from '../../../graphqlTypes';
+import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
 
-const convertTopicToResult = (topic: GQLTopic) => {
+const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
@@ -23,11 +23,21 @@ const convertTopicToResult = (topic: GQLTopic) => {
     ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({
       url: topic.path,
-      title: crumb?.[0],
+      title: crumb?.[0]!,
       breadcrumb: crumb,
     })),
     contentType: 'topic',
   };
+};
+
+const mergeTopicSubjects = (results: GQLSearchResult[]) => {
+  // Assuming that first element has the same values that the rest of the elements in the results array
+  return [
+    {
+      ...results[0],
+      subjects: results.flatMap((topic: GQLSearchResult) => topic.subjects),
+    },
+  ];
 };
 
 interface Props {
@@ -37,12 +47,13 @@ interface Props {
 const MovedTopicPage = ({ topics, t }: Props & tType) => {
   const topicsAsResults = topics.map(convertTopicToResult);
   const results = resultsWithContentTypeBadgeAndImage(topicsAsResults, t);
+  const mergedTopic = mergeTopicSubjects(results);
 
   return (
     <OneColumn>
       <h1>{t('movedResourcePage.title')}</h1>
       <div className="c-search-result">
-        <SearchResultList results={results} />
+        <SearchResultList results={mergedTopic} />
       </div>
     </OneColumn>
   );

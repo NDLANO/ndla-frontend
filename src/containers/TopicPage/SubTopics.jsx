@@ -18,12 +18,11 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import { topicIntroductionMessages } from '../../util/topicsHelper';
 
-const toTopic = (subjectId, topicPath, filters) => {
+const toTopic = (subjectId, topicPath) => {
   const topicIds = topicPath.map(topic => topic.id);
-  return toTopicPartial(subjectId, filters, ...topicIds);
+  return toTopicPartial(subjectId, ...topicIds);
 };
 
 class TopicResources extends Component {
@@ -55,7 +54,6 @@ class TopicResources extends Component {
       subtopics,
       subjectId,
       topicPath,
-      location,
       ndlaFilm,
       t,
     } = this.props;
@@ -91,7 +89,7 @@ class TopicResources extends Component {
           />
         }>
         <TopicIntroductionList
-          toTopic={toTopic(subjectId, topicPath, getFiltersFromUrl(location))}
+          toTopic={toTopic(subjectId, topicPath)}
           topics={subtopics.map(topic => ({
             ...topic,
             introduction: topic.meta ? topic.meta.metaDescription : '',

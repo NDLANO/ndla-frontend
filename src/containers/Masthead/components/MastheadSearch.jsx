@@ -30,7 +30,6 @@ const MastheadSearch = ({
   ndlaFilm,
   history,
   subject,
-  filterIds,
 }) => {
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
@@ -104,7 +103,6 @@ const MastheadSearch = ({
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
     subjects,
-    levels: subjects ? filterIds || undefined : undefined,
   });
 
   const onSearch = evt => {
@@ -162,7 +160,6 @@ MastheadSearch.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  filterIds: PropTypes.string,
   hideOnNarrowScreen: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
