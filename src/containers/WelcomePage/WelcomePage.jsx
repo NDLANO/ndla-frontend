@@ -36,9 +36,12 @@ const getUrlFromSubjectId = subjectId => {
   return toSubject(subject.subjectId);
 };
 
-const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
-const TOOLBOX_TEACHER_SUBJECT_ID = 'common_subject_61';
-const TOOLBOX_STUDENT_SUBJECT_ID = 'common_subject_66';
+const MULTIDISCIPLINARY_SUBJECT_ID =
+  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+const TOOLBOX_TEACHER_SUBJECT_ID =
+  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
+const TOOLBOX_STUDENT_SUBJECT_ID =
+  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 const getMultidisciplinarySubjects = locale => {
   const subjectIds = [
