@@ -7,13 +7,15 @@
 
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-//import { toLogoutSession } from '../../util/routeHelpers'; Possible edit for both login and logout
+import { toLogoutSession } from '../../util/routeHelpers';
 
-interface Props extends RouteComponentProps {}
+interface Props {
+  history: RouteComponentProps['history'];
+}
 
 const LogoutProviders = ({ history }: Props) => {
   useEffect(() => {
-    history.push('/logout/session');
+    history.push(toLogoutSession());
   });
   return null;
 };

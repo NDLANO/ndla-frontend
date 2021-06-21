@@ -12,7 +12,9 @@ import { OneColumn } from '@ndla/ui';
 import LogoutSession from './LogoutSession';
 import LogoutProviders from './LogoutProviders';
 
-interface Props extends RouteComponentProps {}
+interface Props {
+  match: RouteComponentProps['match'];
+}
 
 const Logout = ({ match }: Props) => {
   return (

@@ -1,14 +1,19 @@
+/**
+ * Copyright (C) 2021 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import React, { useState, createContext, useEffect } from 'react';
 import { isAccessTokenValid } from '../util/authHelpers';
 
-type AuthContextType = {
-  authenticated: boolean;
-  login: () => void;
-  logout: () => void;
-  authContextLoaded: boolean;
-};
-
-export const AuthContext = createContext({} as AuthContextType);
+export const AuthContext = createContext({
+  authenticated: false,
+  authContextLoaded: false,
+  login: () => console.log(''),
+  logout: () => console.log(''),
+});
 
 interface Props {
   children: React.ReactNode;

@@ -15,7 +15,10 @@ import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 
-interface Props extends RouteComponentProps {}
+interface Props {
+  match: RouteComponentProps['match'];
+  history: RouteComponentProps['history'];
+}
 
 export const Login = ({ match }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
@@ -32,7 +35,7 @@ export const Login = ({ match }: Props) => {
                 <LoginProviders
                   authenticated={authenticated}
                   authContextLoaded={authContextLoaded}
-                  {...props}
+                  history={props.history}
                 />
               )}
             />

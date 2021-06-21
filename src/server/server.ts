@@ -120,7 +120,7 @@ app.get('/feide/token', (req: Request, res: Response) => {
 
 app.get('/feide/logout', (req: Request, res: Response) => {
   feideLogout(req)
-    .then(logouturi => res.send(logouturi))
+    .then(logouturi => res.send({ url: logouturi }))
     .catch(() => res.sendStatus(500));
 });
 

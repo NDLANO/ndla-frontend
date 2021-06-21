@@ -10,25 +10,31 @@ import React, { useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { finalizeFeideLogin } from '../../util/authHelpers';
+import { toHome } from '../../util/routeHelpers';
 
-interface Props extends RouteComponentProps {} // Definert i LoginProviders, LogoutProviders, LogoutSession og loginFailure
+interface Props {
+  location: {
+    search: RouteComponentProps['location']['search'];
+  };
+  history: RouteComponentProps['history'];
+}
 
 export const LoginSuccess = ({ location: { search }, history }: Props) => {
   const { login, authenticated, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
-      const searchParams = search.substring(1).split('&');
+      const searchParams = search.split('&');
       const feideLoginCode =
-        searchParams.find(data => data.match('code'))?.split('=')[1] || '';
+        searchParams.find(data => data.includes('code'))?.split('=')[1] || '';
       finalizeFeideLogin(feideLoginCode).then(() => {
         login();
-        history.push('/');
+        history.push(toHome());
       });
     }
   }, [history, login, search, authenticated, authContextLoaded]);
 
-  return <div />;
+  return <></>;
 };
 
 export default withRouter(LoginSuccess);

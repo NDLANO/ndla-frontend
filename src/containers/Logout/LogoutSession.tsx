@@ -10,15 +10,18 @@ import { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { feideLogout } from '../../util/authHelpers';
+import { toHome } from '../../util/routeHelpers';
 
-interface Props extends RouteComponentProps {}
+interface Props {
+  history: RouteComponentProps['history'];
+}
 
 const LogoutSession = ({ history }: Props) => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
-      history.push('/');
+      history.push(toHome());
     } else if (authenticated && authContextLoaded) {
       feideLogout(logout);
     }

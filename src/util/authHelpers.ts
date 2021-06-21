@@ -8,7 +8,10 @@
 
 import { TokenSet } from 'openid-client';
 import config from '../config';
-import { fetchAuthorized } from '../util/apiHelpers';
+import {
+  fetchAuthorized,
+  resolveJsonOrRejectWithError,
+} from '../util/apiHelpers';
 
 const handleConfigTypes = (
   configVariable: string | boolean | undefined,
@@ -19,6 +22,7 @@ const handleConfigTypes = (
   return '';
 };
 
+let tokenRenewalTimeout: NodeJS.Timeout;
 const FEIDE_DOMAIN = handleConfigTypes(config.feideDomain);
 
 const locationOrigin = (() => {
@@ -33,15 +37,16 @@ const locationOrigin = (() => {
     return '';
   }
   if (typeof window.location.origin === 'undefined') {
-    // Må finne ut hvordan sette origin på typescript måten. window.location.origin har en readonly type.
-    // @ts-ignore
-    window.location.origin = [
-      window.location.protocol,
-      '//',
-      window.location.host,
-      ':',
-      window.location.port,
-    ].join('');
+    window.location = {
+      ...window.location,
+      origin: [
+        window.location.protocol,
+        '//',
+        window.location.host,
+        ':',
+        window.location.port,
+      ].join(''),
+    };
   }
 
   return window.location.origin;
@@ -52,36 +57,34 @@ export const auth0Domain =
 
 export { locationOrigin };
 
-export function parseHash(_hash: string) {}
-
 export function setTokenSetInLocalStorage(
   tokenSet: TokenSet,
   personal: boolean,
 ) {
-  localStorage.setItem('access_token', tokenSet.access_token || '');
+  localStorage.setItem('access_token_feide', tokenSet.access_token || '');
   localStorage.setItem(
-    'access_token_expires_at',
+    'access_token_feide_expires_at',
     ((tokenSet.expires_at || 0) + new Date().getTime()).toString(),
   );
-  localStorage.setItem('access_token_personal', personal.toString());
+  localStorage.setItem('access_token_feide_personal', personal.toString());
   localStorage.setItem('id_token_feide', tokenSet.id_token || '');
 }
 
 export const clearTokenSetFromLocalStorage = () => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('access_token_expires_at');
-  localStorage.removeItem('access_token_personal');
+  localStorage.removeItem('access_token_feide');
+  localStorage.removeItem('access_token_feide_expires_at');
+  localStorage.removeItem('access_token_feide_personal');
   localStorage.removeItem('PKCE_code');
   localStorage.removeItem('id_token_feide');
 };
 
 export const getAccessTokenPersonal = () =>
-  localStorage.getItem('access_token_personal') === 'true';
+  localStorage.getItem('access_token_feide_personal') === 'true';
 
 export const getAccessTokenExpiresAt = () =>
-  JSON.parse(localStorage.getItem('access_token_expires_at') || '0');
+  JSON.parse(localStorage.getItem('access_token_feide_expires_at') || '0');
 
-export const getAccessToken = () => localStorage.getItem('access_token');
+export const getAccessToken = () => localStorage.getItem('access_token_feide');
 
 export const getPKCECode = () => localStorage.getItem('PKCE_code');
 
@@ -91,41 +94,39 @@ export const isAccessTokenValid = () =>
 const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 
 export const initializeFeideLogin = () => {
-  fetch(`${locationOrigin}/feide/login`)
+  return fetch(`${locationOrigin}/feide/login`)
     .then(json => json.json())
     .then(data => (window.location.href = data.url));
 };
 
-export const finalizeFeideLogin = async (feideLoginCode: string) => {
+export const finalizeFeideLogin = (feideLoginCode: string) => {
   return fetch(`${locationOrigin}/feide/token?code=${feideLoginCode}`, {
     credentials: 'include',
   })
-    .then(json => json.json())
-    .then(token => setTokenSetInLocalStorage(token, true));
+    .then(res => resolveJsonOrRejectWithError(res))
+    .then((token: TokenSet) => setTokenSetInLocalStorage(token, true));
 };
 
-export const feideLogout = async (logout: () => void) => {
+export const feideLogout = (logout: () => void) => {
   fetchAuthorized(
     `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}`,
   )
-    .then((json: { text: () => any }) => json.text())
-    .then((url: string) => {
+    .then((res: any) => resolveJsonOrRejectWithError(res))
+    .then((json: { url: string }) => {
       clearTokenSetFromLocalStorage();
       logout();
-      window.location.href = url;
+      window.location.href = json.url;
     });
 };
 
-let tokenRenewalTimeout: NodeJS.Timeout;
-
 export const renewAuth = async () => {
-  if (localStorage.getItem('access_token_personal') === 'true') {
+  if (localStorage.getItem('access_token_feide_personal') === 'true') {
     return initializeFeideLogin();
   }
 };
 
 const scheduleRenewal = async () => {
-  if (localStorage.getItem('access_token_personal') !== 'true') {
+  if (localStorage.getItem('access_token_feide_personal') !== 'true') {
     return null;
   }
   const expiresAt = getAccessTokenExpiresAt();
