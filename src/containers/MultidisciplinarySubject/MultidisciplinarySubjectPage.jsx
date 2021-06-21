@@ -58,7 +58,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
       ...topic,
       label: topic.name,
       selected: topic.id === selectedTopics[0],
-      url: toTopic(subject.id, [], topic.id),
+      url: toTopic(subject.id, topic.id),
     };
   });
 
