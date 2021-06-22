@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -15,7 +15,6 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { resourcePageQuery } from '../../queries';
-import { getFiltersFromUrlAsArray } from '../../util/filterHelper';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage from '../LearningpathPage/LearningpathPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
@@ -31,25 +30,9 @@ const urlInPaths = (location, resource) => {
 
 const ResourcePage = props => {
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
-  const filters = getFiltersFromUrlAsArray(props.location);
-  const filterIds = filters.join(',');
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
-    variables: { subjectId, topicId, filterIds, resourceId },
+    variables: { subjectId, topicId, resourceId },
   });
-
-  useEffect(() => {
-    if (data?.resource?.filters?.length && !filterIds) {
-      const resourceFilterOnTopic = data.resource.filters.filter(filter =>
-        data?.topic?.filters?.map(filter => filter.id).includes(filter.id),
-      );
-      const filter = resourceFilterOnTopic?.[0];
-      if (filter) {
-        props.history.replace({
-          search: `?filters=${filter.id}`,
-        });
-      }
-    }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return null;
@@ -59,10 +42,7 @@ const ResourcePage = props => {
     return <DefaultErrorMessage />;
   }
 
-  if (
-    !data.resource &&
-    (!data.resource.article || !data.resource.learningpath)
-  ) {
+  if (!data.resource || !data.resource.path) {
     return <NotFoundPage />;
   }
 
@@ -80,8 +60,7 @@ const ResourcePage = props => {
     window.scroll(0, 0);
   }
   const { subject, resource, topic } = data;
-  const relevanceId = resource.filters?.find(f => f.id === filters?.[0])
-    ?.relevanceId;
+  const relevanceId = resource.relevanceId;
   const relevance =
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? props.t('searchPage.searchFilterMessages.supplementaryRelevance')

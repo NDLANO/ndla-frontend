@@ -58,7 +58,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
       ...topic,
       label: topic.name,
       selected: topic.id === selectedTopics[0],
-      url: toTopic(subject.id, [], topic.id),
+      url: toTopic(subject.id, topic.id),
     };
   });
 
@@ -92,7 +92,6 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
           <MultidisciplinaryTopicWrapper
             disableNav={index >= selectionLimit - 1}
             topicId={topicId}
-            filterIds=""
             subjectId={subject.id}
             subTopicId={selectedTopics[index + 1]}
             locale={locale}

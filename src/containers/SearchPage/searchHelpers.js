@@ -4,10 +4,7 @@ import { ContentTypeBadge, Image } from '@ndla/ui';
 import { getContentType, contentTypeMapping } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import {
-  getSubjectBySubjectIdFilters,
-  getSubjectById,
-} from '../../data/subjects';
+import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -35,13 +32,6 @@ const getResourceType = resource => {
       return resource.resourceTypes[0].name;
   }
   return null;
-};
-
-const getUrl = subject => {
-  const filterParam = subject.filters?.[0]?.id
-    ? `?filters=${subject.filters?.[0]?.id}`
-    : '';
-  return `${subject.path}${filterParam}`;
 };
 
 export const searchResultToLinkProps = result => {
@@ -72,18 +62,9 @@ export const plainUrl = url => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
-const updateBreadcrumbSubject = (
-  breadcrumbs,
-  subjectId,
-  subject,
-  filters,
-  language,
-) => {
-  const subjectData = getSubjectBySubjectIdFilters(
-    subjectId,
-    filters?.map(f => f.id) || [],
-  );
-  const breadcrumbSubject = subjectData?.longName[language] || subject;
+const updateBreadcrumbSubject = (breadcrumbs, subjectId, subject, language) => {
+  const longName = getSubjectLongName(subjectId, language);
+  const breadcrumbSubject = longName || subject;
   return [breadcrumbSubject, ...breadcrumbs.slice(1)];
 };
 
@@ -105,14 +86,13 @@ const taxonomyData = (result, selectedContext) => {
       subjects:
         contexts.length > 1
           ? contexts.map(context => {
-              const contextData = getSubjectBySubjectIdFilters(
+              const longName = getSubjectLongName(
                 context.subjectId,
-                context.filters.map(f => f.id),
+                context.language,
               );
               return {
-                url: getUrl(context, result),
-                title:
-                  contextData?.longName[context.language] || context.subject,
+                url: context.path,
+                title: longName || context.subject,
                 contentType: getContentType(context),
                 breadcrumb: context.breadcrumbs,
               };
@@ -178,17 +158,14 @@ export const convertSearchParam = value => {
 
 export const convertProgramSearchParams = (values, locale) => {
   const subjectParams = [];
-  const filterParams = [];
   programmes.forEach(programme => {
     if (values.includes(programme.url[locale])) {
       programme.grades.forEach(grade =>
         grade.categories.forEach(category => {
           category.subjects.forEach(subject => {
-            const { subjectId, filters } = getSubjectById(subject.id);
+            const { subjectId } = getSubjectById(subject.id);
             if (!subjectParams.includes(subjectId))
               subjectParams.push(subjectId);
-            if (!filterParams.includes(filters[0]))
-              filterParams.push(filters[0]);
           });
         }),
       );
@@ -196,10 +173,10 @@ export const convertProgramSearchParams = (values, locale) => {
   });
   return {
     subjects: subjectParams,
-    filters: filterParams,
   };
 };
 
+// Not in use currently. Maybe when search is ungrouped?
 export const convertResult = (results, subjectFilters, enabledTab, language) =>
   results.map(result => {
     const selectedContext = selectContext(
@@ -209,11 +186,9 @@ export const convertResult = (results, subjectFilters, enabledTab, language) =>
     );
     return {
       ...result,
-      url: selectedContext
-        ? getUrl(selectedContext, result, language)
-        : plainUrl(result.url),
+      url: selectedContext ? selectedContext.path : plainUrl(result.url),
       urls: result.contexts.map(context => ({
-        url: getUrl(context, result),
+        url: context.path,
         contentType: getContentType(context),
       })),
       ingress: result.metaDescription,
@@ -266,6 +241,13 @@ export const resultsWithContentTypeBadgeAndImage = (
     };
   });
 
+export const mergeTopicSubjects = results => {
+  // Assuming that first element has the same values that the rest of the elements in the results array
+  return [
+    { ...results[0], subjects: results.flatMap(topic => topic.subjects) },
+  ];
+};
+
 export const getResultMetadata = search => ({
   pageSize: search.pageSize || 0,
   totalCount: search.totalCount || 0,
@@ -287,11 +269,6 @@ const mapTraits = (traits, t) =>
 
 const getLtiUrl = (path, id) => `article-iframe/${path.split('/').pop()}/${id}`;
 
-const getContextUrl = context =>
-  context?.filters?.length
-    ? `${context.path}?filters=${context.filters[0].id}`
-    : context.path;
-
 const mapResourcesToItems = (resources, ltiData, isLti, t) =>
   resources.map(resource => ({
     id: resource.id,
@@ -312,12 +289,11 @@ const mapResourcesToItems = (resources, ltiData, isLti, t) =>
         : []),
     ],
     contexts: resource.contexts.map(context => ({
-      url: getContextUrl(context),
+      url: context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
         context.subjectId,
         context.subject,
-        context.filters,
         context.language,
       ),
     })),

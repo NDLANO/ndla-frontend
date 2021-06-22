@@ -2800,6 +2800,18 @@
             "deprecationReason": null
           },
           {
+            "name": "contentType",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "copyText",
             "description": "",
             "args": [],
@@ -3281,6 +3293,18 @@
           },
           {
             "name": "src",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "thumbnail",
             "description": "",
             "args": [],
             "type": {
@@ -5054,6 +5078,22 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "Resource",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "alternateTopics",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Topic",
                 "ofType": null
               }
             },
@@ -7326,18 +7366,6 @@
             "deprecationReason": null
           },
           {
-            "name": "metaImage",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MetaImage",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "image",
             "description": "",
             "args": [],
@@ -7530,12 +7558,24 @@
             "deprecationReason": null
           },
           {
+            "name": "thumbnail",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "image",
             "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "VisualElementImage",
+              "name": "ImageLicense",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7624,33 +7664,21 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "VisualElementImage",
-        "description": "",
-        "specifiedByUrl": null,
-        "fields": [
+          },
           {
-            "name": "imageUrl",
+            "name": "copyright",
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "Copyright",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "contentType",
+            "name": "copyText",
             "description": "",
             "args": [],
             "type": {

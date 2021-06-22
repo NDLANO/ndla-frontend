@@ -88,22 +88,12 @@ export const mapMastheadData = ({
     subject.topics &&
     getTopicPath(subjectId, topicId, subject.topics);
 
-  const filters =
-    subject &&
-    subject.filters &&
-    subject.filters.map(filter => ({
-      ...filter,
-      title: filter.name,
-      value: filter.id,
-    }));
-
   return {
     subject: {
       ...subject,
       topics: topicsWithSubTopics || [],
     },
     topicPath,
-    filters,
     topicResourcesByType,
     resource,
   };

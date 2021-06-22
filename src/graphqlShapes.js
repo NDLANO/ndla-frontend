@@ -20,11 +20,6 @@ export const GraphQLTopicShape = PropTypes.shape({
   }),
 });
 
-export const GraphQLFilterShape = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-});
-
 export const GraphQLResourceTypeShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -146,7 +141,6 @@ export const GraphQLSubjectShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(GraphQLTopicShape),
-  filters: PropTypes.arrayOf(GraphQLFilterShape),
   subjectpage: GraphQLSubjectPageShape,
 });
 
