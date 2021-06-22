@@ -1013,7 +1013,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordypning',
     },
     subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+    id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9'
   },
   {
     longName: {
@@ -1173,7 +1173,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordjuping',
     },
     subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'programme_subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+    id: 'urn:subject:1:subject87aecb77-cd9d-4679-8c6f-043e9f8046f9',
   },
   {
     longName: {
@@ -2759,7 +2759,22 @@ export const archivedSubjects = [
   },
 ];
 
-export const betaSubjects = [];
+export const betaSubjects = [
+  {
+    longName: {
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
+    },
+    name: {
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
+    },
+    subjectId: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+    id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+  },
+];
 
 export const subjectsCategories = [
   {
