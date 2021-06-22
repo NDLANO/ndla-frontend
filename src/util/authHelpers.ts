@@ -8,10 +8,11 @@
 
 import { TokenSet } from 'openid-client';
 import config from '../config';
-import {
-  fetchAuthorized,
-  resolveJsonOrRejectWithError,
-} from './apiHelpers';
+import { fetchAuthorized, resolveJsonOrRejectWithError } from './apiHelpers';
+
+interface Feide extends TokenSet {
+  url?: string;
+}
 
 const handleConfigTypes = (
   configVariable: string | boolean | undefined,
@@ -57,10 +58,7 @@ export const auth0Domain =
 
 export { locationOrigin };
 
-export function setTokenSetInLocalStorage(
-  tokenSet: TokenSet,
-  personal = true,
-) {
+export function setTokenSetInLocalStorage(tokenSet: TokenSet, personal = true) {
   localStorage.setItem('access_token_feide', tokenSet.access_token || '');
   localStorage.setItem(
     'access_token_feide_expires_at',
@@ -93,25 +91,18 @@ export const isAccessTokenValid = () =>
 
 const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 
-
 export const initializeFeideLogin = () => {
   return fetch(`${locationOrigin}/feide/login`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(data => (window.location.href = data.url || ''))
-    .catch(err =>  console.log(err));
+    .then(data => (window.location.href = data.url || ''));
 };
-
-interface Feide extends TokenSet{
-  url?: string,
-}
 
 export const finalizeFeideLogin = (feideLoginCode: string) => {
   return fetch(`${locationOrigin}/feide/token?code=${feideLoginCode}`, {
     credentials: 'include',
   })
-    .then((res) => resolveJsonOrRejectWithError<Feide>(res))
-    .then((tokenSet) => setTokenSetInLocalStorage(tokenSet, true)).catch(err => console.log(err));
-
+    .then(res => resolveJsonOrRejectWithError<Feide>(res))
+    .then(tokenSet => setTokenSetInLocalStorage(tokenSet, true));
 };
 
 export const feideLogout = (logout: () => void) => {
@@ -119,17 +110,18 @@ export const feideLogout = (logout: () => void) => {
     `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}`,
   )
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then((json) => {
+    .then(json => {
       clearTokenSetFromLocalStorage();
       logout();
       window.location.href = json.url || '';
-    })
+    });
 };
 
-export const renewAuth = async () => {
+export const renewAuth = () => {
   if (localStorage.getItem('access_token_feide_personal') === 'true') {
     return initializeFeideLogin();
   }
+  return;
 };
 
 const scheduleRenewal = async () => {

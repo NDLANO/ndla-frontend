@@ -108,13 +108,13 @@ app.get('/feide/login', (_req: Request, res: Response) => {
     res.send({ url: '/' });
   }
   getRedirectUrl()
-    .then(json =>{
+    .then(json => {
       res
         .cookie('PKCE_code', json.verifier, {
           httpOnly: true,
         })
-        .send(json) },
-    )
+        .send(json);
+    })
     .catch(() => res.redirect('/'));
 });
 

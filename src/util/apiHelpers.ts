@@ -7,7 +7,12 @@
  */
 
 import defined from 'defined';
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  TypePolicies,
+} from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
@@ -35,18 +40,18 @@ const apiBaseUrl = (() => {
 
 export { apiBaseUrl };
 
-export function apiResourceUrl(path) {
+export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function createErrorPayload(status, message, json) {
+export function createErrorPayload(status: number, message: string, json: any) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError(res) {
+export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve() : resolve(res.json());
+      return res.status === 204 ? resolve(res.json()) : resolve(res.json());
     }
     return res
       .json()
@@ -74,7 +79,7 @@ const possibleTypes = {
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
 };
 
-const typePolicies = {
+const typePolicies: TypePolicies = {
   SearchContext: {
     keyFields: ['path'],
   },
@@ -132,16 +137,26 @@ export const createApolloClient = (language = 'nb') => {
   return client;
 };
 
-export const fetchAuthorized = (url, config = {}) =>
-  fetchWithAuthorization(url, config, false);
+type HttpHeaders = {
+  headers?: {
+    'Content-Type': string;
+  };
+};
 
-export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
+export const fetchAuthorized = (url: string, config?: HttpHeaders) =>
+  fetchWithAuthorization(url, false, config);
+
+export const fetchWithAuthorization = async (
+  url: string,
+  forceAuth: boolean,
+  config?: HttpHeaders,
+) => {
   if (forceAuth || !isAccessTokenValid()) {
     await renewAuth();
   }
 
-  const contentType = config.headers
-    ? config.headers['Content-Type']
+  const contentType = config?.headers
+    ? config?.headers['Content-Type']
     : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
   const cacheControl = { 'Cache-Control': 'no-cache' };

@@ -59,7 +59,10 @@ export const getFeideToken = (req: Request) => {
   console.log(req.headers.cookie);
   return getClient().then(client => {
     const params = client.callbackParams(req);
-    const verifier = req.headers.cookie?.split(';').filter(cookie => cookie.includes('PKCE_code'))[0]?.split('=')[1];
+    const verifier = req.headers.cookie
+      ?.split(';')
+      .filter(cookie => cookie.includes('PKCE_code'))[0]
+      ?.split('=')[1];
     console.log(verifier);
     return client.callback(LOGIN_REDIRECT_URI, params, {
       code_verifier: verifier,
