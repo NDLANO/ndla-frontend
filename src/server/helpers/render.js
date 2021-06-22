@@ -15,14 +15,23 @@ import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
 import createEmotionServer from 'create-emotion-server';
 
+import { ChunkExtractor } from '@loadable/server';
+import path from 'path';
 import Document from './Document';
 import config from '../../config';
 
+// Used for loadable components
+const extractor = new ChunkExtractor({
+  statsFile: path.resolve(__dirname, 'public/loadable-stats.json'),
+  entrypoints: ['client'],
+});
+
 export function renderPage(Page, assets, data = {}, cache) {
+  const jsx = extractor.collectChunks(Page);
   resetIdCounter();
   if (cache) {
     const { extractCritical } = createEmotionServer(cache);
-    const { html, css, ids } = extractCritical(renderToString(Page));
+    const { html, css, ids } = extractCritical(renderToString(jsx));
     const helmet = Helmet.renderStatic();
     return {
       html,
@@ -38,7 +47,7 @@ export function renderPage(Page, assets, data = {}, cache) {
       },
     };
   }
-  const html = renderToString(Page);
+  const html = renderToString(jsx);
   const helmet = Helmet.renderStatic();
   return {
     html,
@@ -54,11 +63,12 @@ export function renderPage(Page, assets, data = {}, cache) {
 }
 
 export async function renderPageWithData(Page, assets, data = {}, cache) {
+  const jsx = extractor.collectChunks(Page);
   resetIdCounter();
   if (cache) {
     const { extractCritical } = createEmotionServer(cache);
     const { html, css, ids } = extractCritical(
-      await renderToStringWithData(Page),
+      await renderToStringWithData(jsx),
     );
     const helmet = Helmet.renderStatic();
     return {
@@ -75,7 +85,7 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
       },
     };
   }
-  const html = await renderToStringWithData(Page);
+  const html = await renderToStringWithData(jsx);
   const helmet = Helmet.renderStatic();
   return {
     html,
