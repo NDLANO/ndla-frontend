@@ -18,7 +18,7 @@ import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
 
-// @ts-ignore
+import { loadableReady } from '@loadable/component';
 import queryString from 'query-string';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
@@ -105,22 +105,24 @@ const RouterComponent = ({ children }: RCProps) =>
     <Router history={browserHistory}>{children}</Router>
   );
 
-renderOrHydrate(
-  <ApolloProvider client={client}>
-    <CacheProvider value={cache}>
-      <IntlProvider locale={abbreviation} messages={messages}>
-        <RouterComponent>
-          {routesFunc({ ...initialProps, basename }, abbreviation)}
-        </RouterComponent>
-      </IntlProvider>
-    </CacheProvider>
-  </ApolloProvider>,
-  document.getElementById('root'),
-  () => {
-    // See: /src/util/transformArticle.js for info on why this is needed.
-    window.hasHydrated = true;
-  },
-);
+loadableReady(() => {
+  renderOrHydrate(
+    <ApolloProvider client={client}>
+      <CacheProvider value={cache}>
+        <IntlProvider locale={abbreviation} messages={messages}>
+          <RouterComponent>
+            {routesFunc({ ...initialProps, basename }, abbreviation)}
+          </RouterComponent>
+        </IntlProvider>
+      </CacheProvider>
+    </ApolloProvider>,
+    document.getElementById('root'),
+    () => {
+      // See: /src/util/transformArticle.js for info on why this is needed.
+      window.hasHydrated = true;
+    },
+  );
+});
 
 if (module.hot) {
   module.hot.accept();

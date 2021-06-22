@@ -6,31 +6,10 @@
  *
  */
 
+import loadable from '@loadable/component';
 import React from 'react';
 import { RouteProps } from 'react-router';
-// @ts-ignore
-import WelcomePage from './containers/WelcomePage/WelcomePage';
-// @ts-ignore
-import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-// @ts-ignore
-import SearchPage from './containers/SearchPage/SearchPage';
-// @ts-ignore
-import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
-// @ts-ignore
-import SubjectPage from './containers/SubjectPage/SubjectPage';
-// @ts-ignore
-import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-// @ts-ignore
-import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
-// @ts-ignore
-import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
-// @ts-ignore
-import ResourcePage from './containers/ResourcePage/ResourcePage';
-// @ts-ignore
-import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-// @ts-ignore
-import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-// @ts-ignore
+
 import App from './App';
 
 import {
@@ -47,10 +26,55 @@ import {
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
 } from './constants';
-
-// @ts-ignore
-import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps } from './interfaces';
+
+const WelcomePage = loadable(() =>
+  import('./containers/WelcomePage/WelcomePage'),
+);
+
+const PlainArticlePage = loadable(() =>
+  import('./containers/PlainArticlePage/PlainArticlePage'),
+);
+
+const SearchPage = loadable(() => import('./containers/SearchPage/SearchPage'));
+
+const AllSubjectsPage = loadable(() =>
+  import('./containers/AllSubjectsPage/AllSubjectsPage'),
+);
+
+const SubjectPage = loadable(() =>
+  import('./containers/SubjectPage/SubjectPage'),
+);
+
+const NotFoundPage = loadable(() =>
+  import('./containers/NotFoundPage/NotFoundPage'),
+);
+
+const FilmFrontpage = loadable(() =>
+  import('./containers/FilmFrontpage/NdlaFilmFrontpage'),
+);
+
+const PlainLearningpathPage = loadable(() =>
+  import('./containers/PlainLearningpathPage/PlainLearningpathPage'),
+);
+
+const ResourcePage = loadable(() =>
+  import('./containers/ResourcePage/ResourcePage'),
+);
+
+const MultidisciplinarySubjectPage = loadable(() =>
+  import('./containers/MultidisciplinarySubject/MultidisciplinarySubjectPage'),
+);
+
+const MultidisciplinarySubjectArticlePage = loadable(() =>
+  import(
+    './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage'
+  ),
+);
+
+const ProgrammePage = loadable(() =>
+  import('./containers/ProgrammePage/ProgrammePage'),
+);
 
 export interface RootComponentProps {
   locale: string;
