@@ -113,7 +113,7 @@ export const feideLogout = (logout: () => void) => {
     .then(json => {
       clearTokenSetFromLocalStorage();
       logout();
-      window.location.href = json?.url  || '';
+      window.location.href = json?.url || '';
     });
 };
 
