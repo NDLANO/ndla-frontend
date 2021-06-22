@@ -2197,6 +2197,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
             ],
           },
         ],
@@ -2279,6 +2282,9 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
             ],
           },
