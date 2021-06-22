@@ -1013,7 +1013,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfaglig fordypning',
     },
     subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9'
+    id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
   },
   {
     longName: {
