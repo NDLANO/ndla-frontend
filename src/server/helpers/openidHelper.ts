@@ -38,12 +38,12 @@ const getClient = () =>
       }),
   );
 
-export const getRedirectUrl = async () => {
+export const getRedirectUrl = () => {
   const code_verifier = generators.codeVerifier();
   const code_challenge = generators.codeChallenge(code_verifier);
 
   return getClient()
-    .then(async client =>
+    .then(client =>
       client.authorizationUrl({
         scope:
           'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
@@ -55,8 +55,8 @@ export const getRedirectUrl = async () => {
     });
 };
 
-export const getFeideToken = async (req: Request) => {
-  return getClient().then(async client => {
+export const getFeideToken = (req: Request) => {
+  return getClient().then(client => {
     const params = client.callbackParams(req);
     const verifier = req.headers.cookie?.split(',')[0]?.split('=')[1];
 
@@ -66,7 +66,7 @@ export const getFeideToken = async (req: Request) => {
   });
 };
 
-export const feideLogout = async (req: Request) => {
+export const feideLogout = (req: Request) => {
   return getClient().then(client =>
     client.endSessionUrl({
       id_token_hint: req.query.id_token_hint?.toString(),
