@@ -9,10 +9,10 @@ import React, { useState, createContext, useEffect } from 'react';
 import { isAccessTokenValid } from '../util/authHelpers';
 
 interface AuthContextType {
-  authenticated: boolean,
-  authContextLoaded: boolean,
-  login: () => void,
-  logout: () => void
+  authenticated: boolean;
+  authContextLoaded: boolean;
+  login: () => void;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
