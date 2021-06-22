@@ -94,7 +94,7 @@ const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 export const initializeFeideLogin = () => {
   return fetch(`${locationOrigin}/feide/login`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(data => (window.location.href = data.url || ''));
+    .then(data => (window.location.href = data?.url || ''));
 };
 
 export const finalizeFeideLogin = (feideLoginCode: string) => {
@@ -102,7 +102,7 @@ export const finalizeFeideLogin = (feideLoginCode: string) => {
     credentials: 'include',
   })
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(tokenSet => setTokenSetInLocalStorage(tokenSet, true));
+    .then(tokenSet => setTokenSetInLocalStorage(tokenSet!!, true));
 };
 
 export const feideLogout = (logout: () => void) => {
@@ -113,7 +113,7 @@ export const feideLogout = (logout: () => void) => {
     .then(json => {
       clearTokenSetFromLocalStorage();
       logout();
-      window.location.href = json.url || '';
+      window.location.href = json?.url  || '';
     });
 };
 

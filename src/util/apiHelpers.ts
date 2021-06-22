@@ -48,10 +48,12 @@ export function createErrorPayload(status: number, message: string, json: any) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T> {
+export function resolveJsonOrRejectWithError<T>(
+  res: Response,
+): Promise<T | undefined> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve(res.json()) : resolve(res.json());
+      return res.status === 204 ? resolve(undefined) : resolve(res.json());
     }
     return res
       .json()
