@@ -11,7 +11,7 @@ import config from '../config';
 import {
   fetchAuthorized,
   resolveJsonOrRejectWithError,
-} from '../util/apiHelpers';
+} from './apiHelpers';
 
 const handleConfigTypes = (
   configVariable: string | boolean | undefined,
@@ -59,7 +59,7 @@ export { locationOrigin };
 
 export function setTokenSetInLocalStorage(
   tokenSet: TokenSet,
-  personal: boolean,
+  personal = true,
 ) {
   localStorage.setItem('access_token_feide', tokenSet.access_token || '');
   localStorage.setItem(
@@ -93,30 +93,37 @@ export const isAccessTokenValid = () =>
 
 const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 
+
 export const initializeFeideLogin = () => {
   return fetch(`${locationOrigin}/feide/login`)
-    .then(json => json.json())
-    .then(data => (window.location.href = data.url));
+    .then(res => resolveJsonOrRejectWithError<Feide>(res))
+    .then(data => (window.location.href = data.url || ''))
+    .catch(err =>  console.log(err));
 };
+
+interface Feide extends TokenSet{
+  url?: string,
+}
 
 export const finalizeFeideLogin = (feideLoginCode: string) => {
   return fetch(`${locationOrigin}/feide/token?code=${feideLoginCode}`, {
     credentials: 'include',
   })
-    .then(res => resolveJsonOrRejectWithError(res))
-    .then((token: TokenSet) => setTokenSetInLocalStorage(token, true));
+    .then((res) => resolveJsonOrRejectWithError<Feide>(res))
+    .then((tokenSet) => setTokenSetInLocalStorage(tokenSet, true)).catch(err => console.log(err));
+
 };
 
 export const feideLogout = (logout: () => void) => {
   fetchAuthorized(
     `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}`,
   )
-    .then((res: any) => resolveJsonOrRejectWithError(res))
-    .then((json: { url: string }) => {
+    .then(res => resolveJsonOrRejectWithError<Feide>(res))
+    .then((json) => {
       clearTokenSetFromLocalStorage();
       logout();
-      window.location.href = json.url;
-    });
+      window.location.href = json.url || '';
+    })
 };
 
 export const renewAuth = async () => {
