@@ -971,22 +971,6 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
     id: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
   },
-
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
-      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
-      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling',
-      nb: 'Kommunikasjon og samhandling',
-      nn: 'Kommunikasjon og samhandling',
-    },
-    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-    id: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-  },
-
   {
     longName: {
       en: 'Pedagogisk arbeid (HS-BUA Vg2)',
@@ -1000,20 +984,6 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
     id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
-      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
-      nn: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
-    },
-    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
   },
   {
     longName: {
@@ -1119,21 +1089,6 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
-      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag (HS-BUA Vg2)',
-    },
-    name: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag',
-      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
-    },
-    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-    id: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-  },
-
-  {
-    longName: {
       en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
@@ -1145,21 +1100,6 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
     id: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-  },
-
-  {
-    longName: {
-      en: 'Pedagogisk arbeid (HS-BUA Vg2)',
-      nb: 'Pedagogisk arbeid (HS-BUA Vg2)',
-      nn: 'Pedagogisk arbeid (HS-BUA Vg2)',
-    },
-    name: {
-      en: 'Pedagogisk arbeid',
-      nb: 'Pedagogisk arbeid',
-      nn: 'Pedagogisk arbeid',
-    },
-    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-    id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
   },
   {
     longName: {
@@ -2104,34 +2044,7 @@ export const programmeSubjects = [
     subjectId: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
     id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
   },
-  {
-    name: {
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-      en: 'Yrkesfaglig fordypning',
-    },
-    longName: {
-      nb: 'Yrkesfaglig fordypning (HS-BU Vg2)',
-      nn: 'Yrkesfagleg fordjuping (HS-BU Vg2)',
-      en: 'Yrkesfaglig fordypning (HS-BU Vg2)',
-    },
-    subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
-    id: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
-  },
-  {
-    name: {
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-      en: 'Yrkesfaglig fordypning',
-    },
-    longName: {
-      nb: 'Yrkesfaglig fordypning (HS-HA Vg2)',
-      nn: 'Yrkesfagleg fordjuping (HS-HA Vg2)',
-      en: 'Yrkesfaglig fordypning (HS-HA Vg2)',
-    },
-    subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
-    id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
-  },
+
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
@@ -2304,20 +2217,7 @@ export const studySpecializationSubjects = [
     subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
     id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
   },
-  {
-    name: {
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-      en: 'Biologi 1',
-    },
-    longName: {
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-      en: 'Biologi 1',
-    },
-    subjectId: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
-    id: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
-  },
+
   {
     longName: {
       en: 'Kinesisk 1',
@@ -2474,28 +2374,28 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap - 1',
-      nb: 'Medie- og informasjonskunnskap - 1',
-      nn: 'Medie- og informasjonskunnskap - 1',
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
     },
     name: {
-      en: 'Medie- og informasjonskunnskap - 1',
-      nb: 'Medie- og informasjonskunnskap - 1',
-      nn: 'Medie- og informasjonskunnskap - 1',
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
     },
     subjectId: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
     id: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap - 2',
-      nb: 'Medie- og informasjonskunnskap - 2',
-      nn: 'Medie- og informasjonskunnskap - 2',
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
     },
     name: {
-      en: 'Medie- og informasjonskunnskap - 2',
-      nb: 'Medie- og informasjonskunnskap - 2',
-      nn: 'Medie- og informasjonskunnskap - 2',
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
     },
     subjectId: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
     id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
@@ -2558,28 +2458,28 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Medieuttrykk Vg1',
-      nb: 'Medieuttrykk Vg1',
-      nn: 'Medieuttrykk Vg1',
+      en: 'Medieuttrykk 1',
+      nb: 'Medieuttrykk 1',
+      nn: 'Medieuttrykk 1',
     },
     name: {
-      en: 'Medieuttrykk Vg1',
-      nb: 'Medieuttrykk Vg1',
-      nn: 'Medieuttrykk Vg1',
+      en: 'Medieuttrykk 1',
+      nb: 'Medieuttrykk 1',
+      nn: 'Medieuttrykk 1',
     },
     subjectId: 'urn:subject:1:090997c4-78d3-4a79-93ad-178d465cdba3',
     id: 'urn:subject:1:090997c4-78d3-4a79-93ad-178d465cdba3',
   },
   {
     longName: {
-      en: 'Mediesamfunnet Vg1',
-      nb: 'Mediesamfunnet Vg1',
-      nn: 'Mediesamfunnet Vg1',
+      en: 'Mediesamfunnet 1',
+      nb: 'Mediesamfunnet 1',
+      nn: 'Mediesamfunnet 1',
     },
     name: {
-      en: 'Mediesamfunnet Vg1',
-      nb: 'Mediesamfunnet Vg1',
-      nn: 'Mediesamfunnet Vg1',
+      en: 'Mediesamfunnet 1',
+      nb: 'Mediesamfunnet 1',
+      nn: 'Mediesamfunnet 1',
     },
     subjectId: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
     id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
@@ -2756,6 +2656,48 @@ export const archivedSubjects = [
     },
     subjectId: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
     id: 'archived_subject_9',
+  },
+  {
+    name: {
+      nb: 'Biologi 1 (LK06)',
+      nn: 'Biologi 1 (LK06)',
+      en: 'Biologi 1 (LK06)',
+    },
+    longName: {
+      nb: 'Biologi 1 (LK06)',
+      nn: 'Biologi 1 (LK06)',
+      en: 'Biologi 1 (LK06)',
+    },
+    subjectId: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
+    id: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
+  },
+  {
+    name: {
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+      en: 'Yrkesfaglig fordypning',
+    },
+    longName: {
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (HS-BUA Vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
+    id: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
+  },
+  {
+    name: {
+      nb: 'Yrkesfaglig fordypning (LK06)',
+      nn: 'Yrkesfagleg fordjuping (LK06)',
+      en: 'Yrkesfaglig fordypning (LK06)',
+    },
+    longName: {
+      nb: 'Yrkesfaglig fordypning (HS-HA Vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (HS-HA Vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (HS-HA Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
+    id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
   },
 ];
 

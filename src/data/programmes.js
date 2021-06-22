@@ -722,7 +722,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
@@ -1059,7 +1059,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
@@ -1240,7 +1240,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
@@ -1310,7 +1310,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
@@ -1557,7 +1557,7 @@ export const programmes = [
           {
             name: {
               nb: 'Valgfrie programfag',
-              nn: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
               en: 'Valgfrie programfag',
             },
             subjects: [
@@ -2198,7 +2198,7 @@ export const programmes = [
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
               {
-                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
             ],
           },
@@ -2284,7 +2284,7 @@ export const programmes = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
             ],
           },
