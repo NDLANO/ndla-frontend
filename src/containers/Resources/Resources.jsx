@@ -168,13 +168,12 @@ class Resources extends Component {
         }>
         {isUngrouped && (
           <ResourceGroup
-            key="all-resources"
-            title={t('resource.allResources')}
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={this.toggleAdditionalResources}
             invertedStyle={ndlaFilm}
             resourceToLinkProps={resourceToLinkProps}
+            unGrouped
           />
         )}
         {!isUngrouped &&
