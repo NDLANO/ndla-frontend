@@ -31,7 +31,7 @@ const NdlaFilm = ({ t, locale, skipToContentId }) => {
 
   const { data: { filmfrontpage } = {} } = useQuery(filmFrontPageQuery);
   const { data: { subject } = {} } = useQuery(subjectPageQuery, {
-    variables: { subjectId: 'urn:subject:20', filterIds: '' },
+    variables: { subjectId: 'urn:subject:20' },
   });
   const [searchAllMovies, { data: allMovies }] = useLazyQuery(searchFilmQuery);
 

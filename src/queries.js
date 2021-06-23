@@ -65,11 +65,7 @@ export const searchQuery = gql`
         contexts {
           id
           breadcrumbs
-          filters {
-            id
-            name
-            relevance
-          }
+          relevance
           language
           learningResourceType
           path
@@ -145,10 +141,7 @@ export const searchFilmQuery = gql`
         title
         contexts {
           breadcrumbs
-          filters {
-            name
-            relevance
-          }
+          relevance
           language
           learningResourceType
           path
@@ -208,10 +201,6 @@ export const groupSearchQuery = gql`
           resourceTypes {
             id
             name
-          }
-          filters {
-            id
-            relevance
           }
         }
         metaImage {
@@ -276,10 +265,6 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
-          filters {
-            id
-            name
-          }
         }
         totalCount
         suggestions {
@@ -300,10 +285,6 @@ export const frontpageSearchQuery = gql`
             name
           }
           subject
-          filters {
-            id
-            name
-          }
         }
         totalCount
         suggestions {
@@ -344,10 +325,6 @@ export const topicInfoFragment = gql`
     id
     name
     parent
-    filters {
-      id
-      name
-    }
     contentUri
     path
     meta {
@@ -378,12 +355,6 @@ export const resourceInfoFragment = gql`
     paths
     relevanceId
     rank
-    filters {
-      id
-      name
-      subjectId
-      relevanceId
-    }
     resourceTypes {
       id
       name
@@ -565,12 +536,12 @@ export const subjectpageInfo = gql`
 `;
 
 export const subjectTopicsQuery = gql`
-  query subjectTopicsQuery($subjectId: String!, $filterIds: String) {
+  query subjectTopicsQuery($subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
       path
-      topics(all: true, filterIds: $filterIds) {
+      topics(all: true) {
         id
         name
         parent
@@ -579,10 +550,6 @@ export const subjectTopicsQuery = gql`
           id
           metaDescription
         }
-      }
-      filters {
-        id
-        name
       }
     }
   }
@@ -614,13 +581,6 @@ export const subjectPageQueryWithTopics = gql`
       allTopics: topics(all: true, filterIds: $filterIds) {
         ...TopicInfo
       }
-      filters {
-        id
-        name
-        subjectpage {
-          ...SubjectPageInfo
-        }
-      }
       subjectpage {
         ...SubjectPageInfo
       }
@@ -630,6 +590,20 @@ export const subjectPageQueryWithTopics = gql`
       name
       path
       contentUri
+      alternateTopics {
+        id
+        name
+        path
+        breadcrumbs
+        meta {
+          id
+          metaDescription
+          metaImage {
+            url
+            alt
+          }
+        }
+      }
     }
   }
   ${topicInfoFragment}
@@ -638,23 +612,16 @@ export const subjectPageQueryWithTopics = gql`
 `;
 
 export const subjectPageQuery = gql`
-  query subjectPageQuery($subjectId: String!, $filterIds: String) {
+  query subjectPageQuery($subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
       path
-      topics(filterIds: $filterIds) {
+      topics {
         ...TopicInfo
       }
-      allTopics: topics(all: true, filterIds: $filterIds) {
+      allTopics: topics(all: true) {
         ...TopicInfo
-      }
-      filters {
-        id
-        name
-        subjectpage {
-          ...SubjectPageInfo
-        }
       }
       subjectpage {
         ...SubjectPageInfo
@@ -679,10 +646,6 @@ export const searchPageQuery = gql`
   query searchPageQuery {
     subjects {
       ...SubjectInfo
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -706,17 +669,13 @@ export const resourceTypesQuery = gql`
 `;
 
 export const topicResourcesQuery = gql`
-  query topicResourcesQuery(
-    $topicId: String!
-    $filterIds: String
-    $subjectId: String
-  ) {
+  query topicResourcesQuery($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
     }
@@ -785,14 +744,10 @@ const learningpathInfoFragment = gql`
 `;
 
 export const resourceQuery = gql`
-  query resourceQuery(
-    $resourceId: String!
-    $filterIds: String
-    $subjectId: String
-  ) {
+  query resourceQuery($resourceId: String!, $subjectId: String) {
     resource(id: $resourceId, subjectId: $subjectId) {
       ...ResourceInfo
-      article(filterIds: $filterIds, subjectId: $subjectId) {
+      article(subjectId: $subjectId) {
         ...ArticleInfo
       }
       learningpath {
@@ -827,15 +782,15 @@ export const plainArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String!) {
+  query topicQuery($topicId: String!, $subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
       path
-      topics(filterIds: $filterIds) {
+      topics {
         ...TopicInfo
       }
-      allTopics: topics(all: true, filterIds: $filterIds) {
+      allTopics: topics(all: true) {
         ...TopicInfo
       }
     }
@@ -848,10 +803,6 @@ export const topicQueryWithPathTopics = gql`
         name
         path
       }
-      filters {
-        id
-        name
-      }
       meta {
         id
         metaDescription
@@ -860,22 +811,22 @@ export const topicQueryWithPathTopics = gql`
           alt
         }
       }
-      subtopics(filterIds: $filterIds) {
+      subtopics {
         id
         name
       }
       article {
         ...ArticleInfo
-        crossSubjectTopics(subjectId: $subjectId, filterIds: $filterIds) {
+        crossSubjectTopics(subjectId: $subjectId) {
           code
           title
           path
         }
       }
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
     }
@@ -890,15 +841,11 @@ export const topicQueryWithPathTopics = gql`
 `;
 
 export const topicQuery = gql`
-  query topicQuery($topicId: String!, $filterIds: String, $subjectId: String) {
+  query topicQuery($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
       path
-      filters {
-        id
-        name
-      }
       meta {
         id
         metaDescription
@@ -907,17 +854,17 @@ export const topicQuery = gql`
           alt
         }
       }
-      subtopics(filterIds: $filterIds) {
+      subtopics {
         id
         name
       }
       article {
         ...ArticleInfo
       }
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
       metadata {
@@ -1024,7 +971,6 @@ export const filmFrontPageQuery = gql`
 export const mastHeadQuery = gql`
   query mastHeadQuery(
     $subjectId: String!
-    $filterIds: String
     $topicId: String!
     $resourceId: String!
     $skipTopic: Boolean!
@@ -1034,7 +980,7 @@ export const mastHeadQuery = gql`
       id
       name
       path
-      topics(all: true, filterIds: $filterIds) {
+      topics(all: true) {
         id
         name
         parent
@@ -1044,10 +990,6 @@ export const mastHeadQuery = gql`
           metaDescription
         }
       }
-      filters {
-        id
-        name
-      }
     }
     resourceTypes {
       id
@@ -1055,16 +997,16 @@ export const mastHeadQuery = gql`
     }
     topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
       id
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
     }
     resource(id: $resourceId, subjectId: $subjectId) @skip(if: $skipResource) {
       ...ResourceInfo
-      article(filterIds: $filterIds, subjectId: $subjectId) {
+      article(subjectId: $subjectId) {
         ...ArticleInfo
       }
       learningpath {
@@ -1078,11 +1020,7 @@ export const mastHeadQuery = gql`
 `;
 
 export const topicPageQuery = gql`
-  query topicPageQuery(
-    $topicId: String!
-    $filterIds: String!
-    $subjectId: String!
-  ) {
+  query topicPageQuery($topicId: String!, $subjectId: String!) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
@@ -1098,10 +1036,10 @@ export const topicPageQuery = gql`
       article {
         ...ArticleInfo
       }
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
     }
@@ -1109,7 +1047,7 @@ export const topicPageQuery = gql`
       id
       name
       path
-      topics(all: true, filterIds: $filterIds) {
+      topics(all: true) {
         id
         name
         parent
@@ -1118,10 +1056,6 @@ export const topicPageQuery = gql`
           id
           metaDescription
         }
-      }
-      filters {
-        id
-        name
       }
     }
     resourceTypes {
@@ -1136,7 +1070,6 @@ export const topicPageQuery = gql`
 export const resourcePageQuery = gql`
   query resourcePageQuery(
     $topicId: String!
-    $filterIds: String!
     $subjectId: String!
     $resourceId: String!
   ) {
@@ -1144,7 +1077,7 @@ export const resourcePageQuery = gql`
       id
       name
       path
-      topics(all: true, filterIds: $filterIds) {
+      topics(all: true) {
         id
         name
         parent
@@ -1153,10 +1086,6 @@ export const resourcePageQuery = gql`
           id
           metaDescription
         }
-      }
-      filters {
-        id
-        name
       }
     }
     resourceTypes {
@@ -1171,14 +1100,10 @@ export const resourcePageQuery = gql`
       id
       name
       path
-      filters {
-        id
-        name
-      }
-      coreResources(filterIds: $filterIds, subjectId: $subjectId) {
+      coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
-      supplementaryResources(filterIds: $filterIds, subjectId: $subjectId) {
+      supplementaryResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
       metadata {
@@ -1187,7 +1112,7 @@ export const resourcePageQuery = gql`
     }
     resource(id: $resourceId, subjectId: $subjectId) {
       ...ResourceInfo
-      article(filterIds: $filterIds, subjectId: $subjectId) {
+      article(subjectId: $subjectId) {
         ...ArticleInfo
       }
       learningpath {

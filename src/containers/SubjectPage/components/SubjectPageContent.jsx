@@ -17,7 +17,6 @@ import TopicWrapper from './TopicWrapper';
 
 const SubjectPageContent = ({
   subject,
-  filterIds,
   locale,
   ndlaFilm,
   onClickTopics,
@@ -34,7 +33,7 @@ const SubjectPageContent = ({
       ...topic,
       label: topic.name,
       selected: topic.id === topics[0],
-      url: toTopic(subject.id, filterIds, topic.id),
+      url: toTopic(subject.id, topic.id),
     };
   });
 
@@ -54,7 +53,6 @@ const SubjectPageContent = ({
             <TopicWrapper
               topicId={t}
               subjectId={subject.id}
-              filterIds={filterIds}
               setBreadCrumb={setBreadCrumb}
               subTopicId={topics[index + 1]}
               locale={locale}
@@ -73,7 +71,6 @@ const SubjectPageContent = ({
 
 SubjectPageContent.propTypes = {
   subject: GraphQLSubjectShape,
-  filterIds: PropTypes.string,
   ndlaFilm: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   onClickTopics: PropTypes.func,

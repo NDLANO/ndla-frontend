@@ -23,10 +23,6 @@ import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
-import {
-  getFiltersFromUrl,
-  getFiltersFromUrlAsArray,
-} from '../../util/filterHelper';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
@@ -74,22 +70,15 @@ const MastheadContainer = ({
       match,
     });
     if (subjectId) {
-      const activeFilters = getFiltersFromUrlAsArray(location);
-      getData(subjectId, topicId, resourceId, activeFilters);
+      getData(subjectId, topicId, resourceId);
     }
   };
 
-  const onDataFetch = (subjectId, topicId, resourceId, filters = []) => {
-    getData(subjectId, topicId, resourceId, filters);
+  const onDataFetch = (subjectId, topicId, resourceId) => {
+    getData(subjectId, topicId, resourceId);
   };
 
-  const getData = (
-    subjectId,
-    topicId = '',
-    resourceId = '',
-    activeFilters = [],
-  ) => {
-    const filterIds = activeFilters.join(',');
+  const getData = (subjectId, topicId = '', resourceId = '') => {
     if (subjectId) {
       setSubjectId(subjectId);
     }
@@ -99,7 +88,6 @@ const MastheadContainer = ({
     fetchData({
       variables: {
         subjectId,
-        filterIds,
         topicId,
         resourceId,
         skipTopic: !topicId,
@@ -108,21 +96,14 @@ const MastheadContainer = ({
     });
   };
 
-  const {
-    subject,
-    topicPath = [],
-    filters,
-    topicResourcesByType,
-    resource,
-  } = state;
+  const { subject, topicPath = [], topicResourcesByType, resource } = state;
 
-  const filterIds = getFiltersFromUrl(location);
   const breadcrumbBlockItems = subject?.id
-    ? toBreadcrumbItems(
-        t('breadcrumb.toFrontpage'),
-        [subject, ...topicPath, resource],
-        filterIds,
-      )
+    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+        subject,
+        ...topicPath,
+        resource,
+      ])
     : [];
 
   const renderSearchComponent = hideOnNarrowScreen =>
@@ -130,7 +111,6 @@ const MastheadContainer = ({
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
-        filterIds={filterIds}
         ndlaFilm={ndlaFilm}
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
@@ -150,7 +130,6 @@ const MastheadContainer = ({
               searchFieldComponent={renderSearchComponent(false)}
               topicPath={topicPath || []}
               onDataFetch={onDataFetch}
-              filters={filters}
               resource={resource}
               topicResourcesByType={topicResourcesByType || []}
               locale={locale}

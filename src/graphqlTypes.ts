@@ -293,3 +293,20 @@ export interface GQLTopic extends GQLTaxonomyEntity {
   supplementaryResources?: Array<GQLResource | null>;
   breadcrumbs?: Array<Array<string | null> | null>;
 }
+
+export interface GQLSearchResultSubject {
+  url?: string;
+  title?: string;
+  breadcrumb?: Array<string | null> | null;
+}
+
+export interface GQLSearchResult {
+  id: string;
+  title: string;
+  url?: string;
+  ingress?: string;
+  metaImage?: GQLMetaImage;
+  breadcrumbs?: Array<Array<string | null> | null>;
+  subjects?: Array<GQLSearchResultSubject | null>;
+  contentType: string;
+}

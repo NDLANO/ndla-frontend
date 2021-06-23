@@ -33,8 +33,7 @@ import { getSubjectById } from '../../data/subjects';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
-  const filters = subject.filters ? subject.filters.join(',') : '';
-  return toSubject(subject.subjectId, filters);
+  return toSubject(subject.subjectId);
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';

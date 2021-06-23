@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import {
@@ -23,14 +23,10 @@ import { useIntersectionObserver } from '@ndla/hooks';
 import { LocationShape } from '../../shapes';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
-import { getSubjectBySubjectIdFilters } from '../../data/subjects';
+import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -53,44 +49,12 @@ const SubjectContainer = ({
   const { subject = {} } = data;
   const { name: subjectName } = subject;
 
-  const activeFilterId = getFiltersFromUrl(location);
-  const filter = subject.filters.filter(filter =>
-    activeFilterId.split(',').includes(filter.id),
-  );
-
-  // get subjectpage from filter
-  const filterSubjectpage = filter?.[0]?.subjectpage;
-  const subjectpage = filterSubjectpage || subject.subjectpage || {};
+  const subjectpage = subject.subjectpage || {};
 
   const { editorsChoices, layout, about, metaDescription } = subjectpage;
 
   const [currentLevel, setCurrentLevel] = useState(0);
   const [breadCrumbList, setBreadCrumbList] = useState([]);
-
-  useEffect(() => {
-    const lowermostId = topics[topics.length - 1];
-    const lowermost =
-      subject.allTopics.find(topic => topic.id === lowermostId) || subject;
-    const subjectFilters = lowermost?.filters?.filter(f =>
-      subject.filters?.map(f2 => f2.id).includes(f.id),
-    );
-    const selectedFilter = subjectFilters?.[0]?.id;
-    const filters = activeFilterId || selectedFilter;
-    const filterParam = filters ? `?filters=${filters}` : '';
-    const path = parseAndMatchUrl(location.pathname, true);
-    const shouldReload = !activeFilterId && selectedFilter;
-    if (shouldReload) {
-      if (path) {
-        history.replace({ pathname: path.url, search: filterParam });
-      } else {
-        // no topics in path
-        history.replace({
-          pathname: subject.path,
-          search: filterParam,
-        });
-      }
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* const [programme] = useState(() => {
     const programmeData = {
@@ -105,10 +69,7 @@ const SubjectContainer = ({
     return programmeData;
   }); */
   const [subjectNames] = useState(() => {
-    const subjectData = getSubjectBySubjectIdFilters(
-      subject.id,
-      activeFilterId.split(','),
-    );
+    const subjectData = getSubjectBySubjectId(subject.id);
     if (subjectData) {
       return {
         subHeading: undefined,
@@ -116,15 +77,11 @@ const SubjectContainer = ({
         longName: subjectData.longName[locale],
       };
     }
-    // Fallback if subject and filters are missing in static constants
-    const filterString =
-      filter.length > 0
-        ? filter.map(f => f.name).reduce((a, b) => a + ', ' + b)
-        : '';
+    // Fallback if subject is missing in static constants
     return {
       subHeading: subjectName,
       name: subjectName,
-      longName: `${filterString}`,
+      longName: subjectName,
     };
   });
 
@@ -183,9 +140,8 @@ const SubjectContainer = ({
 
   const onClickTopics = e => {
     e.preventDefault();
-    const filterParam = activeFilterId ? `?filters=${activeFilterId}` : '';
     const path = parseAndMatchUrl(e.currentTarget.href, true);
-    history.replace({ pathname: path.url, search: filterParam });
+    history.replace({ pathname: path.url });
   };
 
   // show/hide breadcrumb based on intersection
@@ -249,7 +205,6 @@ const SubjectContainer = ({
               subjectId={subjectId}
               subjectpage={subjectpage}
               subject={subject}
-              filterIds={activeFilterId}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
               topics={topics}
@@ -299,11 +254,11 @@ SubjectContainer.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 SubjectContainer.getDimensions = props => {
-  const { data, locale, location, topics } = props;
+  const { data, locale, topics } = props;
   const topicPath = topics.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
-  const longName = getLongNameFromFilters(locale, location, data.subject);
+  const longName = getSubjectLongName(data.subject?.id, locale);
 
   return getAllDimensions({
     subject: data.subject,
