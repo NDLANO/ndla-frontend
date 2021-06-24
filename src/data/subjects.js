@@ -714,34 +714,7 @@ export const commonSubjects = [
     subjectId: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
     id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
   },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (SF Vg3) (LK06)',
-      nn: 'Norsk (SF Vg3) (LK06)',
-      en: 'Norsk (SF Vg3) (LK06)',
-    },
-    subjectId: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-  },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (PB Vg3) (LK06)',
-      nn: 'Norsk (PB Vg3) (LK06)',
-      en: 'Norsk (PB Vg3) (LK06)',
-    },
-    subjectId: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
-    id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
-  },
+
   {
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg3)',
@@ -992,12 +965,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
       nb: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
-      nn: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+      nn: 'Yrkesfagleg fordjuping (TP-BRT Vg2)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
     id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
@@ -1091,12 +1064,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Helsefremmende arbeid (HS-HEA Vg2)',
       nb: 'Helsefremmende arbeid (HS-HEA Vg2)',
-      nn: 'Helsefremmende arbeid (HS-HEA Vg2)',
+      nn: 'Helsefremjande arbeid (HS-HEA Vg2)',
     },
     name: {
       en: 'Helsefremmende arbeid',
       nb: 'Helsefremmende arbeid',
-      nn: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
     id: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
@@ -1119,12 +1092,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2)',
       nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2)',
-      nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2)',
+      nn: 'Yrkesliv i helsearbeidarfag (HS-HEA Vg2)',
     },
     name: {
       en: 'Yrkesliv i helsearbeiderfag',
       nb: 'Yrkesliv i helsearbeiderfag',
-      nn: 'Yrkesliv i helsearbeiderfag',
+      nn: 'Yrkesliv i helsearbeidarfag',
     },
     subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
     id: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
@@ -1148,12 +1121,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Råvare, produksjon, salg og service (RM-KOS Vg2)',
       nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2)',
-      nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2)',
+      nn: 'Råvare, produksjon, sal og service (RM-KOS Vg2)',
     },
     name: {
       en: 'Råvare, produksjon, salg og service',
       nb: 'Råvare, produksjon, salg og service',
-      nn: 'Råvare, produksjon, salg og service',
+      nn: 'Råvare, produksjon, sal og service',
     },
     subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
     id: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
@@ -2224,6 +2197,35 @@ export const multidisciplinarySubjects = [
 ];
 
 export const archivedSubjects = [
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (PB Vg3) (LK06)',
+      nn: 'Norsk (PB Vg3) (LK06)',
+      en: 'Norsk (PB Vg3) (LK06)',
+    },
+    subjectId: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+    id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+  },
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (SF Vg3) (LK06)',
+      nn: 'Norsk (SF Vg3) (LK06)',
+      en: 'Norsk (SF Vg3) (LK06)',
+    },
+    subjectId: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+  },
+
   {
     longName: {
       en: 'Transport og logistikk (SS-TRL Vg2) (LK06)',
