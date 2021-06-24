@@ -2200,6 +2200,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
             ],
           },
         ],
@@ -2253,18 +2256,15 @@ export const programmes = [
               en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
-              //todo s2?
               {
                 id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
-              //todo samfunnsfaglig engelsk
               {
                 id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
-              //todo matematikk r2 -> fellesfag
               {
                 id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
               },
@@ -2285,6 +2285,9 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
             ],
           },
