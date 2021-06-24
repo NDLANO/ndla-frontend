@@ -20,6 +20,10 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
+import {
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from '../../constants';
 
 class Resources extends Component {
   constructor(props) {
@@ -103,7 +107,8 @@ class Resources extends Component {
       );
 
     const isUngrouped =
-      metadata?.customFields['topic-resources'] === 'ungrouped' || false;
+      metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] ===
+        TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE || false;
 
     const sortedResources = [...coreResources, ...supplementary].sort(
       (a, b) => {
