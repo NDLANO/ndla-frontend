@@ -15,14 +15,14 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Norsk YF Vg2',
-      nb: 'Norsk YF Vg2',
-      nn: 'Norsk YF Vg2',
+      en: 'Norsk YF',
+      nb: 'Norsk YF',
+      nn: 'Norsk YF',
     },
     name: {
-      en: 'Norsk YF Vg2',
-      nb: 'Norsk YF Vg2',
-      nn: 'Norsk YF Vg2',
+      en: 'Norsk YF',
+      nb: 'Norsk YF',
+      nn: 'Norsk YF',
     },
     subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
     id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
