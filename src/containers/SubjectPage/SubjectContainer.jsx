@@ -30,9 +30,10 @@ import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { htmlTitle } from '../../util/titleHelper';
 
 const getDocumentTitle = ({ t, data }) => {
-  return `${data?.subject?.name || ''}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(data?.subject?.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const SubjectContainer = ({
@@ -168,9 +169,9 @@ const SubjectContainer = ({
   return (
     <>
       <Helmet>
-        <title>{`${subjectNames?.name || ''}${t(
-          'htmlTitles.titleTemplate',
-        )}`}</title>
+        <title>
+          {htmlTitle(subjectNames?.name, [t('htmlTitles.titleTemplate')])}
+        </title>
         {metaDescription && (
           <meta name="description" content={metaDescription} />
         )}

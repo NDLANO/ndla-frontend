@@ -14,6 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
@@ -77,14 +78,21 @@ class LearningpathPage extends Component {
     );
   }
 
+  static getTitle(subject, learningpath, learningpathStep) {
+    return htmlTitle(learningpath?.title, [
+      learningpathStep?.title,
+      subject?.name,
+    ]);
+  }
+
   static getDocumentTitle({ t, data }) {
     const {
       subject,
       resource: { learningpath },
     } = data;
-    return `${subject?.name || ''} - ${learningpath?.title || ''}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+    return htmlTitle(this.getTitle(subject, learningpath), [
+      t('htmlTitles.titleTemplate'),
+    ]);
   }
 
   onKeyUpEvent = evt => {
@@ -169,9 +177,10 @@ class LearningpathPage extends Component {
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
         <SocialMediaMetadata
-          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
-            learningpath.title
-          } - ${learningpathStep.title}`}
+          title={htmlTitle(
+            this.constructor.getTitle(subject, learningpath, learningpathStep),
+            [t('htmlTitles.titleTemplate')],
+          )}
           trackableContent={learningpath}
           description={learningpath.description}
           locale={locale}

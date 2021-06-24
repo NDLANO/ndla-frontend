@@ -6,17 +6,18 @@
  *
  */
 
-const titleTemplate = ' - NDLA';
+const titleTemplate = 'NDLA';
 
 const messages = {
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Framsida${titleTemplate}`,
+    welcomePage: `Framsida - ${titleTemplate}`,
     topicPage: 'Emne',
-    subjectsPage: `Velg fag${titleTemplate}`,
-    searchPage: `Søk${titleTemplate}`,
-    notFound: `Sida finst ikkje${titleTemplate}`,
+    subjectsPage: `Velg fag - ${titleTemplate}`,
+    searchPage: `Søk - ${titleTemplate}`,
+    notFound: `Sida finst ikkje - ${titleTemplate}`,
     subject: 'Fag',
+    lti: `LTI - ${titleTemplate}`,
   },
 };
 

@@ -19,6 +19,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
+import { htmlTitle } from '../../util/titleHelper';
 
 const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
@@ -63,7 +64,7 @@ const getProgrammeName = (match, locale) => {
 
 const getDocumentTitle = ({ match, locale, t }) => {
   const name = getProgrammeName(match, locale);
-  return name ? `${name}${t('htmlTitles.titleTemplate')}` : '';
+  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ProgrammePage = ({ match, locale, t }) => {
