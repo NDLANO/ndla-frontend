@@ -43,7 +43,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
 
         return subjectData;
       });
-      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
+      subjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
       categoryData.subjects = subjects;
       return categoryData;
     });
