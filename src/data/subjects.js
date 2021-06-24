@@ -1022,12 +1022,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
       nb: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
-      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-BUA Vg2)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordjuping',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
     id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
@@ -1050,12 +1050,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
       nb: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
-      nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-HEA Vg2)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordjuping',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
     id: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
@@ -1107,12 +1107,12 @@ export const programmeSubjects = [
     longName: {
       en: 'Yrkesfaglig fordypning (RM-KOS Vg2)',
       nb: 'Yrkesfaglig fordypning (RM-KOS Vg2)',
-      nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2)',
+      nn: 'Yrkesfagleg fordjuping (RM-KOS Vg2)',
     },
     name: {
       en: 'Yrkesfaglig fordypning',
       nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfaglig fordjuping',
+      nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
     id: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
@@ -1403,7 +1403,7 @@ export const programmeSubjects = [
     longName: {
       en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
       nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
-      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomar, interiør og eksponeringsdesign Vg1',
     },
     name: {
       en: 'Programfag FBIE',
@@ -1417,7 +1417,7 @@ export const programmeSubjects = [
     longName: {
       en: 'Håndverk, design og produktutvikling Vg1',
       nb: 'Håndverk, design og produktutvikling Vg1',
-      nn: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Handverk, design og produktutvikling Vg1',
     },
     name: {
       en: 'Programfag HDP',
@@ -1943,12 +1943,12 @@ export const studySpecializationSubjects = [
     longName: {
       en: 'Markedsføring og ledelse 1',
       nb: 'Markedsføring og ledelse 1',
-      nn: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
     },
     name: {
       en: 'Markedsføring og ledelse 1',
       nb: 'Markedsføring og ledelse 1',
-      nn: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
     },
     subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
     id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
