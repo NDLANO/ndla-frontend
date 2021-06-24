@@ -28,7 +28,6 @@ export const commonSubjects = [
     id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
 
-
   {
     name: {
       nb: 'Samfunnskunnskap',
