@@ -1,4 +1,6 @@
 import {
+  archivedSubjects,
+  betaSubjects,
   commonSubjects,
   programmeSubjects,
   studySpecializationSubjects,
@@ -22,6 +24,8 @@ export const searchSubjects = (query, locale = 'nb') => {
   }
 
   const foundInSubjects = [
+    ...archivedSubjects,
+    ...betaSubjects,
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
