@@ -28,20 +28,6 @@ export const commonSubjects = [
     id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
 
-  {
-    longName: {
-      en: 'Matematikk 2P',
-      nb: 'Matematikk 2P',
-      nn: 'Matematikk 2P',
-    },
-    name: {
-      en: 'Matematikk 2P',
-      nb: 'Matematikk 2P',
-      nn: 'Matematikk 2P',
-    },
-    subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
-    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
-  },
 
   {
     name: {
@@ -2715,6 +2701,21 @@ export const archivedSubjects = [
 ];
 
 export const betaSubjects = [
+  {
+    longName: {
+      en: 'Matematikk 2P - Beta',
+      nb: 'Matematikk 2P - Beta',
+      nn: 'Matematikk 2P - Beta',
+    },
+    name: {
+      en: 'Matematikk 2P - Beta',
+      nb: 'Matematikk 2P - Beta',
+      nn: 'Matematikk 2P - Beta',
+    },
+    subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+  },
+
   {
     longName: {
       en: 'Reiseliv og språk 1',
