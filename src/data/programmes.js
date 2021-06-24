@@ -85,7 +85,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -188,7 +188,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -285,7 +285,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -382,7 +382,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -522,7 +522,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -838,9 +838,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
               },
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
             ],
           },
         ],
@@ -857,6 +854,27 @@ export const programmes = [
             subjects: [
               {
                 id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
+              },
+              {
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+              },
+              {
+                id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+              },
+              {
+                id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
               },
             ],
           },
@@ -1201,6 +1219,12 @@ export const programmes = [
             subjects: [
               {
                 id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
+              },
+              {
+                id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
+              },
+              {
+                id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
               },
             ],
           },
@@ -1637,7 +1661,7 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
+                id: 'urn:subject:13',
               },
             ],
           },
@@ -1666,9 +1690,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
               },
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
             ],
           },
         ],
@@ -1692,13 +1713,10 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
-              {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1852,9 +1870,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
               },
-              {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
             ],
           },
         ],
@@ -1888,13 +1903,10 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-              },
-              {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -2035,7 +2047,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -2421,7 +2433,7 @@ export const programmes = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+                id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',

@@ -2717,9 +2717,9 @@ export const betaSubjects = [
 
   {
     longName: {
-      en: 'Reiseliv og språk 1',
-      nb: 'Reiseliv og språk 1',
-      nn: 'Reiseliv og språk 1',
+      en: 'Reiseliv og språk 1 - Beta',
+      nb: 'Reiseliv og språk 1 - Beta',
+      nn: 'Reiseliv og språk 1 - Beta',
     },
     name: {
       en: 'Reiseliv og språk 1',
