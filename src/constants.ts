@@ -50,4 +50,5 @@ export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resour
 export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
 export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
 
-export const PODCAST_FEED_PATH = `/podcast/:seriesId/feed.xml`;
+export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
+export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';

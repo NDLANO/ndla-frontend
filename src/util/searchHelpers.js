@@ -5,13 +5,8 @@ import {
 } from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
 
-const createSubjectFilterPath = subject => {
-  const baseUrl = `/${removeUrn(subject.subjectId)}/`;
-  if (subject.filters) {
-    const filterIds = subject.filters.join(',');
-    return `${baseUrl}?filters=${filterIds}`;
-  }
-  return baseUrl;
+const createSubjectPath = subject => {
+  return `/${removeUrn(subject.subjectId)}/`;
 };
 
 const categories = {
@@ -34,7 +29,7 @@ export const searchSubjects = (query, locale = 'nb') => {
 
   return foundInSubjects.map(subject => ({
     id: subject.id,
-    path: createSubjectFilterPath(subject),
+    path: createSubjectPath(subject),
     subject: categories[subject.id.split('_')[0]],
     name: subject.longName[locale],
   }));

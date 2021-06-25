@@ -18,14 +18,10 @@ const sortBy = (arr, sortByProp = 'name') =>
     return 0;
   });
 
-export const createSubjectFilterUrl = (subject, filter) => {
+export const createSubjectUrl = subject => {
   let baseUrl = `${toSubject(subject.subjectId)}/`;
   if (subject.topicId) {
     baseUrl = `${baseUrl}${removeUrn(subject.topicId)}/`;
-  }
-  if (filter) {
-    const filterIds = filter.join(',');
-    return `${baseUrl}?filters=${filterIds}`;
   }
   return baseUrl;
 };
@@ -42,7 +38,7 @@ export const getCategorizedSubjects = locale => {
       }
       return {
         name: subject.longName[locale],
-        url: createSubjectFilterUrl(subject, subject.filters),
+        url: createSubjectUrl(subject),
       };
     });
 

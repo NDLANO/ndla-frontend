@@ -17,7 +17,6 @@ const expandedTopicIds = [
 test('Get path to main topicId', () => {
   const pathToMain = toTopicWithBoundParams(
     'urn:subject:1',
-    null,
     expandedTopicIds,
   )('urn:topic:main');
 
@@ -27,7 +26,6 @@ test('Get path to main topicId', () => {
 test('Get path to sub topicId', () => {
   const pathToSub = toTopicWithBoundParams(
     'urn:subject:1',
-    null,
     expandedTopicIds,
   )('urn:topic:sub');
 
@@ -37,7 +35,6 @@ test('Get path to sub topicId', () => {
 test('Get path to leaf topicId', () => {
   const pathToLeaf = toTopicWithBoundParams(
     'urn:subject:1',
-    null,
     expandedTopicIds,
   )('urn:topic:subsubsub');
 

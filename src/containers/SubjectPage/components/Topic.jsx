@@ -16,7 +16,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
+import { getSubjectLongName } from '../../../data/subjects';
 import {
   GraphQLResourceTypeShape,
   GraphQLSubjectShape,
@@ -30,7 +30,6 @@ const getDocumentTitle = ({ t, data }) => {
 const Topic = ({
   topicId,
   subjectId,
-  filterIds,
   locale,
   subTopicId,
   ndlaFilm,
@@ -61,10 +60,9 @@ const Topic = ({
     id: item.id,
     label: item.name,
     selected: item.id === subTopicId,
-    url: toTopic(subjectId, filterIds, ...topicPath, item.id),
+    url: toTopic(subjectId, ...topicPath, item.id),
   }));
-  const filterParam = filterIds ? `?filters=${filterIds}` : '';
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path + filterParam;
+  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
     <>
@@ -120,7 +118,7 @@ Topic.willTrackPageView = (trackPageView, currentProps) => {
 };
 
 Topic.getDimensions = props => {
-  const { filterIds, data, locale, subject } = props;
+  const { data, locale, subject } = props;
   const topicPath = data.topic.path
     .split('/')
     .slice(2)
@@ -128,11 +126,7 @@ Topic.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(
-    subject.id,
-    filterIds.split(','),
-  );
-  const longName = subjectBySubjectIdFiltes?.longName[locale];
+  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions(
     {
@@ -149,7 +143,6 @@ Topic.getDimensions = props => {
 Topic.propTypes = {
   topicId: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
-  filterIds: PropTypes.string,
   setSelectedTopic: PropTypes.func,
   subTopicId: PropTypes.string,
   locale: PropTypes.string,

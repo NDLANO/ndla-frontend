@@ -17,7 +17,7 @@ export const sortOrder = {
   [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: 6,
 };
 
-export const groupeResourcesByResourceTypes = (
+export const groupResourcesByResourceTypes = (
   supplementaryResources,
   coreResources,
 ) => {
@@ -59,7 +59,7 @@ export const getResourceGroups = (
   supplementaryResources,
   coreResouces,
 ) => {
-  const groupedResources = groupeResourcesByResourceTypes(
+  const groupedResources = groupResourcesByResourceTypes(
     supplementaryResources,
     coreResouces,
   );
