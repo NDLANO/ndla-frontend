@@ -20,17 +20,15 @@ type Props = {
   match: any;
 };
 
-// TODO: fikse alle typer!
+// TODO: fikse alle typer! :-)
 
 const ToolboxSubjectPage = ({ match }: Props) => {
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
   });
-  const refs = selectedTopics.map((_: unknown) => React.createRef()); // TODO: type, lodash??
+  const refs = selectedTopics.map((_: unknown) => React.createRef()); // TODO: type _ , lodash??
   const [topics, setTopics] = useState<unknown[]>([]);
-
-
 
   useEffect(() => {
     if (selectedTopics.length) {
@@ -62,7 +60,6 @@ const ToolboxSubjectPage = ({ match }: Props) => {
   const { subject = {} } = data;
 
   const mainTopics = subject.topics.map((topic: GQLTopic) => {
-    console.log('hvordan ser topoc ut?', topic);
     return {
       ...topic,
       label: topic.name,
@@ -95,7 +92,7 @@ const ToolboxSubjectPage = ({ match }: Props) => {
           ...topic,
         }));
 
-
+  // TODO Denne er lånt rett fra frontend-packages og må enten fikses eller så kan man gjøre som i MultidiciplinarySubjectPage?
   // const onTopicSelected = (index: number, id?: string) => {
   //   if (id && (!selectedTopics[index] || selectedTopics[index] !== id)) {
   //     const updatedSelectedTopics = selectedTopics.slice(0, index + 1); // When a new topic is selected on a level, all sub-levels are inconsistent -> remove
@@ -108,43 +105,27 @@ const ToolboxSubjectPage = ({ match }: Props) => {
   //     }
   //   }
   // };
-  
-  console.log('Topics??', subject.topics)
-
-  const TopicBoxes = () => {};
-    // selectedTopics.map((topicId, index) => {
-    //   return (
-    //     <div key={index} ref={refs[index]}>
-    //       <MultidisciplinaryTopicWrapper
-    //         disableNav={index >= selectionLimit - 1}
-    //         topicId={topicId}
-    //         filterIds=""
-    //         subjectId={subject.id}
-    //         subTopicId={selectedTopics[index + 1]}
-    //         locale={locale}
-    //         index={index}
-    //         subject={subject}
-    //       />
-    //     </div>
-    //   );
-
-
 
   return (
     <OneColumn>
+      {
+        // TODO: refs, åpne rett subject.
+      }
       <ToolboxInfo
-        topics={[]}
-        onSelectTopic={() => {}}
+        topics={mainTopics}
+        onSelectTopic={selectedTopics}
         title="Verktøykassa"
         introduction="Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse."
       />
-      {subject.topics.map((topic : any, index : any) => (
+      {subject.topics.map((topic: any, index: any) => (
         <div key={index} ref={refs[index]}>
           <Topic
             frame={!topic.subTopics} // Only leafs should have frame
             isLoading={topic.loading}
             subTopics={topic.subTopics}
-            onSubTopicSelected={(e, id) => {console.log(id)}} // onTopicSelected(index + 1, id)}
+            onSubTopicSelected={(e, id) => {
+              console.log(id);
+            }} // onTopicSelected(index + 1, id)}
             topic={topic.content}
           />
         </div>
