@@ -85,6 +85,19 @@ const gaTrackingId = (): string => {
   }
 };
 
+export const feideDomain = (): string => {
+  switch (ndlaEnvironment) {
+    case 'local':
+      return 'http://localhost:30017';
+    case 'dev':
+      return 'http://localhost:3000';
+    case 'prod':
+      return 'https://ndla.no';
+    default:
+      return `https://${ndlaEnvironmentHostname}.ndla.no`;
+  }
+};
+
 const logglyApiKey = (): string | undefined => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
@@ -117,6 +130,9 @@ const config: ConfigType = {
   showAllFrontpageSubjects: true,
   feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
   feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
+  feideClientIDLocal: getEnvironmentVariabel('FEIDE_CLIENT_ID_LOCAL'),
+  feideClientSecretLocal: getEnvironmentVariabel('FEIDE_CLIENT_SECRET_LOCAL'),
+  feideDomain: feideDomain(),
 };
 
 export function getUniversalConfig() {

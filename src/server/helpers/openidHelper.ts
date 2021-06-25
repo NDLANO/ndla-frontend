@@ -20,10 +20,14 @@ const handleConfigTypes = (
 
 const OPENID_DOMAIN =
   'https://auth.dataporten.no/.well-known/openid-configuration';
-const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientID);
-const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecret);
-const LOGIN_REDIRECT_URI = `https://ndla-frontend.test.api.ndla.no/login/success`;
-const LOGOUT_REDIRECT_URI = `https://ndla-frontend.test.api.ndla.no/`;
+const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientIDLocal);
+const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecretLocal);
+
+const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout/session`;
+const LOGIN_REDIRECT_URI = `${config.feideDomain}/login/success`;
+
+console.log(config.feideDomain);
+console.log(LOGIN_REDIRECT_URI);
 
 const getIssuer = async () => await Issuer.discover(OPENID_DOMAIN);
 
@@ -56,14 +60,12 @@ export const getRedirectUrl = () => {
 };
 
 export const getFeideToken = (req: Request) => {
-  console.log(req.headers.cookie);
   return getClient().then(client => {
     const params = client.callbackParams(req);
     const verifier = req.headers.cookie
       ?.split(';')
       .filter(cookie => cookie.includes('PKCE_code'))[0]
       ?.split('=')[1];
-    console.log(verifier);
     return client.callback(LOGIN_REDIRECT_URI, params, {
       code_verifier: verifier,
     });

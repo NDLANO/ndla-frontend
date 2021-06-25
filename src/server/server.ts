@@ -19,7 +19,6 @@ import {
   BAD_REQUEST,
 } from 'http-status';
 import { matchPath } from 'react-router-dom';
-import config from 'config';
 import {
   defaultRoute,
   errorRoute,
@@ -104,9 +103,6 @@ app.get(
 );
 
 app.get('/feide/login', (_req: Request, res: Response) => {
-  if (config.ndlaEnvironment === 'local') {
-    res.send({ url: '/' });
-  }
   getRedirectUrl()
     .then(json => {
       res
@@ -115,7 +111,7 @@ app.get('/feide/login', (_req: Request, res: Response) => {
         })
         .send(json);
     })
-    .catch(() => res.redirect('/'));
+    .catch(err => console.log(err));
 });
 
 app.get('/feide/token', (req: Request, res: Response) => {
