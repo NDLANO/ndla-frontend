@@ -92,7 +92,10 @@ export const isAccessTokenValid = () =>
 const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 
 export const initializeFeideLogin = () => {
-  return fetch(`${locationOrigin}/feide/login`)
+  const lastPath = localStorage.getItem('lastPath');
+  const state = `${lastPath ? `?state=${lastPath}` : ''}`;
+
+  return fetch(`${locationOrigin}/feide/login${state}`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
     .then(data => (window.location.href = data?.url || ''));
 };
@@ -106,8 +109,11 @@ export const finalizeFeideLogin = (feideLoginCode: string) => {
 };
 
 export const feideLogout = (logout: () => void) => {
+  const lastPath = localStorage.getItem('lastPath');
+  const state = `${lastPath ? `&state=${lastPath}` : ''}`;
+
   fetchAuthorized(
-    `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}`,
+    `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}${state}`,
   )
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
     .then(json => {

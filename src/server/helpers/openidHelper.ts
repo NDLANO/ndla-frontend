@@ -23,7 +23,7 @@ const OPENID_DOMAIN =
 const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientIDLocal);
 const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecretLocal);
 
-const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout/session`;
+const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout`;
 const LOGIN_REDIRECT_URI = `${config.feideDomain}/login/success`;
 
 console.log(config.feideDomain);
@@ -42,7 +42,7 @@ const getClient = () =>
       }),
   );
 
-export const getRedirectUrl = () => {
+export const getRedirectUrl = (req: Request) => {
   const code_verifier = generators.codeVerifier();
   const code_challenge = generators.codeChallenge(code_verifier);
 
@@ -52,6 +52,7 @@ export const getRedirectUrl = () => {
         scope:
           'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
         code_challenge,
+        state: req.query.state?.toString(),
       }),
     )
     .then(feide_url => {
@@ -77,6 +78,7 @@ export const feideLogout = (req: Request) => {
     client.endSessionUrl({
       id_token_hint: req.query.id_token_hint?.toString(),
       post_logout_redirect_uri: LOGOUT_REDIRECT_URI,
+      state: req.query.state?.toString(),
     }),
   );
 };

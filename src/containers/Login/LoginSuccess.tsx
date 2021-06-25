@@ -8,6 +8,7 @@
 
 import React, { useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { finalizeFeideLogin } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
@@ -29,7 +30,13 @@ export const LoginSuccess = ({ location: { search }, history }: Props) => {
         searchParams.find(data => data.includes('code'))?.split('=')[1] || '';
       finalizeFeideLogin(feideLoginCode).then(() => {
         login();
-        history.push(toHome());
+        const params = queryString.parse(search);
+
+        if (params.state !== null || params.state !== undefined) {
+          history.push(params.state);
+        } else {
+          history.push(toHome());
+        }
       });
     }
   }, [history, login, search, authenticated, authContextLoaded]);

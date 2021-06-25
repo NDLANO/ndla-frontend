@@ -102,8 +102,8 @@ app.get(
   },
 );
 
-app.get('/feide/login', (_req: Request, res: Response) => {
-  getRedirectUrl()
+app.get('/feide/login', (req: Request, res: Response) => {
+  getRedirectUrl(req)
     .then(json => {
       res
         .cookie('PKCE_code', json.verifier, {
@@ -111,17 +111,19 @@ app.get('/feide/login', (_req: Request, res: Response) => {
         })
         .send(json);
     })
-    .catch(err => console.log(err));
+    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
 });
 
 app.get('/feide/token', (req: Request, res: Response) => {
-  getFeideToken(req).then(json => res.send(json));
+  getFeideToken(req)
+    .then(json => res.send(json))
+    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
 });
 
 app.get('/feide/logout', (req: Request, res: Response) => {
   feideLogout(req)
     .then(logouturi => res.send({ url: logouturi }))
-    .catch(() => res.sendStatus(500));
+    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
 });
 
 app.get(

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
@@ -30,6 +30,7 @@ import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
@@ -60,6 +61,8 @@ const getMultidisciplinarySubjects = locale => {
 };
 
 const WelcomePage = ({ t, locale, history, location }) => {
+  const { authenticated } = useContext(AuthContext);
+
   const headerLinks = [
     {
       to: 'https://om.ndla.no',
@@ -86,6 +89,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
+      {authenticated ? (
+        <a href="/logout">LOGOUT</a>
+      ) : (
+        <a href="/login">LOGIN</a>
+      )}
       <SocialMediaMetadata
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
