@@ -1987,10 +1987,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.35.4":
-  version "0.35.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.35.4.tgz#56059387434802879f38bd8de56e0550fa9547d8"
-  integrity sha512-5IQiKdlbcQeday3UJbJNtUDtDL1e5BZeyjMcj/8AY4lLMBiU0U5svtlJfdMXzQz2ubwDQ/1oezQ2V+EZcF0fWw==
+"@ndla/ui@^0.35.5":
+  version "0.35.5"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.35.5.tgz#1e26880521a2baa1fbf04c01dc6a9448b90062ee"
+  integrity sha512-YIjXzrJg2MNn97fT0wqG8wVTwjWFF70p0j0n/iqcyCjSHn06WR99yNtDU+kkd9FohGXi/rQlMAl7sjohEcCAGg==
   dependencies:
     "@ndla/button" "^0.3.56"
     "@ndla/carousel" "^0.3.42"
