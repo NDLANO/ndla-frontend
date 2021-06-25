@@ -179,7 +179,7 @@ class ArticlePage extends Component {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={`${article.title}${subject?.name ? ' - ' + subject.name : ''}`}
+          title={htmlTitle(article.title, [subject?.name])}
           trackableContent={article}
           description={article.metaDescription}
           locale={locale}
