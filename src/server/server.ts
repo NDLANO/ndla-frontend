@@ -38,7 +38,7 @@ import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
 // @ts-ignore
 import { generateOauthData } from './helpers/oauthHelper';
-import podcastRssFeed from './podcastRssFeed';
+import { podcastFeedRoute } from './routes/podcastFeedRoute';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -107,7 +107,7 @@ app.get(
   },
 );
 
-async function sendInternalServerError(req: Request, res: Response) {
+export async function sendInternalServerError(req: Request, res: Response) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
@@ -182,38 +182,11 @@ app.get(
   },
 );
 
+app.get('/podkast/:seriesId/feed.xml', ndlaMiddleware, podcastFeedRoute);
 app.get(
-  '/podcast/:seriesId/feed.xml',
+  '/podkast/:seriesId_:seriesTitle/feed.xml',
   ndlaMiddleware,
-  async (req: Request, res: Response) => {
-    const id = req.params.seriesId;
-
-    if (!id) {
-      res.status(BAD_REQUEST);
-      res.send('Invalid ID for series supplied. ID must be an integer.');
-      return;
-    }
-    const idNum = parseInt(id, 10);
-    if (isNaN(idNum)) {
-      res.status(BAD_REQUEST);
-      res.send('Invalid ID for series supplied. ID must be an integer.');
-      return;
-    }
-
-    await podcastRssFeed(idNum)
-      .then(podcastPage => {
-        res.setHeader('Content-Type', 'application/xml');
-        res.send(podcastPage);
-      })
-      .catch(err => {
-        if (err.status === 404) {
-          res.redirect(NOT_FOUND_PAGE_PATH);
-          return;
-        }
-
-        sendInternalServerError(req, res);
-      });
-  },
+  podcastFeedRoute,
 );
 
 app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
