@@ -1597,20 +1597,6 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Naturbruk Vg1 - YFF',
-      nb: 'Naturbruk Vg1 - YFF',
-      nn: 'Naturbruk Vg1 - YFF',
-    },
-    name: {
-      en: 'Naturbruk Vg1',
-      nb: 'Naturbruk Vg1',
-      nn: 'Naturbruk Vg1',
-    },
-    subjectId: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
-    id: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
-  },
-  {
-    longName: {
       en: 'Konstruksjons- og styringsteknikk (TP Vg1)',
       nb: 'Konstruksjons- og styringsteknikk (TP Vg1)',
       nn: 'Konstruksjons- og styringsteknikk (TP Vg1)',
@@ -1724,9 +1710,9 @@ export const programmeSubjects = [
 
   {
     longName: {
-      en: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
-      nb: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
-      nn: 'Komplettering, produksjon og brønnvedlikehald (TP Vg2)',
+      en: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
+      nb: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (TP-BRT Vg2)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold',
@@ -1739,9 +1725,9 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'HMS og kvalitet (TP Vg2)',
-      nb: 'HMS og kvalitet (TP Vg2)',
-      nn: 'HMS og kvalitet (TP Vg2)',
+      en: 'HMS og kvalitet (TP-BRT Vg2)',
+      nb: 'HMS og kvalitet (TP-BRT Vg2)',
+      nn: 'HMS og kvalitet (TP-BRT Vg2)',
     },
     name: {
       en: 'HMS og kvalitet',
@@ -1811,9 +1797,9 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Leting og boring (TP Vg2)',
-      nb: 'Leting og boring (TP Vg2)',
-      nn: 'Leiting og boring (TP Vg2)',
+      en: 'Leting og boring (TP-BRT Vg2)',
+      nb: 'Leting og boring (TP-BRT Vg2)',
+      nn: 'Leiting og boring (TP-BRT Vg2)',
     },
     name: {
       en: 'Leting og boring',
@@ -1857,14 +1843,14 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur',
-      nb: 'Kommunikasjon og kultur',
-      nn: 'Kommunikasjon og kultur',
+      en: 'Kommunikasjon og kultur 1',
+      nb: 'Kommunikasjon og kultur 1',
+      nn: 'Kommunikasjon og kultur 1',
     },
     name: {
-      en: 'Kommunikasjon og kultur',
-      nb: 'Kommunikasjon og kultur',
-      nn: 'Kommunikasjon og kultur',
+      en: 'Kommunikasjon og kultur 1',
+      nb: 'Kommunikasjon og kultur 1',
+      nn: 'Kommunikasjon og kultur 1',
     },
     subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
     id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
@@ -1896,20 +1882,6 @@ export const studySpecializationSubjects = [
     },
     subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
     id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1',
-      nb: 'Medie- og informasjonskunnskap MIK1',
-      nn: 'Medie- og informasjonskunnskap MIK1',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
-    },
-    subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
@@ -2702,6 +2674,21 @@ export const archivedSubjects = [
 ];
 
 export const betaSubjects = [
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap MIK1 - BETA',
+      nb: 'Medie- og informasjonskunnskap MIK1 - BETA',
+      nn: 'Medie- og informasjonskunnskap MIK1 - BETA',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1 - BETA',
+      nb: 'Medie- og informasjonskunnskap 1 - BETA',
+      nn: 'Medie- og informasjonskunnskap 1 - BETA',
+    },
+    subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+  },
+
   {
     longName: {
       en: 'Matematikk 2P - Beta',

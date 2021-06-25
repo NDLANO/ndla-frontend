@@ -2138,19 +2138,10 @@ export const programmes = [
             name: null,
             subjects: [
               {
-                id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
-              },
-              {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
-              },
-              {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-              },
-              {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
                 id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
@@ -2189,6 +2180,14 @@ export const programmes = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+
+              {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
@@ -2210,10 +2209,28 @@ export const programmes = [
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Fremmedspråk',
+              nn: 'Framandspråk',
+              en: 'Fremmedspråk',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
               {
-                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
             ],
           },
@@ -2269,16 +2286,10 @@ export const programmes = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
-              },
-              {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
                 id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
-              },
-              {
-                id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
               },
               {
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
@@ -2296,10 +2307,10 @@ export const programmes = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
               {
-                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+                id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
             ],
           },
