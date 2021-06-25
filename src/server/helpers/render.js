@@ -39,6 +39,7 @@ export function renderPage(Page, assets, data = {}, cache) {
       assets,
       css,
       ids,
+      extractor,
       // Following is serialized to window.DATA
       data: {
         ...data,
@@ -53,6 +54,7 @@ export function renderPage(Page, assets, data = {}, cache) {
     html,
     helmet,
     assets,
+    extractor,
     // Following is serialized to window.DATA
     data: {
       ...data,
@@ -77,6 +79,7 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
       assets,
       css,
       ids,
+      extractor,
       // Following is serialized to window.DATA
       data: {
         ...data,
@@ -91,6 +94,7 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
     html,
     helmet,
     assets,
+    extractor,
     // Following is serialized to window.DATA
     data: {
       ...data,
@@ -116,6 +120,6 @@ export async function renderHtml(req, html, context, props) {
 
   return {
     status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    data: `<!doctype html>${doc.replace('REPLACE_ME', props.html)}`,
   };
 }

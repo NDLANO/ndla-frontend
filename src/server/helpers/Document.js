@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({ helmet, assets, data, css, ids }) => {
+const Document = ({ helmet, assets, data, css, ids, extractor }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -26,6 +26,8 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
+        {extractor.getStyleElements()}
+        {extractor.getLinkElements()}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,700|Source+Serif+Pro:400,700|Source+Code+Pro:400,700"
@@ -37,7 +39,6 @@ const Document = ({ helmet, assets, data, css, ids }) => {
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
-        {assets.css && <link rel="stylesheet" href={assets.css} />}
         <link
           rel="shortcut icon"
           href="/static/ndla-favicon.png"
@@ -64,8 +65,8 @@ const Document = ({ helmet, assets, data, css, ids }) => {
             __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
-        <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
         {helmet.script.toComponent()}
+        {extractor.getScriptElements()}
       </body>
     </html>
   );
@@ -74,6 +75,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  extractor: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   assets: PropTypes.shape({
     css: PropTypes.string,
     js: PropTypes.array.isRequired,
