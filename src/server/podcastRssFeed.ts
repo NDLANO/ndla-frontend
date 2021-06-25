@@ -12,7 +12,7 @@ import { fetchSeries } from '../util/audioApi';
 const podcastRssFeed = async (seriesId: number): Promise<string> => {
   try {
     const series = await fetchSeries(seriesId, 'nb');
-    const podcastUrl = `${config?.ndlaFrontendDomain}/podcast/${series.id}`;
+    const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${series.id}`;
     const ownerEmail = 'support+podcast@ndla.no';
 
     const authors = series.episodes
