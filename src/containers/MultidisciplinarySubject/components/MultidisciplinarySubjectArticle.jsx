@@ -19,6 +19,7 @@ import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
 import { getAllDimensions } from '../../../util/trackingUtil';
+import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
@@ -68,9 +69,7 @@ const MultidisciplinarySubjectArticle = ({
         subjectsLinks={subjectLinks}
       />
       <SocialMediaMetadata
-        title={`${subject?.name ? subject.name + ' - ' : ''}${
-          topic.article.title
-        }`}
+        title={htmlTitle(topic.article.title, [subject?.name])}
         trackableContent={topic.article}
         description={topic.article.metaDescription}
         locale={locale}
@@ -102,7 +101,7 @@ MultidisciplinarySubjectArticle.propTypes = {
 };
 
 MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }) => {
-  return `${topic.name || ''}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]);
 };
 
 MultidisciplinarySubjectArticle.willTrackPageView = (
