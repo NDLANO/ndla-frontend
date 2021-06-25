@@ -2213,27 +2213,6 @@ export const programmes = [
               },
             ],
           },
-          {
-            name: {
-              nb: 'Fremmedspråk',
-              nn: 'Framandspråk',
-              en: 'Fremmedspråk',
-            },
-            subjects: [
-              {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
-              },
-              {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-              },
-              {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
-              },
-            ],
-          },
         ],
       },
       {

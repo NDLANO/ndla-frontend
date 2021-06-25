@@ -2691,14 +2691,14 @@ export const betaSubjects = [
 
   {
     longName: {
-      en: 'Matematikk 2P - Beta',
-      nb: 'Matematikk 2P - Beta',
-      nn: 'Matematikk 2P - Beta',
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
     },
     name: {
-      en: 'Matematikk 2P - Beta',
-      nb: 'Matematikk 2P - Beta',
-      nn: 'Matematikk 2P - Beta',
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
     },
     subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
     id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
@@ -2706,9 +2706,9 @@ export const betaSubjects = [
 
   {
     longName: {
-      en: 'Reiseliv og språk 1 - Beta',
-      nb: 'Reiseliv og språk 1 - Beta',
-      nn: 'Reiseliv og språk 1 - Beta',
+      en: 'Reiseliv og språk 1 - BETA',
+      nb: 'Reiseliv og språk 1 - BETA',
+      nn: 'Reiseliv og språk 1 - BETA',
     },
     name: {
       en: 'Reiseliv og språk 1',
