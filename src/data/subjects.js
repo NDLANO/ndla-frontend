@@ -2688,7 +2688,6 @@ export const betaSubjects = [
     subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
     id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
-
   {
     longName: {
       en: 'Matematikk 2P - BETA',
@@ -2703,7 +2702,6 @@ export const betaSubjects = [
     subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
     id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
   },
-
   {
     longName: {
       en: 'Reiseliv og språk 1 - BETA',
@@ -2717,6 +2715,48 @@ export const betaSubjects = [
     },
     subjectId: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
     id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+  },
+  {
+    longName: {
+      en: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
+      nb: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
+      nn: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
+    },
+    name: {
+      en: 'Design og visualisering',
+      nb: 'Design og visualisering',
+      nn: 'Design og visualisering',
+    },
+    subjectId: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
+    id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
+  },
+  {
+    longName: {
+      en: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
+      nb: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
+      nn: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
+    },
+    name: {
+      en: 'Konseptutvikling og kommunikasjon',
+      nb: 'Konseptutvikling og kommunikasjon',
+      nn: 'Konseptutvikling og kommunikasjon',
+    },
+    subjectId: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
+    id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
+  },
+  {
+    longName: {
+      en: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
+      nb: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
+      nn: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
+    },
+    name: {
+      en: 'Teknologi og produksjon',
+      nb: 'Teknologi og produksjon',
+      nn: 'Teknologi og produksjon',
+    },
+    subjectId: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
+    id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
   },
 ];
 
