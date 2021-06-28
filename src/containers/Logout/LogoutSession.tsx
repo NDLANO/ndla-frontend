@@ -25,7 +25,7 @@ const LogoutSession = ({ history }: Props) => {
     } else if (authenticated && authContextLoaded) {
       feideLogout(logout);
     }
-  }, [authContextLoaded, authenticated, history, logout]);
+  }, [authenticated, authContextLoaded, history, logout]);
 
   return null;
 };

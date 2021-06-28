@@ -9,8 +9,8 @@ import React, { Fragment } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import LogoutSession from './LogoutSession';
 import LogoutProviders from './LogoutProviders';
+import LogoutSession from './LogoutSession';
 
 interface Props {
   match: RouteComponentProps['match'];

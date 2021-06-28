@@ -130,8 +130,6 @@ const config: ConfigType = {
   showAllFrontpageSubjects: true,
   feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
   feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
-  feideClientIDLocal: getEnvironmentVariabel('FEIDE_CLIENT_ID_LOCAL'),
-  feideClientSecretLocal: getEnvironmentVariabel('FEIDE_CLIENT_SECRET_LOCAL'),
   feideDomain: feideDomain(),
 };
 

@@ -101,6 +101,7 @@ export const createApolloClient = (language = 'nb') => {
     headers: {
       ...headers,
       'Accept-Language': language,
+      FeideAuthorization: `Bearer ${getAccessToken()}`,
     },
   }));
 
@@ -168,7 +169,7 @@ export const fetchWithAuthorization = async (
     headers: {
       ...extraHeaders,
       ...cacheControl,
-      Authorization: `Bearer ${getAccessToken()}`,
+      FeideAuthorization: `Bearer ${getAccessToken()}`,
     },
   });
 };

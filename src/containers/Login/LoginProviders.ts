@@ -8,7 +8,7 @@
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { initializeFeideLogin } from '../../util/authHelpers';
-import { toHome } from '../../util/routeHelpers';
+import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
 interface Props {
   authenticated: boolean;
@@ -25,7 +25,7 @@ export const LoginProviders = ({
     if (authenticated && authContextLoaded) {
       history.push(toHome());
     } else if (authContextLoaded && !authenticated) {
-      initializeFeideLogin();
+      initializeFeideLogin().catch(() => history.push(toLoginFailure()));
     }
   }, [authenticated, history, authContextLoaded]);
 

@@ -111,19 +111,19 @@ app.get('/feide/login', (req: Request, res: Response) => {
         })
         .send(json);
     })
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
+    .catch(() => sendInternalServerError(req, res));
 });
 
 app.get('/feide/token', (req: Request, res: Response) => {
   getFeideToken(req)
     .then(json => res.send(json))
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
+    .catch(() => sendInternalServerError(req, res));
 });
 
 app.get('/feide/logout', (req: Request, res: Response) => {
   feideLogout(req)
     .then(logouturi => res.send({ url: logouturi }))
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err));
+    .catch(() => sendInternalServerError(req, res));
 });
 
 app.get(

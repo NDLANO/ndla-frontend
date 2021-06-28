@@ -5,18 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { toLogoutSession } from '../../util/routeHelpers';
+import { useEffect, useContext } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { feideLogout } from '../../util/authHelpers';
 
 interface Props {
   history: RouteComponentProps['history'];
 }
 
 const LogoutProviders = ({ history }: Props) => {
+  const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
+
   useEffect(() => {
-    history.push(toLogoutSession());
-  });
+    if (authenticated && authContextLoaded) {
+      feideLogout(logout);
+    }
+  }, [authenticated, authContextLoaded, history, logout]);
   return null;
 };
 

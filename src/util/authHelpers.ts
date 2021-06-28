@@ -62,7 +62,7 @@ export function setTokenSetInLocalStorage(tokenSet: TokenSet, personal = true) {
   localStorage.setItem('access_token_feide', tokenSet.access_token || '');
   localStorage.setItem(
     'access_token_feide_expires_at',
-    ((tokenSet.expires_at || 0) + new Date().getTime()).toString(),
+    ((tokenSet.expires_at || 0) * 1000).toString(),
   );
   localStorage.setItem('access_token_feide_personal', personal.toString());
   localStorage.setItem('id_token_feide', tokenSet.id_token || '');
@@ -111,7 +111,6 @@ export const finalizeFeideLogin = (feideLoginCode: string) => {
 export const feideLogout = (logout: () => void) => {
   const lastPath = localStorage.getItem('lastPath');
   const state = `${lastPath ? `&state=${lastPath}` : ''}`;
-
   fetchAuthorized(
     `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}${state}`,
   )
@@ -134,17 +133,16 @@ const scheduleRenewal = async () => {
   if (localStorage.getItem('access_token_feide_personal') !== 'true') {
     return null;
   }
-  const expiresAt = getAccessTokenExpiresAt();
 
+  const expiresAt = getAccessTokenExpiresAt();
   const timeout = expiresAt - Date.now();
+
   if (timeout > 0) {
     tokenRenewalTimeout = setTimeout(async () => {
       await renewAuth();
-      scheduleRenewal();
     }, timeout);
   } else {
     await renewAuth();
-    scheduleRenewal();
     clearTimeout(tokenRenewalTimeout);
   }
   return;

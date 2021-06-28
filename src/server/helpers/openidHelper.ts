@@ -20,10 +20,10 @@ const handleConfigTypes = (
 
 const OPENID_DOMAIN =
   'https://auth.dataporten.no/.well-known/openid-configuration';
-const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientIDLocal);
-const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecretLocal);
+const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientID);
+const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecret);
 
-const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout`;
+const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout/session`;
 const LOGIN_REDIRECT_URI = `${config.feideDomain}/login/success`;
 
 console.log(config.feideDomain);

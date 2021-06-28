@@ -5,8 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export function toHome() {
+  return '/';
+}
+
 export function toLogin() {
   return '/login';
+}
+
+export function toLoginFailure() {
+  return '/login/failure';
 }
 
 export function toLogout() {
@@ -17,6 +25,6 @@ export function toLogoutSession() {
   return '/logout/session';
 }
 
-export function toHome() {
-  return '/';
+export function toLogoutInitiate() {
+  return '/logout/initiate';
 }

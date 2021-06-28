@@ -13,6 +13,7 @@ import { RouteComponentProps } from 'react-router';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
+import { LoginFailure } from './LoginFailure';
 
 interface Props {
   match: RouteComponentProps['match'];
@@ -28,6 +29,7 @@ export const Login = ({ match }: Props) => {
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Switch>
             <Route path={`${match.url}/success`} component={LoginSuccess} />
+            <Route path={`${match.url}/failure`} component={LoginFailure} />
             <Route
               component={(props: Props) => (
                 <LoginProviders
