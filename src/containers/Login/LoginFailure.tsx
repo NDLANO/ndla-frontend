@@ -15,7 +15,7 @@ export const LoginFailure = ({ t }: tType) => {
     <div>
       <h2>{t('loginFailure.errorMessage')}</h2>
       <p>
-        <Link to={toLogin()} >{t('loginFailure.loginLink')}</Link>
+        <Link to={toLogin()}>{t('loginFailure.loginLink')}</Link>
       </p>
     </div>
   );
