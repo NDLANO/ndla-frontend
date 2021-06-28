@@ -1,18 +1,33 @@
 export const commonSubjects = [
   {
-    name: {
-      nb: 'Samfunnsfag',
-      nn: 'Samfunnsfag',
-      en: 'Samfunnsfag',
-    },
     longName: {
-      nb: 'Samfunnsfag (Vg2)',
-      nn: 'Samfunnsfag (Vg2)',
-      en: 'Samfunnsfag (Vg2)',
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
     },
-    subjectId: 'urn:subject:1:19dae192-699d-488f-8218-d81535ce3ae3',
-    id: 'common_subject_1',
+    name: {
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
+    },
+    subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
   },
+  {
+    longName: {
+      en: 'Norsk YF',
+      nb: 'Norsk YF',
+      nn: 'Norsk YF',
+    },
+    name: {
+      en: 'Norsk YF',
+      nb: 'Norsk YF',
+      nn: 'Norsk YF',
+    },
+    subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+    id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
+  },
+
   {
     name: {
       nb: 'Samfunnskunnskap',
@@ -25,7 +40,7 @@ export const commonSubjects = [
       en: 'Samfunnskunnskap',
     },
     subjectId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-    id: 'common_subject_2',
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
   },
   {
     name: {
@@ -39,7 +54,7 @@ export const commonSubjects = [
       en: 'Engelsk (YF)',
     },
     subjectId: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
-    id: 'common_subject_3',
+    id: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
   },
   {
     name: {
@@ -53,21 +68,7 @@ export const commonSubjects = [
       en: 'Engelsk (SF)',
     },
     subjectId: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
-    id: 'common_subject_4',
-  },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (YF Vg2)',
-      nn: 'Norsk (YF Vg2)',
-      en: 'Norsk (YF Vg2)',
-    },
-    subjectId: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
-    id: 'common_subject_5',
+    id: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
   },
   {
     name: {
@@ -81,7 +82,7 @@ export const commonSubjects = [
       en: 'Norsk (SF Vg1)',
     },
     subjectId: 'urn:subject:1:605d33e0-1695-4540-9255-fc5e612e996f',
-    id: 'common_subject_6',
+    id: 'urn:subject:1:605d33e0-1695-4540-9255-fc5e612e996f',
   },
   {
     name: {
@@ -90,12 +91,12 @@ export const commonSubjects = [
       en: 'Norsk',
     },
     longName: {
-      nb: 'Norsk (SF Vg2)',
-      nn: 'Norsk (SF Vg2)',
-      en: 'Norsk (SF Vg2)',
+      nb: 'Norsk (SF Vg2) (LK06)',
+      nn: 'Norsk (SF Vg2) (LK06)',
+      en: 'Norsk (SF Vg2) (LK06)',
     },
     subjectId: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
-    id: 'common_subject_7',
+    id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
   },
   {
     name: {
@@ -109,7 +110,7 @@ export const commonSubjects = [
       en: 'Historie (SF Vg2)',
     },
     subjectId: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
-    id: 'common_subject_8',
+    id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
   },
   {
     longName: {
@@ -123,7 +124,7 @@ export const commonSubjects = [
       nn: 'Kroppsøving',
     },
     subjectId: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
-    id: 'common_subject_9',
+    id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
   },
   {
     longName: {
@@ -137,7 +138,7 @@ export const commonSubjects = [
       nn: 'Kroppsøving',
     },
     subjectId: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
-    id: 'common_subject_10',
+    id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
   },
   {
     longName: {
@@ -151,21 +152,7 @@ export const commonSubjects = [
       nn: 'Kroppsøving',
     },
     subjectId: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
-    id: 'common_subject_11',
-  },
-  {
-    longName: {
-      en: 'Matematikk 2P',
-      nb: 'Matematikk 2P',
-      nn: 'Matematikk 2P',
-    },
-    name: {
-      en: 'Matematikk 2P',
-      nb: 'Matematikk 2P',
-      nn: 'Matematikk 2P',
-    },
-    subjectId: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
-    id: 'common_subject_12',
+    id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
   },
   {
     longName: {
@@ -179,7 +166,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P',
     },
     subjectId: 'urn:subject:1:a3c1b65a-c41f-4879-b650-32a13fe1801b',
-    id: 'common_subject_13',
+    id: 'urn:subject:1:a3c1b65a-c41f-4879-b650-32a13fe1801b',
   },
   {
     longName: {
@@ -193,7 +180,7 @@ export const commonSubjects = [
       nn: 'Matematikk 2P-Y',
     },
     subjectId: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
-    id: 'common_subject_14',
+    id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
   },
   {
     longName: {
@@ -207,7 +194,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:daa130e2-5035-4803-b3c0-6158f455a982',
-    id: 'common_subject_15',
+    id: 'urn:subject:1:daa130e2-5035-4803-b3c0-6158f455a982',
   },
   {
     longName: {
@@ -221,7 +208,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-    id: 'common_subject_16',
+    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
   },
   {
     longName: {
@@ -235,7 +222,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:d78133ee-73be-4640-9eb6-50372cda2287',
-    id: 'common_subject_17',
+    id: 'urn:subject:1:d78133ee-73be-4640-9eb6-50372cda2287',
   },
   {
     longName: {
@@ -249,7 +236,7 @@ export const commonSubjects = [
       nn: 'Religion og etikk',
     },
     subjectId: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
-    id: 'common_subject_18',
+    id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
   },
   {
     longName: {
@@ -263,7 +250,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4',
-    id: 'common_subject_19',
+    id: 'urn:subject:1:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4',
   },
   {
     longName: {
@@ -277,7 +264,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
-    id: 'common_subject_20',
+    id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
   },
   {
     longName: {
@@ -291,7 +278,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1:2a1420a8-a485-4000-8593-6fe0341a8a22',
-    id: 'common_subject_21',
+    id: 'urn:subject:1:2a1420a8-a485-4000-8593-6fe0341a8a22',
   },
   {
     longName: {
@@ -305,7 +292,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:e1272473-7361-4129-8bfd-a0d6ebc8cf98',
-    id: 'common_subject_22',
+    id: 'urn:subject:1:e1272473-7361-4129-8bfd-a0d6ebc8cf98',
   },
   {
     longName: {
@@ -319,7 +306,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:33d3fab4-4b5a-46b1-bd9d-6d7af8e79616',
-    id: 'common_subject_23',
+    id: 'urn:subject:1:33d3fab4-4b5a-46b1-bd9d-6d7af8e79616',
   },
   {
     longName: {
@@ -333,7 +320,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:dbd108ac-73b3-4efc-92d5-1bbbed22abaf',
-    id: 'common_subject_24',
+    id: 'urn:subject:1:dbd108ac-73b3-4efc-92d5-1bbbed22abaf',
   },
   {
     longName: {
@@ -347,7 +334,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:001c6405-79d5-4b9a-8b1b-002680265916',
-    id: 'common_subject_25',
+    id: 'urn:subject:1:001c6405-79d5-4b9a-8b1b-002680265916',
   },
   {
     longName: {
@@ -361,7 +348,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:4c20c255-cf86-44b7-b628-950a4911c686',
-    id: 'common_subject_26',
+    id: 'urn:subject:1:4c20c255-cf86-44b7-b628-950a4911c686',
   },
   {
     longName: {
@@ -375,7 +362,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:6c28a8a2-2291-49d6-aeb9-48315063ab4c',
-    id: 'common_subject_27',
+    id: 'urn:subject:1:6c28a8a2-2291-49d6-aeb9-48315063ab4c',
   },
   {
     longName: {
@@ -389,7 +376,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T',
     },
     subjectId: 'urn:subject:1:8bfd0a97-d456-448d-8b5f-3bc49e445b37',
-    id: 'common_subject_28',
+    id: 'urn:subject:1:8bfd0a97-d456-448d-8b5f-3bc49e445b37',
   },
   {
     longName: {
@@ -403,7 +390,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:2205eb3b-73d5-4d01-a69b-83d1b842636b',
-    id: 'common_subject_29',
+    id: 'urn:subject:1:2205eb3b-73d5-4d01-a69b-83d1b842636b',
   },
   {
     longName: {
@@ -417,7 +404,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:947772c4-d806-40d9-95b7-6dc855a37e13',
-    id: 'common_subject_30',
+    id: 'urn:subject:1:947772c4-d806-40d9-95b7-6dc855a37e13',
   },
   {
     longName: {
@@ -431,7 +418,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:2dc9a180-e501-46ba-93b4-f665f59bdced',
-    id: 'common_subject_31',
+    id: 'urn:subject:1:2dc9a180-e501-46ba-93b4-f665f59bdced',
   },
   {
     longName: {
@@ -445,7 +432,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:10f1822a-86ab-4a35-a9bf-477f98775617',
-    id: 'common_subject_32',
+    id: 'urn:subject:1:10f1822a-86ab-4a35-a9bf-477f98775617',
   },
   {
     longName: {
@@ -459,7 +446,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:a51e0766-654d-4f71-be5d-78bc33a6663f',
-    id: 'common_subject_33',
+    id: 'urn:subject:1:a51e0766-654d-4f71-be5d-78bc33a6663f',
   },
   {
     longName: {
@@ -473,7 +460,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:6012d8a9-994a-4b21-b4a1-8c54443fc0d1',
-    id: 'common_subject_34',
+    id: 'urn:subject:1:6012d8a9-994a-4b21-b4a1-8c54443fc0d1',
   },
   {
     longName: {
@@ -487,7 +474,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:15af94d5-d647-4da9-aefc-f7e4b3bd44ff',
-    id: 'common_subject_35',
+    id: 'urn:subject:1:15af94d5-d647-4da9-aefc-f7e4b3bd44ff',
   },
   {
     longName: {
@@ -501,7 +488,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:ffb5b58f-c993-4cba-99f5-40844b51e588',
-    id: 'common_subject_36',
+    id: 'urn:subject:1:ffb5b58f-c993-4cba-99f5-40844b51e588',
   },
   {
     longName: {
@@ -515,7 +502,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:9031c947-8761-4db7-ab02-33dc3a8ba2e2',
-    id: 'common_subject_37',
+    id: 'urn:subject:1:9031c947-8761-4db7-ab02-33dc3a8ba2e2',
   },
   {
     longName: {
@@ -529,7 +516,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:aeaf8fcc-9ad2-4f23-a2cf-d764194f5380',
-    id: 'common_subject_38',
+    id: 'urn:subject:1:aeaf8fcc-9ad2-4f23-a2cf-d764194f5380',
   },
   {
     longName: {
@@ -543,7 +530,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9',
-    id: 'common_subject_39',
+    id: 'urn:subject:1:eba8b8d6-d312-4a57-baeb-04c7d9ba16f9',
   },
   {
     longName: {
@@ -557,7 +544,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:0d8458e9-632b-4bdf-977c-cb04ccde02bd',
-    id: 'common_subject_40',
+    id: 'urn:subject:1:0d8458e9-632b-4bdf-977c-cb04ccde02bd',
   },
   {
     longName: {
@@ -571,7 +558,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:48d5ff11-d459-4327-bbe5-8dd313e9dcbf',
-    id: 'common_subject_41',
+    id: 'urn:subject:1:48d5ff11-d459-4327-bbe5-8dd313e9dcbf',
   },
   {
     longName: {
@@ -585,7 +572,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:f2e831f5-2365-4ac8-bfce-4fc38323d91b',
-    id: 'common_subject_42',
+    id: 'urn:subject:1:f2e831f5-2365-4ac8-bfce-4fc38323d91b',
   },
   {
     longName: {
@@ -599,7 +586,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:330336a5-9e92-405b-bb5c-b0e8bdc8ba98',
-    id: 'common_subject_43',
+    id: 'urn:subject:1:330336a5-9e92-405b-bb5c-b0e8bdc8ba98',
   },
   {
     longName: {
@@ -613,7 +600,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:721307df-c384-4a7f-ad69-668853c766c6',
-    id: 'common_subject_44',
+    id: 'urn:subject:1:721307df-c384-4a7f-ad69-668853c766c6',
   },
   {
     longName: {
@@ -627,7 +614,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:7a0cbbc6-f213-4545-a6e3-44d3043ddaae',
-    id: 'common_subject_45',
+    id: 'urn:subject:1:7a0cbbc6-f213-4545-a6e3-44d3043ddaae',
   },
   {
     longName: {
@@ -641,7 +628,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:b4f8369c-139e-4a3f-8c79-f1341be06501',
-    id: 'common_subject_46',
+    id: 'urn:subject:1:b4f8369c-139e-4a3f-8c79-f1341be06501',
   },
   {
     longName: {
@@ -655,7 +642,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:e4f1bd93-e941-4f7e-a150-1dd99a9ac419',
-    id: 'common_subject_47',
+    id: 'urn:subject:1:e4f1bd93-e941-4f7e-a150-1dd99a9ac419',
   },
   {
     longName: {
@@ -669,7 +656,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     subjectId: 'urn:subject:1:919bde2e-9525-4eb1-88f4-3f730f793cf9',
-    id: 'common_subject_48',
+    id: 'urn:subject:1:919bde2e-9525-4eb1-88f4-3f730f793cf9',
   },
   {
     longName: {
@@ -683,7 +670,7 @@ export const commonSubjects = [
       nn: 'Matematikk 1T-Y',
     },
     subjectId: 'urn:subject:1:43fcb3a9-0144-4b7b-bba9-40e447f17303',
-    id: 'common_subject_49',
+    id: 'urn:subject:1:43fcb3a9-0144-4b7b-bba9-40e447f17303',
   },
   {
     longName: {
@@ -697,7 +684,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
-    id: 'common_subject_50',
+    id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
   },
   {
     name: {
@@ -711,7 +698,7 @@ export const commonSubjects = [
       en: 'Historie (SF Vg3)',
     },
     subjectId: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
-    id: 'common_subject_51',
+    id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
   },
   {
     name: {
@@ -725,36 +712,9 @@ export const commonSubjects = [
       en: 'Historie (PB Vg3)',
     },
     subjectId: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
-    id: 'common_subject_52',
+    id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
   },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (SF Vg3)',
-      nn: 'Norsk (SF Vg3)',
-      en: 'Norsk (SF Vg3)',
-    },
-    subjectId: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-    id: 'common_subject_53',
-  },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (PB Vg3)',
-      nn: 'Norsk (PB Vg3)',
-      en: 'Norsk (PB Vg3)',
-    },
-    subjectId: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
-    id: 'common_subject_54',
-  },
+
   {
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg3)',
@@ -767,7 +727,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
-    id: 'common_subject_55',
+    id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
   },
   {
     longName: {
@@ -781,7 +741,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som førstespråk',
     },
     subjectId: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
-    id: 'common_subject_56',
+    id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
   },
   {
     longName: {
@@ -795,7 +755,7 @@ export const commonSubjects = [
       nn: 'Tverrfaglege tema',
     },
     subjectId: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-    id: 'common_subject_60',
+    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
   },
   {
     longName: {
@@ -809,7 +769,7 @@ export const commonSubjects = [
       nn: 'Verktøykassa',
     },
     subjectId: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
-    id: 'common_subject_61',
+    id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
   },
   {
     longName: {
@@ -823,7 +783,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som andrespråk, samisk 4',
     },
     subjectId: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
-    id: 'common_subject_62',
+    id: 'urn:subject:1:962dd49d-72e8-4576-9efb-69d93a95402e',
   },
   {
     longName: {
@@ -837,7 +797,7 @@ export const commonSubjects = [
       nn: 'Sørsamisk som andrespråk, samisk 4',
     },
     subjectId: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
-    id: 'common_subject_63',
+    id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
   },
   {
     longName: {
@@ -851,7 +811,7 @@ export const commonSubjects = [
       nn: 'Naturfag',
     },
     subjectId: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
-    id: 'common_subject_64',
+    id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
   },
   {
     longName: {
@@ -865,7 +825,7 @@ export const commonSubjects = [
       nn: 'NDLA Film',
     },
     subjectId: 'urn:subject:20',
-    id: 'common_subject_65',
+    id: 'urn:subject:20',
   },
   {
     longName: {
@@ -879,11 +839,425 @@ export const commonSubjects = [
       nn: 'Verktøykassa',
     },
     subjectId: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
-    id: 'common_subject_66',
+    id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
   },
 ];
 
 export const programmeSubjects = [
+  {
+    longName: {
+      en: 'Bransjelære (SS-TRL Vg2)',
+      nb: 'Bransjelære (SS-TRL Vg2)',
+      nn: 'Bransjelære (SS-TRL Vg2)',
+    },
+    name: {
+      en: 'Bransjelære',
+      nb: 'Bransjelære',
+      nn: 'Bransjelære',
+    },
+    subjectId: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
+    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
+  },
+
+  {
+    longName: {
+      en: 'Bransjeteknikk (SS-TRL Vg2)',
+      nb: 'Bransjeteknikk (SS-TRL Vg2)',
+      nn: 'Bransjeteknikk (SS-TRL Vg2)',
+    },
+    name: {
+      en: 'Bransjeteknikk',
+      nb: 'Bransjeteknikk',
+      nn: 'Bransjeteknikk',
+    },
+    subjectId: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
+    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
+  },
+
+  {
+    longName: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag',
+      nn: 'Yrkesliv i barne- og ungdomsarbeidarfag',
+    },
+    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+    id: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
+  },
+  {
+    longName: {
+      en: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nb: 'Pedagogisk arbeid (HS-BUA Vg2)',
+      nn: 'Pedagogisk arbeid (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Pedagogisk arbeid',
+      nb: 'Pedagogisk arbeid',
+      nn: 'Pedagogisk arbeid',
+    },
+    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
+    id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
+  },
+  {
+    longName: {
+      en: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
+      nb: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
+      nn: 'Transport, logistikk og løfteoperasjonar (SS-TRL VG2)',
+    },
+    name: {
+      en: 'Transport, logistikk og løfteoperasjoner',
+      nb: 'Transport, logistikk og løfteoperasjoner',
+      nn: 'Transport, logistikk og løfteoperasjonar',
+    },
+    subjectId: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+  },
+
+  {
+    longName: {
+      en: 'Komplettering og brønnservice (TP-BRT Vg2)',
+      nb: 'Komplettering og brønnservice (TP-BRT Vg2)',
+      nn: 'Komplettering og brønnservice (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Komplettering og brønnservice',
+      nb: 'Komplettering og brønnservice',
+      nn: 'Komplettering og brønnservice',
+    },
+    subjectId: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+  },
+  {
+    longName: {
+      en: 'Prosedyrer og praksis (TP-BRT Vg2)',
+      nb: 'Prosedyrer og praksis (TP-BRT Vg2)',
+      nn: 'Prosedyrar og praksis (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Prosedyrer og praksis',
+      nb: 'Prosedyrer og praksis',
+      nn: 'Prosedyrar og praksis',
+    },
+    subjectId: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+  },
+
+  {
+    longName: {
+      en: 'Boring (TP-BRT Vg2)',
+      nb: 'Boring (TP-BRT Vg2)',
+      nn: 'Boring (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Boring',
+      nb: 'Boring',
+      nn: 'Boring',
+    },
+    subjectId: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+  },
+
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+      nb: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
+      nn: 'Yrkesfagleg fordjuping (TP-BRT Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+  },
+
+  {
+    longName: {
+      en: 'Medieuttrykk 2',
+      nb: 'Medieuttrykk 2',
+      nn: 'Medieuttrykk 2',
+    },
+    name: {
+      en: 'Medieuttrykk 2',
+      nb: 'Medieuttrykk 2',
+      nn: 'Medieuttrykk 2',
+    },
+    subjectId: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
+    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
+  },
+  {
+    longName: {
+      en: 'Mediesamfunnet 2',
+      nb: 'Mediesamfunnet 2',
+      nn: 'Mediesamfunnet 2',
+    },
+    name: {
+      en: 'Mediesamfunnet 2',
+      nb: 'Mediesamfunnet 2',
+      nn: 'Mediesamfunnet 2',
+    },
+    subjectId: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
+    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+    id: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-BUA Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+    id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
+  },
+  {
+    longName: {
+      en: 'Informasjonsteknologi Vg2',
+      nb: 'Informasjonsteknologi Vg2',
+      nn: 'Informasjonsteknologi Vg2',
+    },
+    name: {
+      en: 'Informasjonsteknologi Vg2',
+      nb: 'Informasjonsteknologi Vg2',
+      nn: 'Informasjonsteknologi Vg2',
+    },
+    subjectId: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
+      nb: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
+      nn: 'Yrkesfagleg fordjuping (HS-HEA Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
+    id: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
+  },
+  {
+    longName: {
+      en: 'Helsefremmende arbeid (HS-HEA Vg2)',
+      nb: 'Helsefremmende arbeid (HS-HEA Vg2)',
+      nn: 'Helsefremjande arbeid (HS-HEA Vg2)',
+    },
+    name: {
+      en: 'Helsefremmende arbeid',
+      nb: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
+    },
+    subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
+    id: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-HEA Vg2)',
+      nb: 'Kommunikasjon og samhandling (HS-HEA Vg2)',
+      nn: 'Kommunikasjon og samhandling (HS-HEA Vg2)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
+    id: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
+  },
+  {
+    longName: {
+      en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2)',
+      nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2)',
+      nn: 'Yrkesliv i helsearbeidarfag (HS-HEA Vg2)',
+    },
+    name: {
+      en: 'Yrkesliv i helsearbeiderfag',
+      nb: 'Yrkesliv i helsearbeiderfag',
+      nn: 'Yrkesliv i helsearbeidarfag',
+    },
+    subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
+    id: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
+  },
+
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (RM-KOS Vg2)',
+      nb: 'Yrkesfaglig fordypning (RM-KOS Vg2)',
+      nn: 'Yrkesfagleg fordjuping (RM-KOS Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
+    id: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
+  },
+  {
+    longName: {
+      en: 'Råvare, produksjon, salg og service (RM-KOS Vg2)',
+      nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2)',
+      nn: 'Råvare, produksjon, sal og service (RM-KOS Vg2)',
+    },
+    name: {
+      en: 'Råvare, produksjon, salg og service',
+      nb: 'Råvare, produksjon, salg og service',
+      nn: 'Råvare, produksjon, sal og service',
+    },
+    subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
+    id: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
+  },
+  {
+    longName: {
+      en: 'Bransje og arbeidsliv (RM-KOS Vg2)',
+      nb: 'Bransje og arbeidsliv (RM-KOS Vg2)',
+      nn: 'Bransje og arbeidsliv (RM-KOS Vg2)',
+    },
+    name: {
+      en: 'Bransje og arbeidsliv',
+      nb: 'Bransje og arbeidsliv',
+      nn: 'Bransje og arbeidsliv',
+    },
+    subjectId: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
+    id: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (SR-SSH Vg2)',
+      nb: 'Yrkesfaglig fordypning (SR-SSH Vg2)',
+      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
+    id: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
+  },
+  {
+    longName: {
+      en: 'Sikkerhet (SR-SSH Vg2)',
+      nb: 'Sikkerhet (SR-SSH Vg2)',
+      nn: 'Sikkerheit (SR-SSH Vg2)',
+    },
+    name: {
+      en: 'Sikkerhet',
+      nb: 'Sikkerhet',
+      nn: 'Sikkerheit',
+    },
+    subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
+    id: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
+  },
+  {
+    longName: {
+      en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2)',
+      nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2)',
+      nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2)',
+    },
+    name: {
+      en: 'Administrasjon og bærekraftig drift',
+      nb: 'Administrasjon og bærekraftig drift',
+      nn: 'Administrasjon og bærekraftig drift',
+    },
+    subjectId: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
+    id: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2)',
+      nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2)',
+      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2)',
+    },
+    name: {
+      en: 'Kommunikasjon og yrkesutøvelse',
+      nb: 'Kommunikasjon og yrkesutøvelse',
+      nn: 'Kommunikasjon og yrkesutøving',
+    },
+    subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
+    id: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
+      nb: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
+      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
+    id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
+  },
+  {
+    longName: {
+      en: 'Forretningsdrift (RS-SRL Vg2)',
+      nb: 'Forretningsdrift (RS-SRL Vg2)',
+      nn: 'Forretningsdrift (RS-SRL Vg2)',
+    },
+    name: {
+      en: 'Forretningsdrift',
+      nb: 'Forretningsdrift',
+      nn: 'Forretningsdrift',
+    },
+    subjectId: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
+    id: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
+  },
+  {
+    longName: {
+      en: 'Innovasjon og markedsføring (RS-SRL Vg2)',
+      nb: 'Innovasjon og markedsføring (RS-SRL Vg2)',
+      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2)',
+    },
+    name: {
+      en: 'Innovasjon og markedsføring',
+      nb: 'Innovasjon og markedsføring',
+      nn: 'Innovasjon og marknadsføring',
+    },
+    subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
+    id: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
+  },
+  {
+    longName: {
+      en: 'Kultur og kommunikasjon (RS-SRL Vg2)',
+      nb: 'Kultur og kommunikasjon (RS-SRL Vg2)',
+      nn: 'Kultur og kommunikasjon (RS-SRL Vg2)',
+    },
+    name: {
+      en: 'Kultur og kommunikasjon',
+      nb: 'Kultur og kommunikasjon',
+      nn: 'Kultur og kommunikasjon',
+    },
+    subjectId: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
+    id: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
+  },
+
   {
     name: {
       nb: 'Sikkerhet',
@@ -896,7 +1270,7 @@ export const programmeSubjects = [
       en: 'Sikkerhet (SS-SSS Vg2)',
     },
     subjectId: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
-    id: 'programme_subject_1',
+    id: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
   },
   {
     longName: {
@@ -910,7 +1284,7 @@ export const programmeSubjects = [
       nn: 'Økonomi og administrasjon',
     },
     subjectId: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
-    id: 'programme_subject_2',
+    id: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
   },
   {
     longName: {
@@ -924,7 +1298,7 @@ export const programmeSubjects = [
       nn: 'Marknadsføring og sal',
     },
     subjectId: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
-    id: 'programme_subject_3',
+    id: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
   },
   {
     longName: {
@@ -938,7 +1312,7 @@ export const programmeSubjects = [
       nn: 'Sal og marknadsføring',
     },
     subjectId: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
-    id: 'programme_subject_4',
+    id: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
   },
   {
     longName: {
@@ -952,7 +1326,7 @@ export const programmeSubjects = [
       nn: 'Etablering og drift',
     },
     subjectId: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
-    id: 'programme_subject_5',
+    id: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
   },
   {
     longName: {
@@ -966,120 +1340,9 @@ export const programmeSubjects = [
       nn: 'Vertskapsrolla',
     },
     subjectId: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
-    id: 'programme_subject_6',
+    id: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
   },
-  {
-    longName: {
-      en: 'Bransjeteknikk (SS-TRL Vg2)',
-      nb: 'Bransjeteknikk (SS-TRL Vg2)',
-      nn: 'Bransjeteknikk (SS-TRL Vg2)',
-    },
-    name: {
-      en: 'Bransjeteknikk',
-      nb: 'Bransjeteknikk',
-      nn: 'Bransjeteknikk',
-    },
-    subjectId: 'urn:subject:1:34ea30e7-3294-48c1-821b-b0d76ac77eba',
-    id: 'programme_subject_7',
-  },
-  {
-    longName: {
-      en: 'Transport og logistikk (SS-TRL Vg2)',
-      nb: 'Transport og logistikk (SS-TRL Vg2)',
-      nn: 'Transport og logistikk (SS-TRL Vg2)',
-    },
-    name: {
-      en: 'Transport og logistikk',
-      nb: 'Transport og logistikk',
-      nn: 'Transport og logistikk',
-    },
-    subjectId: 'urn:subject:1:d9900359-abd3-470f-99b2-809e58abd5d7',
-    id: 'programme_subject_8',
-  },
-  {
-    longName: {
-      en: 'Kosthold, ernæring og helse (RM Vg2)',
-      nb: 'Kosthold, ernæring og helse (RM Vg2)',
-      nn: 'Kosthold, ernæring og helse (RM Vg2)',
-    },
-    name: {
-      en: 'Kosthold, ernæring og helse',
-      nb: 'Kosthold, ernæring og helse',
-      nn: 'Kosthold, ernæring og helse',
-    },
-    subjectId: 'urn:subject:1:6f770e8e-7426-4b43-b1b1-9c12bbbcae43',
-    id: 'programme_subject_9',
-  },
-  {
-    longName: {
-      en: 'Råvarer og produksjon (RM Vg2)',
-      nb: 'Råvarer og produksjon (RM Vg2)',
-      nn: 'Råvarer og produksjon (RM Vg2)',
-    },
-    name: {
-      en: 'Råvarer og produksjon',
-      nb: 'Råvarer og produksjon',
-      nn: 'Råvarer og produksjon',
-    },
-    subjectId: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
-    id: 'programme_subject_10',
-  },
-  {
-    longName: {
-      en: 'Servering, bransje og miljø (RM Vg2)',
-      nb: 'Servering, bransje og miljø (RM Vg2)',
-      nn: 'Servering, bransje og miljø (RM Vg2))',
-    },
-    name: {
-      en: 'Servering, bransje og miljø',
-      nb: 'Servering, bransje og miljø',
-      nn: 'Servering, bransje og miljø',
-    },
-    subjectId: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
-    id: 'programme_subject_11',
-  },
-  {
-    longName: {
-      en: 'Helsefremmende arbeid (HS-HA Vg2)',
-      nb: 'Helsefremmende arbeid (HS-HA Vg2)',
-      nn: 'Helsefremjande arbeid (HS-HA Vg2)',
-    },
-    name: {
-      en: 'Helsefremmende arbeid',
-      nb: 'Helsefremmende arbeid',
-      nn: 'Helsefremjande arbeid',
-    },
-    subjectId: 'urn:subject:1:992c86f7-8cae-45ef-aab3-a40cdc5e99d9',
-    id: 'programme_subject_12',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-HA Vg2)',
-      nb: 'Kommunikasjon og samhandling (HS-HA Vg2)',
-      nn: 'Kommunikasjon og samhandling (HS-HA Vg2)',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling',
-      nb: 'Kommunikasjon og samhandling',
-      nn: 'Kommunikasjon og samhandling',
-    },
-    subjectId: 'urn:subject:1:be544090-ff77-4017-8c65-7840bf28ba22',
-    id: 'programme_subject_13',
-  },
-  {
-    longName: {
-      en: 'Yrkesutøvelse (HS-HA Vg2)',
-      nb: 'Yrkesutøvelse (HS-HA Vg2)',
-      nn: 'Yrkesutøving (HS-HA Vg2)',
-    },
-    name: {
-      en: 'Yrkesutøvelse',
-      nb: 'Yrkesutøvelse',
-      nn: 'Yrkesutøving',
-    },
-    subjectId: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
-    id: 'programme_subject_14',
-  },
+
   {
     longName: {
       en: 'Helsefremmende arbeid (HS Vg1)',
@@ -1092,7 +1355,7 @@ export const programmeSubjects = [
       nn: 'Helsefremjande arbeid',
     },
     subjectId: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
-    id: 'programme_subject_15',
+    id: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
   },
   {
     longName: {
@@ -1106,7 +1369,7 @@ export const programmeSubjects = [
       nn: 'Kommunikasjon og samhandling',
     },
     subjectId: 'urn:subject:1:777ae87e-ca79-4866-920a-115cfeb7bbe1',
-    id: 'programme_subject_16',
+    id: 'urn:subject:1:777ae87e-ca79-4866-920a-115cfeb7bbe1',
   },
   {
     longName: {
@@ -1120,7 +1383,7 @@ export const programmeSubjects = [
       nn: 'Yrkesliv i helse- og oppvekstfag',
     },
     subjectId: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
-    id: 'programme_subject_17',
+    id: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
   },
   {
     longName: {
@@ -1134,13 +1397,13 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
-    id: 'programme_subject_18',
+    id: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
   },
   {
     longName: {
       en: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
       nb: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
-      nn: 'Frisør, blomster, interiør og eksponeringsdesign Vg1',
+      nn: 'Frisør, blomar, interiør og eksponeringsdesign Vg1',
     },
     name: {
       en: 'Programfag FBIE',
@@ -1148,13 +1411,13 @@ export const programmeSubjects = [
       nn: 'Programfag FBIE',
     },
     subjectId: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-    id: 'programme_subject_21',
+    id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
   },
   {
     longName: {
       en: 'Håndverk, design og produktutvikling Vg1',
       nb: 'Håndverk, design og produktutvikling Vg1',
-      nn: 'Håndverk, design og produktutvikling Vg1',
+      nn: 'Handverk, design og produktutvikling Vg1',
     },
     name: {
       en: 'Programfag HDP',
@@ -1162,7 +1425,7 @@ export const programmeSubjects = [
       nn: 'Programfag HDP',
     },
     subjectId: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
-    id: 'programme_subject_24',
+    id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
   },
   {
     longName: {
@@ -1176,7 +1439,7 @@ export const programmeSubjects = [
       nn: 'Elektroniske krinsar og nettverk',
     },
     subjectId: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
-    id: 'programme_subject_25',
+    id: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
   },
   {
     longName: {
@@ -1190,7 +1453,7 @@ export const programmeSubjects = [
       nn: 'Energi- og styresystem',
     },
     subjectId: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
-    id: 'programme_subject_26',
+    id: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
   },
   {
     longName: {
@@ -1204,7 +1467,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
-    id: 'programme_subject_27',
+    id: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
   },
   {
     name: {
@@ -1218,7 +1481,7 @@ export const programmeSubjects = [
       en: 'Forretningsdrift (SR Vg1)',
     },
     subjectId: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
-    id: 'programme_subject_28',
+    id: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
   },
   {
     longName: {
@@ -1232,7 +1495,7 @@ export const programmeSubjects = [
       nn: 'Kultur og samhandling',
     },
     subjectId: 'urn:subject:1:be40ec3c-01ab-4e2e-af1a-a05fc85bcace',
-    id: 'programme_subject_29',
+    id: 'urn:subject:1:be40ec3c-01ab-4e2e-af1a-a05fc85bcace',
   },
   {
     longName: {
@@ -1246,7 +1509,7 @@ export const programmeSubjects = [
       nn: 'Marknadsføring og innovasjon',
     },
     subjectId: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
-    id: 'programme_subject_30',
+    id: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
   },
   {
     longName: {
@@ -1260,7 +1523,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
-    id: 'programme_subject_31',
+    id: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
   },
   {
     longName: {
@@ -1274,7 +1537,7 @@ export const programmeSubjects = [
       nn: 'Konseptutvikling og programmering',
     },
     subjectId: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
-    id: 'programme_subject_32',
+    id: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
   },
   {
     longName: {
@@ -1288,7 +1551,7 @@ export const programmeSubjects = [
       nn: 'Produksjon og historieforteljing',
     },
     subjectId: 'urn:subject:1:763fc674-6cef-46ac-8ffe-ea6d76d56dbd',
-    id: 'programme_subject_33',
+    id: 'urn:subject:1:763fc674-6cef-46ac-8ffe-ea6d76d56dbd',
   },
   {
     longName: {
@@ -1302,7 +1565,7 @@ export const programmeSubjects = [
       nn: 'Teknologiforståing',
     },
     subjectId: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
-    id: 'programme_subject_34',
+    id: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
   },
   {
     longName: {
@@ -1316,7 +1579,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
-    id: 'programme_subject_35',
+    id: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
   },
   {
     longName: {
@@ -1330,21 +1593,7 @@ export const programmeSubjects = [
       nn: 'Programfag Naturbruk',
     },
     subjectId: 'urn:subject:13',
-    id: 'programme_subject_37',
-  },
-  {
-    longName: {
-      en: 'Naturbruk Vg1 - YFF',
-      nb: 'Naturbruk Vg1 - YFF',
-      nn: 'Naturbruk Vg1 - YFF',
-    },
-    name: {
-      en: 'Naturbruk Vg1',
-      nb: 'Naturbruk Vg1',
-      nn: 'Naturbruk Vg1',
-    },
-    subjectId: 'urn:subject:1:d48cec4b-2e3c-4a0c-8da0-48147988154a',
-    id: 'programme_subject_38',
+    id: 'urn:subject:13',
   },
   {
     longName: {
@@ -1358,7 +1607,7 @@ export const programmeSubjects = [
       nn: 'Konstruksjons- og styringsteknikk',
     },
     subjectId: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
-    id: 'programme_subject_39',
+    id: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
   },
   {
     longName: {
@@ -1372,7 +1621,7 @@ export const programmeSubjects = [
       nn: 'Produksjon og tenester',
     },
     subjectId: 'urn:subject:1:84d4651b-fc52-4876-a066-f8567ecf79a6',
-    id: 'programme_subject_40',
+    id: 'urn:subject:1:84d4651b-fc52-4876-a066-f8567ecf79a6',
   },
   {
     longName: {
@@ -1386,7 +1635,7 @@ export const programmeSubjects = [
       nn: 'Produktivitet- og kvalitetsstyring',
     },
     subjectId: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
-    id: 'programme_subject_41',
+    id: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
   },
   {
     longName: {
@@ -1400,7 +1649,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     subjectId: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
-    id: 'programme_subject_42',
+    id: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
   },
   {
     longName: {
@@ -1414,7 +1663,7 @@ export const programmeSubjects = [
       nn: 'Arbeidsmiljø og dokumentasjon',
     },
     subjectId: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
-    id: 'programme_subject_43',
+    id: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
   },
   {
     longName: {
@@ -1428,7 +1677,7 @@ export const programmeSubjects = [
       nn: 'Praktisk yrkesutøving',
     },
     subjectId: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
-    id: 'programme_subject_44',
+    id: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
   },
   {
     longName: {
@@ -1442,7 +1691,7 @@ export const programmeSubjects = [
       nn: 'Bransje og arbeidsliv',
     },
     subjectId: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
-    id: 'programme_subject_46',
+    id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
   },
   {
     longName: {
@@ -1456,70 +1705,14 @@ export const programmeSubjects = [
       nn: 'Råvare, produksjon og kvalitet',
     },
     subjectId: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
-    id: 'programme_subject_47',
+    id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
   },
+
   {
     longName: {
-      en: 'Helsefremmende arbeid (HS-BU Vg2)',
-      nb: 'Helsefremmende arbeid (HS-BU Vg2)',
-      nn: 'Helsefremjande arbeid (HS-BU Vg2)',
-    },
-    name: {
-      en: 'Helsefremmende arbeid',
-      nb: 'Helsefremmende arbeid',
-      nn: 'Helsefremjande arbeid',
-    },
-    subjectId: 'urn:subject:1:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9',
-    id: 'programme_subject_49',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-BU Vg2)',
-      nb: 'Kommunikasjon og samhandling (HS-BU Vg2)',
-      nn: 'Kommunikasjon og samhandling (HS-BU Vg2)',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling',
-      nb: 'Kommunikasjon og samhandling',
-      nn: 'Kommunikasjon og samhandling',
-    },
-    subjectId: 'urn:subject:1:37e92c60-cca9-4b68-b2ee-a706f568756e',
-    id: 'programme_subject_50',
-  },
-  {
-    longName: {
-      en: 'Yrkesutøvelse (HS-BU Vg2)',
-      nb: 'Yrkesutøvelse (HS-BU Vg2)',
-      nn: 'Yrkesutøving (HS-BU Vg2)',
-    },
-    name: {
-      en: 'Yrkesutøvelse',
-      nb: 'Yrkesutøvelse',
-      nn: 'Yrkesutøving',
-    },
-    subjectId: 'urn:subject:1:8c230faa-c1b1-4c16-b47a-490d8d7247cf',
-    id: 'programme_subject_51',
-  },
-  {
-    longName: {
-      en: 'Brønnteknikk',
-      nb: 'Brønnteknikk',
-      nn: 'Brønnteknikk',
-    },
-    name: {
-      en: 'Brønnteknikk',
-      nb: 'Brønnteknikk',
-      nn: 'Brønnteknikk',
-    },
-    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    id: 'programme_subject_52',
-    hideOnFrontpage: true,
-  },
-  {
-    longName: {
-      en: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
-      nb: 'Komplettering, produksjon og brønnvedlikehold (TP Vg2)',
-      nn: 'Komplettering, produksjon og brønnvedlikehald (TP Vg2)',
+      en: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
+      nb: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (TP-BRT Vg2)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold',
@@ -1528,13 +1721,13 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182061',
-    id: 'programme_subject_53',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
   },
   {
     longName: {
-      en: 'HMS og kvalitet (TP Vg2)',
-      nb: 'HMS og kvalitet (TP Vg2)',
-      nn: 'HMS og kvalitet (TP Vg2)',
+      en: 'HMS og kvalitet (TP-BRT Vg2)',
+      nb: 'HMS og kvalitet (TP-BRT Vg2)',
+      nn: 'HMS og kvalitet (TP-BRT Vg2)',
     },
     name: {
       en: 'HMS og kvalitet',
@@ -1543,7 +1736,7 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182078',
-    id: 'programme_subject_54',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
   },
   {
     name: {
@@ -1557,7 +1750,7 @@ export const programmeSubjects = [
       en: 'Virksomhetsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
-    id: 'programme_subject_55',
+    id: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
   },
   {
     name: {
@@ -1571,7 +1764,7 @@ export const programmeSubjects = [
       en: 'Bruker- og driftsstøtte (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
-    id: 'programme_subject_56',
+    id: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
   },
   {
     name: {
@@ -1585,36 +1778,9 @@ export const programmeSubjects = [
       en: 'Drift og vedlikehold (SS-ISF Vg2)',
     },
     subjectId: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
-    id: 'programme_subject_57',
+    id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
   },
-  {
-    name: {
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-      en: 'Yrkesfaglig fordypning',
-    },
-    longName: {
-      nb: 'Yrkesfaglig fordypning (HS-BU Vg2)',
-      nn: 'Yrkesfagleg fordjuping (HS-BU Vg2)',
-      en: 'Yrkesfaglig fordypning (HS-BU Vg2)',
-    },
-    subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
-    id: 'programme_subject_58',
-  },
-  {
-    name: {
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-      en: 'Yrkesfaglig fordypning',
-    },
-    longName: {
-      nb: 'Yrkesfaglig fordypning (HS-HA Vg2)',
-      nn: 'Yrkesfagleg fordjuping (HS-HA Vg2)',
-      en: 'Yrkesfaglig fordypning (HS-HA Vg2)',
-    },
-    subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
-    id: 'programme_subject_59',
-  },
+
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
@@ -1627,27 +1793,13 @@ export const programmeSubjects = [
       en: 'Yrkesfaglig fordypning (SR-RE Vg2)',
     },
     subjectId: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
-    id: 'programme_subject_60',
-  },
-  {
-    name: {
-      nb: 'Markedsføring og ledelse 1',
-      nn: 'Marknadsføring og leiing 1',
-      en: 'Markedsføring og ledelse 1',
-    },
-    longName: {
-      nb: 'Markedsføring og ledelse 1',
-      nn: 'Marknadsføring og leiing 1',
-      en: 'Markedsføring og ledelse 1',
-    },
-    subjectId: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
-    id: 'programme_subject_61',
+    id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
   {
     longName: {
-      en: 'Leting og boring (TP Vg2)',
-      nb: 'Leting og boring (TP Vg2)',
-      nn: 'Leiting og boring (TP Vg2)',
+      en: 'Leting og boring (TP-BRT Vg2)',
+      nb: 'Leting og boring (TP-BRT Vg2)',
+      nn: 'Leiting og boring (TP-BRT Vg2)',
     },
     name: {
       en: 'Leting og boring',
@@ -1656,25 +1808,124 @@ export const programmeSubjects = [
     },
     subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
     topicId: 'urn:topic:2:182849',
-    id: 'programme_subject_62',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
   },
 ];
 
 export const studySpecializationSubjects = [
   {
-    name: {
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-      en: 'Biologi 1',
-    },
     longName: {
+      en: 'Matematikk R1',
+      nb: 'Matematikk R1',
+      nn: 'Matematikk R1',
+    },
+    name: {
+      en: 'Matematikk R1',
+      nb: 'Matematikk R1',
+      nn: 'Matematikk R1',
+    },
+    subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+    id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+  },
+  {
+    longName: {
+      en: 'Matematikk S1',
+      nb: 'Matematikk S1',
+      nn: 'Matematikk S1',
+    },
+    name: {
+      en: 'Matematikk S1',
+      nb: 'Matematikk S1',
+      nn: 'Matematikk S1',
+    },
+    subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+    id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 1',
+      nb: 'Kommunikasjon og kultur 1',
+      nn: 'Kommunikasjon og kultur 1',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 1',
+      nb: 'Kommunikasjon og kultur 1',
+      nn: 'Kommunikasjon og kultur 1',
+    },
+    subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
+    id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
+  },
+  {
+    longName: {
+      en: 'Biologi 1',
       nb: 'Biologi 1',
       nn: 'Biologi 1',
-      en: 'Biologi 1',
     },
-    subjectId: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
-    id: 'study_specialization_subject_1',
+    name: {
+      en: 'Biologi 1',
+      nb: 'Biologi 1',
+      nn: 'Biologi 1',
+    },
+    subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
+  {
+    longName: {
+      en: 'Norsk SF Vg2',
+      nb: 'Norsk SF Vg2',
+      nn: 'Norsk SF Vg2',
+    },
+    name: {
+      en: 'Norsk SF Vg2',
+      nb: 'Norsk SF Vg2',
+      nn: 'Norsk SF Vg2',
+    },
+    subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+    id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+  },
+  {
+    longName: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    name: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
+    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
+  },
+  {
+    longName: {
+      en: 'Sosiologi og sosialantropologi',
+      nb: 'Sosiologi og sosialantropologi',
+      nn: 'Sosiologi og sosialantropologi',
+    },
+    name: {
+      en: 'Sosiologi og sosialantropologi',
+      nb: 'Sosiologi og sosialantropologi',
+      nn: 'Sosiologi og sosialantropologi',
+    },
+    subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
+    id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
+  },
+  {
+    longName: {
+      en: 'Markedsføring og ledelse 1',
+      nb: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
+    },
+    name: {
+      en: 'Markedsføring og ledelse 1',
+      nb: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
+    },
+    subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+    id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+  },
+
   {
     longName: {
       en: 'Kinesisk 1',
@@ -1687,7 +1938,7 @@ export const studySpecializationSubjects = [
       nn: 'Kinesisk 1',
     },
     subjectId: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-    id: 'study_specialization_subject_2',
+    id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
   },
   {
     longName: {
@@ -1701,7 +1952,7 @@ export const studySpecializationSubjects = [
       nn: 'Kinesisk 2',
     },
     subjectId: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
-    id: 'study_specialization_subject_3',
+    id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
   },
   {
     longName: {
@@ -1715,7 +1966,7 @@ export const studySpecializationSubjects = [
       nn: 'Engelskspråkleg litteratur og kultur',
     },
     subjectId: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-    id: 'study_specialization_subject_4',
+    id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
   },
   {
     longName: {
@@ -1729,7 +1980,7 @@ export const studySpecializationSubjects = [
       nn: 'Internasjonal engelsk',
     },
     subjectId: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
-    id: 'study_specialization_subject_5',
+    id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
   {
     longName: {
@@ -1743,7 +1994,7 @@ export const studySpecializationSubjects = [
       nn: 'Samfunnsfagleg engelsk',
     },
     subjectId: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
-    id: 'study_specialization_subject_6',
+    id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
   },
   {
     longName: {
@@ -1757,7 +2008,7 @@ export const studySpecializationSubjects = [
       nn: 'Tysk 1',
     },
     subjectId: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
-    id: 'study_specialization_subject_7',
+    id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
   },
   {
     longName: {
@@ -1771,21 +2022,7 @@ export const studySpecializationSubjects = [
       nn: 'Tysk 2',
     },
     subjectId: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-    id: 'study_specialization_subject_8',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og kultur 1',
-      nb: 'Kommunikasjon og kultur 1',
-      nn: 'Kommunikasjon og kultur 1',
-    },
-    name: {
-      en: 'Kommunikasjon og kultur 1',
-      nb: 'Kommunikasjon og kultur 1',
-      nn: 'Kommunikasjon og kultur 1',
-    },
-    subjectId: 'urn:subject:1:18569f4e-5901-472a-96a0-b06c09b201fb',
-    id: 'study_specialization_subject_9',
+    id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
   },
   {
     longName: {
@@ -1799,7 +2036,7 @@ export const studySpecializationSubjects = [
       nn: 'Kommunikasjon og kultur 2',
     },
     subjectId: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
-    id: 'study_specialization_subject_10',
+    id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
   },
   {
     longName: {
@@ -1813,63 +2050,21 @@ export const studySpecializationSubjects = [
       nn: 'Kommunikasjon og kultur 3',
     },
     subjectId: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
-    id: 'study_specialization_subject_11',
+    id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
   },
   {
     longName: {
-      en: 'Sosiologi og sosialantropologi (SF VG2)',
-      nb: 'Sosiologi og sosialantropologi (SF VG2)',
-      nn: 'Sosiologi og sosialantropologi (SF VG2)',
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
     },
     name: {
-      en: 'Sosiologi og sosialantropologi',
-      nb: 'Sosiologi og sosialantropologi',
-      nn: 'Sosiologi og sosialantropologi',
-    },
-    subjectId: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
-    id: 'study_specialization_subject_13',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap - 1',
-      nb: 'Medie- og informasjonskunnskap - 1',
-      nn: 'Medie- og informasjonskunnskap - 1',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap - 1',
-      nb: 'Medie- og informasjonskunnskap - 1',
-      nn: 'Medie- og informasjonskunnskap - 1',
-    },
-    subjectId: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
-    id: 'study_specialization_subject_14',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap - 2',
-      nb: 'Medie- og informasjonskunnskap - 2',
-      nn: 'Medie- og informasjonskunnskap - 2',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap - 2',
-      nb: 'Medie- og informasjonskunnskap - 2',
-      nn: 'Medie- og informasjonskunnskap - 2',
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
     },
     subjectId: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
-    id: 'study_specialization_subject_15',
-  },
-  {
-    longName: {
-      en: 'Matematikk R1',
-      nb: 'Matematikk R1',
-      nn: 'Matematikk R1',
-    },
-    name: {
-      en: 'Matematikk R1',
-      nb: 'Matematikk R1',
-      nn: 'Matematikk R1',
-    },
-    subjectId: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
-    id: 'study_specialization_subject_16',
+    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
   },
   {
     longName: {
@@ -1883,21 +2078,7 @@ export const studySpecializationSubjects = [
       nn: 'Matematikk R2',
     },
     subjectId: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
-    id: 'study_specialization_subject_17',
-  },
-  {
-    longName: {
-      en: 'Matematikk S1',
-      nb: 'Matematikk S1',
-      nn: 'Matematikk S1',
-    },
-    name: {
-      en: 'Matematikk S1',
-      nb: 'Matematikk S1',
-      nn: 'Matematikk S1',
-    },
-    subjectId: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
-    id: 'study_specialization_subject_18',
+    id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
   },
   {
     longName: {
@@ -1911,35 +2092,35 @@ export const studySpecializationSubjects = [
       nn: 'Matematikk S2',
     },
     subjectId: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
-    id: 'study_specialization_subject_19',
+    id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
   },
   {
     longName: {
-      en: 'Medieuttrykk Vg1',
-      nb: 'Medieuttrykk Vg1',
-      nn: 'Medieuttrykk Vg1',
+      en: 'Medieuttrykk 1',
+      nb: 'Medieuttrykk 1',
+      nn: 'Medieuttrykk 1',
     },
     name: {
-      en: 'Medieuttrykk Vg1',
-      nb: 'Medieuttrykk Vg1',
-      nn: 'Medieuttrykk Vg1',
+      en: 'Medieuttrykk 1',
+      nb: 'Medieuttrykk 1',
+      nn: 'Medieuttrykk 1',
     },
     subjectId: 'urn:subject:1:090997c4-78d3-4a79-93ad-178d465cdba3',
-    id: 'study_specialization_subject_20',
+    id: 'urn:subject:1:090997c4-78d3-4a79-93ad-178d465cdba3',
   },
   {
     longName: {
-      en: 'Mediesamfunnet Vg1',
-      nb: 'Mediesamfunnet Vg1',
-      nn: 'Mediesamfunnet Vg1',
+      en: 'Mediesamfunnet 1',
+      nb: 'Mediesamfunnet 1',
+      nn: 'Mediesamfunnet 1',
     },
     name: {
-      en: 'Mediesamfunnet Vg1',
-      nb: 'Mediesamfunnet Vg1',
-      nn: 'Mediesamfunnet Vg1',
+      en: 'Mediesamfunnet 1',
+      nb: 'Mediesamfunnet 1',
+      nn: 'Mediesamfunnet 1',
     },
     subjectId: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
-    id: 'study_specialization_subject_21',
+    id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
   },
   {
     longName: {
@@ -1953,7 +2134,7 @@ export const studySpecializationSubjects = [
       nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
     },
     subjectId: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
-    id: 'study_specialization_subject_22',
+    id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
   },
 ];
 
@@ -1965,7 +2146,7 @@ export const multidisciplinarySubjects = [
       en: 'Folkehelse og livsmestring',
     },
     topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
-    id: 'multidisciplinary_subject_1',
+    id: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
   },
   {
     name: {
@@ -1974,7 +2155,7 @@ export const multidisciplinarySubjects = [
       en: 'Demokrati og medborgerskap',
     },
     topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
-    id: 'multidisciplinary_subject_2',
+    id: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
   },
   {
     name: {
@@ -1983,11 +2164,345 @@ export const multidisciplinarySubjects = [
       en: 'Bærekraftig utvikling',
     },
     topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
-    id: 'multidisciplinary_subject_3',
+    id: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
   },
 ];
 
 export const archivedSubjects = [
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (PB Vg3) (LK06)',
+      nn: 'Norsk (PB Vg3) (LK06)',
+      en: 'Norsk (PB Vg3) (LK06)',
+    },
+    subjectId: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+    id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+  },
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (SF Vg3) (LK06)',
+      nn: 'Norsk (SF Vg3) (LK06)',
+      en: 'Norsk (SF Vg3) (LK06)',
+    },
+    subjectId: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+  },
+
+  {
+    longName: {
+      en: 'Transport og logistikk (SS-TRL Vg2) (LK06)',
+      nb: 'Transport og logistikk (SS-TRL Vg2) (LK06)',
+      nn: 'Transport og logistikk (SS-TRL Vg2) (LK06)',
+    },
+    name: {
+      en: 'Transport og logistikk',
+      nb: 'Transport og logistikk',
+      nn: 'Transport og logistikk',
+    },
+    subjectId: 'urn:subject:1:d9900359-abd3-470f-99b2-809e58abd5d7',
+    id: 'urn:subject:1:d9900359-abd3-470f-99b2-809e58abd5d7',
+  },
+  {
+    longName: {
+      en: 'Bransjeteknikk (SS-TRL Vg2) (LK06)',
+      nb: 'Bransjeteknikk (SS-TRL Vg2) (LK06)',
+      nn: 'Bransjeteknikk (SS-TRL Vg2) (LK06)',
+    },
+    name: {
+      en: 'Bransjeteknikk',
+      nb: 'Bransjeteknikk',
+      nn: 'Bransjeteknikk',
+    },
+    subjectId: 'urn:subject:1:34ea30e7-3294-48c1-821b-b0d76ac77eba',
+    id: 'urn:subject:1:34ea30e7-3294-48c1-821b-b0d76ac77eba',
+  },
+  {
+    longName: {
+      en: 'Sosiologi og sosialantropologi (SF VG2) (LK06)',
+      nb: 'Sosiologi og sosialantropologi (SF VG2) (LK06)',
+      nn: 'Sosiologi og sosialantropologi (SF VG2) (LK06)',
+    },
+    name: {
+      en: 'Sosiologi og sosialantropologi',
+      nb: 'Sosiologi og sosialantropologi',
+      nn: 'Sosiologi og sosialantropologi',
+    },
+    subjectId: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
+    id: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
+  },
+
+  {
+    longName: {
+      en: 'Matematikk 2P (LK06)',
+      nb: 'Matematikk 2P (LK06)',
+      nn: 'Matematikk 2P (LK06)',
+    },
+    name: {
+      en: 'Matematikk 2P',
+      nb: 'Matematikk 2P',
+      nn: 'Matematikk 2P',
+    },
+    subjectId: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
+    id: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
+  },
+
+  {
+    longName: {
+      en: 'Matematikk R1 (LK06)',
+      nb: 'Matematikk R1 (LK06)',
+      nn: 'Matematikk R1 (LK06)',
+    },
+    name: {
+      en: 'Matematikk R1',
+      nb: 'Matematikk R1',
+      nn: 'Matematikk R1',
+    },
+    subjectId: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
+    id: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
+  },
+
+  {
+    longName: {
+      en: 'Matematikk S1 (LK06)',
+      nb: 'Matematikk S1 (LK06)',
+      nn: 'Matematikk S1 (LK06)',
+    },
+    name: {
+      en: 'Matematikk S1',
+      nb: 'Matematikk S1',
+      nn: 'Matematikk S1',
+    },
+    subjectId: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
+    id: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
+  },
+
+  {
+    name: {
+      nb: 'Norsk',
+      nn: 'Norsk',
+      en: 'Norsk',
+    },
+    longName: {
+      nb: 'Norsk (YF Vg2) (LK06)',
+      nn: 'Norsk (YF Vg2) (LK06)',
+      en: 'Norsk (YF Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+    id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
+  },
+
+  {
+    name: {
+      nb: 'Samfunnsfag',
+      nn: 'Samfunnsfag',
+      en: 'Samfunnsfag',
+    },
+    longName: {
+      nb: 'Samfunnsfag (Vg2) (LK06)',
+      nn: 'Samfunnsfag (Vg2) (LK06)',
+      en: 'Samfunnsfag (Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:19dae192-699d-488f-8218-d81535ce3ae3',
+    id: 'urn:subject:1:19dae192-699d-488f-8218-d81535ce3ae3',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 1 (LK06)',
+      nb: 'Medie- og informasjonskunnskap 1 (LK06)',
+      nn: 'Medie- og informasjonskunnskap 1 (LK06)',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    subjectId: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
+    id: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
+  },
+
+  {
+    name: {
+      nb: 'Markedsføring og ledelse 1',
+      nn: 'Marknadsføring og leiing 1',
+      en: 'Markedsføring og ledelse 1',
+    },
+    longName: {
+      nb: 'Markedsføring og ledelse 1 (LK06)',
+      nn: 'Marknadsføring og leiing 1 (LK06)',
+      en: 'Markedsføring og ledelse 1 (LK06)',
+    },
+    subjectId: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
+    id: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
+  },
+
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 1 (LK06)',
+      nb: 'Kommunikasjon og kultur 1 (LK06)',
+      nn: 'Kommunikasjon og kultur 1 (LK06)',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 1',
+      nb: 'Kommunikasjon og kultur 1',
+      nn: 'Kommunikasjon og kultur 1',
+    },
+    subjectId: 'urn:subject:1:18569f4e-5901-472a-96a0-b06c09b201fb',
+    id: 'urn:subject:1:18569f4e-5901-472a-96a0-b06c09b201fb',
+  },
+  {
+    longName: {
+      en: 'Servering, bransje og miljø (RM Vg2) (LK06)',
+      nb: 'Servering, bransje og miljø (RM Vg2) (LK06)',
+      nn: 'Servering, bransje og miljø (RM Vg2) (LK06)',
+    },
+    name: {
+      en: 'Servering, bransje og miljø',
+      nb: 'Servering, bransje og miljø',
+      nn: 'Servering, bransje og miljø',
+    },
+    subjectId: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
+    id: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
+  },
+
+  {
+    longName: {
+      en: 'Råvarer og produksjon (RM Vg2) (LK06)',
+      nb: 'Råvarer og produksjon (RM Vg2) (LK06)',
+      nn: 'Råvarer og produksjon (RM Vg2) (LK06)',
+    },
+    name: {
+      en: 'Råvarer og produksjon',
+      nb: 'Råvarer og produksjon',
+      nn: 'Råvarer og produksjon',
+    },
+    subjectId: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
+    id: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
+  },
+
+  {
+    longName: {
+      en: 'Kosthold, ernæring og helse (RM Vg2) (LK06)',
+      nb: 'Kosthold, ernæring og helse (RM Vg2) (LK06)',
+      nn: 'Kosthold, ernæring og helse (RM Vg2) (LK06)',
+    },
+    name: {
+      en: 'Kosthold, ernæring og helse',
+      nb: 'Kosthold, ernæring og helse',
+      nn: 'Kosthold, ernæring og helse',
+    },
+    subjectId: 'urn:subject:1:6f770e8e-7426-4b43-b1b1-9c12bbbcae43',
+    id: 'urn:subject:1:6f770e8e-7426-4b43-b1b1-9c12bbbcae43',
+  },
+  {
+    longName: {
+      en: 'Yrkesutøvelse (HS-HA Vg2) (LK06)',
+      nb: 'Yrkesutøvelse (HS-HA Vg2) (LK06)',
+      nn: 'Yrkesutøving (HS-HA Vg2) (LK06)',
+    },
+    name: {
+      en: 'Yrkesutøvelse',
+      nb: 'Yrkesutøvelse',
+      nn: 'Yrkesutøving',
+    },
+    subjectId: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
+    id: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
+  },
+
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-HA Vg2) (LK06)',
+      nb: 'Kommunikasjon og samhandling (HS-HA Vg2) (LK06)',
+      nn: 'Kommunikasjon og samhandling (HS-HA Vg2) (LK06)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:be544090-ff77-4017-8c65-7840bf28ba22',
+    id: 'urn:subject:1:be544090-ff77-4017-8c65-7840bf28ba22',
+  },
+  {
+    longName: {
+      en: 'Helsefremmende arbeid (HS-HA Vg2) (LK06)',
+      nb: 'Helsefremmende arbeid (HS-HA Vg2) (LK06)',
+      nn: 'Helsefremjande arbeid (HS-HA Vg2) (LK06)',
+    },
+    name: {
+      en: 'Helsefremmende arbeid',
+      nb: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
+    },
+    subjectId: 'urn:subject:1:992c86f7-8cae-45ef-aab3-a40cdc5e99d9',
+    id: 'urn:subject:1:992c86f7-8cae-45ef-aab3-a40cdc5e99d9',
+  },
+  {
+    longName: {
+      en: 'Brønnteknikk (LK06)',
+      nb: 'Brønnteknikk (LK06)',
+      nn: 'Brønnteknikk (LK06)',
+    },
+    name: {
+      en: 'Brønnteknikk',
+      nb: 'Brønnteknikk',
+      nn: 'Brønnteknikk',
+    },
+    subjectId: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    hideOnFrontpage: true,
+  },
+  {
+    longName: {
+      en: 'Yrkesutøvelse (HS-BU Vg2) (LK06)',
+      nb: 'Yrkesutøvelse (HS-BU Vg2) (LK06)',
+      nn: 'Yrkesutøving (HS-BU Vg2) (LK06)',
+    },
+    name: {
+      en: 'Yrkesutøvelse',
+      nb: 'Yrkesutøvelse',
+      nn: 'Yrkesutøving',
+    },
+    subjectId: 'urn:subject:1:8c230faa-c1b1-4c16-b47a-490d8d7247cf',
+    id: 'urn:subject:1:8c230faa-c1b1-4c16-b47a-490d8d7247cf',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og samhandling (HS-BU Vg2) (LK06)',
+      nb: 'Kommunikasjon og samhandling (HS-BU Vg2) (LK06)',
+      nn: 'Kommunikasjon og samhandling (HS-BU Vg2) (LK06)',
+    },
+    name: {
+      en: 'Kommunikasjon og samhandling',
+      nb: 'Kommunikasjon og samhandling',
+      nn: 'Kommunikasjon og samhandling',
+    },
+    subjectId: 'urn:subject:1:37e92c60-cca9-4b68-b2ee-a706f568756e',
+    id: 'urn:subject:1:37e92c60-cca9-4b68-b2ee-a706f568756e',
+  },
+  {
+    longName: {
+      en: 'Helsefremmende arbeid (HS-BU Vg2) (LK06)',
+      nb: 'Helsefremmende arbeid (HS-BU Vg2)(LK06)',
+      nn: 'Helsefremjande arbeid (HS-BU Vg2)(LK06)',
+    },
+    name: {
+      en: 'Helsefremmende arbeid',
+      nb: 'Helsefremmende arbeid',
+      nn: 'Helsefremjande arbeid',
+    },
+    subjectId: 'urn:subject:1:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9',
+    id: 'urn:subject:1:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9',
+  },
   {
     longName: {
       en: 'Matematikk 1P (LK06)',
@@ -2114,485 +2629,134 @@ export const archivedSubjects = [
     subjectId: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
     id: 'archived_subject_9',
   },
+  {
+    name: {
+      nb: 'Biologi 1 (LK06)',
+      nn: 'Biologi 1 (LK06)',
+      en: 'Biologi 1 (LK06)',
+    },
+    longName: {
+      nb: 'Biologi 1 (LK06)',
+      nn: 'Biologi 1 (LK06)',
+      en: 'Biologi 1 (LK06)',
+    },
+    subjectId: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
+    id: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
+  },
+  {
+    name: {
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+      en: 'Yrkesfaglig fordypning',
+    },
+    longName: {
+      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (HS-BUA Vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
+    id: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
+  },
+  {
+    name: {
+      nb: 'Yrkesfaglig fordypning (LK06)',
+      nn: 'Yrkesfagleg fordjuping (LK06)',
+      en: 'Yrkesfaglig fordypning (LK06)',
+    },
+    longName: {
+      nb: 'Yrkesfaglig fordypning (HS-HA Vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (HS-HA Vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (HS-HA Vg2) (LK06)',
+    },
+    subjectId: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
+    id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
+  },
 ];
 
 export const betaSubjects = [
   {
     longName: {
-      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
+      en: 'Medie- og informasjonskunnskap MIK1 - BETA',
+      nb: 'Medie- og informasjonskunnskap MIK1 - BETA',
+      nn: 'Medie- og informasjonskunnskap MIK1 - BETA',
     },
     name: {
-      en: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nb: 'Informasjonsteknologi Vg2 - 2021 BETA',
-      nn: 'Informasjonsteknologi Vg2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
-    id: 'beta_subject_1',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-HEA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:9c50184f-6e9c-4229-a328-c7490b6dad37',
-    id: 'beta_subject_2',
-  },
-  {
-    longName: {
-      en: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Helsefremmende arbeid (HS-HEA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:1b7155ae-9670-4972-b438-fd1375875ac1',
-    id: 'beta_subject_3',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-HEA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:18fa6a42-a5d2-44d9-bf47-e772a83d82f4',
-    id: 'beta_subject_4',
-  },
-  {
-    longName: {
-      en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i helsearbeiderfag (HS-HEA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:f644f829-4e7a-4e74-a63a-342ef786f68a',
-    id: 'beta_subject_5',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-    id: 'beta_subject_6',
-  },
-  {
-    longName: {
-      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Pedagogisk arbeid (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
-    id: 'beta_subject_7',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og samhandling (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:793027a5-0b4c-42c1-a2aa-840aaf9f8083',
-    id: 'beta_subject_8',
-  },
-  {
-    longName: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-      nn: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:03e810db-3560-47b5-a5f6-e7afe1d0a2d6',
-    id: 'beta_subject_9',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Yrkesfaglig fordjuping (RM-KOS Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:485b4813-89ff-4404-b9dc-f37c22d48de5',
-    id: 'beta_subject_10',
-  },
-  {
-    longName: {
-      en: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Råvare, produksjon, salg og service (RM-KOS Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:9e515764-0ce6-49d5-8ecd-1cde8b08a33f',
-    id: 'beta_subject_11',
-  },
-  {
-    longName: {
-      en: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-      nb: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-      nn: 'Bransje og arbeidsliv (RM-KOS Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:09410bfa-5b0d-470b-8727-5006e711bc1f',
-    id: 'beta_subject_12',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
-      nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
-      nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
-      nb: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
-      nn: 'Medie- og informasjonskunnskap MIK1 - 2021 BETA',
+      en: 'Medie- og informasjonskunnskap 1 - BETA',
+      nb: 'Medie- og informasjonskunnskap 1 - BETA',
+      nn: 'Medie- og informasjonskunnskap 1 - BETA',
     },
     subjectId: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-    id: 'beta_subject_13',
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
-      en: 'Historie Vg2 - 2021 BETA',
-      nb: 'Historie Vg2 - 2021 BETA',
-      nn: 'Historie Vg2 - 2021 BETA',
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
     },
     name: {
-      en: 'Historie Vg2 - 2021 BETA',
-      nb: 'Historie Vg2 - 2021 BETA',
-      nn: 'Historie Vg2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
-    id: 'beta_subject_14',
-  },
-  {
-    longName: {
-      en: 'Sosiologi og sosialantropologi - 2021 BETA',
-      nb: 'Sosiologi og sosialantropologi - 2021 BETA',
-      nn: 'Sosiologi og sosialantropologi - 2021 BETA',
-    },
-    name: {
-      en: 'Sosiologi og sosialantropologi - 2021 BETA',
-      nb: 'Sosiologi og sosialantropologi - 2021 BETA',
-      nn: 'Sosiologi og sosialantropologi - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
-    id: 'beta_subject_15',
-  },
-  {
-    longName: {
-      en: 'Markedsføring og ledelse 1 - 2021 BETA',
-      nb: 'Markedsføring og ledelse 1 - 2021 BETA',
-      nn: 'Markedsføring og ledelse 1 - 2021 BETA',
-    },
-    name: {
-      en: 'Markedsføring og ledelse 1 - 2021 BETA',
-      nb: 'Markedsføring og ledelse 1 - 2021 BETA',
-      nn: 'Markedsføring og ledelse 1 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
-    id: 'beta_subject_16',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Yrkesfagleg fordjuping (SR-SSH Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:af71d86b-3464-4f35-a704-b21ebd556863',
-    id: 'beta_subject_17',
-  },
-  {
-    longName: {
-      en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Sikkerhet (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Sikkerheit (SR-SSH Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:14fadc31-9799-4e46-ae3b-8294957e4d26',
-    id: 'beta_subject_18',
-  },
-  {
-    longName: {
-      en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Administrasjon og bærekraftig drift (SR-SSH Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
-    id: 'beta_subject_19',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nb: 'Kommunikasjon og yrkesutøvelse (SR-SSH Vg2) - 2021 BETA',
-      nn: 'Kommunikasjon og yrkesutøving (SR-SSH Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
-    id: 'beta_subject_20',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Yrkesfaglig fordypning (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Yrkesfagleg fordjuping (RS-SRL Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-    id: 'beta_subject_21',
-  },
-  {
-    longName: {
-      en: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Forretningsdrift (RS-SRL Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:59a988c6-4020-4e70-8329-4de68a19b6fe',
-    id: 'beta_subject_22',
-  },
-  {
-    longName: {
-      en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Innovasjon og markedsføring (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Innovasjon og marknadsføring (RS-SRL Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
-    id: 'beta_subject_23',
-  },
-  {
-    longName: {
-      en: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-    },
-    name: {
-      en: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-      nb: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-      nn: 'Kultur og kommunikasjon (RS-SRL Vg2) - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
-    id: 'beta_subject_24',
-  },
-  {
-    longName: {
-      en: 'Norsk SF Vg2 - 2021 BETA',
-      nb: 'Norsk SF Vg2 - 2021 BETA',
-      nn: 'Norsk SF Vg2 - 2021 BETA',
-    },
-    name: {
-      en: 'Norsk SF Vg2 - 2021 BETA',
-      nb: 'Norsk SF Vg2 - 2021 BETA',
-      nn: 'Norsk SF Vg2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
-    id: 'beta_subject_25',
-  },
-  {
-    longName: {
-      en: 'Norsk YF Vg2 - 2021 BETA',
-      nb: 'Norsk YF Vg2 - 2021 BETA',
-      nn: 'Norsk YF Vg2 - 2021 BETA',
-    },
-    name: {
-      en: 'Norsk YF Vg2 - 2021 BETA',
-      nb: 'Norsk YF Vg2 - 2021 BETA',
-      nn: 'Norsk YF Vg2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
-    id: 'beta_subject_26',
-  },
-
-  {
-    longName: {
-      en: 'Matematikk 2P -  2021 BETA',
-      nb: 'Matematikk 2P -  2021 BETA',
-      nn: 'Matematikk 2P -  2021 BETA',
-    },
-    name: {
-      en: 'Matematikk 2P -  2021 BETA',
-      nb: 'Matematikk 2P -  2021 BETA',
-      nn: 'Matematikk 2P -  2021 BETA',
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
     },
     subjectId: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
-    id: 'beta_subject_27',
+    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
   },
   {
     longName: {
-      en: 'Matematikk R1 - 2021 BETA',
-      nb: 'Matematikk R1 - 2021 BETA',
-      nn: 'Matematikk R1 - 2021 BETA',
+      en: 'Reiseliv og språk 1 - BETA',
+      nb: 'Reiseliv og språk 1 - BETA',
+      nn: 'Reiseliv og språk 1 - BETA',
     },
     name: {
-      en: 'Matematikk R1 - 2021 BETA',
-      nb: 'Matematikk R1 - 2021 BETA',
-      nn: 'Matematikk R1 - 2021 BETA',
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
     },
-    subjectId: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
-    id: 'beta_subject_28',
+    subjectId: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+    id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
   },
   {
     longName: {
-      en: 'Matematikk S1 - 2021 BETA',
-      nb: 'Matematikk S1 - 2021 BETA',
-      nn: 'Matematikk S1 - 2021 BETA',
+      en: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
+      nb: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
+      nn: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Matematikk S1 - 2021 BETA',
-      nb: 'Matematikk S1 - 2021 BETA',
-      nn: 'Matematikk S1 - 2021 BETA',
+      en: 'Design og visualisering',
+      nb: 'Design og visualisering',
+      nn: 'Design og visualisering',
     },
-    subjectId: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
-    id: 'beta_subject_29',
+    subjectId: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
+    id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur - 2021 BETA',
-      nb: 'Kommunikasjon og kultur - 2021 BETA',
-      nn: 'Kommunikasjon og kultur - 2021 BETA',
+      en: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
+      nb: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
+      nn: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Kommunikasjon og kultur - 2021 BETA',
-      nb: 'Kommunikasjon og kultur - 2021 BETA',
-      nn: 'Kommunikasjon og kultur - 2021 BETA',
+      en: 'Konseptutvikling og kommunikasjon',
+      nb: 'Konseptutvikling og kommunikasjon',
+      nn: 'Konseptutvikling og kommunikasjon',
     },
-    subjectId: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
-    id: 'beta_subject_30',
+    subjectId: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
+    id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
   },
   {
     longName: {
-      en: 'Biologi 1 - 2021 BETA',
-      nb: 'Biologi 1 - 2021 BETA',
-      nn: 'Biologi 1 - 2021 BETA',
+      en: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
+      nb: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
+      nn: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Biologi 1 - 2021 BETA',
-      nb: 'Biologi 1 - 2021 BETA',
-      nn: 'Biologi 1 - 2021 BETA',
+      en: 'Teknologi og produksjon',
+      nb: 'Teknologi og produksjon',
+      nn: 'Teknologi og produksjon',
     },
-    subjectId: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-    id: 'beta_subject_31',
-  },
-  {
-    longName: {
-      en: 'Medieuttrykk 2 - 2021 BETA',
-      nb: 'Medieuttrykk 2 - 2021 BETA',
-      nn: 'Medieuttrykk 2 - 2021 BETA',
-    },
-    name: {
-      en: 'Medieuttrykk 2 - 2021 BETA',
-      nb: 'Medieuttrykk 2 - 2021 BETA',
-      nn: 'Medieuttrykk 2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
-    id: 'beta_subject_32',
-  },
-  {
-    longName: {
-      en: 'Mediesamfunnet 2 - 2021 BETA',
-      nb: 'Mediesamfunnet 2 - 2021 BETA',
-      nn: 'Mediesamfunnet 2 - 2021 BETA',
-    },
-    name: {
-      en: 'Mediesamfunnet 2 - 2021 BETA',
-      nb: 'Mediesamfunnet 2 - 2021 BETA',
-      nn: 'Mediesamfunnet 2 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-    id: 'beta_subject_33',
-  },
-  {
-    longName: {
-      en: 'Engelsk 1 - 2021 BETA',
-      nb: 'Engelsk 1 - 2021 BETA',
-      nn: 'Engelsk 1 - 2021 BETA',
-    },
-    name: {
-      en: 'Engelsk 1 - 2021 BETA',
-      nb: 'Engelsk 1 - 2021 BETA',
-      nn: 'Engelsk 1 - 2021 BETA',
-    },
-    subjectId: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
-    id: 'beta_subject_34',
+    subjectId: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
+    id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
   },
 ];
 
@@ -2623,9 +2787,9 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'LK06 fag',
-      nn: 'LK06 fag',
-      en: 'LK06 subjects',
+      nb: 'LK06-fag',
+      nn: 'LK06-fag',
+      en: 'LK06-subjects',
     },
     subjects: archivedSubjects,
   },
