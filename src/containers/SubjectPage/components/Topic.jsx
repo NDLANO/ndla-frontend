@@ -52,7 +52,7 @@ const Topic = ({
   }, [topicId]);
 
   const topic = data.topic;
-  const topicPath = topic.path
+  const topicPath = topic?.path
     .split('/')
     .slice(2)
     .map(id => `urn:${id}`);
