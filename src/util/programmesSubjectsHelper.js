@@ -19,7 +19,7 @@ const sortBy = (arr, sortByProp = 'name') =>
   });
 
 export const createSubjectUrl = subject => {
-  let baseUrl = `${toSubject(subject.subjectId)}/`;
+  let baseUrl = `${toSubject(subject.id)}/`;
   if (subject.topicId) {
     baseUrl = `${baseUrl}${removeUrn(subject.topicId)}/`;
   }
