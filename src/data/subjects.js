@@ -2515,7 +2515,7 @@ export const archivedSubjects = [
       nn: 'Matematikk 1P (LK06)',
     },
     subjectId: 'urn:subject:1:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa',
-    id: 'archived_subject_1',
+    id: 'urn:subject:1:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa',
   },
   {
     longName: {
@@ -2529,7 +2529,7 @@ export const archivedSubjects = [
       nn: 'Matematikk 1P-Y (LK06)',
     },
     subjectId: 'urn:subject:1:04ad8a02-856c-417c-8a58-d2f293bf788d',
-    id: 'archived_subject_2',
+    id: 'urn:subject:1:04ad8a02-856c-417c-8a58-d2f293bf788d',
   },
   {
     longName: {
@@ -2543,7 +2543,7 @@ export const archivedSubjects = [
       nn: 'Matematikk 1T-Y (LK06)',
     },
     subjectId: 'urn:subject:1:ffe90e5e-d2c0-4def-8af3-07d9356a44dc',
-    id: 'archived_subject_3',
+    id: 'urn:subject:1:ffe90e5e-d2c0-4def-8af3-07d9356a44dc',
   },
   {
     longName: {
@@ -2557,7 +2557,7 @@ export const archivedSubjects = [
       nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
     },
     subjectId: 'urn:subject:1:b8a448f0-e251-41ea-af1c-b2fd62a89828',
-    id: 'archived_subject_4',
+    id: 'urn:subject:1:b8a448f0-e251-41ea-af1c-b2fd62a89828',
   },
   {
     longName: {
@@ -2571,7 +2571,7 @@ export const archivedSubjects = [
       nn: 'Matematikk 1T (LK06)',
     },
     subjectId: 'urn:subject:1:fe0ba9d0-e040-4aa8-91ae-a9a85f89e6a1',
-    id: 'archived_subject_5',
+    id: 'urn:subject:1:fe0ba9d0-e040-4aa8-91ae-a9a85f89e6a1',
   },
   {
     longName: {
@@ -2585,7 +2585,7 @@ export const archivedSubjects = [
       nn: 'Naturfag Påbygg - PB VG3',
     },
     subjectId: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-    id: 'archived_subject_6',
+    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
   },
   {
     longName: {
@@ -2599,7 +2599,7 @@ export const archivedSubjects = [
       nn: 'Naturfag YF Vg1 (LK06)',
     },
     subjectId: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
-    id: 'archived_subject_7',
+    id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     longName: {
@@ -2613,7 +2613,7 @@ export const archivedSubjects = [
       nn: 'Engelsk SF Vg1 (LK06)',
     },
     subjectId: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
-    id: 'archived_subject_8',
+    id: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
   },
   {
     longName: {
@@ -2627,7 +2627,7 @@ export const archivedSubjects = [
       nn: 'Naturfag Påbygg - YF VG1 2006',
     },
     subjectId: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
-    id: 'archived_subject_9',
+    id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     name: {
