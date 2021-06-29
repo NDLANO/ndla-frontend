@@ -39,7 +39,8 @@ const getClient = (redirect_uri: string) =>
 export const getRedirectUrl = (req: Request) => {
   const code_verifier = generators.codeVerifier();
   const code_challenge = generators.codeChallenge(code_verifier);
-  const redirect_uri_login = `${req.protocol}://${req.hostname}:${config.port}/login/success`;
+  const port = req.protocol === 'http' ? `:${config.port}` : '';
+  const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
 
   return getClient(redirect_uri_login)
     .then(client =>
@@ -56,7 +57,8 @@ export const getRedirectUrl = (req: Request) => {
 };
 
 export const getFeideToken = (req: Request) => {
-  const redirect_uri_login = `${req.protocol}://${req.hostname}:${config.port}/login/success`;
+  const port = req.protocol === 'http' ? `:${config.port}` : '';
+  const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
   return getClient(redirect_uri_login).then(client => {
     const params = client.callbackParams(req);
     const verifier = req.headers.cookie
@@ -70,7 +72,8 @@ export const getFeideToken = (req: Request) => {
 };
 
 export const feideLogout = (req: Request) => {
-  const redirect_uri_logout = `${req.protocol}://${req.hostname}:${config.port}/logout/session`;
+  const port = req.protocol === 'http' ? `:${config.port}` : '';
+  const redirect_uri_logout = `${req.protocol}://${req.hostname}${port}/logout/session`;
   return getClient(redirect_uri_logout).then(client =>
     client.endSessionUrl({
       id_token_hint: req.query.id_token_hint?.toString(),
