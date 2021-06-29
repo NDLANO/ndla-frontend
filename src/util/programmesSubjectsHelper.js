@@ -36,9 +36,11 @@ export const getCategorizedSubjects = locale => {
       if (subject.hideOnFrontpage) {
         return null;
       }
+      const path = createSubjectUrl(subject);
       return {
         name: subject.longName[locale],
-        url: createSubjectUrl(subject),
+        url: path,
+        path,
       };
     });
 
@@ -51,9 +53,12 @@ export const getCategorizedSubjects = locale => {
 
 export const getProgrammes = locale => {
   const programmesData = programmes.map(program => {
+    const path = createProgrammeUrl(program, locale);
     return {
       label: program.name[locale],
-      url: createProgrammeUrl(program, locale),
+      name: program.name[locale],
+      url: path,
+      path,
     };
   });
   return sortBy(programmesData, 'label');
