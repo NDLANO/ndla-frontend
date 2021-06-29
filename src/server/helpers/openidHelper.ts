@@ -23,21 +23,15 @@ const OPENID_DOMAIN =
 const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientID);
 const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecret);
 
-const LOGOUT_REDIRECT_URI = `${config.feideDomain}/logout/session`;
-const LOGIN_REDIRECT_URI = `${config.feideDomain}/login/success`;
-
-console.log(config.feideDomain);
-console.log(LOGIN_REDIRECT_URI);
-
 const getIssuer = async () => await Issuer.discover(OPENID_DOMAIN);
 
-const getClient = () =>
+const getClient = (redirect_uri: string) =>
   getIssuer().then(
     issuer =>
       new issuer.Client({
         client_id: FEIDE_CLIENT_ID,
         client_secret: FEIDE_CLIENT_SECRET,
-        redirect_uris: [LOGIN_REDIRECT_URI],
+        redirect_uris: [redirect_uri],
         response_types: ['code'],
       }),
   );
@@ -45,8 +39,9 @@ const getClient = () =>
 export const getRedirectUrl = (req: Request) => {
   const code_verifier = generators.codeVerifier();
   const code_challenge = generators.codeChallenge(code_verifier);
+  const redirect_uri_login = `${req.protocol}://${req.hostname}:${config.port}/login/success`;
 
-  return getClient()
+  return getClient(redirect_uri_login)
     .then(client =>
       client.authorizationUrl({
         scope:
@@ -61,23 +56,25 @@ export const getRedirectUrl = (req: Request) => {
 };
 
 export const getFeideToken = (req: Request) => {
-  return getClient().then(client => {
+  const redirect_uri_login = `${req.protocol}://${req.hostname}:${config.port}/login/success`;
+  return getClient(redirect_uri_login).then(client => {
     const params = client.callbackParams(req);
     const verifier = req.headers.cookie
       ?.split(';')
       .filter(cookie => cookie.includes('PKCE_code'))[0]
       ?.split('=')[1];
-    return client.callback(LOGIN_REDIRECT_URI, params, {
+    return client.callback(redirect_uri_login, params, {
       code_verifier: verifier,
     });
   });
 };
 
 export const feideLogout = (req: Request) => {
-  return getClient().then(client =>
+  const redirect_uri_logout = `${req.protocol}://${req.hostname}:${config.port}/logout/session`;
+  return getClient(redirect_uri_logout).then(client =>
     client.endSessionUrl({
       id_token_hint: req.query.id_token_hint?.toString(),
-      post_logout_redirect_uri: LOGOUT_REDIRECT_URI,
+      post_logout_redirect_uri: redirect_uri_logout,
       state: req.query.state?.toString(),
     }),
   );

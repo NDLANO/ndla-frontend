@@ -89,11 +89,6 @@ const WelcomePage = ({ t, locale, history, location }) => {
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
-      {authenticated ? (
-        <a href="/logout">LOGOUT</a>
-      ) : (
-        <a href="/login">LOGIN</a>
-      )}
       <SocialMediaMetadata
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
@@ -105,6 +100,19 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
+        {authenticated ? (
+          <a
+            href="/logout"
+            onClick={() => localStorage.setItem('lastPath', location.pathname)}>
+            LOGOUT
+          </a>
+        ) : (
+          <a
+            href="/login"
+            onClick={() => localStorage.setItem('lastPath', location.pathname)}>
+            LOGIN
+          </a>
+        )}
         <WelcomePageSearch history={history} locale={locale} />
       </FrontpageHeader>
       <main>

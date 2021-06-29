@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Masthead,
@@ -30,6 +30,7 @@ import {
   getCategorizedSubjects,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const MastheadContainer = ({
   infoContent,
@@ -44,6 +45,7 @@ const MastheadContainer = ({
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
   const [state, setState] = useState({});
+  const { authenticated, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
     updateData();
@@ -149,6 +151,27 @@ const MastheadContainer = ({
             </DisplayOnPageYOffset>
           )}
         </MastheadItem>
+        {authContextLoaded && (
+          <>
+            {authenticated ? (
+              <a
+                href="/logout"
+                onClick={() =>
+                  localStorage.setItem('lastPath', location.pathname)
+                }>
+                LOGOUT
+              </a>
+            ) : (
+              <a
+                href="/login"
+                onClick={() =>
+                  localStorage.setItem('lastPath', location.pathname)
+                }>
+                LOGIN
+              </a>
+            )}{' '}
+          </>
+        )}
         <MastheadItem right>
           <LanguageSelector
             inverted={ndlaFilm}
