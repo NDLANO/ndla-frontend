@@ -13,7 +13,10 @@ import { Redirect, withRouter } from 'react-router-dom';
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics, subjectspageRedirectQuery } from '../../queries';
+import {
+  subjectPageQueryWithTopics,
+  subjectspageRedirectQuery,
+} from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -39,7 +42,9 @@ const SubjectPage = ({
     },
   });
 
-  const {loading: loadingSubjects, data: subjects} = useGraphQuery(subjectspageRedirectQuery);
+  const { loading: loadingSubjects, data: subjects } = useGraphQuery(
+    subjectspageRedirectQuery,
+  );
 
   if (loading || loadingSubjects) {
     return null;
@@ -56,13 +61,17 @@ const SubjectPage = ({
     }
     return <MovedTopicPage topics={alternateTopics} />;
   }
-  
+
   if (!data.subject) {
-    const redirect = subjects.subjects.find((sub) => sub.metadata.customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId);
-    if(!redirect) {
+    const redirect = subjects.subjects.find(
+      sub =>
+        sub.metadata.customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] ===
+        subjectId,
+    );
+    if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Redirect to={redirect.path} />
+      return <Redirect to={redirect.path} />;
     }
   }
 
