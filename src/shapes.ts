@@ -53,9 +53,15 @@ export const ArticleResultShape = PropTypes.shape({
   contentType: PropTypes.string.isRequired,
 });
 
+export const TaxonomyMetadataShape = PropTypes.shape({
+  customFields: PropTypes.object,
+});
+
 export const SubjectShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  metadata: TaxonomyMetadataShape,
 });
 
 export const LearningpathStepShape = PropTypes.shape({
@@ -135,10 +141,6 @@ export const ResourceShape = PropTypes.shape({
   relevanceId: PropTypes.string,
   rank: PropTypes.number,
   article: ArticleShape,
-});
-
-export const TaxonomyMetadataShape = PropTypes.shape({
-  customFields: PropTypes.object,
 });
 
 export const TopicShape = PropTypes.shape({
@@ -283,6 +285,7 @@ export const SubjectCategoryShape = PropTypes.shape({
   subjects: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }),
   ),
@@ -290,6 +293,8 @@ export const SubjectCategoryShape = PropTypes.shape({
 
 export const ProgrammeShape = PropTypes.shape({
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 });
 
