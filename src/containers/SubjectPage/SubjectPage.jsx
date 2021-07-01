@@ -13,7 +13,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics } from '../../queries';
+import { subjectPageQueryWithTopics, subjectspageRedirectQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -38,7 +38,9 @@ const SubjectPage = ({
     },
   });
 
-  if (loading) {
+  const {loading: loadingSubjects, data: subjects} = useGraphQuery(subjectspageRedirectQuery);
+
+  if (loading || loadingSubjects) {
     return null;
   }
 
@@ -53,9 +55,14 @@ const SubjectPage = ({
     }
     return <MovedTopicPage topics={alternateTopics} />;
   }
-
+  
   if (!data.subject) {
-    return <NotFoundPage />;
+    const redirect = subjects.subjects.find((sub) => sub.metadata.customFields["old-subject-id"] === subjectId);
+    if(!redirect) {
+      return <NotFoundPage />;
+    } else {
+      return <Redirect to={redirect.path} />
+    }
   }
 
   // Pre-select topic if only one topic in subject

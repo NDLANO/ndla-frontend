@@ -346,6 +346,18 @@ export const subjectInfoFragment = gql`
   }
 `;
 
+export const subjectspageRedirectQuery = gql`
+  query subjectspageRedirectQuery {
+    subjects {
+      ...SubjectInfo
+      metadata {
+        customFields
+      }
+    }
+  }
+  ${subjectInfoFragment}
+`;
+
 export const resourceInfoFragment = gql`
   fragment ResourceInfo on Resource {
     id
