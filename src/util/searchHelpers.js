@@ -8,7 +8,7 @@ import {
 import { removeUrn } from '../routeHelpers';
 
 const createSubjectPath = subject => {
-  return `/${removeUrn(subject.subjectId)}/`;
+  return `/${removeUrn(subject.id)}/`;
 };
 
 const categories = {

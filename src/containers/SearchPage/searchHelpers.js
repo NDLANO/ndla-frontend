@@ -163,9 +163,8 @@ export const convertProgramSearchParams = (values, locale) => {
       programme.grades.forEach(grade =>
         grade.categories.forEach(category => {
           category.subjects.forEach(subject => {
-            const { subjectId } = getSubjectById(subject.id);
-            if (!subjectParams.includes(subjectId))
-              subjectParams.push(subjectId);
+            const { id } = getSubjectById(subject.id);
+            if (!subjectParams.includes(id)) subjectParams.push(id);
           });
         }),
       );
