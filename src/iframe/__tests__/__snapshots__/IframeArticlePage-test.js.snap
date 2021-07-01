@@ -263,9 +263,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <div
             className="emotion-10 emotion-11"
           >
-            Artikkelen
+            Ressursen
              
-            er utarbeidet av
+            er hentet fra
              
             <a
               className="emotion-8 emotion-9"
