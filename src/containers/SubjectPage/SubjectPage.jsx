@@ -15,7 +15,6 @@ import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import {
   subjectPageQueryWithTopics,
-  subjectspageRedirectQuery,
 } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -42,11 +41,7 @@ const SubjectPage = ({
     },
   });
 
-  const { loading: loadingSubjects, data: subjects } = useGraphQuery(
-    subjectspageRedirectQuery,
-  );
-
-  if (loading || loadingSubjects) {
+  if (loading) {
     return null;
   }
 
@@ -63,7 +58,7 @@ const SubjectPage = ({
   }
 
   if (!data.subject) {
-    const redirect = subjects.subjects.find(
+    const redirect = data.subjects.subjects.find(
       sub =>
         sub.metadata.customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] ===
         subjectId,

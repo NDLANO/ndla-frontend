@@ -346,18 +346,6 @@ export const subjectInfoFragment = gql`
   }
 `;
 
-export const subjectspageRedirectQuery = gql`
-  query subjectspageRedirectQuery {
-    subjects {
-      ...SubjectInfo
-      metadata {
-        customFields
-      }
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
 export const resourceInfoFragment = gql`
   fragment ResourceInfo on Resource {
     id
@@ -617,10 +605,17 @@ export const subjectPageQueryWithTopics = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+      metadata {
+        customFields
+      }
+    }
   }
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
