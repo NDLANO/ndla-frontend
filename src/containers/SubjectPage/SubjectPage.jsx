@@ -18,6 +18,7 @@ import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
+import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 
 const SubjectPage = ({
   match,
@@ -57,7 +58,7 @@ const SubjectPage = ({
   }
   
   if (!data.subject) {
-    const redirect = subjects.subjects.find((sub) => sub.metadata.customFields["old-subject-id"] === subjectId);
+    const redirect = subjects.subjects.find((sub) => sub.metadata.customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId);
     if(!redirect) {
       return <NotFoundPage />;
     } else {
