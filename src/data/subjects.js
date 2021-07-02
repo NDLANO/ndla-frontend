@@ -786,34 +786,6 @@ export const commonSubjects = [
 export const programmeSubjects = [
   {
     longName: {
-      en: 'Bransjelære (SS-TRL Vg2)',
-      nb: 'Bransjelære (SS-TRL Vg2)',
-      nn: 'Bransjelære (SS-TRL Vg2)',
-    },
-    name: {
-      en: 'Bransjelære',
-      nb: 'Bransjelære',
-      nn: 'Bransjelære',
-    },
-    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
-  },
-
-  {
-    longName: {
-      en: 'Bransjeteknikk (SS-TRL Vg2)',
-      nb: 'Bransjeteknikk (SS-TRL Vg2)',
-      nn: 'Bransjeteknikk (SS-TRL Vg2)',
-    },
-    name: {
-      en: 'Bransjeteknikk',
-      nb: 'Bransjeteknikk',
-      nn: 'Bransjeteknikk',
-    },
-    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
-  },
-
-  {
-    longName: {
       en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
       nb: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA Vg2)',
       nn: 'Yrkesliv i barne- og ungdomsarbeidarfag (HS-BUA Vg2)',
@@ -838,75 +810,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:56ea35da-73d9-431f-a451-19f24f564f59',
   },
-  {
-    longName: {
-      en: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
-      nb: 'Transport, logistikk og løfteoperasjoner (SS-TRL VG2)',
-      nn: 'Transport, logistikk og løfteoperasjonar (SS-TRL VG2)',
-    },
-    name: {
-      en: 'Transport, logistikk og løfteoperasjoner',
-      nb: 'Transport, logistikk og løfteoperasjoner',
-      nn: 'Transport, logistikk og løfteoperasjonar',
-    },
-    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-  },
-
-  {
-    longName: {
-      en: 'Komplettering og brønnservice (TP-BRT Vg2)',
-      nb: 'Komplettering og brønnservice (TP-BRT Vg2)',
-      nn: 'Komplettering og brønnservice (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Komplettering og brønnservice',
-      nb: 'Komplettering og brønnservice',
-      nn: 'Komplettering og brønnservice',
-    },
-    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-  },
-  {
-    longName: {
-      en: 'Prosedyrer og praksis (TP-BRT Vg2)',
-      nb: 'Prosedyrer og praksis (TP-BRT Vg2)',
-      nn: 'Prosedyrar og praksis (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Prosedyrer og praksis',
-      nb: 'Prosedyrer og praksis',
-      nn: 'Prosedyrar og praksis',
-    },
-    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
-  },
-
-  {
-    longName: {
-      en: 'Boring (TP-BRT Vg2)',
-      nb: 'Boring (TP-BRT Vg2)',
-      nn: 'Boring (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Boring',
-      nb: 'Boring',
-      nn: 'Boring',
-    },
-    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-  },
-
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
-      nb: 'Yrkesfaglig fordypning (TP-BRT Vg2)',
-      nn: 'Yrkesfagleg fordjuping (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
-    },
-    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
-  },
-
   {
     longName: {
       en: 'Medieuttrykk 2',
@@ -1587,34 +1490,6 @@ export const programmeSubjects = [
     id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
   },
   {
-    longName: {
-      en: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
-      nb: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2)',
-      nn: 'Komplettering, produksjon og brønnvedlikehald (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Komplettering, produksjon og brønnvedlikehold',
-      nb: 'Komplettering, produksjon og brønnvedlikehold',
-      nn: 'Komplettering, produksjon og brønnvedlikehald',
-    },
-    topicId: 'urn:topic:2:182061',
-    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-  },
-  {
-    longName: {
-      en: 'HMS og kvalitet (TP-BRT Vg2)',
-      nb: 'HMS og kvalitet (TP-BRT Vg2)',
-      nn: 'HMS og kvalitet (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'HMS og kvalitet',
-      nb: 'HMS og kvalitet',
-      nn: 'HMS og kvalitet',
-    },
-    topicId: 'urn:topic:2:182078',
-    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-  },
-  {
     name: {
       nb: 'Virksomhetsstøtte',
       nn: 'Verksemdsstøtte',
@@ -1666,20 +1541,6 @@ export const programmeSubjects = [
       en: 'Yrkesfaglig fordypning (SR-RE Vg2)',
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
-  },
-  {
-    longName: {
-      en: 'Leting og boring (TP-BRT Vg2)',
-      nb: 'Leting og boring (TP-BRT Vg2)',
-      nn: 'Leiting og boring (TP-BRT Vg2)',
-    },
-    name: {
-      en: 'Leting og boring',
-      nb: 'Leting og boring',
-      nn: 'Leiting og boring',
-    },
-    topicId: 'urn:topic:2:182849',
-    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
   },
 ];
 
@@ -2247,20 +2108,6 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Brønnteknikk (LK06)',
-      nb: 'Brønnteknikk (LK06)',
-      nn: 'Brønnteknikk (LK06)',
-    },
-    name: {
-      en: 'Brønnteknikk',
-      nb: 'Brønnteknikk',
-      nn: 'Brønnteknikk',
-    },
-    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
-    hideOnFrontpage: true,
-  },
-  {
-    longName: {
       en: 'Yrkesutøvelse (HS-BU Vg2) (LK06)',
       nb: 'Yrkesutøvelse (HS-BU Vg2) (LK06)',
       nn: 'Yrkesutøving (HS-BU Vg2) (LK06)',
@@ -2454,9 +2301,104 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
   },
+  {
+    longName: {
+      en: 'Brønnteknikk (LK06)',
+      nb: 'Brønnteknikk (LK06)',
+      nn: 'Brønnteknikk (LK06)',
+    },
+    name: {
+      en: 'Brønnteknikk',
+      nb: 'Brønnteknikk',
+      nn: 'Brønnteknikk',
+    },
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    hideOnFrontpage: true,
+  },
+  {
+    longName: {
+      en: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2) (LK06)',
+      nb: 'Komplettering, produksjon og brønnvedlikehold (TP-BRT Vg2) (LK06)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (TP-BRT Vg2) (LK06)',
+    },
+    name: {
+      en: 'Komplettering, produksjon og brønnvedlikehold',
+      nb: 'Komplettering, produksjon og brønnvedlikehold',
+      nn: 'Komplettering, produksjon og brønnvedlikehald',
+    },
+    topicId: 'urn:topic:2:182061',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+  },
+  {
+    longName: {
+      en: 'Leting og boring (TP-BRT Vg2) (LK06)',
+      nb: 'Leting og boring (TP-BRT Vg2) (LK06)',
+      nn: 'Leiting og boring (TP-BRT Vg2) (LK06)',
+    },
+    name: {
+      en: 'Leting og boring',
+      nb: 'Leting og boring',
+      nn: 'Leiting og boring',
+    },
+    topicId: 'urn:topic:2:182849',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+  },
+  {
+    longName: {
+      en: 'HMS og kvalitet (TP-BRT Vg2) (LK06)',
+      nb: 'HMS og kvalitet (TP-BRT Vg2) (LK06)',
+      nn: 'HMS og kvalitet (TP-BRT Vg2) (LK06)',
+    },
+    name: {
+      en: 'HMS og kvalitet',
+      nb: 'HMS og kvalitet',
+      nn: 'HMS og kvalitet',
+    },
+    topicId: 'urn:topic:2:182078',
+    id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+  },
 ];
 
 export const betaSubjects = [
+  {
+    longName: {
+      en: 'Bransjelære (TP-TRL Vg2) - BETA',
+      nb: 'Bransjelære (TP-TRL Vg2) - BETA',
+      nn: 'Bransjelære (TP-TRL Vg2) - BETA',
+    },
+    name: {
+      en: 'Bransjelære',
+      nb: 'Bransjelære',
+      nn: 'Bransjelære',
+    },
+    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
+  },
+  {
+    longName: {
+      en: 'Bransjeteknikk (TP-TRL Vg2) - BETA',
+      nb: 'Bransjeteknikk (TP-TRL Vg2) - BETA',
+      nn: 'Bransjeteknikk (TP-TRL Vg2) - BETA',
+    },
+    name: {
+      en: 'Bransjeteknikk',
+      nb: 'Bransjeteknikk',
+      nn: 'Bransjeteknikk',
+    },
+    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
+  },
+  {
+    longName: {
+      en: 'Transport, logistikk og løfteoperasjoner (TP-TRL VG2) - BETA',
+      nb: 'Transport, logistikk og løfteoperasjoner (TP-TRL VG2) - BETA',
+      nn: 'Transport, logistikk og løfteoperasjonar (TP-TRL VG2) - BETA',
+    },
+    name: {
+      en: 'Transport, logistikk og løfteoperasjoner',
+      nb: 'Transport, logistikk og løfteoperasjoner',
+      nn: 'Transport, logistikk og løfteoperasjonar',
+    },
+    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+  },
   {
     longName: {
       en: 'Medie- og informasjonskunnskap MIK1 - BETA',
@@ -2534,6 +2476,58 @@ export const betaSubjects = [
       nn: 'Teknologi og produksjon',
     },
     id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
+  },
+  {
+    longName: {
+      en: 'Boring (TP-BRT Vg2) - BETA',
+      nb: 'Boring (TP-BRT Vg2) - BETA',
+      nn: 'Boring (TP-BRT Vg2) - BETA',
+    },
+    name: {
+      en: 'Boring',
+      nb: 'Boring',
+      nn: 'Boring',
+    },
+    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+  },
+  {
+    longName: {
+      en: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
+      nb: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
+      nn: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
+    },
+    name: {
+      en: 'Komplettering og brønnservice',
+      nb: 'Komplettering og brønnservice',
+      nn: 'Komplettering og brønnservice',
+    },
+    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+  },
+  {
+    longName: {
+      en: 'Prosedyrer og praksis (TP-BRT Vg2) - BETA',
+      nb: 'Prosedyrer og praksis (TP-BRT Vg2) - BETA',
+      nn: 'Prosedyrar og praksis (TP-BRT Vg2) - BETA',
+    },
+    name: {
+      en: 'Prosedyrer og praksis',
+      nb: 'Prosedyrer og praksis',
+      nn: 'Prosedyrar og praksis',
+    },
+    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (TP-BRT Vg2) - BETA',
+      nb: 'Yrkesfaglig fordypning (TP-BRT Vg2) - BETA',
+      nn: 'Yrkesfagleg fordjuping (TP-BRT Vg2) - BETA',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
   },
 ];
 
