@@ -7,38 +7,45 @@
  */
 
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import {
-  OneColumn,
-  NavigationHeading,
-  Breadcrumblist,
-  SubjectBanner,
-  LayoutItem,
-} from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+// @ts-ignore
+import { OneColumn, SubjectBanner, LayoutItem } from '@ndla/ui';
+import { NavigationHeading, Breadcrumblist } from '@ndla/ui';
+
+import { injectT, tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
 
-import { LocationShape } from '../../shapes';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router';
+import { BreadcrumbItemProps } from '@ndla/ui';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
-import { GraphQLSubjectShape } from '../../graphqlShapes';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
+import { LocaleType } from '../../interfaces';
+import { GQLSubject, GQLTopic } from '../../graphqlTypes';
 
-const getDocumentTitle = ({ t, data }) => {
-  return htmlTitle(data?.subject?.name, [t('htmlTitles.titleTemplate')]);
-};
+type Props = {
+  locale: LocaleType;
+  skipToContentId?: string;
+  subjectId: string;
+  topics: string[];
+  data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
+  ndlaFilm?: boolean;
+  loading?: boolean;
+} & tType &
+  RouteComponentProps;
+
+type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
 const SubjectContainer = ({
   history,
-  location,
   locale,
   skipToContentId,
   t,
@@ -46,16 +53,19 @@ const SubjectContainer = ({
   topics,
   data,
   ndlaFilm,
-}) => {
-  const { subject = {} } = data;
+}: Props) => {
+  const { subject } = data;
   const { name: subjectName } = subject;
 
-  const subjectpage = subject.subjectpage || {};
+  const metaDescription = subject.subjectpage?.metaDescription;
+  const about = subject.subjectpage?.about;
+  const editorsChoices = subject.subjectpage?.editorsChoices;
+  const layout = subject.subjectpage?.layout;
 
-  const { editorsChoices, layout, about, metaDescription } = subjectpage;
-
-  const [currentLevel, setCurrentLevel] = useState(0);
-  const [breadCrumbList, setBreadCrumbList] = useState([]);
+  const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
+    0,
+  );
+  const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
 
   /* const [programme] = useState(() => {
     const programmeData = {
@@ -86,7 +96,7 @@ const SubjectContainer = ({
     };
   });
 
-  const breadCrumbs = [
+  const breadCrumbs: BreadcrumbItem[] = [
     /*{
       id: subject.id,
       label: programme.name,
@@ -104,45 +114,55 @@ const SubjectContainer = ({
       ? breadCrumbList.map(crumb => ({
           ...crumb,
           isCurrent: currentLevel === crumb.index,
-          typename: crumb.index > 0 ? 'Subtopic' : 'Topic',
+          typename:
+            (crumb.index ?? 0) > 0
+              ? 'Subtopic'
+              : ('Topic' as BreadcrumbItem['typename']),
           url: '#',
         }))
       : []),
   ];
 
-  const setBreadCrumb = topic => {
+  const setBreadCrumb = (topic: BreadcrumbItem) => {
     setCurrentLevel(topic.index);
-    setBreadCrumbList(prevState => [
-      ...prevState.filter(
-        b =>
-          b.id.localeCompare(topic.id) !== 0 &&
-          (b.typename === 'Subjecttype' ||
-            b.typename === 'Subject' ||
-            topics.includes(b.id)),
-      ),
+    setBreadCrumbList(prevCrumbs => [
+      ...prevCrumbs.filter(crumb => {
+        return (
+          crumb.id.toString().localeCompare(topic.id.toString()) !== 0 &&
+          (crumb.typename === 'Subjecttype' ||
+            crumb.typename === 'Subject' ||
+            topics?.includes(crumb.id.toString()))
+        );
+      }),
       topic,
     ]);
   };
 
-  const headerRef = useRef(null);
-  const refs = topics.map(_ => React.createRef());
+  const headerRef = useRef<HTMLDivElement>(null);
+  const topicRefs = topics.map(_ => React.createRef<HTMLElement>());
 
-  const handleNav = (e, item) => {
+  const handleNav = (
+    e: React.MouseEvent<HTMLElement>,
+    item: BreadcrumbItem,
+  ) => {
     e.preventDefault();
     const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
       setCurrentLevel(typename);
       scrollToRef(headerRef);
     } else {
-      setCurrentLevel(index);
-      scrollToRef(refs[index]);
+      if (index) {
+        setCurrentLevel(index);
+        const refToScroll = topicRefs[index];
+        if (refToScroll) scrollToRef(refToScroll);
+      }
     }
   };
 
-  const onClickTopics = e => {
+  const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const path = parseAndMatchUrl(e.currentTarget.href, true);
-    history.replace({ pathname: path.url });
+    const path = parseAndMatchUrl(e.currentTarget?.href, true);
+    history.replace({ pathname: path?.url });
   };
 
   // show/hide breadcrumb based on intersection
@@ -151,19 +171,20 @@ const SubjectContainer = ({
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
-  const moveBannerUp = !topics.length;
+  const moveBannerUp = !topics?.length;
 
-  const topicPath = topics.map(t =>
+  const topicPath = topics?.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
 
   const socialMediaMetadata = {
     title: topicPath?.[topicPath.length - 1]?.name || about?.title,
     description:
-      topicPath?.[topicPath.length - 1]?.meta.metaDescription ||
-      metaDescription,
+      topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
+      subject.subjectpage?.metaDescription,
     image:
-      topicPath?.[topicPath.length - 1]?.meta.metaImage || about?.visualElement,
+      topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
+      about?.visualElement,
   };
 
   return (
@@ -204,29 +225,29 @@ const SubjectContainer = ({
               layout={layout}
               locale={locale}
               subjectId={subjectId}
-              subjectpage={subjectpage}
+              subjectpage={subject.subjectpage}
               subject={subject}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
               topics={topics}
-              refs={refs}
+              refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
             />
           </LayoutItem>
         </OneColumn>
       </div>
-      {subjectpage.banner && (
+      {subject.subjectpage?.banner && (
         <SubjectBanner
-          image={subjectpage.banner.desktopUrl}
+          image={subject.subjectpage?.banner.desktopUrl}
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subjectpage.about && (
+      {false && subject.subjectpage?.about && (
         <OneColumn wide>
-          <SubjectPageInformation subjectpage={subjectpage} wide />
+          <SubjectPageInformation subjectpage={subject.subjectpage} wide />
         </OneColumn>
       )}
-      {false && editorsChoices?.length > 0 && (
+      {false && (editorsChoices?.length ?? 0) > 0 && (
         <SubjectEditorChoices
           wideScreen
           editorsChoices={editorsChoices}
@@ -245,16 +266,25 @@ const SubjectContainer = ({
   );
 };
 
-SubjectContainer.getDocumentTitle = getDocumentTitle;
+SubjectContainer.getDocumentTitle = ({ t, data }: Props): string => {
+  return htmlTitle(data?.subject?.name, [t('htmlTitles.titleTemplate')]);
+};
 
-SubjectContainer.willTrackPageView = (trackPageView, currentProps) => {
+SubjectContainer.willTrackPageView = (
+  trackPageView: (p: Props) => void,
+  currentProps: Props,
+) => {
   const { data, loading, topics } = currentProps;
-  if (!loading && data?.subject?.topics?.length > 0 && topics?.length === 0) {
+  if (
+    !loading &&
+    (data?.subject?.topics?.length ?? 0) > 0 &&
+    topics?.length === 0
+  ) {
     trackPageView(currentProps);
   }
 };
 
-SubjectContainer.getDimensions = props => {
+SubjectContainer.getDimensions = (props: Props) => {
   const { data, locale, topics } = props;
   const topicPath = topics.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
@@ -268,26 +298,4 @@ SubjectContainer.getDimensions = props => {
   });
 };
 
-SubjectContainer.propTypes = {
-  history: PropTypes.shape({
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  ndlaFilm: PropTypes.bool,
-  skipToContentId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    subject: GraphQLSubjectShape,
-  }),
-  topics: PropTypes.arrayOf(PropTypes.string),
-  loading: PropTypes.bool,
-};
-
-export default injectT(withTracker(SubjectContainer));
+export default withRouter(injectT(withTracker(SubjectContainer)));

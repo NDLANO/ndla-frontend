@@ -7,26 +7,32 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
-
+import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
-import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { subjectPageQueryWithTopics } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
+import { LocaleType } from '../../interfaces';
 
-const SubjectPage = ({
-  match,
-  location,
-  history,
-  locale,
-  skipToContentId,
-  ndlaFilm,
-}) => {
+type MatchParams = {
+  subjectId?: string;
+  topicPath?: string;
+  topicId?: string;
+  resourceId?: string;
+  articleId?: string;
+};
+
+interface Props extends RouteComponentProps<MatchParams> {
+  locale: LocaleType;
+  skipToContentId: string;
+  ndlaFilm?: boolean;
+}
+
+const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
     match,
@@ -54,7 +60,7 @@ const SubjectPage = ({
     return <MovedTopicPage topics={alternateTopics} />;
   }
 
-  if (!data.subject) {
+  if (!data.subject || !subjectId) {
     return <NotFoundPage />;
   }
 
@@ -66,9 +72,6 @@ const SubjectPage = ({
 
   return (
     <SubjectContainer
-      match={match}
-      location={location}
-      history={history}
       locale={locale}
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
@@ -78,23 +81,6 @@ const SubjectPage = ({
       loading={loading}
     />
   );
-};
-
-SubjectPage.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  ndlaFilm: PropTypes.bool,
-  skipToContentId: PropTypes.string.isRequired,
 };
 
 export default withRouter(SubjectPage);

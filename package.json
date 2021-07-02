@@ -52,7 +52,6 @@
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "@types/react-helmet": "^6.1.0",
-    "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "@types/url-parse": "^1.4.3",
     "@types/webpack-env": "^1.16.0",
