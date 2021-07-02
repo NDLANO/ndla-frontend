@@ -56,7 +56,7 @@ const SubjectPage = ({
   }
 
   if (!data.subject) {
-    const redirect = data.subjects.subjects.find(
+    const redirect = data.subjects.find(
       sub =>
         sub.metadata.customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] ===
         subjectId,
