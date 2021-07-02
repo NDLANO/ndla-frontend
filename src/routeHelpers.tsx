@@ -6,6 +6,7 @@
  *
  */
 
+import { GQLResource } from './graphqlTypes';
 import { matchPath } from 'react-router-dom';
 import {
   PROGRAMME_PAGE_PATH,
@@ -15,13 +16,13 @@ import {
 } from './constants';
 
 import { getProgrammeBySlug } from './data/programmes';
-import { getSubjectLongName } from './data/subjects';
+import { getSubjectBySubjectIdFilters } from './data/subjects';
 
-export function toSearch(searchString) {
-  return `/search?${searchString || ''}`;
+export function toSearch(searchQuery : string) {
+  return `/search?${searchQuery || ''}`;
 }
 
-export const removeUrn = string => (string ? string.replace('urn:', '') : '');
+export const removeUrn = (string : string) => (string ? string.replace('urn:', '') : '');
 
 export function getUrnIdsFromProps(props) {
   const {
@@ -54,54 +55,76 @@ function toLearningpaths() {
   return '/learningpaths';
 }
 
-export function toLearningPath(pathId, stepId, resource) {
+export function toLearningPath(pathId?: string, stepId?: string, resource?: GQLResource, filters = '') {
+  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (resource) {
-    return stepId ? `${resource.path}/${stepId}` : resource.path;
+    return stepId
+      ? `${resource.path}/${stepId}${filterParams}`
+      : `${resource.path}${filterParams}`;
   }
   if (pathId && stepId) {
-    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
+    return `${toLearningpaths()}/${pathId}/steps/${stepId}${filterParams}`;
   }
   if (pathId) {
-    return `${toLearningpaths()}/${pathId}`;
+    return `${toLearningpaths()}/${pathId}${filterParams}`;
   }
-  return toLearningpaths();
+  return `${filterParams}`;
 }
 
-export function toArticle(articleId, resource, subjectTopicPath) {
+export function toArticle(articleId: string, resource: GQLResource, subjectTopicPath: string, filters = '') {
+  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
   if (subjectTopicPath) {
-    return `${subjectTopicPath}/${removeUrn(resource.id)}`;
+    return `${subjectTopicPath}/${removeUrn(resource.id)}${filterParams}`;
   }
   if (resource) {
-    return resource.path;
+    return `${resource.path}/${filterParams}`;
   }
-  return `/article/${articleId}`;
+  return `/article/${articleId}${filterParams}`;
 }
 
-export function toSubject(subjectId) {
-  return `/${removeUrn(subjectId)}`;
+export function toSubject(subjectId: string, filters: string) {
+  const filterParam =
+    filters && filters.length > 0 ? `?filters=${filters}` : '';
+  return `/${removeUrn(subjectId)}${filterParam}`;
 }
 
-export function toTopic(subjectId, ...topicIds) {
+export function toTopic(subjectId: string, filters: string, ...topicIds: string[]) {
   const urnFreeSubjectId = removeUrn(subjectId);
   if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
+    return toSubject(urnFreeSubjectId, filters);
   }
   const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
-  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`);
+  const filterParam =
+    filters && filters.length > 0 ? `?filters=${filters}` : '';
+  const t =
+    fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`) +
+    filterParam;
   return t;
 }
 
-export const toTopicPartial = (subjectId, ...topicIds) => topicId =>
-  toTopic(subjectId, ...topicIds, topicId);
+export const toTopicPartial = (
+  subjectId: string,
+  filters = '',
+  ...topicIds: string[]
+) => (topicId: string) => toTopic(subjectId, filters, ...topicIds, topicId);
 
-export function toBreadcrumbItems(rootName, paths, locale = 'nb') {
+export function toBreadcrumbItems(
+  rootName,
+  paths,
+  filters = '',
+  locale = 'nb',
+) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id, locale);
+  const subjectData = getSubjectBySubjectIdFilters(
+    subject?.id,
+    filters.split(','),
+  );
   const breadcrumbSubject = {
     ...subject,
-    name: longName || subject?.name,
+    name: subjectData?.longName[locale] || subject?.name,
   };
+  const filterParam = filters.length > 0 ? `?filters=${filters}` : '';
   const links = [breadcrumbSubject, ...paths.splice(1)]
     .filter(Boolean)
     .reduce(
@@ -123,7 +146,11 @@ export function toBreadcrumbItems(rootName, paths, locale = 'nb') {
         link.to = fixEndSlash(link.to);
       }
       return link;
-    });
+    })
+    .map(links => ({
+      ...links,
+      to: links.to + filterParam,
+    }));
   return [{ to: '/', name: rootName }, ...links];
 }
 
@@ -135,7 +162,7 @@ export function fixEndSlash(link) {
   return link;
 }
 
-export function toLinkProps(linkObject, locale) {
+export function toLinkProps(linkObject, locale: "nb" | "nn" | "en") {
   const isLearningpath =
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
@@ -145,12 +172,22 @@ export function toLinkProps(linkObject, locale) {
   };
 }
 
-export function toProgramme(programmePath) {
+export function toProgramme(programmePath: string) {
   return `${PROGRAMME_PATH}/${programmePath}`;
 }
 
-export function toProgrammeSubject(programmePath, subjectId, topicIds) {
-  return `${toProgramme(programmePath)}${toTopic(subjectId, topicIds)}`;
+export function toProgrammeSubject(
+  programmePath: string,
+  subjectId,
+  filterIds,
+  topicIds,
+) {
+  const filterString = filterIds.join(',');
+  return `${toProgramme(programmePath)}${toTopic(
+    subjectId,
+    filterString,
+    topicIds,
+  )}`;
 }
 
 export function isSubjectPagePath(pathname) {

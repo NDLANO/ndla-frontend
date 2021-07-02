@@ -65,9 +65,7 @@ const Success = ({ resource, locale, location }) => {
 Success.propTypes = {
   locale: PropTypes.string.isRequired,
   resource: ResourceShape,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+  location: LocationShape,
 };
 
 export class IframeTopicPage extends Component {

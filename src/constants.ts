@@ -54,3 +54,6 @@ export const TOOLBOX_STUDENT_PAGE_PATH =
 export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resource\\::resourceId/:articleId`;
 export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
 export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
+
+export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
+export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';

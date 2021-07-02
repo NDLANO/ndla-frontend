@@ -57,7 +57,8 @@ const ToolboxSubjectPage = ({ match }: Props) => {
     return <DefaultErrorMessage />;
   }
 
-  const { subject = {} } = data;
+
+  const subject = data.subject;
 
   const mainTopics = subject.topics.map((topic: GQLTopic) => {
     return {
@@ -68,43 +69,20 @@ const ToolboxSubjectPage = ({ match }: Props) => {
     };
   });
 
-  const selectionLimit = 2;
-  const isNotLastTopic = selectedTopics.length < selectionLimit;
-  const selectedSubject =
-    isNotLastTopic ||
-    subject.topics.find((topic: GQLTopic) => topic.id === selectedTopics[0]);
-
-  const cards = isNotLastTopic
-    ? []
-    : subject.allTopics
-        .filter((topic: GQLTopic) => {
-          const selectedId = selectedTopics[selectedTopics.length - 1];
-          return topic.parent === selectedId;
-        })
-        .map((topic: GQLTopic) => ({
-          title: topic.name,
-          topicId: topic.id,
-          introduction: topic.meta?.metaDescription,
-          image: topic.meta?.metaImage?.url,
-          imageAlt: topic.meta?.metaImage?.alt,
-          subjects: [selectedSubject.name],
-          url: topic.path,
-          ...topic,
-        }));
-
+  console.log(subject);
   // TODO Denne er lånt rett fra frontend-packages og må enten fikses eller så kan man gjøre som i MultidiciplinarySubjectPage?
-  // const onTopicSelected = (index: number, id?: string) => {
-  //   if (id && (!selectedTopics[index] || selectedTopics[index] !== id)) {
-  //     const updatedSelectedTopics = selectedTopics.slice(0, index + 1); // When a new topic is selected on a level, all sub-levels are inconsistent -> remove
-  //     updatedSelectedTopics[index] = id;
-  //     setSelectedTopics(updatedSelectedTopics);
-  //     if (index === 0) {
-  //       scrollToTopic(topicContentRef);
-  //     } else {
-  //       scrollToTopic(topicRefs[index - 1]);
-  //     }
-  //   }
-  // };
+  //const onTopicSelected = (index: number, id?: string) => {
+  //  if (id && (!selectedTopics[index] || selectedTopics[index] !== id)) {
+  //    const updatedSelectedTopics = selectedTopics.slice(0, index + 1); // When a new topic is selected on a level, all sub-levels are inconsistent -> remove
+  //    updatedSelectedTopics[index] = id;
+  //    setSelectedTopics(updatedSelectedTopics);
+  //    if (index === 0) {
+  //      scrollToTopic(topicContentRef);
+  //    } else {
+  //      scrollToTopic(topicRefs[index - 1]);
+  //    }
+  //  }
+  //};
 
   return (
     <OneColumn>
@@ -113,7 +91,7 @@ const ToolboxSubjectPage = ({ match }: Props) => {
       }
       <ToolboxInfo
         topics={mainTopics}
-        onSelectTopic={selectedTopics}
+        onSelectTopic={() => console.log("Hello")}
         title="Verktøykassa"
         introduction="Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse."
       />
@@ -123,9 +101,7 @@ const ToolboxSubjectPage = ({ match }: Props) => {
             frame={!topic.subTopics} // Only leafs should have frame
             isLoading={topic.loading}
             subTopics={topic.subTopics}
-            onSubTopicSelected={(e, id) => {
-              console.log(id);
-            }} // onTopicSelected(index + 1, id)}
+            onSubTopicSelected={() => console.log("YEEET")} // onTopicSelected(index + 1, id)}
             topic={topic.content}
           />
         </div>

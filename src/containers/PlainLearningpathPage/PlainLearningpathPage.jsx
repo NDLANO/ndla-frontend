@@ -18,13 +18,16 @@ import { learningPathStepQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
+import { htmlTitle } from '../../util/titleHelper';
 import { toLearningPath } from '../../routeHelpers';
 
 const getTitle = learningpath => (learningpath ? learningpath.title : '');
 
 const getDocumentTitle = ({ t, data }) => {
   const { learningpath } = data;
-  return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
+  return `${htmlTitle(getTitle(learningpath), [
+    t('htmlTitles.titleTemplate'),
+  ])}`;
 };
 
 const PlainLearningpathPage = props => {
@@ -95,7 +98,9 @@ const PlainLearningpathPage = props => {
         <title>{`${getDocumentTitle({ t, data })}`}</title>
       </Helmet>
       <SocialMediaMetadata
-        title={`${learningpath.title} - ${learningpathStep.title}`}
+        title={htmlTitle(getTitle(learningpath), [
+          t('htmlTitles.titleTemplate'),
+        ])}
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale}

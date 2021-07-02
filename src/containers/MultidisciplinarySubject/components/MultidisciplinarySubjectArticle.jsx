@@ -19,7 +19,8 @@ import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { getSubjectBySubjectIdFilters } from '../../../data/subjects';
+import { htmlTitle } from '../../../util/titleHelper';
+import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
@@ -68,9 +69,7 @@ const MultidisciplinarySubjectArticle = ({
         subjectsLinks={subjectLinks}
       />
       <SocialMediaMetadata
-        title={`${subject?.name ? subject.name + ' - ' : ''}${
-          topic.article.title
-        }`}
+        title={htmlTitle(topic.article.title, [subject?.name])}
         trackableContent={topic.article}
         description={topic.article.metaDescription}
         locale={locale}
@@ -102,7 +101,7 @@ MultidisciplinarySubjectArticle.propTypes = {
 };
 
 MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }) => {
-  return `${topic.name || ''}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]);
 };
 
 MultidisciplinarySubjectArticle.willTrackPageView = (
@@ -124,8 +123,7 @@ MultidisciplinarySubjectArticle.getDimensions = props => {
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const subjectBySubjectIdFiltes = getSubjectBySubjectIdFilters(subject.id, []);
-  const longName = subjectBySubjectIdFiltes?.longName[locale];
+  const longName = getSubjectLongName(subject?.id, locale);
 
   return getAllDimensions(
     {

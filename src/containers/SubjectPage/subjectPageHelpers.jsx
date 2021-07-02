@@ -9,8 +9,7 @@
 import queryString from 'query-string';
 import { toTopicPartial } from '../../routeHelpers';
 
-export const toTopic = (subjectId, filters) =>
-  toTopicPartial(subjectId, filters);
+export const toTopic = subjectId => toTopicPartial(subjectId);
 
 export const getSearchUrl = (subjectId, resourceType) => {
   const baseUrl = '/search';

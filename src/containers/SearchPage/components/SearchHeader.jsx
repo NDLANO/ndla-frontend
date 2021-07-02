@@ -9,16 +9,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import {
-  subjectsCategories,
-  getSubjectBySubjectIdFilters,
-} from '../../../data/subjects';
+import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
     subjects: category.subjects.map(subject => ({
-      id: subject.subjectId,
+      id: subject.id,
       name: subject.longName[locale],
     })),
   }));
@@ -48,11 +45,11 @@ const SearchHeader = ({
 
   useEffect(() => {
     const activeSubjects = subjects.map(id => {
-      const subject = getSubjectBySubjectIdFilters(id);
+      const longName = getSubjectLongName(id, locale);
       return {
         value: id,
-        name: subject.longName[locale],
-        title: subject.longName[locale],
+        name: longName,
+        title: longName,
       };
     });
     setActiveSubjectFilters(activeSubjects);

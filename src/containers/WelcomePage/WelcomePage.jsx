@@ -33,29 +33,31 @@ import { getSubjectById } from '../../data/subjects';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
-  const filters = subject.filters ? subject.filters.join(',') : '';
-  return toSubject(subject.subjectId, filters);
+  return toSubject(subject.id);
 };
 
-const MULTIDISCIPLINARY_SUBJECT_ID = 'common_subject_60';
-const TOOLBOX_TEACHER_SUBJECT_ID = 'common_subject_61';
-const TOOLBOX_STUDENT_SUBJECT_ID = 'common_subject_66';
+const MULTIDISCIPLINARY_SUBJECT_ID =
+  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+const TOOLBOX_TEACHER_SUBJECT_ID =
+  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
+const TOOLBOX_STUDENT_SUBJECT_ID =
+  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
-const getMultidisciplinarySubjects = locale => {
-  const subjectIds = [
-    'multidisciplinary_subject_1',
-    'multidisciplinary_subject_2',
-    'multidisciplinary_subject_3',
+const getMultidisciplinaryTopics = locale => {
+  const topicIds = [
+    'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
+    'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
+    'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
   ];
 
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
-  return subjectIds.map(subjectId => {
-    const subject = getSubjectById(subjectId);
+  return topicIds.map(topicId => {
+    const topic = getSubjectById(topicId);
     return {
-      id: subject.id,
-      title: subject.name[locale],
-      url: toTopic(baseSubject.subjectId, null, subject.topicId),
+      id: topic.id,
+      title: topic.name[locale],
+      url: toTopic(baseSubject.id, null, topic.topicId),
     };
   });
 };
@@ -109,7 +111,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinarySubjects(locale)}
+            topics={getMultidisciplinaryTopics(locale)}
           />
           <FrontpageToolbox
             urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}

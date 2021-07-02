@@ -58,7 +58,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
       ...topic,
       label: topic.name,
       selected: topic.id === selectedTopics[0],
-      url: toTopic(subject.id, [], topic.id),
+      url: toTopic(subject.id, topic.id),
     };
   });
 
@@ -86,6 +86,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
         }));
 
   const TopicBoxes = () =>
+<<<<<<< HEAD
     selectedTopics.map((topicId, index) => (
       <div key={index} ref={refs[index]}>
         <MultidisciplinaryTopicWrapper
@@ -100,6 +101,23 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
         />
       </div>
     ));
+=======
+    selectedTopics.map((topicId, index) => {
+      return (
+        <div key={index} ref={refs[index]}>
+          <MultidisciplinaryTopicWrapper
+            disableNav={index >= selectionLimit - 1}
+            topicId={topicId}
+            subjectId={subject.id}
+            subTopicId={selectedTopics[index + 1]}
+            locale={locale}
+            index={index}
+            subject={subject}
+          />
+        </div>
+      );
+    });
+>>>>>>> 310c7e7faeb08a56b772c9cdae03f313fd5d79e5
 
   return (
     <MultidisciplinarySubject

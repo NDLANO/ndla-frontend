@@ -140,7 +140,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-9 > span {
-  box-shadow: 0px 1px 0px #20588f;
+  box-shadow: 0 1px 0 #20588f;
 }
 
 .emotion-9:hover > span {

@@ -36,12 +36,10 @@ import { TopicPageErrorMessage } from './components/TopicsPageErrorMessage';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { getSubjectLongName } from '../../data/subjects';
 import Resources from '../Resources/Resources';
 import { getTopicPath } from '../../util/getTopicPath';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
+import { htmlTitle } from '../../util/titleHelper';
 import { transformArticle } from '../../util/transformArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
@@ -76,9 +74,10 @@ const TopicContainer = ({
   const { subject, topicPath, resourceTypes, topic } = result;
 
   const getDocumentTitle = () => {
-    return `${subject?.name || ''} - ${getTitle(topic.article, topic.title)}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+    return htmlTitle(getTitle(topic.article, topic.title), [
+      subject?.name,
+      t('htmlTitles.titleTemplate'),
+    ]);
   };
 
   const hasArticleError =
@@ -94,7 +93,7 @@ const TopicContainer = ({
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle()}`}</title>
+        <title>{getDocumentTitle()}</title>
         {article && article.metaDescription && (
           <meta name="description" content={article.metaDescription} />
         )}
@@ -115,7 +114,7 @@ const TopicContainer = ({
         <SocialMediaMetadata
           description={article.metaDescription}
           image={article.metaImage}
-          title={`${subject?.name ? subject.name + ' - ' : ''}${article.title}`}
+          title={htmlTitle(article.title, [subject?.name])}
           trackableContent={article}
           locale={locale}
         />
@@ -131,11 +130,10 @@ const TopicContainer = ({
             <section>
               {subject ? (
                 <Breadcrumb
-                  items={toBreadcrumbItems(
-                    t('breadcrumb.toFrontpage'),
-                    [subject, ...topicPath],
-                    getFiltersFromUrl(location),
-                  )}
+                  items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+                    subject,
+                    ...topicPath,
+                  ])}
                 />
               ) : null}
             </section>
@@ -180,15 +178,15 @@ TopicContainer.willTrackPageView = (trackPageView, props) => {
 };
 
 TopicContainer.getDocumentTitle = ({ t, data: { topic, subject } }) => {
-  return `${subject ? subject.name : ''} - ${getTitle(topic.article, topic)}${t(
-    'htmlTitles.titleTemplate',
-  )}`;
+  return htmlTitle(getTitle(topic.article, topic), [
+    subject?.name,
+    t('htmlTitles.titleTemplate'),
+  ]);
 };
 
 TopicContainer.getDimensions = props => {
-  const { locale, subject, topicPath, topic } = props.data;
-  const longName = getLongNameFromFilters(locale, props.location, subject);
-
+  const { subject, topicPath, topic } = props.data;
+  const longName = getSubjectLongName(subject?.id, props.locale);
   return getAllDimensions(
     { subject, topicPath, article: topic.article, filter: longName },
     props.t('htmlTitles.topicPage'),

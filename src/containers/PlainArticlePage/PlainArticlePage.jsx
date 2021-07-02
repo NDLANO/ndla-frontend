@@ -18,6 +18,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { transformArticle } from '../../util/transformArticle';
 import Article from '../../components/Article';
 import { getArticleScripts } from '../../util/getArticleScripts';
+import { htmlTitle } from '../../util/titleHelper';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -28,7 +29,7 @@ import { useGraphQuery } from '../../util/runQueries';
 const getTitle = article => article?.title || '';
 
 const getDocumentTitle = ({ t, article }) => {
-  return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(getTitle(article), [t('htmlTitles.titleTemplate')]);
 };
 
 const PlainArticlePage = ({

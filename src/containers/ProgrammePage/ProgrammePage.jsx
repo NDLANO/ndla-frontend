@@ -18,7 +18,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
-import { createSubjectFilterUrl } from '../../util/programmesSubjectsHelper';
+import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
+import { htmlTitle } from '../../util/titleHelper';
 
 const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
@@ -31,10 +32,10 @@ const mapGradesData = (grades, locale, programmeSlug) => {
         if (subjectInfo) {
           /*const url = toProgrammeSubject(
             programmeSlug,
-            subjectInfo.subjectId,
+            subjectInfo.id,
             subjectInfo.filters,
           );*/
-          const url = createSubjectFilterUrl(subjectInfo, subjectInfo.filters);
+          const url = createSubjectUrl(subjectInfo);
           return {
             label: subjectInfo.name[locale],
             url: url,
@@ -43,7 +44,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
 
         return subjectData;
       });
-      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
+      subjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
       categoryData.subjects = subjects;
       return categoryData;
     });
@@ -63,7 +64,7 @@ const getProgrammeName = (match, locale) => {
 
 const getDocumentTitle = ({ match, locale, t }) => {
   const name = getProgrammeName(match, locale);
-  return name ? `${name}${t('htmlTitles.titleTemplate')}` : '';
+  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ProgrammePage = ({ match, locale, t }) => {
