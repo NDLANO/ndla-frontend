@@ -13,7 +13,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics } from '../../queries';
+import { subjectPageQuery, subjectPageQueryWithTopics } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -31,11 +31,36 @@ const SubjectPage = ({
     ndlaFilm,
     match,
   });
-  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
-    variables: {
-      subjectId,
-      topicId: topicId || '',
-    },
+
+  const userCameFromInternalLink = () => {
+    try {
+      const referrer = document.referrer;
+      return referrer.includes('localhost') || referrer.includes('ndla.no');
+    } catch (e) {
+      return false;
+    }
+  };
+
+  let queryConfig;
+  if (userCameFromInternalLink()) {
+    queryConfig = {
+      query: subjectPageQuery,
+      variables: {
+        subjectId,
+      },
+    };
+  } else {
+    queryConfig = {
+      query: subjectPageQueryWithTopics,
+      variables: {
+        subjectId,
+        topicId: topicId || '',
+      },
+    };
+  }
+
+  const { loading, data } = useGraphQuery(queryConfig.query, {
+    variables: queryConfig.variables,
   });
 
   if (loading) {
