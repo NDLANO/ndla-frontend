@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 
@@ -32,16 +32,23 @@ const SubjectPage = ({
     match,
   });
 
-  const firstRenderRef = useRef(true);
+  const [currentTopic, setCurrentTopic] = useState(undefined);
 
   const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
-      topicId: firstRenderRef.current && topicId ? topicId : '',
+      topicId: !currentTopic && topicId ? topicId : '',
     },
   });
 
-  firstRenderRef.current = false;
+  useEffect(() => {
+    const newTopic = data?.topic;
+    if (newTopic) {
+      if (newTopic !== currentTopic) {
+        setCurrentTopic(newTopic);
+      }
+    }
+  }, [data?.topic, currentTopic]);
 
   if (loading) {
     return null;
@@ -51,7 +58,7 @@ const SubjectPage = ({
     return <DefaultErrorMessage />;
   }
 
-  const alternateTopics = data?.topic?.alternateTopics;
+  const alternateTopics = currentTopic?.alternateTopics;
   if (!data?.subject && alternateTopics?.length >= 1) {
     if (alternateTopics.length === 1) {
       return <Redirect to={alternateTopics[0].path} />;
