@@ -65,7 +65,11 @@ const NDLARoute = ({
       {...rest}
       render={(props: RouteComponentProps) => {
         return (
-          <Page background={background} locale={locale} ndlaFilm={ndlaFilm} location={location}>
+          <Page
+            background={background}
+            locale={locale}
+            ndlaFilm={ndlaFilm}
+            location={location}>
             <Content>
               {!hideMasthead && (
                 <Masthead

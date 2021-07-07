@@ -312,49 +312,48 @@ export interface GQLSearchResult {
 }
 
 export interface GQLSubject {
-    id: string;
-    contentUri?: string;
-    name: string;
-    path: string;
-    metadata?: GQLTaxonomyMetadata;
-    subjectpage?: GQLSubjectPage;
-    topics?: Array<GQLTopic | null>;
-  }
-  export interface GQLResourceTypeDefinition {
-    id: string;
-    name: string;
-    subtypes?: Array<GQLResourceTypeDefinition | null>;
-  }
+  id: string;
+  contentUri?: string;
+  name: string;
+  path: string;
+  metadata?: GQLTaxonomyMetadata;
+  subjectpage?: GQLSubjectPage;
+  topics?: Array<GQLTopic | null>;
+}
+export interface GQLResourceTypeDefinition {
+  id: string;
+  name: string;
+  subtypes?: Array<GQLResourceTypeDefinition | null>;
+}
 
-  export interface GQLSubjectPage {
-    topical?: GQLTaxonomyEntity;
-    mostRead?: Array<GQLTaxonomyEntity | null>;
-    banner?: GQLSubjectPageBanner;
-    id: number;
-    name?: string;
-    facebook?: string;
-    editorsChoices?: Array<GQLTaxonomyEntity | null>;
-    latestContent?: Array<GQLTaxonomyEntity | null>;
-    about?: GQLSubjectPageAbout;
-    goTo?: Array<GQLResourceTypeDefinition | null>;
-    metaDescription?: string;
-    layout?: string;
-    twitter?: string;
-  }
-  export interface GQLSubjectPageBanner {
-    desktopUrl?: string;
-    desktopId?: string;
-    mobileUrl?: string;
-    mobileId?: string;
-  }
-  export interface GQLSubjectPageAbout {
-    title?: string;
-    description?: string;
-    visualElement?: GQLSubjectPageVisualElement;
-  }
-  export interface GQLSubjectPageVisualElement {
-    type?: string;
-    url?: string;
-    alt?: string;
-  }
-
+export interface GQLSubjectPage {
+  topical?: GQLTaxonomyEntity;
+  mostRead?: Array<GQLTaxonomyEntity | null>;
+  banner?: GQLSubjectPageBanner;
+  id: number;
+  name?: string;
+  facebook?: string;
+  editorsChoices?: Array<GQLTaxonomyEntity | null>;
+  latestContent?: Array<GQLTaxonomyEntity | null>;
+  about?: GQLSubjectPageAbout;
+  goTo?: Array<GQLResourceTypeDefinition | null>;
+  metaDescription?: string;
+  layout?: string;
+  twitter?: string;
+}
+export interface GQLSubjectPageBanner {
+  desktopUrl?: string;
+  desktopId?: string;
+  mobileUrl?: string;
+  mobileId?: string;
+}
+export interface GQLSubjectPageAbout {
+  title?: string;
+  description?: string;
+  visualElement?: GQLSubjectPageVisualElement;
+}
+export interface GQLSubjectPageVisualElement {
+  type?: string;
+  url?: string;
+  alt?: string;
+}
