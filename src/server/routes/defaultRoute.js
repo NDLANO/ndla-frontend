@@ -14,8 +14,6 @@ import url from 'url';
 import { ApolloProvider } from '@apollo/client';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import queryString from 'query-string';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
 
 import routes, { routes as serverRoutes } from '../../routes';
 import config from '../../config';
@@ -79,21 +77,14 @@ async function doRender(req) {
     });
   }
 
-  const cache = createCache();
-
   const context = {};
   const Page = !disableSSR(req) ? (
     <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <IntlProvider locale={locale} messages={messages}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes({ ...initialProps, basename }, locale)}
-          </StaticRouter>
-        </IntlProvider>
-      </CacheProvider>
+      <IntlProvider locale={locale} messages={messages}>
+        <StaticRouter basename={basename} location={req.url} context={context}>
+          {routes({ ...initialProps, basename }, locale)}
+        </StaticRouter>
+      </IntlProvider>
     </ApolloProvider>
   ) : (
     ''
@@ -101,17 +92,12 @@ async function doRender(req) {
 
   const html = await renderToStringWithData(Page);
   const apolloState = client.extract();
-  const docProps = renderPage(
-    Page,
-    getAssets(),
-    {
-      initialProps,
-      apolloState,
-      serverPath: req.path,
-      serverQuery: req.query,
-    },
-    cache,
-  );
+  const docProps = renderPage(Page, getAssets(), {
+    initialProps,
+    apolloState,
+    serverPath: req.path,
+    serverQuery: req.query,
+  });
 
   return {
     docProps,
@@ -122,5 +108,5 @@ async function doRender(req) {
 
 export async function defaultRoute(req) {
   const { html, context, docProps } = await doRender(req);
-  return renderHtml(req, html, context, docProps);
+  return renderHtml(html, context, docProps);
 }

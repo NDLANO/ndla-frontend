@@ -69,7 +69,7 @@ export async function iframeArticleRoute(req) {
         location,
       });
 
-      return renderHtml(req, html, { status: OK }, docProps);
+      return renderHtml(html, { status: OK }, docProps);
     }
     const resourceTypes = taxonomyId
       ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
@@ -84,7 +84,7 @@ export async function iframeArticleRoute(req) {
       location,
     });
 
-    return renderHtml(req, html, { status: OK }, docProps);
+    return renderHtml(html, { status: OK }, docProps);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
@@ -98,6 +98,6 @@ export async function iframeArticleRoute(req) {
     });
 
     const status = error.status || INTERNAL_SERVER_ERROR;
-    return renderHtml(req, html, { status }, docProps);
+    return renderHtml(html, { status }, docProps);
   }
 }

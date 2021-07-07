@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({ helmet, assets, data, css, ids }) => {
+const Document = ({ helmet, assets, data }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -43,9 +43,6 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           href="/static/ndla-favicon.png"
           type="image/x-icon"
         />
-        {css && ids && (
-          <style data-emotion-css={`${ids.join(' ')}`}>${css}</style>
-        )}
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
