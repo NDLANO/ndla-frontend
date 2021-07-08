@@ -488,6 +488,9 @@ export const articleInfoFragment = gql`
     copyright {
       ...CopyrightInfo
     }
+    visualElement {
+      visualElement
+    }
   }
 `;
 

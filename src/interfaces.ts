@@ -28,14 +28,4 @@ export interface NDLAWindow {
   browserHistory: History;
 }
 
-export interface TopicShape {}
-
-export const TopicShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  path: PropTypes.string,
-  article: ArticleShape,
-  coreResources: PropTypes.arrayOf(ResourceShape),
-  supplementaryResources: PropTypes.arrayOf(ResourceShape),
-  subtopics: PropTypes.array,
-});
+export type LocaleType = 'nb' | 'en' | 'nn';

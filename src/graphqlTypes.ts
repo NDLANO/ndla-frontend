@@ -256,7 +256,9 @@ export interface GQLArticle {
   created: string;
   updated: string;
   published: string;
-  visualElement?: string;
+  visualElement?: {
+    visualElement?: string;
+  };
   metaImage?: GQLMetaImage;
   metaDescription: string;
   articleType: string;
