@@ -35,13 +35,15 @@ function createDocumentProps(html, assets, data) {
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
   const html = renderToString(Page);
-  return createDocumentProps(html, assets, data);
+  const docProps = createDocumentProps(html, assets, data);
+  return docProps;
 }
 
 export async function renderPageWithData(Page, assets, data = {}) {
   resetIdCounter();
   const html = await renderToStringWithData(Page);
-  return createDocumentProps(html, assets, data);
+  const docProps = createDocumentProps(html, assets, data);
+  return docProps;
 }
 
 export async function renderHtml(html, context, props) {

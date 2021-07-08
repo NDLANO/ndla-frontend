@@ -51,6 +51,21 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
+async function getServerRouteProps(basepath, req, locale, client) {
+  const route = serverRoutes.find(r => matchPath(basepath, r));
+  const match = matchPath(basepath, route);
+  const initialProps = await loadGetInitialProps(route.component, {
+    isServer: true,
+    locale,
+    match,
+    client,
+    location: {
+      search: `?${queryString.stringify(req.query)}`,
+    },
+  });
+  return initialProps;
+}
+
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
@@ -64,17 +79,7 @@ async function doRender(req) {
   const client = createApolloClient(locale);
 
   if (!disableSSR(req)) {
-    const route = serverRoutes.find(r => matchPath(basepath, r));
-    const match = matchPath(basepath, route);
-    initialProps = await loadGetInitialProps(route.component, {
-      isServer: true,
-      locale,
-      match,
-      client,
-      location: {
-        search: `?${queryString.stringify(req.query)}`,
-      },
-    });
+    initialProps = getServerRouteProps(basepath, req, locale, client);
   }
 
   const context = {};
