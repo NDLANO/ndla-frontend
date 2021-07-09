@@ -11,7 +11,7 @@ import {
   apiResourceUrl,
   fetch,
   // @ts-ignore
-} from 'util/apiHelpers';
+} from './apiHelpers';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/series');
 
