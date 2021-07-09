@@ -8,13 +8,13 @@
 
 import React, { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
+import { RouteProps } from 'react-router';
 // @ts-ignore
 import { PageContainer } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import ZendeskButton from '@ndla/zendesk';
 
-import * as H from 'history';
 import config from '../../config';
 // @ts-ignore
 import Footer from './components/Footer';
@@ -23,8 +23,8 @@ interface Props {
   locale: string;
   background?: boolean;
   ndlaFilm?: boolean;
-  location: H.Location;
   children?: ReactNode;
+  location: RouteProps['location'];
 }
 
 export const Page = ({

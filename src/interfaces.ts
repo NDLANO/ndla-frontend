@@ -6,6 +6,7 @@
  */
 import { History } from 'history';
 import { ConfigType } from './config';
+import { LocaleValues } from './constants';
 
 export type InitialProps = {
   loading?: boolean;
@@ -27,3 +28,5 @@ export interface NDLAWindow {
   hasHydrated?: boolean;
   browserHistory: History;
 }
+
+export type LocaleType = typeof LocaleValues[number];

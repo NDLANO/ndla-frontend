@@ -7,11 +7,16 @@
  */
 
 import queryString from 'query-string';
+import { RefObject } from 'react';
 import { toTopicPartial } from '../../routeHelpers';
+import { GQLResourceType } from '../../graphqlTypes';
 
-export const toTopic = subjectId => toTopicPartial(subjectId);
+export const toTopic = (subjectId: string) => toTopicPartial(subjectId);
 
-export const getSearchUrl = (subjectId, resourceType) => {
+export const getSearchUrl = (
+  subjectId: string,
+  resourceType: GQLResourceType,
+) => {
   const baseUrl = '/search';
   const searchParams = {
     'resource-types': 'urn:resourcetype:subjectMaterial',
@@ -25,8 +30,13 @@ export const getSearchUrl = (subjectId, resourceType) => {
   return `${baseUrl}?${queryString.stringify(searchParams)}`;
 };
 
-export const scrollToRef = (ref, offset = 100) =>
-  window.scrollTo({
-    top: ref.current.offsetTop - offset,
+export const scrollToRef = (
+  ref: RefObject<HTMLElement | null>,
+  offset = 100,
+) => {
+  const scrollPosition = (ref.current?.offsetTop ?? 0) - offset;
+  return window.scrollTo({
+    top: scrollPosition,
     behavior: 'smooth',
   });
+};
