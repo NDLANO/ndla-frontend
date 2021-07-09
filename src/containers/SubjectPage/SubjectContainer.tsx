@@ -67,18 +67,6 @@ const SubjectContainer = ({
   );
   const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
 
-  /* const [programme] = useState(() => {
-    const programmeData = {
-      name: data?.subject?.name,
-      url: '',
-    };
-    const programme = getProgrammeByPath(location.pathname, locale);
-    if (programme) {
-      programmeData.name = programme.name[locale];
-      programmeData.url = toProgramme(programme.url[locale]);
-    }
-    return programmeData;
-  }); */
   const [subjectNames] = useState(() => {
     const subjectData = getSubjectBySubjectId(subject.id);
     if (subjectData) {
@@ -97,12 +85,6 @@ const SubjectContainer = ({
   });
 
   const breadCrumbs: BreadcrumbItem[] = [
-    /*{
-      id: subject.id,
-      label: programme.name,
-      typename: 'Subjecttype',
-      url: programme.url,
-    },*/
     {
       id: subjectId,
       label: subjectNames.name,
