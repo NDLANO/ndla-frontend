@@ -12,7 +12,6 @@ import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { renderToStringWithData } from '@apollo/client/react/ssr';
 import queryString from 'query-string';
 
 import routes, { routes as serverRoutes } from '../../routes';
@@ -20,7 +19,7 @@ import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
-import { renderHtml, renderPage } from '../helpers/render';
+import { renderHtml, renderPageWithData } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -95,9 +94,8 @@ async function doRender(req) {
     ''
   );
 
-  const html = await renderToStringWithData(Page);
   const apolloState = client.extract();
-  const docProps = renderPage(Page, getAssets(), {
+  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
     initialProps,
     apolloState,
     serverPath: req.path,

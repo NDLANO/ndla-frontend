@@ -6,15 +6,7 @@
  *
  */
 
-function getAssets() {
-  if (process.env.BUILD_TARGET === 'client') {
-    return window.DATA.assets;
-  }
-  return global.assets;
-}
-
 export function getArticleScripts(article) {
-  getAssets();
   const scripts =
     article?.requiredLibraries.map(lib => ({
       src: lib.url,
