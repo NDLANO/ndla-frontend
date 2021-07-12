@@ -25,7 +25,7 @@ type Props = {
 };
 
 interface Data {
-  subject: GQLSubject;
+  subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
@@ -59,13 +59,15 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
 
   const scrollToTopic = (index: number) => {
     const ref = refs[index];
-    const positionFromTop =
-      ref?.current?.getBoundingClientRect().top +
-        document?.documentElement?.scrollTop || 100;
-    window.scrollTo({
-      top: positionFromTop - 100,
-      behavior: 'smooth',
-    });
+    if (ref && ref.current) {
+      const positionFromTop =
+        ref.current.getBoundingClientRect().top +
+          document?.documentElement?.scrollTop || 100;
+      window.scrollTo({
+        top: positionFromTop - 100,
+        behavior: 'smooth',
+      });
+    }
   };
 
   if (loading) {
@@ -88,9 +90,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   const onSelectTopic = (index: number, id?: string) => {
-    const exist =
-      subject.allTopics?.find((topic: GQLTopic) => topic.id === id) &&
-      topics?.find((topic: GQLTopic) => topic.id === id);
+    const exist = subject.allTopics?.find((topic: GQLTopic) => topic.id === id);
     if (exist) {
       if (index === 0) {
         setSelectedTopics([exist]);
@@ -122,7 +122,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   return (
     <OneColumn>
       <ToolboxInfo
-        topics={topics!}
+        topics={topics}
         onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
           onSelectTopic(0, id)
         }

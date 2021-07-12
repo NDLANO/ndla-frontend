@@ -15,7 +15,7 @@ import { DefaultErrorMessage } from '../../../components/DefaultErrorMessage';
 // @ts-ignore
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
-import { LocaleType } from '../../../interfaces';
+import { LocaleType, ResourceType } from '../../../interfaces';
 import {
   GQLVisualElement,
   GQLTopic,
@@ -92,9 +92,9 @@ const ToolboxTopicWrapper = ({
       introduction: article?.introduction!,
       image: { url: article?.metaImage?.url!, alt: article?.metaImage?.alt! },
       visualElement: {
-        type: article?.visualElement!.resource!,
+        type: article?.visualElement?.resource as ResourceType,
         element: (
-          <VisualElementWrapper visualElement={article?.visualElement!} />
+          <VisualElementWrapper visualElement={article?.visualElement} />
         ),
       },
       resources: topic.subtopics ? (

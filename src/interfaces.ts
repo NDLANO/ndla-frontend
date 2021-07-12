@@ -29,7 +29,6 @@ export interface NDLAWindow {
   browserHistory: History;
 }
 
-
 export type LocaleType = typeof LocaleValues[number];
 
 export type ResourceType = 'image' | 'other' | 'video';

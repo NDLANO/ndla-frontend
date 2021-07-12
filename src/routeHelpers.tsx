@@ -6,7 +6,6 @@
  *
  */
 
-
 import { matchPath, RouteComponentProps } from 'react-router-dom';
 import {
   PROGRAMME_PAGE_PATH,
@@ -18,7 +17,6 @@ import {
 import { getProgrammeBySlug } from './data/programmes';
 import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
-
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
@@ -65,7 +63,6 @@ export function getUrnIdsFromProps(props: {
 function toLearningpaths() {
   return '/learningpaths';
 }
-
 
 type Resource = {
   path: string;
@@ -121,9 +118,8 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-
 type Subject = {
-  id?: string ;
+  id?: string;
   name?: string;
   to?: string;
 };
@@ -135,7 +131,7 @@ export function toBreadcrumbItems(
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id || '', locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
@@ -175,7 +171,6 @@ export function fixEndSlash(link: string) {
   }
   return link;
 }
-
 
 type LinkObject = {
   contentUri?: string;
@@ -220,7 +215,6 @@ export function isTopicPath(pathname: string) {
   }
   return false;
 }
-
 
 export function getProgrammeByPath(pathname: string, locale: LocaleType) {
   const match = matchPath<{ programme?: string }>(

@@ -1,5 +1,3 @@
-import { ResourceType } from './interfaces';
-
 export interface GQLTaxonomyEntity {
   id: string;
   name: string;
@@ -314,7 +312,7 @@ export interface GQLSearchResult {
 }
 
 export interface GQLVisualElement {
-  resource?: ResourceType;
+  resource?: string;
   resourceId?: string;
   title?: string;
   url?: string;
@@ -349,7 +347,6 @@ export interface GQLSubject {
   metadata?: GQLTaxonomyMetadata;
   subjectpage?: GQLSubjectPage;
   topics?: Array<GQLTopic | null>;
-  allTopics?:Array<GQLTopic | null>;
 }
 export interface GQLResourceTypeDefinition {
   id: string;
