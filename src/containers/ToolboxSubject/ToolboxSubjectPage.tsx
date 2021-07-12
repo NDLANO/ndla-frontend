@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn, ToolboxInfo, SubjectBanner } from '@ndla/ui';
 // @ts-ignore
@@ -15,7 +15,7 @@ import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-import { GQLTopic } from '../../graphqlTypes';
+import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
 
@@ -23,6 +23,10 @@ type Props = {
   match: RouteComponentProps['match'];
   locale: LocaleType;
 };
+
+interface Data {
+  subject: GQLSubject;
+}
 
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
   const { subjectId, topicList } = getUrnIdsFromProps({
@@ -32,7 +36,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
 
   const refs = topicList.map(() => React.createRef());
   const [selectedTopics, setSelectedTopics] = useState<GQLTopic[]>([]);
-  const { loading, data } = useGraphQuery(subjectPageQuery, {
+  const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
     variables: {
       subjectId,
     },
@@ -44,31 +48,13 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
         (topic: GQLTopic) => topic.id === topicId,
       );
       if (!alreadySelected) {
-        setSelectedTopics([
-          subject.allTopics.find((topic: GQLTopic) => topic.id === topicId),
-          ...selectedTopics,
-        ]);
-      } 
+        const exist = subject.allTopics.find(
+          (topic: GQLTopic) => topic.id === topicId,
+        );
+        if (exist) setSelectedTopics([exist, ...selectedTopics]);
+      }
     });
     scrollToTopic(topicList.length - 1);
-  });
-
-  if (loading) {
-    return null;
-  }
-
-  if (!data) {
-    return <DefaultErrorMessage />;
-  }
-
-  const subject = data.subject;
-  const topics = subject.topics.map((topic: GQLTopic) => {
-    return {
-      ...topic,
-      label: topic.name,
-      selected: topic.id === topicList[0],
-      url: toTopic(subject.id, topic.id),
-    };
   });
 
   const scrollToTopic = (index: number) => {
@@ -82,32 +68,56 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     });
   };
 
+  if (loading) {
+    return null;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
+
+  const subject = data.subject;
+
+  const topics = subject.topics.map((topic: GQLTopic) => {
+    return {
+      ...topic,
+      label: topic.name,
+      selected: topic.id === topicList[0],
+      url: toTopic(subject.id, topic.id),
+    };
+  });
+
   const onSelectTopic = (index: number, id?: string) => {
-    if (index === 0) {
-      setSelectedTopics([topics.find((topic: GQLTopic) => topic.id === id)]);
-    } else if (index > 0) {
-      setSelectedTopics([
-        ...selectedTopics.slice(0, index),
-        subject.allTopics.find((topic: GQLTopic) => topic.id === id),
-      ]);
+    const exist =
+      subject.allTopics.find((topic: GQLTopic) => topic.id === id) &&
+      topics.find((topic: GQLTopic) => topic.id === id);
+    if (exist) {
+      if (index === 0) {
+        setSelectedTopics([exist]);
+      } else if (index > 0) {
+        setSelectedTopics([...selectedTopics.slice(0, index), exist]);
+      }
     }
   };
 
-  const TopicBoxes = () =>
-    selectedTopics.map((topic: GQLTopic, index: number) => {
-      return (
-        <div key={index} ref={refs[index]}>
-          <ToolboxTopicWrapper
-            subjectId={subject.id}
-            topicId={topic.id}
-            locale={locale}
-            onSelectTopic={onSelectTopic}
-            topicList={topicList}
-            index={index}
-          />
-        </div>
-      );
-    });
+  const TopicBoxes = () => (
+    <>
+      {selectedTopics.map((topic: GQLTopic, index: number) => {
+        return (
+          <div key={index} ref={refs[index]}>
+            <ToolboxTopicWrapper
+              subjectId={subject.id}
+              topicId={topic.id}
+              locale={locale}
+              onSelectTopic={onSelectTopic}
+              topicList={topicList}
+              index={index}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 
   return (
     <OneColumn>

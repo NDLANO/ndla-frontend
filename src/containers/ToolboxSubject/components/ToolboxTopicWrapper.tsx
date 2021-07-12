@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
- import React from 'react';
+import React from 'react';
 // @ts-ignore
-import { Topic } from '@ndla/ui';
+import { Topic, Image } from '@ndla/ui';
+import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
 import { DefaultErrorMessage } from '../../../components/DefaultErrorMessage';
@@ -15,6 +16,11 @@ import { DefaultErrorMessage } from '../../../components/DefaultErrorMessage';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
+import {
+  GQLVisualElement,
+  GQLTopic,
+  GQLResourceType,
+} from '../../../graphqlTypes';
 
 interface Props {
   subjectId: string;
@@ -25,6 +31,35 @@ interface Props {
   index: number;
 }
 
+interface VisualElement {
+  visualElement: GQLVisualElement;
+}
+
+const VisualElementWrapper = ({ visualElement }: VisualElement) => {
+  const { resource, url, alt, image } = visualElement;
+  switch (resource) {
+    case 'image':
+      return <Image alt={alt} src={image?.src} />;
+    default:
+    case 'video':
+    case 'other':
+      return (
+        <iframe
+          title="About subject video"
+          src={url}
+          allowFullScreen
+          scrolling="no"
+          frameBorder="0"
+        />
+      );
+  }
+};
+
+interface Data {
+  topic: GQLTopic;
+  resourceTypes: GQLResourceType;
+}
+
 const ToolboxTopicWrapper = ({
   subjectId,
   topicId,
@@ -33,7 +68,7 @@ const ToolboxTopicWrapper = ({
   topicList,
   index,
 }: Props) => {
-  const { loading, data } = useGraphQuery(topicQuery, {
+  const { loading, data } = useGraphQuery<Data>(topicQuery, {
     variables: {
       subjectId,
       topicId,
@@ -50,46 +85,49 @@ const ToolboxTopicWrapper = ({
 
   const { topic, resourceTypes } = data;
   const { article } = data.topic;
-  
-  const transposedTopic = {
-    
-    ...topic,
-    visualElement: {
-      type: article.visualElement?.visualElement?.match(
-        '(?<=data-resource=")[^"]*',
-      )[0],
-      element: (<div dangerouslySetInnerHTML={article.visualElement?.visualElement}/>),
+
+  const toolboxTopic: TopicProps = {
+    topic: {
+      title: article?.title!,
+      introduction: article?.introduction!,
+      image: { url: article?.metaImage?.url!, alt: article?.metaImage?.alt! },
+      visualElement: {
+        type: article?.visualElement!.resource!,
+        element: (
+          <VisualElementWrapper visualElement={article?.visualElement!} />
+        ),
+      },
+      resources: topic.subtopics ? (
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          locale={locale}
+        />
+      ) : (
+        undefined
+      ),
     },
-    image: { url: article.metaImage.url, alt: article.metaImage.alt },
-    introduction: article.introduction,
-    title: article.title,
-    resources: data.topic.subTopics ? (
-      undefined
-    ) : (
-      <Resources topic={topic} resourceTypes={resourceTypes} locale={locale} />
-    ),
-    subtopics: topic.subtopics.map((subtopic: any) => {
-      return {
-        ...subtopic,
-        label: subtopic.name,
-        selected: subtopic.id === topicList[index + 1],
-        url: toTopic(subjectId, topicId, subtopic.id),
-      };
-    }),
   };
 
-  console.log(transposedTopic.visualElement.element);
+  const subTopics = topic?.subtopics?.map((subtopic: any) => {
+    return {
+      ...subtopic,
+      label: subtopic.name,
+      selected: subtopic.id === topicList[index + 1],
+      url: toTopic(subjectId, topicId, subtopic.id),
+    };
+  });
 
   return (
     <>
       <Topic
-        frame={transposedTopic.subtopics.length === 0}
-        isLoading={transposedTopic.loading}
-        subTopics={transposedTopic.subtopics}
+        frame={subTopics?.length === 0}
+        isLoading={loading}
+        subTopics={subTopics}
         onSubTopicSelected={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
           onSelectTopic(index + 1, id)
         }
-        topic={transposedTopic}
+        topic={toolboxTopic.topic}
       />
     </>
   );

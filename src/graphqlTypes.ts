@@ -1,3 +1,5 @@
+import { ResourceType } from './interfaces';
+
 export interface GQLTaxonomyEntity {
   id: string;
   name: string;
@@ -256,9 +258,7 @@ export interface GQLArticle {
   created: string;
   updated: string;
   published: string;
-  visualElement?: {
-    visualElement?: string;
-  };
+  visualElement?: GQLVisualElement;
   metaImage?: GQLMetaImage;
   metaDescription: string;
   articleType: string;
@@ -311,4 +311,42 @@ export interface GQLSearchResult {
   breadcrumbs?: Array<Array<string | null> | null>;
   subjects?: Array<GQLSearchResultSubject | null>;
   contentType: string;
+}
+
+export interface GQLVisualElement {
+  resource?: ResourceType;
+  resourceId?: string;
+  title?: string;
+  url?: string;
+  alt?: string;
+  account?: string;
+  player?: string;
+  videoid?: string;
+  thumbnail?: string;
+  image?: GQLImageLicense;
+  oembed?: GQLVisualElementOembed;
+  lowerRightX?: number;
+  lowerRightY?: number;
+  upperLeftX?: number;
+  upperLeftY?: number;
+  focalX?: number;
+  focalY?: number;
+  copyright?: GQLCopyright;
+  copyText?: string;
+}
+
+export interface GQLVisualElementOembed {
+  title?: string;
+  html?: string;
+  fullscreen?: boolean;
+}
+
+export interface GQLSubject {
+  id: string;
+  contentUri?: string;
+  name: string;
+  path: string;
+  metadata?: GQLTaxonomyMetadata;
+  topics: Array<GQLTopic>;
+  allTopics: Array<GQLTopic>;
 }

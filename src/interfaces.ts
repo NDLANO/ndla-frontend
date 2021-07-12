@@ -29,3 +29,5 @@ export interface NDLAWindow {
 }
 
 export type LocaleType = 'nb' | 'en' | 'nn';
+
+export type ResourceType = 'image' | 'other' | 'video';
