@@ -6,8 +6,8 @@
  *
  */
 
-import { matchPath } from 'react-router-dom';
-import { GQLResource } from './graphqlTypes';
+
+import { matchPath, RouteComponentProps } from 'react-router-dom';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
@@ -19,13 +19,23 @@ import { getProgrammeBySlug } from './data/programmes';
 import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
 
-export function toSearch(searchQuery: string) {
-  return `/search?${searchQuery || ''}`;
+
+export function toSearch(searchString?: string) {
+  return `/search?${searchString || ''}`;
 }
 
-export const removeUrn = (val: string) => (val ? val.replace('urn:', '') : '');
+export const removeUrn = (str?: string) => (str ? str.replace('urn:', '') : '');
 
-export function getUrnIdsFromProps(props: { ndlaFilm: any; match: any }) {
+export function getUrnIdsFromProps(props: {
+  ndlaFilm?: boolean;
+  match: RouteComponentProps<{
+    subjectId?: string;
+    topicPath?: string;
+    topicId?: string;
+    resourceId?: string;
+    articleId?: string;
+  }>['match'];
+}) {
   const {
     ndlaFilm,
     match: { params },
@@ -56,12 +66,18 @@ function toLearningpaths() {
   return '/learningpaths';
 }
 
+
+type Resource = {
+  path: string;
+  id: string;
+};
+
 export function toLearningPath(
   pathId?: string,
   stepId?: string,
-  resource?: GQLResource,
+  resource?: Resource,
 ) {
-  if (resource && resource.path) {
+  if (resource) {
     return stepId ? `${resource.path}/${stepId}` : resource.path;
   }
   if (pathId && stepId) {
@@ -74,8 +90,8 @@ export function toLearningPath(
 }
 
 export function toArticle(
-  articleId: string,
-  resource: GQLResource,
+  articleId: number,
+  resource: Resource,
   subjectTopicPath: string,
 ) {
   if (subjectTopicPath) {
@@ -105,9 +121,16 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
+
+type Subject = {
+  id?: string ;
+  name?: string;
+  to?: string;
+};
+
 export function toBreadcrumbItems(
   rootName: string,
-  paths: any[],
+  paths: Subject[],
   locale: LocaleType = 'nb',
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
@@ -117,14 +140,17 @@ export function toBreadcrumbItems(
     ...subject,
     name: longName || subject?.name,
   };
-  const links = [breadcrumbSubject, ...paths.splice(1)]
+
+  const prelinks = [breadcrumbSubject, ...paths.splice(1)];
+
+  const links = prelinks
     .filter(Boolean)
     .reduce(
-      (links, item) => [
+      (links: Subject[], item) => [
         ...links,
         {
           to:
-            (links.length ? links[links.length - 1].to : '') +
+            (links.length ? links?.[links.length - 1]?.to : '') +
             '/' +
             removeUrn(item.id),
           name: item.name,
@@ -132,7 +158,7 @@ export function toBreadcrumbItems(
       ],
       [],
     )
-    .map((link: { to: string }) => {
+    .map(link => {
       // making sure we have the ending slash in breadCrumbs and it dosen't contain it allready
       if (link.to) {
         link.to = fixEndSlash(link.to);
@@ -150,11 +176,14 @@ export function fixEndSlash(link: string) {
   return link;
 }
 
-export function toLinkProps(linkObject: {
-  contentUri: string;
-  meta: any;
-  path: string | number;
-}) {
+
+type LinkObject = {
+  contentUri?: string;
+  meta?: object;
+  path: string;
+};
+
+export function toLinkProps(linkObject: LinkObject) {
   const isLearningpath =
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
@@ -192,14 +221,14 @@ export function isTopicPath(pathname: string) {
   return false;
 }
 
-type ProgramPathParam = {
-  programme: string;
-};
 
 export function getProgrammeByPath(pathname: string, locale: LocaleType) {
-  const match = matchPath<ProgramPathParam>(pathname, PROGRAMME_PAGE_PATH);
+  const match = matchPath<{ programme?: string }>(
+    pathname,
+    PROGRAMME_PAGE_PATH,
+  );
   if (match) {
-    return getProgrammeBySlug(match.params.programme, locale);
+    return getProgrammeBySlug(match.params.programme!, locale);
   }
   return null;
 }

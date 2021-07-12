@@ -53,7 +53,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
 
   const { subject = {} } = data;
 
-  const mainTopics = subject.topics.map(topic => {
+  const mainTopics = subject.topics?.map(topic => {
     return {
       ...topic,
       label: topic.name,
@@ -65,7 +65,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
   const selectedSubject =
-    isNotLastTopic || subject.topics.find(t => t.id === selectedTopics[0]);
+    isNotLastTopic || subject.topics?.find(t => t.id === selectedTopics[0]);
 
   const cards = isNotLastTopic
     ? []

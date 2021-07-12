@@ -34,7 +34,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     match,
   });
 
-  const refs = topicList.map(() => React.createRef());
+  const refs = topicList.map(() => React.createRef<HTMLDivElement>());
   const [selectedTopics, setSelectedTopics] = useState<GQLTopic[]>([]);
   const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
     variables: {
@@ -78,7 +78,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
 
   const subject = data.subject;
 
-  const topics = subject.topics.map((topic: GQLTopic) => {
+  const topics = subject.topics?.map((topic: GQLTopic) => {
     return {
       ...topic,
       label: topic.name,
@@ -89,8 +89,8 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
 
   const onSelectTopic = (index: number, id?: string) => {
     const exist =
-      subject.allTopics.find((topic: GQLTopic) => topic.id === id) &&
-      topics.find((topic: GQLTopic) => topic.id === id);
+      subject.allTopics?.find((topic: GQLTopic) => topic.id === id) &&
+      topics?.find((topic: GQLTopic) => topic.id === id);
     if (exist) {
       if (index === 0) {
         setSelectedTopics([exist]);
@@ -122,7 +122,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   return (
     <OneColumn>
       <ToolboxInfo
-        topics={topics}
+        topics={topics!}
         onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
           onSelectTopic(0, id)
         }
@@ -130,7 +130,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
         introduction="Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse."
       />
       <TopicBoxes />
-      <SubjectBanner negativeTopMargin={!topics.length} />
+      <SubjectBanner negativeTopMargin={!topics} />
     </OneColumn>
   );
 };

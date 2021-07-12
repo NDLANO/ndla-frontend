@@ -6,6 +6,7 @@
  */
 import { History } from 'history';
 import { ConfigType } from './config';
+import { LocaleValues } from './constants';
 
 export type InitialProps = {
   loading?: boolean;
@@ -28,6 +29,7 @@ export interface NDLAWindow {
   browserHistory: History;
 }
 
-export type LocaleType = 'nb' | 'en' | 'nn';
+
+export type LocaleType = typeof LocaleValues[number];
 
 export type ResourceType = 'image' | 'other' | 'video';
