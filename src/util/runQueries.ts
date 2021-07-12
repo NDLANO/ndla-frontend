@@ -5,13 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { DocumentNode, useQuery } from '@apollo/client';
+import {
+  DocumentNode,
+  OperationVariables,
+  QueryHookOptions,
+  QueryResult,
+  TypedDocumentNode,
+  useQuery,
+} from '@apollo/client';
 
-export const useGraphQuery = <T>(query: DocumentNode, options = {}) => {
-  const { error, data, loading } = useQuery<T>(query, {
+export function useGraphQuery<TData = any, TVariables = OperationVariables>(
+  query: DocumentNode | TypedDocumentNode<TData, TVariables>,
+  options?: QueryHookOptions<TData, TVariables>,
+): QueryResult<TData, TVariables> {
+  const result = useQuery(query, {
     errorPolicy: 'all',
     ...options,
   });
 
-  return { error, data, loading };
-};
+  return result;
+}
