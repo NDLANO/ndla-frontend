@@ -1,3 +1,5 @@
+import { LocaleType } from '../interfaces';
+
 export const programmes = [
   {
     name: {
@@ -2436,13 +2438,15 @@ export const programmes = [
   },
 ];
 
-export const getProgrammeBySlug = (slug, locale) => {
+export const getProgrammeBySlug = (slug: string, locale: LocaleType) => {
   return programmes.find(item => {
     if (item.url) {
       if (locale) {
         return item.url[locale] === slug;
       } else {
-        return Object.keys(item.url).find(lang => item.url[lang] === slug);
+        return Object.keys(item.url).find(
+          lang => item.url[lang as LocaleType] === slug,
+        );
       }
     }
     return false;

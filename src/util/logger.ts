@@ -23,4 +23,3 @@ log.logAndReturnValue = (level, msg, value) => {
 };
 
 export default log;
-

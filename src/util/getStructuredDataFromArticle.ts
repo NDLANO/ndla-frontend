@@ -7,7 +7,13 @@
  */
 
 import format from 'date-fns/format';
-import { GQLArticle, GQLBrightcoveLicense, GQLCopyright, GQLImageLicense } from '../graphqlTypes';
+import {
+  GQLArticle,
+  GQLAudioLicense,
+  GQLBrightcoveLicense,
+  GQLCopyright,
+  GQLImageLicense,
+} from '../graphqlTypes';
 
 import config from '../config';
 
@@ -22,13 +28,14 @@ const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 
-const getStructuredDataBase = () => ({
-  '@context': 'http://schema.org',
-});
+const getStructuredDataBase = () => ({});
 
-
-
-const getCopyrightData = ({ creators, rightsholders, license, processors }: GQLCopyright) => {
+const getCopyrightData = ({
+  creators,
+  rightsholders,
+  license,
+  processors,
+}: GQLCopyright) => {
   const data: StructuredData = {
     license: license?.url,
   };
@@ -66,15 +73,14 @@ const getCopyrightData = ({ creators, rightsholders, license, processors }: GQLC
   return data;
 };
 
-
 const getPublisher = () => {
   const data = {
-    publisher : {
+    publisher: {
       '@type': ORGANIZATION_TYPE,
       name: 'NDLA',
       url: 'https://ndla.no',
       logo: 'https://ndla.no/static/logo.png',
-    }
+    },
   };
   return data;
 };
@@ -84,22 +90,19 @@ type Breadcrumb = {
   to?: string;
 };
 
-
-
 const getBreadcrumbs = (breadcrumbItems: Breadcrumb[]) => {
   if (!breadcrumbItems) {
     return undefined;
   }
-  const items = breadcrumbItems.map((item, index) => (
-     {
-      '@type': ITEM_TYPE,
-      name: item.name,
-      position: index + 1,
-      item: {
-        '@type': THING_TYPE,
-        id: `${config.ndlaFrontendDomain}${item.to}`,
-      }})
-  );
+  const items = breadcrumbItems.map((item, index) => ({
+    '@type': ITEM_TYPE,
+    name: item.name,
+    position: index + 1,
+    item: {
+      '@type': THING_TYPE,
+      id: `${config.ndlaFrontendDomain}${item.to}`,
+    },
+  }));
 
   let data: StructuredData = getStructuredDataBase();
   data['@type'] = BREADCRUMB_TYPE;
@@ -109,19 +112,19 @@ const getBreadcrumbs = (breadcrumbItems: Breadcrumb[]) => {
   return data;
 };
 
-interface StructuredData{
+interface StructuredData {
   embedUrl?: string;
   thumbnailUrl?: string;
   description?: string;
   contentUrl?: string;
   uploadDate?: string;
-  copyrightHolder?: { '@type': string; name?: string; }[];
-  contributor?: { '@type': string; name?: string; }[];
+  copyrightHolder?: { '@type': string; name?: string }[];
+  contributor?: { '@type': string; name?: string }[];
   license?: string;
-  author?:{
+  author?: {
     '@type': string;
     name?: string;
-  }[]
+  }[];
   name?: string;
   headline?: string;
   abstract?: string;
@@ -129,18 +132,26 @@ interface StructuredData{
   dateModified?: string;
   image?: string;
   numberOfItems?: number;
-  itemListELement?: { '@type': string; name?: string; position: number; item: { '@type': string; id: string; }; }[];
-  '@type':string;
-  '@context': string;
+  itemListELement?: {
+    '@type': string;
+    name?: string;
+    position: number;
+    item: { '@type': string; id: string };
+  }[];
+  '@type'?: string;
+  '@context'?: string;
   '@id'?: string;
 }
 
-interface Mediaelements{
-  data: GQLImageLicense | GQLBrightcoveLicense | null;
+interface Mediaelements {
+  data: GQLImageLicense | GQLAudioLicense | GQLBrightcoveLicense | null;
   type: string;
 }
 
-const getStructuredDataFromArticle = (article: GQLArticle, breadcrumbItems: Breadcrumb[]) => {
+const getStructuredDataFromArticle = (
+  article: GQLArticle,
+  breadcrumbItems: Breadcrumb[],
+) => {
   if (!article) return [];
 
   let articleData: StructuredData = getStructuredDataBase();
@@ -167,7 +178,6 @@ const getStructuredDataFromArticle = (article: GQLArticle, breadcrumbItems: Brea
     structuredDataCollection.push(breadcrumbs);
   }
 
-
   const mediaElements: Mediaelements[] = [];
 
   const images = article.metaData?.images || [];
@@ -188,13 +198,6 @@ const getStructuredDataFromArticle = (article: GQLArticle, breadcrumbItems: Brea
 
   const videos = article.metaData?.brightcoves || [];
 
-  videos.forEach(video => {
-    mediaElements.push({
-      data: video,
-      type: VIDEO_TYPE,
-    });
-  });
-
   mediaElements.forEach(media => {
     const { data, type } = media;
 
@@ -202,20 +205,31 @@ const getStructuredDataFromArticle = (article: GQLArticle, breadcrumbItems: Brea
     structuredData['@type'] = type;
     structuredData['@id'] = data?.src;
     structuredData.name = data?.title;
-
-    if (type === VIDEO_TYPE) {
-      structuredData.embedUrl = data?.src;
-      structuredData.thumbnailUrl = data?.cover;
-      structuredData.description = data?.description;
-      structuredData.contentUrl = data?.download;
-      structuredData.uploadDate = format(data?.uploadDate, 'YYYY-MM-DD');
-    } else {
-      structuredData.contentUrl = data?.src;
-    }
+    structuredData.contentUrl = data?.src;
 
     structuredData = {
       ...structuredData,
       ...getCopyrightData(data?.copyright!),
+    };
+
+    structuredDataCollection.push(structuredData);
+  });
+
+  videos.forEach(video => {
+    let structuredData: StructuredData = getStructuredDataBase();
+
+    structuredData['@type'] = VIDEO_TYPE;
+    structuredData['@id'] = video?.src;
+    structuredData.name = video?.title;
+    structuredData.embedUrl = video?.src;
+    structuredData.thumbnailUrl = video?.cover;
+    structuredData.description = video?.description;
+    structuredData.contentUrl = video?.download;
+    structuredData.uploadDate = format(video?.uploadDate!, 'YYYY-MM-DD');
+
+    structuredData = {
+      ...structuredData,
+      ...getCopyrightData(video?.copyright!),
     };
 
     structuredDataCollection.push(structuredData);

@@ -127,11 +127,11 @@ type Subject = {
 export function toBreadcrumbItems(
   rootName: string,
   paths: Subject[],
-  locale: string = 'nb',
+  locale: LocaleType = 'nb',
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName: string = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id!, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
@@ -221,7 +221,7 @@ export function getProgrammeByPath(pathname: string, locale: LocaleType) {
     pathname,
     PROGRAMME_PAGE_PATH,
   );
-  if (match) {
+  if (match?.params?.programme) {
     return getProgrammeBySlug(match.params.programme, locale);
   }
   return null;

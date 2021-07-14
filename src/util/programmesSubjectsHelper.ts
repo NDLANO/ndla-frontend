@@ -10,15 +10,24 @@ import { toProgramme, toSubject } from '../routeHelpers';
 import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
+import { LocaleType, ProgramType, SubjectType } from '../interfaces';
 
-const sortBy = (arr, sortByProp = 'name') =>
-  arr.sort((a, b) => {
-    if (a[sortByProp] < b[sortByProp]) return -1;
-    if (a[sortByProp] > b[sortByProp]) return 1;
+interface ProgramSubjectType {
+  name: string;
+  url: string;
+  path: string;
+  label?: string;
+  [key: string]: string | undefined;
+}
+
+const sortBy = (arr?: (ProgramSubjectType | null)[], sortByProp = 'name') =>
+  arr?.sort((a: ProgramSubjectType | null, b: ProgramSubjectType | null) => {
+    if (a![sortByProp]! < b![sortByProp]!) return -1;
+    if (a![sortByProp]! > b![sortByProp]!) return 1;
     return 0;
   });
 
-export const createSubjectUrl = subject => {
+export const createSubjectUrl = (subject: SubjectType) => {
   let baseUrl = `${toSubject(subject.id)}/`;
   if (subject.topicId) {
     baseUrl = `${baseUrl}${removeUrn(subject.topicId)}/`;
@@ -26,13 +35,14 @@ export const createSubjectUrl = subject => {
   return baseUrl;
 };
 
-const createProgrammeUrl = (program, locale) => {
+const createProgrammeUrl = (program: ProgramType, locale: LocaleType) => {
   return toProgramme(program.url[locale]);
 };
 
-export const getCategorizedSubjects = locale => {
+export const getCategorizedSubjects = (locale: LocaleType) => {
   return subjectsCategories.map(category => {
     const subjects = category.subjects.map(subject => {
+      // @ts-ignore
       if (subject.hideOnFrontpage) {
         return null;
       }
@@ -51,7 +61,7 @@ export const getCategorizedSubjects = locale => {
   });
 };
 
-export const getProgrammes = locale => {
+export const getProgrammes = (locale: LocaleType) => {
   const programmesData = programmes.map(program => {
     const path = createProgrammeUrl(program, locale);
     return {

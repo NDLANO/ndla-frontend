@@ -6,12 +6,15 @@
  *
  */
 
+import { RouteComponentProps } from 'react-router-dom';
 import { LocaleType } from '../interfaces';
 import { preferredLocales } from '../i18n';
-import {RouteComponentProps} from 'react-router-dom';
 
-
-const getLocaleURL = (newLocale: LocaleType, locale: LocaleType, location: RouteComponentProps['location']) => {
+const getLocaleURL = (
+  newLocale: LocaleType,
+  locale: LocaleType,
+  location: RouteComponentProps['location'],
+) => {
   const { pathname, search } = location;
   const basePath = pathname.startsWith(`/${locale}/`)
     ? pathname.replace(`/${locale}/`, '/')
@@ -28,8 +31,10 @@ type LocaleUrls = {
   };
 };
 
-
-export const getLocaleUrls = (locale: LocaleType, location:RouteComponentProps['location']) => {
+export const getLocaleUrls = (
+  locale: LocaleType,
+  location: RouteComponentProps['location'],
+) => {
   const localeUrls = {} as LocaleUrls;
   preferredLocales.forEach(appLocale => {
     localeUrls[appLocale.abbreviation] = {

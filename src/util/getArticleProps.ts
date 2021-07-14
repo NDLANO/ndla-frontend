@@ -14,7 +14,9 @@ export const getArticleProps = (resource: GQLResource, topic: GQLTopic) => {
 
   const contentType = hasResourceTypes ? getContentType(resource) : undefined;
 
-  const additional = topic?.supplementaryResources?.some(item => item?.id === resource.id) ?? false;
+  const additional =
+    topic?.supplementaryResources?.some(item => item?.id === resource.id) ??
+    false;
 
   const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) ?? '';
   return { contentType, label, additional };

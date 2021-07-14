@@ -13,7 +13,10 @@ import { ErrorInfo } from 'react';
 const log =
   process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;
 
-const handleError = (error: ApolloError | Error | string, info?: ErrorInfo | {clientTime: Date}) => {
+const handleError = (
+  error: ApolloError | Error | string,
+  info?: ErrorInfo | { clientTime: Date },
+) => {
   if (
     process.env.NODE_ENV === 'production' &&
     process.env.BUILD_TARGET === 'client'

@@ -30,3 +30,37 @@ export interface NDLAWindow {
 }
 
 export type LocaleType = typeof LocaleValues[number];
+
+export type ProgramType =
+  | {
+      name: Record<LocaleType, string>;
+      url: Record<LocaleType, string>;
+      meta: { description: { nb: string; nn: string } };
+      image: { url: string };
+      grades: {
+        name: string;
+        categories: (
+          | { name: null; subjects: { id: string }[] }
+          | { name: Record<LocaleType, string>; subjects: { id: string }[] }
+        )[];
+      }[];
+    }
+  | {
+      name: Record<LocaleType, string>;
+      url: Record<LocaleType, string>;
+      image: { url: string };
+      grades: {
+        name: string;
+        categories: (
+          | { name: null; subjects: { id: string }[] }
+          | { name: Record<LocaleType, string>; subjects: { id: string }[] }
+        )[];
+      }[];
+      meta?: undefined;
+    };
+export type SubjectType = {
+  longName?: Record<LocaleType, string>;
+  name?: Record<LocaleType, string>;
+  id: any;
+  topicId?: any;
+};

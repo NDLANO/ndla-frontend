@@ -1,4 +1,4 @@
-import { GQLTopic } from "../graphqlTypes";
+import { GQLTopic } from '../graphqlTypes';
 
 /**
  * Copyright (c) 2018-present, NDLA.
@@ -7,7 +7,11 @@ import { GQLTopic } from "../graphqlTypes";
  * LICENSE file in the root directory of this source tree.
  *
  */
-export const getTopicPath = (subjectId: string, topicId: string, topics: GQLTopic[]) => {
+export const getTopicPath = (
+  subjectId: string,
+  topicId: string,
+  topics: GQLTopic[],
+) => {
   if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);
   if (!leaf) {

@@ -20,12 +20,16 @@ import {
 
 const { contentTypes } = constants;
 
-type ContentType = typeof RESOURCE_TYPE_SOURCE_MATERIAL | typeof RESOURCE_TYPE_LEARNING_PATH |
-typeof RESOURCE_TYPE_TASKS_AND_ACTIVITIES | typeof RESOURCE_TYPE_SUBJECT_MATERIAL | 
-typeof RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES | typeof RESOURCE_TYPE_SOURCE_MATERIAL | string;
+type ContentType =
+  | typeof RESOURCE_TYPE_SOURCE_MATERIAL
+  | typeof RESOURCE_TYPE_LEARNING_PATH
+  | typeof RESOURCE_TYPE_TASKS_AND_ACTIVITIES
+  | typeof RESOURCE_TYPE_SUBJECT_MATERIAL
+  | typeof RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES
+  | typeof RESOURCE_TYPE_SOURCE_MATERIAL
+  | string;
 
-
-export const contentTypeMapping:Record<ContentType,string> = {
+export const contentTypeMapping: Record<ContentType, string> = {
   [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
 
   [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,
@@ -58,7 +62,9 @@ export const resourceTypeMapping = {
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
 };
 
-function getContentTypeFromResourceTypes(resourceTypes: GQLResourceType[] = []) {
+function getContentTypeFromResourceTypes(
+  resourceTypes: GQLResourceType[] = [],
+) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
     return { contentType: contentTypeMapping[resourceType.id] };
@@ -66,12 +72,12 @@ function getContentTypeFromResourceTypes(resourceTypes: GQLResourceType[] = []) 
   return { contentType: contentTypeMapping.default };
 }
 
-export function getContentType(resourceOrTopic : GQLResource | GQLTopic) {
+export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
   if (resourceOrTopic.hasOwnProperty('subtopics')) {
     return contentTypes.TOPIC;
-  }else {
+  } else {
     // @ts-ignore
     return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
-    .contentType;
+      .contentType;
   }
 }

@@ -17,7 +17,7 @@ export const groupedSubtopicsByParent = (topics: GQLTopic[] = []) =>
     'parent',
   );
 
-export const toTopicMenu = (topic:GQLTopic, topics:GQLTopic[]) => {
+export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);
   const subtopics = defined(groupedSubTopics[topic.id], []);
   const subtopicsWithSubtopics = subtopics.map((child: GQLTopic) =>
