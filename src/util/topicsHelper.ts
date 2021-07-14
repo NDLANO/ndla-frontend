@@ -9,17 +9,18 @@
 import defined from 'defined';
 import groupBy from './groupBy';
 import { fixEndSlash } from '../routeHelpers';
+import { GQLTopic } from '../graphqlTypes';
 
-export const groupedSubtopicsByParent = (topics = []) =>
+export const groupedSubtopicsByParent = (topics: GQLTopic[] = []) =>
   groupBy(
     topics.filter(topic => topic.parent),
     'parent',
   );
 
-export const toTopicMenu = (topic, topics) => {
+export const toTopicMenu = (topic:GQLTopic, topics:GQLTopic[]) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);
   const subtopics = defined(groupedSubTopics[topic.id], []);
-  const subtopicsWithSubtopics = subtopics.map(child =>
+  const subtopicsWithSubtopics = subtopics.map((child: GQLTopic) =>
     toTopicMenu(child, topics),
   );
   return {
@@ -33,7 +34,7 @@ export const toTopicMenu = (topic, topics) => {
   };
 };
 
-export const topicIntroductionMessages = t => ({
+export const topicIntroductionMessages = (t: (arg0: string) => any) => ({
   noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
   noContentBoxButtonText: t('resource.activateAdditionalResources'),
   shortcutButtonText: t('resource.shortcutButtonText'),

@@ -357,3 +357,52 @@ export interface GQLSubjectPageVisualElement {
   url?: string;
   alt?: string;
 }
+
+export interface GQLFrontpageSearch {
+  topicResources?: GQLFrontPageResources;
+  learningResources?: GQLFrontPageResources;
+}
+
+export interface GQLFrontPageResources {
+  results?: Array<GQLFrontpageSearchResult | null>;
+  totalCount?: number;
+  suggestions?: Array<GQLSuggestionResult | null>;
+}
+
+export interface GQLFrontpageSearchResult {
+  id: string;
+  name?: string;
+  resourceTypes?: Array<GQLSearchContextResourceTypes | null>;
+  subject?: string;
+  path?: string;
+  filters?: Array<GQLSearchContextFilter | null>;
+}
+
+export interface GQLSearchContextFilter {
+  id?: string;
+  name?: string;
+  relevance?: string;
+}
+
+export interface GQLSearchContextResourceTypes {
+  id?: string;
+  name?: string;
+  language?: string;
+}
+
+export interface GQLSuggestionResult {
+  name?: string;
+  suggestions?: Array<GQLSearchSuggestion | null>;
+}
+
+export interface GQLSearchSuggestion {
+  text?: string;
+  offset?: number;
+  length?: number;
+  options?: Array<GQLSuggestOption | null>;
+}
+
+export interface GQLSuggestOption {
+  text?: string;
+  score?: number;
+}

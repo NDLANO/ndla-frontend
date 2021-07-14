@@ -7,6 +7,7 @@
  */
 
 import format from 'date-fns/format';
+import { GQLArticle, GQLBrightcoveLicense, GQLCopyright, GQLImageLicense } from '../graphqlTypes';
 
 import config from '../config';
 
@@ -25,72 +26,82 @@ const getStructuredDataBase = () => ({
   '@context': 'http://schema.org',
 });
 
-const getCopyrightData = ({ creators, rightsholders, license, processors }) => {
-  const data = {
-    license: license.url,
+
+
+const getCopyrightData = ({ creators, rightsholders, license, processors }: GQLCopyright) => {
+  const data: StructuredData = {
+    license: license?.url,
   };
 
   const author = creators?.map(c => {
     return {
       '@type': PERSON_TYPE,
-      name: c.name,
+      name: c?.name,
     };
   });
-  if (author?.length > 0) {
+  if (author!.length > 0) {
     data.author = author;
   }
 
   const copyrightHolder = rightsholders?.map(r => {
     return {
       '@type': ORGANIZATION_TYPE,
-      name: r.name,
+      name: r?.name,
     };
   });
-  if (copyrightHolder?.length > 0) {
+  if (copyrightHolder!.length > 0) {
     data.copyrightHolder = copyrightHolder;
   }
 
   const contributor = processors?.map(c => {
     return {
       '@type': PERSON_TYPE,
-      name: c.name,
+      name: c?.name,
     };
   });
-  if (contributor?.length > 0) {
+  if (contributor!.length > 0) {
     data.contributor = contributor;
   }
 
   return data;
 };
 
+
 const getPublisher = () => {
-  const data = {};
-  data.publisher = {
-    '@type': ORGANIZATION_TYPE,
-    name: 'NDLA',
-    url: 'https://ndla.no',
-    logo: 'https://ndla.no/static/logo.png',
+  const data = {
+    publisher : {
+      '@type': ORGANIZATION_TYPE,
+      name: 'NDLA',
+      url: 'https://ndla.no',
+      logo: 'https://ndla.no/static/logo.png',
+    }
   };
   return data;
 };
+type Breadcrumb = {
+  id?: string;
+  name?: string;
+  to?: string;
+};
 
-const getBreadcrumbs = breadcrumbItems => {
+
+
+const getBreadcrumbs = (breadcrumbItems: Breadcrumb[]) => {
   if (!breadcrumbItems) {
-    return [];
+    return undefined;
   }
-  const items = breadcrumbItems.map((item, index) => {
-    return {
+  const items = breadcrumbItems.map((item, index) => (
+     {
       '@type': ITEM_TYPE,
       name: item.name,
       position: index + 1,
       item: {
         '@type': THING_TYPE,
         id: `${config.ndlaFrontendDomain}${item.to}`,
-      },
-    };
-  });
+      }})
+  );
 
-  let data = getStructuredDataBase();
+  let data: StructuredData = getStructuredDataBase();
   data['@type'] = BREADCRUMB_TYPE;
   data.numberOfItems = breadcrumbItems.length;
   data.itemListELement = items;
@@ -98,10 +109,41 @@ const getBreadcrumbs = breadcrumbItems => {
   return data;
 };
 
-const getStructuredDataFromArticle = (article, breadcrumbItems) => {
+interface StructuredData{
+  embedUrl?: string;
+  thumbnailUrl?: string;
+  description?: string;
+  contentUrl?: string;
+  uploadDate?: string;
+  copyrightHolder?: { '@type': string; name?: string; }[];
+  contributor?: { '@type': string; name?: string; }[];
+  license?: string;
+  author?:{
+    '@type': string;
+    name?: string;
+  }[]
+  name?: string;
+  headline?: string;
+  abstract?: string;
+  datePublished?: string;
+  dateModified?: string;
+  image?: string;
+  numberOfItems?: number;
+  itemListELement?: { '@type': string; name?: string; position: number; item: { '@type': string; id: string; }; }[];
+  '@type':string;
+  '@context': string;
+  '@id'?: string;
+}
+
+interface Mediaelements{
+  data: GQLImageLicense | GQLBrightcoveLicense | null;
+  type: string;
+}
+
+const getStructuredDataFromArticle = (article: GQLArticle, breadcrumbItems: Breadcrumb[]) => {
   if (!article) return [];
 
-  let articleData = getStructuredDataBase();
+  let articleData: StructuredData = getStructuredDataBase();
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
   articleData.headline = article.title;
@@ -125,7 +167,8 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
     structuredDataCollection.push(breadcrumbs);
   }
 
-  const mediaElements = [];
+
+  const mediaElements: Mediaelements[] = [];
 
   const images = article.metaData?.images || [];
   images.forEach(image => {
@@ -155,24 +198,24 @@ const getStructuredDataFromArticle = (article, breadcrumbItems) => {
   mediaElements.forEach(media => {
     const { data, type } = media;
 
-    let structuredData = getStructuredDataBase();
+    let structuredData: StructuredData = getStructuredDataBase();
     structuredData['@type'] = type;
-    structuredData['@id'] = data.src;
-    structuredData.name = data.title;
+    structuredData['@id'] = data?.src;
+    structuredData.name = data?.title;
 
     if (type === VIDEO_TYPE) {
-      structuredData.embedUrl = data.src;
-      structuredData.thumbnailUrl = data.cover;
-      structuredData.description = data.description;
-      structuredData.contentUrl = data.download;
-      structuredData.uploadDate = format(data.uploadDate, 'YYYY-MM-DD');
+      structuredData.embedUrl = data?.src;
+      structuredData.thumbnailUrl = data?.cover;
+      structuredData.description = data?.description;
+      structuredData.contentUrl = data?.download;
+      structuredData.uploadDate = format(data?.uploadDate, 'YYYY-MM-DD');
     } else {
-      structuredData.contentUrl = data.src;
+      structuredData.contentUrl = data?.src;
     }
 
     structuredData = {
       ...structuredData,
-      ...getCopyrightData(data.copyright),
+      ...getCopyrightData(data?.copyright!),
     };
 
     structuredDataCollection.push(structuredData);

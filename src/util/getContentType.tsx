@@ -7,6 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
+import { GQLResource, GQLResourceType, GQLTopic } from '../graphqlTypes';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -19,7 +20,12 @@ import {
 
 const { contentTypes } = constants;
 
-export const contentTypeMapping = {
+type ContentType = typeof RESOURCE_TYPE_SOURCE_MATERIAL | typeof RESOURCE_TYPE_LEARNING_PATH |
+typeof RESOURCE_TYPE_TASKS_AND_ACTIVITIES | typeof RESOURCE_TYPE_SUBJECT_MATERIAL | 
+typeof RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES | typeof RESOURCE_TYPE_SOURCE_MATERIAL | string;
+
+
+export const contentTypeMapping:Record<ContentType,string> = {
   [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
 
   [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,
@@ -52,7 +58,7 @@ export const resourceTypeMapping = {
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
 };
 
-function getContentTypeFromResourceTypes(resourceTypes = []) {
+function getContentTypeFromResourceTypes(resourceTypes: GQLResourceType[] = []) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
     return { contentType: contentTypeMapping[resourceType.id] };
@@ -60,10 +66,12 @@ function getContentTypeFromResourceTypes(resourceTypes = []) {
   return { contentType: contentTypeMapping.default };
 }
 
-export function getContentType(resourceOrTopic) {
-  if (resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic')) {
+export function getContentType(resourceOrTopic : GQLResource | GQLTopic) {
+  if (resourceOrTopic.hasOwnProperty('subtopics')) {
     return contentTypes.TOPIC;
-  }
-  return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
+  }else {
+    // @ts-ignore
+    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
     .contentType;
+  }
 }

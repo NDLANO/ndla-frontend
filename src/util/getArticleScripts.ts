@@ -6,19 +6,19 @@
  *
  */
 
-function getAssets() {
-  if (process.env.BUILD_TARGET === 'client') {
-    return window.DATA.assets;
-  }
-  return global.assets;
-}
+import { GQLArticle } from "../graphqlTypes";
 
-export function getArticleScripts(article) {
-  getAssets();
-  const scripts =
-    article?.requiredLibraries.map(lib => ({
-      src: lib.url,
-      type: lib.mediaType,
+export function getArticleScripts(article: GQLArticle) {
+  const scripts: Array<{
+    key?:string;
+    src?:string;
+    type?:string;
+    async?:boolean;
+    defer?:boolean;
+  }> =
+    article?.requiredLibraries?.map(lib => ({
+      src: lib?.url,
+      type: lib?.mediaType,
     })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({

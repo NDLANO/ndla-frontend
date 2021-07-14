@@ -6,7 +6,7 @@
  *
  */
 
-const func = function(array, key) {
+const func = function(array: any[], key: string) {
   return array.reduce((obj, item) => {
     const copy = obj;
     copy[item[key]] = copy[item[key]] || [];

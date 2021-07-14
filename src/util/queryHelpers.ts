@@ -6,15 +6,15 @@
  *
  */
 
-export function parseQueryString(query) {
+export function parseQueryString(query: string) {
   const pairs = query
     .replace('?', '')
     .split('&')
     .map(pair => pair.split('='));
-  return pairs.reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+  return pairs.reduce((obj, [key, value]) => ({ ...obj, [key!]: value }), {});
 }
 
-export const createQueryString = obj =>
+export const createQueryString = (obj: any) =>
   Object.keys(obj)
     .map(key => `${key}=${obj[key]}`)
     .join('&');
