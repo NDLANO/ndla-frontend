@@ -6,7 +6,7 @@
  *
  */
 
-import config from 'config';
+import config from '../config';
 import { fetchSeries } from '../util/audioApi';
 
 const podcastRssFeed = async (seriesId: number): Promise<string> => {
