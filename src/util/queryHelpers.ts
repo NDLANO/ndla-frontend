@@ -14,7 +14,7 @@ export function parseQueryString(query: string) {
   return pairs.reduce((obj, [key, value]) => ({ ...obj, [key!]: value }), {});
 }
 
-export const createQueryString = (obj: any) =>
+export const createQueryString = (obj: Record<string, string | number | boolean>) =>
   Object.keys(obj)
     .map(key => `${key}=${obj[key]}`)
     .join('&');

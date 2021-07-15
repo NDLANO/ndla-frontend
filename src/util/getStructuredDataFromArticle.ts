@@ -28,7 +28,9 @@ const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 
-const getStructuredDataBase = () => ({});
+const getStructuredDataBase = () => ({
+  '@context': 'http://schema.org',
+});
 
 const getCopyrightData = ({
   creators,
@@ -171,9 +173,7 @@ const getStructuredDataFromArticle = (
 
   const structuredDataCollection = [articleData];
 
-  const breadcrumbs = breadcrumbItems
-    ? getBreadcrumbs(breadcrumbItems)
-    : undefined;
+  const breadcrumbs = getBreadcrumbs(breadcrumbItems);
   if (breadcrumbs) {
     structuredDataCollection.push(breadcrumbs);
   }

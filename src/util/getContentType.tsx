@@ -20,16 +20,7 @@ import {
 
 const { contentTypes } = constants;
 
-type ContentType =
-  | typeof RESOURCE_TYPE_SOURCE_MATERIAL
-  | typeof RESOURCE_TYPE_LEARNING_PATH
-  | typeof RESOURCE_TYPE_TASKS_AND_ACTIVITIES
-  | typeof RESOURCE_TYPE_SUBJECT_MATERIAL
-  | typeof RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES
-  | typeof RESOURCE_TYPE_SOURCE_MATERIAL
-  | string;
-
-export const contentTypeMapping: Record<ContentType, string> = {
+export const contentTypeMapping: Record<string, string> = {
   [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
 
   [RESOURCE_TYPE_SUBJECT_MATERIAL]: contentTypes.SUBJECT_MATERIAL,

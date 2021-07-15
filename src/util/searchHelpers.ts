@@ -8,13 +8,16 @@ import {
   studySpecializationSubjects,
 } from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
+import { tType } from '@ndla/i18n';
 
 const createSubjectPath = (subject: SubjectType) => {
   return `/${removeUrn(subject.id)}/`;
 };
 
+type CategoryTypes = 'common' | 'programme' | 'study';
+
 type Categories = {
-  [key in 'common' | 'programme' | 'study']: string;
+  [key in CategoryTypes]: string;
 };
 
 const categories: Categories = {
@@ -37,13 +40,17 @@ export const searchSubjects = (query: string, locale: LocaleType = 'nb') => {
     ...studySpecializationSubjects,
   ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
 
-  return foundInSubjects.map(subject => ({
-    id: subject.id,
-    path: createSubjectPath(subject),
-    subject:
-      categories[subject.id.split('_')[0] as 'common' | 'programme' | 'study'],
-    name: subject.longName[locale],
-  }));
+  return foundInSubjects.map(subject => {
+
+    return({
+      id: subject.id,
+      path: createSubjectPath(subject),
+      subject:
+        categories[subject.id.split('_')[0]! as CategoryTypes],
+      name: subject.longName[locale],
+    })
+    
+});
 };
 
 interface searchResult {
@@ -69,7 +76,7 @@ export const frontPageSearchSuggestion = (searchResult: searchResult) => {
 
 export const mapSearchToFrontPageStructure = (
   data: searchResult,
-  t: (arg0: string) => any,
+  t: tType["t"],
   query: string,
   locale: LocaleType,
 ) => {

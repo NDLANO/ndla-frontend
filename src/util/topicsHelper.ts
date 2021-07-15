@@ -10,6 +10,7 @@ import defined from 'defined';
 import groupBy from './groupBy';
 import { fixEndSlash } from '../routeHelpers';
 import { GQLTopic } from '../graphqlTypes';
+import { tType } from '@ndla/i18n';
 
 export const groupedSubtopicsByParent = (topics: GQLTopic[] = []) =>
   groupBy(
@@ -34,7 +35,7 @@ export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   };
 };
 
-export const topicIntroductionMessages = (t: (arg0: string) => any) => ({
+export const topicIntroductionMessages = (t: tType["t"]) => ({
   noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
   noContentBoxButtonText: t('resource.activateAdditionalResources'),
   shortcutButtonText: t('resource.shortcutButtonText'),

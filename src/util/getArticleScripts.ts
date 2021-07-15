@@ -8,14 +8,16 @@
 
 import { GQLArticle } from '../graphqlTypes';
 
-export function getArticleScripts(article: GQLArticle) {
-  const scripts: Array<{
+interface Scripts {
     key?: string;
     src?: string;
     type?: string;
     async?: boolean;
     defer?: boolean;
-  }> =
+}
+
+export function getArticleScripts(article: GQLArticle) {
+  const scripts: Array<Scripts> =
     article?.requiredLibraries?.map(lib => ({
       src: lib?.url,
       type: lib?.mediaType,

@@ -56,11 +56,11 @@ export type ProgramType =
           | { name: Record<LocaleType, string>; subjects: { id: string }[] }
         )[];
       }[];
-      meta?: undefined;
+      meta?: { description: { nb: string; nn: string } };
     };
 export type SubjectType = {
   longName?: Record<LocaleType, string>;
   name?: Record<LocaleType, string>;
-  id: any;
-  topicId?: any;
+  id: string;
+  topicId?: string;
 };
