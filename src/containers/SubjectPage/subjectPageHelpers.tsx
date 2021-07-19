@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import queryString from 'query-string';
 import { RefObject } from 'react';
+// @ts-ignore
+import queryString from 'query-string';
 import { toTopicPartial } from '../../routeHelpers';
 import { GQLResourceType } from '../../graphqlTypes';
 

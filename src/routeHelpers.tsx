@@ -13,8 +13,9 @@ import {
   SUBJECT_PAGE_PATH,
   TOPIC_PATH,
 } from './constants';
-
+// @ts-ignore
 import { getProgrammeBySlug } from './data/programmes';
+// @ts-ignore
 import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
 

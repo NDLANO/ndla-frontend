@@ -11,8 +11,11 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
 import { getUrnIdsFromProps } from '../../routeHelpers';
+// @ts-ignore
 import { subjectPageQueryWithTopics } from '../../queries';
+// @ts-ignore
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+// @ts-ignore
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
