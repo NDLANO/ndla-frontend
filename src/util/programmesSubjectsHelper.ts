@@ -56,7 +56,7 @@ const createProgrammeUrl = (program: ProgramType, locale: LocaleType) => {
 export const getCategorizedSubjects = (locale: LocaleType) => {
   return subjectsCategories.map((category: SubjectCategory) => {
     let subjects = category?.subjects
-      .filter(subject => subject.hideOnFrontPage!)
+      .filter(subject => !subject.hideOnFrontPage)
       .map(subject => {
         const path = createSubjectUrl(subject);
         return {
