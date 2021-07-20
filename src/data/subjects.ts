@@ -1,4 +1,4 @@
-import { LocaleType } from '../interfaces';
+import { LocaleType, SubjectType } from '../interfaces';
 
 export const commonSubjects = [
   {
@@ -2605,13 +2605,6 @@ export const subjectsCategories = [
     subjects: betaSubjects,
   },
 ];
-
-type SubjectType = {
-  longName?: Record<LocaleType, string>;
-  name: Record<LocaleType, string>;
-  id: string;
-  topicId?: string;
-};
 
 type SubjectIds = {
   [key: string]: SubjectType;

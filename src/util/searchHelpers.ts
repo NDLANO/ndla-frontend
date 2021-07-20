@@ -1,3 +1,4 @@
+import { tType } from '@ndla/i18n';
 import { GQLFrontpageSearch } from '../graphqlTypes';
 import { LocaleType, SubjectType } from '../interfaces';
 import {
@@ -8,7 +9,6 @@ import {
   studySpecializationSubjects,
 } from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
-import { tType } from '@ndla/i18n';
 
 const createSubjectPath = (subject: SubjectType) => {
   return `/${removeUrn(subject.id)}/`;
@@ -41,16 +41,13 @@ export const searchSubjects = (query: string, locale: LocaleType = 'nb') => {
   ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
 
   return foundInSubjects.map(subject => {
-
-    return({
+    return {
       id: subject.id,
       path: createSubjectPath(subject),
-      subject:
-        categories[subject.id.split('_')[0]! as CategoryTypes],
+      subject: categories[subject.id.split('_')[0]! as CategoryTypes],
       name: subject.longName[locale],
-    })
-    
-});
+    };
+  });
 };
 
 interface searchResult {
@@ -76,7 +73,7 @@ export const frontPageSearchSuggestion = (searchResult: searchResult) => {
 
 export const mapSearchToFrontPageStructure = (
   data: searchResult,
-  t: tType["t"],
+  t: tType['t'],
   query: string,
   locale: LocaleType,
 ) => {

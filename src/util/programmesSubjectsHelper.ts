@@ -12,18 +12,32 @@ import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
 import { LocaleType, ProgramType, SubjectType } from '../interfaces';
 
-interface ProgramSubjectType {
+interface SubjectCategory {
+  name: Record<LocaleType, string>;
+  subjects: {
+    longName: Record<LocaleType, string>;
+    name: Record<LocaleType, string>;
+    id: string;
+    hideOnFrontPage?: boolean;
+  }[];
+}
+interface ProgramSubjectBase {
   name: string;
   url: string;
   path: string;
-  label?: string;
-  [key: string]: string | undefined;
 }
+interface ProgramSubjectType extends ProgramSubjectBase {
+  label?: string;
+}
+type ProgramSubject = keyof ProgramSubjectType;
 
-const sortBy = (arr?: (ProgramSubjectType | null)[], sortByProp = 'name') =>
-  arr?.sort((a: ProgramSubjectType | null, b: ProgramSubjectType | null) => {
-    if (a![sortByProp]! < b![sortByProp]!) return -1;
-    if (a![sortByProp]! > b![sortByProp]!) return 1;
+const sortBy = (
+  arr?: ProgramSubjectType[],
+  sortByProp: ProgramSubject = 'name',
+) =>
+  arr?.sort((a: ProgramSubjectType, b: ProgramSubjectType) => {
+    if (a[sortByProp]! < b[sortByProp]!) return -1;
+    if (a[sortByProp]! > b[sortByProp]!) return 1;
     return 0;
   });
 
@@ -40,23 +54,21 @@ const createProgrammeUrl = (program: ProgramType, locale: LocaleType) => {
 };
 
 export const getCategorizedSubjects = (locale: LocaleType) => {
-  return subjectsCategories.map(category => {
-    const subjects = category.subjects.map(subject => {
-      // @ts-ignore
-      if (subject.hideOnFrontpage) {
-        return null;
-      }
-      const path = createSubjectUrl(subject);
-      return {
-        name: subject.longName[locale],
-        url: path,
-        path,
-      };
-    });
+  return subjectsCategories.map((category: SubjectCategory) => {
+    let subjects = category?.subjects
+      .filter(subject => subject.hideOnFrontPage!)
+      .map(subject => {
+        const path = createSubjectUrl(subject);
+        return {
+          name: subject.longName[locale],
+          url: path,
+          path,
+        };
+      });
 
     return {
       name: category.name[locale],
-      subjects: sortBy(subjects.filter(Boolean)),
+      subjects: sortBy(subjects),
     };
   });
 };

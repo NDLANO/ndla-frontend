@@ -9,11 +9,11 @@
 import { GQLArticle } from '../graphqlTypes';
 
 interface Scripts {
-    key?: string;
-    src?: string;
-    type?: string;
-    async?: boolean;
-    defer?: boolean;
+  key?: string;
+  src?: string;
+  type?: string;
+  async?: boolean;
+  defer?: boolean;
 }
 
 export function getArticleScripts(article: GQLArticle) {

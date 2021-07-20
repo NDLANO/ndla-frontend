@@ -31,33 +31,23 @@ export interface NDLAWindow {
 
 export type LocaleType = typeof LocaleValues[number];
 
-export type ProgramType =
-  | {
-      name: Record<LocaleType, string>;
-      url: Record<LocaleType, string>;
-      meta: { description: { nb: string; nn: string } };
-      image: { url: string };
-      grades: {
-        name: string;
-        categories: (
-          | { name: null; subjects: { id: string }[] }
-          | { name: Record<LocaleType, string>; subjects: { id: string }[] }
-        )[];
-      }[];
-    }
-  | {
-      name: Record<LocaleType, string>;
-      url: Record<LocaleType, string>;
-      image: { url: string };
-      grades: {
-        name: string;
-        categories: (
-          | { name: null; subjects: { id: string }[] }
-          | { name: Record<LocaleType, string>; subjects: { id: string }[] }
-        )[];
-      }[];
-      meta?: { description: { nb: string; nn: string } };
-    };
+interface ProgramTypeBase {
+  name: Record<LocaleType, string>;
+  url: Record<LocaleType, string>;
+  meta: { description: { nb: string; nn: string } };
+  image: { url: string };
+  grades: {
+    name: string;
+    categories: (
+      | { name: null; subjects: { id: string }[] }
+      | { name: Record<LocaleType, string>; subjects: { id: string }[] }
+    )[];
+  }[];
+}
+export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
+  meta?: { description: { nb: string; nn: string } };
+}
+
 export type SubjectType = {
   longName?: Record<LocaleType, string>;
   name?: Record<LocaleType, string>;
