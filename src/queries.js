@@ -488,8 +488,6 @@ export const articleInfoFragment = gql`
     copyright {
       ...CopyrightInfo
     }
-  }
-`; /** 
     visualElement {
       title
       alt
@@ -515,9 +513,11 @@ export const articleInfoFragment = gql`
       upperLeftY
       url
       thumbnail
+      embed
+      language
     }
   }
-`;*/
+`;
 
 export const taxonomyEntityInfo = gql`
   ${metaInfoFragment}

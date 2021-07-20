@@ -85,16 +85,20 @@ const ToolboxTopicWrapper = ({
 
   const { topic, resourceTypes } = data;
   const { article } = data.topic;
+  
+  if (!article) {
+    return null;
+  }
 
   const toolboxTopic: TopicProps = {
     topic: {
-      title: article?.title!,
-      introduction: article?.introduction!,
-      image: { url: article?.metaImage?.url!, alt: article?.metaImage?.alt! },
+      title: article.title,
+      introduction: article.introduction!,
+      image: { url: article.metaImage?.url!, alt: article?.metaImage?.alt! },
       visualElement: {
-        type: article?.visualElement?.resource as ResourceType,
+        type: article?.visualElement?.resource! as ResourceType,
         element: (
-          <VisualElementWrapper visualElement={article?.visualElement} />
+          <VisualElementWrapper visualElement={article?.visualElement!} />
         ),
       },
       resources: topic.subtopics ? (
@@ -108,6 +112,7 @@ const ToolboxTopicWrapper = ({
       ),
     },
   };
+
 
   const subTopics = topic?.subtopics?.map((subtopic: any) => {
     return {

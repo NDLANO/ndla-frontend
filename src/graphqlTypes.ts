@@ -280,18 +280,21 @@ export interface GQLTopic extends GQLTaxonomyEntity {
   name: string;
   contentUri?: string;
   path?: string;
-  paths?: Array<string | null>;
+  paths?: Array<string>;
   meta?: GQLMeta;
   metadata?: GQLTaxonomyMetadata;
   article?: GQLArticle;
+  filters?: Array<GQLFilter>;
+  rank?: number;
   relevanceId?: string;
   isPrimary?: boolean;
   parent?: string;
-  subtopics?: Array<GQLTopic | null>;
-  pathTopics?: Array<Array<GQLTopic | null> | null>;
-  coreResources?: Array<GQLResource | null>;
-  supplementaryResources?: Array<GQLResource | null>;
-  breadcrumbs?: Array<Array<string | null> | null>;
+  subtopics?: Array<GQLTopic>;
+  pathTopics?: Array<Array<GQLTopic>>;
+  coreResources?: Array<GQLResource>;
+  supplementaryResources?: Array<GQLResource>;
+  alternateTopics?: Array<GQLTopic>;
+  breadcrumbs?: Array<Array<string>>;
 }
 
 export interface GQLSearchResultSubject {
@@ -331,7 +334,10 @@ export interface GQLVisualElement {
   focalY?: number;
   copyright?: GQLCopyright;
   copyText?: string;
+  embed?: string;
+  language?: string;
 }
+
 
 export interface GQLVisualElementOembed {
   title?: string;
@@ -345,9 +351,21 @@ export interface GQLSubject {
   name: string;
   path: string;
   metadata?: GQLTaxonomyMetadata;
+  filters?: Array<GQLSubjectFilter>;
+  frontpageFilters?: Array<GQLSubjectFilter>;
   subjectpage?: GQLSubjectPage;
-  topics?: Array<GQLTopic | null>;
+  topics?: Array<GQLTopic>;
 }
+
+export interface GQLSubjectFilter {
+  id: string;
+  name: string;
+  subjectId: string;
+  contentUri?: string;
+  subjectpage?: GQLSubjectPage;
+  metadata?: GQLTaxonomyMetadata;
+}
+
 export interface GQLResourceTypeDefinition {
   id: string;
   name: string;
@@ -384,4 +402,13 @@ export interface GQLSubjectPageVisualElement {
   type?: string;
   url?: string;
   alt?: string;
+}
+
+export interface GQLFilter {
+  id: string;
+  name: string;
+  connectionId?: string;
+  relevanceId?: string;
+  subjectId?: string;
+  metadata?: GQLTaxonomyMetadata;
 }
