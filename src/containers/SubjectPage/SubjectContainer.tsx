@@ -9,32 +9,31 @@
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
-import { OneColumn, SubjectBanner, LayoutItem } from '@ndla/ui';
-import { NavigationHeading, Breadcrumblist } from '@ndla/ui';
-
+import {
+  // @ts-ignore
+  OneColumn,
+  // @ts-ignore
+  SubjectBanner,
+  // @ts-ignore
+  LayoutItem,
+  NavigationHeading,
+  Breadcrumblist,
+} from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
-import { BreadcrumbItemProps } from '@ndla/ui';
-// @ts-ignore
 import SubjectPageContent from './components/SubjectPageContent';
-// @ts-ignore
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-// @ts-ignore
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
-// @ts-ignore
 import SubjectPageInformation from './components/SubjectPageInformation';
-// @ts-ignore
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-// @ts-ignore
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { LocaleType } from '../../interfaces';
+import { BreadcrumbItem, LocaleType } from '../../interfaces';
 import { GQLSubject, GQLTopic } from '../../graphqlTypes';
 
 type Props = {
@@ -48,12 +47,9 @@ type Props = {
 } & tType &
   RouteComponentProps;
 
-type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
-
 const SubjectContainer = ({
   history,
   locale,
-  skipToContentId,
   t,
   subjectId,
   topics,
@@ -66,7 +62,6 @@ const SubjectContainer = ({
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
   const editorsChoices = subject.subjectpage?.editorsChoices;
-  const layout = subject.subjectpage?.layout;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -190,6 +185,7 @@ const SubjectContainer = ({
           <LayoutItem layout="extend">
             {about && (
               <SocialMediaMetadata
+                //@ts-ignore
                 title={socialMediaMetadata.title}
                 description={socialMediaMetadata.description}
                 locale={locale}
@@ -209,11 +205,7 @@ const SubjectContainer = ({
               </NavigationHeading>
             </div>
             <SubjectPageContent
-              skipToContentId={skipToContentId}
-              layout={layout}
               locale={locale}
-              subjectId={subjectId}
-              subjectpage={subject.subjectpage}
               subject={subject}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
@@ -232,7 +224,11 @@ const SubjectContainer = ({
       )}
       {false && subject.subjectpage?.about && (
         <OneColumn wide>
-          <SubjectPageInformation subjectpage={subject.subjectpage} wide />
+          <SubjectPageInformation
+            t={t}
+            subjectpage={subject.subjectpage}
+            wide
+          />
         </OneColumn>
       )}
       {false && (editorsChoices?.length ?? 0) > 0 && (

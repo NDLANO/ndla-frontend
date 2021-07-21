@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import handleError from '../../util/handleError';
 
 class ErrorBoundary extends React.Component {

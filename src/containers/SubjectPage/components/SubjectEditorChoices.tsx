@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+// @ts-ignore
 import { SubjectCarousel } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { GraphQLResourceShape } from '../../../graphqlShapes';
+import { injectT, tType } from '@ndla/i18n';
 import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
+import { GQLResource, GQLTaxonomyEntity } from '../../../graphqlTypes';
+import { LocaleType } from '../../../interfaces';
 
-const getResourceTypeName = (resource, t) => {
+const getResourceTypeName = (resource: GQLResource, t: tType['t']) => {
   if (resource.id.startsWith('urn:topic')) {
     return t('contentTypes.topic-article');
   }
@@ -25,23 +26,31 @@ const getResourceTypeName = (resource, t) => {
   ) {
     return t('subjectPage.editorsChoices.unknown');
   }
-  return resource.resourceTypes[0].name;
+  return resource.resourceTypes[0]!.name;
 };
+
+interface Props {
+  editorsChoices: Array<GQLTaxonomyEntity | null> | undefined;
+  narrowScreen?: boolean;
+  wideScreen?: boolean;
+  locale: LocaleType;
+}
 
 const SubjectEditorChoices = ({
   editorsChoices,
   narrowScreen,
   wideScreen,
-  locale,
   t,
-}) => {
+}: Props & tType) => {
   if (!editorsChoices) {
     return null;
   }
 
   const editorsChoicesResources = editorsChoices
     .filter(hasContentUri)
-    .map(resource => ({
+    .filter(x => x !== null)
+    //@ts-ignore
+    .map((resource: GQLTaxonomyEntity) => ({
       title: resource.name,
       image:
         resource.meta && resource.meta.metaImage
@@ -50,7 +59,7 @@ const SubjectEditorChoices = ({
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      toLinkProps: () => toLinkProps(resource, locale),
+      toLinkProps: () => toLinkProps(resource),
     }));
 
   if (editorsChoicesResources.length === 0) {
@@ -65,18 +74,6 @@ const SubjectEditorChoices = ({
       narrowScreen={narrowScreen}
     />
   );
-};
-
-SubjectEditorChoices.propTypes = {
-  editorsChoices: PropTypes.arrayOf(GraphQLResourceShape),
-  narrowScreen: PropTypes.bool,
-  wideScreen: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
-};
-
-SubjectEditorChoices.defaultProps = {
-  narrowScreen: false,
-  wideScreen: false,
 };
 
 export default injectT(SubjectEditorChoices);

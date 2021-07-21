@@ -14,9 +14,7 @@ import { PageContainer } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import ZendeskButton from '@ndla/zendesk';
-
 import config from '../../config';
-// @ts-ignore
 import Footer from './components/Footer';
 
 interface Props {
@@ -45,7 +43,7 @@ export const Page = ({
       <meta property="fb:app_id" content="115263542481787" />
     </Helmet>
     {children}
-    <Footer inverted={ndlaFilm} locale={locale} location={location}>
+    <Footer inverted={ndlaFilm} locale={locale} location={location} t={t}>
       {config.zendeskWidgetKey && (
         <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
           {t('askNDLA')}

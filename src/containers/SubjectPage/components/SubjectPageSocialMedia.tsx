@@ -9,15 +9,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  //@ts-ignore
   OneColumn,
+  //@ts-ignore
   SubjectChildContent,
+  //@ts-ignore
   SubjectSocialSection,
+  //@ts-ignore
   SubjectSocialContent,
+  //@ts-ignore
   EmbeddedFacebookPage,
+  //@ts-ignore
   EmbeddedTwitter,
 } from '@ndla/ui';
 
-export const SubjectPageSocialMedia = ({ twitter }) => {
+interface Props {
+  twitter: string;
+}
+
+export const SubjectPageSocialMedia = ({ twitter }: Props) => {
   return (
     <OneColumn noPadding>
       <SubjectChildContent>

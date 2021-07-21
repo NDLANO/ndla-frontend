@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { resourcePageQuery } from '../../queries';

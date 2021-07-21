@@ -7,19 +7,36 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
+  //@ts-ignore
   TopicIntroductionList,
+  //@ts-ignore
   ResourcesWrapper,
+  //@ts-ignore
   ResourcesTitle,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { TopicShape } from '../../../shapes';
+import { injectT, tType } from '@ndla/i18n';
 import { toTopic } from '../subjectPageHelpers';
 import { topicIntroductionMessages } from '../../../util/topicsHelper';
+import { GQLTopic } from '../../../graphqlTypes';
 
-const SubjectPageTopics = props => {
-  const { t, topics, subjectId, twoColumns, subjectPage, ndlaFilm } = props;
+interface Props {
+  topics: Array<GQLTopic>;
+  subjectId: string;
+  twoColumns: boolean;
+  subjectPage: boolean;
+  ndlaFilm: boolean;
+  handleFilterClick: () => void;
+}
+
+const SubjectPageTopics = ({
+  t,
+  topics,
+  subjectId,
+  twoColumns,
+  subjectPage,
+  ndlaFilm,
+}: Props & tType) => {
   return (
     <ResourcesWrapper
       subjectPage
@@ -37,20 +54,6 @@ const SubjectPageTopics = props => {
       </div>
     </ResourcesWrapper>
   );
-};
-
-SubjectPageTopics.propTypes = {
-  handleFilterClick: PropTypes.func.isRequired,
-  topics: PropTypes.arrayOf(TopicShape),
-  subjectId: PropTypes.string.isRequired,
-  twoColumns: PropTypes.bool,
-  subjectPage: PropTypes.bool,
-  ndlaFilm: PropTypes.bool,
-};
-
-SubjectPageTopics.defaultProps = {
-  twoColumns: false,
-  subjectPage: false,
 };
 
 export default injectT(SubjectPageTopics);

@@ -176,7 +176,7 @@ export function fixEndSlash(link: string) {
 type LinkObject = {
   contentUri?: string;
   meta?: object;
-  path: string;
+  path?: string;
 };
 
 export function toLinkProps(linkObject: LinkObject) {

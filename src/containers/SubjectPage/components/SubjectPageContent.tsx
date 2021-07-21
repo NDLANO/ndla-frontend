@@ -7,13 +7,23 @@
  */
 
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { NavigationBox } from '@ndla/ui';
-import { GraphQLSubjectShape } from '../../../graphqlShapes';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
+import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+
+interface Props {
+  subject: GQLSubject & { allTopics: GQLTopic[] };
+  locale: LocaleType;
+  ndlaFilm?: boolean;
+  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  topics: Array<string>;
+  refs: any[];
+  setBreadCrumb: (topic: BreadcrumbItem) => void;
+}
 
 const SubjectPageContent = ({
   subject,
@@ -23,17 +33,18 @@ const SubjectPageContent = ({
   topics,
   refs,
   setBreadCrumb,
-}) => {
+  t,
+}: Props & tType) => {
   useEffect(() => {
     if (topics.length) scrollToRef(refs[topics.length - 1]);
   }, [topics]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const mainTopics = subject.topics.map(topic => {
+  const mainTopics = subject?.topics!.map(topic => {
     return {
       ...topic,
-      label: topic.name,
-      selected: topic.id === topics[0],
-      url: toTopic(subject.id, topic.id),
+      label: topic!.name,
+      selected: topic!.id === topics[0],
+      url: toTopic(subject.id, topic!.id),
     };
   });
 
@@ -44,39 +55,30 @@ const SubjectPageContent = ({
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
         onClick={e => {
-          onClickTopics(e);
+          onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
         }}
       />
-      {topics.map((t, index) => {
+      {topics.map((topicId, index) => {
         return (
           <div ref={refs[index]} key={index}>
             <TopicWrapper
-              topicId={t}
+              topicId={topicId}
               subjectId={subject.id}
               setBreadCrumb={setBreadCrumb}
-              subTopicId={topics[index + 1]}
+              subTopicId={topics[index + 1]!}
               locale={locale}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
               index={index}
               showResources={!topics[index + 1]}
               subject={subject}
+              t={t}
             />
           </div>
         );
       })}
     </>
   );
-};
-
-SubjectPageContent.propTypes = {
-  subject: GraphQLSubjectShape,
-  ndlaFilm: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
-  onClickTopics: PropTypes.func,
-  topics: PropTypes.arrayOf(PropTypes.string),
-  refs: PropTypes.array.isRequired,
-  setBreadCrumb: PropTypes.func,
 };
 
 export default injectT(SubjectPageContent);

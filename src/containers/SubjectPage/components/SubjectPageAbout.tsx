@@ -8,11 +8,22 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+//@ts-ignore
 import { SubjectAbout, Image } from '@ndla/ui';
-import { GraphQLSubjectPageAboutShape } from '../../../graphqlShapes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
+import { GQLSubjectPageAbout } from '../../../graphqlTypes';
 
-const AboutMedia = ({ visualElement: { type, url, alt } }) => {
+interface VisualElementType {
+  visualElement: {
+    type?: string;
+    url?: string;
+    alt?: string;
+  };
+}
+
+const AboutMedia = ({
+  visualElement: { type, url, alt },
+}: VisualElementType) => {
   switch (type) {
     case 'image':
       return <Image alt={alt} src={url} />;
@@ -40,30 +51,26 @@ AboutMedia.propTypes = {
   }),
 };
 
-export const SubjectPageAbout = ({ about, twoColumns, wide }) => {
+interface Props {
+  about: GQLSubjectPageAbout;
+  twoColumns?: boolean;
+  wide: boolean;
+}
+
+export const SubjectPageAbout = ({ about, twoColumns, wide }: Props) => {
   if (!about) {
     return null;
   }
   return (
     <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectAbout
-        media={<AboutMedia visualElement={about.visualElement} />}
+        media={<AboutMedia visualElement={about.visualElement!} />}
         heading={about.title}
         description={about.description}
         wide={wide}
       />
     </SubjectPageFlexChild>
   );
-};
-SubjectPageAbout.propTypes = {
-  about: GraphQLSubjectPageAboutShape,
-  twoColumns: PropTypes.bool,
-  wide: PropTypes.bool,
-};
-
-SubjectPageAbout.defaultProps = {
-  twoColumns: false,
-  wide: false,
 };
 
 export default SubjectPageAbout;
