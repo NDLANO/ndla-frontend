@@ -8,15 +8,21 @@
 
 import defined from 'defined';
 import { tType } from '@ndla/i18n';
-import groupBy from './groupBy';
 import { fixEndSlash } from '../routeHelpers';
 import { GQLTopic } from '../graphqlTypes';
 
+interface GroupedSubTopics {
+  [key: string]: Array<GQLTopic>;
+}
+
 export const groupedSubtopicsByParent = (topics: GQLTopic[] = []) =>
-  groupBy(
-    topics.filter(topic => topic.parent),
-    'parent',
-  );
+  topics
+    .filter(topic => topic.parent)
+    .reduce((groupedtopics, topic) => {
+      groupedtopics[topic['parent']!] = groupedtopics[topic['parent']!] || [];
+      groupedtopics[topic['parent']!]!.push(topic);
+      return groupedtopics;
+    }, {} as GroupedSubTopics);
 
 export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);

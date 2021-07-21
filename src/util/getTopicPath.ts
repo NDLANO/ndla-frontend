@@ -1,5 +1,3 @@
-import { GQLTopic } from '../graphqlTypes';
-
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -7,6 +5,8 @@ import { GQLTopic } from '../graphqlTypes';
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { GQLTopic } from '../graphqlTypes';
+
 export const getTopicPath = (
   subjectId: string,
   topicId: string,

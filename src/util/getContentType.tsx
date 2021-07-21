@@ -64,11 +64,14 @@ function getContentTypeFromResourceTypes(
 }
 
 export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
-  if (resourceOrTopic.hasOwnProperty('subtopics')) {
+  if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
-    // @ts-ignore
     return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
       .contentType;
   }
 }
+
+const isTopic = (
+  resourceOrTopic: GQLResource | GQLTopic,
+): resourceOrTopic is GQLTopic => resourceOrTopic.id.startsWith('urn:topic');

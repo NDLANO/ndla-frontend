@@ -171,7 +171,7 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
-    $aggregatePaths: [String]
+    $aggregatePaths: [String!]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -891,7 +891,7 @@ export const learningPathStepQuery = gql`
 
 export const competenceGoalsQuery = gql`
   query competenceGoalsQuery(
-    $codes: [String]
+    $codes: [String!]
     $nodeId: String
     $language: String
   ) {

@@ -117,7 +117,7 @@ export interface GQLResource extends GQLTaxonomyEntity {
   article?: GQLArticle;
   learningpath?: GQLLearningpath;
   relevanceId?: string;
-  resourceTypes?: Array<GQLResourceType | null>;
+  resourceTypes?: Array<GQLResourceType>;
   parentTopics?: Array<GQLTopic | null>;
   breadcrumbs?: Array<Array<string | null> | null>;
 }
