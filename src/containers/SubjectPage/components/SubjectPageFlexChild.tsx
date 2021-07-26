@@ -12,10 +12,10 @@ import { SubjectFlexChild } from '@ndla/ui';
 
 interface Props {
   children: ReactElement;
-  twoColumns?: boolean;
+  twoColumns: boolean;
 }
 
-export const SubjectPageFlexChild = ({ children, twoColumns }: Props) =>
+export const SubjectPageFlexChild = ({ children, twoColumns}: Props) =>
   twoColumns ? <SubjectFlexChild>{children}</SubjectFlexChild> : children;
 
 export default SubjectPageFlexChild;

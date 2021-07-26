@@ -53,7 +53,7 @@ AboutMedia.propTypes = {
 
 interface Props {
   about: GQLSubjectPageAbout;
-  twoColumns?: boolean;
+  twoColumns: boolean;
   wide: boolean;
 }
 

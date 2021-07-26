@@ -46,14 +46,15 @@ const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
 };
 
 TopicPage.propTypes = {
-  skipToContentId: PropTypes.string,
+  skipToContentId: PropTypes.string.isRequired,
   match: PropTypes.shape({
     url: PropTypes.string,
     params: PropTypes.shape({
-      articleId: PropTypes.string.isRequired,
+      subjectId: PropTypes.string.isRequired,
+      topicId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  locale: PropTypes.string,
+  locale: PropTypes.string.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
 };

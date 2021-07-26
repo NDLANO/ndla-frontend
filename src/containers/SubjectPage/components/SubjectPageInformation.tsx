@@ -20,7 +20,7 @@ interface Props {
 export const SubjectPageInformation = ({
   subjectpage,
   twoColumns = false,
-  wide,
+  wide = false,
 }: Props) => {
   if (!subjectpage?.topical || subjectpage?.about) return null;
   const { topical, about } = subjectpage;
