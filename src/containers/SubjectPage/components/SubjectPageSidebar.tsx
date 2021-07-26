@@ -26,7 +26,7 @@ interface Props {
 export const SubjectPageSidebar = ({
   subjectId,
   subjectpage,
-  twoColumns,
+  twoColumns = false,
   t,
 }: Props & tType) => {
   const { mostRead, goTo } = subjectpage;

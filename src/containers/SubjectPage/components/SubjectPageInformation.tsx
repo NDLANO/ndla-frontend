@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { tType } from '@ndla/i18n';
 import SubjectTopical from './SubjectTopical';
 import SubjectPageAbout from './SubjectPageAbout';
 import { GQLSubjectPage } from '../../../graphqlTypes';
@@ -20,10 +19,9 @@ interface Props {
 
 export const SubjectPageInformation = ({
   subjectpage,
-  twoColumns,
+  twoColumns = false,
   wide,
-  t,
-}: Props & tType) => {
+}: Props) => {
   if (!subjectpage?.topical || subjectpage?.about) return null;
   const { topical, about } = subjectpage;
 
@@ -33,7 +31,6 @@ export const SubjectPageInformation = ({
         key="subjectpage_information_topical"
         twoColumns={twoColumns}
         topical={topical}
-        t={t}
       />
       <SubjectPageAbout
         key="subjectpage_information_about"

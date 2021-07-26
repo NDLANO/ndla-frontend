@@ -58,8 +58,7 @@ const Topic = ({
   onClickTopics,
   showResources,
   data,
-  t,
-}: Props & tType) => {
+}: Props) => {
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -80,11 +79,11 @@ const Topic = ({
     .slice(2)
     .map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
-  const subTopics = topic?.subtopics?.map(item => ({
-    id: item?.id,
-    label: item?.name!,
-    selected: item?.id === subTopicId,
-    url: toTopic(subjectId!, ...topicPath, item?.id!),
+  const subTopics = topic?.subtopics?.map(subtopic => ({
+    id: subtopic?.id,
+    label: subtopic?.name!,
+    selected: subtopic?.id === subTopicId,
+    url: toTopic(subjectId!, ...topicPath, subtopic?.id!),
   }));
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
@@ -105,7 +104,6 @@ const Topic = ({
             locale={locale}
             modifier="in-topic"
             showIngress={false}
-            t={t}
           />
         }
       />

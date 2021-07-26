@@ -38,8 +38,8 @@ interface Props {
 
 const SubjectEditorChoices = ({
   editorsChoices,
-  narrowScreen,
-  wideScreen,
+  narrowScreen = false,
+  wideScreen = false,
   t,
 }: Props & tType) => {
   if (!editorsChoices) {
@@ -47,8 +47,8 @@ const SubjectEditorChoices = ({
   }
 
   const editorsChoicesResources = editorsChoices
-    .filter(hasContentUri)
     .filter(x => x !== null)
+    .filter(hasContentUri)
     //@ts-ignore
     .map((resource: GQLTaxonomyEntity) => ({
       title: resource.name,

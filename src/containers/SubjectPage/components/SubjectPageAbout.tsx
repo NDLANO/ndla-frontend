@@ -57,7 +57,11 @@ interface Props {
   wide: boolean;
 }
 
-export const SubjectPageAbout = ({ about, twoColumns, wide }: Props) => {
+export const SubjectPageAbout = ({
+  about,
+  twoColumns = false,
+  wide = false,
+}: Props) => {
   if (!about) {
     return null;
   }

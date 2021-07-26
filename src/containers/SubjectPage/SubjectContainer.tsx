@@ -185,7 +185,6 @@ const SubjectContainer = ({
           <LayoutItem layout="extend">
             {about && (
               <SocialMediaMetadata
-                //@ts-ignore
                 title={socialMediaMetadata.title}
                 description={socialMediaMetadata.description}
                 locale={locale}
@@ -224,11 +223,7 @@ const SubjectContainer = ({
       )}
       {false && subject.subjectpage?.about && (
         <OneColumn wide>
-          <SubjectPageInformation
-            t={t}
-            subjectpage={subject.subjectpage}
-            wide
-          />
+          <SubjectPageInformation subjectpage={subject.subjectpage} wide />
         </OneColumn>
       )}
       {false && (editorsChoices?.length ?? 0) > 0 && (

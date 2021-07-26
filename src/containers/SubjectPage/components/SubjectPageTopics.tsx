@@ -33,8 +33,8 @@ const SubjectPageTopics = ({
   t,
   topics,
   subjectId,
-  twoColumns,
-  subjectPage,
+  twoColumns = false,
+  subjectPage = false,
   ndlaFilm,
 }: Props & tType) => {
   return (
