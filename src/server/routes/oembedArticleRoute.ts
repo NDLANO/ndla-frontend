@@ -9,17 +9,13 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import express from 'express';
 import { match as RouterMatchType } from 'react-router';
-// @ts-ignore
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   fetchResource,
   fetchTopic,
-  // @ts-ignore
 } from '../../containers/Resources/resourceApi';
 import config from '../../config';
-// @ts-ignore
 import handleError from '../../util/handleError';
-// @ts-ignore
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 

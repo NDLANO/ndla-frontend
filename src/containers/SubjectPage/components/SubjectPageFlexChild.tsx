@@ -15,7 +15,7 @@ interface Props {
   twoColumns: boolean;
 }
 
-export const SubjectPageFlexChild = ({ children, twoColumns}: Props) =>
+export const SubjectPageFlexChild = ({ children, twoColumns = false }: Props) =>
   twoColumns ? <SubjectFlexChild>{children}</SubjectFlexChild> : children;
 
 export default SubjectPageFlexChild;

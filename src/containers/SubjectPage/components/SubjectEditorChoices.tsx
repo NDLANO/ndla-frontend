@@ -30,7 +30,7 @@ const getResourceTypeName = (resource: GQLResource, t: tType['t']) => {
 };
 
 interface Props {
-  editorsChoices: Array<GQLTaxonomyEntity | null> | undefined;
+  editorsChoices?: Array<GQLTaxonomyEntity>;
   narrowScreen?: boolean;
   wideScreen?: boolean;
   locale: LocaleType;
@@ -49,7 +49,6 @@ const SubjectEditorChoices = ({
   const editorsChoicesResources = editorsChoices
     .filter(x => x !== null)
     .filter(hasContentUri)
-    //@ts-ignore
     .map((resource: GQLTaxonomyEntity) => ({
       title: resource.name,
       image:
