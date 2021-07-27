@@ -10,7 +10,8 @@ import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetch,
-} from 'util/apiHelpers';
+  // @ts-ignore
+} from './apiHelpers';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/series');
 

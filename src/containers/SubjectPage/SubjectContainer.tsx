@@ -19,13 +19,19 @@ import { useIntersectionObserver } from '@ndla/hooks';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
 import { BreadcrumbItemProps } from '@ndla/ui';
+// @ts-ignore
 import SubjectPageContent from './components/SubjectPageContent';
+// @ts-ignore
 import SubjectEditorChoices from './components/SubjectEditorChoices';
+// @ts-ignore
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
+// @ts-ignore
 import SubjectPageInformation from './components/SubjectPageInformation';
+// @ts-ignore
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
+// @ts-ignore
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { LocaleType } from '../../interfaces';
