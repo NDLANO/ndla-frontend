@@ -26,7 +26,6 @@ interface Props {
   twoColumns: boolean;
   subjectPage: boolean;
   ndlaFilm: boolean;
-  handleFilterClick: () => void;
 }
 
 const SubjectPageTopics = ({

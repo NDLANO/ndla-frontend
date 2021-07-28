@@ -76,7 +76,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
-      topics={topicList}
+      topicIds={topicList}
       data={data}
       loading={loading}
     />
