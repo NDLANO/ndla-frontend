@@ -48,7 +48,7 @@ const getCopyrightData = ({
       name: c?.name,
     };
   });
-  if (author!.length > 0) {
+  if (author && author.length > 0) {
     data.author = author;
   }
 
@@ -58,7 +58,7 @@ const getCopyrightData = ({
       name: r?.name,
     };
   });
-  if (copyrightHolder!.length > 0) {
+  if (copyrightHolder && copyrightHolder.length > 0) {
     data.copyrightHolder = copyrightHolder;
   }
 
@@ -68,7 +68,7 @@ const getCopyrightData = ({
       name: c?.name,
     };
   });
-  if (contributor!.length > 0) {
+  if (contributor && contributor.length > 0) {
     data.contributor = contributor;
   }
 

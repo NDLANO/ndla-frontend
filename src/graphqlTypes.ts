@@ -3,16 +3,58 @@ export interface GQLTaxonomyEntity {
   name: string;
   contentUri?: string;
   path?: string;
-  paths?: Array<string | null>;
+  paths?: Array<string>;
   meta?: GQLMeta;
   metadata?: GQLTaxonomyMetadata;
   article?: GQLArticle;
+  filters?: Array<GQLFilter>;
+  relevanceId?: string;
+  rank?: number;
 }
 
-export interface GQLTaxonomyMetadata {
-  grepCodes?: Array<string | null>;
-  visible?: boolean;
+export interface GQLFrontpageSearch {
+  topicResources?: GQLFrontPageResources;
+  learningResources?: GQLFrontPageResources;
 }
+
+export interface GQLFrontPageResources {
+  results?: Array<GQLFrontpageSearchResult>;
+  totalCount?: number;
+  suggestions?: Array<GQLSuggestionResult>;
+}
+
+export interface GQLSuggestionResult {
+  name?: string;
+  suggestions?: Array<GQLSearchSuggestion>;
+}
+
+export interface GQLSearchSuggestion {
+  text?: string;
+  offset?: number;
+  length?: number;
+  options?: Array<GQLSuggestOption>;
+}
+
+export interface GQLSuggestOption {
+  text?: string;
+  score?: number;
+}
+
+export interface GQLFrontpageSearchResult {
+  id: string;
+  name?: string;
+  resourceTypes?: Array<GQLSearchContextResourceTypes>;
+  subject?: string;
+  path?: string;
+  filters?: Array<GQLSearchContextFilter>;
+}
+export interface GQLTaxonomyMetadata {
+  grepCodes?: Array<string>;
+  visible?: boolean;
+  customFields?: GQLJSON;
+}
+
+export type GQLJSON = JSON;
 
 export interface GQLMetaImage {
   url?: string;
@@ -41,7 +83,7 @@ export interface GQLContributor {
 
 export interface GQLLearningpathCopyright {
   license?: GQLLicense;
-  contributors?: Array<GQLContributor | null>;
+  contributors?: Array<GQLContributor>;
 }
 
 export interface GQLLearningpathStepEmbedUrl {
@@ -67,14 +109,13 @@ export interface GQLLearningpathStep {
   metaUrl?: string;
   revision?: number;
   status?: string;
-  supportedLanguages?: Array<string | null>;
+  supportedLanguages?: Array<string>;
   type?: string;
   article?: GQLArticle;
   resource?: GQLResource;
   showTitle?: boolean;
   oembed?: GQLLearningpathStepOembed;
 }
-
 export interface GQLLearningpathCoverphoto {
   url?: string;
   metaUrl?: string;
@@ -89,10 +130,10 @@ export interface GQLLearningpath {
   canEdit?: boolean;
   verificationStatus?: string;
   lastUpdated?: string;
-  tags?: Array<string | null>;
-  supportedLanguages?: Array<string | null>;
+  tags?: Array<string>;
+  supportedLanguages?: Array<string>;
   isBasedOn?: number;
-  learningsteps?: Array<GQLLearningpathStep | null>;
+  learningsteps?: Array<GQLLearningpathStep>;
   metaUrl?: string;
   revision?: number;
   learningstepUrl?: string;
@@ -103,7 +144,7 @@ export interface GQLLearningpath {
 export interface GQLResourceType {
   id: string;
   name: string;
-  resources?: Array<GQLResource | null>;
+  resources?: Array<GQLResource>;
 }
 
 export interface GQLResource extends GQLTaxonomyEntity {
@@ -111,17 +152,18 @@ export interface GQLResource extends GQLTaxonomyEntity {
   name: string;
   contentUri?: string;
   path?: string;
-  paths?: Array<string | null>;
+  paths?: Array<string>;
   meta?: GQLMeta;
   metadata?: GQLTaxonomyMetadata;
   article?: GQLArticle;
   learningpath?: GQLLearningpath;
+  filters?: Array<GQLFilter>;
+  rank?: number;
   relevanceId?: string;
   resourceTypes?: Array<GQLResourceType>;
-  parentTopics?: Array<GQLTopic | null>;
-  breadcrumbs?: Array<Array<string | null> | null>;
+  parentTopics?: Array<GQLTopic>;
+  breadcrumbs?: Array<Array<string>>;
 }
-
 export interface GQLArticleRequiredLibrary {
   name: string;
   url: string;
@@ -132,7 +174,7 @@ export interface GQLFootNote {
   ref: number;
   title: string;
   year: string;
-  authors: Array<string | null>;
+  authors: Array<string>;
   edition?: string;
   publisher?: string;
   url?: string;
@@ -140,9 +182,9 @@ export interface GQLFootNote {
 
 export interface GQLCopyright {
   license?: GQLLicense;
-  creators?: Array<GQLContributor | null>;
-  processors?: Array<GQLContributor | null>;
-  rightsholders?: Array<GQLContributor | null>;
+  creators?: Array<GQLContributor>;
+  processors?: Array<GQLContributor>;
+  rightsholders?: Array<GQLContributor>;
   origin?: string;
 }
 
@@ -189,12 +231,13 @@ export interface GQLConceptLicense {
 }
 
 export interface GQLArticleMetaData {
-  footnotes?: Array<GQLFootNote | null>;
-  images?: Array<GQLImageLicense | null>;
-  audios?: Array<GQLAudioLicense | null>;
-  brightcoves?: Array<GQLBrightcoveLicense | null>;
-  h5ps?: Array<GQLH5pLicense | null>;
-  concepts?: Array<GQLConceptLicense | null>;
+  footnotes?: Array<GQLFootNote>;
+  images?: Array<GQLImageLicense>;
+  audios?: Array<GQLAudioLicense>;
+  brightcoves?: Array<GQLBrightcoveLicense>;
+  h5ps?: Array<GQLH5pLicense>;
+  concepts?: Array<GQLConceptLicense>;
+  copyText?: string;
 }
 
 export interface GQLReference {
@@ -219,10 +262,10 @@ export interface GQLCompetenceGoal {
   curriculum?: GQLReference;
   competenceGoalSetCode?: string;
   competenceGoalSet?: GQLReference;
-  crossSubjectTopicsCodes?: Array<GQLElement | null>;
-  crossSubjectTopics?: Array<GQLElement | null>;
-  coreElementsCodes?: Array<GQLElement | null>;
-  coreElements?: Array<GQLElement | null>;
+  crossSubjectTopicsCodes?: Array<GQLElement>;
+  crossSubjectTopics?: Array<GQLElement>;
+  coreElementsCodes?: Array<GQLElement>;
+  coreElements?: Array<GQLElement>;
 }
 
 export interface GQLCoreElement {
@@ -256,23 +299,53 @@ export interface GQLArticle {
   created: string;
   updated: string;
   published: string;
-  visualElement?: string;
+  visualElement?: GQLVisualElement;
   metaImage?: GQLMetaImage;
   metaDescription: string;
   articleType: string;
   oldNdlaUrl?: string;
-  requiredLibraries?: Array<GQLArticleRequiredLibrary | null>;
+  requiredLibraries?: Array<GQLArticleRequiredLibrary>;
   metaData?: GQLArticleMetaData;
-  supportedLanguages?: Array<string | null>;
+  supportedLanguages?: Array<string>;
   copyright: GQLCopyright;
-  tags?: Array<string | null>;
-  grepCodes?: Array<string | null>;
-  competenceGoals?: Array<GQLCompetenceGoal | null>;
-  coreElements?: Array<GQLCoreElement | null>;
-  crossSubjectTopics?: Array<GQLCrossSubjectElement | null>;
+  tags?: Array<string>;
+  grepCodes?: Array<string>;
+  competenceGoals?: Array<GQLCompetenceGoal>;
+  coreElements?: Array<GQLCoreElement>;
+  crossSubjectTopics?: Array<GQLCrossSubjectElement>;
   oembed?: string;
-  conceptIds?: Array<string | null>;
-  concepts?: Array<GQLConcept | null>;
+  conceptIds?: Array<string>;
+  concepts?: Array<GQLConcept>;
+}
+
+export interface GQLVisualElement {
+  resource?: string;
+  resourceId?: string;
+  title?: string;
+  url?: string;
+  alt?: string;
+  account?: string;
+  player?: string;
+  videoid?: string;
+  thumbnail?: string;
+  image?: GQLImageLicense;
+  oembed?: GQLVisualElementOembed;
+  lowerRightX?: number;
+  lowerRightY?: number;
+  upperLeftX?: number;
+  upperLeftY?: number;
+  focalX?: number;
+  focalY?: number;
+  copyright?: GQLCopyright;
+  copyText?: string;
+  embed?: string;
+  language?: string;
+}
+
+export interface GQLVisualElementOembed {
+  title?: string;
+  html?: string;
+  fullscreen?: boolean;
 }
 
 export interface GQLTopic extends GQLTaxonomyEntity {
@@ -280,35 +353,58 @@ export interface GQLTopic extends GQLTaxonomyEntity {
   name: string;
   contentUri?: string;
   path?: string;
-  paths?: Array<string | null>;
+  paths?: Array<string>;
   meta?: GQLMeta;
   metadata?: GQLTaxonomyMetadata;
   article?: GQLArticle;
+  filters?: Array<GQLFilter>;
+  rank?: number;
   relevanceId?: string;
   isPrimary?: boolean;
   parent?: string;
-  subtopics?: Array<GQLTopic | null>;
-  pathTopics?: Array<Array<GQLTopic | null> | null>;
-  coreResources?: Array<GQLResource | null>;
-  supplementaryResources?: Array<GQLResource | null>;
-  breadcrumbs?: Array<Array<string | null> | null>;
-}
-
-export interface GQLSearchResultSubject {
-  url?: string;
-  title?: string;
-  breadcrumb?: Array<string | null> | null;
+  subtopics?: Array<GQLTopic>;
+  pathTopics?: Array<Array<GQLTopic>>;
+  coreResources?: Array<GQLResource>;
+  supplementaryResources?: Array<GQLResource>;
+  alternateTopics?: Array<GQLTopic>;
+  breadcrumbs?: Array<Array<string>>;
 }
 
 export interface GQLSearchResult {
-  id: string;
-  title: string;
+  id: number;
+  title?: string;
+  supportedLanguages?: Array<string>;
   url?: string;
-  ingress?: string;
+  metaDescription?: string;
   metaImage?: GQLMetaImage;
-  breadcrumbs?: Array<Array<string | null> | null>;
-  subjects?: Array<GQLSearchResultSubject | null>;
-  contentType: string;
+  contentType?: string;
+  traits?: Array<string>;
+  contexts?: Array<GQLSearchContext>;
+}
+
+export interface GQLSearchContext {
+  breadcrumbs?: Array<string>;
+  learningResourceType?: string;
+  resourceTypes?: Array<GQLSearchContextResourceTypes>;
+  subject?: string;
+  subjectId?: string;
+  relevance?: string;
+  path?: string;
+  id?: string;
+  language?: string;
+  filters?: Array<GQLSearchContextFilter>;
+}
+
+export interface GQLSearchContextResourceTypes {
+  id?: string;
+  name?: string;
+  language?: string;
+}
+
+export interface GQLSearchContextFilter {
+  id?: string;
+  name?: string;
+  relevance?: string;
 }
 
 export interface GQLSubject {
@@ -317,26 +413,28 @@ export interface GQLSubject {
   name: string;
   path: string;
   metadata?: GQLTaxonomyMetadata;
+  filters?: Array<GQLSubjectFilter>;
+  frontpageFilters?: Array<GQLSubjectFilter>;
   subjectpage?: GQLSubjectPage;
-  topics?: Array<GQLTopic | null>;
+  topics?: Array<GQLTopic>;
 }
 export interface GQLResourceTypeDefinition {
   id: string;
   name: string;
-  subtypes?: Array<GQLResourceTypeDefinition | null>;
+  subtypes?: Array<GQLResourceTypeDefinition>;
 }
 
 export interface GQLSubjectPage {
   topical?: GQLTaxonomyEntity;
-  mostRead?: Array<GQLTaxonomyEntity | null>;
+  mostRead?: Array<GQLTaxonomyEntity>;
   banner?: GQLSubjectPageBanner;
   id: number;
   name?: string;
   facebook?: string;
-  editorsChoices?: Array<GQLTaxonomyEntity | null>;
-  latestContent?: Array<GQLTaxonomyEntity | null>;
+  editorsChoices?: Array<GQLTaxonomyEntity>;
+  latestContent?: Array<GQLTaxonomyEntity>;
   about?: GQLSubjectPageAbout;
-  goTo?: Array<GQLResourceTypeDefinition | null>;
+  goTo?: Array<GQLResourceTypeDefinition>;
   metaDescription?: string;
   layout?: string;
   twitter?: string;
@@ -358,51 +456,20 @@ export interface GQLSubjectPageVisualElement {
   alt?: string;
 }
 
-export interface GQLFrontpageSearch {
-  topicResources?: GQLFrontPageResources;
-  learningResources?: GQLFrontPageResources;
-}
-
-export interface GQLFrontPageResources {
-  results?: Array<GQLFrontpageSearchResult | null>;
-  totalCount?: number;
-  suggestions?: Array<GQLSuggestionResult | null>;
-}
-
-export interface GQLFrontpageSearchResult {
+export interface GQLFilter {
   id: string;
-  name?: string;
-  resourceTypes?: Array<GQLSearchContextResourceTypes | null>;
-  subject?: string;
-  path?: string;
-  filters?: Array<GQLSearchContextFilter | null>;
+  name: string;
+  connectionId?: string;
+  relevanceId?: string;
+  subjectId?: string;
+  metadata?: GQLTaxonomyMetadata;
 }
 
-export interface GQLSearchContextFilter {
-  id?: string;
-  name?: string;
-  relevance?: string;
-}
-
-export interface GQLSearchContextResourceTypes {
-  id?: string;
-  name?: string;
-  language?: string;
-}
-
-export interface GQLSuggestionResult {
-  name?: string;
-  suggestions?: Array<GQLSearchSuggestion | null>;
-}
-
-export interface GQLSearchSuggestion {
-  text?: string;
-  offset?: number;
-  length?: number;
-  options?: Array<GQLSuggestOption | null>;
-}
-
-export interface GQLSuggestOption {
-  text?: string;
-  score?: number;
+export interface GQLSubjectFilter {
+  id: string;
+  name: string;
+  subjectId: string;
+  contentUri?: string;
+  subjectpage?: GQLSubjectPage;
+  metadata?: GQLTaxonomyMetadata;
 }

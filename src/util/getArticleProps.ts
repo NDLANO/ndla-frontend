@@ -10,7 +10,8 @@ import { GQLResource, GQLTopic } from '../graphqlTypes';
 import { getContentType } from './getContentType';
 
 export const getArticleProps = (resource: GQLResource, topic: GQLTopic) => {
-  const hasResourceTypes = resource!.resourceTypes!.length > 0;
+  const hasResourceTypes =
+    resource.resourceTypes && resource.resourceTypes?.length > 0;
 
   const contentType = hasResourceTypes ? getContentType(resource) : undefined;
 
@@ -18,6 +19,6 @@ export const getArticleProps = (resource: GQLResource, topic: GQLTopic) => {
     topic?.supplementaryResources?.some(item => item?.id === resource.id) ??
     false;
 
-  const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) ?? '';
+  const label = (hasResourceTypes && resource!.resourceTypes![0]?.name) || '';
   return { contentType, label, additional };
 };

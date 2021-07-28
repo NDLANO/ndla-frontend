@@ -15,7 +15,9 @@ interface GroupedSubTopics {
   [key: string]: Array<GQLTopic>;
 }
 
-export const groupedSubtopicsByParent = (topics: GQLTopic[] = []) =>
+export const groupedSubtopicsByParent = (
+  topics: GQLTopic[] = [],
+): GroupedSubTopics =>
   topics
     .filter(topic => topic.parent)
     .reduce((groupedtopics, topic) => {

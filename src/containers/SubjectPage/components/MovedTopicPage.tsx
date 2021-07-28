@@ -19,6 +19,7 @@ const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
     url: topic.path,
+    //@ts-ignore
     id: topic.id,
     ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({
@@ -35,6 +36,7 @@ const mergeTopicSubjects = (results: GQLSearchResult[]) => {
   return [
     {
       ...results[0],
+      // @ts-ignore
       subjects: results.flatMap((topic: GQLSearchResult) => topic.subjects),
     },
   ];

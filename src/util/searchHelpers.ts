@@ -63,9 +63,13 @@ export const frontPageSearchSuggestion = (searchResult: searchResult) => {
     frontpageSearch: { learningResources, topicResources },
   } = searchResult;
 
-  const suggestions = learningResources!
-    .suggestions!.concat(topicResources?.suggestions!)
-    .map(s => s?.suggestions?.[0]?.options?.[0])
+  if (!learningResources?.suggestions || !topicResources?.suggestions) {
+    return;
+  }
+
+  const suggestions = learningResources.suggestions
+    ?.concat(topicResources.suggestions)
+    .map(s => s.suggestions?.[0]?.options?.[0])
     .filter(s => !!s)
     .sort((a, b) => b?.score! - a?.score!);
   return suggestions[0]?.text;
