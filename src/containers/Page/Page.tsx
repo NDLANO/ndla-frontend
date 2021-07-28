@@ -43,7 +43,7 @@ export const Page = ({
       <meta property="fb:app_id" content="115263542481787" />
     </Helmet>
     {children}
-    <Footer inverted={ndlaFilm} locale={locale} location={location} t={t}>
+    <Footer inverted={ndlaFilm} locale={locale} location={location}>
       {config.zendeskWidgetKey && (
         <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
           {t('askNDLA')}
