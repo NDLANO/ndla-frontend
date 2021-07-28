@@ -72,8 +72,8 @@ const Topic = ({
 
   const topic = data.topic;
 
-  const topicPath = topic
-    ?.path?.split('/')
+  const topicPath = topic?.path
+    ?.split('/')
     .slice(2)
     .map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
@@ -142,8 +142,8 @@ Topic.willTrackPageView = (
 };
 
 Topic.getDimensions = ({ data, locale, subject }: Props) => {
-  const topicPath = data?.topic
-    ?.path?.split('/')
+  const topicPath = data?.topic?.path
+    ?.split('/')
     .slice(2)
     .map(t =>
       subject?.allTopics.find(topic => topic.id.replace('urn:', '') === t),

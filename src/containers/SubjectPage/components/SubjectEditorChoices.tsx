@@ -58,11 +58,12 @@ const SubjectEditorChoices = ({
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      toLinkProps: () => toLinkProps({
-        path: resource.path,
-        meta: resource.meta,
-        contentUri: resource.contentUri
-      }),
+      toLinkProps: () =>
+        toLinkProps({
+          path: resource.path,
+          meta: resource.meta,
+          contentUri: resource.contentUri,
+        }),
     }));
 
   if (editorsChoicesResources.length === 0) {

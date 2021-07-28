@@ -31,7 +31,7 @@ const TopicWrapper = ({
   index,
   showResources,
   subject,
-  t
+  t,
 }: Props & tType) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId },
