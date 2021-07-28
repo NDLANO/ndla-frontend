@@ -8,7 +8,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
@@ -18,7 +18,7 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
-import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
 
 const getDocumentTitle = ({
   t,
@@ -34,11 +34,9 @@ interface Props extends tType {
   topicId?: string;
   subjectId?: string;
   subTopicId?: string;
-  setSelectedTopic?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   locale?: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  setBreadCrumb?: (item: BreadcrumbItem) => void;
+  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
   subject?: GQLSubject & { allTopics: GQLTopic[] };
@@ -75,15 +73,15 @@ const Topic = ({
   const topic = data.topic;
 
   const topicPath = topic
-    ?.path!.split('/')
+    ?.path?.split('/')
     .slice(2)
     .map(id => `urn:${id}`);
   const resourceTypes = data.resourceTypes;
   const subTopics = topic?.subtopics?.map(subtopic => ({
     id: subtopic?.id,
-    label: subtopic?.name!,
+    label: subtopic?.name,
     selected: subtopic?.id === subTopicId,
-    url: toTopic(subjectId!, ...topicPath, subtopic?.id!),
+    url: toTopic(subjectId!, ...topicPath!, subtopic?.id),
   }));
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
@@ -91,7 +89,7 @@ const Topic = ({
     <>
       <NavigationTopicAbout
         heading={topic.name}
-        introduction={topic.article?.introduction!}
+        introduction={topic.article?.introduction || ''}
         showContent={showContent}
         renderMarkdown={renderMarkdown}
         invertedStyle={ndlaFilm}
@@ -111,11 +109,11 @@ const Topic = ({
         <NavigationBox
           colorMode="light"
           heading="emner"
-          items={subTopics!}
+          items={subTopics || []}
           listDirection="horizontal"
           invertedStyle={ndlaFilm}
           onClick={e => {
-            onClickTopics!(e as React.MouseEvent<HTMLAnchorElement>);
+            onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
           }}
         />
       )}
@@ -145,7 +143,7 @@ Topic.willTrackPageView = (
 
 Topic.getDimensions = ({ data, locale, subject }: Props) => {
   const topicPath = data?.topic
-    ?.path!.split('/')
+    ?.path?.split('/')
     .slice(2)
     .map(t =>
       subject?.allTopics.find(topic => topic.id.replace('urn:', '') === t),
@@ -165,4 +163,4 @@ Topic.getDimensions = ({ data, locale, subject }: Props) => {
   );
 };
 
-export default injectT(withTracker(Topic));
+export default withTracker(Topic);

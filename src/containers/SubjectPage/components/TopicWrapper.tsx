@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from '@ndla/ui/lib/Spinner';
-import { tType } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import Topic from './Topic';
@@ -10,7 +10,7 @@ import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
 interface Props {
   topicId: string;
   subjectId: string;
-  subTopicId: string;
+  subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -31,7 +31,7 @@ const TopicWrapper = ({
   index,
   showResources,
   subject,
-  t,
+  t
 }: Props & tType) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId },
@@ -66,4 +66,4 @@ const TopicWrapper = ({
   );
 };
 
-export default TopicWrapper;
+export default injectT(TopicWrapper);

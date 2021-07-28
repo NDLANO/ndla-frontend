@@ -6,8 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import React, { RefObject, useEffect } from 'react';
 import { NavigationBox } from '@ndla/ui';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
@@ -20,8 +19,8 @@ interface Props {
   locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  topics: Array<string>;
-  refs: any[];
+  topicIds: Array<string>;
+  refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
 }
 
@@ -30,49 +29,47 @@ const SubjectPageContent = ({
   locale,
   ndlaFilm,
   onClickTopics,
-  topics,
+  topicIds,
   refs,
   setBreadCrumb,
-  t,
-}: Props & tType) => {
+}: Props) => {
   useEffect(() => {
-    if (topics.length) scrollToRef(refs[topics.length - 1]);
-  }, [topics]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
+  }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const mainTopics = subject?.topics!.map(topic => {
+  const mainTopics = subject?.topics?.map(topic => {
     return {
       ...topic,
-      label: topic!.name,
-      selected: topic!.id === topics[0],
-      url: toTopic(subject.id, topic!.id),
+      label: topic?.name,
+      selected: topic?.id === topicIds[0],
+      url: toTopic(subject.id, topic?.id),
     };
   });
 
   return (
     <>
       <NavigationBox
-        items={mainTopics}
+        items={mainTopics || []}
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
         onClick={e => {
           onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
         }}
       />
-      {topics.map((topicId, index) => {
+      {topicIds.map((topicId, index) => {
         return (
           <div ref={refs[index]} key={index}>
             <TopicWrapper
               topicId={topicId}
               subjectId={subject.id}
               setBreadCrumb={setBreadCrumb}
-              subTopicId={topics[index + 1]!}
+              subTopicId={topicIds[index + 1]}
               locale={locale}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
               index={index}
-              showResources={!topics[index + 1]}
+              showResources={!topicIds[index + 1]}
               subject={subject}
-              t={t}
             />
           </div>
         );
@@ -81,4 +78,4 @@ const SubjectPageContent = ({
   );
 };
 
-export default injectT(SubjectPageContent);
+export default SubjectPageContent;

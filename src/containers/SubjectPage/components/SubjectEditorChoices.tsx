@@ -26,7 +26,7 @@ const getResourceTypeName = (resource: GQLResource, t: tType['t']) => {
   ) {
     return t('subjectPage.editorsChoices.unknown');
   }
-  return resource.resourceTypes[0]!.name;
+  return resource?.resourceTypes[0]?.name;
 };
 
 interface Props {
@@ -58,7 +58,11 @@ const SubjectEditorChoices = ({
       type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
       text: resource.meta ? resource.meta.metaDescription : '',
-      toLinkProps: () => toLinkProps(resource),
+      toLinkProps: () => toLinkProps({
+        path: resource.path,
+        meta: resource.meta,
+        contentUri: resource.contentUri
+      }),
     }));
 
   if (editorsChoicesResources.length === 0) {
