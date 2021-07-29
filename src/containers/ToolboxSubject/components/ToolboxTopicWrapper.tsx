@@ -96,7 +96,7 @@ const ToolboxTopicWrapper = ({
       introduction: article.introduction!,
       image: { url: article.metaImage?.url!, alt: article?.metaImage?.alt! },
       visualElement: {
-        type: article?.visualElement?.resource! as ResourceType,
+        type: article?.visualElement?.resource as ResourceType,
         element: (
           <VisualElementWrapper visualElement={article?.visualElement!} />
         ),
@@ -114,7 +114,7 @@ const ToolboxTopicWrapper = ({
   };
 
 
-  const subTopics = topic?.subtopics?.map((subtopic: any) => {
+  const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
     return {
       ...subtopic,
       label: subtopic.name,
