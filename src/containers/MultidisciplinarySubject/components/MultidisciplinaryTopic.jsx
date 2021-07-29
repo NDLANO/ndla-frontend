@@ -15,6 +15,7 @@ import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import {
   GraphQLResourceTypeShape,
@@ -23,7 +24,7 @@ import {
 } from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
-  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const MultidisciplinaryTopic = ({

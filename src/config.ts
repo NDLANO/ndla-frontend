@@ -7,10 +7,7 @@
  */
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback: boolean,
-): string | boolean;
+export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(
   key: string,
   fallback?: string,
@@ -92,9 +89,26 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
-export interface ConfigType {
-  [key: string]: string | boolean | undefined;
-}
+export type ConfigType = {
+  componentName: string;
+  ndlaEnvironment: string;
+  host: string;
+  port: string;
+  redirectPort: string;
+  logEnvironment: string;
+  logglyApiKey: string | undefined;
+  disableSSR: boolean;
+  isNdlaProdEnvironment: boolean;
+  isFFServer: boolean;
+  ndlaApiUrl: string;
+  ndlaFrontendDomain: string;
+  learningPathDomain: string;
+  googleTagManagerId: string | undefined;
+  gaTrackingId: string | undefined;
+  zendeskWidgetKey: string | undefined;
+  localGraphQLApi: boolean;
+  showAllFrontpageSubjects: boolean;
+};
 
 const config: ConfigType = {
   componentName: 'ndla-frontend',

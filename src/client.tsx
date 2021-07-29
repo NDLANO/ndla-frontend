@@ -70,7 +70,7 @@ const browserHistory = createHistory(basename ?? '');
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
-  environment: config.environment,
+  environment: config.ndlaEnvironment,
   componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });

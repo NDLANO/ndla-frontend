@@ -43,6 +43,7 @@ import {
   getRedirectUrl,
   feideLogout,
 } from './helpers/openidHelper';
+import { podcastFeedRoute } from './routes/podcastFeedRoute';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -135,7 +136,7 @@ app.get(
   },
 );
 
-async function sendInternalServerError(req: Request, res: Response) {
+export async function sendInternalServerError(req: Request, res: Response) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
@@ -208,6 +209,13 @@ app.get(
     res.setHeader('Content-Type', 'application/xml');
     res.send(ltiConfig());
   },
+);
+
+app.get('/podkast/:seriesId/feed.xml', ndlaMiddleware, podcastFeedRoute);
+app.get(
+  '/podkast/:seriesId_:seriesTitle/feed.xml',
+  ndlaMiddleware,
+  podcastFeedRoute,
 );
 
 app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {

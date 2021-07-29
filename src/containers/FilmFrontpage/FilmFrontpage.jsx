@@ -26,6 +26,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { SUPPORTED_LANGUAGES } from '../../constants';
+import { htmlTitle } from '../../util/titleHelper';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -43,7 +44,7 @@ class FilmFrontpage extends Component {
   }
 
   static getDocumentTitle({ t, subject }) {
-    return `${subject ? subject.name : ''}${t('htmlTitles.titleTemplate')}`;
+    return htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
   }
 
   onChangeResourceType(resourceTypeSelected) {

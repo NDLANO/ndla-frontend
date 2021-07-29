@@ -26,6 +26,7 @@ import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType } from '../../util/getContentType';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import { htmlTitle } from '../../util/titleHelper';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
@@ -77,8 +78,10 @@ class ArticlePage extends Component {
   }
 
   static getDocumentTitle({ t, data }) {
-    return `${data.subject?.name || ''} - ${data.resource?.article?.title ||
-      ''}${t('htmlTitles.titleTemplate')}`;
+    return htmlTitle(data.resource?.article?.title, [
+      data.subject?.name,
+      t('htmlTitles.titleTemplate'),
+    ]);
   }
 
   componentDidMount() {
@@ -176,7 +179,7 @@ class ArticlePage extends Component {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={`${subject?.name ? subject.name + ' - ' : ''}${article.title}`}
+          title={htmlTitle(article.title, [subject?.name])}
           trackableContent={article}
           description={article.metaDescription}
           locale={locale}

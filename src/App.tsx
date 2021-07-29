@@ -32,20 +32,19 @@ import {
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
-import { InitialProps } from './interfaces';
+import { InitialProps, LocaleType } from './interfaces';
 import AuthenticationContext from './components/AuthenticationContext';
 
 export const BasenameContext = React.createContext('');
 
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
-  locale: string;
+  locale: LocaleType;
   background: boolean;
   hideMasthead?: boolean;
   ndlaFilm?: boolean;
   skipToContent?: string;
   hideBreadcrumb?: boolean;
-  location: H.Location;
   component: React.ComponentType<RootComponentProps>;
 }
 
@@ -142,8 +141,7 @@ function shouldScrollToTop(location: H.Location) {
 
 interface AppProps extends RouteComponentProps {
   initialProps: InitialProps;
-  location: H.Location;
-  locale: string;
+  locale: LocaleType;
 }
 
 interface AppState {

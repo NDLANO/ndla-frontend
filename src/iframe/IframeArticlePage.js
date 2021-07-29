@@ -16,7 +16,7 @@ import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ResourceShape, ArticleShape } from '../shapes';
+import { ResourceShape, ArticleShape, LocationShape } from '../shapes';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
@@ -120,9 +120,7 @@ IframeArticlePage.propTypes = {
   locale: PropTypes.string.isRequired,
   resource: ResourceShape,
   article: ArticleShape,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
+  location: LocationShape,
 };
 
 export default injectT(withTracker(IframeArticlePage));

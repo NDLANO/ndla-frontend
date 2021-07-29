@@ -16,6 +16,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import {
   GraphQLResourceTypeShape,
@@ -24,7 +25,7 @@ import {
 } from '../../../graphqlShapes';
 
 const getDocumentTitle = ({ t, data }) => {
-  return `${data?.topic?.name || ''}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const Topic = ({
@@ -51,7 +52,7 @@ const Topic = ({
   }, [topicId]);
 
   const topic = data.topic;
-  const topicPath = topic.path
+  const topicPath = topic?.path
     .split('/')
     .slice(2)
     .map(id => `urn:${id}`);

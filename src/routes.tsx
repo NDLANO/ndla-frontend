@@ -16,7 +16,6 @@ import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 // @ts-ignore
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
-// @ts-ignore
 import SubjectPage from './containers/SubjectPage/SubjectPage';
 // @ts-ignore
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
@@ -52,12 +51,12 @@ import {
 
 // @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
-import { InitialProps } from './interfaces';
+import { InitialProps, LocaleType } from './interfaces';
 
 export interface RootComponentProps {
-  locale: string;
+  locale: LocaleType;
   ndlaFilm?: boolean;
-  skipToContentId?: string;
+  skipToContentId: string;
 }
 
 export interface RouteType extends RouteProps {
@@ -164,7 +163,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(initialProps: InitialProps, locale: string) {
+const routesFunc = function(initialProps: InitialProps, locale: LocaleType) {
   return <App initialProps={initialProps} locale={locale} />;
 };
 export default routesFunc;

@@ -1,4 +1,6 @@
 import {
+  archivedSubjects,
+  betaSubjects,
   commonSubjects,
   programmeSubjects,
   studySpecializationSubjects,
@@ -6,7 +8,7 @@ import {
 import { removeUrn } from '../routeHelpers';
 
 const createSubjectPath = subject => {
-  return `/${removeUrn(subject.subjectId)}/`;
+  return `/${removeUrn(subject.id)}/`;
 };
 
 const categories = {
@@ -22,6 +24,8 @@ export const searchSubjects = (query, locale = 'nb') => {
   }
 
   const foundInSubjects = [
+    ...archivedSubjects,
+    ...betaSubjects,
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
