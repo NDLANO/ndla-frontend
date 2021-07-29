@@ -121,8 +121,8 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
-  feideClientID?:string;
-  feideClientSecret?:string;
+  feideClientID?: string;
+  feideClientSecret?: string;
   feideDomain: string;
 };
 
