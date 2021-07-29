@@ -18,9 +18,9 @@ interface Scripts {
 
 export function getArticleScripts(article: GQLArticle) {
   const scripts: Array<Scripts> =
-    article?.requiredLibraries?.map(lib => ({
-      src: lib?.url,
-      type: lib?.mediaType,
+    article.requiredLibraries?.map(lib => ({
+      src: lib.url,
+      type: lib.mediaType,
     })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({

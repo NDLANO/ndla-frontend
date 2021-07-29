@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import { tType } from '@ndla/i18n';
 import { fixEndSlash } from '../routeHelpers';
 import { GQLTopic } from '../graphqlTypes';
@@ -28,8 +27,8 @@ export const groupedSubtopicsByParent = (
 
 export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);
-  const subtopics = defined(groupedSubTopics[topic.id], []);
-  const subtopicsWithSubtopics = subtopics.map((child: GQLTopic) =>
+  const subtopics = groupedSubTopics[topic.id] ?? [];
+  const subtopicsWithSubtopics: GQLTopic[] = subtopics.map((child: GQLTopic) =>
     toTopicMenu(child, topics),
   );
   return {

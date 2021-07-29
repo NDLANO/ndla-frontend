@@ -27,8 +27,8 @@ const categories: Categories = {
 };
 
 export const searchSubjects = (query: string, locale: LocaleType = 'nb') => {
-  query = query?.trim().toLowerCase();
-  if (!query || query.length < 2) {
+  const trimmedQuery = query?.trim().toLowerCase();
+  if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
   }
 
@@ -38,13 +38,15 @@ export const searchSubjects = (query: string, locale: LocaleType = 'nb') => {
     ...commonSubjects,
     ...programmeSubjects,
     ...studySpecializationSubjects,
-  ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
+  ].filter(subject =>
+    subject.longName[locale].toLowerCase().includes(trimmedQuery),
+  );
 
   return foundInSubjects.map(subject => {
     return {
       id: subject.id,
       path: createSubjectPath(subject),
-      subject: categories[subject.id.split('_')[0]! as CategoryTypes],
+      subject: categories[subject.id.split('_')[0] as CategoryTypes],
       name: subject.longName[locale],
     };
   });

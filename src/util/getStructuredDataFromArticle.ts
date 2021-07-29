@@ -42,33 +42,36 @@ const getCopyrightData = ({
     license: license?.url,
   };
 
-  const author = creators?.map(c => {
-    return {
-      '@type': PERSON_TYPE,
-      name: c?.name,
-    };
-  });
-  if (author && author.length > 0) {
+  const author =
+    creators?.map(c => {
+      return {
+        '@type': PERSON_TYPE,
+        name: c?.name,
+      };
+    }) ?? [];
+  if (author.length > 0) {
     data.author = author;
   }
 
-  const copyrightHolder = rightsholders?.map(r => {
-    return {
-      '@type': ORGANIZATION_TYPE,
-      name: r?.name,
-    };
-  });
-  if (copyrightHolder && copyrightHolder.length > 0) {
+  const copyrightHolder =
+    rightsholders?.map(r => {
+      return {
+        '@type': ORGANIZATION_TYPE,
+        name: r?.name,
+      };
+    }) ?? [];
+  if (copyrightHolder.length > 0) {
     data.copyrightHolder = copyrightHolder;
   }
 
-  const contributor = processors?.map(c => {
-    return {
-      '@type': PERSON_TYPE,
-      name: c?.name,
-    };
-  });
-  if (contributor && contributor.length > 0) {
+  const contributor =
+    processors?.map(c => {
+      return {
+        '@type': PERSON_TYPE,
+        name: c?.name,
+      };
+    }) ?? [];
+  if (contributor.length > 0) {
     data.contributor = contributor;
   }
 

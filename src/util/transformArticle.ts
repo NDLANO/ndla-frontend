@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
@@ -32,7 +31,7 @@ export const transformArticle = (article: GQLArticle, locale: LocaleType) => {
   if (!article) return undefined;
 
   const content = getContent(article);
-  const footNotes = defined(article?.metaData?.footnotes, []);
+  const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,
     content,

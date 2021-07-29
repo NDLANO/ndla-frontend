@@ -118,15 +118,15 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-type Subject = {
-  id?: string | undefined;
-  name?: string | undefined;
+type SubjectURI = {
+  id?: string;
+  name?: string;
   to?: string;
 };
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: Subject[],
+  paths: SubjectURI[],
   locale: LocaleType = 'nb',
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
@@ -142,7 +142,7 @@ export function toBreadcrumbItems(
   const links = prelinks
     .filter(Boolean)
     .reduce(
-      (links: Subject[], item) => [
+      (links: SubjectURI[], item) => [
         ...links,
         {
           to:
