@@ -17,9 +17,8 @@ import Page from '../Page/Page';
 import { LocationShape } from '../../shapes';
 import { LocaleType } from '../../interfaces';
 
-interface Props {
+interface Props extends RouteComponentProps {
   locale: LocaleType;
-  location: RouteComponentProps['location'];
 }
 
 const ErrorPage = ({ locale, location }: Props) => (

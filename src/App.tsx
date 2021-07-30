@@ -240,10 +240,21 @@ class App extends React.Component<AppProps, AppState> {
     const {
       initialProps: { basename },
       location,
+      history,
+      match,
+      staticContext,
       locale,
     } = this.props;
     if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} location={location} />;
+      return (
+        <ErrorPage
+          locale={this.props.locale}
+          location={location}
+          history={history}
+          match={match}
+          staticContext={staticContext}
+        />
+      );
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
