@@ -8,15 +8,15 @@
 
 import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import PropTypes from 'prop-types';
 import {
   FrontpageHeader,
   FrontpageFilm,
+  //@ts-ignore
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -25,13 +25,14 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
 import { getLocaleUrls } from '../../util/localeHelpers';
-import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
+import { LocaleType } from '../../interfaces';
+import { RouteComponentProps } from 'react-router';
 
-const getUrlFromSubjectId = subjectId => {
+const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
   return toSubject(subject.id);
 };
@@ -43,7 +44,7 @@ const TOOLBOX_TEACHER_SUBJECT_ID =
 const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
-const getMultidisciplinaryTopics = locale => {
+const getMultidisciplinaryTopics = (locale: LocaleType) => {
   const topicIds = [
     'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
     'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
@@ -57,19 +58,16 @@ const getMultidisciplinaryTopics = locale => {
     return {
       id: topic.id,
       title: topic.name[locale],
-      url: toTopic(baseSubject.id, null, topic.topicId),
+      url: toTopic(baseSubject.id, '', topic.topicId),
     };
   });
 };
 
-const WelcomePage = ({ t, locale, history, location }) => {
-  const headerLinks = [
-    {
-      to: 'https://om.ndla.no',
-      text: t('welcomePage.heading.links.aboutNDLA'),
-    },
-  ];
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+}
 
+const WelcomePage = ({ t, locale, history, location }: Props & tType) => {
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -97,9 +95,11 @@ const WelcomePage = ({ t, locale, history, location }) => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       <FrontpageHeader
-        links={headerLinks}
         locale={locale}
-        languageOptions={getLocaleUrls(locale, location)}>
+        languageOptions={getLocaleUrls(locale, location)}
+        t={t}
+        showHeader={false}
+        >
         <WelcomePageSearch history={history} locale={locale} />
       </FrontpageHeader>
       <main>
@@ -121,11 +121,6 @@ const WelcomePage = ({ t, locale, history, location }) => {
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}
-            messages={{
-              header: t('welcomePage.film.header'),
-              linkLabel: t('welcomePage.film.linkLabel'),
-              text: t('welcomePage.film.text'),
-            }}
           />
           <WelcomePageInfo />
         </OneColumn>
@@ -134,12 +129,5 @@ const WelcomePage = ({ t, locale, history, location }) => {
   );
 };
 
-WelcomePage.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  locale: PropTypes.string.isRequired,
-};
 
 export default injectT(WelcomePage);

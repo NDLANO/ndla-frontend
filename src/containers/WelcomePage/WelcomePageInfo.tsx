@@ -7,12 +7,12 @@
  */
 
 import React from 'react';
-import { injectT } from '@ndla/i18n';
-
+import { injectT, tType } from '@ndla/i18n';
+//@ts-ignore
 import { InfoWidget, FrontpageInfo } from '@ndla/ui';
 import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
 
-const WelcomePageInfo = ({ t }) => (
+const WelcomePageInfo = ({ t }: tType) => (
   <FrontpageInfo>
     <InfoWidget
       heading={t('newsLetter.heading')}

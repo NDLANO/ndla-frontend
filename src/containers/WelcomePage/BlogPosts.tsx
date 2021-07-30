@@ -7,11 +7,16 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+//@ts-ignore
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
+import { LocaleType } from '../../interfaces';
 
-const BlogPosts = ({ t, locale }) => (
+interface Props {
+  locale: LocaleType
+}
+
+const BlogPosts = ({ t, locale }: Props & tType) => (
   <section>
     <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
     <BlogPostWrapper>
@@ -40,10 +45,5 @@ const BlogPosts = ({ t, locale }) => (
     </BlogPostWrapper>
   </section>
 );
-
-BlogPosts.propTypes = {
-  t: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-};
 
 export default injectT(BlogPosts);

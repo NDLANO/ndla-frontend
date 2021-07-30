@@ -7,9 +7,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
 
@@ -23,16 +22,22 @@ import {
 import { toSearch } from '../../routeHelpers';
 
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
+import { RouteComponentProps } from 'react-router';
+import { LocaleType } from '../../interfaces';
 
-const debounceCall = debounce(fn => fn(), 300);
+const debounceCall = debounce((fn: ()=> void) => fn(), 300);
 
-const WelcomePageSearch = ({ t, history, locale }) => {
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+}
+
+const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
 
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
-    frontpageSearchQuery,
+    frontpageSearchQuery, {fetchPolicy: 'no-cache'}
   );
 
   useEffect(() => {
@@ -41,12 +46,11 @@ const WelcomePageSearch = ({ t, history, locale }) => {
         variables: {
           query: delayedSearchQuery,
         },
-        fetchPolicy: 'no-cache',
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onSearchFieldChange = query => {
+  const onSearchFieldChange = (query: string) => {
     setQuery(query);
     debounceCall(() => setDelayedSearchQuery(query));
   };
@@ -58,10 +62,10 @@ const WelcomePageSearch = ({ t, history, locale }) => {
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <>{`Error: ${error.message}`}</>;
   }
 
-  const onSearch = evt => {
+  const onSearch = (evt: React.FormEvent) => {
     evt.preventDefault();
     history.push(allResultsUrl);
   };
@@ -69,6 +73,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
   const headerMessages = {
     searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
     menuButton: t('welcomePage.heading.messages.menuButton'),
+    closeSearchLabel:'',
   };
 
   return (
@@ -99,13 +104,6 @@ const WelcomePageSearch = ({ t, history, locale }) => {
       suggestionUrl={suggestionUrl}
     />
   );
-};
-
-WelcomePageSearch.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  locale: PropTypes.string,
 };
 
 export default injectT(WelcomePageSearch);

@@ -15,8 +15,13 @@ import {
   getCategorizedSubjects,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
+import { LocaleType } from '../../interfaces';
 
-const FrontpageSubjects = ({ locale }) => (
+interface Props {
+  locale: LocaleType;
+}
+
+const FrontpageSubjects = ({ locale }: Props) => (
   <FrontpageProgramMenu
     programItems={getProgrammes(locale)}
     subjectCategories={getCategorizedSubjects(locale)}
