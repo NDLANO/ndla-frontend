@@ -11,13 +11,13 @@ import PropTypes from 'prop-types';
 //@ts-ignore
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { Trans, tType } from '@ndla/i18n';
-import { RouteComponentProps } from 'react-router';
+import { RouteProps } from 'react-router';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
 import { LocationShape } from '../../shapes';
 import { LocaleType } from '../../interfaces';
 
-interface Props extends RouteComponentProps {
+interface Props extends RouteProps {
   locale: LocaleType;
 }
 
