@@ -13,8 +13,10 @@ import handleError from '../../util/handleError';
 interface State {
   hasError: boolean;
 }
-class ErrorBoundary extends React.Component<Object, State> {
-  constructor(props: { hasError: boolean }) {
+
+interface Props {}
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
   }
