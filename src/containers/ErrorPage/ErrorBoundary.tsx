@@ -6,22 +6,25 @@
  *
  */
 
-import React from 'react';
+import React, { ErrorInfo } from 'react';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import handleError from '../../util/handleError';
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface State {
+  hasError: boolean;
+}
+class ErrorBoundary extends React.Component<Object, State> {
+  constructor(props: { hasError: boolean }) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(_: Error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // You can also log the error to an error reporting service
     handleError(error, errorInfo);
   }
