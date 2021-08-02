@@ -14,7 +14,7 @@ import { OneColumn, ToolboxInfo, SubjectBanner } from '@ndla/ui';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
@@ -119,7 +119,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     </>
   );
 
-  if(!topics){
+  if (!topics) {
     return;
   }
 

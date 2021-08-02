@@ -11,8 +11,7 @@ import { Topic, Image } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
-import { DefaultErrorMessage } from '../../../components/DefaultErrorMessage';
-// @ts-ignore
+import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType, ResourceType } from '../../../interfaces';
@@ -85,7 +84,7 @@ const ToolboxTopicWrapper = ({
 
   const { topic, resourceTypes } = data;
   const { article } = data.topic;
-  
+
   if (!article) {
     return null;
   }
@@ -112,7 +111,6 @@ const ToolboxTopicWrapper = ({
       ),
     },
   };
-
 
   const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
     return {

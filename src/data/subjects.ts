@@ -2660,6 +2660,9 @@ export const getSubjectBySubjectId = (subjectId: string) => {
   });
 };
 
-export const getSubjectLongName = (subjectId: string, locale: LocaleType) => {
+export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {
+  if (!subjectId || !locale) {
+    return undefined;
+  }
   return getSubjectBySubjectId(subjectId)?.longName[locale];
 };
