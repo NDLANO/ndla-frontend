@@ -7,7 +7,7 @@
  */
 import React from 'react';
 // @ts-ignore
-import { Topic, Image } from '@ndla/ui';
+import { Topic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
@@ -19,7 +19,10 @@ import {
   GQLVisualElement,
   GQLTopic,
   GQLResourceType,
+  GQLArticle,
+  GQLMetaImage,
 } from '../../../graphqlTypes';
+import VisualElementWrapper from './VisualElementWrapper';
 
 interface Props {
   subjectId: string;
@@ -29,34 +32,24 @@ interface Props {
   topicList: Array<string>;
   index: number;
 }
+interface Data {
+  topic: ToolBoxTopic;
+  resourceTypes: GQLResourceType;
+}
 
-interface VisualElement {
+interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
+  url: string;
+  alt: string;
+}
+interface ToolBoxArticle
+  extends Omit<GQLArticle, 'introduction' | 'metaImage' | 'visualElement'> {
+  introduction: string;
+  metaImage: ToolBoxArticleMetaImage;
   visualElement: GQLVisualElement;
 }
 
-const VisualElementWrapper = ({ visualElement }: VisualElement) => {
-  const { resource, url, alt, image } = visualElement;
-  switch (resource) {
-    case 'image':
-      return <Image alt={alt} src={image?.src} />;
-    default:
-    case 'video':
-    case 'other':
-      return (
-        <iframe
-          title="About subject video"
-          src={url}
-          allowFullScreen
-          scrolling="no"
-          frameBorder="0"
-        />
-      );
-  }
-};
-
-interface Data {
-  topic: GQLTopic;
-  resourceTypes: GQLResourceType;
+interface ToolBoxTopic extends Omit<GQLTopic, 'article'> {
+  article: ToolBoxArticle;
 }
 
 const ToolboxTopicWrapper = ({
@@ -85,20 +78,14 @@ const ToolboxTopicWrapper = ({
   const { topic, resourceTypes } = data;
   const { article } = data.topic;
 
-  if (!article) {
-    return null;
-  }
-
   const toolboxTopic: TopicProps = {
     topic: {
       title: article.title,
-      introduction: article.introduction!,
-      image: { url: article.metaImage?.url!, alt: article?.metaImage?.alt! },
+      introduction: article.introduction,
+      image: { url: article.metaImage?.url, alt: article?.metaImage?.alt },
       visualElement: {
         type: article?.visualElement?.resource as ResourceType,
-        element: (
-          <VisualElementWrapper visualElement={article?.visualElement!} />
-        ),
+        element: <VisualElementWrapper visualElement={article.visualElement} />,
       },
       resources: topic.subtopics ? (
         <Resources

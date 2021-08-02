@@ -507,6 +507,7 @@ export const articleInfoFragment = gql`
         html
         fullscreen
       }
+      embed
       resource
       resourceId
       upperLeftX
