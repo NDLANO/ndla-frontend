@@ -15,7 +15,7 @@ import { withTracker } from '@ndla/tracker';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { learningPathStepQuery } from '../../queries';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
 import { htmlTitle } from '../../util/titleHelper';

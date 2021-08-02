@@ -14,7 +14,7 @@ import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 
 const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
