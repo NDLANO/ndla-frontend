@@ -7,21 +7,28 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+//@ts-ignore
 import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { GraphQLSubjectPageShape } from '../../../graphqlShapes';
+import { tType } from '@ndla/i18n';
 import { toLinkProps } from '../../../routeHelpers';
 import { getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
+import { GQLSubjectPage } from '../../../graphqlTypes';
+import { LocaleType } from '../../../interfaces';
+
+interface Props {
+  subjectId: string;
+  subjectpage: GQLSubjectPage;
+  twoColumns: boolean;
+  locale: LocaleType;
+}
 
 export const SubjectPageSidebar = ({
   subjectId,
   subjectpage,
-  twoColumns,
-  locale,
+  twoColumns = false,
   t,
-}) => {
+}: Props & tType) => {
   const { mostRead, goTo } = subjectpage;
 
   return [
@@ -34,8 +41,8 @@ export const SubjectPageSidebar = ({
             showLess: t('subjectPage.subjectShortcuts.showLess'),
           }}
           links={goTo.map(type => ({
-            text: type.name,
-            url: getSearchUrl(subjectId, type),
+            text: type?.name,
+            url: getSearchUrl(subjectId, type!),
           }))}
         />
       </SubjectPageFlexChild>
@@ -45,25 +52,14 @@ export const SubjectPageSidebar = ({
         <SubjectLinks
           heading={t('subjectPage.mostRead.heading')}
           links={mostRead.map(resource => ({
-            text: resource.name,
-            url: toLinkProps(resource, locale).to,
-            toLinkProps: () => toLinkProps(resource, locale),
+            text: resource?.name,
+            url: toLinkProps(resource!).to,
+            toLinkProps: () => toLinkProps(resource!),
           }))}
         />
       </SubjectPageFlexChild>
     ),
   ];
 };
-SubjectPageSidebar.propTypes = {
-  subjectpage: GraphQLSubjectPageShape,
-  subjectId: PropTypes.string.isRequired,
-  twoColumns: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
-};
 
-SubjectPageSidebar.defaultProps = {
-  subjectpage: {},
-  twoColumns: false,
-};
-
-export default injectT(SubjectPageSidebar);
+export default SubjectPageSidebar;

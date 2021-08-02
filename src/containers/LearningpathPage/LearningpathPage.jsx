@@ -17,7 +17,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   GraphQLResourceShape,
   GraphQLResourceTypeShape,

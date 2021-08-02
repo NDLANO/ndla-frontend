@@ -8,14 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import TopicContainer from './TopicContainer';
-import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { topicPageQuery } from '../../queries';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
+import { LocationShape } from '../../graphqlShapes';
 
 const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   const { subjectId, topicId } = getUrnIdsFromProps({ ndlaFilm, match });
@@ -46,12 +45,10 @@ const TopicPage = ({ location, ndlaFilm, match, locale, skipToContentId }) => {
   );
 };
 
-TopicPage.defaultProps = {
-  basename: '',
-};
-
 TopicPage.propTypes = {
+  skipToContentId: PropTypes.string.isRequired,
   match: PropTypes.shape({
+    url: PropTypes.string,
     params: PropTypes.shape({
       subjectId: PropTypes.string.isRequired,
       topicId: PropTypes.string.isRequired,
@@ -60,8 +57,6 @@ TopicPage.propTypes = {
   locale: PropTypes.string.isRequired,
   location: LocationShape,
   ndlaFilm: PropTypes.bool,
-  skipToContentId: PropTypes.string.isRequired,
-  basename: PropTypes.string,
 };
 
 export default TopicPage;
