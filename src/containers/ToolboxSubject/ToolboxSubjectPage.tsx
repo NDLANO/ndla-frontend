@@ -124,7 +124,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   }
 
   return (
-    <OneColumn>
+    <OneColumn className={''}>
       <ToolboxInfo
         topics={topics}
         onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
