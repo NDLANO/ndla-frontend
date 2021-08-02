@@ -1748,7 +1748,7 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.35.12":
+"@ndla/ui@^0.36.0":
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.36.0.tgz#e5257a3dd4a77a311dc328f7d5de59969b9fbfb9"
   integrity sha512-EjDdISNvdaKr4tCE0zKZndCiskDbK50x1wyDXXIs1GAJ1DuIyvKYQ5/aVQaSURQz6+P0puf5w/+1YfJlOttJ6w==
