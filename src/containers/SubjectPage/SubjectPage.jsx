@@ -6,14 +6,14 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics } from '../../queries';
+import { subjectPageQueryWithTopics, subjectPageQuery } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -32,23 +32,40 @@ const SubjectPage = ({
     match,
   });
 
-  const [currentTopic, setCurrentTopic] = useState(undefined);
+  const initialLoad = useRef(true);
+  const isFirstRenderWithTopicId = () => initialLoad.current && topicId;
 
-  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
+  let loading;
+  let data;
+
+  const { loading: subjectsLoading, data: subjectsData } = useGraphQuery(
+    subjectPageQuery,
+    {
+      variables: {
+        subjectId,
+      },
+      skip: isFirstRenderWithTopicId(),
+    },
+  );
+
+  const {
+    loading: subjectsWithTopicsLoading,
+    data: subjectsWithTopicsData,
+  } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
-      topicId: !currentTopic && topicId ? topicId : '',
+      topicId: topicId,
     },
+    skip: !isFirstRenderWithTopicId(),
   });
 
-  useEffect(() => {
-    const newTopic = data?.topic;
-    if (newTopic) {
-      if (newTopic !== currentTopic) {
-        setCurrentTopic(newTopic);
-      }
-    }
-  }, [data?.topic, currentTopic]);
+  if (isFirstRenderWithTopicId()) {
+    loading = subjectsWithTopicsLoading;
+    data = subjectsWithTopicsData;
+  } else {
+    loading = subjectsLoading;
+    data = subjectsData;
+  }
 
   if (loading) {
     return null;
@@ -58,7 +75,7 @@ const SubjectPage = ({
     return <DefaultErrorMessage />;
   }
 
-  const alternateTopics = currentTopic?.alternateTopics;
+  const alternateTopics = data.topic?.alternateTopics;
   if (!data?.subject && alternateTopics?.length >= 1) {
     if (alternateTopics.length === 1) {
       return <Redirect to={alternateTopics[0].path} />;
@@ -75,6 +92,8 @@ const SubjectPage = ({
     const topic = data.subject.topics[0];
     topicList.push(topic.id);
   }
+
+  initialLoad.current = false;
 
   return (
     <SubjectContainer
