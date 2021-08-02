@@ -13,7 +13,6 @@ import {
   SUBJECT_PAGE_PATH,
   TOPIC_PATH,
 } from './constants';
-
 import { getProgrammeBySlug } from './data/programmes';
 import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
@@ -175,7 +174,7 @@ export function fixEndSlash(link: string) {
 type LinkObject = {
   contentUri?: string;
   meta?: object;
-  path: string;
+  path?: string;
 };
 
 export function toLinkProps(linkObject: LinkObject) {
