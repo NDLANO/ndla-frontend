@@ -8,26 +8,16 @@
 
 import React from 'react';
 import { RouteProps } from 'react-router';
-// @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
-// @ts-ignore
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-// @ts-ignore
 import SearchPage from './containers/SearchPage/SearchPage';
-// @ts-ignore
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import SubjectPage from './containers/SubjectPage/SubjectPage';
-// @ts-ignore
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-// @ts-ignore
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
-// @ts-ignore
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
-// @ts-ignore
 import ResourcePage from './containers/ResourcePage/ResourcePage';
-// @ts-ignore
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-// @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
 // @ts-ignore
@@ -49,8 +39,6 @@ import {
   TOOLBOX_TEACHER_PAGE_PATH,
   TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
-
-// @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
 

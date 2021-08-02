@@ -11,11 +11,8 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-// @ts-ignore
 import { subjectPageQueryWithTopics } from '../../queries';
-// @ts-ignore
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-// @ts-ignore
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
@@ -79,7 +76,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
-      topics={topicList}
+      topicIds={topicList}
       data={data}
       loading={loading}
     />

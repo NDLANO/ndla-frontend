@@ -14,9 +14,7 @@ import { PageContainer } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import ZendeskButton from '@ndla/zendesk';
-
 import config from '../../config';
-// @ts-ignore
 import Footer from './components/Footer';
 
 interface Props {

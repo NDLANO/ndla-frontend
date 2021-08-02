@@ -10,16 +10,24 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
-// @ts-ignore
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
 
-const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
+interface GQLSearchResultExtended extends Omit<GQLSearchResult, 'id'> {
+  subjects?: {
+    url?: string;
+    title: string;
+    breadcrumb: string[];
+  }[];
+  ingress?: string;
+  id: string;
+}
+
+const convertTopicToResult = (topic: GQLTopic): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
     url: topic.path,
-    //@ts-ignore
     id: topic.id,
     ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({
@@ -31,13 +39,14 @@ const convertTopicToResult = (topic: GQLTopic): GQLSearchResult => {
   };
 };
 
-const mergeTopicSubjects = (results: GQLSearchResult[]) => {
+const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
   // Assuming that first element has the same values that the rest of the elements in the results array
   return [
     {
       ...results[0],
-      //@ts-ignore
-      subjects: results.flatMap((topic: GQLSearchResult) => topic.subjects),
+      subjects: results.flatMap(
+        (topic: GQLSearchResultExtended) => topic.subjects,
+      ),
     },
   ];
 };
