@@ -130,7 +130,7 @@ export function toBreadcrumbItems(
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id!, locale);
+  const longName = getSubjectLongName(subject?.id, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
