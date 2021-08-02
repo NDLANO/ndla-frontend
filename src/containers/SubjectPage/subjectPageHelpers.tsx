@@ -6,7 +6,6 @@
  *
  */
 import { RefObject } from 'react';
-// @ts-ignore
 import queryString from 'query-string';
 import { toTopicPartial } from '../../routeHelpers';
 import { GQLResourceType } from '../../graphqlTypes';

@@ -1,4 +1,3 @@
-// @ts-ignore
 import config from '../config';
 
 const ltiConfig = (): string => {

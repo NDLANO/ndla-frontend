@@ -7,7 +7,7 @@
  */
 
 import React, { ErrorInfo } from 'react';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import handleError from '../../util/handleError';
 
 interface State {
