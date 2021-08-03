@@ -2,12 +2,13 @@ import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
 import { GQLVisualElement } from '../../../graphqlTypes';
+import { injectT, tType } from '@ndla/i18n';
 
 interface VisualElement {
   visualElement: GQLVisualElement;
 }
 
-const VisualElementWrapper = ({ visualElement }: VisualElement) => {
+const VisualElementWrapper = ({ visualElement, t }: VisualElement & tType) => {
   const { resource, url, alt, image } = visualElement;
   switch (resource) {
     case 'image':
@@ -17,7 +18,7 @@ const VisualElementWrapper = ({ visualElement }: VisualElement) => {
     case 'other':
       return (
         <iframe
-          title="About subject video"
+          title={t('htmlTitle.toolbox.visualElement')}
           src={url}
           allowFullScreen
           scrolling="no"
@@ -27,4 +28,4 @@ const VisualElementWrapper = ({ visualElement }: VisualElement) => {
   }
 };
 
-export default VisualElementWrapper;
+export default injectT(VisualElementWrapper);

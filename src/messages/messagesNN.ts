@@ -18,6 +18,11 @@ const messages = {
     notFound: `Sida finst ikkje - ${titleTemplate}`,
     subject: 'Fag',
     lti: `LTI - ${titleTemplate}`,
+    toolbox: {
+      visualElement: 'Om emne video',
+      introduction:
+        'Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.',
+    },
   },
 };
 

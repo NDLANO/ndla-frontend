@@ -18,17 +18,17 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
+import { injectT, tType } from '@ndla/i18n';
 
-type Props = {
-  match: RouteComponentProps['match'];
+interface Props extends RouteComponentProps {
   locale: LocaleType;
-};
+}
 
 interface Data {
   subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
-const ToolboxSubjectPage = ({ match, locale }: Props) => {
+const ToolboxSubjectPage = ({ match, locale, t }: Props & tType) => {
   const { subjectId, topicList } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -90,12 +90,12 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   const onSelectTopic = (index: number, id?: string) => {
-    const exist = subject.allTopics?.find((topic: GQLTopic) => topic.id === id);
-    if (exist) {
+    const topic = subject.allTopics?.find((topic: GQLTopic) => topic.id === id);
+    if (topic) {
       if (index === 0) {
-        setSelectedTopics([exist]);
+        setSelectedTopics([topic]);
       } else if (index > 0) {
-        setSelectedTopics([...selectedTopics.slice(0, index), exist]);
+        setSelectedTopics([...selectedTopics.slice(0, index), topic]);
       }
     }
   };
@@ -120,7 +120,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   );
 
   if (!topics) {
-    return;
+    return null;
   }
 
   return (
@@ -130,8 +130,8 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
         onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
           onSelectTopic(0, id)
         }
-        title="Verktøykassa"
-        introduction="Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse."
+        title={subject.name}
+        introduction={t('htmlTitles.toolbox.introduction')}
       />
       <TopicBoxes />
       <SubjectBanner negativeTopMargin={!topics} />
@@ -139,4 +139,4 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   );
 };
 
-export default ToolboxSubjectPage;
+export default injectT(ToolboxSubjectPage);
