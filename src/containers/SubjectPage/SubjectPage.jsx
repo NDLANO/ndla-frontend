@@ -13,7 +13,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import SubjectContainer from './SubjectContainer';
 import { LocationShape } from '../../shapes';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics, subjectPageQuery } from '../../queries';
+import { subjectPageQueryWithTopics } from '../../queries';
 import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -33,39 +33,15 @@ const SubjectPage = ({
   });
 
   const initialLoad = useRef(true);
-  const isFirstRenderWithTopicId = () => initialLoad.current && topicId;
+  const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
-  let loading;
-  let data;
-
-  const { loading: subjectsLoading, data: subjectsData } = useGraphQuery(
-    subjectPageQuery,
-    {
-      variables: {
-        subjectId,
-      },
-      skip: isFirstRenderWithTopicId(),
-    },
-  );
-
-  const {
-    loading: subjectsWithTopicsLoading,
-    data: subjectsWithTopicsData,
-  } = useGraphQuery(subjectPageQueryWithTopics, {
+  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
-      topicId: topicId,
+      topicId: topicId || '',
+      includeTopic: isFirstRenderWithTopicId(),
     },
-    skip: !isFirstRenderWithTopicId(),
   });
-
-  if (isFirstRenderWithTopicId()) {
-    loading = subjectsWithTopicsLoading;
-    data = subjectsWithTopicsData;
-  } else {
-    loading = subjectsLoading;
-    data = subjectsData;
-  }
 
   if (loading) {
     return null;

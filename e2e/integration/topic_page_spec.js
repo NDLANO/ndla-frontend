@@ -20,18 +20,13 @@ describe('Topic page', () => {
       .click({ force: true });
     cy.apiwait('@medieutrykkGraphQL');
 
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      ['medieutrykkWithTopicGraphQL', 'topicpageGraphQL'],
-      ['subjectPageQuery', 'topicQuery'],
-    );
+    cy.apiIntercept('POST', '**/graphql', 'topicpageGraphQL');
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
     ).click({
       force: true,
     });
-    cy.apiwait(['@medieutrykkWithTopicGraphQL', '@topicpageGraphQL']);
+    cy.apiwait(['@topicpageGraphQL']);
   });
 
   it('contains article header and introduction', () => {
