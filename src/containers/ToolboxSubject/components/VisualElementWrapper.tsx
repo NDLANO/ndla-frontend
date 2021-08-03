@@ -1,8 +1,8 @@
 import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
-import { GQLVisualElement } from '../../../graphqlTypes';
 import { injectT, tType } from '@ndla/i18n';
+import { GQLVisualElement } from '../../../graphqlTypes';
 
 interface VisualElement {
   visualElement: GQLVisualElement;

@@ -11,6 +11,7 @@ import { RouteComponentProps } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn, ToolboxInfo, SubjectBanner } from '@ndla/ui';
 // @ts-ignore
+import { injectT, tType } from '@ndla/i18n';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -18,7 +19,6 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
-import { injectT, tType } from '@ndla/i18n';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
