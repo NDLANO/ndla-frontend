@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
@@ -37,10 +37,15 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     ndlaFilm,
     match,
   });
+
+  const initialLoad = useRef(true);
+  const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
+
   const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
       topicId: topicId || '',
+      includeTopic: isFirstRenderWithTopicId(),
     },
   });
 
@@ -52,7 +57,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     return <DefaultErrorMessage />;
   }
 
-  const alternateTopics = data?.topic?.alternateTopics;
+  const alternateTopics = data.topic?.alternateTopics;
   if (!data?.subject && alternateTopics?.length >= 1) {
     if (alternateTopics.length === 1) {
       return <Redirect to={alternateTopics[0].path} />;
@@ -69,6 +74,8 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     const topic = data.subject.topics[0];
     topicList.push(topic.id);
   }
+
+  initialLoad.current = false;
 
   return (
     <SubjectContainer
