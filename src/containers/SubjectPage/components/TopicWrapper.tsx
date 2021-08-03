@@ -1,11 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import Spinner from '@ndla/ui/lib/Spinner';
+import { injectT, tType } from '@ndla/i18n';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import Topic from './Topic';
-import { GraphQLSubjectShape } from '../../../graphqlShapes';
+import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
+
+interface Props {
+  topicId: string;
+  subjectId: string;
+  subTopicId?: string;
+  locale: LocaleType;
+  ndlaFilm?: boolean;
+  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  setBreadCrumb: (item: BreadcrumbItem) => void;
+  index: number;
+  showResources: boolean;
+  subject: GQLSubject & { allTopics: GQLTopic[] };
+}
 
 const TopicWrapper = ({
   topicId,
@@ -18,7 +31,8 @@ const TopicWrapper = ({
   index,
   showResources,
   subject,
-}) => {
+  t,
+}: Props & tType) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
@@ -26,6 +40,7 @@ const TopicWrapper = ({
         id: data.topic.id,
         label: data.topic.name,
         index: index,
+        url: '',
       });
     },
   });
@@ -46,22 +61,9 @@ const TopicWrapper = ({
       showResources={showResources}
       subject={subject}
       loading={loading}
+      t={t}
     />
   );
 };
 
-TopicWrapper.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  setSelectedTopic: PropTypes.func,
-  subTopicId: PropTypes.string,
-  locale: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-  onClickTopics: PropTypes.func,
-  setBreadCrumb: PropTypes.func,
-  index: PropTypes.number,
-  showResources: PropTypes.bool,
-  subject: GraphQLSubjectShape,
-};
-
-export default TopicWrapper;
+export default injectT(TopicWrapper);

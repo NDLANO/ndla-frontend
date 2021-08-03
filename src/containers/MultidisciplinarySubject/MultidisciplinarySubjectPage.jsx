@@ -14,7 +14,7 @@ import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 
 const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
@@ -53,7 +53,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
 
   const { subject = {} } = data;
 
-  const mainTopics = subject.topics.map(topic => {
+  const mainTopics = subject.topics?.map(topic => {
     return {
       ...topic,
       label: topic.name,
@@ -65,7 +65,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
   const selectedSubject =
-    isNotLastTopic || subject.topics.find(t => t.id === selectedTopics[0]);
+    isNotLastTopic || subject.topics?.find(t => t.id === selectedTopics[0]);
 
   const cards = isNotLastTopic
     ? []

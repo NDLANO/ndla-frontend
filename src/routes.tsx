@@ -8,29 +8,17 @@
 
 import React from 'react';
 import { RouteProps } from 'react-router';
-// @ts-ignore
 import WelcomePage from './containers/WelcomePage/WelcomePage';
-// @ts-ignore
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-// @ts-ignore
 import SearchPage from './containers/SearchPage/SearchPage';
-// @ts-ignore
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
-// @ts-ignore
 import SubjectPage from './containers/SubjectPage/SubjectPage';
-// @ts-ignore
 import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-// @ts-ignore
 import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
-// @ts-ignore
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
-// @ts-ignore
 import ResourcePage from './containers/ResourcePage/ResourcePage';
-// @ts-ignore
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-// @ts-ignore
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-// @ts-ignore
 import App from './App';
 
 import {
@@ -47,15 +35,13 @@ import {
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
 } from './constants';
-
-// @ts-ignore
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
-import { InitialProps } from './interfaces';
+import { InitialProps, LocaleType } from './interfaces';
 
 export interface RootComponentProps {
-  locale: string;
+  locale: LocaleType;
   ndlaFilm?: boolean;
-  skipToContentId?: string;
+  skipToContentId: string;
 }
 
 export interface RouteType extends RouteProps {
@@ -152,7 +138,7 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(initialProps: InitialProps, locale: string) {
+const routesFunc = function(initialProps: InitialProps, locale: LocaleType) {
   return <App initialProps={initialProps} locale={locale} />;
 };
 export default routesFunc;
