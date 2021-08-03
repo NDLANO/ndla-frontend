@@ -17,7 +17,7 @@ import {
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
@@ -64,6 +64,8 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
+  skipToContentId: string;
+  ndlaFilm?: boolean;
 }
 
 const WelcomePage = ({
@@ -103,7 +105,7 @@ const WelcomePage = ({
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}
         t={t}
-        showHeader={false}>
+        showHeader={true}>
         <WelcomePageSearch
           history={history}
           locale={locale}
@@ -138,4 +140,4 @@ const WelcomePage = ({
   );
 };
 
-export default injectT(WelcomePage);
+export default withRouter(injectT(WelcomePage));
