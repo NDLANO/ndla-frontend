@@ -1997,10 +1997,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.35.11":
-  version "0.35.11"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.35.11.tgz#685abfba6be8e12980968067f4adb9cba7315afa"
-  integrity sha512-k7725olYsM8Iw3jOQ4Z9lLyw12NvL28tp1pdhF9uZa1JZUWzCaOjajzlxIIvaKeDDDLUpk0SkB/II1HMn4jDvA==
+"@ndla/ui@^0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.37.0.tgz#5911718da35786dc08aa6ab7b4fa24dc0201deb0"
+  integrity sha512-5H3c0nXqmQlD4eB/NlPEdBxHS2Fdag8bFUqs2eD+5qI4SbcruHqmZEYplG7yP3OmZxkkheJjhN+mH/b/zpO58g==
   dependencies:
     "@ndla/button" "^0.3.57"
     "@ndla/carousel" "^0.3.43"
@@ -2022,11 +2022,14 @@
     focus-trap "^4.0.2"
     focus-trap-react "^6.0.0"
     html-react-parser "^0.10.3"
+    i18next "^20.3.1"
+    i18next-browser-languagedetector "^6.1.1"
     jump.js "^1.0.2"
     lodash "^4.17.20"
     react-bem-helper "1.4.1"
     react-device-detect "^1.6.2"
     react-facebook "^6.0.15"
+    react-i18next "^11.11.0"
     react-prop-types "0.4.0"
     react-sticky-el "^2.0.6"
     react-swipeable "^5.0.1"

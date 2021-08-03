@@ -11,7 +11,7 @@ import { FrontpageSearch } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
-
+import { RouteComponentProps } from 'react-router';
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
 
@@ -20,12 +20,10 @@ import {
   mapSearchToFrontPageStructure,
 } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
-
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
-import { RouteComponentProps } from 'react-router';
 import { LocaleType } from '../../interfaces';
 
-const debounceCall = debounce((fn: ()=> void) => fn(), 300);
+const debounceCall = debounce((fn: () => void) => fn(), 300);
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -36,9 +34,10 @@ const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
 
-  const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
-    frontpageSearchQuery, {fetchPolicy: 'no-cache'}
-  );
+  const [
+    runSearch,
+    { loading, data: searchResult, error },
+  ] = useLazyQuery(frontpageSearchQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -73,7 +72,7 @@ const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
   const headerMessages = {
     searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
     menuButton: t('welcomePage.heading.messages.menuButton'),
-    closeSearchLabel:'',
+    closeSearchLabel: '',
   };
 
   return (
@@ -102,6 +101,8 @@ const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
       history={history}
       suggestion={searchResult && delayedSearchQuery.length >= 2 && suggestion}
       suggestionUrl={suggestionUrl}
+      infoText={''}
+      t={t}
     />
   );
 };

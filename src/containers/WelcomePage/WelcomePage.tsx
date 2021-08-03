@@ -17,7 +17,7 @@ import {
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
-
+import { RouteComponentProps } from 'react-router';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
@@ -30,7 +30,6 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 import { LocaleType } from '../../interfaces';
-import { RouteComponentProps } from 'react-router';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -67,7 +66,13 @@ interface Props extends RouteComponentProps {
   locale: LocaleType;
 }
 
-const WelcomePage = ({ t, locale, history, location }: Props & tType) => {
+const WelcomePage = ({
+  t,
+  locale,
+  history,
+  location,
+  match,
+}: Props & tType) => {
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -98,9 +103,13 @@ const WelcomePage = ({ t, locale, history, location }: Props & tType) => {
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}
         t={t}
-        showHeader={false}
-        >
-        <WelcomePageSearch history={history} locale={locale} />
+        showHeader={false}>
+        <WelcomePageSearch
+          history={history}
+          locale={locale}
+          location={location}
+          match={match}
+        />
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
@@ -128,6 +137,5 @@ const WelcomePage = ({ t, locale, history, location }: Props & tType) => {
     </Fragment>
   );
 };
-
 
 export default injectT(WelcomePage);

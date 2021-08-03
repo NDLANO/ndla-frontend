@@ -13,7 +13,7 @@ import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 import { LocaleType } from '../../interfaces';
 
 interface Props {
-  locale: LocaleType
+  locale: LocaleType;
 }
 
 const BlogPosts = ({ t, locale }: Props & tType) => (
