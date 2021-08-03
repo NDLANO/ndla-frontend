@@ -94,13 +94,16 @@ async function doRender(req) {
     ''
   );
 
-  const apolloState = client.extract();
-  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
-    initialProps,
-    apolloState,
-    serverPath: req.path,
-    serverQuery: req.query,
-  });
+  const { html, ...docProps } = await renderPageWithData(
+    Page,
+    getAssets(),
+    {
+      initialProps,
+      serverPath: req.path,
+      serverQuery: req.query,
+    },
+    client,
+  );
 
   return {
     docProps,

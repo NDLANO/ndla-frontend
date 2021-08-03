@@ -39,10 +39,11 @@ export function renderPage(Page, assets, data = {}) {
   return docProps;
 }
 
-export async function renderPageWithData(Page, assets, data = {}) {
+export async function renderPageWithData(Page, assets, data, client) {
   resetIdCounter();
   const html = await renderToStringWithData(Page);
-  const docProps = createDocumentProps(html, assets, data);
+  const apolloState = client.extract();
+  const docProps = createDocumentProps(html, assets, { apolloState, ...data });
   return docProps;
 }
 
