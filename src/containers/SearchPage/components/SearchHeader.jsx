@@ -15,7 +15,7 @@ const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
     subjects: category.subjects.map(subject => ({
-      id: subject.subjectId,
+      id: subject.id,
       name: subject.longName[locale],
     })),
   }));

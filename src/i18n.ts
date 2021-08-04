@@ -12,10 +12,11 @@ import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import additionalMessagesNB from './messages/messagesNB';
 import additionalMessagesNN from './messages/messagesNN';
 import additionalMessagesEN from './messages/messagesEN';
+import { LocaleType } from './interfaces';
 
 type LocaleObject = {
   name: string;
-  abbreviation: string;
+  abbreviation: LocaleType;
   messages: {
     [key: string]: string;
   };

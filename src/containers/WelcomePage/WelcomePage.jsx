@@ -33,7 +33,7 @@ import { getSubjectById } from '../../data/subjects';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
-  return toSubject(subject.subjectId);
+  return toSubject(subject.id);
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID =
@@ -43,8 +43,8 @@ const TOOLBOX_TEACHER_SUBJECT_ID =
 const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
-const getMultidisciplinarySubjects = locale => {
-  const subjectIds = [
+const getMultidisciplinaryTopics = locale => {
+  const topicIds = [
     'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
     'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
     'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
@@ -52,12 +52,12 @@ const getMultidisciplinarySubjects = locale => {
 
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
-  return subjectIds.map(subjectId => {
-    const subject = getSubjectById(subjectId);
+  return topicIds.map(topicId => {
+    const topic = getSubjectById(topicId);
     return {
-      id: subject.id,
-      title: subject.name[locale],
-      url: toTopic(baseSubject.subjectId, null, subject.topicId),
+      id: topic.id,
+      title: topic.name[locale],
+      url: toTopic(baseSubject.id, null, topic.topicId),
     };
   });
 };
@@ -111,7 +111,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinarySubjects(locale)}
+            topics={getMultidisciplinaryTopics(locale)}
           />
           <FrontpageToolbox
             urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}

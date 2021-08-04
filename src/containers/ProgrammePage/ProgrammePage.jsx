@@ -32,7 +32,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
         if (subjectInfo) {
           /*const url = toProgrammeSubject(
             programmeSlug,
-            subjectInfo.subjectId,
+            subjectInfo.id,
             subjectInfo.filters,
           );*/
           const url = createSubjectUrl(subjectInfo);

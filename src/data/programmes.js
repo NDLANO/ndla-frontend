@@ -2417,9 +2417,6 @@ export const programmes = [
             },
             subjects: [
               {
-                id: '',
-              },
-              {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {

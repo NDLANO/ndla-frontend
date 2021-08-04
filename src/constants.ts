@@ -53,3 +53,5 @@ export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articl
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
+
+export const LocaleValues = ['nb', 'nn', 'en'] as const;
