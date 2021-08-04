@@ -32,10 +32,13 @@ export interface NDLAWindow {
 
 export type LocaleType = typeof LocaleValues[number];
 
+export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
+
+type LocaleNorway = Extract<LocaleType, 'nb' | 'nn'>;
 interface ProgramTypeBase {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;
-  meta: { description: { nb: string; nn: string } };
+  meta: { description: Record<LocaleNorway, string> };
   image: { url: string };
   grades: {
     name: string;
@@ -46,7 +49,7 @@ interface ProgramTypeBase {
   }[];
 }
 export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
-  meta?: { description: { nb: string; nn: string } };
+  meta?: { description: Record<LocaleNorway, string> };
 }
 
 export type SubjectType = {
@@ -55,5 +58,3 @@ export type SubjectType = {
   id: string;
   topicId?: string;
 };
-
-export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
