@@ -28,7 +28,7 @@ interface Props {
   subjectId: string;
   topicId: string;
   locale: LocaleType;
-  onSelectTopic: (index: number, id: string | undefined) => void;
+  onSelectTopic: (index: number, id?: string) => void;
   topicList: Array<string>;
   index: number;
 }
