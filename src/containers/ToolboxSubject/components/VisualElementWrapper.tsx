@@ -2,9 +2,9 @@ import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
-import { GQLVisualElement } from '../../../graphqlTypes';
-import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
+import { GQLVisualElement } from '../../../graphqlTypes';
 
 interface VisualElement {
   visualElement: GQLVisualElement;
@@ -16,9 +16,9 @@ const IframeContainer = styled.div`
     padding-top: 1em;
     border: 0 none;
     max-width: 100%;
-    height:65vh;
+    height: 65vh;
   }
-`
+`;
 
 const VisualElementWrapper = ({ visualElement, t }: VisualElement & tType) => {
   const { resource, url, alt, image, oembed } = visualElement;
@@ -27,7 +27,7 @@ const VisualElementWrapper = ({ visualElement, t }: VisualElement & tType) => {
       return <Image alt={alt} src={image?.src} />;
     case 'brightcove':
       return (
-      <IframeContainer >
+        <IframeContainer>
           <iframe
             title={t('htmlTitle.toolbox.visualElement')}
             src={url}
@@ -35,14 +35,13 @@ const VisualElementWrapper = ({ visualElement, t }: VisualElement & tType) => {
             scrolling="no"
             frameBorder="0"
           />
-      </IframeContainer>
-        
-        )
+        </IframeContainer>
+      );
     default:
-    case 'video':  
+    case 'video':
     case 'external':
       return (
-        <IframeContainer dangerouslySetInnerHTML={{__html: oembed?.html!}}/>
+        <IframeContainer dangerouslySetInnerHTML={{ __html: oembed?.html! }} />
       );
   }
 };
