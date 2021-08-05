@@ -17,7 +17,9 @@ import { Helmet } from 'react-helmet';
 import Document from './Document';
 import config from '../../config';
 
-function createDocumentProps(html, assets, data) {
+export function renderPage(Page, assets, data = {}) {
+  resetIdCounter();
+  const html = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
     html,
@@ -32,19 +34,10 @@ function createDocumentProps(html, assets, data) {
   };
 }
 
-export function renderPage(Page, assets, data = {}) {
-  resetIdCounter();
-  const html = renderToString(Page);
-  const docProps = createDocumentProps(html, assets, data);
-  return docProps;
-}
-
 export async function renderPageWithData(Page, assets, data, client) {
-  resetIdCounter();
-  const html = await renderToStringWithData(Page);
+  await renderToStringWithData(Page); // Fetches queries, so state can be extracted from client
   const apolloState = client.extract();
-  const docProps = createDocumentProps(html, assets, { apolloState, ...data });
-  return docProps;
+  return renderPage(Page, assets, { apolloState, ...data });
 }
 
 export async function renderHtml(html, context, props) {
