@@ -606,10 +606,17 @@ export const subjectPageQueryWithTopics = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+      metadata {
+        customFields
+      }
+    }
   }
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
