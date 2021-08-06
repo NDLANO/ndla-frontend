@@ -11,7 +11,6 @@ import ReactDOM from 'react-dom';
 import { Router, MemoryRouter } from 'react-router-dom';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
-import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/client';
 // @ts-ignore
 import { configureTracker } from '@ndla/tracker';
@@ -37,7 +36,7 @@ const {
   DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
 
-const { abbreviation, messages, basename, basepath } = getLocaleInfoFromPath(
+const { abbreviation, basename, basepath } = getLocaleInfoFromPath(
   serverPath ?? '',
 );
 
@@ -108,11 +107,9 @@ const RouterComponent = ({ children }: RCProps) =>
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>
-      <IntlProvider locale={abbreviation} messages={messages}>
-        <RouterComponent>
-          {routesFunc({ ...initialProps, basename }, abbreviation)}
-        </RouterComponent>
-      </IntlProvider>
+      <RouterComponent>
+        {routesFunc({ ...initialProps, basename }, abbreviation, client)}
+      </RouterComponent>
     </CacheProvider>
   </ApolloProvider>,
   document.getElementById('root'),

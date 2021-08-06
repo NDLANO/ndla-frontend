@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { ResourceShape } from '../shapes';
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
@@ -22,12 +22,13 @@ import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
 
-const LtiProvider = ({ t, locale: { abbreviation: locale }, ltiData }) => {
+const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
     query: '',
     subjects: [],
     programs: [],
   });
+  const {t} = useTranslation();
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -98,4 +99,4 @@ LtiProvider.propTypes = {
   ltiData: LtiDataShape,
 };
 
-export default injectT(LtiProvider);
+export default LtiProvider;

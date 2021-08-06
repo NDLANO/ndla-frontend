@@ -22,7 +22,7 @@ import {
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { H5PBold } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape, H5pShape } from '../../shapes';
 
@@ -30,11 +30,12 @@ const TextShape = PropTypes.shape({
   copyright: CopyrightObjectShape.isRequired,
 });
 
-const H5pLicenseInfo = ({ h5p, locale, t }) => {
+const H5pLicenseInfo = ({ h5p, locale }) => {
+  const {t} = useTranslation();
   const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
   if (h5p.title) {
     items.unshift({
-      label: t('images.title'),
+      label: t('license.images.title'),
       description: h5p.title,
       metaType: metaTypes.title,
     });
@@ -48,7 +49,7 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={h5p.copyright.license.license}
-        title={t('h5p.rules')}
+        title={t('license.h5p.rules')}
         resourceType="h5p"
         resourceUrl={h5p.src}
         locale={locale}>
@@ -58,14 +59,14 @@ const H5pLicenseInfo = ({ h5p, locale, t }) => {
             <CopyTextButton
               stringToCopy={h5p.copyText}
               t={t}
-              copyTitle={t('copyTitle')}
-              hasCopiedTitle={t('hasCopiedTitle')}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
             />
             <CopyTextButton
               stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               t={t}
-              copyTitle={t('embed')}
-              hasCopiedTitle={t('embedCopied')}
+              copyTitle={t('license.embed')}
+              hasCopiedTitle={t('license.embedCopied')}
             />
           </div>
         </MediaListItemActions>
@@ -79,21 +80,25 @@ H5pLicenseInfo.propTypes = {
   h5p: H5pShape,
 };
 
-const H5pLicenseList = ({ h5ps, locale, t }) => (
+const H5pLicenseList = ({ h5ps, locale}) => {
+  const {t} = useTranslation();
+  return (
   <div>
-    <h2>{t('h5p.heading')}</h2>
-    <p>{t('h5p.description')}</p>
+    <div>Test</div>
+    <h2>{t('license.h5p.heading')}</h2>
+    <p>{t('license.h5p.description')}</p>
     <MediaList>
       {h5ps.map(h5p => (
         <H5pLicenseInfo h5p={h5p} key={uuid()} locale={locale} t={t} />
       ))}
     </MediaList>
   </div>
-);
+  );
+};
 
 H5pLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
   h5ps: PropTypes.arrayOf(TextShape),
 };
 
-export default injectT(H5pLicenseList, 'license.');
+export default H5pLicenseList;

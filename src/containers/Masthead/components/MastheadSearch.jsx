@@ -10,8 +10,8 @@ import queryString from 'query-string';
 import { useLazyQuery } from '@apollo/client';
 import { withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import { injectT } from '@ndla/i18n';
 
+import { useTranslation } from 'react-i18next';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentType';
@@ -25,12 +25,12 @@ import { toSearch } from '../../../routeHelpers';
 const debounceCall = debounce(fun => fun(), 250);
 
 const MastheadSearch = ({
-  t,
   hideOnNarrowScreen,
   ndlaFilm,
   history,
   subject,
 }) => {
+  const {t} = useTranslation();
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedQuery] = useState('');
@@ -172,4 +172,4 @@ MastheadSearch.defaultProps = {
   hideOnNarrowScreen: false,
 };
 
-export default injectT(withRouter(MastheadSearch));
+export default withRouter(MastheadSearch);

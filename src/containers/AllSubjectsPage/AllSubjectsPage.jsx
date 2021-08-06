@@ -10,14 +10,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { SubjectLinkList } from '../../components';
 import { SubjectShape } from '../../shapes';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectsQuery } from '../../queries';
 
-const AllSubjectsPage = ({ t }) => {
+const AllSubjectsPage = () => {
+  const {t} = useTranslation();
   const { error, loading, data } = useGraphQuery(subjectsQuery);
   if (loading) return null;
   return (
@@ -53,4 +54,4 @@ AllSubjectsPage.propTypes = {
   hasFailed: PropTypes.bool.isRequired,
 };
 
-export default injectT(AllSubjectsPage);
+export default AllSubjectsPage;

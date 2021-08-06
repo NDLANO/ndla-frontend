@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ResourceTypeShape } from '../shapes';
 import { useGraphQuery } from '../util/runQueries';
 import { plainArticleQuery } from '../queries';
@@ -21,7 +21,9 @@ if (process.env.NODE_ENV !== 'production') {
   require('../style/index.css'); // eslint-disable-line global-require
 }
 
-const Error = injectT(({ t }) => (
+const Error = () => {
+  const {t} = useTranslation();
+  return (
   <OneColumn cssModifier="clear">
     <ErrorMessage
       illustration={{
@@ -34,7 +36,7 @@ const Error = injectT(({ t }) => (
       }}
     />
   </OneColumn>
-));
+)};
 
 export const IframePage = ({
   status,

@@ -8,7 +8,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
 
 const getSubjectCategoriesForLocale = locale => {
@@ -24,13 +24,13 @@ const getSubjectCategoriesForLocale = locale => {
 // Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 + d39a0c692bbd0e3151fa13a7ec28b0cf229d9fd1 for programme filter
 
 const SearchHeader = ({
-  t,
   query,
   suggestion,
   subjects,
   handleSearchParamsChange,
   locale,
 }) => {
+  const {t} = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
   const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 
@@ -111,4 +111,4 @@ SearchHeader.propTypes = {
   locale: string,
 };
 
-export default injectT(SearchHeader);
+export default SearchHeader;

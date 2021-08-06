@@ -17,11 +17,11 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
+import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { CopyrightObjectShape } from '../../shapes';
@@ -40,11 +40,12 @@ const VideoShape = PropTypes.shape({
   copyText: PropTypes.string,
 });
 
-const VideoLicenseInfo = ({ video, locale, t }) => {
+const VideoLicenseInfo = ({ video, locale}) => {
+  const {t} = useTranslation();
   const items = getGroupedContributorDescriptionList(video.copyright, locale);
   if (video.title) {
     items.unshift({
-      label: t('images.title'),
+      label: t('license.images.title'),
       description: video.title,
       metaType: metaTypes.title,
     });
@@ -55,7 +56,7 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
         <img alt="presentation" src={video.cover} />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('video.rules')}
+        title={t('license.video.rules')}
         license={video.copyright.license.license}
         resourceType="video"
         resourceUrl={video.src}
@@ -66,18 +67,18 @@ const VideoLicenseInfo = ({ video, locale, t }) => {
             <CopyTextButton
               stringToCopy={video.copyText}
               t={t}
-              copyTitle={t('copyTitle')}
-              hasCopiedTitle={t('hasCopiedTitle')}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
             />
             <AnchorButton href={video.download} download appearance="outline">
-              {t('download')}
+              {t('license.download')}
             </AnchorButton>
 
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${video.iframe.height}" aria-label="${video.title}" width="${video.iframe.width}" frameborder="0" src="${video.iframe.src}" allowfullscreen=""></iframe>`}
               t={t}
-              copyTitle={t('embed')}
-              hasCopiedTitle={t('embedCopied')}
+              copyTitle={t('license.embed')}
+              hasCopiedTitle={t('license.embedCopied')}
             />
           </div>
         </MediaListItemActions>
@@ -91,21 +92,24 @@ VideoLicenseInfo.propTypes = {
   video: VideoShape.isRequired,
 };
 
-const VideoLicenseList = ({ videos, locale, t }) => (
+const VideoLicenseList = ({ videos, locale}) => {
+  const {t} = useTranslation();
+  return (
   <div>
-    <h2>{t('video.heading')}</h2>
-    <p>{t('video.description')}</p>
+    <h2>{t('license.video.heading')}</h2>
+    <p>{t('license.video.description')}</p>
     <MediaList>
       {videos.map(video => (
         <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
       ))}
     </MediaList>
   </div>
-);
+  );
+};
 
 VideoLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
   videos: PropTypes.arrayOf(VideoShape).isRequired,
 };
 
-export default injectT(VideoLicenseList, 'license.');
+export default VideoLicenseList;

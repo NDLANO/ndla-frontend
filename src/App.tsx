@@ -18,6 +18,9 @@ import {
 // @ts-ignore
 import { Content } from '@ndla/ui';
 import * as H from 'history';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import IntlProvider from '@ndla/i18n';
+import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
 // @ts-ignore
 import Masthead from './containers/Masthead';
@@ -33,6 +36,8 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
+import { getLocaleObject } from './i18n';
+import { initializeI18n } from './i18n2';
 
 export const BasenameContext = React.createContext('');
 
@@ -59,6 +64,7 @@ const NDLARoute = ({
   hideBreadcrumb,
   ...rest
 }: NDLARouteProps) => {
+  console.log(rest);
   return (
     <Route
       location={location}
@@ -138,9 +144,10 @@ function shouldScrollToTop(location: H.Location) {
   return true;
 }
 
-interface AppProps extends RouteComponentProps {
+interface AppProps extends RouteComponentProps, WithTranslation {
   initialProps: InitialProps;
   locale: LocaleType;
+  client: ApolloClient<object>;
 }
 
 interface AppState {
@@ -155,6 +162,7 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
+    initializeI18n(props.i18n, props.client, props.history);
     this.state = {
       hasError: false,
       data: props.initialProps,
@@ -242,35 +250,43 @@ class App extends React.Component<AppProps, AppState> {
       location,
       locale,
     } = this.props;
+    // if (!this.props.i18n.isInitialized) {
+    //   return <Spinner />;
+    // }
+
     if (this.state.hasError) {
       return <ErrorPage locale={this.props.locale} location={location} />;
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <BasenameContext.Provider value={basename}>
-        <Switch>
-          {routes
-            .filter(route => route !== undefined)
-            .map(route => (
-              <NDLARoute
-                key={`route_${route.path}`}
-                exact={route.exact}
-                hideMasthead={route.hideMasthead}
-                hideBreadcrumb={route.hideBreadcrumb}
-                initialProps={this.state.data}
-                locale={locale}
-                component={route.component}
-                background={route.background ?? false}
-                path={route.path}
-                ndlaFilm={isNdlaFilm}
-                location={location}
-              />
-            ))}
-        </Switch>
-      </BasenameContext.Provider>
+      <IntlProvider
+        locale={this.props.i18n.language}
+        messages={getLocaleObject(this.props.i18n.language).messages}>
+        <BasenameContext.Provider value={basename}>
+          <Switch>
+            {routes
+              .filter(route => route !== undefined)
+              .map(route => (
+                <NDLARoute
+                  key={`route_${route.path}`}
+                  exact={route.exact}
+                  hideMasthead={route.hideMasthead}
+                  hideBreadcrumb={route.hideBreadcrumb}
+                  initialProps={this.state.data}
+                  locale={locale}
+                  component={route.component}
+                  background={route.background ?? false}
+                  path={route.path}
+                  ndlaFilm={isNdlaFilm}
+                  location={location}
+                />
+              ))}
+          </Switch>
+        </BasenameContext.Provider>
+      </IntlProvider>
     );
   }
 }
 
-export default withRouter(App);
+export default withTranslation()(withRouter(App));

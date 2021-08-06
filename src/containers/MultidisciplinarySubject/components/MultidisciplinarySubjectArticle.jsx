@@ -14,7 +14,6 @@ import {
   MultidisciplinarySubjectHeader,
   OneColumn,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
@@ -25,6 +24,7 @@ import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
+import { withTranslation } from 'react-i18next';
 
 const filterCodes = {
   TT1: 'publicHealth',
@@ -137,4 +137,4 @@ MultidisciplinarySubjectArticle.getDimensions = props => {
   );
 };
 
-export default injectT(withTracker(MultidisciplinarySubjectArticle));
+export default withTranslation()(withTracker(MultidisciplinarySubjectArticle));

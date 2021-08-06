@@ -10,8 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -240,4 +240,4 @@ LearningpathPage.defaultProps = {
   status: 'initial',
 };
 
-export default injectT(withTracker(LearningpathPage));
+export default withTranslation()(withTracker(LearningpathPage));

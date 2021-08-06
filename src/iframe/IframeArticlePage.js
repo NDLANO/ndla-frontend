@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
 import { OneColumn, CreatedBy } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -123,4 +123,4 @@ IframeArticlePage.propTypes = {
   location: LocationShape,
 };
 
-export default injectT(withTracker(IframeArticlePage));
+export default withTranslation()(withTracker(IframeArticlePage));

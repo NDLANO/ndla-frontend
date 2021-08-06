@@ -13,7 +13,7 @@ import {
   SearchNotionsResult,
   FilterButtons,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import {
   SearchItemShape,
@@ -26,7 +26,6 @@ import SearchResults from './components/SearchResults';
 import { sortResourceTypes } from './searchHelpers';
 
 const SearchContainer = ({
-  t,
   handleSearchParamsChange,
   handleFilterClick,
   handleFilterToggle,
@@ -45,6 +44,7 @@ const SearchContainer = ({
   showAll,
   locale,
 }) => {
+  const {t} = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -136,4 +136,4 @@ SearchContainer.propTypes = {
   locale: string,
 };
 
-export default injectT(SearchContainer);
+export default SearchContainer;

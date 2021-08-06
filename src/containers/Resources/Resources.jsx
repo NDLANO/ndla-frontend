@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
@@ -16,6 +15,7 @@ import {
   ContentTypeBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
@@ -218,4 +218,4 @@ Resources.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default withRouter(injectT(Resources));
+export default withRouter(withTranslation()(Resources));

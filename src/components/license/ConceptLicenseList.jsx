@@ -20,12 +20,13 @@ import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
-import { injectT } from '@ndla/i18n';
 import { Concept } from '@ndla/icons/editor';
+import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { ConceptLicenseShape } from '../../shapes';
 
-const ConceptLicenseInfo = ({ concept, locale, t }) => {
+const ConceptLicenseInfo = ({ concept, locale }) => {
+  const {t} = useTranslation();
   if (
     concept.copyright?.license?.license === undefined ||
     concept.copyright.license.license === 'unknown'
@@ -36,7 +37,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
   const items = getGroupedContributorDescriptionList(concept.copyright, locale);
   if (concept.title) {
     items.unshift({
-      label: t('concept.title'),
+      label: t('license.concept.title'),
       description: concept.title,
       metaType: metaTypes.title,
     });
@@ -50,7 +51,7 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={concept.copyright.license.license}
-        title={t('concept.rules')}
+        title={t('license.concept.rules')}
         resourceType="concept"
         resourceUrl={concept.src}
         locale={locale}>
@@ -60,14 +61,13 @@ const ConceptLicenseInfo = ({ concept, locale, t }) => {
             <CopyTextButton
               stringToCopy={concept.copyText}
               t={t}
-              copyTitle={t('copyTitle')}
-              hasCopiedTitle={t('hasCopiedTitle')}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
             />
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
-              t={t}
-              copyTitle={t('embed')}
-              hasCopiedTitle={t('embedCopied')}
+              copyTitle={t('license.embed')}
+              hasCopiedTitle={t('license.embedCopied')}
             />
           </div>
         </MediaListItemActions>
@@ -81,10 +81,12 @@ ConceptLicenseInfo.propTypes = {
   concept: ConceptLicenseShape,
 };
 
-const ConceptLicenseList = ({ concepts, locale, t }) => (
+const ConceptLicenseList = ({ concepts, locale }) => {
+  const {t} = useTranslation();
+  return (
   <div>
-    <h2>{t('concept.heading')}</h2>
-    <p>{t('concept.description')}</p>
+    <h2>{t('license.concept.heading')}</h2>
+    <p>{t('license.concept.description')}</p>
     <MediaList>
       {concepts.map((concept, index) => (
         <ConceptLicenseInfo
@@ -96,11 +98,11 @@ const ConceptLicenseList = ({ concepts, locale, t }) => (
       ))}
     </MediaList>
   </div>
-);
+);};
 
 ConceptLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
   concepts: PropTypes.arrayOf(ConceptLicenseShape),
 };
 
-export default injectT(ConceptLicenseList, 'license.');
+export default ConceptLicenseList;

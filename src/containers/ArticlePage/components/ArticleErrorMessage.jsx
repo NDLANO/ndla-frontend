@@ -8,10 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 
-const ArticleErrorMessage = ({ status, children, t }) => (
+const ArticleErrorMessage = ({ status, children,}) => {
+  const {t} = useTranslation();
+  return (
   <OneColumn>
     <article className="c-article--clean">
       <ErrorMessage
@@ -35,10 +37,11 @@ const ArticleErrorMessage = ({ status, children, t }) => (
       {children}
     </article>
   </OneColumn>
-);
+  );
+};
 
 ArticleErrorMessage.propTypes = {
   status: PropTypes.string.isRequired,
 };
 
-export default injectT(ArticleErrorMessage);
+export default ArticleErrorMessage;

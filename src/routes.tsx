@@ -8,6 +8,9 @@
 
 import React from 'react';
 import { RouteProps } from 'react-router';
+import { ApolloClient } from '@apollo/client';
+import { I18nextProvider } from 'react-i18next';
+import { i18nInstance } from '@ndla/ui';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -37,6 +40,7 @@ import {
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
+import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -138,7 +142,18 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(initialProps: InitialProps, locale: LocaleType) {
-  return <App initialProps={initialProps} locale={locale} />;
+const routesFunc = function(
+  initialProps: InitialProps,
+  locale: LocaleType,
+  client: ApolloClient<object>,
+) {
+  return (
+    <ErrorBoundary>
+      {/* @ts-ignore */}
+      <I18nextProvider i18n={i18nInstance}>
+        <App initialProps={initialProps} locale={locale} client={client} />
+      </I18nextProvider>
+    </ErrorBoundary>
+  );
 };
 export default routesFunc;

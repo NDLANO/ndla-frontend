@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { injectT } from '@ndla/i18n';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
 import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
@@ -18,7 +18,8 @@ import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers
 
 import { ResourceShape } from '../../shapes';
 
-const MovedResourcePage = ({ resource, t }) => {
+const MovedResourcePage = ({ resource}) => {
+  const {t} = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery(movedResourceQuery, {
@@ -89,4 +90,4 @@ MovedResourcePage.propTypes = {
   resource: ResourceShape,
 };
 
-export default injectT(MovedResourcePage);
+export default MovedResourcePage;
