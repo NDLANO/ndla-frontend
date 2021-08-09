@@ -8,7 +8,6 @@ import { GQLTopic } from '../../graphqlTypes';
 import VisualElement from './VisualElement';
 import { LocaleType, ResourceType } from '../../interfaces';
 
-
 interface Props {
   topic: GQLTopic;
   locale: LocaleType;
@@ -27,7 +26,7 @@ export const resourceType = (VisualElementType?: string): ResourceType => {
 };
 
 const VisualElementContent = ({ topic, locale, t }: Props & tType) => {
-  const {article, id} = topic;
+  const { article, id } = topic;
 
   const license = getLicenseByAbbreviation(
     article?.copyright?.license?.license!,
@@ -45,39 +44,28 @@ const VisualElementContent = ({ topic, locale, t }: Props & tType) => {
 
   const figureId = `figure-${id}`;
 
-  console.log(!!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement &&
-    !window.document.hidden
-  ))
-  const k = "asfdasdasd1231a";
-  const s = "dsfdasdasd1231a";
-
   return (
     <Figure id={figureId} type={'full-column'} resizeIframe={true}>
       <VisualElement visualElement={article?.visualElement!} />
       <FigureCaption
-        id={k}
-        figureId={s}
+        id={id}
+        figureId={figureId}
         locale={locale}
         caption={article?.visualElement?.title || ''}
         reuseLabel={messages.reuse}
         licenseRights={license.rights}
-        authors={article?.copyright?.creators}
-        >
+        authors={article?.copyright?.creators}>
         <FigureLicenseDialog
-          id={s}
+          id={figureId}
           authors={article?.copyright.creators}
           locale={locale}
           license={license}
           messages={messages}
           title={article?.visualElement?.title}
-          origin={article?.visualElement?.url}
-        >
+          origin={article?.visualElement?.url}>
           <Button outline>{t('license.copyTitle')}</Button>
           <Button outline>{messages.download}</Button>
-        </FigureLicenseDialog >
+        </FigureLicenseDialog>
       </FigureCaption>
     </Figure>
   );
