@@ -110,5 +110,5 @@ export function ltiRoute(req) {
     ltiData: validParameters.ltiData,
   });
 
-  return renderHtml(req, html, { status: OK }, docProps);
+  return renderHtml(html, { status: OK }, docProps);
 }
