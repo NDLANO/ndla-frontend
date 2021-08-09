@@ -516,6 +516,10 @@ export const articleInfoFragment = gql`
       thumbnail
       embed
       language
+      copyright {
+        ...CopyrightInfo
+      }
+      copyText
     }
   }
 `;
