@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../../config';
 
-const Document = ({ helmet, assets, data }) => {
+const Document = ({ helmet, assets, data, extractor }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -62,6 +62,7 @@ const Document = ({ helmet, assets, data }) => {
           }}
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
+        {extractor.getScriptElements()}
         {helmet.script.toComponent()}
       </body>
     </html>
@@ -70,6 +71,7 @@ const Document = ({ helmet, assets, data }) => {
 
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  extractor: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   assets: PropTypes.shape({
     css: PropTypes.string,

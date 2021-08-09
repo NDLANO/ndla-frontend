@@ -14,17 +14,25 @@ import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
 
+import { ChunkExtractor } from '@loadable/server';
 import Document from './Document';
 import config from '../../config';
+const path = require('path');
 
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
-  const html = renderToString(Page);
+  const extractor = new ChunkExtractor({
+    statsFile: path.resolve(__dirname, 'public/loadable-stats.json'),
+    entrypoints: ['client'],
+  });
+  const jsx = extractor.collectChunks(Page);
+  const html = renderToString(jsx);
   const helmet = Helmet.renderStatic();
   return {
     html,
     helmet,
     assets,
+    extractor,
     // Following is serialized to window.DATA
     data: {
       ...data,

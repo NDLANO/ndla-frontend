@@ -12,6 +12,7 @@ import { Router, MemoryRouter } from 'react-router-dom';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import IntlProvider from '@ndla/i18n';
+import { loadableReady } from '@loadable/component';
 import { ApolloProvider } from '@apollo/client';
 // @ts-ignore
 import { configureTracker } from '@ndla/tracker';
@@ -102,20 +103,22 @@ const RouterComponent = ({ children }: RCProps) =>
     <Router history={browserHistory}>{children}</Router>
   );
 
-renderOrHydrate(
-  <ApolloProvider client={client}>
-    <IntlProvider locale={abbreviation} messages={messages}>
-      <RouterComponent>
-        {routesFunc({ ...initialProps, basename }, abbreviation)}
-      </RouterComponent>
-    </IntlProvider>
-  </ApolloProvider>,
-  document.getElementById('root'),
-  () => {
-    // See: /src/util/transformArticle.js for info on why this is needed.
-    window.hasHydrated = true;
-  },
-);
+loadableReady(() => {
+  renderOrHydrate(
+    <ApolloProvider client={client}>
+      <IntlProvider locale={abbreviation} messages={messages}>
+        <RouterComponent>
+          {routesFunc({ ...initialProps, basename }, abbreviation)}
+        </RouterComponent>
+      </IntlProvider>
+    </ApolloProvider>,
+    document.getElementById('root'),
+    () => {
+      // See: /src/util/transformArticle.js for info on why this is needed.
+      window.hasHydrated = true;
+    },
+  );
+});
 
 if (module.hot) {
   module.hot.accept();

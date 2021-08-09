@@ -7,18 +7,8 @@
  */
 
 import React from 'react';
+import loadable from '@loadable/component';
 import { RouteProps } from 'react-router';
-import WelcomePage from './containers/WelcomePage/WelcomePage';
-import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-import SearchPage from './containers/SearchPage/SearchPage';
-import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
-import SubjectPage from './containers/SubjectPage/SubjectPage';
-import NotFoundPage from './containers/NotFoundPage/NotFoundPage';
-import FilmFrontpage from './containers/FilmFrontpage/NdlaFilmFrontpage';
-import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
-import ResourcePage from './containers/ResourcePage/ResourcePage';
-import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
-import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import App from './App';
 
 import {
@@ -37,6 +27,41 @@ import {
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
+const ResourcePage = loadable(() =>
+  import('./containers/ResourcePage/ResourcePage'),
+);
+
+const MultidisciplinarySubjectPage = loadable(() =>
+  import('./containers/MultidisciplinarySubject/MultidisciplinarySubjectPage'),
+);
+const MultidisciplinarySubjectArticlePage = loadable(() =>
+  import(
+    './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage'
+  ),
+);
+const WelcomePage = loadable(() =>
+  import('./containers/WelcomePage/WelcomePage'),
+);
+const PlainArticlePage = loadable(() =>
+  import('./containers/PlainArticlePage/PlainArticlePage'),
+);
+
+const SearchPage = loadable(() => import('./containers/SearchPage/SearchPage'));
+const AllSubjectsPage = loadable(() =>
+  import('./containers/AllSubjectsPage/AllSubjectsPage'),
+);
+const SubjectPage = loadable(() =>
+  import('./containers/SubjectPage/SubjectPage'),
+);
+const NotFoundPage = loadable(() =>
+  import('./containers/NotFoundPage/NotFoundPage'),
+);
+const FilmFrontpage = loadable(() =>
+  import('./containers/FilmFrontpage/NdlaFilmFrontpage'),
+);
+const PlainLearningpathPage = loadable(() =>
+  import('./containers/PlainLearningpathPage/PlainLearningpathPage'),
+);
 
 export interface RootComponentProps {
   locale: LocaleType;

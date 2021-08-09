@@ -18,14 +18,13 @@ import {
 // @ts-ignore
 import { Content } from '@ndla/ui';
 import * as H from 'history';
+import loadable from '@loadable/component';
 import Page from './containers/Page/Page';
-// @ts-ignore
-import Masthead from './containers/Masthead';
+
 import { RootComponentProps, routes, RouteType } from './routes';
 // @ts-ignore
 import handleError from './util/handleError';
-// @ts-ignore
-import ErrorPage from './containers/ErrorPage/ErrorPage';
+
 import {
   FILM_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
@@ -33,6 +32,10 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
+// @ts-ignore
+const Masthead = loadable(() => import('./containers/Masthead'));
+// @ts-ignore
+const ErrorPage = loadable(() => import('./containers/ErrorPage/ErrorPage'));
 
 export const BasenameContext = React.createContext('');
 
