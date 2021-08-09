@@ -1682,6 +1682,15 @@
     "@ndla/util" "^0.4.8"
     "@reach/dialog" "^0.2.9"
 
+"@ndla/notion@^0.3.17":
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.3.17.tgz#e5d0922f647710bd63b6b8942340d8e817eec6c5"
+  integrity sha512-yhKAtsVsZuy1wKB4ftaUfFA7oQG/w0oiILaCB4iZSb7WYEXiqd6DtbZfUOmB/DNBMcwan5VCO9FxDyrjUFvB8A==
+  dependencies:
+    "@ndla/core" "^0.6.40"
+    "@ndla/licenses" "^0.6.52"
+    "@ndla/modal" "^0.4.49"
+
 "@ndla/pager@^0.4.49":
   version "0.4.49"
   resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.49.tgz#2b2cea6e9d6eb55a38cc24e03f45c131d2690521"

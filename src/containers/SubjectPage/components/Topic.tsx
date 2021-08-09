@@ -8,7 +8,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
@@ -163,4 +163,4 @@ Topic.getDimensions = ({ data, locale, subject }: Props) => {
   );
 };
 
-export default withTracker(Topic);
+export default injectT(withTracker(Topic));

@@ -12,9 +12,12 @@ import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import VisualElementContent, {
+  resourceType,
+} from '../../../components/VisualElement/VisualElementContent';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
-import { LocaleType, ResourceType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
 import {
   GQLVisualElement,
   GQLTopic,
@@ -22,7 +25,6 @@ import {
   GQLArticle,
   GQLMetaImage,
 } from '../../../graphqlTypes';
-import VisualElementWrapper from './VisualElementWrapper';
 
 interface Props {
   subjectId: string;
@@ -37,6 +39,7 @@ interface Data {
   resourceTypes: GQLResourceType;
 }
 
+// NonNULL types
 interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
   url: string;
   alt: string;
@@ -84,8 +87,8 @@ const ToolboxTopicWrapper = ({
       introduction: article.introduction,
       image: { url: article.metaImage?.url, alt: article?.metaImage?.alt },
       visualElement: {
-        type: article?.visualElement?.resource as ResourceType,
-        element: <VisualElementWrapper visualElement={article.visualElement} />,
+        type: resourceType(article.visualElement.resource),
+        element: <VisualElementContent topic={data.topic} locale={locale} />,
       },
       resources: topic.subtopics ? (
         <Resources

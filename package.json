@@ -98,6 +98,7 @@
     "@ndla/icons": "^0.7.8",
     "@ndla/licenses": "^0.6.52",
     "@ndla/modal": "^0.4.49",
+    "@ndla/notion":"^0.3.17",
     "@ndla/pager": "^0.4.49",
     "@ndla/polyfill": "^0.1.15",
     "@ndla/safelink": "^0.0.14",

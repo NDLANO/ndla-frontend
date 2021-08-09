@@ -64,7 +64,7 @@ const ToolboxSubjectPage = ({ match, locale, t }: Props & tType) => {
         ref.current.getBoundingClientRect().top +
           document?.documentElement?.scrollTop || 100;
       window.scrollTo({
-        top: positionFromTop - 100,
+        top: positionFromTop - 185,
         behavior: 'smooth',
       });
     }
