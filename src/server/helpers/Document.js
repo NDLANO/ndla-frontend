@@ -62,7 +62,7 @@ const Document = ({ helmet, assets, data, extractor }) => {
           }}
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
-        {extractor.getScriptElements()}
+        {extractor?.getScriptElements()}
         {helmet.script.toComponent()}
       </body>
     </html>
