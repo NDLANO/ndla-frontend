@@ -1458,9 +1458,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
               },
-              {
-                id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
-              },
             ],
           },
         ],
