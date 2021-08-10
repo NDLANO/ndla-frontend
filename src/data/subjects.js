@@ -811,32 +811,6 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
-    },
-    name: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
-    },
-    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
-  },
-  {
-    longName: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    name: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-  },
-  {
-    longName: {
       en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
@@ -2527,6 +2501,32 @@ export const betaSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk 2 - BETA',
+      nb: 'Medieuttrykk 2 - BETA',
+      nn: 'Medieuttrykk 2 - BETA',
+    },
+    name: {
+      en: 'Medieuttrykk 2',
+      nb: 'Medieuttrykk 2',
+      nn: 'Medieuttrykk 2',
+    },
+    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
+  },
+  {
+    longName: {
+      en: 'Mediesamfunnet 2 - BETA',
+      nb: 'Mediesamfunnet 2 - BETA',
+      nn: 'Mediesamfunnet 2 - BETA',
+    },
+    name: {
+      en: 'Mediesamfunnet 2',
+      nb: 'Mediesamfunnet 2',
+      nn: 'Mediesamfunnet 2',
+    },
+    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
   },
 ];
 
