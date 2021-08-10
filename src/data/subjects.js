@@ -92,19 +92,6 @@ export const commonSubjects = [
     id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
   },
   {
-    name: {
-      nb: 'Historie',
-      nn: 'Historie',
-      en: 'Historie',
-    },
-    longName: {
-      nb: 'Historie (SF Vg2)',
-      nn: 'Historie (SF Vg2)',
-      en: 'Historie (SF Vg2)',
-    },
-    id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
-  },
-  {
     longName: {
       en: 'Kroppsøving (Vg1)',
       nb: 'Kroppsøving (Vg1)',
@@ -663,7 +650,19 @@ export const commonSubjects = [
     },
     id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
   },
-
+  {
+    longName: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    name: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
+  },
   {
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg3)',
@@ -1612,19 +1611,6 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Historie Vg2',
-      nb: 'Historie Vg2',
-      nn: 'Historie Vg2',
-    },
-    name: {
-      en: 'Historie Vg2',
-      nb: 'Historie Vg2',
-      nn: 'Historie Vg2',
-    },
-    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
-  },
-  {
-    longName: {
       en: 'Sosiologi og sosialantropologi',
       nb: 'Sosiologi og sosialantropologi',
       nn: 'Sosiologi og sosialantropologi',
@@ -2356,6 +2342,19 @@ export const archivedSubjects = [
     },
     topicId: 'urn:topic:2:182078',
     id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+  },
+  {
+    name: {
+      nb: 'Historie',
+      nn: 'Historie',
+      en: 'Historie',
+    },
+    longName: {
+      nb: 'Historie Vg2 (LK06)',
+      nn: 'Historie Vg2 (LK06)',
+      en: 'Historie Vg2 (LK06)',
+    },
+    id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
   },
 ];
 
