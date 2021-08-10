@@ -35,13 +35,7 @@ module.exports = {
     // appConfig.module.rules.shift(); // remove eslint-loader
 
     if (target === 'web') {
-      const filename = path.resolve('build/public');
-      appConfig.plugins.push(
-        new LoadablePlugin({
-          outputAsset: false,
-          writeToDisk: { filename },
-        }),
-      );
+      appConfig.plugins.push(new LoadablePlugin());
 
       appConfig.output.filename = dev
         ? 'static/js/[name].js'

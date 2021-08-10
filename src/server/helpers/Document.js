@@ -71,7 +71,7 @@ const Document = ({ helmet, assets, data, extractor }) => {
 
 Document.propTypes = {
   helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  extractor: PropTypes.object.isRequired,
+  extractor: PropTypes.object,
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   assets: PropTypes.shape({
     css: PropTypes.string,
