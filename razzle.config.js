@@ -35,9 +35,11 @@ module.exports = {
     // appConfig.module.rules.shift(); // remove eslint-loader
 
     if (target === 'web') {
+      const filename = path.resolve(__dirname, 'build');
       appConfig.plugins.push(
         new LoadablePlugin({
-          writeToDisk: true,
+          outputAsset: false,
+          writeToDisk: { filename },
         }),
       );
 
