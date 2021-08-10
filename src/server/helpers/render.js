@@ -22,10 +22,7 @@ const path = require('path');
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
   const extractor = new ChunkExtractor({
-    statsFile: path.resolve(
-      __dirname,
-      '../../../build/public/loadable-stats.json',
-    ),
+    statsFile: path.resolve('./build/public/loadable-stats.json'),
     entrypoints: ['client'],
   });
   const jsx = extractor.collectChunks(Page);
