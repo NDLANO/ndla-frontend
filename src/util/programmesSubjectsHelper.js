@@ -6,6 +6,7 @@
  *
  */
 
+import { constants } from '@ndla/ui';
 import { toProgramme, toSubject } from '../routeHelpers';
 import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
@@ -63,3 +64,46 @@ export const getProgrammes = locale => {
   });
   return sortBy(programmesData, 'label');
 };
+
+export const getSubjectsCategories = subjects => [
+  {
+    type: constants.subjectCategories.COMMON_SUBJECTS,
+    subjects: subjects.filter(
+      s =>
+        s.metadata.customFields['subjectCategory'] ===
+        constants.subjectCategories.COMMON_SUBJECTS,
+    ),
+  },
+  {
+    type: constants.subjectCategories.PROGRAMME_SUBJECTS,
+    subjects: subjects.filter(
+      s =>
+        s.metadata.customFields['subjectCategory'] ===
+        constants.subjectCategories.PROGRAMME_SUBJECTS,
+    ),
+  },
+  {
+    type: constants.subjectCategories.SPECIALIZED_SUBJECTS,
+    subjects: subjects.filter(
+      s =>
+        s.metadata.customFields['subjectCategory'] ===
+        constants.subjectCategories.SPECIALIZED_SUBJECTS,
+    ),
+  },
+  {
+    type: constants.subjectCategories.ARCHIVE_SUBJECTS,
+    subjects: subjects.filter(
+      s =>
+        s.metadata.customFields['subjectCategory'] ===
+        constants.subjectCategories.ARCHIVE_SUBJECTS,
+    ),
+  },
+  {
+    type: constants.subjectCategories.BETA_SUBJECTS,
+    subjects: subjects.filter(
+      s =>
+        s.metadata.customFields['subjectCategory'] ===
+        constants.subjectCategories.BETA_SUBJECTS,
+    ),
+  },
+];

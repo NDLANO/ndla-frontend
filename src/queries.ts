@@ -15,6 +15,17 @@ const contributorInfoFragment = gql`
   }
 `;
 
+export const subjectInfoFragment = gql`
+  fragment SubjectInfo on Subject {
+    id
+    name
+    path
+    metadata {
+      customFields
+    }
+  }
+`;
+
 export const searchQuery = gql`
   query Search(
     $query: String
@@ -224,7 +235,11 @@ export const groupSearchQuery = gql`
       totalCount
       language
     }
+    subjects {
+      ...SubjectInfo
+    }
   }
+  ${subjectInfoFragment}
 `;
 
 export const conceptSearchQuery = gql`
@@ -335,14 +350,6 @@ export const topicInfoFragment = gql`
         alt
       }
     }
-  }
-`;
-
-export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Subject {
-    id
-    name
-    path
   }
 `;
 
@@ -1021,10 +1028,14 @@ export const mastHeadQuery = gql`
         ...LearningpathInfo
       }
     }
+    subjects {
+      ...SubjectInfo
+    }
   }
   ${learningpathInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
+  ${subjectInfoFragment}
 `;
 
 export const topicPageQuery = gql`

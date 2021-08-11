@@ -20,28 +20,28 @@ import { injectT } from '@ndla/i18n';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH } from '../../constants';
+import {
+  FILM_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ID,
+  TOOLBOX_STUDENT_SUBJECT_ID,
+  TOOLBOX_TEACHER_SUBJECT_ID,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import config from '../../config';
-
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
+import { subjectsQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
   return toSubject(subject.id);
 };
-
-const MULTIDISCIPLINARY_SUBJECT_ID =
-  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
-const TOOLBOX_TEACHER_SUBJECT_ID =
-  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
-const TOOLBOX_STUDENT_SUBJECT_ID =
-  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 const getMultidisciplinaryTopics = locale => {
   const topicIds = [
@@ -63,6 +63,16 @@ const getMultidisciplinaryTopics = locale => {
 };
 
 const WelcomePage = ({ t, locale, history, location }) => {
+  const { loading, data } = useGraphQuery(subjectsQuery);
+
+  if (loading) {
+    return null;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
+
   const headerLinks = [
     {
       to: 'https://om.ndla.no',
@@ -105,7 +115,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
       <main>
         <OneColumn extraPadding>
           <div data-testid="category-list">
-            <FrontpageSubjects locale={locale} />
+            <FrontpageSubjects locale={locale} subjects={data.subjects} />
           </div>
         </OneColumn>
         <OneColumn wide>

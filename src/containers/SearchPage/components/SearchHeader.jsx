@@ -9,17 +9,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { func, string, arrayOf } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
-
-const getSubjectCategoriesForLocale = locale => {
-  return subjectsCategories.map(category => ({
-    name: category.name[locale],
-    subjects: category.subjects.map(subject => ({
-      id: subject.id,
-      name: subject.longName[locale],
-    })),
-  }));
-};
+import { SubjectShape } from '../../../shapes';
+import { getSubjectsCategories } from '../../../util/programmesSubjectsHelper';
 
 // Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 + d39a0c692bbd0e3151fa13a7ec28b0cf229d9fd1 for programme filter
 
@@ -27,16 +18,17 @@ const SearchHeader = ({
   t,
   query,
   suggestion,
-  subjects,
+  subjectIds,
   handleSearchParamsChange,
+  subjects,
   locale,
 }) => {
   const [searchValue, setSearchValue] = useState(query);
   const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
-    () => getSubjectCategoriesForLocale(locale),
-    [locale],
+    () => getSubjectsCategories(subjects),
+    [subjects],
   );
 
   useEffect(() => {
@@ -44,16 +36,16 @@ const SearchHeader = ({
   }, [query]);
 
   useEffect(() => {
-    const activeSubjects = subjects.map(id => {
-      const longName = getSubjectLongName(id, locale);
+    const activeSubjects = subjectIds.map(id => {
+      const name = subjects.find(subject => subject.id === id).name;
       return {
         value: id,
-        name: longName,
-        title: longName,
+        name: name,
+        title: name,
       };
     });
     setActiveSubjectFilters(activeSubjects);
-  }, [subjects, locale]);
+  }, [subjectIds, subjects]);
 
   const onSubjectValuesChange = values => {
     handleSearchParamsChange({
@@ -64,7 +56,7 @@ const SearchHeader = ({
   const subjectFilterProps = {
     subjectCategories: {
       categories: localeSubjectCategories,
-      values: subjects,
+      values: subjectIds,
       onSubjectValuesChange: onSubjectValuesChange,
     },
     messages: {
@@ -80,7 +72,7 @@ const SearchHeader = ({
   };
 
   const handleFilterRemove = value => {
-    onSubjectValuesChange(subjects.filter(id => id !== value));
+    onSubjectValuesChange(subjectIds.filter(id => id !== value));
   };
 
   return (
@@ -107,7 +99,8 @@ SearchHeader.propTypes = {
   handleNewSearch: func,
   query: string,
   suggestion: string,
-  subjects: arrayOf(string),
+  subjectIds: arrayOf(string),
+  subjects: arrayOf(SubjectShape),
   locale: string,
 };
 

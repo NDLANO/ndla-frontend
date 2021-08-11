@@ -12,19 +12,21 @@ import PropTypes from 'prop-types';
 import { FrontpageProgramMenu } from '@ndla/ui';
 
 import {
-  getCategorizedSubjects,
   getProgrammes,
+  getSubjectsCategories,
 } from '../../util/programmesSubjectsHelper';
+import { SubjectShape } from '../../shapes';
 
-const FrontpageSubjects = ({ locale }) => (
+const FrontpageSubjects = ({ locale, subjects }) => (
   <FrontpageProgramMenu
     programItems={getProgrammes(locale)}
-    subjectCategories={getCategorizedSubjects(locale)}
+    subjectCategories={getSubjectsCategories(subjects)}
   />
 );
 
 FrontpageSubjects.propTypes = {
   locale: PropTypes.string.isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape),
 };
 
 export default FrontpageSubjects;

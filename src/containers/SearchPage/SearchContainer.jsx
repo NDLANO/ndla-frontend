@@ -20,6 +20,7 @@ import {
   ConceptShape,
   TypeFilterShape,
   SearchGroupShape,
+  SubjectShape,
 } from '../../shapes';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
@@ -33,9 +34,9 @@ const SearchContainer = ({
   handleFilterReset,
   handleShowMore,
   query,
-  subjects,
-  programmes,
+  subjectIds,
   subjectItems,
+  subjects,
   concepts,
   suggestion,
   typeFilter,
@@ -71,9 +72,9 @@ const SearchContainer = ({
       <SearchHeader
         query={query}
         suggestion={suggestion}
-        subjects={subjects}
-        programmes={programmes}
+        subjectIds={subjectIds}
         handleSearchParamsChange={handleSearchParamsChange}
+        subjects={subjects}
         locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
@@ -86,7 +87,7 @@ const SearchContainer = ({
           renderMarkdown={renderMarkdown}
         />
       )}
-      {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
         <>
           <FilterButtons
@@ -123,9 +124,9 @@ SearchContainer.propTypes = {
   handleFilterReset: func,
   handleShowMore: func,
   query: string,
-  subjects: arrayOf(string),
-  programmes: arrayOf(string),
+  subjectIds: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
+  subjects: arrayOf(SubjectShape),
   concepts: arrayOf(ConceptShape),
   suggestion: string,
   typeFilter: objectOf(TypeFilterShape),

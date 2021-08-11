@@ -34,12 +34,6 @@ const getStateSearchParams = searchParams => {
 const SearchPage = ({ location, locale, history, t }) => {
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
-  const subjects = searchSubjects(searchParams.query);
-  const subjectItems = subjects.map(subject => ({
-    id: subject.id,
-    title: subject.name,
-    url: subject.path,
-  }));
 
   const { data, loading } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
@@ -49,6 +43,8 @@ const SearchPage = ({ location, locale, history, t }) => {
       exactMatch: true,
     },
   });
+
+  const subjectItems = searchSubjects(searchParams.query, data?.subjects);
 
   const handleSearchParamsChange = searchParams => {
     history.push({
@@ -71,9 +67,10 @@ const SearchPage = ({ location, locale, history, t }) => {
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
-          subjects={searchParams.subjects}
-          programmes={searchParams.programs}
-          subjectItems={subjectItems}
+          subjectIds={searchParams.subjects}
+          programmeNames={searchParams.programs}
+          subjectHits={subjectItems}
+          subjects={data?.subjects}
           concepts={conceptData?.conceptSearch.concepts}
           resourceTypes={data?.resourceTypes}
           location={location}

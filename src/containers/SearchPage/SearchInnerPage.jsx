@@ -14,6 +14,7 @@ import {
   SearchItemShape,
   ConceptShape,
   ResourceTypeShape,
+  SubjectShape,
   LtiDataShape,
 } from '../../shapes';
 import {
@@ -47,9 +48,10 @@ const SearchInnerPage = ({
   t,
   handleSearchParamsChange,
   query,
-  subjects,
+  subjectIds,
   programmes,
   subjectItems,
+  subjects,
   concepts,
   resourceTypes,
   location,
@@ -74,7 +76,7 @@ const SearchInnerPage = ({
     ? {
         query,
         subjects: convertSearchParam([
-          ...subjects,
+          ...subjectIds,
           ...convertProgramSearchParams(programmes, locale).subjects,
         ]),
       }
@@ -242,9 +244,10 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      subjects={subjects}
+      subjectIds={subjectIds}
       programmes={programmes}
       suggestion={suggestion}
+      subjects={subjects}
       concepts={concepts}
       query={query}
       subjectItems={subjectItems}
@@ -262,9 +265,10 @@ SearchInnerPage.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
   query: string,
-  subjects: arrayOf(string),
+  subjectIds: arrayOf(string),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
+  subjects: arrayOf(SubjectShape),
   concepts: arrayOf(ConceptShape),
   resourceTypes: arrayOf(
     shape({

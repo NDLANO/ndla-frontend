@@ -1,42 +1,10 @@
-import {
-  archivedSubjects,
-  betaSubjects,
-  commonSubjects,
-  programmeSubjects,
-  studySpecializationSubjects,
-} from '../data/subjects';
-import { removeUrn } from '../routeHelpers';
-
-const createSubjectPath = subject => {
-  return `/${removeUrn(subject.id)}/`;
-};
-
-const categories = {
-  common: 'Fellesfag',
-  programme: 'Yrkesfag',
-  study: 'Studiespesialiserende',
-};
-
-export const searchSubjects = (query, locale = 'nb') => {
+export const searchSubjects = (query, subjects) => {
   query = query?.trim().toLowerCase();
   if (!query || query.length < 2) {
     return [];
   }
 
-  const foundInSubjects = [
-    ...archivedSubjects,
-    ...betaSubjects,
-    ...commonSubjects,
-    ...programmeSubjects,
-    ...studySpecializationSubjects,
-  ].filter(subject => subject.longName[locale].toLowerCase().includes(query));
-
-  return foundInSubjects.map(subject => ({
-    id: subject.id,
-    path: createSubjectPath(subject),
-    subject: categories[subject.id.split('_')[0]],
-    name: subject.longName[locale],
-  }));
+  return subjects.filter(subject => subject.name.toLowerCase().includes(query));
 };
 
 export const frontPageSearchSuggestion = searchResult => {

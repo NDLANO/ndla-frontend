@@ -27,7 +27,7 @@ import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
 import {
-  getCategorizedSubjects,
+  getSubjectsCategories,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
 
@@ -96,7 +96,7 @@ const MastheadContainer = ({
     });
   };
 
-  const { subject, topicPath = [], topicResourcesByType, resource } = state;
+  const { subject, topicPath = [], topicResourcesByType, resource, subjects } = state;
 
   const breadcrumbBlockItems = subject?.id
     ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
@@ -134,7 +134,7 @@ const MastheadContainer = ({
               topicResourcesByType={topicResourcesByType || []}
               locale={locale}
               programmes={getProgrammes(locale)}
-              subjectCategories={getCategorizedSubjects(locale)}
+              subjectCategories={getSubjectsCategories(subjects)}
             />
           )}
           {!hideBreadcrumb && (

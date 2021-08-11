@@ -66,7 +66,7 @@ export function getSelectedTopic(topics) {
 export const mapMastheadData = ({
   subjectId,
   topicId,
-  data: { resourceTypes, subject, topic, resource } = {},
+  data: { resourceTypes, subject, topic, resource, subjects } = {},
 }) => {
   const topicResourcesByType =
     topic &&
@@ -96,5 +96,6 @@ export const mapMastheadData = ({
     topicPath,
     topicResourcesByType,
     resource,
+    subjects,
   };
 };

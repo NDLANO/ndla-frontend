@@ -15,19 +15,20 @@ import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
-import { getSubjectById } from '../../data/subjects';
-import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
+import { subjectsQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
 
-const mapGradesData = (grades, locale, programmeSlug) => {
+const mapGradesData = (grades, subjects, locale, programmeSlug) => {
   return grades.map(grade => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {
       const categoryData = { name: category.name ? category.name[locale] : '' };
-      const subjects = category.subjects.map(subject => {
-        const subjectInfo = getSubjectById(subject.id);
+      const categorySubjects = category.subjects.map(subject => {
+        const subjectInfo = subjects.find(s => s.id === subject.id);
         const subjectData = {};
         if (subjectInfo) {
           /*const url = toProgrammeSubject(
@@ -35,17 +36,17 @@ const mapGradesData = (grades, locale, programmeSlug) => {
             subjectInfo.id,
             subjectInfo.filters,
           );*/
-          const url = createSubjectUrl(subjectInfo);
+          const url = subjectInfo.path;
           return {
-            label: subjectInfo.name[locale],
+            label: subjectInfo.name,
             url: url,
           };
         }
 
         return subjectData;
       });
-      subjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
-      categoryData.subjects = subjects;
+      categorySubjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
+      categoryData.subjects = categorySubjects;
       return categoryData;
     });
     return data;
@@ -68,6 +69,16 @@ const getDocumentTitle = ({ match, locale, t }) => {
 };
 
 const ProgrammePage = ({ match, locale, t }) => {
+  const { loading, data } = useGraphQuery(subjectsQuery);
+
+  if (loading) {
+    return null;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
+
   const slug = match?.params?.programme;
   const programmeData = getProgrammeBySlug(slug, locale);
 
@@ -76,7 +87,12 @@ const ProgrammePage = ({ match, locale, t }) => {
   }
 
   const heading = programmeData.name[locale];
-  const grades = mapGradesData(programmeData.grades, locale, slug);
+  const grades = mapGradesData(
+    programmeData.grades,
+    data.subjects,
+    locale,
+    slug,
+  );
   const documentTitle = getDocumentTitle({ match, locale, t });
   const metaDescription = programmeData.meta?.description?.[locale];
   const image = programmeData.image?.url || '';
