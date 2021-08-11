@@ -17,6 +17,7 @@ import {
 import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
+import { withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
@@ -24,7 +25,6 @@ import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
-import { withTranslation } from 'react-i18next';
 
 const filterCodes = {
   TT1: 'publicHealth',

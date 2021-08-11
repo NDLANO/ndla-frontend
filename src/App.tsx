@@ -14,6 +14,7 @@ import {
   withRouter,
   Switch,
   RouteComponentProps,
+  BrowserRouter,
 } from 'react-router-dom';
 // @ts-ignore
 import { Content } from '@ndla/ui';
@@ -64,7 +65,6 @@ const NDLARoute = ({
   hideBreadcrumb,
   ...rest
 }: NDLARouteProps) => {
-  console.log(rest);
   return (
     <Route
       location={location}
@@ -146,7 +146,6 @@ function shouldScrollToTop(location: H.Location) {
 
 interface AppProps extends RouteComponentProps, WithTranslation {
   initialProps: InitialProps;
-  locale: LocaleType;
   client: ApolloClient<object>;
 }
 
@@ -163,6 +162,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.location = null;
     initializeI18n(props.i18n, props.client, props.history);
+    // props.i18n.changeLanguage(props.i18n.language);
     this.state = {
       hasError: false,
       data: props.initialProps,
@@ -245,17 +245,16 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const {
-      initialProps: { basename },
-      location,
-      locale,
-    } = this.props;
+    const { location } = this.props;
     // if (!this.props.i18n.isInitialized) {
     //   return <Spinner />;
     // }
+    //
 
     if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} location={location} />;
+      return (
+        <ErrorPage locale={this.props.i18n.language} location={location} />
+      );
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
@@ -263,7 +262,7 @@ class App extends React.Component<AppProps, AppState> {
       <IntlProvider
         locale={this.props.i18n.language}
         messages={getLocaleObject(this.props.i18n.language).messages}>
-        <BasenameContext.Provider value={basename}>
+        <BasenameContext.Provider value={'nb'}>
           <Switch>
             {routes
               .filter(route => route !== undefined)
@@ -274,7 +273,8 @@ class App extends React.Component<AppProps, AppState> {
                   hideMasthead={route.hideMasthead}
                   hideBreadcrumb={route.hideBreadcrumb}
                   initialProps={this.state.data}
-                  locale={locale}
+                  //@ts-ignore
+                  locale={this.props.i18n.language}
                   component={route.component}
                   background={route.background ?? false}
                   path={route.path}

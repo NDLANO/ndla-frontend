@@ -6,27 +6,46 @@
  *
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, MemoryRouter } from 'react-router-dom';
-// @ts-ignore
-import ErrorReporter from '@ndla/error-reporter';
-import { ApolloProvider } from '@apollo/client';
-// @ts-ignore
-import { configureTracker } from '@ndla/tracker';
+import { ApolloClient, ApolloProvider } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
-
+// @ts-ignore
+import ErrorReporter from '@ndla/error-reporter';
+// @ts-ignore
+import { configureTracker } from '@ndla/tracker';
+import { i18nInstance } from '@ndla/ui';
 // @ts-ignore
 import queryString from 'query-string';
-import { createHistory } from './history';
-import { getLocaleInfoFromPath, isValidLocale } from './i18n';
-// @ts-ignore
-import { createApolloClient } from './util/apiHelpers';
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import {
+  I18nextProvider,
+  Trans,
+  useTranslation,
+  WithTranslation,
+  withTranslation,
+} from 'react-i18next';
+import {
+  BrowserRouter,
+  MemoryRouter,
+  Route,
+  Router,
+  Switch,
+  useHistory,
+} from 'react-router-dom';
+import App from './App';
 import { STORED_LANGUAGE_KEY } from './constants';
+import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
+import { createHistory } from './history';
+import { getLocaleInfoFromPath } from './i18n';
+import { InitialProps, LocaleType, NDLAWindow } from './interfaces';
+import NewHistory from './NewHistory';
 import routesFunc from './routes';
 import './style/index.css';
-import { NDLAWindow } from './interfaces';
+// @ts-ignore
+import { createApolloClient } from './util/apiHelpers';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -47,37 +66,37 @@ const locationFromServer = {
   pathname: basepath || '/',
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
+// if (
+//   basename === '' &&
+//   storedLanguage !== null &&
+//   isValidLocale(storedLanguage) &&
+//   storedLanguage !== 'nb'
+// ) {
+//   const { pathname, search } = window.location;
+// } else if (
+//   storedLanguage !== basename &&
+//   basename !== undefined &&
+//   isValidLocale(basename)
+// ) {
+//   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
+// }
 
 const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-if (
-  basename === '' &&
-  storedLanguage !== null &&
-  isValidLocale(storedLanguage) &&
-  storedLanguage !== 'nb'
-) {
-  const { pathname, search } = window.location;
-  window.location.href = `/${storedLanguage}${pathname}${search}`;
-} else if (
-  storedLanguage !== basename &&
-  basename !== undefined &&
-  isValidLocale(basename)
-) {
+if (!storedLanguage && basename) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
+} else if (basename && storedLanguage && storedLanguage !== basename) {
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
+} else {
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, 'nb');
 }
 
-const browserHistory = createHistory(basename ?? '');
+const browserHistory = createHistory();
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
   environment: config.ndlaEnvironment,
   componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
-});
-
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
-  googleTagManagerId: config?.googleTagManagerId,
 });
 
 window.hasHydrated = false;
@@ -95,20 +114,34 @@ interface RCProps {
   children?: React.ReactNode;
 }
 
+configureTracker({
+  listen: browserHistory.listen,
+  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+  googleTagManagerId: config?.googleTagManagerId,
+});
+
 const RouterComponent = ({ children }: RCProps) =>
   isGoogleUrl ? (
     <MemoryRouter initialEntries={[locationFromServer]}>
       {children}
     </MemoryRouter>
   ) : (
-    <Router history={browserHistory}>{children}</Router>
+    <Router history={browserHistory}>
+      <Switch>
+        <Route path="/:locale?" render={() => children} />
+      </Switch>
+    </Router>
   );
 
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>
+      {/* @ts-ignore */}
+      {/* <I18nextProvider i18n={i18nInstance}>
+        <TestComp />
+      </I18nextProvider> */}
       <RouterComponent>
-        {routesFunc({ ...initialProps, basename }, abbreviation, client)}
+        {routesFunc({ ...initialProps, basename }, abbreviation, client, true)}
       </RouterComponent>
     </CacheProvider>
   </ApolloProvider>,

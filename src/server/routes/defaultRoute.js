@@ -81,7 +81,7 @@ async function doRender(req) {
   const Page = !disableSSR(req) ? (
     <ApolloProvider client={client}>
       <CacheProvider value={cache}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
+        <StaticRouter location={req.url} context={context}>
           {routes({ ...initialProps, basename, client }, locale)}
         </StaticRouter>
       </CacheProvider>

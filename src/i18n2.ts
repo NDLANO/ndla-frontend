@@ -30,13 +30,16 @@ export const initializeI18n = (
       const basename = supportedLngs.includes(paths[1] ?? '')
         ? `${paths[1]}`
         : '';
-      if (!(basename === '' && language === 'nb')) {
-        const { search } = window.location;
-        console.log(language);
-        console.log(search);
-        history.replace(`/${language}/`);
-        window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
-      }
+      // const { search, pathname } = window.location;
+      // console.log('search', search);
+      // history.replace({ pathname: `${language}` });
+      const p = paths.slice(2).join('/');
+      // console.log('location i18n', history.location);
+      // console.log('paths', paths);
+      // console.log('pppp', p);
+      // history.replace('/t');
+      // history.replace(`/${language}/${p}${search}`);
+      window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
     }
   });
 };
