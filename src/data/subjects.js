@@ -837,19 +837,6 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Informasjonsteknologi Vg2',
-      nb: 'Informasjonsteknologi Vg2',
-      nn: 'Informasjonsteknologi Vg2',
-    },
-    name: {
-      en: 'Informasjonsteknologi Vg2',
-      nb: 'Informasjonsteknologi Vg2',
-      nn: 'Informasjonsteknologi Vg2',
-    },
-    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
-  },
-  {
-    longName: {
       en: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
       nb: 'Yrkesfaglig fordypning (HS-HEA Vg2)',
       nn: 'Yrkesfagleg fordjuping (HS-HEA Vg2)',
@@ -2527,6 +2514,19 @@ export const betaSubjects = [
       nn: 'Mediesamfunnet 2 - BETA',
     },
     id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
+  },
+  {
+    longName: {
+      en: 'Informasjonsteknologi Vg2 - BETA',
+      nb: 'Informasjonsteknologi Vg2 - BETA',
+      nn: 'Informasjonsteknologi Vg2 - BETA',
+    },
+    name: {
+      en: 'Informasjonsteknologi Vg2 - BETA',
+      nb: 'Informasjonsteknologi Vg2 - BETA',
+      nn: 'Informasjonsteknologi Vg2 - BETA',
+    },
+    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
   },
 ];
 
