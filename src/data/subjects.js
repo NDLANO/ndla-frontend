@@ -2437,7 +2437,7 @@ export const betaSubjects = [
     },
     id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
   },
-  {
+  /*{
     longName: {
       en: 'Boring (TP-BRT Vg2) - BETA',
       nb: 'Boring (TP-BRT Vg2) - BETA',
@@ -2449,8 +2449,8 @@ export const betaSubjects = [
       nn: 'Boring',
     },
     id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-  },
-  {
+  },*/
+  /*{
     longName: {
       en: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
       nb: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
@@ -2462,7 +2462,7 @@ export const betaSubjects = [
       nn: 'Komplettering og brønnservice',
     },
     id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-  },
+  },*/
   {
     longName: {
       en: 'Prosedyrer og praksis (TP-BRT Vg2) - BETA',

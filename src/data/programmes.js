@@ -2389,12 +2389,12 @@ export const programmes = [
               en: 'Brønnteknikk',
             },
             subjects: [
-              {
+              /*{
                 id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-              },
-              {
+              },*/
+              /*{
                 id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-              },
+              },*/
               {
                 id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
               },
