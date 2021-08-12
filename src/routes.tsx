@@ -130,15 +130,6 @@ let routeArray: RouteType[] = [
     component: AllSubjectsPage,
     background: false,
   },
-  {
-    path: '/404',
-    component: NotFoundPage,
-    background: false,
-  },
-  {
-    component: NotFoundPage,
-    background: false,
-  },
 ];
 
 if (config.feideEnabled) {
@@ -156,6 +147,19 @@ if (config.feideEnabled) {
     },
   );
 }
+
+// Hvis 404 eller notfound kommer før vil man ikke kunne finne endepunktene under.
+routeArray.push(
+  {
+    path: '/404',
+    component: NotFoundPage,
+    background: false,
+  },
+  {
+    component: NotFoundPage,
+    background: false,
+  },
+);
 
 export const routes = routeArray;
 
