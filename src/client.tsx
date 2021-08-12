@@ -110,11 +110,7 @@ const RouterComponent = ({ children }: RCProps) =>
       {children}
     </MemoryRouter>
   ) : (
-    <Router history={browserHistory}>
-      <Switch>
-        <Route path="/:locale?" render={() => children} />
-      </Switch>
-    </Router>
+    <Router history={browserHistory}>{children}</Router>
   );
 
 renderOrHydrate(
