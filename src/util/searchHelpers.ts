@@ -27,7 +27,10 @@ const categories: Categories = {
   study: 'Studiespesialiserende',
 };
 
-export const searchSubjects = (query: string, locale: LocaleType = config.defaultLocale) => {
+export const searchSubjects = (
+  query: string,
+  locale: LocaleType = config.defaultLocale,
+) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
