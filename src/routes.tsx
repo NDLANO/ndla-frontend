@@ -39,6 +39,7 @@ import {
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
+import config from './config';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -53,7 +54,7 @@ export interface RouteType extends RouteProps {
   component: React.ComponentType<RootComponentProps>;
 }
 
-export const routes: RouteType[] = [
+let routeArray: RouteType[] = [
   {
     path: '/',
     hideMasthead: true,
@@ -135,20 +136,28 @@ export const routes: RouteType[] = [
     background: false,
   },
   {
-    path: '/login',
-    component: Login,
-    background: false,
-  },
-  {
-    path: '/logout',
-    component: Logout,
-    background: false,
-  },
-  {
     component: NotFoundPage,
     background: false,
   },
 ];
+
+if (config.feideEnabled) {
+  routeArray.push(
+    {
+      path: '/login',
+      //@ts-ignore
+      component: Login,
+      background: false,
+    },
+    {
+      path: '/logout',
+      component: Logout,
+      background: false,
+    },
+  );
+}
+
+export const routes = routeArray;
 
 const routesFunc = function(initialProps: InitialProps, locale: LocaleType) {
   return <App initialProps={initialProps} locale={locale} />;

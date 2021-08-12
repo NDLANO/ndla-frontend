@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
@@ -30,7 +30,6 @@ import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
-import { AuthContext } from '../../components/AuthenticationContext';
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
@@ -64,8 +63,6 @@ const getMultidisciplinaryTopics = locale => {
 };
 
 const WelcomePage = ({ t, locale, history, location }) => {
-  const { authenticated } = useContext(AuthContext);
-
   const headerLinks = [
     {
       to: 'https://om.ndla.no',
@@ -103,19 +100,6 @@ const WelcomePage = ({ t, locale, history, location }) => {
         links={headerLinks}
         locale={locale}
         languageOptions={getLocaleUrls(locale, location)}>
-        {authenticated ? (
-          <a
-            href="/logout"
-            onClick={() => localStorage.setItem('lastPath', location.pathname)}>
-            LOGOUT
-          </a>
-        ) : (
-          <a
-            href="/login"
-            onClick={() => localStorage.setItem('lastPath', location.pathname)}>
-            LOGIN
-          </a>
-        )}
         <WelcomePageSearch history={history} locale={locale} />
       </FrontpageHeader>
       <main>

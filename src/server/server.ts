@@ -39,6 +39,7 @@ import {
   feideLogout,
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import config from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -98,29 +99,31 @@ app.get(
   },
 );
 
-app.get('/feide/login', (req: Request, res: Response) => {
-  getRedirectUrl(req)
-    .then(json => {
-      res
-        .cookie('PKCE_code', json.verifier, {
-          httpOnly: true,
-        })
-        .send(json);
-    })
-    .catch(() => sendInternalServerError(req, res));
-});
+if (config.feideEnabled) {
+  app.get('/feide/login', (req: Request, res: Response) => {
+    getRedirectUrl(req)
+      .then(json => {
+        res
+          .cookie('PKCE_code', json.verifier, {
+            httpOnly: true,
+          })
+          .send(json);
+      })
+      .catch(() => sendInternalServerError(req, res));
+  });
 
-app.get('/feide/token', (req: Request, res: Response) => {
-  getFeideToken(req)
-    .then(json => res.send(json))
-    .catch(() => sendInternalServerError(req, res));
-});
+  app.get('/feide/token', (req: Request, res: Response) => {
+    getFeideToken(req)
+      .then(json => res.send(json))
+      .catch(() => sendInternalServerError(req, res));
+  });
 
-app.get('/feide/logout', (req: Request, res: Response) => {
-  feideLogout(req)
-    .then(logouturi => res.send({ url: logouturi }))
-    .catch(() => sendInternalServerError(req, res));
-});
+  app.get('/feide/logout', (req: Request, res: Response) => {
+    feideLogout(req)
+      .then(logouturi => res.send({ url: logouturi }))
+      .catch(() => sendInternalServerError(req, res));
+  });
+}
 
 app.get(
   '/:lang?/subjects/:path(*)',

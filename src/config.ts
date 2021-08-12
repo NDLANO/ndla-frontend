@@ -124,6 +124,7 @@ export type ConfigType = {
   feideClientID?: string;
   feideClientSecret?: string;
   feideDomain: string;
+  feideEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -148,6 +149,7 @@ const config: ConfigType = {
   feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
   feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
   feideDomain: feideDomain(),
+  feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
 };
 
 export function getUniversalConfig() {
