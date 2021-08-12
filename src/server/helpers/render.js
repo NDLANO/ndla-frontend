@@ -21,16 +21,19 @@ const path = require('path');
 
 export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
-  const extractor = new ChunkExtractor({
-    statsFile: path.resolve('build/loadable-stats.json'),
-    entrypoints: ['client'],
-  });
-  const jsx = extractor.collectChunks(Page);
-  const html = renderToString(jsx);
-  const helmet = Helmet.renderStatic();
+  let extractor;
+  let html = '';
+  if (Page !== '') {
+    extractor = new ChunkExtractor({
+      statsFile: path.resolve('build/loadable-stats.json'),
+      entrypoints: ['client'],
+    });
+    const jsx = extractor.collectChunks(Page);
+    html = renderToString(jsx);
+  }
   return {
     html,
-    helmet,
+    helmet: Helmet.renderStatic(),
     assets,
     extractor,
     // Following is serialized to window.DATA
