@@ -979,7 +979,7 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
   },
-  {
+  /*{
     longName: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
@@ -991,7 +991,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-  },
+  },*/
   {
     longName: {
       en: 'Forretningsdrift (RS-SRL Vg2)',

@@ -2018,9 +2018,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
               },
-              {
+              /*{
                 id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-              },
+              },*/
             ],
           },
           {
