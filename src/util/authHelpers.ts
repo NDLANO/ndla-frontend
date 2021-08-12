@@ -92,7 +92,8 @@ export const isAccessTokenValid = () =>
 const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
 
 export const initializeFeideLogin = () => {
-  if (!config.feideEnabled) return undefined;
+  if (!config.feideEnabled)
+    return new Promise((resolve, _reject) => resolve(''));
   const lastPath = localStorage.getItem('lastPath');
   const state = `${lastPath ? `?state=${lastPath}` : ''}`;
 
