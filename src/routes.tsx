@@ -7,10 +7,13 @@
  */
 
 import React from 'react';
-import { Route, RouteProps, Switch, useHistory, useParams } from 'react-router';
+import { RouteProps, useHistory } from 'react-router';
 import { ApolloClient } from '@apollo/client';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
+import { BrowserRouter } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -41,9 +44,7 @@ import {
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
 import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
-import { BrowserRouter } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useRef } from 'react';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -145,16 +146,26 @@ export const routes: RouteType[] = [
   },
 ];
 
-const TestF = ({ children }: { children?: React.ReactNode }) => {
+const TestF = ({
+  children,
+  locale,
+}: {
+  children?: React.ReactNode;
+  locale?: LocaleType;
+}) => {
+  console.log('loc', locale);
   const { i18n } = useTranslation();
   const history = useHistory();
-  const [lang, setLang] = useState(i18n.language);
+  const [lang, setLang] = useState(locale);
   useEffect(() => {
-    history.replace(`/${i18n.language}/`);
+    const paths = window.location.pathname.split('/');
+    const { search } = window.location;
+    const p = paths.slice(2).join('/');
+    history.replace(`/${i18n.language}/${p}${search}`);
+    //@ts-ignore
     setLang(i18n.language);
   }, [history, i18n.language]);
 
-  // const langs: string = i18n.options.supportedLngs;
   return (
     <BrowserRouter basename={lang} key={lang}>
       {children}
@@ -165,6 +176,7 @@ const TestF = ({ children }: { children?: React.ReactNode }) => {
 const routesFunc = function(
   initialProps: InitialProps,
   client: ApolloClient<object>,
+  locale?: LocaleType,
   isClient = false,
 ) {
   if (isClient) {
@@ -175,10 +187,17 @@ const routesFunc = function(
       <I18nextProvider i18n={i18nInstance}>
         {isClient ? (
           <TestF
-            children={<App initialProps={initialProps} client={client} />}
+            children={
+              <App
+                initialProps={initialProps}
+                client={client}
+                locale={locale}
+              />
+            }
+            locale={locale}
           />
         ) : (
-          <App initialProps={initialProps} client={client} />
+          <App initialProps={initialProps} client={client} locale={locale} />
         )}
       </I18nextProvider>
     </ErrorBoundary>
