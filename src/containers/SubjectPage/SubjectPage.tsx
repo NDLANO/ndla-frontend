@@ -16,7 +16,9 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
+import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import { LocaleType } from '../../interfaces';
+import { GQLSubject, GQLTopic } from '../../graphqlTypes';
 
 type MatchParams = {
   subjectId?: string;
@@ -32,6 +34,14 @@ interface Props extends RouteComponentProps<MatchParams> {
   ndlaFilm?: boolean;
 }
 
+interface Data {
+  topic: GQLTopic;
+  subject: GQLSubject & {
+    allTopics: GQLTopic[];
+  };
+  subjects: GQLSubject[];
+}
+
 const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
@@ -41,7 +51,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
-  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
+  const { loading, data } = useGraphQuery<Data>(subjectPageQueryWithTopics, {
     variables: {
       subjectId,
       topicId: topicId || '',
@@ -58,21 +68,30 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   }
 
   const alternateTopics = data.topic?.alternateTopics;
-  if (!data?.subject && alternateTopics?.length >= 1) {
+  if (!data?.subject && alternateTopics && alternateTopics.length >= 1) {
     if (alternateTopics.length === 1) {
-      return <Redirect to={alternateTopics[0].path} />;
+      return <Redirect to={alternateTopics[0]!.path!} />;
     }
     return <MovedTopicPage topics={alternateTopics} />;
   }
 
   if (!data.subject || !subjectId) {
-    return <NotFoundPage />;
+    const redirect = data.subjects.find(sub => {
+      const customFields = sub.metadata?.customFields;
+      //@ts-ignore
+      return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
+    });
+    if (!redirect) {
+      return <NotFoundPage />;
+    } else {
+      return <Redirect to={redirect.path} />;
+    }
   }
 
   // Pre-select topic if only one topic in subject
-  if (!topicList.length && data.subject.topics.length === 1) {
+  if (!topicList.length && data.subject?.topics?.length === 1) {
     const topic = data.subject.topics[0];
-    topicList.push(topic.id);
+    topicList.push(topic!.id);
   }
 
   initialLoad.current = false;

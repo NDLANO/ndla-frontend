@@ -16,10 +16,11 @@ import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
-import VisualElementContent, {
+import VisualElementWrapper, {
   resourceType,
-} from '../../../components/VisualElement/VisualElementContent';
+} from '../../../components/VisualElement/VisualElementWrapper';
 import LicenseBox from '../../../components/license/LicenseBox';
+
 interface Props {
   topicId: string;
   subjectId: string;
@@ -66,16 +67,22 @@ const TopicWrapper = ({
   }
 
   const { article } = data.topic;
-
   const transposedTopic: TopicProps = {
     topic: {
       title: article.title,
       introduction: article.introduction!,
       image: { url: article.metaImage?.url!, alt: article?.metaImage?.alt! },
-      visualElement: {
-        type: resourceType(article.visualElement?.resource),
-        element: <VisualElementContent topic={data.topic} locale={locale} />,
-      },
+      visualElement: article.visualElement
+        ? {
+            type: resourceType(article.visualElement.resource),
+            element: (
+              <VisualElementWrapper
+                visualElement={article.visualElement}
+                locale={locale}
+              />
+            ),
+          }
+        : undefined,
       resources: data.topic.subtopics ? (
         <Resources
           topic={data.topic}
@@ -107,24 +114,24 @@ const TopicWrapper = ({
       onSubTopicSelected={(e: React.MouseEvent<HTMLElement>) =>
         onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
       }>
-      <ArticleWrapper id={topicId} modifier="in-topic">
-        <ArticleHeaderWrapper>
-          <ArticleIntroduction renderMarkdown={text => text}>
-            {data.topic.article.introduction}
-          </ArticleIntroduction>
-        </ArticleHeaderWrapper>
-        <ArticleContent locale={locale} content={data.topic.article.content} />
-        <ArticleByline
-          licenseBox={
-            <LicenseBox article={data.topic.article} locale={locale} />
-          }
-          {...{
-            authors: data.topic.article.copyright.creators,
-            published: data.topic.article.published,
-            license: data.topic.article.copyright.license?.license!,
-          }}
-        />
-      </ArticleWrapper>
+      {article.visualElement?.resource !== 'external' && (
+        <ArticleWrapper id={topicId} modifier="in-topic">
+          <ArticleHeaderWrapper>
+            <ArticleIntroduction renderMarkdown={text => text}>
+              {article.introduction}
+            </ArticleIntroduction>
+          </ArticleHeaderWrapper>
+          <ArticleContent locale={locale} content={article.content} />
+          <ArticleByline
+            licenseBox={<LicenseBox article={article} locale={locale} />}
+            {...{
+              authors: article.copyright.creators,
+              published: article.published,
+              license: article.copyright.license?.license!,
+            }}
+          />
+        </ArticleWrapper>
+      )}
     </Topic>
   );
 };

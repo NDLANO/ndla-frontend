@@ -2,29 +2,30 @@ import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLImageElement, GQLVisualElement } from '../../graphqlTypes';
 
 interface Props {
   visualElement: GQLVisualElement;
 }
 
 export const getIframeSrcFromHtmlString = (
-  html: string,
+  html?: string,
 ): string | undefined => {
+  if (!html) return undefined;
   const el = document.createElement('html');
   el.innerHTML = html;
   const iframe = el.getElementsByTagName('iframe')[0];
   return iframe?.getAttribute('src') || undefined;
 };
 
-const getFocalPoint = (visualElement: GQLVisualElement): object | undefined => {
+const getFocalPoint = (visualElement: GQLImageElement): object | undefined => {
   if (visualElement.focalX && visualElement.focalY) {
     return { x: visualElement.focalX, y: visualElement.focalY };
   }
   return undefined;
 };
 
-const getCrop = (visualElement: GQLVisualElement): object | undefined => {
+const getCrop = (visualElement: GQLImageElement): object | undefined => {
   if (
     (visualElement.lowerRightX &&
       visualElement.lowerRightY &&
@@ -42,37 +43,41 @@ const getCrop = (visualElement: GQLVisualElement): object | undefined => {
 };
 
 const VisualElement = ({ visualElement }: Props) => {
-  if (visualElement.resource === 'image') {
+  if (visualElement.image) {
     return (
       <Image
-        alt={visualElement.alt}
-        crop={getCrop(visualElement)}
-        focalPoint={getFocalPoint(visualElement)}
+        alt={visualElement.image.alt || visualElement.image.altText}
+        crop={getCrop(visualElement.image)}
+        focalPoint={getFocalPoint(visualElement.image)}
         src={visualElement?.image?.src}
       />
     );
-  } else if (visualElement.resource === 'brightcove') {
+  } else if (visualElement.brightcove) {
     return (
       <iframe
         frameBorder="0"
-        height={400}
+        height={visualElement.brightcove.iframe?.height}
         src={visualElement.url}
-        title={visualElement.title}
-        width={600}
+        title={visualElement.brightcove.title}
+        width={visualElement.brightcove.iframe?.width}
       />
     );
-  } else if (
-    visualElement.resource === 'h5p' ||
-    visualElement.resource === 'external'
-  ) {
+  } else if (visualElement.h5p) {
+    return (
+      <iframe
+        allowFullScreen={true}
+        frameBorder="0"
+        src={visualElement?.url}
+        title={visualElement?.h5p?.title}
+      />
+    );
+  } else if (visualElement.oembed) {
     return (
       <iframe
         allowFullScreen={visualElement?.oembed?.fullscreen || true}
         frameBorder="0"
-        height={400}
-        src={getIframeSrcFromHtmlString(visualElement?.oembed?.html!)}
+        src={getIframeSrcFromHtmlString(visualElement?.oembed?.html)}
         title={visualElement?.oembed?.title}
-        width={600}
       />
     );
   }

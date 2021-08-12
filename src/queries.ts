@@ -490,36 +490,57 @@ export const articleInfoFragment = gql`
     }
     visualElement {
       title
-      alt
-      player
-      account
-      image {
-        title
+      resource
+      url
+      copyright {
+        ...CopyrightInfo
+      }
+      language
+      embed
+      brightcove {
+        videoid
+        player
+        account
+        caption
+        description
+        cover
         src
-        altText
-        contentType
-        copyright {
-          ...CopyrightInfo
+        download
+        iframe {
+          src
+          height
+          width
         }
+        uploadDate
+        copyText
+      }
+      h5p {
+        path
+        src
+        thumbnail
+        copyText
       }
       oembed {
         title
         html
         fullscreen
       }
-      embed
-      resource
-      resourceId
-      upperLeftX
-      upperLeftY
-      url
-      thumbnail
-      embed
-      language
-      copyright {
-        ...CopyrightInfo
+      image {
+        resourceid
+        fullbredde
+        alt
+        caption
+        lowerRightX
+        lowerRightY
+        upperLeftX
+        upperLeftY
+        focalX
+        focalY
+        src
+        altText
+        contentType
+        copyText
       }
-      copyText
     }
   }
 `;
@@ -639,10 +660,17 @@ export const subjectPageQueryWithTopics = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+      metadata {
+        customFields
+      }
+    }
   }
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectInfoFragment}
 `;
 
 export const subjectPageQuery = gql`

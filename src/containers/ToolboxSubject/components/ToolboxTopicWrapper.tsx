@@ -12,9 +12,9 @@ import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
-import VisualElementContent, {
+import VisualElementWrapper, {
   resourceType,
-} from '../../../components/VisualElement/VisualElementContent';
+} from '../../../components/VisualElement/VisualElementWrapper';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
@@ -39,7 +39,6 @@ interface Data {
   resourceTypes: GQLResourceType;
 }
 
-// NonNULL types
 interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
   url: string;
   alt: string;
@@ -88,7 +87,12 @@ const ToolboxTopicWrapper = ({
       image: { url: article.metaImage?.url, alt: article?.metaImage?.alt },
       visualElement: {
         type: resourceType(article.visualElement.resource),
-        element: <VisualElementContent topic={data.topic} locale={locale} />,
+        element: (
+          <VisualElementWrapper
+            visualElement={article.visualElement}
+            locale={locale}
+          />
+        ),
       },
       resources: topic.subtopics ? (
         <Resources
