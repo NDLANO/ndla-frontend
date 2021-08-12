@@ -171,19 +171,6 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag for påbygg',
-      nb: 'Naturfag for påbygg',
-      nn: 'Naturfag for påbygg',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-  },
-  {
-    longName: {
       en: 'Matematikk 1P-Y (RM)',
       nb: 'Matematikk 1P-Y (RM)',
       nn: 'Matematikk 1P-Y (RM)',
@@ -2159,9 +2146,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag Påbygg - PB VG3',
-      nb: 'Naturfag Påbygg - PB VG3',
-      nn: 'Naturfag Påbygg - PB VG3',
+      en: 'Naturfag Påbygg - PB VG3 (LK06)',
+      nb: 'Naturfag Påbygg - PB VG3 (LK06)',
+      nn: 'Naturfag Påbygg - PB VG3 (LK06)',
     },
     name: {
       en: 'Naturfag Påbygg - PB VG3',
@@ -2198,9 +2185,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag Påbygg - YF VG1 2006',
-      nb: 'Naturfag Påbygg - YF VG1 2006',
-      nn: 'Naturfag Påbygg - YF VG1 2006',
+      en: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
+      nb: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
+      nn: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
     },
     name: {
       en: 'Naturfag Påbygg - YF VG1 2006',
