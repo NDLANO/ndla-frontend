@@ -157,14 +157,23 @@ const TestF = ({
   const { i18n } = useTranslation();
   const history = useHistory();
   const [lang, setLang] = useState(locale);
+  const firstRender = useRef(true);
   useEffect(() => {
-    const paths = window.location.pathname.split('/');
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    //@ts-ignore
+    const supLangs: string[] = i18n.options.supportedLngs!;
+    const regex = new RegExp(supLangs.map(l => `/${l}/`).join('|'));
+    const paths = window.location.pathname.replace(regex, '').split('/');
     const { search } = window.location;
-    const p = paths.slice(2).join('/');
-    history.replace(`/${i18n.language}/${p}${search}`);
+    const p = paths.slice().join('/');
+    const test = p.startsWith('/') ? p : `/${p}`;
+    history.replace(`/${i18n.language}${test}${search}`);
     //@ts-ignore
     setLang(i18n.language);
-  }, [history, i18n.language]);
+  }, [i18n.language]);
 
   return (
     <BrowserRouter basename={lang} key={lang}>
@@ -197,7 +206,12 @@ const routesFunc = function(
             locale={locale}
           />
         ) : (
-          <App initialProps={initialProps} client={client} locale={locale} />
+          <App
+            initialProps={initialProps}
+            client={client}
+            locale={locale}
+            key={locale}
+          />
         )}
       </I18nextProvider>
     </ErrorBoundary>

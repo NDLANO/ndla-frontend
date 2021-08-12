@@ -164,9 +164,6 @@ class App extends React.Component<AppProps, AppState> {
     this.location = null;
     console.log('locale', props.locale);
     initializeI18n(props.i18n, props.client);
-    if (props.locale) {
-      props.i18n.language = props.locale;
-    }
     console.log('i18n locale', props.i18n.language);
     this.state = {
       hasError: false,

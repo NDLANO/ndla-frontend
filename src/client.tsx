@@ -17,10 +17,10 @@ import { configureTracker } from '@ndla/tracker';
 import queryString from 'query-string';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MemoryRouter, Route, Router, Switch } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
 import { STORED_LANGUAGE_KEY } from './constants';
 import { createHistory } from './history';
-import { getLocaleInfoFromPath } from './i18n';
+import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { NDLAWindow } from './interfaces';
 import routesFunc from './routes';
 import './style/index.css';
@@ -46,33 +46,13 @@ const locationFromServer = {
   pathname: basepath || '/',
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
-// if (
-//   basename === '' &&
-//   storedLanguage !== null &&
-//   isValidLocale(storedLanguage) &&
-//   storedLanguage !== 'nb'
-// ) {
-//   const { pathname, search } = window.location;
-// } else if (
-//   storedLanguage !== basename &&
-//   basename !== undefined &&
-//   isValidLocale(basename)
-// ) {
-//   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-// }
 
 const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-console.log('stored', storedLanguage);
-console.log('basename', basename);
-if (!storedLanguage && basename) {
+if (basename && storedLanguage !== basename && isValidLocale(basename)) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-} else if (basename && storedLanguage && storedLanguage !== basename) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-} else {
-  console.log('what');
+} else if (storedLanguage === null || storedLanguage === undefined) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, 'nb');
 }
-console.log(window.localStorage.getItem(STORED_LANGUAGE_KEY));
 
 const browserHistory = createHistory();
 
@@ -121,7 +101,7 @@ renderOrHydrate(
           { ...initialProps, basename },
           client,
           //@ts-ignore
-          window.localStorage.getItem(STORED_LANGUAGE_KEY),
+          basename,
           true,
         )}
       </RouterComponent>
