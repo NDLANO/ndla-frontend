@@ -9,6 +9,7 @@ import {
   studySpecializationSubjects,
 } from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
+import config from '../config';
 
 const createSubjectPath = (subject: SubjectType) => {
   return `/${removeUrn(subject.id)}/`;
@@ -26,7 +27,7 @@ const categories: Categories = {
   study: 'Studiespesialiserende',
 };
 
-export const searchSubjects = (query: string, locale: LocaleType = 'nb') => {
+export const searchSubjects = (query: string, locale: LocaleType = config.defaultLocale) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];

@@ -7,6 +7,7 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import config from './config';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
@@ -126,7 +127,7 @@ type SubjectURI = {
 export function toBreadcrumbItems(
   rootName: string,
   paths: SubjectURI[],
-  locale: LocaleType = 'nb',
+  locale: LocaleType = config.defaultLocale,
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
