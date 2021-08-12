@@ -74,7 +74,7 @@ const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
   return (
     <Figure id={figureId} type={'full-column'} resizeIframe={true}>
       <VisualElement visualElement={visualElement} />
-      {(visualElement.resource !== 'external' && copyright) && (
+      {visualElement.resource !== 'external' && copyright && (
         <FigureCaption
           id={id}
           figureId={figureId}

@@ -58,7 +58,8 @@ const VisualElementLicenseButtons = ({
         <Button
           key="download"
           href={
-            visualElement.brightcove?.download || downloadUrl(visualElement.image?.src)
+            visualElement.brightcove?.download ||
+            downloadUrl(visualElement.image?.src)
           }
           appearance="outline"
           download>
