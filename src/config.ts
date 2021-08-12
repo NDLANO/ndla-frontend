@@ -75,8 +75,6 @@ const gaTrackingId = (): string => {
       return '';
     case 'prod':
       return 'UA-9036010-1';
-    case 'ff':
-      return 'UA-9036010-1';
     default:
       return 'UA-9036010-31';
   }
@@ -99,7 +97,6 @@ export type ConfigType = {
   logglyApiKey: string | undefined;
   disableSSR: boolean;
   isNdlaProdEnvironment: boolean;
-  isFFServer: boolean;
   ndlaApiUrl: string;
   ndlaFrontendDomain: string;
   learningPathDomain: string;
@@ -120,12 +117,17 @@ const config: ConfigType = {
   logglyApiKey: logglyApiKey(),
   disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  isFFServer: ndlaEnvironment === 'ff',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
-  ndlaFrontendDomain: ndlaFrontendDomain(),
-  learningPathDomain: learningPathDomain(),
+  ndlaFrontendDomain: getEnvironmentVariabel(
+    'FRONTEND_DOMAIN',
+    ndlaFrontendDomain(),
+  ),
+  learningPathDomain: getEnvironmentVariabel(
+    'LEARNINGPATH_DOMAIN',
+    learningPathDomain(),
+  ),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: gaTrackingId(),
+  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,

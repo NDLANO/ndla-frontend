@@ -255,6 +255,7 @@ class App extends React.Component<AppProps, AppState> {
 
     if (this.state.hasError) {
       return (
+        //@ts-ignore
         <ErrorPage locale={this.props.i18n.language} location={location} />
       );
     }

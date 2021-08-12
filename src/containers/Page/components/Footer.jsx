@@ -53,11 +53,7 @@ const FooterWrapper = ({ location, locale, inverted }) => {
   ];
 
   return (
-    <Footer
-      lang={locale}
-      links={links}
-      languageSelector={languageSelector}
-      isFFServer={config.isFFServer}>
+    <Footer lang={locale} links={links} languageSelector={languageSelector}>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}

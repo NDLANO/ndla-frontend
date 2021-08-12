@@ -7,13 +7,10 @@
  */
 
 import { ApolloProvider } from '@apollo/client';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 // @ts-ignore
 import { configureTracker } from '@ndla/tracker';
-// @ts-ignore
 import queryString from 'query-string';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -67,7 +64,6 @@ window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(abbreviation);
-const cache = createCache();
 
 // Use memory router if running under google translate
 const testLocation = locationFromServer?.pathname + locationFromServer?.search;
@@ -95,17 +91,15 @@ const RouterComponent = ({ children }: RCProps) =>
 
 renderOrHydrate(
   <ApolloProvider client={client}>
-    <CacheProvider value={cache}>
-      <RouterComponent>
-        {routesFunc(
-          { ...initialProps, basename },
-          client,
-          //@ts-ignore
-          basename,
-          true,
-        )}
-      </RouterComponent>
-    </CacheProvider>
+    <RouterComponent>
+      {routesFunc(
+        { ...initialProps, basename },
+        client,
+        //@ts-ignore
+        basename,
+        true,
+      )}
+    </RouterComponent>
   </ApolloProvider>,
   document.getElementById('root'),
   () => {
