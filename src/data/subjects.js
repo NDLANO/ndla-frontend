@@ -1,19 +1,6 @@
 export const commonSubjects = [
   {
     longName: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
-    },
-    name: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
-    },
-    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
-  },
-  {
-    longName: {
       en: 'Norsk YF',
       nb: 'Norsk YF',
       nn: 'Norsk YF',
@@ -25,7 +12,6 @@ export const commonSubjects = [
     },
     id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
-
   {
     name: {
       nb: 'Samfunnskunnskap',
@@ -1505,6 +1491,19 @@ export const programmeSubjects = [
 export const studySpecializationSubjects = [
   {
     longName: {
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
+    },
+    name: {
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
+    },
+    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+  },
+  {
+    longName: {
       en: 'Matematikk R1',
       nb: 'Matematikk R1',
       nn: 'Matematikk R1',
@@ -1620,19 +1619,6 @@ export const studySpecializationSubjects = [
       nn: 'Engelskspråkleg litteratur og kultur',
     },
     id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-  },
-  {
-    longName: {
-      en: 'Internasjonal engelsk (SF Vg2)',
-      nb: 'Internasjonal engelsk (SF Vg2)',
-      nn: 'Internasjonal engelsk (SF Vg2)',
-    },
-    name: {
-      en: 'Internasjonal engelsk',
-      nb: 'Internasjonal engelsk',
-      nn: 'Internasjonal engelsk',
-    },
-    id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
   {
     longName: {
@@ -1846,7 +1832,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
   },
-
   {
     longName: {
       en: 'Matematikk 2P (LK06)',
@@ -1860,7 +1845,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
   },
-
   {
     longName: {
       en: 'Matematikk R1 (LK06)',
@@ -1874,7 +1858,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
   },
-
   {
     longName: {
       en: 'Matematikk S1 (LK06)',
@@ -1888,7 +1871,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
   },
-
   {
     name: {
       nb: 'Norsk',
@@ -1902,7 +1884,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
   },
-
   {
     name: {
       nb: 'Samfunnsfag',
@@ -1943,7 +1924,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
   },
-
   {
     longName: {
       en: 'Kommunikasjon og kultur 1 (LK06)',
@@ -1970,7 +1950,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
   },
-
   {
     longName: {
       en: 'Råvarer og produksjon (RM Vg2) (LK06)',
@@ -1984,7 +1963,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
   },
-
   {
     longName: {
       en: 'Kosthold, ernæring og helse (RM Vg2) (LK06)',
@@ -2275,6 +2253,19 @@ export const archivedSubjects = [
       en: 'Historie Vg2 (LK06)',
     },
     id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
+  },
+  {
+    longName: {
+      en: 'Internasjonal engelsk (SF Vg2) (LK06)',
+      nb: 'Internasjonal engelsk (SF Vg2) (LK06)',
+      nn: 'Internasjonal engelsk (SF Vg2) (LK06)',
+    },
+    name: {
+      en: 'Internasjonal engelsk',
+      nb: 'Internasjonal engelsk',
+      nn: 'Internasjonal engelsk',
+    },
+    id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
 ];
 
