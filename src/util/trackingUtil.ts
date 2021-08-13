@@ -91,7 +91,6 @@ export const convertToGaOrGtmDimension = (
         dimensions[key as DimensionKeys],
     });
   });
-  return newDimensions;
 };
 
 const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>
@@ -126,20 +125,20 @@ export const getAllDimensions = (
   const authors = article?.copyright.creators || rightsholders;
 
   const dimensions: DimensionType = {
-    '3': relevance ? relevance : undefined,
+    '3': relevance,
     '4': contentTypeLabel,
-    '5': subject ? subject.name : undefined,
-    '6': topicPath?.[0]?.name || undefined,
+    '5': subject?.name,
+    '6': topicPath?.[0]?.name,
     '7':
       topicPath && topicPath[1]
         ? topicPath[topicPath.length - 1]?.name
         : undefined,
     '8': isArticle && article ? article.title : undefined,
-    '9': authors ? authors.map(author => author?.name).join(', ') : undefined,
+    '9': authors?.map(author => author?.name).join(', '),
     '10': getGrepCodeOfType('KE', article),
-    '13': learningpath ? learningpath?.learningsteps?.length : undefined,
+    '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,
-    '19': filter ? filter : undefined,
+    '19': filter,
     '20': getGrepCodeOfType('KM', article),
   };
 

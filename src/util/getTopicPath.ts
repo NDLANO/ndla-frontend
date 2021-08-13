@@ -10,7 +10,7 @@ import { GQLTopic } from '../graphqlTypes';
 export const getTopicPath = (
   subjectId: string,
   topicId: string,
-  topics: GQLTopic[],
+  topics?: GQLTopic[],
 ) => {
   if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);

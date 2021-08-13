@@ -11,6 +11,7 @@ import {
   GQLArticle,
   GQLAudioLicense,
   GQLBrightcoveLicense,
+  GQLContributor,
   GQLCopyright,
   GQLImageLicense,
 } from '../graphqlTypes';
@@ -32,6 +33,18 @@ const getStructuredDataBase = () => ({
   '@context': 'http://schema.org',
 });
 
+const mapType = (
+  type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE,
+  arr?: GQLContributor[],
+) => {
+  return arr?.map(item => {
+    return {
+      '@type': type,
+      name: item.name,
+    };
+  });
+};
+
 const getCopyrightData = ({
   creators,
   rightsholders,
@@ -42,39 +55,9 @@ const getCopyrightData = ({
     license: license?.url,
   };
 
-  const author =
-    creators?.map(c => {
-      return {
-        '@type': PERSON_TYPE,
-        name: c?.name,
-      };
-    }) ?? [];
-  if (author.length > 0) {
-    data.author = author;
-  }
-
-  const copyrightHolder =
-    rightsholders?.map(r => {
-      return {
-        '@type': ORGANIZATION_TYPE,
-        name: r?.name,
-      };
-    }) ?? [];
-  if (copyrightHolder.length > 0) {
-    data.copyrightHolder = copyrightHolder;
-  }
-
-  const contributor =
-    processors?.map(c => {
-      return {
-        '@type': PERSON_TYPE,
-        name: c?.name,
-      };
-    }) ?? [];
-  if (contributor.length > 0) {
-    data.contributor = contributor;
-  }
-
+  data.author = mapType(PERSON_TYPE, creators);
+  data.copyrightHolder = mapType(ORGANIZATION_TYPE, rightsholders);
+  data.contributor = mapType(PERSON_TYPE, processors);
   return data;
 };
 
@@ -90,12 +73,12 @@ const getPublisher = () => {
   return data;
 };
 type Breadcrumb = {
-  id?: string;
-  name?: string;
-  to?: string;
+  id: String;
+  name: String;
+  to: String;
 };
 
-const getBreadcrumbs = (breadcrumbItems: Breadcrumb[]) => {
+const getBreadcrumbs = (breadcrumbItems?: Breadcrumb[]) => {
   if (!breadcrumbItems) {
     return undefined;
   }
@@ -117,48 +100,44 @@ const getBreadcrumbs = (breadcrumbItems: Breadcrumb[]) => {
   return data;
 };
 
+type CopyrightHolder = { '@type': String; name?: String };
 interface StructuredData {
-  embedUrl?: string;
-  thumbnailUrl?: string;
-  description?: string;
-  contentUrl?: string;
-  uploadDate?: string;
-  copyrightHolder?: { '@type': string; name?: string }[];
-  contributor?: { '@type': string; name?: string }[];
-  license?: string;
-  author?: {
-    '@type': string;
-    name?: string;
-  }[];
-  name?: string;
-  headline?: string;
-  abstract?: string;
-  datePublished?: string;
-  dateModified?: string;
-  image?: string;
+  embedUrl?: String;
+  thumbnailUrl?: String;
+  description?: String;
+  contentUrl?: String;
+  uploadDate?: String;
+  copyrightHolder?: CopyrightHolder[];
+  contributor?: CopyrightHolder[];
+  license?: String;
+  author?: CopyrightHolder[];
+  name?: String;
+  headline?: String;
+  abstract?: String;
+  datePublished?: String;
+  dateModified?: String;
+  image?: String;
   numberOfItems?: number;
   itemListELement?: {
-    '@type': string;
-    name?: string;
+    '@type': String;
+    name?: String;
     position: number;
-    item: { '@type': string; id: string };
+    item: { '@type': String; id: String };
   }[];
-  '@type'?: string;
-  '@context'?: string;
-  '@id'?: string;
+  '@type'?: String;
+  '@context'?: String;
+  '@id'?: String;
 }
 
 interface Mediaelements {
   data: GQLImageLicense | GQLAudioLicense | GQLBrightcoveLicense | null;
-  type: string;
+  type: String;
 }
 
 const getStructuredDataFromArticle = (
   article: GQLArticle,
-  breadcrumbItems: Breadcrumb[],
+  breadcrumbItems?: Breadcrumb[],
 ) => {
-  if (!article) return [];
-
   let articleData: StructuredData = getStructuredDataBase();
   articleData['@type'] = CREATIVE_WORK_TYPE;
   articleData.name = article.title;
@@ -181,26 +160,24 @@ const getStructuredDataFromArticle = (
     structuredDataCollection.push(breadcrumbs);
   }
 
-  const mediaElements: Mediaelements[] = [];
+  const images =
+    article.metaData?.images?.map(i => ({ data: i, type: IMAGE_TYPE })) ?? [];
+  const audios =
+    article.metaData?.audios?.map(a => ({ data: a, type: AUDIO_TYPE })) ?? [];
 
-  const images = article.metaData?.images || [];
-  images.forEach(image => {
-    mediaElements.push({
-      data: image,
-      type: IMAGE_TYPE,
-    });
-  });
-
-  const audios = article.metaData?.audios || [];
-  audios.forEach(audio => {
-    mediaElements.push({
-      data: audio,
-      type: AUDIO_TYPE,
-    });
-  });
-
+  const mediaElements: Mediaelements[] = [...images, ...audios];
   const videos = article.metaData?.brightcoves || [];
 
+  createStructuredDataMedia(mediaElements, structuredDataCollection);
+  createStructuredDataVideo(videos, structuredDataCollection);
+
+  return structuredDataCollection;
+};
+
+const createStructuredDataMedia = (
+  mediaElements: Mediaelements[],
+  structuredCollection: StructuredData[],
+) => {
   mediaElements.forEach(media => {
     const { data, type } = media;
 
@@ -215,9 +192,14 @@ const getStructuredDataFromArticle = (
       ...getCopyrightData(data?.copyright!),
     };
 
-    structuredDataCollection.push(structuredData);
+    structuredCollection.push(structuredData);
   });
+};
 
+const createStructuredDataVideo = (
+  videos: GQLBrightcoveLicense[],
+  structuredCollection: StructuredData[],
+) => {
   videos.forEach(video => {
     let structuredData: StructuredData = getStructuredDataBase();
 
@@ -235,10 +217,8 @@ const getStructuredDataFromArticle = (
       ...getCopyrightData(video?.copyright!),
     };
 
-    structuredDataCollection.push(structuredData);
+    structuredCollection.push(structuredData);
   });
-
-  return structuredDataCollection;
 };
 
 export default getStructuredDataFromArticle;

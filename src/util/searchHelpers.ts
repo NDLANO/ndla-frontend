@@ -28,7 +28,7 @@ const categories: Categories = {
 };
 
 export const searchSubjects = (
-  query: string,
+  query?: string,
   locale: LocaleType = config.defaultLocale,
 ) => {
   const trimmedQuery = query?.trim().toLowerCase();
@@ -56,11 +56,11 @@ export const searchSubjects = (
   });
 };
 
-interface searchResult {
-  frontpageSearch: GQLFrontpageSearch;
+interface SearchResult {
+  frontpageSearch?: GQLFrontpageSearch;
 }
 
-export const frontPageSearchSuggestion = (searchResult: searchResult) => {
+export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
   if (!searchResult.frontpageSearch) {
     return;
   }
@@ -82,7 +82,7 @@ export const frontPageSearchSuggestion = (searchResult: searchResult) => {
 };
 
 export const mapSearchToFrontPageStructure = (
-  data: searchResult,
+  data: SearchResult,
   t: tType['t'],
   query: string,
   locale: LocaleType,

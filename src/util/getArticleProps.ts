@@ -9,7 +9,7 @@
 import { GQLResource, GQLTopic } from '../graphqlTypes';
 import { getContentType } from './getContentType';
 
-export const getArticleProps = (resource: GQLResource, topic: GQLTopic) => {
+export const getArticleProps = (resource: GQLResource, topic?: GQLTopic) => {
   const hasResourceTypes =
     resource.resourceTypes && resource.resourceTypes?.length > 0;
 

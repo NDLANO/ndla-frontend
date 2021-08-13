@@ -42,10 +42,10 @@ interface ProgramTypeBase {
   image: { url: string };
   grades: {
     name: string;
-    categories: (
-      | { name: null; subjects: { id: string }[] }
-      | { name: Record<LocaleType, string>; subjects: { id: string }[] }
-    )[];
+    categories: {
+      name: Record<LocaleType, string> | null;
+      subjects: { id: string }[];
+    }[];
   }[];
 }
 export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
