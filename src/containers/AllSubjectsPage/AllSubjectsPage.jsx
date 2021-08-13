@@ -18,7 +18,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import { subjectsQuery } from '../../queries';
 
 const AllSubjectsPage = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { error, loading, data } = useGraphQuery(subjectsQuery);
   if (loading) return null;
   return (

@@ -18,8 +18,8 @@ import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers
 
 import { ResourceShape } from '../../shapes';
 
-const MovedResourcePage = ({ resource}) => {
-  const {t} = useTranslation();
+const MovedResourcePage = ({ resource }) => {
+  const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery(movedResourceQuery, {

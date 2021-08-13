@@ -68,7 +68,7 @@ const TopicContainer = ({
   data,
   error,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const result = transformData(data);
 
   const { subject, topicPath, resourceTypes, topic } = result;

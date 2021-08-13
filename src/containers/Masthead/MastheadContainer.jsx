@@ -43,7 +43,7 @@ const MastheadContainer = ({
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
   const [state, setState] = useState({});
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     updateData();

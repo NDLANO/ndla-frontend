@@ -14,6 +14,7 @@ import { i18nInstance } from '@ndla/ui';
 import { BrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useRef } from 'react';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -44,7 +45,6 @@ import {
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
 import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
-import { useRef } from 'react';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -153,7 +153,6 @@ const TestF = ({
   children?: React.ReactNode;
   locale?: LocaleType;
 }) => {
-  console.log('loc', locale);
   const { i18n } = useTranslation();
   const history = useHistory();
   const [lang, setLang] = useState(locale);
@@ -163,8 +162,7 @@ const TestF = ({
       firstRender.current = false;
       return;
     }
-    //@ts-ignore
-    const supLangs: string[] = i18n.options.supportedLngs!;
+    const supLangs: string[] = i18n.options.supportedLngs as string[];
     const regex = new RegExp(supLangs.map(l => `/${l}/`).join('|'));
     const paths = window.location.pathname.replace(regex, '').split('/');
     const { search } = window.location;
@@ -172,7 +170,7 @@ const TestF = ({
     const test = p.startsWith('/') ? p : `/${p}`;
     history.replace(`/${i18n.language}${test}${search}`);
     //@ts-ignore
-    setLang(i18n.language);
+    setLang(i18n.language); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
 
   return (
@@ -188,7 +186,8 @@ const routesFunc = function(
   locale?: LocaleType,
   isClient = false,
 ) {
-  if (isClient) {
+  if (!isClient) {
+    i18nInstance.changeLanguage(locale);
   }
   return (
     <ErrorBoundary>

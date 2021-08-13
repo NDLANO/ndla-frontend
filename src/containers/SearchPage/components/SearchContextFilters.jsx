@@ -19,7 +19,7 @@ const SearchContextFilters = ({
   allTabValue,
   enabledTab,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||

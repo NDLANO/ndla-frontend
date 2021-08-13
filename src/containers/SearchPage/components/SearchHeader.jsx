@@ -30,7 +30,7 @@ const SearchHeader = ({
   handleSearchParamsChange,
   locale,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
   const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
 

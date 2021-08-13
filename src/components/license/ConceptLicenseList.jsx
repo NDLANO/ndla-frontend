@@ -26,7 +26,7 @@ import CopyTextButton from './CopyTextButton';
 import { ConceptLicenseShape } from '../../shapes';
 
 const ConceptLicenseInfo = ({ concept, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (
     concept.copyright?.license?.license === undefined ||
     concept.copyright.license.license === 'unknown'
@@ -82,23 +82,24 @@ ConceptLicenseInfo.propTypes = {
 };
 
 const ConceptLicenseList = ({ concepts, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-  <div>
-    <h2>{t('license.concept.heading')}</h2>
-    <p>{t('license.concept.description')}</p>
-    <MediaList>
-      {concepts.map((concept, index) => (
-        <ConceptLicenseInfo
-          concept={concept}
-          key={index}
-          locale={locale}
-          t={t}
-        />
-      ))}
-    </MediaList>
-  </div>
-);};
+    <div>
+      <h2>{t('license.concept.heading')}</h2>
+      <p>{t('license.concept.description')}</p>
+      <MediaList>
+        {concepts.map((concept, index) => (
+          <ConceptLicenseInfo
+            concept={concept}
+            key={index}
+            locale={locale}
+            t={t}
+          />
+        ))}
+      </MediaList>
+    </div>
+  );
+};
 
 ConceptLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,

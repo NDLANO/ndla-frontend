@@ -40,8 +40,8 @@ const VideoShape = PropTypes.shape({
   copyText: PropTypes.string,
 });
 
-const VideoLicenseInfo = ({ video, locale}) => {
-  const {t} = useTranslation();
+const VideoLicenseInfo = ({ video, locale }) => {
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(video.copyright, locale);
   if (video.title) {
     items.unshift({
@@ -92,18 +92,18 @@ VideoLicenseInfo.propTypes = {
   video: VideoShape.isRequired,
 };
 
-const VideoLicenseList = ({ videos, locale}) => {
-  const {t} = useTranslation();
+const VideoLicenseList = ({ videos, locale }) => {
+  const { t } = useTranslation();
   return (
-  <div>
-    <h2>{t('license.video.heading')}</h2>
-    <p>{t('license.video.description')}</p>
-    <MediaList>
-      {videos.map(video => (
-        <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
+    <div>
+      <h2>{t('license.video.heading')}</h2>
+      <p>{t('license.video.description')}</p>
+      <MediaList>
+        {videos.map(video => (
+          <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
   );
 };
 

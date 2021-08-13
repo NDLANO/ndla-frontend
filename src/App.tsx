@@ -159,12 +159,9 @@ class App extends React.Component<AppProps, AppState> {
   private location: H.Location | null;
 
   constructor(props: AppProps) {
-    console.log('init');
     super(props);
     this.location = null;
-    console.log('locale', props.locale);
     initializeI18n(props.i18n, props.client);
-    console.log('i18n locale', props.i18n.language);
     this.state = {
       hasError: false,
       data: props.initialProps,
@@ -261,12 +258,11 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
-    console.log('render lang', this.props.i18n.language);
     return (
       <IntlProvider
         locale={this.props.i18n.language}
         messages={getLocaleObject(this.props.i18n.language).messages}>
-        <BasenameContext.Provider value={'nb'}>
+        <BasenameContext.Provider value={this.props.locale ?? ''}>
           <Switch>
             {routes
               .filter(route => route !== undefined)
@@ -293,4 +289,4 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-export default withTranslation()(withRouter(App));
+export default withRouter(withTranslation()(App));

@@ -24,13 +24,8 @@ import { toSearch } from '../../../routeHelpers';
 
 const debounceCall = debounce(fun => fun(), 250);
 
-const MastheadSearch = ({
-  hideOnNarrowScreen,
-  ndlaFilm,
-  history,
-  subject,
-}) => {
-  const {t} = useTranslation();
+const MastheadSearch = ({ hideOnNarrowScreen, ndlaFilm, history, subject }) => {
+  const { t } = useTranslation();
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedQuery] = useState('');

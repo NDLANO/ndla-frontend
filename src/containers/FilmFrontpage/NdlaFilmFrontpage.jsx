@@ -23,7 +23,7 @@ import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
 const NdlaFilm = ({ locale, skipToContentId }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [state, setState] = useState({
     moviesByType: [],
     showingAll: false,

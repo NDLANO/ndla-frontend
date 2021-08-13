@@ -63,7 +63,7 @@ const getMultidisciplinaryTopics = locale => {
 };
 
 const WelcomePage = ({ locale, history, location }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const headerLinks = [
     {
       to: 'https://om.ndla.no',

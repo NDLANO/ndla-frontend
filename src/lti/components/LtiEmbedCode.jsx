@@ -12,8 +12,8 @@ const CodeWithBreakWord = styled('code')`
   word-break: break-word;
 `;
 
-const LtiEmbedCode = ({ onClose, code, isOpen}) => {
-  const {t} = useTranslation();
+const LtiEmbedCode = ({ onClose, code, isOpen }) => {
+  const { t } = useTranslation();
   if (!isOpen) {
     return null;
   }

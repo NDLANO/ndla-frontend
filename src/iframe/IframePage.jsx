@@ -22,21 +22,22 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const Error = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-  <OneColumn cssModifier="clear">
-    <ErrorMessage
-      illustration={{
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
-      }}
-      messages={{
-        title: t('errorMessage.title'),
-        description: t('errorMessage.description'),
-      }}
-    />
-  </OneColumn>
-)};
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        illustration={{
+          url: '/static/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('errorMessage.description'),
+        }}
+      />
+    </OneColumn>
+  );
+};
 
 export const IframePage = ({
   status,

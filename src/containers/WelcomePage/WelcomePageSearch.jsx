@@ -30,7 +30,7 @@ const WelcomePageSearch = ({ history, locale }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
     frontpageSearchQuery,

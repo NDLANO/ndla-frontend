@@ -28,7 +28,7 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     subjects: [],
     programs: [],
   });
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,

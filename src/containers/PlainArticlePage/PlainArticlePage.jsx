@@ -40,7 +40,7 @@ const PlainArticlePage = ({
     params: { articleId },
   },
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { loading, data } = useGraphQuery(plainArticleQuery, {
     variables: { articleId, isOembed: 'false', path: url },
   });

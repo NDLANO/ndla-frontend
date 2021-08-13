@@ -13,10 +13,10 @@ import { useTranslation } from 'react-i18next';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
 
-const LtiDefault = ({ item}) => {
+const LtiDefault = ({ item }) => {
   const [embedCode, setEmbedCode] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const showEmbedCode = async item => {
     if (item.url.href) {
       setEmbedCode(

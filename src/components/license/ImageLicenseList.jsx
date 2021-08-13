@@ -36,8 +36,8 @@ export const downloadUrl = imageSrc => {
   })}`;
 };
 
-const ImageLicenseInfo = ({ image, locale}) => {
-  const {t} = useTranslation();
+const ImageLicenseInfo = ({ image, locale }) => {
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(image.copyright, locale);
 
   if (image.title) {
@@ -93,18 +93,18 @@ ImageLicenseInfo.propTypes = {
   image: ImageShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, locale}) => {
-  const {t} = useTranslation();
+const ImageLicenseList = ({ images, locale }) => {
+  const { t } = useTranslation();
   return (
-  <div>
-    <h2>{t('license.images.heading')}</h2>
-    <p>{t('license.images.description')}</p>
-    <MediaList>
-      {images.map(image => (
-        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
+    <div>
+      <h2>{t('license.images.heading')}</h2>
+      <p>{t('license.images.description')}</p>
+      <MediaList>
+        {images.map(image => (
+          <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
   );
 };
 

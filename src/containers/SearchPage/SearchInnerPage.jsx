@@ -61,7 +61,7 @@ const SearchInnerPage = ({
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setParams(initalParams);

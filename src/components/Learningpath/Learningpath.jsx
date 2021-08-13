@@ -67,7 +67,7 @@ const Learningpath = ({
     title,
   } = learningpath;
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const lastUpdatedDate = new Date(lastUpdated);
   const stepId = learningpathStep.id;

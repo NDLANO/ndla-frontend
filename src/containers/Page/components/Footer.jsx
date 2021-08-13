@@ -17,7 +17,7 @@ import { LocationShape } from '../../../shapes';
 import config from '../../../config';
 
 const FooterWrapper = ({ location, locale, inverted }) => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const languageSelector = (
     <LanguageSelector
       center

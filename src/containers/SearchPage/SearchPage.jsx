@@ -32,7 +32,7 @@ const getStateSearchParams = searchParams => {
 };
 
 const SearchPage = ({ location, locale, history }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);

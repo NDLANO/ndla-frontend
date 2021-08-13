@@ -31,7 +31,7 @@ const TextShape = PropTypes.shape({
 });
 
 const H5pLicenseInfo = ({ h5p, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(h5p.copyright, locale);
   if (h5p.title) {
     items.unshift({
@@ -80,19 +80,19 @@ H5pLicenseInfo.propTypes = {
   h5p: H5pShape,
 };
 
-const H5pLicenseList = ({ h5ps, locale}) => {
-  const {t} = useTranslation();
+const H5pLicenseList = ({ h5ps, locale }) => {
+  const { t } = useTranslation();
   return (
-  <div>
-    <div>Test</div>
-    <h2>{t('license.h5p.heading')}</h2>
-    <p>{t('license.h5p.description')}</p>
-    <MediaList>
-      {h5ps.map(h5p => (
-        <H5pLicenseInfo h5p={h5p} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
+    <div>
+      <div>Test</div>
+      <h2>{t('license.h5p.heading')}</h2>
+      <p>{t('license.h5p.description')}</p>
+      <MediaList>
+        {h5ps.map(h5p => (
+          <H5pLicenseInfo h5p={h5p} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
   );
 };
 

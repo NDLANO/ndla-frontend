@@ -14,27 +14,38 @@ import { PageContainer } from '@ndla/ui';
 import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/client';
 import { MissingRouterContext } from '@ndla/safelink';
+import { useTranslation } from 'react-i18next';
 import { createApolloClient } from '../util/apiHelpers';
 import { BasenameContext } from '../App';
+import { getLocaleObject } from '../i18n';
+import { initializeI18n } from '../i18n2';
 
 const IframePageWrapper = ({
   basename,
   locale: { abbreviation: locale, messages },
   children,
-}) => (
-  <ApolloProvider client={createApolloClient(locale)}>
-    <IntlProvider locale={locale} messages={messages}>
-      <MissingRouterContext.Provider value={true}>
-        <BasenameContext.Provider value={basename}>
-          <PageContainer>
-            <Helmet htmlAttributes={{ lang: locale }} />
-            {children}
-          </PageContainer>
-        </BasenameContext.Provider>
-      </MissingRouterContext.Provider>
-    </IntlProvider>
-  </ApolloProvider>
-);
+}) => {
+  const { i18n } = useTranslation();
+  i18n.language = locale;
+  const client = createApolloClient(i18n.language);
+  initializeI18n(i18n, client);
+  return (
+    <ApolloProvider client={client}>
+      <IntlProvider
+        locale={i18n.language}
+        messages={getLocaleObject(i18n.language).messages}>
+        <MissingRouterContext.Provider value={true}>
+          <BasenameContext.Provider value={basename}>
+            <PageContainer>
+              <Helmet htmlAttributes={{ lang: locale }} />
+              {children}
+            </PageContainer>
+          </BasenameContext.Provider>
+        </MissingRouterContext.Provider>
+      </IntlProvider>
+    </ApolloProvider>
+  );
+};
 
 IframePageWrapper.propTypes = {
   basename: PropTypes.string,

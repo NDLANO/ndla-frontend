@@ -31,7 +31,7 @@ const ArticleContents = ({
   modifier,
   showIngress,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);

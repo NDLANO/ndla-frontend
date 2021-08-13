@@ -34,7 +34,7 @@ const TextShape = PropTypes.shape({
 });
 
 const TextLicenseInfo = ({ text, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(text.copyright, locale);
   items.push({
     label: t('license.text.published'),
@@ -73,18 +73,18 @@ TextLicenseInfo.propTypes = {
   text: TextShape,
 };
 
-const TextLicenseList = ({ texts, locale}) => {
-  const {t} = useTranslation();
+const TextLicenseList = ({ texts, locale }) => {
+  const { t } = useTranslation();
   return (
-  <div>
-    <h2>{t('license.text.heading')}</h2>
-    <p>{t('license.text.description')}</p>
-    <MediaList>
-      {texts.map(text => (
-        <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
+    <div>
+      <h2>{t('license.text.heading')}</h2>
+      <p>{t('license.text.description')}</p>
+      <MediaList>
+        {texts.map(text => (
+          <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
   );
 };
 

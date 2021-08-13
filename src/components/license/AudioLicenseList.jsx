@@ -32,7 +32,7 @@ const AudioShape = PropTypes.shape({
 });
 
 const AudioLicenseInfo = ({ audio, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(audio.copyright, locale);
   return (
     <MediaListItem>
@@ -69,18 +69,18 @@ AudioLicenseInfo.propTypes = {
   audio: AudioShape.isRequired,
 };
 
-const AudioLicenseList = ({ audios, locale }) => { 
-  const {t} = useTranslation();
+const AudioLicenseList = ({ audios, locale }) => {
+  const { t } = useTranslation();
   return (
-  <div>
-    <h2>{t('license.audio.heading')}</h2>
-    <p>{t('license.audio.description')}</p>
-    <MediaList>
-      {audios.map(audio => (
-        <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />
-      ))}
-    </MediaList>
-  </div>
+    <div>
+      <h2>{t('license.audio.heading')}</h2>
+      <p>{t('license.audio.description')}</p>
+      <MediaList>
+        {audios.map(audio => (
+          <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />
+        ))}
+      </MediaList>
+    </div>
   );
 };
 

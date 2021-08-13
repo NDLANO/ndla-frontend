@@ -73,9 +73,9 @@ const getLtiPostData = async (ltiData, item = {}) => {
   };
 };
 
-const LtiDeepLinking = ({ ltiData, item}) => {
+const LtiDeepLinking = ({ ltiData, item }) => {
   const [postData, setPostData] = useState({});
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     updatePostData();

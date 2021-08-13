@@ -13,8 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-const SubjectTopical = ({ topical, twoColumns}) => {
-  const {t} = useTranslation();
+const SubjectTopical = ({ topical, twoColumns }) => {
+  const { t } = useTranslation();
   if (!topical || !topical.resource || !topical.resource.meta) {
     return null;
   }

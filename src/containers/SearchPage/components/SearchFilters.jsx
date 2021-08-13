@@ -19,7 +19,7 @@ const SearchFilters = ({
   searchParams,
   onChange,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const allSubjects = subjects
     ? subjects.map(subject => ({
         title: subject.name,

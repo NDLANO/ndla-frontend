@@ -89,7 +89,7 @@ function buildLicenseTabList(article, locale, t) {
 }
 
 const LicenseBox = ({ article, locale }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const tabs = buildLicenseTabList(article, locale, t);
   return (
     <div>

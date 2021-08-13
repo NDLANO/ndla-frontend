@@ -61,7 +61,7 @@ const CompetenceGoals = ({
   const lang =
     article.supportedLanguages.find(l => l === language) ||
     article.supportedLanguages[0];
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   const { error, data, loading } = useQuery(competenceGoalsQuery, {
     variables: { codes, nodeId, language: lang },
   });
