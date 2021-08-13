@@ -743,6 +743,19 @@ export const commonSubjects = [
   },
   {
     longName: {
+      en: 'Naturfag Påbygg - PB VG3',
+      nb: 'Naturfag Påbygg - PB VG3',
+      nn: 'Naturfag Påbygg - PB VG3',
+    },
+    name: {
+      en: 'Naturfag Påbygg - PB VG3',
+      nb: 'Naturfag Påbygg - PB VG3',
+      nn: 'Naturfag Påbygg - PB VG3',
+    },
+    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+  },
+  {
+    longName: {
       en: 'NDLA Film',
       nb: 'NDLA Film',
       nn: 'NDLA Film',
@@ -1018,7 +1031,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
   },
-
   {
     name: {
       nb: 'Sikkerhet',
@@ -1097,7 +1109,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
   },
-
   {
     longName: {
       en: 'Helsefremmende arbeid (HS Vg1)',
@@ -2146,19 +2157,6 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag Påbygg - PB VG3 (LK06)',
-      nb: 'Naturfag Påbygg - PB VG3 (LK06)',
-      nn: 'Naturfag Påbygg - PB VG3 (LK06)',
-    },
-    name: {
-      en: 'Naturfag Påbygg - PB VG3',
-      nb: 'Naturfag Påbygg - PB VG3',
-      nn: 'Naturfag Påbygg - PB VG3',
-    },
-    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-  },
-  {
-    longName: {
       en: 'Naturfag YF Vg1 (LK06)',
       nb: 'Naturfag YF Vg1 (LK06)',
       nn: 'Naturfag YF Vg1 (LK06)',
@@ -2182,19 +2180,6 @@ export const archivedSubjects = [
       nn: 'Engelsk SF Vg1 (LK06)',
     },
     id: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
-  },
-  {
-    longName: {
-      en: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
-      nb: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
-      nn: 'Naturfag Påbygg - YF VG1 2006 (LK06)',
-    },
-    name: {
-      en: 'Naturfag Påbygg - YF VG1 2006',
-      nb: 'Naturfag Påbygg - YF VG1 2006',
-      nn: 'Naturfag Påbygg - YF VG1 2006',
-    },
-    id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     name: {
