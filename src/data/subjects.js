@@ -1544,19 +1544,6 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Biologi 1',
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-    },
-    name: {
-      en: 'Biologi 1',
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-    },
-    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-  },
-  {
-    longName: {
       en: 'Norsk SF Vg2',
       nb: 'Norsk SF Vg2',
       nn: 'Norsk SF Vg2',
@@ -2499,6 +2486,19 @@ export const betaSubjects = [
       nn: 'Informasjonsteknologi Vg2 - BETA',
     },
     id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+  },
+  {
+    longName: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    name: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
 ];
 
