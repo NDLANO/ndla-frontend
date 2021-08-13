@@ -8,19 +8,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+//@ts-ignore
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
-import { Trans } from '@ndla/i18n';
+import { Trans, tType } from '@ndla/i18n';
+import { RouteProps } from 'react-router';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
 import { LocationShape } from '../../shapes';
+import { LocaleType } from '../../interfaces';
 
-const ErrorPage = ({ locale, location }) => (
+interface Props extends RouteProps {
+  locale: LocaleType;
+}
+
+const ErrorPage = ({ locale, location }: Props) => (
   <Page locale={locale} location={location}>
     <Content>
       <Masthead showLoaderWhenNeeded={false} fixed>
         <MastheadItem right>
           <Trans>
-            {({ t }) => (
+            {({ t }: tType) => (
               <Logo to="/" locale={locale} label={t('logo.altText')} />
             )}
           </Trans>
