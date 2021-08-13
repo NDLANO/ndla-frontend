@@ -1472,7 +1472,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
   },
-
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
@@ -1580,7 +1579,6 @@ export const studySpecializationSubjects = [
     },
     id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
   },
-
   {
     longName: {
       en: 'Kinesisk 1',
@@ -1899,9 +1897,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap 1 (LK06)',
-      nb: 'Medie- og informasjonskunnskap 1 (LK06)',
-      nn: 'Medie- og informasjonskunnskap 1 (LK06)',
+      en: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
+      nb: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
+      nn: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
     },
     name: {
       en: 'Medie- og informasjonskunnskap 1',
@@ -1910,7 +1908,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
   },
-
   {
     name: {
       nb: 'Markedsføring og ledelse 1',
@@ -1918,17 +1915,17 @@ export const archivedSubjects = [
       en: 'Markedsføring og ledelse 1',
     },
     longName: {
-      nb: 'Markedsføring og ledelse 1 (LK06)',
-      nn: 'Marknadsføring og leiing 1 (LK06)',
-      en: 'Markedsføring og ledelse 1 (LK06)',
+      nb: 'Markedsføring og ledelse 1 (SF Vg2) (LK06)',
+      nn: 'Marknadsføring og leiing 1 (SF Vg2) (LK06)',
+      en: 'Markedsføring og ledelse 1 (SF Vg2) (LK06)',
     },
     id: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur 1 (LK06)',
-      nb: 'Kommunikasjon og kultur 1 (LK06)',
-      nn: 'Kommunikasjon og kultur 1 (LK06)',
+      en: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
+      nb: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
+      nn: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
     },
     name: {
       en: 'Kommunikasjon og kultur 1',
@@ -1989,7 +1986,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
   },
-
   {
     longName: {
       en: 'Kommunikasjon og samhandling (HS-HA Vg2) (LK06)',
@@ -2096,14 +2092,14 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      en: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nb: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nn: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
     },
     name: {
-      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      en: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nb: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nn: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
     },
     id: 'urn:subject:1:b8a448f0-e251-41ea-af1c-b2fd62a89828',
   },
@@ -2122,27 +2118,27 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag YF Vg1 (LK06)',
-      nb: 'Naturfag YF Vg1 (LK06)',
-      nn: 'Naturfag YF Vg1 (LK06)',
+      en: 'Naturfag (YF Vg1) (LK06)',
+      nb: 'Naturfag (YF Vg1) (LK06)',
+      nn: 'Naturfag (YF Vg1) (LK06)',
     },
     name: {
-      en: 'Naturfag YF Vg1 (LK06)',
-      nb: 'Naturfag YF Vg1 (LK06)',
-      nn: 'Naturfag YF Vg1 (LK06)',
+      en: 'Naturfag (YF Vg1) (LK06)',
+      nb: 'Naturfag (YF Vg1) (LK06)',
+      nn: 'Naturfag (YF Vg1) (LK06)',
     },
     id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     longName: {
-      en: 'Engelsk SF Vg1 (LK06)',
-      nb: 'Engelsk SF Vg1 (LK06)',
-      nn: 'Engelsk SF Vg1 (LK06)',
+      en: 'Engelsk (SF Vg1) (LK06)',
+      nb: 'Engelsk (SF Vg1) (LK06)',
+      nn: 'Engelsk (SF Vg1) (LK06)',
     },
     name: {
-      en: 'Engelsk SF Vg1 (LK06)',
-      nb: 'Engelsk SF Vg1 (LK06)',
-      nn: 'Engelsk SF Vg1 (LK06)',
+      en: 'Engelsk (SF Vg1) (LK06)',
+      nb: 'Engelsk (SF Vg1) (LK06)',
+      nn: 'Engelsk (SF Vg1) (LK06)',
     },
     id: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
   },
@@ -2248,9 +2244,9 @@ export const archivedSubjects = [
       en: 'Historie',
     },
     longName: {
-      nb: 'Historie Vg2 (LK06)',
-      nn: 'Historie Vg2 (LK06)',
-      en: 'Historie Vg2 (LK06)',
+      nb: 'Historie (SF Vg2) (LK06)',
+      nn: 'Historie (SF Vg2) (LK06)',
+      en: 'Historie (SF Vg2) (LK06)',
     },
     id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
   },
