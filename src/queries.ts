@@ -515,7 +515,6 @@ export const articleInfoFragment = gql`
         copyText
       }
       h5p {
-        path
         src
         thumbnail
         copyText
@@ -527,7 +526,6 @@ export const articleInfoFragment = gql`
       }
       image {
         resourceid
-        fullbredde
         alt
         caption
         lowerRightX

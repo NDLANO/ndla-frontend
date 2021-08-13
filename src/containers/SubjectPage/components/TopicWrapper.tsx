@@ -17,7 +17,7 @@ import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import VisualElementWrapper, {
-  resourceType,
+  getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import LicenseBox from '../../../components/license/LicenseBox';
 
@@ -32,6 +32,7 @@ interface Props {
   index: number;
   showResources: boolean;
   subject: GQLSubject & { allTopics: GQLTopic[] };
+  topicIds: Array<string>;
 }
 
 interface Data {
@@ -47,6 +48,7 @@ const TopicWrapper = ({
   onClickTopics,
   setBreadCrumb,
   index,
+  topicIds,
 }: Props & tType) => {
   const [showContent, setShowContent] = useState(false);
 
@@ -74,7 +76,7 @@ const TopicWrapper = ({
       image: { url: article.metaImage?.url!, alt: article?.metaImage?.alt! },
       visualElement: article.visualElement
         ? {
-            type: resourceType(article.visualElement.resource),
+            type: getResourceType(article.visualElement.resource),
             element: (
               <VisualElementWrapper
                 visualElement={article.visualElement}
@@ -100,7 +102,7 @@ const TopicWrapper = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, topicId, subtopic.id),
+      url: toTopic(subjectId, ...topicIds, subtopic.id),
     };
   });
 

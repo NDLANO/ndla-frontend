@@ -18,7 +18,7 @@ interface Props {
   locale: LocaleType;
 }
 
-export const resourceType = (VisualElementType?: string): ResourceType => {
+export const getResourceType = (VisualElementType?: string): ResourceType => {
   switch (VisualElementType) {
     case 'external':
     case 'brightcove':
@@ -51,11 +51,13 @@ const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
   }));
 
   const caption =
-    visualElement.image?.title ||
+    visualElement.image?.caption ||
     visualElement.brightcove?.caption ||
     visualElement.brightcove?.title ||
     visualElement.h5p?.title ||
     '';
+
+  const resourceType = getResourceType(visualElement.resource);
 
   const messages = {
     learnAboutLicenses: license
@@ -64,9 +66,9 @@ const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
     title: t('title'),
     close: t('close'),
     source: t('source'),
-    rulesForUse: t('license.images.rules'),
-    reuse: t('image.reuse'),
-    download: t('image.download'),
+    rulesForUse: t(`license.${resourceType}.rules`),
+    reuse: t(`${resourceType}.reuse`),
+    download: t(`${resourceType}.download`),
   };
   const id = uuid();
   const figureId = `figure-${id}`;
@@ -98,7 +100,7 @@ const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
             origin={copyright?.origin}>
             <VisualElementLicenseButtons
               visualElement={visualElement}
-              resourceType={resourceType(visualElement.resource)}
+              resourceType={resourceType}
             />
           </FigureLicenseDialog>
         </FigureCaption>

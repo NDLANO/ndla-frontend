@@ -13,7 +13,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import VisualElementWrapper, {
-  resourceType,
+  getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
@@ -86,7 +86,7 @@ const ToolboxTopicWrapper = ({
       introduction: article.introduction,
       image: { url: article.metaImage?.url, alt: article?.metaImage?.alt },
       visualElement: {
-        type: resourceType(article.visualElement.resource),
+        type: getResourceType(article.visualElement.resource),
         element: (
           <VisualElementWrapper
             visualElement={article.visualElement}
@@ -111,7 +111,7 @@ const ToolboxTopicWrapper = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === topicList[index + 1],
-      url: toTopic(subjectId, topicId, subtopic.id),
+      url: toTopic(subjectId, ...topicList, subtopic.id),
     };
   });
 
