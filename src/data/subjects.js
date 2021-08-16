@@ -677,9 +677,9 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Verktøykassa - For lærer',
-      nb: 'Verktøykassa - For lærer',
-      nn: 'Verktøykassa - For lærer',
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
     },
     name: {
       en: 'Verktøykassa',
@@ -755,9 +755,9 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Verktøykassa - For elev',
-      nb: 'Verktøykassa - For elev',
-      nn: 'Verktøykassa - For elev',
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
     },
     name: {
       en: 'Verktøykassa',
