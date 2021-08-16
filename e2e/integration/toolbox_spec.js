@@ -20,7 +20,7 @@ describe('Toolbox page', () => {
     });
     cy.apiwait('@toolboxStudentsGraphQL');
 
-    cy.get('h1 span:contains("Verktøykassa - For elev")');
+    cy.get('h1 span:contains("Verktøykassa – for elev")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
@@ -37,7 +37,7 @@ describe('Toolbox page', () => {
     });
     cy.apiwait('@toolboxTeachersGraphQL');
 
-    cy.get('h1 span:contains("Verktøykassa - For lærer")');
+    cy.get('h1 span:contains("Verktøykassa – for lærer")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
