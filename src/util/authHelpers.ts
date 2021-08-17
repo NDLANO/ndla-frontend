@@ -23,7 +23,6 @@ const handleConfigTypes = (
   return '';
 };
 
-let tokenRenewalTimeout: NodeJS.Timeout;
 const FEIDE_DOMAIN = handleConfigTypes(config.feideDomain);
 
 const locationOrigin = (() => {
@@ -130,26 +129,3 @@ export const renewAuth = () => {
   }
   return;
 };
-
-const scheduleRenewal = async () => {
-  if (localStorage.getItem('access_token_feide_personal') !== 'true') {
-    return null;
-  }
-
-  const expiresAt = getAccessTokenExpiresAt();
-  const timeout = expiresAt - Date.now();
-
-  if (timeout > 0) {
-    tokenRenewalTimeout = setTimeout(async () => {
-      await renewAuth();
-    }, timeout);
-  } else {
-    await renewAuth();
-    clearTimeout(tokenRenewalTimeout);
-  }
-  return;
-};
-
-if (typeof localStorage !== 'undefined') {
-  scheduleRenewal();
-}
