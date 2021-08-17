@@ -1485,6 +1485,19 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap MIK1',
+      nb: 'Medie- og informasjonskunnskap MIK1',
+      nn: 'Medie- og informasjonskunnskap MIK1',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+  },
 ];
 
 export const studySpecializationSubjects = [
@@ -2304,19 +2317,6 @@ export const betaSubjects = [
       nn: 'Transport, logistikk og løfteoperasjonar - BETA',
     },
     id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1 - BETA',
-      nb: 'Medie- og informasjonskunnskap MIK1 - BETA',
-      nn: 'Medie- og informasjonskunnskap MIK1 - BETA',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1 - BETA',
-      nb: 'Medie- og informasjonskunnskap 1 - BETA',
-      nn: 'Medie- og informasjonskunnskap 1 - BETA',
-    },
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
