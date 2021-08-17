@@ -1685,6 +1685,19 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+  },
+  {
+    longName: {
       en: 'Medie- og informasjonskunnskap 2',
       nb: 'Medie- og informasjonskunnskap 2',
       nn: 'Medie- og informasjonskunnskap 2',
@@ -1786,19 +1799,6 @@ export const studySpecializationSubjects = [
       nn: 'Mediesamfunnet 2',
     },
     id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1',
-      nb: 'Medie- og informasjonskunnskap MIK1',
-      nn: 'Medie- og informasjonskunnskap MIK1',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
-    },
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
 ];
 
