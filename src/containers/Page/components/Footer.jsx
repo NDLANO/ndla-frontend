@@ -58,11 +58,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
   const Button = StyledButton.withComponent('a');
 
   return (
-    <Footer
-      lang={locale}
-      links={links}
-      languageSelector={languageSelector}
-      isFFServer={config.isFFServer}>
+    <Footer lang={locale} links={links} languageSelector={languageSelector}>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}

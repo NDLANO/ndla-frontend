@@ -570,6 +570,7 @@ export const subjectPageQueryWithTopics = gql`
     $subjectId: String!
     $filterIds: String
     $topicId: String!
+    $includeTopic: Boolean!
   ) {
     subject(id: $subjectId) {
       id
@@ -585,7 +586,7 @@ export const subjectPageQueryWithTopics = gql`
         ...SubjectPageInfo
       }
     }
-    topic(id: $topicId) {
+    topic(id: $topicId) @include(if: $includeTopic) {
       id
       name
       path
@@ -605,10 +606,17 @@ export const subjectPageQueryWithTopics = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+      metadata {
+        customFields
+      }
+    }
   }
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectInfoFragment}
 `;
 
 export const subjectPageQuery = gql`
