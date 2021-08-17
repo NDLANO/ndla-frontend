@@ -10,7 +10,7 @@ import { toProgramme, toSubject } from '../routeHelpers';
 import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
-import { LocaleType, ProgramType, SubjectType } from '../interfaces';
+import { LocaleType, SubjectType } from '../interfaces';
 
 interface SubjectCategory {
   name: Record<LocaleType, string>;
@@ -32,30 +32,23 @@ interface ProgramSubjectType extends ProgramSubjectBase {
 type ProgramSubject = keyof ProgramSubjectType;
 
 const sortBy = (
-  arr?: ProgramSubjectType[],
+  arr: ProgramSubjectType[],
   sortByProp: ProgramSubject = 'name',
 ) =>
-  arr?.sort((a: ProgramSubjectType, b: ProgramSubjectType) => {
+  arr.sort((a: ProgramSubjectType, b: ProgramSubjectType) => {
     if (a[sortByProp]! < b[sortByProp]!) return -1;
     if (a[sortByProp]! > b[sortByProp]!) return 1;
     return 0;
   });
 
 export const createSubjectUrl = (subject: SubjectType) => {
-  let baseUrl = `${toSubject(subject.id)}/`;
-  if (subject.topicId) {
-    baseUrl = `${baseUrl}${removeUrn(subject.topicId)}/`;
-  }
-  return baseUrl;
-};
-
-const createProgrammeUrl = (program: ProgramType, locale: LocaleType) => {
-  return toProgramme(program.url[locale]);
+  const baseUrl = `${toSubject(subject.id)}/`;
+  return subject.topicId ? `${baseUrl}${removeUrn(subject.topicId)}/` : baseUrl;
 };
 
 export const getCategorizedSubjects = (locale: LocaleType) => {
   return subjectsCategories.map((category: SubjectCategory) => {
-    let subjects = category.subjects
+    const subjects = category.subjects
       .filter(subject => !subject.hideOnFrontPage)
       .map(subject => {
         const path = createSubjectUrl(subject);
@@ -75,7 +68,7 @@ export const getCategorizedSubjects = (locale: LocaleType) => {
 
 export const getProgrammes = (locale: LocaleType) => {
   const programmesData = programmes.map(program => {
-    const path = createProgrammeUrl(program, locale);
+    const path = toProgramme(program.url[locale]);
     return {
       label: program.name[locale],
       name: program.name[locale],

@@ -65,9 +65,7 @@ export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
     return;
   }
 
-  const {
-    frontpageSearch: { learningResources, topicResources },
-  } = searchResult;
+  const { learningResources, topicResources } = searchResult.frontpageSearch;
 
   if (!learningResources?.suggestions || !topicResources?.suggestions) {
     return;
@@ -118,16 +116,8 @@ export const mapSearchToFrontPageStructure = (
     totalCount: learningResources?.totalCount,
   };
 
-  const returnArray = [];
-  // add groups into return array if there are any resources
-  if (subjectHits.length) {
-    returnArray.push(subjects);
-  }
-  if (topics.totalCount) {
-    returnArray.push(topics);
-  }
-  if (resource.totalCount) {
-    returnArray.push(resource);
-  }
-  return returnArray;
+  const subjectsToAdd = subjectHits.length ? [subjects] : [];
+  const topicsToAdd = topics.totalCount ? [topics] : [];
+  const resourceToAdd = resource.totalCount ? [resource] : [];
+  return [...subjectsToAdd, ...topicsToAdd, ...resourceToAdd];
 };

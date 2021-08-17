@@ -34,11 +34,10 @@ export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
-type LocaleNorway = Extract<LocaleType, 'nb' | 'nn'>;
 interface ProgramTypeBase {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;
-  meta: { description: Record<LocaleNorway, string> };
+  meta: { description: Record<LocaleType, string> };
   image: { url: string };
   grades: {
     name: string;
@@ -49,7 +48,7 @@ interface ProgramTypeBase {
   }[];
 }
 export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
-  meta?: { description: Record<LocaleNorway, string> };
+  meta?: { description: Record<LocaleType, string> };
 }
 
 export type SubjectType = {

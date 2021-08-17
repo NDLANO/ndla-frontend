@@ -24,25 +24,16 @@ const getLocaleURL = (
     : `/${newLocale}${basePath}${search}`;
 };
 
-type LocaleUrls = Record<LocaleType, { name: string; url: string }>;
+type LocaleUrls = Partial<Record<LocaleType, { name: string; url: string }>>;
 
 export const getLocaleUrls = (
   locale: LocaleType,
   location: RouteComponentProps['location'],
-) => {
-  const localeUrls = {} as LocaleUrls;
-  preferredLocales.forEach(appLocale => {
-    localeUrls[appLocale.abbreviation] = {
-      name: appLocale.name,
-      url:
-        appLocale.abbreviation === 'nb'
-          ? `/${appLocale.abbreviation}${getLocaleURL(
-              appLocale.abbreviation,
-              locale,
-              location,
-            )}`
-          : getLocaleURL(appLocale.abbreviation, locale, location),
-    };
-  });
-  return localeUrls;
+): LocaleUrls => {
+  return preferredLocales.reduce<LocaleUrls>((prev, curr) => {
+    const localeUrl = getLocaleURL(curr.abbreviation, locale, location);
+    const abb = curr.abbreviation;
+    const url = abb === 'nb' ? `/${abb}${localeUrl}` : localeUrl;
+    return { ...prev, [curr.abbreviation]: { name: curr.name, url } };
+  }, {});
 };
