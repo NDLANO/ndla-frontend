@@ -36,5 +36,5 @@ test('map function', () => {
     () => {},
     'Vg2 og',
   );
-  expect(returnArray.length).toBe(2);
+  expect(returnArray.length).toBe(1);
 });
