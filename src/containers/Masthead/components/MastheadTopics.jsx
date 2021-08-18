@@ -45,6 +45,9 @@ const MastheadTopics = props => {
     topicResourcesByType,
     expandedSubtopicsId,
   );
+  console.log(49);
+
+  console.log(JSON.parse(JSON.stringify(topicsWithContentTypes)));
 
   const localResourceToLinkProps = resource => {
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
