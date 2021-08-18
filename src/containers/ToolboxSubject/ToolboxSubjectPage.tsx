@@ -19,6 +19,7 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
+import { getSubjectLongName } from '../../data/subjects';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -130,7 +131,7 @@ const ToolboxSubjectPage = ({ match, locale, t }: Props & tType) => {
         onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
           onSelectTopic(0, id)
         }
-        title={subject.name}
+        title={getSubjectLongName(subject.id, locale) || subject.name}
         introduction={t('htmlTitles.toolbox.introduction')}
       />
       <TopicBoxes />
