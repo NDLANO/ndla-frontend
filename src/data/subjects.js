@@ -1485,19 +1485,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1',
-      nb: 'Medie- og informasjonskunnskap MIK1',
-      nn: 'Medie- og informasjonskunnskap MIK1',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
-    },
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-  },
 ];
 
 export const studySpecializationSubjects = [
@@ -1695,6 +1682,19 @@ export const studySpecializationSubjects = [
       nn: 'Kommunikasjon og kultur 3',
     },
     id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
