@@ -3,19 +3,6 @@ import { LocaleType } from '../interfaces';
 export const commonSubjects = [
   {
     longName: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
-    },
-    name: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
-    },
-    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
-  },
-  {
-    longName: {
       en: 'Norsk YF',
       nb: 'Norsk YF',
       nn: 'Norsk YF',
@@ -27,7 +14,6 @@ export const commonSubjects = [
     },
     id: 'urn:subject:1:51a7271b-a9d5-4205-bade-1c125a8650b5',
   },
-
   {
     name: {
       nb: 'Samfunnskunnskap',
@@ -92,19 +78,6 @@ export const commonSubjects = [
       en: 'Norsk (SF Vg2) (LK06)',
     },
     id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
-  },
-  {
-    name: {
-      nb: 'Historie',
-      nn: 'Historie',
-      en: 'Historie',
-    },
-    longName: {
-      nb: 'Historie (SF Vg2)',
-      nn: 'Historie (SF Vg2)',
-      en: 'Historie (SF Vg2)',
-    },
-    id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
   },
   {
     longName: {
@@ -183,19 +156,6 @@ export const commonSubjects = [
       nn: 'Matematikk 1P-Y',
     },
     id: 'urn:subject:1:daa130e2-5035-4803-b3c0-6158f455a982',
-  },
-  {
-    longName: {
-      en: 'Naturfag for påbygg',
-      nb: 'Naturfag for påbygg',
-      nn: 'Naturfag for påbygg',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
   },
   {
     longName: {
@@ -665,7 +625,19 @@ export const commonSubjects = [
     },
     id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
   },
-
+  {
+    longName: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    name: {
+      en: 'Historie Vg2',
+      nb: 'Historie Vg2',
+      nn: 'Historie Vg2',
+    },
+    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
+  },
   {
     longName: {
       en: 'Sørsamisk som førstespråk (SF Vg3)',
@@ -707,9 +679,9 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Verktøykassa - For lærer',
-      nb: 'Verktøykassa - For lærer',
-      nn: 'Verktøykassa - For lærer',
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
     },
     name: {
       en: 'Verktøykassa',
@@ -759,6 +731,19 @@ export const commonSubjects = [
   },
   {
     longName: {
+      en: 'Naturfag Påbygg - PB VG3',
+      nb: 'Naturfag Påbygg - PB VG3',
+      nn: 'Naturfag Påbygg - PB VG3',
+    },
+    name: {
+      en: 'Naturfag Påbygg - PB VG3',
+      nb: 'Naturfag Påbygg - PB VG3',
+      nn: 'Naturfag Påbygg - PB VG3',
+    },
+    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+  },
+  {
+    longName: {
       en: 'NDLA Film',
       nb: 'NDLA Film',
       nn: 'NDLA Film',
@@ -772,9 +757,9 @@ export const commonSubjects = [
   },
   {
     longName: {
-      en: 'Verktøykassa - For elev',
-      nb: 'Verktøykassa - For elev',
-      nn: 'Verktøykassa - For elev',
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
     },
     name: {
       en: 'Verktøykassa',
@@ -814,32 +799,6 @@ export const programmeSubjects = [
   },
   {
     longName: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
-    },
-    name: {
-      en: 'Medieuttrykk 2',
-      nb: 'Medieuttrykk 2',
-      nn: 'Medieuttrykk 2',
-    },
-    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
-  },
-  {
-    longName: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    name: {
-      en: 'Mediesamfunnet 2',
-      nb: 'Mediesamfunnet 2',
-      nn: 'Mediesamfunnet 2',
-    },
-    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-  },
-  {
-    longName: {
       en: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nb: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
       nn: 'Kommunikasjon og samhandling (HS-BUA Vg2)',
@@ -863,19 +822,6 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:87aecb77-cd9d-4679-8c6f-043e9f8046f9',
-  },
-  {
-    longName: {
-      en: 'Informasjonsteknologi Vg2',
-      nb: 'Informasjonsteknologi Vg2',
-      nn: 'Informasjonsteknologi Vg2',
-    },
-    name: {
-      en: 'Informasjonsteknologi Vg2',
-      nb: 'Informasjonsteknologi Vg2',
-      nn: 'Informasjonsteknologi Vg2',
-    },
-    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
   },
   {
     longName: {
@@ -1021,7 +967,7 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
   },
-  {
+  /*{
     longName: {
       en: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
       nb: 'Yrkesfaglig fordypning (RS-SRL Vg2)',
@@ -1033,7 +979,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-  },
+  },*/
   {
     longName: {
       en: 'Forretningsdrift (RS-SRL Vg2)',
@@ -1073,7 +1019,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
   },
-
   {
     name: {
       nb: 'Sikkerhet',
@@ -1152,7 +1097,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
   },
-
   {
     longName: {
       en: 'Helsefremmende arbeid (HS Vg1)',
@@ -1530,7 +1474,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
   },
-
   {
     name: {
       nb: 'Yrkesfaglig fordypning',
@@ -1547,6 +1490,19 @@ export const programmeSubjects = [
 ];
 
 export const studySpecializationSubjects = [
+  {
+    longName: {
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
+    },
+    name: {
+      en: 'Engelsk 1',
+      nb: 'Engelsk 1',
+      nn: 'Engelsk 1',
+    },
+    id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+  },
   {
     longName: {
       en: 'Matematikk R1',
@@ -1588,19 +1544,6 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Biologi 1',
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-    },
-    name: {
-      en: 'Biologi 1',
-      nb: 'Biologi 1',
-      nn: 'Biologi 1',
-    },
-    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-  },
-  {
-    longName: {
       en: 'Norsk SF Vg2',
       nb: 'Norsk SF Vg2',
       nn: 'Norsk SF Vg2',
@@ -1611,19 +1554,6 @@ export const studySpecializationSubjects = [
       nn: 'Norsk SF Vg2',
     },
     id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
-  },
-  {
-    longName: {
-      en: 'Historie Vg2',
-      nb: 'Historie Vg2',
-      nn: 'Historie Vg2',
-    },
-    name: {
-      en: 'Historie Vg2',
-      nb: 'Historie Vg2',
-      nn: 'Historie Vg2',
-    },
-    id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
   {
     longName: {
@@ -1651,7 +1581,6 @@ export const studySpecializationSubjects = [
     },
     id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
   },
-
   {
     longName: {
       en: 'Kinesisk 1',
@@ -1690,19 +1619,6 @@ export const studySpecializationSubjects = [
       nn: 'Engelskspråkleg litteratur og kultur',
     },
     id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-  },
-  {
-    longName: {
-      en: 'Internasjonal engelsk (SF Vg2)',
-      nb: 'Internasjonal engelsk (SF Vg2)',
-      nn: 'Internasjonal engelsk (SF Vg2)',
-    },
-    name: {
-      en: 'Internasjonal engelsk',
-      nb: 'Internasjonal engelsk',
-      nn: 'Internasjonal engelsk',
-    },
-    id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
   {
     longName: {
@@ -1771,6 +1687,19 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+  },
+  {
+    longName: {
       en: 'Medie- og informasjonskunnskap 2',
       nb: 'Medie- og informasjonskunnskap 2',
       nn: 'Medie- og informasjonskunnskap 2',
@@ -1836,16 +1765,42 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      en: 'Medieuttrykk og mediesamfunnet Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg3',
     },
     name: {
-      en: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nb: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
-      nn: 'Medieuttrykk og mediesamfunnet Vg2 og Vg3',
+      en: 'Medieuttrykk og mediesamfunnet Vg3',
+      nb: 'Medieuttrykk og mediesamfunnet Vg3',
+      nn: 'Medieuttrykk og mediesamfunnet Vg3',
     },
     id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk 2',
+      nb: 'Medieuttrykk 2',
+      nn: 'Medieuttrykk 2',
+    },
+    name: {
+      en: 'Medieuttrykk 2',
+      nb: 'Medieuttrykk 2',
+      nn: 'Medieuttrykk 2',
+    },
+    id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
+  },
+  {
+    longName: {
+      en: 'Mediesamfunnet 2',
+      nb: 'Mediesamfunnet 2',
+      nn: 'Mediesamfunnet 2',
+    },
+    name: {
+      en: 'Mediesamfunnet 2',
+      nb: 'Mediesamfunnet 2',
+      nn: 'Mediesamfunnet 2',
+    },
+    id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
   },
 ];
 
@@ -1916,7 +1871,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:c621fe47-6d28-4ecd-95cb-ad641382d8f4',
   },
-
   {
     longName: {
       en: 'Matematikk 2P (LK06)',
@@ -1930,7 +1884,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:b0a79538-d211-4254-852a-5aa2c4b89db7',
   },
-
   {
     longName: {
       en: 'Matematikk R1 (LK06)',
@@ -1944,7 +1897,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3',
   },
-
   {
     longName: {
       en: 'Matematikk S1 (LK06)',
@@ -1958,7 +1910,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:3ae2c40f-4661-4863-9987-4944ff534974',
   },
-
   {
     name: {
       nb: 'Norsk',
@@ -1972,7 +1923,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
   },
-
   {
     name: {
       nb: 'Samfunnsfag',
@@ -1988,9 +1938,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap 1 (LK06)',
-      nb: 'Medie- og informasjonskunnskap 1 (LK06)',
-      nn: 'Medie- og informasjonskunnskap 1 (LK06)',
+      en: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
+      nb: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
+      nn: 'Medie- og informasjonskunnskap 1 (SF Vg2) (LK06)',
     },
     name: {
       en: 'Medie- og informasjonskunnskap 1',
@@ -1999,7 +1949,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e',
   },
-
   {
     name: {
       nb: 'Markedsføring og ledelse 1',
@@ -2007,18 +1956,17 @@ export const archivedSubjects = [
       en: 'Markedsføring og ledelse 1',
     },
     longName: {
-      nb: 'Markedsføring og ledelse 1 (LK06)',
-      nn: 'Marknadsføring og leiing 1 (LK06)',
-      en: 'Markedsføring og ledelse 1 (LK06)',
+      nb: 'Markedsføring og ledelse 1 (SF Vg2) (LK06)',
+      nn: 'Marknadsføring og leiing 1 (SF Vg2) (LK06)',
+      en: 'Markedsføring og ledelse 1 (SF Vg2) (LK06)',
     },
     id: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
   },
-
   {
     longName: {
-      en: 'Kommunikasjon og kultur 1 (LK06)',
-      nb: 'Kommunikasjon og kultur 1 (LK06)',
-      nn: 'Kommunikasjon og kultur 1 (LK06)',
+      en: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
+      nb: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
+      nn: 'Kommunikasjon og kultur 1 (SF Vg2) (LK06)',
     },
     name: {
       en: 'Kommunikasjon og kultur 1',
@@ -2040,7 +1988,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:89f7d059-6ae6-4e83-846f-7db4d24b1d36',
   },
-
   {
     longName: {
       en: 'Råvarer og produksjon (RM Vg2) (LK06)',
@@ -2054,7 +2001,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:b5156afd-e11c-4426-a3ba-a1e25c03f489',
   },
-
   {
     longName: {
       en: 'Kosthold, ernæring og helse (RM Vg2) (LK06)',
@@ -2081,7 +2027,6 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:8ee2047e-d1f1-495c-9c19-0a42384dfd81',
   },
-
   {
     longName: {
       en: 'Kommunikasjon og samhandling (HS-HA Vg2) (LK06)',
@@ -2188,14 +2133,14 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      en: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nb: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nn: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
     },
     name: {
-      en: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nb: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
-      nn: 'Sørsamisk som førstespråk YF Vg2 (LK06)',
+      en: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nb: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
+      nn: 'Sørsamisk som førstespråk (YF Vg2) (LK06)',
     },
     id: 'urn:subject:1:b8a448f0-e251-41ea-af1c-b2fd62a89828',
   },
@@ -2214,55 +2159,29 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Naturfag Påbygg - PB VG3',
-      nb: 'Naturfag Påbygg - PB VG3',
-      nn: 'Naturfag Påbygg - PB VG3',
+      en: 'Naturfag (YF Vg1) (LK06)',
+      nb: 'Naturfag (YF Vg1) (LK06)',
+      nn: 'Naturfag (YF Vg1) (LK06)',
     },
     name: {
-      en: 'Naturfag Påbygg - PB VG3',
-      nb: 'Naturfag Påbygg - PB VG3',
-      nn: 'Naturfag Påbygg - PB VG3',
-    },
-    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-  },
-  {
-    longName: {
-      en: 'Naturfag YF Vg1 (LK06)',
-      nb: 'Naturfag YF Vg1 (LK06)',
-      nn: 'Naturfag YF Vg1 (LK06)',
-    },
-    name: {
-      en: 'Naturfag YF Vg1 (LK06)',
-      nb: 'Naturfag YF Vg1 (LK06)',
-      nn: 'Naturfag YF Vg1 (LK06)',
+      en: 'Naturfag (YF Vg1) (LK06)',
+      nb: 'Naturfag (YF Vg1) (LK06)',
+      nn: 'Naturfag (YF Vg1) (LK06)',
     },
     id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     longName: {
-      en: 'Engelsk SF Vg1 (LK06)',
-      nb: 'Engelsk SF Vg1 (LK06)',
-      nn: 'Engelsk SF Vg1 (LK06)',
+      en: 'Engelsk (SF Vg1) (LK06)',
+      nb: 'Engelsk (SF Vg1) (LK06)',
+      nn: 'Engelsk (SF Vg1) (LK06)',
     },
     name: {
-      en: 'Engelsk SF Vg1 (LK06)',
-      nb: 'Engelsk SF Vg1 (LK06)',
-      nn: 'Engelsk SF Vg1 (LK06)',
+      en: 'Engelsk (SF Vg1) (LK06)',
+      nb: 'Engelsk (SF Vg1) (LK06)',
+      nn: 'Engelsk (SF Vg1) (LK06)',
     },
     id: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
-  },
-  {
-    longName: {
-      en: 'Naturfag Påbygg - YF VG1 2006',
-      nb: 'Naturfag Påbygg - YF VG1 2006',
-      nn: 'Naturfag Påbygg - YF VG1 2006',
-    },
-    name: {
-      en: 'Naturfag Påbygg - YF VG1 2006',
-      nb: 'Naturfag Påbygg - YF VG1 2006',
-      nn: 'Naturfag Påbygg - YF VG1 2006',
-    },
-    id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     name: {
@@ -2359,6 +2278,32 @@ export const archivedSubjects = [
     topicId: 'urn:topic:2:182078',
     id: 'urn:subject:1:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
   },
+  {
+    name: {
+      nb: 'Historie',
+      nn: 'Historie',
+      en: 'Historie',
+    },
+    longName: {
+      nb: 'Historie (SF Vg2) (LK06)',
+      nn: 'Historie (SF Vg2) (LK06)',
+      en: 'Historie (SF Vg2) (LK06)',
+    },
+    id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
+  },
+  {
+    longName: {
+      en: 'Internasjonal engelsk (SF Vg2) (LK06)',
+      nb: 'Internasjonal engelsk (SF Vg2) (LK06)',
+      nn: 'Internasjonal engelsk (SF Vg2) (LK06)',
+    },
+    name: {
+      en: 'Internasjonal engelsk',
+      nb: 'Internasjonal engelsk',
+      nn: 'Internasjonal engelsk',
+    },
+    id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
+  },
 ];
 
 export const betaSubjects = [
@@ -2369,9 +2314,9 @@ export const betaSubjects = [
       nn: 'Bransjelære (TP-TRL Vg2) - BETA',
     },
     name: {
-      en: 'Bransjelære',
-      nb: 'Bransjelære',
-      nn: 'Bransjelære',
+      en: 'Bransjelære - BETA',
+      nb: 'Bransjelære - BETA',
+      nn: 'Bransjelære - BETA',
     },
     id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
   },
@@ -2382,9 +2327,9 @@ export const betaSubjects = [
       nn: 'Bransjeteknikk (TP-TRL Vg2) - BETA',
     },
     name: {
-      en: 'Bransjeteknikk',
-      nb: 'Bransjeteknikk',
-      nn: 'Bransjeteknikk',
+      en: 'Bransjeteknikk - BETA',
+      nb: 'Bransjeteknikk - BETA',
+      nn: 'Bransjeteknikk - BETA',
     },
     id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
   },
@@ -2395,24 +2340,11 @@ export const betaSubjects = [
       nn: 'Transport, logistikk og løfteoperasjonar (TP-TRL VG2) - BETA',
     },
     name: {
-      en: 'Transport, logistikk og løfteoperasjoner',
-      nb: 'Transport, logistikk og løfteoperasjoner',
-      nn: 'Transport, logistikk og løfteoperasjonar',
+      en: 'Transport, logistikk og løfteoperasjoner - BETA',
+      nb: 'Transport, logistikk og løfteoperasjoner - BETA',
+      nn: 'Transport, logistikk og løfteoperasjonar - BETA',
     },
     id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1 - BETA',
-      nb: 'Medie- og informasjonskunnskap MIK1 - BETA',
-      nn: 'Medie- og informasjonskunnskap MIK1 - BETA',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1 - BETA',
-      nb: 'Medie- og informasjonskunnskap 1 - BETA',
-      nn: 'Medie- og informasjonskunnskap 1 - BETA',
-    },
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
@@ -2434,9 +2366,9 @@ export const betaSubjects = [
       nn: 'Reiseliv og språk 1 - BETA',
     },
     name: {
-      en: 'Reiseliv og språk 1',
-      nb: 'Reiseliv og språk 1',
-      nn: 'Reiseliv og språk 1',
+      en: 'Reiseliv og språk 1 - BETA',
+      nb: 'Reiseliv og språk 1 - BETA',
+      nn: 'Reiseliv og språk 1 - BETA',
     },
     id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
   },
@@ -2447,9 +2379,9 @@ export const betaSubjects = [
       nn: 'Design og visualisering (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Design og visualisering',
-      nb: 'Design og visualisering',
-      nn: 'Design og visualisering',
+      en: 'Design og visualisering - BETA',
+      nb: 'Design og visualisering - BETA',
+      nn: 'Design og visualisering - BETA',
     },
     id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
   },
@@ -2460,9 +2392,9 @@ export const betaSubjects = [
       nn: 'Konseptutvikling og kommunikasjon (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Konseptutvikling og kommunikasjon',
-      nb: 'Konseptutvikling og kommunikasjon',
-      nn: 'Konseptutvikling og kommunikasjon',
+      en: 'Konseptutvikling og kommunikasjon - BETA',
+      nb: 'Konseptutvikling og kommunikasjon - BETA',
+      nn: 'Konseptutvikling og kommunikasjon - BETA',
     },
     id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
   },
@@ -2473,38 +2405,38 @@ export const betaSubjects = [
       nn: 'Teknologi og produksjon (IM-MP Vg2) - 2021 BETA',
     },
     name: {
-      en: 'Teknologi og produksjon',
-      nb: 'Teknologi og produksjon',
-      nn: 'Teknologi og produksjon',
+      en: 'Teknologi og produksjon - BETA',
+      nb: 'Teknologi og produksjon - BETA',
+      nn: 'Teknologi og produksjon - BETA',
     },
     id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
   },
-  {
+  /*{
     longName: {
       en: 'Boring (TP-BRT Vg2) - BETA',
       nb: 'Boring (TP-BRT Vg2) - BETA',
       nn: 'Boring (TP-BRT Vg2) - BETA',
     },
     name: {
-      en: 'Boring',
-      nb: 'Boring',
-      nn: 'Boring',
+      en: 'Boring - BETA',
+      nb: 'Boring - BETA',
+      nn: 'Boring - BETA',
     },
     id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-  },
-  {
+  },*/
+  /*{
     longName: {
       en: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
       nb: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
       nn: 'Komplettering og brønnservice (TP-BRT Vg2) - BETA',
     },
     name: {
-      en: 'Komplettering og brønnservice',
-      nb: 'Komplettering og brønnservice',
-      nn: 'Komplettering og brønnservice',
+      en: 'Komplettering og brønnservice - BETA',
+      nb: 'Komplettering og brønnservice - BETA',
+      nn: 'Komplettering og brønnservice - BETA',
     },
     id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-  },
+  },*/
   {
     longName: {
       en: 'Prosedyrer og praksis (TP-BRT Vg2) - BETA',
@@ -2512,9 +2444,9 @@ export const betaSubjects = [
       nn: 'Prosedyrar og praksis (TP-BRT Vg2) - BETA',
     },
     name: {
-      en: 'Prosedyrer og praksis',
-      nb: 'Prosedyrer og praksis',
-      nn: 'Prosedyrar og praksis',
+      en: 'Prosedyrer og praksis - BETA',
+      nb: 'Prosedyrer og praksis - BETA',
+      nn: 'Prosedyrar og praksis - BETA',
     },
     id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
   },
@@ -2525,11 +2457,37 @@ export const betaSubjects = [
       nn: 'Yrkesfagleg fordjuping (TP-BRT Vg2) - BETA',
     },
     name: {
-      en: 'Yrkesfaglig fordypning',
-      nb: 'Yrkesfaglig fordypning',
-      nn: 'Yrkesfagleg fordjuping',
+      en: 'Yrkesfaglig fordypning - BETA',
+      nb: 'Yrkesfaglig fordypning - BETA',
+      nn: 'Yrkesfagleg fordjuping - BETA',
     },
     id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+  },
+  {
+    longName: {
+      en: 'Informasjonsteknologi Vg2 - BETA',
+      nb: 'Informasjonsteknologi Vg2 - BETA',
+      nn: 'Informasjonsteknologi Vg2 - BETA',
+    },
+    name: {
+      en: 'Informasjonsteknologi Vg2 - BETA',
+      nb: 'Informasjonsteknologi Vg2 - BETA',
+      nn: 'Informasjonsteknologi Vg2 - BETA',
+    },
+    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+  },
+  {
+    longName: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    name: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
 ];
 

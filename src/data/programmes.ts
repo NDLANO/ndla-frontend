@@ -767,6 +767,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
+              {
+                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
             ],
           },
         ],
@@ -1125,6 +1128,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
               },
+              {
+                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
             ],
           },
         ],
@@ -1219,9 +1225,6 @@ export const programmes = [
           {
             name: null,
             subjects: [
-              {
-                id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
-              },
               {
                 id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
               },
@@ -1382,6 +1385,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
+              {
+                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
             ],
           },
         ],
@@ -1459,9 +1465,6 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
-              },
-              {
-                id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
               },
             ],
           },
@@ -1628,6 +1631,9 @@ export const programmes = [
               },
               {
                 id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+              },
+              {
+                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
               },
             ],
           },
@@ -2011,9 +2017,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:a7c337ca-d3b6-492f-ace2-b05c45f54e93',
               },
-              {
+              /*{
                 id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-              },
+              },*/
             ],
           },
           {
@@ -2293,6 +2299,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
+              {
+                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
             ],
           },
         ],
@@ -2379,12 +2388,12 @@ export const programmes = [
               en: 'Brønnteknikk',
             },
             subjects: [
-              {
+              /*{
                 id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-              },
-              {
+              },*/
+              /*{
                 id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-              },
+              },*/
               {
                 id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
               },
