@@ -6,10 +6,11 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
+import { useApolloClient } from '@apollo/client';
 
 import { ResourceShape } from '../shapes';
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
@@ -21,6 +22,7 @@ import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
+import { initializeI18n } from '../i18n2';
 
 const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
@@ -28,14 +30,22 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     subjects: [],
     programs: [],
   });
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
     title: subject.name,
     url: subject.path,
   }));
+  
+  const client = useApolloClient();
 
+  useEffect(() => {
+    initializeI18n(i18n, client);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
   const { data, error, loading } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
     skip: !searchParams.query,

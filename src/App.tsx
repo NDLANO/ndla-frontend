@@ -19,7 +19,6 @@ import {
 import { Content } from '@ndla/ui';
 import * as H from 'history';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import IntlProvider from '@ndla/i18n';
 import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
 // @ts-ignore
@@ -36,11 +35,9 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
-import { getLocaleObject } from './i18n';
 import { initializeI18n } from './i18n2';
 
 export const BasenameContext = React.createContext('');
-
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
   locale: LocaleType;
@@ -245,10 +242,6 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
     const { location } = this.props;
-    // if (!this.props.i18n.isInitialized) {
-    //   return <Spinner />;
-    // }
-    //
 
     if (this.state.hasError) {
       return (
@@ -259,32 +252,28 @@ class App extends React.Component<AppProps, AppState> {
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <IntlProvider
-        locale={this.props.i18n.language}
-        messages={getLocaleObject(this.props.i18n.language).messages}>
-        <BasenameContext.Provider value={this.props.locale ?? ''}>
-          <Switch>
-            {routes
-              .filter(route => route !== undefined)
-              .map(route => (
-                <NDLARoute
-                  key={`route_${route.path}`}
-                  exact={route.exact}
-                  hideMasthead={route.hideMasthead}
-                  hideBreadcrumb={route.hideBreadcrumb}
-                  initialProps={this.state.data}
-                  //@ts-ignore
-                  locale={this.props.i18n.language}
-                  component={route.component}
-                  background={route.background ?? false}
-                  path={route.path}
-                  ndlaFilm={isNdlaFilm}
-                  location={location}
-                />
-              ))}
-          </Switch>
-        </BasenameContext.Provider>
-      </IntlProvider>
+      <BasenameContext.Provider value={this.props.locale ?? ''}>
+        <Switch>
+          {routes
+            .filter(route => route !== undefined)
+            .map(route => (
+              <NDLARoute
+                key={`route_${route.path}`}
+                exact={route.exact}
+                hideMasthead={route.hideMasthead}
+                hideBreadcrumb={route.hideBreadcrumb}
+                initialProps={this.state.data}
+                //@ts-ignore
+                locale={this.props.i18n.language}
+                component={route.component}
+                background={route.background ?? false}
+                path={route.path}
+                ndlaFilm={isNdlaFilm}
+                location={location}
+              />
+            ))}
+        </Switch>
+      </BasenameContext.Provider>
     );
   }
 }

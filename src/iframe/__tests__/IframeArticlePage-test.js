@@ -11,7 +11,6 @@ import React from 'react';
 import nock from 'nock';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
-import IntlProvider from '@ndla/i18n';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import IframePageContainer from '../IframePageContainer';
@@ -67,20 +66,18 @@ test('IframeArticlePage with article renderers correctly', () => {
         {(_, { i18n }) => {
           i18n.language = locale.abbreviation;
           return (
-            <IntlProvider locale={i18n.language} messages={locale.messages}>
-              <IframeArticlePage
-                locale={locale.abbreviation}
-                location={{ pathname: '/article-iframe/urn:resource:1/128' }}
-                resource={{
-                  id: 'urn:resource:1',
-                  name: 'Ressurs',
-                  path: '/subject:1/resource:1',
-                  article,
-                  resourceTypes: [],
-                }}
-                article={article}
-              />
-            </IntlProvider>
+            <IframeArticlePage
+              locale={locale.abbreviation}
+              location={{ pathname: '/article-iframe/urn:resource:1/128' }}
+              resource={{
+                id: 'urn:resource:1',
+                name: 'Ressurs',
+                path: '/subject:1/resource:1',
+                article,
+                resourceTypes: [],
+              }}
+              article={article}
+            />
           );
         }}
       </Translation>

@@ -11,7 +11,6 @@ import React from 'react';
 import { StaticRouter } from 'react-router';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
-import IntlProvider from '@ndla/i18n';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import ErrorPage from '../ErrorPage';
@@ -31,11 +30,9 @@ test('ErrorPage renderers correctly', () => {
         {(_, { i18n }) => {
           i18n.language = locale.abbreviation;
           return (
-            <IntlProvider locale={i18n.language} messages={locale.messages}>
-              <StaticRouter>
-                <ErrorPage locale="nb" location={{ pathname: '/' }} />
-              </StaticRouter>
-            </IntlProvider>
+            <StaticRouter>
+              <ErrorPage locale="nb" location={{ pathname: '/' }} />
+            </StaticRouter>
           );
         }}
       </Translation>

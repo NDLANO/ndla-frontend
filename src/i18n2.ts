@@ -9,7 +9,7 @@ import { STORED_LANGUAGE_KEY } from './constants';
 
 export const initializeI18n = (
   i18n: i18n,
-  client: ApolloClient<object>,
+  client?: ApolloClient<object>,
 ): void => {
   i18n.options.supportedLngs = ['nb', 'nn'];
   i18n.addResourceBundle('en', 'translation', en, false, false);
@@ -21,8 +21,10 @@ export const initializeI18n = (
       document.documentElement.lang = language;
     }
     if (typeof window != 'undefined') {
-      client.resetStore();
-      client.setLink(createApolloLinks(language));
+      if (client) {
+        client.resetStore();
+        client.setLink(createApolloLinks(language));
+      }
       window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
     }
   });

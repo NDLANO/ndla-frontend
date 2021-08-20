@@ -6,7 +6,7 @@
  *
  */
 
-import { formatNestedMessages } from '@ndla/i18n';
+import { formatNestedMessages } from '@ndla/ui';
 // @ts-ignore
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import additionalMessagesNB from './messages/messagesNB';

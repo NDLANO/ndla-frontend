@@ -8,7 +8,9 @@
 import React, { Fragment } from 'react';
 import { func, arrayOf, objectOf, bool } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
+import { getDefaultLocale } from '../../../config';
 
 const { contentTypes } = constants;
 
@@ -18,13 +20,23 @@ const SearchResults = ({
   handleShowMore,
   searchGroups,
   typeFilter,
+  loading,
 }) => {
+  const {i18n} = useTranslation();
+  const defaultLanguage = getDefaultLocale();
   return searchGroups.map(group => {
     const { totalCount, type, items, resourceTypes } = group;
     if (
       (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
+      const internationalizedItems = items.map((item) => {
+        const url = i18n.language === defaultLanguage ? item.url : item.url.replace('article-iframe/', `article-iframe/${i18n.language}/`);
+        return {
+          ...item,
+          url,
+        };
+      });
       return (
         <Fragment key={`searchresult-${type}`}>
           <SearchTypeResult
@@ -33,8 +45,8 @@ const SearchResults = ({
                 resourceTypes.includes(filter.id) || filter.id === 'all',
             )}
             onFilterClick={id => handleFilterClick(type, id)}
-            items={items}
-            loading={typeFilter[type].loading}
+            items={internationalizedItems}
+            loading={loading}
             pagination={{
               totalCount,
               toCount: items.length,
