@@ -5,19 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export const getTopicPath = (subjectId, topicId, topics) => {
+import { GQLTopic } from '../graphqlTypes';
+
+export const getTopicPath = (
+  subjectId: string,
+  topicId: string,
+  topics?: GQLTopic[],
+) => {
   if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);
   if (!leaf) {
     return [];
   }
 
-  const toBreadcrumb = topic => {
+  const toBreadcrumb = (topic: GQLTopic) => {
     if (!topic.parent || topic.parent === subjectId) {
       return [topic];
     }
     const parent = topics.find(t => topic.parent === t.id);
-    const parentPath = parent ? toBreadcrumb(parent) : [];
+    const parentPath: GQLTopic[] = parent ? toBreadcrumb(parent) : [];
     return [...parentPath, topic];
   };
 
