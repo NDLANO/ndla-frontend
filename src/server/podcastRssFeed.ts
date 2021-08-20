@@ -85,13 +85,13 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
         <language>${series.title.language}</language>
         ${category}
         <itunes:explicit>${explicitness}</itunes:explicit>
-        ${uniqueAuthors}
+        ${uniqueAuthors.join('')}
         <itunes:owner>
           <itunes:name>NDLA</itunes:name>
           <itunes:email>${ownerEmail}</itunes:email>
         </itunes:owner>
         <itunes:image href="${series.coverPhoto.url}" />
-        ${episodes}
+        ${episodes.join('')}
       </channel>
     </rss>
       `;
