@@ -9,7 +9,6 @@
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
-import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
@@ -55,7 +54,7 @@ export async function renderHtml(html, context, props) {
     };
   }
 
-  const status = defined(context.status, OK);
+  const status = context.status ?? OK;
 
   return {
     status,

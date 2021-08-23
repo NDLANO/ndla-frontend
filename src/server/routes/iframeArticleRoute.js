@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import defined from 'defined';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 
@@ -52,7 +51,7 @@ function doRenderPage(initialProps) {
 }
 
 export async function iframeArticleRoute(req) {
-  const lang = defined(req.params.lang, '');
+  const lang = req.params.lang ?? '';
   const htmlLang = getHtmlLang(lang);
   const locale = getLocaleObject(htmlLang);
   const { articleId, taxonomyId } = req.params;

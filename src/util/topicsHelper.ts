@@ -6,20 +6,30 @@
  *
  */
 
-import defined from 'defined';
-import groupBy from './groupBy';
+import { tType } from '@ndla/i18n';
 import { fixEndSlash } from '../routeHelpers';
+import { GQLTopic } from '../graphqlTypes';
 
-export const groupedSubtopicsByParent = (topics = []) =>
-  groupBy(
-    topics.filter(topic => topic.parent),
-    'parent',
-  );
+interface GroupedSubTopics {
+  [key: string]: Array<GQLTopic>;
+}
 
-export const toTopicMenu = (topic, topics) => {
+export const groupedSubtopicsByParent = (
+  topics: GQLTopic[] = [],
+): GroupedSubTopics =>
+  topics
+    .filter(topic => topic.parent)
+    .reduce((groupedtopics, topic) => {
+      return {
+        ...groupedtopics,
+        [topic.parent!]: [...(groupedtopics[topic.parent!] ?? [])],
+      };
+    }, {} as GroupedSubTopics);
+
+export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);
-  const subtopics = defined(groupedSubTopics[topic.id], []);
-  const subtopicsWithSubtopics = subtopics.map(child =>
+  const subtopics = groupedSubTopics[topic.id] ?? [];
+  const subtopicsWithSubtopics: GQLTopic[] = subtopics.map((child: GQLTopic) =>
     toTopicMenu(child, topics),
   );
   return {
@@ -33,7 +43,7 @@ export const toTopicMenu = (topic, topics) => {
   };
 };
 
-export const topicIntroductionMessages = t => ({
+export const topicIntroductionMessages = (t: tType['t']) => ({
   noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
   noContentBoxButtonText: t('resource.activateAdditionalResources'),
   shortcutButtonText: t('resource.shortcutButtonText'),

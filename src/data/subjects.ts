@@ -1,3 +1,5 @@
+import { LocaleType, SubjectType } from '../interfaces';
+
 export const commonSubjects = [
   {
     longName: {
@@ -1485,19 +1487,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap MIK1',
-      nb: 'Medie- og informasjonskunnskap MIK1',
-      nn: 'Medie- og informasjonskunnskap MIK1',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 1',
-      nb: 'Medie- og informasjonskunnskap 1',
-      nn: 'Medie- og informasjonskunnskap 1',
-    },
-    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-  },
 ];
 
 export const studySpecializationSubjects = [
@@ -1695,6 +1684,19 @@ export const studySpecializationSubjects = [
       nn: 'Kommunikasjon og kultur 3',
     },
     id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 1',
+      nb: 'Medie- og informasjonskunnskap 1',
+      nn: 'Medie- og informasjonskunnskap 1',
+    },
+    id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
   },
   {
     longName: {
@@ -2562,7 +2564,11 @@ export const subjectsCategories = [
   },
 ];
 
-let subjectsIdx;
+type SubjectIds = {
+  [key: string]: SubjectType;
+};
+
+let subjectsIdx: SubjectIds;
 
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
@@ -2575,7 +2581,7 @@ export const subjectObjectIds = () => {
       ...multidisciplinaryTopics,
     ];
 
-    subjectsIdx = subjects.reduce((obj, item) => {
+    subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {
       obj[item.id] = item;
       return obj;
     }, {});
@@ -2583,12 +2589,12 @@ export const subjectObjectIds = () => {
   return subjectsIdx;
 };
 
-export const getSubjectById = id => {
+export const getSubjectById = (id: string) => {
   const subjectObjects = subjectObjectIds();
   return subjectObjects[id];
 };
 
-export const getSubjectBySubjectId = subjectId => {
+export const getSubjectBySubjectId = (subjectId: string) => {
   const subjects = [
     ...commonSubjects,
     ...programmeSubjects,
@@ -2597,14 +2603,12 @@ export const getSubjectBySubjectId = subjectId => {
     ...betaSubjects,
   ];
 
-  return subjects.find(subject => {
-    if (subject.id === subjectId) {
-      return true;
-    }
-    return false;
-  });
+  return subjects.find(subject => subject.id === subjectId);
 };
 
-export const getSubjectLongName = (subjectId, locale) => {
+export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {
+  if (!subjectId || !locale) {
+    return undefined;
+  }
   return getSubjectBySubjectId(subjectId)?.longName[locale];
 };

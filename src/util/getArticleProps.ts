@@ -6,19 +6,19 @@
  *
  */
 
+import { GQLResource, GQLTopic } from '../graphqlTypes';
 import { getContentType } from './getContentType';
 
-export const getArticleProps = (resource, topic) => {
+export const getArticleProps = (resource: GQLResource, topic?: GQLTopic) => {
   const hasResourceTypes =
-    resource && resource.resourceTypes && resource.resourceTypes.length > 0;
+    resource.resourceTypes && resource.resourceTypes?.length > 0;
 
   const contentType = hasResourceTypes ? getContentType(resource) : undefined;
 
   const additional =
-    topic && topic.supplementaryResources
-      ? topic.supplementaryResources.some(item => item.id === resource.id)
-      : false;
+    topic?.supplementaryResources?.some(item => item?.id === resource.id) ??
+    false;
 
-  const label = hasResourceTypes ? resource.resourceTypes[0].name : '';
+  const label = (hasResourceTypes && resource.resourceTypes![0]?.name) || '';
   return { contentType, label, additional };
 };
