@@ -12,11 +12,11 @@ import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
 import { MissingRouterContext } from '@ndla/safelink';
+import { i18nInstance } from '@ndla/ui';
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
-import { i18nInstance } from '../../../frontend-packages/packages/ndla-ui/lib';
 
 const {
   DATA: { initialProps, config },
