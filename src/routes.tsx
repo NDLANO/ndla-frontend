@@ -163,7 +163,6 @@ const routesFunc = function(
 
   return (
     <ErrorBoundary>
-      {/* @ts-ignore TypeScript dependency mismatch. It works just fine. */}
       <I18nextProvider i18n={i18nInstance}>
         {isClient ? <I18nWrapper locale={locale}>{app}</I18nWrapper> : app}
       </I18nextProvider>
