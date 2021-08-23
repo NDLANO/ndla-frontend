@@ -41,5 +41,5 @@ async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
 
 export async function errorRoute(req) {
   const { html, context, docProps } = await doRenderError(req);
-  return renderHtml(html, context, docProps);
+  return renderHtml(req, html, context, docProps);
 }

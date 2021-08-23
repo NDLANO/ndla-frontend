@@ -173,6 +173,7 @@ class Resources extends Component {
         }>
         {isUngrouped && (
           <ResourceGroup
+            title=""
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={this.toggleAdditionalResources}

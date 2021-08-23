@@ -29,14 +29,14 @@ const IframePageWrapper = ({
   initializeI18n(i18n, client);
   return (
     <ApolloProvider client={client}>
-        <MissingRouterContext.Provider value={true}>
-          <BasenameContext.Provider value={basename}>
-            <PageContainer>
-              <Helmet htmlAttributes={{ lang: locale }} />
-              {children}
-            </PageContainer>
-          </BasenameContext.Provider>
-        </MissingRouterContext.Provider>
+      <MissingRouterContext.Provider value={true}>
+        <BasenameContext.Provider value={basename}>
+          <PageContainer>
+            <Helmet htmlAttributes={{ lang: locale }} />
+            {children}
+          </PageContainer>
+        </BasenameContext.Provider>
+      </MissingRouterContext.Provider>
     </ApolloProvider>
   );
 };

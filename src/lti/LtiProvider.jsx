@@ -37,15 +37,14 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     title: subject.name,
     url: subject.path,
   }));
-  
+
   const client = useApolloClient();
 
   useEffect(() => {
     initializeI18n(i18n, client);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
   const { data, error, loading } = useGraphQuery(searchPageQuery);
   const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
     skip: !searchParams.query,

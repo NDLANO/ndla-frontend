@@ -144,7 +144,7 @@ const SearchInnerPage = ({
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
   const handleFilterClick = (type, filterId) => {
-    updateTypeFilter(type, { page: 1});
+    updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {

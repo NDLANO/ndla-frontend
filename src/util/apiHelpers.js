@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
@@ -52,7 +51,7 @@ export function resolveJsonOrRejectWithError(res) {
       .then(json => {
         const payload = createErrorPayload(
           res.status,
-          defined(json.message, res.statusText),
+          json.message ?? res.statusText,
           json,
         );
         reject(payload);

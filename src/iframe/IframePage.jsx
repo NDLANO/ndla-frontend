@@ -52,7 +52,12 @@ export const IframePage = ({
     variables: { articleId, isOembed, path: location.pathname },
   });
 
-  if (status !== 'success' || error) {
+  // TODO: Temporary change to fix displaying lti-versions
+  const nonGrepError = error?.graphQLErrors.every(
+    e => !e.message.includes('GREP is disabled'),
+  );
+
+  if (status !== 'success' || nonGrepError) {
     return <Error />;
   }
 

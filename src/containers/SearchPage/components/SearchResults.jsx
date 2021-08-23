@@ -22,7 +22,7 @@ const SearchResults = ({
   typeFilter,
   loading,
 }) => {
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
   const defaultLanguage = getDefaultLocale();
   return searchGroups.map(group => {
     const { totalCount, type, items, resourceTypes } = group;
@@ -30,8 +30,14 @@ const SearchResults = ({
       (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
-      const internationalizedItems = items.map((item) => {
-        const url = i18n.language === defaultLanguage ? item.url : item.url.replace('article-iframe/', `article-iframe/${i18n.language}/`);
+      const internationalizedItems = items.map(item => {
+        const url =
+          i18n.language === defaultLanguage
+            ? item.url
+            : item.url.replace(
+                'article-iframe/',
+                `article-iframe/${i18n.language}/`,
+              );
         return {
           ...item,
           url,

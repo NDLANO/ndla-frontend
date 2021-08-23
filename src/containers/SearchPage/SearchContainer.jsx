@@ -29,7 +29,7 @@ import SearchResults from './components/SearchResults';
 import { sortResourceTypes } from './searchHelpers';
 
 const StyledLanguageSelector = styled.div`
-  width:100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: ${spacing.spacingUnit * 10}px;
