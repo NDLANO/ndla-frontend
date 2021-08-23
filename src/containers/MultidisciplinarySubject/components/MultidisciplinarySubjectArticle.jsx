@@ -45,7 +45,11 @@ const MultidisciplinarySubjectArticle = ({
     scrollToRef(resourcesRef, 0);
   };
 
-  const subjectLinks = topic.article.crossSubjectTopics.map(
+  if (!topic.article) {
+    return null;
+  }
+
+  const subjectLinks = topic.article.crossSubjectTopics?.map(
     crossSubjectTopic => ({
       label: crossSubjectTopic.title,
       url: crossSubjectTopic.path || subject.path,
