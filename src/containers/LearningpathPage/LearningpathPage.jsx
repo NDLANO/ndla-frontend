@@ -220,7 +220,7 @@ LearningpathPage.propTypes = {
   status: PropTypes.string,
   locale: PropTypes.string.isRequired,
   location: LocationShape,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   ndlaFilm: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     resource: GraphQLResourceShape,
@@ -238,6 +238,7 @@ LearningpathPage.propTypes = {
 
 LearningpathPage.defaultProps = {
   status: 'initial',
+  loading: false,
 };
 
 export default injectT(withTracker(LearningpathPage));

@@ -12,17 +12,14 @@ import { matchPath } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { renderToStringWithData } from '@apollo/client/react/ssr';
 import queryString from 'query-string';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
 
 import routes, { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
-import { renderHtml, renderPage } from '../helpers/render';
+import { renderHtml, renderPageWithData } from '../helpers/render';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -53,6 +50,21 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
+async function getServerRouteProps(basepath, req, locale, client) {
+  const route = serverRoutes.find(r => matchPath(basepath, r));
+  const match = matchPath(basepath, route);
+  const initialProps = await loadGetInitialProps(route.component, {
+    isServer: true,
+    locale,
+    match,
+    client,
+    location: {
+      search: `?${queryString.stringify(req.query)}`,
+    },
+  });
+  return initialProps;
+}
+
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
@@ -66,51 +78,31 @@ async function doRender(req) {
   const client = createApolloClient(locale);
 
   if (!disableSSR(req)) {
-    const route = serverRoutes.find(r => matchPath(basepath, r));
-    const match = matchPath(basepath, route);
-    initialProps = await loadGetInitialProps(route.component, {
-      isServer: true,
-      locale,
-      match,
-      client,
-      location: {
-        search: `?${queryString.stringify(req.query)}`,
-      },
-    });
+    initialProps = getServerRouteProps(basepath, req, locale, client);
   }
-
-  const cache = createCache();
 
   const context = {};
   const Page = !disableSSR(req) ? (
     <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <IntlProvider locale={locale} messages={messages}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes({ ...initialProps, basename }, locale)}
-          </StaticRouter>
-        </IntlProvider>
-      </CacheProvider>
+      <IntlProvider locale={locale} messages={messages}>
+        <StaticRouter basename={basename} location={req.url} context={context}>
+          {routes({ ...initialProps, basename }, locale)}
+        </StaticRouter>
+      </IntlProvider>
     </ApolloProvider>
   ) : (
     ''
   );
 
-  const html = await renderToStringWithData(Page);
-  const apolloState = client.extract();
-  const docProps = renderPage(
+  const { html, docProps } = await renderPageWithData(
     Page,
     getAssets(),
     {
       initialProps,
-      apolloState,
       serverPath: req.path,
       serverQuery: req.query,
     },
-    cache,
+    client,
   );
 
   return {
@@ -122,5 +114,5 @@ async function doRender(req) {
 
 export async function defaultRoute(req) {
   const { html, context, docProps } = await doRender(req);
-  return renderHtml(req, html, context, docProps);
+  return renderHtml(html, context, docProps);
 }

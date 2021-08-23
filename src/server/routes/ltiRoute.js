@@ -110,6 +110,7 @@ export function ltiRoute(req) {
     locale,
     ltiData: validParameters.ltiData,
   });
+  console.log('ItiRoute');
 
-  return renderHtml(req, html, { status: OK }, docProps);
+  return renderHtml(html, { status: OK }, docProps);
 }

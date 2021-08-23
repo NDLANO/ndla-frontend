@@ -13,31 +13,13 @@ import defined from 'defined';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
-import createEmotionServer from 'create-emotion-server';
 
 import Document from './Document';
 import config from '../../config';
 
-export function renderPage(Page, assets, data = {}, cache) {
+export function renderPage(Page, assets, data = {}) {
   resetIdCounter();
-  if (cache) {
-    const { extractCritical } = createEmotionServer(cache);
-    const { html, css, ids } = extractCritical(renderToString(Page));
-    const helmet = Helmet.renderStatic();
-    return {
-      html,
-      helmet,
-      assets,
-      css,
-      ids,
-      // Following is serialized to window.DATA
-      data: {
-        ...data,
-        config,
-        assets,
-      },
-    };
-  }
+
   const html = renderToString(Page);
   const helmet = Helmet.renderStatic();
   return {
@@ -53,44 +35,15 @@ export function renderPage(Page, assets, data = {}, cache) {
   };
 }
 
-export async function renderPageWithData(Page, assets, data = {}, cache) {
-  resetIdCounter();
-  if (cache) {
-    const { extractCritical } = createEmotionServer(cache);
-    const { html, css, ids } = extractCritical(
-      await renderToStringWithData(Page),
-    );
-    const helmet = Helmet.renderStatic();
-    return {
-      html,
-      helmet,
-      assets,
-      css,
-      ids,
-      // Following is serialized to window.DATA
-      data: {
-        ...data,
-        config,
-        assets,
-      },
-    };
-  }
-  const html = await renderToStringWithData(Page);
-  const helmet = Helmet.renderStatic();
-  return {
-    html,
-    helmet,
-    assets,
-    // Following is serialized to window.DATA
-    data: {
-      ...data,
-      config,
-      assets,
-    },
-  };
+export async function renderPageWithData(Page, assets, data = {}, client) {
+  await renderToStringWithData(Page); // Fetches queries, so state can be extracted from client
+  const apolloState = client.extract();
+  return renderPage(Page, assets, { apolloState, ...data });
 }
 
-export async function renderHtml(req, html, context, props) {
+export async function renderHtml(html, context, props) {
+  console.log('AAAAAAAAAAAA render');
+  console.log(props);
   const doc = renderToStaticMarkup(<Document {...props} />);
 
   if (context.url) {
