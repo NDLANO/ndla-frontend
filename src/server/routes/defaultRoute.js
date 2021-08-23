@@ -94,7 +94,7 @@ async function doRender(req) {
     ''
   );
 
-  const { html, docProps } = await renderPageWithData(
+  const { html, ...docProps } = await renderPageWithData(
     Page,
     getAssets(),
     {
@@ -114,5 +114,6 @@ async function doRender(req) {
 
 export async function defaultRoute(req) {
   const { html, context, docProps } = await doRender(req);
+
   return renderHtml(html, context, docProps);
 }
