@@ -13,4 +13,10 @@ import 'source-map-support/register';
 
 const log = createLogger({ name: 'ndla-frontend' });
 
+// Not used.
+// log.logAndReturnValue = (level, msg, value) => {
+//   log[level](msg, value);
+//   return value;
+// };
+
 export default log;
