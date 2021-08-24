@@ -41,8 +41,6 @@ export async function renderPageWithData(Page, assets, data = {}, client) {
 }
 
 export async function renderHtml(html, context, props) {
-  console.log('AAAAAAAAAAAA render');
-  console.log(props);
   const doc = renderToStaticMarkup(<Document {...props} />);
 
   if (context.url) {
