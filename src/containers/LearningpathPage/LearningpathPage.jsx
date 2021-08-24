@@ -201,7 +201,6 @@ class LearningpathPage extends Component {
           locale={locale}
           ndlaFilm={ndlaFilm}
           breadcrumbItems={breadcrumbItems}
-          {...getArticleProps(resource)}
         />
       </div>
     );
