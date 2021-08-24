@@ -10,11 +10,7 @@ import { visitOptions } from '../support';
 
 describe('Plain learningpath page', () => {
   beforeEach(() => {
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      'plainLearningpathGraphQL',
-    );
+    cy.apiIntercept('POST', '**/graphql', 'plainLearningpathGraphQL');
   });
 
   it('contains title', () => {

@@ -10,11 +10,7 @@ import { visitOptions } from '../support';
 
 describe('Plain article page', () => {
   beforeEach(() => {
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      'plainArticleGraphQL',
-    );
+    cy.apiIntercept('POST', '**/graphql', 'plainArticleGraphQL');
   });
 
   it('contains title', () => {
@@ -24,5 +20,4 @@ describe('Plain article page', () => {
       cy.get('h1').contains('Utforskeren');
     });
   });
-
 });
