@@ -201,7 +201,7 @@ class LearningpathPage extends Component {
           locale={locale}
           ndlaFilm={ndlaFilm}
           breadcrumbItems={breadcrumbItems}
-          {...getArticleProps()}
+          {...getArticleProps(resource)}
         />
       </div>
     );
@@ -239,6 +239,13 @@ LearningpathPage.propTypes = {
 LearningpathPage.defaultProps = {
   status: 'initial',
   loading: false,
+  data: {
+    resource: {
+      learningpath: {
+        learningsteps: [],
+      },
+    },
+  },
 };
 
 export default injectT(withTracker(LearningpathPage));

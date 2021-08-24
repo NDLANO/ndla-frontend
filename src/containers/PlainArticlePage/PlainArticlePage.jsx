@@ -98,7 +98,7 @@ const PlainArticlePage = ({
           id={skipToContentId}
           article={article}
           locale={locale}
-          {...getArticleProps()}
+          {...getArticleProps({})}
         />
       </OneColumn>
     </div>
