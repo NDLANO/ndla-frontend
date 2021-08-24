@@ -114,8 +114,8 @@ const PlainLearningpathPage = props => {
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
         locale={locale}
-        invertedStyle={false}
         ndlaFilm={false}
+        breadcrumbItems={[]}
       />
     </div>
   );
