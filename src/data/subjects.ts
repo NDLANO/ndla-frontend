@@ -68,16 +68,29 @@ export const commonSubjects = [
   },
   {
     name: {
+      en: 'Norsk',
+      nb: 'Norsk',
+      nn: 'Norsk',
+    },
+    longName: {
+      en: 'Norsk (SF Vg2)',
+      nb: 'Norsk (SF Vg2)',
+      nn: 'Norsk (SF Vg2)',
+    },
+    id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+  },
+  {
+    name: {
       nb: 'Norsk',
       nn: 'Norsk',
       en: 'Norsk',
     },
     longName: {
-      nb: 'Norsk (SF Vg2) (LK06)',
-      nn: 'Norsk (SF Vg2) (LK06)',
-      en: 'Norsk (SF Vg2) (LK06)',
+      nb: 'Norsk (SF Vg3) (LK06)',
+      nn: 'Norsk (SF Vg3) (LK06)',
+      en: 'Norsk (SF Vg3) (LK06)',
     },
-    id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
+    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
   },
   {
     longName: {
@@ -1544,19 +1557,6 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Norsk SF Vg2',
-      nb: 'Norsk SF Vg2',
-      nn: 'Norsk SF Vg2',
-    },
-    name: {
-      en: 'Norsk SF Vg2',
-      nb: 'Norsk SF Vg2',
-      nn: 'Norsk SF Vg2',
-    },
-    id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
-  },
-  {
-    longName: {
       en: 'Sosiologi og sosialantropologi',
       nb: 'Sosiologi og sosialantropologi',
       nn: 'Sosiologi og sosialantropologi',
@@ -1700,19 +1700,6 @@ export const studySpecializationSubjects = [
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
-  },
-  {
-    longName: {
       en: 'Matematikk R2',
       nb: 'Matematikk R2',
       nn: 'Matematikk R2',
@@ -1825,13 +1812,12 @@ export const archivedSubjects = [
       en: 'Norsk',
     },
     longName: {
-      nb: 'Norsk (SF Vg3) (LK06)',
-      nn: 'Norsk (SF Vg3) (LK06)',
-      en: 'Norsk (SF Vg3) (LK06)',
+      nb: 'Norsk (SF Vg2) (LK06)',
+      nn: 'Norsk (SF Vg2) (LK06)',
+      en: 'Norsk (SF Vg2) (LK06)',
     },
-    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+    id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
   },
-
   {
     longName: {
       en: 'Transport og logistikk (SS-TRL Vg2) (LK06)',
@@ -2303,6 +2289,19 @@ export const archivedSubjects = [
       nn: 'Internasjonal engelsk',
     },
     id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 2 (SF Vg3) (LK06)',
+      nb: 'Medie- og informasjonskunnskap 2 (SF Vg3) (LK06)',
+      nn: 'Medie- og informasjonskunnskap 2 (SF Vg3) (LK06)',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
+    },
+    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
   },
 ];
 
