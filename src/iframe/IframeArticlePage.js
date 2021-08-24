@@ -39,13 +39,16 @@ class IframeArticlePage extends Component {
   }
 
   componentDidMount() {
-    fetchResource(fetchResourceId(this.props), this.props.locale)
-      .then(resource => {
-        this.setState({
-          path: resource.path || resource.paths?.[0],
-        });
-      })
-      .catch(error => {});
+    const resourceId = fetchResourceId(this.props);
+    if (resourceId) {
+      fetchResource(resourceId, this.props.locale)
+        .then(resource => {
+          this.setState({
+            path: resource.path || resource.paths?.[0],
+          });
+        })
+        .catch(error => {});
+    }
   }
 
   static willTrackPageView(trackPageView, currentProps) {
