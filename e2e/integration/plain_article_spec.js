@@ -13,7 +13,7 @@ describe('Plain article page', () => {
     cy.apiIntercept('POST', '**/graphql', 'plainArticleGraphQL');
   });
 
-  it('contains title', () => {
+  it('contains content', () => {
     cy.visit('/article/1/?disableSSR=true', visitOptions);
     cy.apiwait('@plainArticleGraphQL');
     cy.get('[id="SkipToContentId"]').within(() => {

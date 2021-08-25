@@ -13,7 +13,7 @@ describe('Plain learningpath page', () => {
     cy.apiIntercept('POST', '**/graphql', 'plainLearningpathGraphQL');
   });
 
-  it('contains title', () => {
+  it('contains content', () => {
     cy.visit('/learningpaths/8/?disableSSR=true', visitOptions);
     cy.apiwait('@plainLearningpathGraphQL');
     cy.get('[data-testid="learningpath-content"]').within(() => {
