@@ -74,12 +74,14 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
               copyTitle={t('copyTitle')}
               hasCopiedTitle={t('hasCopiedTitle')}
             />
-            <AnchorButton
-              href={downloadUrl(image.src)}
-              appearance="outline"
-              download>
-              {t('download')}
-            </AnchorButton>
+            {image.copyright.license.license !== 'COPYRIGHTED' && (
+              <AnchorButton
+                href={downloadUrl(image.src)}
+                appearance="outline"
+                download>
+                {t('download')}
+              </AnchorButton>
+            )}
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
