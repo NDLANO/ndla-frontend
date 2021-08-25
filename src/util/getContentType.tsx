@@ -74,4 +74,5 @@ export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
 
 const isTopic = (
   resourceOrTopic: GQLResource | GQLTopic,
-): resourceOrTopic is GQLTopic => resourceOrTopic.id.startsWith('urn:topic');
+): resourceOrTopic is GQLTopic =>
+  !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');
