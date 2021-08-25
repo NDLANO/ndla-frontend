@@ -66,7 +66,7 @@ export const IframePage = ({
     if (isTopicArticle) {
       return (
         <IframeTopicPage
-          locale={locale.abbreviation}
+          locale={locale}
           article={article}
           location={location}
         />
@@ -74,7 +74,7 @@ export const IframePage = ({
     }
     return (
       <IframeArticlePage
-        locale={locale.abbreviation}
+        locale={locale}
         resource={{ article, resourceTypes }}
         article={article}
         location={location}
@@ -85,10 +85,7 @@ export const IframePage = ({
 };
 
 IframePage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   status: PropTypes.oneOf(['success', 'error']),

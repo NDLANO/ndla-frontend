@@ -14,7 +14,6 @@ import serializer from 'jest-emotion';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import IframePageContainer from '../IframePageContainer';
-import { getLocaleObject } from '../../i18n';
 import IframeArticlePage, { fetchResourceId } from '../IframeArticlePage';
 
 expect.addSnapshotSerializer(serializer);
@@ -27,7 +26,7 @@ test('IframeArticlePage with article renderers correctly', () => {
       title: 'Ressurs',
     });
 
-  const locale = getLocaleObject('nb');
+  const locale = 'nb';
   const article = {
     content:
       '<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>',
@@ -64,10 +63,10 @@ test('IframeArticlePage with article renderers correctly', () => {
     <I18nextProvider i18n={i18nInstance}>
       <Translation>
         {(_, { i18n }) => {
-          i18n.language = locale.abbreviation;
+          i18n.language = locale;
           return (
             <IframeArticlePage
-              locale={locale.abbreviation}
+              locale={locale}
               location={{ pathname: '/article-iframe/urn:resource:1/128' }}
               resource={{
                 id: 'urn:resource:1',
@@ -91,7 +90,7 @@ test('IframePage with article displays error message on status === error', () =>
   const component = renderer.create(
     <IframePageContainer
       location={{ pathname: '/article-iframe/333' }}
-      locale={getLocaleObject('nb')}
+      locale={'nb'}
       status="error"
     />,
   );

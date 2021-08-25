@@ -35,7 +35,7 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
-import { initializeI18n } from './i18n2';
+import { initializeI18n } from './i18n';
 
 export const BasenameContext = React.createContext('');
 interface NDLARouteProps extends RouteProps {

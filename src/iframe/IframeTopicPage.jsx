@@ -164,10 +164,7 @@ export class IframeTopicPage extends Component {
 }
 
 IframeTopicPage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   location: LocationShape,
   article: ArticleShape,
   status: PropTypes.oneOf(['success', 'error']),

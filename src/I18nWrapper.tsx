@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { getDefaultLocale } from './config';
 import { STORED_LANGUAGE_KEY } from './constants';
-import { isValidLocale } from './i18n';
+import { appLocales, isValidLocale } from './i18n';
 import { LocaleType } from './interfaces';
 
 interface Props {
@@ -32,6 +32,11 @@ export const I18nWrapper = ({ locale, children }: Props) => {
         if (!window.location.pathname.includes('/login/success')) {
           history.replace(`/${storedLang}${window.location.pathname}`);
         }
+      } else if (locale && !isValidLocale(locale)) {
+        const l =
+          window.localStorage.getItem(STORED_LANGUAGE_KEY) ??
+          getDefaultLocale();
+        history.replace(`${l}/404`);
       }
 
       return;
@@ -40,8 +45,12 @@ export const I18nWrapper = ({ locale, children }: Props) => {
   }, [i18n.language]);
 
   const changeBaseName = () => {
-    const supportedLanguages: string[] = i18n.options.supportedLngs as string[]; // hard-coded as a string array in i18n2.ts.
-    const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+    const regex = new RegExp(
+      appLocales
+        .map(a => a.abbreviation)
+        .map(l => `/${l}/`)
+        .join('|'),
+    );
     const paths = window.location.pathname.replace(regex, '').split('/');
     const { search } = window.location;
     const path = paths.slice().join('/');

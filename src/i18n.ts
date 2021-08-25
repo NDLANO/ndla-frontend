@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -7,38 +6,39 @@
  *
  */
 
-import { formatNestedMessages } from '@ndla/ui';
-// @ts-ignore
-import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
-import additionalMessagesNB from './messages/messagesNB';
-import additionalMessagesNN from './messages/messagesNN';
+import { i18n } from 'i18next';
+import { ApolloClient } from '@apollo/client';
+//@ts-ignore
+import { createApolloLinks } from './util/apiHelpers';
+import nb from './messages/messagesNB';
+import nn from './messages/messagesNN';
+import en from './messages/messagesEN';
+import { STORED_LANGUAGE_KEY } from './constants';
+import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
+
+const supportedLanguages = ['nb', 'nn'];
 
 type LocaleObject = {
   name: string;
   abbreviation: LocaleType;
-  messages: {
-    [key: string]: string;
-  };
 };
 
 const NB: LocaleObject = {
   name: 'Bokmål',
   abbreviation: 'nb',
-  messages: formatNestedMessages({ ...messagesNB, ...additionalMessagesNB }),
 };
 const NN: LocaleObject = {
   name: 'Nynorsk',
   abbreviation: 'nn',
-  messages: formatNestedMessages({ ...messagesNN, ...additionalMessagesNN }),
 };
-// const EN: LocaleObject = {
-//   name: 'English',
-//   abbreviation: 'en',
-//   messages: formatNestedMessages({ ...messagesEN, ...additionalMessagesEN }),
-// };
 
-export const appLocales = [NB, NN];
+const EN: LocaleObject = {
+  name: 'English',
+  abbreviation: 'en',
+};
+
+export const appLocales = [NB, NN, EN];
 export const preferredLocales = [NB, NN];
 
 export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
@@ -52,7 +52,7 @@ export const isValidLocale = (localeAbbreviation?: string): boolean =>
 
 export const getHtmlLang = (localeAbbreviation?: string): string => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
-  return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
+  return locale?.abbreviation ?? getDefaultLocale();
 };
 
 interface RetType extends LocaleObject {
@@ -69,4 +69,27 @@ export const getLocaleInfoFromPath = (path: string): RetType => {
     basename,
     ...getLocaleObject(basename),
   };
+};
+
+export const initializeI18n = (
+  i18n: i18n,
+  client?: ApolloClient<object>,
+): void => {
+  i18n.options.supportedLngs = supportedLanguages;
+  i18n.addResourceBundle('en', 'translation', en, false, false);
+  i18n.addResourceBundle('nb', 'translation', nb, false, false);
+  i18n.addResourceBundle('nn', 'translation', nn, false, false);
+
+  i18n.on('languageChanged', function(language) {
+    if (typeof document != 'undefined') {
+      document.documentElement.lang = language;
+    }
+    if (typeof window != 'undefined') {
+      if (client) {
+        client.resetStore();
+        client.setLink(createApolloLinks(language));
+      }
+      window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
+    }
+  });
 };

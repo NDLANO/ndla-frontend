@@ -44,10 +44,7 @@ const IframePageContainer = ({
 
 IframePageContainer.propTypes = {
   basename: PropTypes.string,
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   status: PropTypes.oneOf(['success', 'error']),

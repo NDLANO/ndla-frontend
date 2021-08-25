@@ -22,7 +22,7 @@ import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
-import { initializeI18n } from '../i18n2';
+import { initializeI18n } from '../i18n';
 
 const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   const [searchParams, setSearchParams] = useState({
@@ -100,10 +100,7 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
 };
 
 LtiProvider.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.object.isRequired,
   resource: ResourceShape,
   ltiData: LtiDataShape,
 };

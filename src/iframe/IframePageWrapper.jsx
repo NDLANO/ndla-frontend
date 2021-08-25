@@ -16,11 +16,11 @@ import { MissingRouterContext } from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
 import { createApolloClient } from '../util/apiHelpers';
 import { BasenameContext } from '../App';
-import { initializeI18n } from '../i18n2';
+import { initializeI18n } from '../i18n';
 
 const IframePageWrapper = ({
   basename,
-  locale: { abbreviation: locale },
+  locale,
   children,
 }) => {
   const { i18n } = useTranslation();
@@ -43,10 +43,7 @@ const IframePageWrapper = ({
 
 IframePageWrapper.propTypes = {
   basename: PropTypes.string,
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default IframePageWrapper;
