@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -11,7 +12,6 @@ import { formatNestedMessages } from '@ndla/ui';
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import additionalMessagesNB from './messages/messagesNB';
 import additionalMessagesNN from './messages/messagesNN';
-import additionalMessagesEN from './messages/messagesEN';
 import { LocaleType } from './interfaces';
 
 type LocaleObject = {
@@ -32,13 +32,13 @@ const NN: LocaleObject = {
   abbreviation: 'nn',
   messages: formatNestedMessages({ ...messagesNN, ...additionalMessagesNN }),
 };
-const EN: LocaleObject = {
-  name: 'English',
-  abbreviation: 'en',
-  messages: formatNestedMessages({ ...messagesEN, ...additionalMessagesEN }),
-};
+// const EN: LocaleObject = {
+//   name: 'English',
+//   abbreviation: 'en',
+//   messages: formatNestedMessages({ ...messagesEN, ...additionalMessagesEN }),
+// };
 
-export const appLocales = [NB, NN, EN];
+export const appLocales = [NB, NN];
 export const preferredLocales = [NB, NN];
 
 export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
