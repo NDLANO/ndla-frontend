@@ -8,6 +8,8 @@
 
 import { visitOptions } from '../support';
 
+const resourceId = 'urn:resource:1:124037';
+
 describe('Iframe resource page', () => {
   beforeEach(() => {
     cy.apiIntercept('POST', '**/graphql', 'iframeResourceGraphQL');
@@ -15,7 +17,7 @@ describe('Iframe resource page', () => {
 
   it('contains content', () => {
     cy.visit(
-      '/article-iframe/resource:1:124037/3?disableSSR=true',
+      `/article-iframe/nb/${resourceId}/3?disableSSR=true`,
       visitOptions,
     );
     cy.apiwait('@iframeResourceGraphQL');

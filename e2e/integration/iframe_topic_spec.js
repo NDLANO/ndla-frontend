@@ -14,7 +14,10 @@ describe('Iframe topic page', () => {
   });
 
   it('contains content', () => {
-    cy.visit('/article-iframe/topic:2:170165/2?disableSSR=true', visitOptions);
+    cy.visit(
+      '/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true',
+      visitOptions,
+    );
     cy.apiwait('@iframeTopicGraphQL');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Samfunnsfaglige tenkemåter');
