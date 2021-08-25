@@ -8,7 +8,7 @@
 
 import { visitOptions } from '../support';
 
-describe('Search page', () => {
+describe('Film page', () => {
   beforeEach(() => {
     cy.apiIntercept('POST', '**/graphql', 'filmPageGraphQL');
   });
