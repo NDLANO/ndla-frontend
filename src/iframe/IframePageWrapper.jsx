@@ -18,11 +18,7 @@ import { createApolloClient } from '../util/apiHelpers';
 import { BasenameContext } from '../App';
 import { initializeI18n } from '../i18n';
 
-const IframePageWrapper = ({
-  basename,
-  locale,
-  children,
-}) => {
+const IframePageWrapper = ({ basename, locale, children }) => {
   const { i18n } = useTranslation();
   i18n.language = locale;
   const client = createApolloClient(i18n.language);
