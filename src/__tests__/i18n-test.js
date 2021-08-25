@@ -6,24 +6,11 @@
  *
  */
 
-import { getLocaleObject, isValidLocale, getLocaleInfoFromPath } from '../i18n';
-
-test('i18n getLocaleObject()', () => {
-  expect(getLocaleObject('nn').abbreviation).toBe('nn');
-  expect(getLocaleObject('nn').messages['footer.aboutNDLA']).toBe('Om NDLA');
-
-  expect(getLocaleObject('nb').abbreviation).toBe('nb');
-  expect(getLocaleObject('nb').messages['footer.aboutNDLA']).toBe('Om NDLA');
-
-  // Defaults to nb if locale not found
-  expect(getLocaleObject('ru').abbreviation).toBe('nb');
-  expect(getLocaleObject('ru').messages['footer.aboutNDLA']).toBe('Om NDLA');
-});
+import { isValidLocale, getLocaleInfoFromPath } from '../i18n';
 
 test('i18n isValidLocale()', () => {
   expect(isValidLocale('nb')).toBe(true);
   expect(isValidLocale('nn')).toBe(true);
-  expect(isValidLocale('en')).toBe(true);
   expect(isValidLocale('aa')).toBe(false);
   expect(isValidLocale('ub')).toBe(false);
 });
