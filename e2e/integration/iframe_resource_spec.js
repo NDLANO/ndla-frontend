@@ -14,7 +14,10 @@ describe('Iframe resource page', () => {
   });
 
   it('contains content', () => {
-    cy.visit('/article-iframe/resource:1:124037/3?disableSSR=true', visitOptions);
+    cy.visit(
+      '/article-iframe/resource:1:124037/3?disableSSR=true',
+      visitOptions,
+    );
     cy.apiwait('@iframeResourceGraphQL');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
