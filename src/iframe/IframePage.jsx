@@ -10,9 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import { ResourceTypeShape } from '../shapes';
 import { useGraphQuery } from '../util/runQueries';
-import { plainArticleQuery } from '../queries';
+import { iframeArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
 
@@ -39,14 +38,21 @@ const Error = injectT(({ t }) => (
 export const IframePage = ({
   status,
   locale,
-  resourceTypes,
+  resourceId,
   location,
   articleId,
   isOembed,
   isTopicArticle,
 }) => {
-  const { error, loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, isOembed, path: location.pathname },
+  const includeResource = resourceId !== undefined;
+  const { error, loading, data } = useGraphQuery(iframeArticleQuery, {
+    variables: {
+      articleId,
+      isOembed,
+      path: location.pathname,
+      resourceId: resourceId || '',
+      includeResource,
+    },
   });
 
   // TODO: Temporary change to fix displaying lti-versions
@@ -59,7 +65,7 @@ export const IframePage = ({
   }
 
   if (!loading) {
-    const { article } = data;
+    const { article, resource = {} } = data;
     if (isTopicArticle) {
       return (
         <IframeTopicPage
@@ -72,7 +78,7 @@ export const IframePage = ({
     return (
       <IframeArticlePage
         locale={locale.abbreviation}
-        resource={{ article, resourceTypes }}
+        resource={{ article, ...resource }}
         article={article}
         location={location}
       />
@@ -87,7 +93,7 @@ IframePage.propTypes = {
     messages: PropTypes.object.isRequired,
   }).isRequired,
   articleId: PropTypes.string,
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  resourceId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
