@@ -8,37 +8,40 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 
-const ArticleErrorMessage = ({ status, children, t }) => (
-  <OneColumn>
-    <article className="c-article--clean">
-      <ErrorMessage
-        illustration={{
-          url:
-            status === 'error404'
-              ? '/static/not-exist.gif'
-              : '/static/oops.gif',
-          altText: t('errorMessage.title'),
-        }}
-        messages={{
-          title: t('errorMessage.title'),
-          description:
-            status === 'error404'
-              ? t('articlePage.error404Description')
-              : t('articlePage.errorDescription'),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
-        }}
-      />
-      {children}
-    </article>
-  </OneColumn>
-);
+const ArticleErrorMessage = ({ status, children }) => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn>
+      <article className="c-article--clean">
+        <ErrorMessage
+          illustration={{
+            url:
+              status === 'error404'
+                ? '/static/not-exist.gif'
+                : '/static/oops.gif',
+            altText: t('errorMessage.title'),
+          }}
+          messages={{
+            title: t('errorMessage.title'),
+            description:
+              status === 'error404'
+                ? t('articlePage.error404Description')
+                : t('articlePage.errorDescription'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
+          }}
+        />
+        {children}
+      </article>
+    </OneColumn>
+  );
+};
 
 ArticleErrorMessage.propTypes = {
   status: PropTypes.string.isRequired,
 };
 
-export default injectT(ArticleErrorMessage);
+export default ArticleErrorMessage;

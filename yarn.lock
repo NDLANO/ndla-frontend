@@ -1911,20 +1911,6 @@
     "@ndla/util" "^0.4.8"
     lodash "^4.17.20"
 
-"@ndla/i18n@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.5.6.tgz#07855e86f635a266a78be8a773f5747068085a1a"
-  integrity sha512-2EWJMUnXZztGjxCnXozgRT/zOVdKrcUz5Pf8GyFrwT4RdVg9h11elEp+QsE3cm8mO3+zf2eFdvk6dsojeEfVTA==
-  dependencies:
-    "@types/hoist-non-react-statics" "^3.3.1"
-    hoist-non-react-statics "^3.3.0"
-    i18next "^20.3.1"
-    i18next-browser-languagedetector "^6.1.1"
-    intl-format-cache "^4.3.1"
-    intl-messageformat "5.4.3"
-    invariant "^2.2.3"
-    react-i18next "^11.11.0"
-
 "@ndla/icons@^0.7.8":
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.8.tgz#2a4bf948b767cd793dd16e88f29644584f14ec0d"
@@ -2045,16 +2031,15 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.39.0":
-  version "0.39.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.39.0.tgz#6504e8a3e46aed50d78e0f97eb31e72134539637"
-  integrity sha512-z8rjMTsr8oWaahaaWwhP23BJYJqGF87QKqk0NZEgDN9EqFz8izsdcJX4Pv3BADLFmQXnDju2P1KsEbuRk1/Ysw==
+"@ndla/ui@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-1.0.1.tgz#6682fdd86790a5fb30095a7b9765e1a12904cce1"
+  integrity sha512-2iMFlbeHtn+FXjMInLnAANPJiE6xpr/bl6ncVnxum3fWhG1D+aNTDJe6UEAud9VH0kqcayKbpaLTD04rG7y7Yw==
   dependencies:
     "@ndla/button" "^0.3.58"
     "@ndla/carousel" "^0.3.44"
     "@ndla/core" "^0.7.0"
     "@ndla/hooks" "^0.1.22"
-    "@ndla/i18n" "^0.5.6"
     "@ndla/icons" "^0.7.8"
     "@ndla/licenses" "^0.6.53"
     "@ndla/modal" "^0.4.50"
@@ -2065,19 +2050,22 @@
     "@ndla/util" "^0.4.8"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"
+    "@types/hoist-non-react-statics" "^3.3.1"
     "@types/react-syntax-highlighter" "^11.0.4"
     classnames "2.2.6"
     focus-trap "^4.0.2"
     focus-trap-react "^6.0.0"
+    hoist-non-react-statics "^3.3.0"
     html-react-parser "^0.10.3"
-    i18next "^20.3.1"
     i18next-browser-languagedetector "^6.1.1"
+    intl-format-cache "^4.3.1"
+    intl-messageformat "5.4.3"
+    invariant "^2.2.3"
     jump.js "^1.0.2"
     lodash "^4.17.20"
     react-bem-helper "1.4.1"
     react-device-detect "^1.6.2"
     react-facebook "^6.0.15"
-    react-i18next "^11.11.0"
     react-prop-types "0.4.0"
     react-sticky-el "^2.0.6"
     react-swipeable "^5.0.1"
@@ -8419,10 +8407,10 @@ i18next-browser-languagedetector@^6.1.1:
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-i18next@^20.3.1:
-  version "20.3.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-20.3.2.tgz#5195e76b9e0848a1c198001bf6c7fc72995a55f1"
-  integrity sha512-e8CML2R9Ng2sSQOM80wb/PrM2j8mDm84o/T4Amzn9ArVyNX5/ENWxxAXkRpZdTQNDaxKImF93Wep4mAoozFrKw==
+i18next@20.3.5:
+  version "20.3.5"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-20.3.5.tgz#14308b79a3f1cafb24fdcd8e182d3673baf1e979"
+  integrity sha512-//MGeU6n4TencJmCgG+TCrpdgAD/NDEU/KfKQekYbJX6QV7sD/NjWQdVdBi+bkT0snegnSoB7QhjSeatrk3a0w==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
@@ -12746,10 +12734,10 @@ react-helmet@^6.1.0:
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
 
-react-i18next@^11.11.0:
-  version "11.11.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.1.tgz#758edd7ef521f6703c2d6b83f3165d078f7acf35"
-  integrity sha512-MtfzPEOvx0ev2cz0HmrEcduuqkktSa5bfeN8Flp0cvN0xP3H3MRSTa8P6pxPtqstHbRe1cD9QBOr5T/FEV2gOw==
+react-i18next@11.11.4:
+  version "11.11.4"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.4.tgz#f6f9a1c827e7a5271377de2bf14db04cb1c9e5ce"
+  integrity sha512-ayWFlu8Sc7GAxW1PzMaPtzq+yiozWMxs0P1WeITNVzXAVRhC0Httkzw/IiODBta6seJRBCLrtUeFUSXhAIxlRg==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"

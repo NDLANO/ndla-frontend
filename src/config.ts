@@ -88,6 +88,9 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
+export const getDefaultLocale = () =>
+  getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
+
 export type ConfigType = {
   defaultLocale: LocaleType;
   componentName: string;

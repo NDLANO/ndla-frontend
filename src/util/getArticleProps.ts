@@ -11,7 +11,7 @@ import { getContentType } from './getContentType';
 
 export const getArticleProps = (resource: GQLResource, topic?: GQLTopic) => {
   const hasResourceTypes =
-    resource.resourceTypes && resource.resourceTypes?.length > 0;
+    resource?.resourceTypes && resource.resourceTypes?.length > 0;
 
   const contentType = hasResourceTypes ? getContentType(resource) : undefined;
 

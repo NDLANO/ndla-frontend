@@ -11,7 +11,9 @@ import ErrorReporter from '@ndla/error-reporter';
 import { ErrorInfo } from 'react';
 
 const log =
-  process.env.BUILD_TARGET === 'server' ? require('./logger') : undefined;
+  process.env.BUILD_TARGET === 'server'
+    ? require('./logger').default
+    : undefined;
 
 const handleError = (
   error: ApolloError | Error | string,
