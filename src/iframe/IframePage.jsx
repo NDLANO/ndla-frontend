@@ -65,7 +65,7 @@ export const IframePage = ({
 
   const { article, resource = {} } = data;
   // Only care if article can be rendered
-  if (article) {
+  if (!article) {
     return <Error />;
   }
 
