@@ -13,13 +13,12 @@ import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import IframePageWrapper from './IframePageWrapper';
 import IframePage from './IframePage';
-import { ResourceTypeShape } from '../shapes';
 
 const IframePageContainer = ({
   basename,
   status,
   locale,
-  resourceTypes,
+  resourceId,
   location,
   articleId,
   isOembed,
@@ -31,7 +30,7 @@ const IframePageContainer = ({
         <IframePage
           status={status}
           locale={locale}
-          resourceTypes={resourceTypes}
+          resourceId={resourceId}
           location={location}
           articleId={articleId}
           isOembed={isOembed}
@@ -46,7 +45,7 @@ IframePageContainer.propTypes = {
   basename: PropTypes.string,
   locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  resourceId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
