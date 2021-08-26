@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
 
@@ -55,7 +55,8 @@ interface Props {
   topics: GQLTopic[];
 }
 
-const MovedTopicPage = ({ topics, t }: Props & tType) => {
+const MovedTopicPage = ({ topics }: Props) => {
+  const { t } = useTranslation();
   const topicsAsResults = topics.map(convertTopicToResult);
   const results = resultsWithContentTypeBadgeAndImage(topicsAsResults, t);
   const mergedTopic = mergeTopicSubjects(results);
@@ -70,4 +71,4 @@ const MovedTopicPage = ({ topics, t }: Props & tType) => {
   );
 };
 
-export default injectT(MovedTopicPage);
+export default MovedTopicPage;

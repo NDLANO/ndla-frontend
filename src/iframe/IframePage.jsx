@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
 import { iframeArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
@@ -20,20 +20,23 @@ if (process.env.NODE_ENV !== 'production') {
   require('../style/index.css'); // eslint-disable-line global-require
 }
 
-const Error = injectT(({ t }) => (
-  <OneColumn cssModifier="clear">
-    <ErrorMessage
-      illustration={{
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
-      }}
-      messages={{
-        title: t('errorMessage.title'),
-        description: t('errorMessage.description'),
-      }}
-    />
-  </OneColumn>
-));
+const Error = () => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        illustration={{
+          url: '/static/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('errorMessage.description'),
+        }}
+      />
+    </OneColumn>
+  );
+};
 
 export const IframePage = ({
   status,
@@ -89,10 +92,7 @@ export const IframePage = ({
 };
 
 IframePage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
   resourceId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),

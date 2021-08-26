@@ -9,7 +9,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
-import { injectT } from '@ndla/i18n';
 import {
   ArticleWrapper,
   LayoutItem,
@@ -20,6 +19,7 @@ import {
   ArticleFootNotes,
 } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { TopicShape } from '../../shapes';
 import { transformArticle } from '../../util/transformArticle';
@@ -30,8 +30,8 @@ const ArticleContents = ({
   locale,
   modifier,
   showIngress,
-  t,
 }) => {
+  const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -92,4 +92,4 @@ ArticleContents.defaultProps = {
   modifier: 'clean',
 };
 
-export default injectT(ArticleContents);
+export default ArticleContents;
