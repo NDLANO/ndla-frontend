@@ -45,7 +45,7 @@ export const IframePage = ({
   isTopicArticle,
 }) => {
   const includeResource = resourceId !== undefined;
-  const { error, loading, data } = useGraphQuery(iframeArticleQuery, {
+  const { loading, data } = useGraphQuery(iframeArticleQuery, {
     variables: {
       articleId,
       isOembed,
@@ -55,36 +55,37 @@ export const IframePage = ({
     },
   });
 
-  // TODO: Temporary change to fix displaying lti-versions
-  const nonGrepError = error?.graphQLErrors.every(
-    e => !e.message.includes('GREP is disabled'),
-  );
-
-  if (status !== 'success' || nonGrepError) {
+  if (status !== 'success') {
     return <Error />;
   }
 
-  if (!loading) {
-    const { article, resource = {} } = data;
-    if (isTopicArticle) {
-      return (
-        <IframeTopicPage
-          locale={locale.abbreviation}
-          article={article}
-          location={location}
-        />
-      );
-    }
+  if (loading) {
+    return null;
+  }
+
+  const { article, resource = {} } = data;
+  // Only care if article can be rendered
+  if (article) {
+    return <Error />;
+  }
+
+  if (isTopicArticle) {
     return (
-      <IframeArticlePage
+      <IframeTopicPage
         locale={locale.abbreviation}
-        resource={{ article, ...resource }}
         article={article}
         location={location}
       />
     );
   }
-  return null;
+  return (
+    <IframeArticlePage
+      locale={locale.abbreviation}
+      resource={{ article, ...resource }}
+      article={article}
+      location={location}
+    />
+  );
 };
 
 IframePage.propTypes = {
