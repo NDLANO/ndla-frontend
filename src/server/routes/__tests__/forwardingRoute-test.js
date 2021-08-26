@@ -57,6 +57,7 @@ test('forwardingRoute redirect with 301 if mapping OK', async () => {
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
@@ -78,6 +79,7 @@ test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
@@ -99,6 +101,7 @@ test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
@@ -126,6 +129,7 @@ test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async () => {
@@ -147,6 +151,7 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async 
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async () => {
@@ -172,6 +177,7 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async 
     ),
   ).toBe(true);
   expect(next.notCalled).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute call next if mapping fails', async () => {
@@ -188,28 +194,5 @@ test('forwardingRoute call next if mapping fails', async () => {
 
   expect(redirect.notCalled).toBe(true);
   expect(next.calledOnce).toBe(true);
-});
-
-test('forwardingRoute call next if subject is not in allowed list 1', async () => {
-  prepareNock(200, undefined, undefined, 'subject:4');
-
-  const next = sinon.spy();
-  const redirect = sinon.spy();
-
-  await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
-
-  expect(redirect.notCalled).toBe(true);
-  expect(next.calledOnce).toBe(true);
-});
-
-test('forwardingRoute call next if subject is not in allowed list 2', async () => {
-  prepareNock(200, undefined, undefined, 'subject:27');
-
-  const next = sinon.spy();
-  const redirect = sinon.spy();
-
-  await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
-
-  expect(redirect.notCalled).toBe(true);
-  expect(next.calledOnce).toBe(true);
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });

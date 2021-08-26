@@ -7,8 +7,8 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
+import { TFunction, WithTranslation } from 'react-i18next';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
@@ -24,13 +24,13 @@ const getDocumentTitle = ({
   t,
   data,
 }: {
-  t: tType['t'];
+  t: TFunction;
   data: Props['data'];
 }) => {
   return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
-interface Props extends tType {
+interface Props extends Pick<WithTranslation, 't'> {
   topicId?: string;
   subjectId?: string;
   subTopicId?: string;

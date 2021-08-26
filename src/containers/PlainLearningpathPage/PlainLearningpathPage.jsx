@@ -9,9 +9,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
+import { withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { learningPathStepQuery } from '../../queries';
@@ -149,4 +149,4 @@ PlainLearningpathPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withTracker(PlainLearningpathPage));
+export default withTranslation()(withTracker(PlainLearningpathPage));

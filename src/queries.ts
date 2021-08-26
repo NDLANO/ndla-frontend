@@ -789,6 +789,29 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const iframeArticleQuery = gql`
+  query iframeArticleQuery(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+    $resourceId: String!
+    $includeResource: Boolean!
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
+      ...ArticleInfo
+    }
+    resource(id: $resourceId) @include(if: $includeResource) {
+      id
+      path
+      resourceTypes {
+        id
+        name
+      }
+    }
+  }
+  ${articleInfoFragment}
+`;
+
 export const topicQueryWithPathTopics = gql`
   query topicQuery($topicId: String!, $subjectId: String!) {
     subject(id: $subjectId) {

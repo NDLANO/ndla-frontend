@@ -9,7 +9,6 @@
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
-import IntlProvider from '@ndla/i18n';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
@@ -56,12 +55,9 @@ const disableSSR = req => {
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true };
-  const {
-    abbreviation: locale,
-    messages,
-    basepath,
-    basename,
-  } = getLocaleInfoFromPath(req.path);
+  const { abbreviation: locale, basename, basepath } = getLocaleInfoFromPath(
+    req.path,
+  );
 
   const client = createApolloClient(locale);
 
@@ -85,14 +81,9 @@ async function doRender(req) {
   const Page = !disableSSR(req) ? (
     <ApolloProvider client={client}>
       <CacheProvider value={cache}>
-        <IntlProvider locale={locale} messages={messages}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes({ ...initialProps, basename }, locale)}
-          </StaticRouter>
-        </IntlProvider>
+        <StaticRouter basename={basename} location={req.url} context={context}>
+          {routes({ ...initialProps, locale }, client, locale)}
+        </StaticRouter>
       </CacheProvider>
     </ApolloProvider>
   ) : (

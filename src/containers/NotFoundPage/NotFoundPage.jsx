@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import { Status } from '../../components';
 
 const NotFound = ({ t }) => (
@@ -34,4 +34,4 @@ const NotFound = ({ t }) => (
 
 NotFound.propTypes = {};
 
-export default injectT(NotFound);
+export default withTranslation()(NotFound);

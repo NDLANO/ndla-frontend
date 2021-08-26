@@ -8,12 +8,15 @@
 import React, { useMemo } from 'react';
 import { func, arrayOf, objectOf, object, string, bool } from 'prop-types';
 import { Remarkable } from 'remarkable';
+import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
   FilterButtons,
+  LanguageSelector,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 
 import {
   SearchItemShape,
@@ -25,8 +28,14 @@ import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { sortResourceTypes } from './searchHelpers';
 
+const StyledLanguageSelector = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: ${spacing.spacingUnit * 10}px;
+`;
+
 const SearchContainer = ({
-  t,
   handleSearchParamsChange,
   handleFilterClick,
   handleFilterToggle,
@@ -44,7 +53,9 @@ const SearchContainer = ({
   setShowConcepts,
   showAll,
   locale,
+  loading,
 }) => {
+  const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -108,7 +119,17 @@ const SearchContainer = ({
             typeFilter={typeFilter}
             handleFilterClick={handleFilterClick}
             handleShowMore={handleShowMore}
+            loading={loading}
           />
+          <StyledLanguageSelector>
+            <LanguageSelector
+              center
+              outline
+              alwaysVisible
+              options={i18n.supportedLanguages}
+              currentLanguage={i18n.language}
+            />
+          </StyledLanguageSelector>
         </>
       )}
     </>
@@ -134,6 +155,7 @@ SearchContainer.propTypes = {
   setShowConcepts: func,
   showAll: bool,
   locale: string,
+  loading: bool.required,
 };
 
-export default injectT(SearchContainer);
+export default SearchContainer;

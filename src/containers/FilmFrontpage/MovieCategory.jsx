@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { CarouselAutosize } from '@ndla/carousel';
 import { FilmMovieList, MovieGrid } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import {
   GraphQLArticleMetaShape,
   GraphQLMovieThemeShape,
@@ -73,4 +73,4 @@ MovieCategory.propTypes = {
   loadingPlaceholderHeight: PropTypes.bool,
 };
 
-export default injectT(MovieCategory);
+export default withTranslation()(MovieCategory);

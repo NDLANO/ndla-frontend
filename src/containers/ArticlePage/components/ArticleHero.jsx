@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import {
@@ -49,7 +48,6 @@ const ArticleHero = ({
   location,
   locale,
   breadcrumbItems,
-  t,
 }) => (
   <WrapperComponent
     ndlaFilm={ndlaFilm}
@@ -82,4 +80,4 @@ ArticleHero.propTypes = {
   breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
   ndlaFilm: PropTypes.bool,
 };
-export default withRouter(injectT(ArticleHero));
+export default withRouter(ArticleHero);

@@ -9,7 +9,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -104,4 +104,4 @@ ResourcePage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(ResourcePage);
+export default withTranslation()(ResourcePage);
