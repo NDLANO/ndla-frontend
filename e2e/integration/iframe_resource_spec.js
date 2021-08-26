@@ -5,17 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+// TODO: Reenable when not contacting taxonomy from frontend.
 
-import { visitOptions } from '../support';
+//import { visitOptions } from '../support';
 
-const resourceId = 'urn:resource:1:124037';
+//const resourceId = 'urn:resource:1:124037';
 
 describe('Iframe resource page', () => {
   beforeEach(() => {
     cy.apiIntercept('POST', '**/graphql', 'iframeResourceGraphQL');
   });
 
-  it('contains content', () => {
+  /*it('contains content', () => {
     cy.visit(
       `/article-iframe/nb/${resourceId}/3?disableSSR=true`,
       visitOptions,
@@ -24,5 +25,5 @@ describe('Iframe resource page', () => {
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
     });
-  });
+  });*/
 });
