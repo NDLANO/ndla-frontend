@@ -8,10 +8,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { FrontpageSearch } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
-import { RouteComponentProps } from 'react-router';
+
+import { useTranslation } from 'react-i18next';
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
 
@@ -29,10 +30,11 @@ interface Props extends RouteComponentProps {
   locale: LocaleType;
 }
 
-const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
+const WelcomePageSearch = ({ history, locale }: Props) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
+  const { t } = useTranslation();
 
   const [
     runSearch,
@@ -102,9 +104,8 @@ const WelcomePageSearch = ({ t, history, locale }: Props & tType) => {
       suggestion={searchResult && delayedSearchQuery.length >= 2 && suggestion}
       suggestionUrl={suggestionUrl}
       infoText={''}
-      t={t}
     />
   );
 };
 
-export default injectT(WelcomePageSearch);
+export default WelcomePageSearch;

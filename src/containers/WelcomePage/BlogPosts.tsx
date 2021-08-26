@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { WithTranslation, withTranslation } from 'react-i18next';
 //@ts-ignore
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 import { LocaleType } from '../../interfaces';
@@ -16,7 +16,7 @@ interface Props {
   locale: LocaleType;
 }
 
-const BlogPosts = ({ t, locale }: Props & tType) => (
+const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
   <section>
     <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
     <BlogPostWrapper>
@@ -46,4 +46,4 @@ const BlogPosts = ({ t, locale }: Props & tType) => (
   </section>
 );
 
-export default injectT(BlogPosts);
+export default withTranslation()(BlogPosts);

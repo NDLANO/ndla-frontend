@@ -8,9 +8,9 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { useLazyQuery, useQuery } from '@apollo/client';
 
+import { useTranslation } from 'react-i18next';
 import FilmFrontpage from './FilmFrontpage';
 import {
   subjectPageQuery,
@@ -22,7 +22,8 @@ import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
-const NdlaFilm = ({ t, locale, skipToContentId }) => {
+const NdlaFilm = ({ locale, skipToContentId }) => {
+  const { t } = useTranslation();
   const [state, setState] = useState({
     moviesByType: [],
     showingAll: false,
@@ -126,4 +127,4 @@ NdlaFilm.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default injectT(NdlaFilm);
+export default NdlaFilm;

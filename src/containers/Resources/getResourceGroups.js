@@ -1,4 +1,3 @@
-import defined from 'defined';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -32,7 +31,7 @@ export const groupResourcesByResourceTypes = (
   ];
   return resources.reduce((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map(type => {
-      const existing = defined(obj[type.id], []);
+      const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
     });
     const reduced = resourceTypesWithResources?.reduce(
@@ -67,7 +66,7 @@ export const getResourceGroups = (
 
   return sortedResourceTypes
     .map(type => {
-      const resources = defined(groupedResources[type.id], []);
+      const resources = groupedResources[type.id] ?? [];
       return { ...type, resources };
     })
     .filter(type => type.resources.length > 0);

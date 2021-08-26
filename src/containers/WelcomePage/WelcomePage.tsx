@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -16,15 +16,15 @@ import {
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { useTranslation } from 'react-i18next';
+
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 
-import { getLocaleUrls } from '../../util/localeHelpers';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
@@ -33,7 +33,7 @@ import { LocaleType } from '../../interfaces';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
-  return toSubject(subject.id);
+  return toSubject(subject!.id);
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID =
@@ -53,11 +53,11 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
   return topicIds.map(topicId => {
-    const topic = getSubjectById(topicId);
+    const topic = getSubjectById(topicId)!;
     return {
       id: topic.id,
-      title: topic.name[locale],
-      url: toTopic(baseSubject.id, '', topic.topicId),
+      title: topic.name![locale],
+      url: toTopic(baseSubject!.id, '', topic!.topicId!),
     };
   });
 };
@@ -68,13 +68,8 @@ interface Props extends RouteComponentProps {
   ndlaFilm?: boolean;
 }
 
-const WelcomePage = ({
-  t,
-  locale,
-  history,
-  location,
-  match,
-}: Props & tType) => {
+const WelcomePage = ({ locale, history, location, match }: Props) => {
+  const { t } = useTranslation();
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -90,7 +85,7 @@ const WelcomePage = ({
   };
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -101,11 +96,7 @@ const WelcomePage = ({
         image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <FrontpageHeader
-        locale={locale}
-        languageOptions={getLocaleUrls(locale, location)}
-        t={t}
-        showHeader={true}>
+      <FrontpageHeader locale={locale} showHeader={true}>
         <WelcomePageSearch
           history={history}
           locale={locale}
@@ -136,8 +127,8 @@ const WelcomePage = ({
           <WelcomePageInfo />
         </OneColumn>
       </main>
-    </Fragment>
+    </>
   );
 };
 
-export default withRouter(injectT(WelcomePage));
+export default withRouter(WelcomePage);

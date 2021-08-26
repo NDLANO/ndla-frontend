@@ -7,6 +7,7 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import config from './config';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
@@ -117,20 +118,20 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-type Subject = {
-  id?: string | undefined;
-  name?: string | undefined;
+type SubjectURI = {
+  id?: string;
+  name?: string;
   to?: string;
 };
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: Subject[],
-  locale: string = 'nb',
+  paths: SubjectURI[],
+  locale: LocaleType = config.defaultLocale,
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName: string = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
@@ -141,7 +142,7 @@ export function toBreadcrumbItems(
   const links = prelinks
     .filter(Boolean)
     .reduce(
-      (links: Subject[], item) => [
+      (links: SubjectURI[], item) => [
         ...links,
         {
           to:
@@ -220,7 +221,7 @@ export function getProgrammeByPath(pathname: string, locale: LocaleType) {
     pathname,
     PROGRAMME_PAGE_PATH,
   );
-  if (match) {
+  if (match?.params?.programme) {
     return getProgrammeBySlug(match.params.programme, locale);
   }
   return null;

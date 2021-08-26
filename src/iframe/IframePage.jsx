@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ResourceTypeShape } from '../shapes';
 import { useGraphQuery } from '../util/runQueries';
 import { plainArticleQuery } from '../queries';
@@ -21,20 +21,23 @@ if (process.env.NODE_ENV !== 'production') {
   require('../style/index.css'); // eslint-disable-line global-require
 }
 
-const Error = injectT(({ t }) => (
-  <OneColumn cssModifier="clear">
-    <ErrorMessage
-      illustration={{
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
-      }}
-      messages={{
-        title: t('errorMessage.title'),
-        description: t('errorMessage.description'),
-      }}
-    />
-  </OneColumn>
-));
+const Error = () => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        illustration={{
+          url: '/static/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('errorMessage.description'),
+        }}
+      />
+    </OneColumn>
+  );
+};
 
 export const IframePage = ({
   status,
@@ -49,7 +52,12 @@ export const IframePage = ({
     variables: { articleId, isOembed, path: location.pathname },
   });
 
-  if (status !== 'success' || error) {
+  // TODO: Temporary change to fix displaying lti-versions
+  const nonGrepError = error?.graphQLErrors.every(
+    e => !e.message.includes('GREP is disabled'),
+  );
+
+  if (status !== 'success' || nonGrepError) {
     return <Error />;
   }
 
@@ -58,7 +66,7 @@ export const IframePage = ({
     if (isTopicArticle) {
       return (
         <IframeTopicPage
-          locale={locale.abbreviation}
+          locale={locale}
           article={article}
           location={location}
         />
@@ -66,7 +74,7 @@ export const IframePage = ({
     }
     return (
       <IframeArticlePage
-        locale={locale.abbreviation}
+        locale={locale}
         resource={{ article, resourceTypes }}
         article={article}
         location={location}
@@ -77,10 +85,7 @@ export const IframePage = ({
 };
 
 IframePage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   status: PropTypes.oneOf(['success', 'error']),

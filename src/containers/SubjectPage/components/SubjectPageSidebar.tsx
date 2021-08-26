@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
 import { toLinkProps } from '../../../routeHelpers';
 import { getSearchUrl } from '../subjectPageHelpers';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
@@ -27,8 +27,8 @@ export const SubjectPageSidebar = ({
   subjectId,
   subjectpage,
   twoColumns = false,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { mostRead, goTo } = subjectpage;
 
   return [

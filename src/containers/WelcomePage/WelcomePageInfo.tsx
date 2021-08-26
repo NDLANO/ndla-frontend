@@ -7,12 +7,12 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
 //@ts-ignore
 import { InfoWidget, FrontpageInfo } from '@ndla/ui';
 import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-const WelcomePageInfo = ({ t }: tType) => (
+const WelcomePageInfo = ({ t }: WithTranslation) => (
   <FrontpageInfo>
     <InfoWidget
       heading={t('newsLetter.heading')}
@@ -52,4 +52,4 @@ const WelcomePageInfo = ({ t }: tType) => (
   </FrontpageInfo>
 );
 
-export default injectT(WelcomePageInfo);
+export default withTranslation()(WelcomePageInfo);
