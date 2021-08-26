@@ -6,10 +6,10 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT } from '@ndla/i18n';
 import { func, arrayOf, shape, string } from 'prop-types';
 import { SearchFilter, SearchPopoverFilter, SearchFilterList } from '@ndla/ui';
 import { Core, Additional } from '@ndla/icons/common';
+import { useTranslation } from 'react-i18next';
 import { FilterShape, SubjectShape, SearchParamsShape } from '../../../shapes';
 import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 
@@ -18,8 +18,8 @@ const SearchFilters = ({
   activeSubjects,
   searchParams,
   onChange,
-  t,
 }) => {
+  const { t } = useTranslation();
   const allSubjects = subjects
     ? subjects.map(subject => ({
         title: subject.name,
@@ -171,4 +171,4 @@ SearchFilters.propTypes = {
   enabledTab: string.isRequired,
 };
 
-export default injectT(SearchFilters);
+export default SearchFilters;

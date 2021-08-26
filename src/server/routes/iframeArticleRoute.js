@@ -10,7 +10,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 
-import { getHtmlLang, getLocaleObject } from '../../i18n';
+import { getHtmlLang } from '../../i18n';
 import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
@@ -52,8 +52,7 @@ async function doRenderPage(initialProps) {
 
 export async function iframeArticleRoute(req) {
   const lang = req.params.lang ?? '';
-  const htmlLang = getHtmlLang(lang);
-  const locale = getLocaleObject(htmlLang);
+  const locale = getHtmlLang(lang);
   const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url };
   try {
@@ -71,7 +70,7 @@ export async function iframeArticleRoute(req) {
       return renderHtml(req, html, { status: OK }, docProps);
     }
     const resourceTypes = taxonomyId
-      ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
+      ? await fetchResourceTypesForResource(taxonomyId, locale)
       : [];
     const { html, docProps } = await doRenderPage({
       resourceTypes,

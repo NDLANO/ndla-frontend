@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from '@ndla/ui/lib/Spinner';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import Topic from './Topic';
@@ -32,7 +32,7 @@ const TopicWrapper = ({
   showResources,
   subject,
   t,
-}: Props & tType) => {
+}: Props & WithTranslation) => {
   const { data, loading } = useGraphQuery(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
@@ -66,4 +66,4 @@ const TopicWrapper = ({
   );
 };
 
-export default injectT(TopicWrapper);
+export default withTranslation()(TopicWrapper);
