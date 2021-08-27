@@ -1,6 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyledButton } from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import queryString from 'query-string';
 import CopyTextButton from '../license/CopyTextButton';
 import { GQLVisualElement } from '../../graphqlTypes';
@@ -38,8 +38,8 @@ interface Props {
 const VisualElementLicenseButtons = ({
   visualElement,
   resourceType,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const Button = StyledButton.withComponent('a');
 
   const copyText =
@@ -82,4 +82,4 @@ const VisualElementLicenseButtons = ({
   );
 };
 
-export default injectT(VisualElementLicenseButtons);
+export default VisualElementLicenseButtons;

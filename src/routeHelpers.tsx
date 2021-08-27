@@ -7,6 +7,7 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import config from './config';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
@@ -31,6 +32,8 @@ export function getUrnIdsFromProps(props: {
     topicId?: string;
     resourceId?: string;
     articleId?: string;
+    topic1?: string;
+    topic2?: string;
   }>['match'];
 }) {
   const {
@@ -44,6 +47,14 @@ export function getUrnIdsFromProps(props: {
   const topics = params.topicPath?.split('/') || [];
   const topicList = topics.map((t: string) => `urn:${t}`);
   const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
+  const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
+  const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;
+  if (topic1) {
+    topicList.push(topic1);
+  }
+  if (topic2) {
+    topicList.push(topic2);
+  }
   if (topicId) {
     topicList.push(topicId);
   }
@@ -117,7 +128,7 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-type Subject = {
+type SubjectURI = {
   id?: string;
   name?: string;
   to?: string;
@@ -125,12 +136,12 @@ type Subject = {
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: Subject[],
-  locale: LocaleType = 'nb',
+  paths: SubjectURI[],
+  locale: LocaleType = config.defaultLocale,
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id || '', locale);
+  const longName = getSubjectLongName(subject?.id, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
@@ -141,7 +152,7 @@ export function toBreadcrumbItems(
   const links = prelinks
     .filter(Boolean)
     .reduce(
-      (links: Subject[], item) => [
+      (links: SubjectURI[], item) => [
         ...links,
         {
           to:
@@ -220,8 +231,8 @@ export function getProgrammeByPath(pathname: string, locale: LocaleType) {
     pathname,
     PROGRAMME_PAGE_PATH,
   );
-  if (match) {
-    return getProgrammeBySlug(match.params.programme!, locale);
+  if (match?.params?.programme) {
+    return getProgrammeBySlug(match.params.programme, locale);
   }
   return null;
 }

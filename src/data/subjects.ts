@@ -1,4 +1,4 @@
-import { LocaleType } from '../interfaces';
+import { LocaleType, SubjectType } from '../interfaces';
 
 export const commonSubjects = [
   {
@@ -2564,13 +2564,6 @@ export const subjectsCategories = [
   },
 ];
 
-type SubjectType = {
-  longName?: Record<LocaleType, string>;
-  name: Record<LocaleType, string>;
-  id: string;
-  topicId?: string;
-};
-
 type SubjectIds = {
   [key: string]: SubjectType;
 };
@@ -2610,12 +2603,7 @@ export const getSubjectBySubjectId = (subjectId: string) => {
     ...betaSubjects,
   ];
 
-  return subjects.find(subject => {
-    if (subject.id === subjectId) {
-      return true;
-    }
-    return false;
-  });
+  return subjects.find(subject => subject.id === subjectId);
 };
 
 export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {

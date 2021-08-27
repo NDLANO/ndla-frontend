@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { FigureCaption, FigureLicenseDialog, Figure } from '@ndla/ui';
 import {
   getGroupedContributorDescriptionList,
   getLicenseByAbbreviation,
 } from '@ndla/licenses';
-import { injectT, tType } from '@ndla/i18n';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { uuid } from '@ndla/util';
 import { GQLVisualElement } from '../../graphqlTypes';
@@ -30,7 +30,8 @@ export const getResourceType = (VisualElementType?: string): ResourceType => {
   }
 };
 
-const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
+const VisualElementWrapper = ({ visualElement, locale }: Props) => {
+  const { t } = useTranslation();
   useEffect(() => {
     initArticleScripts();
   }, []);
@@ -109,4 +110,4 @@ const VisualElementWrapper = ({ visualElement, locale, t }: Props & tType) => {
   );
 };
 
-export default injectT(VisualElementWrapper);
+export default VisualElementWrapper;

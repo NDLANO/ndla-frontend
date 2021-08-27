@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
@@ -45,7 +44,6 @@ const Article = ({
   label,
   subject,
   locale,
-  t,
   isResourceArticle,
   copyPageUrlLink,
   printUrl,
@@ -119,4 +117,4 @@ Article.defaultProps = {
   isResourceArticle: false,
 };
 
-export default injectT(Article);
+export default Article;

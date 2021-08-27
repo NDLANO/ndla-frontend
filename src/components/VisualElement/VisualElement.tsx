@@ -1,7 +1,6 @@
 import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { GQLImageElement, GQLVisualElement } from '../../graphqlTypes';
 
 interface Props {
@@ -84,4 +83,4 @@ const VisualElement = ({ visualElement }: Props) => {
   return null;
 };
 
-export default injectT(VisualElement);
+export default VisualElement;

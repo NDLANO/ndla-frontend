@@ -7,11 +7,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn, ToolboxInfo, SubjectBanner } from '@ndla/ui';
 // @ts-ignore
-import { injectT, tType } from '@ndla/i18n';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -29,7 +29,8 @@ interface Data {
   subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
-const ToolboxSubjectPage = ({ match, locale, t }: Props & tType) => {
+const ToolboxSubjectPage = ({ match, locale }: Props) => {
+  const { t } = useTranslation();
   const { subjectId, topicList } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -140,4 +141,4 @@ const ToolboxSubjectPage = ({ match, locale, t }: Props & tType) => {
   );
 };
 
-export default injectT(ToolboxSubjectPage);
+export default ToolboxSubjectPage;

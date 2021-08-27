@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 
 const MoreAboutNdlaFilm = ({ t }) => (
   <>
@@ -29,4 +29,4 @@ const MoreAboutNdlaFilm = ({ t }) => (
   </>
 );
 
-export default injectT(MoreAboutNdlaFilm);
+export default withTranslation()(MoreAboutNdlaFilm);

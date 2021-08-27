@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Spinner from '@ndla/ui/lib/Spinner';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import {
   ArticleByline,
   ArticleContent,
@@ -8,7 +9,6 @@ import {
   ArticleWrapper,
   Topic,
 } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -49,9 +49,8 @@ const TopicWrapper = ({
   setBreadCrumb,
   index,
   topicIds,
-}: Props & tType) => {
+}: Props & WithTranslation) => {
   const [showContent, setShowContent] = useState(false);
-
   const { data, loading } = useGraphQuery<Data>(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
@@ -139,4 +138,4 @@ const TopicWrapper = ({
 };
 //Articlewrapper setupen er hentet fra <Article>, bruker du Article komponenten så skjer det ett eller annet
 // så den bare overgår containeren sin. Selv om Article komponenten er akkurat det samme som vist over her.
-export default injectT(TopicWrapper);
+export default withTranslation()(TopicWrapper);
