@@ -53,29 +53,17 @@ export async function iframeArticleRoute(req) {
   const lang = req.params.lang ?? '';
   const locale = getHtmlLang(lang);
   const { articleId, taxonomyId } = req.params;
-  const location = { pathname: req.url };
+  const location = { pathname: req.url, search: '', hash: '' };
   try {
-    if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
-      const { html, docProps } = await doRenderPage({
-        basename: lang,
-        locale,
-        articleId,
-        isOembed: 'true',
-        isTopicArticle: true,
-        status: 'success',
-        location,
-      });
-
-      return renderHtml(req, html, { status: OK }, docProps);
-    }
     const { html, docProps } = await doRenderPage({
-      resourceId: taxonomyId,
       articleId,
+      taxonomyId,
       isOembed: 'true',
+      isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
       basename: lang,
       locale,
-      status: 'success',
       location,
+      status: 'success',
     });
 
     return renderHtml(req, html, { status: OK }, docProps);

@@ -18,7 +18,7 @@ const IframePageContainer = ({
   basename,
   status,
   locale,
-  resourceId,
+  taxonomyId,
   location,
   articleId,
   isOembed,
@@ -30,7 +30,7 @@ const IframePageContainer = ({
         <IframePage
           status={status}
           locale={locale}
-          resourceId={resourceId}
+          taxonomyId={taxonomyId}
           location={location}
           articleId={articleId}
           isOembed={isOembed}
@@ -45,7 +45,7 @@ IframePageContainer.propTypes = {
   basename: PropTypes.string,
   locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
-  resourceId: PropTypes.string,
+  taxonomyId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,

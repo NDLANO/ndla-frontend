@@ -794,19 +794,26 @@ export const iframeArticleQuery = gql`
     $articleId: String!
     $isOembed: String
     $path: String
-    $resourceId: String!
+    $taxonomyId: String!
     $includeResource: Boolean!
+    $includeTopic: Boolean!
   ) {
     article(id: $articleId, isOembed: $isOembed, path: $path) {
       ...ArticleInfo
     }
-    resource(id: $resourceId) @include(if: $includeResource) {
+    resource(id: $taxonomyId) @include(if: $includeResource) {
       id
+      name
       path
       resourceTypes {
         id
         name
       }
+    }
+    topic(id: $taxonomyId) @include(if: $includeTopic) {
+      id
+      name
+      path
     }
   }
   ${articleInfoFragment}
