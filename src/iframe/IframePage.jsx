@@ -75,7 +75,7 @@ export const IframePage = ({
   if (isTopicArticle) {
     return (
       <IframeTopicPage
-        locale={locale.abbreviation}
+        locale={locale}
         article={article}
         location={location}
       />
@@ -83,7 +83,7 @@ export const IframePage = ({
   }
   return (
     <IframeArticlePage
-      locale={locale.abbreviation}
+      locale={locale}
       resource={{ article, ...resource }}
       article={article}
       location={location}
