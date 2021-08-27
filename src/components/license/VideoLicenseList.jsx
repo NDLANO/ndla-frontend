@@ -70,10 +70,11 @@ const VideoLicenseInfo = ({ video, locale }) => {
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            <AnchorButton href={video.download} download appearance="outline">
-              {t('license.download')}
-            </AnchorButton>
-
+            {video.copyright.license.license !== 'COPYRIGHTED' && (
+              <AnchorButton href={video.download} download appearance="outline">
+                {t('license.download')}
+              </AnchorButton>
+            )}
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${video.iframe.height}" aria-label="${video.title}" width="${video.iframe.width}" frameborder="0" src="${video.iframe.src}" allowfullscreen=""></iframe>`}
               t={t}
