@@ -54,9 +54,11 @@ const AudioLicenseInfo = ({ audio, locale }) => {
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            <AnchorButton href={audio.src} download appearance="outline">
-              {t('license.download')}
-            </AnchorButton>
+            {audio.copyright.license.license !== 'COPYRIGHTED' && (
+              <AnchorButton href={audio.src} download appearance="outline">
+                {t('license.download')}
+              </AnchorButton>
+            )}
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
