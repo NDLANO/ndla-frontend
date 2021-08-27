@@ -1,18 +1,23 @@
 import React from 'react';
-import PropTypes, { arrayOf } from 'prop-types';
+//@ts-ignore
 import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
-import {
-  ProgrammeShape,
-  SubjectCategoryShape,
-  TopicShape,
-} from '../../../shapes';
 import { getSubjectLongName } from '../../../data/subjects';
+import {
+  GQLResource,
+  GQLResourceType,
+  GQLSubject,
+} from '../../../graphqlTypes';
+import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
+import { LocaleType } from '../../../interfaces';
 
-export function toTopicWithBoundParams(subjectId, expandedTopicIds) {
-  return topicId => {
+export function toTopicWithBoundParams(
+  subjectId: string,
+  expandedTopicIds: string[],
+) {
+  return (topicId: string) => {
     // expandedTopics is an array like this: [mainTopic, subtopic, subsubtopic, etc]
     // topicId is always either mainTopic, subtopic, subsubtopic, etc
     // It implies that we can use expandedTopics to create a path of
@@ -23,30 +28,48 @@ export function toTopicWithBoundParams(subjectId, expandedTopicIds) {
   };
 }
 
-const MastheadTopics = props => {
-  const {
-    onClose,
-    subject,
-    expandedTopicId,
-    expandedSubtopicsId,
-    topicResourcesByType,
-    locale,
-    onNavigate,
-    searchFieldComponent,
-    programmes,
-    subjectCategories,
-  } = props;
+interface Props {
+  onClose: () => void;
+  subject: GQLSubject;
+  expandedTopicId: string;
+  expandedSubtopicsId: string[];
+  topicResourcesByType: GQLResourceType[];
+  locale: LocaleType;
+  onNavigate: (
+    expandedTopicId: string,
+    subtopicId?: string,
+    currentIndex?: number,
+  ) => void;
+  searchFieldComponent: React.ReactNode;
+  programmes: ProgramSubjectType[];
+  subjectCategories: {
+    name: string;
+    subjects: ProgramSubjectType[];
+  }[];
+}
 
+const MastheadTopics = ({
+  onClose,
+  subject,
+  expandedTopicId,
+  expandedSubtopicsId,
+  topicResourcesByType,
+  locale,
+  onNavigate,
+  searchFieldComponent,
+  programmes,
+  subjectCategories,
+}: Props) => {
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
 
   const topicsWithContentTypes = mapTopicResourcesToTopic(
-    subject.topics,
+    subject.topics || [],
     expandedTopicId,
     topicResourcesByType,
     expandedSubtopicsId,
   );
 
-  const localResourceToLinkProps = resource => {
+  const localResourceToLinkProps = (resource: GQLResource) => {
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
@@ -74,23 +97,6 @@ const MastheadTopics = props => {
       locale={locale}
     />
   );
-};
-
-MastheadTopics.propTypes = {
-  subject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    topics: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
-  topicResourcesByType: PropTypes.arrayOf(TopicShape).isRequired,
-  expandedTopicId: PropTypes.string,
-  expandedSubtopicsId: PropTypes.arrayOf(PropTypes.string).isRequired,
-  locale: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onNavigate: PropTypes.func.isRequired,
-  searchFieldComponent: PropTypes.node.isRequired,
-  subjectCategories: arrayOf(SubjectCategoryShape),
-  programmes: arrayOf(ProgrammeShape),
 };
 
 export default MastheadTopics;

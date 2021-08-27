@@ -6,8 +6,9 @@ import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 } from '../../constants';
+import { GQLResource, GQLResourceType } from '../../graphqlTypes';
 
-export const sortOrder = {
+export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
   [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
   [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
@@ -17,8 +18,8 @@ export const sortOrder = {
 };
 
 export const groupResourcesByResourceTypes = (
-  supplementaryResources,
-  coreResources,
+  supplementaryResources: GQLResource[],
+  coreResources: GQLResource[],
 ) => {
   const resources = [
     ...coreResources,
@@ -29,7 +30,7 @@ export const groupResourcesByResourceTypes = (
       }))
       .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
   ];
-  return resources.reduce((obj, resource) => {
+  return resources.reduce<Record<string, any>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map(type => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
@@ -42,22 +43,21 @@ export const groupResourcesByResourceTypes = (
   }, {});
 };
 
-export const sortResourceTypes = resourceTypes =>
+export const sortResourceTypes = (resourceTypes: GQLResourceType[]) =>
   [...resourceTypes].sort((a, b) => {
-    if (sortOrder[a.id] === undefined && sortOrder[b.id] === undefined)
-      return 0;
+    if (!sortOrder[a.id] && !sortOrder[b.id]) return 0;
     if (sortOrder[a.id] === undefined) return 1;
     if (sortOrder[b.id] === undefined) return -1;
-    if (sortOrder[a.id] > sortOrder[b.id]) return 1;
-    if (sortOrder[a.id] < sortOrder[b.id]) return -1;
+    if (sortOrder[a.id]! > sortOrder[b.id]!) return 1;
+    if (sortOrder[a.id]! < sortOrder[b.id]!) return -1;
     return 0;
   });
 
 export const getResourceGroups = (
-  resourceTypes,
-  supplementaryResources,
-  coreResouces,
-) => {
+  resourceTypes: GQLResourceType[],
+  supplementaryResources: GQLResource[],
+  coreResouces: GQLResource[],
+): GQLResourceType[] => {
   const groupedResources = groupResourcesByResourceTypes(
     supplementaryResources,
     coreResouces,

@@ -473,3 +473,14 @@ export interface GQLSubjectFilter {
   subjectpage?: GQLSubjectPage;
   metadata?: GQLTaxonomyMetadata;
 }
+
+export interface GQLMastheadQueryData {
+  resourceTypes: GQLResourceType[];
+  meta?: {
+    id: number;
+    metaDescription: string;
+  };
+  subject: GQLSubject;
+  topic?: GQLTopic;
+  resource?: GQLResource;
+}

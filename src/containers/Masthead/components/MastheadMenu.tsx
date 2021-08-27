@@ -1,33 +1,57 @@
 import React, { Component, Fragment } from 'react';
-import { node, shape, func, string, arrayOf, object, bool } from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import {
-  TopicShape,
-  ResourceShape,
-  LocationShape,
-  SubjectCategoryShape,
-  ProgrammeShape,
-} from '../../../shapes';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Location } from 'history';
 import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
+import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
+import { LocaleType } from '../../../interfaces';
 
-class MastheadMenu extends Component {
-  constructor() {
-    super();
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+  subject: GQLSubject;
+  resource: any;
+  topicResourcesByType: GQLResourceType[];
+  topicPath: GQLTopic[];
+  onDataFetch: (
+    subjectId: string,
+    topicId?: string,
+    resourceId?: string,
+  ) => void;
+  searchFieldComponent: React.ReactNode;
+  ndlaFilm?: boolean;
+  subjectCategories: {
+    name: string;
+    subjects: ProgramSubjectType[];
+  }[];
+  programmes: ProgramSubjectType[];
+}
+
+interface State {
+  expandedTopicId?: string;
+  expandedSubtopicsId: string[];
+  location?: Location;
+}
+
+class MastheadMenu extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
-      expandedTopicId: null,
       expandedSubtopicsId: [],
-      location: null,
     };
   }
 
-  onNavigate = async (expandedTopicId, subtopicId, currentIndex) => {
+  onNavigate = async (
+    expandedTopicId: string,
+    subtopicId?: string,
+    currentIndex?: number,
+  ) => {
     const { onDataFetch } = this.props;
     let { expandedSubtopicsId } = this.state;
 
-    if (expandedSubtopicsId.length > currentIndex) {
+    if (expandedSubtopicsId.length > (currentIndex ?? 0)) {
       expandedSubtopicsId = expandedSubtopicsId.slice(0, currentIndex);
     }
     if (subtopicId) {
@@ -47,16 +71,16 @@ class MastheadMenu extends Component {
 
     if (selectedTopicId) {
       const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
-      onDataFetch(subjectId, selectedTopicId, resourceId);
+      onDataFetch(subjectId!, selectedTopicId, resourceId);
     }
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { location } = nextProps;
     if (location !== prevState.location) {
       const { topicList } = getUrnIdsFromProps(nextProps);
       return {
-        expandedTopicId: topicList?.[0] || null,
+        expandedTopicId: topicList[0],
         expandedSubtopicsId: topicList?.slice(1) || [],
         location,
       };
@@ -79,12 +103,12 @@ class MastheadMenu extends Component {
 
     return (
       <Fragment>
-        <MastheadMenuModal onMenuExit={this.onMenuExit} ndlaFilm={ndlaFilm}>
-          {onClose => (
+        <MastheadMenuModal ndlaFilm={ndlaFilm}>
+          {(onClose: () => void) => (
             <MastheadTopics
               onClose={onClose}
               searchFieldComponent={searchFieldComponent}
-              expandedTopicId={expandedTopicId}
+              expandedTopicId={expandedTopicId!}
               expandedSubtopicsId={expandedSubtopicsId}
               topicResourcesByType={topicResourcesByType}
               subject={subject}
@@ -99,23 +123,5 @@ class MastheadMenu extends Component {
     );
   }
 }
-
-MastheadMenu.propTypes = {
-  subject: shape({
-    id: string,
-    name: string,
-    topics: arrayOf(object),
-  }).isRequired,
-  locale: string.isRequired,
-  resource: ResourceShape,
-  topicResourcesByType: arrayOf(TopicShape).isRequired,
-  topicPath: arrayOf(TopicShape).isRequired,
-  location: LocationShape,
-  onDataFetch: func.isRequired,
-  searchFieldComponent: node.isRequired,
-  ndlaFilm: bool,
-  subjectCategories: arrayOf(SubjectCategoryShape),
-  programmes: arrayOf(ProgrammeShape),
-};
 
 export default withRouter(MastheadMenu);
