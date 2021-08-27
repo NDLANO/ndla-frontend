@@ -30,7 +30,7 @@ export const groupResourcesByResourceTypes = (
       }))
       .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
   ];
-  return resources.reduce<Record<string, any>>((obj, resource) => {
+  return resources.reduce<Record<string, GQLResource[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map(type => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };

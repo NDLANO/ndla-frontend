@@ -46,7 +46,7 @@ interface Props extends RouteComponentProps {
   locale: LocaleType;
   infoContent?: React.ReactNode;
   ndlaFilm?: boolean;
-  skipToMainContentId: string;
+  skipToMainContentId?: string;
   hideBreadcrumb?: boolean;
 }
 
@@ -83,7 +83,7 @@ const MastheadContainer = ({
     // we set data in state to prevent it from disappearing in view when we refecth
     if (data) {
       const stateData = mapMastheadData({ subjectId, topicId, data });
-      setState({ ...stateData });
+      setState(stateData);
     }
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -106,9 +106,7 @@ const MastheadContainer = ({
   };
 
   const getData = (subjectId: string, topicId = '', resourceId = '') => {
-    if (subjectId) {
-      setSubjectId(subjectId);
-    }
+    setSubjectId(subjectId);
     if (topicId) {
       setTopicId(topicId);
     }
@@ -186,7 +184,7 @@ const MastheadContainer = ({
           <LanguageSelector
             inverted={ndlaFilm}
             //@ts-ignore
-            options={getLocaleUrls(locale, location)!}
+            options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
           {renderSearchComponent(true)}

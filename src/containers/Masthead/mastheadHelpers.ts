@@ -12,6 +12,7 @@ import { toTopicMenu } from '../../util/topicsHelper';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
   GQLMastheadQueryData,
+  GQLResource,
   GQLResourceType,
   GQLTopic,
 } from '../../graphqlTypes';
@@ -37,7 +38,13 @@ export function mapTopicResourcesToTopic(
   topicResourcesByType: GQLResourceType[],
   expandedSubTopics: string[] = [],
 ): (GQLTopic & {
-  contentTypeResults: any;
+  contentTypeResults:
+    | {
+        contentType: string | undefined;
+        resources: GQLResource[] | undefined;
+        title: string;
+      }[]
+    | undefined;
   subtopics: GQLTopic[];
 })[] {
   return topics.map(topic => {
@@ -65,7 +72,7 @@ export function mapTopicResourcesToTopic(
   });
 }
 
-export function getSelectedTopic(topics: (string | null | undefined)[]) {
+export function getSelectedTopic(topics: (string | undefined)[]) {
   return [...topics] // prevent reverse mutation.
     .reverse()
     .find(topicId => topicId !== undefined && topicId !== null);

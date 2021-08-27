@@ -38,8 +38,6 @@ interface GQLGroupSearchResults {
 interface GroupSearch {
   resources: GQLResource[];
   resourceType: string;
-  suggestions: any[];
-  aggregations: any[];
   language: string;
   totalCount: number;
 }
@@ -58,7 +56,7 @@ const MastheadSearch = ({
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchResults
-  >(groupSearchQuery);
+  >(groupSearchQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
     setSubjects(subject?.id);
@@ -78,8 +76,6 @@ const MastheadSearch = ({
             RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
           ].join(),
         },
-        //@ts-ignore
-        fetchPolicy: 'no-cache',
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -162,7 +158,6 @@ const MastheadSearch = ({
                 loading={loading}
               />
               {query.length > 2 && (
-                //@ts-ignore
                 <SearchResultSleeve
                   //@ts-ignore
                   result={mapResults(searchResult.groupSearch)}
