@@ -10,8 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //@ts-ignore
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
-import { Trans, tType } from '@ndla/i18n';
 import { RouteProps } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
 import { LocationShape } from '../../shapes';
@@ -21,22 +21,21 @@ interface Props extends RouteProps {
   locale: LocaleType;
 }
 
-const ErrorPage = ({ locale, location }: Props) => (
-  <Page locale={locale} location={location}>
-    <Content>
-      <Masthead showLoaderWhenNeeded={false} fixed>
-        <MastheadItem right>
-          <Trans>
-            {({ t }: tType) => (
-              <Logo to="/" locale={locale} label={t('logo.altText')} />
-            )}
-          </Trans>
-        </MastheadItem>
-      </Masthead>
-      <DefaultErrorMessage />
-    </Content>
-  </Page>
-);
+const ErrorPage = ({ locale, location }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <Page locale={locale} location={location}>
+      <Content>
+        <Masthead showLoaderWhenNeeded={false} fixed>
+          <MastheadItem right>
+            <Logo to="/" locale={locale} label={t('logo.altText')} />
+          </MastheadItem>
+        </Masthead>
+        <DefaultErrorMessage />
+      </Content>
+    </Page>
+  );
+};
 
 ErrorPage.propTypes = {
   locale: PropTypes.string.isRequired,

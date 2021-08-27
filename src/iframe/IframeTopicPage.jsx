@@ -9,9 +9,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -164,14 +164,11 @@ export class IframeTopicPage extends Component {
 }
 
 IframeTopicPage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   location: LocationShape,
   article: ArticleShape,
   status: PropTypes.oneOf(['success', 'error']),
   skipToContentId: PropTypes.string,
 };
 
-export default injectT(withTracker(IframeTopicPage));
+export default withTranslation()(withTracker(IframeTopicPage));

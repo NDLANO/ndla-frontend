@@ -9,13 +9,13 @@
 import React from 'react';
 // @ts-ignore
 import { SubjectCarousel } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { TFunction, useTranslation } from 'react-i18next';
 import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
 import { GQLResource, GQLTaxonomyEntity } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 
-const getResourceTypeName = (resource: GQLResource, t: tType['t']) => {
+const getResourceTypeName = (resource: GQLResource, t: TFunction) => {
   if (resource.id.startsWith('urn:topic')) {
     return t('contentTypes.topic-article');
   }
@@ -40,8 +40,8 @@ const SubjectEditorChoices = ({
   editorsChoices,
   narrowScreen = false,
   wideScreen = false,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   if (!editorsChoices) {
     return null;
   }
@@ -80,4 +80,4 @@ const SubjectEditorChoices = ({
   );
 };
 
-export default injectT(SubjectEditorChoices);
+export default SubjectEditorChoices;

@@ -8,25 +8,17 @@
  */
 
 import React from 'react';
-import nock from 'nock';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
-import IntlProvider from '@ndla/i18n';
+import { I18nextProvider, Translation } from 'react-i18next';
+import { i18nInstance } from '@ndla/ui';
 import IframePageContainer from '../IframePageContainer';
-import { getLocaleObject } from '../../i18n';
-import IframeArticlePage, { fetchResourceId } from '../IframeArticlePage';
+import IframeArticlePage from '../IframeArticlePage';
 
 expect.addSnapshotSerializer(serializer);
 
 test('IframeArticlePage with article renderers correctly', () => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/resources/urn:resource:1/?language=nb')
-    .reply(200, {
-      id: 'urn:resource:1',
-      title: 'Ressurs',
-    });
-
-  const locale = getLocaleObject('nb');
+  const locale = 'nb';
   const article = {
     content:
       '<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>',
@@ -60,20 +52,27 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const component = renderer.create(
-    <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-      <IframeArticlePage
-        locale={locale.abbreviation}
-        location={{ pathname: '/article-iframe/urn:resource:1/128' }}
-        resource={{
-          id: 'urn:resource:1',
-          name: 'Ressurs',
-          path: '/subject:1/resource:1',
-          article,
-          resourceTypes: [],
+    <I18nextProvider i18n={i18nInstance}>
+      <Translation>
+        {(_, { i18n }) => {
+          i18n.language = locale;
+          return (
+            <IframeArticlePage
+              locale={locale}
+              location={{ pathname: '/article-iframe/urn:resource:1/128' }}
+              resource={{
+                id: 'urn:resource:1',
+                name: 'Ressurs',
+                path: '/subject:1/resource:1',
+                article,
+                resourceTypes: [],
+              }}
+              article={article}
+            />
+          );
         }}
-        article={article}
-      />
-    </IntlProvider>,
+      </Translation>
+    </I18nextProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -83,24 +82,10 @@ test('IframePage with article displays error message on status === error', () =>
   const component = renderer.create(
     <IframePageContainer
       location={{ pathname: '/article-iframe/333' }}
-      locale={getLocaleObject('nb')}
+      locale={'nb'}
       status="error"
     />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
-});
-
-test('fetchResourceId fetches correct resource id from path', () => {
-  const url =
-    'https://ndla.no/article-iframe/urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa/24835';
-  expect(fetchResourceId({ location: { pathname: url } })).toMatch(
-    'urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa',
-  );
-
-  const urlWithLang =
-    'https://ndla.no/article-iframe/nb/urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa/24835';
-  expect(fetchResourceId({ location: { pathname: urlWithLang } })).toMatch(
-    'urn:resource:670ac97d-1d4d-4515-9554-07e0870e66aa',
-  );
 });

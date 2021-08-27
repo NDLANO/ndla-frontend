@@ -9,8 +9,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic } from '../../../routeHelpers';
@@ -144,4 +144,4 @@ MultidisciplinaryTopic.propTypes = {
   disableNav: PropTypes.bool,
 };
 
-export default injectT(withTracker(MultidisciplinaryTopic));
+export default withTranslation()(withTracker(MultidisciplinaryTopic));

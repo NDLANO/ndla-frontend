@@ -22,7 +22,7 @@ import {
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { CopyrightObjectShape } from '../../shapes';
 
@@ -33,10 +33,11 @@ const TextShape = PropTypes.shape({
   copyText: PropTypes.string,
 });
 
-const TextLicenseInfo = ({ text, locale, t }) => {
+const TextLicenseInfo = ({ text, locale }) => {
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(text.copyright, locale);
   items.push({
-    label: t('text.published'),
+    label: t('license.text.published'),
     description: text.updated,
     metaType: metaTypes.other,
   });
@@ -48,7 +49,7 @@ const TextLicenseInfo = ({ text, locale, t }) => {
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license.license}
-        title={t('text.rules')}
+        title={t('license.text.rules')}
         resourceType="text"
         resourceUrl={text.src}
         locale={locale}>
@@ -57,9 +58,8 @@ const TextLicenseInfo = ({ text, locale, t }) => {
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={text.copyText}
-              t={t}
-              copyTitle={t('copyTitle')}
-              hasCopiedTitle={t('hasCopiedTitle')}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
             />
           </div>
         </MediaListItemActions>
@@ -73,21 +73,24 @@ TextLicenseInfo.propTypes = {
   text: TextShape,
 };
 
-const TextLicenseList = ({ texts, locale, t }) => (
-  <div>
-    <h2>{t('text.heading')}</h2>
-    <p>{t('text.description')}</p>
-    <MediaList>
-      {texts.map(text => (
-        <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
-);
+const TextLicenseList = ({ texts, locale }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h2>{t('license.text.heading')}</h2>
+      <p>{t('license.text.description')}</p>
+      <MediaList>
+        {texts.map(text => (
+          <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
+  );
+};
 
 TextLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
   texts: PropTypes.arrayOf(TextShape),
 };
 
-export default injectT(TextLicenseList, 'license.');
+export default TextLicenseList;
