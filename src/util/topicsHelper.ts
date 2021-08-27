@@ -20,10 +20,9 @@ export const groupedSubtopicsByParent = (
   topics
     .filter(topic => topic.parent)
     .reduce((groupedtopics, topic) => {
-      return {
-        ...groupedtopics,
-        [topic.parent!]: [...(groupedtopics[topic.parent!] ?? [])],
-      };
+      groupedtopics[topic['parent']!] = groupedtopics[topic['parent']!] || [];
+      groupedtopics[topic['parent']!]!.push(topic);
+      return groupedtopics;
     }, {} as GroupedSubTopics);
 
 export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
