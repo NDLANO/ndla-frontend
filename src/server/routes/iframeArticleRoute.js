@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
+import url from 'url';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-
 import { getHtmlLang } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
@@ -37,12 +37,16 @@ const getAssets = () => ({
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
-async function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? (
-    ''
-  ) : (
-    <IframePageContainer {...initialProps} />
-  );
+const disableSSR = req => {
+  const urlParts = url.parse(req.url, true);
+  if (config.disableSSR) {
+    return true;
+  }
+  return urlParts.query && urlParts.query.disableSSR === 'true';
+};
+
+async function doRenderPage(req, initialProps) {
+  const Page = disableSSR(req) ? '' : <IframePageContainer {...initialProps} />;
   const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
     initialProps,
   });
@@ -55,7 +59,7 @@ export async function iframeArticleRoute(req) {
   const { articleId, taxonomyId } = req.params;
   const location = { pathname: req.url, search: '', hash: '' };
   try {
-    const { html, docProps } = await doRenderPage({
+    const { html, docProps } = await doRenderPage(req, {
       articleId,
       taxonomyId,
       isOembed: 'true',
@@ -72,7 +76,7 @@ export async function iframeArticleRoute(req) {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = await doRenderPage({
+    const { html, docProps } = await doRenderPage(req, {
       basename: lang,
       locale,
       location,
