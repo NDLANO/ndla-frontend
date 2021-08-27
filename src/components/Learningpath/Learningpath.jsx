@@ -151,7 +151,7 @@ const Learningpath = ({
       <LearningPathContent>
         {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (
-          <div>
+          <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
                 invertedStyle={ndlaFilm}

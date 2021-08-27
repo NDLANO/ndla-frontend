@@ -34,6 +34,7 @@ test('iframeArticleRoute 200 OK', async () => {
     headers: {
       'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
     },
+    url: '/article-iframe/nb/urn:resource:123/26050',
   });
 
   expect(response).toMatchSnapshot();

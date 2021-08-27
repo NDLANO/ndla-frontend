@@ -77,7 +77,7 @@ export const routes: RouteType[] = [
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
     component: PlainLearningpathPage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_LEARNINGPATH_PAGE_PATH,

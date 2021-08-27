@@ -41,20 +41,22 @@ const Error = () => {
 export const IframePage = ({
   status,
   locale,
-  resourceId,
+  taxonomyId,
   location,
   articleId,
   isOembed,
   isTopicArticle,
 }) => {
-  const includeResource = resourceId !== undefined;
+  const includeResource = !isTopicArticle && taxonomyId !== undefined;
+  const includeTopic = isTopicArticle;
   const { loading, data } = useGraphQuery(iframeArticleQuery, {
     variables: {
       articleId,
       isOembed,
       path: location.pathname,
-      resourceId: resourceId || '',
+      taxonomyId: taxonomyId || '',
       includeResource,
+      includeTopic,
     },
   });
 
@@ -66,7 +68,7 @@ export const IframePage = ({
     return null;
   }
 
-  const { article, resource = {} } = data;
+  const { article, resource = {}, topic = {} } = data;
   // Only care if article can be rendered
   if (!article) {
     return <Error />;
@@ -75,15 +77,16 @@ export const IframePage = ({
   if (isTopicArticle) {
     return (
       <IframeTopicPage
-        locale={locale.abbreviation}
         article={article}
+        topic={{ article, ...topic }}
+        locale={locale}
         location={location}
       />
     );
   }
   return (
     <IframeArticlePage
-      locale={locale.abbreviation}
+      locale={locale}
       resource={{ article, ...resource }}
       article={article}
       location={location}
@@ -94,7 +97,7 @@ export const IframePage = ({
 IframePage.propTypes = {
   locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
-  resourceId: PropTypes.string,
+  taxonomyId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
