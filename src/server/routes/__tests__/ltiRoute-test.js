@@ -6,7 +6,6 @@
  *
  */
 
-import nock from 'nock';
 import { ltiRoute, parseAndValidateParameters } from '../ltiRoute';
 
 test('ltiRoute 200 OK ', async () => {
@@ -18,10 +17,6 @@ test('ltiRoute 200 OK ', async () => {
     launch_presentation_height: '800',
     launch_presentation_width: '1200',
   };
-  nock('http://ndla-api')
-    .post('/lti', body)
-    .reply(200);
-
   const response = await ltiRoute({
     params: {
       lang: 'nb',
@@ -43,10 +38,6 @@ test('ltiRoute 200 OK only required params', async () => {
     lti_message_type: 'basic-lti-launch-request',
     lti_version: 'LTI-1p0',
   };
-  nock('http://ndla-api')
-    .post('/lti', body)
-    .reply(200);
-
   const response = await ltiRoute({
     params: {
       lang: 'nb',
@@ -71,10 +62,6 @@ test('ltiRoute 400 BAD REQUEST', async () => {
     launch_presentation_height: '800',
     launch_presentation_width: '1200',
   };
-  nock('http://ndla-api')
-    .post('/lti', body)
-    .reply(400);
-
   const response = await ltiRoute({
     params: {
       lang: 'nb',
@@ -100,10 +87,6 @@ test('ltiRoute 400 BAD REQUEST wrong values', async () => {
     launch_presentation_height: '800',
     launch_presentation_width: '1200',
   };
-  nock('http://ndla-api')
-    .post('/lti', body)
-    .reply(400);
-
   const response = await ltiRoute({
     params: {
       lang: 'nb',

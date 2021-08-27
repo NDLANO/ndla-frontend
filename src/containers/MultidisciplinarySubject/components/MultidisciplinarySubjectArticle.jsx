@@ -14,10 +14,10 @@ import {
   MultidisciplinarySubjectHeader,
   OneColumn,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
+import { withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
@@ -45,7 +45,11 @@ const MultidisciplinarySubjectArticle = ({
     scrollToRef(resourcesRef, 0);
   };
 
-  const subjectLinks = topic.article.crossSubjectTopics.map(
+  if (!topic.article) {
+    return null;
+  }
+
+  const subjectLinks = topic.article.crossSubjectTopics?.map(
     crossSubjectTopic => ({
       label: crossSubjectTopic.title,
       url: crossSubjectTopic.path || subject.path,
@@ -137,4 +141,4 @@ MultidisciplinarySubjectArticle.getDimensions = props => {
   );
 };
 
-export default injectT(withTracker(MultidisciplinarySubjectArticle));
+export default withTranslation()(withTracker(MultidisciplinarySubjectArticle));

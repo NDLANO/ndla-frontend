@@ -1,3 +1,5 @@
+import { LocaleType, SubjectType } from '../interfaces';
+
 export const commonSubjects = [
   {
     longName: {
@@ -2562,7 +2564,11 @@ export const subjectsCategories = [
   },
 ];
 
-let subjectsIdx;
+type SubjectIds = {
+  [key: string]: SubjectType;
+};
+
+let subjectsIdx: SubjectIds;
 
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
@@ -2575,7 +2581,7 @@ export const subjectObjectIds = () => {
       ...multidisciplinaryTopics,
     ];
 
-    subjectsIdx = subjects.reduce((obj, item) => {
+    subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {
       obj[item.id] = item;
       return obj;
     }, {});
@@ -2583,12 +2589,12 @@ export const subjectObjectIds = () => {
   return subjectsIdx;
 };
 
-export const getSubjectById = id => {
+export const getSubjectById = (id: string) => {
   const subjectObjects = subjectObjectIds();
   return subjectObjects[id];
 };
 
-export const getSubjectBySubjectId = subjectId => {
+export const getSubjectBySubjectId = (subjectId: string) => {
   const subjects = [
     ...commonSubjects,
     ...programmeSubjects,
@@ -2597,14 +2603,12 @@ export const getSubjectBySubjectId = subjectId => {
     ...betaSubjects,
   ];
 
-  return subjects.find(subject => {
-    if (subject.id === subjectId) {
-      return true;
-    }
-    return false;
-  });
+  return subjects.find(subject => subject.id === subjectId);
 };
 
-export const getSubjectLongName = (subjectId, locale) => {
+export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {
+  if (!subjectId || !locale) {
+    return undefined;
+  }
   return getSubjectBySubjectId(subjectId)?.longName[locale];
 };

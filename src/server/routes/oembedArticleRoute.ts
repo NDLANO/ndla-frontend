@@ -40,7 +40,7 @@ interface MatchParams {
 }
 const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
   const {
-    params: { resourceId, topicId, lang = 'nb' },
+    params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
   if (!topicId && !resourceId) {
     return {};
@@ -80,7 +80,7 @@ export async function oembedArticleRoute(req: express.Request) {
   }
 
   const {
-    params: { resourceId, topicId, lang = 'nb' },
+    params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
   try {
     if (!resourceId && !topicId) {

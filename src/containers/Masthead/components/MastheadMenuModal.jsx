@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
-import { injectT } from '@ndla/i18n';
 import { TopicMenuButton } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 
 const MastheadMenuModal = ({ children, onMenuExit, t, ndlaFilm }) => (
   <Modal
@@ -25,4 +25,4 @@ MastheadMenuModal.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default injectT(MastheadMenuModal);
+export default withTranslation()(MastheadMenuModal);

@@ -11,19 +11,20 @@ import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
-import IntlProvider from '@ndla/i18n';
 import { ApolloProvider } from '@apollo/client';
 import { MissingRouterContext } from '@ndla/safelink';
+import { useTranslation } from 'react-i18next';
 import { createApolloClient } from '../util/apiHelpers';
 import { BasenameContext } from '../App';
+import { initializeI18n } from '../i18n';
 
-const IframePageWrapper = ({
-  basename,
-  locale: { abbreviation: locale, messages },
-  children,
-}) => (
-  <ApolloProvider client={createApolloClient(locale)}>
-    <IntlProvider locale={locale} messages={messages}>
+const IframePageWrapper = ({ basename, locale, children }) => {
+  const { i18n } = useTranslation();
+  i18n.language = locale;
+  const client = createApolloClient(i18n.language);
+  initializeI18n(i18n, client);
+  return (
+    <ApolloProvider client={client}>
       <MissingRouterContext.Provider value={true}>
         <BasenameContext.Provider value={basename}>
           <PageContainer>
@@ -32,16 +33,13 @@ const IframePageWrapper = ({
           </PageContainer>
         </BasenameContext.Provider>
       </MissingRouterContext.Provider>
-    </IntlProvider>
-  </ApolloProvider>
-);
+    </ApolloProvider>
+  );
+};
 
 IframePageWrapper.propTypes = {
   basename: PropTypes.string,
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default IframePageWrapper;

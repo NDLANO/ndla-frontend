@@ -3,10 +3,8 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  plugins: [
-  ],
+  plugins: [],
   modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
-
     const addEntry = options => {
       if (target === 'web') {
         if (dev) {
@@ -20,7 +18,6 @@ module.exports = {
       }
     };
 
-
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
       rule.use.push({ loader: 'sass-loader' });
@@ -29,7 +26,10 @@ module.exports = {
     addEntry({ entry: '@ndla/polyfill', name: 'polyfill' });
     addEntry({ entry: './src/iframe', name: 'embed' });
     addEntry({ entry: './src/lti', name: 'lti' });
-    addEntry({ entry: './public/static/mathjax-config', name: 'mathJaxConfig', });
+    addEntry({
+      entry: './public/static/mathjax-config',
+      name: 'mathJaxConfig',
+    });
 
     // appConfig.module.rules.shift(); // remove eslint-loader
 

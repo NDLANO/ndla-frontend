@@ -9,7 +9,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes, { func } from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
@@ -24,6 +23,7 @@ import {
   LearningPathMobileHeader,
   constants,
 } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { toLearningPath } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
@@ -57,7 +57,6 @@ const Learningpath = ({
   onKeyUpEvent,
   ndlaFilm,
   breadcrumbItems,
-  t,
 }) => {
   const {
     id,
@@ -67,6 +66,8 @@ const Learningpath = ({
     copyright,
     title,
   } = learningpath;
+
+  const { t } = useTranslation();
 
   const lastUpdatedDate = new Date(lastUpdated);
   const stepId = learningpathStep.id;
@@ -150,7 +151,7 @@ const Learningpath = ({
       <LearningPathContent>
         {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (
-          <div>
+          <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
                 invertedStyle={ndlaFilm}
@@ -237,4 +238,4 @@ Learningpath.propTypes = {
   breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
 };
 
-export default injectT(withRouter(Learningpath));
+export default withRouter(Learningpath);

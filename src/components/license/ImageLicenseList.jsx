@@ -18,12 +18,12 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import queryString from 'query-string';
+import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { ImageShape } from '../../shapes';
@@ -36,12 +36,13 @@ export const downloadUrl = imageSrc => {
   })}`;
 };
 
-const ImageLicenseInfo = ({ image, locale, t }) => {
+const ImageLicenseInfo = ({ image, locale }) => {
+  const { t } = useTranslation();
   const items = getGroupedContributorDescriptionList(image.copyright, locale);
 
   if (image.title) {
     items.unshift({
-      label: t('images.title'),
+      label: t('license.images.title'),
       description: image.title,
       metaType: metaTypes.title,
     });
@@ -49,7 +50,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
 
   if (image.copyright.origin) {
     items.push({
-      label: t('images.source'),
+      label: t('license.images.source'),
       description: image.copyright.origin,
       metaType: metaTypes.other,
     });
@@ -60,7 +61,7 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
         <Image alt={image.altText} src={image.src} />
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('images.rules')}
+        title={t('license.images.rules')}
         license={image.copyright.license.license}
         resourceType="image"
         resourceUrl={image.src}
@@ -71,15 +72,17 @@ const ImageLicenseInfo = ({ image, locale, t }) => {
             <CopyTextButton
               stringToCopy={image.copyText}
               t={t}
-              copyTitle={t('copyTitle')}
-              hasCopiedTitle={t('hasCopiedTitle')}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            <AnchorButton
-              href={downloadUrl(image.src)}
-              appearance="outline"
-              download>
-              {t('download')}
-            </AnchorButton>
+            {image.copyright.license.license !== 'COPYRIGHTED' && (
+              <AnchorButton
+                href={downloadUrl(image.src)}
+                appearance="outline"
+                download>
+                {t('license.download')}
+              </AnchorButton>
+            )}
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
@@ -92,21 +95,24 @@ ImageLicenseInfo.propTypes = {
   image: ImageShape.isRequired,
 };
 
-const ImageLicenseList = ({ images, locale, t }) => (
-  <div>
-    <h2>{t('images.heading')}</h2>
-    <p>{t('images.description')}</p>
-    <MediaList>
-      {images.map(image => (
-        <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
-      ))}
-    </MediaList>
-  </div>
-);
+const ImageLicenseList = ({ images, locale }) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h2>{t('license.images.heading')}</h2>
+      <p>{t('license.images.description')}</p>
+      <MediaList>
+        {images.map(image => (
+          <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
+        ))}
+      </MediaList>
+    </div>
+  );
+};
 
 ImageLicenseList.propTypes = {
   locale: PropTypes.string.isRequired,
   images: PropTypes.arrayOf(ImageShape),
 };
 
-export default injectT(ImageLicenseList, 'license.');
+export default ImageLicenseList;

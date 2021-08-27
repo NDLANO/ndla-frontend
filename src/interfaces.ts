@@ -33,3 +33,27 @@ export interface NDLAWindow {
 export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
+
+interface ProgramTypeBase {
+  name: Record<LocaleType, string>;
+  url: Record<LocaleType, string>;
+  meta: { description: Record<LocaleType, string> };
+  image: { url: string };
+  grades: {
+    name: string;
+    categories: {
+      name: Record<LocaleType, string> | null;
+      subjects: { id: string }[];
+    }[];
+  }[];
+}
+export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
+  meta?: { description: Record<LocaleType, string> };
+}
+
+export type SubjectType = {
+  longName?: Record<LocaleType, string>;
+  name?: Record<LocaleType, string>;
+  id: string;
+  topicId?: string;
+};
