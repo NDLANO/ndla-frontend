@@ -1,4 +1,4 @@
-import { tType } from '@ndla/i18n';
+import { TFunction } from 'i18next';
 import { GQLFrontpageSearch } from '../graphqlTypes';
 import { LocaleType, SubjectType } from '../interfaces';
 import {
@@ -81,7 +81,7 @@ export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
 
 export const mapSearchToFrontPageStructure = (
   data: SearchResult,
-  t: tType['t'],
+  t: TFunction,
   query: string,
   locale: LocaleType,
 ) => {

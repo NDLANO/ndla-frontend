@@ -8,18 +8,15 @@
 
 // N.B! don't import this on the client!
 
-import bunyan, { default as Logger, LogLevelString } from 'bunyan';
+import { createLogger } from 'bunyan';
 import 'source-map-support/register';
 
-interface INdlaLogger extends Logger {
-  logAndReturnValue(level: LogLevelString, msg: string, value: any): any;
-}
+const log = createLogger({ name: 'ndla-frontend' });
 
-let log = bunyan.createLogger({ name: 'ndla-frontend' }) as INdlaLogger;
-
-log.logAndReturnValue = (level, msg, value) => {
-  log[level](msg, value);
-  return value;
-};
+// Not used.
+// log.logAndReturnValue = (level, msg, value) => {
+//   log[level](msg, value);
+//   return value;
+// };
 
 export default log;

@@ -16,8 +16,8 @@ import {
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { useLazyQuery } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
@@ -35,7 +35,6 @@ const MastheadContainer = ({
   infoContent,
   locale,
   location,
-  t,
   ndlaFilm,
   match,
   skipToMainContentId,
@@ -44,6 +43,7 @@ const MastheadContainer = ({
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
   const [state, setState] = useState({});
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     updateData();
@@ -153,7 +153,7 @@ const MastheadContainer = ({
           <LanguageSelector
             inverted={ndlaFilm}
             options={getLocaleUrls(locale, location)}
-            currentLanguage={locale}
+            currentLanguage={i18n.language}
           />
           {renderSearchComponent(true)}
           <Logo
@@ -186,4 +186,4 @@ MastheadContainer.propTypes = {
   hideBreadcrumb: PropTypes.bool,
 };
 
-export default injectT(MastheadContainer);
+export default MastheadContainer;

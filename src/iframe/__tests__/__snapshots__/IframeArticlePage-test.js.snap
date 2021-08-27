@@ -134,7 +134,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   border-width: 1px;
 }
 
-.emotion-14 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -145,7 +145,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-12 {
+.emotion-14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -156,7 +156,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-10 {
+.emotion-12 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -255,15 +255,21 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       className="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
     >
       <div
-        className="emotion-14 emotion-15"
+        className="emotion-16 emotion-17"
       >
         <div
-          className="emotion-12 emotion-13"
+          className="emotion-14 emotion-15"
         >
           <div
-            className="emotion-10 emotion-11"
+            className="emotion-12 emotion-13"
           >
-            Ressursen
+            <a
+              className="emotion-8 emotion-9"
+              href="https://test.ndla.no/subject:1/resource:1"
+              target="_blank"
+            >
+              Ressursen
+            </a>
              
             er hentet fra
              

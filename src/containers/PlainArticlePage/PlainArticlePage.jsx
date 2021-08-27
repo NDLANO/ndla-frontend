@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { transformArticle } from '../../util/transformArticle';
@@ -33,7 +33,6 @@ const getDocumentTitle = ({ t, article }) => {
 };
 
 const PlainArticlePage = ({
-  t,
   locale,
   skipToContentId,
   match: {
@@ -41,6 +40,7 @@ const PlainArticlePage = ({
     params: { articleId },
   },
 }) => {
+  const { t } = useTranslation();
   const { loading, data } = useGraphQuery(plainArticleQuery, {
     variables: { articleId, isOembed: 'false', path: url },
   });
@@ -129,4 +129,4 @@ PlainArticlePage.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default injectT(withTracker(PlainArticlePage));
+export default withTracker(PlainArticlePage);

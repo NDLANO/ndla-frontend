@@ -6,9 +6,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import queryString from 'query-string';
+import { withTranslation } from 'react-i18next';
 import config from '../../config';
 import { LtiDataShape } from '../../shapes';
 
@@ -85,4 +85,4 @@ LtiBasicLaunch.propTypes = {
   }),
 };
 
-export default injectT(LtiBasicLaunch);
+export default withTranslation()(LtiBasicLaunch);

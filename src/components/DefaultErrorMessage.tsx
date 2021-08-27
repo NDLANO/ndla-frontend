@@ -8,10 +8,11 @@
 
 // @ts-ignore
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const DefaultErrorMessage = ({ t }: tType) => {
+const DefaultErrorMessage = () => {
+  const { t } = useTranslation();
   const illustrations = {
     url: '/static/oops.gif',
     altText: t('errorMessage.title'),
@@ -33,4 +34,4 @@ const DefaultErrorMessage = ({ t }: tType) => {
   );
 };
 
-export default injectT(DefaultErrorMessage);
+export default DefaultErrorMessage;
