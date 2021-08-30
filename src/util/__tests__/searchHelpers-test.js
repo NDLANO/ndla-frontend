@@ -14,7 +14,7 @@ import {
 test('search subjects', () => {
   // can fail if subjects.js is updated
   const searchResult = searchSubjects('(Vg2)');
-  expect(searchResult.length).toBe(2);
+  expect(searchResult.length).toBe(1);
 });
 
 test('search subjects with one character', () => {
