@@ -95,7 +95,7 @@ class ArticlePage extends Component {
 
   componentDidUpdate() {
     if (window.MathJax) {
-      window.MathJax.typeset();
+      window.MathJax.typesetPromise();
     }
   }
 
