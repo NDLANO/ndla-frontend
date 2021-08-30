@@ -15,6 +15,7 @@ import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
+import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
@@ -29,7 +30,11 @@ interface Props {
   subjectId: string;
   topicId: string;
   locale: LocaleType;
-  onSelectTopic: (index: number, id?: string) => void;
+  onSelectTopic: (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+    id?: string,
+  ) => void;
   topicList: Array<string>;
   index: number;
 }
@@ -106,11 +111,16 @@ const ToolboxTopicWrapper = ({
   };
 
   const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
+    const path = topic.path || '';
+    const topicPath = path
+      .split('/')
+      .slice(2)
+      .map(id => `urn:${id}`);
     return {
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === topicList[index + 1],
-      url: subtopic.path,
+      url: toTopic(subjectId, ...topicPath, subtopic.id),
     };
   });
 
@@ -120,8 +130,8 @@ const ToolboxTopicWrapper = ({
         frame={subTopics?.length === 0}
         isLoading={loading}
         subTopics={subTopics}
-        onSubTopicSelected={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
-          onSelectTopic(index + 1, id)
+        onSubTopicSelected={(e: React.MouseEvent<HTMLElement>, id?: string) =>
+          onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, index + 1, id)
         }
         topic={toolboxTopic.topic}
       />

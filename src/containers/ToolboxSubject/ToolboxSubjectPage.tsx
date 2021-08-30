@@ -15,6 +15,7 @@ import { OneColumn, ToolboxInfo, SubjectBanner } from '@ndla/ui';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
+import { parseAndMatchUrl } from '../../util/urlHelper';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLTopic, GQLSubject } from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
@@ -29,7 +30,7 @@ interface Data {
   subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
-const ToolboxSubjectPage = ({ match, locale }: Props) => {
+const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
   const { t } = useTranslation();
   const { subjectId, topicList } = getUrnIdsFromProps({
     ndlaFilm: false,
@@ -48,7 +49,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     topicList.forEach((topicId: string) => {
       const alreadySelected = selectedTopics.find(topic => topic === topicId);
       if (!alreadySelected) {
-        const exist = subject.allTopics.find(
+        const exist = subject?.allTopics.find(
           (topic: GQLTopic) => topic.id === topicId,
         );
         if (exist) setSelectedTopics([exist.id, ...selectedTopics]);
@@ -89,8 +90,13 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     };
   });
 
-  const onSelectTopic = (index: number, id?: string) => {
-    if (id && (!selectedTopics[index] || selectedTopics[index] !== id)) {
+  const onSelectTopic = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+    id?: string,
+  ) => {
+    e.preventDefault();
+    if (id) {
       const topic = subject.allTopics?.find(
         (topic: GQLTopic) => topic.id === id,
       );
@@ -102,6 +108,10 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
           updatedSelectedTopics[index] = id;
           setSelectedTopics(updatedSelectedTopics);
         }
+        const path = parseAndMatchUrl(e.currentTarget?.href, true);
+        history.replace({
+          pathname: path?.url,
+        });
       }
     }
   };
@@ -133,8 +143,8 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     <OneColumn className={''}>
       <ToolboxInfo
         topics={topics}
-        onSelectTopic={(_e: React.MouseEvent<HTMLElement>, id?: string) =>
-          onSelectTopic(0, id)
+        onSelectTopic={(e: React.MouseEvent<HTMLElement>, id?: string) =>
+          onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, 0, id)
         }
         title={getSubjectLongName(subject.id, locale) || subject.name}
         introduction={t('htmlTitles.toolbox.introduction')}
