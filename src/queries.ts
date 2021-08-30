@@ -1080,6 +1080,9 @@ export const mastHeadQuery = gql`
           id
           metaDescription
         }
+        metadata {
+          customFields
+        }
       }
     }
     resourceTypes {
