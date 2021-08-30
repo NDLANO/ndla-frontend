@@ -18,6 +18,8 @@ import {
 // @ts-ignore
 import { Content } from '@ndla/ui';
 import * as H from 'history';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
 // @ts-ignore
 import Masthead from './containers/Masthead';
@@ -33,10 +35,10 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
+import { initializeI18n } from './i18n';
 import AuthenticationContext from './components/AuthenticationContext';
 
 export const BasenameContext = React.createContext('');
-
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
   locale: LocaleType;
@@ -139,9 +141,10 @@ function shouldScrollToTop(location: H.Location) {
   return true;
 }
 
-interface AppProps extends RouteComponentProps {
+interface AppProps extends RouteComponentProps, WithTranslation {
   initialProps: InitialProps;
-  locale: LocaleType;
+  locale?: LocaleType;
+  client: ApolloClient<object>;
 }
 
 interface AppState {
@@ -156,6 +159,7 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
+    initializeI18n(props.i18n, props.client);
     this.state = {
       hasError: false,
       data: props.initialProps,
@@ -238,18 +242,18 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const {
-      initialProps: { basename },
-      location,
-      locale,
-    } = this.props;
+    const { location } = this.props;
+
     if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} location={location} />;
+      return (
+        //@ts-ignore
+        <ErrorPage locale={this.props.i18n.language} location={location} />
+      );
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <BasenameContext.Provider value={basename}>
+      <BasenameContext.Provider value={this.props.locale ?? ''}>
         <AuthenticationContext>
           <Switch>
             {routes
@@ -261,7 +265,8 @@ class App extends React.Component<AppProps, AppState> {
                   hideMasthead={route.hideMasthead}
                   hideBreadcrumb={route.hideBreadcrumb}
                   initialProps={this.state.data}
-                  locale={locale}
+                  //@ts-ignore
+                  locale={this.props.i18n.language}
                   component={route.component}
                   background={route.background ?? false}
                   path={route.path}
@@ -276,4 +281,4 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-export default withRouter(App);
+export default withRouter(withTranslation()(App));

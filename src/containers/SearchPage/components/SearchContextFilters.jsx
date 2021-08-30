@@ -8,7 +8,7 @@
 import React from 'react';
 import { SearchFilter } from '@ndla/ui';
 import { func, arrayOf, string } from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { SearchParamsShape } from '../../../shapes';
 import { GraphqlResourceTypeWithsubtypesShape } from '../../../graphqlShapes';
 
@@ -18,8 +18,8 @@ const SearchContextFilters = ({
   resourceTypes,
   allTabValue,
   enabledTab,
-  t,
 }) => {
+  const { t } = useTranslation();
   if (
     enabledTab === 'urn:resourcetype:learningPath' ||
     enabledTab === 'topic-article' ||
@@ -54,4 +54,4 @@ SearchContextFilters.propTypes = {
   onUpdateContextFilters: func,
 };
 
-export default injectT(SearchContextFilters);
+export default SearchContextFilters;

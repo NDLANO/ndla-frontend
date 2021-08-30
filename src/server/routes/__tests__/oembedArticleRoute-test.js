@@ -40,6 +40,7 @@ test('oembedArticleRoute success', async () => {
   });
 
   expect(response2).toMatchSnapshot();
+  expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('oembedArticleRoute invalid url', async () => {

@@ -11,14 +11,15 @@ import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { StyledButton } from '@ndla/button';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
-const FooterWrapper = ({ location, locale, t, inverted }) => {
+const FooterWrapper = ({ location, locale, inverted }) => {
+  const { t, i18n } = useTranslation();
   const { authenticated } = useContext(AuthContext);
 
   const languageSelector = (
@@ -28,7 +29,7 @@ const FooterWrapper = ({ location, locale, t, inverted }) => {
       alwaysVisible
       inverted={inverted}
       options={getLocaleUrls(locale, location)}
-      currentLanguage={locale}
+      currentLanguage={i18n.language}
     />
   );
 
@@ -100,4 +101,4 @@ FooterWrapper.propTypes = {
   inverted: PropTypes.bool,
 };
 
-export default injectT(FooterWrapper);
+export default FooterWrapper;

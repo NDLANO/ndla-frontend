@@ -6,11 +6,12 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
 import { toLogin } from '../../util/routeHelpers';
 
-export const LoginFailure = ({ t }: tType) => {
+export const LoginFailure = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <h2>{t('loginFailure.errorMessage')}</h2>
@@ -21,4 +22,4 @@ export const LoginFailure = ({ t }: tType) => {
   );
 };
 
-export default injectT(LoginFailure);
+export default LoginFailure;

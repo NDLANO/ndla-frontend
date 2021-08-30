@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import {
   ApolloClient,
   ApolloLink,
@@ -60,7 +59,7 @@ export function resolveJsonOrRejectWithError<T>(
       .then(json => {
         const payload = createErrorPayload(
           res.status,
-          defined(json.message, res.statusText),
+          json.message ?? res.statusText,
           json,
         );
         reject(payload);
@@ -97,14 +96,6 @@ const typePolicies: TypePolicies = {
 };
 
 export const createApolloClient = (language = 'nb') => {
-  const headersLink = setContext(async (_, { headers }) => ({
-    headers: {
-      ...headers,
-      'Accept-Language': language,
-      FeideAuthorization: `Bearer ${getAccessToken()}`,
-    },
-  }));
-
   const cache = __CLIENT__
     ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
         window.DATA.apolloState,
@@ -113,31 +104,42 @@ export const createApolloClient = (language = 'nb') => {
 
   const client = new ApolloClient({
     ssrMode: true,
-    link: ApolloLink.from([
-      onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-          graphQLErrors.map(({ message, locations, path }) =>
-            handleError(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-            ),
-          );
-        }
-        if (networkError) {
-          handleError(`[Network error]: ${networkError}`, {
-            clientTime: new Date().getTime(),
-          });
-        }
-      }),
-      headersLink,
-      new BatchHttpLink({
-        uri,
-        fetch: createFetch,
-      }),
-    ]),
+    link: createApolloLinks(language),
     cache,
   });
 
   return client;
+};
+
+export const createApolloLinks = (lang: string) => {
+  const headersLink = setContext(async (_, { headers }) => ({
+    headers: {
+      ...headers,
+      'Accept-Language': lang,
+      FeideAuthorization: `Bearer ${getAccessToken()}`,
+    },
+  }));
+  return ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message, locations, path }) =>
+          handleError(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+          ),
+        );
+      }
+      if (networkError) {
+        handleError(`[Network error]: ${networkError}`, {
+          clientTime: new Date(),
+        });
+      }
+    }),
+    headersLink,
+    new BatchHttpLink({
+      uri,
+      fetch: createFetch,
+    }),
+  ]);
 };
 
 type HttpHeaders = {
