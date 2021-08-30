@@ -15,7 +15,6 @@ import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
@@ -111,7 +110,7 @@ const ToolboxTopicWrapper = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === topicList[index + 1],
-      url: toTopic(subjectId, ...topicList, subtopic.id),
+      url: subtopic.path,
     };
   });
 

@@ -947,6 +947,7 @@ export const topicQuery = gql`
       subtopics {
         id
         name
+        path
       }
       article {
         ...ArticleInfo

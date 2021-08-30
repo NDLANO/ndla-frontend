@@ -37,7 +37,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   const refs = topicList.map(() => React.createRef<HTMLDivElement>());
-  const [selectedTopics, setSelectedTopics] = useState<GQLTopic[]>([]);
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
     variables: {
       subjectId,
@@ -46,14 +46,12 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
 
   useEffect(() => {
     topicList.forEach((topicId: string) => {
-      const alreadySelected = selectedTopics.find(
-        (topic: GQLTopic) => topic.id === topicId,
-      );
+      const alreadySelected = selectedTopics.find(topic => topic === topicId);
       if (!alreadySelected) {
         const exist = subject.allTopics.find(
           (topic: GQLTopic) => topic.id === topicId,
         );
-        if (exist) setSelectedTopics([exist, ...selectedTopics]);
+        if (exist) setSelectedTopics([exist.id, ...selectedTopics]);
       }
     });
     scrollToTopic(topicList.length - 1);
@@ -92,24 +90,30 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   const onSelectTopic = (index: number, id?: string) => {
-    const topic = subject.allTopics?.find((topic: GQLTopic) => topic.id === id);
-    if (topic) {
-      if (index === 0) {
-        setSelectedTopics([topic]);
-      } else if (index > 0) {
-        setSelectedTopics([...selectedTopics.slice(0, index), topic]);
+    if (id && (!selectedTopics[index] || selectedTopics[index] !== id)) {
+      const topic = subject.allTopics?.find(
+        (topic: GQLTopic) => topic.id === id,
+      );
+      if (topic) {
+        if (index === 0) {
+          setSelectedTopics([topic.id]);
+        } else if (index > 0) {
+          const updatedSelectedTopics = selectedTopics.slice(0, index + 1);
+          updatedSelectedTopics[index] = id;
+          setSelectedTopics(updatedSelectedTopics);
+        }
       }
     }
   };
 
   const TopicBoxes = () => (
     <>
-      {selectedTopics.map((topic: GQLTopic, index: number) => {
+      {selectedTopics.map((topic: string, index: number) => {
         return (
           <div key={index} ref={refs[index]}>
             <ToolboxTopicWrapper
               subjectId={subject.id}
-              topicId={topic.id}
+              topicId={topic}
               locale={locale}
               onSelectTopic={onSelectTopic}
               topicList={topicList}
