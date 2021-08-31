@@ -45,7 +45,7 @@ export function getUrnIdsFromProps(props: {
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
-  const topicList = topics.map(t => `urn:${t}`);
+  const topicList = topics.map((t: string) => `urn:${t}`);
   const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
   const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
   const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;

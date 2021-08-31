@@ -44,6 +44,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@ndla/scripts": "^0.7.8",
+    "@types/bunyan": "^1.8.7",
     "@types/express": "^4.17.11",
     "@types/helmet": "0.0.48",
     "@types/history": "^4.7.8",
@@ -97,6 +98,7 @@
     "@ndla/icons": "^0.7.8",
     "@ndla/licenses": "^0.6.52",
     "@ndla/modal": "^0.4.49",
+    "@ndla/notion":"^0.3.17",
     "@ndla/pager": "^0.4.49",
     "@ndla/polyfill": "^0.1.15",
     "@ndla/safelink": "^0.0.14",
@@ -105,7 +107,6 @@
     "@ndla/ui": "^1.0.1",
     "@ndla/util": "^0.4.8",
     "@ndla/zendesk": "^0.2.41",
-    "@types/bunyan":"1.8.7",
     "babel-plugin-graphql-tag": "^2.5.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.19.0",

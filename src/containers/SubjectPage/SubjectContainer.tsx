@@ -134,7 +134,7 @@ const SubjectContainer = ({
       setCurrentLevel(typename);
       scrollToRef(headerRef);
     } else {
-      if (index) {
+      if (index !== undefined) {
         setCurrentLevel(index);
         const refToScroll = topicRefs[index];
         if (refToScroll) scrollToRef(refToScroll);

@@ -7,8 +7,9 @@
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { TFunction, WithTranslation } from 'react-i18next';
-import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
+import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import { Topic as UITopic } from '@ndla/ui';
+import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
@@ -19,6 +20,9 @@ import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import VisualElementWrapper, {
+  getResourceType,
+} from '../../../components/VisualElement/VisualElementWrapper';
 
 const getDocumentTitle = ({
   t,
@@ -30,11 +34,11 @@ const getDocumentTitle = ({
   return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
-interface Props extends Pick<WithTranslation, 't'> {
-  topicId?: string;
-  subjectId?: string;
+type Props = {
+  topicId: string;
+  subjectId: string;
   subTopicId?: string;
-  locale?: LocaleType;
+  locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
@@ -45,7 +49,7 @@ interface Props extends Pick<WithTranslation, 't'> {
     topic: GQLTopic;
     resourceTypes: Array<GQLResourceType>;
   };
-}
+} & WithTranslation;
 
 const Topic = ({
   topicId,
@@ -54,7 +58,6 @@ const Topic = ({
   subTopicId,
   ndlaFilm,
   onClickTopics,
-  showResources,
   data,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
@@ -70,62 +73,84 @@ const Topic = ({
     setShowContent(false);
   }, [topicId]);
 
+  if (!data.topic.article) {
+    return null;
+  }
+
+  const { article } = data.topic;
+  const image =
+    article.visualElement?.resource === 'image'
+      ? {
+          url: article.visualElement.image?.src!,
+          alt: article.visualElement.image?.alt!,
+        }
+      : { url: article.metaImage?.url!, alt: article?.metaImage?.alt! };
+  const transposedTopic: TopicProps = {
+    topic: {
+      title: article.title,
+      introduction: article.introduction!,
+      image,
+      visualElement: article.visualElement
+        ? {
+            type: getResourceType(article.visualElement.resource),
+            element: (
+              <VisualElementWrapper
+                visualElement={article.visualElement}
+                locale={locale}
+              />
+            ),
+          }
+        : undefined,
+      resources: data.topic.subtopics ? (
+        <Resources
+          topic={data.topic}
+          resourceTypes={data.resourceTypes}
+          locale={locale}
+        />
+      ) : (
+        undefined
+      ),
+    },
+  };
+
   const topic = data.topic;
 
-  const topicPath = topic?.path
+  const path = data.topic?.path || '';
+  const topicPath = path
     ?.split('/')
     .slice(2)
     .map(id => `urn:${id}`);
-  const resourceTypes = data.resourceTypes;
-  const subTopics = topic?.subtopics?.map(subtopic => ({
-    id: subtopic?.id,
-    label: subtopic?.name,
-    selected: subtopic?.id === subTopicId,
-    url: toTopic(subjectId!, ...topicPath!, subtopic?.id),
-  }));
+
+  const subTopics = data.topic?.subtopics?.map((subtopic: GQLTopic) => {
+    return {
+      ...subtopic,
+      label: subtopic.name,
+      selected: subtopic.id === subTopicId,
+      url: toTopic(subjectId, ...topicPath, subtopic.id),
+    };
+  });
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
-    <>
-      <NavigationTopicAbout
-        heading={topic.name}
-        introduction={topic.article?.introduction || ''}
-        showContent={showContent}
-        renderMarkdown={renderMarkdown}
-        invertedStyle={ndlaFilm}
-        onToggleShowContent={() => setShowContent(!showContent)}
-        isLoading={false}
-        children={
-          <ArticleContents
-            topic={topic}
-            copyPageUrlLink={copyPageUrlLink}
-            locale={locale}
-            modifier="in-topic"
-            showIngress={false}
-          />
-        }
+    <UITopic
+      onToggleShowContent={() => setShowContent(!showContent)}
+      showContent={showContent}
+      topic={transposedTopic.topic}
+      subTopics={subTopics}
+      isLoading={false}
+      renderMarkdown={renderMarkdown}
+      invertedStyle={ndlaFilm}
+      onSubTopicSelected={(e: React.MouseEvent<HTMLElement>) =>
+        onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
+      }>
+      <ArticleContents
+        topic={data.topic}
+        copyPageUrlLink={copyPageUrlLink}
+        locale={locale}
+        modifier="in-topic"
+        showIngress={false}
       />
-      {subTopics?.length !== 0 && (
-        <NavigationBox
-          colorMode="light"
-          heading="emner"
-          items={subTopics || []}
-          listDirection="horizontal"
-          invertedStyle={ndlaFilm}
-          onClick={e => {
-            onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
-          }}
-        />
-      )}
-      {showResources && (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          locale={locale}
-          ndlaFilm={ndlaFilm}
-        />
-      )}
-    </>
+    </UITopic>
   );
 };
 
@@ -163,4 +188,4 @@ Topic.getDimensions = ({ data, locale, subject }: Props) => {
   );
 };
 
-export default withTracker(Topic);
+export default withTranslation()(withTracker(Topic));

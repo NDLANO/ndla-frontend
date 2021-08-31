@@ -1,13 +1,13 @@
 import React from 'react';
-import Spinner from '@ndla/ui/lib/Spinner';
 import { withTranslation, WithTranslation } from 'react-i18next';
+import Spinner from '@ndla/ui/lib/Spinner';
+import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import Topic from './Topic';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 
-interface Props {
+type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
@@ -18,22 +18,26 @@ interface Props {
   index: number;
   showResources: boolean;
   subject: GQLSubject & { allTopics: GQLTopic[] };
+} & WithTranslation;
+
+interface Data {
+  topic: GQLTopic;
+  resourceTypes: Array<GQLResourceType>;
 }
 
 const TopicWrapper = ({
+  subTopicId,
   topicId,
   subjectId,
   locale,
-  subTopicId,
   ndlaFilm,
   onClickTopics,
   setBreadCrumb,
-  index,
   showResources,
   subject,
-  t,
-}: Props & WithTranslation) => {
-  const { data, loading } = useGraphQuery(topicQuery, {
+  index,
+}: Props) => {
+  const { data, loading } = useGraphQuery<Data>(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
       setBreadCrumb({
@@ -45,7 +49,7 @@ const TopicWrapper = ({
     },
   });
 
-  if (loading) {
+  if (loading || !data?.topic.article) {
     return <Spinner />;
   }
 
@@ -61,9 +65,7 @@ const TopicWrapper = ({
       showResources={showResources}
       subject={subject}
       loading={loading}
-      t={t}
     />
   );
 };
-
 export default withTranslation()(TopicWrapper);
