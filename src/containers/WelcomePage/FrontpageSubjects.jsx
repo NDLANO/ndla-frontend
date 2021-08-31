@@ -11,10 +11,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FrontpageProgramMenu } from '@ndla/ui';
 
-import {
-  getProgrammes,
-  getSubjectsCategories,
-} from '../../util/programmesSubjectsHelper';
+import { getProgrammes } from '../../util/programmesSubjectsHelper';
+import { getSubjectsCategories } from '../../data/subjects';
 import { SubjectShape } from '../../shapes';
 
 const FrontpageSubjects = ({ locale, subjects }) => (

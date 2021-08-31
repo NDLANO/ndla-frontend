@@ -12,13 +12,49 @@ export interface GQLTaxonomyEntity {
   rank?: number;
 }
 
+export interface GQLFrontpageSearch {
+  topicResources?: GQLFrontPageResources;
+  learningResources?: GQLFrontPageResources;
+}
+
+export interface GQLFrontPageResources {
+  results?: Array<GQLFrontpageSearchResult>;
+  totalCount?: number;
+  suggestions?: Array<GQLSuggestionResult>;
+}
+
+export interface GQLSuggestionResult {
+  name?: string;
+  suggestions?: Array<GQLSearchSuggestion>;
+}
+
+export interface GQLSearchSuggestion {
+  text?: string;
+  offset?: number;
+  length?: number;
+  options?: Array<GQLSuggestOption>;
+}
+
+export interface GQLSuggestOption {
+  text?: string;
+  score?: number;
+}
+
+export interface GQLFrontpageSearchResult {
+  id: string;
+  name?: string;
+  resourceTypes?: Array<GQLSearchContextResourceTypes>;
+  subject?: string;
+  path?: string;
+  filters?: Array<GQLSearchContextFilter>;
+}
 export interface GQLTaxonomyMetadata {
   grepCodes?: Array<string>;
   visible?: boolean;
   customFields?: GQLJSON;
 }
 
-export type GQLJSON = JSON;
+export type GQLJSON = { [name: string]: string };
 
 export interface GQLMetaImage {
   url?: string;

@@ -6,10 +6,11 @@
  *
  */
 
-import defined from 'defined';
+import { GQLArticle } from '../graphqlTypes';
+import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-function getContent(article) {
+function getContent(article: GQLArticle) {
   /**
    * We call extractCSS on the whole page server side. This removes/hoists
    * all style tags. The data (article) object is serialized with the style
@@ -26,11 +27,11 @@ function getContent(article) {
   return article.content;
 }
 
-export const transformArticle = (article, locale) => {
+export const transformArticle = (article: GQLArticle, locale: LocaleType) => {
   if (!article) return undefined;
 
   const content = getContent(article);
-  const footNotes = defined(article.metaData.footnotes, []);
+  const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,
     content,
@@ -40,7 +41,7 @@ export const transformArticle = (article, locale) => {
     footNotes,
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map(lib => {
-          if (lib.url.startsWith('http://')) {
+          if (lib?.url.startsWith('http://')) {
             return {
               ...lib,
               url: lib.url.replace('http://', 'https://'),

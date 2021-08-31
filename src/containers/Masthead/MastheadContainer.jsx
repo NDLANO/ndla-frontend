@@ -16,8 +16,8 @@ import {
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { useLazyQuery } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
@@ -26,16 +26,13 @@ import { mastHeadQuery } from '../../queries';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
-import {
-  getSubjectsCategories,
-  getProgrammes,
-} from '../../util/programmesSubjectsHelper';
+import { getSubjectsCategories } from '../../data/subjects';
+import { getProgrammes } from '../../util/programmesSubjectsHelper';
 
 const MastheadContainer = ({
   infoContent,
   locale,
   location,
-  t,
   ndlaFilm,
   match,
   skipToMainContentId,
@@ -44,6 +41,7 @@ const MastheadContainer = ({
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
   const [state, setState] = useState({});
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     updateData();
@@ -96,7 +94,13 @@ const MastheadContainer = ({
     });
   };
 
-  const { subject, topicPath = [], topicResourcesByType, resource, subjects } = state;
+  const {
+    subject,
+    topicPath = [],
+    topicResourcesByType,
+    resource,
+    subjects,
+  } = state;
 
   const breadcrumbBlockItems = subject?.id
     ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
@@ -153,7 +157,7 @@ const MastheadContainer = ({
           <LanguageSelector
             inverted={ndlaFilm}
             options={getLocaleUrls(locale, location)}
-            currentLanguage={locale}
+            currentLanguage={i18n.language}
           />
           {renderSearchComponent(true)}
           <Logo
@@ -186,4 +190,4 @@ MastheadContainer.propTypes = {
   hideBreadcrumb: PropTypes.bool,
 };
 
-export default injectT(MastheadContainer);
+export default MastheadContainer;

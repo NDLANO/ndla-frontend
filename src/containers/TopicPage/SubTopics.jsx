@@ -15,7 +15,7 @@ import {
   TopicIntroductionList,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { TopicShape, LocationShape } from '../../shapes';
 import { toTopicPartial } from '../../routeHelpers';
 import { topicIntroductionMessages } from '../../util/topicsHelper';
@@ -111,4 +111,4 @@ TopicResources.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default withRouter(injectT(TopicResources));
+export default withRouter(withTranslation()(TopicResources));

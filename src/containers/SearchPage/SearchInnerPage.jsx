@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import SearchContainer from './SearchContainer';
 import {
@@ -45,7 +45,6 @@ const initalParams = {
 };
 
 const SearchInnerPage = ({
-  t,
   handleSearchParamsChange,
   query,
   subjectIds,
@@ -64,6 +63,7 @@ const SearchInnerPage = ({
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setParams(initalParams);
@@ -71,21 +71,22 @@ const SearchInnerPage = ({
     setShowConcepts(true);
   }, [query, resourceTypes]);
 
-  const searchParams = converSearchStringToObject(location, locale);
+  const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
     ? {
         query,
         subjects: convertSearchParam([
           ...subjectIds,
-          ...convertProgramSearchParams(programmes, locale).subjects,
+          ...convertProgramSearchParams(programmes, i18n.language).subjects,
         ]),
       }
-    : getStateSearchParams(searchParams, locale);
+    : getStateSearchParams(searchParams, i18n.language);
 
   const newSearch = !params.types;
-  const { data, error } = useGraphQuery(groupSearchQuery, {
+  const { data, error, loading } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
+      language: i18n.language,
       page: params.page.toString(),
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),
@@ -115,7 +116,6 @@ const SearchInnerPage = ({
     for (const [key, value] of Object.entries(filterUpdate)) {
       filterUpdate[key] = {
         ...value,
-        loading: false,
       };
     }
     setTypeFilter(filterUpdate);
@@ -146,7 +146,7 @@ const SearchInnerPage = ({
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
   const handleFilterClick = (type, filterId) => {
-    updateTypeFilter(type, { page: 1, loading: true });
+    updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
@@ -198,7 +198,6 @@ const SearchInnerPage = ({
       updateTypeFilter(type, {
         page: 1,
         pageSize: 8,
-        loading: true,
         selected: true,
       });
       setParams(prevState => ({
@@ -214,7 +213,7 @@ const SearchInnerPage = ({
   const handleShowMore = type => {
     const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
-    updateTypeFilter(type, { page, loading: true });
+    updateTypeFilter(type, { page });
     setReplaceItems(false);
     setParams(prevState => ({
       ...prevState,
@@ -256,7 +255,8 @@ const SearchInnerPage = ({
       showConcepts={showConcepts}
       setShowConcepts={setShowConcepts}
       showAll={showAll}
-      locale={locale}
+      locale={i18n.language}
+      loading={loading}
     />
   );
 };
@@ -286,4 +286,4 @@ SearchInnerPage.propTypes = {
   locale: string,
 };
 
-export default injectT(SearchInnerPage);
+export default SearchInnerPage;

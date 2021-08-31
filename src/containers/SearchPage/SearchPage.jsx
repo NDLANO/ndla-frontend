@@ -9,9 +9,9 @@ import React, { Fragment } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { searchPageQuery, conceptSearchQuery } from '../../queries';
 import { LocationShape } from '../../shapes';
@@ -31,7 +31,8 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const SearchPage = ({ location, locale, history, t }) => {
+const SearchPage = ({ location, locale, history }) => {
+  const { t } = useTranslation();
   const searchParams = converSearchStringToObject(location, locale);
   const stateSearchParams = getStateSearchParams(searchParams);
 
@@ -98,4 +99,4 @@ SearchPage.propTypes = {
   }),
 };
 
-export default injectT(withRouter(SearchPage));
+export default withRouter(SearchPage);

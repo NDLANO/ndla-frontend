@@ -266,7 +266,8 @@ const mapTraits = (traits, t) =>
     return trait;
   });
 
-const getLtiUrl = (path, id) => `article-iframe/${path.split('/').pop()}/${id}`;
+const getLtiUrl = (path, id) =>
+  `article-iframe/urn:${path.split('/').pop()}/${id}`;
 
 const mapResourcesToItems = (resources, ltiData, isLti, t) =>
   resources.map(resource => ({

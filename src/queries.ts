@@ -182,7 +182,7 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
-    $aggregatePaths: [String]
+    $aggregatePaths: [String!]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -796,6 +796,36 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const iframeArticleQuery = gql`
+  query iframeArticleQuery(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+    $taxonomyId: String!
+    $includeResource: Boolean!
+    $includeTopic: Boolean!
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
+      ...ArticleInfo
+    }
+    resource(id: $taxonomyId) @include(if: $includeResource) {
+      id
+      name
+      path
+      resourceTypes {
+        id
+        name
+      }
+    }
+    topic(id: $taxonomyId) @include(if: $includeTopic) {
+      id
+      name
+      path
+    }
+  }
+  ${articleInfoFragment}
+`;
+
 export const topicQueryWithPathTopics = gql`
   query topicQuery($topicId: String!, $subjectId: String!) {
     subject(id: $subjectId) {
@@ -906,7 +936,7 @@ export const learningPathStepQuery = gql`
 
 export const competenceGoalsQuery = gql`
   query competenceGoalsQuery(
-    $codes: [String]
+    $codes: [String!]
     $nodeId: String
     $language: String
   ) {
@@ -1003,6 +1033,9 @@ export const mastHeadQuery = gql`
         meta {
           id
           metaDescription
+        }
+        metadata {
+          customFields
         }
       }
     }

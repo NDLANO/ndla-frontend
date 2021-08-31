@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
@@ -16,7 +16,7 @@ import {
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -62,7 +62,8 @@ const getMultidisciplinaryTopics = locale => {
   });
 };
 
-const WelcomePage = ({ t, locale, history, location }) => {
+const WelcomePage = ({ locale, history, location }) => {
+  const { t } = useTranslation();
   const { loading, data } = useGraphQuery(subjectsQuery);
 
   if (loading) {
@@ -95,7 +96,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -140,7 +141,7 @@ const WelcomePage = ({ t, locale, history, location }) => {
           <WelcomePageInfo />
         </OneColumn>
       </main>
-    </Fragment>
+    </>
   );
 };
 
@@ -152,4 +153,4 @@ WelcomePage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(WelcomePage);
+export default WelcomePage;

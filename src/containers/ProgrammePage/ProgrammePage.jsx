@@ -9,11 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { injectT } from '@ndla/i18n';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -129,4 +129,4 @@ ProgrammePage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(withTracker(ProgrammePage));
+export default withTranslation()(withTracker(ProgrammePage));
