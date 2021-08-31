@@ -10,14 +10,20 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups } from '../Resources/getResourceGroups';
 import { toTopicMenu } from '../../util/topicsHelper';
 import { getTopicPath } from '../../util/getTopicPath';
+import {
+  GQLMastheadQueryData,
+  GQLResource,
+  GQLResourceType,
+  GQLTopic,
+} from '../../graphqlTypes';
 
 function getContentTypeResults(
-  topicId,
-  selectedTopicIds,
-  topicResourcesByType,
+  topicId: string,
+  selectedTopicIds: string[],
+  topicResourcesByType: GQLResourceType[],
 ) {
   if (!selectedTopicIds.includes(topicId)) {
-    return null;
+    return;
   }
   return topicResourcesByType.map(type => ({
     contentType: contentTypeMapping[type.id],
@@ -27,11 +33,20 @@ function getContentTypeResults(
 }
 
 export function mapTopicResourcesToTopic(
-  topics,
-  selectedTopicId,
-  topicResourcesByType,
-  expandedSubTopics = [],
-) {
+  topics: GQLTopic[],
+  selectedTopicId: string,
+  topicResourcesByType: GQLResourceType[],
+  expandedSubTopics: string[] = [],
+): (GQLTopic & {
+  contentTypeResults:
+    | {
+        contentType: string | undefined;
+        resources: GQLResource[] | undefined;
+        title: string;
+      }[]
+    | undefined;
+  subtopics: GQLTopic[];
+})[] {
   return topics.map(topic => {
     const subtopics =
       topic.subtopics && topic.subtopics.length > 0
@@ -57,7 +72,7 @@ export function mapTopicResourcesToTopic(
   });
 }
 
-export function getSelectedTopic(topics) {
+export function getSelectedTopic(topics: (string | undefined)[]) {
   return [...topics] // prevent reverse mutation.
     .reverse()
     .find(topicId => topicId !== undefined && topicId !== null);
@@ -66,7 +81,11 @@ export function getSelectedTopic(topics) {
 export const mapMastheadData = ({
   subjectId,
   topicId,
-  data: { resourceTypes, subject, topic, resource } = {},
+  data: { resourceTypes, subject, topic, resource },
+}: {
+  subjectId: string;
+  topicId: string;
+  data: GQLMastheadQueryData;
 }) => {
   const topicResourcesByType =
     topic &&
@@ -81,7 +100,7 @@ export const mapMastheadData = ({
     subject.topics &&
     subject.topics
       .filter(t => !t.parent || t.parent === subjectId)
-      .map(t => toTopicMenu(t, subject.topics));
+      .map(t => toTopicMenu(t, subject.topics || []));
 
   const topicPath =
     subject &&
