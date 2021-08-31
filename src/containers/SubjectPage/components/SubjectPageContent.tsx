@@ -70,7 +70,6 @@ const SubjectPageContent = ({
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}
-              topicIds={topicIds}
             />
           </div>
         );
