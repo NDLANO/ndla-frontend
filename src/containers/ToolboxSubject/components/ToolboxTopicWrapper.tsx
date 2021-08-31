@@ -83,12 +83,18 @@ const ToolboxTopicWrapper = ({
 
   const { topic, resourceTypes } = data;
   const { article } = data.topic;
-
+  const image =
+    article.visualElement?.resource === 'image'
+      ? {
+          url: article.visualElement.image?.src!,
+          alt: article.visualElement.image?.alt!,
+        }
+      : { url: article.metaImage?.url!, alt: article?.metaImage?.alt! };
   const toolboxTopic: TopicProps = {
     topic: {
       title: article.title,
       introduction: article.introduction,
-      image: { url: article.metaImage?.url, alt: article?.metaImage?.alt },
+      image,
       visualElement: {
         type: getResourceType(article.visualElement.resource),
         element: (
