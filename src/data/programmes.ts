@@ -1802,7 +1802,6 @@ export const programmes = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
-
               {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
