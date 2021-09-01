@@ -64,12 +64,6 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     return null;
   }
 
-  const allSubjects =
-    data.subjects?.map(subject => ({
-      title: subject.name,
-      value: subject.id,
-    })) || [];
-
   if (error && !data) {
     handleError(error);
     return <ErrorPage locale={locale} />;
@@ -83,9 +77,9 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
       <SearchInnerPage
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
-        subjects={searchParams.subjects}
+        subjectIds={searchParams.subjects}
         programmes={searchParams.programs}
-        allSubjects={allSubjects}
+        subjects={data.subjects}
         subjectItems={subjectItems}
         concepts={conceptData?.conceptSearch}
         resourceTypes={data.resourceTypes.filter(

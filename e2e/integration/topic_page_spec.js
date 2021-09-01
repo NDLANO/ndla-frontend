@@ -10,7 +10,9 @@ import { visitOptions } from '../support';
 
 describe('Topic page', () => {
   beforeEach(() => {
+    cy.apiIntercept('POST', '**/graphql', 'subjectsGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@subjectsGraphQL');
 
     cy.apiIntercept('POST', '**/graphql', 'medieutrykkGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')

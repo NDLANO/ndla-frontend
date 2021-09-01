@@ -10,8 +10,11 @@ import { visitOptions } from '../support';
 
 describe('Front page', () => {
   beforeEach(() => {
+    cy.apiIntercept('POST', '**/graphql', 'subjectsGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@subjectsGraphQL');
   });
+
   it('should have a list of valid links on front page', () => {
     cy.get('[data-testid="category-list"] nav a').each(el => {
       cy.wrap(el).should('have.attr', 'href');

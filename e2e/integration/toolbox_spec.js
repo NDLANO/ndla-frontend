@@ -10,7 +10,9 @@ import { visitOptions } from '../support';
 
 describe('Toolbox page', () => {
   beforeEach(() => {
+    cy.apiIntercept('POST', '**/graphql', 'subjectsGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@subjectsGraphQL');
   });
 
   it('Toolbox for students shows OK', () => {

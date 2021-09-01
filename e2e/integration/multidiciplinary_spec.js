@@ -10,7 +10,9 @@ import { visitOptions } from '../support';
 
 describe('Multidiciplinary page', () => {
   beforeEach(() => {
+    cy.apiIntercept('POST', '**/graphql', 'subjectsGraphQL');
     cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@subjectsGraphQL');
 
     cy.apiIntercept('POST', '**/graphql', 'multidiciplinaryGraphQL');
     cy.get('a:contains("Se caser for tverrfaglige temaer")').click({

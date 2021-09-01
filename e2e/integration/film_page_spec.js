@@ -10,12 +10,17 @@ import { visitOptions } from '../support';
 
 describe('Film page', () => {
   beforeEach(() => {
+    cy.apiIntercept('POST', '**/graphql', 'subjectsGraphQL');
+    cy.visit('/?disableSSR=true', visitOptions);
+    cy.apiwait('@subjectsGraphQL');
+
     cy.apiIntercept('POST', '**/graphql', 'filmPageGraphQL');
+    cy.get('a:contains("Gå til NDLA film")')
+      .click({ force: true });
+    cy.apiwait('@filmPageGraphQL');
   });
 
   it('has content', () => {
-    cy.visit('/subject:20?disableSSR=true', visitOptions);
-    cy.apiwait('@filmPageGraphQL');
     cy.get('.c-film-slideshow').within(() => {
       cy.get('h1').contains('Systemsprengeren');
     });
