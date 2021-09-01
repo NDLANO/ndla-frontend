@@ -7,19 +7,22 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
+  //@ts-ignore
   Masthead,
+  //@ts-ignore
   MastheadItem,
   LanguageSelector,
+  //@ts-ignore
   Logo,
+  //@ts-ignore
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
+import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
-import { LocationShape } from '../../shapes';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
@@ -28,6 +31,30 @@ import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
 import { getSubjectsCategories } from '../../data/subjects';
 import { getProgrammes } from '../../util/programmesSubjectsHelper';
+import { LocaleType } from '../../interfaces';
+import {
+  GQLMastheadQueryData,
+  GQLResource,
+  GQLResourceType,
+  GQLSubject,
+  GQLTopic,
+} from '../../graphqlTypes';
+
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+  infoContent?: React.ReactNode;
+  ndlaFilm?: boolean;
+  skipToMainContentId?: string;
+  hideBreadcrumb?: boolean;
+}
+
+interface State {
+  subject?: GQLSubject;
+  subjects?: GQLSubject[];
+  topicPath?: GQLTopic[];
+  topicResourcesByType?: GQLResourceType[];
+  resource?: GQLResource;
+}
 
 const MastheadContainer = ({
   infoContent,
@@ -37,28 +64,25 @@ const MastheadContainer = ({
   match,
   skipToMainContentId,
   hideBreadcrumb,
-}) => {
+}: Props) => {
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
-  const [state, setState] = useState({});
+  const [state, setState] = useState<State>({});
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     updateData();
   }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery(mastHeadQuery);
+  const [fetchData, { data }] = useLazyQuery<GQLMastheadQueryData>(
+    mastHeadQuery,
+  );
 
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth
     if (data) {
-      setState(
-        mapMastheadData({
-          subjectId,
-          topicId,
-          data,
-        }),
-      );
+      const stateData = mapMastheadData({ subjectId, topicId, data });
+      setState(stateData);
     }
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -72,14 +96,16 @@ const MastheadContainer = ({
     }
   };
 
-  const onDataFetch = (subjectId, topicId, resourceId) => {
+  const onDataFetch = (
+    subjectId: string,
+    topicId?: string,
+    resourceId?: string,
+  ) => {
     getData(subjectId, topicId, resourceId);
   };
 
-  const getData = (subjectId, topicId = '', resourceId = '') => {
-    if (subjectId) {
-      setSubjectId(subjectId);
-    }
+  const getData = (subjectId: string, topicId = '', resourceId = '') => {
+    setSubjectId(subjectId);
     if (topicId) {
       setTopicId(topicId);
     }
@@ -101,16 +127,18 @@ const MastheadContainer = ({
     resource,
     subjects,
   } = state;
+  const path = topicPath ?? [];
 
-  const breadcrumbBlockItems = subject?.id
+  const breadcrumbBlockItems = (subject?.id
     ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
         subject,
-        ...topicPath,
-        resource,
+        ...path,
+        ...(resource ? [resource] : []),
       ])
-    : [];
+    : []
+  ).filter(uri => !!uri.name && !!uri.to);
 
-  const renderSearchComponent = hideOnNarrowScreen =>
+  const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
@@ -146,16 +174,21 @@ const MastheadContainer = ({
               <BreadcrumbBlock
                 items={
                   breadcrumbBlockItems.length > 1
-                    ? breadcrumbBlockItems.slice(1)
+                    ? breadcrumbBlockItems
+                        .slice(1)
+                        .map(uri => ({ name: uri.name!, to: uri.to! }))
                     : []
-                }
-              />
+                }>
+                {/* Requires a child */}
+                <></>
+              </BreadcrumbBlock>
             </DisplayOnPageYOffset>
           )}
         </MastheadItem>
         <MastheadItem right>
           <LanguageSelector
             inverted={ndlaFilm}
+            //@ts-ignore
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
@@ -170,24 +203,6 @@ const MastheadContainer = ({
       </Masthead>
     </ErrorBoundary>
   );
-};
-
-MastheadContainer.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  location: LocationShape,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  infoContent: PropTypes.node,
-  ndlaFilm: PropTypes.bool,
-  skipToMainContentId: PropTypes.string.isRequired,
-  hideBreadcrumb: PropTypes.bool,
 };
 
 export default MastheadContainer;

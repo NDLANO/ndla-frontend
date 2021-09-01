@@ -1956,6 +1956,15 @@
     "@ndla/util" "^0.4.8"
     "@reach/dialog" "^0.2.9"
 
+"@ndla/notion@^0.3.17":
+  version "0.3.18"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.3.18.tgz#8aa7a39ae71e0b57153749ae6771522d68b45046"
+  integrity sha512-zUabZ/SAEu4ifnMzWgAhOn7nzLKtM70xET3reD96ca/DRLF2hxwO3JWjTn3Kaf7PTaTtIp/gPuUhDY8V0OWo2w==
+  dependencies:
+    "@ndla/core" "^0.7.0"
+    "@ndla/licenses" "^0.6.53"
+    "@ndla/modal" "^0.4.50"
+
 "@ndla/pager@^0.4.49":
   version "0.4.49"
   resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-0.4.49.tgz#2b2cea6e9d6eb55a38cc24e03f45c131d2690521"
@@ -2487,7 +2496,7 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/bunyan@1.8.7":
+"@types/bunyan@^1.8.7":
   version "1.8.7"
   resolved "https://registry.yarnpkg.com/@types/bunyan/-/bunyan-1.8.7.tgz#63cc65b5ecff6217d1509409a575e7b991f80831"
   integrity sha512-jaNt6xX5poSmXuDAkQrSqx2zkR66OrdRDuVnU8ldvn3k/Ci/7Sf5nooKspQWimDnw337Bzt/yirqSThTjvrHkg==

@@ -15,8 +15,7 @@ describe('Film page', () => {
     cy.apiwait('@subjectsGraphQL');
 
     cy.apiIntercept('POST', '**/graphql', 'filmPageGraphQL');
-    cy.get('a:contains("Gå til NDLA film")')
-      .click({ force: true });
+    cy.get('a:contains("Gå til NDLA film")').click({ force: true });
     cy.apiwait('@filmPageGraphQL');
   });
 

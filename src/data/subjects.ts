@@ -2577,7 +2577,7 @@ export const subjectsCategories = [
     name: {
       nb: 'Betafag',
       nn: 'Betafag',
-      en: 'Beta subjects',
+      en: 'Beta subjects',
     },
     subjects: betaSubjects,
   },
@@ -2632,7 +2632,7 @@ export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {
   return getSubjectBySubjectId(subjectId)?.longName[locale];
 };
 
-export const getSubjectsCategories = (subjects: GQLSubject[]) => [
+export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
   {
     type: constants.subjectCategories.COMMON_SUBJECTS,
     subjects: subjects.filter(
