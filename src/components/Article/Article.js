@@ -47,7 +47,7 @@ const renderNotions = (article, locale) => {
       labels: subjectNames,
       authors,
       license: license?.license,
-    }
+    };
   });
   if (notions?.length > 0) {
     return {
@@ -55,7 +55,7 @@ const renderNotions = (article, locale) => {
     };
   }
   return undefined;
-}
+};
 
 const Article = ({
   article,
