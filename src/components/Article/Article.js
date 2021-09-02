@@ -7,6 +7,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 
@@ -35,6 +36,27 @@ function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
   return null;
 }
 
+const renderNotions = (article, locale) => {
+  const notions = article.concepts?.map(concept => {
+    const { content: text, copyright, subjectNames } = concept;
+    const { creators: authors, license } = copyright;
+    return {
+      ...concept,
+      text,
+      locale,
+      labels: subjectNames,
+      authors,
+      license: license?.license,
+    }
+  });
+  if (notions?.length > 0) {
+    return {
+      list: notions,
+    };
+  }
+  return undefined;
+}
+
 const Article = ({
   article,
   resourceType,
@@ -49,6 +71,7 @@ const Article = ({
   printUrl,
   ...rest
 }) => {
+  const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -88,6 +111,7 @@ const Article = ({
         subject,
       )}
       competenceGoalTypes={competenceGoalTypes}
+      notions={renderNotions(article, i18n.language)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
       copyPageUrlLink={copyPageUrlLink}

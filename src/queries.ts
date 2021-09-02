@@ -540,6 +540,17 @@ export const articleInfoFragment = gql`
         copyText
       }
     }
+    conceptIds
+    concepts {
+      id
+      title
+      content
+      subjectIds
+      subjectNames
+      copyright {
+        ...CopyrightInfo
+      }
+    }
   }
 `;
 
