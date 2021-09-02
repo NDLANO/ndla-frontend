@@ -193,8 +193,9 @@ export function toLinkProps(linkObject: LinkObject) {
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
     linkObject.meta;
+  const path = linkObject.path || '';
   return {
-    to: isLearningpath ? toLearningPath() + linkObject.path : linkObject.path,
+    to: isLearningpath ? toLearningPath() + path : path,
   };
 }
 
