@@ -3972,7 +3972,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Concept",
+                  "name": "DetailedConcept",
                   "ofType": null
                 }
               }
