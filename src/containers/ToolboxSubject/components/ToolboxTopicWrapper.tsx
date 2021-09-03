@@ -8,6 +8,8 @@
 import React from 'react';
 // @ts-ignore
 import { Topic } from '@ndla/ui';
+//@ts-ignore
+import { Spinner } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
@@ -74,7 +76,7 @@ const ToolboxTopicWrapper = ({
   });
 
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (!data) {
