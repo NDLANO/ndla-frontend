@@ -380,55 +380,55 @@ export const visualElementFragment = gql`
   ${copyrightInfoFragment}
   fragment VisualElementInfo on VisualElement {
     title
-      resource
-      url
-      copyright {
-        ...CopyrightInfo
-      }
-      language
-      embed
-      brightcove {
-        videoid
-        player
-        account
-        caption
-        description
-        cover
+    resource
+    url
+    copyright {
+      ...CopyrightInfo
+    }
+    language
+    embed
+    brightcove {
+      videoid
+      player
+      account
+      caption
+      description
+      cover
+      src
+      download
+      iframe {
         src
-        download
-        iframe {
-          src
-          height
-          width
-        }
-        uploadDate
-        copyText
+        height
+        width
       }
-      h5p {
-        src
-        thumbnail
-        copyText
-      }
-      oembed {
-        title
-        html
-        fullscreen
-      }
-      image {
-        resourceid
-        alt
-        caption
-        lowerRightX
-        lowerRightY
-        upperLeftX
-        upperLeftY
-        focalX
-        focalY
-        src
-        altText
-        contentType
-        copyText
-      }
+      uploadDate
+      copyText
+    }
+    h5p {
+      src
+      thumbnail
+      copyText
+    }
+    oembed {
+      title
+      html
+      fullscreen
+    }
+    image {
+      resourceid
+      alt
+      caption
+      lowerRightX
+      lowerRightY
+      upperLeftX
+      upperLeftY
+      focalX
+      focalY
+      src
+      altText
+      contentType
+      copyText
+    }
   }
 `;
 

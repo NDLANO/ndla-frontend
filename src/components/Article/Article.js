@@ -48,7 +48,9 @@ const renderNotions = (article, locale) => {
       labels: subjectNames,
       authors,
       license: license?.license,
-      media: visualElement && <VisualElementWrapper visualElement={visualElement} locale={locale} />
+      media: visualElement && (
+        <VisualElementWrapper visualElement={visualElement} locale={locale} />
+      ),
     };
   });
   if (notions?.length > 0) {
