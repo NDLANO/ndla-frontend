@@ -81,10 +81,13 @@ const Topic = ({
   const image =
     article.visualElement?.resource === 'image'
       ? {
-          url: article.visualElement.image?.src!,
+          url: `${article.visualElement.image?.src!}?width=200`,
           alt: article.visualElement.image?.alt!,
         }
-      : { url: article.metaImage?.url!, alt: article?.metaImage?.alt! };
+      : {
+          url: `${article.metaImage?.url!}?width=200`,
+          alt: article?.metaImage?.alt!,
+        };
   const transposedTopic: TopicProps = {
     topic: {
       title: article.title,

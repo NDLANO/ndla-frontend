@@ -8,6 +8,8 @@
 import React from 'react';
 // @ts-ignore
 import { Topic } from '@ndla/ui';
+//@ts-ignore
+import { Spinner } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import { topicQuery } from '../../../queries';
@@ -74,7 +76,7 @@ const ToolboxTopicWrapper = ({
   });
 
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (!data) {
@@ -86,10 +88,13 @@ const ToolboxTopicWrapper = ({
   const image =
     article.visualElement?.resource === 'image'
       ? {
-          url: article.visualElement.image?.src!,
+          url: `${article.visualElement.image?.src!}?width=200`,
           alt: article.visualElement.image?.alt!,
         }
-      : { url: article.metaImage?.url!, alt: article?.metaImage?.alt! };
+      : {
+          url: `${article.metaImage?.url!}?width=200`,
+          alt: article?.metaImage?.alt!,
+        };
   const toolboxTopic: TopicProps = {
     topic: {
       title: article.title,
