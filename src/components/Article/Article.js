@@ -15,6 +15,7 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
+import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 
 function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
   // Don't show competence goals for topics or articles without grepCodes
@@ -38,7 +39,7 @@ function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
 
 const renderNotions = (article, locale) => {
   const notions = article.concepts?.map(concept => {
-    const { content: text, copyright, subjectNames } = concept;
+    const { content: text, copyright, subjectNames, visualElement } = concept;
     const { creators: authors, license } = copyright;
     return {
       ...concept,
@@ -47,6 +48,7 @@ const renderNotions = (article, locale) => {
       labels: subjectNames,
       authors,
       license: license?.license,
+      media: visualElement && <VisualElementWrapper visualElement={visualElement} locale={locale} />
     };
   });
   if (notions?.length > 0) {
