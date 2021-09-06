@@ -54,6 +54,7 @@ const SearchContainer = ({
   showAll,
   locale,
   loading,
+  isLti,
 }) => {
   const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -121,15 +122,17 @@ const SearchContainer = ({
             handleShowMore={handleShowMore}
             loading={loading}
           />
-          <StyledLanguageSelector>
-            <LanguageSelector
-              center
-              outline
-              alwaysVisible
-              options={i18n.supportedLanguages}
-              currentLanguage={i18n.language}
-            />
-          </StyledLanguageSelector>
+          {isLti && (
+            <StyledLanguageSelector>
+              <LanguageSelector
+                center
+                outline
+                alwaysVisible
+                options={i18n.supportedLanguages}
+                currentLanguage={i18n.language}
+              />
+            </StyledLanguageSelector>
+          )}
         </>
       )}
     </>
@@ -155,7 +158,8 @@ SearchContainer.propTypes = {
   setShowConcepts: func,
   showAll: bool,
   locale: string,
-  loading: bool.required,
+  loading: bool.isRequired,
+  isLti: bool,
 };
 
 export default SearchContainer;
