@@ -54,7 +54,7 @@ export interface GQLTaxonomyMetadata {
   customFields?: GQLJSON;
 }
 
-export type GQLJSON = JSON;
+export type GQLJSON = { [key: string]: string };
 
 export interface GQLMetaImage {
   url?: string;

@@ -69,6 +69,28 @@ const MastheadTopics = ({
     expandedSubtopicsId,
   );
 
+  const topicsWithUngroupedResources = topicsWithContentTypes.map(topic => ({
+    ...topic,
+    subtopics: topic.subtopics.map(subtopic => {
+      const isUngrouped =
+        subtopic.metadata?.customFields?.['topic-resources'] === 'ungrouped';
+
+      return isUngrouped
+        ? {
+            ...subtopic,
+            contentTypeResults: subtopic.contentTypeResults
+              ?.flatMap(result =>
+                result.resources?.map(resource => ({
+                  ...result,
+                  resources: [{ ...resource }],
+                })),
+              )
+              .sort((a, b) => a?.resources[0]?.rank! - b?.resources[0]?.rank!),
+          }
+        : subtopic;
+    }),
+  }));
+
   const localResourceToLinkProps = (resource: GQLResource) => {
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
@@ -83,7 +105,7 @@ const MastheadTopics = ({
       close={onClose}
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
-      topics={topicsWithContentTypes}
+      topics={topicsWithUngroupedResources}
       toTopic={toTopicWithBoundParams(subject.id, expandedTopicIds)}
       toSubject={() => toSubject(subject.id)}
       defaultCount={12}
