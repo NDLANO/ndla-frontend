@@ -86,6 +86,7 @@ const SearchContainer = ({
         subjects={subjects}
         programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
+        noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
@@ -101,19 +102,21 @@ const SearchContainer = ({
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
         <>
-          <FilterButtons
-            heading={t(
-              'searchPage.searchFilterMessages.resourceTypeFilter.heading',
-            )}
-            items={sortedFilterButtonItems}
-            onFilterToggle={handleFilterToggle}
-            onRemoveAllFilters={handleFilterReset}
-            labels={{
-              openFilter: t(
-                'searchPage.searchFilterMessages.resourceTypeFilter.button',
-              ),
-            }}
-          />
+          {sortedFilterButtonItems.length > 1 && (
+            <FilterButtons
+              heading={t(
+                'searchPage.searchFilterMessages.resourceTypeFilter.heading',
+              )}
+              items={sortedFilterButtonItems}
+              onFilterToggle={handleFilterToggle}
+              onRemoveAllFilters={handleFilterReset}
+              labels={{
+                openFilter: t(
+                  'searchPage.searchFilterMessages.resourceTypeFilter.button',
+                ),
+              }}
+            />
+          )}
           <SearchResults
             showAll={showAll}
             searchGroups={sortedSearchGroups}
