@@ -150,7 +150,7 @@ const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
         introduction={t('htmlTitles.toolbox.introduction')}
       />
       <TopicBoxes />
-      <SubjectBanner negativeTopMargin={!topics} />
+      <SubjectBanner image={''} negativeTopMargin={!topics} />
     </OneColumn>
   );
 };

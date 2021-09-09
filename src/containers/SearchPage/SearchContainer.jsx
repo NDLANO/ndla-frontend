@@ -15,7 +15,7 @@ import {
   FilterButtons,
   LanguageSelector,
 } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -32,7 +32,7 @@ const StyledLanguageSelector = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: ${spacing.spacingUnit * 10}px;
+  margin-bottom: ${spacingUnit * 10}px;
 `;
 
 const SearchContainer = ({
