@@ -561,6 +561,10 @@ export const articleInfoFragment = gql`
         ...VisualElementInfo
       }
     }
+    relatedContent {
+      title
+      url
+    }
   }
 `;
 

@@ -53,9 +53,16 @@ const renderNotions = (article, locale) => {
       ),
     };
   });
-  if (notions?.length > 0) {
+  const related = article.relatedContent?.map(rc => {
+    return {
+      ...rc,
+      label: rc.title,
+    };
+  });
+  if (notions?.length > 0 || related?.length > 0) {
     return {
       list: notions,
+      related
     };
   }
   return undefined;
