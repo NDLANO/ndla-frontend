@@ -12,7 +12,7 @@ import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
 import { LocaleType, SubjectType } from '../interfaces';
 
-interface SubjectCategory {
+export interface SubjectCategory {
   name: Record<LocaleType, string>;
   subjects: {
     longName: Record<LocaleType, string>;
@@ -26,7 +26,7 @@ interface ProgramSubjectBase {
   url: string;
   path: string;
 }
-interface ProgramSubjectType extends ProgramSubjectBase {
+export interface ProgramSubjectType extends ProgramSubjectBase {
   label?: string;
 }
 type ProgramSubject = keyof ProgramSubjectType;

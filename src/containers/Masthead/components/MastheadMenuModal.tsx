@@ -1,10 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
-import { injectT } from '@ndla/i18n';
+//@ts-ignore
 import { TopicMenuButton } from '@ndla/ui';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-const MastheadMenuModal = ({ children, onMenuExit, t, ndlaFilm }) => (
+interface Props {
+  children?: React.ReactNode;
+  onMenuExit?: () => void;
+  ndlaFilm?: boolean;
+}
+
+const MastheadMenuModal = ({
+  children,
+  onMenuExit,
+  t,
+  ndlaFilm,
+}: Props & WithTranslation) => (
   <Modal
     size="fullscreen"
     activateButton={
@@ -25,4 +37,4 @@ MastheadMenuModal.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default injectT(MastheadMenuModal);
+export default withTranslation()(MastheadMenuModal);

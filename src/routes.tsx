@@ -8,6 +8,9 @@
 
 import React from 'react';
 import { RouteProps } from 'react-router';
+import { ApolloClient } from '@apollo/client';
+import { I18nextProvider } from 'react-i18next';
+import { i18nInstance } from '@ndla/ui';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -19,6 +22,8 @@ import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearn
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
+import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
+// @ts-ignore
 import App from './App';
 
 import {
@@ -34,9 +39,13 @@ import {
   SUBJECTS,
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
+  TOOLBOX_TEACHER_PAGE_PATH,
+  TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
+import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
+import { I18nWrapper } from './I18nWrapper';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -72,7 +81,7 @@ export const routes: RouteType[] = [
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
     component: PlainLearningpathPage,
-    background: true,
+    background: false,
   },
   {
     path: PLAIN_LEARNINGPATH_PAGE_PATH,
@@ -98,6 +107,16 @@ export const routes: RouteType[] = [
   {
     path: MULTIDISCIPLINARY_SUBJECT_PAGE_PATH,
     component: MultidisciplinarySubjectPage,
+    background: false,
+  },
+  {
+    path: TOOLBOX_TEACHER_PAGE_PATH,
+    component: ToolboxSubjectPage,
+    background: false,
+  },
+  {
+    path: TOOLBOX_STUDENT_PAGE_PATH,
+    component: ToolboxSubjectPage,
     background: false,
   },
   {
@@ -138,7 +157,30 @@ export const routes: RouteType[] = [
   },
 ];
 
-const routesFunc = function(initialProps: InitialProps, locale: LocaleType) {
-  return <App initialProps={initialProps} locale={locale} />;
+const routesFunc = function(
+  initialProps: InitialProps,
+  client: ApolloClient<object>,
+  locale?: LocaleType,
+  isClient = false,
+) {
+  if (!isClient) {
+    i18nInstance.changeLanguage(locale);
+  }
+  const app = (
+    <App
+      initialProps={initialProps}
+      client={client}
+      locale={locale}
+      key={locale}
+    />
+  );
+
+  return (
+    <ErrorBoundary>
+      <I18nextProvider i18n={i18nInstance}>
+        {isClient ? <I18nWrapper locale={locale}>{app}</I18nWrapper> : app}
+      </I18nextProvider>
+    </ErrorBoundary>
+  );
 };
 export default routesFunc;

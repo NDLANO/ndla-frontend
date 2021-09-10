@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useRef, useEffect, FormEvent } from 'react';
 import {
+  //@ts-ignore
   SearchField,
   SearchResultSleeve,
   SearchFieldForm,
@@ -8,10 +8,10 @@ import {
 } from '@ndla/ui';
 import queryString from 'query-string';
 import { useLazyQuery } from '@apollo/client';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import { injectT } from '@ndla/i18n';
 
+import { useTranslation } from 'react-i18next';
 import { groupSearchQuery } from '../../../queries';
 import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 import { contentTypeMapping } from '../../../util/getContentType';
@@ -21,30 +21,48 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
 import { toSearch } from '../../../routeHelpers';
+import { GQLResource, GQLSubject } from '../../../graphqlTypes';
 
-const debounceCall = debounce(fun => fun(), 250);
+const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
+
+interface Props extends RouteComponentProps {
+  hideOnNarrowScreen?: boolean;
+  subject?: GQLSubject;
+  ndlaFilm?: boolean;
+}
+
+interface GQLGroupSearchResults {
+  groupSearch?: GroupSearch[];
+}
+
+interface GroupSearch {
+  resources: GQLResource[];
+  resourceType: string;
+  language: string;
+  totalCount: number;
+}
 
 const MastheadSearch = ({
-  t,
-  hideOnNarrowScreen,
+  hideOnNarrowScreen = false,
   ndlaFilm,
   history,
   subject,
-}) => {
+}: Props) => {
+  const { t } = useTranslation();
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedQuery] = useState('');
   const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
 
-  const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery(
-    groupSearchQuery,
-  );
+  const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
+    GQLGroupSearchResults
+  >(groupSearchQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
     setSubjects(subject?.id);
   }, [subject]);
 
-  let closeModal;
+  let closeModal: () => void | undefined;
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -58,7 +76,6 @@ const MastheadSearch = ({
             RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
           ].join(),
         },
-        fetchPolicy: 'no-cache',
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -67,7 +84,7 @@ const MastheadSearch = ({
     setSubjects(undefined);
   };
 
-  const onQueryChange = evt => {
+  const onQueryChange = (evt: string) => {
     const query = evt;
     setQuery(query);
     debounceCall(() => setDelayedQuery(query));
@@ -84,7 +101,7 @@ const MastheadSearch = ({
     }
   };
 
-  const mapResults = (results = []) =>
+  const mapResults = (results: GroupSearch[] = []) =>
     query.length > 1
       ? results.map(result => {
           const contentType = contentTypeMapping[result.resourceType];
@@ -105,7 +122,7 @@ const MastheadSearch = ({
     subjects,
   });
 
-  const onSearch = evt => {
+  const onSearch = (evt: FormEvent) => {
     evt.preventDefault();
 
     history.push({
@@ -114,17 +131,19 @@ const MastheadSearch = ({
     });
   };
 
-  const filters = subjects ? [{ title: subject.name, value: subject.id }] : [];
+  const filters = subjects
+    ? [{ title: subject?.name, value: subject?.id }]
+    : [];
 
   return (
     <MastheadSearchModal
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
       ndlaFilm={ndlaFilm}>
-      {error ||
-        (onCloseModal => {
-          closeModal = onCloseModal;
-          return (
+      {(onCloseModal: Function) => {
+        closeModal = onCloseModal as () => void;
+        return (
+          error || (
             <SearchFieldForm onSubmit={onSearch}>
               <SearchField
                 placeholder={t('searchPage.searchFieldPlaceholder')}
@@ -140,6 +159,7 @@ const MastheadSearch = ({
               />
               {query.length > 2 && (
                 <SearchResultSleeve
+                  //@ts-ignore
                   result={mapResults(searchResult.groupSearch)}
                   searchString={query}
                   allResultUrl={toSearch(searchString)}
@@ -149,27 +169,11 @@ const MastheadSearch = ({
                 />
               )}
             </SearchFieldForm>
-          );
-        })}
+          )
+        );
+      }}
     </MastheadSearchModal>
   );
 };
 
-MastheadSearch.propTypes = {
-  subject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  hideOnNarrowScreen: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  locale: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-};
-
-MastheadSearch.defaultProps = {
-  hideOnNarrowScreen: false,
-};
-
-export default injectT(withRouter(MastheadSearch));
+export default withRouter(MastheadSearch);

@@ -32,6 +32,8 @@ export function getUrnIdsFromProps(props: {
     topicId?: string;
     resourceId?: string;
     articleId?: string;
+    topic1?: string;
+    topic2?: string;
   }>['match'];
 }) {
   const {
@@ -43,8 +45,16 @@ export function getUrnIdsFromProps(props: {
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
-  const topicList = topics.map(t => `urn:${t}`);
+  const topicList = topics.map((t: string) => `urn:${t}`);
   const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
+  const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
+  const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;
+  if (topic1) {
+    topicList.push(topic1);
+  }
+  if (topic2) {
+    topicList.push(topic2);
+  }
   if (topicId) {
     topicList.push(topicId);
   }
@@ -183,8 +193,9 @@ export function toLinkProps(linkObject: LinkObject) {
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
     linkObject.meta;
+  const path = linkObject.path || '';
   return {
-    to: isLearningpath ? toLearningPath() + linkObject.path : linkObject.path,
+    to: isLearningpath ? toLearningPath() + path : path,
   };
 }
 

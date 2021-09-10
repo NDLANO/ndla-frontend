@@ -6,7 +6,7 @@
  *
  */
 
-import { tType } from '@ndla/i18n';
+import { TFunction } from 'i18next';
 import { fixEndSlash } from '../routeHelpers';
 import { GQLTopic } from '../graphqlTypes';
 
@@ -20,10 +20,9 @@ export const groupedSubtopicsByParent = (
   topics
     .filter(topic => topic.parent)
     .reduce((groupedtopics, topic) => {
-      return {
-        ...groupedtopics,
-        [topic.parent!]: [...(groupedtopics[topic.parent!] ?? [])],
-      };
+      groupedtopics[topic['parent']!] = groupedtopics[topic['parent']!] || [];
+      groupedtopics[topic['parent']!]!.push(topic);
+      return groupedtopics;
     }, {} as GroupedSubTopics);
 
 export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
@@ -43,7 +42,7 @@ export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
   };
 };
 
-export const topicIntroductionMessages = (t: tType['t']) => ({
+export const topicIntroductionMessages = (t: TFunction) => ({
   noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
   noContentBoxButtonText: t('resource.activateAdditionalResources'),
   shortcutButtonText: t('resource.shortcutButtonText'),

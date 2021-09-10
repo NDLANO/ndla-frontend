@@ -10,7 +10,6 @@ import React, {ComponentType, ReactNode, useMemo} from 'react';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
-import {tType} from '@ndla/i18n';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from './CompetenceGoals';
 import {GQLArticle, GQLSubject} from "../../graphqlTypes";
@@ -61,12 +60,11 @@ const Article = ({
   label,
   subject,
   locale,
-  t,
   isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
   ...rest
-}: Props & tType) => {
+}: Props) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);

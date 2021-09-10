@@ -488,6 +488,58 @@ export const articleInfoFragment = gql`
     copyright {
       ...CopyrightInfo
     }
+    visualElement {
+      title
+      resource
+      url
+      copyright {
+        ...CopyrightInfo
+      }
+      language
+      embed
+      brightcove {
+        videoid
+        player
+        account
+        caption
+        description
+        cover
+        src
+        download
+        iframe {
+          src
+          height
+          width
+        }
+        uploadDate
+        copyText
+      }
+      h5p {
+        src
+        thumbnail
+        copyText
+      }
+      oembed {
+        title
+        html
+        fullscreen
+      }
+      image {
+        resourceid
+        alt
+        caption
+        lowerRightX
+        lowerRightY
+        upperLeftX
+        upperLeftY
+        focalX
+        focalY
+        src
+        altText
+        contentType
+        copyText
+      }
+    }
   }
 `;
 
@@ -789,6 +841,36 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const iframeArticleQuery = gql`
+  query iframeArticleQuery(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+    $taxonomyId: String!
+    $includeResource: Boolean!
+    $includeTopic: Boolean!
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
+      ...ArticleInfo
+    }
+    resource(id: $taxonomyId) @include(if: $includeResource) {
+      id
+      name
+      path
+      resourceTypes {
+        id
+        name
+      }
+    }
+    topic(id: $taxonomyId) @include(if: $includeTopic) {
+      id
+      name
+      path
+    }
+  }
+  ${articleInfoFragment}
+`;
+
 export const topicQueryWithPathTopics = gql`
   query topicQuery($topicId: String!, $subjectId: String!) {
     subject(id: $subjectId) {
@@ -996,6 +1078,9 @@ export const mastHeadQuery = gql`
         meta {
           id
           metaDescription
+        }
+        metadata {
+          customFields
         }
       }
     }

@@ -19,11 +19,11 @@ import {
   NavigationHeading,
   Breadcrumblist,
 } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -44,7 +44,7 @@ type Props = {
   data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
   ndlaFilm?: boolean;
   loading?: boolean;
-} & tType &
+} & WithTranslation &
   RouteComponentProps;
 
 const SubjectContainer = ({
@@ -134,7 +134,7 @@ const SubjectContainer = ({
       setCurrentLevel(typename);
       scrollToRef(headerRef);
     } else {
-      if (index) {
+      if (index !== undefined) {
         setCurrentLevel(index);
         const refToScroll = topicRefs[index];
         if (refToScroll) scrollToRef(refToScroll);
@@ -217,7 +217,7 @@ const SubjectContainer = ({
       </div>
       {subject.subjectpage?.banner && (
         <SubjectBanner
-          image={subject.subjectpage?.banner.desktopUrl}
+          image={subject.subjectpage?.banner.desktopUrl || ''}
           negativeTopMargin={moveBannerUp}
         />
       )}
@@ -277,4 +277,4 @@ SubjectContainer.getDimensions = (props: Props) => {
   });
 };
 
-export default withRouter(injectT(withTracker(SubjectContainer)));
+export default withTranslation()(withRouter(withTracker(SubjectContainer)));

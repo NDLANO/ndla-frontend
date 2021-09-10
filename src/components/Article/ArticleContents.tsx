@@ -8,7 +8,6 @@
 
 import React, { useMemo } from 'react';
 import { Remarkable } from 'remarkable';
-import {injectT, tType} from '@ndla/i18n';
 import {
   ArticleWrapper,
   // @ts-ignore
@@ -20,6 +19,7 @@ import {
   ArticleFootNotes,
 } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLTopic } from "../../graphqlTypes";
@@ -39,8 +39,8 @@ const ArticleContents = ({
   locale,
   modifier = 'clean',
   showIngress = true,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -90,4 +90,4 @@ const ArticleContents = ({
   );
 };
 
-export default injectT(ArticleContents);
+export default ArticleContents;
