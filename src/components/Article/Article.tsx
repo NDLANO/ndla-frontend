@@ -6,24 +6,26 @@
  *
  */
 
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, {ComponentType, ReactNode, useMemo} from 'react';
 import { Remarkable } from 'remarkable';
-
+// @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import {tType} from '@ndla/i18n';
 import LicenseBox from '../license/LicenseBox';
-import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
+import {GQLArticle, GQLSubject} from "../../graphqlTypes";
+import {LocaleType} from "../../interfaces";
 
-function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
+function renderCompetenceGoals(article: GQLArticle, locale: LocaleType, isTopicArticle: boolean, subject: GQLSubject): ((inp: {
+  Dialog: ComponentType;
+  dialogProps: { isOpen: boolean; onClose: () => void }
+}) => ReactNode) | null {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
     (article.competenceGoals?.length || article.coreElements?.length)
   ) {
-    // eslint-disable-next-line react/prop-types
-    return ({ Dialog, dialogProps }) => (
+    return ({ Dialog, dialogProps }:{Dialog: ComponentType, dialogProps: {isOpen: boolean, onClose: () => void}}) => (
       <CompetenceGoals
         article={article}
         language={locale}
@@ -36,21 +38,35 @@ function renderCompetenceGoals(article, locale, isTopicArticle, subject) {
   return null;
 }
 
+interface Props {
+  article: GQLArticle;
+  resourceType: string;
+  isTopicArticle: boolean;
+  children: React.ReactNode;
+  contentType: string;
+  label: string;
+  subject: GQLSubject;
+  locale: LocaleType;
+  isResourceArticle: boolean;
+  copyPageUrlLink: string;
+  printUrl: string;
+}
+
 const Article = ({
   article,
   resourceType,
-  isTopicArticle,
+  isTopicArticle = false,
   children,
   contentType,
   label,
   subject,
   locale,
   t,
-  isResourceArticle,
+  isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
   ...rest
-}) => {
+}: Props & tType) => {
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -62,7 +78,7 @@ const Article = ({
     return children || null;
   }
 
-  const renderMarkdown = text => {
+  const renderMarkdown = (text: string) => {
     return markdown.render(text);
   };
 
@@ -71,12 +87,29 @@ const Article = ({
   ) : null;
 
   const competenceGoalTypes = [
+    // @ts-ignore
     ...new Set(article.competenceGoals?.map(goal => goal.type)),
   ];
 
+  // const art = transformArticle(article, locale);
+
+  const art = {
+    ...article,
+    introduction: article.introduction!,
+    copyright: {
+      ...article.copyright,
+      license: article.copyright.license!,
+      creators: article.copyright.creators ?? [],
+      rightsholders: article.copyright.rightsholders ?? [],
+      processors: article.copyright.processors ?? []
+    },
+    footNotes: article.metaData?.footnotes ?? []
+  };
+
   return (
     <UIArticle
-      article={article}
+      id={article.id.toString()}
+      article={art}
       icon={icon}
       locale={locale}
       licenseBox={<LicenseBox article={article} locale={locale} />}
@@ -100,23 +133,4 @@ const Article = ({
   );
 };
 
-Article.propTypes = {
-  article: ArticleShape,
-  resourceType: PropTypes.string,
-  children: PropTypes.node,
-  contentType: PropTypes.string,
-  isTopicArticle: PropTypes.bool,
-  label: PropTypes.string.isRequired,
-  subject: SubjectShape,
-  locale: PropTypes.string.isRequired,
-  isResourceArticle: PropTypes.bool,
-  copyPageUrlLink: PropTypes.string,
-  printUrl: PropTypes.string,
-};
-
-Article.defaultProps = {
-  isTopicArticle: false,
-  isResourceArticle: false,
-};
-
-export default injectT(Article);
+export default Article;
