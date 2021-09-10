@@ -34,7 +34,7 @@ interface Props extends tType {
   topicId?: string;
   subjectId?: string;
   subTopicId?: string;
-  locale?: LocaleType;
+  locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
