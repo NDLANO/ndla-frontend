@@ -36,6 +36,8 @@ export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
+export type ResourceType = 'image' | 'other' | 'video';
+
 interface ProgramTypeBase {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;

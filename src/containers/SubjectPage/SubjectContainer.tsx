@@ -134,7 +134,7 @@ const SubjectContainer = ({
       setCurrentLevel(typename);
       scrollToRef(headerRef);
     } else {
-      if (index) {
+      if (index !== undefined) {
         setCurrentLevel(index);
         const refToScroll = topicRefs[index];
         if (refToScroll) scrollToRef(refToScroll);
@@ -217,7 +217,7 @@ const SubjectContainer = ({
       </div>
       {subject.subjectpage?.banner && (
         <SubjectBanner
-          image={subject.subjectpage?.banner.desktopUrl}
+          image={subject.subjectpage?.banner.desktopUrl || ''}
           negativeTopMargin={moveBannerUp}
         />
       )}

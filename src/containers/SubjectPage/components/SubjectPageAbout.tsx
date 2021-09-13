@@ -69,8 +69,8 @@ export const SubjectPageAbout = ({
     <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectAbout
         media={<AboutMedia visualElement={about.visualElement!} />}
-        heading={about.title}
-        description={about.description}
+        heading={about.title || ''}
+        description={about.description || ''}
         wide={wide}
       />
     </SubjectPageFlexChild>

@@ -254,6 +254,7 @@ const SearchInnerPage = ({
       showAll={showAll}
       locale={i18n.language}
       loading={loading}
+      isLti={isLti}
     />
   );
 };

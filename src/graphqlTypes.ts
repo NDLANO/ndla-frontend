@@ -54,7 +54,7 @@ export interface GQLTaxonomyMetadata {
   customFields?: GQLJSON;
 }
 
-export type GQLJSON = JSON;
+export type GQLJSON = { [key: string]: string };
 
 export interface GQLMetaImage {
   url?: string;
@@ -320,32 +320,65 @@ export interface GQLArticle {
 
 export interface GQLVisualElement {
   resource?: string;
-  resourceId?: string;
-  title?: string;
   url?: string;
-  alt?: string;
-  account?: string;
-  player?: string;
-  videoid?: string;
-  thumbnail?: string;
-  image?: GQLImageLicense;
-  oembed?: GQLVisualElementOembed;
-  lowerRightX?: number;
-  lowerRightY?: number;
-  upperLeftX?: number;
-  upperLeftY?: number;
-  focalX?: number;
-  focalY?: number;
   copyright?: GQLCopyright;
-  copyText?: string;
-  embed?: string;
   language?: string;
+  embed?: string;
+  title: string;
+  brightcove?: GQLBrightcoveElement;
+  h5p?: GQLH5pElement;
+  oembed?: GQLVisualElementOembed;
+  image?: GQLImageElement;
+}
+
+export interface GQLBrightcoveElement {
+  videoid?: string;
+  player?: string;
+  account?: string;
+  caption?: string;
+  title: string;
+  description?: string;
+  cover?: string;
+  src?: string;
+  download?: string;
+  iframe?: GQLBrightcoveIframe;
+  copyright: GQLCopyright;
+  uploadDate?: string;
+  copyText?: string;
+}
+
+export interface GQLH5pElement {
+  path?: string;
+  title: string;
+  src?: string;
+  thumbnail?: string;
+  copyright: GQLCopyright;
+  copyText?: string;
 }
 
 export interface GQLVisualElementOembed {
   title?: string;
   html?: string;
   fullscreen?: boolean;
+}
+
+export interface GQLImageElement {
+  resourceid?: string;
+  fullbredde?: string;
+  alt?: string;
+  caption?: string;
+  lowerRightX?: number;
+  lowerRightY?: number;
+  upperLeftX?: number;
+  upperLeftY?: number;
+  focalX?: number;
+  focalY?: number;
+  title: string;
+  src: string;
+  altText: string;
+  copyright: GQLCopyright;
+  contentType?: string;
+  copyText?: string;
 }
 
 export interface GQLTopic extends GQLTaxonomyEntity {
@@ -472,4 +505,15 @@ export interface GQLSubjectFilter {
   contentUri?: string;
   subjectpage?: GQLSubjectPage;
   metadata?: GQLTaxonomyMetadata;
+}
+
+export interface GQLMastheadQueryData {
+  resourceTypes: GQLResourceType[];
+  meta?: {
+    id: number;
+    metaDescription: string;
+  };
+  subject: GQLSubject;
+  topic?: GQLTopic;
+  resource?: GQLResource;
 }

@@ -2565,17 +2565,17 @@ export const subjectsCategories = [
   },
   {
     name: {
-      nb: 'LK06-fag',
-      nn: 'LK06-fag',
-      en: 'LK06-subjects',
+      nb: 'Utgåtte',
+      nn: 'Utgåtte',
+      en: 'Expired',
     },
     subjects: archivedSubjects,
   },
   {
     name: {
-      nb: 'Betafag',
-      nn: 'Betafag',
-      en: 'Beta subjects',
+      nb: 'Kommende',
+      nn: 'Komande',
+      en: 'Coming',
     },
     subjects: betaSubjects,
   },

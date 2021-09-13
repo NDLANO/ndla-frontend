@@ -21,7 +21,6 @@ import * as H from 'history';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
-// @ts-ignore
 import Masthead from './containers/Masthead';
 import { RootComponentProps, routes, RouteType } from './routes';
 // @ts-ignore
