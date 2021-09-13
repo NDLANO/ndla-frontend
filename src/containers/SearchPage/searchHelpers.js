@@ -419,7 +419,7 @@ export const getTypeFilter = resourceTypes => {
 };
 
 export const getTypeParams = (type, resourceTypes) => {
-  if (!type) {
+  if (!type.length) {
     return {
       resourceTypes: resourceTypes.map(resourceType => resourceType.id).join(),
       contextTypes: 'topic-article',

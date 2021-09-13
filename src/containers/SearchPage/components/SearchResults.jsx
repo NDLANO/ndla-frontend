@@ -30,7 +30,8 @@ const SearchResults = ({
       (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
-      const internationalizedItems = items.map(item => {
+      const toCount = typeFilter[type].page * typeFilter[type].pageSize;
+      const internationalizedItems = items.slice(0, toCount).map(item => {
         const url =
           i18n.language === defaultLanguage
             ? item.url
@@ -55,7 +56,7 @@ const SearchResults = ({
             loading={loading}
             pagination={{
               totalCount,
-              toCount: items.length,
+              toCount,
               onShowMore: () => handleShowMore(type),
             }}
             type={type === 'topic-article' ? 'topic' : type}

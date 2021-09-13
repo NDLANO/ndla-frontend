@@ -40,7 +40,7 @@ const getStateSearchParams = searchParams => {
 const initalParams = {
   page: 1,
   pageSize: 4,
-  types: null,
+  types: '',
 };
 
 const SearchInnerPage = ({
@@ -80,7 +80,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams, i18n.language);
 
-  const newSearch = !params.types;
+  const newSearch = !params.types.length;
   const { data, error, loading } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
@@ -180,18 +180,21 @@ const SearchInnerPage = ({
     setParams({
       page: 1,
       pageSize: 4,
-      types: null,
+      types: '',
     });
   };
 
   const handleFilterToggle = type => {
     if (typeFilter[type].selected) {
       updateTypeFilter(type, { selected: false });
-      setParams({
+      setParams(prevState => ({
         page: 1,
         pageSize: 4,
-        types: resourceTypeMapping[type] || type,
-      });
+        types: prevState.types
+          .split(',')
+          .filter(t => t !== (resourceTypeMapping[type] || type))
+          .toString(),
+      }));
     } else {
       updateTypeFilter(type, {
         page: 1,
@@ -203,7 +206,7 @@ const SearchInnerPage = ({
         pageSize: 8,
         types: hasActiveFilters(type)
           ? prevState.types
-          : resourceTypeMapping[type] || type,
+          : prevState.types.concat(resourceTypeMapping[type] || type, ','),
       }));
     }
   };
