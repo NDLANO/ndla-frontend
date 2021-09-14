@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import { ArticleShape, SubjectShape } from '../../shapes';
 import CompetenceGoals from './CompetenceGoals';
@@ -59,10 +60,13 @@ const renderNotions = (article, locale) => {
       label: rc.title,
     };
   });
-  if (notions?.length > 0 || related?.length > 0) {
+  if (
+    config.ndlaEnvironment === 'test' &&
+    (notions?.length > 0 || related?.length > 0)
+  ) {
     return {
       list: notions,
-      related
+      related,
     };
   }
   return undefined;
