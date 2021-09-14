@@ -22,15 +22,15 @@ import {
 import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
-import { GQLTopic } from "../../graphqlTypes";
-import {LocaleType} from "../../interfaces";
+import { GQLTopic } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
 
 interface Props {
   topic: GQLTopic;
   copyPageUrlLink: string;
   locale: LocaleType;
   modifier: 'clean' | 'in-topic';
-  showIngress: boolean
+  showIngress: boolean;
 }
 
 const ArticleContents = ({
@@ -54,7 +54,7 @@ const ArticleContents = ({
 
   const article = transformArticle(topic.article!, locale);
 
-  if(article === undefined) return null;
+  if (article === undefined) return null;
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article!.id.toString()}>

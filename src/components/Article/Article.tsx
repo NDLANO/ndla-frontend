@@ -6,29 +6,40 @@
  *
  */
 
-import React, {ComponentType, ReactNode, useMemo} from 'react';
+import React, { ComponentType, ReactNode, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from './CompetenceGoals';
-import {GQLArticle, GQLSubject} from "../../graphqlTypes";
-import {LocaleType} from "../../interfaces";
+import { GQLArticle, GQLSubject } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
 
-function renderCompetenceGoals(article: GQLArticle, locale: LocaleType, isTopicArticle: boolean, subject: GQLSubject): ((inp: {
-  Dialog: ComponentType;
-  dialogProps: { isOpen: boolean; onClose: () => void }
-}) => ReactNode) | null {
+function renderCompetenceGoals(
+  article: GQLArticle,
+  locale: LocaleType,
+  isTopicArticle: boolean,
+):
+  | ((inp: {
+      Dialog: ComponentType;
+      dialogProps: { isOpen: boolean; onClose: () => void };
+    }) => ReactNode)
+  | null {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
     (article.competenceGoals?.length || article.coreElements?.length)
   ) {
-    return ({ Dialog, dialogProps }:{Dialog: ComponentType, dialogProps: {isOpen: boolean, onClose: () => void}}) => (
+    return ({
+      Dialog,
+      dialogProps,
+    }: {
+      Dialog: ComponentType;
+      dialogProps: { isOpen: boolean; onClose: () => void };
+    }) => (
       <CompetenceGoals
         article={article}
         language={locale}
-        subject={subject}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
       />
@@ -99,9 +110,9 @@ const Article = ({
       license: article.copyright.license!,
       creators: article.copyright.creators ?? [],
       rightsholders: article.copyright.rightsholders ?? [],
-      processors: article.copyright.processors ?? []
+      processors: article.copyright.processors ?? [],
     },
-    footNotes: article.metaData?.footnotes ?? []
+    footNotes: article.metaData?.footnotes ?? [],
   };
 
   return (
@@ -114,12 +125,7 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={renderCompetenceGoals(
-        article,
-        locale,
-        isTopicArticle,
-        subject,
-      )}
+      competenceGoals={renderCompetenceGoals(article, locale, isTopicArticle)}
       competenceGoalTypes={competenceGoalTypes}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
