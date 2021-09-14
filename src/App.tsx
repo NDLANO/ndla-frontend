@@ -35,6 +35,7 @@ import {
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
 import { initializeI18n } from './i18n';
+import AuthenticationContext from './components/AuthenticationContext';
 
 export const BasenameContext = React.createContext('');
 interface NDLARouteProps extends RouteProps {
@@ -252,26 +253,28 @@ class App extends React.Component<AppProps, AppState> {
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
       <BasenameContext.Provider value={this.props.locale ?? ''}>
-        <Switch>
-          {routes
-            .filter(route => route !== undefined)
-            .map(route => (
-              <NDLARoute
-                key={`route_${route.path}`}
-                exact={route.exact}
-                hideMasthead={route.hideMasthead}
-                hideBreadcrumb={route.hideBreadcrumb}
-                initialProps={this.state.data}
-                //@ts-ignore
-                locale={this.props.i18n.language}
-                component={route.component}
-                background={route.background ?? false}
-                path={route.path}
-                ndlaFilm={isNdlaFilm}
-                location={location}
-              />
-            ))}
-        </Switch>
+        <AuthenticationContext>
+          <Switch>
+            {routes
+              .filter(route => route !== undefined)
+              .map(route => (
+                <NDLARoute
+                  key={`route_${route.path}`}
+                  exact={route.exact}
+                  hideMasthead={route.hideMasthead}
+                  hideBreadcrumb={route.hideBreadcrumb}
+                  initialProps={this.state.data}
+                  //@ts-ignore
+                  locale={this.props.i18n.language}
+                  component={route.component}
+                  background={route.background ?? false}
+                  path={route.path}
+                  ndlaFilm={isNdlaFilm}
+                  location={location}
+                />
+              ))}
+          </Switch>
+        </AuthenticationContext>
       </BasenameContext.Provider>
     );
   }

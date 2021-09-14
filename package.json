@@ -127,6 +127,7 @@
     "lodash.debounce": "^4.0.8",
     "node-fetch": "^2.6.1",
     "normalize-css": "2.3.1",
+    "openid-client": "4.7.4",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^13.0.0",
     "postcss-loader": "^4.0.0",

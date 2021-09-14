@@ -6,18 +6,22 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
+import { StyledButton } from '@ndla/button';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const FooterWrapper = ({ location, locale, inverted }) => {
   const { t, i18n } = useTranslation();
+  const { authenticated } = useContext(AuthContext);
+
   const languageSelector = (
     <LanguageSelector
       center
@@ -52,6 +56,8 @@ const FooterWrapper = ({ location, locale, inverted }) => {
     },
   ];
 
+  const Button = StyledButton.withComponent('a');
+
   return (
     <Footer lang={locale} links={links} languageSelector={languageSelector}>
       <FooterText>
@@ -64,6 +70,27 @@ const FooterWrapper = ({ location, locale, inverted }) => {
           {t('askNDLA')}
         </ZendeskButton>
       </FooterText>
+      {config.feideEnabled && (
+        <>
+          {authenticated ? (
+            <Button
+              href="/logout"
+              onClick={() =>
+                localStorage.setItem('lastPath', location.pathname)
+              }>
+              LOGOUT
+            </Button>
+          ) : (
+            <Button
+              href="/login"
+              onClick={() =>
+                localStorage.setItem('lastPath', location.pathname)
+              }>
+              LOGIN
+            </Button>
+          )}
+        </>
+      )}
     </Footer>
   );
 };
