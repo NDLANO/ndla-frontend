@@ -136,7 +136,9 @@ const Topic = ({
 
   return (
     <UITopic
-      onToggleShowContent={() => setShowContent(!showContent)}
+      onToggleShowContent={
+        article.content !== '' ? () => setShowContent(!showContent) : undefined
+      }
       showContent={showContent}
       topic={transposedTopic.topic}
       subTopics={subTopics}
