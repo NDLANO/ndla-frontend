@@ -222,7 +222,7 @@ const CompetenceGoals = ({
   );
   const LK20Elements = groupCoreElements(coreElements || []);
 
-  const CompetenceGoalsTemplate: ElementType = {
+  const CompetenceGoalsLK20Template: ElementType = {
     id: '1',
     title: t('competenceGoals.competenceTabLK20label'),
     type: 'competenceGoals',
@@ -236,10 +236,17 @@ const CompetenceGoals = ({
     groupedCoreElementItems: LK20Elements,
   };
 
+  const CompetenceGoalsLK06Template: ElementType = {
+    id: '3',
+    title: t('competenceGoals.competenceTabLK06label'),
+    type: 'competenceGoals',
+    groupedCompetenceGoals: LK06Goals,
+  };
+
   const competenceGoalsList: ElementType[] = [
-    ...(LK20Goals?.length ? [CompetenceGoalsTemplate] : []),
+    ...(LK20Goals?.length ? [CompetenceGoalsLK20Template] : []),
     ...(LK20Elements?.length ? [CoreElementsTemplate] : []),
-    ...(LK06Goals?.length ? [CompetenceGoalsTemplate] : []),
+    ...(LK06Goals?.length ? [CompetenceGoalsLK06Template] : []),
   ];
 
   return (

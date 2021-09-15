@@ -100,8 +100,6 @@ const Article = ({
     ...new Set(article.competenceGoals?.map(goal => goal.type)),
   ];
 
-  // const art = transformArticle(article, locale);
-
   const art = {
     ...article,
     introduction: article.introduction!,
