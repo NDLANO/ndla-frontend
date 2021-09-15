@@ -2570,6 +2570,7 @@ export const subjectsCategories = [
       en: 'Expired',
     },
     subjects: archivedSubjects,
+    visible: true,
   },
   {
     name: {
@@ -2578,6 +2579,7 @@ export const subjectsCategories = [
       en: 'Coming',
     },
     subjects: betaSubjects,
+    visible: true,
   },
 ];
 
