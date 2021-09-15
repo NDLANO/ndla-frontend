@@ -171,6 +171,7 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
+    $grepCodes: String
     $aggregatePaths: [String!]
   ) {
     groupSearch(
@@ -183,6 +184,7 @@ export const groupSearchQuery = gql`
       pageSize: $pageSize
       language: $language
       fallback: $fallback
+      grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
     ) {
       resources {
