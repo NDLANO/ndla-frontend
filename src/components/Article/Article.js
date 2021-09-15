@@ -61,7 +61,7 @@ const renderNotions = (article, locale) => {
     };
   });
   if (
-    config.ndlaEnvironment === 'test' &&
+    config.ndlaEnvironment !== 'prod' &&
     (notions?.length > 0 || related?.length > 0)
   ) {
     return {
