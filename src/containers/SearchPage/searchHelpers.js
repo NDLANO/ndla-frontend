@@ -266,16 +266,18 @@ const mapTraits = (traits, t) =>
     return trait;
   });
 
-const getLtiUrl = (path, id) =>
-  `article-iframe/urn:${path.split('/').pop()}/${id}`;
+const getLtiUrl = (path, id, language) =>
+  `article-iframe/${language ? `${language}/` : ''}urn:${path
+    .split('/')
+    .pop()}/${id}`;
 
-const mapResourcesToItems = (resources, ltiData, isLti, t) =>
+export const mapResourcesToItems = (resources, ltiData, isLti, language, t) =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id)
+      ? getLtiUrl(resource.path, resource.id, language)
       : resource.contexts?.length
       ? resource.path
       : plainUrl(resource.path),
@@ -385,6 +387,48 @@ export const updateSearchGroups = (
               ...group.items,
               ...mapResourcesToItems(resources, ltiData, isLti, t),
             ],
+        totalCount: result.totalCount,
+      };
+    }
+    return group;
+  });
+};
+
+export const mapSearchDataToGroups = (
+  searchData,
+  resourceTypes,
+  ltiData,
+  isLti,
+  language,
+  t,
+) => {
+  if (!searchData) return [];
+  return searchData.map(result => ({
+    items: mapResourcesToItems(result.resources, ltiData, isLti, language, t),
+    resourceTypes: getResourceTypeFilters(
+      resourceTypes.find(type => type.id === result.resourceType),
+      result.aggregations?.[0]?.values.map(value => value.value),
+    ),
+    totalCount: result.totalCount,
+    type: contentTypeMapping[result.resourceType] || result.resourceType,
+  }));
+};
+
+export const mergeGroupSearch = (existing, incoming) => {
+  if (!existing) return incoming;
+  return existing.map(group => {
+    const searchResults = incoming.filter(
+      result => group.resourceType === result.resourceType,
+    );
+    if (searchResults.length) {
+      const result = searchResults.reduce((accumulator, currentValue) => ({
+        ...currentValue,
+        resources: [...currentValue.resources, ...accumulator.resources],
+        totalCount: currentValue.totalCount + accumulator.totalCount,
+      }));
+      return {
+        ...group,
+        resources: [...group.resources, ...result.resources],
         totalCount: result.totalCount,
       };
     }

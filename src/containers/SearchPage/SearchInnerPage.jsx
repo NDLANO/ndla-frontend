@@ -18,7 +18,7 @@ import {
 } from '../../shapes';
 import {
   getTypeFilter,
-  updateSearchGroups,
+  mapSearchDataToGroups,
   convertSearchParam,
   converSearchStringToObject,
   convertProgramSearchParams,
@@ -28,6 +28,7 @@ import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import { getDefaultLocale } from '../../config';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -56,10 +57,8 @@ const SearchInnerPage = ({
   ltiData,
   isLti,
 }) => {
-  const [replaceItems, setReplaceItems] = useState(true);
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
-  const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
   const { t, i18n } = useTranslation();
 
@@ -80,8 +79,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams, i18n.language);
 
-  const newSearch = !params.types.length;
-  const { data, error, loading } = useGraphQuery(groupSearchQuery, {
+  const { data, error, loading, fetchMore } = useGraphQuery(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
       language: i18n.language,
@@ -90,22 +88,8 @@ const SearchInnerPage = ({
       ...getTypeParams(params.types, resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
     },
-    onCompleted: data => {
-      setSearchGroups(
-        updateSearchGroups(
-          data.groupSearch,
-          searchGroups,
-          resourceTypes,
-          params.pageSize,
-          replaceItems,
-          newSearch,
-          ltiData,
-          isLti,
-          t,
-        ),
-      );
+    onCompleted: () => {
       resetLoading();
-      setReplaceItems(true);
     },
   });
 
@@ -215,21 +199,30 @@ const SearchInnerPage = ({
     const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, { page });
-    setReplaceItems(false);
-    setParams(prevState => ({
-      ...prevState,
-      page,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
+    fetchMore({
+      variables: {
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+        ...(!hasActiveFilters(type) &&
+          getTypeParams(resourceTypeMapping[type] || type, resourceTypes)),
+      },
+    });
   };
 
   if (error) {
     handleError(error);
     return `Error: ${error.message}`;
   }
+
+  const language = i18n.language !== getDefaultLocale() && i18n.language;
+  const searchGroups = mapSearchDataToGroups(
+    data?.groupSearch,
+    resourceTypes,
+    ltiData,
+    isLti,
+    language,
+    t,
+  );
 
   const suggestion =
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
