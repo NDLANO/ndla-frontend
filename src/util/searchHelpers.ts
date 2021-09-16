@@ -2,11 +2,9 @@ import { TFunction } from 'i18next';
 import { GQLFrontpageSearch } from '../graphqlTypes';
 import { LocaleType, SubjectType } from '../interfaces';
 import {
+  activeSubjects,
   archivedSubjects,
   betaSubjects,
-  commonSubjects,
-  programmeSubjects,
-  studySpecializationSubjects,
 } from '../data/subjects';
 import { removeUrn } from '../routeHelpers';
 import config from '../config';
@@ -37,11 +35,9 @@ export const searchSubjects = (
   }
 
   const foundInSubjects = [
+    ...activeSubjects,
     ...archivedSubjects,
     ...betaSubjects,
-    ...commonSubjects,
-    ...programmeSubjects,
-    ...studySpecializationSubjects,
   ].filter(subject =>
     subject.longName[locale].toLowerCase().includes(trimmedQuery),
   );
