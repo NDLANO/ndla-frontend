@@ -32,12 +32,7 @@ function getContentTypeResults(
   }));
 }
 
-export function mapTopicResourcesToTopic(
-  topics: GQLTopic[],
-  selectedTopicId: string,
-  topicResourcesByType: GQLResourceType[],
-  expandedSubTopics: string[] = [],
-): (GQLTopic & {
+type TransformedTopic = Omit<GQLTopic, 'subtopics'> & {
   contentTypeResults:
     | {
         contentType: string | undefined;
@@ -45,8 +40,15 @@ export function mapTopicResourcesToTopic(
         title: string;
       }[]
     | undefined;
-  subtopics: GQLTopic[];
-})[] {
+  subtopics: TransformedTopic[];
+};
+
+export function mapTopicResourcesToTopic(
+  topics: GQLTopic[],
+  selectedTopicId: string,
+  topicResourcesByType: GQLResourceType[],
+  expandedSubTopics: string[] = [],
+): TransformedTopic[] {
   return topics.map(topic => {
     const subtopics =
       topic.subtopics && topic.subtopics.length > 0

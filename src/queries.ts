@@ -383,8 +383,65 @@ export const metaInfoFragment = gql`
   }
 `;
 
+export const visualElementFragment = gql`
+  ${copyrightInfoFragment}
+  fragment VisualElementInfo on VisualElement {
+    title
+    resource
+    url
+    copyright {
+      ...CopyrightInfo
+    }
+    language
+    embed
+    brightcove {
+      videoid
+      player
+      account
+      caption
+      description
+      cover
+      src
+      download
+      iframe {
+        src
+        height
+        width
+      }
+      uploadDate
+      copyText
+    }
+    h5p {
+      src
+      thumbnail
+      copyText
+    }
+    oembed {
+      title
+      html
+      fullscreen
+    }
+    image {
+      resourceid
+      alt
+      caption
+      lowerRightX
+      lowerRightY
+      upperLeftX
+      upperLeftY
+      focalX
+      focalY
+      src
+      altText
+      contentType
+      copyText
+    }
+  }
+`;
+
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
+  ${visualElementFragment}
   fragment ArticleInfo on Article {
     id
     title
@@ -496,56 +553,24 @@ export const articleInfoFragment = gql`
       ...CopyrightInfo
     }
     visualElement {
+      ...VisualElementInfo
+    }
+    conceptIds
+    concepts {
+      id
       title
-      resource
-      url
+      content
+      subjectNames
       copyright {
         ...CopyrightInfo
       }
-      language
-      embed
-      brightcove {
-        videoid
-        player
-        account
-        caption
-        description
-        cover
-        src
-        download
-        iframe {
-          src
-          height
-          width
-        }
-        uploadDate
-        copyText
+      visualElement {
+        ...VisualElementInfo
       }
-      h5p {
-        src
-        thumbnail
-        copyText
-      }
-      oembed {
-        title
-        html
-        fullscreen
-      }
-      image {
-        resourceid
-        alt
-        caption
-        lowerRightX
-        lowerRightY
-        upperLeftX
-        upperLeftY
-        focalX
-        focalY
-        src
-        altText
-        contentType
-        copyText
-      }
+    }
+    relatedContent {
+      title
+      url
     }
   }
 `;

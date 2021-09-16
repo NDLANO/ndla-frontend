@@ -84,7 +84,10 @@ const Topic = ({
           url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
         }
-      : { url: article.metaImage?.url!, alt: article?.metaImage?.alt! };
+      : {
+          url: article.metaImage?.url!,
+          alt: article?.metaImage?.alt!,
+        };
   const transposedTopic: TopicProps = {
     topic: {
       title: article.title,
@@ -133,7 +136,9 @@ const Topic = ({
 
   return (
     <UITopic
-      onToggleShowContent={() => setShowContent(!showContent)}
+      onToggleShowContent={
+        article.content !== '' ? () => setShowContent(!showContent) : undefined
+      }
       showContent={showContent}
       topic={transposedTopic.topic}
       subTopics={subTopics}

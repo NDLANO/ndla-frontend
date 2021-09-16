@@ -20,6 +20,7 @@ export interface SubjectCategory {
     id: string;
     hideOnFrontPage?: boolean;
   }[];
+  visible?: boolean;
 }
 interface ProgramSubjectBase {
   name: string;
@@ -62,6 +63,7 @@ export const getCategorizedSubjects = (locale: LocaleType) => {
     return {
       name: category.name[locale],
       subjects: sortBy(subjects),
+      visible: category.visible,
     };
   });
 };

@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { css } from '@emotion/core';
-import { spacing } from '@ndla/core';
+import { spacingUnit } from '@ndla/core';
 import {
   FilmSlideshow,
   AboutNdlaFilm,
@@ -107,7 +107,7 @@ class FilmFrontpage extends Component {
         <div
           ref={this.movieListRef}
           css={css`
-            margin: ${spacing.spacingUnit * 3}px 0 ${spacing.spacingUnit * 4}px;
+            margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
           `}>
           {showingAll ? (
             <AllMoviesAlphabetically

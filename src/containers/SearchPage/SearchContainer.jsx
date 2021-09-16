@@ -15,7 +15,7 @@ import {
   FilterButtons,
   LanguageSelector,
 } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -33,7 +33,7 @@ const StyledLanguageSelector = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: ${spacing.spacingUnit * 10}px;
+  margin-bottom: ${spacingUnit * 10}px;
 `;
 
 const SearchContainer = ({
@@ -55,6 +55,7 @@ const SearchContainer = ({
   showAll,
   locale,
   loading,
+  isLti,
 }) => {
   const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -86,6 +87,7 @@ const SearchContainer = ({
         subjectIds={subjectIds}
         handleSearchParamsChange={handleSearchParamsChange}
         subjects={subjects}
+        noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
       />
       {showConcepts && concepts?.length > 0 && (
@@ -101,19 +103,21 @@ const SearchContainer = ({
       {subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
         <>
-          <FilterButtons
-            heading={t(
-              'searchPage.searchFilterMessages.resourceTypeFilter.heading',
-            )}
-            items={sortedFilterButtonItems}
-            onFilterToggle={handleFilterToggle}
-            onRemoveAllFilters={handleFilterReset}
-            labels={{
-              openFilter: t(
-                'searchPage.searchFilterMessages.resourceTypeFilter.button',
-              ),
-            }}
-          />
+          {sortedFilterButtonItems.length > 1 && (
+            <FilterButtons
+              heading={t(
+                'searchPage.searchFilterMessages.resourceTypeFilter.heading',
+              )}
+              items={sortedFilterButtonItems}
+              onFilterToggle={handleFilterToggle}
+              onRemoveAllFilters={handleFilterReset}
+              labels={{
+                openFilter: t(
+                  'searchPage.searchFilterMessages.resourceTypeFilter.button',
+                ),
+              }}
+            />
+          )}
           <SearchResults
             showAll={showAll}
             searchGroups={sortedSearchGroups}
@@ -122,15 +126,17 @@ const SearchContainer = ({
             handleShowMore={handleShowMore}
             loading={loading}
           />
-          <StyledLanguageSelector>
-            <LanguageSelector
-              center
-              outline
-              alwaysVisible
-              options={i18n.supportedLanguages}
-              currentLanguage={i18n.language}
-            />
-          </StyledLanguageSelector>
+          {isLti && (
+            <StyledLanguageSelector>
+              <LanguageSelector
+                center
+                outline
+                alwaysVisible
+                options={i18n.supportedLanguages}
+                currentLanguage={i18n.language}
+              />
+            </StyledLanguageSelector>
+          )}
         </>
       )}
     </>
@@ -156,7 +162,8 @@ SearchContainer.propTypes = {
   setShowConcepts: func,
   showAll: bool,
   locale: string,
-  loading: bool.required,
+  loading: bool.isRequired,
+  isLti: bool,
 };
 
 export default SearchContainer;

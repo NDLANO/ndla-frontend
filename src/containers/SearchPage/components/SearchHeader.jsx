@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { func, string, arrayOf } from 'prop-types';
+import { func, string, arrayOf, bool } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { SubjectShape } from '../../../shapes';
@@ -20,6 +20,7 @@ const SearchHeader = ({
   subjectIds,
   handleSearchParamsChange,
   subjects,
+  noResults,
   locale,
 }) => {
   const { t } = useTranslation();
@@ -90,6 +91,7 @@ const SearchHeader = ({
         onFilterRemove: handleFilterRemove,
       }}
       filters={subjectFilterProps}
+      noResults={noResults}
     />
   );
 };
@@ -101,6 +103,7 @@ SearchHeader.propTypes = {
   suggestion: string,
   subjectIds: arrayOf(string),
   subjects: arrayOf(SubjectShape),
+  noResults: bool,
   locale: string,
 };
 

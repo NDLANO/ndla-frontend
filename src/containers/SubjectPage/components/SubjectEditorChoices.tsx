@@ -50,17 +50,14 @@ const SubjectEditorChoices = ({
     .filter(x => x !== null)
     .filter(hasContentUri)
     .map((resource: GQLTaxonomyEntity) => ({
-      title: resource.name,
-      image:
-        resource.meta && resource.meta.metaImage
-          ? resource.meta.metaImage.url
-          : '',
-      type: getResourceTypeName(resource, t),
       id: resource.meta ? resource.meta.id.toString() : '',
-      text: resource.meta ? resource.meta.metaDescription : '',
+      title: resource.name,
+      text: resource.meta?.metaDescription ?? '',
+      type: getResourceTypeName(resource, t),
+      image: resource?.meta?.metaImage?.url,
       toLinkProps: () =>
         toLinkProps({
-          path: resource.path,
+          path: resource.path || '',
           meta: resource.meta,
           contentUri: resource.contentUri,
         }),
