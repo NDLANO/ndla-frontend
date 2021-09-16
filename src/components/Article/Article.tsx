@@ -14,7 +14,7 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from './CompetenceGoals';
-import {GQLArticle, GQLConcept, GQLSubject} from '../../graphqlTypes';
+import { GQLArticle, GQLConcept, GQLSubject } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 
@@ -66,7 +66,7 @@ interface Props {
 }
 
 const renderNotions = (article: GQLArticle, locale: LocaleType) => {
-  const notions = article.concepts?.map((concept:GQLConcept) => {
+  const notions = article.concepts?.map((concept: GQLConcept) => {
     const { content: text, copyright, subjectNames, visualElement } = concept;
     const { creators: authors, license } = copyright!;
     return {
@@ -152,7 +152,6 @@ const Article = ({
     },
     footNotes: article.metaData?.footnotes ?? [],
   };
-
 
   return (
     <UIArticle

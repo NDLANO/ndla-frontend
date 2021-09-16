@@ -31,10 +31,11 @@ const SearchHeader = ({
   handleSearchParamsChange,
   noResults,
   locale,
+  grepCodes,
 }) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
-  const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
@@ -54,12 +55,23 @@ const SearchHeader = ({
         title: longName,
       };
     });
-    setActiveSubjectFilters(activeSubjects);
-  }, [subjects, locale]);
+    const activeGrepCodes = grepCodes.map(id => ({
+      value: id,
+      name: id,
+      title: id,
+    }));
+    setActiveFilters([...activeSubjects, ...activeGrepCodes]);
+  }, [subjects, locale, grepCodes]);
 
   const onSubjectValuesChange = values => {
     handleSearchParamsChange({
       subjects: values,
+    });
+  };
+
+  const onGrepCodesValueChange = values => {
+    handleSearchParamsChange({
+      grepCodes: values,
     });
   };
 
@@ -83,6 +95,8 @@ const SearchHeader = ({
 
   const handleFilterRemove = value => {
     onSubjectValuesChange(subjects.filter(id => id !== value));
+    onGrepCodesValueChange(grepCodes.filter(id => id !== value));
+    setActiveFilters(activeFilters.filter(id => id !== value));
   };
 
   return (
@@ -96,7 +110,7 @@ const SearchHeader = ({
       onSearchValueChange={value => setSearchValue(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
-        filters: activeSubjectFilters,
+        filters: activeFilters,
         onFilterRemove: handleFilterRemove,
       }}
       filters={subjectFilterProps}
@@ -111,6 +125,7 @@ SearchHeader.propTypes = {
   query: string,
   suggestion: string,
   subjects: arrayOf(string),
+  grepCodes: arrayOf(string),
   noResults: bool,
   locale: string,
 };

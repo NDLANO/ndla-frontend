@@ -255,6 +255,7 @@ const SearchInnerPage = ({
       locale={i18n.language}
       loading={loading}
       isLti={isLti}
+      grepCodes={searchParams.grepCodes}
     />
   );
 };

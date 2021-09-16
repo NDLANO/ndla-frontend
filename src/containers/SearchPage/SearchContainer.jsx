@@ -55,6 +55,7 @@ const SearchContainer = ({
   locale,
   loading,
   isLti,
+  grepCodes,
 }) => {
   const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -88,6 +89,7 @@ const SearchContainer = ({
         handleSearchParamsChange={handleSearchParamsChange}
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
+        grepCodes={grepCodes}
       />
       {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
@@ -151,6 +153,7 @@ SearchContainer.propTypes = {
   handleShowMore: func,
   query: string,
   subjects: arrayOf(string),
+  grepCodes: arrayOf(string),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
