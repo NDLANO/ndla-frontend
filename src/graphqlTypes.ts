@@ -193,6 +193,8 @@ export interface GQLImageLicense {
   src: string;
   altText: string;
   copyright: GQLCopyright;
+  contentType?: string;
+  copyText?: string;
 }
 
 export interface GQLAudioLicense {
@@ -288,6 +290,19 @@ export interface GQLConcept {
   title?: string;
   content?: string;
   metaImage?: GQLMetaImage;
+  tags?: Array<string>;
+  image?: GQLImageLicense;
+  subjectIds?: Array<string>;
+  subjectNames?: Array<string>;
+  articleIds?: Array<string>;
+  articles?: Array<GQLMeta>;
+  visualElement?: GQLVisualElement;
+  copyright?: GQLCopyright;
+}
+
+export interface GQLRelatedContent {
+  title: string;
+  url: string;
 }
 
 export interface GQLArticle {
@@ -316,6 +331,7 @@ export interface GQLArticle {
   oembed?: string;
   conceptIds?: Array<string>;
   concepts?: Array<GQLConcept>;
+  relatedContent?: Array<GQLRelatedContent>;
 }
 
 export interface GQLVisualElement {

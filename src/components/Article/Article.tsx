@@ -7,13 +7,16 @@
  */
 
 import React, { ComponentType, ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from './CompetenceGoals';
-import { GQLArticle, GQLSubject } from '../../graphqlTypes';
+import {GQLArticle, GQLConcept, GQLSubject} from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
+import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 
 function renderCompetenceGoals(
   article: GQLArticle,
@@ -62,6 +65,42 @@ interface Props {
   printUrl: string;
 }
 
+const renderNotions = (article: GQLArticle, locale: LocaleType) => {
+  const notions = article.concepts?.map((concept:GQLConcept) => {
+    const { content: text, copyright, subjectNames, visualElement } = concept;
+    const { creators: authors, license } = copyright!;
+    return {
+      ...concept,
+      id: concept.id?.toString()!,
+      title: concept.title!,
+      text,
+      locale,
+      labels: subjectNames,
+      authors,
+      license: license?.license,
+      media: visualElement && (
+        <VisualElementWrapper visualElement={visualElement} locale={locale} />
+      ),
+    };
+  });
+  const related = article.relatedContent!?.map(rc => {
+    return {
+      ...rc,
+      label: rc.title,
+    };
+  });
+  if (
+    config.ndlaEnvironment !== 'prod' &&
+    (notions!?.length > 0 || related!?.length > 0)
+  ) {
+    return {
+      list: notions!,
+      related,
+    };
+  }
+  return undefined;
+};
+
 const Article = ({
   article,
   resourceType,
@@ -76,6 +115,7 @@ const Article = ({
   printUrl,
   ...rest
 }: Props) => {
+  const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -113,6 +153,7 @@ const Article = ({
     footNotes: article.metaData?.footnotes ?? [],
   };
 
+
   return (
     <UIArticle
       id={article.id.toString()}
@@ -125,6 +166,7 @@ const Article = ({
       }}
       competenceGoals={renderCompetenceGoals(article, locale, isTopicArticle)}
       competenceGoalTypes={competenceGoalTypes}
+      notions={renderNotions(article, i18n.language as LocaleType)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : 'clean'}
       copyPageUrlLink={copyPageUrlLink}

@@ -4,6 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
+import { NormalizedCacheObject } from '@apollo/client';
 import { BreadcrumbItemProps } from '@ndla/ui/lib/Breadcrumblist/Breadcrumblist';
 import { History } from 'history';
 import { ConfigType } from './config';
@@ -15,6 +16,7 @@ export type InitialProps = {
 };
 
 export interface WindowData {
+  apolloState: NormalizedCacheObject;
   config: ConfigType;
   initialProps: InitialProps;
   serverPath?: string;
