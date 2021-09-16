@@ -2502,14 +2502,14 @@ export const archivedSubjects = [
 export const betaSubjects = [
   {
     longName: {
-      en: 'Naturfag (PB) 2022/23 - BETA',
-      nb: 'Naturfag (PB) 2022/23 - BETA',
-      nn: 'Naturfag (PB) 2022/23 - BETA',
+      en: 'Naturfag (PB) 2022/23',
+      nb: 'Naturfag (PB) 2022/23',
+      nn: 'Naturfag (PB) 2022/23',
     },
     name: {
-      en: 'Naturfag - BETA',
-      nb: 'Naturfag - BETA',
-      nn: 'Naturfag - BETA',
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
     },
     id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
