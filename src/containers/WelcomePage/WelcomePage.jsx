@@ -36,7 +36,6 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 import { subjectsQuery } from '../../queries';
-import { GQLSubjectsQueryData } from '../../graphqlTypes'
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
@@ -69,9 +68,7 @@ const WelcomePage = ({ locale, history, location }) => {
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQueryData>(
-    subjectsQuery,
-  );
+  const [fetchData, { data }] = useLazyQuery(subjectsQuery);
 
   const getData = () => {
     fetchData();
