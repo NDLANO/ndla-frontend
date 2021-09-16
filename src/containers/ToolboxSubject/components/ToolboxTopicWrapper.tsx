@@ -88,11 +88,11 @@ const ToolboxTopicWrapper = ({
   const image =
     article.visualElement?.resource === 'image'
       ? {
-          url: `${article.visualElement.image?.src!}?width=400`,
+          url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
         }
       : {
-          url: `${article.metaImage?.url!}?width=400`,
+          url: article.metaImage?.url!,
           alt: article?.metaImage?.alt!,
         };
   const toolboxTopic: TopicProps = {
