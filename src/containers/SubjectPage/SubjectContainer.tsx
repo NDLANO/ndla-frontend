@@ -217,7 +217,7 @@ const SubjectContainer = ({
       </div>
       {subject.subjectpage?.banner && (
         <SubjectBanner
-          image={subject.subjectpage?.banner.desktopUrl}
+          image={subject.subjectpage?.banner.desktopUrl || ''}
           negativeTopMargin={moveBannerUp}
         />
       )}
