@@ -18,6 +18,7 @@ import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { toTopic } from '../../../routeHelpers';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
@@ -90,6 +91,8 @@ const ToolboxTopicWrapper = ({
       ? {
           url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
+          crop: getCrop(article.visualElement.image!),
+          focalPoint: getFocalPoint(article.visualElement.image!),
         }
       : {
           url: article.metaImage?.url!,

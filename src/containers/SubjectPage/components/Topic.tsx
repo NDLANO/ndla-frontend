@@ -17,6 +17,7 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
 import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
@@ -83,6 +84,8 @@ const Topic = ({
       ? {
           url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
+          crop: getCrop(article.visualElement.image!),
+          focalPoint: getFocalPoint(article.visualElement.image!),
         }
       : {
           url: article.metaImage?.url!,
