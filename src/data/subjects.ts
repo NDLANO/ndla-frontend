@@ -2547,35 +2547,6 @@ export const multidisciplinaryTopics = [
   },
 ];
 
-export const subjectsCategories = [
-  {
-    name: {
-      nb: 'Aktive',
-      nn: 'Aktive',
-      en: 'Active',
-    },
-    subjects: activeSubjects,
-  },
-  {
-    name: {
-      nb: 'Utgåtte',
-      nn: 'Utgåtte',
-      en: 'Expired',
-    },
-    subjects: archivedSubjects,
-    visible: true,
-  },
-  {
-    name: {
-      nb: 'Kommende',
-      nn: 'Komande',
-      en: 'Coming',
-    },
-    subjects: betaSubjects,
-    visible: true,
-  },
-];
-
 type SubjectIds = {
   [key: string]: SubjectType;
 };
@@ -2619,27 +2590,11 @@ export const getSubjectLongName = (subjectId?: string, locale?: LocaleType) => {
 
 export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
   {
-    type: constants.subjectCategories.COMMON_SUBJECTS,
+    type: constants.subjectCategories.ACTIVE_SUBJECTS,
     subjects: subjects.filter(
       s =>
         s.metadata?.customFields?.['subjectCategory'] ===
-        constants.subjectCategories.COMMON_SUBJECTS,
-    ),
-  },
-  {
-    type: constants.subjectCategories.PROGRAMME_SUBJECTS,
-    subjects: subjects.filter(
-      s =>
-        s.metadata?.customFields?.['subjectCategory'] ===
-        constants.subjectCategories.PROGRAMME_SUBJECTS,
-    ),
-  },
-  {
-    type: constants.subjectCategories.SPECIALIZED_SUBJECTS,
-    subjects: subjects.filter(
-      s =>
-        s.metadata?.customFields?.['subjectCategory'] ===
-        constants.subjectCategories.SPECIALIZED_SUBJECTS,
+        constants.subjectCategories.ACTIVE_SUBJECTS,
     ),
   },
   {
@@ -2649,6 +2604,7 @@ export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
         s.metadata?.customFields?.['subjectCategory'] ===
         constants.subjectCategories.ARCHIVE_SUBJECTS,
     ),
+    visible: true,
   },
   {
     type: constants.subjectCategories.BETA_SUBJECTS,
@@ -2657,5 +2613,6 @@ export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
         s.metadata?.customFields?.['subjectCategory'] ===
         constants.subjectCategories.BETA_SUBJECTS,
     ),
+    visible: true,
   },
 ];

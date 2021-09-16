@@ -7,7 +7,6 @@
  */
 
 import { toProgramme, toSubject } from '../routeHelpers';
-import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
 import { LocaleType, SubjectType } from '../interfaces';
@@ -45,27 +44,6 @@ const sortBy = (
 export const createSubjectUrl = (subject: SubjectType) => {
   const baseUrl = `${toSubject(subject.id)}/`;
   return subject.topicId ? `${baseUrl}${removeUrn(subject.topicId)}/` : baseUrl;
-};
-
-export const getCategorizedSubjects = (locale: LocaleType) => {
-  return subjectsCategories.map((category: SubjectCategory) => {
-    const subjects = category.subjects
-      .filter(subject => !subject.hideOnFrontPage)
-      .map(subject => {
-        const path = createSubjectUrl(subject);
-        return {
-          name: subject.longName[locale],
-          url: path,
-          path,
-        };
-      });
-
-    return {
-      name: category.name[locale],
-      subjects: sortBy(subjects),
-      visible: category.visible,
-    };
-  });
 };
 
 export const getProgrammes = (locale: LocaleType) => {

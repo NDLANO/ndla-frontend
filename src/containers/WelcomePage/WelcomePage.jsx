@@ -71,7 +71,7 @@ const WelcomePage = ({ locale, history, location }) => {
   }
 
   if (!data) {
-    return <DefaultErrorMessage />;
+    return null;
   }
 
   const headerLinks = [
