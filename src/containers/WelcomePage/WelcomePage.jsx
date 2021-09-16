@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {
@@ -17,6 +17,7 @@ import {
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -27,7 +28,6 @@ import {
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import config from '../../config';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import { LocationShape } from '../../shapes';
@@ -36,7 +36,7 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 import { subjectsQuery } from '../../queries';
-import { useGraphQuery } from '../../util/runQueries';
+import { GQLSubjectsQueryData } from '../../graphqlTypes'
 
 const getUrlFromSubjectId = subjectId => {
   const subject = getSubjectById(subjectId);
@@ -64,15 +64,18 @@ const getMultidisciplinaryTopics = locale => {
 
 const WelcomePage = ({ locale, history, location }) => {
   const { t } = useTranslation();
-  const { loading, data } = useGraphQuery(subjectsQuery);
 
-  if (loading) {
-    return null;
-  }
+  useEffect(() => {
+    getData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!data) {
-    return null;
-  }
+  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQueryData>(
+    subjectsQuery,
+  );
+
+  const getData = () => {
+    fetchData();
+  };
 
   const headerLinks = [
     {
@@ -116,7 +119,7 @@ const WelcomePage = ({ locale, history, location }) => {
       <main>
         <OneColumn extraPadding>
           <div data-testid="category-list">
-            <FrontpageSubjects locale={locale} subjects={data.subjects} />
+            <FrontpageSubjects locale={locale} subjects={data?.subjects} />
           </div>
         </OneColumn>
         <OneColumn wide>

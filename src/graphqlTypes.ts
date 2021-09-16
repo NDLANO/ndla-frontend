@@ -518,3 +518,7 @@ export interface GQLMastheadQueryData {
   topic?: GQLTopic;
   resource?: GQLResource;
 }
+
+export interface GQLSubjectsQueryData {
+  subjects: GQLSubject[];
+}
