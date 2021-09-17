@@ -346,58 +346,6 @@ const getResourceTypeFilters = (resourceTypes, aggregations) => {
   );
 };
 
-export const updateSearchGroups = (
-  searchData,
-  searchGroups,
-  resourceTypes,
-  pageSize,
-  replaceItems,
-  newSearch,
-  ltiData,
-  isLti,
-  t,
-) => {
-  if (newSearch) {
-    return searchData.map(result => ({
-      items: mapResourcesToItems(result.resources, ltiData, isLti, t),
-      resourceTypes: getResourceTypeFilters(
-        resourceTypes.find(type => type.id === result.resourceType),
-        result.aggregations?.[0]?.values.map(value => value.value),
-      ),
-      totalCount: result.totalCount,
-      type: contentTypeMapping[result.resourceType] || result.resourceType,
-    }));
-  }
-  return searchGroups.map(group => {
-    const searchResults = searchData.filter(result => {
-      const resultType =
-        contentTypeMapping[result.resourceType] || result.resourceType;
-      return (
-        group.type === resultType || group.resourceTypes.includes(resultType)
-      );
-    });
-    if (searchResults.length) {
-      const result = searchResults.reduce((accumulator, currentValue) => ({
-        ...currentValue,
-        resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount: currentValue.totalCount + accumulator.totalCount,
-      }));
-      const resources = result.resources.slice(0, pageSize);
-      return {
-        ...group,
-        items: replaceItems
-          ? mapResourcesToItems(resources, ltiData, isLti, t)
-          : [
-              ...group.items,
-              ...mapResourcesToItems(resources, ltiData, isLti, t),
-            ],
-        totalCount: result.totalCount,
-      };
-    }
-    return group;
-  });
-};
-
 export const mapSearchDataToGroups = (
   searchData,
   resourceTypes,
@@ -418,11 +366,13 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const mergeGroupSearch = (existing, incoming) => {
+export const mergeGroupSearch = (existing, incoming, page) => {
   if (!existing) return incoming;
   return existing.map(group => {
     const searchResults = incoming.filter(
-      result => group.resourceType === result.resourceType,
+      result =>
+        group.resourceType === result.resourceType ||
+        group.resourceType === result.aggregations?.[0]?.values?.[1]?.value,
     );
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
@@ -432,7 +382,10 @@ export const mergeGroupSearch = (existing, incoming) => {
       }));
       return {
         ...group,
-        resources: [...group.resources, ...result.resources],
+        resources:
+          page === '1'
+            ? result.resources
+            : [...group.resources, ...result.resources],
         totalCount: result.totalCount,
       };
     }
@@ -483,5 +436,6 @@ export const getTypeParams = (types, allResourceTypes) => {
   }
   return {
     resourceTypes: types.map(type => resourceTypeMapping[type] || type).join(),
+    contextTypes: undefined,
   };
 };

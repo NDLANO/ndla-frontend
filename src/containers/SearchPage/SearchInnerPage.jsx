@@ -113,9 +113,10 @@ const SearchInnerPage = ({
     setTypeFilter(filterUpdate);
   };
 
-  const hasActiveFilters = type =>
-    typeFilter[type].filters?.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
+  const getActiveFilters = type =>
+    typeFilter[type].filters
+      ?.filter(f => f.id !== 'all' && f.active)
+      .map(f => f.id) || [];
 
   const handleSubFilterClick = (type, filterId) => {
     updateTypeFilter(type, { page: 1 });
@@ -165,11 +166,15 @@ const SearchInnerPage = ({
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, { page });
     if (page > 2 || !showAll) {
+      const activeFilters = getActiveFilters(type);
       fetchMore({
         variables: {
           page: page.toString(),
           pageSize: pageSize.toString(),
-          ...(!hasActiveFilters(type) && getTypeParams([type], resourceTypes)),
+          ...getTypeParams(
+            activeFilters.length ? activeFilters : [type],
+            resourceTypes,
+          ),
         },
       });
     }

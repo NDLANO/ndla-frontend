@@ -40,7 +40,7 @@ const SearchResults = ({
             loading={loading}
             pagination={{
               totalCount,
-              toCount,
+              toCount: Math.min(toCount, totalCount),
               onShowMore: () => handleShowMore(type),
             }}
             type={type === 'topic-article' ? 'topic' : type}
