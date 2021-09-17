@@ -13,7 +13,6 @@ import { setContext } from '@apollo/client/link/context';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
-import { mergeGroupSearch } from '../containers/SearchPage/searchHelpers';
 
 export const fetch = createFetch;
 
@@ -77,9 +76,16 @@ const typePolicies = {
   Query: {
     fields: {
       groupSearch: {
-        keyArgs: ['query'],
-        merge(existing, incoming) {
-          return mergeGroupSearch(existing, incoming);
+        keyArgs: ['query', 'subjects'],
+      },
+    },
+  },
+  GroupSearch: {
+    keyFields: ['resourceType'],
+    fields: {
+      resources: {
+        merge(existing = [], incoming) {
+          return [...existing, ...incoming];
         },
       },
     },

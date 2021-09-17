@@ -14,7 +14,7 @@ const { contentTypes } = constants;
 
 const SearchResults = ({
   showAll,
-  handleFilterClick,
+  handleSubFilterClick,
   handleShowMore,
   searchGroups,
   typeFilter,
@@ -35,8 +35,8 @@ const SearchResults = ({
               filter =>
                 resourceTypes.includes(filter.id) || filter.id === 'all',
             )}
-            onFilterClick={id => handleFilterClick(type, id)}
-            items={items}
+            onFilterClick={id => handleSubFilterClick(type, id)}
+            items={items.slice(0, toCount)}
             loading={loading}
             pagination={{
               totalCount,
@@ -54,7 +54,7 @@ const SearchResults = ({
 
 SearchResults.propTypes = {
   showAll: bool,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleShowMore: func,
   searchGroups: arrayOf(SearchGroupShape),
   typeFilter: objectOf(TypeFilterShape),

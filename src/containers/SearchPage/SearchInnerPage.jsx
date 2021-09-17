@@ -24,7 +24,6 @@ import {
   convertProgramSearchParams,
   getTypeParams,
 } from './searchHelpers';
-import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
@@ -38,12 +37,6 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const initalParams = {
-  page: 1,
-  pageSize: 4,
-  types: '',
-};
-
 const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
@@ -53,17 +46,14 @@ const SearchInnerPage = ({
   concepts,
   resourceTypes,
   location,
-  locale,
   ltiData,
   isLti,
 }) => {
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
-  const [params, setParams] = useState(initalParams);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    setParams(initalParams);
     setTypeFilter(getTypeFilter(resourceTypes));
     setShowConcepts(true);
   }, [query, resourceTypes]);
@@ -83,9 +73,9 @@ const SearchInnerPage = ({
     variables: {
       ...stateSearchParams,
       language: i18n.language,
-      page: params.page.toString(),
-      pageSize: params.pageSize.toString(),
-      ...getTypeParams(params.types, resourceTypes),
+      page: '1',
+      pageSize: '8',
+      ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
     },
     onCompleted: () => {
@@ -127,7 +117,7 @@ const SearchInnerPage = ({
     typeFilter[type].filters?.length &&
     !typeFilter[type].filters.find(f => f.id === 'all').active;
 
-  const handleFilterClick = (type, filterId) => {
+  const handleSubFilterClick = (type, filterId) => {
     updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
@@ -135,11 +125,9 @@ const SearchInnerPage = ({
       filters.forEach(filter => {
         filter.active = filter.id === 'all';
       });
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: resourceTypeMapping[type] || type,
-      }));
+      fetchMore({
+        variables: getTypeParams([type], resourceTypes),
+      });
     } else {
       const allFilter = filters.find(item => 'all' === item.id);
       allFilter.active = false;
@@ -147,66 +135,44 @@ const SearchInnerPage = ({
       if (!filters.some(item => item.active)) {
         allFilter.active = true;
       }
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: filters
-          .filter(filter => filter.active && filter.id !== 'all')
-          .map(f => f.id)
-          .join(),
-      }));
+      fetchMore({
+        variables: getTypeParams(
+          filters
+            .filter(filter => filter.active && filter.id !== 'all')
+            .map(f => f.id),
+          resourceTypes,
+        ),
+      });
     }
   };
 
   const handleFilterReset = () => {
     resetSelected();
     setTypeFilter(getTypeFilter(resourceTypes));
-    setParams({
-      page: 1,
-      pageSize: 4,
-      types: '',
-    });
   };
 
   const handleFilterToggle = type => {
-    if (typeFilter[type].selected) {
-      updateTypeFilter(type, { selected: false });
-      setParams(prevState => ({
-        page: 1,
-        pageSize: 4,
-        types: prevState.types
-          .split(',')
-          .filter(t => t !== (resourceTypeMapping[type] || type))
-          .toString(),
-      }));
-    } else {
-      updateTypeFilter(type, {
-        page: 1,
-        pageSize: 8,
-        selected: true,
-      });
-      setParams(prevState => ({
-        page: 1,
-        pageSize: 8,
-        types: hasActiveFilters(type)
-          ? prevState.types
-          : prevState.types.concat(resourceTypeMapping[type] || type, ','),
-      }));
-    }
+    const selected = typeFilter[type].selected;
+    updateTypeFilter(type, {
+      page: 1,
+      pageSize: selected ? 4 : 8,
+      selected: !selected,
+    });
   };
 
   const handleShowMore = type => {
     const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
     updateTypeFilter(type, { page });
-    fetchMore({
-      variables: {
-        page: page.toString(),
-        pageSize: pageSize.toString(),
-        ...(!hasActiveFilters(type) &&
-          getTypeParams(resourceTypeMapping[type] || type, resourceTypes)),
-      },
-    });
+    if (page > 2 || !showAll) {
+      fetchMore({
+        variables: {
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+          ...(!hasActiveFilters(type) && getTypeParams([type], resourceTypes)),
+        },
+      });
+    }
   };
 
   if (error) {
@@ -233,7 +199,7 @@ const SearchInnerPage = ({
   return (
     <SearchContainer
       handleSearchParamsChange={handleSearchParamsChange}
-      handleFilterClick={handleFilterClick}
+      handleSubFilterClick={handleSubFilterClick}
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
@@ -276,7 +242,6 @@ SearchInnerPage.propTypes = {
     search: string,
     pathname: string,
   }),
-  locale: string,
 };
 
 export default SearchInnerPage;

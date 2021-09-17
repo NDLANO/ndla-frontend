@@ -1,7 +1,11 @@
 import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import { getContentType, contentTypeMapping } from '../../util/getContentType';
+import {
+  getContentType,
+  contentTypeMapping,
+  resourceTypeMapping,
+} from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectLongName, getSubjectById } from '../../data/subjects';
@@ -462,18 +466,22 @@ export const getTypeFilter = resourceTypes => {
   return typeFilter;
 };
 
-export const getTypeParams = (type, resourceTypes) => {
-  if (!type.length) {
+export const getTypeParams = (types, allResourceTypes) => {
+  if (!types.length) {
     return {
-      resourceTypes: resourceTypes.map(resourceType => resourceType.id).join(),
+      resourceTypes: allResourceTypes
+        .map(resourceType => resourceType.id)
+        .join(),
       contextTypes: 'topic-article',
     };
-  } else if (type === 'topic-article') {
+  }
+  const contextTypes = types.find(type => type === 'topic-article');
+  if (contextTypes) {
     return {
-      contextTypes: type,
+      contextTypes,
     };
   }
   return {
-    resourceTypes: type,
+    resourceTypes: types.map(type => resourceTypeMapping[type] || type).join(),
   };
 };
