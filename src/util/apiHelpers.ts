@@ -112,11 +112,14 @@ export const createApolloClient = (language = 'nb') => {
 };
 
 export const createApolloLinks = (lang: string) => {
+  const isWindowContext = typeof window !== 'undefined';
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
       ...headers,
       'Accept-Language': lang,
-      FeideAuthorization: `Bearer ${getAccessToken()}`,
+      ...(isWindowContext
+        ? { FeideAuthorization: `Bearer ${getAccessToken()}` }
+        : {}),
     },
   }));
   return ApolloLink.from([
