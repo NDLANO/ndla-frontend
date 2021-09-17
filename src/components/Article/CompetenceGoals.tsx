@@ -60,6 +60,7 @@ interface CompetenceGoalType {
     goals: {
       text: string;
       url: string;
+      type: 'LK06' | 'LK20';
     }[];
   }[];
 }
@@ -121,6 +122,7 @@ const getUniqueCompetenceGoals = (
   competenceGoalSetId: string,
   addUrl: boolean,
   searchUrl: string,
+  goalType: 'LK06' | 'LK20',
 ) => {
   return competenceGoals
     .filter(
@@ -130,6 +132,7 @@ const getUniqueCompetenceGoals = (
     .map(competenceGoal => ({
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : 'a',
+      type: goalType,
     }));
 };
 
@@ -148,6 +151,7 @@ const sortElementsById = (
 const groupCompetenceGoals = (
   competenceGoals: LocalGQLCompetenceGoal[],
   addUrl: boolean = false,
+  goalType: 'LK06' | 'LK20',
 ): ElementType['groupedCompetenceGoals'] => {
   const searchUrl = '/search?grepCodes=';
   const curriculumElements = getUniqueCurriculums(competenceGoals).map(
@@ -162,6 +166,7 @@ const groupCompetenceGoals = (
             competenceGoalSet!.id,
             addUrl,
             searchUrl,
+            goalType,
           ),
         }),
       ),
@@ -215,10 +220,12 @@ const CompetenceGoals = ({
   const LK06Goals = groupCompetenceGoals(
     competenceGoals.filter(goal => goal.type === 'LK06'),
     true,
+    'LK06',
   );
   const LK20Goals = groupCompetenceGoals(
     competenceGoals.filter(goal => goal.type === 'LK20'),
     true,
+    'LK20',
   );
   const LK20Elements = groupCoreElements(coreElements || []);
 
