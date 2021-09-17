@@ -69,9 +69,10 @@ const SearchHeader = ({
     });
   };
 
-  const onGrepCodesValueChange = values => {
+  const onFilterValueChange = (grepCodeFilters, subjectFilters) => {
     handleSearchParamsChange({
-      grepCodes: values,
+      grepCodes: grepCodeFilters,
+      subjects: subjectFilters,
     });
   };
 
@@ -94,8 +95,10 @@ const SearchHeader = ({
   };
 
   const handleFilterRemove = value => {
-    onSubjectValuesChange(subjects.filter(id => id !== value));
-    onGrepCodesValueChange(grepCodes.filter(id => id !== value));
+    onFilterValueChange(
+      grepCodes.filter(id => id !== value),
+      subjects.filter(id => id !== value),
+    );
     setActiveFilters(activeFilters.filter(id => id !== value));
   };
 
