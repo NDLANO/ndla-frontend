@@ -69,30 +69,20 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams, i18n.language);
 
-  const { data, error, loading, fetchMore } = useGraphQuery(groupSearchQuery, {
-    variables: {
-      ...stateSearchParams,
-      language: i18n.language,
-      page: '1',
-      pageSize: '8',
-      ...getTypeParams([], resourceTypes),
-      aggregatePaths: ['contexts.resourceTypes.id'],
+  const { data, previousData, error, loading, fetchMore } = useGraphQuery(
+    groupSearchQuery,
+    {
+      variables: {
+        ...stateSearchParams,
+        language: i18n.language,
+        page: '1',
+        pageSize: '8',
+        ...getTypeParams([], resourceTypes),
+        aggregatePaths: ['contexts.resourceTypes.id'],
+      },
+      notifyOnNetworkStatusChange: true,
     },
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      resetLoading();
-    },
-  });
-
-  const resetLoading = () => {
-    const filterUpdate = { ...typeFilter };
-    for (const [key, value] of Object.entries(filterUpdate)) {
-      filterUpdate[key] = {
-        ...value,
-      };
-    }
-    setTypeFilter(filterUpdate);
-  };
+  );
 
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };
@@ -188,7 +178,7 @@ const SearchInnerPage = ({
 
   const language = i18n.language !== getDefaultLocale() && i18n.language;
   const searchGroups = mapSearchDataToGroups(
-    data?.groupSearch,
+    data?.groupSearch || previousData?.groupSearch,
     resourceTypes,
     ltiData,
     isLti,
