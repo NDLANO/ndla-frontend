@@ -25,6 +25,8 @@ import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinaryS
 import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
 // @ts-ignore
 import App from './App';
+import Login from './containers/Login/Login';
+import Logout from './containers/Logout/Logout';
 
 import {
   FILM_PAGE_PATH,
@@ -46,6 +48,7 @@ import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import { InitialProps, LocaleType } from './interfaces';
 import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
 import { I18nWrapper } from './I18nWrapper';
+import config from './config';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -60,7 +63,7 @@ export interface RouteType extends RouteProps {
   component: React.ComponentType<RootComponentProps>;
 }
 
-export const routes: RouteType[] = [
+let routeArray: RouteType[] = [
   {
     path: '/',
     hideMasthead: true,
@@ -146,6 +149,26 @@ export const routes: RouteType[] = [
     component: AllSubjectsPage,
     background: false,
   },
+];
+
+if (config.feideEnabled) {
+  routeArray.push(
+    {
+      path: '/login',
+      //@ts-ignore
+      component: Login,
+      background: false,
+    },
+    {
+      path: '/logout',
+      component: Logout,
+      background: false,
+    },
+  );
+}
+
+// Hvis 404 eller notfound kommer før vil man ikke kunne finne endepunktene under.
+routeArray.push(
   {
     path: '/404',
     component: NotFoundPage,
@@ -155,7 +178,9 @@ export const routes: RouteType[] = [
     component: NotFoundPage,
     background: false,
   },
-];
+);
+
+export const routes = routeArray;
 
 const routesFunc = function(
   initialProps: InitialProps,

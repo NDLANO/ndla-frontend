@@ -14,6 +14,7 @@ import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
+    visible: category.visible,
     subjects: category.subjects.map(subject => ({
       id: subject.id,
       name: subject.longName[locale],

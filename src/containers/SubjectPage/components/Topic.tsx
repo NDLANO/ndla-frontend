@@ -17,6 +17,7 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
 import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
@@ -81,11 +82,13 @@ const Topic = ({
   const image =
     article.visualElement?.resource === 'image'
       ? {
-          url: `${article.visualElement.image?.src!}?width=400`,
+          url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
+          crop: getCrop(article.visualElement.image!),
+          focalPoint: getFocalPoint(article.visualElement.image!),
         }
       : {
-          url: `${article.metaImage?.url!}?width=400`,
+          url: article.metaImage?.url!,
           alt: article?.metaImage?.alt!,
         };
   const transposedTopic: TopicProps = {
@@ -136,7 +139,9 @@ const Topic = ({
 
   return (
     <UITopic
-      onToggleShowContent={() => setShowContent(!showContent)}
+      onToggleShowContent={
+        article.content !== '' ? () => setShowContent(!showContent) : undefined
+      }
       showContent={showContent}
       topic={transposedTopic.topic}
       subTopics={subTopics}

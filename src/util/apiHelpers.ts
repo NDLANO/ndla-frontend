@@ -6,7 +6,12 @@
  *
  */
 
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  TypePolicies,
+} from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
@@ -14,6 +19,7 @@ import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
 import { mergeGroupSearch } from '../containers/SearchPage/searchHelpers';
+import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
 
 export const fetch = createFetch;
 
@@ -34,18 +40,20 @@ const apiBaseUrl = (() => {
 
 export { apiBaseUrl };
 
-export function apiResourceUrl(path) {
+export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function createErrorPayload(status, message, json) {
+export function createErrorPayload(status: number, message: string, json: any) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError(res) {
+export function resolveJsonOrRejectWithError<T>(
+  res: Response,
+): Promise<T | undefined> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve() : resolve(res.json());
+      return res.status === 204 ? resolve(undefined) : resolve(res.json());
     }
     return res
       .json()
@@ -73,13 +81,13 @@ const possibleTypes = {
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
 };
 
-const typePolicies = {
+const typePolicies: TypePolicies = {
   Query: {
     fields: {
       groupSearch: {
         keyArgs: ['query', 'subjects'],
         merge(existing, incoming, { args }) {
-          return mergeGroupSearch(existing, incoming, args.page);
+          return mergeGroupSearch(existing, incoming, args?.page);
         },
       },
     },
@@ -114,11 +122,15 @@ export const createApolloClient = (language = 'nb') => {
   return client;
 };
 
-export const createApolloLinks = lang => {
+export const createApolloLinks = (lang: string) => {
+  const isWindowContext = typeof window !== 'undefined';
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
       ...headers,
       'Accept-Language': lang,
+      ...(isWindowContext
+        ? { FeideAuthorization: `Bearer ${getAccessToken()}` }
+        : {}),
     },
   }));
   return ApolloLink.from([
@@ -132,7 +144,7 @@ export const createApolloLinks = lang => {
       }
       if (networkError) {
         handleError(`[Network error]: ${networkError}`, {
-          clientTime: new Date().getTime(),
+          clientTime: new Date(),
         });
       }
     }),
@@ -142,4 +154,38 @@ export const createApolloLinks = lang => {
       fetch: createFetch,
     }),
   ]);
+};
+
+type HttpHeaders = {
+  headers?: {
+    'Content-Type': string;
+  };
+};
+
+export const fetchAuthorized = (url: string, config?: HttpHeaders) =>
+  fetchWithAuthorization(url, false, config);
+
+export const fetchWithAuthorization = async (
+  url: string,
+  forceAuth: boolean,
+  config?: HttpHeaders,
+) => {
+  if (forceAuth || !isAccessTokenValid()) {
+    await renewAuth();
+  }
+
+  const contentType = config?.headers
+    ? config?.headers['Content-Type']
+    : 'text/plain';
+  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+  const cacheControl = { 'Cache-Control': 'no-cache' };
+
+  return fetch(url, {
+    ...config,
+    headers: {
+      ...extraHeaders,
+      ...cacheControl,
+      FeideAuthorization: `Bearer ${getAccessToken()}`,
+    },
+  });
 };
