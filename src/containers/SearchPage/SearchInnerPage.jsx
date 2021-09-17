@@ -78,6 +78,7 @@ const SearchInnerPage = ({
       ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
     },
+    notifyOnNetworkStatusChange: true,
     onCompleted: () => {
       resetLoading();
     },
