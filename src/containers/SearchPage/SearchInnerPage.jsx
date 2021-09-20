@@ -56,7 +56,7 @@ const SearchInnerPage = ({
   useEffect(() => {
     setTypeFilter(getTypeFilter(resourceTypes));
     setShowConcepts(true);
-  }, [query, resourceTypes]);
+  }, [query, subjects, resourceTypes]);
 
   const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
