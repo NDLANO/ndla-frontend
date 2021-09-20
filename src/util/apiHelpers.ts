@@ -76,6 +76,16 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
+const getParentType = (
+  aggregations: { value: string; count: number }[],
+  type: string,
+) => {
+  const typeValue = aggregations.find(agg => agg.value === type);
+  return aggregations.find(
+    agg => agg.count === typeValue?.count && agg.value !== type,
+  )?.value;
+};
+
 const mergeGroupSearch = (
   existing: GQLGroupSearch[],
   incoming: GQLGroupSearch[],
@@ -86,7 +96,8 @@ const mergeGroupSearch = (
     const searchResults = incoming.filter(
       result =>
         group.resourceType === result.resourceType ||
-        group.resourceType === result.aggregations?.[0]?.values?.[1]?.value,
+        group.resourceType ===
+          getParentType(result.aggregations?.[0]?.values, result.resourceType),
     );
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
