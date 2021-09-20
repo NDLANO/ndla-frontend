@@ -1,6 +1,6 @@
 import { LocaleType, SubjectType } from '../interfaces';
 
-export const commonSubjects = [
+export const activeSubjects = [
   {
     longName: {
       en: 'Norsk (YF)',
@@ -796,9 +796,6 @@ export const commonSubjects = [
     },
     id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
   },
-];
-
-export const programmeSubjects = [
   {
     longName: {
       en: 'Yrkesliv i barne- og ungdomsarbeiderfag (HS-BUA vg2)',
@@ -995,7 +992,7 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:e15e4240-1d05-4398-b63b-2177815eb61a',
   },
-  /*{
+  {
     longName: {
       en: 'Yrkesfaglig fordypning (SR-SRL vg2)',
       nb: 'Yrkesfaglig fordypning (SR-SRL vg2)',
@@ -1007,7 +1004,7 @@ export const programmeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:69c829b0-50f5-4944-bcaf-309da101a3d4',
-  },*/
+  },
   {
     longName: {
       en: 'Forretningsdrift (SR-SRL vg2)',
@@ -1515,9 +1512,6 @@ export const programmeSubjects = [
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
-];
-
-export const studySpecializationSubjects = [
   {
     longName: {
       en: 'Engelsk 1',
@@ -1804,9 +1798,19 @@ export const studySpecializationSubjects = [
     },
     id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
   },
-];
-
-export const archivedSubjects = [
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 2 (LK06)',
+      nb: 'Medie- og informasjonskunnskap 2 (LK06)',
+      nn: 'Medie- og informasjonskunnskap 2 (LK06)',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
+    },
+    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+  },
   {
     name: {
       nb: 'Norsk',
@@ -1820,6 +1824,191 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
   },
+  {
+    longName: {
+      en: 'Bransjelære (TP-TOL vg2) - BETA',
+      nb: 'Bransjelære (TP-TOL vg2) - BETA',
+      nn: 'Bransjelære (TP-TOL vg2) - BETA',
+    },
+    name: {
+      en: 'Bransjelære - BETA',
+      nb: 'Bransjelære - BETA',
+      nn: 'Bransjelære - BETA',
+    },
+    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
+  },
+  {
+    longName: {
+      en: 'Bransjeteknikk (TP-TOL vg2) - BETA',
+      nb: 'Bransjeteknikk (TP-TOL vg2) - BETA',
+      nn: 'Bransjeteknikk (TP-TOL vg2) - BETA',
+    },
+    name: {
+      en: 'Bransjeteknikk - BETA',
+      nb: 'Bransjeteknikk - BETA',
+      nn: 'Bransjeteknikk - BETA',
+    },
+    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
+  },
+  {
+    longName: {
+      en: 'Transport, logistikk og løfteoperasjoner (TP-TOL vg2) - BETA',
+      nb: 'Transport, logistikk og løfteoperasjoner (TP-TOL vg2) - BETA',
+      nn: 'Transport, logistikk og løfteoperasjonar (TP-TOL vg2) - BETA',
+    },
+    name: {
+      en: 'Transport, logistikk og løfteoperasjoner - BETA',
+      nb: 'Transport, logistikk og løfteoperasjoner - BETA',
+      nn: 'Transport, logistikk og løfteoperasjonar - BETA',
+    },
+    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
+  },
+  {
+    longName: {
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
+    },
+    name: {
+      en: 'Matematikk 2P - BETA',
+      nb: 'Matematikk 2P - BETA',
+      nn: 'Matematikk 2P - BETA',
+    },
+    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
+  },
+  {
+    longName: {
+      en: 'Reiseliv og språk 1 - BETA',
+      nb: 'Reiseliv og språk 1 - BETA',
+      nn: 'Reiseliv og språk 1 - BETA',
+    },
+    name: {
+      en: 'Reiseliv og språk 1 - BETA',
+      nb: 'Reiseliv og språk 1 - BETA',
+      nn: 'Reiseliv og språk 1 - BETA',
+    },
+    id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+  },
+  {
+    longName: {
+      en: 'Design og visualisering (IM-MED vg2) - BETA',
+      nb: 'Design og visualisering (IM-MED vg2) - BETA',
+      nn: 'Design og visualisering (IM-MED vg2) - BETA',
+    },
+    name: {
+      en: 'Design og visualisering - BETA',
+      nb: 'Design og visualisering - BETA',
+      nn: 'Design og visualisering - BETA',
+    },
+    id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
+  },
+  {
+    longName: {
+      en: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
+      nb: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
+      nn: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
+    },
+    name: {
+      en: 'Konseptutvikling og kommunikasjon - BETA',
+      nb: 'Konseptutvikling og kommunikasjon - BETA',
+      nn: 'Konseptutvikling og kommunikasjon - BETA',
+    },
+    id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
+  },
+  {
+    longName: {
+      en: 'Teknologi og produksjon (IM-MED vg2) - BETA',
+      nb: 'Teknologi og produksjon (IM-MED vg2) - BETA',
+      nn: 'Teknologi og produksjon (IM-MED vg2) - BETA',
+    },
+    name: {
+      en: 'Teknologi og produksjon - BETA',
+      nb: 'Teknologi og produksjon - BETA',
+      nn: 'Teknologi og produksjon - BETA',
+    },
+    id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
+  },
+  {
+    longName: {
+      en: 'Boring (TP-BRT vg2) - BETA',
+      nb: 'Boring (TP-BRT vg2) - BETA',
+      nn: 'Boring (TP-BRT vg2) - BETA',
+    },
+    name: {
+      en: 'Boring - BETA',
+      nb: 'Boring - BETA',
+      nn: 'Boring - BETA',
+    },
+    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
+  },
+  {
+    longName: {
+      en: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
+      nb: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
+      nn: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
+    },
+    name: {
+      en: 'Komplettering og brønnservice - BETA',
+      nb: 'Komplettering og brønnservice - BETA',
+      nn: 'Komplettering og brønnservice - BETA',
+    },
+    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
+  },
+  {
+    longName: {
+      en: 'Prosedyrer og praksis (TP-BRT vg2) - BETA',
+      nb: 'Prosedyrer og praksis (TP-BRT vg2) - BETA',
+      nn: 'Prosedyrar og praksis (TP-BRT vg2) - BETA',
+    },
+    name: {
+      en: 'Prosedyrer og praksis - BETA',
+      nb: 'Prosedyrer og praksis - BETA',
+      nn: 'Prosedyrar og praksis - BETA',
+    },
+    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
+  },
+  {
+    longName: {
+      en: 'Yrkesfaglig fordypning (TP-BRT vg2) - BETA',
+      nb: 'Yrkesfaglig fordypning (TP-BRT vg2) - BETA',
+      nn: 'Yrkesfagleg fordjuping (TP-BRT vg2) - BETA',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning - BETA',
+      nb: 'Yrkesfaglig fordypning - BETA',
+      nn: 'Yrkesfagleg fordjuping - BETA',
+    },
+    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
+  },
+  {
+    longName: {
+      en: 'Informasjonsteknologi (IM-ITK vg2) - BETA',
+      nb: 'Informasjonsteknologi (IM-ITK vg2) - BETA',
+      nn: 'Informasjonsteknologi (IM-ITK vg2)- BETA',
+    },
+    name: {
+      en: 'Programfag IT - BETA',
+      nb: 'Programfag IT - BETA',
+      nn: 'Programfag IT - BETA',
+    },
+    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+  },
+  {
+    longName: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    name: {
+      en: 'Biologi 1 - BETA',
+      nb: 'Biologi 1 - BETA',
+      nn: 'Biologi 1 - BETA',
+    },
+    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+  },
+];
+
+export const archivedSubjects = [
   {
     name: {
       nb: 'Norsk (Utgått)',
@@ -2308,203 +2497,21 @@ export const archivedSubjects = [
     },
     id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap 2 (LK06)',
-      nb: 'Medie- og informasjonskunnskap 2 (LK06)',
-      nn: 'Medie- og informasjonskunnskap 2 (LK06)',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
-  },
 ];
 
 export const betaSubjects = [
   {
     longName: {
-      en: 'Bransjelære (TP-TOL vg2) - BETA',
-      nb: 'Bransjelære (TP-TOL vg2) - BETA',
-      nn: 'Bransjelære (TP-TOL vg2) - BETA',
+      en: 'Naturfag (PB) 2022/23',
+      nb: 'Naturfag (PB) 2022/23',
+      nn: 'Naturfag (PB) 2022/23',
     },
     name: {
-      en: 'Bransjelære - BETA',
-      nb: 'Bransjelære - BETA',
-      nn: 'Bransjelære - BETA',
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
     },
-    id: 'urn:subject:1:67a5a464-ee5b-4b21-b383-fb744460dce4',
-  },
-  {
-    longName: {
-      en: 'Bransjeteknikk (TP-TOL vg2) - BETA',
-      nb: 'Bransjeteknikk (TP-TOL vg2) - BETA',
-      nn: 'Bransjeteknikk (TP-TOL vg2) - BETA',
-    },
-    name: {
-      en: 'Bransjeteknikk - BETA',
-      nb: 'Bransjeteknikk - BETA',
-      nn: 'Bransjeteknikk - BETA',
-    },
-    id: 'urn:subject:1:aa902796-db72-4f3f-ade1-63e4dba5653b',
-  },
-  {
-    longName: {
-      en: 'Transport, logistikk og løfteoperasjoner (TP-TOL vg2) - BETA',
-      nb: 'Transport, logistikk og løfteoperasjoner (TP-TOL vg2) - BETA',
-      nn: 'Transport, logistikk og løfteoperasjonar (TP-TOL vg2) - BETA',
-    },
-    name: {
-      en: 'Transport, logistikk og løfteoperasjoner - BETA',
-      nb: 'Transport, logistikk og løfteoperasjoner - BETA',
-      nn: 'Transport, logistikk og løfteoperasjonar - BETA',
-    },
-    id: 'urn:subject:1:4e709986-3cbf-4fa9-8195-46bd8e0c124b',
-  },
-  {
-    longName: {
-      en: 'Matematikk 2P - BETA',
-      nb: 'Matematikk 2P - BETA',
-      nn: 'Matematikk 2P - BETA',
-    },
-    name: {
-      en: 'Matematikk 2P - BETA',
-      nb: 'Matematikk 2P - BETA',
-      nn: 'Matematikk 2P - BETA',
-    },
-    id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
-  },
-  {
-    longName: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
-    },
-    name: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
-    },
-    id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
-  },
-  {
-    longName: {
-      en: 'Design og visualisering (IM-MED vg2) - BETA',
-      nb: 'Design og visualisering (IM-MED vg2) - BETA',
-      nn: 'Design og visualisering (IM-MED vg2) - BETA',
-    },
-    name: {
-      en: 'Design og visualisering - BETA',
-      nb: 'Design og visualisering - BETA',
-      nn: 'Design og visualisering - BETA',
-    },
-    id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
-  },
-  {
-    longName: {
-      en: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
-      nb: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
-      nn: 'Konseptutvikling og kommunikasjon (IM-MED vg2) - BETA',
-    },
-    name: {
-      en: 'Konseptutvikling og kommunikasjon - BETA',
-      nb: 'Konseptutvikling og kommunikasjon - BETA',
-      nn: 'Konseptutvikling og kommunikasjon - BETA',
-    },
-    id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
-  },
-  {
-    longName: {
-      en: 'Teknologi og produksjon (IM-MED vg2) - BETA',
-      nb: 'Teknologi og produksjon (IM-MED vg2) - BETA',
-      nn: 'Teknologi og produksjon (IM-MED vg2) - BETA',
-    },
-    name: {
-      en: 'Teknologi og produksjon - BETA',
-      nb: 'Teknologi og produksjon - BETA',
-      nn: 'Teknologi og produksjon - BETA',
-    },
-    id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
-  },
-  {
-    longName: {
-      en: 'Boring (TP-BRT vg2) - BETA',
-      nb: 'Boring (TP-BRT vg2) - BETA',
-      nn: 'Boring (TP-BRT vg2) - BETA',
-    },
-    name: {
-      en: 'Boring - BETA',
-      nb: 'Boring - BETA',
-      nn: 'Boring - BETA',
-    },
-    id: 'urn:subject:1:98cbb757-a718-4275-b87a-2248cde4b58d',
-  },
-  {
-    longName: {
-      en: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
-      nb: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
-      nn: 'Komplettering og brønnservice (TP-BRT vg2) - BETA',
-    },
-    name: {
-      en: 'Komplettering og brønnservice - BETA',
-      nb: 'Komplettering og brønnservice - BETA',
-      nn: 'Komplettering og brønnservice - BETA',
-    },
-    id: 'urn:subject:1:6951e039-c23e-483f-94bf-2194a1fb197d',
-  },
-  {
-    longName: {
-      en: 'Prosedyrer og praksis (TP-BRT vg2) - BETA',
-      nb: 'Prosedyrer og praksis (TP-BRT vg2) - BETA',
-      nn: 'Prosedyrar og praksis (TP-BRT vg2) - BETA',
-    },
-    name: {
-      en: 'Prosedyrer og praksis - BETA',
-      nb: 'Prosedyrer og praksis - BETA',
-      nn: 'Prosedyrar og praksis - BETA',
-    },
-    id: 'urn:subject:1:6eb22154-3d19-4551-93f5-f137bb5abba8',
-  },
-  {
-    longName: {
-      en: 'Yrkesfaglig fordypning (TP-BRT vg2) - BETA',
-      nb: 'Yrkesfaglig fordypning (TP-BRT vg2) - BETA',
-      nn: 'Yrkesfagleg fordjuping (TP-BRT vg2) - BETA',
-    },
-    name: {
-      en: 'Yrkesfaglig fordypning - BETA',
-      nb: 'Yrkesfaglig fordypning - BETA',
-      nn: 'Yrkesfagleg fordjuping - BETA',
-    },
-    id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
-  },
-  {
-    longName: {
-      en: 'Informasjonsteknologi (IM-ITK vg2) - BETA',
-      nb: 'Informasjonsteknologi (IM-ITK vg2) - BETA',
-      nn: 'Informasjonsteknologi (IM-ITK vg2)- BETA',
-    },
-    name: {
-      en: 'Programfag IT - BETA',
-      nb: 'Programfag IT - BETA',
-      nn: 'Programfag IT - BETA',
-    },
-    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
-  },
-  {
-    longName: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
-    },
-    name: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
-    },
-    id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+    id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
 ];
 
@@ -2541,27 +2548,11 @@ export const multidisciplinaryTopics = [
 export const subjectsCategories = [
   {
     name: {
-      nb: 'Fellesfag',
-      nn: 'Fellesfag',
-      en: 'Common core subjects',
+      nb: 'Aktive',
+      nn: 'Aktive',
+      en: 'Active',
     },
-    subjects: commonSubjects,
-  },
-  {
-    name: {
-      nb: 'Yrkesfag',
-      nn: 'Yrkesfag',
-      en: 'Programme subjects YF',
-    },
-    subjects: programmeSubjects,
-  },
-  {
-    name: {
-      nb: 'Programfag SF',
-      nn: 'Programfag SF',
-      en: 'Programme subjects SF',
-    },
-    subjects: studySpecializationSubjects,
+    subjects: activeSubjects,
   },
   {
     name: {
@@ -2570,6 +2561,7 @@ export const subjectsCategories = [
       en: 'Expired',
     },
     subjects: archivedSubjects,
+    visible: true,
   },
   {
     name: {
@@ -2578,6 +2570,7 @@ export const subjectsCategories = [
       en: 'Coming',
     },
     subjects: betaSubjects,
+    visible: true,
   },
 ];
 
@@ -2590,9 +2583,7 @@ let subjectsIdx: SubjectIds;
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
     const subjects = [
-      ...commonSubjects,
-      ...programmeSubjects,
-      ...studySpecializationSubjects,
+      ...activeSubjects,
       ...archivedSubjects,
       ...betaSubjects,
       ...multidisciplinaryTopics,
@@ -2612,13 +2603,7 @@ export const getSubjectById = (id: string) => {
 };
 
 export const getSubjectBySubjectId = (subjectId: string) => {
-  const subjects = [
-    ...commonSubjects,
-    ...programmeSubjects,
-    ...studySpecializationSubjects,
-    ...archivedSubjects,
-    ...betaSubjects,
-  ];
+  const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
 
   return subjects.find(subject => subject.id === subjectId);
 };
