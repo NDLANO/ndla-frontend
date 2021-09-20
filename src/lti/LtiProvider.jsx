@@ -87,7 +87,7 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
         programmes={searchParams.programs}
         allSubjects={allSubjects}
         subjectItems={subjectItems}
-        concepts={conceptData?.conceptSearch}
+        concepts={conceptData?.conceptSearch.concepts}
         resourceTypes={data.resourceTypes.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
