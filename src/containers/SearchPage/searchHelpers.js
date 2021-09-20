@@ -366,33 +366,6 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const mergeGroupSearch = (existing, incoming, page) => {
-  if (!existing) return incoming;
-  return existing.map(group => {
-    const searchResults = incoming.filter(
-      result =>
-        group.resourceType === result.resourceType ||
-        group.resourceType === result.aggregations?.[0]?.values?.[1]?.value,
-    );
-    if (searchResults.length) {
-      const result = searchResults.reduce((accumulator, currentValue) => ({
-        ...currentValue,
-        resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount: currentValue.totalCount + accumulator.totalCount,
-      }));
-      return {
-        ...group,
-        resources:
-          page === '1'
-            ? result.resources
-            : [...group.resources, ...result.resources],
-        totalCount: result.totalCount,
-      };
-    }
-    return group;
-  });
-};
-
 export const getTypeFilter = resourceTypes => {
   const typeFilter = {
     'topic-article': {

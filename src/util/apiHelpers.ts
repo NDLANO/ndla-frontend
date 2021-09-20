@@ -18,8 +18,8 @@ import { setContext } from '@apollo/client/link/context';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
-import { mergeGroupSearch } from '../containers/SearchPage/searchHelpers';
 import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
+import { GQLGroupSearch } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -75,6 +75,37 @@ const uri = (() => {
   }
   return apiResourceUrl('/graphql-api/graphql');
 })();
+
+const mergeGroupSearch = (
+  existing: GQLGroupSearch[],
+  incoming: GQLGroupSearch[],
+  page: string,
+) => {
+  if (!existing) return incoming;
+  return existing.map(group => {
+    const searchResults = incoming.filter(
+      result =>
+        group.resourceType === result.resourceType ||
+        group.resourceType === result.aggregations?.[0]?.values?.[1]?.value,
+    );
+    if (searchResults.length) {
+      const result = searchResults.reduce((accumulator, currentValue) => ({
+        ...currentValue,
+        resources: [...currentValue.resources, ...accumulator.resources],
+        totalCount: currentValue.totalCount + accumulator.totalCount,
+      }));
+      return {
+        ...group,
+        resources:
+          page === '1'
+            ? result.resources
+            : [...group.resources, ...result.resources],
+        totalCount: result.totalCount,
+      };
+    }
+    return group;
+  });
+};
 
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],

@@ -403,6 +403,15 @@ export interface GQLTopic extends GQLTaxonomyEntity {
   breadcrumbs?: Array<Array<string>>;
 }
 
+export interface GQLGroupSearch {
+  language: string;
+  resourceType: string;
+  resources: any[];
+  suggestions: any[];
+  aggregations: any[];
+  totalCount: number;
+}
+
 export interface GQLSearchResult {
   id: number;
   title?: string;
