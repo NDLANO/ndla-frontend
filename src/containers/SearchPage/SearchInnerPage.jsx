@@ -24,6 +24,7 @@ import {
   convertProgramSearchParams,
   getTypeParams,
 } from './searchHelpers';
+import { contentTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
@@ -155,8 +156,13 @@ const SearchInnerPage = ({
   const handleShowMore = type => {
     const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
+    const currentGroup = data.groupSearch.find(
+      group =>
+        type === (contentTypeMapping[group.resourceType] || group.resourceType),
+    );
+    const toCount = typeFilter[type].page * typeFilter[type].pageSize;
     updateTypeFilter(type, { page });
-    if (page > 2 || !showAll) {
+    if (currentGroup.resources.length === toCount) {
       const activeFilters = getActiveFilters(type);
       fetchMore({
         variables: {
