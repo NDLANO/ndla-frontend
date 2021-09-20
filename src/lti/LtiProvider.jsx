@@ -16,7 +16,7 @@ import { ResourceShape } from '../shapes';
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
-import { searchPageQuery, conceptSearchQuery } from '../queries';
+import { searchPageQuery } from '../queries';
 import { LtiDataShape } from '../shapes';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
@@ -46,12 +46,6 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   }, []);
 
   const { data, error, loading } = useGraphQuery(searchPageQuery);
-  const { data: conceptData } = useGraphQuery(conceptSearchQuery, {
-    skip: !searchParams.query,
-    variables: {
-      query: searchParams.query,
-    },
-  });
 
   const handleSearchParamsChange = searchParamUpdates => {
     setSearchParams(prevState => ({
@@ -87,7 +81,6 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
         programmes={searchParams.programs}
         allSubjects={allSubjects}
         subjectItems={subjectItems}
-        concepts={conceptData?.conceptSearch.concepts}
         resourceTypes={data.resourceTypes.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
