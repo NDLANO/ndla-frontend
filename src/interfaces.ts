@@ -38,6 +38,8 @@ export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
 export type ResourceType = 'image' | 'other' | 'video';
 
+export type CompetenceGoalsType = 'LK06' | 'LK20';
+
 interface ProgramTypeBase {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;

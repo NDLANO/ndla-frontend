@@ -19,6 +19,7 @@ import {
   GQLCompetenceGoal,
   GQLCoreElement,
 } from '../../graphqlTypes';
+import { CompetenceGoalsType } from '../../interfaces';
 
 interface Props {
   article: GQLArticle;
@@ -60,7 +61,7 @@ interface CompetenceGoalType {
     goals: {
       text: string;
       url: string;
-      type: 'LK06' | 'LK20';
+      type: CompetenceGoalsType;
     }[];
   }[];
 }
@@ -122,7 +123,7 @@ const getUniqueCompetenceGoals = (
   competenceGoalSetId: string,
   addUrl: boolean,
   searchUrl: string,
-  goalType: 'LK06' | 'LK20',
+  goalType: CompetenceGoalsType,
 ) => {
   return competenceGoals
     .filter(
@@ -151,7 +152,7 @@ const sortElementsById = (
 const groupCompetenceGoals = (
   competenceGoals: LocalGQLCompetenceGoal[],
   addUrl: boolean = false,
-  goalType: 'LK06' | 'LK20',
+  goalType: CompetenceGoalsType,
 ): ElementType['groupedCompetenceGoals'] => {
   const searchUrl = '/search?grepCodes=';
   const curriculumElements = getUniqueCurriculums(competenceGoals).map(

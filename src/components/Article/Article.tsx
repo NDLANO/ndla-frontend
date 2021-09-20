@@ -66,32 +66,32 @@ interface Props {
 }
 
 const renderNotions = (article: GQLArticle, locale: LocaleType) => {
-  const notions = article.concepts?.map((concept: GQLConcept) => {
-    const { content: text, copyright, subjectNames, visualElement } = concept;
-    const { creators: authors, license } = copyright!;
-    return {
-      ...concept,
-      id: concept.id?.toString()!,
-      title: concept.title!,
-      text,
-      locale,
-      labels: subjectNames,
-      authors,
-      license: license?.license,
-      media: visualElement && (
-        <VisualElementWrapper visualElement={visualElement} locale={locale} />
-      ),
-    };
-  });
-  const related = article.relatedContent!?.map(rc => {
-    return {
+  const notions =
+    article.concepts?.map((concept: GQLConcept) => {
+      const { content: text, copyright, subjectNames, visualElement } = concept;
+      const { creators: authors, license } = copyright!;
+      return {
+        ...concept,
+        id: concept.id?.toString()!,
+        title: concept.title!,
+        text,
+        locale,
+        labels: subjectNames,
+        authors,
+        license: license?.license,
+        media: visualElement && (
+          <VisualElementWrapper visualElement={visualElement} locale={locale} />
+        ),
+      };
+    }) ?? [];
+  const related =
+    article.relatedContent?.map(rc => ({
       ...rc,
       label: rc.title,
-    };
-  });
+    })) ?? [];
   if (
     config.ndlaEnvironment !== 'prod' &&
-    (notions!?.length > 0 || related!?.length > 0)
+    (notions.length > 0 || related.length > 0)
   ) {
     return {
       list: notions!,
