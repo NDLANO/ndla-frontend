@@ -371,7 +371,6 @@ export const getTypeFilter = resourceTypes => {
     'topic-article': {
       page: 1,
       pageSize: 4,
-      loading: true,
     },
   };
   if (resourceTypes) {
@@ -385,7 +384,6 @@ export const getTypeFilter = resourceTypes => {
         filters,
         page: 1,
         pageSize: 4,
-        loading: true,
       };
     });
   }
