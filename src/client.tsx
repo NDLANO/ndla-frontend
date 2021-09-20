@@ -78,12 +78,6 @@ interface RCProps {
   children?: React.ReactNode;
 }
 
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
-  googleTagManagerId: config?.googleTagManagerId,
-});
-
 const RouterComponent = ({ children }: RCProps) =>
   isGoogleUrl ? (
     <MemoryRouter initialEntries={[locationFromServer]}>

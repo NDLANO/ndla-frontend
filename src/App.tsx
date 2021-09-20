@@ -7,6 +7,8 @@
  */
 
 import React, { ErrorInfo } from 'react';
+// @ts-ignore
+import { configureTracker } from '@ndla/tracker';
 import {
   Route,
   RouteProps,
@@ -35,6 +37,7 @@ import {
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
 import { initializeI18n } from './i18n';
+import config from './config';
 
 export const BasenameContext = React.createContext('');
 interface NDLARouteProps extends RouteProps {
@@ -140,6 +143,7 @@ function shouldScrollToTop(location: H.Location) {
 }
 
 interface AppProps extends RouteComponentProps, WithTranslation {
+  isClient: boolean;
   initialProps: InitialProps;
   locale?: LocaleType;
   client: ApolloClient<object>;
@@ -163,6 +167,13 @@ class App extends React.Component<AppProps, AppState> {
       data: props.initialProps,
       location: null,
     };
+    if (props.isClient) {
+      configureTracker({
+        listen: props.history.listen,
+        gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+        googleTagManagerId: config?.googleTagManagerId,
+      });
+    }
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 

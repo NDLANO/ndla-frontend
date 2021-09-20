@@ -169,6 +169,7 @@ const routesFunc = function(
   const app = (
     <App
       initialProps={initialProps}
+      isClient={isClient}
       client={client}
       locale={locale}
       key={locale}
