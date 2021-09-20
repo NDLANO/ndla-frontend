@@ -10,8 +10,6 @@ import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
-// @ts-ignore
-import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
