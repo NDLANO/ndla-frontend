@@ -23,7 +23,7 @@ import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
+import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 
 interface Props extends WithTranslation, RouteComponentProps {
   data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
@@ -114,8 +114,8 @@ const ToolboxSubjectContainer = ({
       {selectedTopics.map((topic: string, index: number) => {
         return (
           <div key={index} ref={refs[index]}>
-            <ToolboxTopicWrapper
-              subjectId={subject.id}
+            <ToolboxTopicContainer
+              subject={subject}
               topicId={topic}
               locale={locale}
               onSelectTopic={onSelectTopic}
@@ -161,7 +161,7 @@ ToolboxSubjectContainer.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  if (currentProps.data.subject) {
+  if (currentProps.data.subject && currentProps.topicList.length === 0) {
     trackPageView(currentProps);
   }
 };
@@ -171,21 +171,13 @@ ToolboxSubjectContainer.getDimensions = (props: Props) => {
   const topicPath = topicList.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
-
   const longName = getSubjectLongName(data.subject?.id, locale);
-  const article = data.subject.allTopics?.find(t => t.id === topicList[0])
-    ?.article;
 
-  return getAllDimensions(
-    {
-      subject: data.subject,
-      topicPath,
-      filter: longName,
-      article,
-    },
-    undefined,
-    topicList.length > 0,
-  );
+  return getAllDimensions({
+    subject: data.subject,
+    topicPath,
+    filter: longName,
+  });
 };
 
 export default withTranslation()(
