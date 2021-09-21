@@ -24,9 +24,13 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
+import { TopicData } from './ToolboxSubjectPage';
 
 interface Props extends WithTranslation, RouteComponentProps {
   data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
+  topicData?: TopicData;
+  articleLoading: boolean;
+  setTopicId: (topicId: string) => void;
   topicList: string[];
   locale: LocaleType;
 }
@@ -40,6 +44,9 @@ const ToolboxSubjectContainer = ({
   locale,
   data,
   history,
+  topicData,
+  articleLoading,
+  setTopicId,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -94,6 +101,7 @@ const ToolboxSubjectContainer = ({
         (topic: GQLTopic) => topic.id === id,
       );
       if (topic) {
+        setTopicId(topic.id);
         if (index === 0) {
           setSelectedTopics([topic.id]);
         } else if (index > 0) {
@@ -111,12 +119,13 @@ const ToolboxSubjectContainer = ({
 
   const TopicBoxes = () => (
     <>
-      {selectedTopics.map((topic: string, index: number) => {
+      {selectedTopics.map((_, index: number) => {
         return (
           <div key={index} ref={refs[index]}>
             <ToolboxTopicWrapper
               subjectId={subject.id}
-              topicId={topic}
+              topicData={topicData}
+              loading={articleLoading}
               locale={locale}
               onSelectTopic={onSelectTopic}
               topicList={topicList}
@@ -167,21 +176,19 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { data, locale, topicList } = props;
+  const { data, locale, topicList, topicData } = props;
   const topicPath = topicList.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
 
   const longName = getSubjectLongName(data.subject?.id, locale);
-  const article = data.subject.allTopics?.find(t => t.id === topicList[0])
-    ?.article;
 
   return getAllDimensions(
     {
       subject: data.subject,
       topicPath,
       filter: longName,
-      article,
+      article: topicData?.topic?.article,
     },
     undefined,
     topicList.length > 0,

@@ -11,8 +11,6 @@ import { Topic } from '@ndla/ui';
 //@ts-ignore
 import { Spinner } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
-import { useGraphQuery } from '../../../util/runQueries';
-import { topicQuery } from '../../../queries';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import VisualElementWrapper, {
   getResourceType,
@@ -21,17 +19,13 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import {
-  GQLVisualElement,
-  GQLTopic,
-  GQLResourceType,
-  GQLArticle,
-  GQLMetaImage,
-} from '../../../graphqlTypes';
+import { GQLTopic } from '../../../graphqlTypes';
+import { TopicData } from '../ToolboxSubjectPage';
 
 interface Props {
   subjectId: string;
-  topicId: string;
+  topicData?: TopicData;
+  loading: boolean;
   locale: LocaleType;
   onSelectTopic: (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -41,51 +35,26 @@ interface Props {
   topicList: Array<string>;
   index: number;
 }
-interface Data {
-  topic: ToolBoxTopic;
-  resourceTypes: GQLResourceType;
-}
-
-interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
-  url: string;
-  alt: string;
-}
-interface ToolBoxArticle
-  extends Omit<GQLArticle, 'introduction' | 'metaImage' | 'visualElement'> {
-  introduction: string;
-  metaImage: ToolBoxArticleMetaImage;
-  visualElement: GQLVisualElement;
-}
-
-interface ToolBoxTopic extends Omit<GQLTopic, 'article'> {
-  article: ToolBoxArticle;
-}
 
 const ToolboxTopicWrapper = ({
   subjectId,
-  topicId,
+  topicData,
+  loading,
   locale,
   onSelectTopic,
   topicList,
   index,
 }: Props) => {
-  const { loading, data } = useGraphQuery<Data>(topicQuery, {
-    variables: {
-      subjectId,
-      topicId,
-    },
-  });
-
   if (loading) {
     return <Spinner />;
   }
 
-  if (!data) {
+  if (!topicData) {
     return <DefaultErrorMessage />;
   }
 
-  const { topic, resourceTypes } = data;
-  const { article } = data.topic;
+  const { topic, resourceTypes } = topicData;
+  const { article } = topic;
   const image =
     article.visualElement?.resource === 'image'
       ? {
