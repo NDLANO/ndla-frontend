@@ -142,10 +142,8 @@ export const getAllDimensions = (
     '20': getGrepCodeOfType('KM', article),
   };
 
-  const r = {
+  return {
     ga: convertToGaOrGtmDimension(dimensions, 'ga'),
     gtm: convertToGaOrGtmDimension(dimensions, 'gtm'),
   };
-  console.log(r);
-  return r;
 };
