@@ -170,7 +170,7 @@ ToolboxSubjectContainer.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  if (currentProps.data.subject) {
+  if (currentProps.data.subject && !currentProps.articleLoading) {
     trackPageView(currentProps);
   }
 };
