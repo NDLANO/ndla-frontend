@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -53,4 +53,4 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   );
 };
 
-export default ToolboxSubjectPage;
+export default withRouter(ToolboxSubjectPage);

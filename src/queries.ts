@@ -707,6 +707,9 @@ export const subjectPageQuery = gql`
       }
       allTopics: topics(all: true) {
         ...TopicInfo
+        article {
+          ...ArticleInfo
+        }
       }
       subjectpage {
         ...SubjectPageInfo
@@ -716,6 +719,7 @@ export const subjectPageQuery = gql`
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${articleInfoFragment}
 `;
 
 export const subjectsQuery = gql`

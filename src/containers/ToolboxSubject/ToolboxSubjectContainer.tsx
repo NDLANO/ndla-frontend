@@ -8,8 +8,7 @@
 
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   useTranslation,
@@ -26,7 +25,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 
-interface Props extends RouteComponentProps, WithTranslation {
+interface Props extends WithTranslation, RouteComponentProps {
   data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
   topicList: string[];
   locale: LocaleType;
@@ -38,9 +37,9 @@ const getDocumentTitle = ({ t, data }: Props) => {
 
 const ToolboxSubjectContainer = ({
   topicList,
-  history,
   locale,
   data,
+  history,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -172,13 +171,21 @@ ToolboxSubjectContainer.getDimensions = (props: Props) => {
   const topicPath = topicList.map(t =>
     data.subject.allTopics.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(data.subject?.id, locale);
 
-  return getAllDimensions({
-    subject: data.subject,
-    topicPath,
-    filter: longName,
-  });
+  const longName = getSubjectLongName(data.subject?.id, locale);
+  const article = data.subject.allTopics?.find(t => t.id === topicList[0])
+    ?.article;
+
+  return getAllDimensions(
+    {
+      subject: data.subject,
+      topicPath,
+      filter: longName,
+      article,
+    },
+    undefined,
+    topicList.length > 0,
+  );
 };
 
 export default withTranslation()(
