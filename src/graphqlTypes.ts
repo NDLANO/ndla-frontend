@@ -176,6 +176,7 @@ export type GQLCategory = {
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
+  competenceAimSetId?: Maybe<Scalars['String']>;
   competenceGoalSet?: Maybe<GQLReference>;
   competenceGoalSetCode?: Maybe<Scalars['String']>;
   coreElements?: Maybe<Array<GQLElement>>;
@@ -385,14 +386,14 @@ export type GQLImageElement = {
   caption?: Maybe<Scalars['String']>;
   contentType?: Maybe<Scalars['String']>;
   copyText?: Maybe<Scalars['String']>;
-  focalX?: Maybe<Scalars['Int']>;
-  focalY?: Maybe<Scalars['Int']>;
-  lowerRightX?: Maybe<Scalars['Int']>;
-  lowerRightY?: Maybe<Scalars['Int']>;
+  focalX?: Maybe<Scalars['Float']>;
+  focalY?: Maybe<Scalars['Float']>;
+  lowerRightX?: Maybe<Scalars['Float']>;
+  lowerRightY?: Maybe<Scalars['Float']>;
   resourceid?: Maybe<Scalars['String']>;
   src: Scalars['String'];
-  upperLeftX?: Maybe<Scalars['Int']>;
-  upperLeftY?: Maybe<Scalars['Int']>;
+  upperLeftX?: Maybe<Scalars['Float']>;
+  upperLeftY?: Maybe<Scalars['Float']>;
 };
 
 export type GQLImageLicense = {
@@ -696,6 +697,7 @@ export type GQLQueryGQLpodcastSearchArgs = {
 export type GQLQueryGQLresourceArgs = {
   id: Scalars['String'];
   subjectId?: Maybe<Scalars['String']>;
+  topicId?: Maybe<Scalars['String']>;
 };
 
 
