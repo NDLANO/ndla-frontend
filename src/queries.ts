@@ -613,7 +613,7 @@ export const subjectpageInfo = gql`
 `;
 
 export const subjectTopicsQuery = gql`
-  query subjectTopicsQuery($subjectId: String!) {
+  query subjectTopics($subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
@@ -633,7 +633,7 @@ export const subjectTopicsQuery = gql`
 `;
 
 export const topicsQueryWithBreadcrumbs = gql`
-  query topicsQueryWithBreadcrumbs($contentUri: String, $filterVisible: Boolean) {
+  query topicsWithBreadcrumbs($contentUri: String, $filterVisible: Boolean) {
     topics(contentUri: $contentUri, filterVisible: $filterVisible) {
       ...TopicInfo
       breadcrumbs
@@ -643,7 +643,7 @@ export const topicsQueryWithBreadcrumbs = gql`
 `;
 
 export const subjectPageQueryWithTopics = gql`
-  query subjectPageQueryWithTopics(
+  query subjectPageWithTopics(
     $subjectId: String!
     $filterIds: String
     $topicId: String!
@@ -697,7 +697,7 @@ export const subjectPageQueryWithTopics = gql`
 `;
 
 export const subjectPageQuery = gql`
-  query subjectPageQuery($subjectId: String!) {
+  query subjectPage($subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
@@ -719,7 +719,7 @@ export const subjectPageQuery = gql`
 `;
 
 export const subjectsQuery = gql`
-  query subjectsQuery {
+  query subjects {
     subjects {
       ...SubjectInfo
     }
@@ -728,7 +728,7 @@ export const subjectsQuery = gql`
 `;
 
 export const searchPageQuery = gql`
-  query searchPageQuery {
+  query searchPage {
     subjects {
       ...SubjectInfo
     }
@@ -745,7 +745,7 @@ export const searchPageQuery = gql`
 `;
 
 export const resourceTypesQuery = gql`
-  query resourceTypesQuery {
+  query resourceTypes {
     resourceTypes {
       id
       name
@@ -754,7 +754,7 @@ export const resourceTypesQuery = gql`
 `;
 
 export const topicResourcesQuery = gql`
-  query topicResourcesQuery($topicId: String!, $subjectId: String) {
+  query topicResources($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       coreResources(subjectId: $subjectId) {
@@ -829,7 +829,7 @@ const learningpathInfoFragment = gql`
 `;
 
 export const resourceQuery = gql`
-  query resourceQuery($resourceId: String!, $subjectId: String) {
+  query resource($resourceId: String!, $subjectId: String) {
     resource(id: $resourceId, subjectId: $subjectId) {
       ...ResourceInfo
       article(subjectId: $subjectId) {
@@ -846,7 +846,7 @@ export const resourceQuery = gql`
 `;
 
 export const movedResourceQuery = gql`
-  query movedResourceQuery($resourceId: String!) {
+  query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
       breadcrumbs
     }
@@ -854,11 +854,7 @@ export const movedResourceQuery = gql`
 `;
 
 export const plainArticleQuery = gql`
-  query plainArticleQuery(
-    $articleId: String!
-    $isOembed: String
-    $path: String
-  ) {
+  query plainArticle($articleId: String!, $isOembed: String, $path: String) {
     article(id: $articleId, isOembed: $isOembed, path: $path) {
       ...ArticleInfo
     }
@@ -867,7 +863,7 @@ export const plainArticleQuery = gql`
 `;
 
 export const iframeArticleQuery = gql`
-  query iframeArticleQuery(
+  query iframeArticle(
     $articleId: String!
     $isOembed: String
     $path: String
@@ -897,7 +893,7 @@ export const iframeArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQueryWithPathTopics($topicId: String!, $subjectId: String!) {
+  query topicWithPathTopics($topicId: String!, $subjectId: String!) {
     subject(id: $subjectId) {
       id
       name
@@ -956,7 +952,7 @@ export const topicQueryWithPathTopics = gql`
 `;
 
 export const topicQuery = gql`
-  query topicQuery($topicId: String!, $subjectId: String) {
+  query topic($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
@@ -996,7 +992,7 @@ export const topicQuery = gql`
 `;
 
 export const learningPathStepQuery = gql`
-  query learningPathStepQuery($pathId: String!) {
+  query learningPathStep($pathId: String!) {
     learningpath(pathId: $pathId) {
       ...LearningpathInfo
     }
@@ -1005,11 +1001,7 @@ export const learningPathStepQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoalsQuery(
-    $codes: [String!]
-    $nodeId: String
-    $language: String
-  ) {
+  query competenceGoals($codes: [String!], $nodeId: String, $language: String) {
     competenceGoals(codes: $codes, nodeId: $nodeId, language: $language) {
       id
       name: title
@@ -1053,7 +1045,7 @@ export const movieFragment = gql`
 `;
 
 export const filmFrontPageQuery = gql`
-  query filmFrontPageQuery {
+  query filmFrontPage {
     filmfrontpage {
       name
       about {
@@ -1084,7 +1076,7 @@ export const filmFrontPageQuery = gql`
 `;
 
 export const mastHeadQuery = gql`
-  query mastHeadQuery(
+  query mastHead(
     $subjectId: String!
     $topicId: String!
     $resourceId: String!
@@ -1096,17 +1088,7 @@ export const mastHeadQuery = gql`
       name
       path
       topics(all: true) {
-        id
-        name
-        parent
-        path
-        meta {
-          id
-          metaDescription
-        }
-        metadata {
-          customFields
-        }
+        ...TopicInfo
       }
     }
     resourceTypes {
@@ -1132,13 +1114,14 @@ export const mastHeadQuery = gql`
       }
     }
   }
+  ${topicInfoFragment}
   ${learningpathInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
 
 export const topicPageQuery = gql`
-  query topicPageQuery($topicId: String!, $subjectId: String!) {
+  query topicPage($topicId: String!, $subjectId: String!) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       name
@@ -1186,7 +1169,7 @@ export const topicPageQuery = gql`
 `;
 
 export const resourcePageQuery = gql`
-  query resourcePageQuery(
+  query resourcePage(
     $topicId: String!
     $subjectId: String!
     $resourceId: String!

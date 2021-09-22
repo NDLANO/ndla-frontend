@@ -5,7 +5,8 @@ generates:
   src/graphqlTypes.ts:
     plugins:
       - "typescript"
+      - "typescript-operations"
 config:
-  maybeValue: T | undefined
-  namingConvention:
-    typeNames: ./src/util/gqlNamingFunction.js
+  maybeValue: T
+  typesPrefix: GQL
+  inlineFragmentTypes: combine
