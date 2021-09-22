@@ -329,6 +329,7 @@ export const topicInfoFragment = gql`
     path
     meta {
       id
+      title
       metaDescription
       metaImage {
         url

@@ -22,7 +22,11 @@ import {
 import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
+import {
+  getUrnIdsFromProps,
+  toBreadcrumbItems,
+  SubjectURI,
+} from '../../routeHelpers';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
@@ -35,11 +39,9 @@ import {
 } from '../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../interfaces';
 import {
-  GQLMastheadQueryData,
-  GQLResource,
+  GQLMastHeadQuery,
   GQLResourceType,
   GQLSubject,
-  GQLTopic,
 } from '../../graphqlTypes';
 
 interface Props extends RouteComponentProps {
@@ -52,9 +54,9 @@ interface Props extends RouteComponentProps {
 
 interface State {
   subject?: GQLSubject;
-  topicPath?: GQLTopic[];
+  topicPath?: SubjectURI[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: GQLResource;
+  resource?: SubjectURI;
 }
 
 const MastheadContainer = ({
@@ -75,9 +77,7 @@ const MastheadContainer = ({
     updateData();
   }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery<GQLMastheadQueryData>(
-    mastHeadQuery,
-  );
+  const [fetchData, { data }] = useLazyQuery<GQLMastHeadQuery>(mastHeadQuery);
 
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth
@@ -155,9 +155,7 @@ const MastheadContainer = ({
               subject={subject}
               ndlaFilm={ndlaFilm}
               searchFieldComponent={renderSearchComponent(false)}
-              topicPath={topicPath || []}
               onDataFetch={onDataFetch}
-              resource={resource}
               topicResourcesByType={topicResourcesByType || []}
               locale={locale}
               programmes={getProgrammes(locale)}

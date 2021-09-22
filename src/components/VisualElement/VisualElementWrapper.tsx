@@ -52,11 +52,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
   }));
 
   const caption =
-    visualElement.image?.caption ||
-    visualElement.brightcove?.caption ||
-    visualElement.brightcove?.title ||
-    visualElement.h5p?.title ||
-    '';
+    visualElement.image?.caption || visualElement.brightcove?.caption || '';
 
   const resourceType = getResourceType(visualElement.resource);
 
