@@ -669,6 +669,9 @@ export const subjectPageQueryWithTopics = gql`
       subjectpage {
         ...SubjectPageInfo
       }
+      metadata {
+        customFields
+      }
     }
     topic(id: $topicId) @include(if: $includeTopic) {
       id
@@ -1210,6 +1213,9 @@ export const resourcePageQuery = gql`
       id
       name
       path
+      metadata {
+        customFields
+      }
       topics(all: true) {
         id
         name

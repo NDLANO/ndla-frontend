@@ -1,4 +1,5 @@
 import { constants } from '@ndla/ui';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { LocaleType, SubjectType } from '../interfaces';
 import { GQLSubject } from '../graphqlTypes';
 
@@ -2593,7 +2594,7 @@ export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
     type: constants.subjectCategories.ACTIVE_SUBJECTS,
     subjects: subjects.filter(
       s =>
-        s.metadata?.customFields?.['subjectCategory'] ===
+        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
         constants.subjectCategories.ACTIVE_SUBJECTS,
     ),
   },
@@ -2601,7 +2602,7 @@ export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
     type: constants.subjectCategories.ARCHIVE_SUBJECTS,
     subjects: subjects.filter(
       s =>
-        s.metadata?.customFields?.['subjectCategory'] ===
+        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
         constants.subjectCategories.ARCHIVE_SUBJECTS,
     ),
     visible: true,
@@ -2610,7 +2611,7 @@ export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
     type: constants.subjectCategories.BETA_SUBJECTS,
     subjects: subjects.filter(
       s =>
-        s.metadata?.customFields?.['subjectCategory'] ===
+        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
         constants.subjectCategories.BETA_SUBJECTS,
     ),
     visible: true,

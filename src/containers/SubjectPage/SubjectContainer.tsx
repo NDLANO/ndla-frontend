@@ -10,6 +10,7 @@ import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
 import {
+  constants,
   // @ts-ignore
   OneColumn,
   // @ts-ignore
@@ -18,12 +19,14 @@ import {
   LayoutItem,
   NavigationHeading,
   Breadcrumblist,
+  MessageBox,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import SubjectPageContent from './components/SubjectPageContent';
 import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -57,11 +60,14 @@ const SubjectContainer = ({
   ndlaFilm,
 }: Props) => {
   const { subject } = data;
-  const { name: subjectName } = subject;
+  const { name: subjectName, metadata } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
   const editorsChoices = subject.subjectpage?.editorsChoices;
+  const isExpired =
+    metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+      constants.subjectCategories.ARCHIVE_SUBJECTS || false;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -195,6 +201,11 @@ const SubjectContainer = ({
                   }
                 }
               />
+            )}
+            {isExpired && (
+              <MessageBox>
+                Dette er et gammelt fag som ikke lenger vedlikeholdes
+              </MessageBox>
             )}
             <div ref={headerRef}>
               <NavigationHeading
