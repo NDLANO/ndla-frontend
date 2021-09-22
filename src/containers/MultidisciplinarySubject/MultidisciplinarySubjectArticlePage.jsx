@@ -19,7 +19,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
-    variables: { topicId, subjectId },
+    variables: { topicId, subjectId, showVisualElement: 'true' },
   });
 
   if (loading) {

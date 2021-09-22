@@ -897,7 +897,7 @@ export const iframeArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $subjectId: String!) {
+  query topicQuery($topicId: String!, $subjectId: String!, $showVisualElement: String) {
     subject(id: $subjectId) {
       id
       name
@@ -930,7 +930,7 @@ export const topicQueryWithPathTopics = gql`
         id
         name
       }
-      article {
+      article(showVisualElement: $showVisualElement) {
         ...ArticleInfo
         crossSubjectTopics(subjectId: $subjectId) {
           code
