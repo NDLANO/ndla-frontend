@@ -8,7 +8,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
-import { NavigationTopicAbout, NavigationBox } from '@ndla/ui';
+import { Topic as UITopic } from '@ndla/ui';
+import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import { withTranslation } from 'react-i18next';
 import config from '../../../config';
@@ -16,7 +17,12 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
+import Resources from '../../Resources/Resources';
+import VisualElementWrapper, {
+  getResourceType,
+} from '../../../components/VisualElement/VisualElementWrapper';
 import {
   GraphQLResourceTypeShape,
   GraphQLSubjectShape,
@@ -63,34 +69,66 @@ const MultidisciplinaryTopic = ({
   }));
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
-  return (
-    <>
-      <NavigationTopicAbout
-        heading={topic.name}
-        introduction={topic.article?.introduction}
-        showContent={showContent}
-        invertedStyle={ndlaFilm}
-        renderMarkdown={renderMarkdown}
-        onToggleShowContent={() => setShowContent(!showContent)}
-        isLoading={false}>
-        <ArticleContents
-          topic={topic}
-          copyPageUrlLink={copyPageUrlLink}
+  const { article } = data.topic;
+  const image =
+    article.visualElement?.resource === 'image'
+      ? {
+          url: article.visualElement.image?.src,
+          alt: article.visualElement.image?.alt,
+          crop: getCrop(article.visualElement.image),
+          focalPoint: getFocalPoint(article.visualElement.image),
+        }
+      : {
+          url: article.metaImage?.url,
+          alt: article?.metaImage?.alt,
+        };
+  const transposedTopic: TopicProps = {
+    topic: {
+      title: article.title,
+      introduction: article.introduction,
+      image,
+      visualElement: article.visualElement
+        ? {
+            type: getResourceType(article.visualElement.resource),
+            element: (
+              <VisualElementWrapper
+                visualElement={article.visualElement}
+                locale={locale}
+              />
+            ),
+          }
+        : undefined,
+      resources: data.topic.subtopics ? (
+        <Resources
+          topic={data.topic}
+          resourceTypes={data.resourceTypes}
           locale={locale}
-          modifier="in-topic"
-          showIngress={false}
         />
-      </NavigationTopicAbout>
-      {subTopics.length !== 0 && disableNav !== true && (
-        <NavigationBox
-          colorMode="light"
-          heading="emner"
-          items={subTopics}
-          listDirection="horizontal"
-          invertedStyle={ndlaFilm}
-        />
-      )}
-    </>
+      ) : (
+        undefined
+      ),
+    },
+  };
+
+  return (
+    <UITopic
+      onToggleShowContent={
+        article.content !== '' ? () => setShowContent(!showContent) : undefined
+      }
+      showContent={showContent}
+      topic={transposedTopic.topic}
+      subTopics={!disableNav && subTopics}
+      isLoading={false}
+      renderMarkdown={renderMarkdown}
+      invertedStyle={ndlaFilm}>
+      <ArticleContents
+        topic={data.topic}
+        copyPageUrlLink={copyPageUrlLink}
+        locale={locale}
+        modifier="in-topic"
+        showIngress={false}
+      />
+    </UITopic>
   );
 };
 
