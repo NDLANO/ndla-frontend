@@ -12,6 +12,7 @@ import { Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
+import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
@@ -133,6 +134,7 @@ const Topic = ({
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
       url: toTopic(subjectId, ...topicPath, subtopic.id),
+      isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;

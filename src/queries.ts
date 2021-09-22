@@ -327,6 +327,7 @@ export const topicInfoFragment = gql`
     parent
     contentUri
     path
+    relevanceId
     meta {
       id
       metaDescription
@@ -623,6 +624,7 @@ export const subjectTopicsQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           id
           metaDescription
@@ -668,6 +670,7 @@ export const subjectPageQueryWithTopics = gql`
       name
       path
       contentUri
+      relevanceId
       alternateTopics {
         id
         name
@@ -918,6 +921,7 @@ export const topicQueryWithPathTopics = gql`
         name
         path
       }
+      relevanceId
       meta {
         id
         metaDescription
@@ -929,6 +933,7 @@ export const topicQueryWithPathTopics = gql`
       subtopics {
         id
         name
+        relevanceId
       }
       article {
         ...ArticleInfo
@@ -961,6 +966,7 @@ export const topicQuery = gql`
       id
       name
       path
+      relevanceId
       meta {
         id
         metaDescription
@@ -972,6 +978,7 @@ export const topicQuery = gql`
       subtopics {
         id
         name
+        relevanceId
       }
       article {
         ...ArticleInfo
@@ -1100,6 +1107,7 @@ export const mastHeadQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           id
           metaDescription
@@ -1143,6 +1151,7 @@ export const topicPageQuery = gql`
       id
       name
       path
+      relevanceId
       meta {
         id
         metaDescription
@@ -1170,6 +1179,7 @@ export const topicPageQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           id
           metaDescription
@@ -1200,6 +1210,7 @@ export const resourcePageQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           id
           metaDescription
@@ -1218,6 +1229,7 @@ export const resourcePageQuery = gql`
       id
       name
       path
+      relevanceId
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
@@ -1228,7 +1240,7 @@ export const resourcePageQuery = gql`
         customFields
       }
     }
-    resource(id: $resourceId, subjectId: $subjectId) {
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       ...ResourceInfo
       article(subjectId: $subjectId) {
         ...ArticleInfo
