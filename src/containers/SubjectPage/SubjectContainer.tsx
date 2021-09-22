@@ -161,7 +161,8 @@ const SubjectContainer = ({
   );
 
   const socialMediaMetadata = {
-    title: topicPath?.[topicPath.length - 1]?.name || about?.title,
+    title:
+      topicPath?.[topicPath.length - 1]?.name || about?.title || subject.name,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
@@ -183,19 +184,18 @@ const SubjectContainer = ({
       <div ref={containerRef}>
         <OneColumn>
           <LayoutItem layout="extend">
-            {about && (
-              <SocialMediaMetadata
-                title={socialMediaMetadata.title}
-                description={socialMediaMetadata.description}
-                locale={locale}
-                image={
-                  socialMediaMetadata.image && {
-                    url: socialMediaMetadata.image.url,
-                    altText: socialMediaMetadata.image.alt,
-                  }
+            <SocialMediaMetadata
+              title={socialMediaMetadata.title}
+              description={socialMediaMetadata.description}
+              locale={locale}
+              image={
+                socialMediaMetadata.image && {
+                  url: socialMediaMetadata.image.url,
+                  altText: socialMediaMetadata.image.alt,
                 }
-              />
-            )}
+              }
+            />
+
             <div ref={headerRef}>
               <NavigationHeading
                 subHeading={subjectNames.subHeading}
