@@ -7,23 +7,40 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { RouteComponentProps } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
+import { LocaleType } from '../../interfaces';
+import { GQLResourceType, GQLSubject, GQLTopic } from '../../graphqlTypes';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
-const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+}
+
+interface Data {
+  subject: GQLSubject & { allTopics: GQLTopic[] };
+  topic: GQLTopic;
+  resourceTypes: GQLResourceType[];
+}
+
+const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
-  const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
+  const { data, loading } = useGraphQuery<Data>(topicQueryWithPathTopics, {
     variables: { topicId, subjectId },
   });
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
   }
 
   const { topic, subject, resourceTypes } = data;
@@ -38,17 +55,6 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
       locale={locale}
     />
   );
-};
-
-MultidisciplinarySubjectArticlePage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      topicId: PropTypes.string.isRequired,
-      subjectId: PropTypes.string.isRequired,
-    }).isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  locale: PropTypes.string,
 };
 
 export default MultidisciplinarySubjectArticlePage;
