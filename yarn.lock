@@ -1978,6 +1978,15 @@
     "@ndla/util" "^1.0.2"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.0.2.tgz#90eafcaf891df1cc1ce5a5ce330560857bea3960"
+  integrity sha512-fOwWeNtwy+65t9QPDsQFtZ6m9Qr+BH43CABVQGX8nSQlQEgeFG4rZeMsRD3gMe+p4cT83UF/b/v35blupp6Quw==
+  dependencies:
+    "@ndla/core" "^0.7.0"
+    "@ndla/util" "^1.0.2"
+    react-tabs "^3.0.0"
+
 "@ndla/tooltip@^0.2.42":
   version "0.2.42"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.42.tgz#9e8b12b13574b029d6dd075b23ea3b5dab8e3a85"
@@ -2033,6 +2042,14 @@
     react-syntax-highlighter "^15.4.4"
     react-transition-group "^2.5.3"
     shave "^2.5.10"
+
+"@ndla/util@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-1.0.2.tgz#9c1a118ed73f33c7f75cc1e6f7d7002fa4995a6b"
+  integrity sha512-Ayy3FwlO2w8wJMQ7PNQUK/ivEifTktHdccJHoYI36vkMcx9ebjf/IGfa7HXynv/88diVEykOWUUWQV0e757c/w==
+  dependencies:
+    defined "1.0.0"
+    remarkable "^2.0.1"
 
 "@ndla/util@^1.0.2":
   version "1.0.2"
