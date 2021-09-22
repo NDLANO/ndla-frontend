@@ -6,12 +6,11 @@
  *
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import { Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic } from '../../../routeHelpers';
@@ -24,12 +23,31 @@ import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import {
-  GraphQLResourceTypeShape,
-  GraphQLSubjectShape,
-  GraphQLTopicShape,
-} from '../../../graphqlShapes';
+  GQLArticle,
+  GQLResourceType,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
+import { LocaleType } from '../../../interfaces';
 
-const getDocumentTitle = ({ t, data }) => {
+interface Data {
+  topic: GQLTopic;
+  resourceTypes: Array<GQLResourceType>;
+}
+
+interface Props extends WithTranslation {
+  topicId: string;
+  subjectId: string;
+  subTopicId?: string;
+  locale: LocaleType;
+  ndlaFilm?: boolean;
+  subject: GQLSubject & { allTopics: GQLTopic[] };
+  data: Data;
+  loading?: boolean;
+  disableNav?: boolean;
+}
+
+const getDocumentTitle = ({ t, data }: Props) => {
   return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
@@ -41,7 +59,7 @@ const MultidisciplinaryTopic = ({
   ndlaFilm,
   data,
   disableNav,
-}) => {
+}: Props) => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -54,70 +72,79 @@ const MultidisciplinaryTopic = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
-  const renderMarkdown = text => markdown.render(text);
+  const renderMarkdown = (text: string) => markdown.render(text);
 
   const topic = data.topic;
   const topicPath = topic.path
-    .split('/')
+    ?.split('/')
     .slice(2)
     .map(id => `urn:${id}`);
-  const subTopics = topic.subtopics.map(item => ({
-    id: item.id,
-    label: item.name,
-    selected: item.id === subTopicId,
-    url: toTopic(subjectId, ...topicPath, item.id),
-  }));
+  const subTopics =
+    topic.subtopics?.map(item => ({
+      id: item.id,
+      label: item.name,
+      selected: item.id === subTopicId,
+      url: toTopic(subjectId, ...(topicPath ?? []), item.id),
+    })) ?? [];
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
-  const { article } = data.topic;
-  const image =
-    article.visualElement?.resource === 'image'
-      ? {
-          url: article.visualElement.image?.src,
-          alt: article.visualElement.image?.alt,
-          crop: getCrop(article.visualElement.image),
-          focalPoint: getFocalPoint(article.visualElement.image),
-        }
-      : {
-          url: article.metaImage?.url,
-          alt: article?.metaImage?.alt,
-        };
-  const transposedTopic: TopicProps = {
-    topic: {
-      title: article.title,
-      introduction: article.introduction,
-      image,
-      visualElement: article.visualElement
+  const toTopicProps = (
+    article: GQLArticle | undefined,
+    locale: LocaleType,
+  ): TopicProps | undefined => {
+    if (!article) return;
+    const image =
+      article?.visualElement?.resource === 'image' &&
+      article.visualElement.image
         ? {
-            type: getResourceType(article.visualElement.resource),
-            element: (
-              <VisualElementWrapper
-                visualElement={article.visualElement}
-                locale={locale}
-              />
-            ),
+            url: article.visualElement.image?.src ?? '',
+            alt: article.visualElement.image?.alt ?? '',
+            crop: getCrop(article.visualElement.image),
+            focalPoint: getFocalPoint(article.visualElement.image),
           }
-        : undefined,
-      resources: data.topic.subtopics ? (
-        <Resources
-          topic={data.topic}
-          resourceTypes={data.resourceTypes}
-          locale={locale}
-        />
-      ) : (
-        undefined
-      ),
-    },
+        : {
+            url: article?.metaImage?.url ?? '',
+            alt: article?.metaImage?.alt ?? '',
+          };
+    return {
+      topic: {
+        title: article.title,
+        introduction: article.introduction ?? '',
+        image,
+        visualElement: article.visualElement
+          ? {
+              type: getResourceType(article.visualElement.resource),
+              element: (
+                <VisualElementWrapper
+                  visualElement={article.visualElement}
+                  locale={locale}
+                />
+              ),
+            }
+          : undefined,
+        resources: data.topic.subtopics ? (
+          <Resources
+            topic={data.topic}
+            resourceTypes={data.resourceTypes}
+            locale={locale}
+          />
+        ) : (
+          undefined
+        ),
+      },
+    };
   };
+
+  const { article } = data.topic;
 
   return (
     <UITopic
       onToggleShowContent={
-        article.content !== '' ? () => setShowContent(!showContent) : undefined
+        article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
       showContent={showContent}
-      topic={transposedTopic.topic}
-      subTopics={!disableNav && subTopics}
+      topic={toTopicProps(article, locale)?.topic}
+      subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}>
@@ -134,17 +161,20 @@ const MultidisciplinaryTopic = ({
 
 MultidisciplinaryTopic.getDocumentTitle = getDocumentTitle;
 
-MultidisciplinaryTopic.willTrackPageView = (trackPageView, currentProps) => {
+MultidisciplinaryTopic.willTrackPageView = (
+  trackPageView: (item: Props) => void,
+  currentProps: Props,
+) => {
   const { data } = currentProps;
   if (data?.topic?.article) {
     trackPageView(currentProps);
   }
 };
 
-MultidisciplinaryTopic.getDimensions = props => {
+MultidisciplinaryTopic.getDimensions = (props: Props) => {
   const { data, locale, subject } = props;
   const topicPath = data.topic.path
-    .split('/')
+    ?.split('/')
     .slice(2)
     .map(t =>
       subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
@@ -162,24 +192,6 @@ MultidisciplinaryTopic.getDimensions = props => {
     undefined,
     true,
   );
-};
-
-MultidisciplinaryTopic.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  setSelectedTopic: PropTypes.func,
-  subTopicId: PropTypes.string,
-  locale: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-  setBreadCrumb: PropTypes.func,
-  index: PropTypes.number,
-  subject: GraphQLSubjectShape,
-  data: PropTypes.shape({
-    topic: GraphQLTopicShape,
-    resourceTypes: PropTypes.arrayOf(GraphQLResourceTypeShape),
-  }),
-  loading: PropTypes.bool,
-  disableNav: PropTypes.bool,
 };
 
 export default withTranslation()(withTracker(MultidisciplinaryTopic));

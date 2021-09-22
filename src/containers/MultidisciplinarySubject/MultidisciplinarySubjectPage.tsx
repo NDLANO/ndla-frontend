@@ -7,28 +7,41 @@
  */
 
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { RouteComponentProps } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
-import { LocationShape } from '../../shapes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
+import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
 
-const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+}
+
+interface Data {
+  topic: GQLTopic;
+  subject: GQLSubject & {
+    allTopics: GQLTopic[];
+  };
+  subjects: GQLSubject[];
+}
+
+const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
   });
-  const refs = selectedTopics.map(_ => React.createRef());
+  const refs = selectedTopics.map(_ => React.createRef<HTMLDivElement>());
 
   useEffect(() => {
     if (selectedTopics.length) {
       const ref = refs[selectedTopics.length - 1];
       const positionFromTop =
-        ref.current?.getBoundingClientRect().top +
+        (ref?.current?.getBoundingClientRect().top ?? 0) +
         document.documentElement.scrollTop;
       window.scrollTo({
         top: positionFromTop - 100,
@@ -37,7 +50,7 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     }
   }, [selectedTopics]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { loading, data } = useGraphQuery(subjectPageQuery, {
+  const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
     variables: {
       subjectId,
     },
@@ -51,21 +64,23 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
     return <DefaultErrorMessage />;
   }
 
-  const { subject = {} } = data;
+  const { subject } = data;
 
-  const mainTopics = subject.topics?.map(topic => {
-    return {
-      ...topic,
-      label: topic.name,
-      selected: topic.id === selectedTopics[0],
-      url: toTopic(subject.id, topic.id),
-    };
-  });
+  const mainTopics =
+    subject.topics?.map(topic => {
+      return {
+        ...topic,
+        label: topic.name,
+        selected: topic.id === selectedTopics[0],
+        url: toTopic(subject.id, topic.id),
+      };
+    }) ?? [];
 
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
-  const selectedSubject =
-    isNotLastTopic || subject.topics?.find(t => t.id === selectedTopics[0]);
+  const selectedSubject = subject.topics?.find(
+    t => t.id === selectedTopics[0],
+  )!;
 
   const cards = isNotLastTopic
     ? []
@@ -77,32 +92,35 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
         .map(topic => ({
           title: topic.name,
           topicId: topic.id,
-          introduction: topic.meta.metaDescription,
-          image: topic.meta.metaImage?.url,
-          imageAlt: topic.meta.metaImage?.alt,
-          subjects: [selectedSubject.name],
-          url: topic.path,
+          introduction: topic.meta?.metaDescription ?? '',
+          image: topic.meta?.metaImage?.url,
+          imageAlt: topic.meta?.metaImage?.alt,
+          subjects: isNotLastTopic ? undefined : [selectedSubject?.name],
+          url: topic.path ?? '',
           ...topic,
         }));
 
-  const TopicBoxes = () =>
-    selectedTopics.map((topicId, index) => {
-      return (
-        <div key={index} ref={refs[index]}>
-          <MultidisciplinaryTopicWrapper
-            disableNav={index >= selectionLimit - 1}
-            topicId={topicId}
-            subjectId={subject.id}
-            subTopicId={selectedTopics[index + 1]}
-            locale={locale}
-            index={index}
-            subject={subject}
-          />
-        </div>
-      );
-    });
+  const TopicBoxes = () => (
+    <>
+      {selectedTopics.map((topicId, index) => {
+        return (
+          <div key={index} ref={refs[index]}>
+            <MultidisciplinaryTopicWrapper
+              disableNav={index >= selectionLimit - 1}
+              topicId={topicId}
+              subjectId={subject.id}
+              subTopicId={selectedTopics[index + 1]}
+              locale={locale}
+              subject={subject}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 
   return (
+    // @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example.
     <MultidisciplinarySubject
       hideCards={isNotLastTopic}
       cards={cards}
@@ -111,17 +129,6 @@ const MultidisciplinarySubjectPage = ({ match, history, location, locale }) => {
       <TopicBoxes />
     </MultidisciplinarySubject>
   );
-};
-
-MultidisciplinarySubjectPage.propTypes = {
-  match: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  locale: PropTypes.string.isRequired,
 };
 
 export default MultidisciplinarySubjectPage;
