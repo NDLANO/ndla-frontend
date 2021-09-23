@@ -40,6 +40,7 @@ import {
 import { LocaleType } from '../../interfaces';
 import {
   GQLMastHeadQuery,
+  GQLMastHeadQueryVariables,
   GQLResourceType,
   GQLSubject,
 } from '../../graphqlTypes';
@@ -77,7 +78,10 @@ const MastheadContainer = ({
     updateData();
   }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery<GQLMastHeadQuery>(mastHeadQuery);
+  const [fetchData, { data }] = useLazyQuery<
+    GQLMastHeadQuery,
+    GQLMastHeadQueryVariables
+  >(mastHeadQuery);
 
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth

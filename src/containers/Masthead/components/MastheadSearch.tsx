@@ -21,7 +21,12 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
 import { toSearch } from '../../../routeHelpers';
-import { GQLResource, GQLSubject } from '../../../graphqlTypes';
+import {
+  GQLSubject,
+  GQLGroupSearch,
+  GQLGroupSearchQuery,
+  GQLGroupSearchQueryVariables,
+} from '../../../graphqlTypes';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
@@ -29,17 +34,6 @@ interface Props extends RouteComponentProps {
   hideOnNarrowScreen?: boolean;
   subject?: GQLSubject;
   ndlaFilm?: boolean;
-}
-
-interface GQLGroupSearchResults {
-  groupSearch?: GroupSearch[];
-}
-
-interface GroupSearch {
-  resources: GQLResource[];
-  resourceType: string;
-  language: string;
-  totalCount: number;
 }
 
 const MastheadSearch = ({
@@ -55,7 +49,8 @@ const MastheadSearch = ({
   const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
-    GQLGroupSearchResults
+    GQLGroupSearchQuery,
+    GQLGroupSearchQueryVariables
   >(groupSearchQuery, { fetchPolicy: 'no-cache' });
 
   useEffect(() => {
@@ -101,7 +96,7 @@ const MastheadSearch = ({
     }
   };
 
-  const mapResults = (results: GroupSearch[] = []) =>
+  const mapResults = (results: GQLGroupSearch[] = []) =>
     query.length > 1
       ? results.map(result => {
           const contentType = contentTypeMapping[result.resourceType];
@@ -109,7 +104,7 @@ const MastheadSearch = ({
             ...result,
             resources: result.resources.map(resource => ({
               ...resource,
-              resourceType: result.resourceType, // TODO: return resourceType from grahql-api
+              resourceType: result.resourceType,
             })),
             contentType,
             title: t(`contentTypes.${contentType}`),

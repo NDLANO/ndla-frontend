@@ -858,6 +858,7 @@ export type GQLSearchSuggestion = {
 
 export type GQLSubject = {
   __typename?: 'Subject';
+  allTopics?: Maybe<Array<GQLTopic>>;
   contentUri?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<GQLSubjectFilter>>;
   frontpageFilters?: Maybe<Array<GQLSubjectFilter>>;
@@ -1489,6 +1490,20 @@ export type GQLCopyrightInfoFragment = {
   >;
 };
 
+export type GQLMetaInfoFragment = {
+  __typename?: 'Meta';
+  id: number;
+  title: string;
+  introduction?: Maybe<string>;
+  metaDescription?: Maybe<string>;
+  lastUpdated?: Maybe<string>;
+  metaImage?: Maybe<{
+    __typename?: 'MetaImage';
+    url?: Maybe<string>;
+    alt?: Maybe<string>;
+  }>;
+};
+
 export type GQLTopicInfoFragment = {
   __typename?: 'Topic';
   id: string;
@@ -1496,17 +1511,7 @@ export type GQLTopicInfoFragment = {
   parent?: Maybe<string>;
   contentUri?: Maybe<string>;
   path?: Maybe<string>;
-  meta?: Maybe<{
-    __typename?: 'Meta';
-    id: number;
-    title: string;
-    metaDescription?: Maybe<string>;
-    metaImage?: Maybe<{
-      __typename?: 'MetaImage';
-      url?: Maybe<string>;
-      alt?: Maybe<string>;
-    }>;
-  }>;
+  meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
 };
 
 export type GQLSubjectInfoFragment = {
@@ -1528,20 +1533,6 @@ export type GQLResourceInfoFragment = {
   resourceTypes?: Maybe<
     Array<{ __typename?: 'ResourceType'; id: string; name: string }>
   >;
-};
-
-export type GQLMetaInfoFragment = {
-  __typename?: 'Meta';
-  id: number;
-  title: string;
-  introduction?: Maybe<string>;
-  metaDescription?: Maybe<string>;
-  lastUpdated?: Maybe<string>;
-  metaImage?: Maybe<{
-    __typename?: 'MetaImage';
-    url?: Maybe<string>;
-    alt?: Maybe<string>;
-  }>;
 };
 
 export type GQLVisualElementInfoFragment = {
@@ -1607,6 +1598,8 @@ export type GQLArticleInfoFragment = {
   title: string;
   introduction?: Maybe<string>;
   content: string;
+  articleType: string;
+  revision: number;
   metaDescription: string;
   supportedLanguages?: Maybe<Array<string>>;
   tags?: Maybe<Array<string>>;
@@ -1833,11 +1826,7 @@ export type GQLSubjectTopicsQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
-        meta?: Maybe<{
-          __typename?: 'Meta';
-          id: number;
-          metaDescription?: Maybe<string>;
-        }>;
+        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
   }>;
@@ -1869,17 +1858,16 @@ export type GQLSubjectPageWithTopicsQueryVariables = Exact<{
 
 export type GQLSubjectPageWithTopicsQuery = {
   __typename?: 'Query';
-  subject?: Maybe<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path: string;
-    topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
-    allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
-    subjectpage?: Maybe<
-      { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
-    >;
-  }>;
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+      allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+      subjectpage?: Maybe<
+        { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
+      >;
+    } & GQLSubjectInfoFragment
+  >;
   topic?: Maybe<{
     __typename?: 'Topic';
     id: string;
@@ -1893,16 +1881,7 @@ export type GQLSubjectPageWithTopicsQuery = {
         name: string;
         path?: Maybe<string>;
         breadcrumbs?: Maybe<Array<Array<string>>>;
-        meta?: Maybe<{
-          __typename?: 'Meta';
-          id: number;
-          metaDescription?: Maybe<string>;
-          metaImage?: Maybe<{
-            __typename?: 'MetaImage';
-            url?: Maybe<string>;
-            alt?: Maybe<string>;
-          }>;
-        }>;
+        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
   }>;
@@ -2163,16 +2142,7 @@ export type GQLTopicWithPathTopicsQuery = {
         }>
       >
     >;
-    meta?: Maybe<{
-      __typename?: 'Meta';
-      id: number;
-      metaDescription?: Maybe<string>;
-      metaImage?: Maybe<{
-        __typename?: 'MetaImage';
-        url?: Maybe<string>;
-        alt?: Maybe<string>;
-      }>;
-    }>;
+    meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     subtopics?: Maybe<
       Array<{ __typename?: 'Topic'; id: string; name: string }>
     >;
@@ -2213,16 +2183,7 @@ export type GQLTopicQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
-    meta?: Maybe<{
-      __typename?: 'Meta';
-      id: number;
-      metaDescription?: Maybe<string>;
-      metaImage?: Maybe<{
-        __typename?: 'MetaImage';
-        url?: Maybe<string>;
-        alt?: Maybe<string>;
-      }>;
-    }>;
+    meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     subtopics?: Maybe<
       Array<{ __typename?: 'Topic'; id: string; name: string }>
     >;
@@ -2402,16 +2363,7 @@ export type GQLTopicPageQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
-    meta?: Maybe<{
-      __typename?: 'Meta';
-      id: number;
-      metaDescription?: Maybe<string>;
-      metaImage?: Maybe<{
-        __typename?: 'MetaImage';
-        url?: Maybe<string>;
-        alt?: Maybe<string>;
-      }>;
-    }>;
+    meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
     coreResources?: Maybe<
       Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
@@ -2432,11 +2384,7 @@ export type GQLTopicPageQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
-        meta?: Maybe<{
-          __typename?: 'Meta';
-          id: number;
-          metaDescription?: Maybe<string>;
-        }>;
+        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
   }>;
@@ -2465,11 +2413,7 @@ export type GQLResourcePageQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
-        meta?: Maybe<{
-          __typename?: 'Meta';
-          id: number;
-          metaDescription?: Maybe<string>;
-        }>;
+        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
   }>;

@@ -320,6 +320,20 @@ const copyrightInfoFragment = gql`
   }
 `;
 
+export const metaInfoFragment = gql`
+  fragment MetaInfo on Meta {
+    id
+    title
+    introduction
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    lastUpdated
+  }
+`;
+
 export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
@@ -328,15 +342,10 @@ export const topicInfoFragment = gql`
     contentUri
     path
     meta {
-      id
-      title
-      metaDescription
-      metaImage {
-        url
-        alt
-      }
+      ...MetaInfo
     }
   }
+  ${metaInfoFragment}
 `;
 
 export const subjectInfoFragment = gql`
@@ -360,20 +369,6 @@ export const resourceInfoFragment = gql`
       id
       name
     }
-  }
-`;
-
-export const metaInfoFragment = gql`
-  fragment MetaInfo on Meta {
-    id
-    title
-    introduction
-    metaDescription
-    metaImage {
-      url
-      alt
-    }
-    lastUpdated
   }
 `;
 
@@ -441,6 +436,8 @@ export const articleInfoFragment = gql`
     title
     introduction
     content
+    articleType
+    revision
     metaDescription
     metaImage {
       url
@@ -625,12 +622,12 @@ export const subjectTopicsQuery = gql`
         parent
         path
         meta {
-          id
-          metaDescription
+          ...MetaInfo
         }
       }
     }
   }
+  ${metaInfoFragment}
 `;
 
 export const topicsQueryWithBreadcrumbs = gql`
@@ -651,9 +648,7 @@ export const subjectPageQueryWithTopics = gql`
     $includeTopic: Boolean!
   ) {
     subject(id: $subjectId) {
-      id
-      name
-      path
+      ...SubjectInfo
       topics(filterIds: $filterIds) {
         ...TopicInfo
       }
@@ -675,12 +670,7 @@ export const subjectPageQueryWithTopics = gql`
         path
         breadcrumbs
         meta {
-          id
-          metaDescription
-          metaImage {
-            url
-            alt
-          }
+          ...MetaInfo
         }
       }
     }
@@ -691,6 +681,8 @@ export const subjectPageQueryWithTopics = gql`
       }
     }
   }
+  ${metaInfoFragment}
+  ${subjectInfoFragment}
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
@@ -916,12 +908,7 @@ export const topicQueryWithPathTopics = gql`
         path
       }
       meta {
-        id
-        metaDescription
-        metaImage {
-          url
-          alt
-        }
+        ...MetaInfo
       }
       subtopics {
         id
@@ -947,6 +934,7 @@ export const topicQueryWithPathTopics = gql`
       name
     }
   }
+  ${metaInfoFragment}
   ${topicInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
@@ -959,12 +947,7 @@ export const topicQuery = gql`
       name
       path
       meta {
-        id
-        metaDescription
-        metaImage {
-          url
-          alt
-        }
+        ...MetaInfo
       }
       subtopics {
         id
@@ -988,6 +971,7 @@ export const topicQuery = gql`
       name
     }
   }
+  ${metaInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
@@ -1128,12 +1112,7 @@ export const topicPageQuery = gql`
       name
       path
       meta {
-        id
-        metaDescription
-        metaImage {
-          url
-          alt
-        }
+        ...MetaInfo
       }
       article {
         ...ArticleInfo
@@ -1155,8 +1134,7 @@ export const topicPageQuery = gql`
         parent
         path
         meta {
-          id
-          metaDescription
+          ...MetaInfo
         }
       }
     }
@@ -1165,6 +1143,7 @@ export const topicPageQuery = gql`
       name
     }
   }
+  ${metaInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
@@ -1185,8 +1164,7 @@ export const resourcePageQuery = gql`
         parent
         path
         meta {
-          id
-          metaDescription
+          ...MetaInfo
         }
       }
     }
@@ -1222,6 +1200,7 @@ export const resourcePageQuery = gql`
       }
     }
   }
+  ${metaInfoFragment}
   ${learningpathInfoFragment}
   ${resourceInfoFragment}
   ${articleInfoFragment}

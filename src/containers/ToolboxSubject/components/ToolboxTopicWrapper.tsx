@@ -22,11 +22,9 @@ import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
-  GQLVisualElement,
   GQLTopic,
-  GQLResourceType,
-  GQLArticle,
-  GQLMetaImage,
+  GQLTopicQuery,
+  GQLTopicQueryVariables,
 } from '../../../graphqlTypes';
 
 interface Props {
@@ -41,25 +39,6 @@ interface Props {
   topicList: Array<string>;
   index: number;
 }
-interface Data {
-  topic: ToolBoxTopic;
-  resourceTypes: GQLResourceType;
-}
-
-interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
-  url: string;
-  alt: string;
-}
-interface ToolBoxArticle
-  extends Omit<GQLArticle, 'introduction' | 'metaImage' | 'visualElement'> {
-  introduction: string;
-  metaImage: ToolBoxArticleMetaImage;
-  visualElement: GQLVisualElement;
-}
-
-interface ToolBoxTopic extends Omit<GQLTopic, 'article'> {
-  article: ToolBoxArticle;
-}
 
 const ToolboxTopicWrapper = ({
   subjectId,
@@ -69,7 +48,10 @@ const ToolboxTopicWrapper = ({
   topicList,
   index,
 }: Props) => {
-  const { loading, data } = useGraphQuery<Data>(topicQuery, {
+  const { loading, data } = useGraphQuery<
+    GQLTopicQuery,
+    GQLTopicQueryVariables
+  >(topicQuery, {
     variables: {
       subjectId,
       topicId,
@@ -80,14 +62,17 @@ const ToolboxTopicWrapper = ({
     return <Spinner />;
   }
 
-  if (!data) {
+  if (!data?.topic?.article) {
     return <DefaultErrorMessage />;
   }
 
-  const { topic, resourceTypes } = data;
-  const { article } = data.topic;
+  const {
+    topic: { article },
+    topic,
+    resourceTypes,
+  } = data;
   const image =
-    article.visualElement?.resource === 'image'
+    article?.visualElement?.resource === 'image'
       ? {
           url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
@@ -95,24 +80,26 @@ const ToolboxTopicWrapper = ({
           focalPoint: getFocalPoint(article.visualElement.image!),
         }
       : {
-          url: article.metaImage?.url!,
+          url: article?.metaImage?.url!,
           alt: article?.metaImage?.alt!,
         };
   const toolboxTopic: TopicProps = {
     topic: {
       title: article.title,
-      introduction: article.introduction,
+      introduction: article.introduction || '',
       image,
-      visualElement: {
-        type: getResourceType(article.visualElement.resource),
-        element: (
-          <VisualElementWrapper
-            visualElement={article.visualElement}
-            locale={locale}
-          />
-        ),
-      },
-      resources: topic.subtopics ? (
+      ...(article.visualElement && {
+        visualElement: {
+          type: getResourceType(article.visualElement.resource),
+          element: (
+            <VisualElementWrapper
+              visualElement={article.visualElement}
+              locale={locale}
+            />
+          ),
+        },
+      }),
+      resources: topic?.subtopics ? (
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}

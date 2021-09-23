@@ -17,17 +17,17 @@ import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { GQLTopic, GQLSubject } from '../../graphqlTypes';
+import {
+  GQLTopic,
+  GQLSubjectPageQuery,
+  GQLSubjectPageQueryVariables,
+} from '../../graphqlTypes';
 import ToolboxTopicWrapper from './components/ToolboxTopicWrapper';
 import { LocaleType } from '../../interfaces';
 import { getSubjectLongName } from '../../data/subjects';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-}
-
-interface Data {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
 const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
@@ -39,9 +39,12 @@ const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
 
   const refs = topicList.map(() => React.createRef<HTMLDivElement>());
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-  const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
+  const { loading, data } = useGraphQuery<
+    GQLSubjectPageQuery,
+    GQLSubjectPageQueryVariables
+  >(subjectPageQuery, {
     variables: {
-      subjectId,
+      subjectId: subjectId!,
     },
   });
 
@@ -49,7 +52,7 @@ const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
     topicList.forEach((topicId: string) => {
       const alreadySelected = selectedTopics.find(topic => topic === topicId);
       if (!alreadySelected) {
-        const exist = subject?.allTopics.find(
+        const exist = subject?.allTopics?.find(
           (topic: GQLTopic) => topic.id === topicId,
         );
         if (exist) setSelectedTopics([exist.id, ...selectedTopics]);
@@ -75,7 +78,7 @@ const ToolboxSubjectPage = ({ history, match, locale }: Props) => {
     return null;
   }
 
-  if (!data) {
+  if (!data?.subject) {
     return <DefaultErrorMessage />;
   }
 
