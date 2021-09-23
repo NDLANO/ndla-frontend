@@ -14,7 +14,7 @@ describe('Iframe oembed page', () => {
       'POST',
       '**/graphql',
       ['iframeOembedGraphQL', 'competenceGoalsGraphQL'],
-      ['iframeArticleQuery', 'competenceGoalsQuery'],
+      ['iframeArticle', 'competenceGoals'],
     );
   });
 
