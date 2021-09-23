@@ -28,6 +28,7 @@ export type GQLAggregationResult = {
 export type GQLArticle = {
   __typename?: 'Article';
   articleType: Scalars['String'];
+  availability?: Maybe<Scalars['String']>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   conceptIds?: Maybe<Array<Scalars['String']>>;
   concepts?: Maybe<Array<GQLDetailedConcept>>;
@@ -504,6 +505,7 @@ export type GQLListingPage = {
 
 export type GQLMeta = {
   __typename?: 'Meta';
+  availability?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   introduction?: Maybe<Scalars['String']>;
   lastUpdated?: Maybe<Scalars['String']>;
@@ -603,6 +605,7 @@ export type GQLQueryArticleArgs = {
   id: Scalars['String'];
   isOembed?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
+  showVisualElement?: Maybe<Scalars['String']>;
   subjectId?: Maybe<Scalars['String']>;
 };
 
@@ -756,6 +759,7 @@ export type GQLRelatedContent = {
 export type GQLResource = GQLTaxonomyEntity & {
   __typename?: 'Resource';
   article?: Maybe<GQLArticle>;
+  availability?: Maybe<Scalars['String']>;
   breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
   contentUri?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<GQLFilter>>;
@@ -960,6 +964,7 @@ export type GQLTags = {
 
 export type GQLTaxonomyEntity = {
   article?: Maybe<GQLArticle>;
+  availability?: Maybe<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<GQLFilter>>;
   id: Scalars['String'];
@@ -994,6 +999,7 @@ export type GQLTopic = GQLTaxonomyEntity & {
   __typename?: 'Topic';
   alternateTopics?: Maybe<Array<GQLTopic>>;
   article?: Maybe<GQLArticle>;
+  availability?: Maybe<Scalars['String']>;
   breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
   contentUri?: Maybe<Scalars['String']>;
   coreResources?: Maybe<Array<GQLResource>>;
@@ -1015,6 +1021,7 @@ export type GQLTopic = GQLTaxonomyEntity & {
 
 export type GQLTopicArticleArgs = {
   filterIds?: Maybe<Scalars['String']>;
+  showVisualElement?: Maybe<Scalars['String']>;
   subjectId?: Maybe<Scalars['String']>;
 };
 
@@ -2115,6 +2122,7 @@ export type GQLIframeArticleQuery = {
 export type GQLTopicWithPathTopicsQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
+  showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
 export type GQLTopicWithPathTopicsQuery = {
