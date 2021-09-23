@@ -68,7 +68,7 @@ const MovedResourcePage = ({ resource }) => {
 
   if (error) {
     handleError(error);
-    return <DefaultErrorMessage/>
+    return <DefaultErrorMessage />;
   }
 
   const results = resultsWithContentTypeBadgeAndImage(

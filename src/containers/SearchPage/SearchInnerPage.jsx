@@ -226,7 +226,7 @@ const SearchInnerPage = ({
 
   if (error) {
     handleError(error);
-    return <DefaultErrorMessage/>
+    return <DefaultErrorMessage />;
   }
 
   const suggestion =
