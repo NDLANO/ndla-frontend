@@ -15,7 +15,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
-
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { ResourceShape } from '../../shapes';
 
 const MovedResourcePage = ({ resource }) => {
@@ -68,7 +68,7 @@ const MovedResourcePage = ({ resource }) => {
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage/>
   }
 
   const results = resultsWithContentTypeBadgeAndImage(

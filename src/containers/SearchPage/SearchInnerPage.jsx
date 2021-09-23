@@ -28,6 +28,7 @@ import { resourceTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -225,7 +226,7 @@ const SearchInnerPage = ({
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage/>
   }
 
   const suggestion =
