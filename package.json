@@ -93,7 +93,7 @@
     "@emotion/styled": "^10.0.27",
     "@ndla/article-scripts": "^2.0.0",
     "@ndla/button": "^1.0.0",
-    "@ndla/core": "^0.7.0",
+    "@ndla/core": "^0.7.1",
     "@ndla/error-reporter": "^1.0.0",
     "@ndla/icons": "^1.0.0",
     "@ndla/licenses": "^1.0.0",
