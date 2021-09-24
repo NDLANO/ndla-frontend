@@ -22,25 +22,21 @@ export function getArticleScripts(article: GQLArticle) {
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-
   if (article && article.content.indexOf('<math') > -1) {
-    scripts.push(...MathjaxScripts);
+    scripts.push({
+      src: '/static/mathjax-config.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
+
+    scripts.push({
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/mml-chtml.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
   }
 
   return scripts;
 }
-
-const MathjaxScripts = [
-  {
-    src: '/static/mathjax-config.js',
-    type: 'text/javascript',
-    async: false,
-    defer: true,
-  },
-  {
-    src: 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/mml-chtml.js',
-    type: 'text/javascript',
-    async: false,
-    defer: true,
-  },
-];
