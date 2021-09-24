@@ -1126,7 +1126,8 @@ export const mastHeadQuery = gql`
         ...ResourceInfo
       }
     }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) @skip(if: $skipResource) {
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
+      @skip(if: $skipResource) {
       ...ResourceInfo
       article(subjectId: $subjectId) {
         ...ArticleInfo
