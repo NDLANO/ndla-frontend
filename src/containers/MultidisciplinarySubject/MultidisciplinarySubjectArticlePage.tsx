@@ -15,36 +15,40 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
 import { LocaleType } from '../../interfaces';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../graphqlTypes';
+import {
+  GQLTopicWithPathTopicsQuery,
+  GQLTopicWithPathTopicsQueryVariables,
+} from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
 }
 
-interface Data {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
-  topic: GQLTopic;
-  resourceTypes: GQLResourceType[];
-}
-
 const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
-  const { data, loading } = useGraphQuery<Data>(topicQueryWithPathTopics, {
-    variables: { topicId, subjectId, showVisualElement: 'true' },
+  const { data, loading } = useGraphQuery<
+    GQLTopicWithPathTopicsQuery,
+    GQLTopicWithPathTopicsQueryVariables
+  >(topicQueryWithPathTopics, {
+    variables: {
+      topicId: topicId!,
+      subjectId: subjectId!,
+      showVisualElement: 'true',
+    },
   });
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!data) {
+  if (!data?.topic || !data?.subject) {
     return <DefaultErrorMessage />;
   }
 
   const { topic, subject, resourceTypes } = data;
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
+  const copyPageUrlLink = topic?.path && config.ndlaFrontendDomain + topic.path;
 
   return (
     <MultidisciplinarySubjectArticle

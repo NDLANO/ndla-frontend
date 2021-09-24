@@ -19,15 +19,19 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
-import { TopicData } from './ToolboxTopicContainer';
+import {
+  GQLSubject,
+  GQLTopic,
+  GQLResourceTypeDefinition,
+} from '../../../graphqlTypes';
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 
 interface Props extends WithTranslation {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
-  data: TopicData;
+  subject: GQLSubject;
+  topic: GQLTopic;
+  resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
   onSelectTopic: (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -39,8 +43,8 @@ interface Props extends WithTranslation {
   loading?: boolean;
 }
 
-const getDocumentTitle = ({ t, data }: Props) => {
-  return htmlTitle(data.topic.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = ({ t, topic }: Props) => {
+  return htmlTitle(topic.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ToolboxTopicWrapper = ({
@@ -49,12 +53,17 @@ const ToolboxTopicWrapper = ({
   onSelectTopic,
   topicList,
   index,
-  data,
+  topic,
+  resourceTypes,
   loading,
   t,
 }: Props) => {
-  const { topic, resourceTypes } = data;
-  const { article } = data.topic;
+  if (!topic.article) {
+    return null;
+  }
+
+  const { article } = topic;
+
   const image =
     article?.visualElement?.resource === 'image'
       ? {
@@ -112,9 +121,7 @@ const ToolboxTopicWrapper = ({
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(data.topic?.name, [t('htmlTitles.titleTemplate')])}
-        </title>
+        <title>{htmlTitle(topic.name, [t('htmlTitles.titleTemplate')])}</title>
       </Helmet>
       <Topic
         frame={subTopics?.length === 0}
@@ -136,7 +143,7 @@ ToolboxTopicWrapper.willTrackPageView = (
   currentProps: Props,
 ) => {
   if (
-    currentProps.data?.topic &&
+    currentProps.topic &&
     currentProps.index === currentProps.topicList.length - 1
   ) {
     trackPageView(currentProps);
@@ -144,9 +151,9 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, data } = props;
+  const { subject, locale, topicList, topic } = props;
   const topicPath = topicList.map(t =>
-    subject.allTopics.find(topic => topic.id === t),
+    subject.allTopics?.find(topic => topic.id === t),
   );
 
   const longName = getSubjectLongName(subject?.id, locale);
@@ -156,7 +163,7 @@ ToolboxTopicWrapper.getDimensions = (props: Props) => {
       subject: subject,
       topicPath,
       filter: longName,
-      article: data.topic.article,
+      article: topic.article,
     },
     undefined,
     topicList.length > 0,
