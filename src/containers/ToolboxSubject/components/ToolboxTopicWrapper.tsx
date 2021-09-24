@@ -133,7 +133,10 @@ ToolboxTopicWrapper.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  if (currentProps.data?.topic && currentProps.index === 0) {
+  if (
+    currentProps.data?.topic &&
+    currentProps.index === currentProps.topicList.length - 1
+  ) {
     trackPageView(currentProps);
   }
 };
