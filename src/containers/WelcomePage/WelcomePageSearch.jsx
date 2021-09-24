@@ -58,7 +58,7 @@ const WelcomePageSearch = ({ history, locale }) => {
 
   if (error) {
     handleError(error);
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessage minimal/>;
   }
 
   const onSearch = evt => {
