@@ -62,20 +62,20 @@ jobs:
       - name: "Install kubectl"
         run: |
           curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
-          sudo mv kubectl /usr/bin/kubectl
-          sudo chmod +x /usr/bin/kubectl
+          sudo mv kubectl /home/runner/bin/kubectl
+          sudo chmod +x /home/runner/bin/kubectl
           mkdir -p ~/.kube
       - name: "Install aws-iam-authenticator"
         run: |
           sudo curl -L https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator > aws-iam-authenticator
-          sudo mv aws-iam-authenticator /usr/bin/aws-iam-authenticator
-          sudo chmod +x /usr/bin/aws-iam-authenticator
+          sudo mv aws-iam-authenticator /home/runner/bin/aws-iam-authenticator
+          sudo chmod +x /home/runner/bin/aws-iam-authenticator
       - name: "Install helm /w push-plugin"
         run: |
           curl -L https://get.helm.sh/helm-v3.2.0-linux-amd64.tar.gz > /tmp/helm.tar.gz
           tar xvzf /tmp/helm.tar.gz -C /tmp/
           sudo mv /tmp/linux-amd64/helm /usr/bin
-          sudo chmod +x /usr/bin/helm
+          sudo chmod +x /home/runner/bin/helm
           helm plugin install https://github.com/chartmuseum/helm-push
       - name: "Build kubernetes config"
         run: |
