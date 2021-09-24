@@ -584,11 +584,14 @@ exports[`ErrorPage renderers correctly 1`] = `
       <article
         className="emotion-5 emotion-6"
       >
-        <img
-          alt="Ops, noe gikk galt"
+        <div
           className="emotion-0 emotion-1"
-          src="/static/oops.gif"
-        />
+        >
+          <img
+            alt="Ops, noe gikk galt"
+            src="/static/oops.gif"
+          />
+        </div>
         <h1>
           Ops, noe gikk galt
         </h1>
