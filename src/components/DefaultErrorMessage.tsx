@@ -17,10 +17,12 @@ interface Props {
 
 const DefaultErrorMessage = ({ minimal }: Props) => {
   const { t } = useTranslation();
-  const illustrations = minimal ? undefined : {
-    url: '/static/oops.gif',
-    altText: t('errorMessage.title'),
-  };
+  const illustrations = minimal
+    ? undefined
+    : {
+        url: '/static/oops.gif',
+        altText: t('errorMessage.title'),
+      };
   const messages = {
     title: t('errorMessage.title'),
     description: t('errorMessage.description'),
@@ -28,7 +30,7 @@ const DefaultErrorMessage = ({ minimal }: Props) => {
       linksTitle: t('errorMessage.linksTitle'),
       back: t('errorMessage.back'),
       goToFrontPage: t('errorMessage.goToFrontPage'),
-    })
+    }),
   };
 
   return (
