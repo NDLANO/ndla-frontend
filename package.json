@@ -94,6 +94,7 @@
     "@apollo/client": "^3.3.9",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
+    "@graphql-codegen/typescript-operations": "^2.1.4",
     "@ndla/article-scripts": "^2.0.0",
     "@ndla/button": "^1.0.0",
     "@ndla/core": "^0.7.0",
