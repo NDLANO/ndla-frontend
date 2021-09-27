@@ -10,6 +10,7 @@ import React from 'react';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
@@ -77,12 +78,15 @@ const MovedResourcePage = ({ resource }) => {
   );
 
   return (
-    <OneColumn>
-      <h1>{t('movedResourcePage.title')}</h1>
-      <div className="c-search-result">
-        <SearchResultList results={results} />
-      </div>
-    </OneColumn>
+    <>
+      <HelmetWithTracker title={t('htmlTitles.movedResourcePage')} />
+      <OneColumn>
+        <h1>{t('movedResourcePage.title')}</h1>
+        <div className="c-search-result">
+          <SearchResultList results={results} />
+        </div>
+      </OneColumn>
+    </>
   );
 };
 
