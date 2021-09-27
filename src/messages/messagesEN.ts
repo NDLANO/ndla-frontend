@@ -18,6 +18,7 @@ const messages = {
     notFound: `Page not found - ${titleTemplate}`,
     subject: 'Subject',
     lti: `LTI - ${titleTemplate}`,
+    movedResourcePage: `The page has been moved - ${titleTemplate}`,
     toolbox: {
       visualElement: 'About subject video',
       introduction:

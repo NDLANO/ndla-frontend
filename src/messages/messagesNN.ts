@@ -18,6 +18,7 @@ const messages = {
     notFound: `Sida finst ikkje - ${titleTemplate}`,
     subject: 'Fag',
     lti: `LTI - ${titleTemplate}`,
+    movedResourcePage: `Sida har flytta - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
