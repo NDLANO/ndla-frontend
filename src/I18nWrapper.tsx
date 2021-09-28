@@ -33,7 +33,6 @@ export const I18nWrapper = ({ locale, children }: Props) => {
       ) {
         setLang(storedLang as LocaleType);
         if (!window.location.pathname.includes('/login/success')) {
-          console.log('her');
           history.replace(`/${storedLang}${window.location.pathname}`);
           apolloClient.setLink(createApolloLinks(storedLang));
           apolloClient.resetStore();
