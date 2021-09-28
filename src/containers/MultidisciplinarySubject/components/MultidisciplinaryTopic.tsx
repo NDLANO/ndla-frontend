@@ -24,16 +24,11 @@ import VisualElementWrapper, {
 } from '../../../components/VisualElement/VisualElementWrapper';
 import {
   GQLArticle,
-  GQLResourceType,
+  GQLResourceTypeDefinition,
   GQLSubject,
   GQLTopic,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
-
-interface Data {
-  topic: GQLTopic;
-  resourceTypes: Array<GQLResourceType>;
-}
 
 interface Props extends WithTranslation {
   topicId: string;
@@ -41,14 +36,15 @@ interface Props extends WithTranslation {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  subject: GQLSubject & { allTopics: GQLTopic[] };
-  data: Data;
+  subject: GQLSubject;
+  topic: GQLTopic;
+  resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
 }
 
-const getDocumentTitle = ({ t, data }: Props) => {
-  return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = ({ t, topic }: Props) => {
+  return htmlTitle(topic.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const MultidisciplinaryTopic = ({
@@ -57,7 +53,8 @@ const MultidisciplinaryTopic = ({
   locale,
   subTopicId,
   ndlaFilm,
-  data,
+  topic,
+  resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
@@ -74,7 +71,6 @@ const MultidisciplinaryTopic = ({
   }, []);
   const renderMarkdown = (text: string) => markdown.render(text);
 
-  const topic = data.topic;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -122,10 +118,10 @@ const MultidisciplinaryTopic = ({
               ),
             }
           : undefined,
-        resources: data.topic.subtopics ? (
+        resources: topic.subtopics ? (
           <Resources
-            topic={data.topic}
-            resourceTypes={data.resourceTypes}
+            topic={topic}
+            resourceTypes={resourceTypes}
             locale={locale}
           />
         ) : (
@@ -135,7 +131,7 @@ const MultidisciplinaryTopic = ({
     };
   };
 
-  const { article } = data.topic;
+  const { article } = topic;
 
   return (
     <UITopic
@@ -149,7 +145,7 @@ const MultidisciplinaryTopic = ({
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}>
       <ArticleContents
-        topic={data.topic}
+        topic={topic}
         copyPageUrlLink={copyPageUrlLink}
         locale={locale}
         modifier="in-topic"
@@ -165,19 +161,19 @@ MultidisciplinaryTopic.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  const { data } = currentProps;
-  if (data?.topic?.article) {
+  const { topic } = currentProps;
+  if (topic.article) {
     trackPageView(currentProps);
   }
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { data, locale, subject } = props;
-  const topicPath = data.topic.path
+  const { topic, locale, subject } = props;
+  const topicPath = topic.path
     ?.split('/')
     .slice(2)
     .map(t =>
-      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
   const longName = getSubjectLongName(subject?.id, locale);
@@ -186,7 +182,7 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
     {
       subject: subject,
       topicPath,
-      article: data.topic.article,
+      article: topic.article,
       filter: longName,
     },
     undefined,
