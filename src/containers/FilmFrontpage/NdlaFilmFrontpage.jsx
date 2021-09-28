@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
 
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import FilmFrontpage from './FilmFrontpage';
 import {
   subjectPageQuery,
@@ -128,4 +128,4 @@ NdlaFilm.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default withTranslation()(NdlaFilm);
+export default NdlaFilm;
