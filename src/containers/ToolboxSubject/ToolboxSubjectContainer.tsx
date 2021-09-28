@@ -26,19 +26,19 @@ import { parseAndMatchUrl } from '../../util/urlHelper';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 
 interface Props extends WithTranslation, RouteComponentProps {
-  data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
+  subject: GQLSubject;
   topicList: string[];
   locale: LocaleType;
 }
 
-const getDocumentTitle = ({ t, data }: Props) => {
-  return htmlTitle(data.subject.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = ({ t, subject }: Props) => {
+  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ToolboxSubjectContainer = ({
   topicList,
   locale,
-  data,
+  subject,
   history,
 }: Props) => {
   const { t } = useTranslation();
@@ -50,7 +50,7 @@ const ToolboxSubjectContainer = ({
     topicList.forEach((topicId: string) => {
       const alreadySelected = selectedTopics.find(topic => topic === topicId);
       if (!alreadySelected) {
-        const exist = subject?.allTopics.find(
+        const exist = subject?.allTopics?.find(
           (topic: GQLTopic) => topic.id === topicId,
         );
         if (exist) setSelectedTopics([exist.id, ...selectedTopics]);
@@ -71,8 +71,6 @@ const ToolboxSubjectContainer = ({
       });
     }
   };
-
-  const subject = data.subject;
 
   const topics = subject.topics?.map((topic: GQLTopic) => {
     return {
@@ -136,7 +134,7 @@ const ToolboxSubjectContainer = ({
     <>
       <Helmet>
         <title>
-          {htmlTitle(data.subject?.name, [t('htmlTitles.titleTemplate')])}
+          {htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')])}
         </title>
       </Helmet>
       <OneColumn className={''}>
@@ -161,20 +159,20 @@ ToolboxSubjectContainer.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  if (currentProps.data.subject && currentProps.topicList.length === 0) {
+  if (currentProps.subject && currentProps.topicList.length === 0) {
     trackPageView(currentProps);
   }
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { data, locale, topicList } = props;
+  const { subject, locale, topicList } = props;
   const topicPath = topicList.map(t =>
-    data.subject.allTopics.find(topic => topic.id === t),
+    subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(data.subject?.id, locale);
+  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions({
-    subject: data.subject,
+    subject,
     topicPath,
     filter: longName,
   });

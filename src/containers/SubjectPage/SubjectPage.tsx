@@ -18,7 +18,10 @@ import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import { LocaleType } from '../../interfaces';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import {
+  GQLSubjectPageWithTopicsQuery,
+  GQLSubjectPageWithTopicsQueryVariables,
+} from '../../graphqlTypes';
 
 type MatchParams = {
   subjectId?: string;
@@ -34,14 +37,6 @@ interface Props extends RouteComponentProps<MatchParams> {
   ndlaFilm?: boolean;
 }
 
-interface Data {
-  topic: GQLTopic;
-  subject: GQLSubject & {
-    allTopics: GQLTopic[];
-  };
-  subjects: GQLSubject[];
-}
-
 const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
@@ -51,9 +46,12 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
-  const { loading, data } = useGraphQuery<Data>(subjectPageQueryWithTopics, {
+  const { loading, data } = useGraphQuery<
+    GQLSubjectPageWithTopicsQuery,
+    GQLSubjectPageWithTopicsQueryVariables
+  >(subjectPageQueryWithTopics, {
     variables: {
-      subjectId,
+      subjectId: subjectId!,
       topicId: topicId || '',
       includeTopic: isFirstRenderWithTopicId(),
     },
@@ -76,7 +74,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   }
 
   if (!data.subject || !subjectId) {
-    const redirect = data.subjects.find(sub => {
+    const redirect = data.subjects?.find(sub => {
       const customFields = sub.metadata?.customFields;
       //@ts-ignore
       return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
@@ -103,7 +101,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
       topicIds={topicList}
-      data={data}
+      subject={data.subject}
       loading={loading}
     />
   );

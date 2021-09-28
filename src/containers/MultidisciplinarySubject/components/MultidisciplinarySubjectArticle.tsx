@@ -23,7 +23,11 @@ import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLResourceTypeDefinition,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
@@ -33,11 +37,11 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 };
 
 interface Props extends WithTranslation {
-  copyPageUrlLink: string;
+  copyPageUrlLink?: string;
   topic: GQLTopic;
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
   locale: LocaleType;
-  resourceTypes?: GQLResourceType[];
+  resourceTypes?: GQLResourceTypeDefinition[];
 }
 
 const MultidisciplinarySubjectArticle = ({
@@ -121,7 +125,7 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
     ?.split('/')
     .slice(2)
     .map(t =>
-      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
   const longName = getSubjectLongName(subject?.id, locale);
