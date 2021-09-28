@@ -323,6 +323,9 @@ const copyrightInfoFragment = gql`
 export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
+    article {
+      supportedLanguages
+    }
     name
     parent
     contentUri

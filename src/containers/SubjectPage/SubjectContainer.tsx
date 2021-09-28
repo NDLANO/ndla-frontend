@@ -171,6 +171,18 @@ const SubjectContainer = ({
       about?.visualElement,
   };
 
+  const topicsOnPage =
+    (topicIds.length > 0
+      ? subject.topics?.filter(topic => topicIds.includes(topic.id))
+      : subject.topics) || [];
+
+  const supportedLanguages = Array.from(
+    topicsOnPage.reduce((acc, cur) => {
+      cur.article?.supportedLanguages?.forEach(acc.add, acc);
+      return acc;
+    }, new Set<string>()) || [],
+  );
+
   return (
     <>
       <Helmet>
@@ -194,6 +206,7 @@ const SubjectContainer = ({
                   altText: socialMediaMetadata.image.alt,
                 }
               }
+              trackableContent={{ supportedLanguages }}
             />
 
             <div ref={headerRef}>
