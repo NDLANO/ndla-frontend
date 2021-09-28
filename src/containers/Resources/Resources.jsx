@@ -120,6 +120,7 @@ class Resources extends Component {
       const resourceTypes = sortResourceTypes(resource.resourceTypes);
       return {
         ...resource,
+        active: resource.id.endsWith(params.resourceId) ? true : false,
         contentTypeName: resourceTypes?.[0]?.name,
         contentType: contentTypeMapping[resourceTypes?.[0]?.id],
       };

@@ -49,7 +49,7 @@ const TopicWrapper = ({
     },
   });
 
-  if (loading || !data?.topic.article) {
+  if (loading || !data?.topic?.article) {
     return <Spinner />;
   }
 

@@ -113,6 +113,7 @@ const Topic = ({
           topic={data.topic}
           resourceTypes={data.resourceTypes}
           locale={locale}
+          ndlaFilm={ndlaFilm}
         />
       ) : (
         undefined
