@@ -59,8 +59,6 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     },
   });
 
-  console.log(data);
-
   if (loading) {
     return null;
   }
