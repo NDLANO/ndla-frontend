@@ -22,6 +22,7 @@ export function useGraphQuery<TData = any, TVariables = OperationVariables>(
   const {
     i18n: { language },
   } = useTranslation();
+
   const result = useQuery(query, {
     errorPolicy: 'all',
     ...(language ? { 'accept-language': language } : {}),
