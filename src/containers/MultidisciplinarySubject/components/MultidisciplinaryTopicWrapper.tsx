@@ -1,11 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Spinner from '@ndla/ui/lib/Spinner';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import { GraphQLSubjectShape } from '../../../graphqlShapes';
 import MultidisciplinaryTopic from './MultidisciplinaryTopic';
+import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { LocaleType } from '../../../interfaces';
+
+interface Props {
+  topicId: string;
+  subjectId: string;
+  subTopicId?: string;
+  locale: LocaleType;
+  subject: GQLSubject & { allTopics: GQLTopic[] };
+  ndlaFilm?: boolean;
+  disableNav?: boolean;
+}
+
+interface Data {
+  topic: GQLTopic;
+  resourceTypes: Array<GQLResourceType>;
+}
 
 const MultidisciplinaryTopicWrapper = ({
   topicId,
@@ -13,16 +29,19 @@ const MultidisciplinaryTopicWrapper = ({
   locale,
   subTopicId,
   ndlaFilm,
-  index,
   subject,
   disableNav,
-}) => {
-  const { data, loading } = useGraphQuery(topicQuery, {
+}: Props) => {
+  const { data, loading } = useGraphQuery<Data>(topicQuery, {
     variables: { topicId, subjectId },
   });
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
   }
 
   return (
@@ -37,18 +56,6 @@ const MultidisciplinaryTopicWrapper = ({
       disableNav={disableNav}
     />
   );
-};
-
-MultidisciplinaryTopicWrapper.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  setSelectedTopic: PropTypes.func,
-  subTopicId: PropTypes.string,
-  locale: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-  index: PropTypes.number,
-  subject: GraphQLSubjectShape,
-  disableNav: PropTypes.bool,
 };
 
 export default MultidisciplinaryTopicWrapper;

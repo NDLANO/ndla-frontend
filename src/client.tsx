@@ -10,8 +10,6 @@ import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
-// @ts-ignore
-import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
@@ -77,12 +75,6 @@ const isGoogleUrl =
 interface RCProps {
   children?: React.ReactNode;
 }
-
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
-  googleTagManagerId: config?.googleTagManagerId,
-});
 
 const RouterComponent = ({ children }: RCProps) =>
   isGoogleUrl ? (

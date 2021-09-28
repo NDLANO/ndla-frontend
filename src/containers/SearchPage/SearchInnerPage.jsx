@@ -29,6 +29,7 @@ import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import { getDefaultLocale } from '../../config';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -179,7 +180,7 @@ const SearchInnerPage = ({
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage />;
   }
 
   const language = i18n.language !== getDefaultLocale() && i18n.language;

@@ -897,7 +897,11 @@ export const iframeArticleQuery = gql`
 `;
 
 export const topicQueryWithPathTopics = gql`
-  query topicQuery($topicId: String!, $subjectId: String!) {
+  query topicQuery(
+    $topicId: String!
+    $subjectId: String!
+    $showVisualElement: String
+  ) {
     subject(id: $subjectId) {
       id
       name
@@ -930,7 +934,7 @@ export const topicQueryWithPathTopics = gql`
         id
         name
       }
-      article {
+      article(showVisualElement: $showVisualElement) {
         ...ArticleInfo
         crossSubjectTopics(subjectId: $subjectId) {
           code
@@ -1122,7 +1126,8 @@ export const mastHeadQuery = gql`
         ...ResourceInfo
       }
     }
-    resource(id: $resourceId, subjectId: $subjectId) @skip(if: $skipResource) {
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
+      @skip(if: $skipResource) {
       ...ResourceInfo
       article(subjectId: $subjectId) {
         ...ArticleInfo
@@ -1228,7 +1233,7 @@ export const resourcePageQuery = gql`
         customFields
       }
     }
-    resource(id: $resourceId, subjectId: $subjectId) {
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       ...ResourceInfo
       article(subjectId: $subjectId) {
         ...ArticleInfo
