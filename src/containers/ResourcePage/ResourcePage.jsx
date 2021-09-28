@@ -9,7 +9,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -29,9 +29,6 @@ const urlInPaths = (location, resource) => {
 };
 
 const ResourcePage = props => {
-  const {
-    i18n: { language },
-  } = useTranslation();
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
     variables: {
@@ -39,7 +36,6 @@ const ResourcePage = props => {
       topicId,
       resourceId,
     },
-    'accept-language': language,
   });
 
   if (loading) {
