@@ -150,6 +150,7 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       onSubTopicSelected={(e: React.MouseEvent<HTMLElement>) =>
         onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
       }>
