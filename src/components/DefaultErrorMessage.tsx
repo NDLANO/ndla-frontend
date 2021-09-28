@@ -11,18 +11,26 @@ import { OneColumn, ErrorMessage } from '@ndla/ui';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const DefaultErrorMessage = () => {
+interface Props {
+  minimal?: boolean;
+}
+
+const DefaultErrorMessage = ({ minimal }: Props) => {
   const { t } = useTranslation();
-  const illustrations = {
-    url: '/static/oops.gif',
-    altText: t('errorMessage.title'),
-  };
+  const illustrations = minimal
+    ? undefined
+    : {
+        url: '/static/oops.gif',
+        altText: t('errorMessage.title'),
+      };
   const messages = {
     title: t('errorMessage.title'),
     description: t('errorMessage.description'),
-    linksTitle: t('errorMessage.linksTitle'),
-    back: t('errorMessage.back'),
-    goToFrontPage: t('errorMessage.goToFrontPage'),
+    ...(!minimal && {
+      linksTitle: t('errorMessage.linksTitle'),
+      back: t('errorMessage.back'),
+      goToFrontPage: t('errorMessage.goToFrontPage'),
+    }),
   };
 
   return (
