@@ -337,9 +337,6 @@ export const metaInfoFragment = gql`
 export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
-    article {
-      supportedLanguages
-    }
     name
     parent
     contentUri
@@ -653,6 +650,9 @@ export const subjectPageQueryWithTopics = gql`
     subject(id: $subjectId) {
       ...SubjectInfo
       topics(filterIds: $filterIds) {
+        article {
+          supportedLanguages
+        }
         ...TopicInfo
       }
       allTopics: topics(all: true, filterIds: $filterIds) {
