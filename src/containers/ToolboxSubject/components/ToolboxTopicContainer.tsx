@@ -11,12 +11,9 @@ import React from 'react';
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import {
-  GQLArticle,
-  GQLMetaImage,
-  GQLResourceType,
   GQLSubject,
-  GQLTopic,
-  GQLVisualElement,
+  GQLTopicQuery,
+  GQLTopicQueryVariables,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { topicQuery } from '../../../queries';
@@ -24,7 +21,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper from './ToolboxTopicWrapper';
 
 interface Props {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
   topicId: string;
   locale: LocaleType;
   onSelectTopic: (
@@ -36,26 +33,6 @@ interface Props {
   index: number;
 }
 
-interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
-  url: string;
-  alt: string;
-}
-interface ToolBoxArticle
-  extends Omit<GQLArticle, 'introduction' | 'metaImage' | 'visualElement'> {
-  introduction: string;
-  metaImage: ToolBoxArticleMetaImage;
-  visualElement: GQLVisualElement;
-}
-
-export interface ToolBoxTopic extends Omit<GQLTopic, 'article'> {
-  article: ToolBoxArticle;
-}
-
-export interface TopicData {
-  topic: ToolBoxTopic;
-  resourceTypes: GQLResourceType;
-}
-
 export const ToolboxTopicContainer = ({
   subject,
   topicId,
@@ -64,7 +41,10 @@ export const ToolboxTopicContainer = ({
   topicList,
   index,
 }: Props) => {
-  const { loading, data } = useGraphQuery<TopicData>(topicQuery, {
+  const { loading, data } = useGraphQuery<
+    GQLTopicQuery,
+    GQLTopicQueryVariables
+  >(topicQuery, {
     variables: {
       subjectId: subject.id,
       topicId,
@@ -75,14 +55,15 @@ export const ToolboxTopicContainer = ({
     return <Spinner />;
   }
 
-  if (!data) {
+  if (!data?.topic) {
     return <DefaultErrorMessage />;
   }
   return (
     <ToolboxTopicWrapper
       subject={subject}
       loading={loading}
-      data={data}
+      topic={data.topic}
+      resourceTypes={data.resourceTypes}
       locale={locale}
       onSelectTopic={onSelectTopic}
       topicList={topicList}

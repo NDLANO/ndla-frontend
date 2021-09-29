@@ -5,21 +5,14 @@ import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
-import {
-  GQLResource,
-  GQLResourceType,
-  GQLSubject,
-  GQLTopic,
-} from '../../../graphqlTypes';
+import { GQLResourceType, GQLSubject } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
   subject: GQLSubject;
-  resource?: GQLResource;
   topicResourcesByType: GQLResourceType[];
-  topicPath: GQLTopic[];
   onDataFetch: (
     subjectId: string,
     topicId?: string,

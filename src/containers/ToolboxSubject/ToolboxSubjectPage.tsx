@@ -12,16 +12,15 @@ import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { GQLTopic, GQLSubject } from '../../graphqlTypes';
+import {
+  GQLSubjectPageQuery,
+  GQLSubjectPageQueryVariables,
+} from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import ToolboxSubjectContainer from './ToolboxSubjectContainer';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-}
-
-interface Data {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
 }
 
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
@@ -30,9 +29,12 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     match,
   });
 
-  const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
+  const { loading, data } = useGraphQuery<
+    GQLSubjectPageQuery,
+    GQLSubjectPageQueryVariables
+  >(subjectPageQuery, {
     variables: {
-      subjectId,
+      subjectId: subjectId!,
     },
   });
 
@@ -40,13 +42,13 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     return null;
   }
 
-  if (!data) {
+  if (!data?.subject) {
     return <DefaultErrorMessage />;
   }
 
   return (
     <ToolboxSubjectContainer
-      data={data}
+      subject={data.subject}
       topicList={topicList}
       locale={locale}
     />
