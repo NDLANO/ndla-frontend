@@ -19,7 +19,7 @@ import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
 import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
-import { GQLGroupSearch } from '../graphqlTypes';
+import { GQLGroupSearch, GQLBucketResult } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -77,9 +77,10 @@ const uri = (() => {
 })();
 
 const getParentType = (
-  aggregations: { value: string; count: number }[],
   type: string,
+  aggregations?: GQLBucketResult[],
 ) => {
+  if (!aggregations) return undefined;
   const typeValue = aggregations.find(agg => agg.value === type);
   return aggregations.find(
     agg => agg.count === typeValue?.count && agg.value !== type,
@@ -97,7 +98,7 @@ const mergeGroupSearch = (
       result =>
         group.resourceType === result.resourceType ||
         group.resourceType ===
-          getParentType(result.aggregations?.[0]?.values, result.resourceType),
+          getParentType(result.resourceType, result.aggregations?.[0]?.values),
     );
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({

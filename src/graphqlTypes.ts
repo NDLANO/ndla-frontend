@@ -353,7 +353,7 @@ export type GQLGroupSearch = {
   resourceType: Scalars['String'];
   resources: Array<GQLGroupSearchResult>;
   suggestions?: Maybe<Array<GQLSuggestionResult>>;
-  totalCount?: Maybe<Scalars['Int']>;
+  totalCount: Scalars['Int'];
 };
 
 export type GQLGroupSearchResult = {
@@ -1310,7 +1310,7 @@ export type GQLGroupSearchQuery = {
     Array<{
       __typename?: 'GroupSearch';
       resourceType: string;
-      totalCount?: Maybe<number>;
+      totalCount: number;
       language?: Maybe<string>;
       resources: Array<{
         __typename?: 'GroupSearchResult';
