@@ -10,7 +10,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { BasenameContext } from '../App';
 import config from '../config';
 import {
   LocationShape,
