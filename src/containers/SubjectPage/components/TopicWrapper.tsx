@@ -42,7 +42,7 @@ const TopicWrapper = ({
   >(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
-      if (data.topic) {
+      if (data?.topic) {
         setBreadCrumb({
           id: data.topic.id,
           label: data.topic.name,
