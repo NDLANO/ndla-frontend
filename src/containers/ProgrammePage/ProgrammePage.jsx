@@ -20,6 +20,7 @@ import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
@@ -88,6 +89,11 @@ const ProgrammePage = ({ match, locale, t }) => {
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
+      <SocialMediaMetadata
+        title={documentTitle}
+        description={metaDescription}
+        locale={locale}
+      />
       <Programme heading={heading} grades={grades} image={image} />
     </>
   );
