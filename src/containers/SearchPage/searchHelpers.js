@@ -236,7 +236,9 @@ export const resultsWithContentTypeBadgeAndImage = (
         <LtiEmbed ltiData={ltiData} item={result} />
       ),
       contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : '',
-      image: metaImage && <Image src={metaImage.url} alt={metaImage.alt} />,
+      image: metaImage && (
+        <Image src={metaImage.url} alt={metaImage.alt} width={'80px'} />
+      ),
     };
   });
 
