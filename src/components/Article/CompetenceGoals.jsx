@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { isValidElementType } from 'react-is';
@@ -16,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
 import { ArticleShape, SubjectShape } from '../../shapes';
+import { useGraphQuery } from '../../util/runQueries';
 
 export function groupByCurriculums(competenceGoals, addUrl = false) {
   const searchUrl = '/search?grepCodes=';
@@ -62,7 +62,7 @@ const CompetenceGoals = ({
     article.supportedLanguages.find(l => l === language) ||
     article.supportedLanguages[0];
   const { t } = useTranslation();
-  const { error, data, loading } = useQuery(competenceGoalsQuery, {
+  const { error, data, loading } = useGraphQuery(competenceGoalsQuery, {
     variables: { codes, nodeId, language: lang },
   });
 

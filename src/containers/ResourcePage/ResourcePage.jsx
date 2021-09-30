@@ -31,7 +31,11 @@ const urlInPaths = (location, resource) => {
 const ResourcePage = props => {
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const { error, loading, data } = useGraphQuery(resourcePageQuery, {
-    variables: { subjectId, topicId, resourceId },
+    variables: {
+      subjectId,
+      topicId,
+      resourceId,
+    },
   });
 
   if (loading) {
