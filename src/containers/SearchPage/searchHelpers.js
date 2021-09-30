@@ -1,7 +1,11 @@
 import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import { getContentType, contentTypeMapping } from '../../util/getContentType';
+import {
+  getContentType,
+  contentTypeMapping,
+  resourceTypeMapping,
+} from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectLongName, getSubjectById } from '../../data/subjects';
@@ -268,16 +272,18 @@ const mapTraits = (traits, t) =>
     return trait;
   });
 
-const getLtiUrl = (path, id) =>
-  `article-iframe/urn:${path.split('/').pop()}/${id}`;
+const getLtiUrl = (path, id, language) =>
+  `article-iframe/${language ? `${language}/` : ''}urn:${path
+    .split('/')
+    .pop()}/${id}`;
 
-const mapResourcesToItems = (resources, ltiData, isLti, t) =>
+export const mapResourcesToItems = (resources, ltiData, isLti, language, t) =>
   resources.map(resource => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id)
+      ? getLtiUrl(resource.path, resource.id, language)
       : resource.contexts?.length
       ? resource.path
       : plainUrl(resource.path),
@@ -342,56 +348,24 @@ const getResourceTypeFilters = (resourceTypes, aggregations) => {
   );
 };
 
-export const updateSearchGroups = (
+export const mapSearchDataToGroups = (
   searchData,
-  searchGroups,
   resourceTypes,
-  pageSize,
-  replaceItems,
-  newSearch,
   ltiData,
   isLti,
+  language,
   t,
 ) => {
-  if (newSearch) {
-    return searchData.map(result => ({
-      items: mapResourcesToItems(result.resources, ltiData, isLti, t),
-      resourceTypes: getResourceTypeFilters(
-        resourceTypes.find(type => type.id === result.resourceType),
-        result.aggregations?.[0]?.values.map(value => value.value),
-      ),
-      totalCount: result.totalCount,
-      type: contentTypeMapping[result.resourceType] || result.resourceType,
-    }));
-  }
-  return searchGroups.map(group => {
-    const searchResults = searchData.filter(result => {
-      const resultType =
-        contentTypeMapping[result.resourceType] || result.resourceType;
-      return (
-        group.type === resultType || group.resourceTypes.includes(resultType)
-      );
-    });
-    if (searchResults.length) {
-      const result = searchResults.reduce((accumulator, currentValue) => ({
-        ...currentValue,
-        resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount: currentValue.totalCount + accumulator.totalCount,
-      }));
-      const resources = result.resources.slice(0, pageSize);
-      return {
-        ...group,
-        items: replaceItems
-          ? mapResourcesToItems(resources, ltiData, isLti, t)
-          : [
-              ...group.items,
-              ...mapResourcesToItems(resources, ltiData, isLti, t),
-            ],
-        totalCount: result.totalCount,
-      };
-    }
-    return group;
-  });
+  if (!searchData) return [];
+  return searchData.map(result => ({
+    items: mapResourcesToItems(result.resources, ltiData, isLti, language, t),
+    resourceTypes: getResourceTypeFilters(
+      resourceTypes.find(type => type.id === result.resourceType),
+      result.aggregations?.[0]?.values.map(value => value.value),
+    ),
+    totalCount: result.totalCount,
+    type: contentTypeMapping[result.resourceType] || result.resourceType,
+  }));
 };
 
 export const getTypeFilter = resourceTypes => {
@@ -399,7 +373,6 @@ export const getTypeFilter = resourceTypes => {
     'topic-article': {
       page: 1,
       pageSize: 4,
-      loading: true,
     },
   };
   if (resourceTypes) {
@@ -413,25 +386,29 @@ export const getTypeFilter = resourceTypes => {
         filters,
         page: 1,
         pageSize: 4,
-        loading: true,
       };
     });
   }
   return typeFilter;
 };
 
-export const getTypeParams = (type, resourceTypes) => {
-  if (!type) {
+export const getTypeParams = (types, allResourceTypes) => {
+  if (!types.length) {
     return {
-      resourceTypes: resourceTypes.map(resourceType => resourceType.id).join(),
+      resourceTypes: allResourceTypes
+        .map(resourceType => resourceType.id)
+        .join(),
       contextTypes: 'topic-article',
     };
-  } else if (type === 'topic-article') {
+  }
+  const contextTypes = types.find(type => type === 'topic-article');
+  if (contextTypes) {
     return {
-      contextTypes: type,
+      contextTypes,
     };
   }
   return {
-    resourceTypes: type,
+    resourceTypes: types.map(type => resourceTypeMapping[type] || type).join(),
+    contextTypes: undefined,
   };
 };
