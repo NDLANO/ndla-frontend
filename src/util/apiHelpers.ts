@@ -76,10 +76,7 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
-const getParentType = (
-  type: string,
-  aggregations?: GQLBucketResult[],
-) => {
+const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
   if (!aggregations) return undefined;
   const typeValue = aggregations.find(agg => agg.value === type);
   return aggregations.find(
