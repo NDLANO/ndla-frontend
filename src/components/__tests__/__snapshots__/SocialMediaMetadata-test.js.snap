@@ -12,6 +12,5 @@ exports[`getAlternateLanguages without article 1`] = `
 Array [
   "nb",
   "nn",
-  "en",
 ]
 `;
