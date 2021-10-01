@@ -11,7 +11,7 @@ import { LocaleType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-  subject: GQLSubject;
+  subject?: GQLSubject;
   topicResourcesByType: GQLResourceType[];
   onDataFetch: (
     subjectId: string,
@@ -25,6 +25,7 @@ interface Props extends RouteComponentProps {
     subjects: ProgramSubjectType[];
   }[];
   programmes: ProgramSubjectType[];
+  initialSelectMenu?: string;
 }
 
 interface State {
@@ -95,6 +96,7 @@ class MastheadMenu extends Component<Props, State> {
       ndlaFilm,
       programmes,
       subjectCategories,
+      initialSelectMenu,
     } = this.props;
 
     const { expandedTopicId, expandedSubtopicsId } = this.state;
@@ -114,6 +116,7 @@ class MastheadMenu extends Component<Props, State> {
               programmes={programmes}
               subjectCategories={subjectCategories}
               onNavigate={this.onNavigate}
+              initialSelectedMenu={initialSelectMenu}
             />
           )}
         </MastheadMenuModal>

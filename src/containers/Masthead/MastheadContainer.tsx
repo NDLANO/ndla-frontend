@@ -51,6 +51,7 @@ interface Props extends RouteComponentProps {
   ndlaFilm?: boolean;
   skipToMainContentId?: string;
   hideBreadcrumb?: boolean;
+  initialSelectMenu?: string;
 }
 
 interface State {
@@ -68,6 +69,7 @@ const MastheadContainer = ({
   match,
   skipToMainContentId,
   hideBreadcrumb,
+  initialSelectMenu,
 }: Props) => {
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
@@ -146,6 +148,7 @@ const MastheadContainer = ({
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
     );
+
   return (
     <ErrorBoundary>
       <Masthead
@@ -154,18 +157,17 @@ const MastheadContainer = ({
         skipToMainContentId={skipToMainContentId}
         infoContent={infoContent}>
         <MastheadItem left>
-          {subject?.id && (
-            <MastheadMenu
-              subject={subject}
-              ndlaFilm={ndlaFilm}
-              searchFieldComponent={renderSearchComponent(false)}
-              onDataFetch={onDataFetch}
-              topicResourcesByType={topicResourcesByType || []}
-              locale={locale}
-              programmes={getProgrammes(locale)}
-              subjectCategories={getCategorizedSubjects(locale)}
-            />
-          )}
+          <MastheadMenu
+            subject={subject}
+            ndlaFilm={ndlaFilm}
+            searchFieldComponent={renderSearchComponent(false)}
+            onDataFetch={onDataFetch}
+            topicResourcesByType={topicResourcesByType || []}
+            locale={locale}
+            programmes={getProgrammes(locale)}
+            subjectCategories={getCategorizedSubjects(locale)}
+            initialSelectMenu={initialSelectMenu}
+          />
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock

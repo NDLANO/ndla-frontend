@@ -30,7 +30,7 @@ export function toTopicWithBoundParams(
 
 interface Props {
   onClose: () => void;
-  subject: GQLSubject;
+  subject?: GQLSubject;
   expandedTopicId: string;
   expandedSubtopicsId: string[];
   topicResourcesByType: GQLResourceType[];
@@ -46,6 +46,7 @@ interface Props {
     name: string;
     subjects: ProgramSubjectType[];
   }[];
+  initialSelectedMenu?: string;
 }
 
 const MastheadTopics = ({
@@ -59,33 +60,37 @@ const MastheadTopics = ({
   searchFieldComponent,
   programmes,
   subjectCategories,
+  initialSelectedMenu,
 }: Props) => {
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
 
-  const topicsWithContentTypes = mapTopicResourcesToTopic(
-    subject.topics || [],
-    expandedTopicId,
-    topicResourcesByType,
-    expandedSubtopicsId,
-  );
+  const topicsWithContentTypes =
+    subject &&
+    mapTopicResourcesToTopic(
+      subject.topics || [],
+      expandedTopicId,
+      topicResourcesByType,
+      expandedSubtopicsId,
+    );
 
   const localResourceToLinkProps = (resource: GQLResource) => {
+    if (!subject) return;
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
     return resourceToLinkProps(resource, '/' + subjectTopicPath, locale);
   };
 
-  const subjectTitle = getSubjectLongName(subject.id, locale) || subject?.name;
+  const subjectTitle = getSubjectLongName(subject?.id, locale) || subject?.name;
 
   return (
     <TopicMenu
       close={onClose}
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
-      topics={topicsWithContentTypes}
-      toTopic={toTopicWithBoundParams(subject.id, expandedTopicIds)}
-      toSubject={() => toSubject(subject.id)}
+      topics={topicsWithContentTypes || []}
+      toTopic={subject && toTopicWithBoundParams(subject.id, expandedTopicIds)}
+      toSubject={() => toSubject(subject?.id || '#')}
       defaultCount={12}
       subjectTitle={subjectTitle}
       resourceToLinkProps={localResourceToLinkProps}
@@ -94,6 +99,7 @@ const MastheadTopics = ({
       expandedSubtopicsId={expandedSubtopicsId}
       programmes={programmes}
       subjectCategories={subjectCategories}
+      initialSelectedMenu={initialSelectedMenu}
       locale={locale}
     />
   );
