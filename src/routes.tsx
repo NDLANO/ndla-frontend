@@ -145,7 +145,7 @@ let routeArray: RouteType[] = [
     path: PROGRAMME_PAGE_PATH,
     component: ProgrammePage,
     background: false,
-    initialSelectMenu: 'programmes',
+    initialSelectMenu: 'programme',
   },
   {
     path: PROGRAMME_PATH,

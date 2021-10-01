@@ -7,7 +7,7 @@ import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
 import { GQLResourceType, GQLSubject } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
-import { LocaleType } from '../../../interfaces';
+import { LocaleType, SimpleProgramType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -25,6 +25,7 @@ interface Props extends RouteComponentProps {
     subjects: ProgramSubjectType[];
   }[];
   programmes: ProgramSubjectType[];
+  currentProgramme?: SimpleProgramType;
   initialSelectMenu?: string;
 }
 
@@ -95,6 +96,7 @@ class MastheadMenu extends Component<Props, State> {
       searchFieldComponent,
       ndlaFilm,
       programmes,
+      currentProgramme,
       subjectCategories,
       initialSelectMenu,
     } = this.props;
@@ -114,6 +116,7 @@ class MastheadMenu extends Component<Props, State> {
               subject={subject}
               locale={locale}
               programmes={programmes}
+              currentProgramme={currentProgramme}
               subjectCategories={subjectCategories}
               onNavigate={this.onNavigate}
               initialSelectedMenu={initialSelectMenu}

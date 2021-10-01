@@ -55,6 +55,12 @@ export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
   meta?: { description: Record<LocaleType, string> };
 }
 
+export interface SimpleProgramType
+  extends Omit<ProgramType, 'name' | 'url' | 'image'> {
+  name: string;
+  url: string;
+}
+
 export type SubjectType = {
   longName?: Record<LocaleType, string>;
   name?: Record<LocaleType, string>;

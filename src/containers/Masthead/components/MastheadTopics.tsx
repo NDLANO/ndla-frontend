@@ -11,7 +11,7 @@ import {
   GQLSubject,
 } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
-import { LocaleType } from '../../../interfaces';
+import { LocaleType, SimpleProgramType } from '../../../interfaces';
 
 export function toTopicWithBoundParams(
   subjectId: string,
@@ -42,6 +42,7 @@ interface Props {
   ) => void;
   searchFieldComponent: React.ReactNode;
   programmes: ProgramSubjectType[];
+  currentProgramme?: SimpleProgramType;
   subjectCategories: {
     name: string;
     subjects: ProgramSubjectType[];
@@ -59,6 +60,7 @@ const MastheadTopics = ({
   onNavigate,
   searchFieldComponent,
   programmes,
+  currentProgramme,
   subjectCategories,
   initialSelectedMenu,
 }: Props) => {
@@ -98,6 +100,7 @@ const MastheadTopics = ({
       expandedTopicId={expandedTopicId}
       expandedSubtopicsId={expandedSubtopicsId}
       programmes={programmes}
+      currentProgramme={currentProgramme}
       subjectCategories={subjectCategories}
       initialSelectedMenu={initialSelectedMenu}
       locale={locale}

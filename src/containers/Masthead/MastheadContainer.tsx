@@ -37,6 +37,8 @@ import {
   getCategorizedSubjects,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
+import { getProgrammeBySlug } from '../../data/programmes';
+import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
   GQLMastHeadQuery,
@@ -127,6 +129,20 @@ const MastheadContainer = ({
     });
   };
 
+  const { programme } = getUrnIdsFromProps({ match });
+  let currentProgramme;
+  if (programme) {
+    const programmeData = getProgrammeBySlug(programme, locale);
+    if (programmeData) {
+      const grades = mapGradesData(programmeData.grades, locale);
+      currentProgramme = {
+        name: programmeData.name[locale],
+        url: programmeData.url[locale],
+        grades,
+      };
+    }
+  }
+
   const { subject, topicPath, topicResourcesByType, resource } = state;
   const path = topicPath ?? [];
 
@@ -165,6 +181,7 @@ const MastheadContainer = ({
             topicResourcesByType={topicResourcesByType || []}
             locale={locale}
             programmes={getProgrammes(locale)}
+            currentProgramme={currentProgramme}
             subjectCategories={getCategorizedSubjects(locale)}
             initialSelectMenu={initialSelectMenu}
           />
