@@ -49,6 +49,7 @@ interface NDLARouteProps extends RouteProps {
   ndlaFilm?: boolean;
   skipToContent?: string;
   hideBreadcrumb?: boolean;
+  initialSelectMenu?: string;
   component: React.ComponentType<RootComponentProps>;
 }
 
@@ -62,6 +63,7 @@ const NDLARoute = ({
   skipToContent,
   location,
   hideBreadcrumb,
+  initialSelectMenu,
   ...rest
 }: NDLARouteProps) => {
   return (
@@ -82,6 +84,7 @@ const NDLARoute = ({
                   locale={locale}
                   ndlaFilm={ndlaFilm}
                   hideBreadcrumb={hideBreadcrumb}
+                  initialSelectMenu={initialSelectMenu}
                   {...props}
                 />
               )}
@@ -274,6 +277,7 @@ class App extends React.Component<AppProps, AppState> {
                   exact={route.exact}
                   hideMasthead={route.hideMasthead}
                   hideBreadcrumb={route.hideBreadcrumb}
+                  initialSelectMenu={route.initialSelectMenu}
                   initialProps={this.state.data}
                   //@ts-ignore
                   locale={this.props.i18n.language}

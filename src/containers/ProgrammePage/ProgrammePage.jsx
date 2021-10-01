@@ -21,7 +21,7 @@ import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 
-const mapGradesData = (grades, locale, programmeSlug) => {
+export const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {
