@@ -17,7 +17,7 @@ import {
   ArticleShape,
   LearningpathShape,
 } from '../shapes';
-import { appLocales, isValidLocale } from '../i18n';
+import { preferredLocales, isValidLocale } from '../i18n';
 
 export const getCanonicalUrl = location => {
   if (!location.pathname.includes('article-iframe')) {
@@ -44,7 +44,7 @@ export const getAlternateUrl = (location, alternateLanguage) => {
 
 export const getAlternateLanguages = trackableContent => {
   if (!trackableContent) {
-    return appLocales.map(appLocale => appLocale.abbreviation);
+    return preferredLocales.map(appLocale => appLocale.abbreviation);
   }
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
