@@ -92,7 +92,7 @@ const MastheadTopics = ({
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes || []}
       toTopic={subject && toTopicWithBoundParams(subject.id, expandedTopicIds)}
-      toSubject={() => toSubject(subject?.id || '#')}
+      toSubject={subject && (() => toSubject(subject.id))}
       defaultCount={12}
       subjectTitle={subjectTitle}
       resourceToLinkProps={localResourceToLinkProps}
