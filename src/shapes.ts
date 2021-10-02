@@ -261,7 +261,6 @@ export const TypeFilterShape = PropTypes.shape({
   ),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
 });
 
 export const ConceptShape = PropTypes.shape({

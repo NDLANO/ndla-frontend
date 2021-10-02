@@ -10,14 +10,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   GraphQLResourceShape,
   GraphQLResourceTypeShape,
@@ -201,7 +201,6 @@ class LearningpathPage extends Component {
           locale={locale}
           ndlaFilm={ndlaFilm}
           breadcrumbItems={breadcrumbItems}
-          {...getArticleProps()}
         />
       </div>
     );
@@ -240,4 +239,4 @@ LearningpathPage.defaultProps = {
   status: 'initial',
 };
 
-export default injectT(withTracker(LearningpathPage));
+export default withTranslation()(withTracker(LearningpathPage));

@@ -7,15 +7,14 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import config from './config';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
   SUBJECT_PAGE_PATH,
   TOPIC_PATH,
 } from './constants';
-// @ts-ignore
 import { getProgrammeBySlug } from './data/programmes';
-// @ts-ignore
 import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
 
@@ -33,6 +32,9 @@ export function getUrnIdsFromProps(props: {
     topicId?: string;
     resourceId?: string;
     articleId?: string;
+    topic1?: string;
+    topic2?: string;
+    programme?: string;
   }>['match'];
 }) {
   const {
@@ -44,8 +46,16 @@ export function getUrnIdsFromProps(props: {
     : undefined;
   const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
-  const topicList = topics.map(t => `urn:${t}`);
+  const topicList = topics.map((t: string) => `urn:${t}`);
   const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
+  const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
+  const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;
+  if (topic1) {
+    topicList.push(topic1);
+  }
+  if (topic2) {
+    topicList.push(topic2);
+  }
   if (topicId) {
     topicList.push(topicId);
   }
@@ -58,6 +68,7 @@ export function getUrnIdsFromProps(props: {
       : undefined,
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
+    programme: params.programme,
   };
 }
 
@@ -119,20 +130,20 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-type Subject = {
-  id?: string | undefined;
-  name?: string | undefined;
+export type SubjectURI = {
+  id?: string;
+  name?: string;
   to?: string;
 };
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: Subject[],
-  locale: string = 'nb',
+  paths: SubjectURI[],
+  locale: LocaleType = config.defaultLocale,
 ) {
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = paths[0];
-  const longName: string = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject?.name,
@@ -143,7 +154,7 @@ export function toBreadcrumbItems(
   const links = prelinks
     .filter(Boolean)
     .reduce(
-      (links: Subject[], item) => [
+      (links: SubjectURI[], item) => [
         ...links,
         {
           to:
@@ -176,7 +187,7 @@ export function fixEndSlash(link: string) {
 type LinkObject = {
   contentUri?: string;
   meta?: object;
-  path: string;
+  path?: string;
 };
 
 export function toLinkProps(linkObject: LinkObject) {
@@ -184,8 +195,9 @@ export function toLinkProps(linkObject: LinkObject) {
     linkObject.contentUri &&
     linkObject.contentUri.startsWith('urn:learningpath') &&
     linkObject.meta;
+  const path = linkObject.path || '';
   return {
-    to: isLearningpath ? toLearningPath() + linkObject.path : linkObject.path,
+    to: isLearningpath ? toLearningPath() + path : path,
   };
 }
 
@@ -222,7 +234,7 @@ export function getProgrammeByPath(pathname: string, locale: LocaleType) {
     pathname,
     PROGRAMME_PAGE_PATH,
   );
-  if (match) {
+  if (match?.params?.programme) {
     return getProgrammeBySlug(match.params.programme, locale);
   }
   return null;

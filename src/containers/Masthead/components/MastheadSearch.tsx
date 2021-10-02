@@ -1,0 +1,174 @@
+import React, { useState, useRef, useEffect, FormEvent } from 'react';
+import {
+  //@ts-ignore
+  SearchField,
+  SearchResultSleeve,
+  SearchFieldForm,
+  MastheadSearchModal,
+} from '@ndla/ui';
+import queryString from 'query-string';
+import { useLazyQuery } from '@apollo/client';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import debounce from 'lodash.debounce';
+
+import { useTranslation } from 'react-i18next';
+import { groupSearchQuery } from '../../../queries';
+import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
+import { contentTypeMapping } from '../../../util/getContentType';
+import {
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../constants';
+import { toSearch } from '../../../routeHelpers';
+import {
+  GQLSubject,
+  GQLGroupSearch,
+  GQLGroupSearchQuery,
+  GQLGroupSearchQueryVariables,
+} from '../../../graphqlTypes';
+
+const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
+
+interface Props extends RouteComponentProps {
+  hideOnNarrowScreen?: boolean;
+  subject?: GQLSubject;
+  ndlaFilm?: boolean;
+}
+
+const MastheadSearch = ({
+  hideOnNarrowScreen = false,
+  ndlaFilm,
+  history,
+  subject,
+}: Props) => {
+  const { t } = useTranslation();
+  const inputRef = useRef(null);
+  const [query, setQuery] = useState('');
+  const [delayedSearchQuery, setDelayedQuery] = useState('');
+  const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
+
+  const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
+    GQLGroupSearchQuery,
+    GQLGroupSearchQueryVariables
+  >(groupSearchQuery, { fetchPolicy: 'no-cache' });
+
+  useEffect(() => {
+    setSubjects(subject?.id);
+  }, [subject]);
+
+  let closeModal: () => void | undefined;
+
+  useEffect(() => {
+    if (delayedSearchQuery.length >= 2) {
+      runSearch({
+        variables: {
+          query: delayedSearchQuery,
+          subjects,
+          resourceTypes: [
+            RESOURCE_TYPE_LEARNING_PATH,
+            RESOURCE_TYPE_SUBJECT_MATERIAL,
+            RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+          ].join(),
+        },
+      });
+    }
+  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onFilterRemove = () => {
+    setSubjects(undefined);
+  };
+
+  const onQueryChange = (evt: string) => {
+    const query = evt;
+    setQuery(query);
+    debounceCall(() => setDelayedQuery(query));
+  };
+
+  const onClearQuery = () => {
+    setQuery('');
+  };
+
+  const onNavigate = () => {
+    setQuery('');
+    if (closeModal) {
+      closeModal();
+    }
+  };
+
+  const mapResults = (results: GQLGroupSearch[] = []) =>
+    query.length > 1
+      ? results.map(result => {
+          const contentType = contentTypeMapping[result.resourceType];
+          return {
+            ...result,
+            resources: result.resources.map(resource => ({
+              ...resource,
+              resourceType: result.resourceType,
+            })),
+            contentType,
+            title: t(`contentTypes.${contentType}`),
+          };
+        })
+      : [];
+
+  const searchString = queryString.stringify({
+    query: query && query.length > 0 ? query : undefined,
+    subjects,
+  });
+
+  const onSearch = (evt: FormEvent) => {
+    evt.preventDefault();
+
+    history.push({
+      pathname: '/search',
+      search: `?${searchString}`,
+    });
+  };
+
+  const filters = subjects
+    ? [{ title: subject?.name, value: subject?.id }]
+    : [];
+
+  return (
+    <MastheadSearchModal
+      onClose={onClearQuery}
+      hideOnNarrowScreen={hideOnNarrowScreen}
+      ndlaFilm={ndlaFilm}>
+      {(onCloseModal: Function) => {
+        closeModal = onCloseModal as () => void;
+        return (
+          error || (
+            <SearchFieldForm onSubmit={onSearch}>
+              <SearchField
+                placeholder={t('searchPage.searchFieldPlaceholder')}
+                value={query}
+                inputRef={inputRef}
+                onChange={onQueryChange}
+                filters={filters}
+                onFilterRemove={onFilterRemove}
+                messages={{
+                  searchFieldTitle: t('searchPage.search'),
+                }}
+                loading={loading}
+              />
+              {query.length > 2 && (
+                <SearchResultSleeve
+                  //@ts-ignore
+                  result={mapResults(searchResult.groupSearch)}
+                  searchString={query}
+                  allResultUrl={toSearch(searchString)}
+                  resourceToLinkProps={searchResultToLinkProps}
+                  history={history}
+                  onNavigate={onNavigate}
+                />
+              )}
+            </SearchFieldForm>
+          )
+        );
+      }}
+    </MastheadSearchModal>
+  );
+};
+
+export default withRouter(MastheadSearch);

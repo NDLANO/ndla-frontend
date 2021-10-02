@@ -7,18 +7,20 @@
  */
 
 import React from 'react';
-import { injectT } from '@ndla/i18n';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { movedResourceQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import handleError from '../../util/handleError';
 import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
-
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { ResourceShape } from '../../shapes';
 
-const MovedResourcePage = ({ resource, t }) => {
+const MovedResourcePage = ({ resource }) => {
+  const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery(movedResourceQuery, {
@@ -67,7 +69,7 @@ const MovedResourcePage = ({ resource, t }) => {
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage />;
   }
 
   const results = resultsWithContentTypeBadgeAndImage(
@@ -76,12 +78,15 @@ const MovedResourcePage = ({ resource, t }) => {
   );
 
   return (
-    <OneColumn>
-      <h1>{t('movedResourcePage.title')}</h1>
-      <div className="c-search-result">
-        <SearchResultList results={results} />
-      </div>
-    </OneColumn>
+    <>
+      <HelmetWithTracker title={t('htmlTitles.movedResourcePage')} />
+      <OneColumn>
+        <h1>{t('movedResourcePage.title')}</h1>
+        <div className="c-search-result">
+          <SearchResultList results={results} />
+        </div>
+      </OneColumn>
+    </>
   );
 };
 
@@ -89,4 +94,4 @@ MovedResourcePage.propTypes = {
   resource: ResourceShape,
 };
 
-export default injectT(MovedResourcePage);
+export default MovedResourcePage;

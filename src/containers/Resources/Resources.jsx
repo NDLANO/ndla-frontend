@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
@@ -16,6 +15,7 @@ import {
   ContentTypeBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
@@ -120,8 +120,9 @@ class Resources extends Component {
       const resourceTypes = sortResourceTypes(resource.resourceTypes);
       return {
         ...resource,
-        type: resourceTypes?.[0].name,
-        contentType: contentTypeMapping[resourceTypes?.[0].id],
+        active: resource.id.endsWith(params.resourceId) ? true : false,
+        contentTypeName: resourceTypes?.[0]?.name,
+        contentType: contentTypeMapping[resourceTypes?.[0]?.id],
       };
     });
 
@@ -173,6 +174,7 @@ class Resources extends Component {
         }>
         {isUngrouped && (
           <ResourceGroup
+            title=""
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={this.toggleAdditionalResources}
@@ -218,4 +220,4 @@ Resources.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default withRouter(injectT(Resources));
+export default withRouter(withTranslation()(Resources));

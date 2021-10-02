@@ -9,27 +9,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
+import { useTranslation } from 'react-i18next';
 
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
-
 import {
   frontPageSearchSuggestion,
   mapSearchToFrontPageStructure,
 } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
-
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const debounceCall = debounce(fn => fn(), 300);
 
-const WelcomePageSearch = ({ t, history, locale }) => {
+const WelcomePageSearch = ({ history, locale }) => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
+  const { t } = useTranslation();
 
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
     frontpageSearchQuery,
@@ -58,7 +58,7 @@ const WelcomePageSearch = ({ t, history, locale }) => {
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage minimal />;
   }
 
   const onSearch = evt => {
@@ -108,4 +108,4 @@ WelcomePageSearch.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectT(WelcomePageSearch);
+export default WelcomePageSearch;

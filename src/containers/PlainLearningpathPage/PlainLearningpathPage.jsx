@@ -9,13 +9,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
+import { withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { learningPathStepQuery } from '../../queries';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
 import { htmlTitle } from '../../util/titleHelper';
@@ -114,8 +114,8 @@ const PlainLearningpathPage = props => {
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
         locale={locale}
-        invertedStyle={false}
         ndlaFilm={false}
+        breadcrumbItems={[]}
       />
     </div>
   );
@@ -149,4 +149,4 @@ PlainLearningpathPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withTracker(PlainLearningpathPage));
+export default withTranslation()(withTracker(PlainLearningpathPage));

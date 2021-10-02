@@ -6,7 +6,6 @@
  *
  */
 
-// @ts-ignore
 import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
@@ -26,19 +25,21 @@ import {
   iframeArticleRoute,
   forwardingRoute,
   ltiRoute,
-  // @ts-ignore
 } from './routes';
-// @ts-ignore
 import contentSecurityPolicy from './contentSecurityPolicy';
-// @ts-ignore
 import handleError from '../util/handleError';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
-// @ts-ignore
 import { generateOauthData } from './helpers/oauthHelper';
+import {
+  getFeideToken,
+  getRedirectUrl,
+  feideLogout,
+} from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import config from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -97,6 +98,32 @@ app.get(
     res.redirect(FILM_PAGE_PATH);
   },
 );
+
+if (config.feideEnabled) {
+  app.get('/feide/login', (req: Request, res: Response) => {
+    getRedirectUrl(req)
+      .then(json => {
+        res
+          .cookie('PKCE_code', json.verifier, {
+            httpOnly: true,
+          })
+          .send(json);
+      })
+      .catch(() => sendInternalServerError(req, res));
+  });
+
+  app.get('/feide/token', (req: Request, res: Response) => {
+    getFeideToken(req)
+      .then(json => res.send(json))
+      .catch(() => sendInternalServerError(req, res));
+  });
+
+  app.get('/feide/logout', (req: Request, res: Response) => {
+    feideLogout(req)
+      .then(logouturi => res.send({ url: logouturi }))
+      .catch(() => sendInternalServerError(req, res));
+  });
+}
 
 app.get(
   '/:lang?/subjects/:path(*)',

@@ -25,6 +25,7 @@ const connectSrc = (() => {
     'https://ltiredirect.itslearning.com',
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
+    'https://auth.dataporten.no',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -100,6 +101,7 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
+    'https://auth.dataporten.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -163,6 +165,9 @@ const frameSrc = (() => {
     'ted.com',
     'embed.ted.com',
     'embed.molview.org',
+    'reader.pubfront.com',
+    'ebok.no',
+    'trinket.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

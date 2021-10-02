@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 const MarginLeftParagraph = styled('p')`
   margin-left: 26px;
@@ -12,7 +12,8 @@ const CodeWithBreakWord = styled('code')`
   word-break: break-word;
 `;
 
-const LtiEmbedCode = ({ onClose, code, isOpen, t }) => {
+const LtiEmbedCode = ({ onClose, code, isOpen }) => {
+  const { t } = useTranslation();
   if (!isOpen) {
     return null;
   }
@@ -49,4 +50,4 @@ LtiEmbedCode.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default injectT(LtiEmbedCode);
+export default LtiEmbedCode;

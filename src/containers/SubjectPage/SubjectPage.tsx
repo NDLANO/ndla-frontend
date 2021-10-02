@@ -6,20 +6,22 @@
  *
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-// @ts-ignore
 import { subjectPageQueryWithTopics } from '../../queries';
-// @ts-ignore
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-// @ts-ignore
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
+import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import { LocaleType } from '../../interfaces';
+import {
+  GQLSubjectPageWithTopicsQuery,
+  GQLSubjectPageWithTopicsQueryVariables,
+} from '../../graphqlTypes';
 
 type MatchParams = {
   subjectId?: string;
@@ -40,10 +42,18 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     ndlaFilm,
     match,
   });
-  const { loading, data } = useGraphQuery(subjectPageQueryWithTopics, {
+
+  const initialLoad = useRef(true);
+  const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
+
+  const { loading, data } = useGraphQuery<
+    GQLSubjectPageWithTopicsQuery,
+    GQLSubjectPageWithTopicsQueryVariables
+  >(subjectPageQueryWithTopics, {
     variables: {
-      subjectId,
+      subjectId: subjectId!,
       topicId: topicId || '',
+      includeTopic: isFirstRenderWithTopicId(),
     },
   });
 
@@ -55,23 +65,34 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     return <DefaultErrorMessage />;
   }
 
-  const alternateTopics = data?.topic?.alternateTopics;
-  if (!data?.subject && alternateTopics?.length >= 1) {
+  const alternateTopics = data.topic?.alternateTopics;
+  if (!data?.subject && alternateTopics && alternateTopics.length >= 1) {
     if (alternateTopics.length === 1) {
-      return <Redirect to={alternateTopics[0].path} />;
+      return <Redirect to={alternateTopics[0]!.path!} />;
     }
     return <MovedTopicPage topics={alternateTopics} />;
   }
 
   if (!data.subject || !subjectId) {
-    return <NotFoundPage />;
+    const redirect = data.subjects?.find(sub => {
+      const customFields = sub.metadata?.customFields;
+      //@ts-ignore
+      return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
+    });
+    if (!redirect) {
+      return <NotFoundPage />;
+    } else {
+      return <Redirect to={redirect.path} />;
+    }
   }
 
   // Pre-select topic if only one topic in subject
-  if (!topicList.length && data.subject.topics.length === 1) {
+  if (!topicList.length && data.subject?.topics?.length === 1) {
     const topic = data.subject.topics[0];
-    topicList.push(topic.id);
+    topicList.push(topic!.id);
   }
+
+  initialLoad.current = false;
 
   return (
     <SubjectContainer
@@ -79,8 +100,8 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       skipToContentId={skipToContentId}
       ndlaFilm={ndlaFilm}
       subjectId={subjectId}
-      topics={topicList}
-      data={data}
+      topicIds={topicList}
+      subject={data.subject}
       loading={loading}
     />
   );

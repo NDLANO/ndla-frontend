@@ -15,18 +15,6 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${series.id}`;
     const ownerEmail = 'support+podcast@ndla.no';
 
-    const authors = series.episodes
-      .flatMap(ep => {
-        return ep.copyright.creators
-          .concat(ep.copyright.processors)
-          .concat(ep.copyright.rightsholders);
-      })
-      .map(a => a.name);
-
-    const uniqueAuthors = Array.from(new Set(authors)).map(
-      a => `<itunes:author>${a}</itunes:author>`,
-    );
-
     const description = `
     <description>
       <![CDATA[
@@ -85,13 +73,13 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
         <language>${series.title.language}</language>
         ${category}
         <itunes:explicit>${explicitness}</itunes:explicit>
-        ${uniqueAuthors}
+        <itunes:author>NDLA</itunes:author>
         <itunes:owner>
           <itunes:name>NDLA</itunes:name>
           <itunes:email>${ownerEmail}</itunes:email>
         </itunes:owner>
         <itunes:image href="${series.coverPhoto.url}" />
-        ${episodes}
+        ${episodes.join('')}
       </channel>
     </rss>
       `;

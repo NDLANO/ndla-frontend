@@ -6,16 +6,16 @@
  */
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { isValidElementType } from 'react-is';
 import Spinner from '@ndla/ui/lib/Spinner';
 
+import { useTranslation } from 'react-i18next';
 import { competenceGoalsQuery } from '../../queries';
 import handleError from '../../util/handleError';
 import { ArticleShape, SubjectShape } from '../../shapes';
+import { useGraphQuery } from '../../util/runQueries';
 
 export function groupByCurriculums(competenceGoals, addUrl = false) {
   const searchUrl = '/search?grepCodes=';
@@ -55,14 +55,14 @@ const CompetenceGoals = ({
   language,
   wrapperComponent: Component,
   wrapperComponentProps,
-  t,
 }) => {
   const codes = article.grepCodes;
   const nodeId = article.oldNdlaUrl?.split('/').pop();
   const lang =
     article.supportedLanguages.find(l => l === language) ||
     article.supportedLanguages[0];
-  const { error, data, loading } = useQuery(competenceGoalsQuery, {
+  const { t } = useTranslation();
+  const { error, data, loading } = useGraphQuery(competenceGoalsQuery, {
     variables: { codes, nodeId, language: lang },
   });
 
@@ -141,4 +141,4 @@ CompetenceGoals.propTypes = {
   wrapperComponentProps: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default injectT(CompetenceGoals);
+export default CompetenceGoals;

@@ -9,64 +9,58 @@
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
-import { OneColumn, SubjectBanner, LayoutItem } from '@ndla/ui';
-import { NavigationHeading, Breadcrumblist } from '@ndla/ui';
-
-import { injectT, tType } from '@ndla/i18n';
+import {
+  // @ts-ignore
+  OneColumn,
+  // @ts-ignore
+  SubjectBanner,
+  // @ts-ignore
+  LayoutItem,
+  NavigationHeading,
+  Breadcrumblist,
+} from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
-import { BreadcrumbItemProps } from '@ndla/ui';
-// @ts-ignore
+import { withTranslation, WithTranslation } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
-// @ts-ignore
 import SubjectEditorChoices from './components/SubjectEditorChoices';
-// @ts-ignore
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
-// @ts-ignore
 import SubjectPageInformation from './components/SubjectPageInformation';
-// @ts-ignore
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-// @ts-ignore
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { LocaleType } from '../../interfaces';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import { BreadcrumbItem, LocaleType } from '../../interfaces';
+import { GQLSubject } from '../../graphqlTypes';
 
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
-  topics: string[];
-  data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
+  topicIds: string[];
+  subject: GQLSubject;
   ndlaFilm?: boolean;
   loading?: boolean;
-} & tType &
+} & WithTranslation &
   RouteComponentProps;
-
-type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
 const SubjectContainer = ({
   history,
   locale,
-  skipToContentId,
   t,
   subjectId,
-  topics,
-  data,
+  topicIds,
+  subject,
   ndlaFilm,
 }: Props) => {
-  const { subject } = data;
   const { name: subjectName } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
   const editorsChoices = subject.subjectpage?.editorsChoices;
-  const layout = subject.subjectpage?.layout;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -119,7 +113,7 @@ const SubjectContainer = ({
           crumb.id.toString().localeCompare(topic.id.toString()) !== 0 &&
           (crumb.typename === 'Subjecttype' ||
             crumb.typename === 'Subject' ||
-            topics?.includes(crumb.id.toString()))
+            topicIds?.includes(crumb.id.toString()))
         );
       }),
       topic,
@@ -127,7 +121,7 @@ const SubjectContainer = ({
   };
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topics.map(_ => React.createRef<HTMLElement>());
+  const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
 
   const handleNav = (
     e: React.MouseEvent<HTMLElement>,
@@ -139,7 +133,7 @@ const SubjectContainer = ({
       setCurrentLevel(typename);
       scrollToRef(headerRef);
     } else {
-      if (index) {
+      if (index !== undefined) {
         setCurrentLevel(index);
         const refToScroll = topicRefs[index];
         if (refToScroll) scrollToRef(refToScroll);
@@ -159,10 +153,10 @@ const SubjectContainer = ({
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
-  const moveBannerUp = !topics?.length;
+  const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topics?.map(t =>
-    data.subject.allTopics.find(topic => topic.id === t),
+  const topicPath = topicIds?.map(t =>
+    subject.allTopics?.find(topic => topic.id === t),
   );
 
   const socialMediaMetadata = {
@@ -209,15 +203,11 @@ const SubjectContainer = ({
               </NavigationHeading>
             </div>
             <SubjectPageContent
-              skipToContentId={skipToContentId}
-              layout={layout}
               locale={locale}
-              subjectId={subjectId}
-              subjectpage={subject.subjectpage}
               subject={subject}
               ndlaFilm={ndlaFilm}
               onClickTopics={onClickTopics}
-              topics={topics}
+              topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
             />
@@ -226,7 +216,7 @@ const SubjectContainer = ({
       </div>
       {subject.subjectpage?.banner && (
         <SubjectBanner
-          image={subject.subjectpage?.banner.desktopUrl}
+          image={subject.subjectpage?.banner.desktopUrl || ''}
           negativeTopMargin={moveBannerUp}
         />
       )}
@@ -254,36 +244,32 @@ const SubjectContainer = ({
   );
 };
 
-SubjectContainer.getDocumentTitle = ({ t, data }: Props): string => {
-  return htmlTitle(data?.subject?.name, [t('htmlTitles.titleTemplate')]);
+SubjectContainer.getDocumentTitle = ({ t, subject }: Props): string => {
+  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
 };
 
 SubjectContainer.willTrackPageView = (
   trackPageView: (p: Props) => void,
   currentProps: Props,
 ) => {
-  const { data, loading, topics } = currentProps;
-  if (
-    !loading &&
-    (data?.subject?.topics?.length ?? 0) > 0 &&
-    topics?.length === 0
-  ) {
+  const { subject, loading, topicIds } = currentProps;
+  if (!loading && (subject.topics?.length ?? 0) > 0 && topicIds?.length === 0) {
     trackPageView(currentProps);
   }
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { data, locale, topics } = props;
-  const topicPath = topics.map(t =>
-    data.subject.allTopics.find(topic => topic.id === t),
+  const { subject, locale, topicIds } = props;
+  const topicPath = topicIds.map(t =>
+    subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(data.subject?.id, locale);
+  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions({
-    subject: data.subject,
+    subject,
     topicPath,
     filter: longName,
   });
 };
 
-export default withRouter(injectT(withTracker(SubjectContainer)));
+export default withTranslation()(withRouter(withTracker(SubjectContainer)));

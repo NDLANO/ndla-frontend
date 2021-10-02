@@ -17,8 +17,8 @@ import {
   NdlaFilmHero,
 } from '@ndla/ui';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { useTranslation } from 'react-i18next';
 
 import SubTopics from './SubTopics';
 import {
@@ -62,13 +62,13 @@ const TopicContainer = ({
   location,
   ndlaFilm,
   locale,
-  t,
   skipToContentId,
   subjectId,
   topicId,
   data,
   error,
 }) => {
+  const { t } = useTranslation();
   const result = transformData(data);
 
   const { subject, topicPath, resourceTypes, topic } = result;
@@ -223,4 +223,4 @@ TopicContainer.propTypes = {
   basename: PropTypes.string,
 };
 
-export default injectT(withTracker(TopicContainer));
+export default withTracker(TopicContainer);

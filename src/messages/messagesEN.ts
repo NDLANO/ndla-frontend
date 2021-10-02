@@ -18,6 +18,12 @@ const messages = {
     notFound: `Page not found - ${titleTemplate}`,
     subject: 'Subject',
     lti: `LTI - ${titleTemplate}`,
+    movedResourcePage: `The page has been moved - ${titleTemplate}`,
+    toolbox: {
+      visualElement: 'About subject video',
+      introduction:
+        'What will it mean to work exploratory? How can you learn better? What is needed in order to make group work function? In the toolbox both students and teach find resources that are current for every subject, and that support learning work and development of knowledge, skills and understanding.',
+    },
   },
 };
 

@@ -9,11 +9,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { injectT } from '@ndla/i18n';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
@@ -21,7 +21,7 @@ import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 
-const mapGradesData = (grades, locale, programmeSlug) => {
+export const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {
@@ -113,4 +113,4 @@ ProgrammePage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(withTracker(ProgrammePage));
+export default withTranslation()(withTracker(ProgrammePage));

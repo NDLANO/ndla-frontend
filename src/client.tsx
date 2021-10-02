@@ -6,28 +6,24 @@
  *
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import { CacheProvider } from '@emotion/core';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
-import IntlProvider from '@ndla/i18n';
-import { ApolloProvider } from '@apollo/client';
-// @ts-ignore
-import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
-
 // @ts-ignore
 import queryString from 'query-string';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
+import { STORED_LANGUAGE_KEY } from './constants';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
-// @ts-ignore
-import { createApolloClient } from './util/apiHelpers';
-import { STORED_LANGUAGE_KEY } from './constants';
+import { NDLAWindow } from './interfaces';
 import routesFunc from './routes';
 import './style/index.css';
-import { NDLAWindow } from './interfaces';
+// @ts-ignore
+import { createApolloClient } from './util/apiHelpers';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -37,7 +33,7 @@ const {
   DATA: { initialProps, config, serverPath, serverQuery },
 } = window;
 
-const { abbreviation, messages, basename, basepath } = getLocaleInfoFromPath(
+const { abbreviation, basename, basepath } = getLocaleInfoFromPath(
   serverPath ?? '',
 );
 
@@ -50,35 +46,19 @@ const locationFromServer = {
 };
 
 const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-if (
-  basename === '' &&
-  storedLanguage !== null &&
-  isValidLocale(storedLanguage) &&
-  storedLanguage !== 'nb'
-) {
-  const { pathname, search } = window.location;
-  window.location.href = `/${storedLanguage}${pathname}${search}`;
-} else if (
-  storedLanguage !== basename &&
-  basename !== undefined &&
-  isValidLocale(basename)
-) {
+if (basename && storedLanguage !== basename && isValidLocale(basename)) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
+} else if (storedLanguage === null || storedLanguage === undefined) {
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, 'nb');
 }
 
-const browserHistory = createHistory(basename ?? '');
+const browserHistory = createHistory();
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
   environment: config.ndlaEnvironment,
   componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
-});
-
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: window.location.host ? config?.gaTrackingId : '',
-  googleTagManagerId: config?.googleTagManagerId,
 });
 
 window.hasHydrated = false;
@@ -108,11 +88,15 @@ const RouterComponent = ({ children }: RCProps) =>
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>
-      <IntlProvider locale={abbreviation} messages={messages}>
-        <RouterComponent>
-          {routesFunc({ ...initialProps, basename }, abbreviation)}
-        </RouterComponent>
-      </IntlProvider>
+      <RouterComponent>
+        {routesFunc(
+          { ...initialProps, basename },
+          client,
+          //@ts-ignore
+          basename,
+          true,
+        )}
+      </RouterComponent>
     </CacheProvider>
   </ApolloProvider>,
   document.getElementById('root'),

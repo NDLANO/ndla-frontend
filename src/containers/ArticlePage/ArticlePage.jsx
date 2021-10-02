@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
 import { OneColumn, LayoutItem } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import {
   SubjectShape,
   ResourceShape,
@@ -94,8 +94,8 @@ class ArticlePage extends Component {
   }
 
   componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      window?.MathJax?.typeset();
     }
   }
 
@@ -244,4 +244,4 @@ ArticlePage.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default injectT(withTracker(ArticlePage));
+export default withTranslation()(withTracker(ArticlePage));
