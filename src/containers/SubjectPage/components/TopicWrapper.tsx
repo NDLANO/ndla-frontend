@@ -1,5 +1,9 @@
 import React from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import {
+  withTranslation,
+  WithTranslation,
+  useTranslation,
+} from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import Topic from './Topic';
 import { topicQuery } from '../../../queries';
@@ -36,6 +40,8 @@ const TopicWrapper = ({
   subject,
   index,
 }: Props) => {
+  const { t } = useTranslation();
+
   const { data, loading } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
@@ -52,6 +58,10 @@ const TopicWrapper = ({
       }
     },
   });
+
+  if (!loading && !data?.topic?.article) {
+    return <h2>{t('deletedTopic.title')}</h2>;
+  }
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;
