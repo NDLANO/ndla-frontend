@@ -76,7 +76,7 @@ jobs:
           tar xvzf /tmp/helm.tar.gz -C /tmp/
           sudo mv /tmp/linux-amd64/helm /home/runner/bin/
           sudo chmod +x /home/runner/bin/helm
-          helm plugin install https://github.com/chartmuseum/helm-push
+          helm plugin install https://github.com/chartmuseum/helm-push.git --version 0.9.0
       - name: "Build kubernetes config"
         run: |
           for config in `find ndla/deploy -name "kubeconfig*eks-cluster"`; do
