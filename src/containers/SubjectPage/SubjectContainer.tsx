@@ -175,12 +175,8 @@ const SubjectContainer = ({
       ? subject.topics?.filter(topic => topicIds.includes(topic.id))
       : subject.topics) || [];
 
-  const supportedLanguages = Array.from(
-    topicsOnPage.reduce((acc, cur) => {
-      cur.article?.supportedLanguages?.forEach(acc.add, acc);
-      return acc;
-    }, new Set<string>()) || [],
-  );
+  const supportedLanguages =
+    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
 
   return (
     <>
