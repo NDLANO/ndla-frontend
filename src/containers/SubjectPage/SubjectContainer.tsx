@@ -160,7 +160,8 @@ const SubjectContainer = ({
   );
 
   const socialMediaMetadata = {
-    title: topicPath?.[topicPath.length - 1]?.name || about?.title,
+    title:
+      topicPath?.[topicPath.length - 1]?.name || about?.title || subject.name,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
@@ -168,6 +169,14 @@ const SubjectContainer = ({
       topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
       about?.visualElement,
   };
+
+  const topicsOnPage =
+    (topicIds.length > 0
+      ? subject.topics?.filter(topic => topicIds.includes(topic.id))
+      : subject.topics) || [];
+
+  const supportedLanguages =
+    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
 
   return (
     <>
@@ -182,19 +191,19 @@ const SubjectContainer = ({
       <div ref={containerRef}>
         <OneColumn>
           <LayoutItem layout="extend">
-            {about && (
-              <SocialMediaMetadata
-                title={socialMediaMetadata.title}
-                description={socialMediaMetadata.description}
-                locale={locale}
-                image={
-                  socialMediaMetadata.image && {
-                    url: socialMediaMetadata.image.url,
-                    altText: socialMediaMetadata.image.alt,
-                  }
+            <SocialMediaMetadata
+              title={socialMediaMetadata.title}
+              description={socialMediaMetadata.description}
+              locale={locale}
+              image={
+                socialMediaMetadata.image && {
+                  url: socialMediaMetadata.image.url,
+                  altText: socialMediaMetadata.image.alt,
                 }
-              />
-            )}
+              }
+              trackableContent={{ supportedLanguages }}
+            />
+
             <div ref={headerRef}>
               <NavigationHeading
                 subHeading={subjectNames.subHeading}

@@ -650,6 +650,9 @@ export const subjectPageQueryWithTopics = gql`
     subject(id: $subjectId) {
       ...SubjectInfo
       topics(filterIds: $filterIds) {
+        article {
+          supportedLanguages
+        }
         ...TopicInfo
       }
       allTopics: topics(all: true, filterIds: $filterIds) {
