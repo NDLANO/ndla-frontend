@@ -304,6 +304,7 @@ export const mapResourcesToItems = (resources, ltiData, isLti, language, t) =>
         context.subject,
         context.language,
       ),
+      isAdditional: isSupplementary(context),
     })),
     ...(resource.metaImage?.url && {
       img: {
