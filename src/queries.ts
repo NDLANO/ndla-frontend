@@ -25,7 +25,6 @@ export const searchQuery = gql`
     $ids: String
     $resourceTypes: String
     $contextFilters: String
-    $levels: String
     $sort: String
     $fallback: String
     $subjects: String
@@ -42,7 +41,6 @@ export const searchQuery = gql`
       ids: $ids
       resourceTypes: $resourceTypes
       contextFilters: $contextFilters
-      levels: $levels
       sort: $sort
       fallback: $fallback
       subjects: $subjects
@@ -106,7 +104,6 @@ export const searchFilmQuery = gql`
     $ids: String
     $resourceTypes: String
     $contextFilters: String
-    $levels: String
     $sort: String
     $fallback: String
     $subjects: String
@@ -120,7 +117,6 @@ export const searchFilmQuery = gql`
       ids: $ids
       resourceTypes: $resourceTypes
       contextFilters: $contextFilters
-      levels: $levels
       sort: $sort
       fallback: $fallback
       subjects: $subjects
@@ -165,7 +161,6 @@ export const groupSearchQuery = gql`
     $resourceTypes: String
     $contextTypes: String
     $subjects: String
-    $levels: String
     $query: String
     $page: String
     $pageSize: String
@@ -177,7 +172,6 @@ export const groupSearchQuery = gql`
       resourceTypes: $resourceTypes
       contextTypes: $contextTypes
       subjects: $subjects
-      levels: $levels
       query: $query
       page: $page
       pageSize: $pageSize

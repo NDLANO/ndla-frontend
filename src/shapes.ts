@@ -220,7 +220,6 @@ export const BreadCrumbShape = PropTypes.shape({
 export const SearchParamsShape = PropTypes.shape({
   contextFilters: PropTypes.arrayOf(PropTypes.string),
   languageFilter: PropTypes.arrayOf(PropTypes.string),
-  levels: PropTypes.arrayOf(PropTypes.string),
   page: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(PropTypes.string),
   subjects: PropTypes.arrayOf(PropTypes.string),
