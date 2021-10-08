@@ -24,7 +24,11 @@ import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
+import {
+  getUrnIdsFromProps,
+  toBreadcrumbItems,
+  SubjectURI,
+} from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -37,13 +41,14 @@ import {
   getCategorizedSubjects,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
+import { getProgrammeBySlug } from '../../data/programmes';
+import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
-  GQLMastheadQueryData,
-  GQLResource,
+  GQLMastHeadQuery,
+  GQLMastHeadQueryVariables,
   GQLResourceType,
   GQLSubject,
-  GQLTopic,
 } from '../../graphqlTypes';
 
 interface Props extends RouteComponentProps {
@@ -52,13 +57,14 @@ interface Props extends RouteComponentProps {
   ndlaFilm?: boolean;
   skipToMainContentId?: string;
   hideBreadcrumb?: boolean;
+  initialSelectMenu?: string;
 }
 
 interface State {
   subject?: GQLSubject;
-  topicPath?: GQLTopic[];
+  topicPath?: SubjectURI[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: GQLResource;
+  resource?: SubjectURI;
 }
 
 const MastheadContainer = ({
@@ -69,6 +75,7 @@ const MastheadContainer = ({
   match,
   skipToMainContentId,
   hideBreadcrumb,
+  initialSelectMenu,
 }: Props) => {
   const [subjectId, setSubjectId] = useState('');
   const [topicId, setTopicId] = useState('');
@@ -79,9 +86,10 @@ const MastheadContainer = ({
     updateData();
   }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery<GQLMastheadQueryData>(
-    mastHeadQuery,
-  );
+  const [fetchData, { data }] = useLazyQuery<
+    GQLMastHeadQuery,
+    GQLMastHeadQueryVariables
+  >(mastHeadQuery);
 
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth
@@ -125,6 +133,20 @@ const MastheadContainer = ({
     });
   };
 
+  const { programme } = getUrnIdsFromProps({ match });
+  let currentProgramme;
+  if (programme) {
+    const programmeData = getProgrammeBySlug(programme, locale);
+    if (programmeData) {
+      const grades = mapGradesData(programmeData.grades, locale);
+      currentProgramme = {
+        name: programmeData.name[locale],
+        url: programmeData.url[locale],
+        grades,
+      };
+    }
+  }
+
   const { subject, topicPath, topicResourcesByType, resource } = state;
   const path = topicPath ?? [];
 
@@ -146,6 +168,7 @@ const MastheadContainer = ({
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
     );
+
   return (
     <ErrorBoundary>
       <Masthead
@@ -154,20 +177,18 @@ const MastheadContainer = ({
         skipToMainContentId={skipToMainContentId}
         infoContent={infoContent}>
         <MastheadItem left>
-          {subject?.id && (
-            <MastheadMenu
-              subject={subject}
-              ndlaFilm={ndlaFilm}
-              searchFieldComponent={renderSearchComponent(false)}
-              topicPath={topicPath || []}
-              onDataFetch={onDataFetch}
-              resource={resource}
-              topicResourcesByType={topicResourcesByType || []}
-              locale={locale}
-              programmes={getProgrammes(locale)}
-              subjectCategories={getCategorizedSubjects(locale)}
-            />
-          )}
+          <MastheadMenu
+            subject={subject}
+            ndlaFilm={ndlaFilm}
+            searchFieldComponent={renderSearchComponent(false)}
+            onDataFetch={onDataFetch}
+            topicResourcesByType={topicResourcesByType || []}
+            locale={locale}
+            programmes={getProgrammes(locale)}
+            currentProgramme={currentProgramme}
+            subjectCategories={getCategorizedSubjects(locale)}
+            initialSelectMenu={initialSelectMenu}
+          />
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock

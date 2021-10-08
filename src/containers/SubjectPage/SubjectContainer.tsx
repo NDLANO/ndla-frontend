@@ -34,14 +34,14 @@ import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import { GQLSubject } from '../../graphqlTypes';
 
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  data: { subject: GQLSubject & { allTopics: GQLTopic[] } };
+  subject: GQLSubject;
   ndlaFilm?: boolean;
   loading?: boolean;
 } & WithTranslation &
@@ -53,10 +53,9 @@ const SubjectContainer = ({
   t,
   subjectId,
   topicIds,
-  data,
+  subject,
   ndlaFilm,
 }: Props) => {
-  const { subject } = data;
   const { name: subjectName } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
@@ -157,11 +156,12 @@ const SubjectContainer = ({
   const moveBannerUp = !topicIds?.length;
 
   const topicPath = topicIds?.map(t =>
-    data.subject.allTopics.find(topic => topic.id === t),
+    subject.allTopics?.find(topic => topic.id === t),
   );
 
   const socialMediaMetadata = {
-    title: topicPath?.[topicPath.length - 1]?.name || about?.title,
+    title:
+      topicPath?.[topicPath.length - 1]?.name || about?.title || subject.name,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
@@ -169,6 +169,14 @@ const SubjectContainer = ({
       topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
       about?.visualElement,
   };
+
+  const topicsOnPage =
+    (topicIds.length > 0
+      ? subject.topics?.filter(topic => topicIds.includes(topic.id))
+      : subject.topics) || [];
+
+  const supportedLanguages =
+    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
 
   return (
     <>
@@ -183,19 +191,19 @@ const SubjectContainer = ({
       <div ref={containerRef}>
         <OneColumn>
           <LayoutItem layout="extend">
-            {about && (
-              <SocialMediaMetadata
-                title={socialMediaMetadata.title}
-                description={socialMediaMetadata.description}
-                locale={locale}
-                image={
-                  socialMediaMetadata.image && {
-                    url: socialMediaMetadata.image.url,
-                    altText: socialMediaMetadata.image.alt,
-                  }
+            <SocialMediaMetadata
+              title={socialMediaMetadata.title}
+              description={socialMediaMetadata.description}
+              locale={locale}
+              image={
+                socialMediaMetadata.image && {
+                  url: socialMediaMetadata.image.url,
+                  altText: socialMediaMetadata.image.alt,
                 }
-              />
-            )}
+              }
+              trackableContent={{ supportedLanguages }}
+            />
+
             <div ref={headerRef}>
               <NavigationHeading
                 subHeading={subjectNames.subHeading}
@@ -245,33 +253,29 @@ const SubjectContainer = ({
   );
 };
 
-SubjectContainer.getDocumentTitle = ({ t, data }: Props): string => {
-  return htmlTitle(data?.subject?.name, [t('htmlTitles.titleTemplate')]);
+SubjectContainer.getDocumentTitle = ({ t, subject }: Props): string => {
+  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
 };
 
 SubjectContainer.willTrackPageView = (
   trackPageView: (p: Props) => void,
   currentProps: Props,
 ) => {
-  const { data, loading, topicIds } = currentProps;
-  if (
-    !loading &&
-    (data?.subject?.topics?.length ?? 0) > 0 &&
-    topicIds?.length === 0
-  ) {
+  const { subject, loading, topicIds } = currentProps;
+  if (!loading && (subject.topics?.length ?? 0) > 0 && topicIds?.length === 0) {
     trackPageView(currentProps);
   }
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { data, locale, topicIds } = props;
+  const { subject, locale, topicIds } = props;
   const topicPath = topicIds.map(t =>
-    data.subject.allTopics.find(topic => topic.id === t),
+    subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(data.subject?.id, locale);
+  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions({
-    subject: data.subject,
+    subject,
     topicPath,
     filter: longName,
   });

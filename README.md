@@ -101,6 +101,16 @@ Make sure you have an running instance of the GraphQL enpoint with your latest c
 yarn get-gql-schema-local
 ```
 
+### TypeScript
+
+[GraphQL code generator](https://www.graphql-code-generator.com/) is used to generate TypeScript types from the local GraphQL schema and queries.
+
+```yarn
+yarn generate-gql-types
+```
+
+The configuration is found in `codegen.yml`.
+
 ## Other scripts
 
 ```yarn

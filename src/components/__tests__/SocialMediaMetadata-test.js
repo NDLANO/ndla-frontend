@@ -10,27 +10,15 @@ import {
   getCanonicalUrl,
 } from '../SocialMediaMetadata';
 
-test('getAlternateLanguages with article and basename is empty', () => {
-  const alternateLanguages = getAlternateLanguages('', 'nb', {
+test('getAlternateLanguages with article', () => {
+  const alternateLanguages = getAlternateLanguages({
     supportedLanguages: ['nb', 'nn', 'en'],
   });
   expect(alternateLanguages).toMatchSnapshot();
 });
 
-test('getAlternateLanguages with article and basename is en', () => {
-  const alternateLanguages = getAlternateLanguages('en', 'en', {
-    supportedLanguages: ['nb', 'nn', 'en'],
-  });
-  expect(alternateLanguages).toMatchSnapshot();
-});
-
-test('getAlternateLanguages without article and basename is empty', () => {
-  const alternateLanguages = getAlternateLanguages('', 'nb');
-  expect(alternateLanguages).toMatchSnapshot();
-});
-
-test('getAlternateLanguages without article and basename is nn', () => {
-  const alternateLanguages = getAlternateLanguages('nn', 'nn');
+test('getAlternateLanguages without article', () => {
+  const alternateLanguages = getAlternateLanguages();
   expect(alternateLanguages).toMatchSnapshot();
 });
 

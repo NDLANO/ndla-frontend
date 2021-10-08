@@ -165,6 +165,9 @@ const frameSrc = (() => {
     'ted.com',
     'embed.ted.com',
     'embed.molview.org',
+    'reader.pubfront.com',
+    'ebok.no',
+    'trinket.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
