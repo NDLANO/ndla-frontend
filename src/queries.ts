@@ -173,6 +173,7 @@ export const groupSearchQuery = gql`
     $fallback: String
     $grepCodes: String
     $aggregatePaths: [String!]
+    $grepCodesList: [String]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -225,6 +226,19 @@ export const groupSearchQuery = gql`
       resourceType
       totalCount
       language
+    }
+    competenceGoals(codes: $grepCodesList, language: $language) {
+      id
+      name: title
+      type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
   }
 `;

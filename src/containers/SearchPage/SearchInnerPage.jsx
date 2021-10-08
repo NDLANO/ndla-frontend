@@ -61,6 +61,7 @@ const SearchInnerPage = ({
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
   const [searchGroups, setSearchGroups] = useState([]);
   const [params, setParams] = useState(initalParams);
+  const [competenceGoals, setCompetenceGoals] = useState([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -89,6 +90,7 @@ const SearchInnerPage = ({
       pageSize: params.pageSize.toString(),
       ...getTypeParams(params.types, resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
+      grepCodesList: searchParams.grepCodes,
     },
     onCompleted: data => {
       setSearchGroups(
@@ -106,6 +108,7 @@ const SearchInnerPage = ({
       );
       resetLoading();
       setReplaceItems(true);
+      setCompetenceGoals(data.competenceGoals);
     },
   });
 
@@ -255,7 +258,7 @@ const SearchInnerPage = ({
       locale={i18n.language}
       loading={loading}
       isLti={isLti}
-      grepCodes={searchParams.grepCodes}
+      competenceGoals={competenceGoals}
     />
   );
 };

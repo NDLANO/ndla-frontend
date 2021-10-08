@@ -149,7 +149,7 @@ const sortElementsById = (
     }),
   }));
 
-const groupCompetenceGoals = (
+export const groupCompetenceGoals = (
   competenceGoals: LocalGQLCompetenceGoal[],
   addUrl: boolean = false,
   goalType: CompetenceGoalsType,

@@ -6,10 +6,11 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { func, string, arrayOf, bool } from 'prop-types';
+import { func, string, arrayOf, bool, object } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
+import { groupCompetenceGoals } from '../../../components/Article/CompetenceGoals';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
@@ -31,7 +32,7 @@ const SearchHeader = ({
   handleSearchParamsChange,
   noResults,
   locale,
-  grepCodes,
+  competenceGoals,
 }) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
@@ -55,13 +56,13 @@ const SearchHeader = ({
         title: longName,
       };
     });
-    const activeGrepCodes = grepCodes.map(id => ({
-      value: id,
-      name: id,
-      title: id,
+    const activeGrepCodes = competenceGoals.map(e => ({
+      value: e.id,
+      name: e.id,
+      title: e.id,
     }));
     setActiveFilters([...activeSubjects, ...activeGrepCodes]);
-  }, [subjects, locale, grepCodes]);
+  }, [subjects, locale, competenceGoals]);
 
   const onSubjectValuesChange = values => {
     handleSearchParamsChange({
@@ -96,11 +97,17 @@ const SearchHeader = ({
 
   const handleFilterRemove = value => {
     onFilterValueChange(
-      grepCodes.filter(id => id !== value),
+      competenceGoals.filter(e => e.id !== value).map(e => e.id),
       subjects.filter(id => id !== value),
     );
     setActiveFilters(activeFilters.filter(id => id !== value));
   };
+
+  const competenceGoalsMetadata = groupCompetenceGoals(
+    competenceGoals,
+    false,
+    'LK06',
+  ).flatMap(e => e.elements);
 
   return (
     <SearchHeaderUI
@@ -118,6 +125,7 @@ const SearchHeader = ({
       }}
       filters={subjectFilterProps}
       noResults={noResults}
+      competenceGoals={competenceGoalsMetadata}
     />
   );
 };
@@ -128,7 +136,7 @@ SearchHeader.propTypes = {
   query: string,
   suggestion: string,
   subjects: arrayOf(string),
-  grepCodes: arrayOf(string),
+  competenceGoals: arrayOf(object),
   noResults: bool,
   locale: string,
 };
