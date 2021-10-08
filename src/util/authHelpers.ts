@@ -96,6 +96,7 @@ export const initializeFeideLogin = () => {
   const lastPath = localStorage.getItem('lastPath');
   const state = `${lastPath ? `?state=${lastPath}` : ''}`;
 
+  console.log('feide enabled', lastPath, state);
   return fetch(`${locationOrigin}/feide/login${state}`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
     .then(data => (window.location.href = data?.url || ''));

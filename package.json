@@ -95,7 +95,7 @@
     "@ndla/button": "^1.0.0",
     "@ndla/core": "^0.7.0",
     "@ndla/error-reporter": "^1.0.0",
-    "@ndla/icons": "^1.0.0",
+    "@ndla/icons": "^1.0.1",
     "@ndla/licenses": "^1.0.0",
     "@ndla/modal": "^1.1.1",
     "@ndla/notion": "^1.0.3",

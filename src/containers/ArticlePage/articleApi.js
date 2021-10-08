@@ -31,3 +31,6 @@ export const fetchArticles = ids =>
 
 export const fetchArticleOembed = url =>
   fetch(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);
+
+export const feideTest = () =>
+  fetch('https://api.dataporten.no/userinfo/v1/userinfo');
