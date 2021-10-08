@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getAlternateLanguages with article and basename is empty 1`] = `
+exports[`getAlternateLanguages with article 1`] = `
 Array [
   "nb",
   "nn",
@@ -8,14 +8,9 @@ Array [
 ]
 `;
 
-exports[`getAlternateLanguages with article and basename is en 1`] = `Array []`;
-
-exports[`getAlternateLanguages without article and basename is empty 1`] = `
+exports[`getAlternateLanguages without article 1`] = `
 Array [
   "nb",
   "nn",
-  "en",
 ]
 `;
-
-exports[`getAlternateLanguages without article and basename is nn 1`] = `Array []`;

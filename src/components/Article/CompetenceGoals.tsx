@@ -6,7 +6,6 @@
  */
 
 import React, { ComponentType } from 'react';
-import { useQuery } from '@apollo/client';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { isValidElementType } from 'react-is';
@@ -20,6 +19,7 @@ import {
   GQLCoreElement,
 } from '../../graphqlTypes';
 import { CompetenceGoalsType } from '../../interfaces';
+import { useGraphQuery } from '../../util/runQueries';
 
 interface Props {
   article: GQLArticle;
@@ -204,7 +204,7 @@ const CompetenceGoals = ({
   const lang =
     article.supportedLanguages?.find(l => l === language) ||
     article.supportedLanguages?.[0];
-  const { error, data, loading } = useQuery(competenceGoalsQuery, {
+  const { error, data, loading } = useGraphQuery(competenceGoalsQuery, {
     variables: { codes, nodeId, language: lang },
   });
 

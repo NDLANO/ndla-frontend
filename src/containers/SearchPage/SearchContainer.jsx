@@ -37,7 +37,7 @@ const StyledLanguageSelector = styled.div`
 
 const SearchContainer = ({
   handleSearchParamsChange,
-  handleFilterClick,
+  handleSubFilterClick,
   handleFilterToggle,
   handleFilterReset,
   handleShowMore,
@@ -123,7 +123,7 @@ const SearchContainer = ({
             showAll={showAll}
             searchGroups={sortedSearchGroups}
             typeFilter={typeFilter}
-            handleFilterClick={handleFilterClick}
+            handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
             loading={loading}
           />
@@ -147,7 +147,7 @@ const SearchContainer = ({
 SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleFilterToggle: func,
   handleFilterReset: func,
   handleShowMore: func,

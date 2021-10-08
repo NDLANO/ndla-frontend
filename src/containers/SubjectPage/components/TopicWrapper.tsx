@@ -5,7 +5,11 @@ import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLSubject,
+  GQLTopicQuery,
+  GQLTopicQueryVariables,
+} from '../../../graphqlTypes';
 
 type Props = {
   topicId: string;
@@ -17,13 +21,8 @@ type Props = {
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
 } & WithTranslation;
-
-interface Data {
-  topic: GQLTopic;
-  resourceTypes: Array<GQLResourceType>;
-}
 
 const TopicWrapper = ({
   subTopicId,
@@ -37,25 +36,31 @@ const TopicWrapper = ({
   subject,
   index,
 }: Props) => {
-  const { data, loading } = useGraphQuery<Data>(topicQuery, {
+  const { data, loading } = useGraphQuery<
+    GQLTopicQuery,
+    GQLTopicQueryVariables
+  >(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
-      setBreadCrumb({
-        id: data.topic.id,
-        label: data.topic.name,
-        index: index,
-        url: '',
-      });
+      if (data.topic) {
+        setBreadCrumb({
+          id: data.topic.id,
+          label: data.topic.name,
+          index: index,
+          url: '',
+        });
+      }
     },
   });
 
-  if (loading || !data?.topic.article) {
+  if (loading || !data?.topic?.article) {
     return <Spinner />;
   }
 
   return (
     <Topic
-      data={data}
+      topic={data.topic}
+      resourceTypes={data.resourceTypes}
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}

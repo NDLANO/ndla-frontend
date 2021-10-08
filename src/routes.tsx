@@ -60,6 +60,7 @@ export interface RouteType extends RouteProps {
   hideBreadcrumb?: boolean;
   hideMasthead?: boolean;
   background?: boolean;
+  initialSelectMenu?: string;
   component: React.ComponentType<RootComponentProps>;
 }
 
@@ -95,6 +96,7 @@ let routeArray: RouteType[] = [
     path: SEARCH_PATH,
     component: SearchPage,
     background: false,
+    initialSelectMenu: 'programmes',
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
@@ -143,6 +145,7 @@ let routeArray: RouteType[] = [
     path: PROGRAMME_PAGE_PATH,
     component: ProgrammePage,
     background: false,
+    initialSelectMenu: 'programme',
   },
   {
     path: PROGRAMME_PATH,
@@ -194,6 +197,7 @@ const routesFunc = function(
   const app = (
     <App
       initialProps={initialProps}
+      isClient={isClient}
       client={client}
       locale={locale}
       key={locale}

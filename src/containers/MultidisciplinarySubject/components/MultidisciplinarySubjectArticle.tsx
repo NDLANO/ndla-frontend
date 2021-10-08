@@ -7,7 +7,6 @@
  */
 
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -15,9 +14,8 @@ import {
   OneColumn,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { ArticleShape, SubjectShape } from '@ndla/ui/lib/shapes';
 
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
@@ -25,12 +23,26 @@ import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
+import {
+  GQLResourceTypeDefinition,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
+import { LocaleType } from '../../../interfaces';
 
-const filterCodes = {
+const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
   TT2: 'democracy',
   TT3: 'climate',
 };
+
+interface Props extends WithTranslation {
+  copyPageUrlLink?: string;
+  topic: GQLTopic;
+  subject: GQLSubject;
+  locale: LocaleType;
+  resourceTypes?: GQLResourceTypeDefinition[];
+}
 
 const MultidisciplinarySubjectArticle = ({
   copyPageUrlLink,
@@ -38,9 +50,9 @@ const MultidisciplinarySubjectArticle = ({
   subject,
   locale,
   resourceTypes,
-}) => {
+}: Props) => {
   const resourcesRef = useRef(null);
-  const onLinkToResourcesClick = e => {
+  const onLinkToResourcesClick = (e: React.MouseEvent) => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
@@ -55,9 +67,9 @@ const MultidisciplinarySubjectArticle = ({
       url: crossSubjectTopic.path || subject.path,
     }),
   );
-  const subjects = topic.article.grepCodes
-    .filter(grepCode => grepCode.startsWith('TT'))
-    .map(code => filterCodes[code]);
+  const subjects = topic.article?.grepCodes
+    ?.filter(grepCode => grepCode.startsWith('TT'))
+    .map(code => filterCodes[code]!);
 
   return (
     <>
@@ -93,47 +105,36 @@ const MultidisciplinarySubjectArticle = ({
   );
 };
 
-MultidisciplinarySubjectArticle.propTypes = {
-  copyPageUrlLink: PropTypes.string,
-  topic: PropTypes.shape({
-    article: ArticleShape,
-    pathTopics: PropTypes.array,
-  }).isRequired,
-  subject: SubjectShape.isRequired,
-  locale: PropTypes.string,
-  resourceTypes: PropTypes.array,
-};
-
-MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }) => {
+MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }: Props) => {
   return htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]);
 };
 
 MultidisciplinarySubjectArticle.willTrackPageView = (
-  trackPageView,
-  currentProps,
+  trackPageView: (item: Props) => void,
+  currentProps: Props,
 ) => {
   const { topic } = currentProps;
-  if (topic.article) {
+  if (topic?.article) {
     trackPageView(currentProps);
   }
 };
 
-MultidisciplinarySubjectArticle.getDimensions = props => {
+MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
   const { topic, locale, subject } = props;
   const topicPath = topic.path
-    .split('/')
+    ?.split('/')
     .slice(2)
     .map(t =>
-      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
   const longName = getSubjectLongName(subject?.id, locale);
 
   return getAllDimensions(
     {
-      subject: subject,
+      subject,
       topicPath,
-      article: topic.article,
+      article: topic?.article,
       filter: longName,
     },
     undefined,

@@ -8,41 +8,26 @@
 import React, { Fragment } from 'react';
 import { func, arrayOf, objectOf, bool } from 'prop-types';
 import { SearchTypeResult, constants } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { SearchGroupShape, TypeFilterShape } from '../../../shapes';
-import { getDefaultLocale } from '../../../config';
 
 const { contentTypes } = constants;
 
 const SearchResults = ({
   showAll,
-  handleFilterClick,
+  handleSubFilterClick,
   handleShowMore,
   searchGroups,
   typeFilter,
   loading,
 }) => {
-  const { i18n } = useTranslation();
-  const defaultLanguage = getDefaultLocale();
   return searchGroups.map(group => {
     const { totalCount, type, items, resourceTypes } = group;
     if (
       (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
-      const internationalizedItems = items.map(item => {
-        const url =
-          i18n.language === defaultLanguage
-            ? item.url
-            : item.url.replace(
-                'article-iframe/',
-                `article-iframe/${i18n.language}/`,
-              );
-        return {
-          ...item,
-          url,
-        };
-      });
+      const toCount = typeFilter[type].page * typeFilter[type].pageSize;
+
       return (
         <Fragment key={`searchresult-${type}`}>
           <SearchTypeResult
@@ -50,12 +35,12 @@ const SearchResults = ({
               filter =>
                 resourceTypes.includes(filter.id) || filter.id === 'all',
             )}
-            onFilterClick={id => handleFilterClick(type, id)}
-            items={internationalizedItems}
+            onFilterClick={id => handleSubFilterClick(type, id)}
+            items={items.slice(0, toCount)}
             loading={loading}
             pagination={{
               totalCount,
-              toCount: items.length,
+              toCount: Math.min(toCount, totalCount),
               onShowMore: () => handleShowMore(type),
             }}
             type={type === 'topic-article' ? 'topic' : type}
@@ -69,7 +54,7 @@ const SearchResults = ({
 
 SearchResults.propTypes = {
   showAll: bool,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleShowMore: func,
   searchGroups: arrayOf(SearchGroupShape),
   typeFilter: objectOf(TypeFilterShape),

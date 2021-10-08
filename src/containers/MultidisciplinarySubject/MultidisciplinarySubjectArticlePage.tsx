@@ -7,27 +7,48 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { RouteComponentProps } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { useGraphQuery } from '../../util/runQueries';
 import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
+import { LocaleType } from '../../interfaces';
+import {
+  GQLTopicWithPathTopicsQuery,
+  GQLTopicWithPathTopicsQueryVariables,
+} from '../../graphqlTypes';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
-const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
+interface Props extends RouteComponentProps {
+  locale: LocaleType;
+}
+
+const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
-  const { data, loading } = useGraphQuery(topicQueryWithPathTopics, {
-    variables: { topicId, subjectId },
+  const { data, loading } = useGraphQuery<
+    GQLTopicWithPathTopicsQuery,
+    GQLTopicWithPathTopicsQueryVariables
+  >(topicQueryWithPathTopics, {
+    variables: {
+      topicId: topicId!,
+      subjectId: subjectId!,
+      showVisualElement: 'true',
+    },
   });
 
   if (loading) {
     return <Spinner />;
   }
 
+  if (!data?.topic || !data?.subject) {
+    return <DefaultErrorMessage />;
+  }
+
   const { topic, subject, resourceTypes } = data;
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
+  const copyPageUrlLink = topic?.path && config.ndlaFrontendDomain + topic.path;
 
   return (
     <MultidisciplinarySubjectArticle
@@ -38,17 +59,6 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }) => {
       locale={locale}
     />
   );
-};
-
-MultidisciplinarySubjectArticlePage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      topicId: PropTypes.string.isRequired,
-      subjectId: PropTypes.string.isRequired,
-    }).isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  locale: PropTypes.string,
 };
 
 export default MultidisciplinarySubjectArticlePage;

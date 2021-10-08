@@ -1,7 +1,8 @@
 import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
-import { GQLImageElement, GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElement } from '../../graphqlTypes';
+import { getCrop, getFocalPoint } from '../../util/imageHelpers';
 
 interface Props {
   visualElement: GQLVisualElement;
@@ -15,30 +16,6 @@ export const getIframeSrcFromHtmlString = (
   el.innerHTML = html;
   const iframe = el.getElementsByTagName('iframe')[0];
   return iframe?.getAttribute('src') || undefined;
-};
-
-const getFocalPoint = (visualElement: GQLImageElement): object | undefined => {
-  if (visualElement.focalX && visualElement.focalY) {
-    return { x: visualElement.focalX, y: visualElement.focalY };
-  }
-  return undefined;
-};
-
-const getCrop = (visualElement: GQLImageElement): object | undefined => {
-  if (
-    (visualElement.lowerRightX &&
-      visualElement.lowerRightY &&
-      visualElement.upperLeftX &&
-      visualElement.upperLeftY) !== null
-  ) {
-    return {
-      startX: visualElement.lowerRightX,
-      startY: visualElement.lowerRightY,
-      endX: visualElement.upperLeftX,
-      endY: visualElement.upperLeftY,
-    };
-  }
-  return undefined;
 };
 
 const VisualElement = ({ visualElement }: Props) => {
@@ -57,7 +34,7 @@ const VisualElement = ({ visualElement }: Props) => {
         frameBorder="0"
         height={visualElement.brightcove.iframe?.height}
         src={visualElement.url}
-        title={visualElement.brightcove.title}
+        title={visualElement.title}
         width={visualElement.brightcove.iframe?.width}
       />
     );
@@ -66,8 +43,8 @@ const VisualElement = ({ visualElement }: Props) => {
       <iframe
         allowFullScreen={true}
         frameBorder="0"
-        src={visualElement?.url}
-        title={visualElement?.h5p?.title}
+        src={visualElement.url}
+        title={visualElement.title}
       />
     );
   } else if (visualElement.oembed) {

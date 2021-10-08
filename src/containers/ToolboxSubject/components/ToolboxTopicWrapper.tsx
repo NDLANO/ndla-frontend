@@ -6,31 +6,32 @@
  *
  */
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import { WithTranslation, withTranslation } from 'react-i18next';
 // @ts-ignore
 import { Topic } from '@ndla/ui';
-//@ts-ignore
-import { Spinner } from '@ndla/ui';
+import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
-import { useGraphQuery } from '../../../util/runQueries';
-import { topicQuery } from '../../../queries';
-import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { toTopic } from '../../../routeHelpers';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
-  GQLVisualElement,
+  GQLSubject,
   GQLTopic,
-  GQLResourceType,
-  GQLArticle,
-  GQLMetaImage,
+  GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
+import { getSubjectLongName } from '../../../data/subjects';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { htmlTitle } from '../../../util/titleHelper';
 
-interface Props {
-  subjectId: string;
-  topicId: string;
+interface Props extends WithTranslation {
+  subject: GQLSubject;
+  topic: GQLTopic;
+  resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
   onSelectTopic: (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -39,77 +40,59 @@ interface Props {
   ) => void;
   topicList: Array<string>;
   index: number;
-}
-interface Data {
-  topic: ToolBoxTopic;
-  resourceTypes: GQLResourceType;
+  loading?: boolean;
 }
 
-interface ToolBoxArticleMetaImage extends Omit<GQLMetaImage, 'url' | 'alt'> {
-  url: string;
-  alt: string;
-}
-interface ToolBoxArticle
-  extends Omit<GQLArticle, 'introduction' | 'metaImage' | 'visualElement'> {
-  introduction: string;
-  metaImage: ToolBoxArticleMetaImage;
-  visualElement: GQLVisualElement;
-}
-
-interface ToolBoxTopic extends Omit<GQLTopic, 'article'> {
-  article: ToolBoxArticle;
-}
+const getDocumentTitle = ({ t, topic }: Props) => {
+  return htmlTitle(topic.name, [t('htmlTitles.titleTemplate')]);
+};
 
 const ToolboxTopicWrapper = ({
-  subjectId,
-  topicId,
+  subject,
   locale,
   onSelectTopic,
   topicList,
   index,
+  topic,
+  resourceTypes,
+  loading,
+  t,
 }: Props) => {
-  const { loading, data } = useGraphQuery<Data>(topicQuery, {
-    variables: {
-      subjectId,
-      topicId,
-    },
-  });
-
-  if (loading) {
-    return <Spinner />;
+  if (!topic.article) {
+    return null;
   }
 
-  if (!data) {
-    return <DefaultErrorMessage />;
-  }
+  const { article } = topic;
 
-  const { topic, resourceTypes } = data;
-  const { article } = data.topic;
   const image =
-    article.visualElement?.resource === 'image'
+    article?.visualElement?.resource === 'image'
       ? {
-          url: `${article.visualElement.image?.src!}?width=400`,
+          url: article.visualElement.image?.src!,
           alt: article.visualElement.image?.alt!,
+          crop: getCrop(article.visualElement.image!),
+          focalPoint: getFocalPoint(article.visualElement.image!),
         }
       : {
-          url: `${article.metaImage?.url!}?width=400`,
+          url: article?.metaImage?.url!,
           alt: article?.metaImage?.alt!,
         };
   const toolboxTopic: TopicProps = {
     topic: {
       title: article.title,
-      introduction: article.introduction,
+      introduction: article.introduction || '',
       image,
-      visualElement: {
-        type: getResourceType(article.visualElement.resource),
-        element: (
-          <VisualElementWrapper
-            visualElement={article.visualElement}
-            locale={locale}
-          />
-        ),
-      },
-      resources: topic.subtopics ? (
+      ...(article.visualElement && {
+        visualElement: {
+          type: getResourceType(article.visualElement.resource),
+          element: (
+            <VisualElementWrapper
+              visualElement={article.visualElement}
+              locale={locale}
+            />
+          ),
+        },
+      }),
+      resources: topic?.subtopics ? (
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
@@ -131,12 +114,15 @@ const ToolboxTopicWrapper = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === topicList[index + 1],
-      url: toTopic(subjectId, ...topicPath, subtopic.id),
+      url: toTopic(subject.id, ...topicPath, subtopic.id),
     };
   });
 
   return (
     <>
+      <Helmet>
+        <title>{htmlTitle(topic.name, [t('htmlTitles.titleTemplate')])}</title>
+      </Helmet>
       <Topic
         frame={subTopics?.length === 0}
         isLoading={loading}
@@ -150,4 +136,38 @@ const ToolboxTopicWrapper = ({
   );
 };
 
-export default ToolboxTopicWrapper;
+ToolboxTopicWrapper.getDocumentTitle = getDocumentTitle;
+
+ToolboxTopicWrapper.willTrackPageView = (
+  trackPageView: (item: Props) => void,
+  currentProps: Props,
+) => {
+  if (
+    currentProps.topic &&
+    currentProps.index === currentProps.topicList.length - 1
+  ) {
+    trackPageView(currentProps);
+  }
+};
+
+ToolboxTopicWrapper.getDimensions = (props: Props) => {
+  const { subject, locale, topicList, topic } = props;
+  const topicPath = topicList.map(t =>
+    subject.allTopics?.find(topic => topic.id === t),
+  );
+
+  const longName = getSubjectLongName(subject?.id, locale);
+
+  return getAllDimensions(
+    {
+      subject: subject,
+      topicPath,
+      filter: longName,
+      article: topic.article,
+    },
+    undefined,
+    topicList.length > 0,
+  );
+};
+
+export default withTranslation()(withTracker(ToolboxTopicWrapper));

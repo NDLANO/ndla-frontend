@@ -19,6 +19,7 @@ import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
 import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
+import { GQLGroupSearch, GQLBucketResult } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -75,12 +76,62 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
+const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
+  if (!aggregations) return undefined;
+  const typeValue = aggregations.find(agg => agg.value === type);
+  return aggregations.find(
+    agg => agg.count === typeValue?.count && agg.value !== type,
+  )?.value;
+};
+
+const mergeGroupSearch = (
+  existing: GQLGroupSearch[],
+  incoming: GQLGroupSearch[],
+  page: string,
+) => {
+  if (!existing) return incoming;
+  return existing.map(group => {
+    const searchResults = incoming.filter(
+      result =>
+        group.resourceType === result.resourceType ||
+        group.resourceType ===
+          getParentType(result.resourceType, result.aggregations?.[0]?.values),
+    );
+    if (searchResults.length) {
+      const result = searchResults.reduce((accumulator, currentValue) => ({
+        ...currentValue,
+        resources: [...currentValue.resources, ...accumulator.resources],
+        totalCount: currentValue.totalCount + accumulator.totalCount,
+      }));
+      return {
+        ...group,
+        resources:
+          page === '1'
+            ? result.resources
+            : [...group.resources, ...result.resources],
+        totalCount: result.totalCount,
+      };
+    }
+    return group;
+  });
+};
+
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
 };
 
 const typePolicies: TypePolicies = {
+  Query: {
+    fields: {
+      groupSearch: {
+        keyArgs: ['query', 'subjects'],
+        merge(existing, incoming, { args }) {
+          return mergeGroupSearch(existing, incoming, args?.page);
+        },
+      },
+    },
+  },
   SearchContext: {
     keyFields: ['path'],
   },
@@ -112,11 +163,14 @@ export const createApolloClient = (language = 'nb') => {
 };
 
 export const createApolloLinks = (lang: string) => {
+  const isWindowContext = typeof window !== 'undefined';
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
       ...headers,
       'Accept-Language': lang,
-      FeideAuthorization: `Bearer ${getAccessToken()}`,
+      ...(isWindowContext
+        ? { FeideAuthorization: `Bearer ${getAccessToken()}` }
+        : {}),
     },
   }));
   return ApolloLink.from([

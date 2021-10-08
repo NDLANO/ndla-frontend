@@ -1,11 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Spinner from '@ndla/ui/lib/Spinner';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import { GraphQLSubjectShape } from '../../../graphqlShapes';
 import MultidisciplinaryTopic from './MultidisciplinaryTopic';
+import {
+  GQLSubject,
+  GQLTopicQuery,
+  GQLTopicQueryVariables,
+} from '../../../graphqlTypes';
+import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { LocaleType } from '../../../interfaces';
+
+interface Props {
+  topicId: string;
+  subjectId: string;
+  subTopicId?: string;
+  locale: LocaleType;
+  subject: GQLSubject;
+  ndlaFilm?: boolean;
+  disableNav?: boolean;
+}
 
 const MultidisciplinaryTopicWrapper = ({
   topicId,
@@ -13,11 +28,13 @@ const MultidisciplinaryTopicWrapper = ({
   locale,
   subTopicId,
   ndlaFilm,
-  index,
   subject,
   disableNav,
-}) => {
-  const { data, loading } = useGraphQuery(topicQuery, {
+}: Props) => {
+  const { data, loading } = useGraphQuery<
+    GQLTopicQuery,
+    GQLTopicQueryVariables
+  >(topicQuery, {
     variables: { topicId, subjectId },
   });
 
@@ -25,9 +42,14 @@ const MultidisciplinaryTopicWrapper = ({
     return <Spinner />;
   }
 
+  if (!data?.topic) {
+    return <DefaultErrorMessage />;
+  }
+
   return (
     <MultidisciplinaryTopic
-      data={data}
+      topic={data.topic}
+      resourceTypes={data.resourceTypes}
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}
@@ -37,18 +59,6 @@ const MultidisciplinaryTopicWrapper = ({
       disableNav={disableNav}
     />
   );
-};
-
-MultidisciplinaryTopicWrapper.propTypes = {
-  topicId: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  setSelectedTopic: PropTypes.func,
-  subTopicId: PropTypes.string,
-  locale: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-  index: PropTypes.number,
-  subject: GraphQLSubjectShape,
-  disableNav: PropTypes.bool,
 };
 
 export default MultidisciplinaryTopicWrapper;

@@ -84,13 +84,13 @@ export const convertToGaOrGtmDimension = (
   dimensions: DimensionType,
   type: 'ga' | 'gtm',
 ) => {
-  const newDimensions = {};
-  Object.keys(dimensions).forEach(key => {
-    Object.assign(newDimensions, {
-      [getDimensionsCodes[key as DimensionKeys][type]]:
-        dimensions[key as DimensionKeys],
-    });
-  });
+  return Object.keys(dimensions).reduce((prev, curr) => {
+    const key = curr as DimensionKeys;
+    return {
+      ...prev,
+      [getDimensionsCodes[key][type]]: dimensions[key],
+    };
+  }, {});
 };
 
 const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>

@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 
 import { useTranslation } from 'react-i18next';
 import FilmFrontpage from './FilmFrontpage';
@@ -19,22 +19,25 @@ import {
 } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
+import { useGraphQuery } from '../../util/runQueries';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
 const NdlaFilm = ({ locale, skipToContentId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [state, setState] = useState({
     moviesByType: [],
     showingAll: false,
     fetchingMoviesByType: false,
   });
 
-  const { data: { filmfrontpage } = {} } = useQuery(filmFrontPageQuery);
-  const { data: { subject } = {} } = useQuery(subjectPageQuery, {
+  const { data: { filmfrontpage } = {} } = useGraphQuery(filmFrontPageQuery);
+  const { data: { subject } = {} } = useGraphQuery(subjectPageQuery, {
     variables: { subjectId: 'urn:subject:20' },
   });
-  const [searchAllMovies, { data: allMovies }] = useLazyQuery(searchFilmQuery);
+  const [searchAllMovies, { data: allMovies }] = useLazyQuery(searchFilmQuery, {
+    variables: { language: i18n.language, fallback: 'true' },
+  });
 
   useEffect(() => {
     // if we receive new movies we map them into state

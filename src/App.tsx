@@ -7,6 +7,8 @@
  */
 
 import React, { ErrorInfo } from 'react';
+// @ts-ignore
+import { configureTracker } from '@ndla/tracker';
 import {
   Route,
   RouteProps,
@@ -35,6 +37,7 @@ import {
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
 import { initializeI18n } from './i18n';
+import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 
 export const BasenameContext = React.createContext('');
@@ -46,6 +49,7 @@ interface NDLARouteProps extends RouteProps {
   ndlaFilm?: boolean;
   skipToContent?: string;
   hideBreadcrumb?: boolean;
+  initialSelectMenu?: string;
   component: React.ComponentType<RootComponentProps>;
 }
 
@@ -59,6 +63,7 @@ const NDLARoute = ({
   skipToContent,
   location,
   hideBreadcrumb,
+  initialSelectMenu,
   ...rest
 }: NDLARouteProps) => {
   return (
@@ -79,6 +84,7 @@ const NDLARoute = ({
                   locale={locale}
                   ndlaFilm={ndlaFilm}
                   hideBreadcrumb={hideBreadcrumb}
+                  initialSelectMenu={initialSelectMenu}
                   {...props}
                 />
               )}
@@ -141,6 +147,7 @@ function shouldScrollToTop(location: H.Location) {
 }
 
 interface AppProps extends RouteComponentProps, WithTranslation {
+  isClient: boolean;
   initialProps: InitialProps;
   locale?: LocaleType;
   client: ApolloClient<object>;
@@ -164,6 +171,13 @@ class App extends React.Component<AppProps, AppState> {
       data: props.initialProps,
       location: null,
     };
+    if (props.isClient) {
+      configureTracker({
+        listen: props.history.listen,
+        gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+        googleTagManagerId: config?.googleTagManagerId,
+      });
+    }
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
@@ -263,6 +277,7 @@ class App extends React.Component<AppProps, AppState> {
                   exact={route.exact}
                   hideMasthead={route.hideMasthead}
                   hideBreadcrumb={route.hideBreadcrumb}
+                  initialSelectMenu={route.initialSelectMenu}
                   initialProps={this.state.data}
                   //@ts-ignore
                   locale={this.props.i18n.language}

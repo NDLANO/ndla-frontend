@@ -11,7 +11,7 @@ import { getResourceGroups } from '../Resources/getResourceGroups';
 import { toTopicMenu } from '../../util/topicsHelper';
 import { getTopicPath } from '../../util/getTopicPath';
 import {
-  GQLMastheadQueryData,
+  GQLMastHeadQuery,
   GQLResource,
   GQLResourceType,
   GQLTopic,
@@ -87,12 +87,12 @@ export const mapMastheadData = ({
 }: {
   subjectId: string;
   topicId: string;
-  data: GQLMastheadQueryData;
+  data: GQLMastHeadQuery;
 }) => {
   const topicResourcesByType =
     topic &&
     getResourceGroups(
-      resourceTypes || [],
+      resourceTypes?.map(type => ({ id: type.id, name: type.name })) || [],
       topic.supplementaryResources || [],
       topic.coreResources || [],
     );
@@ -109,11 +109,13 @@ export const mapMastheadData = ({
     subject.topics &&
     getTopicPath(subjectId, topicId, subject.topics);
 
+  const subjectWithTopics = subject && {
+    ...subject,
+    topics: topicsWithSubTopics || [],
+  };
+
   return {
-    subject: {
-      ...subject,
-      topics: topicsWithSubTopics || [],
-    },
+    subject: subjectWithTopics,
     topicPath,
     topicResourcesByType,
     resource,

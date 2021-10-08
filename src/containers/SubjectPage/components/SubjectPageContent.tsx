@@ -11,11 +11,11 @@ import { NavigationBox } from '@ndla/ui';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import { GQLSubject } from '../../../graphqlTypes';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 
 interface Props {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
   locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;

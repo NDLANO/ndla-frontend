@@ -8,13 +8,13 @@
 import { RefObject } from 'react';
 import queryString from 'query-string';
 import { toTopicPartial } from '../../routeHelpers';
-import { GQLResourceType } from '../../graphqlTypes';
+import { GQLResourceTypeDefinition } from '../../graphqlTypes';
 
 export const toTopic = (subjectId: string) => toTopicPartial(subjectId);
 
 export const getSearchUrl = (
   subjectId: string,
-  resourceType: GQLResourceType,
+  resourceType: GQLResourceTypeDefinition,
 ) => {
   const baseUrl = '/search';
   const searchParams = {
