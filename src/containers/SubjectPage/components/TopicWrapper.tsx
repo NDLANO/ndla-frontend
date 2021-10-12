@@ -1,9 +1,11 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
+import handleError from '../../../util/handleError';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 import {
   GQLSubject,
@@ -22,6 +24,7 @@ type Props = {
   index: number;
   showResources: boolean;
   subject: GQLSubject;
+  history: RouteComponentProps['history'];
 } & WithTranslation;
 
 const TopicWrapper = ({
@@ -35,8 +38,9 @@ const TopicWrapper = ({
   showResources,
   subject,
   index,
+  history,
 }: Props) => {
-  const { data, loading } = useGraphQuery<
+  const { data, loading, error } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
   >(topicQuery, {
@@ -52,6 +56,11 @@ const TopicWrapper = ({
       }
     },
   });
+
+  if (error) {
+    handleError(error);
+    history.replace('/404');
+  }
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;

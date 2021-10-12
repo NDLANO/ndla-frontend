@@ -7,6 +7,7 @@
  */
 
 import React, { RefObject, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { NavigationBox } from '@ndla/ui';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
@@ -22,6 +23,7 @@ interface Props {
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
+  history: RouteComponentProps['history'];
 }
 
 const SubjectPageContent = ({
@@ -32,6 +34,7 @@ const SubjectPageContent = ({
   topicIds,
   refs,
   setBreadCrumb,
+  history,
 }: Props) => {
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
@@ -70,6 +73,7 @@ const SubjectPageContent = ({
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}
+              history={history}
             />
           </div>
         );
