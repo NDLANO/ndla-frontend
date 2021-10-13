@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IframePage with article displays error message on status === error 1`] = `
+.emotion-4 {
+  text-align: center;
+}
+
+.emotion-4 a {
+  color: #20588f;
+}
+
+.emotion-4 h1 {
+  margin-top: 0;
+}
+
+.emotion-0 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-0 {
+    margin-top: 52px;
+  }
+}
+
+.emotion-2 {
+  margin-bottom: 26px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-2 {
+    margin-bottom: 52px;
+  }
+}
+
+<div
+  className="o-container"
+>
+  <div
+    className="o-wrapper o-wrapper--clear undefined"
+  >
+    <article
+      className="emotion-4 emotion-5"
+    >
+      <div
+        className="emotion-0 emotion-1"
+      >
+        <img
+          alt="Ops, noe gikk galt"
+          src="/static/oops.gif"
+        />
+      </div>
+      <h1>
+        Ops, noe gikk galt
+      </h1>
+      <p
+        className="emotion-2 emotion-3"
+      >
+        Beklager, en feil oppstod.
+      </p>
+    </article>
+  </div>
+</div>
+`;

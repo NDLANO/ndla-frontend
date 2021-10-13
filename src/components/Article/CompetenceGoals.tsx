@@ -16,6 +16,7 @@ import handleError from '../../util/handleError';
 import {
   GQLArticle,
   GQLCompetenceGoal,
+  GQLCompetenceGoalsQuery,
   GQLCoreElement,
 } from '../../graphqlTypes';
 import { CompetenceGoalsType } from '../../interfaces';
@@ -38,11 +39,6 @@ interface LocalGQLCoreElement
   extends Omit<GQLCoreElement, 'title' | 'description'> {
   name: string;
   text?: string;
-}
-
-interface CompetenceGoalsProps {
-  competenceGoals: LocalGQLCompetenceGoal[];
-  coreElements: LocalGQLCoreElement[];
 }
 
 interface ElementType {
@@ -204,9 +200,12 @@ const CompetenceGoals = ({
   const lang =
     article.supportedLanguages?.find(l => l === language) ||
     article.supportedLanguages?.[0];
-  const { error, data, loading } = useGraphQuery(competenceGoalsQuery, {
-    variables: { codes, nodeId, language: lang },
-  });
+  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
+    competenceGoalsQuery,
+    {
+      variables: { codes, nodeId, language: lang },
+    },
+  );
 
   if (error) {
     handleError(error);
@@ -217,14 +216,16 @@ const CompetenceGoals = ({
     return <Spinner />;
   }
 
-  const { competenceGoals, coreElements }: CompetenceGoalsProps = data;
+  if (!data) return null;
+
+  const { competenceGoals, coreElements } = data;
   const LK06Goals = groupCompetenceGoals(
-    competenceGoals.filter(goal => goal.type === 'LK06'),
+    competenceGoals?.filter(goal => goal.type === 'LK06') ?? [],
     true,
     'LK06',
   );
   const LK20Goals = groupCompetenceGoals(
-    competenceGoals.filter(goal => goal.type === 'LK20'),
+    competenceGoals?.filter(goal => goal.type === 'LK20') ?? [],
     true,
     'LK20',
   );

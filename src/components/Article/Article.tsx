@@ -14,7 +14,7 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from './CompetenceGoals';
-import { GQLArticle, GQLConcept, GQLSubject } from '../../graphqlTypes';
+import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 
@@ -52,28 +52,27 @@ function renderCompetenceGoals(
 }
 
 interface Props {
-  article: GQLArticle;
-  resourceType: string;
+  article: GQLArticleInfoFragment;
+  resourceType?: string;
   isTopicArticle: boolean;
-  children: React.ReactNode;
-  contentType: string;
+  children?: React.ReactElement;
+  contentType?: string;
   label: string;
-  subject: GQLSubject;
   locale: LocaleType;
   isResourceArticle: boolean;
-  copyPageUrlLink: string;
-  printUrl: string;
+  copyPageUrlLink?: string;
+  printUrl?: string;
 }
 
-const renderNotions = (article: GQLArticle, locale: LocaleType) => {
+const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
   const notions =
-    article.concepts?.map((concept: GQLConcept) => {
+    article.concepts?.map(concept => {
       const { content: text, copyright, subjectNames, visualElement } = concept;
       const { creators: authors, license } = copyright!;
       return {
         ...concept,
-        id: concept.id?.toString()!,
-        title: concept.title!,
+        id: concept.id.toString(),
+        title: concept.title,
         text,
         locale,
         labels: subjectNames,
@@ -94,7 +93,7 @@ const renderNotions = (article: GQLArticle, locale: LocaleType) => {
     (notions.length > 0 || related.length > 0)
   ) {
     return {
-      list: notions!,
+      list: notions,
       related,
     };
   }
@@ -108,7 +107,6 @@ const Article = ({
   children,
   contentType,
   label,
-  subject,
   locale,
   isResourceArticle = false,
   copyPageUrlLink,
@@ -137,7 +135,7 @@ const Article = ({
 
   const competenceGoalTypes = [
     // @ts-ignore
-    ...new Set(article.competenceGoals?.map(goal => goal.type)),
+    ...new Set(article.competenceGoals?.map(goal => goal.type) ?? []),
   ];
 
   const art = {
