@@ -332,11 +332,13 @@ export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
     name
-    parent
     contentUri
     path
     meta {
       ...MetaInfo
+    }
+    metadata {
+      customFields
     }
   }
   ${metaInfoFragment}
@@ -347,6 +349,9 @@ export const subjectInfoFragment = gql`
     id
     name
     path
+    metadata {
+      customFields
+    }
   }
 `;
 
@@ -618,6 +623,9 @@ export const subjectTopicsQuery = gql`
         meta {
           ...MetaInfo
         }
+        metadata {
+          customFields
+        }
       }
     }
   }
@@ -657,10 +665,7 @@ export const subjectPageQueryWithTopics = gql`
       }
     }
     topic(id: $topicId) @include(if: $includeTopic) {
-      id
-      name
-      path
-      contentUri
+      ...TopicInfo
       alternateTopics {
         id
         name
@@ -1075,6 +1080,7 @@ export const mastHeadQuery = gql`
       path
       topics(all: true) {
         ...TopicInfo
+        parent
       }
     }
     resourceTypes {
@@ -1083,6 +1089,9 @@ export const mastHeadQuery = gql`
     }
     topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
       id
+      metadata {
+        customFields
+      }
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
