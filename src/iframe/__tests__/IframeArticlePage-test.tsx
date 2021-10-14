@@ -172,7 +172,11 @@ test('IframeArticlePage with article renderers correctly', () => {
           return (
             <IframeArticlePage
               locale={locale}
-              location={{ pathname: '/article-iframe/urn:resource:1/128' }}
+              location={{
+                pathname: '/article-iframe/urn:resource:1/128',
+                search: 'asd',
+                hash: '',
+              }}
               resource={{
                 id: 'urn:resource:1',
                 name: 'Ressurs',
