@@ -16,6 +16,12 @@ import { i18nInstance } from '@ndla/ui';
 import IframePageContainer from '../IframePageContainer';
 // @ts-ignore
 import IframeArticlePage from '../IframeArticlePage';
+import { configureTracker } from '@ndla/tracker';
+import { createMemoryHistory } from 'history';
+
+window.dataLayer = [];
+const history = createMemoryHistory();
+configureTracker({ listen: history.listen });
 
 expect.addSnapshotSerializer(serializer);
 
