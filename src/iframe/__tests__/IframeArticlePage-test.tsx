@@ -11,13 +11,13 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { I18nextProvider, Translation } from 'react-i18next';
+import { configureTracker } from '@ndla/tracker';
+import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 // @ts-ignore
 import IframePageContainer from '../IframePageContainer';
 // @ts-ignore
 import IframeArticlePage from '../IframeArticlePage';
-import { configureTracker } from '@ndla/tracker';
-import { createMemoryHistory } from 'history';
 
 window.dataLayer = [];
 const history = createMemoryHistory();
