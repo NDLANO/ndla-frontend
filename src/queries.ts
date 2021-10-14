@@ -1088,7 +1088,10 @@ export const mastHeadQuery = gql`
       name
     }
     topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
-      ...TopicInfo
+      id
+      metadata {
+        customFields
+      }
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }

@@ -85,9 +85,7 @@ const MastheadContainer = ({
   const [fetchData, { data }] = useLazyQuery<
     GQLMastHeadQuery,
     GQLMastHeadQueryVariables
-  >(mastHeadQuery, {
-    fetchPolicy: 'network-only',
-  });
+  >(mastHeadQuery);
 
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth
