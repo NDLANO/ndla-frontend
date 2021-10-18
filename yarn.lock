@@ -2669,12 +2669,12 @@
     "@ndla/util" "^1.0.2"
     raven-js "^3.22.3"
 
-"@ndla/hooks@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-1.0.2.tgz#e34ded759ac404360f8fcbfa3f9216f623e9d412"
-  integrity sha512-krlPtvmS7bDoTXwMuSY4i15U9edWY3yIlCxb3QFyzPOsWOVfXxookqV7kjhCTx8d0iX39jwjAGJYSrN3ztMT8Q==
+"@ndla/hooks@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-1.0.3.tgz#008c8fdad49eb7a18697ccd3d2a27fd195a09028"
+  integrity sha512-X6oxJbTzEvcoyCGfAmV1ySglZ0CSNlGdDqfP/9qAbLoVQslS+GL+yjux+L/lOw55gUv7+RMz+Z4qEDn2g1AGfA==
   dependencies:
-    "@ndla/util" "^1.0.2"
+    "@ndla/util" "^1.0.3"
     lodash "^4.17.20"
 
 "@ndla/icons@^1.0.1":
@@ -2700,6 +2700,16 @@
     "@ndla/button" "^1.0.2"
     "@ndla/core" "^0.7.2"
     "@ndla/util" "^1.0.2"
+    "@reach/dialog" "^0.2.9"
+
+"@ndla/modal@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.5.tgz#ec46df0ed1a21db938c0392b993474db5f1890a8"
+  integrity sha512-iA52CNnJ3JqQh4TAfnE18hiUp82NjWODtsi+r8ivnjXZRVVIDqaHOGY1uhJVdwS1qcEFy7JQsZchPTzNsnAdPg==
+  dependencies:
+    "@ndla/button" "^1.0.2"
+    "@ndla/core" "^0.7.2"
+    "@ndla/util" "^1.0.3"
     "@reach/dialog" "^0.2.9"
 
 "@ndla/notion@^1.0.6":
@@ -2763,10 +2773,19 @@
     "@ndla/util" "^1.0.2"
     react-tabs "^3.0.0"
 
-"@ndla/tooltip@^0.2.44":
-  version "0.2.44"
-  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.44.tgz#f4658b5cd0c5af48b2c53528ee179a8ca79e24c2"
-  integrity sha512-ai0/xmx38EuBEe0wgnXz9DsHEAZoMnh8R8dVDSOOkFIKin6KUgrXOVXMwEakOGpxvdwWZPge4fzq/dUGPc6ukQ==
+"@ndla/tabs@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.0.5.tgz#f2eb01add059bb27ed08d3f96d4ff3d3b2433a01"
+  integrity sha512-P4oCecjxuWJHdDWW5cDwzxUAKt/H273uwwh+hK4BIvH2GSEYPmlw5bMr98ab2+m6UwbWLQuo7Dlx0xL6mL7LAA==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/util" "^1.0.3"
+    react-tabs "^3.0.0"
+
+"@ndla/tooltip@^0.2.46":
+  version "0.2.46"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.46.tgz#ead81211c9bb835d45f7fe67c18667028180038d"
+  integrity sha512-HX4NPKmPL8jJVo99o0BW4s0quG1ZyW/Km6A81HAm5ZmWFEHuVfRZiM/YjgvjjPl/prTfUAtqT9U/GwoLEj04fw==
   dependencies:
     "@ndla/core" "^0.7.2"
 
@@ -2777,23 +2796,23 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-2.1.4.tgz#e8b525cb89bcb1c2d4050f2e407060138e238dbf"
-  integrity sha512-4i8kriYCR2fBYK+2Stchy9Vvm1p8qhfEDnr38KPuiATSqEn5otxF8ogH9rdS/lp/S45pfGZPLuuKFmwTTGWEng==
+"@ndla/ui@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.3.tgz#0978cb3b3e47a2cd6b790263b9ee9825f17de810"
+  integrity sha512-LL6Fk8XiHPpN3P4POTc8XpJ3wlHpHz7H/w0QgQs7QB2ZbhvqpEGCkMX9haZ+CQaldc7kGYEsF3vmfODwfbkBtQ==
   dependencies:
     "@ndla/button" "^1.0.2"
     "@ndla/carousel" "^1.0.2"
     "@ndla/core" "^0.7.2"
-    "@ndla/hooks" "^1.0.2"
+    "@ndla/hooks" "^1.0.3"
     "@ndla/icons" "^1.0.1"
     "@ndla/licenses" "^1.0.2"
-    "@ndla/modal" "^1.1.4"
+    "@ndla/modal" "^1.1.5"
     "@ndla/safelink" "^1.0.1"
     "@ndla/switch" "^0.0.32"
-    "@ndla/tabs" "^1.0.4"
-    "@ndla/tooltip" "^0.2.44"
-    "@ndla/util" "^1.0.2"
+    "@ndla/tabs" "^1.0.5"
+    "@ndla/tooltip" "^0.2.46"
+    "@ndla/util" "^1.0.3"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"
     "@types/hoist-non-react-statics" "^3.3.1"
@@ -2823,6 +2842,14 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-1.0.2.tgz#9c1a118ed73f33c7f75cc1e6f7d7002fa4995a6b"
   integrity sha512-Ayy3FwlO2w8wJMQ7PNQUK/ivEifTktHdccJHoYI36vkMcx9ebjf/IGfa7HXynv/88diVEykOWUUWQV0e757c/w==
+  dependencies:
+    defined "1.0.0"
+    remarkable "^2.0.1"
+
+"@ndla/util@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-1.0.3.tgz#452027f46123fb6976aab55c159d3e0af9fc8c70"
+  integrity sha512-F7WjfYIYvbdUROMGGzQ2ssYFjcjYKozOgT2rXRV/7KYg82CSgq2ltK8+8CF2mAsy0RHUJtm9nT2UuIaBDqxDfw==
   dependencies:
     defined "1.0.0"
     remarkable "^2.0.1"
