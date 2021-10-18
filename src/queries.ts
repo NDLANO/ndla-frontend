@@ -334,6 +334,7 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
+    parent
     meta {
       ...MetaInfo
     }
@@ -952,6 +953,7 @@ export const topicQuery = gql`
       id
       name
       path
+      parent
       meta {
         ...MetaInfo
       }
@@ -1080,7 +1082,6 @@ export const mastHeadQuery = gql`
       path
       topics(all: true) {
         ...TopicInfo
-        parent
       }
     }
     resourceTypes {
