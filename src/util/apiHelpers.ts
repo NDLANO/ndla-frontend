@@ -125,7 +125,7 @@ const typePolicies: TypePolicies = {
   Query: {
     fields: {
       groupSearch: {
-        keyArgs: ['query', 'subjects'],
+        keyArgs: ['query', 'subjects', 'grepCodes'],
         merge(existing, incoming, { args }) {
           return mergeGroupSearch(existing, incoming, args?.page);
         },
