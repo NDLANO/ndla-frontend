@@ -2777,10 +2777,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.2.tgz#42ecc15207c7c9c4bfff251ff88352e2c36100e2"
-  integrity sha512-on5tQQB3X9aQbeIxGMXrkQYM9yOtSEBa+eteIRiVK2hcd4aeGaL6aAREgaoTpk21eTUaDLh0nnfMU2onTLCyUA==
+"@ndla/ui@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.3.tgz#0978cb3b3e47a2cd6b790263b9ee9825f17de810"
+  integrity sha512-LL6Fk8XiHPpN3P4POTc8XpJ3wlHpHz7H/w0QgQs7QB2ZbhvqpEGCkMX9haZ+CQaldc7kGYEsF3vmfODwfbkBtQ==
   dependencies:
     "@ndla/button" "^1.0.2"
     "@ndla/carousel" "^1.0.2"

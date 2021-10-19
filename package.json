@@ -109,7 +109,7 @@
     "@ndla/safelink": "^1.0.1",
     "@ndla/tabs": "^1.0.5",
     "@ndla/tracker": "^0.4.5",
-    "@ndla/ui": "^3.0.2",
+    "@ndla/ui": "^3.0.3",
     "@ndla/util": "^1.0.3",
     "@ndla/zendesk": "^0.2.44",
     "babel-plugin-graphql-tag": "^2.5.0",
