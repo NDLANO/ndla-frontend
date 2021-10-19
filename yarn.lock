@@ -2682,10 +2682,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.0.1.tgz#b7532a0ebb6b42a75c3827ba6ddab642c2fb4f0a"
   integrity sha512-hBYtM4gCnETRVNyNchdEm63jke5AZMlC7/Z725hvYZIWgn4bCLmnOwERuZ6hCSk3/xWZOwslRkBCeZSs56OG8w==
 
-"@ndla/licenses@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.0.2.tgz#b358eb9640b39fe4d7c1e2e34a26756053e865fd"
-  integrity sha512-Ppxrx1tDx36lOReS5ABd+F0QvTP4QbELK6wd7bj9hEvf1yxK+ETlyoKKQbHG8sHBxLAW3PwKOD7D1Qk/VSEUjQ==
+"@ndla/licenses@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.0.3.tgz#a221318aaa0ca30401fb28a6ad420eb0813bba0f"
+  integrity sha512-Vl8kKDkws2+NBrSMHUzL1JWJP0nWcyNdzndxtlaLuuF5PZjLZ+DF1sVlGM+MPjs3EzV6Ht8zRkqYR4GkecWxAA==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/icons" "^1.0.1"
@@ -2702,13 +2702,13 @@
     "@ndla/util" "^1.0.3"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/notion@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.8.tgz#9cc3e7fb7eabe773fb5d227beb6c928e43eb80a5"
-  integrity sha512-4/BrlEymR7JjUYpiQL0q1b2AmTmBiBxbhpJLu4J/4zkCmteO1Ss2XFjmgRP3+kMF/N1zUVh4NkOFutvT62SNmg==
+"@ndla/notion@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.9.tgz#ad4990e1f71e1ed600f462f0474c03bb2c64a1a7"
+  integrity sha512-dJLlAPIVmcYIJX/TKZvlyuAOri2P9acA1Mdx0qAr330tNGiOBxMc5IK77Xq8N7hfiiwIX/heyqI7a6tOwiKOdw==
   dependencies:
     "@ndla/core" "^0.7.2"
-    "@ndla/licenses" "^1.0.2"
+    "@ndla/licenses" "^1.0.3"
     "@ndla/modal" "^1.1.5"
 
 "@ndla/pager@^1.0.4":
@@ -2777,17 +2777,17 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.2.tgz#42ecc15207c7c9c4bfff251ff88352e2c36100e2"
-  integrity sha512-on5tQQB3X9aQbeIxGMXrkQYM9yOtSEBa+eteIRiVK2hcd4aeGaL6aAREgaoTpk21eTUaDLh0nnfMU2onTLCyUA==
+"@ndla/ui@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.4.tgz#ef8d8c4230806ec6265af217f7081b3a23092e9b"
+  integrity sha512-PkXMCrZ/DoAa0tVKoiSflylK0q8JVqhhtQwQ7F5473Ce6F61uJ1eFyTX3Ly3v9mgoBgtgaEu3usSMHnAHv0img==
   dependencies:
     "@ndla/button" "^1.0.2"
     "@ndla/carousel" "^1.0.2"
     "@ndla/core" "^0.7.2"
     "@ndla/hooks" "^1.0.3"
     "@ndla/icons" "^1.0.1"
-    "@ndla/licenses" "^1.0.2"
+    "@ndla/licenses" "^1.0.3"
     "@ndla/modal" "^1.1.5"
     "@ndla/safelink" "^1.0.1"
     "@ndla/switch" "^0.0.32"
