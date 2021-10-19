@@ -43,7 +43,7 @@ export const getAlternateUrl = (location, alternateLanguage) => {
 };
 
 export const getAlternateLanguages = trackableContent => {
-  if (!trackableContent) {
+  if (!trackableContent || !trackableContent.supportedLanguages) {
     return preferredLocales.map(appLocale => appLocale.abbreviation);
   }
   if (trackableContent?.supportedLanguages?.length === 0) {
