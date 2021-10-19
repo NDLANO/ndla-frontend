@@ -7,10 +7,10 @@
  */
 
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import {
   ArticleWrapper,
+  // @ts-ignore
   LayoutItem,
   ArticleHeaderWrapper,
   ArticleIntroduction,
@@ -21,16 +21,25 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
-import { TopicShape } from '../../shapes';
 import { transformArticle } from '../../util/transformArticle';
+import { GQLTopic } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+
+interface Props {
+  topic: GQLTopic;
+  copyPageUrlLink: string;
+  locale: LocaleType;
+  modifier: 'clean' | 'in-topic';
+  showIngress: boolean;
+}
 
 const ArticleContents = ({
   topic,
   copyPageUrlLink,
   locale,
-  modifier,
-  showIngress,
-}) => {
+  modifier = 'clean',
+  showIngress = true,
+}: Props) => {
   const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -39,14 +48,16 @@ const ArticleContents = ({
     return md;
   }, []);
 
-  const renderMarkdown = text => {
+  const renderMarkdown = (text: string) => {
     return markdown.render(text);
   };
 
-  const article = transformArticle(topic.article, locale);
+  const article = transformArticle(topic.article!, locale);
+
+  if (article === undefined) return null;
 
   return (
-    <ArticleWrapper modifier={modifier}>
+    <ArticleWrapper modifier={modifier} id={topic.article!.id.toString()}>
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
@@ -57,7 +68,7 @@ const ArticleContents = ({
         </LayoutItem>
       )}
       <LayoutItem layout="extend">
-        <ArticleContent content={article.content} />
+        <ArticleContent content={article.content} locale={locale} />
       </LayoutItem>
       <LayoutItem layout="extend">
         {article.metaData?.footnotes?.length && (
@@ -71,25 +82,12 @@ const ArticleContents = ({
           {...{
             authors: article.copyright?.creators,
             published: article.published,
-            license: article.copyright?.license?.license,
+            license: article.copyright?.license?.license || '',
           }}
         />
       </LayoutItem>
     </ArticleWrapper>
   );
-};
-
-ArticleContents.propTypes = {
-  topic: TopicShape,
-  copyPageUrlLink: PropTypes.string,
-  locale: PropTypes.string,
-  modifier: PropTypes.string,
-  showIngress: PropTypes.bool,
-};
-
-ArticleContents.defaultProps = {
-  showIngress: true,
-  modifier: 'clean',
 };
 
 export default ArticleContents;

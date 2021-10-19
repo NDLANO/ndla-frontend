@@ -53,6 +53,7 @@ const SearchInnerPage = ({
 }) => {
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
+  const [competenceGoals, setCompetenceGoals] = useState([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -81,8 +82,10 @@ const SearchInnerPage = ({
         pageSize: '8',
         ...getTypeParams([], resourceTypes),
         aggregatePaths: ['contexts.resourceTypes.id'],
+        grepCodesList: searchParams.grepCodes,
       },
       notifyOnNetworkStatusChange: true,
+      onCompleted: data => setCompetenceGoals(data.competenceGoals),
     },
   );
 
@@ -220,6 +223,7 @@ const SearchInnerPage = ({
       locale={i18n.language}
       loading={loading}
       isLti={isLti}
+      competenceGoals={competenceGoals}
     />
   );
 };

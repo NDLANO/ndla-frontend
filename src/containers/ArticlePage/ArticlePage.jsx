@@ -189,7 +189,6 @@ class ArticlePage extends Component {
           <Article
             id={skipToContentId}
             article={article}
-            subject={subject}
             locale={locale}
             resourceType={resourceType}
             isResourceArticle
