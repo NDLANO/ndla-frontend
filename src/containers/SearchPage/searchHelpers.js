@@ -397,7 +397,7 @@ export const getTypeParams = (types, allResourceTypes) => {
   if (!types.length) {
     return {
       resourceTypes: allResourceTypes
-        .map(resourceType => resourceType.id)
+        ?.map(resourceType => resourceType.id)
         .join(),
       contextTypes: 'topic-article',
     };

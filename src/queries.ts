@@ -166,7 +166,9 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
+    $grepCodes: String
     $aggregatePaths: [String!]
+    $grepCodesList: [String]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -177,6 +179,7 @@ export const groupSearchQuery = gql`
       pageSize: $pageSize
       language: $language
       fallback: $fallback
+      grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
     ) {
       resources {
@@ -217,6 +220,19 @@ export const groupSearchQuery = gql`
       resourceType
       totalCount
       language
+    }
+    competenceGoals(codes: $grepCodesList, language: $language) {
+      id
+      name: title
+      type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
   }
 `;
@@ -334,6 +350,7 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
+    parent
     meta {
       ...MetaInfo
     }
@@ -952,6 +969,7 @@ export const topicQuery = gql`
       id
       name
       path
+      parent
       meta {
         ...MetaInfo
       }
@@ -1080,7 +1098,6 @@ export const mastHeadQuery = gql`
       path
       topics(all: true) {
         ...TopicInfo
-        parent
       }
     }
     resourceTypes {

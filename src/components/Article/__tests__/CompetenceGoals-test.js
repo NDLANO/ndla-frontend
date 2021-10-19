@@ -6,39 +6,54 @@
  *
  */
 
-import { groupByCurriculums } from '../CompetenceGoals';
+import { groupCompetenceGoals } from '../CompetenceGoals';
 
 const competenceGoals = [
   {
-    id: 'K15502',
+    id: 'KM2648',
+    name: 'carry out basic first aid (KM2648)',
+    type: 'LK20',
+    curriculum: {
+      id: 'HSF01-03',
+      title: 'Curriculum vg1 healthcare, child and youth development',
+    },
+    competenceGoalSet: {
+      id: 'KV244',
+      title: 'Competence aims and assessment health promotion',
+    },
+  },
+  {
+    id: 'KM2647',
     name:
-      'gjøre rede for argumentasjonen i andres tekster og skrive egne argumenterende tekster på hovedmål og sidemål',
+      'discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)',
+    type: 'LK20',
     curriculum: {
-      id: 'NOR1-05',
-      title: 'Læreplan i norsk',
+      id: 'HSF01-03',
+      title: 'Curriculum vg1 healthcare, child and youth development',
+    },
+    competenceGoalSet: {
+      id: 'KV244',
+      title: 'Competence aims and assessment health promotion',
     },
   },
   {
-    id: 'K17637',
-    name: 'bruke og vurdere virkemidler og fortellerteknikker i medieuttrykk',
+    id: 'KM1232',
+    name:
+      'explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)',
+    type: 'LK20',
     curriculum: {
-      id: 'MOK2-01',
-      title:
-        'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
+      id: 'NOR01-06',
+      title: 'Curriculum for Norwegian',
     },
-  },
-  {
-    id: 'K17635',
-    name: 'lage budskap tilpasset målgruppe, formål og kanal',
-    curriculum: {
-      id: 'MOK2-01',
+    competenceGoalSet: {
+      id: 'KV115',
       title:
-        'Læreplan i medieuttrykk - felles programfag i utdanningsprogram for medier og kommunikasjon',
+        'Competence aims and assessment Vg3 programmes for general studies',
     },
   },
 ];
 
 test('That groupByCurriculums groups competenceGoals by curriculum ', () => {
-  const grouped = groupByCurriculums(competenceGoals);
+  const grouped = groupCompetenceGoals(competenceGoals, false, 'LK20');
   expect(grouped).toMatchSnapshot();
 });
