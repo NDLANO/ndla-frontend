@@ -85,6 +85,12 @@ const MastheadTopics = ({
 
   const subjectTitle = getSubjectLongName(subject?.id, locale) || subject?.name;
 
+  const handleSubjectClick = () => {
+    if (subject) {
+      toSubject(subject.id);
+    }
+  };
+
   return (
     <TopicMenu
       close={onClose}
@@ -92,7 +98,7 @@ const MastheadTopics = ({
       searchFieldComponent={searchFieldComponent}
       topics={topicsWithContentTypes || []}
       toTopic={subject && toTopicWithBoundParams(subject.id, expandedTopicIds)}
-      toSubject={subject && (() => toSubject(subject.id))}
+      toSubject={handleSubjectClick}
       defaultCount={12}
       subjectTitle={subjectTitle}
       resourceToLinkProps={localResourceToLinkProps}

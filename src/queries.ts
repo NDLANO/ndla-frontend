@@ -166,7 +166,9 @@ export const groupSearchQuery = gql`
     $pageSize: String
     $language: String
     $fallback: String
+    $grepCodes: String
     $aggregatePaths: [String!]
+    $grepCodesList: [String]
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -177,6 +179,7 @@ export const groupSearchQuery = gql`
       pageSize: $pageSize
       language: $language
       fallback: $fallback
+      grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
     ) {
       resources {
@@ -217,6 +220,19 @@ export const groupSearchQuery = gql`
       resourceType
       totalCount
       language
+    }
+    competenceGoals(codes: $grepCodesList, language: $language) {
+      id
+      name: title
+      type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
     }
   }
 `;
@@ -332,12 +348,15 @@ export const topicInfoFragment = gql`
   fragment TopicInfo on Topic {
     id
     name
-    parent
     contentUri
     path
     availability
+    parent
     meta {
       ...MetaInfo
+    }
+    metadata {
+      customFields
     }
   }
   ${metaInfoFragment}
@@ -348,6 +367,9 @@ export const subjectInfoFragment = gql`
     id
     name
     path
+    metadata {
+      customFields
+    }
   }
 `;
 
@@ -619,6 +641,9 @@ export const subjectTopicsQuery = gql`
         meta {
           ...MetaInfo
         }
+        metadata {
+          customFields
+        }
       }
     }
   }
@@ -658,10 +683,7 @@ export const subjectPageQueryWithTopics = gql`
       }
     }
     topic(id: $topicId) @include(if: $includeTopic) {
-      id
-      name
-      path
-      contentUri
+      ...TopicInfo
       alternateTopics {
         id
         name
@@ -948,6 +970,7 @@ export const topicQuery = gql`
       id
       name
       path
+      parent
       meta {
         ...MetaInfo
       }
@@ -1084,6 +1107,9 @@ export const mastHeadQuery = gql`
     }
     topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
       id
+      metadata {
+        customFields
+      }
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }

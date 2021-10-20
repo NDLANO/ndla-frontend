@@ -81,16 +81,19 @@ let routeArray: RouteType[] = [
     path: PLAIN_ARTICLE_PAGE_PATH,
     component: PlainArticlePage,
     background: false,
+    initialSelectMenu: 'programmes',
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
     component: PlainLearningpathPage,
     background: false,
+    initialSelectMenu: 'programmes',
   },
   {
     path: PLAIN_LEARNINGPATH_PAGE_PATH,
     component: PlainLearningpathPage,
     background: true,
+    initialSelectMenu: 'programmes',
   },
   {
     path: SEARCH_PATH,
@@ -207,7 +210,11 @@ const routesFunc = function(
   return (
     <ErrorBoundary>
       <I18nextProvider i18n={i18nInstance}>
-        {isClient ? <I18nWrapper locale={locale}>{app}</I18nWrapper> : app}
+        {isClient ? (
+          <I18nWrapper locale={locale} initialProps={initialProps} />
+        ) : (
+          app
+        )}
       </I18nextProvider>
     </ErrorBoundary>
   );

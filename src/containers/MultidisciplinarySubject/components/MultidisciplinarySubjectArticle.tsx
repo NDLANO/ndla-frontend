@@ -92,7 +92,13 @@ const MultidisciplinarySubjectArticle = ({
         image={topic.article.metaImage}
       />
       <OneColumn>
-        <Article article={topic.article} label="" locale={locale} />
+        <Article
+          article={topic.article}
+          label=""
+          locale={locale}
+          isTopicArticle={false}
+          isResourceArticle={false}
+        />
         <div ref={resourcesRef}>
           <Resources
             topic={topic}
