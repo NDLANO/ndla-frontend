@@ -43,8 +43,10 @@ const SubjectPageContent = ({
       label: topic?.name,
       selected: topic?.id === topicIds[0],
       url: toTopic(subject.id, topic?.id),
+      isRestrictedResource: topic.availability !== 'everyone',
     };
   });
+  console.log('subject page');
 
   return (
     <>

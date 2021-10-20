@@ -1,10 +1,13 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
+import { RouteProps } from 'react-router';
 
 import Modal from '@ndla/modal';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
 
+import { AuthContext } from '../../components/AuthenticationContext';
 import FeideLoginModal from './FeideLoginModal';
+import FeideLogoutModal from './FeideLogoutModal';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -42,9 +45,12 @@ const FeideFooterButton = styled(StyledButton)`
 interface Props {
   footer?: boolean;
   children?: ReactElement;
+  location: RouteProps['location'];
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
+const FeideLoginButton = ({ footer, children, location }: Props) => {
+  const { authenticated } = useContext(AuthContext);
+
   return (
     <Modal
       size="medium"
@@ -59,7 +65,13 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       animationDuration={150}
       backgroundColor="grey"
       onClose={() => {}}>
-      {(onClose: () => void) => <FeideLoginModal onClose={onClose} />}
+      {(onClose: () => void) =>
+        authenticated ? (
+          <FeideLogoutModal onClose={onClose} location={location} />
+        ) : (
+          <FeideLoginModal onClose={onClose} location={location} />
+        )
+      }
     </Modal>
   );
 };

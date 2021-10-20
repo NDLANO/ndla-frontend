@@ -164,13 +164,12 @@ export const createApolloClient = (language = 'nb') => {
 
 export const createApolloLinks = (lang: string) => {
   const isWindowContext = typeof window !== 'undefined';
+  const accessToken = isWindowContext ? getAccessToken() : null;
   const headersLink = setContext(async (_, { headers }) => ({
     headers: {
       ...headers,
       'Accept-Language': lang,
-      ...(isWindowContext
-        ? { FeideAuthorization: `Bearer ${getAccessToken()}` }
-        : {}),
+      ...(accessToken ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
     },
   }));
   return ApolloLink.from([
@@ -229,3 +228,18 @@ export const fetchWithAuthorization = async (
     },
   });
 };
+
+export async function fetchWithFeideAuthorization(
+  url: string,
+  forceAuth?: boolean,
+) {
+  if (forceAuth || !isAccessTokenValid()) {
+    //await renewAuth();
+  }
+
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  });
+}

@@ -335,6 +335,7 @@ export const topicInfoFragment = gql`
     parent
     contentUri
     path
+    availability
     meta {
       ...MetaInfo
     }

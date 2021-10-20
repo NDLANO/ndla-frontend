@@ -212,7 +212,7 @@ const MastheadContainer = ({
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
-          <FeideLoginButton>
+          <FeideLoginButton location={location}>
             <Feide />
           </FeideLoginButton>
           {renderSearchComponent(true)}

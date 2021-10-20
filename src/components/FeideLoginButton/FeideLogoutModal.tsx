@@ -2,8 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RouteProps } from 'react-router';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
-import { FeideText, HumanMaleBoard, LogIn } from '@ndla/icons/common';
+import { FeideText, HumanMaleBoard, LogOut } from '@ndla/icons/common';
 import { ModalCloseButton } from '@ndla/modal';
+
+import { AuthContext } from '../../components/AuthenticationContext';
+import { fetchFeideGroups, FeideGroupType } from './feideApi';
 
 const Button = StyledButton.withComponent('a');
 
@@ -49,6 +52,22 @@ interface Props {
 }
 
 const FeideLoginModal = ({ onClose, location }: Props) => {
+  const { authenticated } = useContext(AuthContext);
+  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
+  console.log('feide logout modal', authenticated);
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
+        setFeideGroups(a);
+      });
+    }
+  }, [authenticated]);
+  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
+  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
+  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+  console.log(feideGroups, primarySchool, parentOrg, affiliationRole);
+
   return (
     <StyledFeideModalBody>
       <div className="header">
@@ -58,20 +77,25 @@ const FeideLoginModal = ({ onClose, location }: Props) => {
         <ModalCloseButton title="Lukk" onClick={onClose} />
       </div>
       <div className="content">
+        <p>Du er logget inn som {affiliationRole}</p>
         <p>
-          Resources that require logging in with Feide, are tagged with the
-          icon:
+          We have collected the following information about you:
+          <ul>
+            <li>{affiliationRole}</li>
+            <li>{primarySchool?.displayName}</li>
+          </ul>
+          Resources that require logging in with Feide, are tagged with the icon
           <span>
             <HumanMaleBoard />
           </span>
         </p>
         <Button
-          href="/login"
+          href="/logout"
           onClick={() =>
             location && localStorage.setItem('lastPath', location.pathname)
           }>
           <span>
-            Log in with Feide <LogIn className="c-icon--medium" />
+            Log out <LogOut className="c-icon--medium" />
           </span>
         </Button>
       </div>

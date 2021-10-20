@@ -26,6 +26,7 @@ const connectSrc = (() => {
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
+    'https://groups-api.dataporten.no',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -102,6 +103,7 @@ const scriptSrc = (() => {
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
+    'https://groups-api.dataporten.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];

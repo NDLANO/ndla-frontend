@@ -60,26 +60,21 @@ const FeideFooter = ({ location }: Props) => {
       <h2>
         <FeideText />
       </h2>
-      {authenticated ? (
-        <FeideButton
-          href="/logout"
-          onClick={() =>
-            localStorage.setItem('lastPath', location ? location.pathname : '')
-          }>
-          LOGOUT
-        </FeideButton>
-      ) : (
-        <div>
-          <p>
-            Some resources may only be accessed by teachers who are logged in.
-          </p>
-          <FeideLoginButton footer>
+
+      <div>
+        <p>
+          Some resources may only be accessed by teachers who are logged in.
+        </p>
+        <FeideLoginButton footer location={location}>
+          {authenticated ? (
+            <span>du er logget inn</span>
+          ) : (
             <span>
               Log in with Feide <LogIn className="c-icon--medium" />
             </span>
-          </FeideLoginButton>
-        </div>
-      )}
+          )}
+        </FeideLoginButton>
+      </div>
     </StyledFeideFooter>
   );
 };
