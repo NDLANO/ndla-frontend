@@ -210,7 +210,11 @@ const routesFunc = function(
   return (
     <ErrorBoundary>
       <I18nextProvider i18n={i18nInstance}>
-        {isClient ? <I18nWrapper locale={locale}>{app}</I18nWrapper> : app}
+        {isClient ? (
+          <I18nWrapper locale={locale} initialProps={initialProps} />
+        ) : (
+          app
+        )}
       </I18nextProvider>
     </ErrorBoundary>
   );

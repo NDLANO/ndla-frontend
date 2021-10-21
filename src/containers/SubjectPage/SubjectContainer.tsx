@@ -198,7 +198,7 @@ const SubjectContainer = ({
               image={
                 socialMediaMetadata.image && {
                   url: socialMediaMetadata.image.url,
-                  altText: socialMediaMetadata.image.alt,
+                  alt: socialMediaMetadata.image.alt,
                 }
               }
               trackableContent={{ supportedLanguages }}
