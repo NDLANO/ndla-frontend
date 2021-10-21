@@ -39,8 +39,7 @@ import { InitialProps, LocaleType } from './interfaces';
 import { initializeI18n } from './i18n';
 import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
-
-export const BasenameContext = React.createContext('');
+import { BaseNameProvider } from './components/BaseNameContext';
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
   locale: LocaleType;
@@ -266,7 +265,7 @@ class App extends React.Component<AppProps, AppState> {
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <BasenameContext.Provider value={this.props.locale ?? ''}>
+      <BaseNameProvider value={this.props.locale}>
         <AuthenticationContext>
           <Switch>
             {routes
@@ -290,7 +289,7 @@ class App extends React.Component<AppProps, AppState> {
               ))}
           </Switch>
         </AuthenticationContext>
-      </BasenameContext.Provider>
+      </BaseNameProvider>
     );
   }
 }
