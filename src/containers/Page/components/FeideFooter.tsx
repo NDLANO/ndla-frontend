@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { RouteProps } from 'react-router';
 
 import styled from '@emotion/styled';
-import { StyledButton } from '@ndla/button';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
 import FeideLoginButton from '../../../components/FeideLoginButton';
@@ -40,12 +39,6 @@ const StyledFeideFooter = styled.div`
       }
     }
   }
-`;
-
-const FeideButton = styled(StyledButton)`
-  background: rgb(34, 34, 34);
-  color: rgb(255, 255, 255);
-  border: 2px solid rgb(117, 117, 117);
 `;
 
 interface Props {
