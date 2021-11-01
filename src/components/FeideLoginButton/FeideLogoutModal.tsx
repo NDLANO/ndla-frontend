@@ -40,6 +40,9 @@ const StyledFeideModalBody = styled('div')`
     }
   }
   div.content {
+    ul {
+      padding-left: 2em;
+    }
     span {
       margin-left: 6.5px;
     }
@@ -54,7 +57,6 @@ interface Props {
 const FeideLoginModal = ({ onClose, location }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  console.log('feide logout modal', authenticated);
 
   useEffect(() => {
     if (authenticated) {
@@ -66,7 +68,6 @@ const FeideLoginModal = ({ onClose, location }: Props) => {
   const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
   const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
   const affiliationRole = parentOrg?.membership.primaryAffiliation;
-  console.log(feideGroups, primarySchool, parentOrg, affiliationRole);
 
   return (
     <StyledFeideModalBody>
