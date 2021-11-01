@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { RouteProps } from 'react-router';
+
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
 import { FeideText, HumanMaleBoard, LogIn } from '@ndla/icons/common';
