@@ -49,7 +49,6 @@ const SubjectPageContent = ({
       isRestrictedResource: topic.availability !== 'everyone',
     };
   });
-  console.log('subject page');
 
   return (
     <>
