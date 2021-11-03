@@ -6,16 +6,15 @@
  *
  */
 
-import React, { ReactElement, useContext } from 'react';
-import { RouteProps } from 'react-router';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import { RouteProps, useHistory } from 'react-router';
 
-import Modal from '@ndla/modal';
+import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
+import { fetchFeideGroups, FeideGroupType } from './feideApi';
 
 import { AuthContext } from '../../components/AuthenticationContext';
-import FeideLoginModal from './FeideLoginModal';
-import FeideLogoutModal from './FeideLogoutModal';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -57,11 +56,23 @@ interface Props {
 }
 
 const FeideLoginButton = ({ footer, children, location }: Props) => {
+  const history = useHistory();
   const { authenticated } = useContext(AuthContext);
+  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
+  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
+  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
+  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
+        setFeideGroups(a);
+      });
+    }
+  }, [authenticated]);
 
   return (
-    <Modal
-      size="medium"
+    <AuthModal
       activateButton={
         footer ? (
           <FeideFooterButton>{children}</FeideFooterButton>
@@ -69,18 +80,21 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
           <FeideButton>{children}</FeideButton>
         )
       }
-      animation="subtle"
-      animationDuration={150}
-      backgroundColor="grey"
-      onClose={() => {}}>
-      {(onClose: () => void) =>
-        authenticated ? (
-          <FeideLogoutModal onClose={onClose} location={location} />
-        ) : (
-          <FeideLoginModal onClose={onClose} location={location} />
-        )
+      isAuthenticated={authenticated}
+      authorizedCollectedInfo={
+        primarySchool && affiliationRole
+          ? [primarySchool.displayName, affiliationRole]
+          : undefined
       }
-    </Modal>
+      authorizedRole={affiliationRole}
+      onAuthenticateClick={() => {
+        location && localStorage.setItem('lastPath', location.pathname);
+        if (authenticated) {
+          history.push('/logout');
+        } else {
+          history.push('/login');
+        }
+      }}></AuthModal>
   );
 };
 
