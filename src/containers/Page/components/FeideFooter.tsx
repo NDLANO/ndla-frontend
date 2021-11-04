@@ -6,12 +6,17 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { RouteProps } from 'react-router';
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
+import {
+  fetchFeideGroups,
+  FeideGroupType,
+} from '../../../components/FeideLoginButton/feideApi';
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
@@ -54,8 +59,20 @@ interface Props {
 }
 
 const FeideFooter = ({ location }: Props) => {
+  const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
+  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
+  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
+  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
+  const affiliationRole = parentOrg?.membership.primaryAffiliation;
 
+  useEffect(() => {
+    if (authenticated) {
+      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
+        setFeideGroups(a);
+      });
+    }
+  }, [authenticated]);
   return (
     <StyledFeideFooter>
       <h2>
@@ -63,15 +80,18 @@ const FeideFooter = ({ location }: Props) => {
       </h2>
 
       <div>
-        <p>
-          Some resources may only be accessed by teachers who are logged in.
-        </p>
+        <p>{t('user.generalFooter')}</p>
         <FeideLoginButton footer location={location}>
           {authenticated ? (
-            <span>du er logget inn</span>
+            <span>
+              {' '}
+              {t('user.loggedInAsButton', {
+                role: t('user.role.' + affiliationRole),
+              })}
+            </span>
           ) : (
             <span>
-              Log in with Feide <LogIn className="c-icon--medium" />
+              {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
             </span>
           )}
         </FeideLoginButton>
