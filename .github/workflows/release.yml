@@ -20,6 +20,7 @@ env:
   NDLA_HOME: ${{ github.workspace }}/ndla
   NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
   COMPONENT: ${{ github.event.repository.name }}
+  GPG_KEY: ${{ secrets.DEPLOY_BLACKBOX_GPG_KEY_B64 }}
 jobs:
   release:
     name: "Release and push to registry"
@@ -59,6 +60,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r ndla/deploy/scripts/pyshare/requirements.txt
+      - name: "Download blackbox"
+        uses: actions/checkout@v2
+        with:
+          repository: StackExchange/blackbox
+          path: blackbox
+      - name: "Install Blackbox and key"
+        run: |
+          # Move binaries to path
+          sudo mv blackbox/bin/* /home/runner/bin/
+          echo -n "$GPG_KEY" | base64 --decode | gpg --import
       - name: "Install kubectl"
         run: |
           curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
