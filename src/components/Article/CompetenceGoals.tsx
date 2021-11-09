@@ -260,7 +260,7 @@ const CompetenceGoals = ({
 
   return (
     <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab list={competenceGoalsList} />
+      <CompetenceGoalTab list={competenceGoalsList} highlightSearchBox />
     </Component>
   );
 };
