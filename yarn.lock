@@ -2633,14 +2633,6 @@
     jump.js "^1.0.2"
     lodash "^4.17.20"
 
-"@ndla/button@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-1.0.2.tgz#ff897ad7b9ee90fed6012d8ad18e0cc17efc3f55"
-  integrity sha512-I908J0KroDkQbNxUbdZuO++uzBPGWaysBpAAB6WC6ZwBEREB8GYIciGCNrO5hMeYA+sfTStoHRSlsV8jUgDU6w==
-  dependencies:
-    "@ndla/core" "^0.7.2"
-    "@ndla/icons" "^1.0.1"
-
 "@ndla/button@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-1.0.5.tgz#0bf6313de1cae89b682a3d200fd1f302bc484418"
@@ -2685,25 +2677,10 @@
     "@ndla/util" "^1.0.3"
     lodash "^4.17.20"
 
-"@ndla/icons@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.0.1.tgz#b7532a0ebb6b42a75c3827ba6ddab642c2fb4f0a"
-  integrity sha512-hBYtM4gCnETRVNyNchdEm63jke5AZMlC7/Z725hvYZIWgn4bCLmnOwERuZ6hCSk3/xWZOwslRkBCeZSs56OG8w==
-
 "@ndla/icons@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.3.0.tgz#f58998880854269db4f093000e13f6602b632113"
   integrity sha512-GMSPXk5QyqMWDm/Z4Kc7D+W7WcXNIIhZHjO/fzERRenP94hEyqdedX2FSDJ9ebyleFjbDt4LaH+oWF78GPnLQw==
-
-"@ndla/licenses@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.0.3.tgz#a221318aaa0ca30401fb28a6ad420eb0813bba0f"
-  integrity sha512-Vl8kKDkws2+NBrSMHUzL1JWJP0nWcyNdzndxtlaLuuF5PZjLZ+DF1sVlGM+MPjs3EzV6Ht8zRkqYR4GkecWxAA==
-  dependencies:
-    "@ndla/core" "^0.7.2"
-    "@ndla/icons" "^1.0.1"
-    defined "1.0.0"
-    react-bem-helper "1.4.1"
 
 "@ndla/licenses@^1.0.6":
   version "1.0.6"
@@ -2715,16 +2692,6 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.5.tgz#ec46df0ed1a21db938c0392b993474db5f1890a8"
-  integrity sha512-iA52CNnJ3JqQh4TAfnE18hiUp82NjWODtsi+r8ivnjXZRVVIDqaHOGY1uhJVdwS1qcEFy7JQsZchPTzNsnAdPg==
-  dependencies:
-    "@ndla/button" "^1.0.2"
-    "@ndla/core" "^0.7.2"
-    "@ndla/util" "^1.0.3"
-    "@reach/dialog" "^0.2.9"
-
 "@ndla/modal@^1.1.8":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.8.tgz#fe4bba2598b96e2015863c031d585aa827a3c60b"
@@ -2735,22 +2702,22 @@
     "@ndla/util" "^1.0.3"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/notion@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.9.tgz#ad4990e1f71e1ed600f462f0474c03bb2c64a1a7"
-  integrity sha512-dJLlAPIVmcYIJX/TKZvlyuAOri2P9acA1Mdx0qAr330tNGiOBxMc5IK77Xq8N7hfiiwIX/heyqI7a6tOwiKOdw==
+"@ndla/notion@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.12.tgz#6fe6e9423aaf33d0a4c0807827b0aab4d4678e0a"
+  integrity sha512-OkCTNsmwN1gNwl4yKrbQGUZ/BcQ4pov5SP8cz96r54yLkxUAa8Ze9fTu9AxEyiDaa2qh2jSOE1gMmMS5X6GmDQ==
   dependencies:
     "@ndla/core" "^0.7.2"
-    "@ndla/licenses" "^1.0.3"
-    "@ndla/modal" "^1.1.5"
+    "@ndla/licenses" "^1.0.6"
+    "@ndla/modal" "^1.1.8"
 
-"@ndla/pager@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.0.4.tgz#d2c5c9c6e15762a5fd1cb9543fd56b7a663f3aab"
-  integrity sha512-2csbwccejlofIKPMvyTcjFExxTYz9gbKhXQJC/4BLR/D97Kbk1QvUzpAjTkQwmiY5LX3JI8TrK0Sb1vmFubRcg==
+"@ndla/pager@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.0.7.tgz#10e8da45911a2bc9bfd2a4b3f207afbaeb1f165c"
+  integrity sha512-W/pX05FH6bFoOMVjjI9pouBOwFfjNpniiYiPEMAt/PWRxbZl+zHiheKM81iKn8bUVDCnKpBx88tIWC3eLNtSKg==
   dependencies:
     "@ndla/core" "^0.7.2"
-    "@ndla/safelink" "^1.0.1"
+    "@ndla/safelink" "^1.0.4"
 
 "@ndla/polyfill@^0.1.15":
   version "0.1.15"
@@ -2760,13 +2727,6 @@
     core-js "^3.10.2"
     details-polyfill "^1.1.0"
     react-app-polyfill "^0.2.1"
-
-"@ndla/safelink@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-1.0.1.tgz#16410eba33ca32024b4a0ef22822bb8e15055d13"
-  integrity sha512-H1AB6D94yUOr0vxeHDvXuo2AnCYNT2LbLou9wWCSbtFw2zj0hIFPa/MaeGX4qVzs5O9w/h9JfxtPUf/RKiDLKw==
-  dependencies:
-    "@ndla/icons" "^1.0.1"
 
 "@ndla/safelink@^1.0.4":
   version "1.0.4"
@@ -12410,9 +12370,9 @@ object-keys@~0.4.0:
   integrity sha1-KKaq50KN0sOpLz2V8hM13SBOAzY=
 
 object-path@^0.11.4:
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.5.tgz#d4e3cf19601a5140a55a16ad712019a9c50b577a"
-  integrity sha512-jgSbThcoR/s+XumvGMTMf81QVBmah+/Q7K7YduKeKVWL7N111unR2d6pZZarSk6kY/caeNxUDyxOvMWyzoU2eg==
+  version "0.11.8"
+  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.8.tgz#ed002c02bbdd0070b78a27455e8ae01fc14d4742"
+  integrity sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==
 
 object-treeify@^1.1.4:
   version "1.1.33"
