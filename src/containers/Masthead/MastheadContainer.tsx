@@ -50,6 +50,7 @@ import {
   GQLResourceType,
   GQLSubject,
 } from '../../graphqlTypes';
+import config from '../../config';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -212,9 +213,11 @@ const MastheadContainer = ({
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
-          <FeideLoginButton location={location}>
-            <Feide />
-          </FeideLoginButton>
+          {config.feideEnabled && (
+            <FeideLoginButton location={location}>
+              <Feide />
+            </FeideLoginButton>
+          )}
           {renderSearchComponent(true)}
           <Logo
             to="/"
