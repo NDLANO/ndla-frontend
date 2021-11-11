@@ -28,6 +28,7 @@ const connectSrc = (() => {
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
     'https://groups-api.dataporten.no',
+    'https://xapi.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -105,6 +106,7 @@ const scriptSrc = (() => {
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
     'https://groups-api.dataporten.no',
+    'https://xapi.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
