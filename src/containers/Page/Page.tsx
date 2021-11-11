@@ -19,7 +19,6 @@ import Footer from './components/Footer';
 import FeideFooter from './components/FeideFooter';
 
 interface Props {
-  locale: string;
   background?: boolean;
   ndlaFilm?: boolean;
   children?: ReactNode;
@@ -29,15 +28,16 @@ interface Props {
 export const Page = ({
   children,
   background = true,
-  locale,
   ndlaFilm,
   location,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
     <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
       <Helmet
-        htmlAttributes={{ lang: locale }}
+        htmlAttributes={{ lang: i18n.language }}
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
@@ -45,9 +45,11 @@ export const Page = ({
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
       {children}
-      <Footer inverted={ndlaFilm} locale={locale} location={location}>
+      <Footer inverted={ndlaFilm} location={location}>
         {config.zendeskWidgetKey && (
-          <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
+          <ZendeskButton
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
             {t('askNDLA')}
           </ZendeskButton>
         )}
