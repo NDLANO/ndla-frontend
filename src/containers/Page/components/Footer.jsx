@@ -66,11 +66,13 @@ const FooterWrapper = ({ location, inverted }) => {
           name="Sigurd Trageton"
         />
         {t('footer.footerInfo')}
-        <ZendeskButton
-          locale={zendeskLanguage}
-          widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        {config.zendeskWidgetKey && (
+          <ZendeskButton
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        )}
       </FooterText>
     </Footer>
   );

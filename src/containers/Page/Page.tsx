@@ -12,7 +12,6 @@ import { RouteProps } from 'react-router';
 // @ts-ignore
 import { PageContainer } from '@ndla/ui';
 // @ts-ignore
-import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import Footer from './components/Footer';
@@ -32,8 +31,6 @@ export const Page = ({
   location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
     <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
       <Helmet
@@ -45,15 +42,7 @@ export const Page = ({
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
       {children}
-      <Footer inverted={ndlaFilm} location={location}>
-        {config.zendeskWidgetKey && (
-          <ZendeskButton
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}>
-            {t('askNDLA')}
-          </ZendeskButton>
-        )}
-      </Footer>
+      <Footer inverted={ndlaFilm} location={location} />
       {config.feideEnabled && <FeideFooter location={location} />}
     </PageContainer>
   );
