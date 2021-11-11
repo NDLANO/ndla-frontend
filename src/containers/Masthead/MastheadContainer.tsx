@@ -21,12 +21,16 @@ import {
 } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
+
+import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import {
   getUrnIdsFromProps,
   toBreadcrumbItems,
   SubjectURI,
 } from '../../routeHelpers';
+
+import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
@@ -46,6 +50,7 @@ import {
   GQLResourceType,
   GQLSubject,
 } from '../../graphqlTypes';
+import config from '../../config';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -208,6 +213,11 @@ const MastheadContainer = ({
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
+          {config.feideEnabled && (
+            <FeideLoginButton location={location}>
+              <Feide />
+            </FeideLoginButton>
+          )}
           {renderSearchComponent(true)}
           <Logo
             to="/"

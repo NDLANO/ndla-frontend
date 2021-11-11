@@ -16,6 +16,7 @@ import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import Footer from './components/Footer';
+import FeideFooter from './components/FeideFooter';
 
 interface Props {
   locale: string;
@@ -51,6 +52,7 @@ export const Page = ({
           </ZendeskButton>
         )}
       </Footer>
+      {config.feideEnabled && <FeideFooter location={location} />}
     </PageContainer>
   );
 };

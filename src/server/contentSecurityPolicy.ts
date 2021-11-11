@@ -27,6 +27,7 @@ const connectSrc = (() => {
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
+    'https://groups-api.dataporten.no',
     'https://xapi.com',
   ];
   if (
@@ -104,6 +105,7 @@ const scriptSrc = (() => {
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
+    'https://groups-api.dataporten.no',
     'https://xapi.com',
   ];
   if (process.env.NODE_ENV === 'development') {
