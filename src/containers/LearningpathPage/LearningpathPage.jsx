@@ -162,14 +162,16 @@ class LearningpathPage extends Component {
 
     const breadcrumbItems =
       subject && topicPath
-        ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-            subject,
-            ...topicPath,
-            { name: learningpath.title, url: '' },
-          ])
-        : toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-            { name: learningpath.title, url: '' },
-          ]);
+        ? toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [subject, ...topicPath, { name: learningpath.title, url: '' }],
+            locale,
+          )
+        : toBreadcrumbItems(
+            t('breadcrumb.toFrontpage'),
+            [{ name: learningpath.title, url: '' }],
+            locale,
+          );
 
     return (
       <div>

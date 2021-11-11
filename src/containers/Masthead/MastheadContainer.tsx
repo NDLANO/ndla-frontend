@@ -152,11 +152,11 @@ const MastheadContainer = ({
   const path = topicPath ?? [];
 
   const breadcrumbBlockItems = (subject?.id
-    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-        subject,
-        ...path,
-        ...(resource ? [resource] : []),
-      ])
+    ? toBreadcrumbItems(
+        t('breadcrumb.toFrontpage'),
+        [subject, ...path, ...(resource ? [resource] : [])],
+        locale,
+      )
     : []
   ).filter(uri => !!uri.name && !!uri.to);
 
