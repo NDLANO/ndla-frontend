@@ -234,7 +234,7 @@ export async function fetchWithFeideAuthorization(
   forceAuth?: boolean,
 ) {
   if (forceAuth || !isAccessTokenValid()) {
-    //await renewAuth();
+    await renewAuth();
   }
 
   return fetch(url, {
