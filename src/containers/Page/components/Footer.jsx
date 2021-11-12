@@ -16,8 +16,10 @@ import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
 
-const FooterWrapper = ({ location, locale, inverted }) => {
+const FooterWrapper = ({ location, inverted }) => {
   const { t, i18n } = useTranslation();
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
 
   const languageSelector = (
     <LanguageSelector
@@ -25,7 +27,7 @@ const FooterWrapper = ({ location, locale, inverted }) => {
       outline
       alwaysVisible
       inverted={inverted}
-      options={getLocaleUrls(locale, location)}
+      options={getLocaleUrls(i18n.language, location)}
       currentLanguage={i18n.language}
     />
   );
@@ -54,16 +56,23 @@ const FooterWrapper = ({ location, locale, inverted }) => {
   ];
 
   return (
-    <Footer lang={locale} links={links} languageSelector={languageSelector}>
+    <Footer
+      lang={i18n.language}
+      links={links}
+      languageSelector={languageSelector}>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}
           name="Sigurd Trageton"
         />
         {t('footer.footerInfo')}
-        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        {config.zendeskWidgetKey && (
+          <ZendeskButton
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        )}
       </FooterText>
     </Footer>
   );
