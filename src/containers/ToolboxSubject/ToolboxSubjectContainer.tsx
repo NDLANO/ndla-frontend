@@ -147,7 +147,12 @@ const ToolboxSubjectContainer = ({
           introduction={t('htmlTitles.toolbox.introduction')}
         />
         <TopicBoxes />
-        <SubjectBanner image={''} negativeTopMargin={!topics} />
+        {subject.subjectpage?.banner && (
+          <SubjectBanner
+            image={subject.subjectpage?.banner.desktopUrl || ''}
+            negativeTopMargin={!topics}
+          />
+        )}
       </OneColumn>
     </>
   );
