@@ -43,7 +43,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           type="image/x-icon"
         />
         {css && ids && (
-          <style data-emotion-css={`${ids.join(' ')}`}>${cssString}</style>
+          <style data-emotion-css={`${ids.join(' ')}`}>${css}</style>
         )}
       </head>
       <body {...bodyAttrs}>
