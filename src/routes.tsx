@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ComponentType } from 'react';
 import { RouteProps } from 'react-router';
 import { ApolloClient } from '@apollo/client';
 import { I18nextProvider } from 'react-i18next';
@@ -61,7 +61,7 @@ export interface RouteType extends RouteProps {
   hideMasthead?: boolean;
   background?: boolean;
   initialSelectMenu?: string;
-  component: React.ComponentType<RootComponentProps>;
+  component: ComponentType<RootComponentProps>;
 }
 
 let routeArray: RouteType[] = [

@@ -6,9 +6,9 @@
  *
  */
 
-import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
+import { css } from '@emotion/core';
 import { resetIdCounter } from '@ndla/tabs';
 import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
@@ -90,7 +90,15 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
 }
 
 export async function renderHtml(req, html, context, props) {
-  const doc = renderToStaticMarkup(<Document {...props} />);
+  const doc = renderToStaticMarkup(
+    <Document
+      {...props}
+      css={css`
+        // passing in props.css as a string breaks emotion.
+        ${props.css}
+      `}
+    />,
+  );
 
   if (context.url) {
     return {

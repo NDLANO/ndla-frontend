@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import url from 'url';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';

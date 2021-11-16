@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useMemo } from 'react';
+import { ComponentType, ReactElement, ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
@@ -55,7 +55,7 @@ interface Props {
   article: GQLArticleInfoFragment;
   resourceType?: string;
   isTopicArticle: boolean;
-  children?: React.ReactElement;
+  children?: ReactElement;
   contentType?: string;
   label: string;
   locale: LocaleType;

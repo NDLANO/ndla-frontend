@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect, useState } from 'react';
 import { RouteProps, useHistory } from 'react-router';
 
 import { AuthModal } from '@ndla/ui';

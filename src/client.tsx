@@ -13,7 +13,7 @@ import ErrorReporter from '@ndla/error-reporter';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
-import React from 'react';
+import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { STORED_LANGUAGE_KEY } from './constants';
@@ -73,7 +73,7 @@ const isGoogleUrl =
   decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
 interface RCProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const RouterComponent = ({ children }: RCProps) =>

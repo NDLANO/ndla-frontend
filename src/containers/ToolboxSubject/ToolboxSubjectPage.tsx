@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';

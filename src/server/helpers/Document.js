@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
@@ -44,7 +43,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           type="image/x-icon"
         />
         {css && ids && (
-          <style data-emotion-css={`${ids.join(' ')}`}>${css}</style>
+          <style data-emotion-css={`${ids.join(' ')}`}>${cssString}</style>
         )}
       </head>
       <body {...bodyAttrs}>

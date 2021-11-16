@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 

@@ -1,4 +1,14 @@
 {
   "presets": ["razzle/babel"],
-  "plugins": ["graphql-tag", "@babel/plugin-proposal-optional-chaining"]
+  "plugins": [
+    "graphql-tag",
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "runtime": "automatic",
+        "importSource": "@emotion/core"
+      }
+    ]
+  ]
 }

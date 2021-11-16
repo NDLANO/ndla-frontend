@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 //@ts-ignore
 import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
@@ -40,7 +40,7 @@ interface Props {
     subtopicId?: string,
     currentIndex?: number,
   ) => void;
-  searchFieldComponent: React.ReactNode;
+  searchFieldComponent: ReactNode;
   programmes: ProgramSubjectType[];
   currentProgramme?: SimpleProgramType;
   subjectCategories: {

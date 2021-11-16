@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { LocaleType } from '../interfaces';
 
-const BaseNameContext = React.createContext<LocaleType | ''>('');
+const BaseNameContext = createContext<LocaleType | ''>('');
 type BaseNameType = LocaleType | '';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   value?: BaseNameType;
 }
 

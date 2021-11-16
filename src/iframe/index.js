@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';

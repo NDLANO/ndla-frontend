@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useRef } from 'react';
+import { useState, useRef, createRef, MouseEvent } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
 import {
@@ -121,12 +121,9 @@ const SubjectContainer = ({
   };
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
+  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
 
-  const handleNav = (
-    e: React.MouseEvent<HTMLElement>,
-    item: BreadcrumbItem,
-  ) => {
+  const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
     e.preventDefault();
     const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
@@ -141,7 +138,7 @@ const SubjectContainer = ({
     }
   };
 
-  const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onClickTopics = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const path = parseAndMatchUrl(e.currentTarget?.href, true);
     history.replace({ pathname: path?.url });

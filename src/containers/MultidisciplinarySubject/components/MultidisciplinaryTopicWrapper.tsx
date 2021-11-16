@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Spinner from '@ndla/ui/lib/Spinner';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';

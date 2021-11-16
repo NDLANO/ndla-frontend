@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 import { withTranslation } from 'react-i18next';

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { css } from '@emotion/core';
@@ -40,7 +40,7 @@ class FilmFrontpage extends Component {
       resourceTypeSelected: null,
     };
     this.onChangeResourceType = this.onChangeResourceType.bind(this);
-    this.movieListRef = React.createRef();
+    this.movieListRef = createRef();
   }
 
   static getDocumentTitle({ t, subject }) {

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
 import { func, number, string, shape } from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
@@ -66,7 +65,7 @@ const SearchPage = ({ location, locale, history }) => {
   }
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.searchPage')} />
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchInnerPage
@@ -81,7 +80,7 @@ const SearchPage = ({ location, locale, history }) => {
           locale={locale}
         />
       </OneColumn>
-    </Fragment>
+    </>
   );
 };
 

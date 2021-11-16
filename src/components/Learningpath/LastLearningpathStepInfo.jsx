@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';

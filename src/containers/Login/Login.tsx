@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -24,7 +24,7 @@ export const Login = ({ match }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
 
   return (
-    <Fragment>
+    <>
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Switch>
@@ -42,7 +42,7 @@ export const Login = ({ match }: Props) => {
           </Switch>
         </div>
       </OneColumn>
-    </Fragment>
+    </>
   );
 };
 

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@ndla/tabs';
 import { useTranslation } from 'react-i18next';

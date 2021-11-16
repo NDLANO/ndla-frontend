@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import {
   //@ts-ignore
   TopicIntroductionList,

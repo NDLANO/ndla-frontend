@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';

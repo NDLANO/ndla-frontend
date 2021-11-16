@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { useGraphQuery } from '../../util/runQueries';

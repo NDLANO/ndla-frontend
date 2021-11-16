@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import PropTypes from 'prop-types';
 import {

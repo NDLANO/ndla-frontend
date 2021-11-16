@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import TopicContainer from './TopicContainer';
 import { getUrnIdsFromProps } from '../../routeHelpers';

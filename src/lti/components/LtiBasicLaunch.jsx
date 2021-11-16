@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import queryString from 'query-string';

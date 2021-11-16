@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import SubjectTopical from './SubjectTopical';
 import SubjectPageAbout from './SubjectPageAbout';
 import { GQLSubjectPage } from '../../../graphqlTypes';

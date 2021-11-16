@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';

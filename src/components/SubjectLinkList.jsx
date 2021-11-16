@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import SafeLink from '@ndla/safelink';
 import { SubjectShape } from '../shapes';

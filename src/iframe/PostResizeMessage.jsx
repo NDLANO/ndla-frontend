@@ -6,9 +6,9 @@
  *
  */
 
-import React from 'react';
+import { Component } from 'react';
 
-class PostResizeMessage extends React.Component {
+class PostResizeMessage extends Component {
   constructor() {
     super();
     this.state = {

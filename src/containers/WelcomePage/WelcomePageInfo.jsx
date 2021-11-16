@@ -6,8 +6,6 @@
  *
  */
 
-import React from 'react';
-
 import { InfoWidget, FrontpageInfo } from '@ndla/ui';
 import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
 import { withTranslation } from 'react-i18next';

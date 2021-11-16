@@ -1,4 +1,3 @@
-import React from 'react';
 //@ts-ignore
 import { Image } from '@ndla/ui';
 import { GQLVisualElement } from '../../graphqlTypes';

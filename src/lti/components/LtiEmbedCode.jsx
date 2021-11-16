@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -25,7 +24,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen }) => {
       backgroundColor="white"
       onClose={onClose}>
       {onCloseModal => (
-        <Fragment>
+        <>
           <ModalHeader>
             <ModalCloseButton
               title={t('modal.closeModal')}
@@ -38,7 +37,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen }) => {
               <CodeWithBreakWord>{code}</CodeWithBreakWord>
             </pre>
           </ModalBody>
-        </Fragment>
+        </>
       )}
     </Modal>
   );

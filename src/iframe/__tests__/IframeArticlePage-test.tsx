@@ -7,7 +7,6 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { I18nextProvider, Translation } from 'react-i18next';

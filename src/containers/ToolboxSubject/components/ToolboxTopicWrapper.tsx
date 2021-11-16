@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React from 'react';
+import { MouseEvent } from 'react';
 import { Helmet } from 'react-helmet';
 import { WithTranslation, withTranslation } from 'react-i18next';
 // @ts-ignore
@@ -34,7 +34,7 @@ interface Props extends WithTranslation {
   resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
   onSelectTopic: (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     index: number,
     id?: string,
   ) => void;
@@ -127,8 +127,8 @@ const ToolboxTopicWrapper = ({
         frame={subTopics?.length === 0}
         isLoading={loading}
         subTopics={subTopics}
-        onSubTopicSelected={(e: React.MouseEvent<HTMLElement>, id?: string) =>
-          onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, index + 1, id)
+        onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
+          onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
         }
         topic={toolboxTopic.topic}
       />

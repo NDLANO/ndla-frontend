@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { CarouselAutosize } from '@ndla/carousel';
 import { FilmMovieList, MovieGrid } from '@ndla/ui';

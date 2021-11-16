@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import parse from 'html-react-parser';
 
 export const urlIsNDLAApiUrl = (url: string) =>
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const LearningpathIframe = ({ html, url }: Props) => {
-  const iframeRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const iframeRef = useRef() as MutableRefObject<HTMLInputElement>;
   const [listeningToMessages, setListeningToMessages] = useState(true);
 
   const handleIframeResizing = (url: string) => {

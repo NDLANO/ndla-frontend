@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { MouseEvent } from 'react';
 //@ts-ignore
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
@@ -25,7 +25,7 @@ interface Props {
   topicId: string;
   locale: LocaleType;
   onSelectTopic: (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     index: number,
     id?: string,
   ) => void;

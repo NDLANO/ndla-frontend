@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
@@ -30,7 +30,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     ndlaFilm: false,
     match,
   });
-  const refs = selectedTopics.map(_ => React.createRef<HTMLDivElement>());
+  const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
 
   useEffect(() => {
     if (selectedTopics.length) {
@@ -118,7 +118,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   );
 
   return (
-    // @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example.
+    // @ts-ignore children prop is incorrectly typed. ReactChildren should be something else. ReactNode for example.
     <MultidisciplinarySubject
       hideCards={isNotLastTopic}
       cards={cards}

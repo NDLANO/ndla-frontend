@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes, { func } from 'prop-types';
 import { useWindowSize } from '@ndla/hooks';

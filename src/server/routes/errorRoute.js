@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { MissingRouterContext } from '@ndla/safelink';
 import { INTERNAL_SERVER_ERROR } from 'http-status';
 import ErrorPage from '../../containers/ErrorPage';

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import { useRef, MouseEvent } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -52,7 +52,7 @@ const MultidisciplinarySubjectArticle = ({
   resourceTypes,
 }: Props) => {
   const resourcesRef = useRef(null);
-  const onLinkToResourcesClick = (e: React.MouseEvent) => {
+  const onLinkToResourcesClick = (e: MouseEvent) => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };

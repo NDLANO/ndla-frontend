@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { RouteProps } from 'react-router';
 
 import { useTranslation } from 'react-i18next';
