@@ -61,8 +61,14 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
   const history = useHistory();
   const { authenticated } = useContext(AuthContext);
   const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
-  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
+  const primarySchool =
+    feideGroups?.length === 1
+      ? feideGroups[0]
+      : feideGroups?.find(g => g.membership.primarySchool);
+  const parentOrg =
+    feideGroups?.length === 1
+      ? feideGroups[0]
+      : feideGroups?.find(g => g.id === primarySchool?.parent);
   const affiliationRole = parentOrg?.membership.primaryAffiliation;
 
   useEffect(() => {
