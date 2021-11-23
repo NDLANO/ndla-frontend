@@ -8,6 +8,7 @@
 
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { RouteProps, useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -56,6 +57,7 @@ interface Props {
 }
 
 const FeideLoginButton = ({ footer, children, location }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { authenticated } = useContext(AuthContext);
   const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
@@ -83,10 +85,10 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
       isAuthenticated={authenticated}
       authorizedCollectedInfo={
         primarySchool && affiliationRole
-          ? [primarySchool.displayName, affiliationRole]
+          ? [primarySchool.displayName, t('user.role.' + affiliationRole)]
           : undefined
       }
-      authorizedRole={affiliationRole}
+      authorizedRole={t('user.role.' + affiliationRole)}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
