@@ -41,7 +41,7 @@ export interface FeideGroupType {
   parent?: string;
 }
 
-export interface FeideUser { 
+export interface FeideUser {
   uid: string;
   displayName: string;
   eduPersonPrimaryAffiliation: string;
