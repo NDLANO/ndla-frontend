@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import config from '../config';
+
 const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
@@ -28,7 +30,6 @@ const connectSrc = (() => {
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
     'https://groups-api.dataporten.no',
-    'https://xapi.com',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -41,6 +42,14 @@ const connectSrc = (() => {
       `ws://localhost:${hmrPort}`,
       'http://localhost:3100',
       'http://localhost:4000',
+    ];
+  }
+  // Temp for testing xapi
+  if (config.ndlaEnvironment === 'test') {
+    return [
+      ...defaultConnectSrc,
+      'https://xapi.com',
+      'https://learninglocker.kf.no',
     ];
   }
 
@@ -106,10 +115,17 @@ const scriptSrc = (() => {
     'cdn.jsdelivr.net',
     'https://auth.dataporten.no',
     'https://groups-api.dataporten.no',
-    'https://xapi.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
+  }
+  // Temp for testing xapi
+  if (config.ndlaEnvironment === 'test') {
+    return [
+      ...defaultScriptSrc,
+      'https://xapi.com',
+      'https://learninglocker.kf.no',
+    ];
   }
   return defaultScriptSrc;
 })();
