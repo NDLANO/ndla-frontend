@@ -17,7 +17,6 @@ import {
   Switch,
   RouteComponentProps,
 } from 'react-router-dom';
-// @ts-ignore
 import { Content } from '@ndla/ui';
 import * as H from 'history';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -25,9 +24,7 @@ import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
 import Masthead from './containers/Masthead';
 import { RootComponentProps, routes, RouteType } from './routes';
-// @ts-ignore
 import handleError from './util/handleError';
-// @ts-ignore
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
