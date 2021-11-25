@@ -14,8 +14,8 @@ import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
 import {
-  fetchFeideGroups,
-  FeideGroupType,
+  fetchFeideUser,
+  FeideUser,
 } from '../../../components/FeideLoginButton/feideApi';
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -61,15 +61,13 @@ interface Props {
 const FeideFooter = ({ location }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
-  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
-  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+  const [feideUser, setFeideUser] = useState<FeideUser>();
+  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
     if (authenticated) {
-      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
-        setFeideGroups(a);
+      fetchFeideUser().then((u: FeideUser | undefined) => {
+        setFeideUser(u);
       });
     }
   }, [authenticated]);
