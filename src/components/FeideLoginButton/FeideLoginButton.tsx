@@ -104,7 +104,7 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
             ]
           : undefined
       }
-      authorizedRole={t('user.role.' + affiliationRole)}
+      authorizedRole={affiliationRole && t('user.role.' + affiliationRole)}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
