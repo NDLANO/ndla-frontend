@@ -13,7 +13,12 @@ import { useTranslation } from 'react-i18next';
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
-import { fetchFeideGroups, FeideGroupType } from './feideApi';
+import {
+  fetchFeideGroups,
+  fetchFeideUser,
+  FeideGroupType,
+  FeideUser,
+} from './feideApi';
 
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -61,20 +66,20 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
   const history = useHistory();
   const { authenticated } = useContext(AuthContext);
   const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
+  const [feideUser, setFeideUser] = useState<FeideUser>();
   const primarySchool =
     feideGroups?.length === 1
       ? feideGroups[0]
       : feideGroups?.find(g => g.membership.primarySchool);
-  const parentOrg =
-    feideGroups?.length === 1
-      ? feideGroups[0]
-      : feideGroups?.find(g => g.id === primarySchool?.parent);
-  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
     if (authenticated) {
       fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
         setFeideGroups(a);
+      });
+      fetchFeideUser().then((u: FeideUser | undefined) => {
+        setFeideUser(u);
       });
     }
   }, [authenticated]);
@@ -90,8 +95,13 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
       }
       isAuthenticated={authenticated}
       authorizedCollectedInfo={
-        primarySchool && affiliationRole
-          ? [primarySchool.displayName, t('user.role.' + affiliationRole)]
+        primarySchool && affiliationRole && feideUser
+          ? [
+              primarySchool.displayName,
+              t('user.role.' + affiliationRole),
+              feideUser.displayName,
+              ...feideUser.mail,
+            ]
           : undefined
       }
       authorizedRole={t('user.role.' + affiliationRole)}
