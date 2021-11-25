@@ -23,10 +23,14 @@ const IframePageContainer = ({
   articleId,
   isOembed,
   isTopicArticle,
+  resCookie,
 }) => {
   return (
     <I18nextProvider i18n={i18nInstance}>
-      <IframePageWrapper basename={basename} locale={locale}>
+      <IframePageWrapper
+        basename={basename}
+        resCookie={resCookie}
+        locale={locale}>
         <IframePage
           status={status}
           locale={locale}
@@ -52,6 +56,7 @@ IframePageContainer.propTypes = {
   }),
   isOembed: PropTypes.string,
   isTopicArticle: PropTypes.bool,
+  resCookie: PropTypes.string,
 };
 
 export default IframePageContainer;

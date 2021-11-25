@@ -54,12 +54,12 @@ const disableSSR = req => {
 
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
-  let initialProps = { loading: true };
+  let initialProps = { loading: true, resCookie: req.headers['cookie'] };
   const { abbreviation: locale, basename, basepath } = getLocaleInfoFromPath(
     req.path,
   );
 
-  const client = createApolloClient(locale);
+  const client = createApolloClient(locale, initialProps.resCookie);
 
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));

@@ -31,7 +31,7 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const client = createApolloClient(i18nInstance.language);
+const client = createApolloClient(i18nInstance.language, document.cookie);
 
 ReactDOM.render(
   <I18nextProvider i18n={i18nInstance}>

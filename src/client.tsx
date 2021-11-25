@@ -63,7 +63,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(abbreviation);
+const client = createApolloClient(abbreviation, document.cookie);
 const cache = createCache();
 
 // Use memory router if running under google translate

@@ -157,7 +157,7 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
-    initializeI18n(props.i18n, props.client);
+    initializeI18n(props.i18n, props.client, props.initialProps.resCookie);
     this.state = {
       hasError: false,
       data: props.initialProps,

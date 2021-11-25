@@ -6,7 +6,8 @@
  *
  */
 
-import { TokenSet } from 'openid-client';
+import { TokenSet, TokenSetParameters } from 'openid-client';
+import { deleteCookie, getCookie, setCookie } from '@ndla/util';
 import config from '../config';
 import { fetchAuthorized, resolveJsonOrRejectWithError } from './apiHelpers';
 
@@ -57,38 +58,53 @@ export const auth0Domain =
 
 export { locationOrigin };
 
-export function setTokenSetInLocalStorage(tokenSet: TokenSet, personal = true) {
-  localStorage.setItem('access_token_feide', tokenSet.access_token || '');
-  localStorage.setItem(
-    'access_token_feide_expires_at',
-    ((tokenSet.expires_at || 0) * 1000).toString(),
-  );
-  localStorage.setItem('access_token_feide_personal', personal.toString());
-  localStorage.setItem('id_token_feide', tokenSet.id_token || '');
+interface FeideCookie extends TokenSetParameters {
+  ndla_expires_at: number;
 }
 
-export const clearTokenSetFromLocalStorage = () => {
-  localStorage.removeItem('access_token_feide');
-  localStorage.removeItem('access_token_feide_expires_at');
-  localStorage.removeItem('access_token_feide_personal');
-  localStorage.removeItem('PKCE_code');
-  localStorage.removeItem('id_token_feide');
+function prepareCookie(tokenSet: TokenSet): FeideCookie {
+  return {
+    ...tokenSet,
+    ndla_expires_at: (tokenSet.expires_at ?? 0) * 1000,
+  };
+}
+
+function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
+  const cookieValue = prepareCookie(tokenSet);
+  setCookie('feide_auth', JSON.stringify(cookieValue), false);
+  return cookieValue;
+}
+
+const clearTokenSetFromLocalStorage = () => {
+  deleteCookie('feide_auth');
 };
 
-export const getAccessTokenPersonal = () =>
-  localStorage.getItem('access_token_feide_personal') === 'true';
+export const getFeideCookie = (cookies: string): FeideCookie | null => {
+  const cookieString: string | null = getCookie('feide_auth', cookies);
+  if (cookieString) {
+    return JSON.parse(cookieString);
+  }
 
-export const getAccessTokenExpiresAt = () =>
-  JSON.parse(localStorage.getItem('access_token_feide_expires_at') || '0');
+  return null;
+};
 
-export const getAccessToken = () => localStorage.getItem('access_token_feide');
+const getFeideCookieClient = (): FeideCookie | null => {
+  return getFeideCookie(document.cookie);
+};
 
-export const getPKCECode = () => localStorage.getItem('PKCE_code');
+export const getAccessToken = (cookies?: string) => {
+  const cookie = getFeideCookie(cookies ?? '');
+  return cookie?.access_token;
+};
 
-export const isAccessTokenValid = () =>
-  new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
+export const isAccessTokenValid = (
+  cookie: FeideCookie | null = getFeideCookieClient(),
+): boolean => {
+  const expiration = cookie?.ndla_expires_at ?? 0;
+  return new Date().getTime() < expiration - 10000;
+};
 
-const getIdTokenFeide = () => localStorage.getItem('id_token_feide');
+const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
 
 export const initializeFeideLogin = () => {
   if (!config.feideEnabled)
@@ -106,7 +122,7 @@ export const finalizeFeideLogin = (feideLoginCode: string) => {
     credentials: 'include',
   })
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(tokenSet => setTokenSetInLocalStorage(tokenSet!!, true));
+    .then(tokenSet => setTokenSetInLocalStorage(tokenSet!!));
 };
 
 export const feideLogout = (logout: () => void) => {
@@ -124,7 +140,7 @@ export const feideLogout = (logout: () => void) => {
 };
 
 export const renewAuth = () => {
-  if (localStorage.getItem('access_token_feide_personal') === 'true') {
+  if (getFeideCookieClient()) {
     return initializeFeideLogin();
   }
   return;
