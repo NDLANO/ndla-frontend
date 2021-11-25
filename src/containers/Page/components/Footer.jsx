@@ -79,7 +79,6 @@ const FooterWrapper = ({ location, inverted }) => {
 };
 
 FooterWrapper.propTypes = {
-  locale: PropTypes.string.isRequired,
   location: LocationShape,
   inverted: PropTypes.bool,
 };

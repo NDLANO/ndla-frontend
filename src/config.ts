@@ -19,6 +19,10 @@ export function getEnvironmentVariabel(
 ): string | boolean | undefined {
   const env = 'env';
   const variableValue = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
+  if (typeof fallback === 'boolean') {
+    return variableValue ? variableValue.toLowerCase() === 'true' : fallback;
+  }
+
   return variableValue || fallback;
 }
 
