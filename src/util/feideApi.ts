@@ -9,7 +9,7 @@
 import {
   fetchWithFeideAuthorization,
   resolveJsonOrRejectWithError,
-} from '../../util/apiHelpers';
+} from './apiHelpers';
 
 type OrgType =
   | 'higher_education'

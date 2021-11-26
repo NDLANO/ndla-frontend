@@ -18,7 +18,7 @@ import {
   fetchFeideUser,
   FeideGroupType,
   FeideUser,
-} from './feideApi';
+} from '../../util/feideApi';
 
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -74,7 +74,8 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
   const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
-    if (authenticated) {
+    let mounted = true;
+    if (authenticated && mounted) {
       fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
         setFeideGroups(a);
       });
@@ -82,6 +83,9 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
         setFeideUser(u);
       });
     }
+    return () => {
+      mounted = false;
+    };
   }, [authenticated]);
 
   return (

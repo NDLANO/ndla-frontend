@@ -13,10 +13,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
-import {
-  fetchFeideUser,
-  FeideUser,
-} from '../../../components/FeideLoginButton/feideApi';
+import { fetchFeideUser, FeideUser } from '../../../util/feideApi';
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
@@ -65,11 +62,15 @@ const FeideFooter = ({ location }: Props) => {
   const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
-    if (authenticated) {
+    let mounted = true;
+    if (authenticated && mounted) {
       fetchFeideUser().then((u: FeideUser | undefined) => {
         setFeideUser(u);
       });
     }
+    return () => {
+      mounted = false;
+    };
   }, [authenticated]);
   return (
     <StyledFeideFooter>
