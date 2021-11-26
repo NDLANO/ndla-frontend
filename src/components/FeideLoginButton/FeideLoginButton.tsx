@@ -8,11 +8,17 @@
 
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { RouteProps, useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
-import { fetchFeideGroups, FeideGroupType } from './feideApi';
+import {
+  fetchFeideGroups,
+  fetchFeideUser,
+  FeideGroupType,
+  FeideUser,
+} from '../../util/feideApi';
 
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -56,19 +62,30 @@ interface Props {
 }
 
 const FeideLoginButton = ({ footer, children, location }: Props) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { authenticated } = useContext(AuthContext);
   const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
-  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
-  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+  const [feideUser, setFeideUser] = useState<FeideUser>();
+  const primarySchool =
+    feideGroups?.length === 1
+      ? feideGroups[0]
+      : feideGroups?.find(g => g.membership.primarySchool);
+  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
+    let mounted = true;
     if (authenticated) {
       fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
-        setFeideGroups(a);
+        if (mounted) setFeideGroups(a);
+      });
+      fetchFeideUser().then((u: FeideUser | undefined) => {
+        if (mounted) setFeideUser(u);
       });
     }
+    return () => {
+      mounted = false;
+    };
   }, [authenticated]);
 
   return (
@@ -82,11 +99,16 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
       }
       isAuthenticated={authenticated}
       authorizedCollectedInfo={
-        primarySchool && affiliationRole
-          ? [primarySchool.displayName, affiliationRole]
+        primarySchool && affiliationRole && feideUser
+          ? [
+              primarySchool.displayName,
+              t('user.role.' + affiliationRole),
+              feideUser.displayName,
+              ...feideUser.mail,
+            ]
           : undefined
       }
-      authorizedRole={affiliationRole}
+      authorizedRole={affiliationRole && t('user.role.' + affiliationRole)}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {

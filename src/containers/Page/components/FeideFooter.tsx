@@ -13,10 +13,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
-import {
-  fetchFeideGroups,
-  FeideGroupType,
-} from '../../../components/FeideLoginButton/feideApi';
+import { fetchFeideUser, FeideUser } from '../../../util/feideApi';
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
@@ -61,17 +58,19 @@ interface Props {
 const FeideFooter = ({ location }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  const primarySchool = feideGroups?.find(g => g.membership.primarySchool);
-  const parentOrg = feideGroups?.find(g => g.id === primarySchool?.parent);
-  const affiliationRole = parentOrg?.membership.primaryAffiliation;
+  const [feideUser, setFeideUser] = useState<FeideUser>();
+  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
 
   useEffect(() => {
+    let mounted = true;
     if (authenticated) {
-      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
-        setFeideGroups(a);
+      fetchFeideUser().then((u: FeideUser | undefined) => {
+        if (mounted) setFeideUser(u);
       });
     }
+    return () => {
+      mounted = false;
+    };
   }, [authenticated]);
   return (
     <StyledFeideFooter>

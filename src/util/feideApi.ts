@@ -9,7 +9,7 @@
 import {
   fetchWithFeideAuthorization,
   resolveJsonOrRejectWithError,
-} from '../../util/apiHelpers';
+} from './apiHelpers';
 
 type OrgType =
   | 'higher_education'
@@ -41,8 +41,21 @@ export interface FeideGroupType {
   parent?: string;
 }
 
+export interface FeideUser {
+  uid: string;
+  displayName: string;
+  eduPersonPrimaryAffiliation: string;
+  mail: string[];
+}
+
 export const fetchFeideGroups = (): Promise<FeideGroupType[] | undefined> => {
   return fetchWithFeideAuthorization(
     `https://groups-api.dataporten.no/groups/me/groups`,
   ).then(a => resolveJsonOrRejectWithError<FeideGroupType[]>(a));
+};
+
+export const fetchFeideUser = (): Promise<FeideUser | undefined> => {
+  return fetchWithFeideAuthorization(
+    `https://api.dataporten.no/userinfo/v1/userinfo`,
+  ).then(u => resolveJsonOrRejectWithError<FeideUser>(u));
 };
