@@ -75,12 +75,12 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
 
   useEffect(() => {
     let mounted = true;
-    if (authenticated && mounted) {
+    if (authenticated) {
       fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
-        setFeideGroups(a);
+        if (mounted) setFeideGroups(a);
       });
       fetchFeideUser().then((u: FeideUser | undefined) => {
-        setFeideUser(u);
+        if (mounted) setFeideUser(u);
       });
     }
     return () => {

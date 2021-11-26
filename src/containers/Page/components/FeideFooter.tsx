@@ -63,9 +63,9 @@ const FeideFooter = ({ location }: Props) => {
 
   useEffect(() => {
     let mounted = true;
-    if (authenticated && mounted) {
+    if (authenticated) {
       fetchFeideUser().then((u: FeideUser | undefined) => {
-        setFeideUser(u);
+        if (mounted) setFeideUser(u);
       });
     }
     return () => {
