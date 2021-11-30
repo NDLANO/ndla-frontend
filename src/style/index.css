@@ -21,6 +21,6 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   overflow-x: hidden;
   overflow-y: hidden;
   padding: 1px 4px;
-  margin: 5px 0;
+  margin: 0;
   max-width: -webkit-stretch;
 }
