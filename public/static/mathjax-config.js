@@ -7,8 +7,11 @@
  */
 
 window.MathJax = {
+    loader: {
+        load: ['ui/lazy']
+    },
     chtml:{
-        mathmlSpacing: true,
+        mathmlSpacing: false
     },
     options:{
         renderActions:{
