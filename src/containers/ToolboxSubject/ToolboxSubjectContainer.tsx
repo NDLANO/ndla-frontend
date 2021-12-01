@@ -24,7 +24,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
-import { SocialMediaMetadata } from '../../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 interface Props extends WithTranslation, RouteComponentProps {
   subject: GQLSubject;
@@ -59,8 +59,6 @@ const ToolboxSubjectContainer = ({
   locale,
   subject,
   history,
-  location,
-  match,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -186,12 +184,6 @@ const ToolboxSubjectContainer = ({
             alt: socialMediaMetaData.image.alt,
           }
         }
-        /* TODO: SocialMediaMetadata does not behave as expected with `withRouter` HoC.
-                 We need to fix this to stop passing in routing props, but let's wait
-                 until react-router upgrade is merged before we go ham on it. */
-        location={location}
-        history={history}
-        match={match}
       />
       <OneColumn className={''}>
         <ToolboxInfo

@@ -21,7 +21,7 @@ import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 
 class IframeArticlePage extends Component {

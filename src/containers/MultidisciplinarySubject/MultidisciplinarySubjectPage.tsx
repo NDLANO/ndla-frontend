@@ -22,19 +22,14 @@ import {
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import { SocialMediaMetadata } from '../../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { htmlTitle } from '../../util/titleHelper';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
 }
 
-const MultidisciplinarySubjectPage = ({
-  match,
-  history,
-  location,
-  locale,
-}: Props) => {
+const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
@@ -170,12 +165,6 @@ const MultidisciplinarySubjectPage = ({
             alt: socialMediaMetaData.image.alt,
           }
         }
-        /* TODO: SocialMediaMetadata does not behave as expected with `withRouter` HoC.
-                 We need to fix this to stop passing in routing props, but let's wait
-                 until react-router upgrade is merged before we go ham on it. */
-        location={location}
-        history={history}
-        match={match}
       />
       {/* @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example. */}
       <MultidisciplinarySubject

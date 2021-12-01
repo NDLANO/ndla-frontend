@@ -73,7 +73,7 @@ interface Props extends RouteComponentProps {
   children?: React.ReactNode;
 }
 
-export const SocialMediaMetadata = ({
+const SocialMediaMetadata = ({
   title,
   image,
   description,
