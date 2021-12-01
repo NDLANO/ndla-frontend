@@ -104,7 +104,7 @@ const WelcomePage = ({ locale, history, location }) => {
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
         locale={locale}
-        image={{ src: `${config.ndlaFrontendDomain}/static/logo.png` }}>
+        image={{ url: `${config.ndlaFrontendDomain}/static/logo.png` }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       <FrontpageHeader

@@ -11,18 +11,17 @@ import PropTypes from 'prop-types';
 import { FrontpageSearch } from '@ndla/ui';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
-
 import { useTranslation } from 'react-i18next';
+
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
-
 import {
   frontPageSearchSuggestion,
   mapSearchToFrontPageStructure,
 } from '../../util/searchHelpers';
 import { toSearch } from '../../routeHelpers';
-
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const debounceCall = debounce(fn => fn(), 300);
 
@@ -59,7 +58,7 @@ const WelcomePageSearch = ({ history, locale }) => {
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage minimal />;
   }
 
   const onSearch = evt => {

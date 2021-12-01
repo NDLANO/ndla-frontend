@@ -5,21 +5,14 @@ import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
-import {
-  GQLResource,
-  GQLResourceType,
-  GQLSubject,
-  GQLTopic,
-} from '../../../graphqlTypes';
+import { GQLResourceType, GQLSubject } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
-import { LocaleType } from '../../../interfaces';
+import { LocaleType, SimpleProgramType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-  subject: GQLSubject;
-  resource?: GQLResource;
+  subject?: GQLSubject;
   topicResourcesByType: GQLResourceType[];
-  topicPath: GQLTopic[];
   onDataFetch: (
     subjectId: string,
     topicId?: string,
@@ -32,6 +25,8 @@ interface Props extends RouteComponentProps {
     subjects: GQLSubject[];
   }[];
   programmes: ProgramSubjectType[];
+  currentProgramme?: SimpleProgramType;
+  initialSelectMenu?: string;
 }
 
 interface State {
@@ -101,7 +96,9 @@ class MastheadMenu extends Component<Props, State> {
       searchFieldComponent,
       ndlaFilm,
       programmes,
+      currentProgramme,
       subjectCategories,
+      initialSelectMenu,
     } = this.props;
 
     const { expandedTopicId, expandedSubtopicsId } = this.state;
@@ -119,8 +116,10 @@ class MastheadMenu extends Component<Props, State> {
               subject={subject}
               locale={locale}
               programmes={programmes}
+              currentProgramme={currentProgramme}
               subjectCategories={subjectCategories}
               onNavigate={this.onNavigate}
+              initialSelectedMenu={initialSelectMenu}
             />
           )}
         </MastheadMenuModal>

@@ -15,19 +15,14 @@ import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import {
+  GQLSubjectPageQuery,
+  GQLSubjectPageQueryVariables,
+} from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-}
-
-interface Data {
-  topic: GQLTopic;
-  subject: GQLSubject & {
-    allTopics: GQLTopic[];
-  };
-  subjects: GQLSubject[];
 }
 
 const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
@@ -50,9 +45,12 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     }
   }, [selectedTopics]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { loading, data } = useGraphQuery<Data>(subjectPageQuery, {
+  const { loading, data } = useGraphQuery<
+    GQLSubjectPageQuery,
+    GQLSubjectPageQueryVariables
+  >(subjectPageQuery, {
     variables: {
-      subjectId,
+      subjectId: subjectId!,
     },
   });
 
@@ -60,7 +58,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     return null;
   }
 
-  if (!data) {
+  if (!data?.subject) {
     return <DefaultErrorMessage />;
   }
 
@@ -85,7 +83,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const cards = isNotLastTopic
     ? []
     : subject.allTopics
-        .filter(topic => {
+        ?.filter(topic => {
           const selectedId = selectedTopics[selectedTopics.length - 1];
           return topic.parent === selectedId;
         })
@@ -98,7 +96,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
           subjects: isNotLastTopic ? undefined : [selectedSubject?.name],
           url: topic.path ?? '',
           ...topic,
-        }));
+        })) || [];
 
   const TopicBoxes = () => (
     <>

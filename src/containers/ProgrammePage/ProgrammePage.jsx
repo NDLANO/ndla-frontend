@@ -22,7 +22,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { subjectsQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 
-const mapGradesData = (grades, subjects, locale, programmeSlug) => {
+export const mapGradesData = (grades, subjects, locale, programmeSlug) => {
   return grades.map(grade => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {

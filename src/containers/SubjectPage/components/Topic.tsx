@@ -19,7 +19,11 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLResourceTypeDefinition,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
@@ -27,12 +31,12 @@ import VisualElementWrapper, {
 
 const getDocumentTitle = ({
   t,
-  data,
+  topic,
 }: {
   t: TFunction;
-  data: Props['data'];
+  topic: Props['topic'];
 }) => {
-  return htmlTitle(data?.topic?.name, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
 type Props = {
@@ -44,12 +48,10 @@ type Props = {
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
-  subject?: GQLSubject & { allTopics: GQLTopic[] };
+  subject?: GQLSubject;
   loading?: boolean;
-  data: {
-    topic: GQLTopic;
-    resourceTypes: Array<GQLResourceType>;
-  };
+  topic: GQLTopic;
+  resourceTypes?: Array<GQLResourceTypeDefinition>;
 } & WithTranslation;
 
 const Topic = ({
@@ -59,7 +61,8 @@ const Topic = ({
   subTopicId,
   ndlaFilm,
   onClickTopics,
-  data,
+  topic,
+  resourceTypes,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
@@ -74,11 +77,11 @@ const Topic = ({
     setShowContent(false);
   }, [topicId]);
 
-  if (!data.topic.article) {
+  if (!topic.article) {
     return null;
   }
 
-  const { article } = data.topic;
+  const { article } = topic;
   const image =
     article.visualElement?.resource === 'image'
       ? {
@@ -107,11 +110,12 @@ const Topic = ({
             ),
           }
         : undefined,
-      resources: data.topic.subtopics ? (
+      resources: topic.subtopics ? (
         <Resources
-          topic={data.topic}
-          resourceTypes={data.resourceTypes}
+          topic={topic}
+          resourceTypes={resourceTypes}
           locale={locale}
+          ndlaFilm={ndlaFilm}
         />
       ) : (
         undefined
@@ -119,15 +123,13 @@ const Topic = ({
     },
   };
 
-  const topic = data.topic;
-
-  const path = data.topic?.path || '';
+  const path = topic?.path || '';
   const topicPath = path
     ?.split('/')
     .slice(2)
     .map(id => `urn:${id}`);
 
-  const subTopics = data.topic?.subtopics?.map((subtopic: GQLTopic) => {
+  const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
     return {
       ...subtopic,
       label: subtopic.name,
@@ -152,7 +154,7 @@ const Topic = ({
         onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
       }>
       <ArticleContents
-        topic={data.topic}
+        topic={topic}
         copyPageUrlLink={copyPageUrlLink}
         locale={locale}
         modifier="in-topic"
@@ -168,18 +170,18 @@ Topic.willTrackPageView = (
   trackPageView: (item: Props) => void,
   currentProps: Props,
 ) => {
-  const { data, loading, showResources } = currentProps;
-  if (showResources && !loading && data?.topic?.article) {
+  const { topic, loading, showResources } = currentProps;
+  if (showResources && !loading && topic?.article) {
     trackPageView(currentProps);
   }
 };
 
-Topic.getDimensions = ({ data, locale, subject }: Props) => {
-  const topicPath = data?.topic?.path
+Topic.getDimensions = ({ topic, locale, subject }: Props) => {
+  const topicPath = topic?.path
     ?.split('/')
     .slice(2)
     .map(t =>
-      subject?.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+      subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
   const longName = getSubjectLongName(subject?.id, locale);
@@ -188,7 +190,7 @@ Topic.getDimensions = ({ data, locale, subject }: Props) => {
     {
       subject: subject,
       topicPath,
-      article: data.topic.article,
+      article: topic.article,
       filter: longName,
     },
     undefined,

@@ -16,7 +16,7 @@ describe('Iframe resource page', () => {
       'POST',
       '**/graphql',
       ['iframeResourceGraphQL', 'competenceGoalsGraphQL'],
-      ['iframeArticleQuery', 'competenceGoalsQuery'],
+      ['iframeArticle', 'competenceGoals'],
     );
   });
 

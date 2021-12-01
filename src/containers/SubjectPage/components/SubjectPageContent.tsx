@@ -7,21 +7,23 @@
  */
 
 import React, { RefObject, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { NavigationBox } from '@ndla/ui';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import { GQLSubject } from '../../../graphqlTypes';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 
 interface Props {
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
   locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
+  history: RouteComponentProps['history'];
 }
 
 const SubjectPageContent = ({
@@ -32,6 +34,7 @@ const SubjectPageContent = ({
   topicIds,
   refs,
   setBreadCrumb,
+  history,
 }: Props) => {
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
@@ -43,6 +46,7 @@ const SubjectPageContent = ({
       label: topic?.name,
       selected: topic?.id === topicIds[0],
       url: toTopic(subject.id, topic?.id),
+      isRestrictedResource: topic.availability !== 'everyone',
     };
   });
 
@@ -70,6 +74,7 @@ const SubjectPageContent = ({
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}
+              history={history}
             />
           </div>
         );

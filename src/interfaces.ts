@@ -38,6 +38,8 @@ export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
 export type ResourceType = 'image' | 'other' | 'video';
 
+export type CompetenceGoalsType = 'LK06' | 'LK20';
+
 interface ProgramTypeBase {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;
@@ -53,6 +55,12 @@ interface ProgramTypeBase {
 }
 export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
   meta?: { description: Record<LocaleType, string> };
+}
+
+export interface SimpleProgramType
+  extends Omit<ProgramType, 'name' | 'url' | 'image'> {
+  name: string;
+  url: string;
 }
 
 export type SubjectType = {

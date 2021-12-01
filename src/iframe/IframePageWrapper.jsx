@@ -15,7 +15,7 @@ import { ApolloProvider } from '@apollo/client';
 import { MissingRouterContext } from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
 import { createApolloClient } from '../util/apiHelpers';
-import { BasenameContext } from '../App';
+import { BaseNameProvider } from '../components/BaseNameContext';
 import { initializeI18n } from '../i18n';
 
 const IframePageWrapper = ({ basename, locale, children }) => {
@@ -26,12 +26,12 @@ const IframePageWrapper = ({ basename, locale, children }) => {
   return (
     <ApolloProvider client={client}>
       <MissingRouterContext.Provider value={true}>
-        <BasenameContext.Provider value={basename}>
+        <BaseNameProvider value={basename}>
           <PageContainer>
             <Helmet htmlAttributes={{ lang: locale }} />
             {children}
           </PageContainer>
-        </BasenameContext.Provider>
+        </BaseNameProvider>
       </MissingRouterContext.Provider>
     </ApolloProvider>
   );

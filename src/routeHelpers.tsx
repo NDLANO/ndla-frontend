@@ -34,6 +34,7 @@ export function getUrnIdsFromProps(props: {
     articleId?: string;
     topic1?: string;
     topic2?: string;
+    programme?: string;
   }>['match'];
 }) {
   const {
@@ -67,6 +68,7 @@ export function getUrnIdsFromProps(props: {
       : undefined,
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
+    programme: params.programme,
   };
 }
 
@@ -128,7 +130,7 @@ export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
   topicId: string,
 ) => toTopic(subjectId, ...topicIds, topicId);
 
-type SubjectURI = {
+export type SubjectURI = {
   id?: string;
   name?: string;
   to?: string;

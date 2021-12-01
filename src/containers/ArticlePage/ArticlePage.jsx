@@ -94,8 +94,8 @@ class ArticlePage extends Component {
   }
 
   componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      window?.MathJax?.typeset();
     }
   }
 
@@ -189,7 +189,6 @@ class ArticlePage extends Component {
           <Article
             id={skipToContentId}
             article={article}
-            subject={subject}
             locale={locale}
             resourceType={resourceType}
             isResourceArticle

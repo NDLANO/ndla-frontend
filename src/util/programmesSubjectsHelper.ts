@@ -54,6 +54,7 @@ export const getProgrammes = (locale: LocaleType) => {
       name: program.name[locale],
       url: path,
       path,
+      grades: program.grades,
     };
   });
   return sortBy(programmesData, 'label');

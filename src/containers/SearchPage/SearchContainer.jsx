@@ -38,7 +38,7 @@ const StyledLanguageSelector = styled.div`
 
 const SearchContainer = ({
   handleSearchParamsChange,
-  handleFilterClick,
+  handleSubFilterClick,
   handleFilterToggle,
   handleFilterReset,
   handleShowMore,
@@ -56,6 +56,7 @@ const SearchContainer = ({
   locale,
   loading,
   isLti,
+  competenceGoals,
 }) => {
   const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -89,6 +90,7 @@ const SearchContainer = ({
         subjects={subjects}
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
+        competenceGoals={competenceGoals}
       />
       {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
@@ -122,7 +124,7 @@ const SearchContainer = ({
             showAll={showAll}
             searchGroups={sortedSearchGroups}
             typeFilter={typeFilter}
-            handleFilterClick={handleFilterClick}
+            handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
             loading={loading}
           />
@@ -146,12 +148,14 @@ const SearchContainer = ({
 SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleFilterToggle: func,
   handleFilterReset: func,
   handleShowMore: func,
   query: string,
   subjectIds: arrayOf(string),
+  competenceGoals: arrayOf(object),
+  programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   subjects: arrayOf(SubjectShape),
   concepts: arrayOf(ConceptShape),

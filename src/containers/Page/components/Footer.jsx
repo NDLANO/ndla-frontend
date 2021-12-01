@@ -6,21 +6,20 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
-import { StyledButton } from '@ndla/button';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocationShape } from '../../../shapes';
 import config from '../../../config';
-import { AuthContext } from '../../../components/AuthenticationContext';
 
-const FooterWrapper = ({ location, locale, inverted }) => {
+const FooterWrapper = ({ location, inverted }) => {
   const { t, i18n } = useTranslation();
-  const { authenticated } = useContext(AuthContext);
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
 
   const languageSelector = (
     <LanguageSelector
@@ -28,7 +27,7 @@ const FooterWrapper = ({ location, locale, inverted }) => {
       outline
       alwaysVisible
       inverted={inverted}
-      options={getLocaleUrls(locale, location)}
+      options={getLocaleUrls(i18n.language, location)}
       currentLanguage={i18n.language}
     />
   );
@@ -56,47 +55,30 @@ const FooterWrapper = ({ location, locale, inverted }) => {
     },
   ];
 
-  const Button = StyledButton.withComponent('a');
-
   return (
-    <Footer lang={locale} links={links} languageSelector={languageSelector}>
+    <Footer
+      lang={i18n.language}
+      links={links}
+      languageSelector={languageSelector}>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}
           name="Sigurd Trageton"
         />
         {t('footer.footerInfo')}
-        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        {config.zendeskWidgetKey && (
+          <ZendeskButton
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        )}
       </FooterText>
-      {config.feideEnabled && (
-        <>
-          {authenticated ? (
-            <Button
-              href="/logout"
-              onClick={() =>
-                localStorage.setItem('lastPath', location.pathname)
-              }>
-              LOGOUT
-            </Button>
-          ) : (
-            <Button
-              href="/login"
-              onClick={() =>
-                localStorage.setItem('lastPath', location.pathname)
-              }>
-              LOGIN
-            </Button>
-          )}
-        </>
-      )}
     </Footer>
   );
 };
 
 FooterWrapper.propTypes = {
-  locale: PropTypes.string.isRequired,
   location: LocationShape,
   inverted: PropTypes.bool,
 };
