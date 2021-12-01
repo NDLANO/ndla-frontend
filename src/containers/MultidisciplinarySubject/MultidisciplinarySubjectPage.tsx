@@ -10,6 +10,8 @@ import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -20,12 +22,20 @@ import {
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
+import { SocialMediaMetadata } from '../../components/SocialMediaMetadata';
+import { htmlTitle } from '../../util/titleHelper';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
 }
 
-const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
+const MultidisciplinarySubjectPage = ({
+  match,
+  history,
+  location,
+  locale,
+}: Props) => {
+  const { t } = useTranslation();
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -43,7 +53,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
         behavior: 'smooth',
       });
     }
-  }, [selectedTopics]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refs, selectedTopics]);
 
   const { loading, data } = useGraphQuery<
     GQLSubjectPageQuery,
@@ -117,15 +127,65 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     </>
   );
 
+  const selectedMetadata = [...(subject.allTopics ?? [])]
+    .reverse()
+    .find(t => selectedTopics.includes(t.id));
+
+  const socialMediaMetaData = {
+    title:
+      selectedMetadata?.meta?.title ||
+      selectedMetadata?.name ||
+      subject.subjectpage?.about?.title ||
+      subject.name,
+    description:
+      selectedMetadata?.meta?.metaDescription ||
+      selectedMetadata?.meta?.introduction ||
+      subject.subjectpage?.about?.description ||
+      subject.subjectpage?.metaDescription ||
+      t('frontpageMultidisciplinarySubject.text'),
+    image:
+      selectedMetadata?.meta?.metaImage ||
+      subject.subjectpage?.about?.visualElement,
+  };
+
   return (
-    // @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example.
-    <MultidisciplinarySubject
-      hideCards={isNotLastTopic}
-      cards={cards}
-      totalCardCount={cards.length}>
-      <NavigationBox items={mainTopics} listDirection="horizontal" />
-      <TopicBoxes />
-    </MultidisciplinarySubject>
+    <>
+      <Helmet>
+        <title>
+          {htmlTitle(socialMediaMetaData.title, [
+            t('htmlTitles.titleTemplate'),
+          ])}
+        </title>
+        {socialMediaMetaData.description && (
+          <meta name="description" content={socialMediaMetaData.description} />
+        )}
+      </Helmet>
+      <SocialMediaMetadata
+        title={socialMediaMetaData.title}
+        description={socialMediaMetaData.description}
+        locale={locale}
+        image={
+          socialMediaMetaData.image && {
+            url: socialMediaMetaData.image.url,
+            alt: socialMediaMetaData.image.alt,
+          }
+        }
+        /* TODO: SocialMediaMetadata does not behave as expected with `withRouter` HoC.
+                 We need to fix this to stop passing in routing props, but let's wait
+                 until react-router upgrade is merged before we go ham on it. */
+        location={location}
+        history={history}
+        match={match}
+      />
+      {/* @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example. */}
+      <MultidisciplinarySubject
+        hideCards={isNotLastTopic}
+        cards={cards}
+        totalCardCount={cards.length}>
+        <NavigationBox items={mainTopics} listDirection="horizontal" />
+        <TopicBoxes />
+      </MultidisciplinarySubject>
+    </>
   );
 };
 
