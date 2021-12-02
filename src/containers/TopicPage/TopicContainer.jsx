@@ -129,10 +129,10 @@ const TopicContainer = ({
             <section>
               {subject ? (
                 <Breadcrumb
-                  items={toBreadcrumbItems(
-                    t('breadcrumb.toFrontpage'),
-                    [subject, ...topicPath],
-                  )}
+                  items={toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+                    subject,
+                    ...topicPath,
+                  ])}
                 />
               ) : null}
             </section>

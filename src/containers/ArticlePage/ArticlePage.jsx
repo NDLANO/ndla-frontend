@@ -136,10 +136,11 @@ class ArticlePage extends Component {
     }/${resource.id.replace('urn:', '')}`;
     const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
 
-    const breadcrumbItems = toBreadcrumbItems(
-      t('breadcrumb.toFrontpage'),
-      [subject, ...topicPath, resource],
-    );
+    const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+      subject,
+      ...topicPath,
+      resource,
+    ]);
 
     return (
       <div>

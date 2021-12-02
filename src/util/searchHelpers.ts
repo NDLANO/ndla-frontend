@@ -16,10 +16,7 @@ const categories: Categories = {
   study: 'Studiespesialiserende',
 };
 
-export const searchSubjects = (
-  query?: string,
-  subjects?: GQLSubject[],
-) => {
+export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
