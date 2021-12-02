@@ -14,6 +14,7 @@ import { I18nextProvider, Translation } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
+import { StaticRouter } from 'react-router';
 // @ts-ignore
 import IframePageContainer from '../IframePageContainer';
 // @ts-ignore
@@ -171,31 +172,33 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const component = renderer.create(
-    <I18nextProvider i18n={i18nInstance}>
-      <Translation>
-        {(_, { i18n }) => {
-          i18n.language = locale;
-          return (
-            <IframeArticlePage
-              locale={locale}
-              location={{
-                pathname: '/article-iframe/urn:resource:1/128',
-                search: 'asd',
-                hash: '',
-              }}
-              resource={{
-                id: 'urn:resource:1',
-                name: 'Ressurs',
-                path: '/subject:1/resource:1',
-                article,
-                resourceTypes: [],
-              }}
-              article={article}
-            />
-          );
-        }}
-      </Translation>
-    </I18nextProvider>,
+    <StaticRouter>
+      <I18nextProvider i18n={i18nInstance}>
+        <Translation>
+          {(_, { i18n }) => {
+            i18n.language = locale;
+            return (
+              <IframeArticlePage
+                locale={locale}
+                location={{
+                  pathname: '/article-iframe/urn:resource:1/128',
+                  search: 'asd',
+                  hash: '',
+                }}
+                resource={{
+                  id: 'urn:resource:1',
+                  name: 'Ressurs',
+                  path: '/subject:1/resource:1',
+                  article,
+                  resourceTypes: [],
+                }}
+                article={article}
+              />
+            );
+          }}
+        </Translation>
+      </I18nextProvider>
+    </StaticRouter>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

@@ -49,8 +49,8 @@ export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
   }
-  return trackableContent.supportedLanguages.filter(
-    language => !!isValidLocale(language),
+  return trackableContent.supportedLanguages.filter(language =>
+    isValidLocale(language),
   );
 };
 
@@ -73,7 +73,7 @@ interface Props extends RouteComponentProps {
   children?: React.ReactNode;
 }
 
-export const SocialMediaMetadata = ({
+const SocialMediaMetadata = ({
   title,
   image,
   description,

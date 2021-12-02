@@ -10,6 +10,7 @@ import React from 'react';
 import url from 'url';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
+import { StaticRouter } from 'react-router';
 import { getHtmlLang } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
@@ -46,8 +47,19 @@ const disableSSR = req => {
 };
 
 async function doRenderPage(req, initialProps) {
-  const Page = disableSSR(req) ? '' : <IframePageContainer {...initialProps} />;
-  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
+  const context = {};
+  const Page = disableSSR(req) ? (
+    ''
+  ) : (
+    <StaticRouter
+      basename={initialProps.basename}
+      location={req.url}
+      context={context}>
+      <IframePageContainer {...initialProps} />
+    </StaticRouter>
+  );
+  const assets = getAssets();
+  const { html, ...docProps } = await renderPageWithData(Page, assets, {
     initialProps,
   });
   return { html, docProps };
