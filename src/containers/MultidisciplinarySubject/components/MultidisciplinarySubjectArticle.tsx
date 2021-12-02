@@ -18,7 +18,6 @@ import { withTracker } from '@ndla/tracker';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
@@ -126,7 +125,7 @@ MultidisciplinarySubjectArticle.willTrackPageView = (
 };
 
 MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, locale, subject } = props;
+  const { topic, subject } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -134,14 +133,12 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
-
   return getAllDimensions(
     {
       subject,
       topicPath,
       article: topic?.article,
-      filter: longName,
+      filter: subject.name,
     },
     undefined,
     true,

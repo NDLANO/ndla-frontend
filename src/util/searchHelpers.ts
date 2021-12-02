@@ -1,17 +1,8 @@
 import { TFunction } from 'i18next';
-import { GQLFrontpageSearch } from '../graphqlTypes';
-import { LocaleType, SubjectType } from '../interfaces';
-import {
-  activeSubjects,
-  archivedSubjects,
-  betaSubjects,
-} from '../data/subjects';
-import { removeUrn } from '../routeHelpers';
+import { GQLFrontpageSearch, GQLSubject } from '../graphqlTypes';
+import { LocaleType } from '../interfaces';
+import { toSubject } from '../routeHelpers';
 import config from '../config';
-
-const createSubjectPath = (subject: SubjectType) => {
-  return `/${removeUrn(subject.id)}/`;
-};
 
 type CategoryTypes = 'common' | 'programme' | 'study';
 
@@ -27,27 +18,23 @@ const categories: Categories = {
 
 export const searchSubjects = (
   query?: string,
-  locale: LocaleType = config.defaultLocale,
+  subjects?: GQLSubject[],
 ) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
   }
 
-  const foundInSubjects = [
-    ...activeSubjects,
-    ...archivedSubjects,
-    ...betaSubjects,
-  ].filter(subject =>
-    subject.longName[locale].toLowerCase().includes(trimmedQuery),
+  const foundInSubjects = subjects?.filter(subject =>
+    subject.name.toLowerCase().includes(trimmedQuery),
   );
 
-  return foundInSubjects.map(subject => {
+  return foundInSubjects?.map(subject => {
     return {
       id: subject.id,
-      path: createSubjectPath(subject),
-      subject: categories[subject.id.split('_')[0] as CategoryTypes],
-      name: subject.longName[locale],
+      url: toSubject(subject.id),
+      title: subject.name,
+      img: subject.subjectpage?.banner?.desktopUrl,
     };
   });
 };

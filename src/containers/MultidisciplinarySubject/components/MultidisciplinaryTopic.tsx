@@ -17,7 +17,6 @@ import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import Resources from '../../Resources/Resources';
 import VisualElementWrapper, {
   getResourceType,
@@ -168,7 +167,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, locale, subject } = props;
+  const { topic, subject } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -176,14 +175,12 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
-
   return getAllDimensions(
     {
-      subject: subject,
+      subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject.name,
     },
     undefined,
     true,

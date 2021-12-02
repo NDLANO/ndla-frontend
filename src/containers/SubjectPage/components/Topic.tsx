@@ -18,7 +18,6 @@ import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLResourceTypeDefinition,
   GQLSubject,
@@ -176,7 +175,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, locale, subject }: Props) => {
+Topic.getDimensions = ({ topic, subject }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -184,14 +183,12 @@ Topic.getDimensions = ({ topic, locale, subject }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
-
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject?.name,
     },
     undefined,
     true,

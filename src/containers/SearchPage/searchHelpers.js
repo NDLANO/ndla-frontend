@@ -2,18 +2,12 @@ import React from 'react';
 import queryString from 'query-string';
 import { ContentTypeBadge, Image } from '@ndla/ui';
 import {
-  getContentType,
   contentTypeMapping,
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
 import { parseAndMatchUrl } from '../../util/urlHelper';
-import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-} from '../../constants';
 
 const isSupplementary = context => {
   return (
@@ -21,21 +15,6 @@ const isSupplementary = context => {
     context?.relevance === 'Tilleggsstoff' ||
     context?.relevance === 'Supplementary'
   );
-};
-
-const getResourceType = resource => {
-  if (resource.resourceTypes.length > 0) {
-    if (resource.resourceTypes.length > 1) {
-      return resource.resourceTypes[1].name;
-    }
-    // Avoid showing name for single types
-    if (
-      resource.resourceTypes[0].id !== RESOURCE_TYPE_LEARNING_PATH &&
-      resource.resourceTypes[0].id !== RESOURCE_TYPE_SUBJECT_MATERIAL
-    )
-      return resource.resourceTypes[0].name;
-  }
-  return null;
 };
 
 export const searchResultToLinkProps = result => {
@@ -66,53 +45,8 @@ export const plainUrl = url => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
-const updateBreadcrumbSubject = (breadcrumbs, subjectId, subject, language) => {
-  const longName = getSubjectLongName(subjectId, language);
-  const breadcrumbSubject = longName || subject;
-  return [breadcrumbSubject, ...breadcrumbs.slice(1)];
-};
-
-const taxonomyData = (result, selectedContext) => {
-  let taxonomyResult = {};
-  const { contexts = [] } = result;
-  if (selectedContext) {
-    selectedContext.breadcrumbs = updateBreadcrumbSubject(
-      selectedContext.breadcrumbs,
-      selectedContext.subjectId,
-      selectedContext.subject,
-      selectedContext.filters,
-      selectedContext.language,
-    );
-    taxonomyResult = {
-      breadcrumb: selectedContext.breadcrumbs,
-      contentType: getContentType(selectedContext),
-      contentTypes: contexts.map(context => getContentType(context)),
-      subjects:
-        contexts.length > 1
-          ? contexts.map(context => {
-              const longName = getSubjectLongName(
-                context.subjectId,
-                context.language,
-              );
-              return {
-                url: context.path,
-                title: longName || context.subject,
-                contentType: getContentType(context),
-                breadcrumb: context.breadcrumbs,
-              };
-            })
-          : undefined,
-      additional: isSupplementary(selectedContext),
-      type: getResourceType(selectedContext),
-    };
-  } else {
-    const isLearningpath = result.url.includes('learningpath-api');
-    const contentType = isLearningpath ? 'learning-path' : 'subject-material';
-    taxonomyResult = {
-      contentType: contentType,
-    };
-  }
-  return taxonomyResult;
+const updateBreadcrumbSubject = (breadcrumbs, subject, language) => {
+  return [subject, ...breadcrumbs.slice(1)];
 };
 
 const arrayFields = [
@@ -167,8 +101,7 @@ export const convertProgramSearchParams = (values, locale) => {
       programme.grades.forEach(grade =>
         grade.categories.forEach(category => {
           category.subjects.forEach(subject => {
-            const { id } = getSubjectById(subject.id);
-            if (!subjectParams.includes(id)) subjectParams.push(id);
+            if (!subjectParams.includes(subject.id)) subjectParams.push(subject.id);
           });
         }),
       );
@@ -178,26 +111,6 @@ export const convertProgramSearchParams = (values, locale) => {
     subjects: subjectParams,
   };
 };
-
-// Not in use currently. Maybe when search is ungrouped?
-export const convertResult = (results, subjectFilters, enabledTab, language) =>
-  results.map(result => {
-    const selectedContext = selectContext(
-      result.contexts,
-      subjectFilters,
-      enabledTab,
-    );
-    return {
-      ...result,
-      url: selectedContext ? selectedContext.path : plainUrl(result.url),
-      urls: result.contexts.map(context => ({
-        url: context.path,
-        contentType: getContentType(context),
-      })),
-      ingress: result.metaDescription,
-      ...taxonomyData(result, selectedContext),
-    };
-  });
 
 const getResultUrl = (id, url, isLti) => {
   if ((url && url.href) || !isLti) {
@@ -300,7 +213,6 @@ export const mapResourcesToItems = (resources, ltiData, isLti, language, t) =>
       url: context.path,
       breadcrumb: updateBreadcrumbSubject(
         context.breadcrumbs,
-        context.subjectId,
         context.subject,
         context.language,
       ),

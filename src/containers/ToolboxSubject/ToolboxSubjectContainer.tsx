@@ -16,7 +16,6 @@ import {
   WithTranslation,
 } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { getSubjectLongName } from '../../data/subjects';
 import { GQLSubject, GQLTopic } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
@@ -143,7 +142,7 @@ const ToolboxSubjectContainer = ({
           onSelectTopic={(e: React.MouseEvent<HTMLElement>, id?: string) =>
             onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, 0, id)
           }
-          title={getSubjectLongName(subject.id, locale) || subject.name}
+          title={subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
         />
         <TopicBoxes />
@@ -170,16 +169,15 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicList } = props;
+  const { subject, topicList } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, locale);
 
   return getAllDimensions({
     subject,
     topicPath,
-    filter: longName,
+    filter: subject.name,
   });
 };
 

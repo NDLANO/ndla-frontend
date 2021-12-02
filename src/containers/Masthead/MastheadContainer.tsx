@@ -104,9 +104,7 @@ const MastheadContainer = ({
       ndlaFilm,
       match,
     });
-    if (subjectId) {
-      getData(subjectId, topicId, resourceId);
-    }
+    getData(subjectId, topicId, resourceId);
   };
 
   const onDataFetch = (
@@ -117,8 +115,10 @@ const MastheadContainer = ({
     getData(subjectId, topicId, resourceId);
   };
 
-  const getData = (subjectId: string, topicId = '', resourceId = '') => {
-    setSubjectId(subjectId);
+  const getData = (subjectId = '', topicId = '', resourceId = '') => {
+    if (subjectId) {
+      setSubjectId(subjectId);
+    }
     if (topicId) {
       setTopicId(topicId);
     }
@@ -133,20 +133,6 @@ const MastheadContainer = ({
     });
   };
 
-  const { programme } = getUrnIdsFromProps({ match });
-  let currentProgramme;
-  if (programme) {
-    const programmeData = getProgrammeBySlug(programme, locale);
-    if (programmeData) {
-      const grades = mapGradesData(programmeData.grades, locale);
-      currentProgramme = {
-        name: programmeData.name[locale],
-        url: programmeData.url[locale],
-        grades,
-      };
-    }
-  }
-
   const {
     subject,
     topicPath = [],
@@ -155,14 +141,28 @@ const MastheadContainer = ({
     subjects,
   } = state;
 
+  const { programme } = getUrnIdsFromProps({ match });
+  let currentProgramme;
+  if (programme) {
+    const programmeData = getProgrammeBySlug(programme, locale);
+    if (programmeData) {
+      const grades = mapGradesData(programmeData.grades, subjects, locale);
+      currentProgramme = {
+        name: programmeData.name[locale],
+        url: programmeData.url[locale],
+        grades,
+      };
+    }
+  }
+
   const path = topicPath ?? [];
 
   const breadcrumbBlockItems = (subject?.id
-    ? toBreadcrumbItems(
-        t('breadcrumb.toFrontpage'),
-        [subject, ...path, ...(resource ? [resource] : [])],
-        locale,
-      )
+    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+        subject,
+        ...path,
+        ...(resource ? [resource] : []),
+      ])
     : []
   ).filter(uri => !!uri.name && !!uri.to);
 

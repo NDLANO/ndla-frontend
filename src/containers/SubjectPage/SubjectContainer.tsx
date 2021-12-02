@@ -32,7 +32,6 @@ import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
-import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -74,15 +73,6 @@ const SubjectContainer = ({
   const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
 
   const [subjectNames] = useState(() => {
-    const subjectData = getSubjectBySubjectId(subject.id);
-    if (subjectData) {
-      return {
-        subHeading: undefined,
-        name: subjectData.name[locale],
-        longName: subjectData.longName[locale],
-      };
-    }
-    // Fallback if subject is missing in static constants
     return {
       subHeading: subjectName,
       name: subjectName,

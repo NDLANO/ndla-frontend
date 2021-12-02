@@ -4,7 +4,6 @@ import { TopicMenu } from '@ndla/ui';
 import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLResource,
   GQLResourceType,
@@ -83,8 +82,6 @@ const MastheadTopics = ({
     return resourceToLinkProps(resource, '/' + subjectTopicPath, locale);
   };
 
-  const subjectTitle = getSubjectLongName(subject?.id, locale) || subject?.name;
-
   const handleSubjectClick = () => {
     if (subject) {
       toSubject(subject.id);
@@ -100,7 +97,7 @@ const MastheadTopics = ({
       toTopic={subject && toTopicWithBoundParams(subject.id, expandedTopicIds)}
       toSubject={handleSubjectClick}
       defaultCount={12}
-      subjectTitle={subjectTitle}
+      subjectTitle={subject?.name}
       resourceToLinkProps={localResourceToLinkProps}
       onNavigate={onNavigate}
       expandedTopicId={expandedTopicId}

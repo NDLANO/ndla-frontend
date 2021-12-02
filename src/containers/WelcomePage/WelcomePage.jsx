@@ -34,29 +34,15 @@ import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
-import { getSubjectById } from '../../data/subjects';
 import { subjectsQuery } from '../../queries';
-
-const getUrlFromSubjectId = subjectId => {
-  const subject = getSubjectById(subjectId);
-  return toSubject(subject.id);
-};
+import { multidisciplinaryTopics } from '../../data/subjects.ts';
 
 const getMultidisciplinaryTopics = locale => {
-  const topicIds = [
-    'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
-    'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
-    'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
-  ];
-
-  const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
-
-  return topicIds.map(topicId => {
-    const topic = getSubjectById(topicId);
+  return multidisciplinaryTopics.map(topic => {
     return {
       id: topic.id,
       title: topic.name[locale],
-      url: toTopic(baseSubject.id, null, topic.topicId),
+      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId),
     };
   });
 };
@@ -121,12 +107,12 @@ const WelcomePage = ({ locale, history, location }) => {
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
-            url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
+            url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
             topics={getMultidisciplinaryTopics(locale)}
           />
           <FrontpageToolbox
-            urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}
-            urlTeachers={getUrlFromSubjectId(TOOLBOX_TEACHER_SUBJECT_ID)}
+            urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
+            urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
           <BlogPosts locale={locale} />
           <FrontpageFilm

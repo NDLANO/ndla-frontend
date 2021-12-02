@@ -24,7 +24,6 @@ import {
   GQLTopic,
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
-import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 
@@ -151,18 +150,16 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic } = props;
+  const { subject, topicList, topic } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-
-  const longName = getSubjectLongName(subject?.id, locale);
 
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
-      filter: longName,
+      filter: subject.name,
       article: topic.article,
     },
     undefined,

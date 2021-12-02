@@ -7,7 +7,6 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
-import config from './config';
 import {
   PROGRAMME_PAGE_PATH,
   PROGRAMME_PATH,
@@ -15,7 +14,6 @@ import {
   TOPIC_PATH,
 } from './constants';
 import { getProgrammeBySlug } from './data/programmes';
-import { getSubjectLongName } from './data/subjects';
 import { LocaleType } from './interfaces';
 
 export function toSearch(searchString?: string) {
@@ -136,18 +134,9 @@ export type SubjectURI = {
   to?: string;
 };
 
-export function toBreadcrumbItems(
-  rootName: string,
-  paths: SubjectURI[],
-  locale: LocaleType = config.defaultLocale,
-) {
+export function toBreadcrumbItems(rootName: string, paths: SubjectURI[]) {
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id, locale);
-  const breadcrumbSubject = {
-    ...subject,
-    name: longName || subject?.name,
-  };
+  const breadcrumbSubject = paths[0];
 
   const prelinks = [breadcrumbSubject, ...paths.splice(1)];
 
@@ -160,8 +149,8 @@ export function toBreadcrumbItems(
           to:
             (links.length ? links?.[links.length - 1]?.to : '') +
             '/' +
-            removeUrn(item.id),
-          name: item.name,
+            removeUrn(item?.id),
+          name: item?.name,
         },
       ],
       [],

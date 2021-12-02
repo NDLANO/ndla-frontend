@@ -70,7 +70,7 @@ const SearchPage = ({ location, locale, history }) => {
           query={searchParams.query}
           subjectIds={searchParams.subjects}
           programmeNames={searchParams.programs}
-          subjectHits={subjectItems}
+          subjectItems={subjectItems}
           subjects={data?.subjects}
           concepts={conceptData?.conceptSearch.concepts}
           resourceTypes={data?.resourceTypes}

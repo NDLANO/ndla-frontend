@@ -28,7 +28,7 @@ export const mapGradesData = (grades, subjects, locale, programmeSlug) => {
     data.categories = grade.categories.map(category => {
       const categoryData = { name: category.name ? category.name[locale] : '' };
       const categorySubjects = category.subjects.map(subject => {
-        const subjectInfo = subjects.find(s => s.id === subject.id);
+        const subjectInfo = subjects?.find(s => s.id === subject.id);
         const subjectData = {};
         if (subjectInfo) {
           /*const url = toProgrammeSubject(
