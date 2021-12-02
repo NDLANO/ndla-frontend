@@ -169,7 +169,6 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
           }
         }
       />
-      {/* @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example. */}
       <MultidisciplinarySubject
         hideCards={isNotLastTopic}
         cards={cards}
