@@ -322,7 +322,11 @@ export const frontpageSearchQuery = gql`
         }
       }
     }
+    subjects {
+      ...SubjectInfo
+    }
   }
+  ${subjectInfoFragment}
 `;
 
 const copyrightInfoFragment = gql`

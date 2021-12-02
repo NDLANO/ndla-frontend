@@ -1507,6 +1507,7 @@ export type GQLFrontpageSearchQuery = {
       >;
     }>;
   }>;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -1937,17 +1938,7 @@ export type GQLSubjectPageWithTopicsQuery = {
       >;
     } & GQLTopicInfoFragment
   >;
-  subjects?: Maybe<
-    Array<
-      {
-        __typename?: 'Subject';
-        metadata?: Maybe<{
-          __typename?: 'TaxonomyMetadata';
-          customFields?: Maybe<any>;
-        }>;
-      } & GQLSubjectInfoFragment
-    >
-  >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };
 
 export type GQLSubjectPageQueryVariables = Exact<{
@@ -2519,4 +2510,5 @@ export type GQLResourcePageQuery = {
       >;
     } & GQLResourceInfoFragment
   >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };

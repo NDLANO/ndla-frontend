@@ -1,20 +1,6 @@
 import { TFunction } from 'i18next';
 import { GQLFrontpageSearch, GQLSubject } from '../graphqlTypes';
-import { LocaleType } from '../interfaces';
 import { toSubject } from '../routeHelpers';
-import config from '../config';
-
-type CategoryTypes = 'common' | 'programme' | 'study';
-
-type Categories = {
-  [key in CategoryTypes]: string;
-};
-
-const categories: Categories = {
-  common: 'Fellesfag',
-  programme: 'Yrkesfag',
-  study: 'Studiespesialiserende',
-};
 
 export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
@@ -28,6 +14,7 @@ export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
 
   return foundInSubjects?.map(subject => {
     return {
+      ...subject,
       id: subject.id,
       url: toSubject(subject.id),
       title: subject.name,
@@ -38,6 +25,7 @@ export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
 
 interface SearchResult {
   frontpageSearch?: GQLFrontpageSearch;
+  subjects?: GQLSubject[];
 }
 
 export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
@@ -63,16 +51,15 @@ export const mapSearchToFrontPageStructure = (
   data: SearchResult,
   t: TFunction,
   query: string,
-  locale: LocaleType,
 ) => {
-  const subjectHits = searchSubjects(query, locale);
+  const subjectHits = searchSubjects(query, data.subjects);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
     resources: subjectHits,
   };
 
-  if (!data.frontpageSearch && subjectHits.length === 0) {
+  if (!data.frontpageSearch && subjectHits?.length === 0) {
     return [];
   }
   if (!data.frontpageSearch) {
@@ -96,7 +83,7 @@ export const mapSearchToFrontPageStructure = (
     totalCount: learningResources?.totalCount,
   };
 
-  const subjectsToAdd = subjectHits.length ? [subjects] : [];
+  const subjectsToAdd = subjectHits?.length ? [subjects] : [];
   const topicsToAdd = topics.totalCount ? [topics] : [];
   const resourceToAdd = resource.totalCount ? [resource] : [];
   return [...subjectsToAdd, ...topicsToAdd, ...resourceToAdd];

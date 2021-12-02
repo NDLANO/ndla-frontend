@@ -2,7 +2,6 @@ import {
   searchResultToLinkProps,
   converSearchStringToObject,
   convertSearchParam,
-  convertResult,
   selectContext,
 } from '../searchHelpers';
 
@@ -57,10 +56,6 @@ test('searchHelpers convertSearchParam', () => {
   expect(convertSearchParam([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toBe(
     '1,2,3,4,5,6,7,8,9,10',
   );
-});
-
-test('searchHelpers convertResults', () => {
-  expect(convertResult([])).toEqual([]);
 });
 
 test('searchHelper select context by provided filter', () => {
