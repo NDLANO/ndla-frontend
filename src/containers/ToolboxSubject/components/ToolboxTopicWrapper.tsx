@@ -6,7 +6,6 @@
  *
  */
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { WithTranslation, withTranslation } from 'react-i18next';
 // @ts-ignore
 import { Topic } from '@ndla/ui';
@@ -56,7 +55,6 @@ const ToolboxTopicWrapper = ({
   topic,
   resourceTypes,
   loading,
-  t,
 }: Props) => {
   if (!topic.article) {
     return null;
@@ -120,9 +118,6 @@ const ToolboxTopicWrapper = ({
 
   return (
     <>
-      <Helmet>
-        <title>{htmlTitle(topic.name, [t('htmlTitles.titleTemplate')])}</title>
-      </Helmet>
       <Topic
         frame={subTopics?.length === 0}
         isLoading={loading}

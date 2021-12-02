@@ -126,12 +126,15 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     .reverse()
     .find(t => selectedTopics.includes(t.id));
 
+  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
+  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const hasSelectedTitle = !!selectedTitle;
+  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
+    hasSelectedTitle ? subjectTitle : undefined,
+  ]);
+
   const socialMediaMetaData = {
-    title:
-      selectedMetadata?.meta?.title ||
-      selectedMetadata?.name ||
-      subject.subjectpage?.about?.title ||
-      subject.name,
+    title,
     description:
       selectedMetadata?.meta?.metaDescription ||
       selectedMetadata?.meta?.introduction ||
