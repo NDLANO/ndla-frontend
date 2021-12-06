@@ -71,7 +71,15 @@ function prepareCookie(tokenSet: TokenSet): FeideCookie {
 
 function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
   const cookieValue = prepareCookie(tokenSet);
-  setCookie('feide_auth', JSON.stringify(cookieValue), false);
+  const expiration = new Date(cookieValue.ndla_expires_at);
+  const cookieParams = {
+    cookieName: 'feide_auth',
+    cookieValue: JSON.stringify(cookieValue),
+    expiration,
+  };
+
+  setCookie(cookieParams);
+
   return cookieValue;
 }
 
@@ -80,7 +88,7 @@ const clearTokenSetFromLocalStorage = () => {
 };
 
 export const getFeideCookie = (cookies: string): FeideCookie | null => {
-  const cookieString: string | null = getCookie('feide_auth', cookies);
+  const cookieString = getCookie('feide_auth', cookies);
   if (cookieString) {
     return JSON.parse(cookieString);
   }
@@ -97,11 +105,19 @@ export const getAccessToken = (cookies?: string) => {
   return cookie?.access_token;
 };
 
+export const millisUntilExpiration = (
+  cookie: FeideCookie | null = getFeideCookieClient(),
+): number => {
+  const expiration = cookie?.ndla_expires_at ?? 0;
+  const currentTime = new Date().getTime();
+
+  return Math.max(0, expiration - currentTime);
+};
+
 export const isAccessTokenValid = (
   cookie: FeideCookie | null = getFeideCookieClient(),
 ): boolean => {
-  const expiration = cookie?.ndla_expires_at ?? 0;
-  return new Date().getTime() < expiration - 10000;
+  return millisUntilExpiration(cookie) > 10000;
 };
 
 const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
@@ -117,12 +133,18 @@ export const initializeFeideLogin = () => {
     .then(data => (window.location.href = data?.url || ''));
 };
 
-export const finalizeFeideLogin = (feideLoginCode: string) => {
-  return fetch(`${locationOrigin}/feide/token?code=${feideLoginCode}`, {
-    credentials: 'include',
-  })
-    .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(tokenSet => setTokenSetInLocalStorage(tokenSet!!));
+export const finalizeFeideLogin = async (
+  feideLoginCode: string,
+): Promise<FeideCookie> => {
+  const res = await fetch(
+    `${locationOrigin}/feide/token?code=${feideLoginCode}`,
+    {
+      credentials: 'include',
+    },
+  );
+  const tokenSet = await resolveJsonOrRejectWithError<Feide>(res);
+  const set = setTokenSetInLocalStorage(tokenSet!);
+  return set;
 };
 
 export const feideLogout = (logout: () => void) => {

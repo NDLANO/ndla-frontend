@@ -9,6 +9,7 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { RouteProps, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { compact } from 'lodash';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -20,7 +21,7 @@ import {
   FeideUser,
 } from '../../util/feideApi';
 
-import { AuthContext } from '../../components/AuthenticationContext';
+import { AuthContext } from '../AuthenticationContext';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -88,6 +89,13 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
     };
   }, [authenticated]);
 
+  const collectedInfo: string[] = compact([
+    primarySchool?.displayName,
+    affiliationRole ? t('user.role.' + affiliationRole) : undefined,
+    feideUser?.displayName,
+    ...(feideUser?.mail ? feideUser.mail : []),
+  ]);
+
   return (
     <AuthModal
       activateButton={
@@ -98,16 +106,7 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
         )
       }
       isAuthenticated={authenticated}
-      authorizedCollectedInfo={
-        primarySchool && affiliationRole && feideUser
-          ? [
-              primarySchool.displayName,
-              t('user.role.' + affiliationRole),
-              feideUser.displayName,
-              ...feideUser.mail,
-            ]
-          : undefined
-      }
+      authorizedCollectedInfo={collectedInfo}
       authorizedRole={affiliationRole && t('user.role.' + affiliationRole)}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
@@ -116,7 +115,8 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
         } else {
           history.push('/login');
         }
-      }}></AuthModal>
+      }}
+    />
   );
 };
 

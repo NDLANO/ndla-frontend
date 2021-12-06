@@ -6,7 +6,7 @@
  */
 
 import React, { useState, createContext, useEffect } from 'react';
-import { isAccessTokenValid } from '../util/authHelpers';
+import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -31,9 +31,18 @@ const AuthenticationContext = ({ children }: Props) => {
   const [authContextLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setAuthenticated(isAccessTokenValid());
+    const isValid = isAccessTokenValid();
+    setAuthenticated(isValid);
     setLoaded(true);
-  }, []);
+
+    if (isValid) {
+      // Since we can't listen to cookies set a timeout to update context
+      const timeoutMillis = millisUntilExpiration();
+      window.setTimeout(() => {
+        setAuthenticated(false);
+      }, timeoutMillis);
+    }
+  }, [authenticated]);
 
   const login = () => setAuthenticated(true);
   const logout = () => setAuthenticated(false);

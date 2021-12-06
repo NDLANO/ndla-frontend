@@ -32,7 +32,8 @@ export const LoginSuccess = ({ location: { search }, history }: Props) => {
         .then(() => {
           login();
           const params = queryString.parse(search);
-          history.push(params.state || toHome());
+          // The cookie isn't set when loading the page initially so we trigger a reload
+          window.location = params.state || toHome();
         })
         .catch(() => history.push(toLoginFailure()));
     }

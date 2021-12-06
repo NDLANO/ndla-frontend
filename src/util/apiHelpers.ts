@@ -172,10 +172,6 @@ export const createApolloLinks = (lang: string, cookieString?: string) => {
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
 
-  if (accessToken && !accessTokenValid && __CLIENT__) {
-    renewAuth();
-  }
-
   const headersLink = setContext(async (_, { headers }) => {
     return {
       headers: {

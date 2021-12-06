@@ -45,7 +45,7 @@ export interface FeideUser {
   uid: string;
   displayName: string;
   eduPersonPrimaryAffiliation: string;
-  mail: string[];
+  mail?: string[];
 }
 
 export const fetchFeideGroups = (): Promise<FeideGroupType[] | undefined> => {
