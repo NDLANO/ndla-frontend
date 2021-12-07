@@ -32,8 +32,39 @@ interface Props extends WithTranslation, RouteComponentProps {
   locale: LocaleType;
 }
 
-const getDocumentTitle = ({ t, subject }: Props) => {
-  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
+const getSocialMediaMetaData = (
+  { subject, topicList, t }: Props,
+  selectedTopics?: string[],
+) => {
+  const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
+
+  const selectedMetadata = [...(subject.allTopics ?? [])]
+    .reverse()
+    .find(t => topics.includes(t.id));
+
+  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
+  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const hasSelectedTitle = !!selectedTitle;
+  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
+    hasSelectedTitle ? subjectTitle : undefined,
+  ]);
+
+  return {
+    title,
+    description:
+      selectedMetadata?.meta?.metaDescription ||
+      selectedMetadata?.meta?.introduction ||
+      subject.subjectpage?.about?.description ||
+      subject.subjectpage?.metaDescription ||
+      t('frontpageMultidisciplinarySubject.text'),
+    image:
+      selectedMetadata?.meta?.metaImage ||
+      subject.subjectpage?.about?.visualElement,
+  };
+};
+
+const getDocumentTitle = (props: Props) => {
+  return getSocialMediaMetaData(props).title;
 };
 
 const getInitialSelectedTopics = (
@@ -54,12 +85,8 @@ const getInitialSelectedTopics = (
   return initialSelectedTopics;
 };
 
-const ToolboxSubjectContainer = ({
-  topicList,
-  locale,
-  subject,
-  history,
-}: Props) => {
+const ToolboxSubjectContainer = (props: Props) => {
+  const { topicList, locale, subject, history } = props;
   const { t } = useTranslation();
 
   const refs = topicList.map(() => React.createRef<HTMLDivElement>());
@@ -141,29 +168,7 @@ const ToolboxSubjectContainer = ({
     return null;
   }
 
-  const selectedMetadata = [...(subject.allTopics ?? [])]
-    .reverse()
-    .find(t => selectedTopics.includes(t.id));
-
-  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
-  const hasSelectedTitle = !!selectedTitle;
-  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
-    hasSelectedTitle ? subjectTitle : undefined,
-  ]);
-
-  const socialMediaMetaData = {
-    title,
-    description:
-      selectedMetadata?.meta?.metaDescription ||
-      selectedMetadata?.meta?.introduction ||
-      subject.subjectpage?.about?.description ||
-      subject.subjectpage?.metaDescription ||
-      t('frontpageMultidisciplinarySubject.text'),
-    image:
-      selectedMetadata?.meta?.metaImage ||
-      subject.subjectpage?.about?.visualElement,
-  };
+  const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
 
   return (
     <>
