@@ -2769,17 +2769,17 @@
   dependencies:
     "@ndla/core" "^0.7.2"
 
-"@ndla/tracker@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.4.5.tgz#7a2bd975d6ef628a433cfc872fa449a0bf9d3a4e"
-  integrity sha512-71zg4JZ9kIcComqTLdlvgxAYXRdgUD5p1XLyTlpqZkYnQlqxw/YichKsd/d29+s2buqD4EMDRx+etuQH4zXqbQ==
+"@ndla/tracker@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.5.0.tgz#0b7d0453108f649bcb40f517e1c18f6c96e569e5"
+  integrity sha512-I8Q5U6DipL8+EHj7j1rZwPTTNh59oT92fLnp1DtYG1Dh4BcWQNUiD8WuIzQgVuhD/K+47ybgL3paQQTL1uvvjQ==
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.0.12":
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.12.tgz#390c847b732744ca58ea2d83cdfe493227949254"
-  integrity sha512-8aXt0syMD2SUYoWg//ZFYSuHVKbsRFd2mgbFJ+WM/7Xu5P+vqJ8hg7DROYVwm70Oz6wMknQ0ZhDqcXS2ptuHOA==
+"@ndla/ui@^3.0.13":
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.13.tgz#c2bb7ad3909fba196117ec74f80ebacf16b37bc4"
+  integrity sha512-9LKLf+63WMg0PolVfUZLoV0f2aZy6x7I8oPrUQaTh/1nMUQqPnige2UNwFqzOAa/zhrOa2SeviKDHM6fTZw5bQ==
   dependencies:
     "@ndla/button" "^1.0.6"
     "@ndla/carousel" "^1.0.6"

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { MatomoTracker } from '@ndla/ui';
+import { MatomoTracker } from '@ndla/tracker';
 import config from '../../config';
 
 export const Matomo = () => {
