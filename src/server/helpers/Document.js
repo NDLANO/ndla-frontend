@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
+import { Matomo } from './Matomo';
 import config from '../../config';
 
 const Document = ({ helmet, assets, data, css, ids }) => {
@@ -49,6 +50,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
+        <Matomo />
         <script
           dangerouslySetInnerHTML={{
             __html: `
