@@ -7,12 +7,15 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import SafeLink from '@ndla/safelink';
-import { SubjectShape } from '../shapes';
 import { toSubject } from '../routeHelpers';
+import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
-const SubjectLinkList = ({ subjects = [] }) => (
+interface Props {
+  subjects?: GQLSubjectInfoFragment[];
+}
+
+const SubjectLinkList = ({ subjects = [] }: Props) => (
   <ul className="o-list--arrows">
     {subjects.map(subject => (
       <li key={subject.id}>
@@ -21,9 +24,5 @@ const SubjectLinkList = ({ subjects = [] }) => (
     ))}
   </ul>
 );
-
-SubjectLinkList.propTypes = {
-  subjects: PropTypes.arrayOf(SubjectShape),
-};
 
 export default SubjectLinkList;
