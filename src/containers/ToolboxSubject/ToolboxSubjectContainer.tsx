@@ -24,6 +24,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 interface Props extends WithTranslation, RouteComponentProps {
   subject: GQLSubject;
@@ -31,33 +32,66 @@ interface Props extends WithTranslation, RouteComponentProps {
   locale: LocaleType;
 }
 
-const getDocumentTitle = ({ t, subject }: Props) => {
-  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
+const getSocialMediaMetaData = (
+  { subject, topicList, t }: Props,
+  selectedTopics?: string[],
+) => {
+  const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
+
+  const selectedMetadata = [...(subject.allTopics ?? [])]
+    .reverse()
+    .find(t => topics.includes(t.id));
+
+  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
+  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const hasSelectedTitle = !!selectedTitle;
+  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
+    hasSelectedTitle ? subjectTitle : undefined,
+  ]);
+
+  return {
+    title,
+    description:
+      selectedMetadata?.meta?.metaDescription ||
+      selectedMetadata?.meta?.introduction ||
+      subject.subjectpage?.about?.description ||
+      subject.subjectpage?.metaDescription ||
+      t('frontpageMultidisciplinarySubject.text'),
+    image:
+      selectedMetadata?.meta?.metaImage ||
+      subject.subjectpage?.about?.visualElement,
+  };
 };
 
-const ToolboxSubjectContainer = ({
-  topicList,
-  locale,
-  subject,
-  history,
-}: Props) => {
+const getDocumentTitle = (props: Props) => {
+  return getSocialMediaMetaData(props).title;
+};
+
+const getInitialSelectedTopics = (
+  topicList: string[],
+  subject: GQLSubject,
+): string[] => {
+  let initialSelectedTopics: string[] = [];
+  topicList.forEach(topicId => {
+    const alreadySelected = initialSelectedTopics.find(
+      topic => topic === topicId,
+    );
+    if (!alreadySelected) {
+      const exist = subject?.allTopics?.find(topic => topic.id === topicId);
+      if (exist) initialSelectedTopics = [exist.id, ...initialSelectedTopics];
+    }
+  });
+
+  return initialSelectedTopics;
+};
+
+const ToolboxSubjectContainer = (props: Props) => {
+  const { topicList, locale, subject, history } = props;
   const { t } = useTranslation();
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-
-  useEffect(() => {
-    topicList.forEach((topicId: string) => {
-      const alreadySelected = selectedTopics.find(topic => topic === topicId);
-      if (!alreadySelected) {
-        const exist = subject?.allTopics?.find(
-          (topic: GQLTopic) => topic.id === topicId,
-        );
-        if (exist) setSelectedTopics([exist.id, ...selectedTopics]);
-      }
-    });
-    scrollToTopic(topicList.length - 1);
-  });
+  const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
+  const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
 
   const scrollToTopic = (index: number) => {
     const ref = refs[index];
@@ -71,6 +105,10 @@ const ToolboxSubjectContainer = ({
       });
     }
   };
+
+  useEffect(() => {
+    scrollToTopic(topicList.length - 1);
+  });
 
   const topics = subject.topics?.map((topic: GQLTopic) => {
     return {
@@ -130,13 +168,31 @@ const ToolboxSubjectContainer = ({
     return null;
   }
 
+  const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
+
   return (
     <>
       <Helmet>
         <title>
-          {htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')])}
+          {htmlTitle(socialMediaMetaData.title, [
+            t('htmlTitles.titleTemplate'),
+          ])}
         </title>
+        {socialMediaMetaData.description && (
+          <meta name="description" content={socialMediaMetaData.description} />
+        )}
       </Helmet>
+      <SocialMediaMetadata
+        title={socialMediaMetaData.title}
+        description={socialMediaMetaData.description}
+        locale={locale}
+        image={
+          socialMediaMetaData.image && {
+            url: socialMediaMetaData.image.url,
+            alt: socialMediaMetaData.image.alt,
+          }
+        }
+      />
       <OneColumn className={''}>
         <ToolboxInfo
           topics={topics}

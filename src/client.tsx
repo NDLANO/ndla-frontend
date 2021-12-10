@@ -22,7 +22,6 @@ import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { NDLAWindow } from './interfaces';
 import routesFunc from './routes';
 import './style/index.css';
-// @ts-ignore
 import { createApolloClient } from './util/apiHelpers';
 
 declare global {

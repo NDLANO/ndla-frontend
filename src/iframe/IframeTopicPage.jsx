@@ -18,7 +18,7 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import { ArticleShape, LocationShape, TopicShape } from '../shapes';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
 import config from '../config';
 

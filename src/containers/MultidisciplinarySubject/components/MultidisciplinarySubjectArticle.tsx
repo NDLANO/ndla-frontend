@@ -20,7 +20,6 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
-import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 import {
@@ -83,13 +82,6 @@ const MultidisciplinarySubjectArticle = ({
       <MultidisciplinarySubjectHeader
         subjects={subjects}
         subjectsLinks={subjectLinks}
-      />
-      <SocialMediaMetadata
-        title={htmlTitle(topic.article.title, [subject?.name])}
-        trackableContent={topic.article}
-        description={topic.article.metaDescription}
-        locale={locale}
-        image={topic.article.metaImage}
       />
       <OneColumn>
         <Article

@@ -2093,7 +2093,7 @@ export const programmes = [
           {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
-              nn: 'Service, tryggleik og administrasjon',
+              nn: 'Service, sikkerheit og administrasjon',
               en: 'Service, sikkerhet og administrasjon',
             },
             subjects: [

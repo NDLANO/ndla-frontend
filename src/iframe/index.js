@@ -9,7 +9,9 @@
 import ReactDOM from 'react-dom';
 import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
+import { Router } from 'react-router';
 import IframePageContainer from './IframePageContainer';
+import { createHistory } from '../history';
 
 const { config, initialProps } = window.DATA;
 
@@ -32,9 +34,13 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
+const browserHistory = createHistory();
+
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <IframePageContainer {...initialProps} />,
+  <Router history={browserHistory}>
+    <IframePageContainer {...initialProps} />
+  </Router>,
   document.getElementById('root'),
 );
 
