@@ -73,9 +73,6 @@ const ResourcePage = (props: Props) => {
     }
   }
 
-  if (typeof window != 'undefined' && window.scrollY) {
-    window.scroll(0, 0);
-  }
   const { subject, resource, topic } = data;
   const relevanceId = resource.relevanceId;
   const relevance =

@@ -6,8 +6,9 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useMemo } from 'react';
+import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
@@ -17,6 +18,7 @@ import CompetenceGoals from './CompetenceGoals';
 import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
+import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
   article: GQLArticle,
@@ -120,6 +122,26 @@ const Article = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+
+  const location = useLocation();
+
+  // Scroll to element with ID passed in as a query-parameter.
+  // We use query-params instead of the regular fragments since
+  // the article doesn't exist on initial page load (At least without SSR).
+  useEffect(() => {
+    if (location.hash && article.content) {
+      const element = document.getElementById(location.hash.slice(1));
+      const elementTop = element?.getBoundingClientRect().top ?? 0;
+      const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+      const absoluteTop = elementTop - bodyTop;
+      const scrollPosition = absoluteTop - MastheadHeightPx;
+
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth',
+      });
+    }
+  }, [article.content, location]);
 
   if (!article) {
     return children || null;
