@@ -9,10 +9,10 @@
 import React from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Status } from '../../components';
 
-const NotFound = ({ t }) => (
+const NotFound = ({ t }: WithTranslation) => (
   <Status code={404}>
     <HelmetWithTracker title={t('htmlTitles.notFound')} />
     <OneColumn cssModifier="clear">
