@@ -7,7 +7,36 @@
  */
 
 import { getTopicPath } from '../getTopicPath';
-import { topics } from '../../containers/TopicPage/__tests__/mockTopics';
+
+const topics = [
+  {
+    id: 'urn:topic:1',
+    name: 'Idéutvikling og mediedesign',
+    contentUri: 'urn:article:1',
+    parent: 'urn:subject:1',
+  },
+  {
+    id: 'urn:topic:1_1',
+    name: 'Mediedesign',
+    parent: 'urn:topic:1',
+  },
+  {
+    id: 'urn:topic:1_2',
+    name: 'Idéutvikling',
+    contentUri: 'urn:article:1_2',
+    parent: 'urn:topic:1',
+  },
+  {
+    id: 'urn:topic:1_2_1',
+    name: 'Mediebransjen',
+    parent: 'urn:topic:1_2',
+  },
+  {
+    id: 'urn:topic:2',
+    name: 'Mediekommunikasjon',
+    parent: undefined,
+  },
+];
 
 test('getTopicPath', () => {
   const topicPath1 = getTopicPath('urn:subject:1', 'urn:topic:1_2_1', topics);
