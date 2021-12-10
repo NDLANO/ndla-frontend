@@ -9,29 +9,32 @@
 import React from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Status } from '../../components';
 
-const NotFound = ({ t }: WithTranslation) => (
-  <Status code={404}>
-    <HelmetWithTracker title={t('htmlTitles.notFound')} />
-    <OneColumn cssModifier="clear">
-      <ErrorMessage
-        illustration={{
-          url: '/static/not-exist.gif',
-          altText: t('errorMessage.title'),
-        }}
-        messages={{
-          title: t('notFoundPage.title'),
-          description: t('notFoundPage.errorDescription'),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
-        }}
-      />
-    </OneColumn>
-  </Status>
-);
+const NotFound = () => {
+  const { t } = useTranslation();
+  return (
+    <Status code={404}>
+      <HelmetWithTracker title={t('htmlTitles.notFound')} />
+      <OneColumn cssModifier="clear">
+        <ErrorMessage
+          illustration={{
+            url: '/static/not-exist.gif',
+            altText: t('errorMessage.title'),
+          }}
+          messages={{
+            title: t('notFoundPage.title'),
+            description: t('notFoundPage.errorDescription'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
+          }}
+        />
+      </OneColumn>
+    </Status>
+  );
+};
 
 NotFound.propTypes = {};
 
-export default withTranslation()(NotFound);
+export default NotFound;
