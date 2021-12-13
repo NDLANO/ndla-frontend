@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-const MoreAboutNdlaFilm = ({ t }) => (
+const MoreAboutNdlaFilm = ({ t }: WithTranslation) => (
   <>
     <h1>{t('filmfrontpage.moreAboutNdlaFilm.header')}</h1>
     <hr />
