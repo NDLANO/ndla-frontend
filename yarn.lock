@@ -2762,10 +2762,10 @@
     "@ndla/util" "^2.0.0"
     react-tabs "^3.0.0"
 
-"@ndla/tooltip@^0.2.46":
-  version "0.2.46"
-  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.46.tgz#ead81211c9bb835d45f7fe67c18667028180038d"
-  integrity sha512-HX4NPKmPL8jJVo99o0BW4s0quG1ZyW/Km6A81HAm5ZmWFEHuVfRZiM/YjgvjjPl/prTfUAtqT9U/GwoLEj04fw==
+"@ndla/tooltip@^0.2.47":
+  version "0.2.47"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.47.tgz#443d3ad413f59a904be9d220cd79b8ff72f75b64"
+  integrity sha512-UoiEpp8V0JOni3iy6T0mv687CNw4r/aNScYWm/aI8p3OxH8lVc/iLnpxDXomWey7AWpsyzStiKVgrhtpaV3V3A==
   dependencies:
     "@ndla/core" "^0.7.2"
 
@@ -2776,10 +2776,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.0.15":
-  version "3.0.15"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.15.tgz#b7ae2c0c66156641f259be45d01f152bea93a2f6"
-  integrity sha512-jo5xfID7AnSeXqO/rffZXfhjNXWmWgrEcp0IypXhYagwhqkCAtheEjNfdhOnTIu8Twlzz3+WniTHOkVS0kQMmg==
+"@ndla/ui@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.1.0.tgz#a89eaf9b74f81427aef16ed1ff41304e001d0d5c"
+  integrity sha512-xkIsjWOQS/a9ntYuGPq4pXEa1i8zVq20pY58cEHutRo7JU2nRbhKVyfbDqhcGW05YtPeN2gktejlfK7/f+sicA==
   dependencies:
     "@ndla/button" "^1.0.6"
     "@ndla/carousel" "^1.0.6"
@@ -2791,7 +2791,7 @@
     "@ndla/safelink" "^1.0.5"
     "@ndla/switch" "^0.0.32"
     "@ndla/tabs" "^1.0.8"
-    "@ndla/tooltip" "^0.2.46"
+    "@ndla/tooltip" "^0.2.47"
     "@ndla/util" "^2.0.0"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"
