@@ -145,7 +145,6 @@ const SearchInnerPage = ({
 
   const handleFilterReset = () => {
     resetSelected();
-    setTypeFilter(getTypeFilter(resourceTypes));
   };
 
   const handleFilterToggle = type => {
