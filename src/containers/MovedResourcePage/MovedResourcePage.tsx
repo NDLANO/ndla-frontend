@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+//@ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
@@ -18,42 +19,46 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { ResourceShape } from '../../shapes';
+import { GQLMovedResourceQuery, GQLResource } from '../../graphqlTypes';
 
-const MovedResourcePage = ({ resource }) => {
+const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
-  const { error, loading, data } = useGraphQuery(movedResourceQuery, {
-    variables: { resourceId: resource.id },
-  });
+  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(
+    movedResourceQuery,
+    {
+      variables: { resourceId: resource.id },
+    },
+  );
 
-  const convertResourceToResult = resource => {
+  const convertResourceToResult = (resource: GQLResource) => {
     return [
       {
         title: resource.name,
         url: resource.path,
         contentType: resource.resourceTypes
-          .map(type => contentTypeMapping[type.id])
+          ?.map(type => contentTypeMapping[type.id])
           .find(t => t),
-        type: resource.resourceTypes.find(type => !contentTypeMapping[type.id])
+        type: resource.resourceTypes?.find(type => !contentTypeMapping[type.id])
           ?.name,
-        subjects: data.resource.breadcrumbs?.map((crumb, index) => ({
-          url: resource.paths[index],
+        subjects: data?.resource?.breadcrumbs?.map((crumb, index) => ({
+          url: resource.paths?.[index],
           title: crumb[0],
           breadcrumb: crumb,
         })),
         ...(isLearningpath
           ? {
-              id: resource.learningpath.id,
-              ingress: resource.learningpath.description,
+              id: resource?.learningpath?.id,
+              ingress: resource?.learningpath?.description,
               metaImage: {
                 url: resource.learningpath?.coverphoto?.url,
                 alt: '',
               },
             }
           : {
-              id: resource.article.id,
-              ingress: resource.article.metaDescription,
+              id: resource?.article?.id,
+              ingress: resource?.article?.metaDescription,
               metaImage: {
                 url: resource.article?.metaImage?.url,
                 alt: resource.article?.metaImage?.alt,
@@ -89,6 +94,10 @@ const MovedResourcePage = ({ resource }) => {
     </>
   );
 };
+
+interface Props {
+  resource: GQLResource;
+}
 
 MovedResourcePage.propTypes = {
   resource: ResourceShape,
