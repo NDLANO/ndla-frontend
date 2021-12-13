@@ -6,24 +6,25 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import { Route } from 'react-router-dom';
 
-const Status = ({ code, children }) => (
+interface Props {
+  code: number;
+  children: ReactNode;
+}
+
+const Status = ({ code, children }: Props) => (
   <Route
     render={({ staticContext }) => {
       const context = staticContext;
       if (staticContext) {
+        //@ts-ignore
         context.status = code;
       }
       return children;
     }}
   />
 );
-
-Status.propTypes = {
-  code: PropTypes.number.isRequired,
-};
 
 export default Status;
