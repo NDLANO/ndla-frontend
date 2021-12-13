@@ -1,22 +1,26 @@
+import { useApolloClient } from '@apollo/client';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 import { getDefaultLocale } from './config';
 import { STORED_LANGUAGE_KEY } from './constants';
 import { appLocales, isValidLocale } from './i18n';
-import { LocaleType } from './interfaces';
+import { InitialProps, LocaleType } from './interfaces';
+import { createApolloLinks } from './util/apiHelpers';
 
 interface Props {
   locale?: LocaleType;
-  children: React.ReactNode;
+  initialProps: InitialProps;
 }
 
-export const I18nWrapper = ({ locale, children }: Props) => {
+export const I18nWrapper = ({ locale, initialProps }: Props) => {
   const { i18n } = useTranslation();
   const history = useHistory();
   const [lang, setLang] = useState(locale);
   const firstRender = useRef(true);
+  const apolloClient = useApolloClient();
 
   useEffect(() => {
     if (firstRender.current) {
@@ -31,6 +35,8 @@ export const I18nWrapper = ({ locale, children }: Props) => {
         setLang(storedLang as LocaleType);
         if (!window.location.pathname.includes('/login/success')) {
           history.replace(`/${storedLang}${window.location.pathname}`);
+          apolloClient.setLink(createApolloLinks(storedLang));
+          apolloClient.resetStore();
         }
       } else if (locale && !isValidLocale(locale)) {
         const l =
@@ -61,7 +67,13 @@ export const I18nWrapper = ({ locale, children }: Props) => {
 
   return (
     <BrowserRouter basename={lang} key={lang}>
-      {children}
+      <App
+        initialProps={initialProps}
+        isClient={true}
+        client={apolloClient}
+        locale={lang}
+        key={lang}
+      />
     </BrowserRouter>
   );
 };

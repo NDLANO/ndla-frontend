@@ -34,7 +34,7 @@ const VisualElement = ({ visualElement }: Props) => {
         frameBorder="0"
         height={visualElement.brightcove.iframe?.height}
         src={visualElement.url}
-        title={visualElement.brightcove.title}
+        title={visualElement.title}
         width={visualElement.brightcove.iframe?.width}
       />
     );
@@ -43,8 +43,8 @@ const VisualElement = ({ visualElement }: Props) => {
       <iframe
         allowFullScreen={true}
         frameBorder="0"
-        src={visualElement?.url}
-        title={visualElement?.h5p?.title}
+        src={visualElement.url}
+        title={visualElement.title}
       />
     );
   } else if (visualElement.oembed) {

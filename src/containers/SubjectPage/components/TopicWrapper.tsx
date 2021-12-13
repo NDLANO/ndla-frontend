@@ -1,11 +1,17 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
+import handleError from '../../../util/handleError';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLSubject,
+  GQLTopicQuery,
+  GQLTopicQueryVariables,
+} from '../../../graphqlTypes';
 
 type Props = {
   topicId: string;
@@ -17,13 +23,9 @@ type Props = {
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
+  history: RouteComponentProps['history'];
 } & WithTranslation;
-
-interface Data {
-  topic: GQLTopic;
-  resourceTypes: Array<GQLResourceType>;
-}
 
 const TopicWrapper = ({
   subTopicId,
@@ -36,18 +38,29 @@ const TopicWrapper = ({
   showResources,
   subject,
   index,
+  history,
 }: Props) => {
-  const { data, loading } = useGraphQuery<Data>(topicQuery, {
+  const { data, loading, error } = useGraphQuery<
+    GQLTopicQuery,
+    GQLTopicQueryVariables
+  >(topicQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
-      setBreadCrumb({
-        id: data.topic.id,
-        label: data.topic.name,
-        index: index,
-        url: '',
-      });
+      if (data.topic) {
+        setBreadCrumb({
+          id: data.topic.id,
+          label: data.topic.name,
+          index: index,
+          url: '',
+        });
+      }
     },
   });
+
+  if (error) {
+    handleError(error);
+    history.replace('/404');
+  }
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;
@@ -55,7 +68,8 @@ const TopicWrapper = ({
 
   return (
     <Topic
-      data={data}
+      topic={data.topic}
+      resourceTypes={data.resourceTypes}
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}

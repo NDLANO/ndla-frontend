@@ -24,7 +24,7 @@ interface Props extends RouteProps {
 const ErrorPage = ({ locale, location }: Props) => {
   const { t } = useTranslation();
   return (
-    <Page locale={locale} location={location}>
+    <Page location={location}>
       <Content>
         <Masthead showLoaderWhenNeeded={false} fixed>
           <MastheadItem right>

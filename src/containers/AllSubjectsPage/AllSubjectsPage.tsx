@@ -7,19 +7,20 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 
 import { SubjectLinkList } from '../../components';
-import { SubjectShape } from '../../shapes';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectsQuery } from '../../queries';
+import { GQLSubjectsQuery } from '../../graphqlTypes';
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
-  const { error, loading, data } = useGraphQuery(subjectsQuery);
+  const { error, loading, data } = useGraphQuery<GQLSubjectsQuery>(
+    subjectsQuery,
+  );
   if (loading) return null;
   return (
     <div className="c-resources u-padding-top-large">
@@ -47,11 +48,6 @@ const AllSubjectsPage = () => {
       </OneColumn>
     </div>
   );
-};
-
-AllSubjectsPage.propTypes = {
-  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  hasFailed: PropTypes.bool.isRequired,
 };
 
 export default AllSubjectsPage;

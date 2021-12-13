@@ -5,10 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import config from '../config';
+
 const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
+    'http://api-gateway.ndla-local',
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',
@@ -25,7 +28,7 @@ const connectSrc = (() => {
     'https://ltiredirect.itslearning.com',
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
-    'https://auth.dataporten.no',
+    'https://*.dataporten.no',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -33,12 +36,19 @@ const connectSrc = (() => {
   ) {
     return [
       ...defaultConnectSrc,
-      'http://api-gateway.ndla-local',
       'https://devtools.apollodata.com/graphql',
       `http://localhost:${hmrPort}`,
       `ws://localhost:${hmrPort}`,
       'http://localhost:3100',
       'http://localhost:4000',
+    ];
+  }
+  // Temp for testing xapi
+  if (config.ndlaEnvironment === 'test') {
+    return [
+      ...defaultConnectSrc,
+      'https://xapi.com',
+      'https://learninglocker.kf.no',
     ];
   }
 
@@ -50,6 +60,7 @@ const scriptSrc = (() => {
     "'self'",
     "'unsafe-inline'",
     " 'unsafe-eval'",
+    'http://api-gateway.ndla-local',
     'https://*.ndlah5p.com',
     'https://h5p.org',
     'https://*.ndla.no',
@@ -101,10 +112,18 @@ const scriptSrc = (() => {
     'https://*.zendesk.com',
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
-    'https://auth.dataporten.no',
+    'https://*.dataporten.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
+  }
+  // Temp for testing xapi
+  if (config.ndlaEnvironment === 'test') {
+    return [
+      ...defaultScriptSrc,
+      'https://xapi.com',
+      'https://learninglocker.kf.no',
+    ];
   }
   return defaultScriptSrc;
 })();
@@ -112,6 +131,7 @@ const scriptSrc = (() => {
 const frameSrc = (() => {
   const defaultFrameSrc = [
     'blob:',
+    'http://api-gateway.ndla-local',
     '*.nrk.no',
     'nrk.no',
     '*.vg.no',
@@ -165,6 +185,10 @@ const frameSrc = (() => {
     'ted.com',
     'embed.ted.com',
     'embed.molview.org',
+    'reader.pubfront.com',
+    'ebok.no',
+    'trinket.io',
+    'codepen.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -174,36 +198,6 @@ const frameSrc = (() => {
     ];
   }
   return defaultFrameSrc;
-})();
-
-const imgSrc = (() => {
-  const defaultImageSrc = [
-    "'self'",
-    'https://*.ndla.no',
-    'https://www.google-analytics.com',
-    'https://optimize.google.com',
-    'https://stats.g.doubleclick.net',
-    'http://metrics.brightcove.com',
-    'https://httpsak-a.akamaihd.net',
-    'https://*.boltdns.net',
-    'https://www.nrk.no/',
-    'https://ssl.gstatic.com',
-    'https://www.gstatic.com',
-    'https://*.hotjar.com',
-    'https://ndla.zendesk.com',
-    '*.facebook.com',
-    '*.twitter.com',
-    '*.twimg.com',
-    ' data:',
-  ];
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER
-  ) {
-    return [...defaultImageSrc, 'http://api-gateway.ndla-local'];
-  }
-
-  return defaultImageSrc;
 })();
 
 const contentSecurityPolicy = {
@@ -231,7 +225,26 @@ const contentSecurityPolicy = {
       'https://*.hotjar.com',
       'cdn.jsdelivr.net',
     ],
-    imgSrc,
+    imgSrc: [
+      "'self'",
+      'http://api-gateway.ndla-local',
+      'https://*.ndla.no',
+      'https://www.google-analytics.com',
+      'https://optimize.google.com',
+      'https://stats.g.doubleclick.net',
+      'http://metrics.brightcove.com',
+      'https://httpsak-a.akamaihd.net',
+      'https://*.boltdns.net',
+      'https://www.nrk.no/',
+      'https://ssl.gstatic.com',
+      'https://www.gstatic.com',
+      'https://*.hotjar.com',
+      'https://ndla.zendesk.com',
+      '*.facebook.com',
+      '*.twitter.com',
+      '*.twimg.com',
+      ' data:',
+    ],
     mediaSrc: [
       "'self'",
       'blob:',

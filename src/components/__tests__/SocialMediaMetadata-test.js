@@ -8,29 +8,18 @@ import {
   getAlternateLanguages,
   getAlternateUrl,
   getCanonicalUrl,
+  getOgUrl,
 } from '../SocialMediaMetadata';
 
-test('getAlternateLanguages with article and basename is empty', () => {
-  const alternateLanguages = getAlternateLanguages('', 'nb', {
+test('getAlternateLanguages with article', () => {
+  const alternateLanguages = getAlternateLanguages({
     supportedLanguages: ['nb', 'nn', 'en'],
   });
   expect(alternateLanguages).toMatchSnapshot();
 });
 
-test('getAlternateLanguages with article and basename is en', () => {
-  const alternateLanguages = getAlternateLanguages('en', 'en', {
-    supportedLanguages: ['nb', 'nn', 'en'],
-  });
-  expect(alternateLanguages).toMatchSnapshot();
-});
-
-test('getAlternateLanguages without article and basename is empty', () => {
-  const alternateLanguages = getAlternateLanguages('', 'nb');
-  expect(alternateLanguages).toMatchSnapshot();
-});
-
-test('getAlternateLanguages without article and basename is nn', () => {
-  const alternateLanguages = getAlternateLanguages('nn', 'nn');
+test('getAlternateLanguages without article', () => {
+  const alternateLanguages = getAlternateLanguages();
   expect(alternateLanguages).toMatchSnapshot();
 });
 
@@ -70,4 +59,14 @@ test('getCanonicalUrl with iframe-url and no language', () => {
   expect(canonicalUrl).toMatch(
     'https://test.ndla.no/article-iframe/urn:topic:123/1',
   );
+});
+
+test('getOgUrl with no basename', () => {
+  const ogUrl = getOgUrl({ pathname: '/article/123' }, '');
+  expect(ogUrl).toMatch('https://test.ndla.no/article/123');
+});
+
+test('getOgUrl with nb basename', () => {
+  const ogUrl = getOgUrl({ pathname: '/article/123' }, 'nb');
+  expect(ogUrl).toMatch('https://test.ndla.no/nb/article/123');
 });

@@ -20,10 +20,13 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
 import Article from '../../../components/Article';
-import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
-import { GQLResourceType, GQLSubject, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLResourceTypeDefinition,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
@@ -33,11 +36,11 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 };
 
 interface Props extends WithTranslation {
-  copyPageUrlLink: string;
+  copyPageUrlLink?: string;
   topic: GQLTopic;
-  subject: GQLSubject & { allTopics: GQLTopic[] };
+  subject: GQLSubject;
   locale: LocaleType;
-  resourceTypes?: GQLResourceType[];
+  resourceTypes?: GQLResourceTypeDefinition[];
 }
 
 const MultidisciplinarySubjectArticle = ({
@@ -80,15 +83,14 @@ const MultidisciplinarySubjectArticle = ({
         subjects={subjects}
         subjectsLinks={subjectLinks}
       />
-      <SocialMediaMetadata
-        title={htmlTitle(topic.article.title, [subject?.name])}
-        trackableContent={topic.article}
-        description={topic.article.metaDescription}
-        locale={locale}
-        image={topic.article.metaImage}
-      />
       <OneColumn>
-        <Article article={topic.article} label="" locale={locale} />
+        <Article
+          article={topic.article}
+          label=""
+          locale={locale}
+          isTopicArticle={false}
+          isResourceArticle={false}
+        />
         <div ref={resourcesRef}>
           <Resources
             topic={topic}
@@ -121,7 +123,7 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
     ?.split('/')
     .slice(2)
     .map(t =>
-      subject.allTopics.find(topic => topic.id.replace('urn:', '') === t),
+      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
   const longName = getSubjectLongName(subject?.id, locale);

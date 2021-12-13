@@ -105,7 +105,7 @@ const PlainLearningpathPage = props => {
         description={learningpath.description}
         locale={locale}
         image={{
-          src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+          url: learningpath?.coverphoto?.url,
         }}
       />
       <Learningpath

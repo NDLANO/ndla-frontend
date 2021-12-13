@@ -142,7 +142,7 @@ const Learningpath = ({
   );
 
   return (
-    <LearningPathWrapper>
+    <LearningPathWrapper invertedStyle={ndlaFilm}>
       <div className="c-hero__content">
         <section>
           <Breadcrumb invertedStyle={ndlaFilm} items={breadcrumbItems} />

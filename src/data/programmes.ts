@@ -885,13 +885,31 @@ export const programmes = [
         categories: [
           {
             name: {
-              en: 'Informasjonsteknologi Vg2',
-              nb: 'Informasjonsteknologi Vg2',
-              nn: 'Informasjonsteknologi Vg2',
+              en: 'Informasjonsteknologi',
+              nb: 'Informasjonsteknologi',
+              nn: 'Informasjonsteknologi',
             },
             subjects: [
               {
                 id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+              },
+            ],
+          },
+          {
+            name: {
+              en: 'Medieproduksjon',
+              nb: 'Medieproduksjon',
+              nn: 'Medieproduksjon',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:a6b56b7e-2149-4216-92b6-3095feb870f3',
+              },
+              {
+                id: 'urn:subject:a453ed64-da44-4d85-93a1-2962e597ff6a',
+              },
+              {
+                id: 'urn:subject:8ede7bb4-be9e-4039-911c-e2d14f7c033d',
               },
             ],
           },
@@ -2075,7 +2093,7 @@ export const programmes = [
           {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
-              nn: 'Service, tryggleik og administrasjon',
+              nn: 'Service, sikkerheit og administrasjon',
               en: 'Service, sikkerhet og administrasjon',
             },
             subjects: [
