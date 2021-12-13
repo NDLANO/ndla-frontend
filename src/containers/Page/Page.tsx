@@ -42,7 +42,7 @@ export const Page = ({
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
       {children}
-      <Footer inverted={ndlaFilm} location={location} />
+      <Footer inverted={ndlaFilm} />
       {config.feideEnabled && <FeideFooter location={location} />}
     </PageContainer>
   );

@@ -7,16 +7,20 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useLocation } from 'react-router';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
 import { getLocaleUrls } from '../../../util/localeHelpers';
-import { LocationShape } from '../../../shapes';
 import config from '../../../config';
 
-const FooterWrapper = ({ location, inverted }) => {
+interface Props {
+  inverted?: boolean;
+}
+
+const FooterWrapper = ({ inverted }: Props) => {
+  const location = useLocation();
   const { t, i18n } = useTranslation();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
@@ -58,6 +62,7 @@ const FooterWrapper = ({ location, inverted }) => {
   return (
     <Footer
       lang={i18n.language}
+      //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
       links={links}
       languageSelector={languageSelector}>
       <FooterText>
@@ -76,11 +81,6 @@ const FooterWrapper = ({ location, inverted }) => {
       </FooterText>
     </Footer>
   );
-};
-
-FooterWrapper.propTypes = {
-  location: LocationShape,
-  inverted: PropTypes.bool,
 };
 
 export default FooterWrapper;
