@@ -9,6 +9,7 @@
 import React, { RefObject, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { NavigationBox } from '@ndla/ui';
+import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
@@ -47,6 +48,7 @@ const SubjectPageContent = ({
       selected: topic?.id === topicIds[0],
       url: toTopic(subject.id, topic?.id),
       isRestrictedResource: topic.availability !== 'everyone',
+      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
 

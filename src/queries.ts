@@ -352,6 +352,7 @@ export const topicInfoFragment = gql`
     path
     availability
     parent
+    relevanceId
     meta {
       ...MetaInfo
     }
@@ -638,6 +639,7 @@ export const subjectTopicsQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           ...MetaInfo
         }
@@ -931,12 +933,14 @@ export const topicQueryWithPathTopics = gql`
         name
         path
       }
+      relevanceId
       meta {
         ...MetaInfo
       }
       subtopics {
         id
         name
+        relevanceId
       }
       article(showVisualElement: $showVisualElement) {
         ...ArticleInfo
@@ -971,12 +975,14 @@ export const topicQuery = gql`
       name
       path
       parent
+      relevanceId
       meta {
         ...MetaInfo
       }
       subtopics {
         id
         name
+        relevanceId
       }
       article {
         ...ArticleInfo
@@ -1140,6 +1146,7 @@ export const topicPageQuery = gql`
       id
       name
       path
+      relevanceId
       meta {
         ...MetaInfo
       }
@@ -1162,6 +1169,7 @@ export const topicPageQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           ...MetaInfo
         }
@@ -1192,6 +1200,7 @@ export const resourcePageQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           ...MetaInfo
         }
@@ -1209,6 +1218,7 @@ export const resourcePageQuery = gql`
       id
       name
       path
+      relevanceId
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
