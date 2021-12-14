@@ -125,8 +125,6 @@ const ArticlePage = ({
       <ArticleHero
         ndlaFilm={ndlaFilm}
         subject={subject}
-        topicPath={topicPath}
-        resource={resource}
         resourceType={resourceType}
         metaImage={article.metaImage}
         breadcrumbItems={breadcrumbItems}
