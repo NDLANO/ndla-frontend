@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Choose subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    accessDenied: `Access denied - ${titleTemplate}`,
     subject: 'Subject',
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `The page has been moved - ${titleTemplate}`,
