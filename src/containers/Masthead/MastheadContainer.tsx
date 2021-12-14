@@ -209,7 +209,6 @@ const MastheadContainer = ({
         <MastheadItem right>
           <LanguageSelector
             inverted={ndlaFilm}
-            //@ts-ignore
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />

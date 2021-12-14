@@ -1,6 +1,8 @@
 import { spacingUnit } from '@ndla/core';
+import { Breakpoint } from '@ndla/core/types';
+import { GQLName } from '../../graphqlTypes';
 
-export const findName = (themeNames, language) => {
+export const findName = (themeNames: GQLName[], language: string) => {
   const themeName = themeNames.find(name => name.language === language);
   if (themeName) {
     return themeName.name;
@@ -12,7 +14,14 @@ export const findName = (themeNames, language) => {
   return '';
 };
 
-export const breakpoints = [
+export const breakpoints: {
+  until?: Breakpoint;
+  columnsPrSlide: number;
+  distanceBetweenItems: number;
+  arrowOffset: number;
+  margin?: number;
+  maxColumnWidth?: number;
+}[] = [
   {
     until: 'mobile',
     columnsPrSlide: 1,

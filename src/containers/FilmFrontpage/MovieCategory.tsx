@@ -7,16 +7,23 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { CarouselAutosize } from '@ndla/carousel';
+//@ts-ignore
 import { FilmMovieList, MovieGrid } from '@ndla/ui';
-import { withTranslation } from 'react-i18next';
-import {
-  GraphQLArticleMetaShape,
-  GraphQLMovieThemeShape,
-} from '../../graphqlShapes';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { breakpoints, findName } from './filmHelper';
-import { SUPPORTED_LANGUAGES } from '../../constants';
+import { GQLMovieTheme } from '../../graphqlTypes';
+import { MoviesByType } from './NdlaFilmFrontpage';
+
+interface Props {
+  fetchingMoviesByType?: boolean;
+  resourceTypeName?: { name?: string; id?: string };
+  themes: GQLMovieTheme[];
+  resourceTypes?: { name?: string; id?: string }[];
+  moviesByType?: MoviesByType[];
+  resourceTypeSelected?: string;
+  loadingPlaceholderHeight?: string;
+}
 
 const MovieCategory = ({
   resourceTypeName,
@@ -24,11 +31,11 @@ const MovieCategory = ({
   resourceTypes,
   moviesByType,
   fetchingMoviesByType,
-  language,
   resourceTypeSelected,
   loadingPlaceholderHeight,
   t,
-}) => (
+  i18n,
+}: Props & WithTranslation) => (
   <CarouselAutosize breakpoints={breakpoints}>
     {autoSizedProps =>
       resourceTypeSelected ? (
@@ -44,7 +51,7 @@ const MovieCategory = ({
         themes.map(theme => (
           <FilmMovieList
             key={theme.name}
-            name={findName(theme.name, language)}
+            name={findName(theme.name ?? [], i18n.language)}
             movies={theme.movies}
             autoSizedProps={autoSizedProps}
             slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
@@ -56,21 +63,5 @@ const MovieCategory = ({
     }
   </CarouselAutosize>
 );
-
-MovieCategory.propTypes = {
-  resourceTypeName: PropTypes.string,
-  themes: PropTypes.arrayOf(GraphQLMovieThemeShape),
-  resourceTypes: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.id,
-    }),
-  ),
-  moviesByType: PropTypes.arrayOf(GraphQLArticleMetaShape),
-  fetchingMoviesByType: PropTypes.bool,
-  language: PropTypes.oneOf(SUPPORTED_LANGUAGES).isRequired,
-  resourceTypeSelected: PropTypes.string,
-  loadingPlaceholderHeight: PropTypes.bool,
-};
 
 export default withTranslation()(MovieCategory);
