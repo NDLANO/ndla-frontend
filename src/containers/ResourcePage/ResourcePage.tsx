@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { useTranslation } from 'react-i18next';
 
@@ -103,4 +103,4 @@ const ResourcePage = (props: Props) => {
   );
 };
 
-export default ResourcePage;
+export default withRouter(ResourcePage);
