@@ -88,8 +88,9 @@ const ResourcePage = (props: Props) => {
     return (
       <LearningpathPage
         {...props}
+        stepId={props.match.params.stepId}
         data={{ ...data, relevance, topicPath }}
-        errors={error?.graphQLErrors}
+        loading={loading}
       />
     );
   }
