@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Location } from 'history';
+import { useTranslation } from 'react-i18next';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -21,22 +21,37 @@ import ArticlePage from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
-import { LocationShape } from '../../shapes';
 import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
+import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
+import { RootComponentProps } from '../../routes';
 
-const urlInPaths = (location, resource) => {
+interface MatchParams {
+  subjectId: string;
+  stepId?: string;
+  topicId?: string;
+  topicPath: string;
+  resourceId: string;
+}
+
+const urlInPaths = (location: Location, resource: GQLResource) => {
   return resource.paths?.find(p => location.pathname.includes(p));
 };
 
-const ResourcePage = props => {
+type Props = RootComponentProps & RouteComponentProps<MatchParams>;
+
+const ResourcePage = (props: Props) => {
+  const { t } = useTranslation();
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
-  const { error, loading, data } = useGraphQuery(resourcePageQuery, {
-    variables: {
-      subjectId,
-      topicId,
-      resourceId,
+  const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
+    resourcePageQuery,
+    {
+      variables: {
+        subjectId,
+        topicId,
+        resourceId,
+      },
     },
-  });
+  );
 
   if (loading) {
     return null;
@@ -52,11 +67,9 @@ const ResourcePage = props => {
 
   if (data.resource && !urlInPaths(props.location, data.resource)) {
     if (data.resource.paths?.length === 1) {
-      return <Redirect to={data.resource.paths[0]} />;
+      return <Redirect to={data.resource.paths[0]!} />;
     } else {
-      return (
-        <MovedResourcePage resource={data.resource} locale={props.locale} />
-      );
+      return <MovedResourcePage resource={data.resource} />;
     }
   }
 
@@ -67,8 +80,8 @@ const ResourcePage = props => {
   const relevanceId = resource.relevanceId;
   const relevance =
     relevanceId === RELEVANCE_SUPPLEMENTARY
-      ? props.t('searchPage.searchFilterMessages.supplementaryRelevance')
-      : props.t('searchPage.searchFilterMessages.coreRelevance');
+      ? t('searchPage.searchFilterMessages.supplementaryRelevance')
+      : t('searchPage.searchFilterMessages.coreRelevance');
   const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   if (isLearningPathResource(resource)) {
@@ -89,23 +102,4 @@ const ResourcePage = props => {
   );
 };
 
-ResourcePage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string.isRequired,
-      topicList: PropTypes.arrayOf(PropTypes.string.isRequired),
-      topicId: PropTypes.string,
-      resourceId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  ndlaFilm: PropTypes.bool,
-  skipToContentId: PropTypes.string,
-  location: LocationShape,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-export default withTranslation()(ResourcePage);
+export default withRouter(ResourcePage);
