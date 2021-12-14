@@ -6,19 +6,29 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
+//@ts-ignore
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
-import { withRouter } from 'react-router-dom';
 import {
-  BreadCrumbShape,
-  LocationShape,
-  ResourceShape,
-  SubjectShape,
-  TopicShape,
-} from '../../../shapes';
-
-const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }) => {
+  GQLMetaImage,
+  GQLResource,
+  GQLSubject,
+  GQLTopic,
+} from '../../../graphqlTypes';
+import { SubjectURI } from '../../../routeHelpers';
+interface WrapperProps {
+  children: ReactNode;
+  resourceType?: string;
+  ndlaFilm?: boolean;
+  metaImage?: GQLMetaImage;
+}
+const WrapperComponent = ({
+  children,
+  resourceType,
+  ndlaFilm,
+  metaImage,
+}: WrapperProps) => {
   if (ndlaFilm) {
     return (
       <NdlaFilmHero hasImage={metaImage && metaImage.url}>
@@ -38,17 +48,23 @@ WrapperComponent.propTypes = {
   }),
 };
 
+interface Props {
+  ndlaFilm?: boolean;
+  resource: GQLResource;
+  subject?: GQLSubject;
+  topicPath: GQLTopic[];
+  resourceType?: string;
+  metaImage?: GQLMetaImage;
+  breadcrumbItems: SubjectURI[];
+}
+
 const ArticleHero = ({
-  resource,
   resourceType,
   metaImage,
   ndlaFilm,
   subject,
-  topicPath,
-  location,
-  locale,
   breadcrumbItems,
-}) => (
+}: Props) => (
   <WrapperComponent
     ndlaFilm={ndlaFilm}
     resourceType={resourceType}
@@ -66,18 +82,4 @@ const ArticleHero = ({
   </WrapperComponent>
 );
 
-ArticleHero.propTypes = {
-  resource: ResourceShape.isRequired,
-  resourceType: PropTypes.string,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
-  location: LocationShape,
-  locale: PropTypes.string,
-  metaImage: PropTypes.shape({
-    url: PropTypes.string,
-    alt: PropTypes.string,
-  }),
-  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
-  ndlaFilm: PropTypes.bool,
-};
-export default withRouter(ArticleHero);
+export default ArticleHero;

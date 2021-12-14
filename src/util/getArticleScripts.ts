@@ -8,7 +8,7 @@
 
 import { GQLArticle } from '../graphqlTypes';
 
-interface Scripts {
+export interface Scripts {
   key?: string;
   src?: string;
   type?: string;

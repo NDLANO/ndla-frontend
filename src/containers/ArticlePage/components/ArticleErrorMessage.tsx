@@ -6,12 +6,16 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 
-const ArticleErrorMessage = ({ status, children }) => {
+interface Props {
+  status: string;
+  children: ReactNode;
+}
+
+const ArticleErrorMessage = ({ status, children }: Props) => {
   const { t } = useTranslation();
   return (
     <OneColumn>
@@ -38,10 +42,6 @@ const ArticleErrorMessage = ({ status, children }) => {
       </article>
     </OneColumn>
   );
-};
-
-ArticleErrorMessage.propTypes = {
-  status: PropTypes.string.isRequired,
 };
 
 export default ArticleErrorMessage;
