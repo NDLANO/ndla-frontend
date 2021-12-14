@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,6 @@ import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
-import { LocaleType } from '../../interfaces';
 import {
   GQLTopicWithPathTopicsQuery,
   GQLTopicWithPathTopicsQueryVariables,
@@ -24,10 +23,9 @@ import {
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { RootComponentProps } from '../../routes';
 
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-}
+interface Props extends RootComponentProps, RouteComponentProps {}
 
 const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
@@ -99,4 +97,4 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   );
 };
 
-export default MultidisciplinarySubjectArticlePage;
+export default withRouter(MultidisciplinarySubjectArticlePage);
