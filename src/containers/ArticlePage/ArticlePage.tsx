@@ -48,7 +48,6 @@ interface Props extends WithTranslation {
   subject?: GQLSubject;
   resourceTypes?: GQLResourceTypeDefinition[];
   errors?: readonly GraphQLError[];
-  skipToContentId: string;
   ndlaFilm: boolean;
   loading?: boolean;
 }
@@ -60,7 +59,6 @@ const ArticlePage = ({
   subject,
   topicPath,
   errors,
-  skipToContentId,
   ndlaFilm,
   i18n,
   t,
@@ -94,6 +92,7 @@ const ArticlePage = ({
     return (
       <div>
         <ArticleErrorMessage
+          //@ts-ignore
           status={error?.status === 404 ? 'error404' : 'error'}>
           {topic && (
             <Resources
@@ -109,11 +108,10 @@ const ArticlePage = ({
   }
 
   const article = transformArticle(resource.article, locale)!;
-  const resourceType = resource ? getContentType(resource) : null;
-  const copyPageUrlLink = `${subjectPageUrl}${topic.path}/${resource.id.replace(
-    'urn:',
-    '',
-  )}`;
+  const resourceType = resource ? getContentType(resource) : undefined;
+  const copyPageUrlLink = topic
+    ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
+    : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(
@@ -130,7 +128,6 @@ const ArticlePage = ({
         topicPath={topicPath}
         resource={resource}
         resourceType={resourceType}
-        locale={locale}
         metaImage={article.metaImage}
         breadcrumbItems={breadcrumbItems}
       />
@@ -164,7 +161,6 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
-          id={skipToContentId}
           article={article}
           locale={locale}
           resourceType={resourceType}

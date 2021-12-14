@@ -16,7 +16,7 @@ import {
   GQLSubject,
   GQLTopic,
 } from '../../../graphqlTypes';
-import { SubjectURI } from '../../../routeHelpers';
+import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
 interface WrapperProps {
   children: ReactNode;
   resourceType?: string;
@@ -55,7 +55,7 @@ interface Props {
   topicPath: GQLTopic[];
   resourceType?: string;
   metaImage?: GQLMetaImage;
-  breadcrumbItems: SubjectURI[];
+  breadcrumbItems: BreadcrumbType[];
 }
 
 const ArticleHero = ({
@@ -76,7 +76,13 @@ const ArticleHero = ({
     )}
     <OneColumn>
       <div className="c-hero__content">
-        <section>{subject && <Breadcrumb items={breadcrumbItems} />}</section>
+        <section>
+          {subject && (
+            <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
+              <></>
+            </Breadcrumb>
+          )}
+        </section>
       </div>
     </OneColumn>
   </WrapperComponent>

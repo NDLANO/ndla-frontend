@@ -102,7 +102,6 @@ const ResourcePage = (props: Props) => {
       subject={data.subject}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
-      skipToContentId={props.skipToContentId}
       ndlaFilm={!!props.ndlaFilm}
       loading={loading}
     />

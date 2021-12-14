@@ -16,7 +16,8 @@ import {
 } from './constants';
 import { getProgrammeBySlug } from './data/programmes';
 import { getSubjectLongName } from './data/subjects';
-import { LocaleType } from './interfaces';
+import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
+import { Breadcrumb, LocaleType } from './interfaces';
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
@@ -138,42 +139,40 @@ export type SubjectURI = {
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: SubjectURI[],
+  paths: (GQLTopic | GQLResource | GQLSubject | undefined)[],
   locale: LocaleType = config.defaultLocale,
-) {
+): Breadcrumb[] {
+  const safePaths = paths.filter(p => p !== undefined) as (
+    | GQLTopic
+    | GQLResource
+    | GQLSubject
+  )[];
+  if (safePaths.length < 1) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const subject = paths[0];
-  const longName = getSubjectLongName(subject?.id, locale);
+  const subject = safePaths[0]!;
+  const longName = getSubjectLongName(subject.id, locale);
   const breadcrumbSubject = {
     ...subject,
-    name: longName || subject?.name,
+    name: longName || subject.name,
   };
 
-  const prelinks = [breadcrumbSubject, ...paths.splice(1)];
-
-  const links = prelinks
-    .filter(Boolean)
-    .reduce(
-      (links: SubjectURI[], item) => [
-        ...links,
-        {
-          to:
-            (links.length ? links?.[links.length - 1]?.to : '') +
-            '/' +
-            removeUrn(item.id),
-          name: item.name,
-        },
-      ],
-      [],
-    )
-    .map(link => {
-      // making sure we have the ending slash in breadCrumbs and it dosen't contain it allready
-      if (link.to) {
-        link.to = fixEndSlash(link.to);
+  const prelinks = [breadcrumbSubject, ...safePaths.splice(1)];
+  const filteredLinks = prelinks.filter(l => !!l);
+  const breadcrumbs = filteredLinks
+    .reduce<Breadcrumb[]>((acc, link) => {
+      const to =
+        (acc.length ? acc?.[acc.length - 1]?.to : '') +
+        '/' +
+        removeUrn(link.id);
+      return acc.concat([{ to, name: link.name, id: link.id }]);
+    }, [])
+    .map(bc => {
+      if (bc.to) {
+        bc.to = fixEndSlash(bc.to);
       }
-      return link;
+      return bc;
     });
-  return [{ to: '/', name: rootName }, ...links];
+  return [{ to: '/', name: rootName, id: '' }, ...breadcrumbs];
 }
 
 export function fixEndSlash(link: string) {
