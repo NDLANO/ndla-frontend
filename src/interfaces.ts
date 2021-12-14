@@ -36,7 +36,7 @@ export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 
-export type Breadcrumb = { id: string; to: string; name: string };
+export type Breadcrumb = { to: string; name: string };
 
 export type ResourceType = 'image' | 'other' | 'video';
 

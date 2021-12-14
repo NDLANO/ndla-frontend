@@ -164,7 +164,7 @@ export function toBreadcrumbItems(
         (acc.length ? acc?.[acc.length - 1]?.to : '') +
         '/' +
         removeUrn(link.id);
-      return acc.concat([{ to, name: link.name, id: link.id }]);
+      return acc.concat([{ to, name: link.name }]);
     }, [])
     .map(bc => {
       if (bc.to) {
@@ -172,7 +172,7 @@ export function toBreadcrumbItems(
       }
       return bc;
     });
-  return [{ to: '/', name: rootName, id: '' }, ...breadcrumbs];
+  return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 
 export function fixEndSlash(link: string) {
