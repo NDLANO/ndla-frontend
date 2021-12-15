@@ -95,9 +95,15 @@ const ResourcePage = (props: Props) => {
   }
   return (
     <ArticlePage
-      {...props}
-      data={{ ...data, relevance, topicPath }}
+      resource={data.resource}
+      topic={data.topic}
+      topicPath={topicPath}
+      relevance={relevance}
+      subject={data.subject}
+      resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
+      ndlaFilm={!!props.ndlaFilm}
+      loading={loading}
     />
   );
 };

@@ -16,6 +16,7 @@ import {
   GQLImageLicense,
 } from '../graphqlTypes';
 import config from '../config';
+import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
 interface StructuredData {
@@ -50,12 +51,6 @@ interface Mediaelements {
   data: GQLImageLicense | GQLAudioLicense | GQLBrightcoveLicense | null;
   type: string;
 }
-
-type Breadcrumb = {
-  id: string;
-  name: string;
-  to: string;
-};
 
 const CREATIVE_WORK_TYPE = 'Article';
 const BREADCRUMB_TYPE = 'BreadcrumbList';

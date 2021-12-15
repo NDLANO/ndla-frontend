@@ -54,12 +54,12 @@ function renderCompetenceGoals(
 interface Props {
   article: GQLArticleInfoFragment;
   resourceType?: string;
-  isTopicArticle: boolean;
+  isTopicArticle?: boolean;
   children?: React.ReactElement;
   contentType?: string;
   label: string;
   locale: LocaleType;
-  isResourceArticle: boolean;
+  isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
 }
