@@ -21,7 +21,8 @@ import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
-import { renderHtml, renderPage } from '../helpers/render';
+import { renderHtml, renderPage, renderPageWithData } from '../helpers/render';
+import { EmotionCacheKey } from '../../constants';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -75,7 +76,7 @@ async function doRender(req) {
     });
   }
 
-  const cache = createCache();
+  const cache = createCache({ key: EmotionCacheKey });
 
   const context = {};
   const Page = !disableSSR(req) ? (
@@ -90,9 +91,8 @@ async function doRender(req) {
     ''
   );
 
-  const html = await renderToStringWithData(Page);
   const apolloState = client.extract();
-  const docProps = renderPage(
+  const docProps = await renderPageWithData(
     Page,
     getAssets(),
     {
@@ -106,7 +106,7 @@ async function doRender(req) {
 
   return {
     docProps,
-    html,
+    html: docProps.html,
     context,
   };
 }

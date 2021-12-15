@@ -62,3 +62,5 @@ export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 export const LocaleValues = ['nb', 'nn', 'en'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
+export const EmotionCacheKey = 'ndla-frontend';
+
