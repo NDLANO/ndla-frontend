@@ -27,8 +27,6 @@ import { plainArticleQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 
 const getTitle = article => article?.title || '';
 

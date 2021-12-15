@@ -11,7 +11,6 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { renderToStringWithData } from '@apollo/client/react/ssr';
 import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
@@ -21,7 +20,7 @@ import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
-import { renderHtml, renderPage, renderPageWithData } from '../helpers/render';
+import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
