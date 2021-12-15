@@ -27,7 +27,10 @@ const AccessDenied = () => {
       <OneColumn cssModifier="clear">
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
-            location && localStorage.setItem('lastPath', location.pathname);
+            const lastPath = localStorage.getItem('lastPath');
+            if (!lastPath) {
+              location && localStorage.setItem('lastPath', location.pathname);
+            }
             if (authenticated) {
               history.push('/logout');
             } else {

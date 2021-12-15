@@ -1,5 +1,5 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import Topic from './Topic';
@@ -24,7 +24,6 @@ type Props = {
   index: number;
   showResources: boolean;
   subject: GQLSubject;
-  history: RouteComponentProps['history'];
 } & WithTranslation;
 
 const TopicWrapper = ({
@@ -38,8 +37,9 @@ const TopicWrapper = ({
   showResources,
   subject,
   index,
-  history,
 }: Props) => {
+  const location = useLocation();
+  const history = useHistory();
   const { data, loading, error } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
@@ -65,6 +65,13 @@ const TopicWrapper = ({
       history.replace('/404');
     }
   }
+
+  useEffect(() => {
+    // Set localStorage 'lastPath' so feide authentication redirects us back here if logged in.
+    if (isAccessDeniedError(error)) {
+      localStorage.setItem('lastPath', location.pathname);
+    }
+  }, [error, location]);
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;

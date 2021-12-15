@@ -219,7 +219,6 @@ const SubjectContainer = ({
               topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
-              history={history}
             />
           </LayoutItem>
         </OneColumn>

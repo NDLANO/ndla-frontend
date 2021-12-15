@@ -78,6 +78,8 @@ function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
     expiration,
   };
 
+  localStorage.removeItem('lastPath');
+
   setCookie(cookieParams);
 
   return cookieValue;
