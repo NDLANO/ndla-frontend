@@ -25,6 +25,10 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { plainArticleQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import { isAccessDeniedError } from '../../util/handleError';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 const getTitle = article => article?.title || '';
 
@@ -41,7 +45,7 @@ const PlainArticlePage = ({
   },
 }) => {
   const { t } = useTranslation();
-  const { loading, data } = useGraphQuery(plainArticleQuery, {
+  const { loading, data, error } = useGraphQuery(plainArticleQuery, {
     variables: { articleId, isOembed: 'false', path: url },
   });
 
@@ -55,9 +59,17 @@ const PlainArticlePage = ({
     return null;
   }
 
+  if (error) {
+    if (isAccessDeniedError(error)) {
+      return <AccessDeniedPage />;
+    }
+    return <DefaultErrorMessage />;
+  }
+
   if (!data) {
     return <DefaultErrorMessage />;
   }
+
   if (!data.article) {
     return <NotFoundPage />;
   }

@@ -6,16 +6,20 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { Status } from '../../components';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
+  const { authenticated } = useContext(AuthContext);
+  const statusCode = authenticated ? 403 : 401;
+
   return (
-    <Status code={403}>
+    <Status code={statusCode}>
       <HelmetWithTracker title={t('htmlTitles.accessDenied')} />
       <OneColumn cssModifier="clear">
         <ErrorResourceAccessDenied onAuthenticateClick={() => {}} />

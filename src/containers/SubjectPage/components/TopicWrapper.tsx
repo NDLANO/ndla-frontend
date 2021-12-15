@@ -5,14 +5,13 @@ import Spinner from '@ndla/ui/lib/Spinner';
 import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import handleError, { getErrorStatuses } from '../../../util/handleError';
+import handleError, { isAccessDeniedError } from '../../../util/handleError';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 import {
   GQLSubject,
   GQLTopicQuery,
   GQLTopicQueryVariables,
 } from '../../../graphqlTypes';
-import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
 
 type Props = {
   topicId: string;
@@ -60,8 +59,7 @@ const TopicWrapper = ({
 
   if (error) {
     handleError(error);
-    const errorStatuses = getErrorStatuses(error);
-    if (errorStatuses.includes(401) || errorStatuses.includes(403)) {
+    if (isAccessDeniedError(error)) {
       history.replace('/403');
     } else {
       history.replace('/404');
