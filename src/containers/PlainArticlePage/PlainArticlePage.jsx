@@ -69,6 +69,7 @@ const PlainArticlePage = ({
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
+        <meta name="robots" content="noindex" />
         {article && article.metaDescription && (
           <meta name="description" content={article.metaDescription} />
         )}
