@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useContext, useEffect, useState } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { RouteProps, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { compact } from 'lodash';
@@ -14,12 +14,6 @@ import { compact } from 'lodash';
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
-import {
-  fetchFeideGroups,
-  fetchFeideUser,
-  FeideGroupType,
-  FeideUser,
-} from '../../util/feideApi';
 
 import { AuthContext } from '../AuthenticationContext';
 
@@ -65,35 +59,18 @@ interface Props {
 const FeideLoginButton = ({ footer, children, location }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { authenticated } = useContext(AuthContext);
-  const [feideGroups, setFeideGroups] = useState<FeideGroupType[]>();
-  const [feideUser, setFeideUser] = useState<FeideUser>();
+  const { authenticated, groups, user } = useContext(AuthContext);
   const primarySchool =
-    feideGroups?.length === 1
-      ? feideGroups[0]
-      : feideGroups?.find(g => g.membership.primarySchool);
-  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
-
-  useEffect(() => {
-    let mounted = true;
-    if (authenticated) {
-      fetchFeideGroups().then((a: FeideGroupType[] | undefined) => {
-        if (mounted) setFeideGroups(a);
-      });
-      fetchFeideUser().then((u: FeideUser | undefined) => {
-        if (mounted) setFeideUser(u);
-      });
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [authenticated]);
+    groups?.length === 1
+      ? groups[0]
+      : groups?.find(g => g.membership.primarySchool);
+  const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
   const collectedInfo: string[] = compact([
     primarySchool?.displayName,
     affiliationRole ? t('user.role.' + affiliationRole) : undefined,
-    feideUser?.displayName,
-    ...(feideUser?.mail ? feideUser.mail : []),
+    user?.displayName,
+    ...(user?.mail ? user.mail : []),
   ]);
 
   return (

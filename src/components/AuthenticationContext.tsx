@@ -6,20 +6,30 @@
  */
 
 import React, { useState, createContext, useEffect } from 'react';
+import {
+  fetchFeideGroups,
+  fetchFeideUser,
+  FeideGroupType,
+  FeideUser,
+} from '../util/feideApi';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
+  groups: FeideGroupType[] | undefined;
   login: () => void;
   logout: () => void;
+  user: FeideUser | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
+  groups: undefined,
   login: () => {},
   logout: () => {},
+  user: undefined,
 });
 
 interface Props {
@@ -29,6 +39,8 @@ interface Props {
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
+  const [user, setUser] = useState<FeideUser | undefined>(undefined);
+  const [groups, setGroups] = useState<FeideGroupType[] | undefined>(undefined);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -36,6 +48,13 @@ const AuthenticationContext = ({ children }: Props) => {
     setLoaded(true);
 
     if (isValid) {
+      // TODO: bruk fetchFeideUserWithGroups for å redusere kall.
+      fetchFeideUser().then((user: FeideUser | undefined) => {
+        setUser(user);
+      });
+      fetchFeideGroups().then((groups: FeideGroupType[] | undefined) => {
+        setGroups(groups);
+      });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
@@ -49,7 +68,7 @@ const AuthenticationContext = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, login, logout, authContextLoaded }}>
+      value={{ authenticated, authContextLoaded, groups, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
