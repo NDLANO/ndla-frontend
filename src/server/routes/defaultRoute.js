@@ -11,7 +11,6 @@ import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { renderToStringWithData } from '@apollo/client/react/ssr';
 import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
@@ -21,7 +20,8 @@ import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
-import { renderHtml, renderPage } from '../helpers/render';
+import { renderHtml, renderPageWithData } from '../helpers/render';
+import { EmotionCacheKey } from '../../constants';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -54,12 +54,12 @@ const disableSSR = req => {
 
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
-  let initialProps = { loading: true };
+  let initialProps = { loading: true, resCookie: req.headers['cookie'] };
   const { abbreviation: locale, basename, basepath } = getLocaleInfoFromPath(
     req.path,
   );
 
-  const client = createApolloClient(locale);
+  const client = createApolloClient(locale, initialProps.resCookie);
 
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
@@ -75,7 +75,7 @@ async function doRender(req) {
     });
   }
 
-  const cache = createCache();
+  const cache = createCache({ key: EmotionCacheKey });
 
   const context = {};
   const Page = !disableSSR(req) ? (
@@ -90,9 +90,8 @@ async function doRender(req) {
     ''
   );
 
-  const html = await renderToStringWithData(Page);
   const apolloState = client.extract();
-  const docProps = renderPage(
+  const docProps = await renderPageWithData(
     Page,
     getAssets(),
     {
@@ -106,7 +105,7 @@ async function doRender(req) {
 
   return {
     docProps,
-    html,
+    html: docProps.html,
     context,
   };
 }

@@ -22,6 +22,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
 import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
+import { isAccessDeniedError } from '../../util/handleError';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 
@@ -55,6 +57,10 @@ const ResourcePage = (props: Props) => {
 
   if (loading) {
     return null;
+  }
+
+  if (isAccessDeniedError(error)) {
+    return <AccessDeniedPage />;
   }
 
   if (!data) {

@@ -13,6 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import config from '../../config';
+import { EmotionCacheKey } from '../../constants';
 
 const Document = ({ helmet, assets, data, css, ids }) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
@@ -45,7 +46,9 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           type="image/x-icon"
         />
         {css && ids && (
-          <style data-emotion-css={`${ids.join(' ')}`}>${css}</style>
+          <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
+            ${css}
+          </style>
         )}
       </head>
       <body {...bodyAttrs}>

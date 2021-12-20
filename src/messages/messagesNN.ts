@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Velg fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Sida har flytta - ${titleTemplate}`,

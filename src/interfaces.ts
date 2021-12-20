@@ -12,6 +12,7 @@ import { LocaleValues } from './constants';
 
 export type InitialProps = {
   loading?: boolean;
+  resCookie?: string;
   basename: string;
 };
 

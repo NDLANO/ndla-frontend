@@ -49,6 +49,7 @@ import { InitialProps, LocaleType } from './interfaces';
 import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
 import { I18nWrapper } from './I18nWrapper';
 import config from './config';
+import AccessDeniedPage from './containers/AccessDeniedPage/AccessDeniedPage';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -175,6 +176,11 @@ if (config.feideEnabled) {
 
 // Hvis 404 eller notfound kommer før vil man ikke kunne finne endepunktene under.
 routeArray.push(
+  {
+    path: '/403',
+    component: AccessDeniedPage,
+    background: false,
+  },
   {
     path: '/404',
     component: NotFoundPage,
