@@ -144,7 +144,7 @@ const SubjectContainer = ({
   const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const path = parseAndMatchUrl(e.currentTarget?.href, true);
-    history.replace({ pathname: path?.url });
+    history.push({ pathname: path?.url });
   };
 
   // show/hide breadcrumb based on intersection
