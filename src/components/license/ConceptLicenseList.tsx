@@ -7,13 +7,18 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
+  //@ts-ignore
   MediaList,
+  //@ts-ignore
   MediaListItem,
+  //@ts-ignore
   MediaListItemImage,
+  //@ts-ignore
   MediaListItemBody,
+  //@ts-ignore
   MediaListItemActions,
+  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -23,9 +28,16 @@ import {
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import { ConceptLicenseShape } from '../../shapes';
+import { GQLConceptLicense } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-const ConceptLicenseInfo = ({ concept, locale }) => {
+interface ConceptLicenseInfoProps {
+  concept: GQLConceptLicense;
+  locale: LocaleType;
+}
+
+const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
   const { t } = useTranslation();
   if (
     concept.copyright?.license?.license === undefined ||
@@ -34,7 +46,8 @@ const ConceptLicenseInfo = ({ concept, locale }) => {
     return null;
 
   const src = `${concept.src}/${locale}`;
-  const items = getGroupedContributorDescriptionList(concept.copyright, locale);
+  const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
+  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
   if (concept.title) {
     items.unshift({
       label: t('license.concept.title'),
@@ -60,7 +73,6 @@ const ConceptLicenseInfo = ({ concept, locale }) => {
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={concept.copyText}
-              t={t}
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
@@ -76,12 +88,12 @@ const ConceptLicenseInfo = ({ concept, locale }) => {
   );
 };
 
-ConceptLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  concept: ConceptLicenseShape,
-};
+interface Props {
+  concepts: GQLConceptLicense[];
+  locale: LocaleType;
+}
 
-const ConceptLicenseList = ({ concepts, locale }) => {
+const ConceptLicenseList = ({ concepts, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -89,21 +101,11 @@ const ConceptLicenseList = ({ concepts, locale }) => {
       <p>{t('license.concept.description')}</p>
       <MediaList>
         {concepts.map((concept, index) => (
-          <ConceptLicenseInfo
-            concept={concept}
-            key={index}
-            locale={locale}
-            t={t}
-          />
+          <ConceptLicenseInfo concept={concept} key={index} locale={locale} />
         ))}
       </MediaList>
     </div>
   );
-};
-
-ConceptLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  concepts: PropTypes.arrayOf(ConceptLicenseShape),
 };
 
 export default ConceptLicenseList;
