@@ -7,25 +7,29 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Tabs from '@ndla/tabs';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
-import { ArticleShape } from '../../shapes';
 import OembedItem from './OembedItem';
+import { GQLArticleInfoFragment } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
 
-function buildLicenseTabList(article, locale, t) {
-  const images = article.metaData.images || [];
-  const audios = article.metaData.audios || [];
-  const brightcove = article.metaData.brightcoves || [];
-  const h5ps = article.metaData.h5ps || [];
+function buildLicenseTabList(
+  article: GQLArticleInfoFragment,
+  locale: LocaleType,
+  t: TFunction,
+) {
+  const images = article.metaData?.images || [];
+  const audios = article.metaData?.audios || [];
+  const brightcove = article.metaData?.brightcoves || [];
+  const h5ps = article.metaData?.h5ps || [];
   const oembed = article.oembed;
-  const concepts = article.metaData.concepts || [];
+  const concepts = article.metaData?.concepts || [];
   const tabs = [];
 
   if (images.length > 0) {
@@ -42,7 +46,7 @@ function buildLicenseTabList(article, locale, t) {
           {
             copyright: article.copyright,
             updated: article.published,
-            copyText: article.metaData.copyText,
+            copyText: article.metaData?.copyText,
           },
         ]}
         locale={locale}
@@ -81,14 +85,19 @@ function buildLicenseTabList(article, locale, t) {
   if (oembed) {
     tabs.push({
       title: t('license.tabs.embedlink'),
-      content: <OembedItem oembed={oembed} locale={locale} />,
+      content: <OembedItem oembed={oembed} />,
     });
   }
 
   return tabs;
 }
 
-const LicenseBox = ({ article, locale }) => {
+interface Props {
+  article: GQLArticleInfoFragment;
+  locale: LocaleType;
+}
+
+const LicenseBox = ({ article, locale }: Props) => {
   const { t } = useTranslation();
   const tabs = buildLicenseTabList(article, locale, t);
   return (
@@ -97,11 +106,6 @@ const LicenseBox = ({ article, locale }) => {
       <Tabs tabs={tabs} />
     </div>
   );
-};
-
-LicenseBox.propTypes = {
-  locale: PropTypes.string.isRequired,
-  article: ArticleShape.isRequired,
 };
 
 export default LicenseBox;

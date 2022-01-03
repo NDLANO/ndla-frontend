@@ -7,15 +7,21 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import {
+  //@ts-ignore
   Image,
+  //@ts-ignore
   MediaList,
+  //@ts-ignore
   MediaListItem,
+  //@ts-ignore
   MediaListItemImage,
+  //@ts-ignore
   MediaListItemBody,
+  //@ts-ignore
   MediaListItemActions,
+  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -26,9 +32,11 @@ import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { ImageShape } from '../../shapes';
+import { GQLImageLicense } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-export const downloadUrl = imageSrc => {
+export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
   return `${urlObject.url}?${queryString.stringify({
     ...urlObject.query,
@@ -36,9 +44,15 @@ export const downloadUrl = imageSrc => {
   })}`;
 };
 
-const ImageLicenseInfo = ({ image, locale }) => {
+interface ImageLicenseInfoProps {
+  image: GQLImageLicense;
+  locale: LocaleType;
+}
+
+const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
   const { t } = useTranslation();
-  const items = getGroupedContributorDescriptionList(image.copyright, locale);
+  const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
+  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
 
   if (image.title) {
     items.unshift({
@@ -62,7 +76,7 @@ const ImageLicenseInfo = ({ image, locale }) => {
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.images.rules')}
-        license={image.copyright.license.license}
+        license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
         locale={locale}>
@@ -71,11 +85,10 @@ const ImageLicenseInfo = ({ image, locale }) => {
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={image.copyText}
-              t={t}
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            {image.copyright.license.license !== 'COPYRIGHTED' && (
+            {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton
                 href={downloadUrl(image.src)}
                 appearance="outline"
@@ -90,12 +103,12 @@ const ImageLicenseInfo = ({ image, locale }) => {
   );
 };
 
-ImageLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  image: ImageShape.isRequired,
-};
+interface Props {
+  images: GQLImageLicense[];
+  locale: LocaleType;
+}
 
-const ImageLicenseList = ({ images, locale }) => {
+const ImageLicenseList = ({ images, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -103,16 +116,11 @@ const ImageLicenseList = ({ images, locale }) => {
       <p>{t('license.images.description')}</p>
       <MediaList>
         {images.map(image => (
-          <ImageLicenseInfo image={image} key={uuid()} locale={locale} t={t} />
+          <ImageLicenseInfo image={image} key={uuid()} locale={locale} />
         ))}
       </MediaList>
     </div>
   );
-};
-
-ImageLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  images: PropTypes.arrayOf(ImageShape),
 };
 
 export default ImageLicenseList;

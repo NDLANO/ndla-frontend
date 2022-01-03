@@ -7,24 +7,38 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { copyTextToClipboard } from '@ndla/util';
 import Button from '@ndla/button';
 
-class CopyTextButton extends Component {
-  constructor(props) {
+interface Props {
+  stringToCopy?: string;
+  copyTitle: string;
+  hasCopiedTitle: string;
+}
+
+interface State {
+  hasCopied: boolean;
+}
+class CopyTextButton extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { hasCopied: false };
     this.handleClick = this.handleClick.bind(this);
   }
 
+  timeout: ReturnType<typeof setTimeout> | undefined;
+  buttonContainer: HTMLSpanElement | null = null;
+
   componentWillUnmount() {
-    window.clearTimeout(this.timeout);
+    window.clearTimeout(this.timeout!);
   }
 
   handleClick() {
     const { stringToCopy } = this.props;
-    const success = copyTextToClipboard(stringToCopy, this.buttonContainer);
+    const success = copyTextToClipboard(
+      stringToCopy ?? '',
+      this.buttonContainer!,
+    );
 
     if (success) {
       this.setState({ hasCopied: true });
@@ -55,11 +69,5 @@ class CopyTextButton extends Component {
     );
   }
 }
-
-CopyTextButton.propTypes = {
-  stringToCopy: PropTypes.string.isRequired,
-  copyTitle: PropTypes.string.isRequired,
-  hasCopiedTitle: PropTypes.string.isRequired,
-};
 
 export default CopyTextButton;

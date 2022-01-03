@@ -68,7 +68,6 @@ const VisualElementLicenseButtons = ({
       )}
       {visualElement.brightcove && (
         <CopyTextButton
-          outline
           copyTitle={t('license.embed')}
           hasCopiedTitle={t('license.hasCopiedTitle')}
           stringToCopy={makeIframeString(

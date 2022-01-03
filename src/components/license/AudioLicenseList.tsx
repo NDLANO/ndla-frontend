@@ -7,14 +7,19 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import {
+  //@ts-ignore
   MediaList,
+  //@ts-ignore
   MediaListItem,
+  //@ts-ignore
   MediaListItemImage,
+  //@ts-ignore
   MediaListItemBody,
+  //@ts-ignore
   MediaListItemActions,
+  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import { AudioDocument } from '@ndla/icons/common';
@@ -22,18 +27,19 @@ import { getGroupedContributorDescriptionList } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { NewCopyrightObjectShape } from '../../shapes';
+import { GQLAudioLicense } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-const AudioShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
-  copyright: NewCopyrightObjectShape.isRequired,
-  copyText: PropTypes.string,
-});
+interface AudioLicenseInfoProps {
+  audio: GQLAudioLicense;
+  locale: LocaleType;
+}
 
-const AudioLicenseInfo = ({ audio, locale }) => {
+const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
   const { t } = useTranslation();
-  const items = getGroupedContributorDescriptionList(audio.copyright, locale);
+  const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
+  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
   return (
     <MediaListItem>
       <MediaListItemImage>
@@ -41,7 +47,7 @@ const AudioLicenseInfo = ({ audio, locale }) => {
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.audio.rules')}
-        license={audio.copyright.license.license}
+        license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
         locale={locale}>
@@ -49,12 +55,11 @@ const AudioLicenseInfo = ({ audio, locale }) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              t={t}
               stringToCopy={audio.copyText}
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            {audio.copyright.license.license !== 'COPYRIGHTED' && (
+            {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={audio.src} download appearance="outline">
                 {t('license.download')}
               </AnchorButton>
@@ -66,12 +71,12 @@ const AudioLicenseInfo = ({ audio, locale }) => {
   );
 };
 
-AudioLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  audio: AudioShape.isRequired,
-};
+interface Props {
+  audios: GQLAudioLicense[];
+  locale: LocaleType;
+}
 
-const AudioLicenseList = ({ audios, locale }) => {
+const AudioLicenseList = ({ audios, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -84,11 +89,6 @@ const AudioLicenseList = ({ audios, locale }) => {
       </MediaList>
     </div>
   );
-};
-
-AudioLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  audios: PropTypes.arrayOf(AudioShape).isRequired,
 };
 
 export default AudioLicenseList;
