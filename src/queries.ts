@@ -585,15 +585,11 @@ export const articleInfoFragment = gql`
 `;
 
 export const taxonomyEntityInfo = gql`
-  ${metaInfoFragment}
   fragment TaxonomyEntityInfo on TaxonomyEntity {
     id
     name
     contentUri
     path
-    meta {
-      ...MetaInfo
-    }
     ... on Resource {
       resourceTypes {
         id
@@ -601,6 +597,15 @@ export const taxonomyEntityInfo = gql`
       }
     }
   }
+`;
+
+export const withArticleInfo = gql`
+  fragment WithArticleInfo on WithArticle {
+    meta {
+      ...MetaInfo
+    }
+  }
+  ${metaInfoFragment}
 `;
 
 export const subjectpageInfo = gql`
@@ -626,6 +631,7 @@ export const subjectpageInfo = gql`
       ...TaxonomyEntityInfo
     }
   }
+  ${taxonomyEntityInfo}
 `;
 
 export const subjectTopicsQuery = gql`
@@ -703,10 +709,9 @@ export const subjectPageQueryWithTopics = gql`
     }
   }
   ${metaInfoFragment}
-  ${subjectInfoFragment}
   ${topicInfoFragment}
-  ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectpageInfo}
   ${subjectInfoFragment}
 `;
 
@@ -730,6 +735,7 @@ export const subjectPageQuery = gql`
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${withArticleInfo}
 `;
 
 export const subjectsQuery = gql`
