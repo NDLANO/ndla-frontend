@@ -7,10 +7,9 @@
 
 import React, { useState, createContext, useEffect } from 'react';
 import {
-  fetchFeideGroups,
-  fetchFeideUser,
   FeideGroupType,
   FeideUser,
+  fetchFeideUserWithGroups,
 } from '../util/feideApi';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 
@@ -48,12 +47,9 @@ const AuthenticationContext = ({ children }: Props) => {
     setLoaded(true);
 
     if (isValid) {
-      // TODO: bruk fetchFeideUserWithGroups for å redusere kall.
-      fetchFeideUser().then((user: FeideUser | undefined) => {
-        setUser(user);
-      });
-      fetchFeideGroups().then((groups: FeideGroupType[] | undefined) => {
-        setGroups(groups);
+      fetchFeideUserWithGroups().then(us => {
+        setUser(us);
+        setGroups(us?.groups);
       });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();

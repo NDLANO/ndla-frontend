@@ -46,7 +46,10 @@ export interface FeideUser {
   displayName: string;
   eduPersonPrimaryAffiliation: string;
   mail?: string[];
-  groups?: FeideGroupType[]; // Finnes egentlig ikkje fra feide, men trengs for at fetchFeideUserWithGroups skal fungere.
+}
+
+export interface FeideUserWithGroups extends FeideUser {
+  groups: FeideGroupType[];
 }
 
 export const fetchFeideGroups = (): Promise<FeideGroupType[] | undefined> => {
@@ -61,11 +64,10 @@ export const fetchFeideUser = (): Promise<FeideUser | undefined> => {
   ).then(u => resolveJsonOrRejectWithError<FeideUser>(u));
 };
 
-// Har ikkje fått dette til å fungere. Hadde vore praktisk å kunne gjøre et kall fra AuthContext for å hente info om bruker.
-export const fetchFeideUserWithGroups = (): Promise<FeideUser | undefined> => {
-  return fetchFeideGroups().then(groups => {
-    return fetchWithFeideAuthorization(
-      `https://api.dataporten.no/userinfo/v1/userinfo`,
-    ).then(u => resolveJsonOrRejectWithError<FeideUser>({ ...u, groups }));
-  });
+export const fetchFeideUserWithGroups = async (): Promise<
+  FeideUserWithGroups | undefined
+> => {
+  const user = await fetchFeideUser();
+  const groups = await fetchFeideGroups();
+  return user && groups ? { ...user, groups } : undefined;
 };
