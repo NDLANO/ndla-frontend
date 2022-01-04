@@ -243,12 +243,14 @@ export const conceptSearchQuery = gql`
     $subjects: String
     $exactMatch: Boolean
     $language: String
+    $fallback: Boolean
   ) {
     conceptSearch(
       query: $query
       subjects: $subjects
       exactMatch: $exactMatch
       language: $language
+      fallback: $fallback
     ) {
       concepts {
         id
