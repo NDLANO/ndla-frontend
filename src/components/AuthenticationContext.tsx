@@ -47,9 +47,9 @@ const AuthenticationContext = ({ children }: Props) => {
     setLoaded(true);
 
     if (isValid) {
-      fetchFeideUserWithGroups().then(us => {
-        setUser(us);
-        setGroups(us?.groups);
+      fetchFeideUserWithGroups().then(user => {
+        setUser(user);
+        setGroups(user?.groups);
       });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
