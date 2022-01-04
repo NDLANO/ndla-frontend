@@ -665,19 +665,18 @@ export const topicsQueryWithBreadcrumbs = gql`
 export const subjectPageQueryWithTopics = gql`
   query subjectPageWithTopics(
     $subjectId: String!
-    $filterIds: String
     $topicId: String!
     $includeTopic: Boolean!
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
-      topics(filterIds: $filterIds) {
+      topics {
         article {
           supportedLanguages
         }
         ...TopicInfo
       }
-      allTopics: topics(all: true, filterIds: $filterIds) {
+      allTopics: topics(all: true) {
         ...TopicInfo
       }
       subjectpage {

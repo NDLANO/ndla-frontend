@@ -1534,10 +1534,16 @@ export type GQLTopicInfoFragment = {
   __typename?: 'Topic';
   id: string;
   name: string;
-  parent?: Maybe<string>;
   contentUri?: Maybe<string>;
   path?: Maybe<string>;
+  availability?: Maybe<string>;
+  parent?: Maybe<string>;
+  relevanceId?: Maybe<string>;
   meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+  metadata?: Maybe<{
+    __typename?: 'TaxonomyMetadata';
+    customFields?: Maybe<any>;
+  }>;
 };
 
 export type GQLSubjectInfoFragment = {
@@ -1545,6 +1551,10 @@ export type GQLSubjectInfoFragment = {
   id: string;
   name: string;
   path: string;
+  metadata?: Maybe<{
+    __typename?: 'TaxonomyMetadata';
+    customFields?: Maybe<any>;
+  }>;
 };
 
 export type GQLResourceInfoFragment = {
@@ -1852,7 +1862,12 @@ export type GQLSubjectTopicsQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
+        relevanceId?: Maybe<string>;
         meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+        metadata?: Maybe<{
+          __typename?: 'TaxonomyMetadata';
+          customFields?: Maybe<any>;
+        }>;
       }>
     >;
   }>;
@@ -1877,7 +1892,6 @@ export type GQLTopicsWithBreadcrumbsQuery = {
 
 export type GQLSubjectPageWithTopicsQueryVariables = Exact<{
   subjectId: Scalars['String'];
-  filterIds?: Maybe<Scalars['String']>;
   topicId: Scalars['String'];
   includeTopic: Scalars['Boolean'];
 }>;
@@ -1904,23 +1918,21 @@ export type GQLSubjectPageWithTopicsQuery = {
       >;
     } & GQLSubjectInfoFragment
   >;
-  topic?: Maybe<{
-    __typename?: 'Topic';
-    id: string;
-    name: string;
-    path?: Maybe<string>;
-    contentUri?: Maybe<string>;
-    alternateTopics?: Maybe<
-      Array<{
-        __typename?: 'Topic';
-        id: string;
-        name: string;
-        path?: Maybe<string>;
-        breadcrumbs?: Maybe<Array<Array<string>>>;
-        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
-      }>
-    >;
-  }>;
+  topic?: Maybe<
+    {
+      __typename?: 'Topic';
+      alternateTopics?: Maybe<
+        Array<{
+          __typename?: 'Topic';
+          id: string;
+          name: string;
+          path?: Maybe<string>;
+          breadcrumbs?: Maybe<Array<Array<string>>>;
+          meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+        }>
+      >;
+    } & GQLTopicInfoFragment
+  >;
   subjects?: Maybe<
     Array<
       {
@@ -2169,6 +2181,7 @@ export type GQLTopicWithPathTopicsQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
+    relevanceId?: Maybe<string>;
     pathTopics?: Maybe<
       Array<
         Array<{
@@ -2181,7 +2194,12 @@ export type GQLTopicWithPathTopicsQuery = {
     >;
     meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     subtopics?: Maybe<
-      Array<{ __typename?: 'Topic'; id: string; name: string }>
+      Array<{
+        __typename?: 'Topic';
+        id: string;
+        name: string;
+        relevanceId?: Maybe<string>;
+      }>
     >;
     article?: Maybe<
       {
@@ -2220,9 +2238,16 @@ export type GQLTopicQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
+    parent?: Maybe<string>;
+    relevanceId?: Maybe<string>;
     meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     subtopics?: Maybe<
-      Array<{ __typename?: 'Topic'; id: string; name: string }>
+      Array<{
+        __typename?: 'Topic';
+        id: string;
+        name: string;
+        relevanceId?: Maybe<string>;
+      }>
     >;
     article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
     coreResources?: Maybe<
@@ -2370,6 +2395,10 @@ export type GQLMastHeadQuery = {
   topic?: Maybe<{
     __typename?: 'Topic';
     id: string;
+    metadata?: Maybe<{
+      __typename?: 'TaxonomyMetadata';
+      customFields?: Maybe<any>;
+    }>;
     coreResources?: Maybe<
       Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
     >;
@@ -2400,6 +2429,7 @@ export type GQLTopicPageQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
+    relevanceId?: Maybe<string>;
     meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
     article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
     coreResources?: Maybe<
@@ -2421,6 +2451,7 @@ export type GQLTopicPageQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
+        relevanceId?: Maybe<string>;
         meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
@@ -2450,6 +2481,7 @@ export type GQLResourcePageQuery = {
         name: string;
         parent?: Maybe<string>;
         path?: Maybe<string>;
+        relevanceId?: Maybe<string>;
         meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
       }>
     >;
@@ -2473,6 +2505,7 @@ export type GQLResourcePageQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
+    relevanceId?: Maybe<string>;
     coreResources?: Maybe<
       Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
     >;
