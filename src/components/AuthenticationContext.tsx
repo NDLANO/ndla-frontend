@@ -6,6 +6,10 @@
  */
 
 import React, { useState, createContext, useEffect } from 'react';
+import {
+  FeideUserWithGroups,
+  fetchFeideUserWithGroups,
+} from '../util/feideApi';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 
 interface AuthContextType {
@@ -13,6 +17,7 @@ interface AuthContextType {
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
+  user: FeideUserWithGroups | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -20,6 +25,7 @@ export const AuthContext = createContext<AuthContextType>({
   authContextLoaded: false,
   login: () => {},
   logout: () => {},
+  user: undefined,
 });
 
 interface Props {
@@ -29,6 +35,7 @@ interface Props {
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
+  const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -36,6 +43,9 @@ const AuthenticationContext = ({ children }: Props) => {
     setLoaded(true);
 
     if (isValid) {
+      fetchFeideUserWithGroups().then(user => {
+        setUser(user);
+      });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
@@ -49,7 +59,7 @@ const AuthenticationContext = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, login, logout, authContextLoaded }}>
+      value={{ authenticated, authContextLoaded, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
