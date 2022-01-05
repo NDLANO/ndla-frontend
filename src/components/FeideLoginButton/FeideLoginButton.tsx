@@ -59,11 +59,11 @@ interface Props {
 const FeideLoginButton = ({ footer, children, location }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { authenticated, groups, user } = useContext(AuthContext);
+  const { authenticated, user } = useContext(AuthContext);
   const primarySchool =
-    groups?.length === 1
-      ? groups[0]
-      : groups?.find(g => g.membership.primarySchool);
+    user?.groups?.length === 1
+      ? user.groups[0]
+      : user?.groups?.find(g => g.membership.primarySchool);
   const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
   const collectedInfo: string[] = compact([

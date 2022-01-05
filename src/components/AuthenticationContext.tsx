@@ -7,8 +7,7 @@
 
 import React, { useState, createContext, useEffect } from 'react';
 import {
-  FeideGroupType,
-  FeideUser,
+  FeideUserWithGroups,
   fetchFeideUserWithGroups,
 } from '../util/feideApi';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
@@ -16,16 +15,14 @@ import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  groups: FeideGroupType[] | undefined;
   login: () => void;
   logout: () => void;
-  user: FeideUser | undefined;
+  user: FeideUserWithGroups | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  groups: undefined,
   login: () => {},
   logout: () => {},
   user: undefined,
@@ -38,8 +35,7 @@ interface Props {
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<FeideUser | undefined>(undefined);
-  const [groups, setGroups] = useState<FeideGroupType[] | undefined>(undefined);
+  const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -49,7 +45,6 @@ const AuthenticationContext = ({ children }: Props) => {
     if (isValid) {
       fetchFeideUserWithGroups().then(user => {
         setUser(user);
-        setGroups(user?.groups);
       });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
@@ -64,7 +59,7 @@ const AuthenticationContext = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, authContextLoaded, groups, login, logout, user }}>
+      value={{ authenticated, authContextLoaded, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );
