@@ -91,7 +91,6 @@ const H5pLicenseList = ({ h5ps, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <div>Test</div>
       <h2>{t('license.h5p.heading')}</h2>
       <p>{t('license.h5p.description')}</p>
       <MediaList>
