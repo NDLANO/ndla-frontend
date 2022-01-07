@@ -107,7 +107,7 @@
     "@ndla/pager": "^1.0.8",
     "@ndla/polyfill": "^0.1.15",
     "@ndla/safelink": "^1.0.5",
-    "@ndla/tabs": "^1.0.8",
+    "@ndla/tabs": "^1.0.10",
     "@ndla/tracker": "^0.5.0",
     "@ndla/ui": "^3.1.0",
     "@ndla/util": "^2.0.0",
