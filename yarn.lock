@@ -2953,10 +2953,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.2.4":
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.2.4.tgz#138b7fa322d00ca28ef8a46ec0eb51357b58173d"
-  integrity sha512-znarh0QOhc0oPrIaSkW7MxGK/cU+UxLLDzsMp1Ypg5CXYWNxgGXuTwTlZwIeiVtZuqSbPxwuzmnWHpud64JHDQ==
+"@ndla/ui@^3.2.5":
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.2.5.tgz#9453eb01f7cd81c7f6a2d4cc1a04cb14c772adab"
+  integrity sha512-ooU+qsIaZVP2guT+NTlT+C6WSvZPr2YTyxGTbR9r9BHU+Nnhcqjsd8bMY3QetwM1L4d2KRY+P6fER7vLAZpaHQ==
   dependencies:
     "@ndla/button" "^1.1.1"
     "@ndla/carousel" "^1.0.6"

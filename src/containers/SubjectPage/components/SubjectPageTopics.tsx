@@ -25,7 +25,6 @@ interface Props {
   subjectId: string;
   twoColumns: boolean;
   subjectPage: boolean;
-  ndlaFilm: boolean;
 }
 
 const SubjectPageTopics = ({
@@ -33,13 +32,11 @@ const SubjectPageTopics = ({
   subjectId,
   twoColumns = false,
   subjectPage = false,
-  ndlaFilm,
 }: Props) => {
   const { t } = useTranslation();
   return (
     <ResourcesWrapper
       subjectPage
-      invertedStyle={ndlaFilm}
       header={<ResourcesTitle>{t('topicPage.topics')}</ResourcesTitle>}>
       <div data-testid="topic-list">
         <TopicIntroductionList

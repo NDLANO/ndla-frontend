@@ -15,7 +15,7 @@ import { GraphQLError } from 'graphql';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
-import { getContentType } from '../../util/getContentType';
+import { getContentType, isHeroContentType } from '../../util/getContentType';
 import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
@@ -108,7 +108,10 @@ const ArticlePage = ({
   }
 
   const article = transformArticle(resource.article, locale)!;
-  const resourceType = resource ? getContentType(resource) : undefined;
+  const contentType = resource ? getContentType(resource) : undefined;
+  const resourceType =
+    contentType && isHeroContentType(contentType) ? contentType : undefined;
+
   const copyPageUrlLink = topic
     ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
     : undefined;
@@ -161,7 +164,7 @@ const ArticlePage = ({
         <Article
           article={article}
           locale={locale}
-          resourceType={resourceType}
+          resourceType={contentType}
           isResourceArticle
           copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
