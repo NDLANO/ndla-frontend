@@ -21,18 +21,6 @@ exports[`Document renderers correctly 1`] = `
       rel="stylesheet"
     />
     
-    <script
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-TWDXF47');",
-        }
-      }
-    />
     <title
       data-react-helmet={true}
     >
@@ -54,21 +42,6 @@ exports[`Document renderers correctly 1`] = `
     />
   </head>
   <body>
-    <noscript>
-      <iframe
-        aria-hidden="true"
-        height="0"
-        src="https://www.googletagmanager.com/ns.html?id=GTM-TWDXF47"
-        style={
-          Object {
-            "display": "none",
-            "visibility": "hidden",
-          }
-        }
-        title="Google Tag Manager"
-        width="0"
-      />
-    </noscript>
     <script
       dangerouslySetInnerHTML={
         Object {
@@ -98,7 +71,6 @@ exports[`Document renderers correctly 1`] = `
           "__html": "
   var feats = [];
   ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('remove' in Element.prototype) || feats.push('Element.prototype.remove');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number) || feats.push('Number.isInteger');('isNaN' in Number) || feats.push('Number.isNaN');
-
   function cs(script, useHead, onLoad) {
     var s = document.createElement('script');
     s.src = script.src;
@@ -111,14 +83,12 @@ exports[`Document renderers correctly 1`] = `
       document.body.appendChild(s);
     }
   }
-
   function _polyfillComplete() {
     var scripts = [{\\"src\\":\\"/client.js\\"},{\\"src\\":\\"/vendor.js\\"}];
     for (var i = 0; i < scripts.length; i++) {
       cs(scripts[i], false);
     }
   }
-
   if (feats.length && {\\"src\\":\\"/polyfill.js\\"}) {
     cs({\\"src\\":\\"/polyfill.js\\"}, true, _polyfillComplete);
   } else {
