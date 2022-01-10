@@ -85,10 +85,8 @@ const MastheadTopics = ({
 
   const subjectTitle = getSubjectLongName(subject?.id, locale) || subject?.name;
 
-  const handleSubjectClick = () => {
-    if (subject) {
-      toSubject(subject.id);
-    }
+  const handleSubjectClick = (): string | undefined => {
+    return subject ? toSubject(subject.id) : undefined;
   };
 
   return (
