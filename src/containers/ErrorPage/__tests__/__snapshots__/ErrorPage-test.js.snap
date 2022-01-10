@@ -632,7 +632,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         <span
           className="emotion-7 emotion-8"
         >
-          Velg målform
+          Velg språk
           : 
           Bokmål
         </span>
