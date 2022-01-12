@@ -141,7 +141,7 @@ const Article = ({
           top: scrollPosition,
           behavior: 'smooth',
         });
-      }, 300);
+      }, 500);
     }
   }, [article.content, location]);
 
