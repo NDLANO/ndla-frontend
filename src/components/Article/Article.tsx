@@ -135,13 +135,13 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - MastheadHeightPx - 16;
+        const scrollPosition = absoluteTop - MastheadHeightPx * 2;
 
         window.scrollTo({
           top: scrollPosition,
           behavior: 'smooth',
         });
-      }, 500);
+      }, 100);
     }
   }, [article.content, location]);
 
