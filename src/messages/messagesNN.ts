@@ -28,7 +28,7 @@ const messages = {
   },
   blogPosts: {
     blog1: {
-      imageUrl: '/static/fagfornyelse-blog.jpg',
+      imageUrl: '/static/nye-fag.jpg',
       text: 'Nye fag på NDLA',
       externalLink: 'https://blogg.ndla.no/2021/12/nye-fag-pa-ndla/',
       linkText: 'Fagblogg',
