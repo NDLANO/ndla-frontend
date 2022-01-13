@@ -130,16 +130,18 @@ const Article = ({
   // the article doesn't exist on initial page load (At least without SSR).
   useEffect(() => {
     if (location.hash && article.content) {
-      const element = document.getElementById(location.hash.slice(1));
-      const elementTop = element?.getBoundingClientRect().top ?? 0;
-      const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-      const absoluteTop = elementTop - bodyTop;
-      const scrollPosition = absoluteTop - MastheadHeightPx;
+      setTimeout(() => {
+        const element = document.getElementById(location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition = absoluteTop - MastheadHeightPx * 2;
 
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: 'smooth',
-      });
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 400);
     }
   }, [article.content, location]);
 
