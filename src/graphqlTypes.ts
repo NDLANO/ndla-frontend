@@ -866,6 +866,7 @@ export type GQLSubject = {
   contentUri?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<GQLSubjectFilter>>;
   frontpageFilters?: Maybe<Array<GQLSubjectFilter>>;
+  grepCodes?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   metadata?: Maybe<GQLTaxonomyMetadata>;
   name: Scalars['String'];
@@ -1901,6 +1902,7 @@ export type GQLSubjectPageWithTopicsQuery = {
   subject?: Maybe<
     {
       __typename?: 'Subject';
+      grepCodes?: Maybe<Array<string>>;
       topics?: Maybe<
         Array<
           {

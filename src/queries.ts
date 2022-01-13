@@ -679,6 +679,7 @@ export const subjectPageQueryWithTopics = gql`
       allTopics: topics(all: true) {
         ...TopicInfo
       }
+      grepCodes
       subjectpage {
         ...SubjectPageInfo
       }
