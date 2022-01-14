@@ -737,7 +737,6 @@ export const subjectPageQuery = gql`
   ${topicInfoFragment}
   ${subjectpageInfo}
   ${taxonomyEntityInfo}
-  ${withArticleInfo}
 `;
 
 export const subjectsQuery = gql`
