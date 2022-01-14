@@ -48,6 +48,10 @@ export interface FeideUser {
   mail?: string[];
 }
 
+export interface FeideUserWithGroups extends FeideUser {
+  groups: FeideGroupType[];
+}
+
 export const fetchFeideGroups = (): Promise<FeideGroupType[] | undefined> => {
   return fetchWithFeideAuthorization(
     `https://groups-api.dataporten.no/groups/me/groups`,
@@ -58,4 +62,12 @@ export const fetchFeideUser = (): Promise<FeideUser | undefined> => {
   return fetchWithFeideAuthorization(
     `https://api.dataporten.no/userinfo/v1/userinfo`,
   ).then(u => resolveJsonOrRejectWithError<FeideUser>(u));
+};
+
+export const fetchFeideUserWithGroups = async (): Promise<
+  FeideUserWithGroups | undefined
+> => {
+  const user = await fetchFeideUser();
+  const groups = await fetchFeideGroups();
+  return user && groups ? { ...user, groups } : undefined;
 };

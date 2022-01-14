@@ -10,11 +10,12 @@ import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 //@ts-ignore
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
+import { HeroContentType } from '@ndla/ui/lib/Hero';
 import { GQLMetaImage, GQLSubject } from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
 interface WrapperProps {
   children: ReactNode;
-  resourceType?: string;
+  resourceType?: HeroContentType;
   ndlaFilm?: boolean;
   metaImage?: GQLMetaImage;
 }
@@ -26,11 +27,12 @@ const WrapperComponent = ({
 }: WrapperProps) => {
   if (ndlaFilm) {
     return (
-      <NdlaFilmHero hasImage={metaImage && metaImage.url}>
+      <NdlaFilmHero hasImage={!!(metaImage && metaImage.url)}>
         {children}
       </NdlaFilmHero>
     );
   }
+
   return <Hero contentType={resourceType}>{children}</Hero>;
 };
 
@@ -46,7 +48,7 @@ WrapperComponent.propTypes = {
 interface Props {
   ndlaFilm?: boolean;
   subject?: GQLSubject;
-  resourceType?: string;
+  resourceType?: HeroContentType;
   metaImage?: GQLMetaImage;
   breadcrumbItems: BreadcrumbType[];
 }

@@ -26,7 +26,7 @@ const AboutMedia = ({
 }: VisualElementType) => {
   switch (type) {
     case 'image':
-      return <Image alt={alt} src={url} />;
+      return <Image alt={alt ?? ''} src={url ?? ''} />;
     case 'video':
     case 'brightcove':
       return (

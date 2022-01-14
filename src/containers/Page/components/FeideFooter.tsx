@@ -6,14 +6,13 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { RouteProps } from 'react-router';
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
-import { fetchFeideUser, FeideUser } from '../../../util/feideApi';
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
@@ -57,21 +56,9 @@ interface Props {
 
 const FeideFooter = ({ location }: Props) => {
   const { t } = useTranslation();
-  const { authenticated } = useContext(AuthContext);
-  const [feideUser, setFeideUser] = useState<FeideUser>();
-  const affiliationRole = feideUser?.eduPersonPrimaryAffiliation;
+  const { authenticated, user } = useContext(AuthContext);
+  const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
-  useEffect(() => {
-    let mounted = true;
-    if (authenticated) {
-      fetchFeideUser().then((u: FeideUser | undefined) => {
-        if (mounted) setFeideUser(u);
-      });
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [authenticated]);
   return (
     <StyledFeideFooter>
       <h2>
