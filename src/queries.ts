@@ -636,40 +636,6 @@ export const subjectpageInfo = gql`
   ${taxonomyEntityInfo}
 `;
 
-export const subjectTopicsQuery = gql`
-  query subjectTopics($subjectId: String!) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-        metadata {
-          customFields
-        }
-      }
-    }
-  }
-  ${metaInfoFragment}
-`;
-
-export const topicsQueryWithBreadcrumbs = gql`
-  query topicsWithBreadcrumbs($contentUri: String, $filterVisible: Boolean) {
-    topics(contentUri: $contentUri, filterVisible: $filterVisible) {
-      ...TopicInfo
-      breadcrumbs
-    }
-  }
-  ${topicInfoFragment}
-`;
-
 export const subjectPageQueryWithTopics = gql`
   query subjectPageWithTopics(
     $subjectId: String!
@@ -766,30 +732,6 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const resourceTypesQuery = gql`
-  query resourceTypes {
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const topicResourcesQuery = gql`
-  query topicResources($topicId: String!, $subjectId: String) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-  }
-  ${resourceInfoFragment}
-`;
-
 const learningpathInfoFragment = gql`
   fragment LearningpathInfo on Learningpath {
     id
@@ -847,23 +789,6 @@ const learningpathInfoFragment = gql`
   }
   ${resourceInfoFragment}
   ${contributorInfoFragment}
-  ${articleInfoFragment}
-`;
-
-export const resourceQuery = gql`
-  query resource($resourceId: String!, $subjectId: String) {
-    resource(id: $resourceId, subjectId: $subjectId) {
-      ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
-    }
-  }
-  ${learningpathInfoFragment}
-  ${resourceInfoFragment}
   ${articleInfoFragment}
 `;
 
@@ -1143,51 +1068,6 @@ export const mastHeadQuery = gql`
   }
   ${topicInfoFragment}
   ${learningpathInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-`;
-
-export const topicPageQuery = gql`
-  query topicPage($topicId: String!, $subjectId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      relevanceId
-      meta {
-        ...MetaInfo
-      }
-      article {
-        ...ArticleInfo
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-  ${metaInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
