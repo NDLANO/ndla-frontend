@@ -369,24 +369,45 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const getTypeFilter = resourceTypes => {
+export const getTypeFilter = (
+  resourceTypes,
+  selectedFilters = [],
+  activeSubFilters = [],
+) => {
   const typeFilter = {
     'topic-article': {
       page: 1,
       pageSize: 4,
     },
   };
+  const subFilterMapping = activeSubFilters.reduce((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
   if (resourceTypes) {
     resourceTypes.forEach(type => {
       const filters = [];
       if (type.subtypes) {
-        filters.push({ id: 'all', name: 'Alle', active: true });
-        filters.push(...JSON.parse(JSON.stringify(type.subtypes)));
+        const apiFilters = [...JSON.parse(JSON.stringify(type.subtypes))];
+        let hasActive = false;
+        const withActive = apiFilters.map(f => {
+          if (subFilterMapping[`${contentTypeMapping[type.id]}:${f.id}`]) {
+            f.active = true;
+            hasActive = true;
+          }
+          return f;
+        });
+        withActive.sort((a, b) => a.id.localeCompare(b.id));
+        filters.push({ id: 'all', name: 'Alle', active: !hasActive });
+        filters.push(...withActive);
       }
       typeFilter[contentTypeMapping[type.id]] = {
         filters,
         page: 1,
         pageSize: 4,
+        selected: selectedFilters?.some(
+          filter => filter === contentTypeMapping[type.id],
+        ),
       };
     });
   }
