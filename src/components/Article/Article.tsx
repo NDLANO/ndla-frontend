@@ -14,7 +14,7 @@ import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
-import CompetenceGoals from './CompetenceGoals';
+import CompetenceGoals from '../CompetenceGoals';
 import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
@@ -43,8 +43,13 @@ function renderCompetenceGoals(
       dialogProps: { isOpen: boolean; onClose: () => void };
     }) => (
       <CompetenceGoals
-        article={article}
-        language={locale}
+        codes={article.grepCodes}
+        nodeId={article.oldNdlaUrl?.split('/').pop()}
+        language={
+          article.supportedLanguages?.find(l => l === locale) ||
+          article.supportedLanguages?.[0] ||
+          locale
+        }
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
       />

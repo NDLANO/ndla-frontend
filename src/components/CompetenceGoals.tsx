@@ -11,20 +11,20 @@ import { useTranslation } from 'react-i18next';
 import { isValidElementType } from 'react-is';
 import Spinner from '@ndla/ui/lib/Spinner';
 
-import { competenceGoalsQuery } from '../../queries';
-import handleError from '../../util/handleError';
+import { competenceGoalsQuery } from '../queries';
+import handleError from '../util/handleError';
 import {
-  GQLArticle,
   GQLCompetenceGoal,
   GQLCompetenceGoalsQuery,
   GQLCoreElement,
-} from '../../graphqlTypes';
-import { CompetenceGoalsType } from '../../interfaces';
-import { useGraphQuery } from '../../util/runQueries';
+} from '../graphqlTypes';
+import { CompetenceGoalsType } from '../interfaces';
+import { useGraphQuery } from '../util/runQueries';
 
 interface Props {
-  article: GQLArticle;
   language: string;
+  codes?: string[];
+  nodeId?: string;
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
 }
@@ -189,21 +189,17 @@ const groupCoreElements = (
 };
 
 const CompetenceGoals = ({
-  article,
   language,
+  codes,
+  nodeId,
   wrapperComponent: Component,
   wrapperComponentProps,
 }: Props) => {
   const { t } = useTranslation();
-  const codes = article.grepCodes;
-  const nodeId = article.oldNdlaUrl?.split('/').pop();
-  const lang =
-    article.supportedLanguages?.find(l => l === language) ||
-    article.supportedLanguages?.[0];
   const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
-      variables: { codes, nodeId, language: lang },
+      variables: { codes, nodeId, language },
     },
   );
 
