@@ -371,8 +371,8 @@ export const mapSearchDataToGroups = (
 
 export const getTypeFilter = (
   resourceTypes,
-  selectedFilters = [],
-  activeSubFilters = [],
+  selectedFilters,
+  activeSubFilters,
 ) => {
   const typeFilter = {
     'topic-article': {
@@ -405,9 +405,7 @@ export const getTypeFilter = (
         filters,
         page: 1,
         pageSize: 4,
-        selected: selectedFilters?.some(
-          filter => filter === contentTypeMapping[type.id],
-        ),
+        selected: selectedFilters?.some(f => f === contentTypeMapping[type.id]),
       };
     });
   }
