@@ -82,7 +82,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Redirect to={redirect.path} />;
+      return <Redirect to={redirect.path || ''} />;
     }
   }
 
