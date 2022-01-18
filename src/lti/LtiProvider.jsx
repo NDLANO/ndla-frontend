@@ -50,7 +50,8 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   const { data, error, loading } = useGraphQuery(searchPageQuery);
 
   const handleSearchParamsChange = searchParamUpdates => {
-    const selectedFilters = searchParamUpdates.selectedFilters?.split(',') ?? [];
+    const selectedFilters =
+      searchParamUpdates.selectedFilters?.split(',') ?? [];
     setSearchParams(prevState => ({
       ...prevState,
       ...searchParamUpdates,
