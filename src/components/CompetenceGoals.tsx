@@ -256,7 +256,7 @@ const CompetenceGoals = ({
 
   return (
     <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab list={competenceGoalsList} highlightSearchBox />
+      <CompetenceGoalTab list={competenceGoalsList} />
     </Component>
   );
 };
