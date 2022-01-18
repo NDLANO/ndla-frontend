@@ -6,10 +6,11 @@
  *
  */
 
-import React, { useState, useRef } from 'react';
+import React, { ComponentType, ReactNode, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
 import {
+  ArticleHeaderWrapper,
   // @ts-ignore
   OneColumn,
   // @ts-ignore
@@ -29,6 +30,7 @@ import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
+import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -120,6 +122,35 @@ const SubjectContainer = ({
     ]);
   };
 
+  function renderCompetenceGoals(
+    subject: GQLSubject,
+    locale: LocaleType,
+  ):
+    | ((inp: {
+        Dialog: ComponentType;
+        dialogProps: { isOpen: boolean; onClose: () => void };
+      }) => ReactNode)
+    | null {
+    // Don't show competence goals for topics or articles without grepCodes
+    if (subject.grepCodes?.length) {
+      return ({
+        Dialog,
+        dialogProps,
+      }: {
+        Dialog: ComponentType;
+        dialogProps: { isOpen: boolean; onClose: () => void };
+      }) => (
+        <CompetenceGoals
+          codes={subject.grepCodes}
+          language={locale}
+          wrapperComponent={Dialog}
+          wrapperComponentProps={dialogProps}
+        />
+      );
+    }
+    return null;
+  }
+
   const headerRef = useRef<HTMLDivElement>(null);
   const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
 
@@ -205,11 +236,14 @@ const SubjectContainer = ({
             />
 
             <div ref={headerRef}>
-              <NavigationHeading
-                subHeading={subjectNames.subHeading}
-                invertedStyle={ndlaFilm}>
-                {subjectNames.longName}
-              </NavigationHeading>
+              <ArticleHeaderWrapper
+                competenceGoals={renderCompetenceGoals(subject, locale)}>
+                <NavigationHeading
+                  subHeading={subjectNames.subHeading}
+                  invertedStyle={ndlaFilm}>
+                  {subjectNames.longName}
+                </NavigationHeading>
+              </ArticleHeaderWrapper>
             </div>
             <SubjectPageContent
               locale={locale}

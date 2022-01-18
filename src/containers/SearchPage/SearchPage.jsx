@@ -48,6 +48,7 @@ const SearchPage = ({ location, locale, history }) => {
     variables: {
       ...stateSearchParams,
       exactMatch: true,
+      fallback: true,
     },
   });
 
