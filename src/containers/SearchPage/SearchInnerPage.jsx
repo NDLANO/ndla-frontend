@@ -105,7 +105,7 @@ const SearchInnerPage = ({
         selected: false,
       };
     }
-    handleSearchParamsChange({ activeSubFilters: [], selectedFilters: [] });
+    handleSearchParamsChange({ activeSubFilters: [], selectedFilters: undefined });
     setTypeFilter(filterUpdate);
   };
 

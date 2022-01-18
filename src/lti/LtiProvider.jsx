@@ -29,6 +29,8 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     query: '',
     subjects: [],
     programs: [],
+    selectedFilters: [],
+    activeSubFilters: [],
   });
   const { t, i18n } = useTranslation();
   const subjects = searchSubjects(searchParams.query);
@@ -48,9 +50,11 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
   const { data, error, loading } = useGraphQuery(searchPageQuery);
 
   const handleSearchParamsChange = searchParamUpdates => {
+    const selectedFilters = searchParamUpdates.selectedFilters?.split(',') ?? [];
     setSearchParams(prevState => ({
       ...prevState,
       ...searchParamUpdates,
+      selectedFilters,
     }));
   };
 
@@ -79,6 +83,8 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
         query={searchParams.query}
         subjects={searchParams.subjects}
         programmes={searchParams.programs}
+        selectedFilters={searchParams.selectedFilters}
+        activeSubFilters={searchParams.activeSubFilters}
         allSubjects={allSubjects}
         subjectItems={subjectItems}
         resourceTypes={data.resourceTypes.filter(
