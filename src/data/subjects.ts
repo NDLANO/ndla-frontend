@@ -1865,14 +1865,14 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Matematikk 2P - BETA',
-      nb: 'Matematikk 2P - BETA',
-      nn: 'Matematikk 2P - BETA',
+      en: 'Matematikk 2P',
+      nb: 'Matematikk 2P',
+      nn: 'Matematikk 2P',
     },
     name: {
-      en: 'Matematikk 2P - BETA',
-      nb: 'Matematikk 2P - BETA',
-      nn: 'Matematikk 2P - BETA',
+      en: 'Matematikk 2P',
+      nb: 'Matematikk 2P',
+      nn: 'Matematikk 2P',
     },
     id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
   },

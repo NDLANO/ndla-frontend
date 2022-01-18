@@ -10,7 +10,7 @@ import { func, string, arrayOf, bool, object } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
-import { groupCompetenceGoals } from '../../../components/Article/CompetenceGoals';
+import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({

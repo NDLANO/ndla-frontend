@@ -16,12 +16,10 @@ import {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import ToolboxSubjectContainer from './ToolboxSubjectContainer';
+import { RootComponentProps } from '../../routes';
 
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-}
+interface Props extends RootComponentProps, RouteComponentProps {}
 
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
   const { subjectId, topicList } = getUrnIdsFromProps({

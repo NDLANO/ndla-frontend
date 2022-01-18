@@ -12,7 +12,11 @@ import { SubjectCarousel } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
 import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
-import { GQLResource, GQLTaxonomyEntity } from '../../../graphqlTypes';
+import {
+  GQLResource,
+  GQLTaxonomyEntity,
+  GQLWithArticle,
+} from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 
 const getResourceTypeName = (resource: GQLResource, t: TFunction) => {
@@ -49,7 +53,7 @@ const SubjectEditorChoices = ({
   const editorsChoicesResources = editorsChoices
     .filter(x => x !== null)
     .filter(hasContentUri)
-    .map((resource: GQLTaxonomyEntity) => ({
+    .map((resource: GQLTaxonomyEntity & GQLWithArticle) => ({
       id: resource.meta ? resource.meta.id.toString() : '',
       title: resource.name,
       text: resource.meta?.metaDescription ?? '',

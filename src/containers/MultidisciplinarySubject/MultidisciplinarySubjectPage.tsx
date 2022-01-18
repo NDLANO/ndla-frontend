@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
@@ -21,13 +21,11 @@ import {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { htmlTitle } from '../../util/titleHelper';
+import { RootComponentProps } from '../../routes';
 
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-}
+interface Props extends RootComponentProps, RouteComponentProps {}
 
 const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
@@ -180,4 +178,4 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   );
 };
 
-export default MultidisciplinarySubjectPage;
+export default withRouter(MultidisciplinarySubjectPage);

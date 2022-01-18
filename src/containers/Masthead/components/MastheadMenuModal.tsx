@@ -6,7 +6,7 @@ import { TopicMenuButton } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface Props {
-  children?: React.ReactNode;
+  children: (onClose: () => void) => React.ReactNode;
   onMenuExit?: () => void;
   ndlaFilm?: boolean;
 }

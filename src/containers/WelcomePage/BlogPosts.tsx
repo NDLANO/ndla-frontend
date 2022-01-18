@@ -21,7 +21,7 @@ const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
     <BlogPostWrapper>
       <BlogPost
         image={{
-          url: '/static/fagfornyelse-blog.jpg',
+          url: t('blogPosts.blog1.imageUrl'),
         }}
         text={t('blogPosts.blog1.text')}
         externalLink={t('blogPosts.blog1.externalLink')}
@@ -32,7 +32,7 @@ const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
       />
       <BlogPost
         image={{
-          url: '/static/en-god-skolestart.jpg',
+          url: t('blogPosts.blog2.imageUrl'),
         }}
         text={t('blogPosts.blog2.text')}
         externalLink={t('blogPosts.blog2.externalLink')}

@@ -57,6 +57,7 @@ class IframeArticlePage extends Component {
       <OneColumn>
         <Helmet>
           <title>{`NDLA | ${article.title}`}</title>
+          <meta name="robots" content="noindex" />
           {scripts.map(script => (
             <script
               key={script.src}

@@ -24,7 +24,7 @@ const getLocaleURL = (
     : `/${newLocale}${basePath}${search}`;
 };
 
-type LocaleUrls = Partial<Record<LocaleType, { name: string; url: string }>>;
+type LocaleUrls = Record<string, { name: string; url: string }>;
 
 export const getLocaleUrls = (
   locale: LocaleType,

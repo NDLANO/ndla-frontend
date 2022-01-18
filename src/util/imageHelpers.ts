@@ -8,12 +8,12 @@
 
 import { GQLImageElement } from '../graphqlTypes';
 
-export const getCrop = (visualElement: GQLImageElement): object | undefined => {
+export const getCrop = (visualElement: GQLImageElement) => {
   if (
-    (visualElement.lowerRightX &&
-      visualElement.lowerRightY &&
-      visualElement.upperLeftX &&
-      visualElement.upperLeftY) !== null
+    visualElement.lowerRightX &&
+    visualElement.lowerRightY &&
+    visualElement.upperLeftX &&
+    visualElement.upperLeftY
   ) {
     return {
       startX: visualElement.lowerRightX,
@@ -25,9 +25,7 @@ export const getCrop = (visualElement: GQLImageElement): object | undefined => {
   return undefined;
 };
 
-export const getFocalPoint = (
-  visualElement: GQLImageElement,
-): object | undefined => {
+export const getFocalPoint = (visualElement: GQLImageElement) => {
   if (visualElement.focalX && visualElement.focalY) {
     return { x: visualElement.focalX, y: visualElement.focalY };
   }
