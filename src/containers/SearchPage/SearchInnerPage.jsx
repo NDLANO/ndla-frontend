@@ -79,7 +79,6 @@ const SearchInnerPage = ({
   const activeSubFiltersWithoutLeading = activeSubFilters.map(asf =>
     asf.substring(asf.indexOf(':urn:') + 1),
   );
-  // const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") -1));
 
   const { data, previousData, error, loading, fetchMore } = useGraphQuery(
     groupSearchQuery,
