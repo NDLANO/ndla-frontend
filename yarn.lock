@@ -2978,10 +2978,10 @@
     defined "1.0.0"
     remarkable "^2.0.1"
 
-"@ndla/zendesk@^0.2.44":
-  version "0.2.44"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.44.tgz#e1a12e75c9b767f4044c27f8e53af00444ff076d"
-  integrity sha512-HxkDEbekGJx4bKEOZiFmZvwGB2ORzD9nXXBgl5tTa2CCVSEZ6RS6BwlHk3KoOtgEx8mom/KPkVEjbfOavnAAjA==
+"@ndla/zendesk@^0.2.45":
+  version "0.2.45"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.45.tgz#0f8eb5161500becd81b6dccbf5d72d59d835ab23"
+  integrity sha512-7jSsKG99rzL30QeaiyyDLPj+7KK/9otZ1sgoQ9sVtXIMgzJxgyU4up3qXDZxZzMJyPpS5qAIQnMJS8YRdoUuVQ==
   dependencies:
     "@ndla/core" "^0.7.2"
 
