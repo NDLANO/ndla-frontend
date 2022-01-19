@@ -401,11 +401,14 @@ export const getTypeFilter = (
         filters.push({ id: 'all', name: 'Alle', active: !hasActive });
         filters.push(...withActive);
       }
+      const isSelected = selectedFilters?.some(
+        f => f === contentTypeMapping[type.id],
+      );
       typeFilter[contentTypeMapping[type.id]] = {
         filters,
         page: 1,
-        pageSize: 4,
-        selected: selectedFilters?.some(f => f === contentTypeMapping[type.id]),
+        pageSize: isSelected ? 8 : 4,
+        selected: isSelected,
       };
     });
   }

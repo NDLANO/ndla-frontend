@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -59,6 +59,7 @@ const SearchInnerPage = ({
   );
   const [competenceGoals, setCompetenceGoals] = useState([]);
   const { t, i18n } = useTranslation();
+  const initialGQLCall = useRef(true);
 
   useEffect(() => {
     setShowConcepts(true);
@@ -74,6 +75,9 @@ const SearchInnerPage = ({
         ]),
       }
     : getStateSearchParams(searchParams, i18n.language);
+  
+    const activeSubFiltersWithoutLeading = activeSubFilters.map(asf => asf.substring(asf.indexOf(':urn:') + 1));
+  // const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") -1));
 
   const { data, previousData, error, loading, fetchMore } = useGraphQuery(
     groupSearchQuery,
@@ -88,7 +92,15 @@ const SearchInnerPage = ({
         grepCodesList: searchParams.grepCodes,
       },
       notifyOnNetworkStatusChange: true,
-      onCompleted: data => setCompetenceGoals(data.competenceGoals),
+      onCompleted: data => {
+        if(initialGQLCall.current && activeSubFiltersWithoutLeading.length !== 0) {
+          fetchMore({variables: {
+            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes)
+          }})
+          initialGQLCall.current = false;
+        }
+        setCompetenceGoals(data.competenceGoals);
+      },
     },
   );
 
