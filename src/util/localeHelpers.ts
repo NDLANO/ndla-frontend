@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { RouteComponentProps } from 'react-router-dom';
+import { LocaleType } from '../interfaces';
+import { preferredLocales } from '../i18n';
+
+const getLocaleURL = (
+  newLocale: LocaleType,
+  locale: LocaleType,
+  location: RouteComponentProps['location'],
+) => {
+  const { pathname, search } = location;
+  const basePath = pathname.startsWith(`/${locale}/`)
+    ? pathname.replace(`/${locale}/`, '/')
+    : pathname;
+  return newLocale === 'nb'
+    ? `${basePath}${search}`
+    : `/${newLocale}${basePath}${search}`;
+};
+
+type LocaleUrls = Record<string, { name: string; url: string }>;
+
+export const getLocaleUrls = (
+  locale: LocaleType,
+  location: RouteComponentProps['location'],
+): LocaleUrls => {
+  return preferredLocales.reduce<LocaleUrls>((prev, curr) => {
+    const localeUrl = getLocaleURL(curr.abbreviation, locale, location);
+    const abb = curr.abbreviation;
+    const url = abb === 'nb' ? `/${abb}${localeUrl}` : localeUrl;
+    return { ...prev, [curr.abbreviation]: { name: curr.name, url } };
+  }, {});
+};

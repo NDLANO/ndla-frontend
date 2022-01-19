@@ -46,9 +46,22 @@ export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
 export const MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH =
   '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/topic\\::topic1/topic\\::topic2/:topicId';
 
+export const TOOLBOX_TEACHER_PAGE_PATH =
+  '/subject\\::subjectId(1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc)/:topicPath*/';
+export const TOOLBOX_STUDENT_PAGE_PATH =
+  '/subject\\::subjectId(1:54b1727c-2d91-4512-901c-8434e13339b4)/:topicPath*/';
+
 export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resource\\::resourceId/:articleId`;
 export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
 export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
 
 export const PODCAST_PAGE_PATH = '/podcast/:id';
 export const PODCAST_LIST_PAGE_PATH = '/podcast';
+export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
+export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
+export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
+
+export const LocaleValues = ['nb', 'nn', 'en'] as const;
+
+export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
+export const EmotionCacheKey = 'ndla-frontend';

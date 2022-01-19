@@ -14,7 +14,7 @@ describe('Search page', () => {
       'POST',
       '**/graphql',
       ['groupSearchGraphQL', 'searchPageGraphQL'],
-      ['GroupSearch', 'searchPageQuery'],
+      ['GroupSearch', 'searchPage'],
     );
   });
 

@@ -20,6 +20,7 @@ env:
   NDLA_HOME: ${{ github.workspace }}/ndla
   NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
   COMPONENT: ${{ github.event.repository.name }}
+  GPG_KEY: ${{ secrets.DEPLOY_BLACKBOX_GPG_KEY_B64 }}
 jobs:
   release:
     name: "Release and push to registry"
@@ -39,6 +40,10 @@ jobs:
       - uses: olafurpg/setup-scala@v10
         with:
           java-version: adopt@1.11
+      - name: "Setup ~/bin directory"
+        run: |
+         mkdir -p /home/runner/bin
+         echo "/home/runner/bin" >> $GITHUB_PATH
       - name: "Login to ECR repo"
         run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
           AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
@@ -59,24 +64,34 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r ndla/deploy/scripts/pyshare/requirements.txt
+      - name: "Download blackbox"
+        uses: actions/checkout@v2
+        with:
+          repository: StackExchange/blackbox
+          path: blackbox
+      - name: "Install Blackbox and key"
+        run: |
+          # Move binaries to path
+          sudo mv blackbox/bin/* /home/runner/bin/
+          echo -n "$GPG_KEY" | base64 --decode | gpg --import
       - name: "Install kubectl"
         run: |
           curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
-          sudo mv kubectl /usr/bin/kubectl
-          sudo chmod +x /usr/bin/kubectl
+          sudo mv kubectl /home/runner/bin/kubectl
+          sudo chmod +x /home/runner/bin/kubectl
           mkdir -p ~/.kube
       - name: "Install aws-iam-authenticator"
         run: |
           sudo curl -L https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator > aws-iam-authenticator
-          sudo mv aws-iam-authenticator /usr/bin/aws-iam-authenticator
-          sudo chmod +x /usr/bin/aws-iam-authenticator
+          sudo mv aws-iam-authenticator /home/runner/bin/aws-iam-authenticator
+          sudo chmod +x /home/runner/bin/aws-iam-authenticator
       - name: "Install helm /w push-plugin"
         run: |
           curl -L https://get.helm.sh/helm-v3.2.0-linux-amd64.tar.gz > /tmp/helm.tar.gz
           tar xvzf /tmp/helm.tar.gz -C /tmp/
-          sudo mv /tmp/linux-amd64/helm /usr/bin
-          sudo chmod +x /usr/bin/helm
-          helm plugin install https://github.com/chartmuseum/helm-push
+          sudo mv /tmp/linux-amd64/helm /home/runner/bin/
+          sudo chmod +x /home/runner/bin/helm
+          helm plugin install https://github.com/chartmuseum/helm-push.git --version 0.9.0
       - name: "Build kubernetes config"
         run: |
           for config in `find ndla/deploy -name "kubeconfig*eks-cluster"`; do

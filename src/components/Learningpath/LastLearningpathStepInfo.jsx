@@ -20,11 +20,9 @@ const LastLearningpathStepInfo = ({
   seqNo,
   numberOfLearningSteps,
   title,
-  filters,
   ndlaFilm,
 }) => {
   const isLastStep = seqNo === numberOfLearningSteps;
-  const filterParams = filters.length > 0 ? `?filters=${filters}` : '';
 
   if (!isLastStep) {
     return null;
@@ -46,13 +44,13 @@ const LastLearningpathStepInfo = ({
       learningPathName={title}
       subject={
         subject && {
-          url: `${subject.path}${filterParams}`,
+          url: subject.path,
           name: subject.name,
         }
       }
       topic={
         topicWithPath && {
-          url: `${topicWithPath.path}${filterParams}`,
+          url: topicWithPath.path,
           name: topicWithPath.name,
         }
       }>
@@ -77,7 +75,6 @@ LastLearningpathStepInfo.propTypes = {
   seqNo: PropTypes.number.isRequired,
   numberOfLearningSteps: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  filters: PropTypes.arrayOf(PropTypes.string),
   ndlaFilm: PropTypes.bool,
 };
 

@@ -53,9 +53,15 @@ export const ArticleResultShape = PropTypes.shape({
   contentType: PropTypes.string.isRequired,
 });
 
+export const TaxonomyMetadataShape = PropTypes.shape({
+  customFields: PropTypes.object,
+});
+
 export const SubjectShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  metadata: TaxonomyMetadataShape,
 });
 
 export const LearningpathStepShape = PropTypes.shape({
@@ -132,6 +138,8 @@ export const ResourceShape = PropTypes.shape({
   learningpath: LearningpathShape,
   path: PropTypes.string.isRequired,
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  relevanceId: PropTypes.string,
+  rank: PropTypes.number,
   article: ArticleShape,
 });
 
@@ -143,6 +151,7 @@ export const TopicShape = PropTypes.shape({
   coreResources: PropTypes.arrayOf(ResourceShape),
   supplementaryResources: PropTypes.arrayOf(ResourceShape),
   subtopics: PropTypes.array,
+  metadata: TaxonomyMetadataShape,
 });
 
 export const MessageShape = PropTypes.shape({
@@ -211,7 +220,6 @@ export const BreadCrumbShape = PropTypes.shape({
 export const SearchParamsShape = PropTypes.shape({
   contextFilters: PropTypes.arrayOf(PropTypes.string),
   languageFilter: PropTypes.arrayOf(PropTypes.string),
-  levels: PropTypes.arrayOf(PropTypes.string),
   page: PropTypes.string,
   resourceTypes: PropTypes.arrayOf(PropTypes.string),
   subjects: PropTypes.arrayOf(PropTypes.string),
@@ -252,7 +260,6 @@ export const TypeFilterShape = PropTypes.shape({
   ),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
 });
 
 export const ConceptShape = PropTypes.shape({
@@ -276,6 +283,7 @@ export const SubjectCategoryShape = PropTypes.shape({
   subjects: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
     }),
   ),
@@ -283,6 +291,8 @@ export const SubjectCategoryShape = PropTypes.shape({
 
 export const ProgrammeShape = PropTypes.shape({
   label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 });
 

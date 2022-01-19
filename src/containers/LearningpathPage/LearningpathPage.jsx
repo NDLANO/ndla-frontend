@@ -10,17 +10,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
+import { withTranslation } from 'react-i18next';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import {
-  getFiltersFromUrl,
-  getLongNameFromFilters,
-} from '../../util/filterHelper';
+import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   GraphQLResourceShape,
   GraphQLResourceTypeShape,
@@ -28,6 +25,7 @@ import {
   GraphQLSubjectShape,
 } from '../../graphqlShapes';
 import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
+import { getSubjectLongName } from '../../data/subjects';
 import { LocationShape } from '../../shapes';
 
 class LearningpathPage extends Component {
@@ -55,7 +53,6 @@ class LearningpathPage extends Component {
         relevance,
       },
       locale,
-      location,
       match: {
         params: { stepId },
       },
@@ -65,7 +62,7 @@ class LearningpathPage extends Component {
       ls => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
-    const longName = getLongNameFromFilters(locale, location, subject);
+    const longName = getSubjectLongName(subject?.id, locale);
 
     return getAllDimensions(
       {
@@ -81,14 +78,21 @@ class LearningpathPage extends Component {
     );
   }
 
+  static getTitle(subject, learningpath, learningpathStep) {
+    return htmlTitle(learningpath?.title, [
+      learningpathStep?.title,
+      subject?.name,
+    ]);
+  }
+
   static getDocumentTitle({ t, data }) {
     const {
       subject,
       resource: { learningpath },
     } = data;
-    return `${subject?.name || ''} - ${learningpath?.title || ''}${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+    return htmlTitle(this.getTitle(subject, learningpath), [
+      t('htmlTitles.titleTemplate'),
+    ]);
   }
 
   onKeyUpEvent = evt => {
@@ -97,9 +101,7 @@ class LearningpathPage extends Component {
       match: {
         params: { stepId },
       },
-      location,
     } = this.props;
-    const filterIds = getFiltersFromUrl(location);
     const learningpathStep = stepId
       ? resource.learningpath.learningsteps.find(
           step => step.id.toString() === stepId.toString(),
@@ -117,7 +119,6 @@ class LearningpathPage extends Component {
             resource.learningpath.id,
             newLearningpathStep.id,
             resource,
-            filterIds,
           ),
         );
       }
@@ -130,7 +131,6 @@ class LearningpathPage extends Component {
       locale,
       skipToContentId,
       ndlaFilm,
-      location,
       match: {
         params: { stepId },
       },
@@ -149,7 +149,6 @@ class LearningpathPage extends Component {
     }
     const { resource, topic, resourceTypes, subject, topicPath } = data;
     const { learningpath } = resource;
-    const filterIds = getFiltersFromUrl(location);
 
     const learningpathStep = stepId
       ? learningpath.learningsteps.find(
@@ -166,12 +165,12 @@ class LearningpathPage extends Component {
         ? toBreadcrumbItems(
             t('breadcrumb.toFrontpage'),
             [subject, ...topicPath, { name: learningpath.title, url: '' }],
-            filterIds,
+            locale,
           )
         : toBreadcrumbItems(
             t('breadcrumb.toFrontpage'),
             [{ name: learningpath.title, url: '' }],
-            filterIds,
+            locale,
           );
 
     return (
@@ -180,14 +179,15 @@ class LearningpathPage extends Component {
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
         </Helmet>
         <SocialMediaMetadata
-          title={`${subject && subject.name ? subject.name + ' - ' : ''}${
-            learningpath.title
-          } - ${learningpathStep.title}`}
+          title={htmlTitle(
+            this.constructor.getTitle(subject, learningpath, learningpathStep),
+            [t('htmlTitles.titleTemplate')],
+          )}
           trackableContent={learningpath}
           description={learningpath.description}
           locale={locale}
           image={{
-            src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+            url: learningpath?.coverphoto?.url,
           }}
         />
         <Learningpath
@@ -203,7 +203,6 @@ class LearningpathPage extends Component {
           locale={locale}
           ndlaFilm={ndlaFilm}
           breadcrumbItems={breadcrumbItems}
-          {...getArticleProps()}
         />
       </div>
     );
@@ -242,4 +241,4 @@ LearningpathPage.defaultProps = {
   status: 'initial',
 };
 
-export default injectT(withTracker(LearningpathPage));
+export default withTranslation()(withTracker(LearningpathPage));

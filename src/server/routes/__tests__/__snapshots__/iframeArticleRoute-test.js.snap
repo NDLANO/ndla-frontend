@@ -6,10 +6,3 @@ Object {
   "status": 200,
 }
 `;
-
-exports[`iframeArticleRoute 500 Internal server error 1`] = `
-Object {
-  "data": "<!doctype html><html lang=\\"en\\"><body><div class=\\"o-container\\"><div><p>error</p></div></div></body></html>",
-  "status": 500,
-}
-`;

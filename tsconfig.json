@@ -4,7 +4,7 @@
 
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "lib": ["es2019", "esnext.asynciterable", "dom"],
     "jsx": "react",
     "sourceMap": true,
     "outDir": "build",
@@ -43,6 +43,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "custom-typings/*"],
+  "include": ["src/**/*"],
   "exclude": ["**/*-test.*"]
 }

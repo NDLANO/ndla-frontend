@@ -14,10 +14,11 @@ const { contentTypes } = constants;
 
 const SearchResults = ({
   showAll,
-  handleFilterClick,
+  handleSubFilterClick,
   handleShowMore,
   searchGroups,
   typeFilter,
+  loading,
 }) => {
   return searchGroups.map(group => {
     const { totalCount, type, items, resourceTypes } = group;
@@ -25,6 +26,8 @@ const SearchResults = ({
       (showAll || typeFilter[type].selected || type === contentTypes.SUBJECT) &&
       items.length
     ) {
+      const toCount = typeFilter[type].page * typeFilter[type].pageSize;
+
       return (
         <Fragment key={`searchresult-${type}`}>
           <SearchTypeResult
@@ -32,12 +35,12 @@ const SearchResults = ({
               filter =>
                 resourceTypes.includes(filter.id) || filter.id === 'all',
             )}
-            onFilterClick={id => handleFilterClick(type, id)}
-            items={items}
-            loading={typeFilter[type].loading}
+            onFilterClick={id => handleSubFilterClick(type, id)}
+            items={items.slice(0, toCount)}
+            loading={loading}
             pagination={{
               totalCount,
-              toCount: items.length,
+              toCount: Math.min(toCount, totalCount),
               onShowMore: () => handleShowMore(type),
             }}
             type={type === 'topic-article' ? 'topic' : type}
@@ -51,7 +54,7 @@ const SearchResults = ({
 
 SearchResults.propTypes = {
   showAll: bool,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleShowMore: func,
   searchGroups: arrayOf(SearchGroupShape),
   typeFilter: objectOf(TypeFilterShape),

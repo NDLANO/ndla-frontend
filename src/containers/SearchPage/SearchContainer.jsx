@@ -8,12 +8,15 @@
 import React, { useMemo } from 'react';
 import { func, arrayOf, objectOf, object, string, bool } from 'prop-types';
 import { Remarkable } from 'remarkable';
+import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
   FilterButtons,
+  LanguageSelector,
 } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { spacingUnit } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 
 import {
   SearchItemShape,
@@ -25,17 +28,21 @@ import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { sortResourceTypes } from './searchHelpers';
 
+const StyledLanguageSelector = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: ${spacingUnit * 10}px;
+`;
+
 const SearchContainer = ({
-  t,
   handleSearchParamsChange,
-  handleFilterClick,
+  handleSubFilterClick,
   handleFilterToggle,
   handleFilterReset,
   handleShowMore,
-  handleNewSearch,
   query,
   subjects,
-  filters,
   programmes,
   subjectItems,
   concepts,
@@ -46,7 +53,11 @@ const SearchContainer = ({
   setShowConcepts,
   showAll,
   locale,
+  loading,
+  isLti,
+  competenceGoals,
 }) => {
+  const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -74,11 +85,11 @@ const SearchContainer = ({
         query={query}
         suggestion={suggestion}
         subjects={subjects}
-        filters={filters}
         programmes={programmes}
         handleSearchParamsChange={handleSearchParamsChange}
-        handleNewSearch={handleNewSearch}
+        noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
+        competenceGoals={competenceGoals}
       />
       {showConcepts && concepts?.length > 0 && (
         <SearchNotionsResult
@@ -93,26 +104,40 @@ const SearchContainer = ({
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups.length > 0 && (
         <>
-          <FilterButtons
-            heading={t(
-              'searchPage.searchFilterMessages.resourceTypeFilter.heading',
-            )}
-            items={sortedFilterButtonItems}
-            onFilterToggle={handleFilterToggle}
-            onRemoveAllFilters={handleFilterReset}
-            labels={{
-              openFilter: t(
-                'searchPage.searchFilterMessages.resourceTypeFilter.button',
-              ),
-            }}
-          />
+          {sortedFilterButtonItems.length > 1 && (
+            <FilterButtons
+              heading={t(
+                'searchPage.searchFilterMessages.resourceTypeFilter.heading',
+              )}
+              items={sortedFilterButtonItems}
+              onFilterToggle={handleFilterToggle}
+              onRemoveAllFilters={handleFilterReset}
+              labels={{
+                openFilter: t(
+                  'searchPage.searchFilterMessages.resourceTypeFilter.button',
+                ),
+              }}
+            />
+          )}
           <SearchResults
             showAll={showAll}
             searchGroups={sortedSearchGroups}
             typeFilter={typeFilter}
-            handleFilterClick={handleFilterClick}
+            handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
+            loading={loading}
           />
+          {isLti && (
+            <StyledLanguageSelector>
+              <LanguageSelector
+                center
+                outline
+                alwaysVisible
+                options={i18n.supportedLanguages}
+                currentLanguage={i18n.language}
+              />
+            </StyledLanguageSelector>
+          )}
         </>
       )}
     </>
@@ -122,14 +147,13 @@ const SearchContainer = ({
 SearchContainer.propTypes = {
   error: arrayOf(object),
   handleSearchParamsChange: func,
-  handleFilterClick: func,
+  handleSubFilterClick: func,
   handleFilterToggle: func,
   handleFilterReset: func,
   handleShowMore: func,
-  handleNewSearch: func,
   query: string,
   subjects: arrayOf(string),
-  filters: arrayOf(string),
+  competenceGoals: arrayOf(object),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
@@ -140,6 +164,8 @@ SearchContainer.propTypes = {
   setShowConcepts: func,
   showAll: bool,
   locale: string,
+  loading: bool.isRequired,
+  isLti: bool,
 };
 
-export default injectT(SearchContainer);
+export default SearchContainer;

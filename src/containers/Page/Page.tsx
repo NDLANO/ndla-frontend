@@ -8,51 +8,44 @@
 
 import React, { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
+import { RouteProps } from 'react-router';
 // @ts-ignore
 import { PageContainer } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
-import ZendeskButton from '@ndla/zendesk';
-
-import * as H from 'history';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
-// @ts-ignore
 import Footer from './components/Footer';
+import FeideFooter from './components/FeideFooter';
 
 interface Props {
-  locale: string;
   background?: boolean;
   ndlaFilm?: boolean;
-  location: H.Location;
   children?: ReactNode;
+  location: RouteProps['location'];
 }
 
 export const Page = ({
   children,
   background = true,
-  locale,
-  t,
   ndlaFilm,
   location,
-}: Props & tType) => (
-  <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
-    <Helmet
-      htmlAttributes={{ lang: locale }}
-      title="NDLA"
-      meta={[{ name: 'description', content: t('meta.description') }]}
-    />
-    <Helmet>
-      <meta property="fb:app_id" content="115263542481787" />
-    </Helmet>
-    {children}
-    <Footer inverted={ndlaFilm} locale={locale} location={location}>
-      {config.zendeskWidgetKey && (
-        <ZendeskButton locale={locale} widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
-      )}
-    </Footer>
-  </PageContainer>
-);
+}: Props) => {
+  const { t, i18n } = useTranslation();
+  return (
+    <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
+      <Helmet
+        htmlAttributes={{ lang: i18n.language }}
+        title="NDLA"
+        meta={[{ name: 'description', content: t('meta.description') }]}
+      />
+      <Helmet>
+        <meta property="fb:app_id" content="115263542481787" />
+      </Helmet>
+      {children}
+      <Footer inverted={ndlaFilm} />
+      {config.feideEnabled && <FeideFooter location={location} />}
+    </PageContainer>
+  );
+};
 
-export default injectT(Page);
+export default Page;

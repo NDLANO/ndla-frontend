@@ -15,7 +15,7 @@ describe('Subjects page', () => {
     cy.apiIntercept('POST', '**/graphql', 'subjectpageGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk og mediesamfunnet")')
+      .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
       .click({ force: true });
     cy.apiwait('@subjectpageGraphQL');

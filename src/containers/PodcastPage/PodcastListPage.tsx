@@ -3,16 +3,16 @@ import React from 'react';
 import { OneColumn, Spinner } from '@ndla/ui';
 // @ts-ignore
 import Pager from '@ndla/pager';
-import { RouteComponentProps } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 // @ts-ignore
-import queryString from 'query-string';
+import { parse, stringify } from 'query-string';
 import { Helmet } from 'react-helmet';
-import { injectT, tType } from '@ndla/i18n';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
-import { AudioSearch, LocaleType, SearchObject } from '../../interfaces';
+import { AudioSearch, SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const DEFAULT_PAGE_SIZE = '5';
 
@@ -23,24 +23,21 @@ export const getPage = (searchObject: SearchObject): string => {
   return searchObject.page || '1';
 };
 
-interface Props {
-  locale: LocaleType;
-}
-
-const PodcastListPage = ({
-  locale,
-  location,
-  history,
-  t,
-}: Props & tType & RouteComponentProps) => {
+const PodcastListPage = () => {
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation();
+  const location = useLocation();
+  const history = useHistory();
   const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
     podcastSearchQuery,
   );
   const [totalCount, setTotalCount] = React.useState(0);
-  const searchObject = queryString.parse(location.search);
+  const searchObject = parse(location.search);
 
-  const onQueryPush = (newSearchObject: SearchObject) => {
-    const oldSearchObject = queryString.parse(location.search);
+  const onQueryPush = (newSearchObject: object) => {
+    const oldSearchObject = parse(location.search);
 
     const searchQuery = {
       ...oldSearchObject,
@@ -51,7 +48,7 @@ const PodcastListPage = ({
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-    history.push(`/podcast?${queryString.stringify(searchQuery)}`);
+    history.push(`/podcast?${stringify(searchQuery)}`);
     getPodcasts({
       variables: {
         page: searchQuery.page.toString(),
@@ -118,4 +115,4 @@ const PodcastListPage = ({
   );
 };
 
-export default injectT(PodcastListPage);
+export default PodcastListPage;

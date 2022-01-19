@@ -6,14 +6,16 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { func, string, arrayOf } from 'prop-types';
+import { func, string, arrayOf, bool, object } from 'prop-types';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { subjectsCategories, getSubjectById } from '../../../data/subjects';
+import { useTranslation } from 'react-i18next';
+import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
+import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
 
 const getSubjectCategoriesForLocale = locale => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
+    visible: category.visible,
     subjects: category.subjects.map(subject => ({
       id: subject.id,
       name: subject.longName[locale],
@@ -21,35 +23,20 @@ const getSubjectCategoriesForLocale = locale => {
   }));
 };
 
-const getSubjectFilter = (filters, subjects) => {
-  return subjectsCategories
-    .map(category =>
-      category.subjects
-        .filter(subject =>
-          filters.length
-            ? subject.filters.some(filter => filters.includes(filter))
-            : subjects.includes(subject.subjectId),
-        )
-        .map(s => s.id),
-    )
-    .flat();
-};
-
 // Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 + d39a0c692bbd0e3151fa13a7ec28b0cf229d9fd1 for programme filter
 
 const SearchHeader = ({
-  t,
   query,
   suggestion,
   subjects,
-  filters,
   handleSearchParamsChange,
-  handleNewSearch,
+  noResults,
   locale,
+  competenceGoals,
 }) => {
+  const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
-  const [subjectFilter, setSubjectFilter] = useState([]);
-  const [activeSubjectFilters, setActiveSubjectFilters] = useState([]);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
@@ -61,39 +48,39 @@ const SearchHeader = ({
   }, [query]);
 
   useEffect(() => {
-    const subjectFilterUpdate = getSubjectFilter(filters, subjects);
-    setSubjectFilter(subjectFilterUpdate);
-    const activeSubjects = subjectFilterUpdate.map(id => {
-      const subject = getSubjectById(id);
+    const activeSubjects = subjects.map(id => {
+      const longName = getSubjectLongName(id, locale);
       return {
         value: id,
-        name: subject.longName[locale],
-        title: subject.longName[locale],
+        name: longName,
+        title: longName,
       };
     });
-    setActiveSubjectFilters(activeSubjects);
-  }, [filters, subjects, locale]);
+    const activeGrepCodes = competenceGoals.map(e => ({
+      value: e.id,
+      name: e.id,
+      title: e.id,
+    }));
+    setActiveFilters([...activeSubjects, ...activeGrepCodes]);
+  }, [subjects, locale, competenceGoals]);
 
   const onSubjectValuesChange = values => {
-    const subjects = [];
-    const filters = [];
-    values.forEach(id => {
-      const { subjectId, filters: subjectFilters } = getSubjectById(id);
-      subjects.push(subjectId);
-      filters.push(subjectFilters[0]);
-    });
-    handleNewSearch();
     handleSearchParamsChange({
-      subjects,
-      filters,
-      levels: [],
+      subjects: values,
+    });
+  };
+
+  const onFilterValueChange = (grepCodeFilters, subjectFilters) => {
+    handleSearchParamsChange({
+      grepCodes: grepCodeFilters,
+      subjects: subjectFilters,
     });
   };
 
   const subjectFilterProps = {
     subjectCategories: {
       categories: localeSubjectCategories,
-      values: subjectFilter,
+      values: subjects,
       onSubjectValuesChange: onSubjectValuesChange,
     },
     messages: {
@@ -105,15 +92,22 @@ const SearchHeader = ({
 
   const handleSearchSubmit = e => {
     e.preventDefault();
-    handleNewSearch();
     handleSearchParamsChange({ query: searchValue });
   };
 
   const handleFilterRemove = value => {
-    if (subjectFilter.includes(value)) {
-      onSubjectValuesChange(subjectFilter.filter(id => id !== value));
-    }
+    onFilterValueChange(
+      competenceGoals.filter(e => e.id !== value).map(e => e.id),
+      subjects.filter(id => id !== value),
+    );
+    setActiveFilters(activeFilters.filter(id => id !== value));
   };
+
+  const competenceGoalsMetadata = groupCompetenceGoals(
+    competenceGoals,
+    false,
+    'LK06',
+  ).flatMap(e => e.elements);
 
   return (
     <SearchHeaderUI
@@ -126,10 +120,12 @@ const SearchHeader = ({
       onSearchValueChange={value => setSearchValue(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
-        filters: activeSubjectFilters,
+        filters: activeFilters,
         onFilterRemove: handleFilterRemove,
       }}
       filters={subjectFilterProps}
+      noResults={noResults}
+      competenceGoals={competenceGoalsMetadata}
     />
   );
 };
@@ -140,8 +136,9 @@ SearchHeader.propTypes = {
   query: string,
   suggestion: string,
   subjects: arrayOf(string),
-  filters: arrayOf(string),
+  competenceGoals: arrayOf(object),
+  noResults: bool,
   locale: string,
 };
 
-export default injectT(SearchHeader);
+export default SearchHeader;

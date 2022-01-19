@@ -52,7 +52,7 @@ export async function forwardingRoute(req, res, next) {
   const { lang } = req.params;
 
   try {
-    const nodeId = await findNBNodeId(req.params.nodeId, lang); // taxonomy lookup does'nt handle nn
+    const nodeId = await findNBNodeId(req.params.nodeId, lang); // taxonomy lookup doesn't handle nn
 
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const data = await lookup(lookupUrl);

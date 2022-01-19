@@ -1,6 +1,6 @@
 # NDLA front-end
 
-[![Build Status](https://travis-ci.org/NDLANO/ndla-frontend.svg?branch=master)](https://travis-ci.org/NDLANO/ndla-frontend)
+![CI](https://github.com/NDLANO/ndla-frontend/workflows/CI/badge.svg)
 
 The front-end code powering [https://ndla.no](https://ndla.no).
 
@@ -8,7 +8,7 @@ Norwegian Digital Learning Arena (NDLA) (Norwegian: Nasjonal digital læringsare
 
 ## Requirements
 
-- Node.JS ~10
+- Node.JS ~14
 - yarn ~1.12
 - Docker (optional)
 
@@ -27,16 +27,16 @@ All dependencies are defined in `package.json` and are managed with yarn. To
 initially install all dependencies and when the list dependency has changed,
 run `yarn`.
 
-```
-$ yarn
+```yarn
+yarn
 ```
 
 ### Start development server
 
 Start node server with hot reloading middleware listening on port 3000.
 
-```
-$ yarn start
+```yarn
+yarn start
 ```
 
 To use a different api set the `NDLA_ENVIRONMENT` environment variable.
@@ -45,48 +45,48 @@ To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 Test framework: [Jest](https://github.com/facebook/jest)
 
-```
-$ yarn test
+```yarn
+yarn test
 ```
 
 ### e2e tests
 
 [Cypress](https://www.cypress.io/) is used for end to end testing.
 
-```
-$ yarn e2e
+```yarn
+yarn e2e
 ```
 
 To circumvent api call flakiness all request are mocked when the tests are run on ci. Use the following command to record new mocks when api-calls change:
 
-```
-$ yarn e2e-record-fixtures
+```yarn
+yarn e2e-record-fixtures
 ```
 
 To run the e2e tests with recorded/mocked api-calls run
 
-```
-$ yarn e2e-use-fixtures
+```yarn
+yarn e2e-use-fixtures
 ```
 
 ### Code style
 
 [Prettier](https://prettier.io/) is used for automatic code formatting.
 
-```
-$ yarn format
+```yarn
+yarn format
 ```
 
-```
-$ yarn format-check
+```yarn
+yarn format-check
 ```
 
 ### Linting
 
 Eslint is used for linting.
 
-```
-$ yarn lint-es
+```yarn
+yarn lint-es
 ```
 
 Rules are configured in `./eslintrc` and extends [esling-config-ndla](https://github.com/NDLANO/frontend-packages/tree/master/packages/eslint-config-ndla).
@@ -95,51 +95,55 @@ Rules are configured in `./eslintrc` and extends [esling-config-ndla](https://gi
 
 The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graphql) is used to check the queries against the GraphQL schema.
 
-To update the schema you need to install [apollo-codegen](https://github.com/apollographql/apollo-codegen).
-
-```
-yarn global add apollo
-```
-
 Make sure you have an running instance of the GraphQL enpoint with your latest changes
 
+```yarn
+yarn get-gql-schema-local
 ```
-apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json
+
+### TypeScript
+
+[GraphQL code generator](https://www.graphql-code-generator.com/) is used to generate TypeScript types from the local GraphQL schema and queries.
+
+```yarn
+yarn generate-gql-types
 ```
+
+The configuration is found in `codegen.yml`.
 
 ## Other scripts
 
-```
+```yarn
 # GTG? Checks code formating, linting and runs unit tests:
-$ yarn check-all
+yarn check-all
 ```
 
-```
+```yarn
 # Create minified production ready build:
-$ yarn build
+yarn build
 ```
 
-```
+```yarn
 # Start a production build:
-$ yarn start-prod
+yarn start-prod
 ```
 
-```
+```yarn
 # Start a development server with server side rendering disabled:
-$ yarn start-without-ssr
+yarn start-without-ssr
 ```
 
-```
+```yarn
 # Start a development sever which talks to a local graphql server running on [localhost:4000]:
-$ yarn start-with-local-graphql
+yarn start-with-local-graphql
 ```
 
-```
+```yarn
 # Do you TDD?
-$ yarn tdd
+yarn tdd
 ```
 
-```
+```bash
 # Docker stuff
-$ ./build.sh
+./build.sh
 ```

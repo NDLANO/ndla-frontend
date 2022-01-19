@@ -9,93 +9,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
-import { ArticleShape, ResourceShape, LocationShape } from '../shapes';
-import { getArticleProps } from '../util/getArticleProps';
+import { ArticleShape, LocationShape, TopicShape } from '../shapes';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
-import { SocialMediaMetadata } from '../components/SocialMediaMetadata';
+import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
-import { fetchTopic } from '../containers/Resources/resourceApi';
 import config from '../config';
 
-const Success = ({ resource, locale, location }) => {
-  const article = transformArticle(resource.article, locale);
-  const scripts = getArticleScripts(article);
-  return (
-    <OneColumn>
-      <Helmet>
-        <title>{`NDLA | ${article.title}`}</title>
-        {scripts.map(script => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
-        ))}
-      </Helmet>
-      <SocialMediaMetadata
-        title={article.title}
-        location={location}
-        image={article.metaImage}
-        description={article.metaDescription}
-        locale={locale}
-        trackableContent={article}
-      />
-      <PostResizeMessage />
-      <FixDialogPosition />
-      <Article
-        article={article}
-        locale={locale}
-        modifier="clean iframe"
-        isTopicArticle
-        {...getArticleProps(resource)}
-      />
-    </OneColumn>
-  );
-};
-
-Success.propTypes = {
-  locale: PropTypes.string.isRequired,
-  resource: ResourceShape,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-};
-
 export class IframeTopicPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      path: undefined,
-    };
-  }
-
-  componentDidMount() {
-    const topicId = this.props.location.pathname.split('/')[3];
-    fetchTopic(topicId).then(topic => {
-      this.setState({
-        path: topic.path || topic.paths?.[0],
-      });
-    });
-  }
   static willTrackPageView(trackPageView, currentProps) {
-    const { resource } = currentProps;
-    if (resource?.article?.id) {
+    const { topic } = currentProps;
+    if (topic?.article?.id) {
       trackPageView(currentProps);
     }
   }
 
-  static getDocumentTitle({ t, resource }) {
-    if (resource?.article?.id) {
-      return `NDLA | ${resource.article.title.title}`;
+  static getDocumentTitle({ t, topic }) {
+    if (topic?.article?.id) {
+      return `NDLA | ${topic.article.title.title}`;
     }
     return '';
   }
@@ -104,19 +41,21 @@ export class IframeTopicPage extends Component {
     const {
       locale,
       article: propArticle,
+      topic,
       skipToContentId,
       location,
       t,
     } = this.props;
     const article = transformArticle(propArticle, locale);
     const scripts = getArticleScripts(article);
-    const contentUrl = this.state.path
-      ? `${config.ndlaFrontendDomain}/{this.state.path}`
+    const contentUrl = topic.path
+      ? `${config.ndlaFrontendDomain}${topic.path}`
       : undefined;
     return (
       <>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
+          <meta name="robots" content="noindex" />
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}
@@ -152,7 +91,7 @@ export class IframeTopicPage extends Component {
             locale={locale}
             modifier="clean iframe"
             label={t('topicPage.topic')}
-            contentType={constants.contentTypes.SUBJECT}>
+            contentType={constants.contentTypes.TOPIC}>
             <CreatedBy
               name={t('createdBy.content')}
               description={t('createdBy.text')}
@@ -166,14 +105,12 @@ export class IframeTopicPage extends Component {
 }
 
 IframeTopicPage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   location: LocationShape,
   article: ArticleShape,
+  topic: TopicShape,
   status: PropTypes.oneOf(['success', 'error']),
   skipToContentId: PropTypes.string,
 };
 
-export default injectT(withTracker(IframeTopicPage));
+export default withTranslation()(withTracker(IframeTopicPage));

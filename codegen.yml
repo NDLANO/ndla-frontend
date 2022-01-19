@@ -1,0 +1,12 @@
+overwrite: true
+schema: "src/gqlSchema.json"
+documents: "src/queries.ts"
+generates:
+  src/graphqlTypes.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+config:
+  maybeValue: T
+  typesPrefix: GQL
+  inlineFragmentTypes: combine

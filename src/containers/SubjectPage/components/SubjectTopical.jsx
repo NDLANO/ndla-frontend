@@ -9,11 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, SubjectArchive } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { GraphQLResourceShape } from '../../../graphqlShapes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-const SubjectTopical = ({ topical, twoColumns, t }) => {
+const SubjectTopical = ({ topical, twoColumns }) => {
+  const { t } = useTranslation();
   if (!topical || !topical.resource || !topical.resource.meta) {
     return null;
   }
@@ -56,4 +57,4 @@ SubjectTopical.defaultProps = {
   twoColumns: false,
 };
 
-export default injectT(SubjectTopical);
+export default SubjectTopical;

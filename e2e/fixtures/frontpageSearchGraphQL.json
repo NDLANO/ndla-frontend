@@ -1,1 +1,295 @@
-[{"data":{"frontpage":{"topical":[{"id":"urn:resource:1:161411","name":"Klar, ferdig, kreativ!","contentUri":"urn:learningpath:296","path":"/subject:1/topic:1:172416/topic:1:186403/resource:1:161411","resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:182176","name":"NABC, pitch, rollespill og moodboards","contentUri":null,"path":"/subject:1/topic:1:172416/topic:1:186403/resource:1:182176","resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:183636","name":"Skisseteknikk","contentUri":null,"path":"/subject:1/topic:1:172416/topic:1:186403/resource:1:183636","resourceTypes":[{"id":"urn:resourcetype:learningPath","name":"Læringssti","__typename":"ResourceType"}],"__typename":"Resource"},{"id":"urn:resource:1:170204","name":"Kreativ kommunikasjon","contentUri":"urn:article:1041","path":"/subject:1/topic:1:172416/topic:1:186403/resource:1:170204","resourceTypes":[],"__typename":"Resource"}],"categories":[{"name":"fellesfag","subjects":[],"__typename":"Category"},{"name":"yrkesfag","subjects":[{"id":"urn:subject:24","name":"Helse- og oppvekstfag Vg1","path":"/subject:24","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:12","name":"Service og samferdsel Vg1","path":"/subject:12","__typename":"Subject","frontpageFilters":[]}],"__typename":"Category"},{"name":"studiespesialiserende","subjects":[{"id":"urn:subject:2","name":"Kinesisk","path":"/subject:2","__typename":"Subject","frontpageFilters":[{"id":"urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028","name":"Kinesisk 1","__typename":"SubjectFilter"},{"id":"urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f","name":"Kinesisk 2","__typename":"SubjectFilter"}]},{"id":"urn:subject:14","name":"Medie- og informasjonskunnskap","path":"/subject:14","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:1","name":"Medieuttrykk og mediesamfunnet","path":"/subject:1","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:7","name":"Markedsføring og ledelse 1","path":"/subject:7","__typename":"Subject","frontpageFilters":[]},{"id":"urn:subject:8","name":"Tysk","path":"/subject:8","__typename":"Subject","frontpageFilters":[{"id":"urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d","name":"Tysk 2","__typename":"SubjectFilter"},{"id":"urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413","name":"Tysk 1","__typename":"SubjectFilter"}]}],"__typename":"Category"}],"__typename":"Frontpage"}}},{"data":{"subjects":[{"id":"urn:subject:2","name":"Kinesisk","path":"/subject:2","__typename":"Subject"},{"id":"urn:subject:14","name":"Medie- og informasjonskunnskap","path":"/subject:14","__typename":"Subject"},{"id":"urn:subject:4769da63-fa10-4666-bf93-55173c57753f","name":"Testfag 2","path":"/subject:4769da63-fa10-4666-bf93-55173c57753f","__typename":"Subject"},{"id":"urn:subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3","name":"test","path":"/subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3","__typename":"Subject"},{"id":"urn:subject:adf22336-a201-4d78-bf09-d648ea5b9165","name":"test","path":"/subject:adf22336-a201-4d78-bf09-d648ea5b9165","__typename":"Subject"},{"id":"urn:subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74","name":"dd","path":"/subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74","__typename":"Subject"},{"id":"urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672","name":"Testfag 123","path":"/subject:7cf523b9-8d16-4173-80a4-1674ec8f6672","__typename":"Subject"},{"id":"urn:subject:24","name":"Helse- og oppvekstfag Vg1","path":"/subject:24","__typename":"Subject"},{"id":"urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff","name":"Informatikk","path":"/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff","__typename":"Subject"},{"id":"urn:subject:15","name":"Sørsamisk vg1 og vg2","path":"/subject:15","__typename":"Subject"},{"id":"urn:subject:2003","name":"TestFagNr2003","path":"/subject:2003","__typename":"Subject"},{"id":"urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a","name":"Bærekraftig utviking","path":"/subject:308eb24b-886f-35a3-b4ff-4170f099056a","__typename":"Subject"},{"id":"urn:subject:1","name":"Medieuttrykk og mediesamfunnet","path":"/subject:1","__typename":"Subject"},{"id":"urn:subject:9","name":"Historie Vg2 og Vg3","path":"/subject:9","__typename":"Subject"},{"id":"urn:subject:20","name":"NDLA film","path":"/subject:20","__typename":"Subject"},{"id":"urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2","name":"Slett denne","path":"/subject:8770048e-937f-46e1-bf12-8728019ed3f2","__typename":"Subject"},{"id":"urn:subject:4","name":"Vg 2 Helsearbeiderfag","path":"/subject:4","__typename":"Subject"},{"id":"urn:subject:10","name":"Matematikk fellesfag","path":"/subject:10","__typename":"Subject"},{"id":"urn:subject:23","name":"Samfunnsfaglig engelsk","path":"/subject:23","__typename":"Subject"},{"id":"urn:subject:27","name":"Internasjonal engelsk","path":"/subject:27","__typename":"Subject"},{"id":"urn:subject:7","name":"Markedsføring og ledelse 1","path":"/subject:7","__typename":"Subject"},{"id":"urn:subject:12","name":"Service og samferdsel Vg1","path":"/subject:12","__typename":"Subject"},{"id":"urn:subject:8","name":"Tysk","path":"/subject:8","__typename":"Subject"}]}}]
+[
+  {
+    "data": {
+      "frontpage": {
+        "topical": [
+          {
+            "id": "urn:resource:1:161411",
+            "name": "Klar, ferdig, kreativ!",
+            "contentUri": "urn:learningpath:296",
+            "path": "/subject:1/topic:1:172416/topic:1:186403/resource:1:161411",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:182176",
+            "name": "NABC, pitch, rollespill og moodboards",
+            "contentUri": null,
+            "path": "/subject:1/topic:1:172416/topic:1:186403/resource:1:182176",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:183636",
+            "name": "Skisseteknikk",
+            "contentUri": null,
+            "path": "/subject:1/topic:1:172416/topic:1:186403/resource:1:183636",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:learningPath",
+                "name": "Læringssti",
+                "__typename": "ResourceType"
+              }
+            ],
+            "__typename": "Resource"
+          },
+          {
+            "id": "urn:resource:1:170204",
+            "name": "Kreativ kommunikasjon",
+            "contentUri": "urn:article:1041",
+            "path": "/subject:1/topic:1:172416/topic:1:186403/resource:1:170204",
+            "resourceTypes": [],
+            "__typename": "Resource"
+          }
+        ],
+        "categories": [
+          {
+            "name": "fellesfag",
+            "subjects": [],
+            "__typename": "Category"
+          },
+          {
+            "name": "yrkesfag",
+            "subjects": [
+              {
+                "id": "urn:subject:24",
+                "name": "Helse- og oppvekstfag Vg1",
+                "path": "/subject:24",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:12",
+                "name": "Service og samferdsel Vg1",
+                "path": "/subject:12",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              }
+            ],
+            "__typename": "Category"
+          },
+          {
+            "name": "studiespesialiserende",
+            "subjects": [
+              {
+                "id": "urn:subject:2",
+                "name": "Kinesisk",
+                "path": "/subject:2",
+                "__typename": "Subject",
+                "frontpageFilters": [
+                  {
+                    "id": "urn:filter:a294489b-7ca6-42a0-9243-6ab0b6be9028",
+                    "name": "Kinesisk 1",
+                    "__typename": "SubjectFilter"
+                  },
+                  {
+                    "id": "urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f",
+                    "name": "Kinesisk 2",
+                    "__typename": "SubjectFilter"
+                  }
+                ]
+              },
+              {
+                "id": "urn:subject:14",
+                "name": "Medie- og informasjonskunnskap",
+                "path": "/subject:14",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:1",
+                "name": "Medieuttrykk og mediesamfunnet",
+                "path": "/subject:1",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:7",
+                "name": "Markedsføring og ledelse 1",
+                "path": "/subject:7",
+                "__typename": "Subject",
+                "frontpageFilters": []
+              },
+              {
+                "id": "urn:subject:8",
+                "name": "Tysk",
+                "path": "/subject:8",
+                "__typename": "Subject",
+                "frontpageFilters": [
+                  {
+                    "id": "urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d",
+                    "name": "Tysk 2",
+                    "__typename": "SubjectFilter"
+                  },
+                  {
+                    "id": "urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413",
+                    "name": "Tysk 1",
+                    "__typename": "SubjectFilter"
+                  }
+                ]
+              }
+            ],
+            "__typename": "Category"
+          }
+        ],
+        "__typename": "Frontpage"
+      }
+    }
+  },
+  {
+    "data": {
+      "subjects": [
+        {
+          "id": "urn:subject:2",
+          "name": "Kinesisk",
+          "path": "/subject:2",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:14",
+          "name": "Medie- og informasjonskunnskap",
+          "path": "/subject:14",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:4769da63-fa10-4666-bf93-55173c57753f",
+          "name": "Testfag 2",
+          "path": "/subject:4769da63-fa10-4666-bf93-55173c57753f",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3",
+          "name": "test",
+          "path": "/subject:71d4a2c9-8f13-4bc8-b0e7-c6f59b9bcfe3",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:adf22336-a201-4d78-bf09-d648ea5b9165",
+          "name": "test",
+          "path": "/subject:adf22336-a201-4d78-bf09-d648ea5b9165",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74",
+          "name": "dd",
+          "path": "/subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672",
+          "name": "Testfag 123",
+          "path": "/subject:7cf523b9-8d16-4173-80a4-1674ec8f6672",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:24",
+          "name": "Helse- og oppvekstfag Vg1",
+          "path": "/subject:24",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff",
+          "name": "Informatikk",
+          "path": "/subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:15",
+          "name": "Sørsamisk vg1 og vg2",
+          "path": "/subject:15",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:2003",
+          "name": "TestFagNr2003",
+          "path": "/subject:2003",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a",
+          "name": "Bærekraftig utviking",
+          "path": "/subject:308eb24b-886f-35a3-b4ff-4170f099056a",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:1",
+          "name": "Medieuttrykk og mediesamfunnet",
+          "path": "/subject:1",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:9",
+          "name": "Historie Vg2 og Vg3",
+          "path": "/subject:9",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:20",
+          "name": "NDLA film",
+          "path": "/subject:20",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2",
+          "name": "Slett denne",
+          "path": "/subject:8770048e-937f-46e1-bf12-8728019ed3f2",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:4",
+          "name": "Vg 2 Helsearbeiderfag",
+          "path": "/subject:4",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:10",
+          "name": "Matematikk fellesfag",
+          "path": "/subject:10",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:23",
+          "name": "Samfunnsfaglig engelsk",
+          "path": "/subject:23",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:27",
+          "name": "Internasjonal engelsk",
+          "path": "/subject:27",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:7",
+          "name": "Markedsføring og ledelse 1",
+          "path": "/subject:7",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:12",
+          "name": "Service og samferdsel Vg1",
+          "path": "/subject:12",
+          "__typename": "Subject"
+        },
+        {
+          "id": "urn:subject:8",
+          "name": "Tysk",
+          "path": "/subject:8",
+          "__typename": "Subject"
+        }
+      ]
+    }
+  }
+]

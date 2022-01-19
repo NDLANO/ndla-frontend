@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import SearchContainer from './SearchContainer';
 import {
@@ -18,16 +18,18 @@ import {
 } from '../../shapes';
 import {
   getTypeFilter,
-  updateSearchGroups,
+  mapSearchDataToGroups,
   convertSearchParam,
   converSearchStringToObject,
   convertProgramSearchParams,
   getTypeParams,
 } from './searchHelpers';
-import { resourceTypeMapping } from '../../util/getContentType';
+import { contentTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import { getDefaultLocale } from '../../config';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
 const getStateSearchParams = searchParams => {
   const stateSearchParams = {};
@@ -37,87 +39,55 @@ const getStateSearchParams = searchParams => {
   return stateSearchParams;
 };
 
-const initalParams = {
-  page: 1,
-  pageSize: 4,
-  types: null,
-};
-
 const SearchInnerPage = ({
-  t,
   handleSearchParamsChange,
   query,
   subjects,
-  filters,
   programmes,
   subjectItems,
   concepts,
   resourceTypes,
   location,
-  locale,
   ltiData,
   isLti,
 }) => {
-  const [replaceItems, setReplaceItems] = useState(true);
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
-  const [searchGroups, setSearchGroups] = useState([]);
-  const [params, setParams] = useState(initalParams);
+  const [competenceGoals, setCompetenceGoals] = useState([]);
+  const { t, i18n } = useTranslation();
 
-  const searchParams = converSearchStringToObject(location, locale);
+  useEffect(() => {
+    setTypeFilter(getTypeFilter(resourceTypes));
+    setShowConcepts(true);
+  }, [query, subjects, resourceTypes]);
+
+  const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
     ? {
         query,
         subjects: convertSearchParam([
           ...subjects,
-          ...convertProgramSearchParams(programmes, locale).subjects,
+          ...convertProgramSearchParams(programmes, i18n.language).subjects,
         ]),
-        filters: convertSearchParam(filters),
       }
-    : getStateSearchParams(searchParams, locale);
+    : getStateSearchParams(searchParams, i18n.language);
 
-  const newSearch = !params.types;
-  const { data, error } = useGraphQuery(groupSearchQuery, {
-    variables: {
-      ...stateSearchParams,
-      levels: stateSearchParams.filters,
-      page: params.page.toString(),
-      pageSize: params.pageSize.toString(),
-      ...getTypeParams(params.types, resourceTypes),
-      aggregatePaths: ['contexts.resourceTypes.id'],
+  const { data, previousData, error, loading, fetchMore } = useGraphQuery(
+    groupSearchQuery,
+    {
+      variables: {
+        ...stateSearchParams,
+        language: i18n.language,
+        page: '1',
+        pageSize: '8',
+        ...getTypeParams([], resourceTypes),
+        aggregatePaths: ['contexts.resourceTypes.id'],
+        grepCodesList: searchParams.grepCodes,
+      },
+      notifyOnNetworkStatusChange: true,
+      onCompleted: data => setCompetenceGoals(data.competenceGoals),
     },
-    onCompleted: data => {
-      setSearchGroups(
-        updateSearchGroups(
-          data.groupSearch,
-          searchGroups,
-          resourceTypes,
-          params.pageSize,
-          replaceItems,
-          newSearch,
-          ltiData,
-          isLti,
-          t,
-        ),
-      );
-      resetLoading();
-      setReplaceItems(true);
-      if (newSearch) {
-        setShowConcepts(true);
-      }
-    },
-  });
-
-  const resetLoading = () => {
-    const filterUpdate = { ...typeFilter };
-    for (const [key, value] of Object.entries(filterUpdate)) {
-      filterUpdate[key] = {
-        ...value,
-        loading: false,
-      };
-    }
-    setTypeFilter(filterUpdate);
-  };
+  );
 
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };
@@ -139,23 +109,22 @@ const SearchInnerPage = ({
     setTypeFilter(filterUpdate);
   };
 
-  const hasActiveFilters = type =>
-    typeFilter[type].filters?.length &&
-    !typeFilter[type].filters.find(f => f.id === 'all').active;
+  const getActiveFilters = type =>
+    typeFilter[type].filters
+      ?.filter(f => f.id !== 'all' && f.active)
+      .map(f => f.id) || [];
 
-  const handleFilterClick = (type, filterId) => {
-    updateTypeFilter(type, { page: 1, loading: true });
+  const handleSubFilterClick = (type, filterId) => {
+    updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
       filters.forEach(filter => {
         filter.active = filter.id === 'all';
       });
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: resourceTypeMapping[type] || type,
-      }));
+      fetchMore({
+        variables: getTypeParams([type], resourceTypes),
+      });
     } else {
       const allFilter = filters.find(item => 'all' === item.id);
       allFilter.active = false;
@@ -163,68 +132,68 @@ const SearchInnerPage = ({
       if (!filters.some(item => item.active)) {
         allFilter.active = true;
       }
-      setParams(prevState => ({
-        ...prevState,
-        page: 1,
-        types: filters
-          .filter(filter => filter.active && filter.id !== 'all')
-          .map(f => f.id)
-          .join(),
-      }));
+      fetchMore({
+        variables: getTypeParams(
+          filters
+            .filter(filter => filter.active && filter.id !== 'all')
+            .map(f => f.id),
+          resourceTypes,
+        ),
+      });
     }
   };
 
   const handleFilterReset = () => {
     resetSelected();
-    setTypeFilter(getTypeFilter(resourceTypes));
-    setParams({
-      page: 1,
-      pageSize: 4,
-      types: null,
-    });
   };
 
   const handleFilterToggle = type => {
-    const pageSize = typeFilter[type].selected ? 4 : 8;
+    const selected = typeFilter[type].selected;
     updateTypeFilter(type, {
       page: 1,
-      pageSize,
-      loading: false,
-      selected: !typeFilter[type].selected,
+      pageSize: selected ? 4 : 8,
+      selected: !selected,
     });
-    setParams(prevState => ({
-      page: 1,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
   };
 
   const handleShowMore = type => {
     const pageSize = showAll ? 4 : 8;
     const page = typeFilter[type].page + 1;
-    updateTypeFilter(type, { page, loading: true });
-    setReplaceItems(false);
-    setParams(prevState => ({
-      ...prevState,
-      page,
-      pageSize,
-      types: hasActiveFilters(type)
-        ? prevState.types
-        : resourceTypeMapping[type] || type,
-    }));
-  };
-
-  const handleNewSearch = () => {
-    setParams(initalParams);
-    setTypeFilter(getTypeFilter(resourceTypes));
+    const currentGroup = data.groupSearch.find(
+      group =>
+        type === (contentTypeMapping[group.resourceType] || group.resourceType),
+    );
+    const toCount = typeFilter[type].page * typeFilter[type].pageSize;
+    updateTypeFilter(type, { page });
+    if (currentGroup.resources.length === toCount) {
+      const activeFilters = getActiveFilters(type);
+      fetchMore({
+        variables: {
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+          ...getTypeParams(
+            activeFilters.length ? activeFilters : [type],
+            resourceTypes,
+          ),
+        },
+      });
+    }
   };
 
   if (error) {
     handleError(error);
-    return `Error: ${error.message}`;
+    return <DefaultErrorMessage />;
   }
+
+  const language = i18n.language !== getDefaultLocale() && i18n.language;
+  const searchGroups = mapSearchDataToGroups(
+    data?.groupSearch || previousData?.groupSearch,
+    resourceTypes,
+    ltiData,
+    isLti,
+    language,
+    t,
+  );
 
   const suggestion =
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
@@ -235,13 +204,11 @@ const SearchInnerPage = ({
   return (
     <SearchContainer
       handleSearchParamsChange={handleSearchParamsChange}
-      handleFilterClick={handleFilterClick}
+      handleSubFilterClick={handleSubFilterClick}
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      handleNewSearch={handleNewSearch}
       subjects={subjects}
-      filters={filters}
       programmes={programmes}
       suggestion={suggestion}
       concepts={concepts}
@@ -252,7 +219,10 @@ const SearchInnerPage = ({
       showConcepts={showConcepts}
       setShowConcepts={setShowConcepts}
       showAll={showAll}
-      locale={locale}
+      locale={i18n.language}
+      loading={loading}
+      isLti={isLti}
+      competenceGoals={competenceGoals}
     />
   );
 };
@@ -262,7 +232,6 @@ SearchInnerPage.propTypes = {
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
-  filters: arrayOf(string),
   programmes: arrayOf(string),
   subjectItems: arrayOf(SearchItemShape),
   concepts: arrayOf(ConceptShape),
@@ -279,7 +248,6 @@ SearchInnerPage.propTypes = {
     search: string,
     pathname: string,
   }),
-  locale: string,
 };
 
-export default injectT(SearchInnerPage);
+export default SearchInnerPage;

@@ -5,8 +5,8 @@
  */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import { LtiDataShape } from '../../shapes';
@@ -33,7 +33,7 @@ const getLtiPostData = async (ltiData, item = {}) => {
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
       : config.ndlaFrontendDomain;
-  const iframeurl = `${baseUrl}/article-iframe/article/${item.id}?removeRelatedContent=true`;
+  const iframeurl = `${baseUrl}/article-iframe/article/${item.id}`;
   const postData = {
     oauth_callback: ltiData.oauth_callback || '',
     oauth_consumer_key: ltiData.oauth_consumer_key || 'key',
@@ -73,8 +73,9 @@ const getLtiPostData = async (ltiData, item = {}) => {
   };
 };
 
-const LtiDeepLinking = ({ ltiData, item, t }) => {
+const LtiDeepLinking = ({ ltiData, item }) => {
   const [postData, setPostData] = useState({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     updatePostData();
@@ -115,4 +116,4 @@ LtiDeepLinking.propTypes = {
   ltiData: LtiDataShape,
 };
 
-export default injectT(LtiDeepLinking);
+export default LtiDeepLinking;

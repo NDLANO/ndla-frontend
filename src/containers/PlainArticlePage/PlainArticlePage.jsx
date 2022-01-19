@@ -11,41 +11,45 @@ import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import { useTranslation } from 'react-i18next';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { transformArticle } from '../../util/transformArticle';
 import Article from '../../components/Article';
 import { getArticleScripts } from '../../util/getArticleScripts';
+import { htmlTitle } from '../../util/titleHelper';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { plainArticleQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import { isAccessDeniedError } from '../../util/handleError';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 
 const getTitle = article => article?.title || '';
 
 const getDocumentTitle = ({ t, article }) => {
-  return `${getTitle(article)}${t('htmlTitles.titleTemplate')}`;
+  return htmlTitle(getTitle(article), [t('htmlTitles.titleTemplate')]);
 };
 
 const PlainArticlePage = ({
-  t,
   locale,
   skipToContentId,
   match: {
+    url,
     params: { articleId },
   },
 }) => {
-  const { loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, removeRelatedContent: 'true' },
+  const { t } = useTranslation();
+  const { loading, data, error } = useGraphQuery(plainArticleQuery, {
+    variables: { articleId, isOembed: 'false', path: url },
   });
 
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      window?.MathJax?.typeset();
     }
   });
 
@@ -53,9 +57,17 @@ const PlainArticlePage = ({
     return null;
   }
 
+  if (error) {
+    if (isAccessDeniedError(error)) {
+      return <AccessDeniedPage />;
+    }
+    return <DefaultErrorMessage />;
+  }
+
   if (!data) {
     return <DefaultErrorMessage />;
   }
+
   if (!data.article) {
     return <NotFoundPage />;
   }
@@ -67,6 +79,7 @@ const PlainArticlePage = ({
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
+        <meta name="robots" content="noindex" />
         {article && article.metaDescription && (
           <meta name="description" content={article.metaDescription} />
         )}
@@ -118,6 +131,7 @@ PlainArticlePage.getDocumentTitle = getDocumentTitle;
 
 PlainArticlePage.propTypes = {
   match: PropTypes.shape({
+    url: PropTypes.string,
     params: PropTypes.shape({
       articleId: PropTypes.string.isRequired,
     }).isRequired,
@@ -126,4 +140,4 @@ PlainArticlePage.propTypes = {
   skipToContentId: PropTypes.string,
 };
 
-export default injectT(withTracker(PlainArticlePage));
+export default withTracker(PlainArticlePage);

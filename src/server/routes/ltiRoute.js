@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import { Helmet } from 'react-helmet';
 import { BAD_REQUEST, OK } from 'http-status';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
@@ -103,7 +102,7 @@ export function ltiRoute(req) {
     }
   }
 
-  const lang = getHtmlLang(defined(req.params.lang, ''));
+  const lang = getHtmlLang(req.params.lang ?? '');
   const locale = getLocaleObject(lang);
 
   const { html, docProps } = doRenderPage({

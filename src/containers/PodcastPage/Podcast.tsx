@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AudioPlayer,
   // @ts-ignore
@@ -9,10 +10,8 @@ import {
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 // @ts-ignore
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-// @ts-ignore
 import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
 import { Audio, LocaleType } from '.../../../interfaces';
 import { getLicenseCredits } from './util';
@@ -22,7 +21,7 @@ interface Props {
   locale: LocaleType;
 }
 
-const Podcast = ({ podcast, t, locale }: tType & Props) => {
+const Podcast = ({ podcast, locale }: Props) => {
   const license =
     podcast.copyright?.license &&
     getLicenseByAbbreviation(podcast.copyright?.license?.license, locale);
@@ -32,6 +31,8 @@ const Podcast = ({ podcast, t, locale }: tType & Props) => {
     alt: podcast.podcastMeta?.coverPhoto?.altText,
   };
 
+  const { t } = useTranslation();
+
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
@@ -39,22 +40,23 @@ const Podcast = ({ podcast, t, locale }: tType & Props) => {
         title={podcast.title.title}
         description={podcast.podcastMeta?.introduction}
         img={coverPhoto}
-        textVersion={podcast.podcastMeta?.manuscript}
+        textVersion={podcast.manuscript?.manuscript}
       />
       <FigureCaption
         figureId={`figure-${podcast.id}`}
-        id={podcast.id}
+        id={`${podcast.id}`}
         locale={locale}
         key="caption"
         caption={podcast.title.title}
-        licenseRights={license?.rights}
+        licenseRights={license?.rights || []}
+        reuseLabel={t('other.reuse')}
         authors={getLicenseCredits(podcast.copyright)} // Fiks
       >
         <Modal
           backgroundColor="blue"
           activateButton={<Button link>{t('article.useContent')}</Button>}
           size="medium">
-          {(onClose: void) => (
+          {(onClose: () => void) => (
             <>
               <ModalHeader modifier="no-bottom-padding">
                 <ModalCloseButton onClick={onClose} title="Lukk" />
@@ -65,13 +67,9 @@ const Podcast = ({ podcast, t, locale }: tType & Props) => {
                     src: podcast.audioFile.url,
                     copyright: podcast.copyright,
                     title: podcast.title.title,
-                    image: coverPhoto,
                   }}
+                  image={coverPhoto}
                   locale={locale}
-                  t={(
-                    arg: string,
-                    obj: { [key: string]: string | boolean | number },
-                  ) => t(`license.${arg}`, obj)}
                 />
               </ModalBody>
             </>
@@ -82,4 +80,4 @@ const Podcast = ({ podcast, t, locale }: tType & Props) => {
   );
 };
 
-export default injectT(Podcast);
+export default Podcast;

@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { injectT } from '@ndla/i18n';
 
 import { InfoWidget, FrontpageInfo } from '@ndla/ui';
 import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
+import { withTranslation } from 'react-i18next';
 
 const WelcomePageInfo = ({ t }) => (
   <FrontpageInfo>
@@ -52,4 +52,4 @@ const WelcomePageInfo = ({ t }) => (
   </FrontpageInfo>
 );
 
-export default injectT(WelcomePageInfo);
+export default withTranslation()(WelcomePageInfo);

@@ -1,40 +1,46 @@
 import React from 'react';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { Helmet } from 'react-helmet';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
 import { podcastQuery } from '../../queries';
 import Podcast from './Podcast';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { Audio, LocaleType } from '.../../../interfaces';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
-type RouteParams = { id: string };
-
-interface Props {
-  locale: LocaleType;
+interface RouteParams {
+  id?: string;
 }
 
 interface PodcastQuery {
   podcast: Audio;
 }
 
+interface Props extends RouteComponentProps<RouteParams> {
+  locale: LocaleType;
+  skipToContentId: string;
+}
+
 const PodcastPage = ({
   match: {
     params: { id },
   },
-  locale,
-  t,
-}: Props & tType & RouteComponentProps<RouteParams>) => {
+}: Props) => {
   const { error, loading, data: { podcast } = {} } = useQuery<PodcastQuery>(
     podcastQuery,
     {
       variables: { id },
     },
   );
+
+  const {
+    i18n: { language },
+    t,
+  } = useTranslation();
 
   const getDocumentTitle = (podcast: Audio) => {
     return `${podcast?.title?.title || ''}${t('htmlTitles.titleTemplate')}`;
@@ -63,9 +69,12 @@ const PodcastPage = ({
       <SocialMediaMetadata
         // @ts-ignore
         title={podcast?.title.title ?? ''}
-        trackableContent={podcast}
+        trackableContent={{
+          tags: podcast.tags.tags,
+          supportedLanguages: podcast.supportedLanguages,
+        }}
         description={podcast.podcastMeta?.introduction}
-        locale={locale}
+        locale={language}
         image={
           podcast.podcastMeta?.coverPhoto && {
             url: podcast.podcastMeta.coverPhoto.url,
@@ -74,10 +83,10 @@ const PodcastPage = ({
         }
       />
       <OneColumn>
-        <Podcast podcast={podcast} locale={locale} />
+        <Podcast podcast={podcast} locale={language} />
       </OneColumn>
     </div>
   );
 };
 
-export default injectT(PodcastPage);
+export default withRouter(PodcastPage);

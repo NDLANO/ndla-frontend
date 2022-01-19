@@ -8,7 +8,7 @@
 
 window.MathJax = {
     chtml:{
-        mathmlSpacing:false
+        mathmlSpacing: false
     },
     options:{
         renderActions:{

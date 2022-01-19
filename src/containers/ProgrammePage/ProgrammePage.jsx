@@ -9,18 +9,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { injectT } from '@ndla/i18n';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 
 import { Programme } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
-import { toSubject } from '../../routeHelpers';
+import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
+import { htmlTitle } from '../../util/titleHelper';
 
-const mapGradesData = (grades, locale, programmeSlug) => {
+export const mapGradesData = (grades, locale, programmeSlug) => {
   return grades.map(grade => {
     const data = { name: grade.name };
     data.categories = grade.categories.map(category => {
@@ -31,10 +32,10 @@ const mapGradesData = (grades, locale, programmeSlug) => {
         if (subjectInfo) {
           /*const url = toProgrammeSubject(
             programmeSlug,
-            subjectInfo.subjectId,
+            subjectInfo.id,
             subjectInfo.filters,
           );*/
-          const url = toSubject(subjectInfo.subjectId, subjectInfo.filters);
+          const url = createSubjectUrl(subjectInfo);
           return {
             label: subjectInfo.name[locale],
             url: url,
@@ -43,7 +44,7 @@ const mapGradesData = (grades, locale, programmeSlug) => {
 
         return subjectData;
       });
-      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
+      subjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
       categoryData.subjects = subjects;
       return categoryData;
     });
@@ -63,7 +64,7 @@ const getProgrammeName = (match, locale) => {
 
 const getDocumentTitle = ({ match, locale, t }) => {
   const name = getProgrammeName(match, locale);
-  return name ? `${name}${t('htmlTitles.titleTemplate')}` : '';
+  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ProgrammePage = ({ match, locale, t }) => {
@@ -112,4 +113,4 @@ ProgrammePage.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(withTracker(ProgrammePage));
+export default withTranslation()(withTracker(ProgrammePage));

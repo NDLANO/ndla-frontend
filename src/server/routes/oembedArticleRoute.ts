@@ -9,17 +9,13 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import express from 'express';
 import { match as RouterMatchType } from 'react-router';
-// @ts-ignore
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   fetchResource,
   fetchTopic,
-  // @ts-ignore
 } from '../../containers/Resources/resourceApi';
 import config from '../../config';
-// @ts-ignore
 import handleError from '../../util/handleError';
-// @ts-ignore
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 
@@ -44,7 +40,7 @@ interface MatchParams {
 }
 const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
   const {
-    params: { resourceId, topicId, lang = 'nb' },
+    params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
   if (!topicId && !resourceId) {
     return {};
@@ -54,7 +50,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
     const articleId = getArticleIdFromResource(topic);
     return {
       title: topic.name,
-      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -62,7 +58,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
   const articleId = getArticleIdFromResource(resource);
   return {
     title: resource.name,
-    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
   };
 };
 
@@ -84,7 +80,7 @@ export async function oembedArticleRoute(req: express.Request) {
   }
 
   const {
-    params: { resourceId, topicId, lang = 'nb' },
+    params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
   try {
     if (!resourceId && !topicId) {
@@ -95,7 +91,7 @@ export async function oembedArticleRoute(req: express.Request) {
       return getOembedObject(
         req,
         article.title,
-        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}?removeRelatedContent=true" frameborder="0" allowFullscreen="" />`,
+        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" frameborder="0" allowFullscreen="" />`,
       );
     }
     const { html, title } = await getHTMLandTitle(match);

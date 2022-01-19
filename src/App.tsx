@@ -7,6 +7,8 @@
  */
 
 import React, { ErrorInfo } from 'react';
+// @ts-ignore
+import { configureTracker } from '@ndla/tracker';
 import {
   Route,
   RouteProps,
@@ -15,16 +17,14 @@ import {
   Switch,
   RouteComponentProps,
 } from 'react-router-dom';
-// @ts-ignore
 import { Content } from '@ndla/ui';
 import * as H from 'history';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { ApolloClient } from '@apollo/client';
 import Page from './containers/Page/Page';
-// @ts-ignore
 import Masthead from './containers/Masthead';
 import { RootComponentProps, routes, RouteType } from './routes';
-// @ts-ignore
 import handleError from './util/handleError';
-// @ts-ignore
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import {
   FILM_PAGE_PATH,
@@ -32,19 +32,20 @@ import {
   SKIP_TO_CONTENT_ID,
   SUBJECT_PAGE_PATH,
 } from './constants';
-import { InitialProps } from './interfaces';
-
-export const BasenameContext = React.createContext('');
-
+import { InitialProps, LocaleType } from './interfaces';
+import { initializeI18n } from './i18n';
+import config from './config';
+import AuthenticationContext from './components/AuthenticationContext';
+import { BaseNameProvider } from './components/BaseNameContext';
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
-  locale: string;
+  locale: LocaleType;
   background: boolean;
   hideMasthead?: boolean;
   ndlaFilm?: boolean;
   skipToContent?: string;
   hideBreadcrumb?: boolean;
-  location: H.Location;
+  initialSelectMenu?: string;
   component: React.ComponentType<RootComponentProps>;
 }
 
@@ -58,6 +59,7 @@ const NDLARoute = ({
   skipToContent,
   location,
   hideBreadcrumb,
+  initialSelectMenu,
   ...rest
 }: NDLARouteProps) => {
   return (
@@ -66,11 +68,7 @@ const NDLARoute = ({
       {...rest}
       render={(props: RouteComponentProps) => {
         return (
-          <Page
-            background={background}
-            locale={locale}
-            ndlaFilm={ndlaFilm}
-            location={location}>
+          <Page background={background} ndlaFilm={ndlaFilm} location={location}>
             <Content>
               {!hideMasthead && (
                 <Masthead
@@ -78,6 +76,7 @@ const NDLARoute = ({
                   locale={locale}
                   ndlaFilm={ndlaFilm}
                   hideBreadcrumb={hideBreadcrumb}
+                  initialSelectMenu={initialSelectMenu}
                   {...props}
                 />
               )}
@@ -139,10 +138,11 @@ function shouldScrollToTop(location: H.Location) {
   return true;
 }
 
-interface AppProps extends RouteComponentProps {
+interface AppProps extends RouteComponentProps, WithTranslation {
+  isClient: boolean;
   initialProps: InitialProps;
-  location: H.Location;
-  locale: string;
+  locale?: LocaleType;
+  client: ApolloClient<object>;
 }
 
 interface AppState {
@@ -157,11 +157,19 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
+    initializeI18n(props.i18n, props.client, props.initialProps.resCookie);
     this.state = {
       hasError: false,
       data: props.initialProps,
       location: null,
     };
+    if (props.isClient) {
+      configureTracker({
+        listen: props.history.listen,
+        gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+        googleTagManagerId: config?.googleTagManagerId,
+      });
+    }
     this.handleLoadInitialProps = this.handleLoadInitialProps.bind(this);
   }
 
@@ -239,40 +247,44 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const {
-      initialProps: { basename },
-      location,
-      locale,
-    } = this.props;
+    const { location } = this.props;
+
     if (this.state.hasError) {
-      return <ErrorPage locale={this.props.locale} location={location} />;
+      return (
+        //@ts-ignore
+        <ErrorPage locale={this.props.i18n.language} location={location} />
+      );
     }
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <BasenameContext.Provider value={basename}>
-        <Switch>
-          {routes
-            .filter(route => route !== undefined)
-            .map(route => (
-              <NDLARoute
-                key={`route_${route.path}`}
-                exact={route.exact}
-                hideMasthead={route.hideMasthead}
-                hideBreadcrumb={route.hideBreadcrumb}
-                initialProps={this.state.data}
-                locale={locale}
-                component={route.component}
-                background={route.background ?? false}
-                path={route.path}
-                ndlaFilm={isNdlaFilm}
-                location={location}
-              />
-            ))}
-        </Switch>
-      </BasenameContext.Provider>
+      <BaseNameProvider value={this.props.locale}>
+        <AuthenticationContext>
+          <Switch>
+            {routes
+              .filter(route => route !== undefined)
+              .map(route => (
+                <NDLARoute
+                  key={`route_${route.path}`}
+                  exact={route.exact}
+                  hideMasthead={route.hideMasthead}
+                  hideBreadcrumb={route.hideBreadcrumb}
+                  initialSelectMenu={route.initialSelectMenu}
+                  initialProps={this.state.data}
+                  //@ts-ignore
+                  locale={this.props.i18n.language}
+                  component={route.component}
+                  background={route.background ?? false}
+                  path={route.path}
+                  ndlaFilm={isNdlaFilm}
+                  location={location}
+                />
+              ))}
+          </Switch>
+        </AuthenticationContext>
+      </BaseNameProvider>
     );
   }
 }
 
-export default withRouter(App);
+export default withRouter(withTranslation()(App));

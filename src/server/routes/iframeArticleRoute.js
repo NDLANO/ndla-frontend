@@ -7,12 +7,11 @@
  */
 
 import React from 'react';
-import defined from 'defined';
+import url from 'url';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-
-import { getHtmlLang, getLocaleObject } from '../../i18n';
-import { fetchResourceTypesForResource } from '../../containers/Resources/resourceApi';
+import { StaticRouter } from 'react-router';
+import { getHtmlLang } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
@@ -39,53 +38,48 @@ const getAssets = () => ({
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
-async function doRenderPage(initialProps) {
-  const Page = config.disableSSR ? (
+const disableSSR = req => {
+  const urlParts = url.parse(req.url, true);
+  if (config.disableSSR) {
+    return true;
+  }
+  return urlParts.query && urlParts.query.disableSSR === 'true';
+};
+
+async function doRenderPage(req, initialProps) {
+  const context = {};
+  const Page = disableSSR(req) ? (
     ''
   ) : (
-    <IframePageContainer {...initialProps} />
+    <StaticRouter
+      basename={initialProps.basename}
+      location={req.url}
+      context={context}>
+      <IframePageContainer {...initialProps} />
+    </StaticRouter>
   );
-  const { html, ...docProps } = await renderPageWithData(Page, getAssets(), {
+  const assets = getAssets();
+  const { html, ...docProps } = await renderPageWithData(Page, assets, {
     initialProps,
   });
   return { html, docProps };
 }
 
 export async function iframeArticleRoute(req) {
-  const lang = defined(req.params.lang, '');
-  const removeRelatedContent = defined(
-    req.query.removeRelatedContent,
-    false,
-  ).toString();
-  const htmlLang = getHtmlLang(lang);
-  const locale = getLocaleObject(htmlLang);
+  const lang = req.params.lang ?? '';
+  const locale = getHtmlLang(lang);
   const { articleId, taxonomyId } = req.params;
-  const location = { pathname: req.url };
+  const location = { pathname: req.url, search: '', hash: '' };
   try {
-    if (taxonomyId && taxonomyId.startsWith('urn:topic')) {
-      const { html, docProps } = await doRenderPage({
-        basename: lang,
-        locale,
-        articleId,
-        removeRelatedContent,
-        isTopicArticle: true,
-        status: 'success',
-        location,
-      });
-
-      return renderHtml(req, html, { status: OK }, docProps);
-    }
-    const resourceTypes = taxonomyId
-      ? await fetchResourceTypesForResource(taxonomyId, htmlLang)
-      : [];
-    const { html, docProps } = await doRenderPage({
-      resourceTypes,
+    const { html, docProps } = await doRenderPage(req, {
       articleId,
-      removeRelatedContent,
+      taxonomyId,
+      isOembed: 'true',
+      isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
       basename: lang,
       locale,
-      status: 'success',
       location,
+      status: 'success',
     });
 
     return renderHtml(req, html, { status: OK }, docProps);
@@ -94,7 +88,7 @@ export async function iframeArticleRoute(req) {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = await doRenderPage({
+    const { html, docProps } = await doRenderPage(req, {
       basename: lang,
       locale,
       location,

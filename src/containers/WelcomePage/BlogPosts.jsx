@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
+import { withTranslation } from 'react-i18next';
 
 const BlogPosts = ({ t, locale }) => (
   <section>
@@ -17,7 +17,7 @@ const BlogPosts = ({ t, locale }) => (
     <BlogPostWrapper>
       <BlogPost
         image={{
-          url: '/static/fagfornyelse-blog.jpg',
+          url: t('blogPosts.blog1.imageUrl'),
         }}
         text={t('blogPosts.blog1.text')}
         externalLink={t('blogPosts.blog1.externalLink')}
@@ -28,7 +28,7 @@ const BlogPosts = ({ t, locale }) => (
       />
       <BlogPost
         image={{
-          url: '/static/studereute.jpg',
+          url: t('blogPosts.blog2.imageUrl'),
         }}
         text={t('blogPosts.blog2.text')}
         externalLink={t('blogPosts.blog2.externalLink')}
@@ -46,4 +46,4 @@ BlogPosts.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(BlogPosts);
+export default withTranslation()(BlogPosts);

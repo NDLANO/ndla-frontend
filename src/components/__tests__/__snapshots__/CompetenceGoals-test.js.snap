@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`That groupByCurriculums groups competenceGoals by curriculum  1`] = `
+Array [
+  Object {
+    "elements": Array [
+      Object {
+        "goals": Array [
+          Object {
+            "text": "carry out basic first aid (KM2648)",
+            "type": "LK20",
+            "url": "a",
+          },
+          Object {
+            "text": "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
+            "type": "LK20",
+            "url": "a",
+          },
+        ],
+        "id": "KV244",
+        "title": "Competence aims and assessment health promotion (KV244)",
+      },
+    ],
+    "title": "Curriculum vg1 healthcare, child and youth development (HSF01-03)",
+  },
+  Object {
+    "elements": Array [
+      Object {
+        "goals": Array [
+          Object {
+            "text": "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
+            "type": "LK20",
+            "url": "a",
+          },
+        ],
+        "id": "KV115",
+        "title": "Competence aims and assessment Vg3 programmes for general studies (KV115)",
+      },
+    ],
+    "title": "Curriculum for Norwegian (NOR01-06)",
+  },
+]
+`;

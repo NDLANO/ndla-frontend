@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import {
   ResourcesWrapper,
   ResourcesTopicTitle,
@@ -16,11 +15,15 @@ import {
   ContentTypeBadge,
 } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { ResourceTypeShape, ResourceShape, TopicShape } from '../../shapes';
 import { resourceToLinkProps as resourceToLinkPropsHelper } from './resourceHelpers';
-import { getResourceGroups } from './getResourceGroups';
-import { getFiltersFromUrl } from '../../util/filterHelper';
+import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
+import {
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from '../../constants';
 
 class Resources extends Component {
   constructor(props) {
@@ -66,7 +69,6 @@ class Resources extends Component {
       t,
       topic,
       resourceTypes,
-      location,
       locale,
       ndlaFilm,
     } = this.props;
@@ -79,16 +81,13 @@ class Resources extends Component {
     }
 
     const resourceToLinkProps = resource =>
-      resourceToLinkPropsHelper(
-        resource,
-        topic.path,
-        getFiltersFromUrl(location),
-        locale,
-      );
+      resourceToLinkPropsHelper(resource, topic.path, locale);
+
+    const { coreResources, supplementaryResources, metadata } = topic;
 
     if (
       resourceTypes === null ||
-      (topic.coreResources === null && topic.supplementaryResources === null)
+      (coreResources === null && supplementaryResources === null)
     ) {
       return (
         <p style={{ border: '1px solid #eff0f2', padding: '13px' }}>
@@ -97,17 +96,45 @@ class Resources extends Component {
       );
     }
 
-    const resourceGroups = getResourceGroups(
+    // add additional flag and filter from core
+    const supplementary = supplementaryResources
+      ?.map(resource => ({
+        ...resource,
+        additional: true,
+      }))
+      ?.filter(
+        resource => !coreResources?.find(core => core.id === resource.id),
+      );
+
+    const isUngrouped =
+      metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] ===
+        TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE || false;
+
+    const sortedResources = [...coreResources, ...supplementary].sort(
+      (a, b) => {
+        return a.rank - b.rank;
+      },
+    );
+
+    const ungroupedResources = sortedResources.map(resource => {
+      const resourceTypes = sortResourceTypes(resource.resourceTypes);
+      return {
+        ...resource,
+        active: resource.id.endsWith(params.resourceId) ? true : false,
+        contentTypeName: resourceTypes?.[0]?.name,
+        contentType: contentTypeMapping[resourceTypes?.[0]?.id],
+      };
+    });
+
+    const groupedResources = getResourceGroups(
       resourceTypes,
-      topic.supplementaryResources || [],
-      topic.coreResources || [],
+      supplementaryResources,
+      coreResources,
     );
 
-    const hasAdditionalResources = resourceGroups.some(group =>
-      group.resources.some(resource => resource.additional),
-    );
+    const hasAdditionalResources = supplementary?.length > 0;
 
-    const resourceGroupsWithMetaData = resourceGroups.map(type => ({
+    const resourceGroupsWithMetaData = groupedResources.map(type => ({
       ...type,
       resources: type.resources.map(resource => ({
         ...resource,
@@ -145,26 +172,31 @@ class Resources extends Component {
             invertedStyle={ndlaFilm}
           />
         }>
-        {resourceGroupsWithMetaData.map(type => (
+        {isUngrouped && (
           <ResourceGroup
-            key={type.id}
-            title={type.name}
-            resources={type.resources}
+            title=""
+            resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={this.toggleAdditionalResources}
-            contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            icon={<ContentTypeBadge type={type.contentType} />}
-            messages={{
-              noContentBoxLabel: type.noContentLabel,
-              noContentBoxButtonText: t('resource.activateAdditionalResources'),
-              toggleFilterLabel: t('resource.toggleFilterLabel'),
-              coreTooltip: t('resource.tooltipCoreTopic'),
-              additionalTooltip: t('resource.tooltipAdditionalTopic'),
-            }}
             resourceToLinkProps={resourceToLinkProps}
+            unGrouped
           />
-        ))}
+        )}
+        {!isUngrouped &&
+          resourceGroupsWithMetaData.map(type => (
+            <ResourceGroup
+              key={type.id}
+              title={type.name}
+              resources={type.resources}
+              showAdditionalResources={showAdditionalResources}
+              toggleAdditionalResources={this.toggleAdditionalResources}
+              contentType={type.contentType}
+              invertedStyle={ndlaFilm}
+              icon={<ContentTypeBadge type={type.contentType} />}
+              resourceToLinkProps={resourceToLinkProps}
+            />
+          ))}
       </ResourcesWrapper>
     );
   }
@@ -188,4 +220,4 @@ Resources.propTypes = {
   ndlaFilm: PropTypes.bool,
 };
 
-export default withRouter(injectT(Resources));
+export default withRouter(withTranslation()(Resources));

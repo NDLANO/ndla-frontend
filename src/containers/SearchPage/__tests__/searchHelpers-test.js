@@ -40,7 +40,7 @@ test('searchHelpers searchResultToLinkProps article without paths', () => {
 test('searchHelpers converSearchStringToObject converts search string', () => {
   const locationWithSearch = {
     search:
-      '?query=test&page=3&languageFilter=1,2,3&levels=urn:test:3,urn:test:1,urn:test:2&subjects=urn:test:3,urn:test:1,urn:test:2',
+      '?query=test&page=3&languageFilter=1,2,3&subjects=urn:test:3,urn:test:1,urn:test:2',
   };
 
   expect(converSearchStringToObject(locationWithSearch)).toMatchSnapshot();

@@ -9,11 +9,11 @@
 import 'isomorphic-unfetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
-import IntlProvider from '@ndla/i18n';
 import { MissingRouterContext } from '@ndla/safelink';
+import { i18nInstance } from '@ndla/ui';
 import { ApolloProvider } from '@apollo/client';
-import { getLocaleInfoFromPath } from '../i18n';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
@@ -21,9 +21,6 @@ import '../style/index.css';
 const {
   DATA: { initialProps, config },
 } = window;
-const { abbreviation, messages } = getLocaleInfoFromPath(
-  window.location.pathname,
-);
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
@@ -34,16 +31,16 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const client = createApolloClient(abbreviation);
+const client = createApolloClient(i18nInstance.language, document.cookie);
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <IntlProvider locale={abbreviation} messages={messages}>
+  <I18nextProvider i18n={i18nInstance}>
+    <ApolloProvider client={client}>
       <MissingRouterContext.Provider value={true}>
         <LtiProvider {...initialProps} />
       </MissingRouterContext.Provider>
-    </IntlProvider>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </I18nextProvider>,
   document.getElementById('root'),
 );
 

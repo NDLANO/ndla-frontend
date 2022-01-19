@@ -9,10 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { ResourceTypeShape } from '../shapes';
+import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
-import { plainArticleQuery } from '../queries';
+import { iframeArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
 
@@ -21,73 +20,89 @@ if (process.env.NODE_ENV !== 'production') {
   require('../style/index.css'); // eslint-disable-line global-require
 }
 
-const Error = injectT(({ t }) => (
-  <OneColumn cssModifier="clear">
-    <ErrorMessage
-      illustration={{
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
-      }}
-      messages={{
-        title: t('errorMessage.title'),
-        description: t('errorMessage.description'),
-      }}
-    />
-  </OneColumn>
-));
+const Error = () => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        illustration={{
+          url: '/static/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('errorMessage.description'),
+        }}
+      />
+    </OneColumn>
+  );
+};
 
 export const IframePage = ({
   status,
   locale,
-  resourceTypes,
+  taxonomyId,
   location,
   articleId,
-  removeRelatedContent,
+  isOembed,
   isTopicArticle,
 }) => {
-  const { error, loading, data } = useGraphQuery(plainArticleQuery, {
-    variables: { articleId, removeRelatedContent },
+  const includeResource = !isTopicArticle && taxonomyId !== undefined;
+  const includeTopic = isTopicArticle;
+  const { loading, data } = useGraphQuery(iframeArticleQuery, {
+    variables: {
+      articleId,
+      isOembed,
+      path: location.pathname,
+      taxonomyId: taxonomyId || '',
+      includeResource,
+      includeTopic,
+    },
   });
 
-  if (status !== 'success' || error) {
+  if (status !== 'success') {
     return <Error />;
   }
 
-  if (!loading) {
-    const { article } = data;
-    if (isTopicArticle) {
-      return (
-        <IframeTopicPage
-          locale={locale.abbreviation}
-          article={article}
-          location={location}
-        />
-      );
-    }
+  if (loading) {
+    return null;
+  }
+
+  const { article, resource = {}, topic = {} } = data;
+  // Only care if article can be rendered
+  if (!article) {
+    return <Error />;
+  }
+
+  if (isTopicArticle) {
     return (
-      <IframeArticlePage
-        locale={locale.abbreviation}
-        resource={{ article, resourceTypes }}
+      <IframeTopicPage
         article={article}
+        topic={{ article, ...topic }}
+        locale={locale}
         location={location}
       />
     );
   }
-  return null;
+  return (
+    <IframeArticlePage
+      locale={locale}
+      resource={{ article, ...resource }}
+      article={article}
+      location={location}
+    />
+  );
 };
 
 IframePage.propTypes = {
-  locale: PropTypes.shape({
-    abbreviation: PropTypes.string.isRequired,
-    messages: PropTypes.object.isRequired,
-  }).isRequired,
+  locale: PropTypes.string.isRequired,
   articleId: PropTypes.string,
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+  taxonomyId: PropTypes.string,
   status: PropTypes.oneOf(['success', 'error']),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
-  removeRelatedContent: PropTypes.string,
+  isOembed: PropTypes.string,
   isTopicArticle: PropTypes.bool,
 };
 

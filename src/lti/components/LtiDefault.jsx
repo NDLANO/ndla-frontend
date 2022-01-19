@@ -9,13 +9,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
 
-const LtiDefault = ({ item, t }) => {
+const LtiDefault = ({ item }) => {
   const [embedCode, setEmbedCode] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
   const showEmbedCode = async item => {
     if (item.url.href) {
       setEmbedCode(
@@ -54,4 +55,4 @@ LtiDefault.propTypes = {
   }),
 };
 
-export default injectT(LtiDefault);
+export default LtiDefault;

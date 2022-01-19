@@ -24,7 +24,10 @@ describe('Front page', () => {
       .contains('Bokmål')
       .first()
       .click();
-    cy.get('li > a[href="/nn/?disableSSR=true"]').click();
+    cy.get('button')
+      .contains('Nynorsk')
+      .first()
+      .click();
     cy.url().should('include', '/nn/');
     cy.wait(500); // wait for page to reload
   });

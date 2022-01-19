@@ -9,7 +9,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes, { func } from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
@@ -24,13 +23,14 @@ import {
   LearningPathMobileHeader,
   constants,
 } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { toLearningPath } from '../../routeHelpers';
-import { getFiltersFromUrl } from '../../util/filterHelper';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import {
   BreadCrumbShape,
   LearningpathShape,
   LearningpathStepShape,
+  LocationShape,
   ResourceShape,
   ResourceTypeShape,
   SubjectShape,
@@ -57,7 +57,6 @@ const Learningpath = ({
   onKeyUpEvent,
   ndlaFilm,
   breadcrumbItems,
-  t,
 }) => {
   const {
     id,
@@ -68,9 +67,10 @@ const Learningpath = ({
     title,
   } = learningpath;
 
+  const { t } = useTranslation();
+
   const lastUpdatedDate = new Date(lastUpdated);
   const stepId = learningpathStep.id;
-  const filterIds = getFiltersFromUrl(location);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
@@ -129,7 +129,7 @@ const Learningpath = ({
       learningsteps={mappedLearningsteps}
       duration={duration}
       toLearningPathUrl={(pathId, stepId) =>
-        toLearningPath(pathId, stepId, resource, filterIds)
+        toLearningPath(pathId, stepId, resource)
       }
       lastUpdated={lastUpdatedString}
       copyright={copyright}
@@ -142,7 +142,7 @@ const Learningpath = ({
   );
 
   return (
-    <LearningPathWrapper>
+    <LearningPathWrapper invertedStyle={ndlaFilm}>
       <div className="c-hero__content">
         <section>
           <Breadcrumb invertedStyle={ndlaFilm} items={breadcrumbItems} />
@@ -151,7 +151,7 @@ const Learningpath = ({
       <LearningPathContent>
         {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (
-          <div>
+          <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
                 invertedStyle={ndlaFilm}
@@ -175,7 +175,6 @@ const Learningpath = ({
               numberOfLearningSteps={learningsteps.length - 1}
               title={title}
               subject={subject}
-              filters={filterIds}
               ndlaFilm={ndlaFilm}
             />
           </div>
@@ -189,7 +188,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo - 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource, filterIds)
+              toLearningPath(pathId, stepId, resource)
             }
             label={t('learningPath.previousArrow')}
             title={learningsteps[learningpathStep.seqNo - 1].title}
@@ -208,7 +207,7 @@ const Learningpath = ({
             pathId={learningpath.id}
             stepId={learningsteps[learningpathStep.seqNo + 1].id}
             toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource, filterIds)
+              toLearningPath(pathId, stepId, resource)
             }
             title={learningsteps[learningpathStep.seqNo + 1].title}
           />
@@ -230,7 +229,7 @@ Learningpath.propTypes = {
   resource: ResourceShape,
   skipToContentId: PropTypes.string,
   locale: PropTypes.string.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
   ndlaFilm: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -239,4 +238,4 @@ Learningpath.propTypes = {
   breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
 };
 
-export default injectT(withRouter(Learningpath));
+export default withRouter(Learningpath);

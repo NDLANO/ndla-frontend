@@ -9,22 +9,25 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { injectT } from '@ndla/i18n';
 import { withTracker } from '@ndla/tracker';
 
+import { withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { learningPathStepQuery } from '../../queries';
-import { DefaultErrorMessage } from '../../components/DefaultErrorMessage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { useGraphQuery } from '../../util/runQueries';
+import { htmlTitle } from '../../util/titleHelper';
 import { toLearningPath } from '../../routeHelpers';
 
 const getTitle = learningpath => (learningpath ? learningpath.title : '');
 
 const getDocumentTitle = ({ t, data }) => {
   const { learningpath } = data;
-  return `${getTitle(learningpath)}${t('htmlTitles.titleTemplate')}`;
+  return `${htmlTitle(getTitle(learningpath), [
+    t('htmlTitles.titleTemplate'),
+  ])}`;
 };
 
 const PlainLearningpathPage = props => {
@@ -93,14 +96,17 @@ const PlainLearningpathPage = props => {
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, data })}`}</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <SocialMediaMetadata
-        title={`${learningpath.title} - ${learningpathStep.title}`}
+        title={htmlTitle(getTitle(learningpath), [
+          t('htmlTitles.titleTemplate'),
+        ])}
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale}
         image={{
-          src: learningpath.coverphoto ? learningpath.coverphoto.url : '',
+          url: learningpath?.coverphoto?.url,
         }}
       />
       <Learningpath
@@ -109,8 +115,8 @@ const PlainLearningpathPage = props => {
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
         locale={locale}
-        invertedStyle={false}
         ndlaFilm={false}
+        breadcrumbItems={[]}
       />
     </div>
   );
@@ -144,4 +150,4 @@ PlainLearningpathPage.propTypes = {
   }).isRequired,
 };
 
-export default injectT(withTracker(PlainLearningpathPage));
+export default withTranslation()(withTracker(PlainLearningpathPage));
