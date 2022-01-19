@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AudioPlayer,
-  // @ts-ignore
   Figure,
-  // @ts-ignore
   FigureCaption,
+  FigureLicenseDialog,
 } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 // @ts-ignore
 import Button from '@ndla/button';
-// @ts-ignore
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { initArticleScripts } from '@ndla/article-scripts';
+
 import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
 import { Audio, LocaleType } from '.../../../interfaces';
 import { getLicenseCredits } from './util';
+import CopyTextButton from '../../components/license/CopyTextButton';
+import AnchorButton from '../../components/license/AnchorButton';
 
 interface Props {
   podcast: Audio;
@@ -32,6 +33,21 @@ const Podcast = ({ podcast, locale }: Props) => {
   };
 
   const { t } = useTranslation();
+  useEffect(() => {
+    initArticleScripts();
+  }, []);
+
+  const messages = {
+    learnAboutLicenses: license
+      ? license.linkText
+      : t('license.learnMore') || '',
+    title: t('title'),
+    close: t('close'),
+    source: t('source'),
+    rulesForUse: t('license.audio.rules'),
+    reuse: t('audio.reuse'),
+    download: t('audio.download'),
+  };
 
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
@@ -50,31 +66,32 @@ const Podcast = ({ podcast, locale }: Props) => {
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
-        authors={getLicenseCredits(podcast.copyright)} // Fiks
-      >
-        <Modal
-          backgroundColor="blue"
-          activateButton={<Button link>{t('article.useContent')}</Button>}
-          size="medium">
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader modifier="no-bottom-padding">
-                <ModalCloseButton onClick={onClose} title="Lukk" />
-              </ModalHeader>
-              <ModalBody>
-                <AudioLicenseInfo
-                  audio={{
-                    src: podcast.audioFile.url,
-                    copyright: podcast.copyright,
-                    title: podcast.title.title,
-                  }}
-                  image={coverPhoto}
-                  locale={locale}
-                />
-              </ModalBody>
-            </>
+        authors={getLicenseCredits(podcast.copyright)}>
+        <FigureLicenseDialog
+          id={`${podcast.id}`}
+          authors={getLicenseCredits(podcast.copyright)}
+          locale={locale}
+          license={getLicenseByAbbreviation(
+            podcast.copyright.license?.license!,
+            'nb',
           )}
-        </Modal>
+          messages={messages}
+          title={podcast.title.title}
+          origin={podcast.copyright.origin}>
+          {/* <CopyTextButton
+            stringToCopy={podcast.copyright.license.copyText}
+            copyTitle={t('license.copyTitle')}
+            hasCopiedTitle={t('license.hasCopiedTitle')}
+          /> */}
+          {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
+            <AnchorButton
+              href={podcast.audioFile.url}
+              download
+              appearance="outline">
+              {t('license.download')}
+            </AnchorButton>
+          )}
+        </FigureLicenseDialog>
       </FigureCaption>
     </Figure>
   );

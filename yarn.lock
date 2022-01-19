@@ -2849,6 +2849,15 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
+"@ndla/licenses@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.0.8.tgz#11819c9b5a4a9c105970f1934184d67fb4b02571"
+  integrity sha512-7lWulc/bBPfpkunqA02/G8JBtSFpt6K+xnCwTtuckkKGsKGEt9D84a19d+kFhQ0FXDPgu2BkphD4XzarEV2JbQ==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/icons" "^1.3.1"
+    react-bem-helper "1.4.1"
+
 "@ndla/modal@^1.1.14":
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.14.tgz#a4874c754e511dbdd77b9b4e32bfd4110f6cf0be"
@@ -2858,6 +2867,25 @@
     "@ndla/core" "^0.7.2"
     "@ndla/util" "^2.0.0"
     "@reach/dialog" "^0.2.9"
+
+"@ndla/modal@^1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.15.tgz#6337ba7814d47ef9562c2977baf47eca8ed3d025"
+  integrity sha512-YNa4qDf+AvG84Xj8rxBuczqpbjxQ6vjT5GSxl7vtYv6ZxJCAp9a3Mgk6jSr1E+Rea8qThJgu77dftl5ckt4f6A==
+  dependencies:
+    "@ndla/button" "^1.1.1"
+    "@ndla/core" "^0.7.2"
+    "@ndla/util" "^2.0.1"
+    "@reach/dialog" "^0.2.9"
+
+"@ndla/notion@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.1.1.tgz#70d65fe844a18c5f7fab2504d006adc43b4aee1e"
+  integrity sha512-GQwZrMb6KWQaqAzxCjv7+mB1DKcHV9BWQr8CDIxV1YiG5sinyCu5WyPGxyU+47HFgIBHPfNZn1o3PQTtDqs1SQ==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/licenses" "^1.0.8"
+    "@ndla/modal" "^1.1.15"
 
 "@ndla/pager@^1.0.10":
   version "1.0.10"
@@ -2976,6 +3004,15 @@
     chalk "^4.1.2"
     cli-table3 "^0.6.0"
     defined "1.0.0"
+    remarkable "^2.0.1"
+
+"@ndla/util@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-2.0.1.tgz#334f8d091f53915de35ef7d6819bb6380b3a7b8c"
+  integrity sha512-PQO9O8p6zQBgH0Sc/hty63ksrpGTrlrr+Tbrzka2+ErWXtN9xNQto46EWCN+RbP+E79oYcTh2JuoFtmOYAM+Mw==
+  dependencies:
+    chalk "^4.1.2"
+    cli-table3 "^0.6.0"
     remarkable "^2.0.1"
 
 "@ndla/zendesk@^0.2.44":

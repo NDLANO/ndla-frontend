@@ -42,11 +42,7 @@ interface AudioLicenseInfoProps {
   image?: MetaImage;
 }
 
-export const AudioLicenseInfo = ({
-  audio,
-  locale,
-  image,
-}: AudioLicenseInfoProps) => {
+const AudioLicenseInfo = ({ audio, locale, image }: AudioLicenseInfoProps) => {
   const { t } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
   const items = getGroupedContributorDescriptionList(safeCopyright, locale);
