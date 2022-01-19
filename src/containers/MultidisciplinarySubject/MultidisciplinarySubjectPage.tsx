@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
@@ -22,6 +22,7 @@ import {
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
 import { RootComponentProps } from '../../routes';
 
@@ -29,6 +30,7 @@ interface Props extends RootComponentProps, RouteComponentProps {}
 
 const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -113,6 +115,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
               subTopicId={selectedTopics[index + 1]}
               locale={locale}
               subject={subject}
+              user={user}
             />
           </div>
         );

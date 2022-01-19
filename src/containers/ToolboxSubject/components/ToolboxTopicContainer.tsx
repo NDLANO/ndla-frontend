@@ -6,10 +6,11 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 //@ts-ignore
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { AuthContext } from '../../../components/AuthenticationContext';
 import {
   GQLSubject,
   GQLTopicQuery,
@@ -41,6 +42,7 @@ export const ToolboxTopicContainer = ({
   topicList,
   index,
 }: Props) => {
+  const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
@@ -68,6 +70,7 @@ export const ToolboxTopicContainer = ({
       onSelectTopic={onSelectTopic}
       topicList={topicList}
       index={index}
+      user={user}
     />
   );
 };

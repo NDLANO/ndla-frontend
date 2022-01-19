@@ -37,6 +37,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
 import { GQLSubject } from '../../graphqlTypes';
+import { FeideUserWithGroups } from '../../util/feideApi';
 
 type Props = {
   locale: LocaleType;
@@ -46,6 +47,7 @@ type Props = {
   subject: GQLSubject;
   ndlaFilm?: boolean;
   loading?: boolean;
+  user?: FeideUserWithGroups;
 } & WithTranslation &
   RouteComponentProps;
 
@@ -302,7 +304,7 @@ SubjectContainer.willTrackPageView = (
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicIds } = props;
+  const { subject, locale, topicIds, user } = props;
   const topicPath = topicIds.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
@@ -312,6 +314,7 @@ SubjectContainer.getDimensions = (props: Props) => {
     subject,
     topicPath,
     filter: longName,
+    user,
   });
 };
 

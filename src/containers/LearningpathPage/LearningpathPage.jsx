@@ -56,6 +56,7 @@ class LearningpathPage extends Component {
       match: {
         params: { stepId },
       },
+      user,
     } = props;
     const firstStep = learningpath.learningsteps[0];
     const currentStep = learningpath.learningsteps.find(
@@ -72,6 +73,7 @@ class LearningpathPage extends Component {
         learningpath,
         learningstep,
         filter: longName,
+        user,
       },
       articleProps.label,
       false,
@@ -235,6 +237,12 @@ LearningpathPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  user: PropTypes.shape({
+    eduPersonPrimaryAffiliation: PropTypes.string,
+    primarySchool: PropTypes.shape({
+      displayName: PropTypes.string,
+    }),
+  }),
 };
 
 LearningpathPage.defaultProps = {
