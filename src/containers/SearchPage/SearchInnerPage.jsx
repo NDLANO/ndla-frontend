@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -75,8 +75,10 @@ const SearchInnerPage = ({
         ]),
       }
     : getStateSearchParams(searchParams, i18n.language);
-  
-    const activeSubFiltersWithoutLeading = activeSubFilters.map(asf => asf.substring(asf.indexOf(':urn:') + 1));
+
+  const activeSubFiltersWithoutLeading = activeSubFilters.map(asf =>
+    asf.substring(asf.indexOf(':urn:') + 1),
+  );
   // const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") -1));
 
   const { data, previousData, error, loading, fetchMore } = useGraphQuery(
@@ -93,10 +95,15 @@ const SearchInnerPage = ({
       },
       notifyOnNetworkStatusChange: true,
       onCompleted: data => {
-        if(initialGQLCall.current && activeSubFiltersWithoutLeading.length !== 0) {
-          fetchMore({variables: {
-            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes)
-          }})
+        if (
+          initialGQLCall.current &&
+          activeSubFiltersWithoutLeading.length !== 0
+        ) {
+          fetchMore({
+            variables: {
+              ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
+            },
+          });
           initialGQLCall.current = false;
         }
         setCompetenceGoals(data.competenceGoals);
