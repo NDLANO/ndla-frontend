@@ -6,26 +6,33 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
+//@ts-ignore
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
-import { withRouter } from 'react-router-dom';
-import {
-  BreadCrumbShape,
-  LocationShape,
-  ResourceShape,
-  SubjectShape,
-  TopicShape,
-} from '../../../shapes';
-
-const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }) => {
+import { HeroContentType } from '@ndla/ui/lib/Hero';
+import { GQLMetaImage, GQLSubject } from '../../../graphqlTypes';
+import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
+interface WrapperProps {
+  children: ReactNode;
+  resourceType?: HeroContentType;
+  ndlaFilm?: boolean;
+  metaImage?: GQLMetaImage;
+}
+const WrapperComponent = ({
+  children,
+  resourceType,
+  ndlaFilm,
+  metaImage,
+}: WrapperProps) => {
   if (ndlaFilm) {
     return (
-      <NdlaFilmHero hasImage={metaImage && metaImage.url}>
+      <NdlaFilmHero hasImage={!!(metaImage && metaImage.url)}>
         {children}
       </NdlaFilmHero>
     );
   }
+
   return <Hero contentType={resourceType}>{children}</Hero>;
 };
 
@@ -38,17 +45,21 @@ WrapperComponent.propTypes = {
   }),
 };
 
+interface Props {
+  ndlaFilm?: boolean;
+  subject?: GQLSubject;
+  resourceType?: HeroContentType;
+  metaImage?: GQLMetaImage;
+  breadcrumbItems: BreadcrumbType[];
+}
+
 const ArticleHero = ({
-  resource,
   resourceType,
   metaImage,
   ndlaFilm,
   subject,
-  topicPath,
-  location,
-  locale,
   breadcrumbItems,
-}) => (
+}: Props) => (
   <WrapperComponent
     ndlaFilm={ndlaFilm}
     resourceType={resourceType}
@@ -60,24 +71,16 @@ const ArticleHero = ({
     )}
     <OneColumn>
       <div className="c-hero__content">
-        <section>{subject && <Breadcrumb items={breadcrumbItems} />}</section>
+        <section>
+          {subject && (
+            <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
+              <></>
+            </Breadcrumb>
+          )}
+        </section>
       </div>
     </OneColumn>
   </WrapperComponent>
 );
 
-ArticleHero.propTypes = {
-  resource: ResourceShape.isRequired,
-  resourceType: PropTypes.string,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
-  location: LocationShape,
-  locale: PropTypes.string,
-  metaImage: PropTypes.shape({
-    url: PropTypes.string,
-    alt: PropTypes.string,
-  }),
-  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
-  ndlaFilm: PropTypes.bool,
-};
-export default withRouter(ArticleHero);
+export default ArticleHero;

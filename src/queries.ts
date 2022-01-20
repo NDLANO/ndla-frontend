@@ -243,12 +243,14 @@ export const conceptSearchQuery = gql`
     $subjects: String
     $exactMatch: Boolean
     $language: String
+    $fallback: Boolean
   ) {
     conceptSearch(
       query: $query
       subjects: $subjects
       exactMatch: $exactMatch
       language: $language
+      fallback: $fallback
     ) {
       concepts {
         id
@@ -585,15 +587,11 @@ export const articleInfoFragment = gql`
 `;
 
 export const taxonomyEntityInfo = gql`
-  ${metaInfoFragment}
   fragment TaxonomyEntityInfo on TaxonomyEntity {
     id
     name
     contentUri
     path
-    meta {
-      ...MetaInfo
-    }
     ... on Resource {
       resourceTypes {
         id
@@ -601,6 +599,15 @@ export const taxonomyEntityInfo = gql`
       }
     }
   }
+`;
+
+export const withArticleInfo = gql`
+  fragment WithArticleInfo on WithArticle {
+    meta {
+      ...MetaInfo
+    }
+  }
+  ${metaInfoFragment}
 `;
 
 export const subjectpageInfo = gql`
@@ -626,60 +633,27 @@ export const subjectpageInfo = gql`
       ...TaxonomyEntityInfo
     }
   }
-`;
-
-export const subjectTopicsQuery = gql`
-  query subjectTopics($subjectId: String!) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-        metadata {
-          customFields
-        }
-      }
-    }
-  }
-  ${metaInfoFragment}
-`;
-
-export const topicsQueryWithBreadcrumbs = gql`
-  query topicsWithBreadcrumbs($contentUri: String, $filterVisible: Boolean) {
-    topics(contentUri: $contentUri, filterVisible: $filterVisible) {
-      ...TopicInfo
-      breadcrumbs
-    }
-  }
-  ${topicInfoFragment}
+  ${taxonomyEntityInfo}
 `;
 
 export const subjectPageQueryWithTopics = gql`
   query subjectPageWithTopics(
     $subjectId: String!
-    $filterIds: String
     $topicId: String!
     $includeTopic: Boolean!
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
-      topics(filterIds: $filterIds) {
+      topics {
         article {
           supportedLanguages
         }
         ...TopicInfo
       }
-      allTopics: topics(all: true, filterIds: $filterIds) {
+      allTopics: topics(all: true) {
         ...TopicInfo
       }
+      grepCodes
       subjectpage {
         ...SubjectPageInfo
       }
@@ -704,10 +678,9 @@ export const subjectPageQueryWithTopics = gql`
     }
   }
   ${metaInfoFragment}
-  ${subjectInfoFragment}
   ${topicInfoFragment}
-  ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectpageInfo}
   ${subjectInfoFragment}
 `;
 
@@ -757,30 +730,6 @@ export const searchPageQuery = gql`
     }
   }
   ${subjectInfoFragment}
-`;
-
-export const resourceTypesQuery = gql`
-  query resourceTypes {
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const topicResourcesQuery = gql`
-  query topicResources($topicId: String!, $subjectId: String) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-  }
-  ${resourceInfoFragment}
 `;
 
 const learningpathInfoFragment = gql`
@@ -840,23 +789,6 @@ const learningpathInfoFragment = gql`
   }
   ${resourceInfoFragment}
   ${contributorInfoFragment}
-  ${articleInfoFragment}
-`;
-
-export const resourceQuery = gql`
-  query resource($resourceId: String!, $subjectId: String) {
-    resource(id: $resourceId, subjectId: $subjectId) {
-      ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
-    }
-  }
-  ${learningpathInfoFragment}
-  ${resourceInfoFragment}
   ${articleInfoFragment}
 `;
 
@@ -1136,51 +1068,6 @@ export const mastHeadQuery = gql`
   }
   ${topicInfoFragment}
   ${learningpathInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-`;
-
-export const topicPageQuery = gql`
-  query topicPage($topicId: String!, $subjectId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      relevanceId
-      meta {
-        ...MetaInfo
-      }
-      article {
-        ...ArticleInfo
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-  ${metaInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;

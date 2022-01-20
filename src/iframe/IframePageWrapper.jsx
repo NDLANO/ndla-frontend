@@ -18,10 +18,10 @@ import { createApolloClient } from '../util/apiHelpers';
 import { BaseNameProvider } from '../components/BaseNameContext';
 import { initializeI18n } from '../i18n';
 
-const IframePageWrapper = ({ basename, locale, children }) => {
+const IframePageWrapper = ({ basename, locale, children, resCookie }) => {
   const { i18n } = useTranslation();
   i18n.language = locale;
-  const client = createApolloClient(i18n.language);
+  const client = createApolloClient(i18n.language, resCookie);
   initializeI18n(i18n, client);
   return (
     <ApolloProvider client={client}>
@@ -40,6 +40,7 @@ const IframePageWrapper = ({ basename, locale, children }) => {
 IframePageWrapper.propTypes = {
   basename: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  resCookie: PropTypes.string,
 };
 
 export default IframePageWrapper;

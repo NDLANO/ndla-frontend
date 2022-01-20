@@ -6,13 +6,18 @@
  */
 
 import React, { useState, createContext, useEffect } from 'react';
-import { isAccessTokenValid } from '../util/authHelpers';
+import {
+  FeideUserWithGroups,
+  fetchFeideUserWithGroups,
+} from '../util/feideApi';
+import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
+  user: FeideUserWithGroups | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -20,6 +25,7 @@ export const AuthContext = createContext<AuthContextType>({
   authContextLoaded: false,
   login: () => {},
   logout: () => {},
+  user: undefined,
 });
 
 interface Props {
@@ -29,18 +35,31 @@ interface Props {
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
+  const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
 
   useEffect(() => {
-    setAuthenticated(isAccessTokenValid());
+    const isValid = isAccessTokenValid();
+    setAuthenticated(isValid);
     setLoaded(true);
-  }, []);
+
+    if (isValid) {
+      fetchFeideUserWithGroups().then(user => {
+        setUser(user);
+      });
+      // Since we can't listen to cookies set a timeout to update context
+      const timeoutMillis = millisUntilExpiration();
+      window.setTimeout(() => {
+        setAuthenticated(false);
+      }, timeoutMillis);
+    }
+  }, [authenticated]);
 
   const login = () => setAuthenticated(true);
   const logout = () => setAuthenticated(false);
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, login, logout, authContextLoaded }}>
+      value={{ authenticated, authContextLoaded, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

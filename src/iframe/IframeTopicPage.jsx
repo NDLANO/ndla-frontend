@@ -55,6 +55,7 @@ export class IframeTopicPage extends Component {
       <>
         <Helmet>
           <title>{`${this.constructor.getDocumentTitle(this.props)}`}</title>
+          <meta name="robots" content="noindex" />
           {article && article.metaDescription && (
             <meta name="description" content={article.metaDescription} />
           )}

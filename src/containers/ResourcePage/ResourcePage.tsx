@@ -22,6 +22,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
 import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
+import { isAccessDeniedError } from '../../util/handleError';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 
@@ -57,6 +59,10 @@ const ResourcePage = (props: Props) => {
     return null;
   }
 
+  if (isAccessDeniedError(error)) {
+    return <AccessDeniedPage />;
+  }
+
   if (!data) {
     return <DefaultErrorMessage />;
   }
@@ -73,9 +79,6 @@ const ResourcePage = (props: Props) => {
     }
   }
 
-  if (typeof window != 'undefined' && window.scrollY) {
-    window.scroll(0, 0);
-  }
   const { subject, resource, topic } = data;
   const relevanceId = resource.relevanceId;
   const relevance =
@@ -96,9 +99,15 @@ const ResourcePage = (props: Props) => {
   }
   return (
     <ArticlePage
-      {...props}
-      data={{ ...data, relevance, topicPath }}
+      resource={data.resource}
+      topic={data.topic}
+      topicPath={topicPath}
+      relevance={relevance}
+      subject={data.subject}
+      resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
+      ndlaFilm={!!props.ndlaFilm}
+      loading={loading}
     />
   );
 };

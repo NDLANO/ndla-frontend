@@ -96,6 +96,7 @@ const PlainLearningpathPage = props => {
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, data })}`}</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(learningpath), [

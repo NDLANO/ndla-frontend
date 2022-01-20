@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 
@@ -19,10 +18,6 @@ const OembedItem = ({ oembed }: Props) => {
       />
     </div>
   );
-};
-
-OembedItem.propTypes = {
-  oembed: PropTypes.string.isRequired,
 };
 
 export default OembedItem;

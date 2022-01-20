@@ -6,28 +6,35 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
+import { AccessDeniedCodes } from '../../../util/handleError';
 
-const ArticleErrorMessage = ({ status, children }) => {
+interface Props {
+  status?: number;
+  children?: ReactNode;
+}
+
+const ArticleErrorMessage = ({ status, children }: Props) => {
   const { t } = useTranslation();
+
+  if (AccessDeniedCodes.includes(status ?? 0)) return <AccessDeniedPage />;
+
   return (
     <OneColumn>
       <article className="c-article--clean">
         <ErrorMessage
           illustration={{
-            url:
-              status === 'error404'
-                ? '/static/not-exist.gif'
-                : '/static/oops.gif',
+            url: status === 404 ? '/static/not-exist.gif' : '/static/oops.gif',
             altText: t('errorMessage.title'),
           }}
           messages={{
             title: t('errorMessage.title'),
             description:
-              status === 'error404'
+              status === 404
                 ? t('articlePage.error404Description')
                 : t('articlePage.errorDescription'),
             back: t('errorMessage.back'),
@@ -42,6 +49,7 @@ const ArticleErrorMessage = ({ status, children }) => {
 
 ArticleErrorMessage.propTypes = {
   status: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 export default ArticleErrorMessage;

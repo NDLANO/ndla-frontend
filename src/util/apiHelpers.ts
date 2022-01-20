@@ -18,8 +18,13 @@ import { setContext } from '@apollo/client/link/context';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
-import { isAccessTokenValid, getAccessToken, renewAuth } from './authHelpers';
-import { GQLGroupSearch, GQLBucketResult } from '../graphqlTypes';
+import {
+  getAccessToken,
+  getFeideCookie,
+  isAccessTokenValid,
+  renewAuth,
+} from './authHelpers';
+import { GQLBucketResult, GQLGroupSearch } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -146,32 +151,38 @@ const typePolicies: TypePolicies = {
   },
 };
 
-export const createApolloClient = (language = 'nb') => {
+export const createApolloClient = (language = 'nb', cookieString?: string) => {
   const cache = __CLIENT__
     ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
         window.DATA.apolloState,
       )
     : new InMemoryCache({ possibleTypes, typePolicies });
 
-  const client = new ApolloClient({
+  const cookie = __CLIENT__ ? document.cookie : cookieString;
+
+  return new ApolloClient({
     ssrMode: true,
-    link: createApolloLinks(language),
+    link: createApolloLinks(language, cookie),
     cache,
   });
-
-  return client;
 };
 
-export const createApolloLinks = (lang: string) => {
-  const isWindowContext = typeof window !== 'undefined';
-  const accessToken = isWindowContext ? getAccessToken() : null;
-  const headersLink = setContext(async (_, { headers }) => ({
-    headers: {
-      ...headers,
-      'Accept-Language': lang,
-      ...(accessToken ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
-    },
-  }));
+export const createApolloLinks = (lang: string, cookieString?: string) => {
+  const feideCookie = getFeideCookie(cookieString ?? '');
+  const accessTokenValid = isAccessTokenValid(feideCookie);
+  const accessToken = feideCookie?.access_token;
+
+  const headersLink = setContext(async (_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        'Accept-Language': lang,
+        ...(accessToken && accessTokenValid
+          ? { FeideAuthorization: `Bearer ${accessToken}` }
+          : {}),
+      },
+    };
+  });
   return ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
@@ -224,7 +235,7 @@ export const fetchWithAuthorization = async (
     headers: {
       ...extraHeaders,
       ...cacheControl,
-      FeideAuthorization: `Bearer ${getAccessToken()}`,
+      FeideAuthorization: `Bearer ${getAccessToken(document.cookie)}`,
     },
   });
 };
@@ -239,7 +250,7 @@ export async function fetchWithFeideAuthorization(
 
   return fetch(url, {
     headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
+      Authorization: `Bearer ${getAccessToken(document.cookie)}`,
     },
   });
 }

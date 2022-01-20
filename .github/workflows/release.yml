@@ -40,6 +40,10 @@ jobs:
       - uses: olafurpg/setup-scala@v10
         with:
           java-version: adopt@1.11
+      - name: "Setup ~/bin directory"
+        run: |
+         mkdir -p /home/runner/bin
+         echo "/home/runner/bin" >> $GITHUB_PATH
       - name: "Login to ECR repo"
         run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
           AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)

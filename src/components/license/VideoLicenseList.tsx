@@ -7,14 +7,19 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import {
+  //@ts-ignore
   MediaList,
+  //@ts-ignore
   MediaListItem,
+  //@ts-ignore
   MediaListItemImage,
+  //@ts-ignore
   MediaListItemBody,
+  //@ts-ignore
   MediaListItemActions,
+  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -24,25 +29,19 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { CopyrightObjectShape } from '../../shapes';
+import { GQLBrightcoveLicense } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-const VideoShape = PropTypes.shape({
-  title: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
-  copyright: CopyrightObjectShape.isRequired,
-  download: PropTypes.string.isRequired,
-  iframe: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    height: PropTypes.string.isRequired,
-    width: PropTypes.string.isRequired,
-  }),
-  copyText: PropTypes.string,
-});
+interface VideoLicenseInfoProps {
+  video: GQLBrightcoveLicense;
+  locale: LocaleType;
+}
 
-const VideoLicenseInfo = ({ video, locale }) => {
+const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
   const { t } = useTranslation();
-  const items = getGroupedContributorDescriptionList(video.copyright, locale);
+  const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
+  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
   if (video.title) {
     items.unshift({
       label: t('license.images.title'),
@@ -57,7 +56,7 @@ const VideoLicenseInfo = ({ video, locale }) => {
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.video.rules')}
-        license={video.copyright.license.license}
+        license={video.copyright.license?.license}
         resourceType="video"
         resourceUrl={video.src}
         locale={locale}>
@@ -66,18 +65,16 @@ const VideoLicenseInfo = ({ video, locale }) => {
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={video.copyText}
-              t={t}
               copyTitle={t('license.copyTitle')}
               hasCopiedTitle={t('license.hasCopiedTitle')}
             />
-            {video.copyright.license.license !== 'COPYRIGHTED' && (
+            {video.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={video.download} download appearance="outline">
                 {t('license.download')}
               </AnchorButton>
             )}
             <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${video.iframe.height}" aria-label="${video.title}" width="${video.iframe.width}" frameborder="0" src="${video.iframe.src}" allowfullscreen=""></iframe>`}
-              t={t}
+              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
             />
@@ -88,12 +85,12 @@ const VideoLicenseInfo = ({ video, locale }) => {
   );
 };
 
-VideoLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  video: VideoShape.isRequired,
-};
+interface Props {
+  videos: GQLBrightcoveLicense[];
+  locale: LocaleType;
+}
 
-const VideoLicenseList = ({ videos, locale }) => {
+const VideoLicenseList = ({ videos, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -101,16 +98,11 @@ const VideoLicenseList = ({ videos, locale }) => {
       <p>{t('license.video.description')}</p>
       <MediaList>
         {videos.map(video => (
-          <VideoLicenseInfo video={video} key={uuid()} locale={locale} t={t} />
+          <VideoLicenseInfo video={video} key={uuid()} locale={locale} />
         ))}
       </MediaList>
     </div>
   );
-};
-
-VideoLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  videos: PropTypes.arrayOf(VideoShape).isRequired,
 };
 
 export default VideoLicenseList;

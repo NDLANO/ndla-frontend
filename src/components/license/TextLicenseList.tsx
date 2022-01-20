@@ -7,14 +7,19 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import {
+  //@ts-ignore
   MediaList,
+  //@ts-ignore
   MediaListItem,
+  //@ts-ignore
   MediaListItemImage,
+  //@ts-ignore
   MediaListItemBody,
+  //@ts-ignore
   MediaListItemActions,
+  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -24,18 +29,18 @@ import {
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import { CopyrightObjectShape } from '../../shapes';
+import { GQLCopyrightInfoFragment } from '../../graphqlTypes';
+import { LocaleType } from '../../interfaces';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-const TextShape = PropTypes.shape({
-  copyright: CopyrightObjectShape.isRequired,
-  src: PropTypes.string.isRequired,
-  updated: PropTypes.string.isRequired,
-  copyText: PropTypes.string,
-});
-
-const TextLicenseInfo = ({ text, locale }) => {
+interface TextLicenseInfoProps {
+  text: TextItem;
+  locale: LocaleType;
+}
+const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
   const { t } = useTranslation();
-  const items = getGroupedContributorDescriptionList(text.copyright, locale);
+  const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
+  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
   items.push({
     label: t('license.text.published'),
     description: text.updated,
@@ -48,10 +53,9 @@ const TextLicenseInfo = ({ text, locale }) => {
         <FileDocumentOutline className="c-medialist__icon" />
       </MediaListItemImage>
       <MediaListItemBody
-        license={text.copyright.license.license}
+        license={text.copyright.license?.license}
         title={t('license.text.rules')}
         resourceType="text"
-        resourceUrl={text.src}
         locale={locale}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
@@ -68,12 +72,18 @@ const TextLicenseInfo = ({ text, locale }) => {
   );
 };
 
-TextLicenseInfo.propTypes = {
-  locale: PropTypes.string.isRequired,
-  text: TextShape,
-};
+interface TextItem {
+  copyright: GQLCopyrightInfoFragment;
+  updated: string;
+  copyText?: string;
+}
 
-const TextLicenseList = ({ texts, locale }) => {
+interface Props {
+  texts: TextItem[];
+  locale: LocaleType;
+}
+
+const TextLicenseList = ({ texts, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -81,16 +91,11 @@ const TextLicenseList = ({ texts, locale }) => {
       <p>{t('license.text.description')}</p>
       <MediaList>
         {texts.map(text => (
-          <TextLicenseInfo text={text} key={uuid()} locale={locale} t={t} />
+          <TextLicenseInfo text={text} key={uuid()} locale={locale} />
         ))}
       </MediaList>
     </div>
   );
-};
-
-TextLicenseList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  texts: PropTypes.arrayOf(TextShape),
 };
 
 export default TextLicenseList;

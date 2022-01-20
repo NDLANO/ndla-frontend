@@ -12,6 +12,7 @@ import { LocaleValues } from './constants';
 
 export type InitialProps = {
   loading?: boolean;
+  resCookie?: string;
   basename: string;
 };
 
@@ -35,6 +36,8 @@ export interface NDLAWindow {
 export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
+
+export type Breadcrumb = { to: string; name: string };
 
 export type ResourceType = 'image' | 'other' | 'video';
 

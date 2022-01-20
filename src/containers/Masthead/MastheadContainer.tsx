@@ -24,11 +24,7 @@ import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import {
-  getUrnIdsFromProps,
-  toBreadcrumbItems,
-  SubjectURI,
-} from '../../routeHelpers';
+import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -47,8 +43,10 @@ import { LocaleType } from '../../interfaces';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
+  GQLResource,
   GQLResourceType,
   GQLSubject,
+  GQLTopic,
 } from '../../graphqlTypes';
 import config from '../../config';
 
@@ -63,9 +61,9 @@ interface Props extends RouteComponentProps {
 
 interface State {
   subject?: GQLSubject;
-  topicPath?: SubjectURI[];
+  topicPath?: GQLTopic[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: SubjectURI;
+  resource?: GQLResource;
 }
 
 const MastheadContainer = ({

@@ -6,17 +6,19 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useMemo } from 'react';
+import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 // @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
-import CompetenceGoals from './CompetenceGoals';
+import CompetenceGoals from '../CompetenceGoals';
 import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
+import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
   article: GQLArticle,
@@ -41,8 +43,13 @@ function renderCompetenceGoals(
       dialogProps: { isOpen: boolean; onClose: () => void };
     }) => (
       <CompetenceGoals
-        article={article}
-        language={locale}
+        codes={article.grepCodes}
+        nodeId={article.oldNdlaUrl?.split('/').pop()}
+        language={
+          article.supportedLanguages?.find(l => l === locale) ||
+          article.supportedLanguages?.[0] ||
+          locale
+        }
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
       />
@@ -54,12 +61,12 @@ function renderCompetenceGoals(
 interface Props {
   article: GQLArticleInfoFragment;
   resourceType?: string;
-  isTopicArticle: boolean;
+  isTopicArticle?: boolean;
   children?: React.ReactElement;
   contentType?: string;
   label: string;
   locale: LocaleType;
-  isResourceArticle: boolean;
+  isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
 }
@@ -120,6 +127,28 @@ const Article = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+
+  const location = useLocation();
+
+  // Scroll to element with ID passed in as a query-parameter.
+  // We use query-params instead of the regular fragments since
+  // the article doesn't exist on initial page load (At least without SSR).
+  useEffect(() => {
+    if (location.hash && article.content) {
+      setTimeout(() => {
+        const element = document.getElementById(location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition = absoluteTop - MastheadHeightPx * 2;
+
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 400);
+    }
+  }, [article.content, location]);
 
   if (!article) {
     return children || null;
