@@ -2826,12 +2826,12 @@
     "@ndla/util" "^2.0.0"
     raven-js "^3.22.3"
 
-"@ndla/hooks@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-1.0.6.tgz#4384a2fb9c01c1bf9882e0abd431f1eb70febbe0"
-  integrity sha512-0jTSaUYrtp2OXee3j5a4io7QMchUW7XVzZ8xlPt5tYGpi7bEX3JgwAu4HwmxlcoibUh/VGbo2UljOlzUSFS8iw==
+"@ndla/hooks@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-1.0.7.tgz#f6b75fd17f8081827f08868ba1c6e48f3adf7044"
+  integrity sha512-36N2JgZ1n3fPHxESqoP5Sw6eTaKVziXJVzll8qP66Z0iJ6jkodtXg8WEZ1Z00aSl4811Xp8RKKqqOuaBMDordg==
   dependencies:
-    "@ndla/util" "^2.0.0"
+    "@ndla/util" "^2.0.1"
     lodash "^4.17.20"
 
 "@ndla/icons@^1.3.1":
@@ -2839,14 +2839,13 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.3.1.tgz#e74df1bf1f6222845a4bc7508b29beedb81f3a0f"
   integrity sha512-5WiO5ES7NxgXprNWP4ikZTAKAh/r+QoQ070YH4z0xWLSsysTuXFf6RODXWBIsKVvfpT6zgXe4Jq2lhPX8JNP5w==
 
-"@ndla/licenses@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.0.7.tgz#1345a21a645f46cc308ee838cef1444b50408e89"
-  integrity sha512-UR2mrePTCZSkIu393qtTGDfvCIwyzpy5YhnqBTix3mFa/HhDcoV/4wYcCHExkQLV7Db27ehoDjY511hLAUmcbA==
+"@ndla/licenses@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.1.1.tgz#3eff1cac2176ce02ccaef0a5634d1a2bac8c21a3"
+  integrity sha512-cFrrB13vWS8b/FsIph7fqgirp9xY3A6UF/BKaJUZL6km/fh9TA+fI9bdNpvB/9kwrg09SMuc/FecfK0/i6AuZg==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/icons" "^1.3.1"
-    defined "1.0.0"
     react-bem-helper "1.4.1"
 
 "@ndla/modal@^1.1.14":
@@ -2857,6 +2856,16 @@
     "@ndla/button" "^1.1.1"
     "@ndla/core" "^0.7.2"
     "@ndla/util" "^2.0.0"
+    "@reach/dialog" "^0.2.9"
+
+"@ndla/modal@^1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.1.15.tgz#6337ba7814d47ef9562c2977baf47eca8ed3d025"
+  integrity sha512-YNa4qDf+AvG84Xj8rxBuczqpbjxQ6vjT5GSxl7vtYv6ZxJCAp9a3Mgk6jSr1E+Rea8qThJgu77dftl5ckt4f6A==
+  dependencies:
+    "@ndla/button" "^1.1.1"
+    "@ndla/core" "^0.7.2"
+    "@ndla/util" "^2.0.1"
     "@reach/dialog" "^0.2.9"
 
 "@ndla/pager@^1.0.10":
@@ -2912,6 +2921,16 @@
     "@ndla/util" "^2.0.0"
     react-tabs "^3.2.3"
 
+"@ndla/tabs@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.0.12.tgz#3ccd2a22c69d31569c5c796091aa6bb0d8a8a494"
+  integrity sha512-cEOhdytw6acAJSp5SsSHBFwHVgB8jCqEEGbbLPlWzCGv0XgkEOaDDqyuHKjDyDMoKOSoAph1Wl3jldD1efByZA==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/icons" "^1.3.1"
+    "@ndla/util" "^2.0.1"
+    react-tabs "^3.2.3"
+
 "@ndla/tooltip@^0.2.49":
   version "0.2.49"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.49.tgz#82fb6922295000723fa6cb69821bbab504990cf0"
@@ -2926,23 +2945,23 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.0.tgz#eaad1b60a313743e1384e795f0fa891e0846b19c"
-  integrity sha512-+nLZ6MvxlYL/1tQDqvl1j82/KIpBWNwKJAZFSGnJ9y5DJ6wqlkyeXezQ0gMmO49aFEKbzVveq6LcgMEYBuIv7g==
+"@ndla/ui@^3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.3.tgz#5baa3a13098425ffc9eb81b0a92a3c5a219b4f55"
+  integrity sha512-vYcr+WUN7jvSxHdO9ysoH/fWMNaW0HSxHxlQae/Sw1oQaDEYgmhMvNqtw/IxfH/4Vi/MDI19ZLAICLtb/A3q8Q==
   dependencies:
     "@ndla/button" "^1.1.1"
     "@ndla/carousel" "^1.0.6"
     "@ndla/core" "^0.7.2"
-    "@ndla/hooks" "^1.0.6"
+    "@ndla/hooks" "^1.0.7"
     "@ndla/icons" "^1.3.1"
-    "@ndla/licenses" "^1.0.7"
-    "@ndla/modal" "^1.1.14"
+    "@ndla/licenses" "^1.1.1"
+    "@ndla/modal" "^1.1.15"
     "@ndla/safelink" "^1.0.6"
     "@ndla/switch" "^0.0.32"
-    "@ndla/tabs" "^1.0.11"
+    "@ndla/tabs" "^1.0.12"
     "@ndla/tooltip" "^0.2.49"
-    "@ndla/util" "^2.0.0"
+    "@ndla/util" "^2.0.1"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"
     "@types/hoist-non-react-statics" "^3.3.1"
@@ -2976,6 +2995,15 @@
     chalk "^4.1.2"
     cli-table3 "^0.6.0"
     defined "1.0.0"
+    remarkable "^2.0.1"
+
+"@ndla/util@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-2.0.1.tgz#334f8d091f53915de35ef7d6819bb6380b3a7b8c"
+  integrity sha512-PQO9O8p6zQBgH0Sc/hty63ksrpGTrlrr+Tbrzka2+ErWXtN9xNQto46EWCN+RbP+E79oYcTh2JuoFtmOYAM+Mw==
+  dependencies:
+    chalk "^4.1.2"
+    cli-table3 "^0.6.0"
     remarkable "^2.0.1"
 
 "@ndla/zendesk@^0.2.45":
