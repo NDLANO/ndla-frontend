@@ -96,7 +96,7 @@ const LearningpathPage = ({
     !data.topic ||
     !data.topicPath ||
     !data.subject ||
-    !((data.resource?.learningpath?.learningsteps?.length ?? 0) === 0)
+    (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
     return <DefaultErrorMessage />;
   }
