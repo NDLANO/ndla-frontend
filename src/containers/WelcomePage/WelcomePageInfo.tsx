@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-//@ts-ignore
 import { InfoWidget, FrontpageInfo } from '@ndla/ui';
 import { EmailOutline, Facebook, Twitter } from '@ndla/icons/common';
 import { WithTranslation, withTranslation } from 'react-i18next';
