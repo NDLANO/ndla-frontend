@@ -64,17 +64,14 @@ const LearningpathPage = ({
   });
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
+    const steps = data?.resource?.learningpath?.learningsteps;
     const learningpathStep = stepId
-      ? data.resource?.learningpath?.learningsteps?.find(
-          step => step.id.toString() === stepId.toString(),
-        )
-      : data.resource?.learningpath?.learningsteps?.[0];
+      ? steps?.find(step => step.id.toString() === stepId.toString())
+      : steps?.[0];
     if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
       const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
       const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
-      const newLearningpathStep = data.resource?.learningpath?.learningsteps?.find(
-        step => step.seqNo === newSeqNo,
-      );
+      const newLearningpathStep = steps?.find(step => step.seqNo === newSeqNo);
       if (newLearningpathStep) {
         const res = !!resource.path
           ? { path: resource.path, id: resource.id }
@@ -177,11 +174,8 @@ LearningpathPage.willTrackPageView = (
 
 LearningpathPage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.data.resource);
-  const {
-    data: { resource, subject, topicPath, relevance },
-    i18n,
-    stepId,
-  } = props;
+  const { data, i18n, stepId } = props;
+  const { resource, subject, topicPath, relevance } = data;
   const learningpath = resource?.learningpath;
   const firstStep = learningpath?.learningsteps?.[0];
   const currentStep = learningpath?.learningsteps?.find(

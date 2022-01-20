@@ -90,7 +90,9 @@ const ResourcePage = (props: Props) => {
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
-        {...props}
+        locale={props.locale}
+        ndlaFilm={props.ndlaFilm}
+        skipToContentId={props.skipToContentId}
         stepId={props.match.params.stepId}
         data={{ ...data, relevance, topicPath }}
         loading={loading}
