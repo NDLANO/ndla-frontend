@@ -21,8 +21,6 @@ interface Props {
 }
 const FrontpageSubjects = ({ locale }: Props) => (
   <FrontpageProgramMenu
-    //@ts-ignore label is string | undefined due to intertwined functions surrounding getProgrammes.
-    // The util functions should be cleaned up.
     programItems={getProgrammes(locale)}
     subjectCategories={getCategorizedSubjects(locale)}
   />
