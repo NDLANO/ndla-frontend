@@ -117,12 +117,16 @@ const LearningpathPage = ({
     subject && topicPath
       ? toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
-          [subject, ...topicPath, { name: learningpath.title }],
+          [
+            subject,
+            ...topicPath,
+            { name: learningpath.title, id: `${learningpath.id}` },
+          ],
           locale as LocaleType,
         )
       : toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
-          [{ name: learningpath.title }],
+          [{ name: learningpath.title, id: `${learningpath.id}` }],
           locale as LocaleType,
         );
 
