@@ -6,16 +6,14 @@ import {
   FigureCaption,
   FigureLicenseDialog,
 } from '@ndla/ui';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-// @ts-ignore
-import Button from '@ndla/button';
+import { getLicenseByAbbreviation, getCopyString } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 
-import { AudioLicenseInfo } from '../../components/license/AudioLicenseList';
 import { Audio, LocaleType } from '.../../../interfaces';
 import { getLicenseCredits } from './util';
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
+import config from '../../config';
 
 interface Props {
   podcast: Audio;
@@ -49,6 +47,8 @@ const Podcast = ({ podcast, locale }: Props) => {
     download: t('audio.download'),
   };
 
+  console.log(t('license.copyText.readDate'));
+
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
@@ -78,11 +78,19 @@ const Podcast = ({ podcast, locale }: Props) => {
           messages={messages}
           title={podcast.title.title}
           origin={podcast.copyright.origin}>
-          {/* <CopyTextButton
-            stringToCopy={podcast.copyright.license.copyText}
+          <CopyTextButton
+            stringToCopy={getCopyString(
+              podcast.title.title,
+              undefined,
+              `/podcast/${podcast.id}`,
+              podcast.copyright,
+              locale,
+              config.ndlaFrontendDomain,
+              key => t(key),
+            )}
             copyTitle={t('license.copyTitle')}
             hasCopiedTitle={t('license.hasCopiedTitle')}
-          /> */}
+          />
           {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
             <AnchorButton
               href={podcast.audioFile.url}
