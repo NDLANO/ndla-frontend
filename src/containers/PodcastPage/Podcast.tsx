@@ -47,8 +47,6 @@ const Podcast = ({ podcast, locale }: Props) => {
     download: t('audio.download'),
   };
 
-  console.log(t('license.copyText.readDate'));
-
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
