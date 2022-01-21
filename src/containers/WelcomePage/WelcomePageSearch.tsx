@@ -69,17 +69,10 @@ const WelcomePageSearch = ({ history }: RouteComponentProps) => {
     history.push(allResultsUrl);
   };
 
-  const headerMessages = {
-    searchFieldTitle: t('welcomePage.heading.messages.searchFieldTitle'),
-    menuButton: t('welcomePage.heading.messages.menuButton'),
-  };
-
   return (
     <FrontpageSearch
       inputHasFocus={inputHasFocus}
       onInputBlur={() => setInputHasFocus(false)}
-      //@ts-ignore TODO: Messages is not in use anymore in frontend-packages, should be removed.
-      messages={headerMessages}
       searchFieldValue={query}
       onSearch={onSearch}
       onSearchFieldChange={onSearchFieldChange}
