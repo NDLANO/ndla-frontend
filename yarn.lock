@@ -2839,10 +2839,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.3.1.tgz#e74df1bf1f6222845a4bc7508b29beedb81f3a0f"
   integrity sha512-5WiO5ES7NxgXprNWP4ikZTAKAh/r+QoQ070YH4z0xWLSsysTuXFf6RODXWBIsKVvfpT6zgXe4Jq2lhPX8JNP5w==
 
-"@ndla/licenses@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.1.1.tgz#3eff1cac2176ce02ccaef0a5634d1a2bac8c21a3"
-  integrity sha512-cFrrB13vWS8b/FsIph7fqgirp9xY3A6UF/BKaJUZL6km/fh9TA+fI9bdNpvB/9kwrg09SMuc/FecfK0/i6AuZg==
+"@ndla/licenses@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-1.1.2.tgz#440f6984f092ba66f10cf7dda08255f3ce172a56"
+  integrity sha512-8Qhzfo+3/kIRZzTMThZvTO8SLw30lb3rzRIu1A7Kn0L6oZKqQoXbFg2IW7t/XJNjCIzvokabYx9/cRlBIHDXFw==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/icons" "^1.3.1"
@@ -2945,17 +2945,17 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.3.tgz#5baa3a13098425ffc9eb81b0a92a3c5a219b4f55"
-  integrity sha512-vYcr+WUN7jvSxHdO9ysoH/fWMNaW0HSxHxlQae/Sw1oQaDEYgmhMvNqtw/IxfH/4Vi/MDI19ZLAICLtb/A3q8Q==
+"@ndla/ui@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.4.tgz#cba61a2fd9deb36e9a5dac9ff5cf52824e58a881"
+  integrity sha512-85Bu4B3HWnBV5ntMxrlCrTKR2kZrMhl5iez4jDZIxhgEWEcHQZ5cSOO9Z7In5AcgL5G4tWWnviRFmrvz1sKKjw==
   dependencies:
     "@ndla/button" "^1.1.1"
     "@ndla/carousel" "^1.0.6"
     "@ndla/core" "^0.7.2"
     "@ndla/hooks" "^1.0.7"
     "@ndla/icons" "^1.3.1"
-    "@ndla/licenses" "^1.1.1"
+    "@ndla/licenses" "^1.1.2"
     "@ndla/modal" "^1.1.15"
     "@ndla/safelink" "^1.0.6"
     "@ndla/switch" "^0.0.32"
