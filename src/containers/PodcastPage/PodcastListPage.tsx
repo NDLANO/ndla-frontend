@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // @ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
 // @ts-ignore
@@ -14,10 +14,8 @@ import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 
-const DEFAULT_PAGE_SIZE = '5';
-
 export const getPageSize = (searchObject: SearchObject): string => {
-  return searchObject['page-size'] || DEFAULT_PAGE_SIZE;
+  return searchObject['page-size'] || '5';
 };
 export const getPage = (searchObject: SearchObject): string => {
   return searchObject.page || '1';
@@ -57,13 +55,7 @@ const PodcastListPage = () => {
     });
   };
 
-  const getDocumentTitle = (searchObject: SearchObject) => {
-    return `${t('htmlTitles.podcast')} - ${t(
-      'htmlTitles.page',
-    )} ${searchObject?.page || '1'}${t('htmlTitles.titleTemplate')}`;
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     getPodcasts({
       variables: {
         page: getPage(searchObject),
@@ -73,7 +65,7 @@ const PodcastListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data?.podcastSearch) {
       setTotalCount(data.podcastSearch.totalCount);
     }
@@ -90,7 +82,9 @@ const PodcastListPage = () => {
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle(searchObject)}`}</title>
+        <title>
+          {t('htmlTitles.podcast', { page: searchObject.page || '1' })}
+        </title>
       </Helmet>
       <OneColumn>
         {loading ? (

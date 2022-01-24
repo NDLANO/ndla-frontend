@@ -18,8 +18,7 @@ const messages = {
     notFound: `Page not found - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: 'Subject',
-    page: 'Page',
-    podcast: 'Podcast',
+    podcast: `Podcast - Page {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `The page has been moved - ${titleTemplate}`,
     toolbox: {
