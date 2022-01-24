@@ -7,7 +7,7 @@
 
 import { Issuer, generators } from 'openid-client';
 import { Request } from 'express';
-import config from '../../config';
+import config, { getEnvironmentVariabel } from '../../config';
 
 const handleConfigTypes = (
   configVariable: string | boolean | undefined,
@@ -20,9 +20,12 @@ const handleConfigTypes = (
 
 const OPENID_DOMAIN =
   'https://auth.dataporten.no/.well-known/openid-configuration';
-const FEIDE_CLIENT_ID = handleConfigTypes(config.feideClientID);
-const FEIDE_CLIENT_SECRET = handleConfigTypes(config.feideClientSecret);
-
+const FEIDE_CLIENT_ID = handleConfigTypes(
+  getEnvironmentVariabel('FEIDE_CLIENT_ID'),
+);
+const FEIDE_CLIENT_SECRET = handleConfigTypes(
+  getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
+);
 const getIssuer = async () => await Issuer.discover(OPENID_DOMAIN);
 
 const getClient = (redirect_uri: string) =>
