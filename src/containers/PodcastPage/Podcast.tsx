@@ -6,7 +6,11 @@ import {
   FigureCaption,
   FigureLicenseDialog,
 } from '@ndla/ui';
-import { getLicenseByAbbreviation, getCopyString } from '@ndla/licenses';
+import {
+  getLicenseByAbbreviation,
+  getCopyString,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 
 import { Audio, LocaleType } from '.../../../interfaces';
@@ -47,6 +51,14 @@ const Podcast = ({ podcast, locale }: Props) => {
     download: t('audio.download'),
   };
 
+  const contributors = getGroupedContributorDescriptionList(
+    podcast.copyright,
+    locale,
+  ).map(item => ({
+    name: item.description,
+    type: item.label,
+  }));
+
   return (
     <Figure id={`figure-${podcast.id}`} type="full-column">
       <AudioPlayer
@@ -67,7 +79,7 @@ const Podcast = ({ podcast, locale }: Props) => {
         authors={getLicenseCredits(podcast.copyright)}>
         <FigureLicenseDialog
           id={`${podcast.id}`}
-          authors={getLicenseCredits(podcast.copyright)}
+          authors={contributors}
           locale={locale}
           license={getLicenseByAbbreviation(
             podcast.copyright.license?.license!,
@@ -82,7 +94,6 @@ const Podcast = ({ podcast, locale }: Props) => {
               undefined,
               `/podcast/${podcast.id}`,
               podcast.copyright,
-              locale,
               config.ndlaFrontendDomain,
               key => t(key),
             )}
