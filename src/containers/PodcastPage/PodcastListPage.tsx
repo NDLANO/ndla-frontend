@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-// @ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
-// @ts-ignore
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
-// @ts-ignore
 import { parse, stringify } from 'query-string';
 import { Helmet } from 'react-helmet';
 import { AudioSearch, SearchObject } from '../../interfaces';
@@ -31,7 +28,6 @@ const PodcastListPage = () => {
   const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
     podcastSearchQuery,
   );
-  const [totalCount, setTotalCount] = React.useState(0);
   const searchObject = parse(location.search);
 
   const onQueryPush = (newSearchObject: object) => {
@@ -65,12 +61,6 @@ const PodcastListPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (data?.podcastSearch) {
-      setTotalCount(data.podcastSearch.totalCount);
-    }
-  }, [data]);
-
   if (!data && !loading) {
     return null;
   }
@@ -98,7 +88,8 @@ const PodcastListPage = () => {
         <Pager
           page={parseInt(getPage(searchObject), 10)}
           lastPage={Math.ceil(
-            totalCount / parseInt(getPageSize(searchObject), 10),
+            (data?.podcastSearch.totalCount ?? 0) /
+              parseInt(getPageSize(searchObject), 10),
           )}
           pageItemComponentClass="button"
           query={searchObject}
