@@ -75,6 +75,8 @@ const SearchPage = ({ location, locale, history }) => {
           query={searchParams.query}
           subjects={searchParams.subjects}
           programmes={searchParams.programs}
+          selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
+          activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
           concepts={conceptData?.conceptSearch.concepts}
           resourceTypes={data?.resourceTypes}
