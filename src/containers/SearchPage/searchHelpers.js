@@ -378,6 +378,7 @@ export const getTypeFilter = (
     'topic-article': {
       page: 1,
       pageSize: 4,
+      selected: selectedFilters?.some(f => f === 'topic-article'),
     },
   };
   const subFilterMapping = activeSubFilters.reduce((acc, curr) => {
