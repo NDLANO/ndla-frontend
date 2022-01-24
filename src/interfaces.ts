@@ -10,52 +10,6 @@ import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
 
-interface CoverPhoto {
-  id: string;
-  url: string;
-  altText: string;
-}
-
-export interface AudioSearch {
-  podcastSearch: {
-    pageSize: number;
-    page: number;
-    language: string;
-    totalCount: number;
-    results: Audio[];
-  };
-}
-
-export interface Audio {
-  audioFile: {
-    filesize: number;
-    language: string;
-    mimeType: string;
-    url: string;
-  };
-  copyright: Copyright;
-  id: number;
-  revision: number;
-  supportedLanguages: string[];
-  tags: {
-    tags: string[];
-    language: string;
-  };
-  title: {
-    title: string;
-    language: string;
-  };
-  manuscript?: {
-    manuscript: string;
-    language: string;
-  };
-  podcastMeta?: {
-    introduction: string;
-    coverPhoto: CoverPhoto;
-    language: string;
-  };
-}
-
 export interface Location {
   pathname: string;
   search?: string;
@@ -93,17 +47,6 @@ export interface License {
 export interface Author {
   name: string;
   type: string;
-}
-
-export interface Copyright {
-  license?: License;
-  origin?: string;
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
-  agreementId?: number;
-  validFrom?: string;
-  validTo?: string;
 }
 
 export type LocaleType = typeof LocaleValues[number];

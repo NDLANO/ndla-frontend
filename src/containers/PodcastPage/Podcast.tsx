@@ -10,17 +10,18 @@ import {
   getLicenseByAbbreviation,
   getCopyString,
   getGroupedContributorDescriptionList,
+  getLicenseCredits,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 
-import { Audio, LocaleType } from '.../../../interfaces';
-import { getLicenseCredits } from './util';
+import { LocaleType } from '.../../../interfaces';
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
+import { GQLAudio } from '../../graphqlTypes';
 
 interface Props {
-  podcast: Audio;
+  podcast: GQLAudio;
   locale: LocaleType;
 }
 
@@ -51,8 +52,10 @@ const Podcast = ({ podcast, locale }: Props) => {
     download: t('audio.download'),
   };
 
+  const licenseCredits = getLicenseCredits(podcast.copyright);
+
   const contributors = getGroupedContributorDescriptionList(
-    podcast.copyright,
+    licenseCredits,
     locale,
   ).map(item => ({
     name: item.description,
@@ -76,7 +79,7 @@ const Podcast = ({ podcast, locale }: Props) => {
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
-        authors={getLicenseCredits(podcast.copyright)}>
+        authors={contributors}>
         <FigureLicenseDialog
           id={`${podcast.id}`}
           authors={contributors}

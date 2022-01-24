@@ -1,5 +1,4 @@
 import React from 'react';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
@@ -9,15 +8,12 @@ import { useQuery } from '@apollo/client';
 import { podcastQuery } from '../../queries';
 import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { Audio, LocaleType } from '.../../../interfaces';
+import { LocaleType } from '.../../../interfaces';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import { GQLAudio, GQLQuery } from '../../graphqlTypes';
 
 interface RouteParams {
-  id?: string;
-}
-
-interface PodcastQuery {
-  podcast: Audio;
+  id: string;
 }
 
 interface Props extends RouteComponentProps<RouteParams> {
@@ -30,7 +26,7 @@ const PodcastPage = ({
     params: { id },
   },
 }: Props) => {
-  const { error, loading, data: { podcast } = {} } = useQuery<PodcastQuery>(
+  const { error, loading, data: { podcast } = {} } = useQuery<GQLQuery>(
     podcastQuery,
     {
       variables: { id },
@@ -42,7 +38,7 @@ const PodcastPage = ({
     t,
   } = useTranslation();
 
-  const getDocumentTitle = (podcast: Audio) => {
+  const getDocumentTitle = (podcast: GQLAudio) => {
     return `${podcast?.title?.title || ''}${t('htmlTitles.titleTemplate')}`;
   };
 
@@ -59,7 +55,7 @@ const PodcastPage = ({
   }
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>{`${getDocumentTitle(podcast)}`}</title>
         {podcast?.podcastMeta?.introduction && (
@@ -67,10 +63,9 @@ const PodcastPage = ({
         )}
       </Helmet>
       <SocialMediaMetadata
-        // @ts-ignore
         title={podcast?.title.title ?? ''}
         trackableContent={{
-          tags: podcast.tags.tags,
+          tags: podcast?.tags?.tags,
           supportedLanguages: podcast.supportedLanguages,
         }}
         description={podcast.podcastMeta?.introduction}
@@ -85,7 +80,7 @@ const PodcastPage = ({
       <OneColumn>
         <Podcast podcast={podcast} locale={language} />
       </OneColumn>
-    </div>
+    </>
   );
 };
 

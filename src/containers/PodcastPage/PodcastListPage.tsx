@@ -6,10 +6,11 @@ import { useHistory, useLocation } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import { parse, stringify } from 'query-string';
 import { Helmet } from 'react-helmet';
-import { AudioSearch, SearchObject } from '../../interfaces';
+import { SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import { GQLPodcastSearchQueryQuery } from '../../graphqlTypes';
 
 export const getPageSize = (searchObject: SearchObject): string => {
   return searchObject['page-size'] || '5';
@@ -21,13 +22,13 @@ export const getPage = (searchObject: SearchObject): string => {
 const PodcastListPage = () => {
   const {
     t,
-    i18n: { language: locale },
+    i18n: { language },
   } = useTranslation();
   const location = useLocation();
   const history = useHistory();
-  const [getPodcasts, { error, loading, data }] = useLazyQuery<AudioSearch>(
-    podcastSearchQuery,
-  );
+  const [getPodcasts, { error, loading, data }] = useLazyQuery<
+    GQLPodcastSearchQueryQuery
+  >(podcastSearchQuery);
   const searchObject = parse(location.search);
 
   const onQueryPush = (newSearchObject: object) => {
@@ -70,7 +71,7 @@ const PodcastListPage = () => {
   }
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>
           {t('htmlTitles.podcast', { page: searchObject.page || '1' })}
@@ -80,15 +81,15 @@ const PodcastListPage = () => {
         {loading ? (
           <Spinner />
         ) : (
-          data &&
+          data?.podcastSearch?.results &&
           data.podcastSearch.results.map(podcast => (
-            <Podcast podcast={podcast} locale={locale} />
+            <Podcast podcast={podcast} locale={language} />
           ))
         )}
         <Pager
           page={parseInt(getPage(searchObject), 10)}
           lastPage={Math.ceil(
-            (data?.podcastSearch.totalCount ?? 0) /
+            (data?.podcastSearch?.totalCount ?? 0) /
               parseInt(getPageSize(searchObject), 10),
           )}
           pageItemComponentClass="button"
@@ -96,7 +97,7 @@ const PodcastListPage = () => {
           onClick={onQueryPush}
         />
       </OneColumn>
-    </div>
+    </>
   );
 };
 
