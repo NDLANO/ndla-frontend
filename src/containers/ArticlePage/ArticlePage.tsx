@@ -39,6 +39,7 @@ import {
   GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
+import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
   resource?: GQLResource;
@@ -50,6 +51,7 @@ interface Props extends WithTranslation {
   errors?: readonly GraphQLError[];
   ndlaFilm: boolean;
   loading?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const ArticlePage = ({
@@ -197,7 +199,7 @@ ArticlePage.willTrackPageView = (
 
 ArticlePage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.resource);
-  const { subject, topicPath, relevance } = props;
+  const { subject, topicPath, relevance, user } = props;
   const article = props.resource?.article;
   const longName = getSubjectLongName(
     subject?.id,
@@ -205,7 +207,7 @@ ArticlePage.getDimensions = (props: Props) => {
   );
 
   return getAllDimensions(
-    { article, relevance, subject, topicPath, filter: longName },
+    { article, relevance, subject, topicPath, filter: longName, user },
     articleProps.label,
     true,
   );

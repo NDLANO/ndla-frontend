@@ -50,6 +50,7 @@ export interface FeideUser {
 
 export interface FeideUserWithGroups extends FeideUser {
   groups: FeideGroupType[];
+  primarySchool?: FeideGroupType;
 }
 
 export const fetchFeideGroups = (): Promise<FeideGroupType[] | undefined> => {
@@ -69,5 +70,9 @@ export const fetchFeideUserWithGroups = async (): Promise<
 > => {
   const user = await fetchFeideUser();
   const groups = await fetchFeideGroups();
-  return user && groups ? { ...user, groups } : undefined;
+  const primarySchool =
+    groups?.length === 1
+      ? groups[0]
+      : groups?.find(g => g.membership.primarySchool);
+  return user && groups ? { ...user, groups, primarySchool } : undefined;
 };
