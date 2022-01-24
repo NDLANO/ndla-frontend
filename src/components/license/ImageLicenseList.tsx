@@ -10,8 +10,6 @@ import React from 'react';
 import { uuid } from '@ndla/util';
 import {
   //@ts-ignore
-  Image,
-  //@ts-ignore
   MediaList,
   //@ts-ignore
   MediaListItem,
@@ -69,10 +67,11 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
       metaType: metaTypes.other,
     });
   }
+
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Image alt={image.altText} src={image.src} />
+        <img alt={image.altText} src={`${image.src}?width=200`} />
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.images.rules')}
