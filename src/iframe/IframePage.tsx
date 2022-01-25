@@ -84,7 +84,7 @@ export const IframePage = ({
 
   const { article, resource, topic } = data ?? {};
   // Only care if article can be rendered
-  if (!article || !resource) {
+  if (!article) {
     return <Error />;
   }
 
@@ -98,11 +98,7 @@ export const IframePage = ({
     );
   }
   return (
-    <IframeArticlePage
-      locale={locale}
-      resource={{ article, ...resource }}
-      article={article}
-    />
+    <IframeArticlePage locale={locale} resource={resource} article={article} />
   );
 };
 

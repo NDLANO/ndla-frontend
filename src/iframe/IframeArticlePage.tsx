@@ -26,13 +26,13 @@ import { GQLArticle, GQLResource } from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  resource: GQLResource & { article: GQLArticle };
+  resource?: GQLResource;
   article: GQLArticle;
 }
 
-const getDocumentTitle = ({ resource }: Pick<Props, 'resource'>) => {
-  if (resource?.article?.id) {
-    return `NDLA | ${resource.article.title}`;
+const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
+  if (article?.id) {
+    return `NDLA | ${article.title}`;
   }
   return '';
 };
@@ -41,15 +41,17 @@ const willTrackPageView = (
   trackPageView: (props: Props) => void,
   currentProps: Props,
 ) => {
-  const { resource } = currentProps;
-  if (resource?.article?.id) {
+  const { article } = currentProps;
+  if (article?.id) {
     trackPageView(currentProps);
   }
 };
 
 const getDimensions = (props: Props) => {
-  const articleProps = getArticleProps(props.resource);
-  const article = props.resource.article;
+  const articleProps = getArticleProps(
+    props.resource?.id ? props.resource : undefined,
+  );
+  const article = props.article;
   return getAllDimensions({ article }, articleProps.label, true);
 };
 
@@ -63,7 +65,7 @@ const IframeArticlePage = ({
   const locale = propsLocale ?? i18n.language;
   const article = transformArticle(propsArticle, locale);
   const scripts = getArticleScripts(article);
-  const contentUrl = resource.path
+  const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
   return (
