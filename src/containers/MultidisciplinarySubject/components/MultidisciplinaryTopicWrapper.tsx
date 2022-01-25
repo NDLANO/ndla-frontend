@@ -11,6 +11,7 @@ import {
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props {
   topicId: string;
@@ -20,6 +21,7 @@ interface Props {
   subject: GQLSubject;
   ndlaFilm?: boolean;
   disableNav?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const MultidisciplinaryTopicWrapper = ({
@@ -30,6 +32,7 @@ const MultidisciplinaryTopicWrapper = ({
   ndlaFilm,
   subject,
   disableNav,
+  user,
 }: Props) => {
   const { data, loading } = useGraphQuery<
     GQLTopicQuery,
@@ -57,6 +60,7 @@ const MultidisciplinaryTopicWrapper = ({
       ndlaFilm={ndlaFilm}
       subject={subject}
       disableNav={disableNav}
+      user={user}
     />
   );
 };

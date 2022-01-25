@@ -26,6 +26,7 @@ import {
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   subject: GQLSubject;
@@ -40,6 +41,7 @@ interface Props extends WithTranslation {
   topicList: Array<string>;
   index: number;
   loading?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -146,7 +148,7 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic } = props;
+  const { subject, locale, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
@@ -159,6 +161,7 @@ ToolboxTopicWrapper.getDimensions = (props: Props) => {
       topicPath,
       filter: longName,
       article: topic.article,
+      user,
     },
     undefined,
     topicList.length > 0,

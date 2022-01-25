@@ -25,11 +25,13 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation, RouteComponentProps {
   subject: GQLSubject;
   topicList: string[];
   locale: LocaleType;
+  user?: FeideUserWithGroups;
 }
 
 const getSocialMediaMetaData = (
@@ -225,7 +227,7 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicList } = props;
+  const { subject, locale, topicList, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
@@ -235,6 +237,7 @@ ToolboxSubjectContainer.getDimensions = (props: Props) => {
     subject,
     topicPath,
     filter: longName,
+    user,
   });
 };
 

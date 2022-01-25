@@ -28,6 +28,7 @@ import {
   GQLTopic,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -41,6 +42,7 @@ interface Props extends WithTranslation {
   subject: GQLSubject;
   locale: LocaleType;
   resourceTypes?: GQLResourceTypeDefinition[];
+  user?: FeideUserWithGroups;
 }
 
 const MultidisciplinarySubjectArticle = ({
@@ -118,7 +120,7 @@ MultidisciplinarySubjectArticle.willTrackPageView = (
 };
 
 MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, locale, subject } = props;
+  const { topic, locale, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -134,6 +136,7 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
       topicPath,
       article: topic?.article,
       filter: longName,
+      user,
     },
     undefined,
     true,
