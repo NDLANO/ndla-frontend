@@ -30,7 +30,9 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 configureTracker({
-  listen: () => {},
+  listen: _ => {
+    return () => {};
+  },
   gaTrackingId: config.gaTrackingId,
   googleTagManagerId: config.googleTagManagerId,
 });

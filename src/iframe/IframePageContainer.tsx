@@ -7,24 +7,32 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import IframePageWrapper from './IframePageWrapper';
 import IframePage from './IframePage';
+import { LocaleType } from '../interfaces';
 
+interface Props {
+  basename?: string;
+  locale?: LocaleType;
+  articleId?: string;
+  taxonomyId?: string;
+  status?: 'success' | 'error';
+  isOembed?: string;
+  isTopicArticle?: boolean;
+  resCookie?: string;
+}
 const IframePageContainer = ({
   basename,
   status,
   locale,
   taxonomyId,
-  location,
   articleId,
   isOembed,
   isTopicArticle,
   resCookie,
-}) => {
+}: Props) => {
   return (
     <I18nextProvider i18n={i18nInstance}>
       <IframePageWrapper
@@ -35,7 +43,6 @@ const IframePageContainer = ({
           status={status}
           locale={locale}
           taxonomyId={taxonomyId}
-          location={location}
           articleId={articleId}
           isOembed={isOembed}
           isTopicArticle={isTopicArticle}
@@ -43,20 +50,6 @@ const IframePageContainer = ({
       </IframePageWrapper>
     </I18nextProvider>
   );
-};
-
-IframePageContainer.propTypes = {
-  basename: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  articleId: PropTypes.string,
-  taxonomyId: PropTypes.string,
-  status: PropTypes.oneOf(['success', 'error']),
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-  isOembed: PropTypes.string,
-  isTopicArticle: PropTypes.bool,
-  resCookie: PropTypes.string,
 };
 
 export default IframePageContainer;

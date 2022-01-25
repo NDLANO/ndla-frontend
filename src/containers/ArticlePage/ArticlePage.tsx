@@ -70,7 +70,7 @@ const ArticlePage = ({
   const subjectPageUrl = config.ndlaFrontendDomain;
   useEffect(() => {
     if (!resource?.article) return;
-    const article = transformArticle(resource.article, locale)!;
+    const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
     setScripts(scripts);
   }, [locale, resource]);
