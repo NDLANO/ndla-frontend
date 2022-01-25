@@ -28,12 +28,18 @@ interface Props extends CustomWithTranslation {
   article: GQLArticle;
   locale: LocaleType;
   user?: FeideUserWithGroups;
+  skipToContentId?: string;
 }
 
 const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
   htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);
 
-const PlainArticleContainer = ({ article: propArticle, locale, t }: Props) => {
+const PlainArticleContainer = ({
+  article: propArticle,
+  locale,
+  t,
+  skipToContentId,
+}: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       window?.MathJax?.typeset();
@@ -75,6 +81,7 @@ const PlainArticleContainer = ({ article: propArticle, locale, t }: Props) => {
       />
       <OneColumn>
         <Article
+          id={skipToContentId}
           article={article}
           locale={locale}
           {...getArticleProps(undefined, undefined)}

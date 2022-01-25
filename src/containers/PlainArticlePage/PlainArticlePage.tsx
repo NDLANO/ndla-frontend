@@ -24,7 +24,7 @@ interface MatchParams {
 }
 
 interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
-const PlainArticlePage = ({ locale, match }: Props) => {
+const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
   const { user } = useContext(AuthContext);
   const {
     url,
@@ -57,7 +57,12 @@ const PlainArticlePage = ({ locale, match }: Props) => {
   }
 
   return (
-    <PlainArticleContainer article={data.article} locale={locale} user={user} />
+    <PlainArticleContainer
+      article={data.article}
+      locale={locale}
+      user={user}
+      skipToContentId={skipToContentId}
+    />
   );
 };
 
