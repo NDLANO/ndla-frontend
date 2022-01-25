@@ -6,11 +6,15 @@ import { useHistory, useLocation } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import { parse, stringify } from 'query-string';
 import { Helmet } from 'react-helmet';
-import { SearchObject } from '../../interfaces';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSearchQueryQuery } from '../../graphqlTypes';
+
+type SearchObject = {
+  page: string;
+  'page-size': string;
+};
 
 export const getPageSize = (searchObject: SearchObject): string => {
   return searchObject['page-size'] || '5';
@@ -20,10 +24,7 @@ export const getPage = (searchObject: SearchObject): string => {
 };
 
 const PodcastListPage = () => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
   const [getPodcasts, { error, loading, data }] = useLazyQuery<
@@ -83,7 +84,7 @@ const PodcastListPage = () => {
         ) : (
           data?.podcastSearch?.results &&
           data.podcastSearch.results.map(podcast => (
-            <Podcast podcast={podcast} locale={language} />
+            <Podcast podcast={podcast} />
           ))
         )}
         <Pager

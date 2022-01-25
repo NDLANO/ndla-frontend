@@ -13,7 +13,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
 import { useBaseName } from './BaseNameContext';
-import { LocaleType } from '../interfaces';
 import { GQLMetaImage } from '../graphqlTypes';
 
 export const getCanonicalUrl = (location: Location) => {
@@ -67,7 +66,6 @@ interface TrackableContent {
 interface Props extends RouteComponentProps {
   title: string;
   description?: string;
-  locale: LocaleType;
   image?: GQLMetaImage;
   trackableContent?: TrackableContent;
   children?: React.ReactNode;

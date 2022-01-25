@@ -42,19 +42,16 @@ interface AudioLicenseInfoProps {
   image?: MetaImage;
 }
 
-const AudioLicenseInfo = ({ audio, locale, image }: AudioLicenseInfoProps) => {
+const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
   const { t } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
   const items = getGroupedContributorDescriptionList(safeCopyright, locale);
   return (
     <MediaListItem>
       <MediaListItemImage>
-        {image ? (
-          <img alt={image.alt} src={image.url} />
-        ) : (
-          <AudioDocument className="c-medialist__icon" />
-        )}{' '}
+        <AudioDocument className="c-medialist__icon" />
       </MediaListItemImage>
+
       <MediaListItemBody
         title={t('license.audio.rules')}
         license={audio.copyright.license?.license}

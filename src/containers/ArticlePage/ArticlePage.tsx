@@ -157,7 +157,6 @@ const ArticlePage = ({
         title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
-        locale={locale}
         image={article.metaImage}
       />
       <OneColumn>

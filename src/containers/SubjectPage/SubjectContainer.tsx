@@ -225,7 +225,6 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              locale={locale}
               image={
                 socialMediaMetadata.image && {
                   url: socialMediaMetadata.image.url,

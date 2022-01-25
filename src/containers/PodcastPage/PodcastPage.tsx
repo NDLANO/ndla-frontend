@@ -33,13 +33,12 @@ const PodcastPage = ({
     },
   );
 
-  const {
-    i18n: { language },
-    t,
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const getDocumentTitle = (podcast: GQLAudio) => {
-    return `${podcast?.title?.title || ''}${t('htmlTitles.titleTemplate')}`;
+    return `${podcast?.title?.title || 'Podcast'} - ${t(
+      'htmlTitles.titleTemplate',
+    )}`;
   };
 
   if (loading) {
@@ -69,7 +68,6 @@ const PodcastPage = ({
           supportedLanguages: podcast.supportedLanguages,
         }}
         description={podcast.podcastMeta?.introduction}
-        locale={language}
         image={
           podcast.podcastMeta?.coverPhoto && {
             url: podcast.podcastMeta.coverPhoto.url,
@@ -78,7 +76,7 @@ const PodcastPage = ({
         }
       />
       <OneColumn>
-        <Podcast podcast={podcast} locale={language} />
+        <Podcast podcast={podcast} />
       </OneColumn>
     </>
   );

@@ -14,7 +14,6 @@ import {
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 
-import { LocaleType } from '.../../../interfaces';
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
@@ -22,13 +21,16 @@ import { GQLAudio } from '../../graphqlTypes';
 
 interface Props {
   podcast: GQLAudio;
-  locale: LocaleType;
 }
 
-const Podcast = ({ podcast, locale }: Props) => {
+const Podcast = ({ podcast }: Props) => {
+  const {
+    i18n: { language },
+  } = useTranslation();
+
   const license =
     podcast.copyright?.license &&
-    getLicenseByAbbreviation(podcast.copyright?.license?.license, locale);
+    getLicenseByAbbreviation(podcast.copyright?.license?.license, language);
 
   const coverPhoto = podcast.podcastMeta?.coverPhoto && {
     url: podcast.podcastMeta?.coverPhoto?.url,
@@ -56,7 +58,7 @@ const Podcast = ({ podcast, locale }: Props) => {
 
   const contributors = getGroupedContributorDescriptionList(
     licenseCredits,
-    locale,
+    language,
   ).map(item => ({
     name: item.description,
     type: item.label,
@@ -74,7 +76,7 @@ const Podcast = ({ podcast, locale }: Props) => {
       <FigureCaption
         figureId={`figure-${podcast.id}`}
         id={`${podcast.id}`}
-        locale={locale}
+        locale={language}
         key="caption"
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
@@ -83,7 +85,7 @@ const Podcast = ({ podcast, locale }: Props) => {
         <FigureLicenseDialog
           id={`${podcast.id}`}
           authors={contributors}
-          locale={locale}
+          locale={language}
           license={getLicenseByAbbreviation(
             podcast.copyright.license?.license!,
             'nb',

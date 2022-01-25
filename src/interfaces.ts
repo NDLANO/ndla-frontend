@@ -10,11 +10,6 @@ import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
 
-export interface Location {
-  pathname: string;
-  search?: string;
-}
-
 export type InitialProps = {
   loading?: boolean;
   resCookie?: string;
@@ -87,9 +82,4 @@ export type SubjectType = {
   name?: Record<LocaleType, string>;
   id: string;
   topicId?: string;
-};
-
-export type SearchObject = {
-  page: string;
-  'page-size': string;
 };
