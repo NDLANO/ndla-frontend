@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 import { useLazyQuery } from '@apollo/client';
 import { parse, stringify } from 'query-string';
-import { Helmet } from 'react-helmet';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { podcastSearchQuery } from '../../queries';
 import Podcast from './Podcast';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
@@ -73,11 +73,9 @@ const PodcastListPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>
-          {t('htmlTitles.podcast', { page: searchObject.page || '1' })}
-        </title>
-      </Helmet>
+      <HelmetWithTracker
+        title={t('htmlTitles.podcast', { page: searchObject.page || '1' })}
+      />
       <OneColumn>
         {loading ? (
           <Spinner />

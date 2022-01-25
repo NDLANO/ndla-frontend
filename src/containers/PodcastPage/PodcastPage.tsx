@@ -2,7 +2,7 @@ import React from 'react';
 import { OneColumn } from '@ndla/ui';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import { Helmet } from 'react-helmet';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
 import { podcastQuery } from '../../queries';
@@ -55,12 +55,11 @@ const PodcastPage = ({
 
   return (
     <>
-      <Helmet>
-        <title>{`${getDocumentTitle(podcast)}`}</title>
+      <HelmetWithTracker title={`${getDocumentTitle(podcast)}`}>
         {podcast?.podcastMeta?.introduction && (
           <meta name="description" content={podcast.podcastMeta.introduction} />
         )}
-      </Helmet>
+      </HelmetWithTracker>
       <SocialMediaMetadata
         title={podcast?.title.title ?? ''}
         trackableContent={{
