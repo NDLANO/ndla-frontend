@@ -26,11 +26,11 @@ import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
-import { LocaleType } from '../../interfaces';
+import { LocaleType, SubjectType } from '../../interfaces';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
-  return toSubject(subject!.id);
+  return subject ? toSubject(subject.id) : '';
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID =
@@ -47,16 +47,21 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
     'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
   ];
 
-  const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID)!;
+  const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
-  return topicIds.map(topicId => {
-    const topic = getSubjectById(topicId)!;
-    return {
-      id: topic.id,
-      title: topic.name![locale],
-      url: toTopic(baseSubject.id, topic.topicId!),
-    };
-  });
+  if (!baseSubject) return [];
+
+  return topicIds
+    .map(topicId => getSubjectById(topicId))
+    .filter((subject): subject is SubjectType => subject !== undefined)
+    .map(subject => {
+      const topicIds = subject.topicId ? [subject.topicId] : [];
+      return {
+        id: subject.id,
+        title: subject.name?.[locale] ?? '',
+        url: toTopic(baseSubject.id, ...topicIds),
+      };
+    });
 };
 
 interface Props {
