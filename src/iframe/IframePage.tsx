@@ -7,13 +7,15 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useLocation } from 'react-router';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
 import { iframeArticleQuery } from '../queries';
 import IframeArticlePage from './IframeArticlePage';
 import IframeTopicPage from './IframeTopicPage';
+import { LocaleType } from '../interfaces';
+import { GQLIframeArticleQuery } from '../graphqlTypes';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -38,27 +40,39 @@ const Error = () => {
   );
 };
 
+interface Props {
+  locale?: LocaleType;
+  articleId?: string;
+  taxonomyId?: string;
+  status?: 'success' | 'error';
+  isOembed?: string;
+  isTopicArticle?: boolean;
+}
+
 export const IframePage = ({
   status,
   locale,
   taxonomyId,
-  location,
   articleId,
   isOembed,
-  isTopicArticle,
-}) => {
+  isTopicArticle = false,
+}: Props) => {
+  const location = useLocation();
   const includeResource = !isTopicArticle && taxonomyId !== undefined;
   const includeTopic = isTopicArticle;
-  const { loading, data } = useGraphQuery(iframeArticleQuery, {
-    variables: {
-      articleId,
-      isOembed,
-      path: location.pathname,
-      taxonomyId: taxonomyId || '',
-      includeResource,
-      includeTopic,
+  const { loading, data } = useGraphQuery<GQLIframeArticleQuery>(
+    iframeArticleQuery,
+    {
+      variables: {
+        articleId,
+        isOembed,
+        path: location.pathname,
+        taxonomyId: taxonomyId || '',
+        includeResource,
+        includeTopic,
+      },
     },
-  });
+  );
 
   if (status !== 'success') {
     return <Error />;
@@ -68,7 +82,7 @@ export const IframePage = ({
     return null;
   }
 
-  const { article, resource = {}, topic = {} } = data;
+  const { article, resource, topic } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
     return <Error />;
@@ -80,33 +94,12 @@ export const IframePage = ({
         article={article}
         topic={{ article, ...topic }}
         locale={locale}
-        location={location}
       />
     );
   }
   return (
-    <IframeArticlePage
-      locale={locale}
-      resource={{ article, ...resource }}
-      article={article}
-      location={location}
-    />
+    <IframeArticlePage locale={locale} resource={resource} article={article} />
   );
 };
 
-IframePage.propTypes = {
-  locale: PropTypes.string.isRequired,
-  articleId: PropTypes.string,
-  taxonomyId: PropTypes.string,
-  status: PropTypes.oneOf(['success', 'error']),
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-  isOembed: PropTypes.string,
-  isTopicArticle: PropTypes.bool,
-};
-
-IframePage.defaultProps = {
-  isTopicArticle: false,
-};
 export default IframePage;
