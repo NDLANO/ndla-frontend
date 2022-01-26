@@ -30,31 +30,6 @@ interface Props extends CustomWithTranslation {
   article: GQLArticle;
 }
 
-const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
-  if (article?.id) {
-    return `NDLA | ${article.title}`;
-  }
-  return '';
-};
-
-const willTrackPageView = (
-  trackPageView: (props: Props) => void,
-  currentProps: Props,
-) => {
-  const { article } = currentProps;
-  if (article?.id) {
-    trackPageView(currentProps);
-  }
-};
-
-const getDimensions = (props: Props) => {
-  const articleProps = getArticleProps(
-    props.resource?.id ? props.resource : undefined,
-  );
-  const article = props.article;
-  return getAllDimensions({ article }, articleProps.label, true);
-};
-
 const IframeArticlePage = ({
   resource,
   locale: propsLocale,
@@ -103,8 +78,23 @@ const IframeArticlePage = ({
   );
 };
 
-IframeArticlePage.getDocumentTitle = getDocumentTitle;
-IframeArticlePage.getDimensions = getDimensions;
-IframeArticlePage.willTrackPageView = willTrackPageView;
+IframeArticlePage.getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
+  return article.id ? `NDLA | ${article.title}` : '';
+};
+
+IframeArticlePage.getDimensions = ({ resource, article }: Props) => {
+  const articleProps = getArticleProps(resource?.id ? resource : undefined);
+  return getAllDimensions({ article }, articleProps.label, true);
+};
+
+IframeArticlePage.willTrackPageView = (
+  trackPageView: (props: Props) => void,
+  currentProps: Props,
+) => {
+  const { article } = currentProps;
+  if (article?.id) {
+    trackPageView(currentProps);
+  }
+};
 
 export default withTranslation()(withTracker(IframeArticlePage));
