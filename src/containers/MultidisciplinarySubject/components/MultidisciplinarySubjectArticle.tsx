@@ -43,6 +43,7 @@ interface Props extends WithTranslation {
   locale: LocaleType;
   resourceTypes?: GQLResourceTypeDefinition[];
   user?: FeideUserWithGroups;
+  skipToContentId?: string;
 }
 
 const MultidisciplinarySubjectArticle = ({
@@ -51,6 +52,7 @@ const MultidisciplinarySubjectArticle = ({
   subject,
   locale,
   resourceTypes,
+  skipToContentId,
 }: Props) => {
   const resourcesRef = useRef(null);
   const onLinkToResourcesClick = (e: React.MouseEvent) => {
@@ -87,6 +89,7 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          id={skipToContentId}
           article={topic.article}
           label=""
           locale={locale}
