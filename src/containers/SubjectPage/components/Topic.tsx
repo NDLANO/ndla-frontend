@@ -29,6 +29,7 @@ import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 const getDocumentTitle = ({
   t,
@@ -53,6 +54,7 @@ type Props = {
   loading?: boolean;
   topic: GQLTopic;
   resourceTypes?: Array<GQLResourceTypeDefinition>;
+  user?: FeideUserWithGroups;
 } & WithTranslation;
 
 const Topic = ({
@@ -179,7 +181,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, locale, subject }: Props) => {
+Topic.getDimensions = ({ topic, locale, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -195,6 +197,7 @@ Topic.getDimensions = ({ topic, locale, subject }: Props) => {
       topicPath,
       article: topic.article,
       filter: longName,
+      user,
     },
     undefined,
     true,

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
@@ -18,6 +18,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import { LocaleType } from '../../interfaces';
+import { AuthContext } from '../../components/AuthenticationContext';
 import {
   GQLSubjectPageWithTopicsQuery,
   GQLSubjectPageWithTopicsQueryVariables,
@@ -38,6 +39,7 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
+  const { user } = useContext(AuthContext);
   const { subjectId, topicList, topicId } = getUrnIdsFromProps({
     ndlaFilm,
     match,
@@ -103,6 +105,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       topicIds={topicList}
       subject={data.subject}
       loading={loading}
+      user={user}
     />
   );
 };

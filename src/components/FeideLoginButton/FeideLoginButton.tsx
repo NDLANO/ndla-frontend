@@ -60,10 +60,7 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
   const { authenticated, user } = useContext(AuthContext);
-  const primarySchool =
-    user?.groups?.length === 1
-      ? user.groups[0]
-      : user?.groups?.find(g => g.membership.primarySchool);
+  const primarySchool = user?.primarySchool;
   const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
   const collectedInfo: string[] = compact([

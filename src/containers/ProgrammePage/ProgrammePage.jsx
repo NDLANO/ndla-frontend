@@ -96,9 +96,9 @@ const ProgrammePage = ({ match, locale, t }) => {
 ProgrammePage.getDocumentTitle = getDocumentTitle;
 
 ProgrammePage.getDimensions = props => {
-  const { match, locale } = props;
+  const { match, locale, user } = props;
   return getAllDimensions(
-    { subject: { name: getProgrammeName(match, locale) } },
+    { subject: { name: getProgrammeName(match, locale) }, user },
     undefined,
     false,
   );
@@ -111,6 +111,12 @@ ProgrammePage.propTypes = {
     }).isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    eduPersonPrimaryAffiliation: PropTypes.string,
+    primarySchool: PropTypes.shape({
+      displayName: PropTypes.string,
+    }),
+  }),
 };
 
 export default withTranslation()(withTracker(ProgrammePage));
