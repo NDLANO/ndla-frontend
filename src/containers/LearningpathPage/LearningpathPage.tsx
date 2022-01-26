@@ -29,6 +29,7 @@ import {
   GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
+import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
@@ -46,6 +47,7 @@ interface Props extends WithTranslation {
   data: PropData;
   skipToContentId: string;
   stepId?: string;
+  user?: FeideUserWithGroups;
 }
 
 const LearningpathPage = ({
@@ -174,7 +176,7 @@ LearningpathPage.willTrackPageView = (
 
 LearningpathPage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.data.resource);
-  const { data, i18n, stepId } = props;
+  const { data, i18n, stepId, user } = props;
   const { resource, subject, topicPath, relevance } = data;
   const learningpath = resource?.learningpath;
   const firstStep = learningpath?.learningsteps?.[0];
@@ -192,6 +194,7 @@ LearningpathPage.getDimensions = (props: Props) => {
       learningpath,
       learningstep,
       filter: longName,
+      user,
     },
     articleProps.label,
     false,

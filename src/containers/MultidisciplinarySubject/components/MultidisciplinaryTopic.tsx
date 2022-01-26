@@ -29,6 +29,7 @@ import {
   GQLTopic,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   topicId: string;
@@ -41,6 +42,7 @@ interface Props extends WithTranslation {
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -168,7 +170,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, locale, subject } = props;
+  const { topic, locale, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -184,6 +186,7 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       topicPath,
       article: topic.article,
       filter: longName,
+      user,
     },
     undefined,
     true,

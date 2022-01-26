@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
+import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic from './Topic';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -40,6 +41,7 @@ const TopicWrapper = ({
 }: Props) => {
   const location = useLocation();
   const history = useHistory();
+  const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
@@ -90,6 +92,7 @@ const TopicWrapper = ({
       showResources={showResources}
       subject={subject}
       loading={loading}
+      user={user}
     />
   );
 };

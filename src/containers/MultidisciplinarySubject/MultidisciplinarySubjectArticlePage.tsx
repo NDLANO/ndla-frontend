@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { Helmet } from 'react-helmet';
@@ -24,11 +24,13 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { RootComponentProps } from '../../routes';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props extends RootComponentProps, RouteComponentProps {}
 
 const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery<
@@ -92,6 +94,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
         resourceTypes={resourceTypes}
         copyPageUrlLink={copyPageUrlLink}
         locale={locale}
+        user={user}
       />
     </>
   );

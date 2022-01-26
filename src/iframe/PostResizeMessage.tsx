@@ -8,9 +8,16 @@
 
 import React from 'react';
 
-class PostResizeMessage extends React.Component {
-  constructor() {
-    super();
+interface Props {}
+interface State {
+  width?: number;
+  height: number;
+}
+
+class PostResizeMessage extends React.Component<Props, State> {
+  intervalId: ReturnType<typeof setInterval> | undefined;
+  constructor(props: Props) {
+    super(props);
     this.state = {
       width: 0,
       height: 0,
@@ -27,7 +34,7 @@ class PostResizeMessage extends React.Component {
     window.removeEventListener('resize', this.onResizeReady);
     if (this.intervalId) {
       clearInterval(this.intervalId);
-      this.intervalId = null;
+      this.intervalId = undefined;
     }
   }
 
@@ -63,7 +70,7 @@ class PostResizeMessage extends React.Component {
     }
   };
 
-  resizer = (width = undefined) => {
+  resizer = (width: number | undefined = undefined) => {
     const container = document.querySelector('.c-article--iframe');
     const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };

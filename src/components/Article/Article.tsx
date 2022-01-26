@@ -59,6 +59,7 @@ function renderCompetenceGoals(
 }
 
 interface Props {
+  id?: string;
   article: GQLArticleInfoFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
@@ -118,6 +119,7 @@ const Article = ({
   isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
+  id,
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
@@ -181,7 +183,7 @@ const Article = ({
 
   return (
     <UIArticle
-      id={article.id.toString()}
+      id={id ?? article.id.toString()}
       article={art}
       icon={icon}
       locale={locale}

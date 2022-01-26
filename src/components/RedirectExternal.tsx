@@ -6,18 +6,27 @@
  *
  */
 
-import { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Component, ContextType } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { StaticContext } from 'react-router';
 /**
  * The react-router Redirect component does'nt work with external
  * urls. So we use this helper component to handle it for us.
  */
-class RedirectExternal extends Component {
-  constructor(props, context) {
+
+interface RedirectStaticContext extends StaticContext {
+  action: string;
+  location: string;
+  url: string;
+}
+interface Props extends RouteComponentProps<{}, RedirectStaticContext> {
+  to: string;
+}
+class RedirectExternal extends Component<Props> {
+  constructor(props: Props, context: ContextType<any>) {
     super(props, context);
-    const { staticContext } = this.props;
-    if (this.isStatic()) {
+    if (!!this.props.staticContext) {
+      const { staticContext } = this.props;
       // Update static context serverside (see https://github.com/NDLANO/ndla-frontend/blob/master/src/server/helpers/render.js#L49)
       staticContext.action = 'REPLACE';
       staticContext.location = props.to;
@@ -27,28 +36,14 @@ class RedirectExternal extends Component {
 
   componentDidMount() {
     // Probably clientside. Just use window.location.replace
-    if (!this.isStatic()) {
+    if (!!!this.props.staticContext) {
       window.location.replace(this.props.to);
     }
-  }
-
-  // Checks if we are using StaticRouter (i.e. serverside)
-  isStatic() {
-    return !!this.props.staticContext;
   }
 
   render() {
     return null;
   }
 }
-
-RedirectExternal.propTypes = {
-  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  staticContext: PropTypes.shape({
-    action: PropTypes.string,
-    location: PropTypes.string,
-    url: PropTypes.string,
-  }),
-};
 
 export default withRouter(RedirectExternal);

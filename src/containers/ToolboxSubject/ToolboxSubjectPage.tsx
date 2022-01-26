@@ -6,12 +6,13 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import { AuthContext } from '../../components/AuthenticationContext';
 import {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
@@ -22,6 +23,7 @@ import { RootComponentProps } from '../../routes';
 interface Props extends RootComponentProps, RouteComponentProps {}
 
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
+  const { user } = useContext(AuthContext);
   const { subjectId, topicList } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -49,6 +51,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
       subject={data.subject}
       topicList={topicList}
       locale={locale}
+      user={user}
     />
   );
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,7 @@ import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface MatchParams {
   subjectId: string;
@@ -43,6 +44,7 @@ type Props = RootComponentProps & RouteComponentProps<MatchParams>;
 
 const ResourcePage = (props: Props) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
     resourcePageQuery,
@@ -94,6 +96,7 @@ const ResourcePage = (props: Props) => {
         ndlaFilm={props.ndlaFilm}
         skipToContentId={props.skipToContentId}
         stepId={props.match.params.stepId}
+        user={user}
         data={{ ...data, relevance, topicPath }}
         loading={loading}
       />
@@ -110,6 +113,7 @@ const ResourcePage = (props: Props) => {
       errors={error?.graphQLErrors}
       ndlaFilm={!!props.ndlaFilm}
       loading={loading}
+      user={user}
     />
   );
 };

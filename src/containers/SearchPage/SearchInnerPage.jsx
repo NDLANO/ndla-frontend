@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { func, arrayOf, object, string, shape, bool } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -50,16 +50,20 @@ const SearchInnerPage = ({
   location,
   ltiData,
   isLti,
+  selectedFilters,
+  activeSubFilters,
 }) => {
   const [showConcepts, setShowConcepts] = useState(true);
-  const [typeFilter, setTypeFilter] = useState(getTypeFilter(resourceTypes));
+  const [typeFilter, setTypeFilter] = useState(
+    getTypeFilter(resourceTypes, selectedFilters, activeSubFilters),
+  );
   const [competenceGoals, setCompetenceGoals] = useState([]);
   const { t, i18n } = useTranslation();
+  const initialGQLCall = useRef(true);
 
   useEffect(() => {
-    setTypeFilter(getTypeFilter(resourceTypes));
     setShowConcepts(true);
-  }, [query, subjects, resourceTypes]);
+  }, [query, subjects, resourceTypes, selectedFilters]);
 
   const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
@@ -71,6 +75,10 @@ const SearchInnerPage = ({
         ]),
       }
     : getStateSearchParams(searchParams, i18n.language);
+
+  const activeSubFiltersWithoutLeading = activeSubFilters.map(asf =>
+    asf.substring(asf.indexOf(':urn:') + 1),
+  );
 
   const { data, previousData, error, loading, fetchMore } = useGraphQuery(
     groupSearchQuery,
@@ -85,18 +93,40 @@ const SearchInnerPage = ({
         grepCodesList: searchParams.grepCodes,
       },
       notifyOnNetworkStatusChange: true,
-      onCompleted: data => setCompetenceGoals(data.competenceGoals),
+      onCompleted: data => {
+        if (
+          initialGQLCall.current &&
+          activeSubFiltersWithoutLeading.length !== 0
+        ) {
+          fetchMore({
+            variables: {
+              ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
+            },
+          });
+          initialGQLCall.current = false;
+        }
+        setCompetenceGoals(data.competenceGoals);
+      },
     },
   );
 
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };
     for (const [key, value] of Object.entries(filterUpdate)) {
+      const filters = value.filters?.map(filter => {
+        filter.active = filter.id === 'all';
+        return filter;
+      });
       filterUpdate[key] = {
         ...value,
+        filters,
         selected: false,
       };
     }
+    handleSearchParamsChange({
+      activeSubFilters: [],
+      selectedFilters: undefined,
+    });
     setTypeFilter(filterUpdate);
   };
 
@@ -107,6 +137,7 @@ const SearchInnerPage = ({
       ...updates,
     };
     setTypeFilter(filterUpdate);
+    return filterUpdate;
   };
 
   const getActiveFilters = type =>
@@ -114,14 +145,26 @@ const SearchInnerPage = ({
       ?.filter(f => f.id !== 'all' && f.active)
       .map(f => f.id) || [];
 
+  const getActiveSubFilters = typeFilters => {
+    return Object.entries(typeFilters)
+      ?.filter(([, value]) => !!value.filters)
+      ?.flatMap(([key, value]) => {
+        return value.filters
+          ?.filter(filter => !!filter.active && filter.id !== 'all')
+          .map(filter => `${key}:${filter.id}`);
+      });
+  };
+
   const handleSubFilterClick = (type, filterId) => {
-    updateTypeFilter(type, { page: 1 });
+    const updatedFilters = updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type].filters;
     const selectedFilter = filters.find(item => filterId === item.id);
     if (filterId === 'all') {
       filters.forEach(filter => {
         filter.active = filter.id === 'all';
       });
+      const toKeep = activeSubFilters.filter(asf => !asf.startsWith(type));
+      handleSearchParamsChange({ activeSubFilters: toKeep });
       fetchMore({
         variables: getTypeParams([type], resourceTypes),
       });
@@ -132,6 +175,8 @@ const SearchInnerPage = ({
       if (!filters.some(item => item.active)) {
         allFilter.active = true;
       }
+      const subFilters = getActiveSubFilters(updatedFilters ?? []);
+      handleSearchParamsChange({ activeSubFilters: subFilters });
       fetchMore({
         variables: getTypeParams(
           filters
@@ -149,11 +194,15 @@ const SearchInnerPage = ({
 
   const handleFilterToggle = type => {
     const selected = typeFilter[type].selected;
-    updateTypeFilter(type, {
+    const updatedFilters = updateTypeFilter(type, {
       page: 1,
       pageSize: selected ? 4 : 8,
       selected: !selected,
     });
+    const selectedKeys = Object.entries(updatedFilters)
+      .filter(([, value]) => !!value.selected)
+      .map(([key]) => key);
+    handleSearchParamsChange({ selectedFilters: selectedKeys.join(',') });
   };
 
   const handleShowMore = type => {
@@ -229,6 +278,8 @@ const SearchInnerPage = ({
 
 SearchInnerPage.propTypes = {
   error: arrayOf(object),
+  selectedFilters: arrayOf(string.isRequired).isRequired,
+  activeSubFilters: arrayOf(string.isRequired).isRequired,
   handleSearchParamsChange: func,
   query: string,
   subjects: arrayOf(string),
