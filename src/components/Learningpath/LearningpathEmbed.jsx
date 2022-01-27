@@ -62,7 +62,9 @@ const LearningpathEmbed = ({
     );
   }
   const learningpathStepResource = learningpathStep.resource;
-  const article = transformArticle(learningpathStepResource.article);
+  const article = learningpathStepResource.article
+    ? transformArticle(learningpathStepResource.article)
+    : undefined;
   const scripts = getArticleScripts(article);
   return (
     <>

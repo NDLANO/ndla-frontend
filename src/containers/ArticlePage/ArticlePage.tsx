@@ -52,6 +52,7 @@ interface Props extends WithTranslation {
   ndlaFilm: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
+  skipToContentId?: string;
 }
 
 const ArticlePage = ({
@@ -64,13 +65,14 @@ const ArticlePage = ({
   ndlaFilm,
   i18n,
   t,
+  skipToContentId,
 }: Props) => {
   const [scripts, setScripts] = useState<Scripts[]>([]);
   const locale = i18n.language as LocaleType;
   const subjectPageUrl = config.ndlaFrontendDomain;
   useEffect(() => {
     if (!resource?.article) return;
-    const article = transformArticle(resource.article, locale)!;
+    const article = transformArticle(resource.article, locale);
     const scripts = getArticleScripts(article);
     setScripts(scripts);
   }, [locale, resource]);
@@ -164,6 +166,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          id={skipToContentId}
           article={article}
           locale={locale}
           resourceType={contentType}

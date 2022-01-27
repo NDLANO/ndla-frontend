@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import PropTypes from 'prop-types';
 import {
   FrontpageHeader,
   FrontpageFilm,
@@ -23,17 +22,15 @@ import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
-
-import { getLocaleUrls } from '../../util/localeHelpers';
-import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
+import { LocaleType, SubjectType } from '../../interfaces';
 
-const getUrlFromSubjectId = subjectId => {
+const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
-  return toSubject(subject.id);
+  return subject ? toSubject(subject.id) : '';
 };
 
 const MULTIDISCIPLINARY_SUBJECT_ID =
@@ -43,7 +40,7 @@ const TOOLBOX_TEACHER_SUBJECT_ID =
 const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
-const getMultidisciplinaryTopics = locale => {
+const getMultidisciplinaryTopics = (locale: LocaleType) => {
   const topicIds = [
     'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
     'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
@@ -52,24 +49,27 @@ const getMultidisciplinaryTopics = locale => {
 
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
-  return topicIds.map(topicId => {
-    const topic = getSubjectById(topicId);
-    return {
-      id: topic.id,
-      title: topic.name[locale],
-      url: toTopic(baseSubject.id, null, topic.topicId),
-    };
-  });
+  if (!baseSubject) return [];
+
+  return topicIds
+    .map(topicId => getSubjectById(topicId))
+    .filter((subject): subject is SubjectType => subject !== undefined)
+    .map(subject => {
+      const topicIds = subject.topicId ? [subject.topicId] : [];
+      return {
+        id: subject.id,
+        title: subject.name?.[locale] ?? '',
+        url: toTopic(baseSubject.id, ...topicIds),
+      };
+    });
 };
 
-const WelcomePage = ({ locale, history, location }) => {
+interface Props {
+  locale: LocaleType;
+}
+
+const WelcomePage = ({ locale }: Props) => {
   const { t } = useTranslation();
-  const headerLinks = [
-    {
-      to: 'https://om.ndla.no',
-      text: t('welcomePage.heading.links.aboutNDLA'),
-    },
-  ];
 
   const googleSearchJSONLd = () => {
     const data = {
@@ -97,11 +97,8 @@ const WelcomePage = ({ locale, history, location }) => {
         image={{ url: `${config.ndlaFrontendDomain}/static/logo.png` }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <FrontpageHeader
-        links={headerLinks}
-        locale={locale}
-        languageOptions={getLocaleUrls(locale, location)}>
-        <WelcomePageSearch history={history} locale={locale} />
+      <FrontpageHeader locale={locale} showHeader={true}>
+        <WelcomePageSearch />
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
@@ -122,25 +119,12 @@ const WelcomePage = ({ locale, history, location }) => {
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}
-            messages={{
-              header: t('welcomePage.film.header'),
-              linkLabel: t('welcomePage.film.linkLabel'),
-              text: t('welcomePage.film.text'),
-            }}
           />
           <WelcomePageInfo />
         </OneColumn>
       </main>
     </>
   );
-};
-
-WelcomePage.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  locale: PropTypes.string.isRequired,
 };
 
 export default WelcomePage;
