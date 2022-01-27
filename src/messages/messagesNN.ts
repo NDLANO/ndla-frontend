@@ -27,6 +27,10 @@ const messages = {
         'Kva vil det seie å arbeide utforskande? Korleis kan du lære betre? Kva skal til for å få gruppearbeid til å fungere? I Verktøykassa finn både elevar og lærerar ressursar som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståing.',
     },
   },
+  podcastPage: {
+    podcasts: 'Podcaster',
+    pageInfo: 'Side {{page}} av {{pageSize}}',
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',

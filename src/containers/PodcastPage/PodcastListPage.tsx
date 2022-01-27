@@ -92,14 +92,12 @@ const PodcastListPage = () => {
 
   return (
     <>
-      <HelmetWithTracker
-        title={t('htmlTitles.podcast', { page: searchObject.page || '1' })}
-      />
+      <HelmetWithTracker title={t('htmlTitles.podcast', { page: page })} />
       <OneColumn>
         <StyledTitle>
-          <h1>Podcaster</h1>{' '}
+          <h1>{t('podcastPage.podcasts')}</h1>
           <StyledTitlePageInfo>
-            side {page} av {pageSize}
+            {t('podcastPage.pageInfo', { page, pageSize })}
           </StyledTitlePageInfo>
         </StyledTitle>
         {loading ? (
