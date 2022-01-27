@@ -274,7 +274,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 >
   <div>
     <article
-      className="c-article c-article--clean c-article--iframe"
+      className="c-article c-article--clean"
       id="54"
     >
       <section
@@ -317,7 +317,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       <section
         className="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
       >
-        
         <div
           className="emotion-24 emotion-25"
         >

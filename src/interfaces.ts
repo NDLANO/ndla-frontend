@@ -13,7 +13,8 @@ import { LocaleValues } from './constants';
 export type InitialProps = {
   loading?: boolean;
   resCookie?: string;
-  basename: string;
+  basename?: string;
+  locale?: LocaleType;
 };
 
 export interface WindowData {
@@ -54,27 +55,25 @@ export type ResourceType = 'image' | 'other' | 'video';
 
 export type CompetenceGoalsType = 'LK06' | 'LK20';
 
-interface ProgramTypeBase {
+interface ProgrammeMeta {
+  description: Partial<Record<LocaleType, string>>;
+}
+export interface ProgrammeType {
   name: Record<LocaleType, string>;
   url: Record<LocaleType, string>;
-  meta: { description: Record<LocaleType, string> };
+  meta?: ProgrammeMeta;
   image: { url: string };
-  grades: {
-    name: string;
-    categories: {
-      name: Record<LocaleType, string> | null;
-      subjects: { id: string }[];
-    }[];
-  }[];
-}
-export interface ProgramType extends Omit<ProgramTypeBase, 'meta'> {
-  meta?: { description: Record<LocaleType, string> };
+  grades: ProgrammeGrade[];
 }
 
-export interface SimpleProgramType
-  extends Omit<ProgramType, 'name' | 'url' | 'image'> {
+export interface ProgrammeGrade {
   name: string;
-  url: string;
+  categories: GradeCategory[];
+}
+
+export interface GradeCategory {
+  name?: Partial<Record<LocaleType, string>>;
+  subjects: { id: string }[];
 }
 
 export type SubjectType = {

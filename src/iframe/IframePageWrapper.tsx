@@ -6,8 +6,7 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 
 import { Helmet } from 'react-helmet';
 import { PageContainer } from '@ndla/ui';
@@ -16,11 +15,26 @@ import { MissingRouterContext } from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
 import { createApolloClient } from '../util/apiHelpers';
 import { BaseNameProvider } from '../components/BaseNameContext';
-import { initializeI18n } from '../i18n';
+import { initializeI18n, isValidLocale } from '../i18n';
+import { LocaleType } from '../interfaces';
 
-const IframePageWrapper = ({ basename, locale, children, resCookie }) => {
+interface Props {
+  basename?: string;
+  locale?: LocaleType;
+  resCookie?: string;
+  children: ReactNode;
+}
+const IframePageWrapper = ({
+  basename: basenameProp,
+  locale,
+  children,
+  resCookie,
+}: Props) => {
   const { i18n } = useTranslation();
-  i18n.language = locale;
+  if (locale) {
+    i18n.language = locale;
+  }
+  const basename = isValidLocale(basenameProp) ? basenameProp : '';
   const client = createApolloClient(i18n.language, resCookie);
   initializeI18n(i18n, client);
   return (
@@ -35,12 +49,6 @@ const IframePageWrapper = ({ basename, locale, children, resCookie }) => {
       </MissingRouterContext.Provider>
     </ApolloProvider>
   );
-};
-
-IframePageWrapper.propTypes = {
-  basename: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  resCookie: PropTypes.string,
 };
 
 export default IframePageWrapper;

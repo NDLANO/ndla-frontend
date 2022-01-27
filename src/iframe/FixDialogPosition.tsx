@@ -30,7 +30,7 @@ class FixDialogPosition extends React.Component {
   }
 
   updateDialogPositions = () => {
-    forEachElement('.c-figure [data-dialog-trigger-id]', el => {
+    forEachElement('.c-figure [data-dialog-trigger-id]', (el: Element) => {
       const target = el;
       const figure = findAncestorByClass(target, 'c-figure');
       if (!figure.offsetParent) {
@@ -44,10 +44,14 @@ class FixDialogPosition extends React.Component {
       const id = target.getAttribute('data-dialog-trigger-id');
       const dialog = document.querySelector(`[data-dialog-id='${id}']`);
 
-      const dialogContent = dialog.querySelector(`.c-dialog__content`);
-      dialogContent.style.top = `${top}px`;
-      dialogContent.style.bottom = 'auto';
-      dialogContent.style.position = 'absolute';
+      const dialogContent = dialog?.querySelector<HTMLElement>(
+        `.c-dialog__content`,
+      );
+      if (dialogContent) {
+        dialogContent.style.top = `${top}px`;
+        dialogContent.style.bottom = 'auto';
+        dialogContent.style.position = 'absolute';
+      }
     });
   };
 

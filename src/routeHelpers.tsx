@@ -83,8 +83,8 @@ type Resource = {
 };
 
 export function toLearningPath(
-  pathId?: string,
-  stepId?: string,
+  pathId?: string | number,
+  stepId?: string | number,
   resource?: Resource,
 ) {
   if (resource) {

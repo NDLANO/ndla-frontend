@@ -28,7 +28,11 @@ import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props extends RootComponentProps, RouteComponentProps {}
 
-const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
+const MultidisciplinarySubjectArticlePage = ({
+  match,
+  locale,
+  skipToContentId,
+}: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
@@ -88,6 +92,7 @@ const MultidisciplinarySubjectArticlePage = ({ match, locale }: Props) => {
         }}
       />
       <MultidisciplinarySubjectArticle
+        skipToContentId={skipToContentId}
         topic={topic}
         subject={subject}
         resourceTypes={resourceTypes}

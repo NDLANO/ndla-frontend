@@ -50,12 +50,12 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
-  const article = transformArticle(topic.article!, locale);
+  if (!topic.article) return null;
 
-  if (article === undefined) return null;
+  const article = transformArticle(topic.article, locale);
 
   return (
-    <ArticleWrapper modifier={modifier} id={topic.article!.id.toString()}>
+    <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>

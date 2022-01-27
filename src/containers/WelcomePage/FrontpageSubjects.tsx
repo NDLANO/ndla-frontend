@@ -8,23 +8,22 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FrontpageProgramMenu } from '@ndla/ui';
 
 import {
   getCategorizedSubjects,
   getProgrammes,
 } from '../../util/programmesSubjectsHelper';
+import { LocaleType } from '../../interfaces';
 
-const FrontpageSubjects = ({ locale }) => (
+interface Props {
+  locale: LocaleType;
+}
+const FrontpageSubjects = ({ locale }: Props) => (
   <FrontpageProgramMenu
     programItems={getProgrammes(locale)}
     subjectCategories={getCategorizedSubjects(locale)}
   />
 );
-
-FrontpageSubjects.propTypes = {
-  locale: PropTypes.string.isRequired,
-};
 
 export default FrontpageSubjects;

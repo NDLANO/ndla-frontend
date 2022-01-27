@@ -7,11 +7,15 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
-import { withTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { LocaleType } from '../../interfaces';
 
-const BlogPosts = ({ t, locale }) => (
+interface Props {
+  locale: LocaleType;
+}
+
+const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
   <section>
     <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
     <BlogPostWrapper>
@@ -40,10 +44,5 @@ const BlogPosts = ({ t, locale }) => (
     </BlogPostWrapper>
   </section>
 );
-
-BlogPosts.propTypes = {
-  t: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-};
 
 export default withTranslation()(BlogPosts);
