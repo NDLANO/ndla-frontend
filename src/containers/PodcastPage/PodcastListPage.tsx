@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { OneColumn, Spinner } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { parse, stringify } from 'query-string';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { podcastSearchQuery } from '../../queries';
@@ -27,9 +27,9 @@ const PodcastListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
-  const [getPodcasts, { error, loading, data }] = useLazyQuery<
-    GQLPodcastSearchQueryQuery
-  >(podcastSearchQuery);
+  const { error, loading, data } = useQuery<GQLPodcastSearchQueryQuery>(
+    podcastSearchQuery,
+  );
   const searchObject = parse(location.search);
 
   const onQueryPush = (newSearchObject: object) => {
@@ -45,23 +45,7 @@ const PodcastListPage = () => {
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
     history.push(`/podcast?${stringify(searchQuery)}`);
-    getPodcasts({
-      variables: {
-        page: searchQuery.page.toString(),
-        pageSize: getPageSize(searchQuery),
-      },
-    });
   };
-
-  useEffect(() => {
-    getPodcasts({
-      variables: {
-        page: getPage(searchObject),
-        pageSize: getPageSize(searchObject),
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (!data && !loading) {
     return null;
