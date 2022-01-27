@@ -101,6 +101,7 @@ const ResourcePage = (props: Props) => {
   }
   return (
     <ArticlePage
+      skipToContentId={props.skipToContentId}
       resource={data.resource}
       topic={data.topic}
       topicPath={topicPath}
