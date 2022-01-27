@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { match, RouteComponentProps } from 'react-router';
+import { match, RouteComponentProps, useHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
@@ -20,6 +20,7 @@ import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 import { FeideUserWithGroups } from '../../util/feideApi';
 import { LocaleType, ProgrammeGrade } from '../../interfaces';
+import { toProgramme } from '../../routeHelpers';
 
 export interface GradesData {
   name: string;
@@ -83,20 +84,29 @@ const getDocumentTitle = ({
 
 interface MatchParams {
   programme: string;
+  grade?: string;
 }
 
 interface Props extends RouteComponentProps<MatchParams>, WithTranslation {
   locale: LocaleType;
   user?: FeideUserWithGroups;
 }
+const validGrades = ['vg1', 'vg2', 'vg3'];
 
 const ProgrammePage = ({ match, locale, t }: Props) => {
   const slug = match?.params?.programme;
   const programmeData = getProgrammeBySlug(slug, locale);
+  const grade = validGrades.find(grade => grade === match.params.grade);
+  const history = useHistory();
 
   if (!programmeData) {
     return <NotFoundPage />;
   }
+
+  const onGradeChange = (newGrade: string) => {
+    if (!validGrades.some(grade => grade === newGrade)) return;
+    history.push(toProgramme(slug, newGrade));
+  };
 
   const heading = programmeData.name[locale];
   const grades = mapGradesData(programmeData.grades, locale);
@@ -111,7 +121,13 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
-      <Programme heading={heading} grades={grades} image={image} />
+      <Programme
+        heading={heading}
+        grades={grades}
+        image={image}
+        selectedGrade={grade}
+        onChangeGrade={onGradeChange}
+      />
     </>
   );
 };
