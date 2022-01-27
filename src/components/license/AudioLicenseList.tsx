@@ -31,15 +31,9 @@ import { GQLAudioLicense } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
-interface MetaImage {
-  alt: string;
-  url: string;
-}
-
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicense;
   locale: LocaleType;
-  image?: MetaImage;
 }
 
 const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
