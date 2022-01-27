@@ -16,21 +16,37 @@ type SearchObject = {
   'page-size': string;
 };
 
-export const getPageSize = (searchObject: SearchObject): string => {
-  return searchObject['page-size'] || '5';
+export const getPageSize = (searchObject: SearchObject) => {
+  return Number(searchObject['page-size']) || 5;
 };
-export const getPage = (searchObject: SearchObject): string => {
-  return searchObject.page || '1';
+export const getPage = (searchObject: SearchObject) => {
+  return Number(searchObject.page) || 1;
 };
 
 const PodcastListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
+  const searchObject = parse(location.search);
+
   const { error, loading, data } = useQuery<GQLPodcastSearchQueryQuery>(
     podcastSearchQuery,
+    {
+      variables: {
+        page: getPage(searchObject).toString(),
+        pageSize: getPageSize(searchObject).toString(),
+      },
+    },
   );
-  const searchObject = parse(location.search);
+
+  // Preload next page
+  const nextPage = getPage(searchObject) + 1;
+  useQuery(podcastSearchQuery, {
+    variables: {
+      page: nextPage.toString(),
+      pageSize: getPageSize(searchObject).toString(),
+    },
+  });
 
   const onQueryPush = (newSearchObject: object) => {
     const oldSearchObject = parse(location.search);
@@ -70,10 +86,9 @@ const PodcastListPage = () => {
           ))
         )}
         <Pager
-          page={parseInt(getPage(searchObject), 10)}
+          page={getPage(searchObject)}
           lastPage={Math.ceil(
-            (data?.podcastSearch?.totalCount ?? 0) /
-              parseInt(getPageSize(searchObject), 10),
+            (data?.podcastSearch?.totalCount ?? 0) / getPageSize(searchObject),
           )}
           pageItemComponentClass="button"
           query={searchObject}
