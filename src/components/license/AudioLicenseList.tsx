@@ -23,7 +23,10 @@ import {
   MediaListItemMeta,
 } from '@ndla/ui';
 import { AudioDocument } from '@ndla/icons/common';
-import { getGroupedContributorDescriptionList } from '@ndla/licenses';
+import {
+  getGroupedContributorDescriptionList,
+  metaTypes,
+} from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
@@ -40,6 +43,22 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
   const { t } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
   const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+
+  if (audio.title) {
+    items.unshift({
+      label: t('title'),
+      description: audio.title,
+      metaType: metaTypes.title,
+    });
+  }
+  if (audio.copyright.origin) {
+    items.push({
+      label: t('source'),
+      description: audio.copyright.origin,
+      metaType: metaTypes.other,
+    });
+  }
+
   return (
     <MediaListItem>
       <MediaListItemImage>
