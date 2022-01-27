@@ -76,7 +76,6 @@ export const IframeTopicPage = ({
           image={article.metaImage}
           title={article.title}
           trackableContent={article}
-          locale={locale}
         />
       )}
       <PostResizeMessage />

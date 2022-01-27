@@ -62,7 +62,6 @@ const IframeArticlePage = ({
         title={article.title}
         image={article.metaImage}
         description={article.metaDescription}
-        locale={locale}
         trackableContent={article}
       />
       <PostResizeMessage />
