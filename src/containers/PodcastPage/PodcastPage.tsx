@@ -44,7 +44,7 @@ const PodcastPage = ({
   const { t } = useTranslation();
 
   const getDocumentTitle = (podcast: GQLAudio) => {
-    return `${podcast?.title?.title || 'Podcast'} - ${t(
+    return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t(
       'htmlTitles.titleTemplate',
     )}`;
   };
@@ -54,7 +54,7 @@ const PodcastPage = ({
   }
 
   if (!podcast) {
-    return <Redirect to="/podcast" />;
+    return <Redirect to="/podkast" />;
   }
 
   if (error) {

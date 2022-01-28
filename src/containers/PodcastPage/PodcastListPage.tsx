@@ -56,8 +56,8 @@ const PodcastListPage = () => {
     podcastSearchQuery,
     {
       variables: {
-        page: page.toString(),
-        pageSize: pageSize.toString(),
+        page: page,
+        pageSize: pageSize,
       },
     },
   );
@@ -68,8 +68,8 @@ const PodcastListPage = () => {
       apolloClient.query({
         query: podcastSearchQuery,
         variables: {
-          page: nextPage.toString(),
-          pageSize: pageSize.toString(),
+          page: nextPage,
+          pageSize: pageSize,
         },
       });
     }

@@ -1175,7 +1175,7 @@ const audioFragment = gql`
 
 export const podcastQuery = gql`
   ${audioFragment}
-  query podcastQuery($id: String!) {
+  query podcastQuery($id: Int!) {
     podcast(id: $id) {
       ...Audio
     }
@@ -1184,7 +1184,7 @@ export const podcastQuery = gql`
 
 export const podcastSearchQuery = gql`
   ${audioFragment}
-  query podcastSearchQuery($page: String!, $pageSize: String!) {
+  query podcastSearchQuery($page: Int!, $pageSize: Int!) {
     podcastSearch(page: $page, pageSize: $pageSize) {
       results {
         ...Audio

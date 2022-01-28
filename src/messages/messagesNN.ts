@@ -18,7 +18,7 @@ const messages = {
     notFound: `Sida finst ikkje - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
-    podcast: `Podcast - Side {{pageNumber}} - ${titleTemplate}`,
+    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Sida har flytta - ${titleTemplate}`,
     toolbox: {
@@ -28,7 +28,8 @@ const messages = {
     },
   },
   podcastPage: {
-    podcasts: 'Podcaster',
+    podcast: 'Podkast',
+    podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{pageSize}}',
   },
   blogPosts: {
