@@ -16,10 +16,9 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { podcastSearchQuery } from '../../queries';
-import Podcast from './Podcast';
+import { podcastSearchQuery, podcastSeriesSearchQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { GQLPodcastSearchQueryQuery } from '../../graphqlTypes';
+import { GQLPodcastSeriesSearchQueryQuery } from '../../graphqlTypes';
 
 type SearchObject = {
   page: string;
@@ -52,8 +51,8 @@ const PodcastListPage = () => {
   const pageSize = getPageSize(searchObject);
   const apolloClient = useApolloClient();
 
-  const { error, loading, data } = useQuery<GQLPodcastSearchQueryQuery>(
-    podcastSearchQuery,
+  const { error, loading, data } = useQuery<GQLPodcastSeriesSearchQueryQuery>(
+    podcastSeriesSearchQuery,
     {
       variables: {
         page: page,
@@ -87,7 +86,7 @@ const PodcastListPage = () => {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-    history.push(`/podcast?${stringify(searchQuery)}`);
+    history.push(`/podkast?${stringify(searchQuery)}`);
   };
 
   if (!data && !loading) {
@@ -111,14 +110,17 @@ const PodcastListPage = () => {
         {loading ? (
           <Spinner />
         ) : (
-          data?.podcastSearch?.results?.map(podcast => (
-            <Podcast podcast={podcast} />
-          ))
+          <div>
+            {data?.podcastSeriesSearch?.results?.map(series => {
+              return <div>{series.title.title}</div>;
+            })}
+          </div>
         )}
         <Pager
           page={getPage(searchObject)}
           lastPage={Math.ceil(
-            (data?.podcastSearch?.totalCount ?? 0) / getPageSize(searchObject),
+            (data?.podcastSeriesSearch?.totalCount ?? 0) /
+              getPageSize(searchObject),
           )}
           pageItemComponentClass="button"
           query={searchObject}

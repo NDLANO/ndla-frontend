@@ -1170,24 +1170,135 @@ const audioFragment = gql`
       }
       language
     }
+    created
+    updated
   }
 `;
 
-export const podcastQuery = gql`
+const audioSummaryFragment = gql`
+  fragment AudioSummary on AudioSummary {
+    id
+    title {
+      title
+      language
+    }
+    url
+    license
+    tags {
+      tags
+      language
+    }
+    manuscript {
+      manuscript
+      language
+    }
+    supportedLanguages
+    audioType
+    podcastMeta {
+      introduction
+      coverPhoto {
+        id
+        url
+        altText
+      }
+      language
+    }
+    lastUpdated
+  }
+`;
+
+// 1. Grunnleggende uten episodes
+const podcastSeriesFragment = gql`
+  fragment PodcastSeries on PodcastSeries {
+    id
+    title {
+      title
+      language
+    }
+    description {
+      description
+      language
+    }
+    supportedLanguages
+    coverPhoto {
+      id
+      url
+      altText
+    }
+  }
+`;
+
+// 2. Grunnleggende uten episodes
+const podcastSeriesSummaryFragment = gql`
+  fragment PodcastSeriesSummary on PodcastSeriesSummary {
+    id
+    title {
+      title
+      language
+    }
+    description {
+      description
+      language
+    }
+    supportedLanguages
+    coverPhoto {
+      id
+      url
+      altText
+    }
+  }
+`;
+
+const audioWithSeriesFragment = gql`
   ${audioFragment}
-  query podcastQuery($id: Int!) {
-    podcast(id: $id) {
+  ${podcastSeriesFragment}
+  fragment AudioWithSeries on Audio {
+    ...Audio
+    series {
+      ...PodcastSeries
+    }
+  }
+`;
+
+// MEd lang versjon av episoder
+const podcastSeriesWithEpisodesFragment = gql`
+  ${audioFragment}
+  ${podcastSeriesFragment}
+  fragment PodcastSeriesWithEpisodes on PodcastSeries {
+    ...PodcastSeries
+    episodes {
       ...Audio
     }
   }
 `;
 
+// 2. Med kort versjon av episoder
+const podcastSeriesWithEpisodesSummaryFragment = gql`
+  ${audioSummaryFragment}
+  ${podcastSeriesSummaryFragment}
+  fragment PodcastSeriesWithEpisodesSummary on PodcastSeriesSummary {
+    ...PodcastSeriesSummary
+    episodes {
+      ...AudioSummary
+    }
+  }
+`;
+
+export const podcastQuery = gql`
+  ${audioWithSeriesFragment}
+  query podcastQuery($id: Int!) {
+    podcast(id: $id) {
+      ...AudioWithSeries
+    }
+  }
+`;
+
 export const podcastSearchQuery = gql`
-  ${audioFragment}
+  ${audioWithSeriesFragment}
   query podcastSearchQuery($page: Int!, $pageSize: Int!) {
     podcastSearch(page: $page, pageSize: $pageSize) {
       results {
-        ...Audio
+        ...AudioWithSeries
       }
       totalCount
       page
@@ -1197,54 +1308,20 @@ export const podcastSearchQuery = gql`
 `;
 
 export const podcastSeriesQuery = gql`
-  ${audioFragment}
+  ${podcastSeriesWithEpisodesFragment}
   query podcastSeriesQuery($id: Int!) {
     podcastSeries(id: $id) {
-      id
-      title {
-        title
-        language
-      }
-      description {
-        description
-        language
-      }
-      supportedLanguages
-      episodes {
-        ...Audio
-      }
-      coverPhoto {
-        id
-        url
-        altText
-      }
+      ...PodcastSeriesWithEpisodes
     }
   }
 `;
 
 export const podcastSeriesSearchQuery = gql`
-  ${audioFragment}
+  ${podcastSeriesWithEpisodesSummaryFragment}
   query podcastSeriesSearchQuery($page: Int!, $pageSize: Int!) {
     podcastSeriesSearch(page: $page, pageSize: $pageSize) {
       results {
-        id
-        title {
-          title
-          language
-        }
-        description {
-          description
-          language
-        }
-        supportedLanguages
-        episodes {
-          ...Audio
-        }
-        coverPhoto {
-          id
-          url
-          altText
-        }
+        ...PodcastSeriesWithEpisodesSummary
       }
       totalCount
       page
