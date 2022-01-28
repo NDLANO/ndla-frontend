@@ -11,11 +11,14 @@ import url from 'url';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { StaticRouter } from 'react-router';
+import { CacheProvider } from '@emotion/core';
+import createCache from '@emotion/cache';
 import { getHtmlLang } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPageWithData, renderHtml } from '../helpers/render';
+import { EmotionCacheKey } from '../../constants';
 
 const assets =
   process.env.NODE_ENV !== 'unittest'
@@ -48,15 +51,19 @@ const disableSSR = req => {
 
 async function doRenderPage(req, initialProps) {
   const context = {};
+
+  const cache = createCache({ key: EmotionCacheKey });
   const Page = disableSSR(req) ? (
     ''
   ) : (
-    <StaticRouter
-      basename={initialProps.basename}
-      location={req.url}
-      context={context}>
-      <IframePageContainer {...initialProps} />
-    </StaticRouter>
+    <CacheProvider value={cache}>
+      <StaticRouter
+        basename={initialProps.basename}
+        location={req.url}
+        context={context}>
+        <IframePageContainer {...initialProps} />
+      </StaticRouter>
+    </CacheProvider>
   );
   const assets = getAssets();
   const { html, ...docProps } = await renderPageWithData(Page, assets, {
