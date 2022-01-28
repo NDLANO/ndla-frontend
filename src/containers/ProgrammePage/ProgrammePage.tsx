@@ -19,7 +19,7 @@ import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 import { FeideUserWithGroups } from '../../util/feideApi';
-import { LocaleType, ProgrammeGrade } from '../../interfaces';
+import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
 import { toProgramme } from '../../routeHelpers';
 
 export interface GradesData {
@@ -67,11 +67,7 @@ const getProgrammeName = (match: match<MatchParams>, locale: LocaleType) => {
   const slug = match?.params?.programme;
   const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
-  const grade = gradeParam
-    ? programmeData?.grades.find(
-        grade => grade.name.toLowerCase() === gradeParam?.toLowerCase(),
-      )?.name
-    : validGrades[0];
+  const grade = getGradeNameFromProgramme(gradeParam, programmeData);
   const gradeString = grade ? ` - ${grade}` : '';
   const programmeString = programmeData?.name[locale] ?? '';
   return `${programmeString}${gradeString}`;
@@ -95,15 +91,22 @@ interface Props extends RouteComponentProps<MatchParams>, WithTranslation {
   locale: LocaleType;
   user?: FeideUserWithGroups;
 }
-const validGrades = ['vg1', 'vg2', 'vg3'];
+
+const getGradeNameFromProgramme = (
+  grade?: string,
+  programme?: ProgrammeType,
+) => {
+  return grade
+    ? programme?.grades.find(g => g.name.toLowerCase() === grade)?.name
+    : programme?.grades?.[0]?.name;
+};
 
 const ProgrammePage = ({ match, locale, t }: Props) => {
   const slug = match?.params?.programme;
   const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
-  const grade = gradeParam
-    ? validGrades.find(grade => grade === gradeParam)
-    : validGrades[0];
+  const programmeGrades = programmeData?.grades;
+  const grade = getGradeNameFromProgramme(gradeParam, programmeData);
   const history = useHistory();
 
   if (!programmeData || !grade) {
@@ -111,7 +114,9 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
   }
 
   const onGradeChange = (newGrade: string) => {
-    if (!validGrades.some(grade => grade === newGrade)) return;
+    if (!programmeGrades?.some(g => g.name.toLowerCase() === newGrade)) {
+      return;
+    }
     history.push(toProgramme(slug, newGrade));
   };
 
@@ -132,7 +137,7 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
         heading={heading}
         grades={grades}
         image={image}
-        selectedGrade={grade}
+        selectedGrade={grade.toLowerCase()}
         onChangeGrade={onGradeChange}
       />
     </>
