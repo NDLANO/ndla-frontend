@@ -1195,3 +1195,61 @@ export const podcastSearchQuery = gql`
     }
   }
 `;
+
+export const podcastSeriesQuery = gql`
+  ${audioFragment}
+  query podcastSeriesQuery($id: Int!) {
+    podcastSeries(id: $id) {
+      id
+      title {
+        title
+        language
+      }
+      description {
+        description
+        language
+      }
+      supportedLanguages
+      episodes {
+        ...Audio
+      }
+      coverPhoto {
+        id
+        url
+        altText
+      }
+    }
+  }
+`;
+
+export const podcastSeriesSearchQuery = gql`
+  ${audioFragment}
+  query podcastSeriesSearchQuery($page: Int!, $pageSize: Int!) {
+    podcastSeriesSearch(page: $page, pageSize: $pageSize) {
+      results {
+        id
+        title {
+          title
+          language
+        }
+        description {
+          description
+          language
+        }
+        supportedLanguages
+        episodes {
+          ...Audio
+        }
+        coverPhoto {
+          id
+          url
+          altText
+        }
+      }
+      totalCount
+      page
+      pageSize
+      language
+    }
+  }
+`;
