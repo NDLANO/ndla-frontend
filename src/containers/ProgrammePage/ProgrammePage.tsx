@@ -65,12 +65,16 @@ export const mapGradesData = (
 
 const getProgrammeName = (match: match<MatchParams>, locale: LocaleType) => {
   const slug = match?.params?.programme;
+  const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
-  let heading = '';
-  if (programmeData) {
-    heading = programmeData.name[locale];
-  }
-  return heading;
+  const grade = gradeParam
+    ? programmeData?.grades.find(
+        grade => grade.name.toLowerCase() === gradeParam?.toLowerCase(),
+      )?.name
+    : validGrades[0];
+  const gradeString = grade ? ` - ${grade}` : '';
+  const programmeString = programmeData?.name[locale] ?? '';
+  return `${programmeString}${gradeString}`;
 };
 
 const getDocumentTitle = ({
@@ -95,11 +99,14 @@ const validGrades = ['vg1', 'vg2', 'vg3'];
 
 const ProgrammePage = ({ match, locale, t }: Props) => {
   const slug = match?.params?.programme;
+  const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
-  const grade = validGrades.find(grade => grade === match.params.grade);
+  const grade = gradeParam
+    ? validGrades.find(grade => grade === gradeParam)
+    : validGrades[0];
   const history = useHistory();
 
-  if (!programmeData) {
+  if (!programmeData || !grade) {
     return <NotFoundPage />;
   }
 
