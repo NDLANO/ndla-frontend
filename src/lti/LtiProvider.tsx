@@ -7,25 +7,36 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 
-import { ResourceShape } from '../shapes';
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import handleError from '../util/handleError';
 import { searchPageQuery } from '../queries';
-import { LtiDataShape } from '../shapes';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
 import { initializeI18n } from '../i18n';
+import { LocaleType, LtiData } from '../interfaces';
+import { GQLSearchPageQuery } from '../graphqlTypes';
 
-const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
-  const [searchParams, setSearchParams] = useState({
+interface Props {
+  locale?: LocaleType;
+  ltiData?: LtiData;
+}
+
+interface SearchParams {
+  query?: string;
+  subjects: string[];
+  programs: string[];
+  selectedFilters: string[];
+  activeSubFilters: string[];
+}
+const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
+  const [searchParams, setSearchParams] = useState<SearchParams>({
     query: '',
     subjects: [],
     programs: [],
@@ -33,6 +44,7 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     activeSubFilters: [],
   });
   const { t, i18n } = useTranslation();
+  const locale = propsLocale ?? i18n.language;
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -47,9 +59,13 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, error, loading } = useGraphQuery(searchPageQuery);
+  const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(
+    searchPageQuery,
+  );
 
-  const handleSearchParamsChange = searchParamUpdates => {
+  const handleSearchParamsChange = (searchParamUpdates: {
+    selectedFilters?: string;
+  }) => {
     const selectedFilters =
       searchParamUpdates.selectedFilters?.split(',') ?? [];
     setSearchParams(prevState => ({
@@ -63,16 +79,16 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
     return null;
   }
 
-  const allSubjects =
-    data.subjects?.map(subject => ({
-      title: subject.name,
-      value: subject.id,
-    })) || [];
-
   if (error && !data) {
     handleError(error);
     return <ErrorPage locale={locale} />;
   }
+
+  const allSubjects =
+    data?.subjects?.map(subject => ({
+      title: subject.name,
+      value: subject.id,
+    })) || [];
 
   return (
     <ErrorBoundary>
@@ -88,7 +104,7 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
         activeSubFilters={searchParams.activeSubFilters}
         allSubjects={allSubjects}
         subjectItems={subjectItems}
-        resourceTypes={data.resourceTypes.filter(
+        resourceTypes={data?.resourceTypes?.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
         ltiData={ltiData}
@@ -97,12 +113,6 @@ const LtiProvider = ({ locale: { abbreviation: locale }, ltiData }) => {
       />
     </ErrorBoundary>
   );
-};
-
-LtiProvider.propTypes = {
-  locale: PropTypes.object.isRequired,
-  resource: ResourceShape,
-  ltiData: LtiDataShape,
 };
 
 export default LtiProvider;
