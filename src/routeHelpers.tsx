@@ -200,8 +200,9 @@ export function toLinkProps(linkObject: LinkObject) {
   };
 }
 
-export function toProgramme(programmePath: string) {
-  return `${PROGRAMME_PATH}/${programmePath}`;
+export function toProgramme(programmePath: string, grade?: string) {
+  const gradeString = grade ? `/${grade}` : '';
+  return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
 }
 
 export function toProgrammeSubject(

@@ -358,9 +358,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       viewBox="5.5 -3.5 64 64"
                       width="1em"
                     >
-                      <title>
-                        Cc
-                      </title>
                       <g>
                         <circle
                           cx="37.785"
@@ -404,9 +401,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       viewBox="5.5 -3.5 64 64"
                       width="1em"
                     >
-                      <title>
-                        By
-                      </title>
                       <g>
                         <circle
                           cx="37.637"
@@ -452,9 +446,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       viewBox="5.5 -3.5 64 64"
                       width="1em"
                     >
-                      <title>
-                        Sa
-                      </title>
                       <g>
                         <circle
                           cx="36.944"
