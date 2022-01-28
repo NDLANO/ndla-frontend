@@ -10,9 +10,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
+import { CacheProvider } from '@emotion/core';
+import createCache from '@emotion/cache';
 import { Router } from 'react-router';
 import IframePageContainer from './IframePageContainer';
 import { createHistory } from '../history';
+import { EmotionCacheKey } from '../constants';
 
 const { config, initialProps } = window.DATA;
 
@@ -38,13 +41,19 @@ configureTracker({
 });
 
 const browserHistory = createHistory();
+const cache = createCache({ key: EmotionCacheKey });
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <Router history={browserHistory}>
-    <IframePageContainer {...initialProps} />
-  </Router>,
+  <CacheProvider value={cache}>
+    <Router history={browserHistory}>
+      <IframePageContainer {...initialProps} />
+    </Router>
+  </CacheProvider>,
   document.getElementById('root'),
+  () => {
+    window.hasHydrated = true;
+  },
 );
 
 if (module.hot) {
