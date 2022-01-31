@@ -1207,7 +1207,6 @@ const audioSummaryFragment = gql`
   }
 `;
 
-// 1. Grunnleggende uten episodes
 const podcastSeriesFragment = gql`
   fragment PodcastSeries on PodcastSeries {
     id
@@ -1228,7 +1227,6 @@ const podcastSeriesFragment = gql`
   }
 `;
 
-// 2. Grunnleggende uten episodes
 const podcastSeriesSummaryFragment = gql`
   fragment PodcastSeriesSummary on PodcastSeriesSummary {
     id
@@ -1260,7 +1258,6 @@ const audioWithSeriesFragment = gql`
   }
 `;
 
-// MEd lang versjon av episoder
 const podcastSeriesWithEpisodesFragment = gql`
   ${audioFragment}
   ${podcastSeriesFragment}
@@ -1272,7 +1269,6 @@ const podcastSeriesWithEpisodesFragment = gql`
   }
 `;
 
-// 2. Med kort versjon av episoder
 const podcastSeriesWithEpisodesSummaryFragment = gql`
   ${audioSummaryFragment}
   ${podcastSeriesSummaryFragment}
