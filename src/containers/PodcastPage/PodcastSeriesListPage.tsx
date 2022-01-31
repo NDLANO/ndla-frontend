@@ -19,6 +19,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { podcastSearchQuery, podcastSeriesSearchQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSeriesSearchQueryQuery } from '../../graphqlTypes';
+import PodcastSeries from './PodcastSeries';
 
 type SearchObject = {
   page: string;
@@ -34,14 +35,18 @@ export const getPage = (searchObject: SearchObject) => {
 
 const StyledTitle = styled.div`
   display: flex;
+  margin-top: ${spacing.small};
   align-items: baseline;
+  h1 {
+    margin-bottom: 0;
+  }
 `;
 
 const StyledTitlePageInfo = styled.span`
   margin: 0 ${spacing.small};
 `;
 
-const PodcastListPage = () => {
+const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
@@ -112,7 +117,7 @@ const PodcastListPage = () => {
         ) : (
           <div>
             {data?.podcastSeriesSearch?.results?.map(series => {
-              return <div>{series.title.title}</div>;
+              return <PodcastSeries {...series} />;
             })}
           </div>
         )}
@@ -131,4 +136,4 @@ const PodcastListPage = () => {
   );
 };
 
-export default PodcastListPage;
+export default PodcastSeriesListPage;

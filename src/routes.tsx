@@ -22,8 +22,6 @@ import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearn
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-import PodcastPage from './containers/PodcastPage/PodcastPage';
-import PodcastListPage from './containers/PodcastPage/PodcastListPage';
 import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
 // @ts-ignore
 import App from './App';
@@ -43,8 +41,8 @@ import {
   SUBJECTS,
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
-  PODCAST_PAGE_PATH,
-  PODCAST_LIST_PAGE_PATH,
+  PODCAST_SERIES_PAGE_PATH,
+  PODCAST_SERIES_LIST_PAGE_PATH,
   TOOLBOX_TEACHER_PAGE_PATH,
   TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
@@ -54,6 +52,8 @@ import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
 import { I18nWrapper } from './I18nWrapper';
 import config from './config';
 import AccessDeniedPage from './containers/AccessDeniedPage/AccessDeniedPage';
+import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
+import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -144,13 +144,13 @@ let routeArray: RouteType[] = [
     background: false,
   },
   {
-    path: PODCAST_PAGE_PATH,
-    component: PodcastPage,
+    path: PODCAST_SERIES_PAGE_PATH,
+    component: PodcastSeriesPage,
     background: false,
   },
   {
-    path: PODCAST_LIST_PAGE_PATH,
-    component: PodcastListPage,
+    path: PODCAST_SERIES_LIST_PAGE_PATH,
+    component: PodcastSeriesListPage,
     background: false,
   },
   {
