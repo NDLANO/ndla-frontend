@@ -18,7 +18,11 @@ import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
+import {
+  getCrop,
+  getFocalPoint,
+  getImageWithoutCrop,
+} from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLResourceTypeDefinition,
@@ -107,7 +111,10 @@ const Topic = ({
             type: getResourceType(article.visualElement.resource),
             element: (
               <VisualElementWrapper
-                visualElement={article.visualElement}
+                visualElement={{
+                  ...article.visualElement,
+                  image: getImageWithoutCrop(article.visualElement.image),
+                }}
                 locale={locale}
               />
             ),
