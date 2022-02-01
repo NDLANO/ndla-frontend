@@ -30,7 +30,7 @@ const messages = {
   podcastPage: {
     podcast: 'Podcast',
     podcasts: 'Podcasts',
-    pageInfo: 'Page {{page}} of {{pageSize}}',
+    pageInfo: 'Page {{page}} of {{lastPage}}',
   },
   blogPosts: {
     blog1: {

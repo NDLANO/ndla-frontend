@@ -54,6 +54,7 @@ const PodcastSeriesListPage = () => {
 
   const page = getPage(searchObject);
   const pageSize = getPageSize(searchObject);
+
   const apolloClient = useApolloClient();
 
   const { error, loading, data } = useQuery<GQLPodcastSeriesSearchQueryQuery>(
@@ -64,6 +65,10 @@ const PodcastSeriesListPage = () => {
         pageSize: pageSize,
       },
     },
+  );
+
+  const lastPage = Math.ceil(
+    (data?.podcastSeriesSearch?.totalCount ?? 0) / pageSize,
   );
 
   useEffect(() => {
@@ -109,7 +114,7 @@ const PodcastSeriesListPage = () => {
         <StyledTitle>
           <h1>{t('podcastPage.podcasts')}</h1>
           <StyledTitlePageInfo>
-            {t('podcastPage.pageInfo', { page, pageSize })}
+            {t('podcastPage.pageInfo', { page, lastPage })}
           </StyledTitlePageInfo>
         </StyledTitle>
         {loading ? (
@@ -123,10 +128,7 @@ const PodcastSeriesListPage = () => {
         )}
         <Pager
           page={getPage(searchObject)}
-          lastPage={Math.ceil(
-            (data?.podcastSeriesSearch?.totalCount ?? 0) /
-              getPageSize(searchObject),
-          )}
+          lastPage={lastPage}
           pageItemComponentClass="button"
           query={searchObject}
           onClick={onQueryPush}
