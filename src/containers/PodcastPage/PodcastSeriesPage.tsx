@@ -25,6 +25,7 @@ import {
   GQLPodcastSeries,
   GQLPodcastSeriesQueryQuery,
 } from '../../graphqlTypes';
+import { PODCAST_SERIES_LIST_PAGE_PATH } from '../../constants';
 
 interface RouteParams {
   id: string;
@@ -63,7 +64,7 @@ const PodcastSeriesPage = ({
   }
 
   if (!podcastSeries) {
-    return <Redirect to="/podkast" />;
+    return <Redirect to={PODCAST_SERIES_LIST_PAGE_PATH} />;
   }
 
   if (error) {

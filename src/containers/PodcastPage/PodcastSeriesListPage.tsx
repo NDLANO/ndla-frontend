@@ -46,6 +46,10 @@ const StyledTitlePageInfo = styled.span`
   margin: 0 ${spacing.small};
 `;
 
+const NoResult = styled.div`
+  margin: ${spacing.normal} ${spacing.xxsmall};
+`;
+
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -66,6 +70,8 @@ const PodcastSeriesListPage = () => {
       },
     },
   );
+
+  const results = data?.podcastSeriesSearch?.results;
 
   const lastPage = Math.ceil(
     (data?.podcastSeriesSearch?.totalCount ?? 0) / pageSize,
@@ -121,9 +127,13 @@ const PodcastSeriesListPage = () => {
           <Spinner />
         ) : (
           <div>
-            {data?.podcastSeriesSearch?.results?.map(series => {
-              return <PodcastSeries {...series} />;
-            })}
+            {results?.length ? (
+              results.map(series => {
+                return <PodcastSeries {...series} />;
+              })
+            ) : (
+              <NoResult>{t('podcastPage.noResults')}</NoResult>
+            )}
           </div>
         )}
         <Pager

@@ -64,7 +64,7 @@ const PodcastSeries = ({
       </ImageWrapper>
       <div>
         <div>
-          <Link to={`podkast/${id}`}>
+          <Link to={`/podkast/${id}`}>
             <StyledHeader>{title.title}</StyledHeader>
           </Link>
         </div>

@@ -31,6 +31,7 @@ const messages = {
     podcast: 'Podkast',
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
+    noResults: 'Ingen treff på søk',
   },
   blogPosts: {
     blog1: {
