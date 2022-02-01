@@ -16,7 +16,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { podcastSearchQuery, podcastSeriesSearchQuery } from '../../queries';
+import { podcastSeriesSearchQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSeriesSearchQueryQuery } from '../../graphqlTypes';
 import PodcastSeries from './PodcastSeries';
@@ -61,27 +61,28 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data } = useQuery<GQLPodcastSeriesSearchQueryQuery>(
-    podcastSeriesSearchQuery,
-    {
-      variables: {
-        page: page,
-        pageSize: pageSize,
-      },
+  const { error, loading, data, previousData } = useQuery<
+    GQLPodcastSeriesSearchQueryQuery
+  >(podcastSeriesSearchQuery, {
+    variables: {
+      page: page,
+      pageSize: pageSize,
     },
-  );
+  });
 
   const results = data?.podcastSeriesSearch?.results;
 
   const lastPage = Math.ceil(
-    (data?.podcastSeriesSearch?.totalCount ?? 0) / pageSize,
+    (data?.podcastSeriesSearch?.totalCount ??
+      previousData?.podcastSeriesSearch?.totalCount ??
+      0) / pageSize,
   );
 
   useEffect(() => {
     const nextPage = page + 1;
     if (nextPage <= pageSize) {
       apolloClient.query({
-        query: podcastSearchQuery,
+        query: podcastSeriesSearchQuery,
         variables: {
           page: nextPage,
           pageSize: pageSize,
@@ -119,7 +120,7 @@ const PodcastSeriesListPage = () => {
       <OneColumn>
         <StyledTitle>
           <h1>{t('podcastPage.podcasts')}</h1>
-          {!!data && (
+          {(!!data || !!previousData) && (
             <StyledTitlePageInfo>
               {t('podcastPage.pageInfo', { page, lastPage })}
             </StyledTitlePageInfo>
