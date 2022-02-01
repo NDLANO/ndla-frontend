@@ -119,9 +119,11 @@ const PodcastSeriesListPage = () => {
       <OneColumn>
         <StyledTitle>
           <h1>{t('podcastPage.podcasts')}</h1>
-          <StyledTitlePageInfo>
-            {t('podcastPage.pageInfo', { page, lastPage })}
-          </StyledTitlePageInfo>
+          {!!data && (
+            <StyledTitlePageInfo>
+              {t('podcastPage.pageInfo', { page, lastPage })}
+            </StyledTitlePageInfo>
+          )}
         </StyledTitle>
         {loading ? (
           <Spinner />
