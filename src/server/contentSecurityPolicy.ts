@@ -189,6 +189,8 @@ const frameSrc = (() => {
     'ebok.no',
     'trinket.io',
     'codepen.io',
+    'public.flourish.studio',
+    'flo.uri.sh',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
