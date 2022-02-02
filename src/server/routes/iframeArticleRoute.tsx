@@ -8,20 +8,24 @@
 
 import React from 'react';
 import url from 'url';
+import { Request } from 'express';
 import { Helmet } from 'react-helmet';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
 import { StaticRouter } from 'react-router';
+import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
-import { getHtmlLang } from '../../i18n';
+import { getHtmlLang, isValidLocale } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
+import { InitialProps } from '../../interfaces';
+import { createApolloClient } from '../../util/apiHelpers';
 
 const assets =
-  process.env.NODE_ENV !== 'unittest'
+  process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : {
         client: { css: 'mock.css' },
@@ -41,7 +45,7 @@ const getAssets = () => ({
   mathJaxConfig: { js: assets.mathJaxConfig.js },
 });
 
-const disableSSR = req => {
+const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
   if (config.disableSSR) {
     return true;
@@ -49,34 +53,47 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-async function doRenderPage(req, initialProps) {
+async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context = {};
+
+  const client = createApolloClient(
+    initialProps.locale,
+    initialProps.resCookie,
+  );
 
   const cache = createCache({ key: EmotionCacheKey });
   const Page = disableSSR(req) ? (
     ''
   ) : (
-    <CacheProvider value={cache}>
-      <StaticRouter
-        basename={initialProps.basename}
-        location={req.url}
-        context={context}>
-        <IframePageContainer {...initialProps} />
-      </StaticRouter>
-    </CacheProvider>
+    <ApolloProvider client={client}>
+      <CacheProvider value={cache}>
+        <StaticRouter
+          basename={initialProps.basename}
+          location={req.url}
+          context={context}>
+          <IframePageContainer {...initialProps} />
+        </StaticRouter>
+      </CacheProvider>
+    </ApolloProvider>
   );
   const assets = getAssets();
-  const { html, ...docProps } = await renderPageWithData(Page, assets, {
-    initialProps,
-  });
+  const { html, ...docProps } = await renderPageWithData(
+    Page,
+    assets,
+    {
+      initialProps,
+    },
+    undefined,
+    client,
+  );
   return { html, docProps };
 }
 
-export async function iframeArticleRoute(req) {
+export async function iframeArticleRoute(req: Request) {
   const lang = req.params.lang ?? '';
-  const locale = getHtmlLang(lang);
+  const htmlLang = getHtmlLang(lang);
+  const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
-  const location = { pathname: req.url, search: '', hash: '' };
   try {
     const { html, docProps } = await doRenderPage(req, {
       articleId,
@@ -85,7 +102,6 @@ export async function iframeArticleRoute(req) {
       isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
       basename: lang,
       locale,
-      location,
       status: 'success',
     });
 
@@ -98,7 +114,6 @@ export async function iframeArticleRoute(req) {
     const { html, docProps } = await doRenderPage(req, {
       basename: lang,
       locale,
-      location,
       status: 'error',
     });
 

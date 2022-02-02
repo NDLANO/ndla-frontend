@@ -11,6 +11,11 @@ import { ConfigType } from './config';
 import { LocaleValues } from './constants';
 
 export type InitialProps = {
+  articleId?: string;
+  taxonomyId?: string;
+  isOembed?: string;
+  isTopicArticle?: boolean;
+  status?: 'success' | 'error';
   loading?: boolean;
   resCookie?: string;
   basename?: string;

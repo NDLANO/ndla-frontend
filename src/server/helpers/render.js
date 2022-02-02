@@ -84,6 +84,7 @@ export async function renderPageWithData(
     };
   }
   const html = await renderToStringWithData(Page);
+  const apolloState = client?.extract();
   const helmet = Helmet.renderStatic();
   return {
     html,
@@ -92,6 +93,7 @@ export async function renderPageWithData(
     // Following is serialized to window.DATA
     data: {
       ...data,
+      apolloState,
       config,
       assets,
     },

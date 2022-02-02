@@ -21,7 +21,6 @@ interface Props {
   status?: 'success' | 'error';
   isOembed?: string;
   isTopicArticle?: boolean;
-  resCookie?: string;
 }
 const IframePageContainer = ({
   basename,
@@ -31,14 +30,10 @@ const IframePageContainer = ({
   articleId,
   isOembed,
   isTopicArticle,
-  resCookie,
 }: Props) => {
   return (
     <I18nextProvider i18n={i18nInstance}>
-      <IframePageWrapper
-        basename={basename}
-        resCookie={resCookie}
-        locale={locale}>
+      <IframePageWrapper basename={basename} locale={locale}>
         <IframePage
           status={status}
           locale={locale}
