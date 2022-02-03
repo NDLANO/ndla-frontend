@@ -24,6 +24,7 @@ function renderCompetenceGoals(
   article: GQLArticle,
   locale: LocaleType,
   isTopicArticle: boolean,
+  subjectId?: string,
 ):
   | ((inp: {
       Dialog: ComponentType;
@@ -45,6 +46,7 @@ function renderCompetenceGoals(
       <CompetenceGoals
         codes={article.grepCodes}
         nodeId={article.oldNdlaUrl?.split('/').pop()}
+        subjectId={subjectId}
         language={
           article.supportedLanguages?.find(l => l === locale) ||
           article.supportedLanguages?.[0] ||
@@ -70,6 +72,7 @@ interface Props {
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
+  subjectId?: string;
 }
 
 const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
@@ -120,6 +123,7 @@ const Article = ({
   copyPageUrlLink,
   printUrl,
   id,
+  subjectId,
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
@@ -191,7 +195,12 @@ const Article = ({
       messages={{
         label,
       }}
-      competenceGoals={renderCompetenceGoals(article, locale, isTopicArticle)}
+      competenceGoals={renderCompetenceGoals(
+        article,
+        locale,
+        isTopicArticle,
+        subjectId,
+      )}
       competenceGoalTypes={competenceGoalTypes}
       notions={renderNotions(article, i18n.language as LocaleType)}
       renderMarkdown={renderMarkdown}
