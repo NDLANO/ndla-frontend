@@ -173,6 +173,7 @@ const ArticlePage = ({
           isResourceArticle
           copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
+          subjectId={subject?.id}
           {...getArticleProps(resource, topic)}
         />
         {topic && (
