@@ -191,6 +191,7 @@ const frameSrc = (() => {
     'codepen.io',
     'public.flourish.studio',
     'flo.uri.sh',
+    'ourworldindata.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
