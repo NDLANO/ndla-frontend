@@ -2798,14 +2798,14 @@
     "@ndla/core" "^0.7.2"
     "@ndla/icons" "^1.3.2"
 
-"@ndla/carousel@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-1.0.7.tgz#ccbeab81aff915b794c99c67b9d5f1ae8bd7c185"
-  integrity sha512-8t0BIchlp/ohCmCWhdxa78RdbhpZH2TYjpp+32TSpvCnOmxwGgL9YPQtVtwtGJRbFBfElbU4SsPDSRVwQp87zQ==
+"@ndla/carousel@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-1.1.0.tgz#59ebe08d41afab693d0773cf2b759da7d82f132c"
+  integrity sha512-hCX7wiH1Zwb4Kv32pdkZu54CaHVuFJV9TML+UEILIrwTnO7CBlMAU1lbq7eeYrWhn9k5F+XvQXnNFhz2QRzV1g==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/icons" "^1.3.2"
-    react-swipeable "^5.0.1"
+    react-swipeable "^6.2.0"
 
 "@ndla/core@^0.7.2":
   version "0.7.2"
@@ -2925,13 +2925,13 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.7.tgz#ae42b8c50ac6d622fc46ebd3be65d48e833f7b98"
-  integrity sha512-dckt+p6nAj9iSieyzRZmlhJZJd7R/aN3plIkJFQq57JWleOs8xxm/LjCDN4JeEZ0a98HT3UQfVlzU2c5NpAGHw==
+"@ndla/ui@^3.3.9":
+  version "3.3.9"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.3.9.tgz#e2bd0242d98fedded969e3aa2f51e03b542ca650"
+  integrity sha512-/cIX5W8uw0lOPQNfosRX5AQC29+1F1dJ4kPY65LlwvjnZmIbAwlj8xQkTj9bnyF0FZLTWysncDIp19vkvo46BA==
   dependencies:
     "@ndla/button" "^1.1.2"
-    "@ndla/carousel" "^1.0.7"
+    "@ndla/carousel" "^1.1.0"
     "@ndla/core" "^0.7.2"
     "@ndla/hooks" "^1.0.7"
     "@ndla/icons" "^1.3.2"
@@ -2962,7 +2962,7 @@
     react-facebook "^6.0.15"
     react-prop-types "0.4.0"
     react-sticky-el "^2.0.6"
-    react-swipeable "^5.0.1"
+    react-swipeable "^6.2.0"
     react-syntax-highlighter "^15.4.4"
     react-transition-group "^2.5.3"
     shave "^2.5.10"
@@ -14569,12 +14569,10 @@ react-style-singleton@^1.1.0:
     invariant "^2.2.4"
     tslib "^1.0.0"
 
-react-swipeable@^5.0.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.5.1.tgz#48ae6182deaf62f21d4b87469b60281dbd7c4a76"
-  integrity sha512-EQObuU3Qg3JdX3WxOn5reZvOSCpU4fwpUAs+NlXSN3y+qtsO2r8VGkVnOQzmByt3BSYj9EWYdUOUfi7vaMdZZw==
-  dependencies:
-    prop-types "^15.6.2"
+react-swipeable@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-6.2.0.tgz#057271cb7a6fb4af9d2a3f6d80ccdf33e2f64d47"
+  integrity sha512-nWQ8dEM8e/uswZLSIkXUsAnQmnX4MTcryOHBQIQYRMJFDpgDBSiVbKsz/BZVCIScF4NtJh16oyxwaNOepR6xSw==
 
 react-syntax-highlighter@^15.4.4:
   version "15.4.4"
