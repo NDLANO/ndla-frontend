@@ -9,7 +9,7 @@
 import React from 'react';
 import { CarouselAutosize } from '@ndla/carousel';
 //@ts-ignore
-import { FilmMovieList, MovieGrid } from '@ndla/ui';
+import { CalculatedCarouselProps, FilmMovieList, MovieGrid } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { breakpoints, findName } from './filmHelper';
 import { GQLMovieTheme } from '../../graphqlTypes';
@@ -37,7 +37,7 @@ const MovieCategory = ({
   i18n,
 }: Props & WithTranslation) => (
   <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
-    {(autoSizedProps: any) =>
+    {(autoSizedProps: CalculatedCarouselProps) =>
       resourceTypeSelected ? (
         <MovieGrid
           autoSizedProps={autoSizedProps}
