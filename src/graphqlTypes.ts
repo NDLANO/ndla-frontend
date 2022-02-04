@@ -217,8 +217,11 @@ export type GQLConcept = {
   content: Scalars['String'];
   id: Scalars['Int'];
   metaImage: GQLMetaImage;
+  subjectIds?: Maybe<Array<Scalars['String']>>;
+  subjectNames?: Maybe<Array<Scalars['String']>>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
+  visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLConceptLicense = {
@@ -671,7 +674,7 @@ export type GQLQueryCompetenceGoalsArgs = {
 };
 
 export type GQLQueryConceptSearchArgs = {
-  exactTitleMatch?: Maybe<Scalars['Boolean']>;
+  exactMatch?: Maybe<Scalars['Boolean']>;
   fallback?: Maybe<Scalars['Boolean']>;
   language?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['String']>;
@@ -1400,7 +1403,7 @@ export type GQLGroupSearchQuery = {
 export type GQLConceptSearchQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
   subjects?: Maybe<Scalars['String']>;
-  exactTitleMatch?: Maybe<Scalars['Boolean']>;
+  exactMatch?: Maybe<Scalars['Boolean']>;
   language?: Maybe<Scalars['String']>;
   fallback?: Maybe<Scalars['Boolean']>;
 }>;

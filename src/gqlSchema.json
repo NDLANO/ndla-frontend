@@ -8054,6 +8054,46 @@
             "deprecationReason": null
           },
           {
+            "name": "subjectIds",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "subjectNames",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "metaImage",
             "description": null,
             "args": [],
@@ -8065,6 +8105,18 @@
                 "name": "MetaImage",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "visualElement",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "VisualElement",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -10355,7 +10407,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "exactTitleMatch",
+                "name": "exactMatch",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
