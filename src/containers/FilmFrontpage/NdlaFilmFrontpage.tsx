@@ -12,7 +12,7 @@ import { useLazyQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import FilmFrontpage from './FilmFrontpage';
 import {
-  subjectPageQuery,
+  filmSubjectPageQuery,
   filmFrontPageQuery,
   searchFilmQuery,
 } from '../../queries';
@@ -23,7 +23,7 @@ import {
   GQLSearchFilmArticleSearchResultFragment,
   GQLSearchFilmLearningpathSearchResultFragment,
   GQLSearchWithoutPaginationQuery,
-  GQLSubjectPageQuery,
+  GQLFilmSubjectPageQuery,
 } from '../../graphqlTypes';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
@@ -45,8 +45,8 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
   const { data: { filmfrontpage } = {} } = useGraphQuery<GQLFilmFrontPageQuery>(
     filmFrontPageQuery,
   );
-  const { data: { subject } = {} } = useGraphQuery<GQLSubjectPageQuery>(
-    subjectPageQuery,
+  const { data: { subject } = {} } = useGraphQuery<GQLFilmSubjectPageQuery>(
+    filmSubjectPageQuery,
     { variables: { subjectId: 'urn:subject:20' } },
   );
   const [searchAllMovies, { data: allMovies }] = useLazyQuery<

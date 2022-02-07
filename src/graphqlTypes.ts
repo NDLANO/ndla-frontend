@@ -1910,23 +1910,52 @@ export type GQLSubjectPageWithTopicsQuery = {
   >;
 };
 
+export type GQLSubjectPageQueryInfoFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  path?: Maybe<string>;
+  topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+};
+
 export type GQLSubjectPageQueryVariables = Exact<{
   subjectId: Scalars['String'];
 }>;
 
 export type GQLSubjectPageQuery = {
   __typename?: 'Query';
-  subject?: Maybe<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path?: Maybe<string>;
-    topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
-    allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
-    subjectpage?: Maybe<
-      { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
-    >;
-  }>;
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+      subjectpage?: Maybe<
+        { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
+      >;
+    } & GQLSubjectPageQueryInfoFragment
+  >;
+};
+
+export type GQLMultiDisciplinarySubjectPageQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLMultiDisciplinarySubjectPageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+    } & GQLSubjectPageQueryInfoFragment
+  >;
+};
+
+export type GQLFilmSubjectPageQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLFilmSubjectPageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<{ __typename?: 'Subject' } & GQLSubjectPageQueryInfoFragment>;
 };
 
 export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
