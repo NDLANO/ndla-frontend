@@ -36,7 +36,10 @@ interface MatchParams {
   resourceId: string;
 }
 
-const urlInPaths = (location: Location, resource: GQLResource) => {
+const urlInPaths = (
+  location: Location,
+  resource: Pick<GQLResource, 'paths'>,
+) => {
   return resource.paths?.find(p => location.pathname.includes(p));
 };
 
