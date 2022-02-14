@@ -144,6 +144,7 @@ const SubjectContainer = ({
       }) => (
         <CompetenceGoals
           codes={subject.grepCodes}
+          subjectId={subject.id}
           language={locale}
           wrapperComponent={Dialog}
           wrapperComponentProps={dialogProps}

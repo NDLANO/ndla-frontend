@@ -5,12 +5,11 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import queryString from 'query-string';
-import { withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import config from '../../config';
-import { LtiDataShape } from '../../shapes';
+import { LtiData, LtiItem } from '../../interfaces';
 
 const StyledLinkAsButton = styled('a')`
   display: inline-block;
@@ -38,7 +37,7 @@ const StyledLinkAsButton = styled('a')`
   }
 `;
 
-const getReturnType = ltiData => {
+const getReturnType = (ltiData: LtiData) => {
   if (!ltiData.ext_content_return_types) {
     return 'iframe';
   }
@@ -53,7 +52,7 @@ const getReturnType = ltiData => {
   }
   return 'lti_launch_url';
 };
-const getQuery = (ltiData, item) => {
+const getQuery = (ltiData: LtiData, item: LtiItem) => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
@@ -71,18 +70,14 @@ const getQuery = (ltiData, item) => {
   })}`;
 };
 
-const LtiBasicLaunch = ({ ltiData, item, t }) => (
+interface Props extends CustomWithTranslation {
+  ltiData: LtiData;
+  item: LtiItem;
+}
+const LtiBasicLaunch = ({ ltiData, item, t }: Props) => (
   <StyledLinkAsButton href={getQuery(ltiData, item)}>
     {t('lti.embed')}
   </StyledLinkAsButton>
 );
-
-LtiBasicLaunch.propTypes = {
-  ltiData: LtiDataShape,
-  item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-  }),
-};
 
 export default withTranslation()(LtiBasicLaunch);

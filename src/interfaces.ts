@@ -11,6 +11,11 @@ import { ConfigType } from './config';
 import { LocaleValues } from './constants';
 
 export type InitialProps = {
+  articleId?: string;
+  taxonomyId?: string;
+  isOembed?: string;
+  isTopicArticle?: boolean;
+  status?: 'success' | 'error';
   loading?: boolean;
   resCookie?: string;
   basename?: string;
@@ -21,6 +26,7 @@ export interface WindowData {
   apolloState: NormalizedCacheObject;
   config: ConfigType;
   initialProps: InitialProps;
+  ltiData?: LtiData;
   serverPath?: string;
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;
@@ -81,4 +87,28 @@ export type SubjectType = {
   name?: Record<LocaleType, string>;
   id: string;
   topicId?: string;
+};
+
+export type LtiData = {
+  content_item_return_url?: string;
+  launch_presentation_return_url?: string;
+  launch_presentation_document_target?: string;
+  launch_presentation_width?: string;
+  launch_presentation_height?: string;
+  ext_content_return_types?: string;
+  lti_message_type?: string;
+  oauth_callback?: string;
+  oauth_consumer_key?: string;
+  oauth_signature?: string;
+  oauth_signature_method?: string;
+  oauth_timestamp?: string;
+  oauth_version?: string;
+  oauth_nonce?: string;
+  data?: string;
+};
+
+export type LtiItem = {
+  id: number;
+  title: string;
+  url: string | { href?: string };
 };

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { match, RouteComponentProps } from 'react-router';
+import { match, RouteComponentProps, useHistory } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
@@ -19,7 +19,8 @@ import { getSubjectById } from '../../data/subjects';
 import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 import { FeideUserWithGroups } from '../../util/feideApi';
-import { LocaleType, ProgrammeGrade } from '../../interfaces';
+import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
+import { toProgramme } from '../../routeHelpers';
 
 export interface GradesData {
   name: string;
@@ -64,12 +65,12 @@ export const mapGradesData = (
 
 const getProgrammeName = (match: match<MatchParams>, locale: LocaleType) => {
   const slug = match?.params?.programme;
+  const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
-  let heading = '';
-  if (programmeData) {
-    heading = programmeData.name[locale];
-  }
-  return heading;
+  const grade = getGradeNameFromProgramme(gradeParam, programmeData);
+  const gradeString = grade ? ` - ${grade}` : '';
+  const programmeString = programmeData?.name[locale] ?? '';
+  return `${programmeString}${gradeString}`;
 };
 
 const getDocumentTitle = ({
@@ -83,6 +84,7 @@ const getDocumentTitle = ({
 
 interface MatchParams {
   programme: string;
+  grade?: string;
 }
 
 interface Props extends RouteComponentProps<MatchParams>, WithTranslation {
@@ -90,13 +92,33 @@ interface Props extends RouteComponentProps<MatchParams>, WithTranslation {
   user?: FeideUserWithGroups;
 }
 
+const getGradeNameFromProgramme = (
+  grade?: string,
+  programme?: ProgrammeType,
+) => {
+  return grade
+    ? programme?.grades.find(g => g.name.toLowerCase() === grade)?.name
+    : programme?.grades?.[0]?.name;
+};
+
 const ProgrammePage = ({ match, locale, t }: Props) => {
   const slug = match?.params?.programme;
+  const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
+  const programmeGrades = programmeData?.grades;
+  const grade = getGradeNameFromProgramme(gradeParam, programmeData);
+  const history = useHistory();
 
-  if (!programmeData) {
+  if (!programmeData || !grade) {
     return <NotFoundPage />;
   }
+
+  const onGradeChange = (newGrade: string) => {
+    if (!programmeGrades?.some(g => g.name.toLowerCase() === newGrade)) {
+      return;
+    }
+    history.push(toProgramme(slug, newGrade));
+  };
 
   const heading = programmeData.name[locale];
   const grades = mapGradesData(programmeData.grades, locale);
@@ -111,7 +133,13 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
           <meta name="description" content={metaDescription} />
         )}
       </Helmet>
-      <Programme heading={heading} grades={grades} image={image} />
+      <Programme
+        heading={heading}
+        grades={grades}
+        image={image}
+        selectedGrade={grade.toLowerCase()}
+        onChangeGrade={onGradeChange}
+      />
     </>
   );
 };

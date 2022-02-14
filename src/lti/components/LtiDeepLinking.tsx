@@ -4,31 +4,62 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
-import { LtiDataShape } from '../../shapes';
+import { LtiData, LtiItem } from '../../interfaces';
 
-const getSignature = async (contentItemReturnUrl, postData) => {
-  const oauthData = await fetch(
-    `/lti/oauth?url=${encodeURIComponent(contentItemReturnUrl)}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        ...postData,
-        content_items: JSON.stringify(postData.content_items),
-      }),
+const getSignature = async (
+  contentItemReturnUrl: string | undefined,
+  postData: LtiPostData,
+) => {
+  const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : '';
+  const oauthData = await fetch(`/lti/oauth?url=${url}`, {
+    headers: {
+      'Content-Type': 'application/json',
     },
-  ).then(resolveJsonOrRejectWithError);
+    method: 'POST',
+    body: JSON.stringify({
+      ...postData,
+      content_items: JSON.stringify(postData.content_items),
+    }),
+  }).then(r => resolveJsonOrRejectWithError<LtiData>(r));
   return oauthData;
 };
 
-const getLtiPostData = async (ltiData, item = {}) => {
+interface LtiPostData {
+  oauth_callback: string;
+  oauth_consumer_key: string;
+  oauth_signature_method: string;
+  oauth_timestamp: string;
+  oauth_version: string;
+  oauth_signature?: string;
+  oauth_nonce?: string;
+  data: string;
+  lti_message_type: string;
+  lti_version: string;
+  content_items: {
+    '@context': string;
+    '@graph': {
+      '@type': string;
+      '@id:': number;
+      url: string;
+      mediaType: string;
+      title: string;
+      placementAdvice: {
+        presentationDocumentTarget: string;
+        displayWidth: number;
+        displayHeight: number;
+      };
+    }[];
+  };
+}
+
+const getLtiPostData = async (
+  ltiData: LtiData,
+  item: LtiItem,
+): Promise<LtiPostData> => {
   const baseUrl =
     config.ndlaEnvironment === 'dev'
       ? 'http://localhost:3000'
@@ -68,13 +99,18 @@ const getLtiPostData = async (ltiData, item = {}) => {
   );
   return {
     ...postData,
-    oauth_signature: oauthData.oauth_signature,
-    oauth_nonce: oauthData.oauth_nonce,
+    oauth_signature: oauthData?.oauth_signature,
+    oauth_nonce: oauthData?.oauth_nonce,
   };
 };
 
-const LtiDeepLinking = ({ ltiData, item }) => {
-  const [postData, setPostData] = useState({});
+interface Props {
+  item: LtiItem;
+  ltiData?: LtiData;
+}
+
+const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
+  const [postData, setPostData] = useState<Record<string, any>>({});
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -89,7 +125,7 @@ const LtiDeepLinking = ({ ltiData, item }) => {
   return (
     <form
       method="POST"
-      action={ltiData.content_item_return_url}
+      action={ltiData?.content_item_return_url}
       encType="application/x-www-form-urlencoded">
       {Object.keys(postData).map(key => (
         <input
@@ -106,14 +142,6 @@ const LtiDeepLinking = ({ ltiData, item }) => {
       <Button type="submit">{t('lti.embed')}</Button>
     </form>
   );
-};
-
-LtiDeepLinking.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-  }),
-  ltiData: LtiDataShape,
 };
 
 export default LtiDeepLinking;

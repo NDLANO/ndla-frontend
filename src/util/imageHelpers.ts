@@ -31,3 +31,19 @@ export const getFocalPoint = (visualElement: GQLImageElement) => {
   }
   return undefined;
 };
+
+export const getImageWithoutCrop = (
+  image?: GQLImageElement,
+): GQLImageElement | undefined => {
+  return (
+    image && {
+      ...image,
+      focalX: undefined,
+      focalY: undefined,
+      upperLeftX: undefined,
+      upperLeftY: undefined,
+      lowerRightX: undefined,
+      lowerRightY: undefined,
+    }
+  );
+};
