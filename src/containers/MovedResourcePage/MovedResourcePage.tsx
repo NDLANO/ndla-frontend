@@ -33,6 +33,10 @@ const MovedResourcePage = ({ resource }: Props) => {
   );
 
   const convertResourceToResult = (resource: GQLResource) => {
+    const resultId = isLearningpath
+      ? resource.learningpath?.id
+      : resource.article?.id;
+    if (!resultId) return [];
     return [
       {
         title: resource.name,
@@ -49,7 +53,7 @@ const MovedResourcePage = ({ resource }: Props) => {
         })),
         ...(isLearningpath
           ? {
-              id: resource?.learningpath?.id,
+              id: resultId,
               ingress: resource?.learningpath?.description,
               metaImage: {
                 url: resource.learningpath?.coverphoto?.url,
@@ -57,7 +61,7 @@ const MovedResourcePage = ({ resource }: Props) => {
               },
             }
           : {
-              id: resource?.article?.id,
+              id: resultId,
               ingress: resource?.article?.metaDescription,
               metaImage: {
                 url: resource.article?.metaImage?.url,

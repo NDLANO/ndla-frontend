@@ -17,7 +17,7 @@ import { STORED_LANGUAGE_KEY } from './constants';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-const supportedLanguages = ['nb', 'nn'];
+export const supportedLanguages = ['nb', 'nn'];
 
 type LocaleObject = {
   name: string;

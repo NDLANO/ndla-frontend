@@ -43,10 +43,10 @@ interface LtiPostData {
     '@context': string;
     '@graph': {
       '@type': string;
-      '@id:': number;
+      '@id:': string | number;
       url: string;
       mediaType: string;
-      title: string;
+      title?: string;
       placementAdvice: {
         presentationDocumentTarget: string;
         displayWidth: number;

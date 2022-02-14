@@ -84,12 +84,6 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
     return <ErrorPage locale={locale} />;
   }
 
-  const allSubjects =
-    data?.subjects?.map(subject => ({
-      title: subject.name,
-      value: subject.id,
-    })) || [];
-
   return (
     <ErrorBoundary>
       <Helmet htmlAttributes={{ lang: locale }}>
@@ -102,14 +96,12 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
         programmes={searchParams.programs}
         selectedFilters={searchParams.selectedFilters}
         activeSubFilters={searchParams.activeSubFilters}
-        allSubjects={allSubjects}
         subjectItems={subjectItems}
         resourceTypes={data?.resourceTypes?.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
         ltiData={ltiData}
         isLti
-        locale={locale}
       />
     </ErrorBoundary>
   );

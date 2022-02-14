@@ -3,7 +3,6 @@ import {
   converSearchStringToObject,
   convertSearchParam,
   convertResult,
-  selectContext,
 } from '../searchHelpers';
 
 test('searchHelpers searchResultToLinkProps learningpath', () => {
@@ -61,46 +60,4 @@ test('searchHelpers convertSearchParam', () => {
 
 test('searchHelpers convertResults', () => {
   expect(convertResult([])).toEqual([]);
-});
-
-test('searchHelper select context by provided filter', () => {
-  const contexts = [
-    {
-      id: 'urn:resource:1:171839',
-      path: '/subject:1/topic:1:103867/topic:1:185037/resource:1:171839',
-    },
-    {
-      id: 'urn:resource:1:171839',
-      path: '/subject:14/topic:1:126720/topic:1:186445/resource:1:171839',
-    },
-    {
-      id: 'urn:resource:1:171839',
-      path: '/subject:24/topic:1:126720/topic:1:186445/resource:1:171839',
-    },
-  ];
-
-  expect(selectContext(contexts, ['urn:subject:14']).path).toBe(
-    '/subject:14/topic:1:126720/topic:1:186445/resource:1:171839',
-  );
-});
-
-test('searchHelper select topic context in topic article tab', () => {
-  const contexts = [
-    {
-      id: 'urn:resource:1:171839',
-      path: '/subject:14/topic:1:103867/topic:1:185037/resource:1:171839',
-    },
-    {
-      id: 'urn:resource:1:171839',
-      path: '/subject:14/topic:1:126720/topic:1:186445/resource:1:171839',
-    },
-    {
-      id: 'urn:topic:68aea645',
-      path: '/subject:4769da63-fa10-4666-bf93-55173c57753f/topic:68aea645',
-    },
-  ];
-
-  expect(selectContext(contexts, ['urn:subject:14'], 'topic-article').id).toBe(
-    'urn:topic:68aea645',
-  );
 });
