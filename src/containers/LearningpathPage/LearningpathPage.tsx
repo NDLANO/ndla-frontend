@@ -23,21 +23,22 @@ import { getSubjectLongName } from '../../data/subjects';
 import {
   GQLLearningpath,
   GQLLearningpathStep,
-  GQLResource,
+  GQLResourcePageQuery,
   GQLResourceTypeDefinition,
   GQLSubject,
-  GQLTopic,
+  GQLSubjectInfoFragment,
+  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
-  topic?: GQLTopic;
-  topicPath: GQLTopic[];
-  subject?: GQLSubject;
+  topic?: GQLTopicInfoFragment;
+  topicPath: GQLTopicInfoFragment[];
+  subject?: GQLSubjectInfoFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
-  resource?: GQLResource;
+  resource?: Required<GQLResourcePageQuery>['resource'];
 }
 
 interface Props extends WithTranslation {
@@ -203,8 +204,8 @@ LearningpathPage.getDimensions = (props: Props) => {
 
 const getTitle = (
   subject?: GQLSubject,
-  learningpath?: GQLLearningpath,
-  learningpathStep?: GQLLearningpathStep,
+  learningpath?: Pick<GQLLearningpath, 'title'>,
+  learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
