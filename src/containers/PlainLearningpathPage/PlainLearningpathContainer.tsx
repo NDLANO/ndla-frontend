@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLLearningpath } from '../../graphqlTypes';
+import { GQLLearningpathInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -27,7 +27,7 @@ const getDocumentTitle = ({
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
 
 interface Props extends CustomWithTranslation {
-  learningpath: GQLLearningpath;
+  learningpath: GQLLearningpathInfoFragment;
   locale: LocaleType;
   stepId: string | undefined;
   skipToContentId?: string;

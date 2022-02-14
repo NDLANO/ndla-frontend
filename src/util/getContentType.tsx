@@ -85,7 +85,9 @@ export const isHeroContentType = (type: string): type is HeroContentType => {
   return false;
 };
 
-export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
+export function getContentType(
+  resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic,
+) {
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
@@ -95,6 +97,6 @@ export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
 }
 
 const isTopic = (
-  resourceOrTopic: GQLResource | GQLTopic,
+  resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>,
 ): resourceOrTopic is GQLTopic =>
   !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');

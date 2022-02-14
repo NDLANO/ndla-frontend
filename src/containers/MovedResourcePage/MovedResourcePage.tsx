@@ -19,7 +19,10 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { ResourceShape } from '../../shapes';
-import { GQLMovedResourceQuery, GQLResource } from '../../graphqlTypes';
+import {
+  GQLMovedResourceQuery,
+  GQLResourcePageQuery,
+} from '../../graphqlTypes';
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
@@ -32,7 +35,9 @@ const MovedResourcePage = ({ resource }: Props) => {
     },
   );
 
-  const convertResourceToResult = (resource: GQLResource) => {
+  const convertResourceToResult = (
+    resource: Required<GQLResourcePageQuery>['resource'],
+  ) => {
     return [
       {
         title: resource.name,
@@ -96,7 +101,7 @@ const MovedResourcePage = ({ resource }: Props) => {
 };
 
 interface Props {
-  resource: GQLResource;
+  resource: Required<GQLResourcePageQuery>['resource'];
 }
 
 MovedResourcePage.propTypes = {
