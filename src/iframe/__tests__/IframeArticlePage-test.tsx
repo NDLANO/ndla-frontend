@@ -10,6 +10,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
+import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
@@ -208,9 +209,11 @@ test('IframeArticlePage with article renderers correctly', () => {
 
 test('IframePage with article displays error message on status === error', () => {
   const component = renderer.create(
-    <StaticRouter>
-      <IframePageContainer locale={'nb'} status="error" />
-    </StaticRouter>,
+    <MockedProvider mocks={[]}>
+      <StaticRouter>
+        <IframePageContainer locale={'nb'} status="error" />
+      </StaticRouter>
+    </MockedProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

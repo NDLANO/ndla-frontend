@@ -101,6 +101,7 @@ async function doRender(req) {
       serverQuery: req.query,
     },
     cache,
+    client,
   );
 
   return {

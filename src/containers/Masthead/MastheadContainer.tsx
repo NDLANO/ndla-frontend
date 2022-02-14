@@ -41,9 +41,11 @@ import { getProgrammeBySlug } from '../../data/programmes';
 import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
+  GQLArticleInfoFragment,
+  GQLLearningpathInfoFragment,
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
-  GQLResource,
+  GQLResourceInfoFragment,
   GQLResourceType,
   GQLSubject,
   GQLTopic,
@@ -59,11 +61,16 @@ interface Props extends RouteComponentProps {
   initialSelectMenu?: string;
 }
 
+type StateResource = GQLResourceInfoFragment & {
+  learningpath?: GQLLearningpathInfoFragment;
+  article?: GQLArticleInfoFragment;
+};
+
 interface State {
   subject?: GQLSubject;
   topicPath?: GQLTopic[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: GQLResource;
+  resource?: StateResource;
 }
 
 const MastheadContainer = ({
@@ -212,7 +219,7 @@ const MastheadContainer = ({
           />
           {config.feideEnabled && (
             <FeideLoginButton location={location}>
-              <Feide />
+              <Feide title={t('user.buttonLogIn')} />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

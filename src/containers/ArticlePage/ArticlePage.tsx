@@ -34,6 +34,7 @@ import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
   GQLResource,
+  GQLResourcePageQuery,
   GQLResourceTypeDefinition,
   GQLSubject,
   GQLTopic,
@@ -42,7 +43,7 @@ import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
-  resource?: GQLResource;
+  resource?: Required<GQLResourcePageQuery>['resource'];
   topic?: GQLTopic;
   topicPath: GQLTopic[];
   relevance: string;
@@ -173,6 +174,7 @@ const ArticlePage = ({
           isResourceArticle
           copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
+          subjectId={subject?.id}
           {...getArticleProps(resource, topic)}
         />
         {topic && (
@@ -218,7 +220,7 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLResource,
+  resource?: Pick<GQLResource, 'article'>,
   subject?: GQLSubject,
 ) =>
   htmlTitle(resource?.article?.title, [

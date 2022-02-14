@@ -10,7 +10,7 @@ import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
-  GQLLearningpath,
+  GQLLearningpathInfoFragment,
   GQLLearningpathStep,
 } from '../graphqlTypes';
 import { FeideUserWithGroups } from './feideApi';
@@ -112,9 +112,9 @@ interface Props {
   article?: GQLArticle;
   subject?: Pick<GQLSubject, 'name'>;
   topicPath?: (GQLTopic | undefined)[];
-  learningpath?: GQLLearningpath;
+  learningpath?: GQLLearningpathInfoFragment;
   relevance?: string;
-  learningstep?: GQLLearningpathStep;
+  learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;
   user?: FeideUserWithGroups;
 }

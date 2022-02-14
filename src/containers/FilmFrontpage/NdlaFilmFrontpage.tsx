@@ -19,8 +19,9 @@ import {
 import { movieResourceTypes } from './resourceTypes';
 import { useGraphQuery } from '../../util/runQueries';
 import {
-  GQLArticleSearchResult,
   GQLFilmFrontPageQuery,
+  GQLSearchFilmArticleSearchResultFragment,
+  GQLSearchFilmLearningpathSearchResultFragment,
   GQLSearchWithoutPaginationQuery,
   GQLSubjectPageQuery,
 } from '../../graphqlTypes';
@@ -31,7 +32,9 @@ interface Props {
   skipToContentId?: string;
 }
 
-export type MoviesByType = Omit<GQLArticleSearchResult, '__typename'>;
+export type MoviesByType =
+  | GQLSearchFilmArticleSearchResultFragment
+  | GQLSearchFilmLearningpathSearchResultFragment;
 
 const NdlaFilm = ({ skipToContentId }: Props) => {
   const [moviesByType, setMoviesByType] = useState<MoviesByType[]>([]);
@@ -56,13 +59,13 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
     // if we receive new movies we map them into state
     if (allMovies) {
       const byType = allMovies.searchWithoutPagination?.results?.map(movie => {
-        const contexts = movie?.contexts?.filter(
+        const contexts = movie.contexts.filter(
           ctx => ctx.learningResourceType === 'standard',
         );
         return {
           ...movie,
-          path: contexts?.[0]?.path,
-          resourceTypes: contexts?.flatMap(ctx => ctx.resourceTypes),
+          path: contexts[0]?.path,
+          resourceTypes: contexts.flatMap(ctx => ctx.resourceTypes),
         };
       });
 

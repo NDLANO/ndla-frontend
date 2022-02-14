@@ -10,10 +10,8 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
-import ZendeskButton from '@ndla/zendesk';
 import { useTranslation } from 'react-i18next';
 import { getLocaleUrls } from '../../../util/localeHelpers';
-import config from '../../../config';
 
 interface Props {
   inverted?: boolean;
@@ -22,8 +20,6 @@ interface Props {
 const FooterWrapper = ({ inverted }: Props) => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
 
   const languageSelector = (
     <LanguageSelector
@@ -71,13 +67,6 @@ const FooterWrapper = ({ inverted }: Props) => {
           name="Sigurd Trageton"
         />
         {t('footer.footerInfo')}
-        {config.zendeskWidgetKey && (
-          <ZendeskButton
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}>
-            {t('askNDLA')}
-          </ZendeskButton>
-        )}
       </FooterText>
     </Footer>
   );

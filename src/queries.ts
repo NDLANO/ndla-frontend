@@ -97,6 +97,56 @@ export const searchQuery = gql`
 `;
 
 export const searchFilmQuery = gql`
+  fragment SearchFilmArticleSearchResult on ArticleSearchResult {
+    id
+    url
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    title
+    contexts {
+      breadcrumbs
+      relevance
+      language
+      learningResourceType
+      path
+      resourceTypes {
+        id
+        name
+        language
+      }
+      subject
+    }
+    supportedLanguages
+    traits
+  }
+  fragment SearchFilmLearningpathSearchResult on LearningpathSearchResult {
+    id
+    url
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    title
+    contexts {
+      breadcrumbs
+      relevance
+      language
+      learningResourceType
+      path
+      resourceTypes {
+        id
+        name
+        language
+      }
+      subject
+    }
+    supportedLanguages
+    traits
+  }
   query SearchWithoutPagination(
     $query: String
     $contextTypes: String
@@ -123,35 +173,14 @@ export const searchFilmQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
     ) {
-      language
-      page
-      pageSize
       results {
-        id
-        url
-        metaDescription
-        metaImage {
-          url
-          alt
+        ... on ArticleSearchResult {
+          ...SearchFilmArticleSearchResult
         }
-        title
-        contexts {
-          breadcrumbs
-          relevance
-          language
-          learningResourceType
-          path
-          resourceTypes {
-            id
-            name
-            language
-          }
-          subject
+        ... on LearningpathSearchResult {
+          ...SearchFilmLearningpathSearchResult
         }
-        supportedLanguages
-        traits
       }
-      totalCount
     }
   }
 `;

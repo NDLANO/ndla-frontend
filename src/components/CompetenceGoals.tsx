@@ -23,6 +23,7 @@ import { useGraphQuery } from '../util/runQueries';
 
 interface Props {
   language: string;
+  subjectId?: string;
   codes?: string[];
   nodeId?: string;
   wrapperComponent: ComponentType;
@@ -128,7 +129,7 @@ const getUniqueCompetenceGoals = (
     )
     .map(competenceGoal => ({
       text: competenceGoal.name,
-      url: addUrl ? searchUrl + competenceGoal.id : 'a',
+      url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
     }));
 };
@@ -149,8 +150,11 @@ export const groupCompetenceGoals = (
   competenceGoals: LocalGQLCompetenceGoal[],
   addUrl: boolean = false,
   goalType: CompetenceGoalsType,
+  subjectId?: string,
 ): ElementType['groupedCompetenceGoals'] => {
-  const searchUrl = '/search?grepCodes=';
+  const searchUrl = subjectId
+    ? `/search?subjects=${subjectId}&grepCodes=`
+    : '/search?grepCodes=';
   const curriculumElements = getUniqueCurriculums(competenceGoals).map(
     curriculum => ({
       title: `${curriculum?.title} (${curriculum?.id})`,
@@ -192,6 +196,7 @@ const CompetenceGoals = ({
   language,
   codes,
   nodeId,
+  subjectId,
   wrapperComponent: Component,
   wrapperComponentProps,
 }: Props) => {
@@ -217,13 +222,14 @@ const CompetenceGoals = ({
   const { competenceGoals, coreElements } = data;
   const LK06Goals = groupCompetenceGoals(
     competenceGoals?.filter(goal => goal.type === 'LK06') ?? [],
-    true,
+    false,
     'LK06',
   );
   const LK20Goals = groupCompetenceGoals(
     competenceGoals?.filter(goal => goal.type === 'LK20') ?? [],
     true,
     'LK20',
+    subjectId,
   );
   const LK20Elements = groupCoreElements(coreElements || []);
 
