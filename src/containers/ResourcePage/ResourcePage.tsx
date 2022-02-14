@@ -92,10 +92,13 @@ const ResourcePage = (props: Props) => {
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
-        {...props}
+        locale={props.locale}
+        ndlaFilm={props.ndlaFilm}
+        skipToContentId={props.skipToContentId}
+        stepId={props.match.params.stepId}
         user={user}
         data={{ ...data, relevance, topicPath }}
-        errors={error?.graphQLErrors}
+        loading={loading}
       />
     );
   }
