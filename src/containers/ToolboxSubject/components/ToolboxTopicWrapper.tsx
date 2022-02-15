@@ -18,18 +18,15 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import {
-  GQLSubject,
-  GQLTopic,
-  GQLResourceTypeDefinition,
-} from '../../../graphqlTypes';
+import { GQLTopic, GQLResourceTypeDefinition } from '../../../graphqlTypes';
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { FeideUserWithGroups } from '../../../util/feideApi';
+import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props extends WithTranslation {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topic: GQLTopic;
   resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;

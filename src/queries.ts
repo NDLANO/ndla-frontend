@@ -341,6 +341,26 @@ export const frontpageSearchQuery = gql`
   }
 `;
 
+const conceptCopyrightInfoFragment = gql`
+  ${contributorInfoFragment}
+  fragment ConceptCopyrightInfo on ConceptCopyright {
+    license {
+      license
+      url
+    }
+    creators {
+      ...ContributorInfo
+    }
+    processors {
+      ...ContributorInfo
+    }
+    rightsholders {
+      ...ContributorInfo
+    }
+    origin
+  }
+`;
+
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {
@@ -478,6 +498,7 @@ export const visualElementFragment = gql`
 
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
+  ${conceptCopyrightInfoFragment}
   ${visualElementFragment}
   fragment ArticleInfo on Article {
     id
@@ -560,7 +581,7 @@ export const articleInfoFragment = gql`
         title
         src
         copyright {
-          ...CopyrightInfo
+          ...ConceptCopyrightInfo
         }
         copyText
       }
@@ -601,7 +622,7 @@ export const articleInfoFragment = gql`
       content
       subjectNames
       copyright {
-        ...CopyrightInfo
+        ...ConceptCopyrightInfo
       }
       visualElement {
         ...VisualElementInfo

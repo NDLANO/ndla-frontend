@@ -6,10 +6,10 @@
  *
  */
 
-import { GQLCopyright } from '../../graphqlTypes';
+import { GQLConceptCopyright, GQLCopyright } from '../../graphqlTypes';
 
 export const licenseCopyrightToCopyrightType = (
-  copyright: GQLCopyright | undefined,
+  copyright: GQLCopyright | GQLConceptCopyright | undefined,
 ) => {
   const processors = copyright?.processors ?? [];
   const rightsholders = copyright?.rightsholders ?? [];

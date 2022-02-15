@@ -17,7 +17,7 @@ import {
 } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import { GQLSubjectPageQuery, GQLTopic } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -27,8 +27,10 @@ import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
+export type ToolboxSubjectType = Required<GQLSubjectPageQuery>['subject'];
+
 interface Props extends WithTranslation, RouteComponentProps {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topicList: string[];
   locale: LocaleType;
   user?: FeideUserWithGroups;
@@ -71,7 +73,7 @@ const getDocumentTitle = (props: Props) => {
 
 const getInitialSelectedTopics = (
   topicList: string[],
-  subject: GQLSubject,
+  subject: ToolboxSubjectType,
 ): string[] => {
   let initialSelectedTopics: string[] = [];
   topicList.forEach(topicId => {

@@ -189,8 +189,8 @@ export type GQLBucketResult = {
 
 export type GQLCategory = {
   __typename?: 'Category';
-  name?: Maybe<Scalars['String']>;
-  subjects?: Maybe<Array<Maybe<GQLSubject>>>;
+  name: Scalars['String'];
+  subjects: Array<GQLSubject>;
 };
 
 export type GQLCompetenceGoal = {
@@ -224,10 +224,19 @@ export type GQLConcept = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
+export type GQLConceptCopyright = {
+  __typename?: 'ConceptCopyright';
+  creators: Array<GQLContributor>;
+  license?: Maybe<GQLLicense>;
+  origin?: Maybe<Scalars['String']>;
+  processors: Array<GQLContributor>;
+  rightsholders: Array<GQLContributor>;
+};
+
 export type GQLConceptLicense = {
   __typename?: 'ConceptLicense';
   copyText?: Maybe<Scalars['String']>;
-  copyright?: Maybe<GQLCopyright>;
+  copyright?: Maybe<GQLConceptCopyright>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
@@ -291,7 +300,7 @@ export type GQLDetailedConcept = {
   articleIds?: Maybe<Array<Scalars['String']>>;
   articles?: Maybe<Array<GQLMeta>>;
   content?: Maybe<Scalars['String']>;
-  copyright?: Maybe<GQLCopyright>;
+  copyright?: Maybe<GQLConceptCopyright>;
   created?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   image?: Maybe<GQLImageLicense>;
@@ -344,8 +353,8 @@ export type GQLFrontPageResources = {
 
 export type GQLFrontpage = {
   __typename?: 'Frontpage';
-  categories?: Maybe<Array<GQLCategory>>;
-  topical?: Maybe<Array<GQLResource>>;
+  categories: Array<GQLCategory>;
+  topical: Array<GQLResource>;
 };
 
 export type GQLFrontpageSearch = {
@@ -790,7 +799,7 @@ export type GQLQuerySubjectArgs = {
 };
 
 export type GQLQuerySubjectpageArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type GQLQueryTopicArgs = {
@@ -946,16 +955,17 @@ export type GQLSubjectTopicsArgs = {
 export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
-  banner?: Maybe<GQLSubjectPageBanner>;
-  editorsChoices?: Maybe<Array<GQLTaxonomyEntity>>;
+  banner: GQLSubjectPageBanner;
+  editorsChoices: Array<GQLTaxonomyEntity>;
   facebook?: Maybe<Scalars['String']>;
-  goTo?: Maybe<Array<GQLResourceTypeDefinition>>;
+  goTo: Array<GQLResourceTypeDefinition>;
   id: Scalars['Int'];
   latestContent?: Maybe<Array<GQLTaxonomyEntity>>;
-  layout?: Maybe<Scalars['String']>;
+  layout: Scalars['String'];
   metaDescription?: Maybe<Scalars['String']>;
-  mostRead?: Maybe<Array<GQLTaxonomyEntity>>;
-  name?: Maybe<Scalars['String']>;
+  mostRead: Array<GQLTaxonomyEntity>;
+  name: Scalars['String'];
+  supportedLanguages: Array<Scalars['String']>;
   topical?: Maybe<GQLTaxonomyEntity>;
   twitter?: Maybe<Scalars['String']>;
 };
@@ -978,15 +988,15 @@ export type GQLSubjectPageTopicalArgs = {
 
 export type GQLSubjectPageAbout = {
   __typename?: 'SubjectPageAbout';
-  description?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  visualElement?: Maybe<GQLSubjectPageVisualElement>;
+  description: Scalars['String'];
+  title: Scalars['String'];
+  visualElement: GQLSubjectPageVisualElement;
 };
 
 export type GQLSubjectPageBanner = {
   __typename?: 'SubjectPageBanner';
-  desktopId?: Maybe<Scalars['String']>;
-  desktopUrl?: Maybe<Scalars['String']>;
+  desktopId: Scalars['String'];
+  desktopUrl: Scalars['String'];
   mobileId?: Maybe<Scalars['String']>;
   mobileUrl?: Maybe<Scalars['String']>;
 };
@@ -1483,6 +1493,23 @@ export type GQLFrontpageSearchQuery = {
   }>;
 };
 
+export type GQLConceptCopyrightInfoFragment = {
+  __typename?: 'ConceptCopyright';
+  origin?: Maybe<string>;
+  license?: Maybe<{
+    __typename?: 'License';
+    license: string;
+    url?: Maybe<string>;
+  }>;
+  creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
+  processors: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+  rightsholders: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+};
+
 export type GQLCopyrightInfoFragment = {
   __typename?: 'Copyright';
   origin?: Maybe<string>;
@@ -1708,7 +1735,7 @@ export type GQLArticleInfoFragment = {
         src?: Maybe<string>;
         copyText?: Maybe<string>;
         copyright?: Maybe<
-          { __typename?: 'Copyright' } & GQLCopyrightInfoFragment
+          { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
         >;
       }>
     >;
@@ -1756,7 +1783,7 @@ export type GQLArticleInfoFragment = {
       content?: Maybe<string>;
       subjectNames?: Maybe<Array<string>>;
       copyright?: Maybe<
-        { __typename?: 'Copyright' } & GQLCopyrightInfoFragment
+        { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
       >;
       visualElement?: Maybe<
         { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
@@ -1823,27 +1850,22 @@ export type GQLSubjectPageInfoFragment = {
     | ({ __typename?: 'Subject' } & GQLTaxonomyEntityInfo_Subject_Fragment)
     | ({ __typename?: 'Topic' } & GQLTaxonomyEntityInfo_Topic_Fragment)
   >;
-  banner?: Maybe<{
-    __typename?: 'SubjectPageBanner';
-    desktopUrl?: Maybe<string>;
-  }>;
+  banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
   about?: Maybe<{
     __typename?: 'SubjectPageAbout';
-    title?: Maybe<string>;
-    description?: Maybe<string>;
-    visualElement?: Maybe<{
+    title: string;
+    description: string;
+    visualElement: {
       __typename?: 'SubjectPageVisualElement';
       type: string;
       url: string;
       alt?: Maybe<string>;
-    }>;
+    };
   }>;
-  editorsChoices?: Maybe<
-    Array<
-      | ({ __typename?: 'Resource' } & GQLTaxonomyEntityInfo_Resource_Fragment)
-      | ({ __typename?: 'Subject' } & GQLTaxonomyEntityInfo_Subject_Fragment)
-      | ({ __typename?: 'Topic' } & GQLTaxonomyEntityInfo_Topic_Fragment)
-    >
+  editorsChoices: Array<
+    | ({ __typename?: 'Resource' } & GQLTaxonomyEntityInfo_Resource_Fragment)
+    | ({ __typename?: 'Subject' } & GQLTaxonomyEntityInfo_Subject_Fragment)
+    | ({ __typename?: 'Topic' } & GQLTaxonomyEntityInfo_Topic_Fragment)
   >;
 };
 
