@@ -32,15 +32,18 @@ import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubject } from '../../graphqlTypes';
+import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
+export type GQLSubjectContainerType = Required<
+  GQLSubjectPageWithTopicsQuery
+>['subject'];
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubject;
+  subject: GQLSubjectContainerType;
   ndlaFilm?: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
@@ -121,7 +124,7 @@ const SubjectContainer = ({
   };
 
   function renderCompetenceGoals(
-    subject: GQLSubject,
+    subject: GQLSubjectContainerType,
     locale: LocaleType,
   ):
     | ((inp: {

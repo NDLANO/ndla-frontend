@@ -24,16 +24,13 @@ import {
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
-import {
-  GQLResourceTypeDefinition,
-  GQLSubject,
-  GQLTopic,
-} from '../../../graphqlTypes';
+import { GQLResourceTypeDefinition, GQLTopic } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { FeideUserWithGroups } from '../../../util/feideApi';
+import { GQLSubjectContainerType } from '../SubjectContainer';
 
 const getDocumentTitle = ({
   t,
@@ -54,7 +51,7 @@ type Props = {
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
-  subject?: GQLSubject;
+  subject?: GQLSubjectContainerType;
   loading?: boolean;
   topic: GQLTopic;
   resourceTypes?: Array<GQLResourceTypeDefinition>;
