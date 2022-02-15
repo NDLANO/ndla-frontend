@@ -88,6 +88,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
           subjectItems={subjectItems}
           concepts={conceptData?.conceptSearch?.concepts}
           resourceTypes={data?.resourceTypes}
+          location={location}
         />
       </OneColumn>
     </>

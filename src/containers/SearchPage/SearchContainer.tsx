@@ -7,7 +7,7 @@
 
 import React, { ReactNode, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
-import { useLocation } from 'react-router';
+import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
@@ -54,6 +54,7 @@ interface Props {
   locale: LocaleType;
   loading: boolean;
   isLti?: boolean;
+  location?: Location;
 }
 const SearchContainer = ({
   handleSearchParamsChange,
@@ -75,9 +76,9 @@ const SearchContainer = ({
   loading,
   isLti,
   competenceGoals,
+  location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -153,7 +154,10 @@ const SearchContainer = ({
                 center
                 outline
                 alwaysVisible
-                options={getLocaleUrls(i18n.language, location)}
+                options={getLocaleUrls(
+                  i18n.language,
+                  location ?? window.location,
+                )}
                 currentLanguage={i18n.language}
               />
             </StyledLanguageSelector>

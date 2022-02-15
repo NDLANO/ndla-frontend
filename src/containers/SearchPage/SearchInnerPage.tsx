@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import { Location } from 'history';
 import SearchContainer from './SearchContainer';
 import {
   getTypeFilter,
@@ -61,6 +61,7 @@ interface Props {
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
   isLti?: boolean;
+  location?: Location;
 }
 
 const SearchInnerPage = ({
@@ -75,8 +76,8 @@ const SearchInnerPage = ({
   isLti,
   selectedFilters,
   activeSubFilters,
+  location,
 }: Props) => {
-  const location = useLocation();
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(
     getTypeFilter(resourceTypes, selectedFilters, activeSubFilters),
