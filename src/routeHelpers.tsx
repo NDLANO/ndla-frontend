@@ -139,14 +139,12 @@ export type SubjectURI = {
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: (GQLTopic | GQLResource | GQLSubject | undefined)[],
+  paths: (GQLTopic | Pick<GQLResource, 'id'> | GQLSubject | undefined)[],
   locale: LocaleType = config.defaultLocale,
 ): Breadcrumb[] {
-  const safePaths = paths.filter(p => p !== undefined) as (
-    | GQLTopic
-    | GQLResource
-    | GQLSubject
-  )[];
+  const safePaths = paths.filter(
+    (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
+  );
   if (safePaths.length < 1) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
   const subject = safePaths[0]!;

@@ -381,7 +381,6 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
-    availability
     parent
     relevanceId
     meta {
@@ -677,6 +676,7 @@ export const subjectPageQueryWithTopics = gql`
         article {
           supportedLanguages
         }
+        availability
         ...TopicInfo
       }
       allTopics: topics(all: true) {
