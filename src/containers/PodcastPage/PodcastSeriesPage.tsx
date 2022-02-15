@@ -13,9 +13,10 @@ import { RouteComponentProps } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
-import { Audio } from '@ndla/icons/lib/common';
+import { RssFeed } from '@ndla/icons/lib/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import SafeLink from '@ndla/safelink';
 import { podcastSeriesQuery } from '../../queries';
 import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -26,6 +27,7 @@ import {
   GQLPodcastSeriesQueryQuery,
 } from '../../graphqlTypes';
 import { PODCAST_SERIES_LIST_PAGE_PATH } from '../../constants';
+import config from '../../config';
 
 interface RouteParams {
   id: string;
@@ -37,7 +39,14 @@ interface Props extends RouteComponentProps<RouteParams> {
 }
 
 const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
   margin-top: ${spacing.normal};
+`;
+
+const StyledLink = styled(SafeLink)`
+  margin-bottom: 24px;
 `;
 
 const PodcastSeriesPage = ({
@@ -95,10 +104,16 @@ const PodcastSeriesPage = ({
       />
       <OneColumn>
         <TitleWrapper>
-          <ArticleTitle icon={Audio} label={t('podcastPage.podcast')}>
+          <ArticleTitle label={t('podcastPage.podcast')}>
             {podcastSeries.title.title}
           </ArticleTitle>
+          <StyledLink
+            to={`${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}/feed.xml`}>
+            <RssFeed />
+            RSS
+          </StyledLink>
         </TitleWrapper>
+
         {podcastSeries.episodes?.map(episode => (
           <Podcast podcast={episode} />
         ))}
