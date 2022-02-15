@@ -10,9 +10,7 @@ import React from 'react';
 import {
   //@ts-ignore
   TopicIntroductionList,
-  //@ts-ignore
   ResourcesWrapper,
-  //@ts-ignore
   ResourcesTitle,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';

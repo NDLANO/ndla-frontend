@@ -14,13 +14,13 @@ import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
 import {
-  GQLGroupSearch,
-  GQLGroupSearchResult,
+  GQLGroupSearchQuery,
+  GQLGroupSearchResourceFragment,
   GQLResourceTypeDefinition,
   GQLSearchContext,
 } from '../../graphqlTypes';
 
-const isSupplementary = (context: GQLSearchContext) => {
+const isSupplementary = (context: Pick<GQLSearchContext, 'relevance'>) => {
   return (
     // Consider getting from constants
     context?.relevance === 'Tilleggsstoff' ||
@@ -62,11 +62,11 @@ const arrayFields = [
 ];
 
 export const converSearchStringToObject = (
-  location: Location,
+  location?: Location,
   locale?: LocaleType,
 ): Record<string, any> => {
   const searchLocation: Record<string, string> = queryString.parse(
-    location.search,
+    location?.search,
   );
 
   const fields = arrayFields.reduce<Record<string, string[]>>((acc, curr) => {
@@ -122,10 +122,9 @@ export const convertProgramSearchParams = (
 
 const getResultUrl = (
   id: string | number,
-  url: string | { href: string } | undefined,
+  url: string | { href: string },
   isLti: boolean,
 ) => {
-  if (!url) return url;
   if (typeof url !== 'string' || !isLti) {
     return url;
   }
@@ -147,7 +146,7 @@ const getResultUrl = (
 interface ResultBase {
   id: number | string;
   title?: string;
-  url?: string | { href: string };
+  url: string | { href: string };
   contentType?: string;
   metaImage?: {
     url?: string;
@@ -195,7 +194,9 @@ const getLtiUrl = (path: string, id: number, language?: LocaleType) =>
     .split('/')
     .pop()}/${id}`;
 
-const getContextLabels = (contexts: GQLSearchContext[] | undefined) => {
+const getContextLabels = (
+  contexts: GQLGroupSearchResourceFragment['contexts'] | undefined,
+) => {
   if (!contexts?.[0]) return [];
   const types = contexts[0].resourceTypes?.slice(1)?.map(t => t.name) ?? [];
   const relevance = isSupplementary(contexts[0]) ? [contexts[0].relevance] : [];
@@ -222,7 +223,7 @@ export interface SearchItem {
 }
 
 export const mapResourcesToItems = (
-  resources: GQLGroupSearchResult[],
+  resources: GQLGroupSearchResourceFragment[],
   ltiData: LtiData | undefined,
   isLti: boolean,
   language: LocaleType | undefined,
@@ -310,7 +311,7 @@ export interface SearchGroup {
 }
 
 export const mapSearchDataToGroups = (
-  searchData: GQLGroupSearch[] | undefined,
+  searchData: Required<GQLGroupSearchQuery>['groupSearch'] | undefined,
   resourceTypes: GQLResourceTypeDefinition[] | undefined,
   ltiData: LtiData | undefined,
   isLti: boolean | undefined,
@@ -325,6 +326,7 @@ export const mapSearchDataToGroups = (
       result.aggregations?.[0]?.values?.map(value => value.value),
     ),
     totalCount: result.totalCount,
+    //hello
     type: contentTypeMapping[result.resourceType] || result.resourceType,
   }));
 };

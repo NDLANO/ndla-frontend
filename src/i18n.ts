@@ -8,7 +8,6 @@
 
 import { i18n } from 'i18next';
 import { ApolloClient } from '@apollo/client';
-//@ts-ignore
 import { createApolloLinks } from './util/apiHelpers';
 import nb from './messages/messagesNB';
 import nn from './messages/messagesNN';

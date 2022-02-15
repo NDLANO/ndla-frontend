@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-// @ts-ignore
 import { SubjectCarousel } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
 import { toLinkProps } from '../../../routeHelpers';

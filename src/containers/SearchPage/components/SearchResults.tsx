@@ -55,8 +55,10 @@ const SearchResults = ({
                   pagination={{
                     totalCount,
                     toCount: Math.min(toCount, totalCount),
-                    onShowMore: () => handleShowMore(type),
+                    onShowMore: () =>
+                      handleShowMore(type === 'topic' ? 'topic-article' : type),
                   }}
+                  //@ts-ignore
                   type={type === 'topic-article' ? 'topic' : type}
                   totalCount={totalCount}></SearchTypeResult>
               </Fragment>

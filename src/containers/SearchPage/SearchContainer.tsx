@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import { GQLConcept } from '../../graphqlTypes';
+import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { getLocaleUrls } from '../../util/localeHelpers';
@@ -44,7 +44,7 @@ interface Props {
   subjects: string[];
   competenceGoals: SearchCompetenceGoal[];
   subjectItems: SubjectItem[];
-  concepts?: GQLConcept[];
+  concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
@@ -112,6 +112,7 @@ const SearchContainer = ({
       />
       {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
+          //@ts-ignore
           items={concepts}
           totalCount={concepts.length}
           onRemove={() => {

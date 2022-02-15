@@ -10,7 +10,6 @@ import React, { useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import {
   ArticleWrapper,
-  // @ts-ignore
   LayoutItem,
   ArticleHeaderWrapper,
   ArticleIntroduction,

@@ -2,7 +2,6 @@ import {
   searchResultToLinkProps,
   converSearchStringToObject,
   convertSearchParam,
-  convertResult,
 } from '../searchHelpers';
 
 test('searchHelpers searchResultToLinkProps learningpath', () => {
@@ -56,8 +55,4 @@ test('searchHelpers convertSearchParam', () => {
   expect(convertSearchParam([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toBe(
     '1,2,3,4,5,6,7,8,9,10',
   );
-});
-
-test('searchHelpers convertResults', () => {
-  expect(convertResult([])).toEqual([]);
 });

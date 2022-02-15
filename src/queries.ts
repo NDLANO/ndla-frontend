@@ -185,6 +185,32 @@ export const searchFilmQuery = gql`
   }
 `;
 
+export const GroupSearchResourceFragment = gql`
+  fragment GroupSearchResource on GroupSearchResult {
+    id
+    path
+    name
+    ingress
+    traits
+    contexts {
+      language
+      path
+      breadcrumbs
+      subjectId
+      subject
+      relevance
+      resourceTypes {
+        id
+        name
+      }
+    }
+    metaImage {
+      url
+      alt
+    }
+  }
+`;
+
 export const groupSearchQuery = gql`
   query GroupSearch(
     $resourceTypes: String
@@ -212,27 +238,7 @@ export const groupSearchQuery = gql`
       aggregatePaths: $aggregatePaths
     ) {
       resources {
-        id
-        path
-        name
-        ingress
-        traits
-        contexts {
-          language
-          path
-          breadcrumbs
-          subjectId
-          subject
-          relevance
-          resourceTypes {
-            id
-            name
-          }
-        }
-        metaImage {
-          url
-          alt
-        }
+        ...GroupSearchResource
       }
       aggregations {
         values {
@@ -264,6 +270,19 @@ export const groupSearchQuery = gql`
       }
     }
   }
+  ${GroupSearchResourceFragment}
+`;
+
+export const conceptSearchInfoFragment = gql`
+  fragment ConceptSearchConcept on Concept {
+    id
+    title
+    text: content
+    image: metaImage {
+      url
+      alt
+    }
+  }
 `;
 
 export const conceptSearchQuery = gql`
@@ -282,16 +301,11 @@ export const conceptSearchQuery = gql`
       fallback: $fallback
     ) {
       concepts {
-        id
-        title
-        text: content
-        image: metaImage {
-          url
-          alt
-        }
+        ...ConceptSearchConcept
       }
     }
   }
+  ${conceptSearchInfoFragment}
 `;
 
 export const frontpageSearchQuery = gql`

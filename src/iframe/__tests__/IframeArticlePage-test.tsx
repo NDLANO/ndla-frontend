@@ -16,9 +16,7 @@ import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import { StaticRouter } from 'react-router';
-// @ts-ignore
 import IframePageContainer from '../IframePageContainer';
-// @ts-ignore
 import IframeArticlePage from '../IframeArticlePage';
 
 window.dataLayer = [];

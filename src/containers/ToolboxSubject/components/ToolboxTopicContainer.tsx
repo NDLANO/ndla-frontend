@@ -7,7 +7,6 @@
  */
 
 import React, { useContext } from 'react';
-//@ts-ignore
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';

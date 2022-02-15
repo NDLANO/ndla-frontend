@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-// @ts-ignore
 import { Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';

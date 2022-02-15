@@ -18,11 +18,14 @@ import handleError from '../../util/handleError';
 import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { ResourceShape } from '../../shapes';
 import {
   GQLMovedResourceQuery,
   GQLResourcePageQuery,
 } from '../../graphqlTypes';
+
+interface Props {
+  resource: Required<GQLResourcePageQuery>['resource'];
+}
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
@@ -45,7 +48,7 @@ const MovedResourcePage = ({ resource }: Props) => {
     return [
       {
         title: resource.name,
-        url: resource.path,
+        url: resource.path ?? '',
         contentType: resource.resourceTypes
           ?.map(type => contentTypeMapping[type.id])
           .find(t => t),
@@ -102,14 +105,6 @@ const MovedResourcePage = ({ resource }: Props) => {
       </OneColumn>
     </>
   );
-};
-
-interface Props {
-  resource: Required<GQLResourcePageQuery>['resource'];
-}
-
-MovedResourcePage.propTypes = {
-  resource: ResourceShape,
 };
 
 export default MovedResourcePage;

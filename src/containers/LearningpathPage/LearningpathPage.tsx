@@ -142,9 +142,13 @@ const LearningpathPage = ({
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale as LocaleType}
-        image={{
-          url: learningpath.coverphoto?.url,
-        }}
+        image={
+          learningpath.coverphoto?.url
+            ? {
+                url: learningpath.coverphoto?.url,
+              }
+            : undefined
+        }
       />
       <Learningpath
         skipToContentId={skipToContentId}

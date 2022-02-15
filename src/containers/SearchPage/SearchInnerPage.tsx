@@ -25,7 +25,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import { getDefaultLocale } from '../../config';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
-  GQLConcept,
+  GQLConceptSearchConceptFragment,
   GQLGroupSearchQuery,
   GQLResourceTypeDefinition,
 } from '../../graphqlTypes';
@@ -57,7 +57,7 @@ interface Props {
   subjects: string[];
   programmes: string[];
   subjectItems: SubjectItem[];
-  concepts?: GQLConcept[];
+  concepts?: GQLConceptSearchConceptFragment[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
   isLti?: boolean;
@@ -237,7 +237,7 @@ const SearchInnerPage = ({
   };
 
   const handleShowMore = (type: string) => {
-    const filter = typeFilter[type];
+    const filter = typeFilter[type === 'topic' ? 'topic-article' : type];
     if (!filter) return;
     const pageSize = showAll ? 4 : 8;
     const page = filter.page + 1;
