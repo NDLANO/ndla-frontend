@@ -8,17 +8,11 @@
 
 import React from 'react';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -65,7 +59,6 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
       <MediaListItemBody
         license={concept.copyright.license.license}
         title={t('license.concept.rules')}
-        resourceType="concept"
         resourceUrl={concept.src}
         locale={locale}>
         <MediaListItemActions>
