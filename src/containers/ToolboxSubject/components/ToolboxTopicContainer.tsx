@@ -11,18 +11,15 @@ import React, { useContext } from 'react';
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import {
-  GQLSubject,
-  GQLTopicQuery,
-  GQLTopicQueryVariables,
-} from '../../../graphqlTypes';
+import { GQLTopicQuery, GQLTopicQueryVariables } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper from './ToolboxTopicWrapper';
+import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topicId: string;
   locale: LocaleType;
   onSelectTopic: (

@@ -4019,6 +4019,114 @@
       },
       {
         "kind": "OBJECT",
+        "name": "ConceptCopyright",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "license",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "License",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "creators",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Contributor",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "processors",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Contributor",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "rightsholders",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Contributor",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "origin",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "ConceptLicense",
         "description": null,
         "specifiedByUrl": null,
@@ -4057,7 +4165,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Copyright",
+              "name": "ConceptCopyright",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5257,9 +5365,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5269,12 +5381,20 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Subject",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Subject",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
@@ -5297,15 +5417,19 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Resource",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Resource",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -5317,15 +5441,19 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Category",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Category",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -5405,9 +5533,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5417,9 +5549,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5429,9 +5565,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "SubjectPageVisualElement",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "SubjectPageVisualElement",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5453,9 +5593,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5465,9 +5609,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5551,15 +5699,19 @@
               }
             ],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "INTERFACE",
-                  "name": "TaxonomyEntity",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INTERFACE",
+                    "name": "TaxonomyEntity",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -5571,9 +5723,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "SubjectPageBanner",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "SubjectPageBanner",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5599,9 +5755,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5636,15 +5796,19 @@
               }
             ],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "INTERFACE",
-                  "name": "TaxonomyEntity",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INTERFACE",
+                    "name": "TaxonomyEntity",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -5701,15 +5865,19 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ResourceTypeDefinition",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ResourceTypeDefinition",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -5733,9 +5901,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5748,6 +5920,30 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "supportedLanguages",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -8487,7 +8683,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Copyright",
+              "name": "ConceptCopyright",
               "ofType": null
             },
             "isDeprecated": false,
@@ -9608,7 +9804,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   }
                 },

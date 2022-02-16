@@ -27,7 +27,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import {
   GQLFilmFrontpage,
   GQLFilmPageAbout,
-  GQLSubject,
+  GQLSubjectPageQuery,
 } from '../../graphqlTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
@@ -45,19 +45,23 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
     } else return a.title!.localeCompare(b.title!, locale);
   });
 
+type FilmFrontpageSubject = GQLSubjectPageQuery['subject'];
+
 interface Props extends WithTranslation {
   filmFrontpage?: GQLFilmFrontpage;
   showingAll?: boolean;
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
-  subject?: GQLSubject;
+  subject?: FilmFrontpageSubject;
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
   aboutNDLAVideo?: GQLFilmPageAbout;
   skipToContentId?: string;
 }
-const getDocumentTitle = (t: TFunction, subject: GQLSubject | undefined) =>
-  htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (
+  t: TFunction,
+  subject: FilmFrontpageSubject | undefined,
+) => htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
 
 const FilmFrontpage = ({
   filmFrontpage,

@@ -8,11 +8,8 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import {
-  GQLSubject,
-  GQLTopicQuery,
-  GQLTopicQueryVariables,
-} from '../../../graphqlTypes';
+import { GQLTopicQuery, GQLTopicQueryVariables } from '../../../graphqlTypes';
+import { GQLSubjectContainerType } from '../SubjectContainer';
 
 type Props = {
   topicId: string;
@@ -24,7 +21,7 @@ type Props = {
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
-  subject: GQLSubject;
+  subject: GQLSubjectContainerType;
 } & WithTranslation;
 
 const TopicWrapper = ({
