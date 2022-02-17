@@ -15,7 +15,7 @@ import {
   withTranslation,
   WithTranslation,
 } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, useLocation, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
 import { GQLSubjectPageQuery } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
@@ -92,6 +92,7 @@ const getInitialSelectedTopics = (
 const ToolboxSubjectContainer = (props: Props) => {
   const { topicList, locale, subject, history } = props;
   const { t } = useTranslation();
+  const location = useLocation();
 
   const refs = topicList.map(() => React.createRef<HTMLDivElement>());
   const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
@@ -113,6 +114,14 @@ const ToolboxSubjectContainer = (props: Props) => {
   useEffect(() => {
     scrollToTopic(topicList.length - 1);
   });
+
+  useEffect(() => {
+    const topics = location.pathname
+      .split('/')
+      .filter(id => id.startsWith('topic'))
+      .map(id => `urn:${id}`);
+    setSelectedTopics(topics);
+  }, [location]);
 
   const topics = subject.topics?.map(topic => {
     return {
