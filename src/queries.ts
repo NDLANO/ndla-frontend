@@ -1113,12 +1113,6 @@ export const mastHeadQuery = gql`
       id
       name
       path
-      paths
-      metadata {
-        visible
-      }
-      relevanceId
-      grepCodes
       topics(all: true) {
         ...TopicInfo
       }

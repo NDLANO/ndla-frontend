@@ -2281,10 +2281,6 @@ export type GQLMastHeadQuery = {
     id: string;
     name: string;
     path: string;
-    paths: Array<string>;
-    relevanceId: string;
-    grepCodes: Array<string>;
-    metadata: { __typename?: 'TaxonomyMetadata'; visible?: Maybe<boolean> };
     topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
   }>;
   resourceTypes?: Maybe<
