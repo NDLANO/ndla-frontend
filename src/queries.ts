@@ -999,6 +999,9 @@ export const topicQueryTopicFragment = gql`
       customFields
     }
   }
+  ${resourceInfoFragment}
+  ${articleInfoFragment}
+  ${metaInfoFragment}
 `;
 
 export const topicQuery = gql`
