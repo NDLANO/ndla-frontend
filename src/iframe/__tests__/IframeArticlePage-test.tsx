@@ -190,7 +190,6 @@ test('IframeArticlePage with article renderers correctly', () => {
                   id: 'urn:resource:1',
                   name: 'Ressurs',
                   path: '/subject:1/resource:1',
-                  article,
                   resourceTypes: [],
                 }}
                 article={article}
