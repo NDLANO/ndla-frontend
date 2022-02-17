@@ -238,7 +238,7 @@ const SearchInnerPage = ({
   };
 
   const handleShowMore = (type: string) => {
-    const filter = typeFilter[type === 'topic' ? 'topic-article' : type];
+    const filter = typeFilter[type];
     if (!filter) return;
     const pageSize = showAll ? 4 : 8;
     const page = filter.page + 1;
