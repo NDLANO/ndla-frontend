@@ -22,16 +22,16 @@ import {
 } from '../../../constants';
 import { toSearch } from '../../../routeHelpers';
 import {
-  GQLSubject,
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
+  GQLMastHeadQuery,
 } from '../../../graphqlTypes';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 interface Props extends RouteComponentProps {
   hideOnNarrowScreen?: boolean;
-  subject?: GQLSubject;
+  subject?: GQLMastHeadQuery['subject'];
   ndlaFilm?: boolean;
 }
 

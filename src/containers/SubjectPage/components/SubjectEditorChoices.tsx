@@ -12,13 +12,16 @@ import { TFunction, useTranslation } from 'react-i18next';
 import { toLinkProps } from '../../../routeHelpers';
 import { hasContentUri } from '../../Resources/resourceHelpers';
 import {
+  GQLMetaInfoFragment,
   GQLResource,
-  GQLTaxonomyEntity,
-  GQLWithArticle,
+  GQLTaxonomyEntityInfoFragment,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 
-const getResourceTypeName = (resource: GQLResource, t: TFunction) => {
+const getResourceTypeName = (
+  resource: Pick<GQLResource, 'id' | 'resourceTypes'>,
+  t: TFunction,
+) => {
   if (resource.id.startsWith('urn:topic')) {
     return t('contentTypes.topic-article');
   }
@@ -33,7 +36,9 @@ const getResourceTypeName = (resource: GQLResource, t: TFunction) => {
 };
 
 interface Props {
-  editorsChoices?: Array<GQLTaxonomyEntity>;
+  editorsChoices?: (GQLTaxonomyEntityInfoFragment & {
+    meta?: GQLMetaInfoFragment;
+  })[];
   narrowScreen?: boolean;
   wideScreen?: boolean;
   locale: LocaleType;
@@ -52,7 +57,7 @@ const SubjectEditorChoices = ({
   const editorsChoicesResources = editorsChoices
     .filter(x => x !== null)
     .filter(hasContentUri)
-    .map((resource: GQLTaxonomyEntity & GQLWithArticle) => ({
+    .map(resource => ({
       id: resource.meta ? resource.meta.id.toString() : '',
       title: resource.name,
       text: resource.meta?.metaDescription ?? '',

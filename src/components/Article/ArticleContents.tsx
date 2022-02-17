@@ -20,11 +20,11 @@ import {
 
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
-import { GQLTopic } from '../../graphqlTypes';
+import { GQLTopicQueryTopicFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 
 interface Props {
-  topic: GQLTopic;
+  topic: GQLTopicQueryTopicFragment;
   copyPageUrlLink: string;
   locale: LocaleType;
   modifier: 'clean' | 'in-topic';

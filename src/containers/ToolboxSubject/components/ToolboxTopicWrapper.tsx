@@ -17,7 +17,10 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import { GQLTopic, GQLResourceTypeDefinition } from '../../../graphqlTypes';
+import {
+  GQLResourceTypeDefinition,
+  GQLTopicQueryTopicFragment,
+} from '../../../graphqlTypes';
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
@@ -26,7 +29,7 @@ import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props extends WithTranslation {
   subject: ToolboxSubjectType;
-  topic: GQLTopic;
+  topic: GQLTopicQueryTopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
   onSelectTopic: (
@@ -100,7 +103,7 @@ const ToolboxTopicWrapper = ({
     },
   };
 
-  const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
+  const subTopics = topic?.subtopics?.map(subtopic => {
     const path = topic.path || '';
     const topicPath = path
       .split('/')

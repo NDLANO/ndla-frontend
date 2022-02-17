@@ -873,6 +873,18 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const iframeResourceFragment = gql`
+  fragment IframeResource on Resource {
+    id
+    name
+    path
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
 export const iframeArticleQuery = gql`
   query iframeArticle(
     $articleId: String!
@@ -886,13 +898,7 @@ export const iframeArticleQuery = gql`
       ...ArticleInfo
     }
     resource(id: $taxonomyId) @include(if: $includeResource) {
-      id
-      name
-      path
-      resourceTypes {
-        id
-        name
-      }
+      ...IframeResource
     }
     topic(id: $taxonomyId) @include(if: $includeTopic) {
       id
@@ -900,6 +906,7 @@ export const iframeArticleQuery = gql`
       path
     }
   }
+  ${iframeResourceFragment}
   ${articleInfoFragment}
 `;
 
@@ -964,43 +971,47 @@ export const topicQueryWithPathTopics = gql`
   ${resourceInfoFragment}
 `;
 
+export const topicQueryTopicFragment = gql`
+  fragment TopicQueryTopic on Topic {
+    id
+    name
+    path
+    parent
+    relevanceId
+    meta {
+      ...MetaInfo
+    }
+    subtopics {
+      id
+      name
+      relevanceId
+    }
+    article {
+      ...ArticleInfo
+    }
+    coreResources(subjectId: $subjectId) {
+      ...ResourceInfo
+    }
+    supplementaryResources(subjectId: $subjectId) {
+      ...ResourceInfo
+    }
+    metadata {
+      customFields
+    }
+  }
+`;
+
 export const topicQuery = gql`
   query topic($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      parent
-      relevanceId
-      meta {
-        ...MetaInfo
-      }
-      subtopics {
-        id
-        name
-        relevanceId
-      }
-      article {
-        ...ArticleInfo
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      metadata {
-        customFields
-      }
+      ...TopicQueryTopic
     }
     resourceTypes {
       id
       name
     }
   }
-  ${metaInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
+  ${topicQueryTopicFragment}
 `;
 
 export const learningPathStepQuery = gql`
@@ -1099,6 +1110,12 @@ export const mastHeadQuery = gql`
       id
       name
       path
+      paths
+      metadata {
+        visible
+      }
+      relevanceId
+      grepCodes
       topics(all: true) {
         ...TopicInfo
       }

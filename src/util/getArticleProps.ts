@@ -6,12 +6,15 @@
  *
  */
 
-import { GQLResource, GQLTopic } from '../graphqlTypes';
+import { GQLResource } from '../graphqlTypes';
 import { getContentType } from './getContentType';
 
-export const getArticleProps = (
+interface Topic {
+  supplementaryResources?: { id: string }[];
+}
+export const getArticleProps = <T extends Topic>(
   resource: Pick<GQLResource, 'resourceTypes' | 'id'> | undefined,
-  topic?: GQLTopic,
+  topic?: T,
 ) => {
   const hasResourceTypes =
     resource?.resourceTypes && resource?.resourceTypes?.length > 0;

@@ -17,7 +17,7 @@ import {
 } from 'react-i18next';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
-import { GQLSubjectPageQuery, GQLTopic } from '../../graphqlTypes';
+import { GQLSubjectPageQuery } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -114,7 +114,7 @@ const ToolboxSubjectContainer = (props: Props) => {
     scrollToTopic(topicList.length - 1);
   });
 
-  const topics = subject.topics?.map((topic: GQLTopic) => {
+  const topics = subject.topics?.map(topic => {
     return {
       ...topic,
       label: topic.name,
@@ -130,9 +130,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   ) => {
     e.preventDefault();
     if (id) {
-      const topic = subject.allTopics?.find(
-        (topic: GQLTopic) => topic.id === id,
-      );
+      const topic = subject.allTopics?.find(topic => topic.id === id);
       if (topic) {
         if (index === 0) {
           setSelectedTopics([topic.id]);
