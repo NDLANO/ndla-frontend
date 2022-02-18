@@ -52,13 +52,21 @@ export function renderPage(Page, assets, data = {}, cache) {
   };
 }
 
-export async function renderPageWithData(Page, assets, data = {}, cache) {
+export async function renderPageWithData(
+  Page,
+  assets,
+  data = {},
+  cache,
+  client,
+) {
   resetIdCounter();
   if (cache) {
     const { extractCritical } = createEmotionServer(cache);
     const { html, css, ids } = extractCritical(
       await renderToStringWithData(Page),
     );
+
+    const apolloState = client?.extract();
     const helmet = Helmet.renderStatic();
     return {
       html,
@@ -69,12 +77,14 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
       // Following is serialized to window.DATA
       data: {
         ...data,
+        apolloState,
         config,
         assets,
       },
     };
   }
   const html = await renderToStringWithData(Page);
+  const apolloState = client?.extract();
   const helmet = Helmet.renderStatic();
   return {
     html,
@@ -83,6 +93,7 @@ export async function renderPageWithData(Page, assets, data = {}, cache) {
     // Following is serialized to window.DATA
     data: {
       ...data,
+      apolloState,
       config,
       assets,
     },

@@ -16,13 +16,12 @@ import queryString from 'query-string';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter, Router } from 'react-router-dom';
-import { STORED_LANGUAGE_KEY } from './constants';
+import { EmotionCacheKey, STORED_LANGUAGE_KEY } from './constants';
 import { createHistory } from './history';
 import { getLocaleInfoFromPath, isValidLocale } from './i18n';
 import { NDLAWindow } from './interfaces';
 import routesFunc from './routes';
 import './style/index.css';
-// @ts-ignore
 import { createApolloClient } from './util/apiHelpers';
 
 declare global {
@@ -64,8 +63,8 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(abbreviation);
-const cache = createCache();
+const client = createApolloClient(abbreviation, document.cookie);
+const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
 const testLocation = locationFromServer?.pathname + locationFromServer?.search;

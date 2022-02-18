@@ -10,9 +10,10 @@ import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
-  GQLLearningpath,
+  GQLLearningpathInfoFragment,
   GQLLearningpathStep,
 } from '../graphqlTypes';
+import { FeideUserWithGroups } from './feideApi';
 
 type DimensionKeys =
   | '3'
@@ -25,6 +26,8 @@ type DimensionKeys =
   | '10'
   | '13'
   | '14'
+  | '17'
+  | '18'
   | '19'
   | '20';
 type DimensionType = Record<DimensionKeys, string | number | undefined>;
@@ -70,6 +73,14 @@ export const getDimensionsCodes = {
     ga: 'dimension14',
     gtm: 'CustDimStiSteg',
   },
+  '17': {
+    ga: 'dimension17',
+    gtm: 'CustDimSkule',
+  },
+  '18': {
+    ga: 'dimension18',
+    gtm: 'CustDimRolle',
+  },
   '19': {
     ga: 'dimension19',
     gtm: 'CustDimFilter',
@@ -99,12 +110,13 @@ const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>
 
 interface Props {
   article?: GQLArticle;
-  subject?: GQLSubject;
+  subject?: Pick<GQLSubject, 'name'>;
   topicPath?: (GQLTopic | undefined)[];
-  learningpath?: GQLLearningpath;
+  learningpath?: GQLLearningpathInfoFragment;
   relevance?: string;
-  learningstep?: GQLLearningpathStep;
+  learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;
+  user?: FeideUserWithGroups;
 }
 
 export const getAllDimensions = (
@@ -120,6 +132,7 @@ export const getAllDimensions = (
     learningpath,
     learningstep,
     filter,
+    user,
   } = props;
   const rightsholders = article?.copyright.rightsholders;
   const authors = article?.copyright.creators || rightsholders;
@@ -138,6 +151,8 @@ export const getAllDimensions = (
     '10': getGrepCodeOfType('KE', article),
     '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,
+    '17': user ? user.primarySchool?.displayName : undefined,
+    '18': user ? user.eduPersonPrimaryAffiliation : undefined,
     '19': filter,
     '20': getGrepCodeOfType('KM', article),
   };

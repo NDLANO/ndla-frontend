@@ -26,7 +26,7 @@ describe('Film page', () => {
     cy.get('.c-film-moviesearch__topic-navigation').within(() => {
       cy.get('h2').contains('Emner i film');
       cy.get('nav > ul > li').should($list => {
-        expect($list).to.have.length(6);
+        expect($list).to.have.length(7);
       });
     });
     cy.get('.c-film-movielist').should($list => {

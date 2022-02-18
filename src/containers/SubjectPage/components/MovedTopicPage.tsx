@@ -13,7 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
 
-interface GQLSearchResultExtended extends Omit<GQLSearchResult, 'id'> {
+interface GQLSearchResultExtended
+  extends Omit<
+    GQLSearchResult,
+    'id' | 'contexts' | 'metaDescription' | 'supportedLanguages' | 'traits'
+  > {
   subjects?: {
     url?: string;
     title: string;
@@ -21,13 +25,14 @@ interface GQLSearchResultExtended extends Omit<GQLSearchResult, 'id'> {
   }[];
   ingress?: string;
   id: string;
+  contentType: string;
 }
 
 const convertTopicToResult = (topic: GQLTopic): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
-    url: topic.path,
+    url: topic.path || '',
     id: topic.id,
     ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({

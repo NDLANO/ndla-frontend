@@ -34,8 +34,10 @@ export const I18nWrapper = ({ locale, initialProps }: Props) => {
       ) {
         setLang(storedLang as LocaleType);
         if (!window.location.pathname.includes('/login/success')) {
-          history.replace(`/${storedLang}${window.location.pathname}`);
-          apolloClient.setLink(createApolloLinks(storedLang));
+          history.replace(
+            `/${storedLang}${window.location.pathname}${window.location.search}`,
+          );
+          apolloClient.setLink(createApolloLinks(storedLang, document.cookie));
           apolloClient.resetStore();
         }
       } else if (locale && !isValidLocale(locale)) {

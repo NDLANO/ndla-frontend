@@ -108,6 +108,56 @@ export const searchQuery = gql`
 `;
 
 export const searchFilmQuery = gql`
+  fragment SearchFilmArticleSearchResult on ArticleSearchResult {
+    id
+    url
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    title
+    contexts {
+      breadcrumbs
+      relevance
+      language
+      learningResourceType
+      path
+      resourceTypes {
+        id
+        name
+        language
+      }
+      subject
+    }
+    supportedLanguages
+    traits
+  }
+  fragment SearchFilmLearningpathSearchResult on LearningpathSearchResult {
+    id
+    url
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    title
+    contexts {
+      breadcrumbs
+      relevance
+      language
+      learningResourceType
+      path
+      resourceTypes {
+        id
+        name
+        language
+      }
+      subject
+    }
+    supportedLanguages
+    traits
+  }
   query SearchWithoutPagination(
     $query: String
     $contextTypes: String
@@ -134,35 +184,14 @@ export const searchFilmQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
     ) {
-      language
-      page
-      pageSize
       results {
-        id
-        url
-        metaDescription
-        metaImage {
-          url
-          alt
+        ... on ArticleSearchResult {
+          ...SearchFilmArticleSearchResult
         }
-        title
-        contexts {
-          breadcrumbs
-          relevance
-          language
-          learningResourceType
-          path
-          resourceTypes {
-            id
-            name
-            language
-          }
-          subject
+        ... on LearningpathSearchResult {
+          ...SearchFilmLearningpathSearchResult
         }
-        supportedLanguages
-        traits
       }
-      totalCount
     }
   }
 `;
@@ -258,12 +287,14 @@ export const conceptSearchQuery = gql`
     $subjects: String
     $exactMatch: Boolean
     $language: String
+    $fallback: Boolean
   ) {
     conceptSearch(
       query: $query
       subjects: $subjects
       exactMatch: $exactMatch
       language: $language
+      fallback: $fallback
     ) {
       concepts {
         id
@@ -329,6 +360,26 @@ export const frontpageSearchQuery = gql`
   ${subjectInfoFragment}
 `;
 
+const conceptCopyrightInfoFragment = gql`
+  ${contributorInfoFragment}
+  fragment ConceptCopyrightInfo on ConceptCopyright {
+    license {
+      license
+      url
+    }
+    creators {
+      ...ContributorInfo
+    }
+    processors {
+      ...ContributorInfo
+    }
+    rightsholders {
+      ...ContributorInfo
+    }
+    origin
+  }
+`;
+
 const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {
@@ -369,8 +420,8 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
-    availability
     parent
+    relevanceId
     meta {
       ...MetaInfo
     }
@@ -455,6 +506,7 @@ export const visualElementFragment = gql`
 
 export const articleInfoFragment = gql`
   ${copyrightInfoFragment}
+  ${conceptCopyrightInfoFragment}
   ${visualElementFragment}
   fragment ArticleInfo on Article {
     id
@@ -537,7 +589,7 @@ export const articleInfoFragment = gql`
         title
         src
         copyright {
-          ...CopyrightInfo
+          ...ConceptCopyrightInfo
         }
         copyText
       }
@@ -578,7 +630,7 @@ export const articleInfoFragment = gql`
       content
       subjectNames
       copyright {
-        ...CopyrightInfo
+        ...ConceptCopyrightInfo
       }
       visualElement {
         ...VisualElementInfo
@@ -592,15 +644,11 @@ export const articleInfoFragment = gql`
 `;
 
 export const taxonomyEntityInfo = gql`
-  ${metaInfoFragment}
   fragment TaxonomyEntityInfo on TaxonomyEntity {
     id
     name
     contentUri
     path
-    meta {
-      ...MetaInfo
-    }
     ... on Resource {
       resourceTypes {
         id
@@ -608,6 +656,15 @@ export const taxonomyEntityInfo = gql`
       }
     }
   }
+`;
+
+export const withArticleInfo = gql`
+  fragment WithArticleInfo on WithArticle {
+    meta {
+      ...MetaInfo
+    }
+  }
+  ${metaInfoFragment}
 `;
 
 export const subjectpageInfo = gql`
@@ -633,59 +690,28 @@ export const subjectpageInfo = gql`
       ...TaxonomyEntityInfo
     }
   }
-`;
-
-export const subjectTopicsQuery = gql`
-  query subjectTopics($subjectId: String!) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        meta {
-          ...MetaInfo
-        }
-        metadata {
-          customFields
-        }
-      }
-    }
-  }
-  ${metaInfoFragment}
-`;
-
-export const topicsQueryWithBreadcrumbs = gql`
-  query topicsWithBreadcrumbs($contentUri: String, $filterVisible: Boolean) {
-    topics(contentUri: $contentUri, filterVisible: $filterVisible) {
-      ...TopicInfo
-      breadcrumbs
-    }
-  }
-  ${topicInfoFragment}
+  ${taxonomyEntityInfo}
 `;
 
 export const subjectPageQueryWithTopics = gql`
   query subjectPageWithTopics(
     $subjectId: String!
-    $filterIds: String
     $topicId: String!
     $includeTopic: Boolean!
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
-      topics(filterIds: $filterIds) {
+      topics {
         article {
           supportedLanguages
         }
+        availability
         ...TopicInfo
       }
-      allTopics: topics(all: true, filterIds: $filterIds) {
+      allTopics: topics(all: true) {
         ...TopicInfo
       }
+      grepCodes
       subjectpage {
         ...SubjectPageInfo
       }
@@ -710,10 +736,9 @@ export const subjectPageQueryWithTopics = gql`
     }
   }
   ${metaInfoFragment}
-  ${subjectInfoFragment}
   ${topicInfoFragment}
-  ${subjectpageInfo}
   ${taxonomyEntityInfo}
+  ${subjectpageInfo}
   ${subjectInfoFragment}
 `;
 
@@ -763,30 +788,6 @@ export const searchPageQuery = gql`
     }
   }
   ${subjectInfoFragment}
-`;
-
-export const resourceTypesQuery = gql`
-  query resourceTypes {
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const topicResourcesQuery = gql`
-  query topicResources($topicId: String!, $subjectId: String) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-  }
-  ${resourceInfoFragment}
 `;
 
 const learningpathInfoFragment = gql`
@@ -846,23 +847,6 @@ const learningpathInfoFragment = gql`
   }
   ${resourceInfoFragment}
   ${contributorInfoFragment}
-  ${articleInfoFragment}
-`;
-
-export const resourceQuery = gql`
-  query resource($resourceId: String!, $subjectId: String) {
-    resource(id: $resourceId, subjectId: $subjectId) {
-      ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
-    }
-  }
-  ${learningpathInfoFragment}
-  ${resourceInfoFragment}
   ${articleInfoFragment}
 `;
 
@@ -939,12 +923,14 @@ export const topicQueryWithPathTopics = gql`
         name
         path
       }
+      relevanceId
       meta {
         ...MetaInfo
       }
       subtopics {
         id
         name
+        relevanceId
       }
       article(showVisualElement: $showVisualElement) {
         ...ArticleInfo
@@ -979,12 +965,14 @@ export const topicQuery = gql`
       name
       path
       parent
+      relevanceId
       meta {
         ...MetaInfo
       }
       subtopics {
         id
         name
+        relevanceId
       }
       article {
         ...ArticleInfo
@@ -1146,49 +1134,6 @@ export const mastHeadQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const topicPageQuery = gql`
-  query topicPage($topicId: String!, $subjectId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      meta {
-        ...MetaInfo
-      }
-      article {
-        ...ArticleInfo
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-  ${metaInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-`;
-
 export const resourcePageQuery = gql`
   query resourcePage(
     $topicId: String!
@@ -1207,6 +1152,7 @@ export const resourcePageQuery = gql`
         name
         parent
         path
+        relevanceId
         meta {
           ...MetaInfo
         }
@@ -1224,6 +1170,7 @@ export const resourcePageQuery = gql`
       id
       name
       path
+      relevanceId
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }

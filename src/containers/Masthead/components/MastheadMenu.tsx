@@ -7,7 +7,14 @@ import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
 import { GQLResourceType, GQLSubject } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
-import { LocaleType, SimpleProgramType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
+import { GradesData } from '../../ProgrammePage/ProgrammePage';
+
+export interface MastheadProgramme {
+  name: string;
+  url: string;
+  grades: GradesData[];
+}
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -25,7 +32,7 @@ interface Props extends RouteComponentProps {
     subjects: GQLSubject[];
   }[];
   programmes: ProgramSubjectType[];
-  currentProgramme?: SimpleProgramType;
+  currentProgramme?: MastheadProgramme;
   initialSelectMenu?: string;
 }
 

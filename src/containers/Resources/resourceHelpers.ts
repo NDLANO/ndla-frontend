@@ -13,10 +13,12 @@ import { toArticle, toLearningPath } from '../../routeHelpers';
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
 
-export const hasContentUri = (resource: GQLResource) =>
+export const hasContentUri = (resource: Pick<GQLResource, 'contentUri'>) =>
   (resource && resource.contentUri) || false;
 
-export const isLearningPathResource = (resource: GQLResource) =>
+export const isLearningPathResource = (
+  resource: Pick<GQLResource, 'contentUri'>,
+) =>
   hasContentUri(resource) &&
   resource!.contentUri!.startsWith(URN_LEARTNING_PATH);
 
@@ -32,7 +34,9 @@ export const getArticleIdFromResource = (resource: GQLResource) => {
   return undefined;
 };
 
-export const getLearningPathIdFromResource = (resource: GQLResource) => {
+export const getLearningPathIdFromResource = (
+  resource: Pick<GQLResource, 'contentUri'>,
+) => {
   if (isLearningPathResource(resource)) {
     return resource!.contentUri!.replace(URN_LEARTNING_PATH, '');
   }
@@ -40,7 +44,7 @@ export const getLearningPathIdFromResource = (resource: GQLResource) => {
 };
 
 export function getLearningPathUrlFromResource(
-  resource: GQLResource,
+  resource: Pick<GQLResource, 'contentUri'>,
   languagePrefix?: string,
 ) {
   return `${config.learningPathDomain}${

@@ -18,9 +18,9 @@
 
 mjx-container.MathJax[jax='CHTML'][display='true'] {
   display: inline-flex !important;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
-  padding: 1px 0;
-  margin: 5px 0;
+  padding: 1px 4px;
+  margin: 0;
   max-width: -webkit-stretch;
 }

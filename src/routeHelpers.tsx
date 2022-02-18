@@ -14,7 +14,8 @@ import {
   TOPIC_PATH,
 } from './constants';
 import { getProgrammeBySlug } from './data/programmes';
-import { LocaleType } from './interfaces';
+import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
+import { Breadcrumb, LocaleType } from './interfaces';
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
@@ -80,8 +81,8 @@ type Resource = {
 };
 
 export function toLearningPath(
-  pathId?: string,
-  stepId?: string,
+  pathId?: string | number,
+  stepId?: string | number,
   resource?: Resource,
 ) {
   if (resource) {
@@ -134,35 +135,35 @@ export type SubjectURI = {
   to?: string;
 };
 
-export function toBreadcrumbItems(rootName: string, paths: SubjectURI[]) {
+export function toBreadcrumbItems(
+  rootName: string,
+  paths: (GQLTopic | Pick<GQLResource, 'id'> | GQLSubject | undefined)[],
+  locale: LocaleType = config.defaultLocale,
+): Breadcrumb[] {
+  const safePaths = paths.filter(
+    (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
+  );
+  if (safePaths.length < 1) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const breadcrumbSubject = paths[0];
+  const breadcrumbSubject = safePaths[0]!;
 
-  const prelinks = [breadcrumbSubject, ...paths.splice(1)];
-
-  const links = prelinks
-    .filter(Boolean)
-    .reduce(
-      (links: SubjectURI[], item) => [
-        ...links,
-        {
-          to:
-            (links.length ? links?.[links.length - 1]?.to : '') +
-            '/' +
-            removeUrn(item?.id),
-          name: item?.name,
-        },
-      ],
-      [],
-    )
-    .map(link => {
-      // making sure we have the ending slash in breadCrumbs and it dosen't contain it allready
-      if (link.to) {
-        link.to = fixEndSlash(link.to);
+  const prelinks = [breadcrumbSubject, ...safePaths.splice(1)];
+  const filteredLinks = prelinks.filter(l => !!l);
+  const breadcrumbs = filteredLinks
+    .reduce<Breadcrumb[]>((acc, link) => {
+      const to =
+        (acc.length ? acc?.[acc.length - 1]?.to : '') +
+        '/' +
+        removeUrn(link.id);
+      return acc.concat([{ to, name: link.name }]);
+    }, [])
+    .map(bc => {
+      if (bc.to) {
+        bc.to = fixEndSlash(bc.to);
       }
-      return link;
+      return bc;
     });
-  return [{ to: '/', name: rootName }, ...links];
+  return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 
 export function fixEndSlash(link: string) {
@@ -190,8 +191,9 @@ export function toLinkProps(linkObject: LinkObject) {
   };
 }
 
-export function toProgramme(programmePath: string) {
-  return `${PROGRAMME_PATH}/${programmePath}`;
+export function toProgramme(programmePath: string, grade?: string) {
+  const gradeString = grade ? `/${grade}` : '';
+  return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
 }
 
 export function toProgrammeSubject(

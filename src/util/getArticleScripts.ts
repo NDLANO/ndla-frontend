@@ -8,7 +8,7 @@
 
 import { GQLArticle } from '../graphqlTypes';
 
-interface Scripts {
+export interface Scripts {
   key?: string;
   src?: string;
   type?: string;
@@ -31,7 +31,7 @@ export function getArticleScripts(article: GQLArticle) {
     });
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,

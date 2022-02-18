@@ -6,22 +6,20 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 //@ts-ignore
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
-import {
-  GQLSubject,
-  GQLTopicQuery,
-  GQLTopicQueryVariables,
-} from '../../../graphqlTypes';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { GQLTopicQuery, GQLTopicQueryVariables } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper from './ToolboxTopicWrapper';
+import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topicId: string;
   locale: LocaleType;
   onSelectTopic: (
@@ -41,6 +39,7 @@ export const ToolboxTopicContainer = ({
   topicList,
   index,
 }: Props) => {
+  const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<
     GQLTopicQuery,
     GQLTopicQueryVariables
@@ -68,6 +67,7 @@ export const ToolboxTopicContainer = ({
       onSelectTopic={onSelectTopic}
       topicList={topicList}
       index={index}
+      user={user}
     />
   );
 };

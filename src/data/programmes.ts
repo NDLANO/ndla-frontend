@@ -1,6 +1,6 @@
-import { LocaleType } from '../interfaces';
+import { LocaleType, ProgrammeType } from '../interfaces';
 
-export const programmes = [
+export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Bygg- og anleggsteknikk',
@@ -26,7 +26,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
@@ -132,7 +132,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
@@ -241,7 +241,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
@@ -344,7 +344,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
@@ -447,7 +447,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
@@ -831,7 +831,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
@@ -1216,7 +1216,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
@@ -1277,7 +1277,7 @@ export const programmes = [
         name: 'Vg2',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
@@ -1359,7 +1359,7 @@ export const programmes = [
         name: 'Vg3',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
@@ -1720,7 +1720,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:13',
@@ -1815,7 +1815,7 @@ export const programmes = [
         name: 'Vg3',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
@@ -1902,7 +1902,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
@@ -2018,7 +2018,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
@@ -2093,7 +2093,7 @@ export const programmes = [
           {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
-              nn: 'Service, tryggleik og administrasjon',
+              nn: 'Service, sikkerheit og administrasjon',
               en: 'Service, sikkerhet og administrasjon',
             },
             subjects: [
@@ -2165,7 +2165,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
@@ -2214,7 +2214,7 @@ export const programmes = [
         name: 'Vg2',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -2301,7 +2301,7 @@ export const programmes = [
         name: 'Vg3',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
@@ -2373,6 +2373,9 @@ export const programmes = [
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
               },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
+              },
             ],
           },
         ],
@@ -2404,7 +2407,7 @@ export const programmes = [
         name: 'Vg1',
         categories: [
           {
-            name: null,
+            name: undefined,
             subjects: [
               {
                 id: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',

@@ -6,7 +6,6 @@
  *
  */
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { WithTranslation, withTranslation } from 'react-i18next';
 // @ts-ignore
 import { Topic } from '@ndla/ui';
@@ -26,9 +25,11 @@ import {
 } from '../../../graphqlTypes';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { FeideUserWithGroups } from '../../../util/feideApi';
+import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props extends WithTranslation {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topic: GQLTopic;
   resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
@@ -40,6 +41,7 @@ interface Props extends WithTranslation {
   topicList: Array<string>;
   index: number;
   loading?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -55,7 +57,6 @@ const ToolboxTopicWrapper = ({
   topic,
   resourceTypes,
   loading,
-  t,
 }: Props) => {
   if (!topic.article) {
     return null;
@@ -119,9 +120,6 @@ const ToolboxTopicWrapper = ({
 
   return (
     <>
-      <Helmet>
-        <title>{htmlTitle(topic.name, [t('htmlTitles.titleTemplate')])}</title>
-      </Helmet>
       <Topic
         frame={subTopics?.length === 0}
         isLoading={loading}
@@ -150,7 +148,7 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, topicList, topic } = props;
+  const { subject, locale, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
@@ -161,6 +159,7 @@ ToolboxTopicWrapper.getDimensions = (props: Props) => {
       topicPath,
       filter: subject.name,
       article: topic.article,
+      user,
     },
     undefined,
     topicList.length > 0,

@@ -7,6 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
+import { HeroContentType } from '@ndla/ui/lib/Hero';
 import { GQLResource, GQLResourceType, GQLTopic } from '../graphqlTypes';
 
 import {
@@ -63,7 +64,30 @@ function getContentTypeFromResourceTypes(
   return { contentType: contentTypeMapping.default };
 }
 
-export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
+const heroResourceTypes = [
+  'subject-material',
+  'tasks-and-activities',
+  'assessment-resources',
+  'subject',
+  'external-learning-resources',
+  'source-material',
+  'learning-path',
+  'topic',
+  'beta',
+  'ndla-film',
+  'ndla-film has-image',
+];
+
+export const isHeroContentType = (type: string): type is HeroContentType => {
+  if (heroResourceTypes.includes(type)) {
+    return true;
+  }
+  return false;
+};
+
+export function getContentType(
+  resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic,
+) {
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
@@ -73,6 +97,6 @@ export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
 }
 
 const isTopic = (
-  resourceOrTopic: GQLResource | GQLTopic,
+  resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>,
 ): resourceOrTopic is GQLTopic =>
   !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');

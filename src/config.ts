@@ -81,6 +81,17 @@ export const feideDomain = (): string => {
   }
 };
 
+export const matomoDomain = (): string => {
+  switch (ndlaEnvironment) {
+    case 'dev':
+      return 'https://analytics.test.ndla.no/';
+    case 'prod':
+      return 'https://analytics.ndla.no/';
+    default:
+      return `https://analytics.${ndlaEnvironmentHostname}.ndla.no/`;
+  }
+};
+
 const gaTrackingId = (): string => {
   if (process.env.NODE_ENV !== 'production') {
     return '';
@@ -127,10 +138,10 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
-  feideClientID?: string;
-  feideClientSecret?: string;
   feideDomain: string;
   feideEnabled: boolean;
+  matomoUrl: string;
+  matomoSiteId: string;
 };
 
 const config: ConfigType = {
@@ -161,10 +172,10 @@ const config: ConfigType = {
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
-  feideClientID: getEnvironmentVariabel('FEIDE_CLIENT_ID'),
-  feideClientSecret: getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
+  matomoUrl: getEnvironmentVariabel('MATOMO_URL', matomoDomain()),
+  matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
 };
 
 export function getUniversalConfig() {

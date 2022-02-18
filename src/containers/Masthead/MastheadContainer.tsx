@@ -24,11 +24,7 @@ import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import {
-  getUrnIdsFromProps,
-  toBreadcrumbItems,
-  SubjectURI,
-} from '../../routeHelpers';
+import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -43,10 +39,14 @@ import { getProgrammeBySlug } from '../../data/programmes';
 import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
+  GQLArticleInfoFragment,
+  GQLLearningpathInfoFragment,
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
+  GQLResourceInfoFragment,
   GQLResourceType,
   GQLSubject,
+  GQLTopic,
 } from '../../graphqlTypes';
 import config from '../../config';
 
@@ -59,12 +59,17 @@ interface Props extends RouteComponentProps {
   initialSelectMenu?: string;
 }
 
+type StateResource = GQLResourceInfoFragment & {
+  learningpath?: GQLLearningpathInfoFragment;
+  article?: GQLArticleInfoFragment;
+};
+
 interface State {
   subject?: GQLSubject;
   subjects?: GQLSubject[];
-  topicPath?: SubjectURI[];
+  topicPath?: GQLTopic[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: SubjectURI;
+  resource?: StateResource;
 }
 
 const MastheadContainer = ({
@@ -215,13 +220,12 @@ const MastheadContainer = ({
         <MastheadItem right>
           <LanguageSelector
             inverted={ndlaFilm}
-            //@ts-ignore
             options={getLocaleUrls(locale, location)}
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
             <FeideLoginButton location={location}>
-              <Feide />
+              <Feide title={t('user.buttonLogIn')} />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

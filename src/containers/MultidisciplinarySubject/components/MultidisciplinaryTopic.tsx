@@ -24,10 +24,11 @@ import VisualElementWrapper, {
 import {
   GQLArticle,
   GQLResourceTypeDefinition,
-  GQLSubject,
   GQLTopic,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
+import { MultiDisciplinarySubjectType } from './MultidisciplinaryTopicWrapper';
 
 interface Props extends WithTranslation {
   topicId: string;
@@ -35,11 +36,12 @@ interface Props extends WithTranslation {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  subject: GQLSubject;
+  subject: MultiDisciplinarySubjectType;
   topic: GQLTopic;
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -167,7 +169,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, subject } = props;
+  const { topic, locale, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -181,6 +183,7 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       topicPath,
       article: topic.article,
       filter: subject.name,
+      user,
     },
     undefined,
     true,

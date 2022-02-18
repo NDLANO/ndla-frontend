@@ -10,7 +10,8 @@ import {
   GQLSubject,
 } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
-import { LocaleType, SimpleProgramType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
+import { MastheadProgramme } from './MastheadMenu';
 
 export function toTopicWithBoundParams(
   subjectId: string,
@@ -41,7 +42,7 @@ interface Props {
   ) => void;
   searchFieldComponent: React.ReactNode;
   programmes: ProgramSubjectType[];
-  currentProgramme?: SimpleProgramType;
+  currentProgramme?: MastheadProgramme;
   subjectCategories: {
     type: string;
     subjects: GQLSubject[];
@@ -82,10 +83,8 @@ const MastheadTopics = ({
     return resourceToLinkProps(resource, '/' + subjectTopicPath, locale);
   };
 
-  const handleSubjectClick = () => {
-    if (subject) {
-      toSubject(subject.id);
-    }
+  const handleSubjectClick = (): string | undefined => {
+    return subject ? toSubject(subject.id) : undefined;
   };
 
   return (

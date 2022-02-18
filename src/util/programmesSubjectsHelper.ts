@@ -29,15 +29,14 @@ interface ProgramSubjectBase {
 export interface ProgramSubjectType extends ProgramSubjectBase {
   label?: string;
 }
-type ProgramSubject = keyof ProgramSubjectType;
 
-const sortBy = (
-  arr: ProgramSubjectType[],
-  sortByProp: ProgramSubject = 'name',
+const sortBy = <T extends { name: string }>(
+  arr: T[],
+  sortByProp: keyof T = 'name',
 ) =>
-  arr.sort((a: ProgramSubjectType, b: ProgramSubjectType) => {
-    if (a[sortByProp]! < b[sortByProp]!) return -1;
-    if (a[sortByProp]! > b[sortByProp]!) return 1;
+  arr.sort((a: T, b: T) => {
+    if (a[sortByProp] < b[sortByProp]) return -1;
+    if (a[sortByProp] > b[sortByProp]) return 1;
     return 0;
   });
 

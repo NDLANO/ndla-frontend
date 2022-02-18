@@ -12,21 +12,24 @@ import { Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
+import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
 import { toTopic } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import {
-  GQLResourceTypeDefinition,
-  GQLSubject,
-  GQLTopic,
-} from '../../../graphqlTypes';
+  getCrop,
+  getFocalPoint,
+  getImageWithoutCrop,
+} from '../../../util/imageHelpers';
+import { GQLResourceTypeDefinition, GQLTopic } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
+import { FeideUserWithGroups } from '../../../util/feideApi';
+import { GQLSubjectContainerType } from '../SubjectContainer';
 
 const getDocumentTitle = ({
   t,
@@ -47,10 +50,11 @@ type Props = {
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
-  subject?: GQLSubject;
+  subject?: GQLSubjectContainerType;
   loading?: boolean;
   topic: GQLTopic;
   resourceTypes?: Array<GQLResourceTypeDefinition>;
+  user?: FeideUserWithGroups;
 } & WithTranslation;
 
 const Topic = ({
@@ -103,7 +107,10 @@ const Topic = ({
             type: getResourceType(article.visualElement.resource),
             element: (
               <VisualElementWrapper
-                visualElement={article.visualElement}
+                visualElement={{
+                  ...article.visualElement,
+                  image: getImageWithoutCrop(article.visualElement.image),
+                }}
                 locale={locale}
               />
             ),
@@ -134,6 +141,7 @@ const Topic = ({
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
       url: toTopic(subjectId, ...topicPath, subtopic.id),
+      isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
@@ -149,6 +157,7 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       onSubTopicSelected={(e: React.MouseEvent<HTMLElement>) =>
         onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
       }>
@@ -175,7 +184,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, subject }: Props) => {
+Topic.getDimensions = ({ topic, locale, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -189,6 +198,7 @@ Topic.getDimensions = ({ topic, subject }: Props) => {
       topicPath,
       article: topic.article,
       filter: subject?.name,
+      user,
     },
     undefined,
     true,

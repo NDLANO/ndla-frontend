@@ -5,21 +5,26 @@ import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic from './MultidisciplinaryTopic';
 import {
-  GQLSubject,
+  GQLSubjectPageQuery,
   GQLTopicQuery,
   GQLTopicQueryVariables,
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
+export type MultiDisciplinarySubjectType = Required<
+  GQLSubjectPageQuery
+>['subject'];
 interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  subject: GQLSubject;
+  subject: MultiDisciplinarySubjectType;
   ndlaFilm?: boolean;
   disableNav?: boolean;
+  user?: FeideUserWithGroups;
 }
 
 const MultidisciplinaryTopicWrapper = ({
@@ -30,6 +35,7 @@ const MultidisciplinaryTopicWrapper = ({
   ndlaFilm,
   subject,
   disableNav,
+  user,
 }: Props) => {
   const { data, loading } = useGraphQuery<
     GQLTopicQuery,
@@ -57,6 +63,7 @@ const MultidisciplinaryTopicWrapper = ({
       ndlaFilm={ndlaFilm}
       subject={subject}
       disableNav={disableNav}
+      user={user}
     />
   );
 };

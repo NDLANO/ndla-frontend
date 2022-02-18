@@ -6,10 +6,12 @@
  *
  */
 
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useContext, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -19,13 +21,16 @@ import {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { htmlTitle } from '../../util/titleHelper';
+import { RootComponentProps } from '../../routes';
 
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-}
+interface Props extends RootComponentProps, RouteComponentProps {}
 
 const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
+  const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
     ndlaFilm: false,
     match,
@@ -43,7 +48,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
         behavior: 'smooth',
       });
     }
-  }, [selectedTopics]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [refs, selectedTopics]);
 
   const { loading, data } = useGraphQuery<
     GQLSubjectPageQuery,
@@ -110,6 +115,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
               subTopicId={selectedTopics[index + 1]}
               locale={locale}
               subject={subject}
+              user={user}
             />
           </div>
         );
@@ -117,16 +123,62 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     </>
   );
 
+  const selectedMetadata = [...(subject.allTopics ?? [])]
+    .reverse()
+    .find(t => selectedTopics.includes(t.id));
+
+  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
+  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const hasSelectedTitle = !!selectedTitle;
+  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
+    hasSelectedTitle ? subjectTitle : undefined,
+  ]);
+
+  const socialMediaMetaData = {
+    title,
+    description:
+      selectedMetadata?.meta?.metaDescription ||
+      selectedMetadata?.meta?.introduction ||
+      subject.subjectpage?.about?.description ||
+      subject.subjectpage?.metaDescription ||
+      t('frontpageMultidisciplinarySubject.text'),
+    image:
+      selectedMetadata?.meta?.metaImage ||
+      subject.subjectpage?.about?.visualElement,
+  };
+
   return (
-    // @ts-ignore children prop is incorrectly typed. React.ReactChildren should be something else. ReactNode for example.
-    <MultidisciplinarySubject
-      hideCards={isNotLastTopic}
-      cards={cards}
-      totalCardCount={cards.length}>
-      <NavigationBox items={mainTopics} listDirection="horizontal" />
-      <TopicBoxes />
-    </MultidisciplinarySubject>
+    <>
+      <Helmet>
+        <title>
+          {htmlTitle(socialMediaMetaData.title, [
+            t('htmlTitles.titleTemplate'),
+          ])}
+        </title>
+        {socialMediaMetaData.description && (
+          <meta name="description" content={socialMediaMetaData.description} />
+        )}
+      </Helmet>
+      <SocialMediaMetadata
+        title={socialMediaMetaData.title}
+        description={socialMediaMetaData.description}
+        locale={locale}
+        image={
+          socialMediaMetaData.image && {
+            url: socialMediaMetaData.image.url,
+            alt: socialMediaMetaData.image.alt,
+          }
+        }
+      />
+      <MultidisciplinarySubject
+        hideCards={isNotLastTopic}
+        cards={cards}
+        totalCardCount={cards.length}>
+        <NavigationBox items={mainTopics} listDirection="horizontal" />
+        <TopicBoxes />
+      </MultidisciplinarySubject>
+    </>
   );
 };
 
-export default MultidisciplinarySubjectPage;
+export default withRouter(MultidisciplinarySubjectPage);

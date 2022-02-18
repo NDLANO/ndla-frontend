@@ -19,7 +19,6 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import Article from '../../../components/Article';
-import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 import {
@@ -28,6 +27,7 @@ import {
   GQLTopic,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import { FeideUserWithGroups } from '../../../util/feideApi';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -41,6 +41,8 @@ interface Props extends WithTranslation {
   subject: GQLSubject;
   locale: LocaleType;
   resourceTypes?: GQLResourceTypeDefinition[];
+  user?: FeideUserWithGroups;
+  skipToContentId?: string;
 }
 
 const MultidisciplinarySubjectArticle = ({
@@ -49,6 +51,7 @@ const MultidisciplinarySubjectArticle = ({
   subject,
   locale,
   resourceTypes,
+  skipToContentId,
 }: Props) => {
   const resourcesRef = useRef(null);
   const onLinkToResourcesClick = (e: React.MouseEvent) => {
@@ -63,7 +66,7 @@ const MultidisciplinarySubjectArticle = ({
   const subjectLinks = topic.article.crossSubjectTopics?.map(
     crossSubjectTopic => ({
       label: crossSubjectTopic.title,
-      url: crossSubjectTopic.path || subject.path,
+      url: crossSubjectTopic.path || subject.path || '',
     }),
   );
   const subjects = topic.article?.grepCodes
@@ -83,15 +86,9 @@ const MultidisciplinarySubjectArticle = ({
         subjects={subjects}
         subjectsLinks={subjectLinks}
       />
-      <SocialMediaMetadata
-        title={htmlTitle(topic.article.title, [subject?.name])}
-        trackableContent={topic.article}
-        description={topic.article.metaDescription}
-        locale={locale}
-        image={topic.article.metaImage}
-      />
       <OneColumn>
         <Article
+          id={skipToContentId}
           article={topic.article}
           label=""
           locale={locale}
@@ -125,7 +122,7 @@ MultidisciplinarySubjectArticle.willTrackPageView = (
 };
 
 MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, subject } = props;
+  const { topic, locale, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -139,6 +136,7 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
       topicPath,
       article: topic?.article,
       filter: subject.name,
+      user,
     },
     undefined,
     true,

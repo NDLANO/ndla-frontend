@@ -6,11 +6,12 @@
  *
  */
 
-import React, { useState, useRef } from 'react';
+import React, { ComponentType, ReactNode, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 // @ts-ignore
 import {
   constants,
+  ArticleHeaderWrapper,
   // @ts-ignore
   OneColumn,
   // @ts-ignore
@@ -32,20 +33,26 @@ import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import SubjectPageInformation from './components/SubjectPageInformation';
+import CompetenceGoals from '../../components/CompetenceGoals';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubject } from '../../graphqlTypes';
+import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
+import { FeideUserWithGroups } from '../../util/feideApi';
 
+export type GQLSubjectContainerType = Required<
+  GQLSubjectPageWithTopicsQuery
+>['subject'];
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubject;
+  subject: GQLSubjectContainerType;
   ndlaFilm?: boolean;
   loading?: boolean;
+  user?: FeideUserWithGroups;
 } & WithTranslation &
   RouteComponentProps;
 
@@ -116,6 +123,36 @@ const SubjectContainer = ({
     ]);
   };
 
+  function renderCompetenceGoals(
+    subject: GQLSubjectContainerType,
+    locale: LocaleType,
+  ):
+    | ((inp: {
+        Dialog: ComponentType;
+        dialogProps: { isOpen: boolean; onClose: () => void };
+      }) => ReactNode)
+    | null {
+    // Don't show competence goals for topics or articles without grepCodes
+    if (subject.grepCodes?.length) {
+      return ({
+        Dialog,
+        dialogProps,
+      }: {
+        Dialog: ComponentType;
+        dialogProps: { isOpen: boolean; onClose: () => void };
+      }) => (
+        <CompetenceGoals
+          codes={subject.grepCodes}
+          subjectId={subject.id}
+          language={locale}
+          wrapperComponent={Dialog}
+          wrapperComponentProps={dialogProps}
+        />
+      );
+    }
+    return null;
+  }
+
   const headerRef = useRef<HTMLDivElement>(null);
   const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
 
@@ -140,7 +177,7 @@ const SubjectContainer = ({
   const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const path = parseAndMatchUrl(e.currentTarget?.href, true);
-    history.replace({ pathname: path?.url });
+    history.push({ pathname: path?.url });
   };
 
   // show/hide breadcrumb based on intersection
@@ -199,17 +236,15 @@ const SubjectContainer = ({
               }
               trackableContent={{ supportedLanguages }}
             />
-            {isExpired && (
-              <MessageBox>
-                Dette er et gammelt fag som ikke lenger vedlikeholdes
-              </MessageBox>
-            )}
             <div ref={headerRef}>
-              <NavigationHeading
-                subHeading={subjectNames.subHeading}
-                invertedStyle={ndlaFilm}>
-                {subjectNames.longName}
-              </NavigationHeading>
+              <ArticleHeaderWrapper
+                competenceGoals={renderCompetenceGoals(subject, locale)}>
+                <NavigationHeading
+                  subHeading={subjectNames.subHeading}
+                  invertedStyle={ndlaFilm}>
+                  {subjectNames.longName}
+                </NavigationHeading>
+              </ArticleHeaderWrapper>
             </div>
             <SubjectPageContent
               locale={locale}
@@ -219,7 +254,6 @@ const SubjectContainer = ({
               topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
-              history={history}
             />
           </LayoutItem>
         </OneColumn>
@@ -269,7 +303,7 @@ SubjectContainer.willTrackPageView = (
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, topicIds } = props;
+  const { subject, locale, topicIds, user } = props;
   const topicPath = topicIds.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
@@ -278,6 +312,7 @@ SubjectContainer.getDimensions = (props: Props) => {
     subject,
     topicPath,
     filter: subject.name,
+    user,
   });
 };
 

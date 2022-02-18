@@ -19,7 +19,6 @@ import {
   ArticleFootNotes,
 } from '@ndla/ui';
 
-import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLTopic } from '../../graphqlTypes';
@@ -40,7 +39,6 @@ const ArticleContents = ({
   modifier = 'clean',
   showIngress = true,
 }: Props) => {
-  const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -52,12 +50,12 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
-  const article = transformArticle(topic.article!, locale);
+  if (!topic.article) return null;
 
-  if (article === undefined) return null;
+  const article = transformArticle(topic.article, locale);
 
   return (
-    <ArticleWrapper modifier={modifier} id={topic.article!.id.toString()}>
+    <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
@@ -77,7 +75,7 @@ const ArticleContents = ({
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline
-          licenseBox={<LicenseBox article={article} locale={locale} t={t} />}
+          licenseBox={<LicenseBox article={article} locale={locale} />}
           copyPageUrlLink={copyPageUrlLink}
           {...{
             authors: article.copyright?.creators,
