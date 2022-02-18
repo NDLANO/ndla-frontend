@@ -28,22 +28,20 @@ import {
 } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
-import { getLocaleUrls } from '../../util/localeHelpers';
-import { LocationShape } from '../../shapes';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
-import { getSubjectById } from '../../data/subjects';
-import { LocaleType, SubjectType } from '../../interfaces';
+import { LocaleType, TopicType } from '../../interfaces';
 import { subjectsQuery } from '../../queries';
+import { GQLSubjectsQuery } from '../../graphqlTypes';
 import { multidisciplinaryTopics } from '../../data/subjects.ts';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  return multidisciplinaryTopics.map(topic => {
+  return multidisciplinaryTopics.map((topic: TopicType) => {
     return {
       id: topic.id,
-      title: topic.name[locale],
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId),
+      title: topic.name?.[locale],
+      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId ?? ''),
     };
   });
 };
@@ -59,12 +57,11 @@ const WelcomePage = ({ locale }: Props) => {
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [fetchData, { data }] = useLazyQuery(subjectsQuery);
+  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(subjectsQuery);
 
   const getData = () => {
     fetchData();
   };
-
 
   const googleSearchJSONLd = () => {
     const data = {

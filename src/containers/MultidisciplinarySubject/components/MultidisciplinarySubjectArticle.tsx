@@ -122,7 +122,7 @@ MultidisciplinarySubjectArticle.willTrackPageView = (
 };
 
 MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, locale, subject, user } = props;
+  const { topic, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)

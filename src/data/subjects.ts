@@ -1,6 +1,6 @@
 import { constants } from '@ndla/ui';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
-import { GQLSubject } from '../graphqlTypes';
+import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
 export const multidisciplinaryTopics = [
   {
@@ -32,31 +32,55 @@ export const multidisciplinaryTopics = [
   },
 ];
 
-export const getSubjectsCategories = (subjects: GQLSubject[] = []) => [
+// TODO: Fix messy mapping of subjects to make path absolute.
+export const getSubjectsCategories = (
+  subjects: GQLSubjectInfoFragment[] = [],
+) => [
   {
     type: constants.subjectCategories.ACTIVE_SUBJECTS,
-    subjects: subjects.filter(
-      s =>
-        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-        constants.subjectCategories.ACTIVE_SUBJECTS,
-    ),
+    subjects: subjects
+      .filter(
+        s =>
+          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ACTIVE_SUBJECTS,
+      )
+      .map(s => {
+        return {
+          ...s,
+          path: s.path ?? '',
+        };
+      }),
   },
   {
     type: constants.subjectCategories.ARCHIVE_SUBJECTS,
-    subjects: subjects.filter(
-      s =>
-        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-        constants.subjectCategories.ARCHIVE_SUBJECTS,
-    ),
+    subjects: subjects
+      .filter(
+        s =>
+          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS,
+      )
+      .map(s => {
+        return {
+          ...s,
+          path: s.path ?? '',
+        };
+      }),
     visible: true,
   },
   {
     type: constants.subjectCategories.BETA_SUBJECTS,
-    subjects: subjects.filter(
-      s =>
-        s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-        constants.subjectCategories.BETA_SUBJECTS,
-    ),
+    subjects: subjects
+      .filter(
+        s =>
+          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.BETA_SUBJECTS,
+      )
+      .map(s => {
+        return {
+          ...s,
+          path: s.path ?? '',
+        };
+      }),
     visible: true,
   },
 ];

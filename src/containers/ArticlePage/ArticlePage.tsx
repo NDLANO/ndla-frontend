@@ -30,7 +30,6 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
-import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
   GQLResource,
@@ -122,11 +121,11 @@ const ArticlePage = ({
     : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(
-    t('breadcrumb.toFrontpage'),
-    [subject, ...topicPath, resource],
-    locale,
-  );
+  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+    subject,
+    ...topicPath,
+    resource,
+  ]);
 
   return (
     <div>
@@ -206,13 +205,9 @@ ArticlePage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.resource);
   const { subject, topicPath, relevance, user } = props;
   const article = props.resource?.article;
-  const longName = getSubjectLongName(
-    subject?.id,
-    props.i18n.language as LocaleType,
-  );
 
   return getAllDimensions(
-    { article, relevance, subject, topicPath, filter: longName, user },
+    { article, relevance, subject, topicPath, filter: subject?.name, user },
     articleProps.label,
     true,
   );

@@ -13,13 +13,15 @@ import { withTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
-import { getSubjectById } from '../../data/subjects';
-import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { htmlTitle } from '../../util/titleHelper';
 import { FeideUserWithGroups } from '../../util/feideApi';
 import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
+import { subjectsQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
+import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
 import { toProgramme } from '../../routeHelpers';
 
 export interface GradesData {
@@ -32,32 +34,29 @@ export interface GradesData {
     }[];
   }[];
 }
+
 export const mapGradesData = (
   grades: ProgrammeGrade[],
+  subjects: GQLSubjectInfoFragment[],
   locale: LocaleType,
 ): GradesData[] => {
   return grades.map(grade => {
     const categories = grade.categories.map(category => {
-      const subjects = category.subjects
-        .map(subject => {
-          const subjectInfo = getSubjectById(subject.id);
-          if (subjectInfo) {
-            /*const url = toProgrammeSubject(
-            programmeSlug,
-            subjectInfo.id,
-            subjectInfo.filters,
-          );*/
-            const url = createSubjectUrl(subjectInfo);
-            return {
-              label: subjectInfo.name?.[locale] ?? '',
-              url: url,
-            };
-          }
-          return undefined;
-        })
-        .filter((c): c is { label: string; url: string } => c !== undefined);
-      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
-      return { name: category.name?.[locale] ?? '', subjects };
+      const categorySubjects = category.subjects.map(subject => {
+        const taxSubject = subjects?.find(s => s.id === subject.id) ?? {
+          name: '',
+          path: '',
+        };
+        return {
+          label: taxSubject.name ?? '',
+          url: taxSubject.path ?? '',
+        };
+      });
+      categorySubjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
+      return {
+        name: category.name?.[locale] ?? '',
+        subjects: categorySubjects,
+      };
     });
     return { name: grade.name, categories };
   });
@@ -102,12 +101,22 @@ const getGradeNameFromProgramme = (
 };
 
 const ProgrammePage = ({ match, locale, t }: Props) => {
+  const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
+
   const slug = match?.params?.programme;
   const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
   const programmeGrades = programmeData?.grades;
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
   const history = useHistory();
+
+  if (loading) {
+    return null;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
 
   if (!programmeData || !grade) {
     return <NotFoundPage />;
@@ -121,7 +130,11 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
   };
 
   const heading = programmeData.name[locale];
-  const grades = mapGradesData(programmeData.grades, locale);
+  const grades = mapGradesData(
+    programmeData.grades,
+    data.subjects || [],
+    locale,
+  );
   const documentTitle = getDocumentTitle({ match, locale, t });
   const metaDescription = programmeData.meta?.description?.[locale];
   const image = programmeData.image?.url || '';

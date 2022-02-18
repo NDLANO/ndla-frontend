@@ -46,6 +46,7 @@ import {
   GQLResourceInfoFragment,
   GQLResourceType,
   GQLSubject,
+  GQLSubjectInfoFragment,
   GQLTopic,
 } from '../../graphqlTypes';
 import config from '../../config';
@@ -66,7 +67,7 @@ type StateResource = GQLResourceInfoFragment & {
 
 interface State {
   subject?: GQLSubject;
-  subjects?: GQLSubject[];
+  subjects?: GQLSubjectInfoFragment[];
   topicPath?: GQLTopic[];
   topicResourcesByType?: GQLResourceType[];
   resource?: StateResource;
@@ -151,7 +152,11 @@ const MastheadContainer = ({
   if (programme) {
     const programmeData = getProgrammeBySlug(programme, locale);
     if (programmeData) {
-      const grades = mapGradesData(programmeData.grades, subjects, locale);
+      const grades = mapGradesData(
+        programmeData.grades,
+        subjects || [],
+        locale,
+      );
       currentProgramme = {
         name: programmeData.name[locale],
         url: programmeData.url[locale],

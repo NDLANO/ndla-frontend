@@ -12,12 +12,12 @@ import { FrontpageProgramMenu } from '@ndla/ui';
 
 import { getProgrammes } from '../../util/programmesSubjectsHelper';
 import { getSubjectsCategories } from '../../data/subjects';
-import { SubjectShape } from '../../shapes';
 import { LocaleType } from '../../interfaces';
+import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 
 interface Props {
   locale: LocaleType;
-  subjects: GQLSubject[];
+  subjects?: GQLSubjectInfoFragment[];
 }
 const FrontpageSubjects = ({ locale, subjects }: Props) => (
   <FrontpageProgramMenu

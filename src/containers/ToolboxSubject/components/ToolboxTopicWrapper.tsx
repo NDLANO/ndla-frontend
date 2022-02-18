@@ -18,11 +18,7 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import {
-  GQLSubject,
-  GQLTopic,
-  GQLResourceTypeDefinition,
-} from '../../../graphqlTypes';
+import { GQLTopic, GQLResourceTypeDefinition } from '../../../graphqlTypes';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { FeideUserWithGroups } from '../../../util/feideApi';
@@ -148,7 +144,7 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic, user } = props;
+  const { subject, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );

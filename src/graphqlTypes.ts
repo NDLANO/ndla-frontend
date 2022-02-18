@@ -1124,6 +1124,17 @@ export type GQLContributorInfoFragment = {
   type: string;
 };
 
+export type GQLSubjectInfoFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  path?: Maybe<string>;
+  metadata?: Maybe<{
+    __typename?: 'TaxonomyMetadata';
+    customFields?: Maybe<any>;
+  }>;
+};
+
 export type GQLSearchQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['String']>;
@@ -1384,6 +1395,7 @@ export type GQLGroupSearchQuery = {
       }>;
     }>
   >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
   competenceGoals?: Maybe<
     Array<{
       __typename?: 'CompetenceGoal';
@@ -1491,6 +1503,7 @@ export type GQLFrontpageSearchQuery = {
       }>;
     };
   }>;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };
 
 export type GQLConceptCopyrightInfoFragment = {
@@ -1543,21 +1556,9 @@ export type GQLTopicInfoFragment = {
   name: string;
   contentUri?: Maybe<string>;
   path?: Maybe<string>;
-  availability?: Maybe<string>;
   parent?: Maybe<string>;
   relevanceId?: Maybe<string>;
   meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
-  metadata?: Maybe<{
-    __typename?: 'TaxonomyMetadata';
-    customFields?: Maybe<any>;
-  }>;
-};
-
-export type GQLSubjectInfoFragment = {
-  __typename?: 'Subject';
-  id: string;
-  name: string;
-  path?: Maybe<string>;
   metadata?: Maybe<{
     __typename?: 'TaxonomyMetadata';
     customFields?: Maybe<any>;
@@ -1885,6 +1886,7 @@ export type GQLSubjectPageWithTopicsQuery = {
         Array<
           {
             __typename?: 'Topic';
+            availability?: Maybe<string>;
             article?: Maybe<{
               __typename?: 'Article';
               supportedLanguages?: Maybe<Array<string>>;
@@ -1896,6 +1898,10 @@ export type GQLSubjectPageWithTopicsQuery = {
       subjectpage?: Maybe<
         { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
       >;
+      metadata?: Maybe<{
+        __typename?: 'TaxonomyMetadata';
+        customFields?: Maybe<any>;
+      }>;
     } & GQLSubjectInfoFragment
   >;
   topic?: Maybe<
@@ -1913,17 +1919,7 @@ export type GQLSubjectPageWithTopicsQuery = {
       >;
     } & GQLTopicInfoFragment
   >;
-  subjects?: Maybe<
-    Array<
-      {
-        __typename?: 'Subject';
-        metadata?: Maybe<{
-          __typename?: 'TaxonomyMetadata';
-          customFields?: Maybe<any>;
-        }>;
-      } & GQLSubjectInfoFragment
-    >
-  >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };
 
 export type GQLSubjectPageQueryVariables = Exact<{
@@ -2339,6 +2335,7 @@ export type GQLMastHeadQuery = {
       >;
     } & GQLResourceInfoFragment
   >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };
 
 export type GQLResourcePageQueryVariables = Exact<{
@@ -2354,6 +2351,10 @@ export type GQLResourcePageQuery = {
     id: string;
     name: string;
     path?: Maybe<string>;
+    metadata?: Maybe<{
+      __typename?: 'TaxonomyMetadata';
+      customFields?: Maybe<any>;
+    }>;
     topics?: Maybe<
       Array<{
         __typename?: 'Topic';
@@ -2406,4 +2407,5 @@ export type GQLResourcePageQuery = {
       >;
     } & GQLResourceInfoFragment
   >;
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
 };

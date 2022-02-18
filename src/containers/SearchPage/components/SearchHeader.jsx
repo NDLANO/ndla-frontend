@@ -11,7 +11,7 @@ import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { SubjectShape } from '../../../shapes';
 import { getSubjectsCategories } from '../../../data/subjects';
-import { groupCompetenceGoals } from '../../../components/Article/CompetenceGoals';
+import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
 
 const SearchHeader = ({
   query,
