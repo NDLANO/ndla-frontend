@@ -67,7 +67,11 @@ const IframeArticlePage = ({
       />
       <PostResizeMessage />
       <FixDialogPosition />
-      <Article article={article} locale={locale} {...getArticleProps(resource)}>
+      <Article
+        article={article}
+        locale={locale}
+        modifier="clean iframe"
+        {...getArticleProps(resource)}>
         <CreatedBy
           name={t('createdBy.content')}
           description={t('createdBy.text')}
