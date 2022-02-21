@@ -7,10 +7,11 @@
  */
 import { GQLTopic } from '../graphqlTypes';
 
-export const getTopicPath = (
+type Topic = Pick<GQLTopic, 'parent' | 'id'>;
+export const getTopicPath = <T extends Topic>(
   subjectId: string,
   topicId: string,
-  topics?: GQLTopic[],
+  topics?: T[],
 ) => {
   if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);
@@ -18,12 +19,12 @@ export const getTopicPath = (
     return [];
   }
 
-  const toBreadcrumb = (topic: GQLTopic) => {
+  const toBreadcrumb = (topic: T) => {
     if (!topic.parent || topic.parent === subjectId) {
       return [topic];
     }
     const parent = topics.find(t => topic.parent === t.id);
-    const parentPath: GQLTopic[] = parent ? toBreadcrumb(parent) : [];
+    const parentPath: T[] = parent ? toBreadcrumb(parent) : [];
     return [...parentPath, topic];
   };
 

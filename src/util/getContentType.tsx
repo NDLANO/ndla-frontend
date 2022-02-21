@@ -38,7 +38,7 @@ export const contentTypeMapping: Record<string, string> = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
-export const resourceTypeMapping = {
+export const resourceTypeMapping: Record<string, string> = {
   [contentTypes.LEARNING_PATH]: RESOURCE_TYPE_LEARNING_PATH,
 
   [contentTypes.SUBJECT_MATERIAL]: RESOURCE_TYPE_SUBJECT_MATERIAL,

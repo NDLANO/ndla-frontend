@@ -22,11 +22,11 @@ import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import { LocaleType } from '../interfaces';
-import { GQLArticle, GQLResource } from '../graphqlTypes';
+import { GQLArticle, GQLIframeResourceFragment } from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  resource?: GQLResource;
+  resource?: GQLIframeResourceFragment;
   article: GQLArticle;
 }
 

@@ -6,7 +6,11 @@ import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 } from '../../constants';
-import { GQLResource, GQLResourceType } from '../../graphqlTypes';
+import {
+  GQLResource,
+  GQLResourceInfoFragment,
+  GQLResourceType,
+} from '../../graphqlTypes';
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -18,8 +22,8 @@ export const sortOrder: Record<string, number> = {
 };
 
 export const groupResourcesByResourceTypes = (
-  supplementaryResources: GQLResource[],
-  coreResources: GQLResource[],
+  supplementaryResources: GQLResourceInfoFragment[],
+  coreResources: GQLResourceInfoFragment[],
 ) => {
   const resources = [
     ...coreResources,
@@ -55,8 +59,8 @@ export const sortResourceTypes = (resourceTypes: GQLResourceType[]) =>
 
 export const getResourceGroups = (
   resourceTypes: GQLResourceType[],
-  supplementaryResources: GQLResource[],
-  coreResouces: GQLResource[],
+  supplementaryResources: GQLResourceInfoFragment[],
+  coreResouces: GQLResourceInfoFragment[],
 ): GQLResourceType[] => {
   const groupedResources = groupResourcesByResourceTypes(
     supplementaryResources,

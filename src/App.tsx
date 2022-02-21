@@ -7,7 +7,6 @@
  */
 
 import React, { ErrorInfo } from 'react';
-// @ts-ignore
 import { configureTracker } from '@ndla/tracker';
 import {
   Route,

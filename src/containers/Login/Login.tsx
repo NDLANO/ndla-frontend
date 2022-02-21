@@ -7,18 +7,15 @@
 
 import React, { Fragment, useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 import { LoginFailure } from './LoginFailure';
+import { RootComponentProps } from '../../routes';
 
-interface Props {
-  match: RouteComponentProps['match'];
-  history: RouteComponentProps['history'];
-}
+interface Props extends RouteComponentProps, RootComponentProps {}
 
 export const Login = ({ match }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
@@ -46,4 +43,4 @@ export const Login = ({ match }: Props) => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
