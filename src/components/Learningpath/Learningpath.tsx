@@ -7,8 +7,6 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes, { func } from 'prop-types';
 import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
@@ -23,24 +21,35 @@ import {
   LearningPathMobileHeader,
   constants,
 } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { toLearningPath } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
-import {
-  BreadCrumbShape,
-  LearningpathShape,
-  LearningpathStepShape,
-  LocationShape,
-  ResourceShape,
-  ResourceTypeShape,
-  SubjectShape,
-  TopicShape,
-} from '../../shapes';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
 import { getContentType } from '../../util/getContentType';
+import { Breadcrumb as BreadcrumbType, LocaleType } from '../../interfaces';
+import {
+  GQLLearningpathInfoFragment,
+  GQLResourcePageQuery,
+  GQLSubjectInfoFragment,
+  GQLTopic,
+} from '../../graphqlTypes';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
+
+interface Props {
+  learningpath: GQLLearningpathInfoFragment;
+  learningpathStep: GQLLearningpathInfoFragment['learningsteps'][0];
+  topic?: Required<GQLResourcePageQuery>['topic'];
+  topicPath?: Omit<GQLTopic, 'paths' | 'metadata'>[];
+  resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
+  subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
+  resource?: Required<GQLResourcePageQuery>['resource'];
+  skipToContentId?: string;
+  locale: LocaleType;
+  ndlaFilm: boolean;
+  onKeyUpEvent: (evt: KeyboardEvent) => void;
+  breadcrumbItems: BreadcrumbType[];
+}
 
 const Learningpath = ({
   learningpath,
@@ -52,25 +61,13 @@ const Learningpath = ({
   resourceTypes,
   skipToContentId,
   locale,
-  location,
-  history,
   onKeyUpEvent,
   ndlaFilm,
   breadcrumbItems,
-}) => {
-  const {
-    id,
-    learningsteps,
-    duration,
-    lastUpdated,
-    copyright,
-    title,
-  } = learningpath;
-
-  const { t } = useTranslation();
+}: Props) => {
+  const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
   const lastUpdatedDate = new Date(lastUpdated);
-  const stepId = learningpathStep.id;
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
     lastUpdatedDate.getMonth() < 10 ? '0' : ''
@@ -79,12 +76,10 @@ const Learningpath = ({
   const { contentTypes } = constants;
 
   const mappedLearningsteps = learningsteps.map(step => {
-    const type = step.resource
-      ? getContentType(step.resource)
-      : contentTypes.LEARNING_PATH;
+    const type = step.resource ? getContentType(step.resource) : undefined;
     return {
       ...step,
-      type: type,
+      type: type ?? contentTypes.LEARNING_PATH,
     };
   });
 
@@ -127,19 +122,20 @@ const Learningpath = ({
       invertedStyle={ndlaFilm}
       learningPathId={id}
       learningsteps={mappedLearningsteps}
-      duration={duration}
       toLearningPathUrl={(pathId, stepId) =>
         toLearningPath(pathId, stepId, resource)
       }
       lastUpdated={lastUpdatedString}
       copyright={copyright}
-      stepId={stepId}
       currentIndex={learningpathStep.seqNo}
       name={title}
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
     />
   );
+
+  const previousStep = learningsteps[learningpathStep.seqNo - 1];
+  const nextStep = learningsteps[learningpathStep.seqNo + 1];
 
   return (
     <LearningPathWrapper invertedStyle={ndlaFilm}>
@@ -182,16 +178,15 @@ const Learningpath = ({
       </LearningPathContent>
       <LearningPathSticky>
         {mobileView && learningPathMenu}
-        {learningpathStep.seqNo > 0 ? (
+        {previousStep ? (
           <LearningPathStickySibling
             arrow="left"
             pathId={learningpath.id}
-            stepId={learningsteps[learningpathStep.seqNo - 1].id}
+            stepId={previousStep.id}
             toLearningPathUrl={(pathId, stepId) =>
               toLearningPath(pathId, stepId, resource)
             }
-            label={t('learningPath.previousArrow')}
-            title={learningsteps[learningpathStep.seqNo - 1].title}
+            title={previousStep.title}
           />
         ) : (
           <LearningPathStickyPlaceholder />
@@ -200,16 +195,15 @@ const Learningpath = ({
           total={learningsteps.length}
           current={learningpathStep.seqNo + 1}
         />
-        {learningpathStep.seqNo < learningsteps.length - 1 ? (
+        {nextStep ? (
           <LearningPathStickySibling
             arrow="right"
-            label={t('learningPath.nextArrow')}
             pathId={learningpath.id}
-            stepId={learningsteps[learningpathStep.seqNo + 1].id}
+            stepId={nextStep.id}
             toLearningPathUrl={(pathId, stepId) =>
               toLearningPath(pathId, stepId, resource)
             }
-            title={learningsteps[learningpathStep.seqNo + 1].title}
+            title={nextStep.title}
           />
         ) : (
           <LearningPathStickyPlaceholder />
@@ -219,23 +213,4 @@ const Learningpath = ({
   );
 };
 
-Learningpath.propTypes = {
-  learningpath: LearningpathShape,
-  learningpathStep: LearningpathStepShape,
-  topic: TopicShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  subject: SubjectShape,
-  resource: ResourceShape,
-  skipToContentId: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  location: LocationShape,
-  ndlaFilm: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  onKeyUpEvent: func.isRequired,
-  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
-};
-
-export default withRouter(Learningpath);
+export default Learningpath;

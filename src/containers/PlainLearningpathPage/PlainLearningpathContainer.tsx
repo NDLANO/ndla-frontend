@@ -19,6 +19,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import ErrorPage from '../ErrorPage';
 
 const getDocumentTitle = ({
   learningpath,
@@ -67,8 +68,12 @@ const PlainLearningpathContainer = ({
   };
 
   const currentStep = stepId
-    ? steps?.find(step => step.id.toString() === stepId)
-    : steps?.[0];
+    ? steps.find(step => step.id.toString() === stepId)
+    : steps[0];
+
+  if (!currentStep) {
+    return <ErrorPage locale={locale} />;
+  }
 
   const imageUrlObj = learningpath.coverphoto?.url
     ? { url: learningpath.coverphoto.url }

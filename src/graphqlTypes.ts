@@ -470,7 +470,7 @@ export type GQLLearningpathCopyright = {
 export type GQLLearningpathCoverphoto = {
   __typename?: 'LearningpathCoverphoto';
   metaUrl: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
 };
 
 export type GQLLearningpathSearchResult = GQLSearchResult & {
@@ -1974,7 +1974,7 @@ export type GQLLearningpathInfoFragment = {
   };
   coverphoto?: Maybe<{
     __typename?: 'LearningpathCoverphoto';
-    url?: Maybe<string>;
+    url: string;
     metaUrl: string;
   }>;
   learningsteps: Array<{

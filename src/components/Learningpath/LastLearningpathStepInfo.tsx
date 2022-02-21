@@ -7,11 +7,20 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';
-import { TopicShape, SubjectShape, ResourceTypeShape } from '../../shapes';
+import { GQLResourcePageQuery, GQLTopic } from '../../graphqlTypes';
 
+interface Props {
+  topic?: Required<GQLResourcePageQuery>['topic'];
+  subject?: Required<GQLResourcePageQuery>['subject'];
+  topicPath?: Omit<GQLTopic, 'paths' | 'metadata'>[];
+  resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
+  seqNo: number;
+  numberOfLearningSteps: number;
+  title: string;
+  ndlaFilm?: boolean;
+}
 const LastLearningpathStepInfo = ({
   topic,
   subject,
@@ -21,7 +30,7 @@ const LastLearningpathStepInfo = ({
   numberOfLearningSteps,
   title,
   ndlaFilm,
-}) => {
+}: Props) => {
   const isLastStep = seqNo === numberOfLearningSteps;
 
   if (!isLastStep) {
@@ -65,17 +74,6 @@ const LastLearningpathStepInfo = ({
       )}
     </LearningPathLastStepNavigation>
   );
-};
-
-LastLearningpathStepInfo.propTypes = {
-  topic: TopicShape,
-  subject: SubjectShape,
-  topicPath: PropTypes.arrayOf(TopicShape),
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  seqNo: PropTypes.number.isRequired,
-  numberOfLearningSteps: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  ndlaFilm: PropTypes.bool,
 };
 
 export default LastLearningpathStepInfo;
