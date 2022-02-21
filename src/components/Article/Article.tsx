@@ -10,7 +10,6 @@ import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
-// @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
