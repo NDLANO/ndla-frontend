@@ -10,10 +10,7 @@ import React, { useContext } from 'react';
 import { RouteComponentProps, useHistory, withRouter } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { getAllDimensions } from '../../util/trackingUtil';
 import { getProgrammeBySlug } from '../../data/programmes';
-import { htmlTitle } from '../../util/titleHelper';
-import { FeideUserWithGroups } from '../../util/feideApi';
 import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
 import { subjectsQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
@@ -77,7 +74,7 @@ export const getGradeNameFromProgramme = (
     : programme?.grades?.[0]?.name;
 };
 
-const ProgrammePage = ({ match, locale, t }: Props) => {
+const ProgrammePage = ({ match, locale }: Props) => {
   const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
   const slug = match?.params?.programme;
@@ -109,6 +106,7 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
   return (
     <ProgrammeContainer
       programme={programmeData}
+      subjects={data.subjects}
       onGradeChange={onGradeChange}
       grade={grade}
       locale={locale}

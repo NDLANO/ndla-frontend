@@ -83,7 +83,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
-          concepts={conceptData?.conceptSearch.concepts}
+          concepts={conceptData?.conceptSearch?.concepts}
           resourceTypes={data?.resourceTypes}
           location={location}
         />

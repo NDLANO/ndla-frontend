@@ -5,7 +5,7 @@ import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
-import { GQLMastHeadQuery, GQLResourceType } from '../../../graphqlTypes';
+import { GQLMastHeadQuery, GQLResourceType, GQLSubjectInfoFragment } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
 import { GradesData } from '../../ProgrammePage/ProgrammePage';
@@ -29,7 +29,7 @@ interface Props extends RouteComponentProps {
   ndlaFilm?: boolean;
   subjectCategories: {
     type: string;
-    subjects: GQLSubject[];
+    subjects: GQLSubjectInfoFragment[];
   }[];
   programmes: ProgramSubjectType[];
   currentProgramme?: MastheadProgramme;

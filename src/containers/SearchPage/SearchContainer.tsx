@@ -22,7 +22,10 @@ import { useTranslation } from 'react-i18next';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
+import {
+  GQLConceptSearchConceptFragment,
+  GQLSubjectInfoFragment,
+} from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { getLocaleUrls } from '../../util/localeHelpers';
@@ -41,9 +44,10 @@ interface Props {
   handleFilterReset: () => void;
   handleShowMore: (type: string) => void;
   query?: string;
-  subjects: string[];
+  subjectIds: string[];
+  subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
-  subjectItems: SubjectItem[];
+  subjectItems?: SubjectItem[];
   concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
@@ -124,7 +128,7 @@ const SearchContainer = ({
           renderMarkdown={renderMarkdown}
         />
       )}
-      {subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {subjectItems && subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (

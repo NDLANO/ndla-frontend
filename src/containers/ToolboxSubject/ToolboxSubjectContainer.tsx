@@ -16,7 +16,7 @@ import {
   WithTranslation,
 } from 'react-i18next';
 import { RouteComponentProps, useLocation, withRouter } from 'react-router';
-import { GQLSubjectPageQuery, GQLTopic } from '../../graphqlTypes';
+import { GQLSubjectPageQuery } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';

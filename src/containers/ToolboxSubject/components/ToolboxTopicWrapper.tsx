@@ -17,7 +17,10 @@ import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
-import { GQLTopic, GQLResourceTypeDefinition } from '../../../graphqlTypes';
+import {
+  GQLTopicQueryTopicFragment,
+  GQLResourceTypeDefinition,
+} from '../../../graphqlTypes';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { FeideUserWithGroups } from '../../../util/feideApi';

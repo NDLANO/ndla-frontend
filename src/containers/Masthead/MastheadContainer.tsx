@@ -42,9 +42,7 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
-  GQLSubject,
   GQLSubjectInfoFragment,
-  GQLTopic,
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';

@@ -7,10 +7,10 @@
  */
 
 import { TFunction } from 'i18next';
-import { GQLFrontpageSearch, GQLSubject } from '../graphqlTypes';
+import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
 import { toSubject } from '../routeHelpers';
 
-export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
+export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
@@ -33,7 +33,7 @@ export const searchSubjects = (query?: string, subjects?: GQLSubject[]) => {
 
 interface SearchResult {
   frontpageSearch?: GQLFrontpageSearch;
-  subjects?: GQLSubject[];
+  subjects?: GQLSubjectInfoFragment[];
 }
 
 export const frontPageSearchSuggestion = (searchResult: SearchResult) => {

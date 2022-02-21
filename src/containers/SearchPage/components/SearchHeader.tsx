@@ -8,17 +8,18 @@
 import React, { useState, useEffect, useMemo, FormEvent } from 'react';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { SubjectShape } from '../../../shapes';
 import { getSubjectsCategories } from '../../../data/subjects';
 import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
 import { SearchCompetenceGoal } from '../SearchInnerPage';
 import { LocaleType } from '../../../interfaces';
+import { GQLSubjectInfoFragment } from '../../../graphqlTypes';
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
   query?: string;
   suggestion?: string;
-  subjects: string[];
+  subjectIds: string[];
+  subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
   noResults: boolean;
   locale: LocaleType;
@@ -54,7 +55,7 @@ const SearchHeader = ({
 
   useEffect(() => {
     const activeSubjects = subjectIds.map(id => {
-      const name = subjects.find(subject => subject.id === id).name;
+      const name = subjects?.find(subject => subject.id === id)?.name || '';
       return {
         value: id,
         name: name,

@@ -8,6 +8,7 @@ import {
   GQLMastHeadQuery,
   GQLResource,
   GQLResourceType,
+  GQLSubjectInfoFragment,
 } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
@@ -45,7 +46,7 @@ interface Props {
   currentProgramme?: MastheadProgramme;
   subjectCategories: {
     type: string;
-    subjects: GQLSubject[];
+    subjects: GQLSubjectInfoFragment[];
   }[];
   initialSelectedMenu?: string;
 }

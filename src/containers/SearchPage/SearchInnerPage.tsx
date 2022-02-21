@@ -28,6 +28,7 @@ import {
   GQLConceptSearchConceptFragment,
   GQLGroupSearchQuery,
   GQLResourceTypeDefinition,
+  GQLSubjectInfoFragment,
 } from '../../graphqlTypes';
 import { LtiData } from '../../interfaces';
 
@@ -54,9 +55,10 @@ interface Props {
   activeSubFilters: string[];
   handleSearchParamsChange: (updates: Record<string, any>) => void;
   query?: string;
-  subjects: string[];
-  programmes: string[];
-  subjectItems: SubjectItem[];
+  subjectIds: string[];
+  subjects?: GQLSubjectInfoFragment[];
+  programmeNames: string[];
+  subjectItems?: SubjectItem[];
   concepts?: GQLConceptSearchConceptFragment[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
@@ -68,7 +70,7 @@ const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
   subjectIds,
-  programmes,
+  programmeNames,
   subjectItems,
   subjects,
   concepts,
@@ -99,7 +101,7 @@ const SearchInnerPage = ({
         query,
         subjects: convertSearchParam([
           ...subjectIds,
-          ...convertProgramSearchParams(programmes, i18n.language).subjects,
+          ...convertProgramSearchParams(programmeNames, i18n.language).subjects,
         ]),
       }
     : getStateSearchParams(searchParams);
@@ -294,7 +296,6 @@ const SearchInnerPage = ({
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
       subjectIds={subjectIds}
-      programmes={programmes}
       suggestion={suggestion}
       subjects={subjects}
       concepts={concepts}
