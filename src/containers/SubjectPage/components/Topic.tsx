@@ -124,7 +124,6 @@ const Topic = ({
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
-          locale={locale}
           ndlaFilm={ndlaFilm}
         />
       ) : (
