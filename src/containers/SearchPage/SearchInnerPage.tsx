@@ -78,14 +78,14 @@ const SearchInnerPage = ({
   activeSubFilters,
   location,
 }: Props) => {
+  const { t, i18n } = useTranslation();
   const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState(
-    getTypeFilter(resourceTypes, selectedFilters, activeSubFilters),
+    getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
   );
   const [competenceGoals, setCompetenceGoals] = useState<
     SearchCompetenceGoal[]
   >([]);
-  const { t, i18n } = useTranslation();
   const initialGQLCall = useRef(true);
 
   useEffect(() => {

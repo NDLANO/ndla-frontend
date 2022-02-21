@@ -348,6 +348,7 @@ export const getTypeFilter = (
   resourceTypes: GQLResourceTypeDefinition[] | undefined,
   selectedFilters: string[],
   activeSubFilters: string[],
+  t: TFunction,
 ): Record<string, TypeFilter> => {
   const typeFilter: Record<string, TypeFilter> = {
     'topic-article': {
@@ -378,7 +379,11 @@ export const getTypeFilter = (
           return f;
         });
         withActive.sort((a, b) => a.id.localeCompare(b.id));
-        filters.push({ id: 'all', name: 'Alle', active: !hasActive });
+        filters.push({
+          id: 'all',
+          name: t('contentTypes.all'),
+          active: !hasActive,
+        });
         filters.push(...withActive);
       }
       const isSelected = selectedFilters?.some(

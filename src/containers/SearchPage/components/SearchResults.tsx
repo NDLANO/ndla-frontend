@@ -13,8 +13,8 @@ const { contentTypes } = constants;
 
 interface Props {
   showAll?: boolean;
-  handleSubFilterClick: Function;
-  handleShowMore: Function;
+  handleSubFilterClick: (type: string, filterId: string) => void;
+  handleShowMore: (type: string) => void;
   searchGroups: SearchGroup[];
   typeFilter: Record<string, TypeFilter>;
   loading: boolean;
