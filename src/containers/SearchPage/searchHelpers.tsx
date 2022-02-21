@@ -166,8 +166,9 @@ export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
     return {
       ...result,
       url: getResultUrl(id, url, isLti),
-      contentTypeIcon: (
-        <ContentTypeBadge type={contentType} size="x-small" background />
+      contenttypeicon: (
+        // defaults to empty div if contentType is undefined.
+        <ContentTypeBadge type={contentType ?? ''} size="x-small" background />
       ),
       children: includeEmbedButton && (
         <LtiEmbed ltiData={ltiData} item={result} />

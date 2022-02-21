@@ -65,7 +65,6 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
       <MediaListItemBody
         license={concept.copyright.license.license}
         title={t('license.concept.rules')}
-        resourceType="concept"
         resourceUrl={concept.src}
         locale={locale}>
         <MediaListItemActions>

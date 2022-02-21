@@ -84,7 +84,7 @@ const FilmFrontpage = ({
   >('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const onChangeResourceType = (resourceType: string) => {
+  const onChangeResourceType = (resourceType?: string) => {
     const placeholderHeight = `${
       movieListRef.current?.getBoundingClientRect().height
     }px`;
@@ -107,7 +107,7 @@ const FilmFrontpage = ({
           <meta name="description" content={aboutNDLAVideo.description} />
         )}
       </Helmet>
-      <FilmSlideshow slideshow={filmFrontpage?.slideShow} />
+      <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}
