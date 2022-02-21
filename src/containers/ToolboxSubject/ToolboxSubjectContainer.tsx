@@ -122,7 +122,7 @@ const ToolboxSubjectContainer = (props: Props) => {
     setSelectedTopics(topics);
   }, [location]);
 
-  const topics = subject.topics?.map((topic: GQLTopic) => {
+  const topics = subject.topics?.map(topic => {
     return {
       ...topic,
       label: topic.name,
@@ -138,9 +138,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   ) => {
     e.preventDefault();
     if (id) {
-      const topic = subject.allTopics?.find(
-        (topic: GQLTopic) => topic.id === id,
-      );
+      const topic = subject.allTopics?.find(topic => topic.id === id);
       if (topic) {
         if (index === 0) {
           setSelectedTopics([topic.id]);
@@ -182,6 +180,9 @@ const ToolboxSubjectContainer = (props: Props) => {
 
   const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
 
+  const imageUrlObj = socialMediaMetaData.image?.url
+    ? { url: socialMediaMetaData.image.url }
+    : undefined;
   return (
     <>
       <Helmet>
@@ -198,12 +199,7 @@ const ToolboxSubjectContainer = (props: Props) => {
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
         locale={locale}
-        image={
-          socialMediaMetaData.image && {
-            url: socialMediaMetaData.image.url,
-            alt: socialMediaMetaData.image.alt,
-          }
-        }
+        image={imageUrlObj}
       />
       <OneColumn className={''}>
         <ToolboxInfo

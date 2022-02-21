@@ -55,8 +55,6 @@ export function getLearningPathUrlFromResource(
 export const resourceToLinkProps = (
   resource: GQLResource,
   subjectTopicPath: string,
-  //@ts-ignore
-  language?: string,
 ) => {
   if (isLearningPathResource(resource)) {
     return {

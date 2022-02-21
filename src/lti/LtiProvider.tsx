@@ -103,7 +103,6 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
         )}
         ltiData={ltiData}
         isLti
-        locale={locale}
       />
     </ErrorBoundary>
   );

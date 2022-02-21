@@ -35,7 +35,6 @@ import {
   GQLResource,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
-  GQLSubject,
   GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
@@ -43,10 +42,10 @@ import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
   resource?: Required<GQLResourcePageQuery>['resource'];
-  topic?: GQLTopic;
-  topicPath: GQLTopic[];
+  topic?: GQLResourcePageQuery['topic'];
+  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
   relevance: string;
-  subject?: GQLSubject;
+  subject?: GQLResourcePageQuery['subject'];
   resourceTypes?: GQLResourceTypeDefinition[];
   errors?: readonly GraphQLError[];
   ndlaFilm: boolean;
@@ -216,7 +215,7 @@ ArticlePage.getDimensions = (props: Props) => {
 const getDocumentTitle = (
   t: TFunction,
   resource?: Pick<GQLResource, 'article'>,
-  subject?: GQLSubject,
+  subject?: GQLResourcePageQuery['subject'],
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.name,

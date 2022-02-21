@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-// @ts-ignore
 import { Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
@@ -26,7 +25,7 @@ import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props extends WithTranslation {
   subject: ToolboxSubjectType;
-  topic: GQLTopic;
+  topic: GQLTopicQueryTopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
   locale: LocaleType;
   onSelectTopic: (
@@ -100,7 +99,7 @@ const ToolboxTopicWrapper = ({
     },
   };
 
-  const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
+  const subTopics = topic?.subtopics?.map(subtopic => {
     const path = topic.path || '';
     const topicPath = path
       .split('/')

@@ -32,7 +32,7 @@ function getContentTypeResults(
   }));
 }
 
-type TransformedTopic = Omit<GQLTopic, 'subtopics'> & {
+type TransformedTopic = Omit<GQLTopic, 'subtopics' | 'metadata' | 'paths'> & {
   contentTypeResults:
     | {
         contentType: string | undefined;
@@ -44,7 +44,7 @@ type TransformedTopic = Omit<GQLTopic, 'subtopics'> & {
 };
 
 export function mapTopicResourcesToTopic(
-  topics: GQLTopic[],
+  topics: Omit<GQLTopic, 'metadata' | 'paths'>[],
   selectedTopicId: string,
   topicResourcesByType: GQLResourceType[],
   expandedSubTopics: string[] = [],

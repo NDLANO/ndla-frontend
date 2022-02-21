@@ -84,7 +84,6 @@ const WelcomePageSearch = ({ history }: RouteComponentProps) => {
       allResultUrl={allResultsUrl}
       loading={loading}
       resourceToLinkProps={searchResultToLinkProps}
-      history={history}
       suggestion={searchResult && delayedSearchQuery.length >= 2 && suggestion}
       suggestionUrl={suggestionUrl}
     />

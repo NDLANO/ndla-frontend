@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-//@ts-ignore
 import { SubjectAbout, Image } from '@ndla/ui';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 import { GQLSubjectPageAbout } from '../../../graphqlTypes';

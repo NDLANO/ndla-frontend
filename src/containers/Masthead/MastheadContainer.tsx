@@ -39,15 +39,13 @@ import { getProgrammeBySlug } from '../../data/programmes';
 import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
-  GQLArticleInfoFragment,
-  GQLLearningpathInfoFragment,
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
-  GQLResourceInfoFragment,
   GQLResourceType,
   GQLSubject,
   GQLSubjectInfoFragment,
   GQLTopic,
+  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
 
@@ -60,17 +58,12 @@ interface Props extends RouteComponentProps {
   initialSelectMenu?: string;
 }
 
-type StateResource = GQLResourceInfoFragment & {
-  learningpath?: GQLLearningpathInfoFragment;
-  article?: GQLArticleInfoFragment;
-};
-
 interface State {
-  subject?: GQLSubject;
+  subject?: GQLMastHeadQuery['subject'];
   subjects?: GQLSubjectInfoFragment[];
-  topicPath?: GQLTopic[];
+  topicPath?: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: StateResource;
+  resource?: GQLMastHeadQuery['resource'];
 }
 
 const MastheadContainer = ({

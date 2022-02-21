@@ -5,29 +5,27 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useMemo } from 'react';
-import { func, arrayOf, objectOf, object, string, bool } from 'prop-types';
+import React, { ReactNode, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
+import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
+  //@ts-ignore
   FilterButtons,
   LanguageSelector,
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
-import {
-  SearchItemShape,
-  ConceptShape,
-  TypeFilterShape,
-  SearchGroupShape,
-  SubjectShape,
-} from '../../shapes';
 import SearchHeader from './components/SearchHeader';
 import SearchResults from './components/SearchResults';
-import { sortResourceTypes } from './searchHelpers';
+import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
+import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
+import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
+import { LocaleType } from '../../interfaces';
+import { getLocaleUrls } from '../../util/localeHelpers';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -36,6 +34,28 @@ const StyledLanguageSelector = styled.div`
   margin-bottom: ${spacingUnit * 10}px;
 `;
 
+interface Props {
+  handleSearchParamsChange: (updates: Record<string, any>) => void;
+  handleSubFilterClick: (type: string, filterId: string) => void;
+  handleFilterToggle: (type: string) => void;
+  handleFilterReset: () => void;
+  handleShowMore: (type: string) => void;
+  query?: string;
+  subjects: string[];
+  competenceGoals: SearchCompetenceGoal[];
+  subjectItems: SubjectItem[];
+  concepts?: GQLConceptSearchConceptFragment[];
+  suggestion?: string;
+  typeFilter: Record<string, TypeFilter>;
+  searchGroups: SearchGroup[];
+  showConcepts: boolean;
+  setShowConcepts: (show: boolean) => void;
+  showAll: boolean;
+  locale: LocaleType;
+  loading: boolean;
+  isLti?: boolean;
+  location?: Location;
+}
 const SearchContainer = ({
   handleSearchParamsChange,
   handleSubFilterClick,
@@ -57,14 +77,15 @@ const SearchContainer = ({
   loading,
   isLti,
   competenceGoals,
-}) => {
+  location,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
     return md;
   }, []);
-  const renderMarkdown = text => markdown.render(text);
+  const renderMarkdown = (text: ReactNode) => markdown.render(text);
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -92,8 +113,9 @@ const SearchContainer = ({
         locale={locale}
         competenceGoals={competenceGoals}
       />
-      {showConcepts && concepts?.length > 0 && (
+      {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
+          //@ts-ignore
           items={concepts}
           totalCount={concepts.length}
           onRemove={() => {
@@ -103,7 +125,7 @@ const SearchContainer = ({
         />
       )}
       {subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
-      {searchGroups.length > 0 && (
+      {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
             <FilterButtons
@@ -134,7 +156,10 @@ const SearchContainer = ({
                 center
                 outline
                 alwaysVisible
-                options={i18n.supportedLanguages}
+                options={getLocaleUrls(
+                  i18n.language,
+                  location ?? window.location,
+                )}
                 currentLanguage={i18n.language}
               />
             </StyledLanguageSelector>
@@ -143,31 +168,6 @@ const SearchContainer = ({
       )}
     </>
   );
-};
-
-SearchContainer.propTypes = {
-  error: arrayOf(object),
-  handleSearchParamsChange: func,
-  handleSubFilterClick: func,
-  handleFilterToggle: func,
-  handleFilterReset: func,
-  handleShowMore: func,
-  query: string,
-  subjectIds: arrayOf(string),
-  competenceGoals: arrayOf(object),
-  programmes: arrayOf(string),
-  subjectItems: arrayOf(SearchItemShape),
-  subjects: arrayOf(SubjectShape),
-  concepts: arrayOf(ConceptShape),
-  suggestion: string,
-  typeFilter: objectOf(TypeFilterShape),
-  searchGroups: arrayOf(SearchGroupShape),
-  showConcepts: bool,
-  setShowConcepts: func,
-  showAll: bool,
-  locale: string,
-  loading: bool.isRequired,
-  isLti: bool,
 };
 
 export default SearchContainer;

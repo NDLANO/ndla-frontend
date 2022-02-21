@@ -23,8 +23,7 @@ import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 import {
   GQLResourceTypeDefinition,
-  GQLSubject,
-  GQLTopic,
+  GQLTopicWithPathTopicsQuery,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
@@ -37,8 +36,8 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 
 interface Props extends WithTranslation {
   copyPageUrlLink?: string;
-  topic: GQLTopic;
-  subject: GQLSubject;
+  topic: Required<GQLTopicWithPathTopicsQuery>['topic'];
+  subject: Required<GQLTopicWithPathTopicsQuery>['subject'];
   locale: LocaleType;
   resourceTypes?: GQLResourceTypeDefinition[];
   user?: FeideUserWithGroups;

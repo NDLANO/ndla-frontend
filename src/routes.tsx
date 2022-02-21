@@ -23,7 +23,6 @@ import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
-// @ts-ignore
 import App from './App';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
@@ -162,7 +161,6 @@ if (config.feideEnabled) {
   routeArray.push(
     {
       path: '/login',
-      //@ts-ignore
       component: Login,
       background: false,
     },

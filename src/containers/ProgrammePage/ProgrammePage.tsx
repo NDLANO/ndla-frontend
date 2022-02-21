@@ -6,12 +6,8 @@
  *
  */
 
-import React from 'react';
-import { match, RouteComponentProps, useHistory } from 'react-router';
-import { Helmet } from 'react-helmet';
-import { withTracker } from '@ndla/tracker';
-import { Programme } from '@ndla/ui';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import React, { useContext } from 'react';
+import { RouteComponentProps, useHistory, withRouter } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -23,6 +19,9 @@ import { subjectsQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
 import { toProgramme } from '../../routeHelpers';
+import ProgrammeContainer from './ProgrammeContainer';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { RootComponentProps } from '../../routes';
 
 export interface GradesData {
   name: string;
@@ -62,36 +61,14 @@ export const mapGradesData = (
   });
 };
 
-const getProgrammeName = (match: match<MatchParams>, locale: LocaleType) => {
-  const slug = match?.params?.programme;
-  const gradeParam = match.params.grade;
-  const programmeData = getProgrammeBySlug(slug, locale);
-  const grade = getGradeNameFromProgramme(gradeParam, programmeData);
-  const gradeString = grade ? ` - ${grade}` : '';
-  const programmeString = programmeData?.name[locale] ?? '';
-  return `${programmeString}${gradeString}`;
-};
-
-const getDocumentTitle = ({
-  match,
-  locale,
-  t,
-}: Pick<Props, 'match' | 'locale' | 't'>) => {
-  const name = getProgrammeName(match, locale);
-  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
-};
-
 interface MatchParams {
   programme: string;
   grade?: string;
 }
 
-interface Props extends RouteComponentProps<MatchParams>, WithTranslation {
-  locale: LocaleType;
-  user?: FeideUserWithGroups;
-}
+interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
 
-const getGradeNameFromProgramme = (
+export const getGradeNameFromProgramme = (
   grade?: string,
   programme?: ProgrammeType,
 ) => {
@@ -101,8 +78,8 @@ const getGradeNameFromProgramme = (
 };
 
 const ProgrammePage = ({ match, locale, t }: Props) => {
+  const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
-
   const slug = match?.params?.programme;
   const gradeParam = match.params.grade;
   const programmeData = getProgrammeBySlug(slug, locale);
@@ -129,43 +106,15 @@ const ProgrammePage = ({ match, locale, t }: Props) => {
     history.push(toProgramme(slug, newGrade));
   };
 
-  const heading = programmeData.name[locale];
-  const grades = mapGradesData(
-    programmeData.grades,
-    data.subjects || [],
-    locale,
-  );
-  const documentTitle = getDocumentTitle({ match, locale, t });
-  const metaDescription = programmeData.meta?.description?.[locale];
-  const image = programmeData.image?.url || '';
   return (
-    <>
-      <Helmet>
-        <title>{documentTitle}</title>
-        {metaDescription && (
-          <meta name="description" content={metaDescription} />
-        )}
-      </Helmet>
-      <Programme
-        heading={heading}
-        grades={grades}
-        image={image}
-        selectedGrade={grade.toLowerCase()}
-        onChangeGrade={onGradeChange}
-      />
-    </>
+    <ProgrammeContainer
+      programme={programmeData}
+      onGradeChange={onGradeChange}
+      grade={grade}
+      locale={locale}
+      user={user}
+    />
   );
 };
 
-ProgrammePage.getDocumentTitle = getDocumentTitle;
-
-ProgrammePage.getDimensions = (props: Props) => {
-  const { match, locale, user } = props;
-  return getAllDimensions(
-    { subject: { name: getProgrammeName(match, locale) }, user },
-    undefined,
-    false,
-  );
-};
-
-export default withTranslation()(withTracker(ProgrammePage));
+export default withRouter(ProgrammePage);
