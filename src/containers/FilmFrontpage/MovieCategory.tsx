@@ -10,15 +10,17 @@ import React from 'react';
 import { CarouselAutosize } from '@ndla/carousel';
 //@ts-ignore
 import { CalculatedCarouselProps, FilmMovieList, MovieGrid } from '@ndla/ui';
+import { gql } from '@apollo/client';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { breakpoints, findName } from './filmHelper';
-import { GQLMovieTheme } from '../../graphqlTypes';
+import { GQLMovieCategoryThemeFragment } from '../../graphqlTypes';
 import { MoviesByType } from './NdlaFilmFrontpage';
+import { movieFragment } from '../../queries';
 
 interface Props {
   fetchingMoviesByType?: boolean;
   resourceTypeName?: { name: string; id: string };
-  themes: GQLMovieTheme[];
+  themes: GQLMovieCategoryThemeFragment[];
   resourceTypes: { name: string; id: string }[];
   moviesByType?: MoviesByType[];
   resourceTypeSelected?: string;
@@ -48,7 +50,7 @@ const MovieCategory = ({
           loadingPlaceholderHeight={loadingPlaceholderHeight}
         />
       ) : (
-        themes.map((theme: GQLMovieTheme) => (
+        themes.map(theme => (
           <FilmMovieList
             key={theme.name[0]?.name}
             name={findName(theme.name ?? [], i18n.language)}
@@ -65,3 +67,16 @@ const MovieCategory = ({
 );
 
 export default withTranslation()(MovieCategory);
+
+export const movieCategoryThemeFragment = gql`
+  fragment MovieCategoryTheme on MovieTheme {
+    name {
+      name
+      language
+    }
+    movies {
+      ...MovieInfo
+    }
+  }
+  ${movieFragment}
+`;

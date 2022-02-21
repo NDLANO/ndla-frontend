@@ -1,6 +1,6 @@
 overwrite: true
 schema: "src/gqlSchema.json"
-documents: "src/queries.ts"
+documents: "./src/**/!(*.d).{ts,tsx}"
 generates:
   src/graphqlTypes.ts:
     plugins:
