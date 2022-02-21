@@ -92,11 +92,7 @@ const ToolboxTopicWrapper = ({
         },
       }),
       resources: topic?.subtopics ? (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          locale={locale}
-        />
+        <Resources topic={topic} resourceTypes={resourceTypes} />
       ) : (
         undefined
       ),
