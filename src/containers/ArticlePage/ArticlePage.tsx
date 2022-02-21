@@ -102,7 +102,6 @@ const ArticlePage = ({
             <Resources
               topic={topic}
               resourceTypes={resourceTypes}
-              locale={locale}
               ndlaFilm={ndlaFilm}
             />
           )}
@@ -181,7 +180,6 @@ const ArticlePage = ({
             <Resources
               topic={topic}
               resourceTypes={resourceTypes}
-              locale={locale}
               ndlaFilm={ndlaFilm}
             />
           </LayoutItem>

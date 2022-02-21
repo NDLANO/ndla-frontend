@@ -96,11 +96,7 @@ const MultidisciplinarySubjectArticle = ({
           isResourceArticle={false}
         />
         <div ref={resourcesRef}>
-          <Resources
-            topic={topic}
-            resourceTypes={resourceTypes}
-            locale={locale}
-          />
+          <Resources topic={topic} resourceTypes={resourceTypes} />
         </div>
       </OneColumn>
     </>
