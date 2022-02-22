@@ -22,11 +22,11 @@ import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import { LocaleType } from '../interfaces';
-import { GQLArticle, GQLResource } from '../graphqlTypes';
+import { GQLArticle, GQLIframeResourceFragment } from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  resource?: GQLResource;
+  resource?: GQLIframeResourceFragment;
   article: GQLArticle;
 }
 
@@ -67,7 +67,11 @@ const IframeArticlePage = ({
       />
       <PostResizeMessage />
       <FixDialogPosition />
-      <Article article={article} locale={locale} {...getArticleProps(resource)}>
+      <Article
+        article={article}
+        locale={locale}
+        modifier="clean iframe"
+        {...getArticleProps(resource)}>
         <CreatedBy
           name={t('createdBy.content')}
           description={t('createdBy.text')}

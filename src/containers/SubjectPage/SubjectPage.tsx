@@ -78,7 +78,6 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   if (!data.subject || !subjectId) {
     const redirect = data.subjects?.find(sub => {
       const customFields = sub.metadata?.customFields;
-      //@ts-ignore
       return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
     });
     if (!redirect) {
