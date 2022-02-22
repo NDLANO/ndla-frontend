@@ -69,6 +69,7 @@ interface Props {
   contentType?: string;
   label: string;
   locale: LocaleType;
+  modifier?: string;
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
@@ -119,6 +120,7 @@ const Article = ({
   contentType,
   label,
   locale,
+  modifier,
   isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
@@ -204,7 +206,7 @@ const Article = ({
       competenceGoalTypes={competenceGoalTypes}
       notions={renderNotions(article, i18n.language as LocaleType)}
       renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : 'clean'}
+      modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
       printUrl={printUrl}
       {...rest}>

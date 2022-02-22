@@ -185,6 +185,32 @@ export const searchFilmQuery = gql`
   }
 `;
 
+export const GroupSearchResourceFragment = gql`
+  fragment GroupSearchResource on GroupSearchResult {
+    id
+    path
+    name
+    ingress
+    traits
+    contexts {
+      language
+      path
+      breadcrumbs
+      subjectId
+      subject
+      relevance
+      resourceTypes {
+        id
+        name
+      }
+    }
+    metaImage {
+      url
+      alt
+    }
+  }
+`;
+
 export const groupSearchQuery = gql`
   query GroupSearch(
     $resourceTypes: String
@@ -212,27 +238,7 @@ export const groupSearchQuery = gql`
       aggregatePaths: $aggregatePaths
     ) {
       resources {
-        id
-        path
-        name
-        ingress
-        traits
-        contexts {
-          language
-          path
-          breadcrumbs
-          subjectId
-          subject
-          relevance
-          resourceTypes {
-            id
-            name
-          }
-        }
-        metaImage {
-          url
-          alt
-        }
+        ...GroupSearchResource
       }
       aggregations {
         values {
@@ -264,6 +270,19 @@ export const groupSearchQuery = gql`
       }
     }
   }
+  ${GroupSearchResourceFragment}
+`;
+
+export const conceptSearchInfoFragment = gql`
+  fragment ConceptSearchConcept on Concept {
+    id
+    title
+    text: content
+    image: metaImage {
+      url
+      alt
+    }
+  }
 `;
 
 export const conceptSearchQuery = gql`
@@ -282,16 +301,11 @@ export const conceptSearchQuery = gql`
       fallback: $fallback
     ) {
       concepts {
-        id
-        title
-        text: content
-        image: metaImage {
-          url
-          alt
-        }
+        ...ConceptSearchConcept
       }
     }
   }
+  ${conceptSearchInfoFragment}
 `;
 
 export const frontpageSearchQuery = gql`
@@ -859,6 +873,18 @@ export const plainArticleQuery = gql`
   ${articleInfoFragment}
 `;
 
+export const iframeResourceFragment = gql`
+  fragment IframeResource on Resource {
+    id
+    name
+    path
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
 export const iframeArticleQuery = gql`
   query iframeArticle(
     $articleId: String!
@@ -872,13 +898,7 @@ export const iframeArticleQuery = gql`
       ...ArticleInfo
     }
     resource(id: $taxonomyId) @include(if: $includeResource) {
-      id
-      name
-      path
-      resourceTypes {
-        id
-        name
-      }
+      ...IframeResource
     }
     topic(id: $taxonomyId) @include(if: $includeTopic) {
       id
@@ -886,6 +906,7 @@ export const iframeArticleQuery = gql`
       path
     }
   }
+  ${iframeResourceFragment}
   ${articleInfoFragment}
 `;
 
@@ -950,43 +971,50 @@ export const topicQueryWithPathTopics = gql`
   ${resourceInfoFragment}
 `;
 
+export const topicQueryTopicFragment = gql`
+  fragment TopicQueryTopic on Topic {
+    id
+    name
+    path
+    parent
+    relevanceId
+    meta {
+      ...MetaInfo
+    }
+    subtopics {
+      id
+      name
+      relevanceId
+    }
+    article {
+      ...ArticleInfo
+    }
+    coreResources(subjectId: $subjectId) {
+      ...ResourceInfo
+    }
+    supplementaryResources(subjectId: $subjectId) {
+      ...ResourceInfo
+    }
+    metadata {
+      customFields
+    }
+  }
+  ${resourceInfoFragment}
+  ${articleInfoFragment}
+  ${metaInfoFragment}
+`;
+
 export const topicQuery = gql`
   query topic($topicId: String!, $subjectId: String) {
     topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      parent
-      relevanceId
-      meta {
-        ...MetaInfo
-      }
-      subtopics {
-        id
-        name
-        relevanceId
-      }
-      article {
-        ...ArticleInfo
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      metadata {
-        customFields
-      }
+      ...TopicQueryTopic
     }
     resourceTypes {
       id
       name
     }
   }
-  ${metaInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
+  ${topicQueryTopicFragment}
 `;
 
 export const learningPathStepQuery = gql`

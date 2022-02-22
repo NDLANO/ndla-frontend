@@ -66,7 +66,7 @@ interface TrackableContent {
 interface Props extends RouteComponentProps {
   title: string;
   description?: string;
-  image?: GQLMetaImage;
+  image?: Pick<GQLMetaImage, 'url'>;
   trackableContent?: TrackableContent;
   children?: React.ReactNode;
 }

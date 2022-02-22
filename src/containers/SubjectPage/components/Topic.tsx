@@ -24,7 +24,10 @@ import {
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
-import { GQLResourceTypeDefinition, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLResourceTypeDefinition,
+  GQLTopicQueryTopicFragment,
+} from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
@@ -53,7 +56,7 @@ type Props = {
   showResources?: boolean;
   subject?: GQLSubjectContainerType;
   loading?: boolean;
-  topic: GQLTopic;
+  topic: GQLTopicQueryTopicFragment;
   resourceTypes?: Array<GQLResourceTypeDefinition>;
   user?: FeideUserWithGroups;
 } & WithTranslation;
@@ -121,7 +124,6 @@ const Topic = ({
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
-          locale={locale}
           ndlaFilm={ndlaFilm}
         />
       ) : (
@@ -136,7 +138,7 @@ const Topic = ({
     .slice(2)
     .map(id => `urn:${id}`);
 
-  const subTopics = topic?.subtopics?.map((subtopic: GQLTopic) => {
+  const subTopics = topic?.subtopics?.map(subtopic => {
     return {
       ...subtopic,
       label: subtopic.name,

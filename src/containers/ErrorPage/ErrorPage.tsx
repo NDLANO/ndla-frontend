@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-//@ts-ignore
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { RouteProps } from 'react-router';
 import { useTranslation } from 'react-i18next';

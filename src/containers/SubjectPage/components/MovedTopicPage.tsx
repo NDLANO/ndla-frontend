@@ -28,7 +28,9 @@ interface GQLSearchResultExtended
   contentType: string;
 }
 
-const convertTopicToResult = (topic: GQLTopic): GQLSearchResultExtended => {
+const convertTopicToResult = (
+  topic: Omit<GQLTopic, 'metadata' | 'paths'>,
+): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
@@ -57,7 +59,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
 };
 
 interface Props {
-  topics: GQLTopic[];
+  topics: Omit<GQLTopic, 'metadata' | 'paths'>[];
 }
 
 const MovedTopicPage = ({ topics }: Props) => {

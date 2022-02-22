@@ -108,7 +108,7 @@ export type LtiData = {
 };
 
 export type LtiItem = {
-  id: number;
-  title: string;
-  url: string | { href?: string };
+  id: string | number;
+  title?: string;
+  url: string | { href: string };
 };

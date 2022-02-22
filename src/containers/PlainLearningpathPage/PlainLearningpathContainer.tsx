@@ -69,6 +69,10 @@ const PlainLearningpathContainer = ({
   const currentStep = stepId
     ? steps?.find(step => step.id.toString() === stepId)
     : steps?.[0];
+
+  const imageUrlObj = learningpath.coverphoto?.url
+    ? { url: learningpath.coverphoto.url }
+    : undefined;
   return (
     <div>
       <Helmet>
@@ -79,9 +83,7 @@ const PlainLearningpathContainer = ({
         title={htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')])}
         trackableContent={learningpath}
         description={learningpath.description}
-        image={{
-          url: learningpath?.coverphoto?.url,
-        }}
+        image={imageUrlObj}
       />
       <Learningpath
         learningpath={learningpath}

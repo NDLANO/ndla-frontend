@@ -8,14 +8,10 @@
 
 import React, { ComponentType, ReactNode, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
-// @ts-ignore
 import {
   ArticleHeaderWrapper,
-  // @ts-ignore
   OneColumn,
-  // @ts-ignore
   SubjectBanner,
-  // @ts-ignore
   LayoutItem,
   NavigationHeading,
   Breadcrumblist,
@@ -215,6 +211,9 @@ const SubjectContainer = ({
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
 
+  const imageUrlObj = socialMediaMetadata.image?.url
+    ? { url: socialMediaMetadata.image.url }
+    : undefined;
   return (
     <>
       <Helmet>
@@ -231,12 +230,7 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              image={
-                socialMediaMetadata.image && {
-                  url: socialMediaMetadata.image.url,
-                  alt: socialMediaMetadata.image.alt,
-                }
-              }
+              image={imageUrlObj}
               trackableContent={{ supportedLanguages }}
             />
 

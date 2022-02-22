@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 //@ts-ignore
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { HeroContentType } from '@ndla/ui/lib/Hero';
-import { GQLMetaImage, GQLSubject } from '../../../graphqlTypes';
+import { GQLMetaImage, GQLResourcePageQuery } from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
 interface WrapperProps {
   children: ReactNode;
@@ -47,7 +47,7 @@ WrapperComponent.propTypes = {
 
 interface Props {
   ndlaFilm?: boolean;
-  subject?: GQLSubject;
+  subject?: GQLResourcePageQuery['subject'];
   resourceType?: HeroContentType;
   metaImage?: GQLMetaImage;
   breadcrumbItems: BreadcrumbType[];

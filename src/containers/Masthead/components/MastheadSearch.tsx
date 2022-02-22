@@ -22,17 +22,16 @@ import {
 } from '../../../constants';
 import { toSearch } from '../../../routeHelpers';
 import {
-  GQLSubject,
-  GQLGroupSearch,
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
+  GQLMastHeadQuery,
 } from '../../../graphqlTypes';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 interface Props extends RouteComponentProps {
   hideOnNarrowScreen?: boolean;
-  subject?: GQLSubject;
+  subject?: GQLMastHeadQuery['subject'];
   ndlaFilm?: boolean;
 }
 
@@ -96,7 +95,12 @@ const MastheadSearch = ({
     }
   };
 
-  const mapResults = (results: GQLGroupSearch[] = []) =>
+  type MapResultsType = Pick<
+    Required<GQLGroupSearchQuery>['groupSearch'][0],
+    'resourceType' | 'resources'
+  >;
+
+  const mapResults = (results: MapResultsType[] = []) =>
     query.length > 1
       ? results.map(result => {
           const contentType = contentTypeMapping[result.resourceType];
@@ -154,13 +158,12 @@ const MastheadSearch = ({
               />
               {query.length > 2 && (
                 <SearchResultSleeve
-                  //@ts-ignore
                   result={mapResults(searchResult.groupSearch)}
                   searchString={query}
                   allResultUrl={toSearch(searchString)}
                   resourceToLinkProps={searchResultToLinkProps}
-                  history={history}
                   onNavigate={onNavigate}
+                  loading={loading}
                 />
               )}
             </SearchFieldForm>

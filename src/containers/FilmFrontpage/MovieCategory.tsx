@@ -17,9 +17,9 @@ import { MoviesByType } from './NdlaFilmFrontpage';
 
 interface Props {
   fetchingMoviesByType?: boolean;
-  resourceTypeName?: { name?: string; id?: string };
+  resourceTypeName?: { name: string; id: string };
   themes: GQLMovieTheme[];
-  resourceTypes?: { name?: string; id?: string }[];
+  resourceTypes: { name: string; id: string }[];
   moviesByType?: MoviesByType[];
   resourceTypeSelected?: string;
   loadingPlaceholderHeight?: string;
@@ -42,15 +42,15 @@ const MovieCategory = ({
         <MovieGrid
           autoSizedProps={autoSizedProps}
           resourceTypeName={resourceTypeName}
-          fetchingMoviesByType={fetchingMoviesByType}
-          moviesByType={moviesByType}
+          fetchingMoviesByType={!!fetchingMoviesByType}
+          moviesByType={moviesByType ?? []}
           resourceTypes={resourceTypes}
           loadingPlaceholderHeight={loadingPlaceholderHeight}
         />
       ) : (
         themes.map((theme: GQLMovieTheme) => (
           <FilmMovieList
-            key={theme.name}
+            key={theme.name[0]?.name}
             name={findName(theme.name ?? [], i18n.language)}
             movies={theme.movies}
             autoSizedProps={autoSizedProps}

@@ -93,7 +93,9 @@ const WelcomePage = ({ locale }: Props) => {
       <SocialMediaMetadata
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
-        image={{ url: `${config.ndlaFrontendDomain}/static/logo.png` }}>
+        image={{
+          url: `${config.ndlaFrontendDomain}/static/logo.png`,
+        }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       <FrontpageHeader locale={locale} showHeader={true}>

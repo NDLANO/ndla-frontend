@@ -5,7 +5,7 @@ import { getUrnIdsFromProps } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
-import { GQLResourceType, GQLSubject } from '../../../graphqlTypes';
+import { GQLMastHeadQuery, GQLResourceType } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
 import { GradesData } from '../../ProgrammePage/ProgrammePage';
@@ -18,7 +18,7 @@ export interface MastheadProgramme {
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-  subject?: GQLSubject;
+  subject?: GQLMastHeadQuery['subject'];
   topicResourcesByType: GQLResourceType[];
   onDataFetch: (
     subjectId: string,
