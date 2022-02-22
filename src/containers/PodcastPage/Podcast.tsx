@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AudioPlayer,
@@ -14,7 +14,6 @@ import {
   FigureCaption,
   FigureLicenseDialog,
 } from '@ndla/ui';
-import { uuid } from '@ndla/util';
 import {
   getLicenseByAbbreviation,
   getCopyString,
@@ -33,6 +32,7 @@ interface Props {
 }
 
 const Podcast = ({ podcast }: Props) => {
+  const [mounted, setMounted] = useState(false);
   const {
     i18n: { language },
   } = useTranslation();
@@ -48,8 +48,12 @@ const Podcast = ({ podcast }: Props) => {
 
   const { t } = useTranslation();
   useEffect(() => {
-    initArticleScripts();
-  }, []);
+    if (!mounted) {
+      setMounted(true);
+    } else {
+      initArticleScripts();
+    }
+  }, [mounted]);
 
   const messages = {
     learnAboutLicenses: license
@@ -73,8 +77,8 @@ const Podcast = ({ podcast }: Props) => {
     type: item.label,
   }));
 
-  const id = uuid();
-  const figureId = `figure-${id}`;
+  const id = podcast.id.toString();
+  const figureId = `figure-podcast-${id}`;
 
   return (
     <Figure id={figureId} type="full-column">
@@ -85,38 +89,40 @@ const Podcast = ({ podcast }: Props) => {
         img={coverPhoto}
         textVersion={podcast.manuscript?.manuscript}
       />
-      <FigureLicenseDialog
-        id={id}
-        authors={contributors}
-        locale={language}
-        license={getLicenseByAbbreviation(
-          podcast.copyright.license?.license!,
-          'nb',
-        )}
-        messages={messages}
-        title={podcast.title.title}
-        origin={podcast.copyright.origin}>
-        <CopyTextButton
-          stringToCopy={getCopyString(
-            podcast.title.title,
-            undefined,
-            `/podcast/${podcast.id}`,
-            podcast.copyright,
-            config.ndlaFrontendDomain,
-            key => t(key),
+      {mounted && (
+        <FigureLicenseDialog
+          id={id}
+          authors={contributors}
+          locale={language}
+          license={getLicenseByAbbreviation(
+            podcast.copyright.license?.license!,
+            'nb',
           )}
-          copyTitle={t('license.copyTitle')}
-          hasCopiedTitle={t('license.hasCopiedTitle')}
-        />
-        {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
-          <AnchorButton
-            href={podcast.audioFile.url}
-            download
-            appearance="outline">
-            {t('license.download')}
-          </AnchorButton>
-        )}
-      </FigureLicenseDialog>
+          messages={messages}
+          title={podcast.title.title}
+          origin={podcast.copyright.origin}>
+          <CopyTextButton
+            stringToCopy={getCopyString(
+              podcast.title.title,
+              undefined,
+              `/podcast/${podcast.id}`,
+              podcast.copyright,
+              config.ndlaFrontendDomain,
+              key => t(key),
+            )}
+            copyTitle={t('license.copyTitle')}
+            hasCopiedTitle={t('license.hasCopiedTitle')}
+          />
+          {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
+            <AnchorButton
+              href={podcast.audioFile.url}
+              download
+              appearance="outline">
+              {t('license.download')}
+            </AnchorButton>
+          )}
+        </FigureLicenseDialog>
+      )}
       <FigureCaption
         figureId={figureId}
         id={id}

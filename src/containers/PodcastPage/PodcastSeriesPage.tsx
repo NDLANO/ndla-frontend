@@ -46,7 +46,7 @@ const TitleWrapper = styled.div`
 `;
 
 const StyledLink = styled(SafeLink)`
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 `;
 
 const PodcastSeriesPage = ({
@@ -80,6 +80,10 @@ const PodcastSeriesPage = ({
     return <DefaultErrorMessage />;
   }
 
+  const imageUrlObj = podcastSeries.coverPhoto?.url
+    ? { url: podcastSeries.coverPhoto.url }
+    : undefined;
+
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
@@ -97,10 +101,7 @@ const PodcastSeriesPage = ({
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
-        image={{
-          url: podcastSeries.coverPhoto.url,
-          alt: podcastSeries.coverPhoto.altText,
-        }}
+        image={imageUrlObj}
       />
       <OneColumn>
         <TitleWrapper>
