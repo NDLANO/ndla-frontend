@@ -8,7 +8,6 @@
 
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
-//@ts-ignore
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { HeroContentType } from '@ndla/ui/lib/Hero';
 import { GQLMetaImage, GQLResourcePageQuery } from '../../../graphqlTypes';

@@ -9,7 +9,6 @@
 import React, { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
 import { RouteProps } from 'react-router';
-// @ts-ignore
 import { PageContainer } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import ZendeskButton from '@ndla/zendesk';
