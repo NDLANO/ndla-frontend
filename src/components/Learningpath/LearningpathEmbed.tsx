@@ -7,20 +7,27 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
-import { LearningpathStepShape } from '../../shapes';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import { BreadCrumbShape, TopicShape } from '../../shapes';
 import LearningpathIframe from './LearningpathIframe';
+import { Breadcrumb, LocaleType } from '../../interfaces';
+import ErrorPage from '../../containers/ErrorPage';
+import {
+  GQLLearningpathInfoFragment,
+  GQLResourcePageQuery,
+} from '../../graphqlTypes';
 
-const StyledIframeContainer = styled.div`
+interface StyledIframeContainerProps {
+  oembedWidth: number;
+  oembedHeight: number;
+}
+const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   margin-bottom: ${spacing.normal};
   & > iframe {
     padding-top: 1em;
@@ -31,13 +38,20 @@ const StyledIframeContainer = styled.div`
   }
 `;
 
+interface Props {
+  learningpathStep: GQLLearningpathInfoFragment['learningsteps'][0];
+  topic?: Required<GQLResourcePageQuery>['topic'];
+  skipToContentId?: string;
+  locale: LocaleType;
+  breadcrumbItems: Breadcrumb[];
+}
 const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
   locale,
   topic,
   breadcrumbItems,
-}) => {
+}: Props) => {
   if (
     !learningpathStep ||
     (!learningpathStep.resource &&
@@ -61,10 +75,14 @@ const LearningpathEmbed = ({
       </StyledIframeContainer>
     );
   }
+
   const learningpathStepResource = learningpathStep.resource;
-  const article = learningpathStepResource.article
-    ? transformArticle(learningpathStepResource.article)
-    : undefined;
+
+  if (!learningpathStepResource?.article) {
+    return <ErrorPage locale={locale} />;
+  }
+
+  const article = transformArticle(learningpathStepResource.article, locale);
   const scripts = getArticleScripts(article);
   return (
     <>
@@ -101,11 +119,4 @@ const LearningpathEmbed = ({
   );
 };
 
-LearningpathEmbed.propTypes = {
-  learningpathStep: LearningpathStepShape,
-  topic: TopicShape,
-  skipToContentId: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  breadcrumbItems: PropTypes.arrayOf(BreadCrumbShape),
-};
 export default LearningpathEmbed;
