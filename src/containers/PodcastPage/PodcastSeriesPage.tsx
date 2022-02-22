@@ -84,6 +84,8 @@ const PodcastSeriesPage = ({
     ? { url: podcastSeries.coverPhoto.url }
     : undefined;
 
+  const rssUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}/feed.xml`;
+
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
@@ -93,6 +95,12 @@ const PodcastSeriesPage = ({
             content={podcastSeries.description.description}
           />
         )}
+        <link
+          type="application/rss+xml"
+          rel="alternate"
+          title={podcastSeries.title.title}
+          href={rssUrl}
+        />
       </HelmetWithTracker>
       <SocialMediaMetadata
         title={podcastSeries.title.title ?? ''}
@@ -108,8 +116,7 @@ const PodcastSeriesPage = ({
           <ArticleTitle label={t('podcastPage.podcast')}>
             {podcastSeries.title.title}
           </ArticleTitle>
-          <StyledLink
-            to={`${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}/feed.xml`}>
+          <StyledLink to={rssUrl}>
             <RssFeed />
             RSS
           </StyledLink>
