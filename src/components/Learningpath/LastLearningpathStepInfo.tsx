@@ -63,7 +63,7 @@ const LastLearningpathStepInfo = ({
           name: topicWithPath.name,
         }
       }>
-      {showResources && (
+      {showResources && topic && (
         <Resources
           key="resources"
           resourceTypes={resourceTypes}

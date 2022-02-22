@@ -36,8 +36,8 @@ interface ResourcesTopic extends Omit<GQLTopicQueryTopicFragment, 'metadata'> {
 interface Props extends RouteComponentProps<MatchProps> {
   topic: ResourcesTopic;
   resourceTypes?: Pick<GQLResourceType, 'id' | 'name'>[];
-  coreResources?: GQLResource[];
-  supplementaryResources?: GQLResource[];
+  coreResources?: Omit<GQLResource, 'metadata'>[];
+  supplementaryResources?: Omit<GQLResource, 'metadata'>[];
   ndlaFilm?: boolean;
 }
 const Resources = ({
