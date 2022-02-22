@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
 import { RssFeed } from '@ndla/icons/lib/common';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { podcastSeriesQuery } from '../../queries';
 import Podcast from './Podcast';
@@ -47,6 +47,7 @@ const TitleWrapper = styled.div`
 
 const StyledLink = styled(SafeLink)`
   margin-bottom: 28px;
+  color: ${colors.brand.primary};
 `;
 
 const PodcastSeriesPage = ({
