@@ -2701,7 +2701,7 @@ export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmeistring',
       en: 'Folkehelse og livsmestring',
     },
     topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
@@ -2710,7 +2710,7 @@ export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgarskap',
       en: 'Demokrati og medborgerskap',
     },
     topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
@@ -2719,7 +2719,7 @@ export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
+      nn: 'Berekraftig utvikling',
       en: 'Bærekraftig utvikling',
     },
     topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
