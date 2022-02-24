@@ -1,44 +1,19 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
 import React from 'react';
 import { Notion } from '@ndla/ui';
-import {
-  GQLConceptCopyright,
-  GQLConceptSearchConceptFragment,
-} from '../../../graphqlTypes';
+import { GQLConceptSearchConceptFragment } from '../../../graphqlTypes';
 import { NotionImage } from './NotionImage';
 import NotionVisualElement from './NotionVisualElement';
 import FigureNotion from './FigureNotion';
 interface Props {
   concept: GQLConceptSearchConceptFragment;
 }
-
-const mockCopyright: GQLConceptCopyright = {
-  creators: [
-    {
-      type: 'artist',
-      name: 'Picasso',
-    },
-    {
-      type: 'photographer',
-      name: 'Tor foto',
-    },
-  ],
-  processors: [
-    {
-      type: 'processor',
-      name: 'Process or?',
-    },
-  ],
-  rightsholders: [
-    {
-      type: 'rightsholder',
-      name: 'Sjefen',
-    },
-  ],
-  license: {
-    license: 'CC-BY-NS-SA-4.0',
-  },
-  origin: 'https://ndla.no',
-};
 
 const ConceptNotion = ({ concept }: Props) => {
   const notionId = `notion-${concept.id}`;
@@ -48,9 +23,9 @@ const ConceptNotion = ({ concept }: Props) => {
     <FigureNotion
       id={figureId}
       figureId={visualElementId}
-      copyright={mockCopyright}
+      copyright={concept.copyright}
       title={concept.title}
-      licenseString={mockCopyright.license?.license ?? ''}
+      licenseString={concept.copyright?.license?.license ?? ''}
       type="concept">
       <Notion
         id={notionId}

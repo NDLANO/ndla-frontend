@@ -7,16 +7,13 @@
  */
 
 import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
-import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
 import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
@@ -75,55 +72,42 @@ interface Props {
   subjectId?: string;
 }
 
-const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
-  const notions =
-    article.concepts?.map(concept => {
-      const { content: text, copyright, subjectNames, visualElement } = concept;
-      const { creators: authors, license } = copyright!;
-      return {
-        ...concept,
-        id: concept.id.toString(),
-        title: concept.title,
-        text,
-        locale,
-        labels: subjectNames,
-        authors,
-        license: license?.license,
-        visualElement:
-          visualElement && visualElement.resource !== 'image'
-            ? {
-                type: 'video' as 'video',
-
-                metaImage: {
-                  url: concept.image?.src ?? '',
-                  alt: concept.image?.altText ?? '',
-                },
-                element: (
-                  <VisualElementWrapper
-                    visualElement={visualElement}
-                    locale={locale}
-                  />
-                ),
-              }
-            : undefined,
-      };
-    }) ?? [];
-  const related =
-    article.relatedContent?.map(rc => ({
-      ...rc,
-      label: rc.title,
-    })) ?? [];
-  if (
-    config.ndlaEnvironment !== 'prod' &&
-    (notions.length > 0 || related.length > 0)
-  ) {
-    return {
-      list: notions,
-      related,
-    };
-  }
-  return undefined;
-};
+// Functionality has been commented out in frontend-packages. Should probably be uncommented and fixed instead.
+// const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
+//   const notions =
+//     article.concepts?.map(concept => {
+//       const { content: text, copyright, subjectNames, visualElement } = concept;
+//       const { creators: authors, license } = copyright!;
+//       return {
+//         ...concept,
+//         id: concept.id.toString(),
+//         title: concept.title,
+//         text,
+//         locale,
+//         labels: subjectNames,
+//         authors,
+//         license: license?.license,
+//         media: visualElement && (
+//           <VisualElementWrapper visualElement={visualElement} locale={locale} />
+//         ),
+//       };
+//     }) ?? [];
+//   const related =
+//     article.relatedContent?.map(rc => ({
+//       ...rc,
+//       label: rc.title,
+//     })) ?? [];
+//   if (
+//     config.ndlaEnvironment !== 'prod' &&
+//     (notions.length > 0 || related.length > 0)
+//   ) {
+//     return {
+//       list: notions,
+//       related,
+//     };
+//   }
+//   return undefined;
+// };
 
 const Article = ({
   article,
@@ -141,7 +125,7 @@ const Article = ({
   subjectId,
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
+  // const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -217,7 +201,8 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(article, i18n.language as LocaleType)}
+      notions={{ list: [], related: [] }}
+      // notions={renderNotions(article, i18n.language as LocaleType)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}

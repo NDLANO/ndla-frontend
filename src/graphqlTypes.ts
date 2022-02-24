@@ -215,6 +215,7 @@ export type GQLCompetenceGoal = {
 export type GQLConcept = {
   __typename?: 'Concept';
   content: Scalars['String'];
+  copyright?: Maybe<GQLConceptCopyright>;
   id: Scalars['Int'];
   metaImage: GQLMetaImage;
   subjectIds?: Maybe<Array<Scalars['String']>>;
@@ -1475,6 +1476,20 @@ export type GQLConceptSearchConceptFragment = {
   visualElement?: Maybe<
     { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
   >;
+  copyright?: Maybe<{
+    __typename?: 'ConceptCopyright';
+    origin?: Maybe<string>;
+    license?: Maybe<{ __typename?: 'License'; license: string }>;
+    creators: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+    processors: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+    rightsholders: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+  }>;
   image: { __typename?: 'MetaImage'; url: string; alt: string };
 };
 
@@ -1763,11 +1778,6 @@ export type GQLArticleInfoFragment = {
       title: string;
       content?: Maybe<string>;
       subjectNames?: Maybe<Array<string>>;
-      image?: Maybe<{
-        __typename?: 'ImageLicense';
-        src: string;
-        altText: string;
-      }>;
       copyright?: Maybe<
         { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
       >;

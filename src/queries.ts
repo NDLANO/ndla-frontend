@@ -357,12 +357,28 @@ export const conceptSearchInfoFragment = gql`
     visualElement {
       ...VisualElementInfo
     }
+    copyright {
+      license {
+        license
+      }
+      creators {
+        ...ContributorInfo
+      }
+      processors {
+        ...ContributorInfo
+      }
+      rightsholders {
+        ...ContributorInfo
+      }
+      origin
+    }
     text: content
     image: metaImage {
       url
       alt
     }
   }
+  ${contributorInfoFragment}
   ${visualElementFragment}
 `;
 
@@ -640,10 +656,6 @@ export const articleInfoFragment = gql`
       title
       content
       subjectNames
-      image {
-        src
-        altText
-      }
       copyright {
         ...ConceptCopyrightInfo
       }
