@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode, useMemo } from 'react';
-import { Remarkable } from 'remarkable';
+import React from 'react';
 import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
@@ -26,6 +25,7 @@ import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { getLocaleUrls } from '../../util/localeHelpers';
+import ConceptNotion from './components/ConceptNotion';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -79,12 +79,6 @@ const SearchContainer = ({
   location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    return md;
-  }, []);
-  const renderMarkdown = (text: ReactNode) => markdown.render(text);
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -113,14 +107,14 @@ const SearchContainer = ({
       />
       {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
-          //@ts-ignore
-          items={concepts}
           totalCount={concepts.length}
           onRemove={() => {
             setShowConcepts(false);
-          }}
-          renderMarkdown={renderMarkdown}
-        />
+          }}>
+          {concepts.map(concept => (
+            <ConceptNotion concept={concept} />
+          ))}
+        </SearchNotionsResult>
       )}
       {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
       {searchGroups && searchGroups.length > 0 && (

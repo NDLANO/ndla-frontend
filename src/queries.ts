@@ -273,16 +273,97 @@ export const groupSearchQuery = gql`
   ${GroupSearchResourceFragment}
 `;
 
+const copyrightInfoFragment = gql`
+  ${contributorInfoFragment}
+  fragment CopyrightInfo on Copyright {
+    license {
+      license
+      url
+    }
+    creators {
+      ...ContributorInfo
+    }
+    processors {
+      ...ContributorInfo
+    }
+    rightsholders {
+      ...ContributorInfo
+    }
+    origin
+  }
+`;
+
+export const visualElementFragment = gql`
+  ${copyrightInfoFragment}
+  fragment VisualElementInfo on VisualElement {
+    title
+    resource
+    url
+    copyright {
+      ...CopyrightInfo
+    }
+    language
+    embed
+    brightcove {
+      videoid
+      player
+      account
+      caption
+      description
+      cover
+      src
+      download
+      iframe {
+        src
+        height
+        width
+      }
+      uploadDate
+      copyText
+    }
+    h5p {
+      src
+      thumbnail
+      copyText
+    }
+    oembed {
+      title
+      html
+      fullscreen
+    }
+    image {
+      resourceid
+      alt
+      caption
+      lowerRightX
+      lowerRightY
+      upperLeftX
+      upperLeftY
+      focalX
+      focalY
+      src
+      altText
+      contentType
+      copyText
+    }
+  }
+`;
+
 export const conceptSearchInfoFragment = gql`
   fragment ConceptSearchConcept on Concept {
     id
     title
+    subjectNames
+    visualElement {
+      ...VisualElementInfo
+    }
     text: content
     image: metaImage {
       url
       alt
     }
   }
+  ${visualElementFragment}
 `;
 
 export const conceptSearchQuery = gql`
@@ -375,26 +456,6 @@ const conceptCopyrightInfoFragment = gql`
   }
 `;
 
-const copyrightInfoFragment = gql`
-  ${contributorInfoFragment}
-  fragment CopyrightInfo on Copyright {
-    license {
-      license
-      url
-    }
-    creators {
-      ...ContributorInfo
-    }
-    processors {
-      ...ContributorInfo
-    }
-    rightsholders {
-      ...ContributorInfo
-    }
-    origin
-  }
-`;
-
 export const metaInfoFragment = gql`
   fragment MetaInfo on Meta {
     id
@@ -450,62 +511,6 @@ export const resourceInfoFragment = gql`
     resourceTypes {
       id
       name
-    }
-  }
-`;
-
-export const visualElementFragment = gql`
-  ${copyrightInfoFragment}
-  fragment VisualElementInfo on VisualElement {
-    title
-    resource
-    url
-    copyright {
-      ...CopyrightInfo
-    }
-    language
-    embed
-    brightcove {
-      videoid
-      player
-      account
-      caption
-      description
-      cover
-      src
-      download
-      iframe {
-        src
-        height
-        width
-      }
-      uploadDate
-      copyText
-    }
-    h5p {
-      src
-      thumbnail
-      copyText
-    }
-    oembed {
-      title
-      html
-      fullscreen
-    }
-    image {
-      resourceid
-      alt
-      caption
-      lowerRightX
-      lowerRightY
-      upperLeftX
-      upperLeftY
-      focalX
-      focalY
-      src
-      altText
-      contentType
-      copyText
     }
   }
 `;
@@ -635,6 +640,10 @@ export const articleInfoFragment = gql`
       title
       content
       subjectNames
+      image {
+        src
+        altText
+      }
       copyright {
         ...ConceptCopyrightInfo
       }

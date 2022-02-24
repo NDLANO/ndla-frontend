@@ -10,18 +10,17 @@ import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
-// @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
-  article: GQLArticle,
+  article: GQLArticleInfoFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
@@ -90,9 +89,23 @@ const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
         labels: subjectNames,
         authors,
         license: license?.license,
-        media: visualElement && (
-          <VisualElementWrapper visualElement={visualElement} locale={locale} />
-        ),
+        visualElement:
+          visualElement && visualElement.resource !== 'image'
+            ? {
+                type: 'video' as 'video',
+
+                metaImage: {
+                  url: concept.image?.src ?? '',
+                  alt: concept.image?.altText ?? '',
+                },
+                element: (
+                  <VisualElementWrapper
+                    visualElement={visualElement}
+                    locale={locale}
+                  />
+                ),
+              }
+            : undefined,
       };
     }) ?? [];
   const related =
