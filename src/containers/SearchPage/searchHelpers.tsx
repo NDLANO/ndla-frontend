@@ -353,7 +353,7 @@ export const getTypeFilter = (
   const typeFilter: Record<string, TypeFilter> = {
     'topic-article': {
       page: 1,
-      pageSize: 4,
+      pageSize: 6,
       selected: selectedFilters?.some(f => f === 'topic-article'),
       filters: [],
     },
@@ -394,7 +394,7 @@ export const getTypeFilter = (
       typeFilter[key] = {
         filters,
         page: 1,
-        pageSize: isSelected ? 8 : 4,
+        pageSize: isSelected ? 12 : 6,
         selected: isSelected,
       };
     });

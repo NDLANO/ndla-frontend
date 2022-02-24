@@ -114,7 +114,7 @@ const SearchInnerPage = ({
       ...stateSearchParams,
       language: i18n.language,
       page: '1',
-      pageSize: '8',
+      pageSize: '12',
       ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
       grepCodesList: searchParams.grepCodes,
@@ -228,7 +228,7 @@ const SearchInnerPage = ({
     const selected = typeFilter[type]?.selected ?? false;
     const updatedFilters = updateTypeFilter(type, {
       page: 1,
-      pageSize: selected ? 4 : 8,
+      pageSize: selected ? 6 : 12,
       selected: !selected,
     });
     const selectedKeys = Object.entries(updatedFilters)
@@ -240,7 +240,7 @@ const SearchInnerPage = ({
   const handleShowMore = (type: string) => {
     const filter = typeFilter[type];
     if (!filter) return;
-    const pageSize = showAll ? 4 : 8;
+    const pageSize = showAll ? 6 : 12;
     const page = filter.page + 1;
     const currentGroup = data?.groupSearch?.find(
       group =>
