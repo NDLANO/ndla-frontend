@@ -1,7 +1,11 @@
 export type Maybe<T> = T;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -51,7 +55,6 @@ export type GQLArticle = {
   updated: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
 };
-
 
 export type GQLArticleCrossSubjectTopicsArgs = {
   subjectId?: Maybe<Scalars['String']>;
@@ -659,7 +662,6 @@ export type GQLQuery = {
   topics?: Maybe<Array<GQLTopic>>;
 };
 
-
 export type GQLQueryArticleArgs = {
   id: Scalars['String'];
   isOembed?: Maybe<Scalars['String']>;
@@ -668,19 +670,16 @@ export type GQLQueryArticleArgs = {
   subjectId?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryCompetenceGoalArgs = {
   code: Scalars['String'];
   language?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   nodeId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLQueryConceptSearchArgs = {
   exactMatch?: Maybe<Scalars['Boolean']>;
@@ -693,33 +692,27 @@ export type GQLQueryConceptSearchArgs = {
   tags?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryConceptsArgs = {
   ids: Array<Scalars['String']>;
 };
-
 
 export type GQLQueryCoreElementArgs = {
   code: Scalars['String'];
   language?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryCoreElementsArgs = {
   codes?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryDetailedConceptArgs = {
   id?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryFrontpageSearchArgs = {
   query?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLQueryGroupSearchArgs = {
   aggregatePaths?: Maybe<Array<Scalars['String']>>;
@@ -735,45 +728,37 @@ export type GQLQueryGroupSearchArgs = {
   subjects?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryLearningpathArgs = {
   pathId: Scalars['String'];
 };
-
 
 export type GQLQueryListingPageArgs = {
   subjects?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQueryPodcastArgs = {
   id: Scalars['Int'];
 };
-
 
 export type GQLQueryPodcastSearchArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
 };
 
-
 export type GQLQueryPodcastSeriesArgs = {
   id: Scalars['Int'];
 };
-
 
 export type GQLQueryPodcastSeriesSearchArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
 };
 
-
 export type GQLQueryResourceArgs = {
   id: Scalars['String'];
   subjectId?: Maybe<Scalars['String']>;
   topicId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLQuerySearchArgs = {
   aggregatePaths?: Maybe<Array<Scalars['String']>>;
@@ -794,7 +779,6 @@ export type GQLQuerySearchArgs = {
   subjects?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQuerySearchWithoutPaginationArgs = {
   contextFilters?: Maybe<Scalars['String']>;
   contextTypes?: Maybe<Scalars['String']>;
@@ -810,22 +794,18 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   subjects?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLQuerySubjectArgs = {
   id: Scalars['String'];
 };
-
 
 export type GQLQuerySubjectpageArgs = {
   id: Scalars['Int'];
 };
 
-
 export type GQLQueryTopicArgs = {
   id: Scalars['String'];
   subjectId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLQueryTopicsArgs = {
   contentUri?: Maybe<Scalars['String']>;
@@ -845,25 +825,25 @@ export type GQLRelatedContent = {
   url: Scalars['String'];
 };
 
-export type GQLResource = GQLTaxonomyEntity & GQLWithArticle & {
-  __typename?: 'Resource';
-  article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']>;
-  breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
-  contentUri?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  learningpath?: Maybe<GQLLearningpath>;
-  meta?: Maybe<GQLMeta>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String'];
-  parentTopics?: Maybe<Array<GQLTopic>>;
-  path: Scalars['String'];
-  paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
-  relevanceId?: Maybe<Scalars['String']>;
-  resourceTypes?: Maybe<Array<GQLResourceType>>;
-};
-
+export type GQLResource = GQLTaxonomyEntity &
+  GQLWithArticle & {
+    __typename?: 'Resource';
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars['String']>;
+    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    contentUri?: Maybe<Scalars['String']>;
+    id: Scalars['String'];
+    learningpath?: Maybe<GQLLearningpath>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars['String'];
+    parentTopics?: Maybe<Array<GQLTopic>>;
+    path: Scalars['String'];
+    paths: Array<Scalars['String']>;
+    rank?: Maybe<Scalars['Int']>;
+    relevanceId?: Maybe<Scalars['String']>;
+    resourceTypes?: Maybe<Array<GQLResourceType>>;
+  };
 
 export type GQLResourceArticleArgs = {
   isOembed?: Maybe<Scalars['String']>;
@@ -876,7 +856,6 @@ export type GQLResourceType = {
   name: Scalars['String'];
   resources?: Maybe<Array<GQLResource>>;
 };
-
 
 export type GQLResourceTypeResourcesArgs = {
   topicId: Scalars['String'];
@@ -969,7 +948,6 @@ export type GQLSubject = GQLTaxonomyEntity & {
   topics?: Maybe<Array<GQLTopic>>;
 };
 
-
 export type GQLSubjectTopicsArgs = {
   all?: Maybe<Scalars['Boolean']>;
 };
@@ -992,21 +970,17 @@ export type GQLSubjectPage = {
   twitter?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLSubjectPageEditorsChoicesArgs = {
   subjectId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLSubjectPageLatestContentArgs = {
   subjectId?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLSubjectPageMostReadArgs = {
   subjectId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLSubjectPageTopicalArgs = {
   subjectId?: Maybe<Scalars['String']>;
@@ -1076,40 +1050,38 @@ export type GQLTitle = {
   title: Scalars['String'];
 };
 
-export type GQLTopic = GQLTaxonomyEntity & GQLWithArticle & {
-  __typename?: 'Topic';
-  alternateTopics?: Maybe<Array<GQLTopic>>;
-  article?: Maybe<GQLArticle>;
-  availability?: Maybe<Scalars['String']>;
-  breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
-  contentUri?: Maybe<Scalars['String']>;
-  coreResources?: Maybe<Array<GQLResource>>;
-  id: Scalars['String'];
-  isPrimary?: Maybe<Scalars['Boolean']>;
-  meta?: Maybe<GQLMeta>;
-  metadata: GQLTaxonomyMetadata;
-  name: Scalars['String'];
-  parent?: Maybe<Scalars['String']>;
-  path: Scalars['String'];
-  pathTopics?: Maybe<Array<Array<GQLTopic>>>;
-  paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
-  relevanceId?: Maybe<Scalars['String']>;
-  subtopics?: Maybe<Array<GQLTopic>>;
-  supplementaryResources?: Maybe<Array<GQLResource>>;
-};
-
+export type GQLTopic = GQLTaxonomyEntity &
+  GQLWithArticle & {
+    __typename?: 'Topic';
+    alternateTopics?: Maybe<Array<GQLTopic>>;
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars['String']>;
+    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    contentUri?: Maybe<Scalars['String']>;
+    coreResources?: Maybe<Array<GQLResource>>;
+    id: Scalars['String'];
+    isPrimary?: Maybe<Scalars['Boolean']>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars['String'];
+    parent?: Maybe<Scalars['String']>;
+    path: Scalars['String'];
+    pathTopics?: Maybe<Array<Array<GQLTopic>>>;
+    paths: Array<Scalars['String']>;
+    rank?: Maybe<Scalars['Int']>;
+    relevanceId?: Maybe<Scalars['String']>;
+    subtopics?: Maybe<Array<GQLTopic>>;
+    supplementaryResources?: Maybe<Array<GQLResource>>;
+  };
 
 export type GQLTopicArticleArgs = {
   showVisualElement?: Maybe<Scalars['String']>;
   subjectId?: Maybe<Scalars['String']>;
 };
 
-
 export type GQLTopicCoreResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
 };
-
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
@@ -1146,7 +1118,11 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
-export type GQLContributorInfoFragment = { __typename?: 'Contributor', name: string, type: string };
+export type GQLContributorInfoFragment = {
+  __typename?: 'Contributor';
+  name: string;
+  type: string;
+};
 
 export type GQLSearchQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
@@ -1165,12 +1141,147 @@ export type GQLSearchQueryVariables = Exact<{
   grepCodes?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLSearchQuery = {
+  __typename?: 'Query';
+  search?: Maybe<{
+    __typename?: 'Search';
+    language: string;
+    page?: Maybe<number>;
+    pageSize: number;
+    totalCount: number;
+    results: Array<
+      | {
+          __typename?: 'ArticleSearchResult';
+          id: number;
+          url: string;
+          metaDescription: string;
+          title: string;
+          supportedLanguages: Array<string>;
+          traits: Array<string>;
+          metaImage?: Maybe<{
+            __typename?: 'MetaImage';
+            url: string;
+            alt: string;
+          }>;
+          contexts: Array<{
+            __typename?: 'SearchContext';
+            id: string;
+            breadcrumbs: Array<string>;
+            relevance: string;
+            language: string;
+            learningResourceType: string;
+            path: string;
+            subject: string;
+            subjectId: string;
+            resourceTypes: Array<{
+              __typename?: 'SearchContextResourceTypes';
+              id: string;
+              name: string;
+              language: string;
+            }>;
+          }>;
+        }
+      | {
+          __typename?: 'LearningpathSearchResult';
+          id: number;
+          url: string;
+          metaDescription: string;
+          title: string;
+          supportedLanguages: Array<string>;
+          traits: Array<string>;
+          metaImage?: Maybe<{
+            __typename?: 'MetaImage';
+            url: string;
+            alt: string;
+          }>;
+          contexts: Array<{
+            __typename?: 'SearchContext';
+            id: string;
+            breadcrumbs: Array<string>;
+            relevance: string;
+            language: string;
+            learningResourceType: string;
+            path: string;
+            subject: string;
+            subjectId: string;
+            resourceTypes: Array<{
+              __typename?: 'SearchContextResourceTypes';
+              id: string;
+              name: string;
+              language: string;
+            }>;
+          }>;
+        }
+    >;
+    suggestions: Array<{
+      __typename?: 'SuggestionResult';
+      name: string;
+      suggestions: Array<{
+        __typename?: 'SearchSuggestion';
+        text: string;
+        offset: number;
+        length: number;
+        options: Array<{
+          __typename?: 'SuggestOption';
+          text: string;
+          score: number;
+        }>;
+      }>;
+    }>;
+  }>;
+};
 
-export type GQLSearchQuery = { __typename?: 'Query', search?: Maybe<{ __typename?: 'Search', language: string, page?: Maybe<number>, pageSize: number, totalCount: number, results: Array<{ __typename?: 'ArticleSearchResult', id: number, url: string, metaDescription: string, title: string, supportedLanguages: Array<string>, traits: Array<string>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }>, contexts: Array<{ __typename?: 'SearchContext', id: string, breadcrumbs: Array<string>, relevance: string, language: string, learningResourceType: string, path: string, subject: string, subjectId: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', id: string, name: string, language: string }> }> } | { __typename?: 'LearningpathSearchResult', id: number, url: string, metaDescription: string, title: string, supportedLanguages: Array<string>, traits: Array<string>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }>, contexts: Array<{ __typename?: 'SearchContext', id: string, breadcrumbs: Array<string>, relevance: string, language: string, learningResourceType: string, path: string, subject: string, subjectId: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', id: string, name: string, language: string }> }> }>, suggestions: Array<{ __typename?: 'SuggestionResult', name: string, suggestions: Array<{ __typename?: 'SearchSuggestion', text: string, offset: number, length: number, options: Array<{ __typename?: 'SuggestOption', text: string, score: number }> }> }> }> };
+export type GQLSearchFilmArticleSearchResultFragment = {
+  __typename?: 'ArticleSearchResult';
+  id: number;
+  url: string;
+  metaDescription: string;
+  title: string;
+  supportedLanguages: Array<string>;
+  traits: Array<string>;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  contexts: Array<{
+    __typename?: 'SearchContext';
+    breadcrumbs: Array<string>;
+    relevance: string;
+    language: string;
+    learningResourceType: string;
+    path: string;
+    subject: string;
+    resourceTypes: Array<{
+      __typename?: 'SearchContextResourceTypes';
+      id: string;
+      name: string;
+      language: string;
+    }>;
+  }>;
+};
 
-export type GQLSearchFilmArticleSearchResultFragment = { __typename?: 'ArticleSearchResult', id: number, url: string, metaDescription: string, title: string, supportedLanguages: Array<string>, traits: Array<string>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }>, contexts: Array<{ __typename?: 'SearchContext', breadcrumbs: Array<string>, relevance: string, language: string, learningResourceType: string, path: string, subject: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', id: string, name: string, language: string }> }> };
-
-export type GQLSearchFilmLearningpathSearchResultFragment = { __typename?: 'LearningpathSearchResult', id: number, url: string, metaDescription: string, title: string, supportedLanguages: Array<string>, traits: Array<string>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }>, contexts: Array<{ __typename?: 'SearchContext', breadcrumbs: Array<string>, relevance: string, language: string, learningResourceType: string, path: string, subject: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', id: string, name: string, language: string }> }> };
+export type GQLSearchFilmLearningpathSearchResultFragment = {
+  __typename?: 'LearningpathSearchResult';
+  id: number;
+  url: string;
+  metaDescription: string;
+  title: string;
+  supportedLanguages: Array<string>;
+  traits: Array<string>;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  contexts: Array<{
+    __typename?: 'SearchContext';
+    breadcrumbs: Array<string>;
+    relevance: string;
+    language: string;
+    learningResourceType: string;
+    path: string;
+    subject: string;
+    resourceTypes: Array<{
+      __typename?: 'SearchContextResourceTypes';
+      id: string;
+      name: string;
+      language: string;
+    }>;
+  }>;
+};
 
 export type GQLSearchWithoutPaginationQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
@@ -1186,16 +1297,44 @@ export type GQLSearchWithoutPaginationQueryVariables = Exact<{
   relevance?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLSearchWithoutPaginationQuery = {
+  __typename?: 'Query';
+  searchWithoutPagination?: Maybe<{
+    __typename?: 'SearchWithoutPagination';
+    results: Array<
+      | ({
+          __typename?: 'ArticleSearchResult';
+        } & GQLSearchFilmArticleSearchResultFragment)
+      | ({
+          __typename?: 'LearningpathSearchResult';
+        } & GQLSearchFilmLearningpathSearchResultFragment)
+    >;
+  }>;
+};
 
-export type GQLSearchWithoutPaginationQuery = { __typename?: 'Query', searchWithoutPagination?: Maybe<{ __typename?: 'SearchWithoutPagination', results: Array<(
-      { __typename?: 'ArticleSearchResult' }
-      & GQLSearchFilmArticleSearchResultFragment
-    ) | (
-      { __typename?: 'LearningpathSearchResult' }
-      & GQLSearchFilmLearningpathSearchResultFragment
-    )> }> };
-
-export type GQLGroupSearchResourceFragment = { __typename?: 'GroupSearchResult', id: number, path: string, name: string, ingress: string, traits: Array<string>, contexts: Array<{ __typename?: 'SearchContext', language: string, path: string, breadcrumbs: Array<string>, subjectId: string, subject: string, relevance: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', id: string, name: string }> }>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }> };
+export type GQLGroupSearchResourceFragment = {
+  __typename?: 'GroupSearchResult';
+  id: number;
+  path: string;
+  name: string;
+  ingress: string;
+  traits: Array<string>;
+  contexts: Array<{
+    __typename?: 'SearchContext';
+    language: string;
+    path: string;
+    breadcrumbs: Array<string>;
+    subjectId: string;
+    subject: string;
+    relevance: string;
+    resourceTypes: Array<{
+      __typename?: 'SearchContextResourceTypes';
+      id: string;
+      name: string;
+    }>;
+  }>;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+};
 
 export type GQLGroupSearchQueryVariables = Exact<{
   resourceTypes?: Maybe<Scalars['String']>;
@@ -1208,35 +1347,136 @@ export type GQLGroupSearchQueryVariables = Exact<{
   fallback?: Maybe<Scalars['String']>;
   grepCodes?: Maybe<Scalars['String']>;
   aggregatePaths?: Maybe<Array<Scalars['String']> | Scalars['String']>;
-  grepCodesList?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
+  grepCodesList?: Maybe<
+    Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>
+  >;
 }>;
 
+export type GQLGroupSearchQuery = {
+  __typename?: 'Query';
+  groupSearch?: Maybe<
+    Array<{
+      __typename?: 'GroupSearch';
+      resourceType: string;
+      totalCount: number;
+      language: string;
+      resources: Array<
+        { __typename?: 'GroupSearchResult' } & GQLGroupSearchResourceFragment
+      >;
+      aggregations: Array<{
+        __typename?: 'AggregationResult';
+        values: Array<{ __typename?: 'BucketResult'; value: string }>;
+      }>;
+      suggestions: Array<{
+        __typename?: 'SuggestionResult';
+        suggestions: Array<{
+          __typename?: 'SearchSuggestion';
+          options: Array<{ __typename?: 'SuggestOption'; text: string }>;
+        }>;
+      }>;
+    }>
+  >;
+  competenceGoals?: Maybe<
+    Array<{
+      __typename?: 'CompetenceGoal';
+      id: string;
+      type: string;
+      name: string;
+      curriculum?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+      competenceGoalSet?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+    }>
+  >;
+};
 
-export type GQLGroupSearchQuery = { __typename?: 'Query', groupSearch?: Maybe<Array<{ __typename?: 'GroupSearch', resourceType: string, totalCount: number, language: string, resources: Array<(
-      { __typename?: 'GroupSearchResult' }
-      & GQLGroupSearchResourceFragment
-    )>, aggregations: Array<{ __typename?: 'AggregationResult', values: Array<{ __typename?: 'BucketResult', value: string }> }>, suggestions: Array<{ __typename?: 'SuggestionResult', suggestions: Array<{ __typename?: 'SearchSuggestion', options: Array<{ __typename?: 'SuggestOption', text: string }> }> }> }>>, competenceGoals?: Maybe<Array<{ __typename?: 'CompetenceGoal', id: string, type: string, name: string, curriculum?: Maybe<{ __typename?: 'Reference', id: string, title: string }>, competenceGoalSet?: Maybe<{ __typename?: 'Reference', id: string, title: string }> }>> };
+export type GQLCopyrightInfoFragment = {
+  __typename?: 'Copyright';
+  origin?: Maybe<string>;
+  license: { __typename?: 'License'; license: string; url?: Maybe<string> };
+  creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
+  processors: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+  rightsholders: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+};
 
-export type GQLCopyrightInfoFragment = { __typename?: 'Copyright', origin?: Maybe<string>, license: { __typename?: 'License', license: string, url?: Maybe<string> }, creators: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )>, processors: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )>, rightsholders: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )> };
+export type GQLVisualElementInfoFragment = {
+  __typename?: 'VisualElement';
+  title?: Maybe<string>;
+  resource?: Maybe<string>;
+  url?: Maybe<string>;
+  language?: Maybe<string>;
+  embed?: Maybe<string>;
+  copyright?: Maybe<{ __typename?: 'Copyright' } & GQLCopyrightInfoFragment>;
+  brightcove?: Maybe<{
+    __typename?: 'BrightcoveElement';
+    videoid?: Maybe<string>;
+    player?: Maybe<string>;
+    account?: Maybe<string>;
+    caption?: Maybe<string>;
+    description?: Maybe<string>;
+    cover?: Maybe<string>;
+    src?: Maybe<string>;
+    download?: Maybe<string>;
+    uploadDate?: Maybe<string>;
+    copyText?: Maybe<string>;
+    iframe?: Maybe<{
+      __typename?: 'BrightcoveIframe';
+      src: string;
+      height: number;
+      width: number;
+    }>;
+  }>;
+  h5p?: Maybe<{
+    __typename?: 'H5pElement';
+    src?: Maybe<string>;
+    thumbnail?: Maybe<string>;
+    copyText?: Maybe<string>;
+  }>;
+  oembed?: Maybe<{
+    __typename?: 'VisualElementOembed';
+    title?: Maybe<string>;
+    html?: Maybe<string>;
+    fullscreen?: Maybe<boolean>;
+  }>;
+  image?: Maybe<{
+    __typename?: 'ImageElement';
+    resourceid?: Maybe<string>;
+    alt?: Maybe<string>;
+    caption?: Maybe<string>;
+    lowerRightX?: Maybe<number>;
+    lowerRightY?: Maybe<number>;
+    upperLeftX?: Maybe<number>;
+    upperLeftY?: Maybe<number>;
+    focalX?: Maybe<number>;
+    focalY?: Maybe<number>;
+    src: string;
+    altText: string;
+    contentType?: Maybe<string>;
+    copyText?: Maybe<string>;
+  }>;
+};
 
-export type GQLVisualElementInfoFragment = { __typename?: 'VisualElement', title?: Maybe<string>, resource?: Maybe<string>, url?: Maybe<string>, language?: Maybe<string>, embed?: Maybe<string>, copyright?: Maybe<(
-    { __typename?: 'Copyright' }
-    & GQLCopyrightInfoFragment
-  )>, brightcove?: Maybe<{ __typename?: 'BrightcoveElement', videoid?: Maybe<string>, player?: Maybe<string>, account?: Maybe<string>, caption?: Maybe<string>, description?: Maybe<string>, cover?: Maybe<string>, src?: Maybe<string>, download?: Maybe<string>, uploadDate?: Maybe<string>, copyText?: Maybe<string>, iframe?: Maybe<{ __typename?: 'BrightcoveIframe', src: string, height: number, width: number }> }>, h5p?: Maybe<{ __typename?: 'H5pElement', src?: Maybe<string>, thumbnail?: Maybe<string>, copyText?: Maybe<string> }>, oembed?: Maybe<{ __typename?: 'VisualElementOembed', title?: Maybe<string>, html?: Maybe<string>, fullscreen?: Maybe<boolean> }>, image?: Maybe<{ __typename?: 'ImageElement', resourceid?: Maybe<string>, alt?: Maybe<string>, caption?: Maybe<string>, lowerRightX?: Maybe<number>, lowerRightY?: Maybe<number>, upperLeftX?: Maybe<number>, upperLeftY?: Maybe<number>, focalX?: Maybe<number>, focalY?: Maybe<number>, src: string, altText: string, contentType?: Maybe<string>, copyText?: Maybe<string> }> };
-
-export type GQLConceptSearchConceptFragment = { __typename?: 'Concept', id: number, title: string, subjectNames?: Maybe<Array<string>>, text: string, visualElement?: Maybe<(
-    { __typename?: 'VisualElement' }
-    & GQLVisualElementInfoFragment
-  )>, image: { __typename?: 'MetaImage', url: string, alt: string } };
+export type GQLConceptSearchConceptFragment = {
+  __typename?: 'Concept';
+  id: number;
+  title: string;
+  subjectNames?: Maybe<Array<string>>;
+  text: string;
+  visualElement?: Maybe<
+    { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
+  >;
+  image: { __typename?: 'MetaImage'; url: string; alt: string };
+};
 
 export type GQLConceptSearchQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
@@ -1246,109 +1486,374 @@ export type GQLConceptSearchQueryVariables = Exact<{
   fallback?: Maybe<Scalars['Boolean']>;
 }>;
 
-
-export type GQLConceptSearchQuery = { __typename?: 'Query', conceptSearch?: Maybe<{ __typename?: 'ConceptResult', concepts: Array<(
-      { __typename?: 'Concept' }
-      & GQLConceptSearchConceptFragment
-    )> }> };
+export type GQLConceptSearchQuery = {
+  __typename?: 'Query';
+  conceptSearch?: Maybe<{
+    __typename?: 'ConceptResult';
+    concepts: Array<
+      { __typename?: 'Concept' } & GQLConceptSearchConceptFragment
+    >;
+  }>;
+};
 
 export type GQLFrontpageSearchQueryVariables = Exact<{
   query?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLFrontpageSearchQuery = {
+  __typename?: 'Query';
+  frontpageSearch?: Maybe<{
+    __typename?: 'FrontpageSearch';
+    topicResources: {
+      __typename?: 'FrontPageResources';
+      totalCount: number;
+      results: Array<{
+        __typename?: 'FrontpageSearchResult';
+        id: string;
+        name: string;
+        path: string;
+        subject: string;
+        resourceTypes: Array<{
+          __typename?: 'SearchContextResourceTypes';
+          name: string;
+        }>;
+      }>;
+      suggestions: Array<{
+        __typename?: 'SuggestionResult';
+        suggestions: Array<{
+          __typename?: 'SearchSuggestion';
+          options: Array<{
+            __typename?: 'SuggestOption';
+            text: string;
+            score: number;
+          }>;
+        }>;
+      }>;
+    };
+    learningResources: {
+      __typename?: 'FrontPageResources';
+      totalCount: number;
+      results: Array<{
+        __typename?: 'FrontpageSearchResult';
+        id: string;
+        name: string;
+        path: string;
+        subject: string;
+        resourceTypes: Array<{
+          __typename?: 'SearchContextResourceTypes';
+          name: string;
+        }>;
+      }>;
+      suggestions: Array<{
+        __typename?: 'SuggestionResult';
+        suggestions: Array<{
+          __typename?: 'SearchSuggestion';
+          options: Array<{
+            __typename?: 'SuggestOption';
+            text: string;
+            score: number;
+          }>;
+        }>;
+      }>;
+    };
+  }>;
+};
 
-export type GQLFrontpageSearchQuery = { __typename?: 'Query', frontpageSearch?: Maybe<{ __typename?: 'FrontpageSearch', topicResources: { __typename?: 'FrontPageResources', totalCount: number, results: Array<{ __typename?: 'FrontpageSearchResult', id: string, name: string, path: string, subject: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', name: string }> }>, suggestions: Array<{ __typename?: 'SuggestionResult', suggestions: Array<{ __typename?: 'SearchSuggestion', options: Array<{ __typename?: 'SuggestOption', text: string, score: number }> }> }> }, learningResources: { __typename?: 'FrontPageResources', totalCount: number, results: Array<{ __typename?: 'FrontpageSearchResult', id: string, name: string, path: string, subject: string, resourceTypes: Array<{ __typename?: 'SearchContextResourceTypes', name: string }> }>, suggestions: Array<{ __typename?: 'SuggestionResult', suggestions: Array<{ __typename?: 'SearchSuggestion', options: Array<{ __typename?: 'SuggestOption', text: string, score: number }> }> }> } }> };
+export type GQLConceptCopyrightInfoFragment = {
+  __typename?: 'ConceptCopyright';
+  origin?: Maybe<string>;
+  license?: Maybe<{
+    __typename?: 'License';
+    license: string;
+    url?: Maybe<string>;
+  }>;
+  creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
+  processors: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+  rightsholders: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+};
 
-export type GQLConceptCopyrightInfoFragment = { __typename?: 'ConceptCopyright', origin?: Maybe<string>, license?: Maybe<{ __typename?: 'License', license: string, url?: Maybe<string> }>, creators: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )>, processors: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )>, rightsholders: Array<(
-    { __typename?: 'Contributor' }
-    & GQLContributorInfoFragment
-  )> };
+export type GQLMetaInfoFragment = {
+  __typename?: 'Meta';
+  id: number;
+  title: string;
+  introduction?: Maybe<string>;
+  metaDescription?: Maybe<string>;
+  lastUpdated?: Maybe<string>;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+};
 
-export type GQLMetaInfoFragment = { __typename?: 'Meta', id: number, title: string, introduction?: Maybe<string>, metaDescription?: Maybe<string>, lastUpdated?: Maybe<string>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }> };
+export type GQLTopicInfoFragment = {
+  __typename?: 'Topic';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+  parent?: Maybe<string>;
+  relevanceId?: Maybe<string>;
+  meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields?: Maybe<any> };
+};
 
-export type GQLTopicInfoFragment = { __typename?: 'Topic', id: string, name: string, contentUri?: Maybe<string>, path: string, parent?: Maybe<string>, relevanceId?: Maybe<string>, meta?: Maybe<(
-    { __typename?: 'Meta' }
-    & GQLMetaInfoFragment
-  )>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+export type GQLSubjectInfoFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  path: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields?: Maybe<any> };
+};
 
-export type GQLSubjectInfoFragment = { __typename?: 'Subject', id: string, name: string, path: string, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+export type GQLResourceInfoFragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+  paths: Array<string>;
+  relevanceId?: Maybe<string>;
+  rank?: Maybe<number>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
 
-export type GQLResourceInfoFragment = { __typename?: 'Resource', id: string, name: string, contentUri?: Maybe<string>, path: string, paths: Array<string>, relevanceId?: Maybe<string>, rank?: Maybe<number>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceType', id: string, name: string }>> };
+export type GQLArticleInfoFragment = {
+  __typename?: 'Article';
+  id: number;
+  title: string;
+  introduction?: Maybe<string>;
+  content: string;
+  articleType: string;
+  revision: number;
+  metaDescription: string;
+  supportedLanguages?: Maybe<Array<string>>;
+  tags?: Maybe<Array<string>>;
+  created: string;
+  updated: string;
+  published: string;
+  oldNdlaUrl?: Maybe<string>;
+  grepCodes?: Maybe<Array<string>>;
+  oembed?: Maybe<string>;
+  conceptIds?: Maybe<Array<string>>;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  requiredLibraries?: Maybe<
+    Array<{
+      __typename?: 'ArticleRequiredLibrary';
+      name: string;
+      url: string;
+      mediaType: string;
+    }>
+  >;
+  metaData?: Maybe<{
+    __typename?: 'ArticleMetaData';
+    copyText?: Maybe<string>;
+    footnotes?: Maybe<
+      Array<{
+        __typename?: 'FootNote';
+        ref: number;
+        title: string;
+        year: string;
+        authors: Array<string>;
+        edition?: Maybe<string>;
+        publisher?: Maybe<string>;
+        url?: Maybe<string>;
+      }>
+    >;
+    images?: Maybe<
+      Array<{
+        __typename?: 'ImageLicense';
+        title: string;
+        altText: string;
+        src: string;
+        copyText?: Maybe<string>;
+        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      }>
+    >;
+    h5ps?: Maybe<
+      Array<{
+        __typename?: 'H5pLicense';
+        title: string;
+        src?: Maybe<string>;
+        copyText?: Maybe<string>;
+        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      }>
+    >;
+    audios?: Maybe<
+      Array<{
+        __typename?: 'AudioLicense';
+        title: string;
+        src: string;
+        copyText?: Maybe<string>;
+        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      }>
+    >;
+    brightcoves?: Maybe<
+      Array<{
+        __typename?: 'BrightcoveLicense';
+        title: string;
+        description?: Maybe<string>;
+        cover?: Maybe<string>;
+        src?: Maybe<string>;
+        download?: Maybe<string>;
+        uploadDate?: Maybe<string>;
+        copyText?: Maybe<string>;
+        iframe?: Maybe<{
+          __typename?: 'BrightcoveIframe';
+          height: number;
+          src: string;
+          width: number;
+        }>;
+        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      }>
+    >;
+    concepts?: Maybe<
+      Array<{
+        __typename?: 'ConceptLicense';
+        title: string;
+        src?: Maybe<string>;
+        copyText?: Maybe<string>;
+        copyright?: Maybe<
+          { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
+        >;
+      }>
+    >;
+  }>;
+  competenceGoals?: Maybe<
+    Array<{
+      __typename?: 'CompetenceGoal';
+      id: string;
+      title: string;
+      type: string;
+      curriculum?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+      competenceGoalSet?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+    }>
+  >;
+  coreElements?: Maybe<
+    Array<{
+      __typename?: 'CoreElement';
+      id: string;
+      title: string;
+      description?: Maybe<string>;
+      curriculum?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+    }>
+  >;
+  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+  visualElement?: Maybe<
+    { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
+  >;
+  concepts?: Maybe<
+    Array<{
+      __typename?: 'DetailedConcept';
+      id: number;
+      title: string;
+      content?: Maybe<string>;
+      subjectNames?: Maybe<Array<string>>;
+      image?: Maybe<{
+        __typename?: 'ImageLicense';
+        src: string;
+        altText: string;
+      }>;
+      copyright?: Maybe<
+        { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
+      >;
+      visualElement?: Maybe<
+        { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
+      >;
+    }>
+  >;
+  relatedContent?: Maybe<
+    Array<{ __typename?: 'RelatedContent'; title: string; url: string }>
+  >;
+};
 
-export type GQLArticleInfoFragment = { __typename?: 'Article', id: number, title: string, introduction?: Maybe<string>, content: string, articleType: string, revision: number, metaDescription: string, supportedLanguages?: Maybe<Array<string>>, tags?: Maybe<Array<string>>, created: string, updated: string, published: string, oldNdlaUrl?: Maybe<string>, grepCodes?: Maybe<Array<string>>, oembed?: Maybe<string>, conceptIds?: Maybe<Array<string>>, metaImage?: Maybe<{ __typename?: 'MetaImage', url: string, alt: string }>, requiredLibraries?: Maybe<Array<{ __typename?: 'ArticleRequiredLibrary', name: string, url: string, mediaType: string }>>, metaData?: Maybe<{ __typename?: 'ArticleMetaData', copyText?: Maybe<string>, footnotes?: Maybe<Array<{ __typename?: 'FootNote', ref: number, title: string, year: string, authors: Array<string>, edition?: Maybe<string>, publisher?: Maybe<string>, url?: Maybe<string> }>>, images?: Maybe<Array<{ __typename?: 'ImageLicense', title: string, altText: string, src: string, copyText?: Maybe<string>, copyright: (
-        { __typename?: 'Copyright' }
-        & GQLCopyrightInfoFragment
-      ) }>>, h5ps?: Maybe<Array<{ __typename?: 'H5pLicense', title: string, src?: Maybe<string>, copyText?: Maybe<string>, copyright: (
-        { __typename?: 'Copyright' }
-        & GQLCopyrightInfoFragment
-      ) }>>, audios?: Maybe<Array<{ __typename?: 'AudioLicense', title: string, src: string, copyText?: Maybe<string>, copyright: (
-        { __typename?: 'Copyright' }
-        & GQLCopyrightInfoFragment
-      ) }>>, brightcoves?: Maybe<Array<{ __typename?: 'BrightcoveLicense', title: string, description?: Maybe<string>, cover?: Maybe<string>, src?: Maybe<string>, download?: Maybe<string>, uploadDate?: Maybe<string>, copyText?: Maybe<string>, iframe?: Maybe<{ __typename?: 'BrightcoveIframe', height: number, src: string, width: number }>, copyright: (
-        { __typename?: 'Copyright' }
-        & GQLCopyrightInfoFragment
-      ) }>>, concepts?: Maybe<Array<{ __typename?: 'ConceptLicense', title: string, src?: Maybe<string>, copyText?: Maybe<string>, copyright?: Maybe<(
-        { __typename?: 'ConceptCopyright' }
-        & GQLConceptCopyrightInfoFragment
-      )> }>> }>, competenceGoals?: Maybe<Array<{ __typename?: 'CompetenceGoal', id: string, title: string, type: string, curriculum?: Maybe<{ __typename?: 'Reference', id: string, title: string }>, competenceGoalSet?: Maybe<{ __typename?: 'Reference', id: string, title: string }> }>>, coreElements?: Maybe<Array<{ __typename?: 'CoreElement', id: string, title: string, description?: Maybe<string>, curriculum?: Maybe<{ __typename?: 'Reference', id: string, title: string }> }>>, copyright: (
-    { __typename?: 'Copyright' }
-    & GQLCopyrightInfoFragment
-  ), visualElement?: Maybe<(
-    { __typename?: 'VisualElement' }
-    & GQLVisualElementInfoFragment
-  )>, concepts?: Maybe<Array<{ __typename?: 'DetailedConcept', id: number, title: string, content?: Maybe<string>, subjectNames?: Maybe<Array<string>>, image?: Maybe<{ __typename?: 'ImageLicense', src: string, altText: string }>, copyright?: Maybe<(
-      { __typename?: 'ConceptCopyright' }
-      & GQLConceptCopyrightInfoFragment
-    )>, visualElement?: Maybe<(
-      { __typename?: 'VisualElement' }
-      & GQLVisualElementInfoFragment
-    )> }>>, relatedContent?: Maybe<Array<{ __typename?: 'RelatedContent', title: string, url: string }>> };
+type GQLTaxonomyEntityInfo_Resource_Fragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
 
-type GQLTaxonomyEntityInfo_Resource_Fragment = { __typename?: 'Resource', id: string, name: string, contentUri?: Maybe<string>, path: string, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceType', id: string, name: string }>> };
+type GQLTaxonomyEntityInfo_Subject_Fragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+};
 
-type GQLTaxonomyEntityInfo_Subject_Fragment = { __typename?: 'Subject', id: string, name: string, contentUri?: Maybe<string>, path: string };
+type GQLTaxonomyEntityInfo_Topic_Fragment = {
+  __typename?: 'Topic';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+};
 
-type GQLTaxonomyEntityInfo_Topic_Fragment = { __typename?: 'Topic', id: string, name: string, contentUri?: Maybe<string>, path: string };
+export type GQLTaxonomyEntityInfoFragment =
+  | GQLTaxonomyEntityInfo_Resource_Fragment
+  | GQLTaxonomyEntityInfo_Subject_Fragment
+  | GQLTaxonomyEntityInfo_Topic_Fragment;
 
-export type GQLTaxonomyEntityInfoFragment = GQLTaxonomyEntityInfo_Resource_Fragment | GQLTaxonomyEntityInfo_Subject_Fragment | GQLTaxonomyEntityInfo_Topic_Fragment;
+type GQLWithArticleInfo_Resource_Fragment = {
+  __typename?: 'Resource';
+  meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+};
 
-type GQLWithArticleInfo_Resource_Fragment = { __typename?: 'Resource', meta?: Maybe<(
-    { __typename?: 'Meta' }
-    & GQLMetaInfoFragment
-  )> };
+type GQLWithArticleInfo_Topic_Fragment = {
+  __typename?: 'Topic';
+  meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+};
 
-type GQLWithArticleInfo_Topic_Fragment = { __typename?: 'Topic', meta?: Maybe<(
-    { __typename?: 'Meta' }
-    & GQLMetaInfoFragment
-  )> };
+export type GQLWithArticleInfoFragment =
+  | GQLWithArticleInfo_Resource_Fragment
+  | GQLWithArticleInfo_Topic_Fragment;
 
-export type GQLWithArticleInfoFragment = GQLWithArticleInfo_Resource_Fragment | GQLWithArticleInfo_Topic_Fragment;
-
-export type GQLSubjectPageInfoFragment = { __typename?: 'SubjectPage', id: number, metaDescription?: Maybe<string>, topical?: Maybe<(
-    { __typename?: 'Resource' }
-    & GQLTaxonomyEntityInfo_Resource_Fragment
-  ) | (
-    { __typename?: 'Subject' }
-    & GQLTaxonomyEntityInfo_Subject_Fragment
-  ) | (
-    { __typename?: 'Topic' }
-    & GQLTaxonomyEntityInfo_Topic_Fragment
-  )>, banner: { __typename?: 'SubjectPageBanner', desktopUrl: string }, about?: Maybe<{ __typename?: 'SubjectPageAbout', title: string, description: string, visualElement: { __typename?: 'SubjectPageVisualElement', type: string, url: string, alt?: Maybe<string> } }>, editorsChoices: Array<(
-    { __typename?: 'Resource' }
-    & GQLTaxonomyEntityInfo_Resource_Fragment
-  ) | (
-    { __typename?: 'Subject' }
-    & GQLTaxonomyEntityInfo_Subject_Fragment
-  ) | (
-    { __typename?: 'Topic' }
-    & GQLTaxonomyEntityInfo_Topic_Fragment
-  )> };
+export type GQLSubjectPageInfoFragment = {
+  __typename?: 'SubjectPage';
+  id: number;
+  metaDescription?: Maybe<string>;
+  topical?: Maybe<
+    | ({ __typename?: 'Resource' } & GQLTaxonomyEntityInfo_Resource_Fragment)
+    | ({ __typename?: 'Subject' } & GQLTaxonomyEntityInfo_Subject_Fragment)
+    | ({ __typename?: 'Topic' } & GQLTaxonomyEntityInfo_Topic_Fragment)
+  >;
+  banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
+  about?: Maybe<{
+    __typename?: 'SubjectPageAbout';
+    title: string;
+    description: string;
+    visualElement: {
+      __typename?: 'SubjectPageVisualElement';
+      type: string;
+      url: string;
+      alt?: Maybe<string>;
+    };
+  }>;
+  editorsChoices: Array<
+    | ({ __typename?: 'Resource' } & GQLTaxonomyEntityInfo_Resource_Fragment)
+    | ({ __typename?: 'Subject' } & GQLTaxonomyEntityInfo_Subject_Fragment)
+    | ({ __typename?: 'Topic' } & GQLTaxonomyEntityInfo_Topic_Fragment)
+  >;
+};
 
 export type GQLSubjectPageWithTopicsQueryVariables = Exact<{
   subjectId: Scalars['String'];
@@ -1356,79 +1861,183 @@ export type GQLSubjectPageWithTopicsQueryVariables = Exact<{
   includeTopic: Scalars['Boolean'];
 }>;
 
-
-export type GQLSubjectPageWithTopicsQuery = { __typename?: 'Query', subject?: Maybe<(
-    { __typename?: 'Subject', grepCodes: Array<string>, topics?: Maybe<Array<(
-      { __typename?: 'Topic', availability?: Maybe<string>, article?: Maybe<{ __typename?: 'Article', supportedLanguages?: Maybe<Array<string>> }> }
-      & GQLTopicInfoFragment
-    )>>, allTopics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>>, subjectpage?: Maybe<(
-      { __typename?: 'SubjectPage' }
-      & GQLSubjectPageInfoFragment
-    )> }
-    & GQLSubjectInfoFragment
-  )>, topic?: Maybe<(
-    { __typename?: 'Topic', alternateTopics?: Maybe<Array<{ __typename?: 'Topic', id: string, name: string, path: string, breadcrumbs?: Maybe<Array<Array<string>>>, meta?: Maybe<(
-        { __typename?: 'Meta' }
-        & GQLMetaInfoFragment
-      )> }>> }
-    & GQLTopicInfoFragment
-  )>, subjects?: Maybe<Array<(
-    { __typename?: 'Subject', metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } }
-    & GQLSubjectInfoFragment
-  )>> };
+export type GQLSubjectPageWithTopicsQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      grepCodes: Array<string>;
+      topics?: Maybe<
+        Array<
+          {
+            __typename?: 'Topic';
+            availability?: Maybe<string>;
+            article?: Maybe<{
+              __typename?: 'Article';
+              supportedLanguages?: Maybe<Array<string>>;
+            }>;
+          } & GQLTopicInfoFragment
+        >
+      >;
+      allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+      subjectpage?: Maybe<
+        { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
+      >;
+    } & GQLSubjectInfoFragment
+  >;
+  topic?: Maybe<
+    {
+      __typename?: 'Topic';
+      alternateTopics?: Maybe<
+        Array<{
+          __typename?: 'Topic';
+          id: string;
+          name: string;
+          path: string;
+          breadcrumbs?: Maybe<Array<Array<string>>>;
+          meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+        }>
+      >;
+    } & GQLTopicInfoFragment
+  >;
+  subjects?: Maybe<
+    Array<
+      {
+        __typename?: 'Subject';
+        metadata: {
+          __typename?: 'TaxonomyMetadata';
+          customFields?: Maybe<any>;
+        };
+      } & GQLSubjectInfoFragment
+    >
+  >;
+};
 
 export type GQLSubjectPageQueryVariables = Exact<{
   subjectId: Scalars['String'];
 }>;
 
+export type GQLSubjectPageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+    allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+    subjectpage?: Maybe<
+      { __typename?: 'SubjectPage' } & GQLSubjectPageInfoFragment
+    >;
+  }>;
+};
 
-export type GQLSubjectPageQuery = { __typename?: 'Query', subject?: Maybe<{ __typename?: 'Subject', id: string, name: string, path: string, topics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>>, allTopics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>>, subjectpage?: Maybe<(
-      { __typename?: 'SubjectPage' }
-      & GQLSubjectPageInfoFragment
-    )> }> };
+export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GQLSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
+};
 
+export type GQLSearchPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLSubjectsQuery = { __typename?: 'Query', subjects?: Maybe<Array<(
-    { __typename?: 'Subject' }
-    & GQLSubjectInfoFragment
-  )>> };
+export type GQLSearchPageQuery = {
+  __typename?: 'Query';
+  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
+  resourceTypes?: Maybe<
+    Array<{
+      __typename?: 'ResourceTypeDefinition';
+      id: string;
+      name: string;
+      subtypes?: Maybe<
+        Array<{
+          __typename?: 'ResourceTypeDefinition';
+          id: string;
+          name: string;
+        }>
+      >;
+    }>
+  >;
+};
 
-export type GQLSearchPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GQLSearchPageQuery = { __typename?: 'Query', subjects?: Maybe<Array<(
-    { __typename?: 'Subject' }
-    & GQLSubjectInfoFragment
-  )>>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string, subtypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>> }>> };
-
-export type GQLLearningpathInfoFragment = { __typename?: 'Learningpath', id: number, title: string, description: string, duration?: Maybe<number>, lastUpdated: string, supportedLanguages: Array<string>, tags: Array<string>, copyright: { __typename?: 'LearningpathCopyright', license: { __typename?: 'License', license: string, url?: Maybe<string>, description?: Maybe<string> }, contributors: Array<(
-      { __typename?: 'Contributor' }
-      & GQLContributorInfoFragment
-    )> }, coverphoto?: Maybe<{ __typename?: 'LearningpathCoverphoto', url: string, metaUrl: string }>, learningsteps: Array<{ __typename?: 'LearningpathStep', id: number, title: string, description?: Maybe<string>, seqNo: number, type: string, showTitle: boolean, oembed?: Maybe<{ __typename?: 'LearningpathStepOembed', type: string, version: string, height: number, html: string, width: number }>, embedUrl?: Maybe<{ __typename?: 'LearningpathStepEmbedUrl', url: string, embedType: string }>, resource?: Maybe<(
-      { __typename?: 'Resource', article?: Maybe<(
-        { __typename?: 'Article', oembed?: Maybe<string> }
-        & GQLArticleInfoFragment
-      )> }
-      & GQLResourceInfoFragment
-    )>, license?: Maybe<{ __typename?: 'License', license: string, url?: Maybe<string>, description?: Maybe<string> }> }> };
+export type GQLLearningpathInfoFragment = {
+  __typename?: 'Learningpath';
+  id: number;
+  title: string;
+  description: string;
+  duration?: Maybe<number>;
+  lastUpdated: string;
+  supportedLanguages: Array<string>;
+  tags: Array<string>;
+  copyright: {
+    __typename?: 'LearningpathCopyright';
+    license: {
+      __typename?: 'License';
+      license: string;
+      url?: Maybe<string>;
+      description?: Maybe<string>;
+    };
+    contributors: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+  };
+  coverphoto?: Maybe<{
+    __typename?: 'LearningpathCoverphoto';
+    url: string;
+    metaUrl: string;
+  }>;
+  learningsteps: Array<{
+    __typename?: 'LearningpathStep';
+    id: number;
+    title: string;
+    description?: Maybe<string>;
+    seqNo: number;
+    type: string;
+    showTitle: boolean;
+    oembed?: Maybe<{
+      __typename?: 'LearningpathStepOembed';
+      type: string;
+      version: string;
+      height: number;
+      html: string;
+      width: number;
+    }>;
+    embedUrl?: Maybe<{
+      __typename?: 'LearningpathStepEmbedUrl';
+      url: string;
+      embedType: string;
+    }>;
+    resource?: Maybe<
+      {
+        __typename?: 'Resource';
+        article?: Maybe<
+          {
+            __typename?: 'Article';
+            oembed?: Maybe<string>;
+          } & GQLArticleInfoFragment
+        >;
+      } & GQLResourceInfoFragment
+    >;
+    license?: Maybe<{
+      __typename?: 'License';
+      license: string;
+      url?: Maybe<string>;
+      description?: Maybe<string>;
+    }>;
+  }>;
+};
 
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars['String'];
 }>;
 
-
-export type GQLMovedResourceQuery = { __typename?: 'Query', resource?: Maybe<{ __typename?: 'Resource', breadcrumbs?: Maybe<Array<Array<string>>> }> };
+export type GQLMovedResourceQuery = {
+  __typename?: 'Query';
+  resource?: Maybe<{
+    __typename?: 'Resource';
+    breadcrumbs?: Maybe<Array<Array<string>>>;
+  }>;
+};
 
 export type GQLPlainArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -1436,13 +2045,20 @@ export type GQLPlainArticleQueryVariables = Exact<{
   path?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLPlainArticleQuery = {
+  __typename?: 'Query';
+  article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
+};
 
-export type GQLPlainArticleQuery = { __typename?: 'Query', article?: Maybe<(
-    { __typename?: 'Article' }
-    & GQLArticleInfoFragment
-  )> };
-
-export type GQLIframeResourceFragment = { __typename?: 'Resource', id: string, name: string, path: string, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceType', id: string, name: string }>> };
+export type GQLIframeResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+  path: string;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
 
 export type GQLIframeArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -1453,14 +2069,17 @@ export type GQLIframeArticleQueryVariables = Exact<{
   includeTopic: Scalars['Boolean'];
 }>;
 
-
-export type GQLIframeArticleQuery = { __typename?: 'Query', article?: Maybe<(
-    { __typename?: 'Article' }
-    & GQLArticleInfoFragment
-  )>, resource?: Maybe<(
-    { __typename?: 'Resource' }
-    & GQLIframeResourceFragment
-  )>, topic?: Maybe<{ __typename?: 'Topic', id: string, name: string, path: string }> };
+export type GQLIframeArticleQuery = {
+  __typename?: 'Query';
+  article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
+  resource?: Maybe<{ __typename?: 'Resource' } & GQLIframeResourceFragment>;
+  topic?: Maybe<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    path: string;
+  }>;
+};
 
 export type GQLTopicWithPathTopicsQueryVariables = Exact<{
   topicId: Scalars['String'];
@@ -1468,61 +2087,110 @@ export type GQLTopicWithPathTopicsQueryVariables = Exact<{
   showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLTopicWithPathTopicsQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+    allTopics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+  }>;
+  topic?: Maybe<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    path: string;
+    relevanceId?: Maybe<string>;
+    pathTopics?: Maybe<
+      Array<
+        Array<{ __typename?: 'Topic'; id: string; name: string; path: string }>
+      >
+    >;
+    meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+    subtopics?: Maybe<
+      Array<{
+        __typename?: 'Topic';
+        id: string;
+        name: string;
+        relevanceId?: Maybe<string>;
+      }>
+    >;
+    article?: Maybe<
+      {
+        __typename?: 'Article';
+        crossSubjectTopics?: Maybe<
+          Array<{
+            __typename?: 'CrossSubjectElement';
+            code?: Maybe<string>;
+            title: string;
+            path?: Maybe<string>;
+          }>
+        >;
+      } & GQLArticleInfoFragment
+    >;
+    coreResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+    supplementaryResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+  }>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceTypeDefinition'; id: string; name: string }>
+  >;
+};
 
-export type GQLTopicWithPathTopicsQuery = { __typename?: 'Query', subject?: Maybe<{ __typename?: 'Subject', id: string, name: string, path: string, topics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>>, allTopics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>> }>, topic?: Maybe<{ __typename?: 'Topic', id: string, name: string, path: string, relevanceId?: Maybe<string>, pathTopics?: Maybe<Array<Array<{ __typename?: 'Topic', id: string, name: string, path: string }>>>, meta?: Maybe<(
-      { __typename?: 'Meta' }
-      & GQLMetaInfoFragment
-    )>, subtopics?: Maybe<Array<{ __typename?: 'Topic', id: string, name: string, relevanceId?: Maybe<string> }>>, article?: Maybe<(
-      { __typename?: 'Article', crossSubjectTopics?: Maybe<Array<{ __typename?: 'CrossSubjectElement', code?: Maybe<string>, title: string, path?: Maybe<string> }>> }
-      & GQLArticleInfoFragment
-    )>, coreResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>>, supplementaryResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>> }>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>> };
-
-export type GQLTopicQueryTopicFragment = { __typename?: 'Topic', id: string, name: string, path: string, parent?: Maybe<string>, relevanceId?: Maybe<string>, meta?: Maybe<(
-    { __typename?: 'Meta' }
-    & GQLMetaInfoFragment
-  )>, subtopics?: Maybe<Array<{ __typename?: 'Topic', id: string, name: string, relevanceId?: Maybe<string> }>>, article?: Maybe<(
-    { __typename?: 'Article' }
-    & GQLArticleInfoFragment
-  )>, coreResources?: Maybe<Array<(
-    { __typename?: 'Resource' }
-    & GQLResourceInfoFragment
-  )>>, supplementaryResources?: Maybe<Array<(
-    { __typename?: 'Resource' }
-    & GQLResourceInfoFragment
-  )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+export type GQLTopicQueryTopicFragment = {
+  __typename?: 'Topic';
+  id: string;
+  name: string;
+  path: string;
+  parent?: Maybe<string>;
+  relevanceId?: Maybe<string>;
+  meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+  subtopics?: Maybe<
+    Array<{
+      __typename?: 'Topic';
+      id: string;
+      name: string;
+      relevanceId?: Maybe<string>;
+    }>
+  >;
+  article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
+  coreResources?: Maybe<
+    Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+  >;
+  supplementaryResources?: Maybe<
+    Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+  >;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields?: Maybe<any> };
+};
 
 export type GQLTopicQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId?: Maybe<Scalars['String']>;
 }>;
 
-
-export type GQLTopicQuery = { __typename?: 'Query', topic?: Maybe<(
-    { __typename?: 'Topic' }
-    & GQLTopicQueryTopicFragment
-  )>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>> };
+export type GQLTopicQuery = {
+  __typename?: 'Query';
+  topic?: Maybe<{ __typename?: 'Topic' } & GQLTopicQueryTopicFragment>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceTypeDefinition'; id: string; name: string }>
+  >;
+};
 
 export type GQLLearningPathStepQueryVariables = Exact<{
   pathId: Scalars['String'];
 }>;
 
-
-export type GQLLearningPathStepQuery = { __typename?: 'Query', learningpath?: Maybe<(
-    { __typename?: 'Learningpath' }
-    & GQLLearningpathInfoFragment
-  )> };
+export type GQLLearningPathStepQuery = {
+  __typename?: 'Query';
+  learningpath?: Maybe<
+    { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
+  >;
+};
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: Maybe<Array<Scalars['String']> | Scalars['String']>;
@@ -1530,21 +2198,82 @@ export type GQLCompetenceGoalsQueryVariables = Exact<{
   language?: Maybe<Scalars['String']>;
 }>;
 
+export type GQLCompetenceGoalsQuery = {
+  __typename?: 'Query';
+  competenceGoals?: Maybe<
+    Array<{
+      __typename?: 'CompetenceGoal';
+      id: string;
+      type: string;
+      name: string;
+      curriculum?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+      competenceGoalSet?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+    }>
+  >;
+  coreElements?: Maybe<
+    Array<{
+      __typename?: 'CoreElement';
+      id: string;
+      name: string;
+      text?: Maybe<string>;
+      curriculum?: Maybe<{
+        __typename?: 'Reference';
+        id: string;
+        title: string;
+      }>;
+    }>
+  >;
+};
 
-export type GQLCompetenceGoalsQuery = { __typename?: 'Query', competenceGoals?: Maybe<Array<{ __typename?: 'CompetenceGoal', id: string, type: string, name: string, curriculum?: Maybe<{ __typename?: 'Reference', id: string, title: string }>, competenceGoalSet?: Maybe<{ __typename?: 'Reference', id: string, title: string }> }>>, coreElements?: Maybe<Array<{ __typename?: 'CoreElement', id: string, name: string, text?: Maybe<string>, curriculum?: Maybe<{ __typename?: 'Reference', id: string, title: string }> }>> };
+export type GQLMovieInfoFragment = {
+  __typename?: 'Movie';
+  id: string;
+  title: string;
+  metaDescription: string;
+  path: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; alt: string; url: string }>;
+  resourceTypes: Array<{
+    __typename?: 'ResourceType';
+    id: string;
+    name: string;
+  }>;
+};
 
-export type GQLMovieInfoFragment = { __typename?: 'Movie', id: string, title: string, metaDescription: string, path: string, metaImage?: Maybe<{ __typename?: 'MetaImage', alt: string, url: string }>, resourceTypes: Array<{ __typename?: 'ResourceType', id: string, name: string }> };
+export type GQLFilmFrontPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLFilmFrontPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GQLFilmFrontPageQuery = { __typename?: 'Query', filmfrontpage?: Maybe<{ __typename?: 'FilmFrontpage', name: string, about: Array<{ __typename?: 'FilmPageAbout', title: string, description: string, language: string, visualElement: { __typename?: 'SubjectPageVisualElement', type: string, alt?: Maybe<string>, url: string } }>, movieThemes: Array<{ __typename?: 'MovieTheme', name: Array<{ __typename?: 'Name', name: string, language: string }>, movies: Array<(
-        { __typename?: 'Movie' }
-        & GQLMovieInfoFragment
-      )> }>, slideShow: Array<(
-      { __typename?: 'Movie' }
-      & GQLMovieInfoFragment
-    )> }> };
+export type GQLFilmFrontPageQuery = {
+  __typename?: 'Query';
+  filmfrontpage?: Maybe<{
+    __typename?: 'FilmFrontpage';
+    name: string;
+    about: Array<{
+      __typename?: 'FilmPageAbout';
+      title: string;
+      description: string;
+      language: string;
+      visualElement: {
+        __typename?: 'SubjectPageVisualElement';
+        type: string;
+        alt?: Maybe<string>;
+        url: string;
+      };
+    }>;
+    movieThemes: Array<{
+      __typename?: 'MovieTheme';
+      name: Array<{ __typename?: 'Name'; name: string; language: string }>;
+      movies: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
+    }>;
+    slideShow: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
+  }>;
+};
 
 export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
@@ -1554,26 +2283,39 @@ export type GQLMastHeadQueryVariables = Exact<{
   skipResource: Scalars['Boolean'];
 }>;
 
-
-export type GQLMastHeadQuery = { __typename?: 'Query', subject?: Maybe<{ __typename?: 'Subject', id: string, name: string, path: string, topics?: Maybe<Array<(
-      { __typename?: 'Topic' }
-      & GQLTopicInfoFragment
-    )>> }>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>>, topic?: Maybe<{ __typename?: 'Topic', id: string, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> }, coreResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>>, supplementaryResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>> }>, resource?: Maybe<(
-    { __typename?: 'Resource', article?: Maybe<(
-      { __typename?: 'Article' }
-      & GQLArticleInfoFragment
-    )>, learningpath?: Maybe<(
-      { __typename?: 'Learningpath' }
-      & GQLLearningpathInfoFragment
-    )> }
-    & GQLResourceInfoFragment
-  )> };
+export type GQLMastHeadQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    topics?: Maybe<Array<{ __typename?: 'Topic' } & GQLTopicInfoFragment>>;
+  }>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceTypeDefinition'; id: string; name: string }>
+  >;
+  topic?: Maybe<{
+    __typename?: 'Topic';
+    id: string;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields?: Maybe<any> };
+    coreResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+    supplementaryResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+  }>;
+  resource?: Maybe<
+    {
+      __typename?: 'Resource';
+      article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
+      learningpath?: Maybe<
+        { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
+      >;
+    } & GQLResourceInfoFragment
+  >;
+};
 
 export type GQLResourcePageQueryVariables = Exact<{
   topicId: Scalars['String'];
@@ -1581,23 +2323,60 @@ export type GQLResourcePageQueryVariables = Exact<{
   resourceId: Scalars['String'];
 }>;
 
-
-export type GQLResourcePageQuery = { __typename?: 'Query', subject?: Maybe<{ __typename?: 'Subject', id: string, name: string, path: string, topics?: Maybe<Array<{ __typename?: 'Topic', id: string, name: string, parent?: Maybe<string>, path: string, relevanceId?: Maybe<string>, meta?: Maybe<(
-        { __typename?: 'Meta' }
-        & GQLMetaInfoFragment
-      )> }>> }>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string, subtypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>> }>>, topic?: Maybe<{ __typename?: 'Topic', id: string, name: string, path: string, relevanceId?: Maybe<string>, coreResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>>, supplementaryResources?: Maybe<Array<(
-      { __typename?: 'Resource' }
-      & GQLResourceInfoFragment
-    )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } }>, resource?: Maybe<(
-    { __typename?: 'Resource', article?: Maybe<(
-      { __typename?: 'Article' }
-      & GQLArticleInfoFragment
-    )>, learningpath?: Maybe<(
-      { __typename?: 'Learningpath' }
-      & GQLLearningpathInfoFragment
-    )> }
-    & GQLResourceInfoFragment
-  )> };
+export type GQLResourcePageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    topics?: Maybe<
+      Array<{
+        __typename?: 'Topic';
+        id: string;
+        name: string;
+        parent?: Maybe<string>;
+        path: string;
+        relevanceId?: Maybe<string>;
+        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+      }>
+    >;
+  }>;
+  resourceTypes?: Maybe<
+    Array<{
+      __typename?: 'ResourceTypeDefinition';
+      id: string;
+      name: string;
+      subtypes?: Maybe<
+        Array<{
+          __typename?: 'ResourceTypeDefinition';
+          id: string;
+          name: string;
+        }>
+      >;
+    }>
+  >;
+  topic?: Maybe<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    path: string;
+    relevanceId?: Maybe<string>;
+    coreResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+    supplementaryResources?: Maybe<
+      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
+    >;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields?: Maybe<any> };
+  }>;
+  resource?: Maybe<
+    {
+      __typename?: 'Resource';
+      article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
+      learningpath?: Maybe<
+        { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
+      >;
+    } & GQLResourceInfoFragment
+  >;
+};
