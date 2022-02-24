@@ -122,6 +122,13 @@ const SearchHeader = ({
     setActiveFilters(activeFilters.filter(filter => filter.value !== value));
   };
 
+  const onSearchValueChange = (value: string) => {
+    if (value === '' && (searchValue ?? '').length > 2) {
+      handleSearchParamsChange({ query: '' });
+    }
+    setSearchValue(value);
+  };
+
   const competenceGoalsMetadata = groupCompetenceGoals(
     competenceGoals,
     false,
@@ -136,7 +143,7 @@ const SearchHeader = ({
         handleSearchParamsChange({ query: suggestion })
       }
       searchValue={searchValue}
-      onSearchValueChange={value => setSearchValue(value)}
+      onSearchValueChange={value => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
         filters: activeFilters,
