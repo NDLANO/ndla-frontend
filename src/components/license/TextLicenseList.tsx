@@ -54,11 +54,13 @@ const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={text.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {text.copyText && (
+              <CopyTextButton
+                stringToCopy={text.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
           </div>
         </MediaListItemActions>
       </MediaListItemBody>
