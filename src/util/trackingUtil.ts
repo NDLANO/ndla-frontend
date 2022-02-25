@@ -104,12 +104,15 @@ export const convertToGaOrGtmDimension = (
   }, {});
 };
 
-const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>
+const getGrepCodeOfType = (
+  pattern: string,
+  article?: Pick<GQLArticle, 'grepCodes'>,
+) =>
   article?.grepCodes?.filter(code => code?.startsWith(pattern))?.join('|') ||
   undefined;
 
 interface Props {
-  article?: GQLArticle;
+  article?: Pick<GQLArticle, 'copyright' | 'title' | 'grepCodes'>;
   subject?: Pick<GQLSubject, 'name'>;
   topicPath?: (Pick<GQLTopic, 'name'> | undefined)[];
   learningpath?: GQLLearningpathInfoFragment;

@@ -33,7 +33,6 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
-  GQLResource,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
   GQLTopic,
@@ -136,7 +135,11 @@ const ArticlePage = ({
         breadcrumbItems={breadcrumbItems}
       />
       <Helmet>
-        <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
+        <title>{`${getDocumentTitle(
+          t,
+          resource.article.title,
+          subject,
+        )}`}</title>
         {article?.metaDescription && (
           <meta name="description" content={article.metaDescription} />
         )}
@@ -217,15 +220,11 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Pick<GQLResource, 'article'>,
+  articleTitle?: string,
   subject?: GQLResourcePageQuery['subject'],
-) =>
-  htmlTitle(resource?.article?.title, [
-    subject?.name,
-    t('htmlTitles.titleTemplate'),
-  ]);
+) => htmlTitle(articleTitle, [subject?.name, t('htmlTitles.titleTemplate')]);
 
 ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
-  getDocumentTitle(t, resource, subject);
+  getDocumentTitle(t, resource?.article?.title, subject);
 
 export default withTranslation()(withTracker(ArticlePage));

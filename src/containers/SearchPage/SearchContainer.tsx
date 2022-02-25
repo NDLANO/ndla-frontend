@@ -14,6 +14,7 @@ import {
   //@ts-ignore
   FilterButtons,
   LanguageSelector,
+  ConceptNotion,
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +26,6 @@ import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { getLocaleUrls } from '../../util/localeHelpers';
-import ConceptNotion from './components/ConceptNotion';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -112,7 +112,17 @@ const SearchContainer = ({
             setShowConcepts(false);
           }}>
           {concepts.map(concept => (
-            <ConceptNotion concept={concept} />
+            <ConceptNotion
+              concept={{
+                ...concept,
+                image: concept.image
+                  ? {
+                      src: concept.image.url,
+                      alt: concept.image.alt,
+                    }
+                  : undefined,
+              }}
+            />
           ))}
         </SearchNotionsResult>
       )}

@@ -1781,6 +1781,11 @@ export type GQLArticleInfoFragment = {
       copyright?: Maybe<
         { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
       >;
+      image?: Maybe<{
+        __typename?: 'ImageLicense';
+        src: string;
+        altText: string;
+      }>;
       visualElement?: Maybe<
         { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
       >;

@@ -659,6 +659,10 @@ export const articleInfoFragment = gql`
       copyright {
         ...ConceptCopyrightInfo
       }
+      image {
+        src
+        altText
+      }
       visualElement {
         ...VisualElementInfo
       }

@@ -18,14 +18,14 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
-import { GQLArticle } from '../../graphqlTypes';
+import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends CustomWithTranslation {
-  article: GQLArticle;
+  article: GQLArticleInfoFragment;
   locale: LocaleType;
   user?: FeideUserWithGroups;
   skipToContentId?: string;

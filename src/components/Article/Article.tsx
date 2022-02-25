@@ -15,6 +15,7 @@ import CompetenceGoals from '../CompetenceGoals';
 import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
+import config from '../../config';
 
 function renderCompetenceGoals(
   article: GQLArticleInfoFragment,
@@ -72,42 +73,35 @@ interface Props {
   subjectId?: string;
 }
 
-// Functionality has been commented out in frontend-packages. Should probably be uncommented and fixed instead.
-// const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
-//   const notions =
-//     article.concepts?.map(concept => {
-//       const { content: text, copyright, subjectNames, visualElement } = concept;
-//       const { creators: authors, license } = copyright!;
-//       return {
-//         ...concept,
-//         id: concept.id.toString(),
-//         title: concept.title,
-//         text,
-//         locale,
-//         labels: subjectNames,
-//         authors,
-//         license: license?.license,
-//         media: visualElement && (
-//           <VisualElementWrapper visualElement={visualElement} locale={locale} />
-//         ),
-//       };
-//     }) ?? [];
-//   const related =
-//     article.relatedContent?.map(rc => ({
-//       ...rc,
-//       label: rc.title,
-//     })) ?? [];
-//   if (
-//     config.ndlaEnvironment !== 'prod' &&
-//     (notions.length > 0 || related.length > 0)
-//   ) {
-//     return {
-//       list: notions,
-//       related,
-//     };
-//   }
-//   return undefined;
-// };
+const renderNotions = (article: GQLArticleInfoFragment) => {
+  const notions =
+    article.concepts?.map(concept => {
+      return {
+        ...concept,
+        labels: concept.subjectNames ?? [],
+        text: concept.content ?? '',
+        image: concept.image && {
+          src: concept.image.src,
+          alt: concept.image.altText,
+        },
+      };
+    }) ?? [];
+  const related =
+    article.relatedContent?.map(rc => ({
+      ...rc,
+      label: rc.title,
+    })) ?? [];
+  if (
+    config.ndlaEnvironment !== 'prod' &&
+    (notions.length > 0 || related.length > 0)
+  ) {
+    return {
+      list: notions,
+      related,
+    };
+  }
+  return undefined;
+};
 
 const Article = ({
   article,
@@ -125,7 +119,6 @@ const Article = ({
   subjectId,
   ...rest
 }: Props) => {
-  // const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -201,8 +194,7 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={{ list: [], related: [] }}
-      // notions={renderNotions(article, i18n.language as LocaleType)}
+      notions={renderNotions(article)}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
