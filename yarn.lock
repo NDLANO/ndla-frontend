@@ -2927,10 +2927,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-4.1.0.tgz#094f31ee014aa7e0b4b8d409fa82370a75aa369b"
-  integrity sha512-j5PJboeJR1yT6YNRtOaXiNI7lmR5Q8rfSV1BE8U1cFdtZJitMUT1IIsCWawFgmGYK9wFS912DN7kuZw58sG4kg==
+"@ndla/ui@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-4.1.2.tgz#daf37b4fd015666c6b764e4afa02df7398a940c5"
+  integrity sha512-V2I9DUQy6xeIP9RO1nDPppWIubmwSNWj+86VmTW3v5xiGwnpMhgxY40RzoGb0wrZvGa6JcecZJspzFDFwm+ing==
   dependencies:
     "@ndla/button" "^1.1.9"
     "@ndla/carousel" "^1.1.5"
@@ -2978,11 +2978,12 @@
     cli-table3 "^0.6.0"
     remarkable "^2.0.1"
 
-"@ndla/zendesk@^0.2.46":
-  version "0.2.46"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.46.tgz#5d598f6bddc48cb3f306f8ad6e73de1d44168053"
-  integrity sha512-D/53W2kr4x6MEGF5sO3eE79wS4VFV9/jPtyEnoXUL2IRS1QpyHgwaGSbboD7mAxEoeJmFhNUGqqe9jBHWUZZ6g==
+"@ndla/zendesk@^0.2.48":
+  version "0.2.48"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-0.2.48.tgz#ce7b9802722e46437bb03a32dc81abd7bca32048"
+  integrity sha512-x5k2iSszU5S+XMfaha63P+EfQAgDb4Qyynn9fWEfBZJxkNbIc897TOG1uVQDAT2rIaXZI8I1ca9WEtojtW93og==
   dependencies:
+    "@ndla/button" "^1.1.9"
     "@ndla/core" "^0.7.3"
 
 "@nodelib/fs.scandir@2.1.4":
