@@ -25,7 +25,6 @@ import {
   GQLLearningpathStep,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
-  GQLSubject,
   GQLSubjectInfoFragment,
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
@@ -35,14 +34,14 @@ import { FeideUserWithGroups } from '../../util/feideApi';
 interface PropData {
   relevance: string;
   topic?: GQLTopicInfoFragment;
-  topicPath: GQLTopicInfoFragment[];
-  subject?: GQLSubjectInfoFragment;
+  topicPath: Omit<GQLTopicInfoFragment, 'metadata'>[];
+  subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
   resourceTypes?: GQLResourceTypeDefinition[];
   resource?: Required<GQLResourcePageQuery>['resource'];
 }
 
 interface Props extends WithTranslation {
-  locale: string;
+  locale: LocaleType;
   loading: boolean;
   ndlaFilm?: boolean;
   data: PropData;
@@ -142,9 +141,13 @@ const LearningpathPage = ({
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale as LocaleType}
-        image={{
-          url: learningpath.coverphoto?.url,
-        }}
+        image={
+          learningpath.coverphoto?.url
+            ? {
+                url: learningpath.coverphoto?.url,
+              }
+            : undefined
+        }
       />
       <Learningpath
         skipToContentId={skipToContentId}
@@ -157,7 +160,7 @@ const LearningpathPage = ({
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         locale={locale}
-        ndlaFilm={ndlaFilm}
+        ndlaFilm={!!ndlaFilm}
         breadcrumbItems={breadcrumbItems}
       />
     </div>
@@ -203,7 +206,7 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: GQLSubject,
+  subject?: Pick<GQLSubjectInfoFragment, 'name'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {

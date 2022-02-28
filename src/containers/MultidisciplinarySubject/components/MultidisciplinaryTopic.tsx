@@ -25,7 +25,7 @@ import VisualElementWrapper, {
 import {
   GQLArticle,
   GQLResourceTypeDefinition,
-  GQLTopic,
+  GQLTopicQueryTopicFragment,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
@@ -38,7 +38,7 @@ interface Props extends WithTranslation {
   locale: LocaleType;
   ndlaFilm?: boolean;
   subject: MultiDisciplinarySubjectType;
-  topic: GQLTopic;
+  topic: GQLTopicQueryTopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
@@ -121,11 +121,7 @@ const MultidisciplinaryTopic = ({
             }
           : undefined,
         resources: topic.subtopics ? (
-          <Resources
-            topic={topic}
-            resourceTypes={resourceTypes}
-            locale={locale}
-          />
+          <Resources topic={topic} resourceTypes={resourceTypes} />
         ) : (
           undefined
         ),

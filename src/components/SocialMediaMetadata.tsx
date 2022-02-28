@@ -68,7 +68,7 @@ interface Props extends RouteComponentProps {
   title: string;
   description?: string;
   locale: LocaleType;
-  image?: GQLMetaImage;
+  image?: Pick<GQLMetaImage, 'url'>;
   trackableContent?: TrackableContent;
   children?: React.ReactNode;
 }

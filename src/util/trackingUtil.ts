@@ -111,7 +111,7 @@ const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>
 interface Props {
   article?: GQLArticle;
   subject?: Pick<GQLSubject, 'name'>;
-  topicPath?: (GQLTopic | undefined)[];
+  topicPath?: (Pick<GQLTopic, 'name'> | undefined)[];
   learningpath?: GQLLearningpathInfoFragment;
   relevance?: string;
   learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;

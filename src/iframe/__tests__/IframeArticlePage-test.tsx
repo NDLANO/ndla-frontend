@@ -16,9 +16,7 @@ import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import { StaticRouter } from 'react-router';
-// @ts-ignore
 import IframePageContainer from '../IframePageContainer';
-// @ts-ignore
 import IframeArticlePage from '../IframeArticlePage';
 
 window.dataLayer = [];
@@ -192,7 +190,6 @@ test('IframeArticlePage with article renderers correctly', () => {
                   id: 'urn:resource:1',
                   name: 'Ressurs',
                   path: '/subject:1/resource:1',
-                  article,
                   resourceTypes: [],
                 }}
                 article={article}

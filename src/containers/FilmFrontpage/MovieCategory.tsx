@@ -8,8 +8,7 @@
 
 import React from 'react';
 import { CarouselAutosize } from '@ndla/carousel';
-//@ts-ignore
-import { CalculatedCarouselProps, FilmMovieList, MovieGrid } from '@ndla/ui';
+import { FilmMovieList, MovieGrid } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { breakpoints, findName } from './filmHelper';
 import { GQLMovieTheme } from '../../graphqlTypes';
@@ -17,9 +16,9 @@ import { MoviesByType } from './NdlaFilmFrontpage';
 
 interface Props {
   fetchingMoviesByType?: boolean;
-  resourceTypeName?: { name?: string; id?: string };
+  resourceTypeName?: { name: string; id: string };
   themes: GQLMovieTheme[];
-  resourceTypes?: { name?: string; id?: string }[];
+  resourceTypes: { name: string; id: string }[];
   moviesByType?: MoviesByType[];
   resourceTypeSelected?: string;
   loadingPlaceholderHeight?: string;
@@ -37,20 +36,20 @@ const MovieCategory = ({
   i18n,
 }: Props & WithTranslation) => (
   <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
-    {(autoSizedProps: CalculatedCarouselProps) =>
+    {autoSizedProps =>
       resourceTypeSelected ? (
         <MovieGrid
           autoSizedProps={autoSizedProps}
           resourceTypeName={resourceTypeName}
-          fetchingMoviesByType={fetchingMoviesByType}
-          moviesByType={moviesByType}
+          fetchingMoviesByType={!!fetchingMoviesByType}
+          moviesByType={moviesByType ?? []}
           resourceTypes={resourceTypes}
           loadingPlaceholderHeight={loadingPlaceholderHeight}
         />
       ) : (
         themes.map((theme: GQLMovieTheme) => (
           <FilmMovieList
-            key={theme.name}
+            key={theme.name[0]?.name}
             name={findName(theme.name ?? [], i18n.language)}
             movies={theme.movies}
             autoSizedProps={autoSizedProps}
