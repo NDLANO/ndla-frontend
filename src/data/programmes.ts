@@ -1234,7 +1234,7 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
+                id: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
               },
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
