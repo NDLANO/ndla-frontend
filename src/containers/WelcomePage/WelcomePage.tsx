@@ -16,6 +16,7 @@ import {
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import BEMHelper from 'react-bem-helper';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -66,9 +67,12 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
 
 interface Props {
   locale: LocaleType;
+  skipToContentId?: string;
 }
 
-const WelcomePage = ({ locale }: Props) => {
+const classes = new BEMHelper({ name: 'masthead', prefix: 'c-' });
+
+const WelcomePage = ({ locale, skipToContentId }: Props) => {
   const { t } = useTranslation();
 
   const googleSearchJSONLd = () => {
@@ -87,6 +91,14 @@ const WelcomePage = ({ locale }: Props) => {
 
   return (
     <>
+      {skipToContentId && (
+        <a
+          tabIndex={0}
+          href={`#${skipToContentId}`}
+          {...classes('skip-to-main-content')}>
+          {t('masthead.skipToContent')}
+        </a>
+      )}
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -104,7 +116,7 @@ const WelcomePage = ({ locale }: Props) => {
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
-          <div data-testid="category-list">
+          <div data-testid="category-list" id={skipToContentId}>
             <FrontpageSubjects locale={locale} />
           </div>
         </OneColumn>
