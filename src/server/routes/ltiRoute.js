@@ -7,7 +7,7 @@
  */
 
 import { Helmet } from 'react-helmet';
-import { BAD_REQUEST, OK } from 'http-status';
+import { BAD_REQUEST, OK } from '../../statusCodes';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { renderPage, renderHtml } from '../helpers/render';
 

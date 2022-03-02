@@ -8,7 +8,6 @@
 import React, { ComponentType } from 'react';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { isValidElementType } from 'react-is';
 import Spinner from '@ndla/ui/lib/Spinner';
 
 import { competenceGoalsQuery } from '../queries';
@@ -265,17 +264,6 @@ const CompetenceGoals = ({
       <CompetenceGoalTab list={competenceGoalsList} />
     </Component>
   );
-};
-
-CompetenceGoals.propTypes = {
-  wrapperComponent: (props: any, propName: string) => {
-    if (props[propName] && !isValidElementType(props[propName])) {
-      return new Error(
-        `Invalid prop 'component' supplied to 'CompetenceGoals': the prop is not a valid React component`,
-      );
-    }
-    return null;
-  },
 };
 
 export default CompetenceGoals;

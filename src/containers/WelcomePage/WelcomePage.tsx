@@ -16,7 +16,6 @@ import {
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import BEMHelper from 'react-bem-helper';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -70,8 +69,6 @@ interface Props {
   skipToContentId?: string;
 }
 
-const classes = new BEMHelper({ name: 'masthead', prefix: 'c-' });
-
 const WelcomePage = ({ locale, skipToContentId }: Props) => {
   const { t } = useTranslation();
 
@@ -95,7 +92,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
         <a
           tabIndex={0}
           href={`#${skipToContentId}`}
-          {...classes('skip-to-main-content')}>
+          className="c-masthead__skip-to-main-content">
           {t('masthead.skipToContent')}
         </a>
       )}
