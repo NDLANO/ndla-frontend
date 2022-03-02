@@ -2786,7 +2786,7 @@ export const subjectsCategories = [
     name: {
       nb: 'Kommende',
       nn: 'Komande',
-      en: 'Coming',
+      en: 'Revised',
     },
     subjects: betaSubjects,
     visible: true,
