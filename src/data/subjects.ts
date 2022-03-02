@@ -235,21 +235,6 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
   },
-  /* {
-    longName: {
-      en: 'Åarjelsaemien voestesgïeline (YF)',
-      nb: 'Åarjelsaemien voestesgïeline (YF)',
-      nn: 'Åarjelsaemien voestesgïeline (YF)',
-    },
-    name: {
-      en: 'Sørsamisk som førstespråk (Utgått)',
-      nb: 'Sørsamisk som førstespråk (Utgått)',
-      nn: 'Sørsamisk som førstespråk (Utgått)',
-    },
-    id: 'urn:subject:1:2a1420a8-a485-4000-8593-6fe0341a8a22',
-  },
- */
-
   {
     longName: {
       en: 'Matematikk 1P-Y (BA)',
@@ -1189,6 +1174,32 @@ export const activeSubjects = [
   },
   {
     longName: {
+      en: 'Produktutvikling og produksjon (FD-FBI vg1)',
+      nb: 'Produktutvikling og produksjon (FD-FBI vg1)',
+      nn: 'Produktutvikling og produksjon (FD-FBI vg1)',
+    },
+    name: {
+      en: 'Produktutvikling og produksjon',
+      nb: 'Produktutvikling og produksjon',
+      nn: 'Produktutvikling og produksjon',
+    },
+    id: 'urn:subject:31f764fe-d885-4fc6-93f5-53e1d50670fa',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+      nb: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+      nn: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+    },
+    name: {
+      en: 'Kommunikasjon, kunde og arbeidsliv',
+      nb: 'Kommunikasjon, kunde og arbeidsliv',
+      nn: 'Kommunikasjon, kunde og arbeidsliv',
+    },
+    id: 'urn:subject:52b154e8-eb71-49cb-b046-c41303eb9b99',
+  },
+  {
+    longName: {
       en: 'Håndverk, design og produktutvikling vg1',
       nb: 'Håndverk, design og produktutvikling vg1',
       nn: 'Handverk, design og produktutvikling vg1',
@@ -1199,6 +1210,32 @@ export const activeSubjects = [
       nn: 'Programfag HDP',
     },
     id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
+  },
+  {
+    longName: {
+      en: 'Materialer og teknikker (DT-DTH vg1)',
+      nb: 'Materialer og teknikker (DT-DTH vg1)',
+      nn: 'Materialar og teknikkar (DT-DTH vg1)',
+    },
+    name: {
+      en: 'Materialer og teknikker',
+      nb: 'Materialer og teknikker',
+      nn: 'Materialar og teknikkar',
+    },
+    id: 'urn:subject:6055d62b-8373-47d3-8b56-e3d4c5560ff5',
+  },
+  {
+    longName: {
+      en: 'Produktutvikling og skapende prosesser (DT-DTH vg1)',
+      nb: 'Produktutvikling og skapende prosesser (DT-DTH vg1)',
+      nn: 'Produktutvikling og skapande prosessar (DT-DTH vg1)',
+    },
+    name: {
+      en: 'Produktutvikling og skapende prosesser',
+      nb: 'Produktutvikling og skapende prosesser',
+      nn: 'Produktutvikling og skapande prosessar',
+    },
+    id: 'urn:subject:2fc808ef-7cd4-4982-a429-fa0939e784aa',
   },
   {
     longName: {
