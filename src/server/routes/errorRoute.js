@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { MissingRouterContext } from '@ndla/safelink';
-import { INTERNAL_SERVER_ERROR } from 'http-status';
+import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import ErrorPage from '../../containers/ErrorPage';
 import { getLocaleInfoFromPath } from '../../i18n';
 import { renderHtml, renderPage } from '../helpers/render';
