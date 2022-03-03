@@ -704,6 +704,8 @@ export const subjectPageQueryWithTopics = gql`
     $subjectId: String!
     $topicId: String!
     $includeTopic: Boolean!
+    $metadataFilterKey: String
+    $metadataFilterValue: String
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
@@ -734,7 +736,10 @@ export const subjectPageQueryWithTopics = gql`
         }
       }
     }
-    subjects {
+    subjects(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+    ) {
       ...SubjectInfo
       metadata {
         customFields
