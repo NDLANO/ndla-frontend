@@ -116,7 +116,7 @@
     "@ndla/safelink": "^1.0.14",
     "@ndla/tabs": "^1.0.19",
     "@ndla/tracker": "^0.5.1",
-    "@ndla/ui": "^4.1.4",
+    "@ndla/ui": "^4.2.1",
     "@ndla/util": "^2.0.2",
     "@ndla/zendesk": "^0.2.48",
     "babel-polyfill": "^6.26.0",
