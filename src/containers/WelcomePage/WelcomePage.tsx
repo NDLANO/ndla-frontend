@@ -6,7 +6,7 @@
  *
  */
 
- import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -15,7 +15,7 @@ import {
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
   MessageBox,
-  MessageBoxType
+  MessageBoxType,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useLazyQuery } from '@apollo/client';
@@ -101,13 +101,12 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
   };
 
   const alerts = data?.alerts?.map(alert => (
-      <span
-        dangerouslySetInnerHTML={{
-          __html: alert.body ?? ''
-        }}
-      />
-    )
-  );
+    <span
+      dangerouslySetInnerHTML={{
+        __html: alert.body ?? '',
+      }}
+    />
+  ));
 
   return (
     <>
@@ -131,7 +130,9 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
         }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {alerts?.map(alert => <MessageBox type={MessageBoxType.fullpage} children={alert} sticky/>)}
+      {alerts?.map(alert => (
+        <MessageBox type={MessageBoxType.fullpage} children={alert} sticky />
+      ))}
       <FrontpageHeader locale={locale} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
