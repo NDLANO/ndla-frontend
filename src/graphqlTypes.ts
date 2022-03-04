@@ -215,6 +215,7 @@ export type GQLCompetenceGoal = {
 export type GQLConcept = {
   __typename?: 'Concept';
   content: Scalars['String'];
+  copyright?: Maybe<GQLConceptCopyright>;
   id: Scalars['Int'];
   metaImage: GQLMetaImage;
   subjectIds?: Maybe<Array<Scalars['String']>>;
@@ -633,6 +634,7 @@ export type GQLPodcastSeriesSummary = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   article?: Maybe<GQLArticle>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
@@ -1085,6 +1087,12 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
+};
+
+export type GQLUptimeAlert = {
+  __typename?: 'UptimeAlert';
+  body?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 export type GQLVisualElement = {
@@ -2369,5 +2377,20 @@ export type GQLResourcePageQuery = {
         { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
       >;
     } & GQLResourceInfoFragment
+  >;
+};
+
+export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAlertsQuery = {
+  __typename?: 'Query';
+  alerts?: Maybe<
+    Array<
+      Maybe<{
+        __typename?: 'UptimeAlert';
+        title?: Maybe<string>;
+        body?: Maybe<string>;
+      }>
+    >
   >;
 };

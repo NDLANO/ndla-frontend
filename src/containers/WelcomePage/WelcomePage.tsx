@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+ import React, { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -14,9 +14,11 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
+  MessageBox,
+  MessageBoxType
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-
+import { useLazyQuery } from '@apollo/client';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import { FILM_PAGE_PATH } from '../../constants';
@@ -27,6 +29,8 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById } from '../../data/subjects';
 import { LocaleType, SubjectType } from '../../interfaces';
+import { alertsQuery } from '../../queries';
+import { GQLAlertsQuery } from '../../graphqlTypes';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -72,6 +76,16 @@ interface Props {
 const WelcomePage = ({ locale, skipToContentId }: Props) => {
   const { t } = useTranslation();
 
+  useEffect(() => {
+    getData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const [fetchData, { data }] = useLazyQuery<GQLAlertsQuery>(alertsQuery);
+
+  const getData = () => {
+    fetchData();
+  };
+
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -85,6 +99,15 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
     };
     return JSON.stringify(data);
   };
+
+  const alerts = data?.alerts?.map(alert => (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: alert.body ?? ''
+        }}
+      />
+    )
+  );
 
   return (
     <>
@@ -108,6 +131,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
         }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
+      {alerts?.map(alert => <MessageBox type={MessageBoxType.fullpage} children={alert} sticky/>)}
       <FrontpageHeader locale={locale} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
