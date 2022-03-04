@@ -127,6 +127,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
           type={MessageBoxType.fullpage}
           children={alert.body}
           sticky
+          showCloseButton
         />
       ))}
       <FrontpageHeader locale={locale} showHeader={true}>
