@@ -100,14 +100,6 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
     return JSON.stringify(data);
   };
 
-  const alerts = data?.alerts?.map(alert => (
-    <span
-      dangerouslySetInnerHTML={{
-        __html: alert.body ?? '',
-      }}
-    />
-  ));
-
   return (
     <>
       {skipToContentId && (
@@ -130,8 +122,12 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
         }}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {alerts?.map(alert => (
-        <MessageBox type={MessageBoxType.fullpage} children={alert} sticky />
+      {data?.alerts?.map(alert => (
+        <MessageBox
+          type={MessageBoxType.fullpage}
+          children={alert.body}
+          sticky
+        />
       ))}
       <FrontpageHeader locale={locale} showHeader={true}>
         <WelcomePageSearch />
