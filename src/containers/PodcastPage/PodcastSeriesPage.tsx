@@ -60,6 +60,10 @@ const EpisodesWrapper = styled.div`
   }
 `;
 
+const NoResults = styled.div`
+  padding-top: ${spacing.medium};
+`;
+
 const PodcastSeriesPage = ({
   match: {
     params: { id },
@@ -141,7 +145,7 @@ const PodcastSeriesPage = ({
               ))}
             </>
           ) : (
-            <div>{t('podcastPage.noEpisodes')}</div>
+            <NoResults>{t('podcastPage.noResults')}</NoResults>
           )}
         </EpisodesWrapper>
       </OneColumn>

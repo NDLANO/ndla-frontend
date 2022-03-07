@@ -32,7 +32,7 @@ const messages = {
     podcast: 'Podkast',
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
-    noResults: 'Ingen episoder',
+    noResults: '...Ingen episoder',
   },
   blogPosts: {
     blog1: {
