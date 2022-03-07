@@ -1,4 +1,4 @@
-import { Component, Fragment, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { getUrnIdsFromProps } from '../../../routeHelpers';
@@ -111,7 +111,7 @@ class MastheadMenu extends Component<Props, State> {
     const { expandedTopicId, expandedSubtopicsId } = this.state;
 
     return (
-      <Fragment>
+      <>
         <MastheadMenuModal ndlaFilm={ndlaFilm}>
           {(onClose: () => void) => (
             <MastheadTopics
@@ -130,7 +130,7 @@ class MastheadMenu extends Component<Props, State> {
             />
           )}
         </MastheadMenuModal>
-      </Fragment>
+      </>
     );
   }
 }
