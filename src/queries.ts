@@ -748,15 +748,22 @@ export const subjectPageQueryWithTopics = gql`
   ${subjectInfoFragment}
 `;
 
+export const subjectPageQueryInfoFragment = gql`
+  fragment SubjectPageQueryInfo on Subject {
+    id
+    name
+    path
+    topics {
+      ...TopicInfo
+    }
+  }
+  ${topicInfoFragment}
+`;
+
 export const subjectPageQuery = gql`
   query subjectPage($subjectId: String!) {
     subject(id: $subjectId) {
-      id
-      name
-      path
-      topics {
-        ...TopicInfo
-      }
+      ...SubjectPageQueryInfo
       allTopics: topics(all: true) {
         ...TopicInfo
       }
@@ -765,9 +772,31 @@ export const subjectPageQuery = gql`
       }
     }
   }
+  ${subjectPageQueryInfoFragment}
   ${topicInfoFragment}
   ${subjectpageInfo}
-  ${taxonomyEntityInfo}
+`;
+
+export const multiDisciplinarySubjectPageQuery = gql`
+  query multiDisciplinarySubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...SubjectPageQueryInfo
+      allTopics: topics(all: true) {
+        ...TopicInfo
+      }
+    }
+  }
+  ${subjectPageQueryInfoFragment}
+  ${topicInfoFragment}
+`;
+
+export const filmSubjectPageQuery = gql`
+  query filmSubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...SubjectPageQueryInfo
+    }
+  }
+  ${subjectPageQueryInfoFragment}
 `;
 
 export const subjectsQuery = gql`
