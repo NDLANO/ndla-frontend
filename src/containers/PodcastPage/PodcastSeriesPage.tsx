@@ -133,10 +133,16 @@ const PodcastSeriesPage = ({
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
-          <h2>{t('podcastPage.episodes')}</h2>
-          {podcastSeries.episodes?.map(episode => (
-            <Podcast podcast={episode} />
-          ))}
+          {podcastSeries.episodes?.length ? (
+            <>
+              <h2>{t('podcastPage.episodes')}</h2>
+              {podcastSeries.episodes?.map(episode => (
+                <Podcast podcast={episode} seriesId={id} />
+              ))}
+            </>
+          ) : (
+            <div>{t('podcastPage.noEpisodes')}</div>
+          )}
         </EpisodesWrapper>
       </OneColumn>
     </>

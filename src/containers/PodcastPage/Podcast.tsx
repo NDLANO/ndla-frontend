@@ -16,11 +16,12 @@ import {
 } from '@ndla/ui';
 import {
   getLicenseByAbbreviation,
-  getCopyString,
   getGroupedContributorDescriptionList,
   getLicenseCredits,
+  podcastEpisodeApa7CopyString,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
+import styled from '@emotion/styled';
 
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
@@ -29,9 +30,15 @@ import { GQLAudio } from '../../graphqlTypes';
 
 interface Props {
   podcast: GQLAudio;
+  seriesId: string;
 }
 
-const Podcast = ({ podcast }: Props) => {
+const InvisibleAnchor = styled.a`
+  top: -120px;
+  position: absolute;
+`;
+
+const Podcast = ({ podcast, seriesId }: Props) => {
   const [mounted, setMounted] = useState(false);
   const {
     i18n: { language },
@@ -82,6 +89,7 @@ const Podcast = ({ podcast }: Props) => {
 
   return (
     <Figure id={figureId} type="full-column">
+      <InvisibleAnchor id={`episode-${id}`} />
       <AudioPlayer
         src={podcast.audioFile.url}
         title={podcast.title.title}
@@ -102,11 +110,13 @@ const Podcast = ({ podcast }: Props) => {
           title={podcast.title.title}
           origin={podcast.copyright.origin}>
           <CopyTextButton
-            stringToCopy={getCopyString(
+            stringToCopy={podcastEpisodeApa7CopyString(
               podcast.title.title,
               undefined,
-              `/podcast/${podcast.id}`,
+              seriesId,
+              podcast.id,
               podcast.copyright,
+              language,
               config.ndlaFrontendDomain,
               key => t(key),
             )}
