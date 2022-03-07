@@ -112,7 +112,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
           <CopyTextButton
             stringToCopy={podcastEpisodeApa7CopyString(
               podcast.title.title,
-              undefined,
+              podcast.created,
               seriesId,
               podcast.id,
               podcast.copyright,
