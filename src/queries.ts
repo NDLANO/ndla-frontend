@@ -710,9 +710,7 @@ export const subjectPageQueryWithTopics = gql`
     subject(id: $subjectId) {
       ...SubjectInfo
       topics {
-        article {
-          supportedLanguages
-        }
+        supportedLanguages
         availability
         ...TopicInfo
       }

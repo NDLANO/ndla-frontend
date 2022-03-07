@@ -209,7 +209,7 @@ const SubjectContainer = ({
       : subject.topics) || [];
 
   const supportedLanguages =
-    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
+    topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
   const imageUrlObj = socialMediaMetadata.image?.url
     ? { url: socialMediaMetadata.image.url }

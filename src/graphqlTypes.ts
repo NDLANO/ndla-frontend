@@ -11,6 +11,7 @@ export type Scalars = {
   Float: number;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
+  StringRecord: any;
 };
 
 export type GQLAggregationResult = {
@@ -302,6 +303,7 @@ export type GQLDetailedConcept = {
   created?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   image?: Maybe<GQLImageLicense>;
+  source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
@@ -631,6 +633,7 @@ export type GQLPodcastSeriesSummary = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   article?: Maybe<GQLArticle>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
@@ -823,6 +826,7 @@ export type GQLQuerySubjectpageArgs = {
 
 
 export type GQLQuerySubjectsArgs = {
+  filterVisible?: Maybe<Scalars['Boolean']>;
   metadataFilterKey?: Maybe<Scalars['String']>;
   metadataFilterValue?: Maybe<Scalars['String']>;
 };
@@ -869,6 +873,7 @@ export type GQLResource = GQLTaxonomyEntity & GQLWithArticle & {
   rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
+  supportedLanguages: Array<Scalars['String']>;
 };
 
 
@@ -973,6 +978,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   rank?: Maybe<Scalars['Int']>;
   relevanceId: Scalars['String'];
   subjectpage?: Maybe<GQLSubjectPage>;
+  supportedLanguages: Array<Scalars['String']>;
   topics?: Maybe<Array<GQLTopic>>;
 };
 
@@ -1068,13 +1074,14 @@ export type GQLTaxonomyEntity = {
   paths: Array<Scalars['String']>;
   rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
+  supportedLanguages: Array<Scalars['String']>;
 };
 
 export type GQLTaxonomyMetadata = {
   __typename?: 'TaxonomyMetadata';
-  customFields?: Maybe<Scalars['JSON']>;
-  grepCodes?: Maybe<Array<Scalars['String']>>;
-  visible?: Maybe<Scalars['Boolean']>;
+  customFields: Scalars['StringRecord'];
+  grepCodes: Array<Scalars['String']>;
+  visible: Scalars['Boolean'];
 };
 
 export type GQLTitle = {
@@ -1104,6 +1111,7 @@ export type GQLTopic = GQLTaxonomyEntity & GQLWithArticle & {
   relevanceId?: Maybe<Scalars['String']>;
   subtopics?: Maybe<Array<GQLTopic>>;
   supplementaryResources?: Maybe<Array<GQLResource>>;
+  supportedLanguages: Array<Scalars['String']>;
 };
 
 
@@ -1120,6 +1128,12 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
+};
+
+export type GQLUptimeAlert = {
+  __typename?: 'UptimeAlert';
+  body?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type GQLVisualElement = {
@@ -1274,9 +1288,9 @@ export type GQLMetaInfoFragment = { __typename?: 'Meta', id: number, title: stri
 export type GQLTopicInfoFragment = { __typename?: 'Topic', id: string, name: string, contentUri?: Maybe<string>, path: string, parent?: Maybe<string>, relevanceId?: Maybe<string>, meta?: Maybe<(
     { __typename?: 'Meta' }
     & GQLMetaInfoFragment
-  )>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+  )>, metadata: { __typename?: 'TaxonomyMetadata', customFields: any } };
 
-export type GQLSubjectInfoFragment = { __typename?: 'Subject', id: string, name: string, path: string, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+export type GQLSubjectInfoFragment = { __typename?: 'Subject', id: string, name: string, path: string, metadata: { __typename?: 'TaxonomyMetadata', customFields: any } };
 
 export type GQLResourceInfoFragment = { __typename?: 'Resource', id: string, name: string, contentUri?: Maybe<string>, path: string, paths: Array<string>, relevanceId?: Maybe<string>, rank?: Maybe<number>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceType', id: string, name: string }>> };
 
@@ -1365,7 +1379,7 @@ export type GQLSubjectPageWithTopicsQueryVariables = Exact<{
 
 export type GQLSubjectPageWithTopicsQuery = { __typename?: 'Query', subject?: Maybe<(
     { __typename?: 'Subject', grepCodes: Array<string>, topics?: Maybe<Array<(
-      { __typename?: 'Topic', availability?: Maybe<string>, article?: Maybe<{ __typename?: 'Article', supportedLanguages?: Maybe<Array<string>> }> }
+      { __typename?: 'Topic', supportedLanguages: Array<string>, availability?: Maybe<string> }
       & GQLTopicInfoFragment
     )>>, allTopics?: Maybe<Array<(
       { __typename?: 'Topic' }
@@ -1382,7 +1396,7 @@ export type GQLSubjectPageWithTopicsQuery = { __typename?: 'Query', subject?: Ma
       )> }>> }
     & GQLTopicInfoFragment
   )>, subjects?: Maybe<Array<(
-    { __typename?: 'Subject', metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } }
+    { __typename?: 'Subject', metadata: { __typename?: 'TaxonomyMetadata', customFields: any } }
     & GQLSubjectInfoFragment
   )>> };
 
@@ -1507,7 +1521,7 @@ export type GQLTopicQueryTopicFragment = { __typename?: 'Topic', id: string, nam
   )>>, supplementaryResources?: Maybe<Array<(
     { __typename?: 'Resource' }
     & GQLResourceInfoFragment
-  )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } };
+  )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields: any } };
 
 export type GQLTopicQueryVariables = Exact<{
   topicId: Scalars['String'];
@@ -1564,7 +1578,7 @@ export type GQLMastHeadQueryVariables = Exact<{
 export type GQLMastHeadQuery = { __typename?: 'Query', subject?: Maybe<{ __typename?: 'Subject', id: string, name: string, path: string, topics?: Maybe<Array<(
       { __typename?: 'Topic' }
       & GQLTopicInfoFragment
-    )>> }>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>>, topic?: Maybe<{ __typename?: 'Topic', id: string, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> }, coreResources?: Maybe<Array<(
+    )>> }>, resourceTypes?: Maybe<Array<{ __typename?: 'ResourceTypeDefinition', id: string, name: string }>>, topic?: Maybe<{ __typename?: 'Topic', id: string, metadata: { __typename?: 'TaxonomyMetadata', customFields: any }, coreResources?: Maybe<Array<(
       { __typename?: 'Resource' }
       & GQLResourceInfoFragment
     )>>, supplementaryResources?: Maybe<Array<(
@@ -1597,7 +1611,7 @@ export type GQLResourcePageQuery = { __typename?: 'Query', subject?: Maybe<{ __t
     )>>, supplementaryResources?: Maybe<Array<(
       { __typename?: 'Resource' }
       & GQLResourceInfoFragment
-    )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields?: Maybe<any> } }>, resource?: Maybe<(
+    )>>, metadata: { __typename?: 'TaxonomyMetadata', customFields: any } }>, resource?: Maybe<(
     { __typename?: 'Resource', article?: Maybe<(
       { __typename?: 'Article' }
       & GQLArticleInfoFragment
