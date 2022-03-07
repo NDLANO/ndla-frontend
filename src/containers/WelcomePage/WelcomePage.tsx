@@ -125,7 +125,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
       {data?.alerts?.map(alert => (
         <MessageBox
           type={MessageBoxType.fullpage}
-          children={alert.body}
+          children={alert.body ?? alert.title}
           sticky
           showCloseButton
         />
