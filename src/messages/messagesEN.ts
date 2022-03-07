@@ -28,6 +28,8 @@ const messages = {
     },
   },
   podcastPage: {
+    episodes: 'Episodes',
+
     podcast: 'Podcast',
     podcasts: 'Podcasts',
     pageInfo: 'Page {{page}} of {{lastPage}}',

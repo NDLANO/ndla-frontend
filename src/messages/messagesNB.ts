@@ -28,6 +28,7 @@ const messages = {
     },
   },
   podcastPage: {
+    episodes: 'Episoder',
     podcast: 'Podkast',
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',

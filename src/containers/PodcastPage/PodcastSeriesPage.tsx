@@ -40,14 +40,26 @@ interface Props extends RouteComponentProps<RouteParams> {
 
 const TitleWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  flex-direction: column;
   margin-top: ${spacing.normal};
 `;
 
-const StyledLink = styled(SafeLink)`
-  margin-bottom: 28px;
-  color: ${colors.brand.primary};
+const SeriesDescription = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledImage = styled.img`
+  max-width: 150px;
+  max-height: 150px;
+  margin-right: ${spacing.normal};
+`;
+
+const EpisodesWrapper = styled.div`
+  padding-top: ${spacing.small};
+  figure:first-of-type {
+    margin-top: 0;
+  }
 `;
 
 const PodcastSeriesPage = ({
@@ -117,15 +129,17 @@ const PodcastSeriesPage = ({
           <ArticleTitle label={t('podcastPage.podcast')}>
             {podcastSeries.title.title}
           </ArticleTitle>
-          <StyledLink to={rssUrl}>
-            <RssFeed />
-            RSS
-          </StyledLink>
         </TitleWrapper>
-
-        {podcastSeries.episodes?.map(episode => (
-          <Podcast podcast={episode} />
-        ))}
+        <SeriesDescription>
+          <StyledImage src={podcastSeries.coverPhoto.url} />
+          {podcastSeries.description.description}
+        </SeriesDescription>
+        <EpisodesWrapper>
+          <h2>{t('podcastPage.episodes')}</h2>
+          {podcastSeries.episodes?.map(episode => (
+            <Podcast podcast={episode} />
+          ))}
+        </EpisodesWrapper>
       </OneColumn>
     </>
   );
