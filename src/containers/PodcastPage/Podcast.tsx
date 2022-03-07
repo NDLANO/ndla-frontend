@@ -22,6 +22,7 @@ import {
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import styled from '@emotion/styled';
+import { MastheadHeightPx } from '../../constants';
 
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
@@ -34,7 +35,7 @@ interface Props {
 }
 
 const InvisibleAnchor = styled.a`
-  top: -120px;
+  top: -${MastheadHeightPx + 20}px;
   position: absolute;
 `;
 

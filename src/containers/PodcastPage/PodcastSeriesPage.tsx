@@ -89,7 +89,7 @@ const PodcastSeriesPage = ({
           top: scrollPosition,
           behavior: 'smooth',
         });
-      }, 400);
+      }, 200);
     }
   }, [podcastSeries, location]);
 
