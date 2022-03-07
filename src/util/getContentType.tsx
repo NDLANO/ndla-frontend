@@ -38,7 +38,7 @@ export const contentTypeMapping: Record<string, string> = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
-export const resourceTypeMapping = {
+export const resourceTypeMapping: Record<string, string> = {
   [contentTypes.LEARNING_PATH]: RESOURCE_TYPE_LEARNING_PATH,
 
   [contentTypes.SUBJECT_MATERIAL]: RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -85,7 +85,9 @@ export const isHeroContentType = (type: string): type is HeroContentType => {
   return false;
 };
 
-export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
+export function getContentType(
+  resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic,
+) {
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
@@ -95,6 +97,6 @@ export function getContentType(resourceOrTopic: GQLResource | GQLTopic) {
 }
 
 const isTopic = (
-  resourceOrTopic: GQLResource | GQLTopic,
+  resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>,
 ): resourceOrTopic is GQLTopic =>
   !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');

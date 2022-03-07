@@ -6,15 +6,18 @@
  */
 
 import React, { Fragment } from 'react';
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
-// @ts-ignore
+import {
+  Switch,
+  Route,
+  RouteComponentProps,
+  withRouter,
+} from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import LogoutProviders from './LogoutProviders';
 import LogoutSession from './LogoutSession';
+import { RootComponentProps } from '../../routes';
 
-interface Props {
-  match: RouteComponentProps['match'];
-}
+interface Props extends RouteComponentProps, RootComponentProps {}
 
 const Logout = ({ match }: Props) => {
   return (
@@ -31,4 +34,4 @@ const Logout = ({ match }: Props) => {
   );
 };
 
-export default Logout;
+export default withRouter(Logout);

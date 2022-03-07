@@ -15,9 +15,9 @@ import {
   withTranslation,
   WithTranslation,
 } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps, useLocation, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
-import { GQLSubject, GQLTopic } from '../../graphqlTypes';
+import { GQLSubjectPageQuery } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -27,8 +27,10 @@ import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
+export type ToolboxSubjectType = Required<GQLSubjectPageQuery>['subject'];
+
 interface Props extends WithTranslation, RouteComponentProps {
-  subject: GQLSubject;
+  subject: ToolboxSubjectType;
   topicList: string[];
   locale: LocaleType;
   user?: FeideUserWithGroups;
@@ -71,7 +73,7 @@ const getDocumentTitle = (props: Props) => {
 
 const getInitialSelectedTopics = (
   topicList: string[],
-  subject: GQLSubject,
+  subject: ToolboxSubjectType,
 ): string[] => {
   let initialSelectedTopics: string[] = [];
   topicList.forEach(topicId => {
@@ -90,6 +92,7 @@ const getInitialSelectedTopics = (
 const ToolboxSubjectContainer = (props: Props) => {
   const { topicList, locale, subject, history } = props;
   const { t } = useTranslation();
+  const location = useLocation();
 
   const refs = topicList.map(() => React.createRef<HTMLDivElement>());
   const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
@@ -112,7 +115,15 @@ const ToolboxSubjectContainer = (props: Props) => {
     scrollToTopic(topicList.length - 1);
   });
 
-  const topics = subject.topics?.map((topic: GQLTopic) => {
+  useEffect(() => {
+    const topics = location.pathname
+      .split('/')
+      .filter(id => id.startsWith('topic'))
+      .map(id => `urn:${id}`);
+    setSelectedTopics(topics);
+  }, [location]);
+
+  const topics = subject.topics?.map(topic => {
     return {
       ...topic,
       label: topic.name,
@@ -128,9 +139,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   ) => {
     e.preventDefault();
     if (id) {
-      const topic = subject.allTopics?.find(
-        (topic: GQLTopic) => topic.id === id,
-      );
+      const topic = subject.allTopics?.find(topic => topic.id === id);
       if (topic) {
         if (index === 0) {
           setSelectedTopics([topic.id]);
@@ -172,6 +181,9 @@ const ToolboxSubjectContainer = (props: Props) => {
 
   const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
 
+  const imageUrlObj = socialMediaMetaData.image?.url
+    ? { url: socialMediaMetaData.image.url }
+    : undefined;
   return (
     <>
       <Helmet>
@@ -188,12 +200,7 @@ const ToolboxSubjectContainer = (props: Props) => {
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
         locale={locale}
-        image={
-          socialMediaMetaData.image && {
-            url: socialMediaMetaData.image.url,
-            alt: socialMediaMetaData.image.alt,
-          }
-        }
+        image={imageUrlObj}
       />
       <OneColumn className={''}>
         <ToolboxInfo

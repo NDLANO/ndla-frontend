@@ -8,14 +8,10 @@
 
 import React, { ComponentType, ReactNode, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
-// @ts-ignore
 import {
   ArticleHeaderWrapper,
-  // @ts-ignore
   OneColumn,
-  // @ts-ignore
   SubjectBanner,
-  // @ts-ignore
   LayoutItem,
   NavigationHeading,
   Breadcrumblist,
@@ -36,15 +32,18 @@ import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubject } from '../../graphqlTypes';
+import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
+export type GQLSubjectContainerType = Required<
+  GQLSubjectPageWithTopicsQuery
+>['subject'];
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubject;
+  subject: GQLSubjectContainerType;
   ndlaFilm?: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
@@ -125,7 +124,7 @@ const SubjectContainer = ({
   };
 
   function renderCompetenceGoals(
-    subject: GQLSubject,
+    subject: GQLSubjectContainerType,
     locale: LocaleType,
   ):
     | ((inp: {
@@ -212,6 +211,9 @@ const SubjectContainer = ({
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
 
+  const imageUrlObj = socialMediaMetadata.image?.url
+    ? { url: socialMediaMetadata.image.url }
+    : undefined;
   return (
     <>
       <Helmet>
@@ -229,12 +231,7 @@ const SubjectContainer = ({
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
               locale={locale}
-              image={
-                socialMediaMetadata.image && {
-                  url: socialMediaMetadata.image.url,
-                  alt: socialMediaMetadata.image.alt,
-                }
-              }
+              image={imageUrlObj}
               trackableContent={{ supportedLanguages }}
             />
 

@@ -12,13 +12,14 @@ import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLLearningpath } from '../../graphqlTypes';
+import { GQLLearningpathInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import ErrorPage from '../ErrorPage';
 
 const getDocumentTitle = ({
   learningpath,
@@ -27,7 +28,7 @@ const getDocumentTitle = ({
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
 
 interface Props extends CustomWithTranslation {
-  learningpath: GQLLearningpath;
+  learningpath: GQLLearningpathInfoFragment;
   locale: LocaleType;
   stepId: string | undefined;
   skipToContentId?: string;
@@ -67,8 +68,16 @@ const PlainLearningpathContainer = ({
   };
 
   const currentStep = stepId
-    ? steps?.find(step => step.id.toString() === stepId)
-    : steps?.[0];
+    ? steps.find(step => step.id.toString() === stepId)
+    : steps[0];
+
+  if (!currentStep) {
+    return <ErrorPage locale={locale} />;
+  }
+
+  const imageUrlObj = learningpath.coverphoto?.url
+    ? { url: learningpath.coverphoto.url }
+    : undefined;
   return (
     <div>
       <Helmet>
@@ -80,9 +89,7 @@ const PlainLearningpathContainer = ({
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale}
-        image={{
-          url: learningpath?.coverphoto?.url,
-        }}
+        image={imageUrlObj}
       />
       <Learningpath
         learningpath={learningpath}

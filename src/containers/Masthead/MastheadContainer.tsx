@@ -8,14 +8,10 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  //@ts-ignore
   Masthead,
-  //@ts-ignore
   MastheadItem,
   LanguageSelector,
-  //@ts-ignore
   Logo,
-  //@ts-ignore
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
@@ -43,10 +39,8 @@ import { LocaleType } from '../../interfaces';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
-  GQLResource,
   GQLResourceType,
-  GQLSubject,
-  GQLTopic,
+  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
 
@@ -60,10 +54,10 @@ interface Props extends RouteComponentProps {
 }
 
 interface State {
-  subject?: GQLSubject;
-  topicPath?: GQLTopic[];
+  subject?: GQLMastHeadQuery['subject'];
+  topicPath?: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
-  resource?: GQLResource;
+  resource?: GQLMastHeadQuery['resource'];
 }
 
 const MastheadContainer = ({

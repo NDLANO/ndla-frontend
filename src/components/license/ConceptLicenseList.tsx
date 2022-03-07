@@ -8,17 +8,11 @@
 
 import React from 'react';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -65,17 +59,18 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
       <MediaListItemBody
         license={concept.copyright.license.license}
         title={t('license.concept.rules')}
-        resourceType="concept"
         resourceUrl={concept.src}
         locale={locale}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={concept.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {concept.copyText && (
+              <CopyTextButton
+                stringToCopy={concept.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}

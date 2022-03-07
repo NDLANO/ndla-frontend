@@ -20,8 +20,6 @@ import { movieResourceTypes } from './resourceTypes';
 import { useGraphQuery } from '../../util/runQueries';
 import {
   GQLFilmFrontPageQuery,
-  GQLSearchFilmArticleSearchResultFragment,
-  GQLSearchFilmLearningpathSearchResultFragment,
   GQLSearchWithoutPaginationQuery,
   GQLFilmSubjectPageQuery,
 } from '../../graphqlTypes';
@@ -32,9 +30,14 @@ interface Props {
   skipToContentId?: string;
 }
 
-export type MoviesByType =
-  | GQLSearchFilmArticleSearchResultFragment
-  | GQLSearchFilmLearningpathSearchResultFragment;
+export type MoviesByType = {
+  id: number;
+  metaDescription: string;
+  resourceTypes: { id: string; name: string }[];
+  metaImage?: { alt: string; url: string };
+  path: string;
+  title: string;
+};
 
 const NdlaFilm = ({ skipToContentId }: Props) => {
   const [moviesByType, setMoviesByType] = useState<MoviesByType[]>([]);
@@ -64,7 +67,7 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
         );
         return {
           ...movie,
-          path: contexts[0]?.path,
+          path: contexts[0]?.path ?? '',
           resourceTypes: contexts.flatMap(ctx => ctx.resourceTypes),
         };
       });

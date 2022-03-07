@@ -32,7 +32,7 @@ function getContentTypeResults(
   }));
 }
 
-type TransformedTopic = Omit<GQLTopic, 'subtopics'> & {
+type TransformedTopic = Omit<GQLTopic, 'subtopics' | 'metadata' | 'paths'> & {
   contentTypeResults:
     | {
         contentType: string | undefined;
@@ -44,7 +44,7 @@ type TransformedTopic = Omit<GQLTopic, 'subtopics'> & {
 };
 
 export function mapTopicResourcesToTopic(
-  topics: GQLTopic[],
+  topics: Omit<GQLTopic, 'metadata' | 'paths'>[],
   selectedTopicId: string,
   topicResourcesByType: GQLResourceType[],
   expandedSubTopics: string[] = [],
@@ -89,29 +89,26 @@ export const mapMastheadData = ({
   topicId: string;
   data: GQLMastHeadQuery;
 }) => {
-  const topicResourcesByType =
-    topic &&
-    getResourceGroups(
-      resourceTypes?.map(type => ({ id: type.id, name: type.name })) || [],
-      topic.supplementaryResources || [],
-      topic.coreResources || [],
-    );
+  const topicResourcesByType = topic
+    ? getResourceGroups(
+        resourceTypes?.map(type => ({ id: type.id, name: type.name })) || [],
+        topic.supplementaryResources || [],
+        topic.coreResources || [],
+      )
+    : [];
 
   const topicsWithSubTopics =
-    subject &&
-    subject.topics &&
-    subject.topics
-      .filter(t => !t.parent || t.parent === subjectId)
-      .map(t => toTopicMenu(t, subject.topics || []));
+    subject?.topics
+      ?.filter(t => !t.parent || t.parent === subjectId)
+      .map(t => toTopicMenu(t, subject.topics || [])) ?? [];
 
-  const topicPath =
-    subject &&
-    subject.topics &&
-    getTopicPath(subjectId, topicId, subject.topics);
+  const topicPath = subject?.topics
+    ? getTopicPath(subjectId, topicId, subject.topics)
+    : [];
 
   const subjectWithTopics = subject && {
     ...subject,
-    topics: topicsWithSubTopics || [],
+    topics: topicsWithSubTopics,
   };
 
   return {

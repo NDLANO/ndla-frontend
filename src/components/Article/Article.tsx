@@ -10,7 +10,6 @@ import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
-// @ts-ignore
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
@@ -69,6 +68,7 @@ interface Props {
   contentType?: string;
   label: string;
   locale: LocaleType;
+  modifier?: string;
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
@@ -119,6 +119,7 @@ const Article = ({
   contentType,
   label,
   locale,
+  modifier,
   isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
@@ -204,7 +205,7 @@ const Article = ({
       competenceGoalTypes={competenceGoalTypes}
       notions={renderNotions(article, i18n.language as LocaleType)}
       renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : 'clean'}
+      modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
       printUrl={printUrl}
       {...rest}>

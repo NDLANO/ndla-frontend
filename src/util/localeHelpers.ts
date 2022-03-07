@@ -13,7 +13,7 @@ import { preferredLocales } from '../i18n';
 const getLocaleURL = (
   newLocale: LocaleType,
   locale: LocaleType,
-  location: RouteComponentProps['location'],
+  location: RouteComponentProps['location'] | Location,
 ) => {
   const { pathname, search } = location;
   const basePath = pathname.startsWith(`/${locale}/`)
@@ -28,7 +28,7 @@ type LocaleUrls = Record<string, { name: string; url: string }>;
 
 export const getLocaleUrls = (
   locale: LocaleType,
-  location: RouteComponentProps['location'],
+  location: RouteComponentProps['location'] | Location,
 ): LocaleUrls => {
   return preferredLocales.reduce<LocaleUrls>((prev, curr) => {
     const localeUrl = getLocaleURL(curr.abbreviation, locale, location);

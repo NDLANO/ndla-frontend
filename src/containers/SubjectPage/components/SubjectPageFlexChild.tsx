@@ -7,7 +7,6 @@
  */
 
 import React, { ReactElement } from 'react';
-//@ts-ignore
 import { SubjectFlexChild } from '@ndla/ui';
 
 interface Props {

@@ -6,9 +6,9 @@ import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
 import {
+  GQLMastHeadQuery,
   GQLResource,
   GQLResourceType,
-  GQLSubject,
 } from '../../../graphqlTypes';
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
@@ -31,7 +31,7 @@ export function toTopicWithBoundParams(
 
 interface Props {
   onClose: () => void;
-  subject?: GQLSubject;
+  subject?: GQLMastHeadQuery['subject'];
   expandedTopicId: string;
   expandedSubtopicsId: string[];
   topicResourcesByType: GQLResourceType[];
@@ -81,7 +81,7 @@ const MastheadTopics = ({
     const subjectTopicPath = [subject.id, ...expandedTopicIds]
       .map(removeUrn)
       .join('/');
-    return resourceToLinkProps(resource, '/' + subjectTopicPath, locale);
+    return resourceToLinkProps(resource, '/' + subjectTopicPath);
   };
 
   const subjectTitle = getSubjectLongName(subject?.id, locale) || subject?.name;

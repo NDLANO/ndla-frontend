@@ -84,7 +84,6 @@ const MultidisciplinarySubjectArticlePage = ({
         image={
           socialMediaMetaData.image && {
             url: socialMediaMetaData.image.url,
-            alt: socialMediaMetaData.image.alt,
           }
         }
         trackableContent={{

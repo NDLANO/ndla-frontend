@@ -8,14 +8,14 @@
 
 import { TFunction } from 'i18next';
 import { fixEndSlash } from '../routeHelpers';
-import { GQLTopic } from '../graphqlTypes';
+import { GQLTopicInfoFragment } from '../graphqlTypes';
 
 interface GroupedSubTopics {
-  [key: string]: Array<GQLTopic>;
+  [key: string]: Array<GQLTopicInfoFragment>;
 }
 
 export const groupedSubtopicsByParent = (
-  topics: GQLTopic[] = [],
+  topics: GQLTopicInfoFragment[] = [],
 ): GroupedSubTopics =>
   topics
     .filter(topic => topic.parent)
@@ -25,10 +25,13 @@ export const groupedSubtopicsByParent = (
       return groupedtopics;
     }, {} as GroupedSubTopics);
 
-export const toTopicMenu = (topic: GQLTopic, topics: GQLTopic[]) => {
+export const toTopicMenu = (
+  topic: GQLTopicInfoFragment,
+  topics: GQLTopicInfoFragment[],
+) => {
   const groupedSubTopics = groupedSubtopicsByParent(topics);
   const subtopics = groupedSubTopics[topic.id] ?? [];
-  const subtopicsWithSubtopics: GQLTopic[] = subtopics.map(child =>
+  const subtopicsWithSubtopics: GQLTopicInfoFragment[] = subtopics.map(child =>
     toTopicMenu(child, topics),
   );
   return {

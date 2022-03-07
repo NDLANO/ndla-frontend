@@ -143,6 +143,10 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     image: selectedMetadata?.meta?.metaImage,
   };
 
+  const imageUrlObj = socialMediaMetaData.image?.url
+    ? { url: socialMediaMetaData.image.url }
+    : undefined;
+
   return (
     <>
       <Helmet>
@@ -159,12 +163,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
         locale={locale}
-        image={
-          socialMediaMetaData.image && {
-            url: socialMediaMetaData.image.url,
-            alt: socialMediaMetaData.image.alt,
-          }
-        }
+        image={imageUrlObj}
       />
       <MultidisciplinarySubject
         hideCards={isNotLastTopic}

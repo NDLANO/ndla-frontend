@@ -18,8 +18,14 @@ import handleError from '../../util/handleError';
 import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { ResourceShape } from '../../shapes';
-import { GQLMovedResourceQuery, GQLResource } from '../../graphqlTypes';
+import {
+  GQLMovedResourceQuery,
+  GQLResourcePageQuery,
+} from '../../graphqlTypes';
+
+interface Props {
+  resource: Required<GQLResourcePageQuery>['resource'];
+}
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
@@ -32,11 +38,17 @@ const MovedResourcePage = ({ resource }: Props) => {
     },
   );
 
-  const convertResourceToResult = (resource: GQLResource) => {
+  const convertResourceToResult = (
+    resource: Required<GQLResourcePageQuery>['resource'],
+  ) => {
+    const resultId = isLearningpath
+      ? resource.learningpath?.id
+      : resource.article?.id;
+    if (!resultId) return [];
     return [
       {
         title: resource.name,
-        url: resource.path,
+        url: resource.path ?? '',
         contentType: resource.resourceTypes
           ?.map(type => contentTypeMapping[type.id])
           .find(t => t),
@@ -49,7 +61,7 @@ const MovedResourcePage = ({ resource }: Props) => {
         })),
         ...(isLearningpath
           ? {
-              id: resource?.learningpath?.id,
+              id: resultId,
               ingress: resource?.learningpath?.description,
               metaImage: {
                 url: resource.learningpath?.coverphoto?.url,
@@ -57,7 +69,7 @@ const MovedResourcePage = ({ resource }: Props) => {
               },
             }
           : {
-              id: resource?.article?.id,
+              id: resultId,
               ingress: resource?.article?.metaDescription,
               metaImage: {
                 url: resource.article?.metaImage?.url,
@@ -93,14 +105,6 @@ const MovedResourcePage = ({ resource }: Props) => {
       </OneColumn>
     </>
   );
-};
-
-interface Props {
-  resource: GQLResource;
-}
-
-MovedResourcePage.propTypes = {
-  resource: ResourceShape,
 };
 
 export default MovedResourcePage;

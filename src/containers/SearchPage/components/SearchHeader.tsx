@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { func, string, arrayOf, bool, object } from 'prop-types';
+import React, { useState, useEffect, useMemo, FormEvent } from 'react';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { subjectsCategories, getSubjectLongName } from '../../../data/subjects';
 import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
+import { SearchCompetenceGoal } from '../SearchInnerPage';
+import { LocaleType } from '../../../interfaces';
 
-const getSubjectCategoriesForLocale = locale => {
+const getSubjectCategoriesForLocale = (locale: LocaleType) => {
   return subjectsCategories.map(category => ({
     name: category.name[locale],
     visible: category.visible,
@@ -25,6 +26,21 @@ const getSubjectCategoriesForLocale = locale => {
 
 // Revert f0c48049bd0f336b9154a13c64f8cf90fa5e4f67 + d39a0c692bbd0e3151fa13a7ec28b0cf229d9fd1 for programme filter
 
+interface Props {
+  handleSearchParamsChange: (updates: Record<string, any>) => void;
+  query?: string;
+  suggestion?: string;
+  subjects: string[];
+  competenceGoals: SearchCompetenceGoal[];
+  noResults: boolean;
+  locale: LocaleType;
+}
+
+interface ActiveFilter {
+  value: string;
+  name: string;
+  title: string;
+}
 const SearchHeader = ({
   query,
   suggestion,
@@ -33,10 +49,10 @@ const SearchHeader = ({
   noResults,
   locale,
   competenceGoals,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
-  const [activeFilters, setActiveFilters] = useState([]);
+  const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([]);
 
   const localeSubjectCategories = useMemo(
     () => getSubjectCategoriesForLocale(locale),
@@ -52,8 +68,8 @@ const SearchHeader = ({
       const longName = getSubjectLongName(id, locale);
       return {
         value: id,
-        name: longName,
-        title: longName,
+        name: longName ?? '',
+        title: longName ?? '',
       };
     });
     const activeGrepCodes = competenceGoals.map(e => ({
@@ -64,13 +80,16 @@ const SearchHeader = ({
     setActiveFilters([...activeSubjects, ...activeGrepCodes]);
   }, [subjects, locale, competenceGoals]);
 
-  const onSubjectValuesChange = values => {
+  const onSubjectValuesChange = (values: string[]) => {
     handleSearchParamsChange({
       subjects: values,
     });
   };
 
-  const onFilterValueChange = (grepCodeFilters, subjectFilters) => {
+  const onFilterValueChange = (
+    grepCodeFilters: string[],
+    subjectFilters: string[],
+  ) => {
     handleSearchParamsChange({
       grepCodes: grepCodeFilters,
       subjects: subjectFilters,
@@ -90,24 +109,24 @@ const SearchHeader = ({
     },
   };
 
-  const handleSearchSubmit = e => {
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSearchParamsChange({ query: searchValue });
   };
 
-  const handleFilterRemove = value => {
+  const handleFilterRemove = (value: string) => {
     onFilterValueChange(
       competenceGoals.filter(e => e.id !== value).map(e => e.id),
       subjects.filter(id => id !== value),
     );
-    setActiveFilters(activeFilters.filter(id => id !== value));
+    setActiveFilters(activeFilters.filter(filter => filter.value !== value));
   };
 
   const competenceGoalsMetadata = groupCompetenceGoals(
     competenceGoals,
     false,
     'LK06',
-  ).flatMap(e => e.elements);
+  )?.flatMap(e => e.elements);
 
   return (
     <SearchHeaderUI
@@ -128,17 +147,6 @@ const SearchHeader = ({
       competenceGoals={competenceGoalsMetadata}
     />
   );
-};
-
-SearchHeader.propTypes = {
-  handleSearchParamsChange: func,
-  handleNewSearch: func,
-  query: string,
-  suggestion: string,
-  subjects: arrayOf(string),
-  competenceGoals: arrayOf(object),
-  noResults: bool,
-  locale: string,
 };
 
 export default SearchHeader;

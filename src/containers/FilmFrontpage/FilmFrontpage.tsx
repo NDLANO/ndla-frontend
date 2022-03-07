@@ -11,13 +11,9 @@ import { Helmet } from 'react-helmet';
 import { css } from '@emotion/core';
 import { spacingUnit } from '@ndla/core';
 import {
-  //@ts-ignore
   FilmSlideshow,
-  //@ts-ignore
   AboutNdlaFilm,
-  //@ts-ignore
   FilmMovieSearch,
-  //@ts-ignore
   AllMoviesAlphabetically,
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
@@ -27,7 +23,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import {
   GQLFilmFrontpage,
   GQLFilmPageAbout,
-  GQLSubject,
+  GQLSubjectPageQuery,
 } from '../../graphqlTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
@@ -45,19 +41,23 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
     } else return a.title!.localeCompare(b.title!, locale);
   });
 
+type FilmFrontpageSubject = GQLSubjectPageQuery['subject'];
+
 interface Props extends WithTranslation {
   filmFrontpage?: GQLFilmFrontpage;
   showingAll?: boolean;
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
-  subject?: GQLSubject;
+  subject?: FilmFrontpageSubject;
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
   aboutNDLAVideo?: GQLFilmPageAbout;
   skipToContentId?: string;
 }
-const getDocumentTitle = (t: TFunction, subject: GQLSubject | undefined) =>
-  htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (
+  t: TFunction,
+  subject: FilmFrontpageSubject | undefined,
+) => htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
 
 const FilmFrontpage = ({
   filmFrontpage,
@@ -80,7 +80,7 @@ const FilmFrontpage = ({
   >('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const onChangeResourceType = (resourceType: string) => {
+  const onChangeResourceType = (resourceType?: string) => {
     const placeholderHeight = `${
       movieListRef.current?.getBoundingClientRect().height
     }px`;
@@ -103,7 +103,7 @@ const FilmFrontpage = ({
           <meta name="description" content={aboutNDLAVideo.description} />
         )}
       </Helmet>
-      <FilmSlideshow slideshow={filmFrontpage?.slideShow} />
+      <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}

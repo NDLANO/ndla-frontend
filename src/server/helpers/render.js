@@ -10,9 +10,9 @@ import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { resetIdCounter } from '@ndla/tabs';
-import { OK, MOVED_PERMANENTLY } from 'http-status';
 import { Helmet } from 'react-helmet';
 import createEmotionServer from 'create-emotion-server';
+import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
 import Document from './Document';
 import config from '../../config';

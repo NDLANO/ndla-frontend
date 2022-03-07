@@ -10,7 +10,7 @@ import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
-  GQLLearningpath,
+  GQLLearningpathInfoFragment,
   GQLLearningpathStep,
 } from '../graphqlTypes';
 import { FeideUserWithGroups } from './feideApi';
@@ -111,10 +111,10 @@ const getGrepCodeOfType = (pattern: string, article?: GQLArticle) =>
 interface Props {
   article?: GQLArticle;
   subject?: Pick<GQLSubject, 'name'>;
-  topicPath?: (GQLTopic | undefined)[];
-  learningpath?: GQLLearningpath;
+  topicPath?: (Pick<GQLTopic, 'name'> | undefined)[];
+  learningpath?: GQLLearningpathInfoFragment;
   relevance?: string;
-  learningstep?: GQLLearningpathStep;
+  learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;
   user?: FeideUserWithGroups;
 }

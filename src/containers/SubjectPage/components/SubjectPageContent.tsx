@@ -12,11 +12,11 @@ import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { GQLSubject } from '../../../graphqlTypes';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { GQLSubjectContainerType } from '../SubjectContainer';
 
 interface Props {
-  subject: GQLSubject;
+  subject: GQLSubjectContainerType;
   locale: LocaleType;
   ndlaFilm?: boolean;
   onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
