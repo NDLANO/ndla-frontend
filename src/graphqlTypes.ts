@@ -1092,7 +1092,7 @@ export type GQLTopicSupplementaryResourcesArgs = {
 export type GQLUptimeAlert = {
   __typename?: 'UptimeAlert';
   body?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
 };
 
 export type GQLVisualElement = {
@@ -2386,11 +2386,7 @@ export type GQLAlertsQuery = {
   __typename?: 'Query';
   alerts?: Maybe<
     Array<
-      Maybe<{
-        __typename?: 'UptimeAlert';
-        title?: Maybe<string>;
-        body?: Maybe<string>;
-      }>
+      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
     >
   >;
 };
