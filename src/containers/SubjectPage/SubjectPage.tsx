@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';

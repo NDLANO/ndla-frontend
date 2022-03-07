@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import Tabs from '@ndla/tabs';
 import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';

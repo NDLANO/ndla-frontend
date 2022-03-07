@@ -6,7 +6,14 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useState, useRef } from 'react';
+import {
+  ComponentType,
+  ReactNode,
+  useState,
+  useRef,
+  createRef,
+  MouseEvent,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import {
   ArticleHeaderWrapper,
@@ -154,12 +161,9 @@ const SubjectContainer = ({
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
+  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
 
-  const handleNav = (
-    e: React.MouseEvent<HTMLElement>,
-    item: BreadcrumbItem,
-  ) => {
+  const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
     e.preventDefault();
     const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
@@ -174,7 +178,7 @@ const SubjectContainer = ({
     }
   };
 
-  const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onClickTopics = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const path = parseAndMatchUrl(e.currentTarget?.href, true);
     history.push({ pathname: path?.url });

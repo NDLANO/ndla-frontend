@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { SubjectAbout, Image } from '@ndla/ui';
 import SubjectPageFlexChild from './SubjectPageFlexChild';

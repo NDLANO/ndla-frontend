@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from '@ndla/button';
 import queryString from 'query-string';

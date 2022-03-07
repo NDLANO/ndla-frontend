@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import { Component, Fragment, ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { getUrnIdsFromProps } from '../../../routeHelpers';
@@ -25,7 +25,7 @@ interface Props extends RouteComponentProps {
     topicId?: string,
     resourceId?: string,
   ) => void;
-  searchFieldComponent: React.ReactNode;
+  searchFieldComponent: ReactNode;
   ndlaFilm?: boolean;
   subjectCategories: {
     name: string;

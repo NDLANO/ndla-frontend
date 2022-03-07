@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import SafeLink from '@ndla/safelink';
 import { toSubject } from '../routeHelpers';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';

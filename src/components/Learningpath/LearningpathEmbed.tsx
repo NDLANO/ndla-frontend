@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import IframePageWrapper from './IframePageWrapper';

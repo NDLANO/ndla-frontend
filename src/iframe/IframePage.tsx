@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useLocation } from 'react-router';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';

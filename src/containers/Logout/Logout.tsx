@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
 import {
   Switch,
   Route,
@@ -21,7 +20,7 @@ interface Props extends RouteComponentProps, RootComponentProps {}
 
 const Logout = ({ match }: Props) => {
   return (
-    <Fragment>
+    <>
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Switch>
@@ -30,7 +29,7 @@ const Logout = ({ match }: Props) => {
           </Switch>
         </div>
       </OneColumn>
-    </Fragment>
+    </>
   );
 };
 
