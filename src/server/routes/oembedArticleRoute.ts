@@ -6,9 +6,9 @@
  *
  */
 
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 import express from 'express';
 import { match as RouterMatchType } from 'react-router';
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   fetchResource,

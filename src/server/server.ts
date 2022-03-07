@@ -10,13 +10,6 @@ import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  MOVED_PERMANENTLY,
-  TEMPORARY_REDIRECT,
-  BAD_REQUEST,
-} from 'http-status';
 import { matchPath } from 'react-router-dom';
 import {
   defaultRoute,
@@ -40,6 +33,13 @@ import {
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
 import config from '../config';
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  MOVED_PERMANENTLY,
+  TEMPORARY_REDIRECT,
+  BAD_REQUEST,
+} from '../statusCodes';
 
 // @ts-ignore
 global.fetch = fetch;

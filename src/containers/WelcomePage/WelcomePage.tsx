@@ -66,9 +66,10 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
 
 interface Props {
   locale: LocaleType;
+  skipToContentId?: string;
 }
 
-const WelcomePage = ({ locale }: Props) => {
+const WelcomePage = ({ locale, skipToContentId }: Props) => {
   const { t } = useTranslation();
 
   const googleSearchJSONLd = () => {
@@ -87,6 +88,14 @@ const WelcomePage = ({ locale }: Props) => {
 
   return (
     <>
+      {skipToContentId && (
+        <a
+          tabIndex={0}
+          href={`#${skipToContentId}`}
+          className="c-masthead__skip-to-main-content">
+          {t('masthead.skipToContent')}
+        </a>
+      )}
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -104,7 +113,7 @@ const WelcomePage = ({ locale }: Props) => {
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
-          <div data-testid="category-list">
+          <div data-testid="category-list" id={skipToContentId}>
             <FrontpageSubjects locale={locale} />
           </div>
         </OneColumn>

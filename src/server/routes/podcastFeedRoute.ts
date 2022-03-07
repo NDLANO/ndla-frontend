@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BAD_REQUEST } from 'http-status';
+import { BAD_REQUEST } from '../../statusCodes';
 import podcastRssFeed from '../podcastRssFeed';
 import { NOT_FOUND_PAGE_PATH } from '../../constants';
 import { sendInternalServerError } from '../server';

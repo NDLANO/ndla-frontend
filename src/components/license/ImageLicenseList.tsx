@@ -77,11 +77,13 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={image.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {image.copyText && (
+              <CopyTextButton
+                stringToCopy={image.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton
                 href={downloadUrl(image.src)}
