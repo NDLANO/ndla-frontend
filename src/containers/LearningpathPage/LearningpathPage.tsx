@@ -41,7 +41,7 @@ interface PropData {
 }
 
 interface Props extends WithTranslation {
-  locale: string;
+  locale: LocaleType;
   loading: boolean;
   ndlaFilm?: boolean;
   data: PropData;
@@ -159,7 +159,7 @@ const LearningpathPage = ({
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         locale={locale}
-        ndlaFilm={ndlaFilm}
+        ndlaFilm={!!ndlaFilm}
         breadcrumbItems={breadcrumbItems}
       />
     </div>

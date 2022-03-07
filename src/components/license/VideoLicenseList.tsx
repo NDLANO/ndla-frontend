@@ -9,17 +9,11 @@
 import React from 'react';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -63,11 +57,13 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={video.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {video.copyText && (
+              <CopyTextButton
+                stringToCopy={video.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
             {video.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={video.download} download appearance="outline">
                 {t('license.download')}

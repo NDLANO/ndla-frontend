@@ -9,17 +9,11 @@
 import React from 'react';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import { AudioDocument } from '@ndla/icons/common';
@@ -74,11 +68,13 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={audio.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {audio.copyText && (
+              <CopyTextButton
+                stringToCopy={audio.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={audio.src} download appearance="outline">
                 {t('license.download')}

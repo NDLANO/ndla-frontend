@@ -9,17 +9,11 @@
 import React from 'react';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -65,11 +59,13 @@ const H5pLicenseInfo = ({ h5p, locale }: H5pLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={h5p.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
+            {h5p.copyText && (
+              <CopyTextButton
+                stringToCopy={h5p.copyText}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+            )}
             <CopyTextButton
               stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}

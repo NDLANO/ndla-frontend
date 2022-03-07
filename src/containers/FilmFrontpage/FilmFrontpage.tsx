@@ -11,13 +11,9 @@ import { Helmet } from 'react-helmet';
 import { css } from '@emotion/core';
 import { spacingUnit } from '@ndla/core';
 import {
-  //@ts-ignore
   FilmSlideshow,
-  //@ts-ignore
   AboutNdlaFilm,
-  //@ts-ignore
   FilmMovieSearch,
-  //@ts-ignore
   AllMoviesAlphabetically,
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';

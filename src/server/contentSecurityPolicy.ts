@@ -192,6 +192,7 @@ const frameSrc = (() => {
     'public.flourish.studio',
     'flo.uri.sh',
     'ourworldindata.org',
+    '*.sketchup.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

@@ -8,14 +8,10 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  //@ts-ignore
   Masthead,
-  //@ts-ignore
   MastheadItem,
   LanguageSelector,
-  //@ts-ignore
   Logo,
-  //@ts-ignore
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
