@@ -6,10 +6,10 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArticleTitle, OneColumn } from '@ndla/ui';
 import { Redirect, withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, useLocation } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
@@ -74,6 +74,24 @@ const PodcastSeriesPage = ({
   >(podcastSeriesQuery, {
     variables: { id: Number(id) },
   });
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const element = document.getElementById(location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const scrollPosition = elementTop - bodyTop;
+
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 400);
+    }
+  }, [podcastSeries, location]);
 
   const { t } = useTranslation();
 
