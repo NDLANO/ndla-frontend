@@ -28,6 +28,7 @@ import {
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
+import { transformArticle } from '../../../util/transformArticle';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -73,6 +74,8 @@ const MultidisciplinarySubjectArticle = ({
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
 
+  const article = transformArticle(topic.article, locale);
+
   return (
     <>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
@@ -89,7 +92,7 @@ const MultidisciplinarySubjectArticle = ({
       <OneColumn>
         <Article
           id={skipToContentId}
-          article={topic.article}
+          article={article}
           label=""
           locale={locale}
           isTopicArticle={false}
