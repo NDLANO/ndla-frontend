@@ -44,6 +44,7 @@ function buildLicenseTabList(
       <TextLicenseList
         texts={[
           {
+            title: article.title,
             copyright: article.copyright,
             updated: article.published,
             copyText: article.metaData?.copyText,
