@@ -98,42 +98,6 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         img={coverPhoto}
         textVersion={podcast.manuscript?.manuscript}
       />
-      {mounted && (
-        <FigureLicenseDialog
-          id={id}
-          authors={contributors}
-          locale={language}
-          license={getLicenseByAbbreviation(
-            podcast.copyright.license?.license!,
-            'nb',
-          )}
-          messages={messages}
-          title={podcast.title.title}
-          origin={podcast.copyright.origin}>
-          <CopyTextButton
-            stringToCopy={podcastEpisodeApa7CopyString(
-              podcast.title.title,
-              podcast.created,
-              seriesId,
-              podcast.id,
-              podcast.copyright,
-              language,
-              config.ndlaFrontendDomain,
-              key => t(key),
-            )}
-            copyTitle={t('license.copyTitle')}
-            hasCopiedTitle={t('license.hasCopiedTitle')}
-          />
-          {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
-            <AnchorButton
-              href={podcast.audioFile.url}
-              download
-              appearance="outline">
-              {t('license.download')}
-            </AnchorButton>
-          )}
-        </FigureLicenseDialog>
-      )}
       <FigureCaption
         figureId={figureId}
         id={id}
@@ -142,7 +106,44 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
-        authors={contributors}></FigureCaption>
+        authors={contributors}>
+        {mounted && (
+          <FigureLicenseDialog
+            id={id}
+            authors={contributors}
+            locale={language}
+            license={getLicenseByAbbreviation(
+              podcast.copyright.license?.license!,
+              'nb',
+            )}
+            messages={messages}
+            title={podcast.title.title}
+            origin={podcast.copyright.origin}>
+            <CopyTextButton
+              stringToCopy={podcastEpisodeApa7CopyString(
+                podcast.title.title,
+                podcast.created,
+                seriesId,
+                podcast.id,
+                podcast.copyright,
+                language,
+                config.ndlaFrontendDomain,
+                key => t(key),
+              )}
+              copyTitle={t('license.copyTitle')}
+              hasCopiedTitle={t('license.hasCopiedTitle')}
+            />
+            {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
+              <AnchorButton
+                href={podcast.audioFile.url}
+                download
+                appearance="outline">
+                {t('license.download')}
+              </AnchorButton>
+            )}
+          </FigureLicenseDialog>
+        )}
+      </FigureCaption>
     </Figure>
   );
 };

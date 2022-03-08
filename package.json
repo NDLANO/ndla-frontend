@@ -109,7 +109,7 @@
     "@ndla/carousel": "^1.2.0",
     "@ndla/error-reporter": "^1.0.8",
     "@ndla/icons": "^1.6.0",
-    "@ndla/licenses": "^2.2.0",
+    "@ndla/licenses": "^3.0.0",
     "@ndla/modal": "^1.2.0",
     "@ndla/pager": "^1.1.0",
     "@ndla/polyfill": "^0.1.15",
