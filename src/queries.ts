@@ -417,6 +417,7 @@ export const topicInfoFragment = gql`
     path
     parent
     relevanceId
+    supportedLanguages
     meta {
       ...MetaInfo
     }
@@ -728,6 +729,7 @@ export const subjectPageQueryWithTopics = gql`
         id
         name
         path
+        supportedLanguages
         breadcrumbs
         meta {
           ...MetaInfo
@@ -1216,6 +1218,7 @@ export const resourcePageQuery = gql`
       name
       path
       relevanceId
+      supportedLanguages
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }

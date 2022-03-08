@@ -9,12 +9,13 @@
 import React from 'react';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';
-import { GQLResourcePageQuery, GQLTopic } from '../../graphqlTypes';
+import { GQLResourcePageQuery } from '../../graphqlTypes';
+import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 interface Props {
   topic?: Required<GQLResourcePageQuery>['topic'];
   subject?: Required<GQLResourcePageQuery>['subject'];
-  topicPath?: Omit<GQLTopic, 'paths' | 'metadata'>[];
+  topicPath?: TopicPaths;
   resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
   seqNo: number;
   numberOfLearningSteps: number;
@@ -69,7 +70,6 @@ const LastLearningpathStepInfo = ({
           resourceTypes={resourceTypes}
           topic={topic}
           ndlaFilm={ndlaFilm}
-          {...topic}
         />
       )}
     </LearningPathLastStepNavigation>
