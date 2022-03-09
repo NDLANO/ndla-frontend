@@ -974,6 +974,9 @@ export const topicQueryWithPathTopics = gql`
       meta {
         ...MetaInfo
       }
+      metadata {
+        customFields
+      }
       subtopics {
         id
         name
