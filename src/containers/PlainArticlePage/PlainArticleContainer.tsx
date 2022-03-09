@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';

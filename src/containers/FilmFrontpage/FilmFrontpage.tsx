@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { css } from '@emotion/core';
 import { spacingUnit } from '@ndla/core';

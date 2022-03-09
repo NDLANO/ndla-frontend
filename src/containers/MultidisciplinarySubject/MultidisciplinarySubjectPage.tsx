@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react';
+import { createRef, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
 
@@ -35,7 +35,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     ndlaFilm: false,
     match,
   });
-  const refs = selectedTopics.map(_ => React.createRef<HTMLDivElement>());
+  const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
 
   useEffect(() => {
     if (selectedTopics.length) {

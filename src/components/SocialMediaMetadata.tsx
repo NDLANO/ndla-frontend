@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
 import { Location } from 'history';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -70,7 +70,7 @@ interface Props extends RouteComponentProps {
   locale: LocaleType;
   image?: Pick<GQLMetaImage, 'url'>;
   trackableContent?: TrackableContent;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const SocialMediaMetadata = ({

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';

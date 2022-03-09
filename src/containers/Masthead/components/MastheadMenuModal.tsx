@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
 //@ts-ignore
@@ -6,7 +6,7 @@ import { TopicMenuButton } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface Props {
-  children: (onClose: () => void) => React.ReactNode;
+  children: (onClose: () => void) => ReactNode;
   onMenuExit?: () => void;
   ndlaFilm?: boolean;
 }

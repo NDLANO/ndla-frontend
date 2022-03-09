@@ -8,7 +8,7 @@
 
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent, createRef } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   useTranslation,
@@ -94,7 +94,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  const refs = topicList.map(() => React.createRef<HTMLDivElement>());
+  const refs = topicList.map(() => createRef<HTMLDivElement>());
   const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
   const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
 
@@ -133,7 +133,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   });
 
   const onSelectTopic = (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     index: number,
     id?: string,
   ) => {
@@ -205,8 +205,8 @@ const ToolboxSubjectContainer = (props: Props) => {
       <OneColumn className={''}>
         <ToolboxInfo
           topics={topics}
-          onSelectTopic={(e: React.MouseEvent<HTMLElement>, id?: string) =>
-            onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, 0, id)
+          onSelectTopic={(e: MouseEvent<HTMLElement>, id?: string) =>
+            onSelectTopic(e as MouseEvent<HTMLAnchorElement>, 0, id)
           }
           title={getSubjectLongName(subject.id, locale) || subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}

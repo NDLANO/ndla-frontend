@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 //@ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 

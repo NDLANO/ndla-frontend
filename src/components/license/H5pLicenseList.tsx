@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { uuid } from '@ndla/util';
 import {
   MediaList,

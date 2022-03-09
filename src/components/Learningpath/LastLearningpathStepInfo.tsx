@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';
 import { GQLResourcePageQuery } from '../../graphqlTypes';

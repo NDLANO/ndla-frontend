@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { MatomoTracker } from '@ndla/tracker';
 import config from '../../config';
 

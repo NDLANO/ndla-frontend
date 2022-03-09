@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import url from 'url';
 import { Request } from 'express';
 import { Helmet } from 'react-helmet';

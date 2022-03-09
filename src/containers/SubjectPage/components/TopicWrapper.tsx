@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect, MouseEvent } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
@@ -17,7 +17,7 @@ type Props = {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;

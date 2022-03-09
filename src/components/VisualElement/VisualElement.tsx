@@ -1,4 +1,3 @@
-import React from 'react';
 import { Image } from '@ndla/ui';
 import { GQLVisualElement } from '../../graphqlTypes';
 import { getCrop, getFocalPoint } from '../../util/imageHelpers';

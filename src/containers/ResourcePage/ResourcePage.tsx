@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { useTranslation } from 'react-i18next';

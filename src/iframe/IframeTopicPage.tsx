@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';

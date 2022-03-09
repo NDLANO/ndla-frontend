@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';

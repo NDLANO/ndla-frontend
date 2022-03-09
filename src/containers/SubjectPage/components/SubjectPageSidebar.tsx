@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SubjectLinks, SubjectShortcuts } from '@ndla/ui';
 import { toLinkProps } from '../../../routeHelpers';
