@@ -45,6 +45,11 @@ const urlInPaths = (
 
 type Props = RootComponentProps & RouteComponentProps<MatchParams>;
 
+export type TopicPaths = Exclude<
+  Required<GQLResourcePageQuery>['subject']['topics'],
+  undefined
+>;
+
 const ResourcePage = (props: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
@@ -90,7 +95,7 @@ const ResourcePage = (props: Props) => {
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t('searchPage.searchFilterMessages.supplementaryRelevance')
       : t('searchPage.searchFilterMessages.coreRelevance');
-  const topicPath =
+  const topicPath: TopicPaths =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   if (isLearningPathResource(resource)) {
     return (

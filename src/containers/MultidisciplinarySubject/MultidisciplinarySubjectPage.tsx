@@ -14,12 +14,12 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { subjectPageQuery } from '../../queries';
+import { multiDisciplinarySubjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 import {
-  GQLSubjectPageQuery,
-  GQLSubjectPageQueryVariables,
+  GQLMultiDisciplinarySubjectPageQuery,
+  GQLMultiDisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -51,9 +51,9 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   }, [refs, selectedTopics]);
 
   const { loading, data } = useGraphQuery<
-    GQLSubjectPageQuery,
-    GQLSubjectPageQueryVariables
-  >(subjectPageQuery, {
+    GQLMultiDisciplinarySubjectPageQuery,
+    GQLMultiDisciplinarySubjectPageQueryVariables
+  >(multiDisciplinarySubjectPageQuery, {
     variables: {
       subjectId: subjectId!,
     },
@@ -128,7 +128,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     .find(t => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const subjectTitle = subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -139,12 +139,8 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     description:
       selectedMetadata?.meta?.metaDescription ||
       selectedMetadata?.meta?.introduction ||
-      subject.subjectpage?.about?.description ||
-      subject.subjectpage?.metaDescription ||
       t('frontpageMultidisciplinarySubject.text'),
-    image:
-      selectedMetadata?.meta?.metaImage ||
-      subject.subjectpage?.about?.visualElement,
+    image: selectedMetadata?.meta?.metaImage,
   };
 
   const imageUrlObj = socialMediaMetaData.image?.url

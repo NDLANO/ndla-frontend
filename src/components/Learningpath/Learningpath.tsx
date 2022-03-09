@@ -31,8 +31,8 @@ import {
   GQLLearningpathInfoFragment,
   GQLResourcePageQuery,
   GQLSubjectInfoFragment,
-  GQLTopic,
 } from '../../graphqlTypes';
+import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -40,7 +40,7 @@ interface Props {
   learningpath: GQLLearningpathInfoFragment;
   learningpathStep: GQLLearningpathInfoFragment['learningsteps'][0];
   topic?: Required<GQLResourcePageQuery>['topic'];
-  topicPath?: Omit<GQLTopic, 'paths' | 'metadata'>[];
+  topicPath?: TopicPaths;
   resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
   subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
   resource?: Required<GQLResourcePageQuery>['resource'];
