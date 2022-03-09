@@ -417,6 +417,7 @@ export const topicInfoFragment = gql`
     path
     parent
     relevanceId
+    supportedLanguages
     meta {
       ...MetaInfo
     }
@@ -704,13 +705,13 @@ export const subjectPageQueryWithTopics = gql`
     $subjectId: String!
     $topicId: String!
     $includeTopic: Boolean!
+    $metadataFilterKey: String
+    $metadataFilterValue: String
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
       topics {
-        article {
-          supportedLanguages
-        }
+        supportedLanguages
         availability
         ...TopicInfo
       }
@@ -728,13 +729,17 @@ export const subjectPageQueryWithTopics = gql`
         id
         name
         path
+        supportedLanguages
         breadcrumbs
         meta {
           ...MetaInfo
         }
       }
     }
-    subjects {
+    subjects(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+    ) {
       ...SubjectInfo
       metadata {
         customFields
@@ -1216,6 +1221,7 @@ export const resourcePageQuery = gql`
       name
       path
       relevanceId
+      supportedLanguages
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }

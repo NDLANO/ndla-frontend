@@ -26,15 +26,15 @@ import {
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
   GQLSubjectInfoFragment,
-  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface PropData {
   relevance: string;
-  topic?: GQLTopicInfoFragment;
-  topicPath: Omit<GQLTopicInfoFragment, 'metadata'>[];
+  topic?: GQLResourcePageQuery['topic'];
+  topicPath: TopicPaths;
   subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
   resourceTypes?: GQLResourceTypeDefinition[];
   resource?: Required<GQLResourcePageQuery>['resource'];

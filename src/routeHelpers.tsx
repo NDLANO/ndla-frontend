@@ -139,7 +139,7 @@ export type SubjectURI = {
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: (GQLTopic | Pick<GQLResource, 'id'> | GQLSubject | undefined)[],
+  paths: ({ id: string; name: string } | undefined)[],
   locale: LocaleType = config.defaultLocale,
 ): Breadcrumb[] {
   const safePaths = paths.filter(

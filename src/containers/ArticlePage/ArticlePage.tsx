@@ -36,15 +36,15 @@ import {
   GQLResource,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
-  GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface Props extends WithTranslation {
   resource?: Required<GQLResourcePageQuery>['resource'];
   topic?: GQLResourcePageQuery['topic'];
-  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  topicPath: TopicPaths;
   relevance: string;
   subject?: GQLResourcePageQuery['subject'];
   resourceTypes?: GQLResourceTypeDefinition[];
