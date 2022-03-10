@@ -6,12 +6,13 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import SafeLink from '@ndla/safelink';
 import { toSubject } from '../routeHelpers';
-import { GQLSubjectInfoFragment } from '../graphqlTypes';
+import { GQLSubjectLinkListSubjectFragment } from '../graphqlTypes';
 
 interface Props {
-  subjects?: GQLSubjectInfoFragment[];
+  subjects?: GQLSubjectLinkListSubjectFragment[];
 }
 
 const SubjectLinkList = ({ subjects = [] }: Props) => (
@@ -23,5 +24,14 @@ const SubjectLinkList = ({ subjects = [] }: Props) => (
     ))}
   </ul>
 );
+
+SubjectLinkList.fragments = {
+  subject: gql`
+    fragment SubjectLinkListSubject on Subject {
+      id
+      name
+    }
+  `,
+};
 
 export default SubjectLinkList;
