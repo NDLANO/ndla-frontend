@@ -23,7 +23,7 @@ import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import {
-  GQLArticle,
+  GQLArticleInfoFragment,
   GQLResourceTypeDefinition,
   GQLTopicQueryTopicFragment,
 } from '../../../graphqlTypes';
@@ -87,7 +87,7 @@ const MultidisciplinaryTopic = ({
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   const toTopicProps = (
-    article: GQLArticle | undefined,
+    article: GQLArticleInfoFragment | undefined,
     locale: LocaleType,
   ): TopicProps | undefined => {
     if (!article) return;

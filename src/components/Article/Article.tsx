@@ -20,13 +20,13 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
-  article: GQLArticle,
+  article: GQLArticleInfoFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,

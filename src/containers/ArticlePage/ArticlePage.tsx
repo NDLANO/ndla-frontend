@@ -33,7 +33,6 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
-  GQLResource,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
 } from '../../graphqlTypes';
@@ -217,7 +216,7 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Pick<GQLResource, 'article'>,
+  resource?: Props['resource'],
   subject?: GQLResourcePageQuery['subject'],
 ) =>
   htmlTitle(resource?.article?.title, [

@@ -6,11 +6,11 @@
  *
  */
 
-import { GQLArticle } from '../graphqlTypes';
+import { GQLArticleInfoFragment } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-function getContent(article: GQLArticle) {
+function getContent(article: GQLArticleInfoFragment) {
   /**
    * We call extractCSS on the whole page server side. This removes/hoists
    * all style tags. The data (article) object is serialized with the style
@@ -27,7 +27,10 @@ function getContent(article: GQLArticle) {
   return article.content;
 }
 
-export const transformArticle = (article: GQLArticle, locale: LocaleType) => {
+export const transformArticle = (
+  article: GQLArticleInfoFragment,
+  locale: LocaleType,
+) => {
   const content = getContent(article);
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
