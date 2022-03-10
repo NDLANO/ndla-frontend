@@ -49,7 +49,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     podcast.copyright?.license &&
     getLicenseByAbbreviation(podcast.copyright?.license?.license, language);
 
-  const coverPhoto = podcast.podcastMeta?.coverPhoto && {
+  const image = podcast.podcastMeta?.coverPhoto && {
     url: podcast.podcastMeta?.coverPhoto?.url,
     alt: podcast.podcastMeta?.coverPhoto?.altText,
   };
@@ -86,20 +86,20 @@ const Podcast = ({ podcast, seriesId }: Props) => {
   }));
 
   const id = podcast.id.toString();
-  const figureId = `figure-podcast-${id}`;
+  const figurePodcastId = `figure-podcast-${id}`;
 
   return (
-    <Figure id={figureId} type="full-column">
+    <Figure id={figurePodcastId} type="full-column">
       <InvisibleAnchor id={`episode-${id}`} />
       <AudioPlayer
         src={podcast.audioFile.url}
         title={podcast.title.title}
         description={podcast.podcastMeta?.introduction}
-        img={coverPhoto}
+        img={image}
         textVersion={podcast.manuscript?.manuscript}
       />
       <FigureCaption
-        figureId={figureId}
+        figureId={figurePodcastId}
         id={id}
         locale={language}
         key="caption"
