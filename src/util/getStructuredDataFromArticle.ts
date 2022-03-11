@@ -8,7 +8,7 @@
 
 import format from 'date-fns/format';
 import {
-  GQLArticle,
+  GQLArticleInfoFragment,
   GQLAudioLicense,
   GQLBrightcoveLicense,
   GQLContributor,
@@ -120,7 +120,7 @@ const getBreadcrumbs = (
 };
 
 const getStructuredDataFromArticle = (
-  article: GQLArticle,
+  article: GQLArticleInfoFragment,
   breadcrumbItems?: Breadcrumb[],
 ) => {
   const articleData: StructuredData = {

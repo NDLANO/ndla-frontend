@@ -113,8 +113,8 @@ const SearchInnerPage = ({
     variables: {
       ...stateSearchParams,
       language: i18n.language,
-      page: '1',
-      pageSize: '8',
+      page: 1,
+      pageSize: 8,
       ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
       grepCodesList: searchParams.grepCodes,

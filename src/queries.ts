@@ -18,11 +18,11 @@ const contributorInfoFragment = gql`
 export const searchQuery = gql`
   query Search(
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -151,7 +151,7 @@ export const searchFilmQuery = gql`
     $query: String
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -217,8 +217,8 @@ export const groupSearchQuery = gql`
     $contextTypes: String
     $subjects: String
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $language: String
     $fallback: String
     $grepCodes: String
