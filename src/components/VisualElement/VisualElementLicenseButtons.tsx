@@ -41,10 +41,7 @@ const VisualElementLicenseButtons = ({
   const { t } = useTranslation();
   const Button = StyledButton.withComponent('a');
 
-  const copyText =
-    visualElement.brightcove?.copyText ||
-    visualElement.image?.copyText ||
-    visualElement.h5p?.copyText;
+  const copyText = visualElement.image?.copyText;
 
   return (
     <>
