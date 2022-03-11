@@ -74,7 +74,7 @@ export const IframeTopicPage = ({
       {article && (
         <SocialMediaMetadata
           description={article.metaDescription}
-          image={article.metaImage}
+          imageUrl={article.metaImage?.url}
           title={article.title}
           trackableContent={article}
           locale={locale}
