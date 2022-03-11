@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Spinner } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router';
 

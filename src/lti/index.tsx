@@ -7,7 +7,6 @@
  */
 
 import 'isomorphic-unfetch';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';

@@ -7,7 +7,6 @@
  */
 
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface Props {

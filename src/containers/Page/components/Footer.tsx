@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useLocation } from 'react-router';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';

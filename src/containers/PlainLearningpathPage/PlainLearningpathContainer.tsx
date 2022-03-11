@@ -7,7 +7,7 @@
  */
 
 import { withTracker } from '@ndla/tracker';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';

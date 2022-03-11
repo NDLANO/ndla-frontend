@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { SubjectCarousel } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
 import { toLinkProps } from '../../../routeHelpers';

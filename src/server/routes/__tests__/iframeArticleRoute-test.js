@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { iframeArticleRoute } from '../iframeArticleRoute';
 
 jest.mock('../../helpers/Document', () => () => (

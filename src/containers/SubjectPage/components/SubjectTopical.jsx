@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, SubjectArchive } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';

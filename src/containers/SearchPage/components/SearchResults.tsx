@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import { SearchGroup, TypeFilter } from '../searchHelpers';
 

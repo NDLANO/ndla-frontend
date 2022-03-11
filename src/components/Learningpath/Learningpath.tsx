@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
