@@ -2845,17 +2845,10 @@
     "@ndla/core" "^1.0.0"
     "@ndla/icons" "^1.6.0"
 
-<<<<<<< HEAD
-"@ndla/licenses@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-3.0.0.tgz#8156fcfc73328a142ebd3dc6399894a12d9043a8"
-  integrity sha512-eOdo6i62oNxbBnFzlNDJu26jtIF50sHcCE1Z7qPxawPHR2Y0eDv7HRl+dFDjL80sXcwXsRKWIZ+FD0zFMjENvQ==
-=======
 "@ndla/licenses@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-3.0.1.tgz#f264117cf928993575fad2271b416ec844605611"
   integrity sha512-hUlm0N/OYzUdwo/WTLYs0zcd+QGNQMv/pJ6JCti9uM1gAU3K1KJHnPL6pAl4K+LBWRs8043ko+T6NMb9d2xe2A==
->>>>>>> 6ffec723177eca4dc7fda593f62c88306b3d75b4
   dependencies:
     "@ndla/core" "^1.0.0"
     "@ndla/icons" "^1.6.0"
