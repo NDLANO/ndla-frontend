@@ -114,11 +114,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     getLicenseByAbbreviation(image.copyright.license.license, language).rights;
 
   const id = podcast.id.toString();
-  const figurePodcastId = `figure-podcast-${id}`;
-  const figureImageId = `figure-image-${podcast?.podcastMeta?.image?.id}`;
+  const figureId = `figure-${id}`;
 
   return (
-    <Figure id={figurePodcastId} type="full-column">
+    <Figure id={figureId} type="full-column">
       <InvisibleAnchor id={`episode-${id}`} />
       <AudioPlayer
         src={podcast.audioFile.url}
@@ -128,10 +127,9 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         textVersion={podcast.manuscript?.manuscript}
       />
       <FigureCaption
-        figureId={figurePodcastId}
+        figureId={figureId}
         id={id}
         locale={language}
-        key="caption"
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
@@ -174,52 +172,53 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         )}
       </FigureCaption>
       {image && (
-        <FigureCaption
-          figureId={figureImageId}
-          id={image.id}
-          licenseRights={imageRights || []}
-          locale={language}
-          key="caption"
-          reuseLabel={t('other.reuse')}
-          authors={imageContributors}>
-          {mounted && (
-            <FigureLicenseDialog
-              id={id}
-              authors={imageContributors}
-              locale={language}
-              license={getLicenseByAbbreviation(
-                image.copyright.license.license!,
-                'nb',
-              )}
-              messages={imageMessages}
-              title={image.title}
-              origin={image.copyright.origin}>
-              <CopyTextButton
-                stringToCopy={figureApa7CopyString(
-                  image.title,
-                  undefined,
-                  undefined,
-                  `/podkast/${seriesId}#episode-${podcast.id}`,
-                  image.copyright,
-                  image.copyright.license.license,
-                  config.ndlaFrontendDomain,
-                  key => t(key),
-                  language,
+        <div id={image.id}>
+          <FigureCaption
+            figureId={image.id}
+            id={image.id}
+            licenseRights={imageRights || []}
+            locale={language}
+            reuseLabel={t('other.reuse')}
+            authors={imageContributors}>
+            {mounted && (
+              <FigureLicenseDialog
+                id={image.id}
+                authors={imageContributors}
+                locale={language}
+                license={getLicenseByAbbreviation(
+                  image.copyright.license.license!,
+                  'nb',
                 )}
-                copyTitle={t('license.copyTitle')}
-                hasCopiedTitle={t('license.hasCopiedTitle')}
-              />
-              {image.copyright.license?.license !== 'COPYRIGHTED' && (
-                <AnchorButton
-                  href={image.imageUrl}
-                  download
-                  appearance="outline">
-                  {t('license.download')}
-                </AnchorButton>
-              )}
-            </FigureLicenseDialog>
-          )}
-        </FigureCaption>
+                messages={imageMessages}
+                title={image.title}
+                origin={image.copyright.origin}>
+                <CopyTextButton
+                  stringToCopy={figureApa7CopyString(
+                    image.title,
+                    undefined,
+                    undefined,
+                    `/podkast/${seriesId}#episode-${podcast.id}`,
+                    image.copyright,
+                    image.copyright.license.license,
+                    config.ndlaFrontendDomain,
+                    key => t(key),
+                    language,
+                  )}
+                  copyTitle={t('license.copyTitle')}
+                  hasCopiedTitle={t('license.hasCopiedTitle')}
+                />
+                {image.copyright.license?.license !== 'COPYRIGHTED' && (
+                  <AnchorButton
+                    href={image.imageUrl}
+                    download
+                    appearance="outline">
+                    {t('license.download')}
+                  </AnchorButton>
+                )}
+              </FigureLicenseDialog>
+            )}
+          </FigureCaption>
+        </div>
       )}
     </Figure>
   );
@@ -242,6 +241,7 @@ Podcast.fragments = {
         manuscript
       }
       created
+      audioType
       podcastMeta {
         introduction
         image {
