@@ -1136,6 +1136,21 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
+export type GQLSubjectLinkListSubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+};
+
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAllSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Maybe<
+    Array<{ __typename?: 'Subject' } & GQLSubjectLinkListSubjectFragment>
+  >;
+};
+
 export type GQLContributorInfoFragment = {
   __typename?: 'Contributor';
   name: string;
@@ -1968,13 +1983,6 @@ export type GQLFilmSubjectPageQuery = {
   subject?: Maybe<{ __typename?: 'Subject' } & GQLSubjectPageQueryInfoFragment>;
 };
 
-export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLSubjectsQuery = {
-  __typename?: 'Query';
-  subjects?: Maybe<Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>>;
-};
-
 export type GQLSearchPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSearchPageQuery = {
@@ -2145,6 +2153,7 @@ export type GQLTopicWithPathTopicsQuery = {
       >
     >;
     meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
     subtopics?: Maybe<
       Array<{
         __typename?: 'Topic';

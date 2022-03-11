@@ -804,15 +804,6 @@ export const filmSubjectPageQuery = gql`
   ${subjectPageQueryInfoFragment}
 `;
 
-export const subjectsQuery = gql`
-  query subjects {
-    subjects {
-      ...SubjectInfo
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
 export const searchPageQuery = gql`
   query searchPage {
     subjects {
