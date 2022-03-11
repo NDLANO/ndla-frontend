@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Link } from 'react-router-dom';
-import { GQLPodcastSeriesSummary } from '../../graphqlTypes';
+import { GQLPodcastSeriesSummaryFragment } from '../../graphqlTypes';
 
 const StyledCoverPhoto = styled.img`
   width: auto;
@@ -56,7 +56,7 @@ const PodcastSeries = ({
   description,
   title,
   id,
-}: GQLPodcastSeriesSummary) => {
+}: GQLPodcastSeriesSummaryFragment) => {
   return (
     <FlexWrapper>
       <ImageWrapper>

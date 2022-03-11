@@ -9,7 +9,7 @@
 import { ReactElement, useContext } from 'react';
 import { RouteProps, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { compact } from 'lodash';
+import compact from 'lodash.compact';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -65,7 +65,7 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
 
   const collectedInfo: string[] = compact([
     primarySchool?.displayName,
-    affiliationRole ? t('user.role.' + affiliationRole) : undefined,
+    affiliationRole ? (t('user.role.' + affiliationRole) as string) : undefined,
     user?.displayName,
     ...(user?.mail ? user.mail : []),
   ]);
