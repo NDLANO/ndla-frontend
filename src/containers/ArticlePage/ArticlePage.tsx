@@ -160,7 +160,7 @@ const ArticlePage = ({
         trackableContent={article}
         description={article.metaDescription}
         locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article

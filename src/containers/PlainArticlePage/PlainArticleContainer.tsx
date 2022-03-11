@@ -76,7 +76,7 @@ const PlainArticleContainer = ({
         title={article.title}
         description={article.metaDescription}
         locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
       <OneColumn>
