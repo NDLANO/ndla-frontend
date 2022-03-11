@@ -12,7 +12,7 @@ export const getTopicPath = <T extends Topic>(
   subjectId: string,
   topicId: string,
   topics?: T[],
-) => {
+): T[] => {
   if (!topics) return [];
   const leaf = topics.find(topic => topicId === topic.id);
   if (!leaf) {

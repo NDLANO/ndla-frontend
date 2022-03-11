@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
@@ -19,13 +18,15 @@ import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
 import config from '../config';
-import { GQLArticle, GQLTopic } from '../graphqlTypes';
+import { GQLArticleInfoFragment, GQLTopic } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  article: GQLArticle;
-  topic: Partial<GQLTopic> & { article?: GQLArticle };
+  article: GQLArticleInfoFragment;
+  topic: Partial<Omit<GQLTopic, 'article'>> & {
+    article?: GQLArticleInfoFragment;
+  };
   status?: 'success' | 'error';
   skipToContentId?: string;
 }

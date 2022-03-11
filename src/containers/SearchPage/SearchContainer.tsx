@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import { Location } from 'history';
 import styled from '@emotion/styled';

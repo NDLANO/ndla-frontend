@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig.json to read more about this file */
-
+    /* Full property definition at https://aka.ms/tsconfig.json */
     "target": "es5",
     "module": "commonjs",
     "lib": ["es2019", "esnext.asynciterable", "dom"],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "build",
     "noEmit": false,
@@ -31,7 +30,6 @@
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },
-
     "types": [
       "@emotion/core",
       "@emotion/styled",

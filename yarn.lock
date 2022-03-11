@@ -2780,13 +2780,13 @@
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.8.1.tgz#2d6ca6157dafdc5d122a1aeb623b43e939c4b238"
   integrity sha512-x5SLY+L9/5s07OJprISXx4csNBPF74UZeTI01ZPSaxOtRz2Gljk652kSPf6OjMLtx5uATr35O0M3G0LYhHBLtg==
 
-"@ndla/article-scripts@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-2.0.7.tgz#51ee668cdfe8927f2f5d13d1d3440f05f86f1b1c"
-  integrity sha512-sytFcYqqrVKo5snMmDYOm+dysf969uMTfnlx2Rz+EV2ojbUgF4IGvC79OC/07hXBof2CI+9MtA94k8b/p12riQ==
+"@ndla/article-scripts@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-2.1.0.tgz#01f5496e35df76dd684d6352b3ad8f18f5554c35"
+  integrity sha512-W3irFJG3SIvQh+Ujo19B/ja6xvzsDl1whspn9kuOHu2MSMg7r4Y56pRZJwaLuYmTzBt7DuxCKylhgLtZrCCY7Q==
   dependencies:
     "@ndla/util" "^2.0.2"
-    focus-trap "^4.0.2"
+    focus-trap "^6.7.3"
     jump.js "^1.0.2"
     lodash "^4.17.20"
 
@@ -2845,10 +2845,17 @@
     "@ndla/core" "^1.0.0"
     "@ndla/icons" "^1.6.0"
 
+<<<<<<< HEAD
 "@ndla/licenses@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-3.0.0.tgz#8156fcfc73328a142ebd3dc6399894a12d9043a8"
   integrity sha512-eOdo6i62oNxbBnFzlNDJu26jtIF50sHcCE1Z7qPxawPHR2Y0eDv7HRl+dFDjL80sXcwXsRKWIZ+FD0zFMjENvQ==
+=======
+"@ndla/licenses@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-3.0.1.tgz#f264117cf928993575fad2271b416ec844605611"
+  integrity sha512-hUlm0N/OYzUdwo/WTLYs0zcd+QGNQMv/pJ6JCti9uM1gAU3K1KJHnPL6pAl4K+LBWRs8043ko+T6NMb9d2xe2A==
+>>>>>>> 6ffec723177eca4dc7fda593f62c88306b3d75b4
   dependencies:
     "@ndla/core" "^1.0.0"
     "@ndla/icons" "^1.6.0"
@@ -8521,14 +8528,6 @@ focus-trap-react@^8.9.2:
   integrity sha512-m6TQQHLcqkisc6Qq92q1yYzzOaxo34Szh5FQOXzky7028PXFEhuUxScTbT7EG9qL0QG7B+oR2ZbxyU0lK4kIwQ==
   dependencies:
     focus-trap "^6.7.3"
-
-focus-trap@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-4.0.2.tgz#4ee2b96547c9ea0e4252a2d4b2cca68944194663"
-  integrity sha512-HtLjfAK7Hp2qbBtLS6wEznID1mPT+48ZnP2nkHzgjpL4kroYHg0CdqJ5cTXk+UO5znAxF5fRUkhdyfgrhh8Lzw==
-  dependencies:
-    tabbable "^3.1.2"
-    xtend "^4.0.1"
 
 focus-trap@^6.7.3:
   version "6.7.3"
@@ -16264,11 +16263,6 @@ sync-fetch@0.3.0:
     buffer "^5.7.0"
     node-fetch "^2.6.1"
 
-tabbable@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-3.1.2.tgz#f2d16cccd01f400e38635c7181adfe0ad965a4a2"
-  integrity sha512-wjB6puVXTYO0BSFtCmWQubA/KIn7Xvajw0x0l6eJUudMG/EAiJvIUnyNX6xO4NpGrJ16lbD0eUseB9WxW0vlpQ==
-
 tabbable@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-4.0.0.tgz#5bff1d1135df1482cf0f0206434f15eadbeb9261"
@@ -17652,7 +17646,7 @@ xmlchars@^2.1.1, xmlchars@^2.2.0:
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
 
-xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
+xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==

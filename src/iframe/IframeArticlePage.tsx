@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import { OneColumn, CreatedBy } from '@ndla/ui';
@@ -22,12 +21,15 @@ import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import { LocaleType } from '../interfaces';
-import { GQLArticle, GQLIframeResourceFragment } from '../graphqlTypes';
+import {
+  GQLArticleInfoFragment,
+  GQLIframeResourceFragment,
+} from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
   resource?: GQLIframeResourceFragment;
-  article: GQLArticle;
+  article: GQLArticleInfoFragment;
 }
 
 const IframeArticlePage = ({

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { resetIdCounter } from '@ndla/tabs';

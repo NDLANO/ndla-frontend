@@ -7,7 +7,6 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { MockedProvider } from '@apollo/client/testing';

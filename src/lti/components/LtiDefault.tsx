@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import LtiEmbedCode from './LtiEmbedCode';

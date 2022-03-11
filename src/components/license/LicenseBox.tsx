@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import Tabs from '@ndla/tabs';
 import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';
@@ -44,6 +43,7 @@ function buildLicenseTabList(
       <TextLicenseList
         texts={[
           {
+            title: article.title,
             copyright: article.copyright,
             updated: article.published,
             copyText: article.metaData?.copyText,

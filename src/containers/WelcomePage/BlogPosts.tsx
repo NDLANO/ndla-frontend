@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { BlogPostWrapper, BlogPost, SubjectSectionTitle } from '@ndla/ui';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { LocaleType } from '../../interfaces';

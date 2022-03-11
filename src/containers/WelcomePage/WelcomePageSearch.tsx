@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { FrontpageSearch } from '@ndla/ui';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';

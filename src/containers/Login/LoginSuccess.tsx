@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { AuthContext } from '../../components/AuthenticationContext';

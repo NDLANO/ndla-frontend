@@ -7,7 +7,6 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
 import { StaticRouter } from 'react-router';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';

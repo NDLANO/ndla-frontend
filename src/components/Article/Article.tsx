@@ -6,7 +6,13 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
+import {
+  ComponentType,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
@@ -14,13 +20,13 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLArticleInfoFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
-  article: GQLArticle,
+  article: GQLArticleInfoFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
@@ -64,7 +70,7 @@ interface Props {
   article: GQLArticleInfoFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
-  children?: React.ReactElement;
+  children?: ReactElement;
   contentType?: string;
   label: string;
   locale: LocaleType;

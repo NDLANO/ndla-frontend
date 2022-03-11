@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -68,17 +67,19 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {audio.copyText && (
-              <CopyTextButton
-                stringToCopy={audio.copyText}
-                copyTitle={t('license.copyTitle')}
-                hasCopiedTitle={t('license.hasCopiedTitle')}
-              />
-            )}
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
-              <AnchorButton href={audio.src} download appearance="outline">
-                {t('license.download')}
-              </AnchorButton>
+              <>
+                {audio.copyText && (
+                  <CopyTextButton
+                    stringToCopy={audio.copyText}
+                    copyTitle={t('license.copyTitle')}
+                    hasCopiedTitle={t('license.hasCopiedTitle')}
+                  />
+                )}
+                <AnchorButton href={audio.src} download appearance="outline">
+                  {t('license.download')}
+                </AnchorButton>
+              </>
             )}
           </div>
         </MediaListItemActions>

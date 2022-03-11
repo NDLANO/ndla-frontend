@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { OneColumn, LayoutItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -33,18 +33,17 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
-  GQLResource,
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
-  GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface Props extends WithTranslation {
   resource?: Required<GQLResourcePageQuery>['resource'];
   topic?: GQLResourcePageQuery['topic'];
-  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  topicPath: TopicPaths;
   relevance: string;
   subject?: GQLResourcePageQuery['subject'];
   resourceTypes?: GQLResourceTypeDefinition[];
@@ -216,7 +215,7 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Pick<GQLResource, 'article'>,
+  resource?: Props['resource'],
   subject?: GQLResourcePageQuery['subject'],
 ) =>
   htmlTitle(resource?.article?.title, [

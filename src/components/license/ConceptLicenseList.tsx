@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import {
   MediaList,
   MediaListItem,
@@ -64,13 +63,6 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {concept.copyText && (
-              <CopyTextButton
-                stringToCopy={concept.copyText}
-                copyTitle={t('license.copyTitle')}
-                hasCopiedTitle={t('license.hasCopiedTitle')}
-              />
-            )}
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}

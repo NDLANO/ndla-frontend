@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
