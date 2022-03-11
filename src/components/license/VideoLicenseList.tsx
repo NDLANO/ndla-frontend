@@ -56,13 +56,6 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {video.copyText && (
-              <CopyTextButton
-                stringToCopy={video.copyText}
-                copyTitle={t('license.copyTitle')}
-                hasCopiedTitle={t('license.hasCopiedTitle')}
-              />
-            )}
             {video.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={video.download} download appearance="outline">
                 {t('license.download')}

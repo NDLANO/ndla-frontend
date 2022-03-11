@@ -179,7 +179,6 @@ export type GQLBrightcoveElement = {
   __typename?: 'BrightcoveElement';
   account?: Maybe<Scalars['String']>;
   caption?: Maybe<Scalars['String']>;
-  copyText?: Maybe<Scalars['String']>;
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
@@ -199,7 +198,6 @@ export type GQLBrightcoveIframe = {
 
 export type GQLBrightcoveLicense = {
   __typename?: 'BrightcoveLicense';
-  copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -270,7 +268,6 @@ export type GQLConceptCopyright = {
 
 export type GQLConceptLicense = {
   __typename?: 'ConceptLicense';
-  copyText?: Maybe<Scalars['String']>;
   copyright?: Maybe<GQLConceptCopyright>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -418,14 +415,12 @@ export type GQLGroupSearchResult = {
 
 export type GQLH5pElement = {
   __typename?: 'H5pElement';
-  copyText?: Maybe<Scalars['String']>;
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
 };
 
 export type GQLH5pLicense = {
   __typename?: 'H5pLicense';
-  copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
@@ -456,6 +451,23 @@ export type GQLImageLicense = {
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
   src: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type GQLImageMetaInformation = {
+  __typename?: 'ImageMetaInformation';
+  altText: Scalars['String'];
+  caption: Scalars['String'];
+  contentType: Scalars['String'];
+  copyright: GQLCopyright;
+  created: Scalars['String'];
+  createdBy: Scalars['String'];
+  id: Scalars['String'];
+  imageUrl: Scalars['String'];
+  metaUrl: Scalars['String'];
+  size: Scalars['Int'];
+  supportedLanguages: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
   title: Scalars['String'];
 };
 
@@ -616,7 +628,7 @@ export type GQLName = {
 
 export type GQLPodcastMeta = {
   __typename?: 'PodcastMeta';
-  coverPhoto: GQLCoverPhoto;
+  image?: Maybe<GQLImageMetaInformation>;
   introduction: Scalars['String'];
   language: Scalars['String'];
 };
@@ -774,8 +786,8 @@ export type GQLQueryPodcastArgs = {
 };
 
 export type GQLQueryPodcastSearchArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
+  page: Scalars['Int'];
+  pageSize: Scalars['Int'];
 };
 
 export type GQLQueryPodcastSeriesArgs = {
@@ -783,8 +795,8 @@ export type GQLQueryPodcastSeriesArgs = {
 };
 
 export type GQLQueryPodcastSeriesSearchArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
+  page: Scalars['Int'];
+  pageSize: Scalars['Int'];
 };
 
 export type GQLQueryResourceArgs = {
@@ -1643,7 +1655,6 @@ export type GQLVisualElementInfoFragment = {
     src?: Maybe<string>;
     download?: Maybe<string>;
     uploadDate?: Maybe<string>;
-    copyText?: Maybe<string>;
     iframe?: Maybe<{
       __typename?: 'BrightcoveIframe';
       src: string;
@@ -1655,7 +1666,6 @@ export type GQLVisualElementInfoFragment = {
     __typename?: 'H5pElement';
     src?: Maybe<string>;
     thumbnail?: Maybe<string>;
-    copyText?: Maybe<string>;
   }>;
   oembed?: Maybe<{
     __typename?: 'VisualElementOembed';
@@ -1738,7 +1748,6 @@ export type GQLArticleInfoFragment = {
         __typename?: 'H5pLicense';
         title: string;
         src?: Maybe<string>;
-        copyText?: Maybe<string>;
         copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
       }>
     >;
@@ -1760,7 +1769,6 @@ export type GQLArticleInfoFragment = {
         src?: Maybe<string>;
         download?: Maybe<string>;
         uploadDate?: Maybe<string>;
-        copyText?: Maybe<string>;
         iframe?: Maybe<{
           __typename?: 'BrightcoveIframe';
           height: number;
@@ -1775,7 +1783,6 @@ export type GQLArticleInfoFragment = {
         __typename?: 'ConceptLicense';
         title: string;
         src?: Maybe<string>;
-        copyText?: Maybe<string>;
         copyright?: Maybe<
           { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
         >;

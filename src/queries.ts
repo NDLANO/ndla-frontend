@@ -481,12 +481,10 @@ export const visualElementFragment = gql`
         width
       }
       uploadDate
-      copyText
     }
     h5p {
       src
       thumbnail
-      copyText
     }
     oembed {
       title
@@ -565,7 +563,6 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
-        copyText
       }
       audios {
         title
@@ -590,7 +587,6 @@ export const articleInfoFragment = gql`
           ...CopyrightInfo
         }
         uploadDate
-        copyText
       }
       concepts {
         title
@@ -598,7 +594,6 @@ export const articleInfoFragment = gql`
         copyright {
           ...ConceptCopyrightInfo
         }
-        copyText
       }
     }
     competenceGoals {
